@@ -5,3 +5,4 @@
 cwd=$(pwd)
 
 ln -sf ${cwd}/.vimrc ~/.vimrc
+ln -sf ${cwd}/.tmux.conf ~/.tmux.conf

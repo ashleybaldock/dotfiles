@@ -33,10 +33,14 @@ set ttimeoutlen=100
 set updatetime=250
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
-if maparg('<C-L>', 'n') ==# ''
-  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-endif
+"if maparg('<C-L>', 'n') ==# ''
+"  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+"endif
 au FileType qf wincmd J " QuickFix window always at bottom
+
+" YouCompleteMe
+" Bind key to quickly restart completion engine
+nnoremap <silent> <C-M> :YcmRestartServer<CR>
 
 if !&scrolloff
   set scrolloff=1

@@ -36,6 +36,7 @@ set updatetime=250
 if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
+au FileType qf wincmd J " QuickFix window always at bottom
 
 if !&scrolloff
   set scrolloff=1

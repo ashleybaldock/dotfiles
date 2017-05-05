@@ -42,6 +42,7 @@ if [ -f /usr/local/share/bash-completion/bash_completion ]; then
 fi
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
+GIT_PS1_SHOWUNTRACKEDFILES=true
 
 
 export NODE_ENV='development'

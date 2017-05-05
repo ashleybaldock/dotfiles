@@ -12,9 +12,17 @@ set hlsearch
 syn on
 set mouse=a
 
-set guioptions-=rL
-set guioptions+=c
-set guicursor+=a:blinkon0
+if has('gui_running')
+  " GUI only
+  set guioptions-=rL
+  set guioptions+=c
+  set guicursor+=a:blinkon0
+  set noantialias
+  set guifont=Monaco:h10
+  colorscheme murphy
+else
+  " Console only
+endif
 
 set ttyfast
 set lazyredraw
@@ -40,7 +48,17 @@ au FileType qf wincmd J " QuickFix window always at bottom
 
 " YouCompleteMe
 " Bind key to quickly restart completion engine
-nnoremap <silent> <C-M> :YcmRestartServer<CR>
+map <leader>yr  :YcmRestartServer<CR>
+map <leader>g  :YcmCompleter GoTo<CR>
+map <leader>rr  :YcmCompleter RefactorRename<CR>
+
+map <leader>l  :set list!<CR>
+map <leader>e  :Explore<CR>
+map <leader>es  :Sexplore<CR>
+map <leader>ev  :Vexplore<CR>
+
+let g:netrw_banner=0
+let g:netrw_fastbrowse=0
 
 if !&scrolloff
   set scrolloff=1
@@ -67,6 +85,11 @@ au BufEnter *.pyw set ts=4 sts=4 sw=4 et
 
 set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
 set list
+
+au FileType netrw set nolist
+au FileType gitcommit set nolist
+"au FileType netrw au BufEnter <buffer> set nolist
+"au FileType netrw au BufLeave <buffer> set list
 
 " ALE
 " For a more fancy ale statusline

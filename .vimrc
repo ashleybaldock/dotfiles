@@ -47,6 +47,7 @@ set updatetime=250
 au FileType qf wincmd J " QuickFix window always at bottom
 
 " YouCompleteMe
+let g:ycm_autoclose_preview_window_after_insertion=1
 " Bind key to quickly restart completion engine
 map <leader>yr  :YcmRestartServer<CR>
 map <leader>g  :YcmCompleter GoTo<CR>
@@ -56,6 +57,8 @@ map <leader>l  :set list!<CR>
 map <leader>e  :Explore<CR>
 map <leader>es  :Sexplore<CR>
 map <leader>ev  :Vexplore<CR>
+map <leader>t :set guifont=Monaco:h10<CR>
+map <leader>T :set guifont=Monaco:h16<CR>
 
 let g:netrw_banner=0
 let g:netrw_fastbrowse=0

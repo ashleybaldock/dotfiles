@@ -22,10 +22,10 @@ if has('gui_running')
   colorscheme murphy
 else
   " Console only
+  set ttyfast
+  set lazyredraw
 endif
 
-set ttyfast
-set lazyredraw
 set synmaxcol=256
 
 set nrformats-=octal
@@ -51,7 +51,7 @@ let g:ycm_autoclose_preview_window_after_insertion=1
 " Bind key to quickly restart completion engine
 map <leader>yr  :YcmRestartServer<CR>
 map <leader>g  :YcmCompleter GoTo<CR>
-map <leader>rr  :YcmCompleter RefactorRename<CR>
+map <leader>rr  :YcmCompleter RefactorRename 
 
 map <leader>l  :set list!<CR>
 map <leader>e  :Explore<CR>
@@ -105,7 +105,7 @@ function! ALEGetError()
     else
       let l:e_w = split(l:res)
       if len(l:e_w) == 2 || match(l:e_w, 'E') > -1
-        return ' •' . matchstr(l:e_w[0], '\d\+') .' '
+        return ' ‡' . matchstr(l:e_w[0], '\d\+') .' '
       endif
     endif
   endif

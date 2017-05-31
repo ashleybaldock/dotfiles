@@ -44,21 +44,44 @@ set updatetime=250
 "if maparg('<C-L>', 'n') ==# ''
 "  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 "endif
-au FileType qf wincmd J " QuickFix window always at bottom
+" au FileType qf wincmd J " QuickFix window always at bottom
 
 " YouCompleteMe
 let g:ycm_autoclose_preview_window_after_insertion=1
 " Bind key to quickly restart completion engine
-map <leader>yr  :YcmRestartServer<CR>
+map <leader>yr :YcmRestartServer<CR>
 map <leader>g  :YcmCompleter GoTo<CR>
-map <leader>rr  :YcmCompleter RefactorRename 
+map <leader>rr :YcmCompleter RefactorRename 
 
-map <leader>l  :set list!<CR>
+map <leader>L  :set list!<CR>
 map <leader>e  :Explore<CR>
-map <leader>es  :Sexplore<CR>
-map <leader>ev  :Vexplore<CR>
-map <leader>t :set guifont=Monaco:h10<CR>
-map <leader>T :set guifont=Monaco:h16<CR>
+map <leader>es :Sexplore<CR>
+map <leader>ev :Vexplore<CR>
+map <leader>t  :set guifont=Monaco:h10<CR>
+map <leader>T  :set guifont=Monaco:h16<CR>
+
+function! s:BufferCount() abort
+  return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+endfunction
+
+function! ToggleLoclist()
+  let bufcount = s:BufferCount()
+  silent! lcl
+  if s:BufferCount() == bufcount
+    execute "silent! lop "
+  endif
+endfunction
+
+function! ToggleQuickfix()
+  let bufcount = s:BufferCount()
+  silent! ccl
+  if s:BufferCount() == bufcount
+    execute "silent! :bo cope "
+  endif
+endfunction
+
+map <leader>q  :call ToggleQuickfix()<CR>
+map <leader>l  :call ToggleLoclist()<CR>
 
 let g:netrw_banner=0
 let g:netrw_fastbrowse=0

@@ -20,6 +20,7 @@ filetype on
 set hlsearch
 syn on
 set mouse=a
+set backspace=indent,eol,start
 
 set timeout
 set timeoutlen=1000

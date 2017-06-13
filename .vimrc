@@ -23,7 +23,7 @@ set mouse=a
 set backspace=indent,eol,start
 
 set timeout
-set timeoutlen=1000
+set timeoutlen=600
 
 if has('gui_running')
   " GUI only
@@ -77,6 +77,9 @@ map <leader>es :Sexplore<CR>
 map <leader>ev :Vexplore<CR>
 map <leader>t  :set guifont=Monaco:h10<CR>
 map <leader>T  :set guifont=Monaco:h16<CR>
+
+" Save files as root when vim isn't
+command Wsudo :w !sudo tee > /dev/null %
 
 function! s:BufferCount() abort
   return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))

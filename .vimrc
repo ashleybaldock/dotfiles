@@ -1,4 +1,13 @@
+" To disable a plugin, add it's bundle name to the following list
+let g:pathogen_blacklist = []
+
+" Disable plugins on non-gui versions
+"if !has('gui_running')
+"  call add(g:pathogen_blacklist, 'csscolor')
+"endif
+
 execute pathogen#infect()
+
 set t_Co=256
 set background=dark
 syntax enable
@@ -12,6 +21,9 @@ set hlsearch
 syn on
 set mouse=a
 
+set timeout
+set timeoutlen=1000
+
 if has('gui_running')
   " GUI only
   set guioptions-=rL
@@ -23,7 +35,13 @@ if has('gui_running')
 else
   " Console only
   set ttyfast
-  set lazyredraw
+
+  set ttimeoutlen=10
+  augroup FastEscape
+    autocmd!
+    au InsertEnter * set timeoutlen=0
+    au InsertLeave * set timeoutlen=1000
+  augroup END
 endif
 
 set synmaxcol=256
@@ -35,10 +53,9 @@ set laststatus=2
 set wildmenu
 set display+=lastline
 set autoread
+set showcmd
 
-set ttimeout
-set ttimeoutlen=100
-set updatetime=250
+set updatetime=1000
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
 "if maparg('<C-L>', 'n') ==# ''

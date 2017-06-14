@@ -36,6 +36,12 @@ set wildmenu
 set display+=lastline
 set autoread
 
+" Display line movements, except with count
+set breakindent
+set showbreak=\\\\\
+nnoremap <expr> j v:count ? 'j' : 'gj'
+nnoremap <expr> k v:count ? 'k' : 'gk'
+
 set ttimeout
 set ttimeoutlen=100
 set updatetime=250

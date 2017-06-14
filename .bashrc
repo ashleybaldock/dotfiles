@@ -20,7 +20,7 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-export PS1='\033[0;33m\]\u@\h:\033[00m\w\033[0;35m\]$(__git_ps1 " (%s)")\033[00m\]\$ '
+export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
 
 alias ls='ls -F'
 alias vi='vim'

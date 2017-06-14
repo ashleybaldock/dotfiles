@@ -1,4 +1,13 @@
+" To disable a plugin, add it's bundle name to the following list
+let g:pathogen_blacklist = []
+
+" Disable plugins on non-gui versions
+"if !has('gui_running')
+"  call add(g:pathogen_blacklist, 'csscolor')
+"endif
+
 execute pathogen#infect()
+
 set t_Co=256
 set background=dark
 syntax enable
@@ -11,6 +20,10 @@ filetype on
 set hlsearch
 syn on
 set mouse=a
+set backspace=indent,eol,start
+
+set timeout
+set timeoutlen=600
 
 if has('gui_running')
   " GUI only
@@ -23,7 +36,13 @@ if has('gui_running')
 else
   " Console only
   set ttyfast
-  set lazyredraw
+
+  set ttimeoutlen=10
+  augroup FastEscape
+    autocmd!
+    au InsertEnter * set timeoutlen=0
+    au InsertLeave * set timeoutlen=1000
+  augroup END
 endif
 
 set synmaxcol=256
@@ -35,6 +54,7 @@ set laststatus=2
 set wildmenu
 set display+=lastline
 set autoread
+set showcmd
 
 " Display line movements, except with count
 set breakindent
@@ -42,9 +62,7 @@ set showbreak=\\\\\
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
-set ttimeout
-set ttimeoutlen=100
-set updatetime=250
+set updatetime=1000
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
 "if maparg('<C-L>', 'n') ==# ''
@@ -65,6 +83,9 @@ map <leader>es :Sexplore<CR>
 map <leader>ev :Vexplore<CR>
 map <leader>t  :set guifont=Monaco:h10<CR>
 map <leader>T  :set guifont=Monaco:h16<CR>
+
+" Save files as root when vim isn't
+command Wsudo :w !sudo tee > /dev/null %
 
 function! s:BufferCount() abort
   return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))

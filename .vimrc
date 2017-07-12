@@ -13,7 +13,7 @@ set background=dark
 syntax enable
 filetype plugin indent on
 
-set ts=4 sts=4 sw=4 et
+set ts=2 sts=2 sw=2 et
 au BufRead,BufNewFile ~/keylines/* setlocal ts=2 sts=2 sw=2
 set enc=utf8
 filetype on
@@ -85,7 +85,6 @@ map <leader>t  :set guifont=Monaco:h10<CR>
 map <leader>T  :set guifont=Monaco:h16<CR>
 
 " Save files as root when vim isn't
-command Wsudo :w !sudo tee > /dev/null %
 
 function! s:BufferCount() abort
   return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))

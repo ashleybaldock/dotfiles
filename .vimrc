@@ -13,7 +13,7 @@ set background=dark
 syntax enable
 filetype plugin indent on
 
-set ts=4 sts=4 sw=4 et
+set ts=2 sts=2 sw=2 et
 au BufRead,BufNewFile ~/keylines/* setlocal ts=2 sts=2 sw=2
 set enc=utf8
 filetype on
@@ -137,6 +137,8 @@ au FileType netrw set nolist
 au FileType gitcommit set nolist
 "au FileType netrw au BufEnter <buffer> set nolist
 "au FileType netrw au BufLeave <buffer> set list
+
+let g:jsx_ext_required = 0
 
 " ALE
 " For a more fancy ale statusline

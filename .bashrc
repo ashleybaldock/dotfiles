@@ -20,11 +20,13 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-export PS1='\033[0;33m\]\u@\h:\033[00m\w\033[0;35m\]$(__git_ps1 " (%s)")\033[00m\]\$ '
+export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
 
 alias ls='ls -F'
 alias vi='vim'
 alias nvmload='. $NVM_DIR/nvm.sh'
+
+alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
 
 # Lazy load nvm first time for tmux shells
 # $PATH with npm etc. will be setup by containing shell

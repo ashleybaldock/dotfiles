@@ -56,6 +56,12 @@ set display+=lastline
 set autoread
 set showcmd
 
+" Display line movements, except with count
+set breakindent
+set showbreak=\\\\\
+nnoremap <expr> j v:count ? 'j' : 'gj'
+nnoremap <expr> k v:count ? 'k' : 'gk'
+
 set updatetime=1000
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
@@ -79,7 +85,6 @@ map <leader>t  :set guifont=Monaco:h10<CR>
 map <leader>T  :set guifont=Monaco:h16<CR>
 
 " Save files as root when vim isn't
-command Wsudo :w !sudo tee > /dev/null %
 
 function! s:BufferCount() abort
   return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))

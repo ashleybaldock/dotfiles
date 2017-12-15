@@ -1,5 +1,6 @@
 #!/bin/sh
 
+mkdir ~/.vim
 mkdir ~/.vim/bundle
 cd ~/.vim/bundle
 

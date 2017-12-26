@@ -24,21 +24,33 @@ export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")
 
 alias ls='ls -F'
 alias vi='vim'
-alias nvmload='. $NVM_DIR/nvm.sh'
 
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
 alias gp="git push"
 
+nvmload() {
+  unset -f nvm
+  unset -f node
+  unset -f npm
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  unset -f nvmload
+}
+
 # Lazy load nvm first time for tmux shells
 # $PATH with npm etc. will be setup by containing shell
-if [ "$(type -t nvm)" != 'function' ]; then
-  nvm() {
-    unset -f nvm
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-    nvm "$@"
-  }
-fi
+node() {
+  nvmload
+  node "$@"
+}
+npm() {
+  nvmload
+  npm "$@"
+}
+nvm() {
+  nvmload
+  nvm "$@"
+}
 
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
   . /usr/local/share/bash-completion/bash_completion

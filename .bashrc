@@ -23,6 +23,12 @@ shopt -s checkwinsize
 export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
 
 alias ls='ls -F'
+if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
+  alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+  alias mvim='vim -g'
+  export VISUAL='vim -f'
+  export EDITOR='vim -f'
+fi
 alias vi='vim'
 
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"

@@ -220,6 +220,6 @@ set statusline+=%#ale_warning#%{ALEGetWarning()}%*
 set statusline+=%#ale_ok#%{ALEGetOk()}%*
 " end of default statusline (with ruler)
 set statusline+=%{S_fugitive()}
-set statusline+=%=%(%l,%c%V\ %=\ %P%)
+set statusline+=%=%(%l,%c%V\ %=\ %P%)\ 
 
 " vim:set ft=vim et sw=2:

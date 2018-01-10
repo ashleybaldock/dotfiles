@@ -33,6 +33,11 @@ alias vi='vim'
 
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
 alias gp="git push"
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit"
+alias gd="git diff"
+alias gco="git checkout"
 
 nvmload() {
   unset -f nvm

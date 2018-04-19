@@ -39,6 +39,7 @@ alias gc="git commit"
 alias gd="git diff"
 alias gco="git checkout"
 
+export NVM_DIR="$HOME/.nvm"
 nvmload() {
   unset -f nvm
   unset -f node

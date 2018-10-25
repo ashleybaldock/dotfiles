@@ -232,40 +232,25 @@ let g:syntastic_cs_checkers = ['code_checker']
 " https://github.com/liuchengxu/space-vim/blob/master/layers/%2Bcheckers/syntax-checking/config.vim
 function! ALEGetError()
   if exists('g:loaded_ale')
-    let l:res = ale#statusline#Status()
-    if l:res ==# 'OK'
-      return ''
-    else
-      let l:e_w = split(l:res)
-      if len(l:e_w) == 2 || match(l:e_w, 'E') > -1
-        return ' ‡' . matchstr(l:e_w[0], '\d\+') .' '
-      endif
-    endif
+    let l:counts = ale#statusline#Count(bufnr(''))
+    let l:all_errors = l:counts.error + l:counts.style_error
+    return l:all_errors == 0 ? '' : printf(' ‡%d ', l:all_errors)
   endif
   return ''
 endfunction
 function! ALEGetWarning()
   if exists('g:loaded_ale')
-    let l:res = ale#statusline#Status()
-    if l:res ==# 'OK'
-      return ''
-    else
-      let l:e_w = split(l:res)
-      if len(l:e_w) == 2
-        return ' •' . matchstr(l:e_w[1], '\d\+')
-      elseif match(l:e_w, 'W') > -1
-        return ' •' . matchstr(l:e_w[0], '\d\+')
-      endif
-    endif
+    let l:counts = ale#statusline#Count(bufnr(''))
+    let l:all_warnings = l:counts.warning + l:counts.style_warning
+    return l:all_warnings == 0 ? '' : printf(' •%d ', l:all_warnings)
   endif
   return ''
 endfunction
 function! ALEGetOk()
   if exists('g:loaded_ale')
-    let l:res = ale#statusline#Status()
-    if l:res == 'OK'
-      return 'ok'
-    endif
+    let l:counts = ale#statusline#Count(bufnr(''))
+    let l:issues = l:counts.error + l:counts.style_error + l:counts.warning + l:counts.style_warning
+    return l:issues == 0 ? ' ok ' : ''
   endif
   return ''
 endfunction
@@ -334,7 +319,6 @@ hi syn_ok    cterm=None ctermfg=LightGreen ctermbg=237 gui=None guifg=#00FF66 gu
 " start of default statusline
 set statusline=%f\ %h%w%m%r\ 
 " ALE statusline
-"set statusline+=%#warningmsg#%{ALEGetStatusLine()}
 set statusline+=%#syn_error#%{ALEGetError()}%*
 set statusline+=%#syn_warn#%{ALEGetWarning()}%*
 set statusline+=%#syn_ok#%{ALEGetOk()}%*

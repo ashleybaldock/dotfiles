@@ -81,3 +81,6 @@ GIT_PS1_SHOWUNTRACKEDFILES=true
 
 export NODE_ENV='development'
 
+
+source ~/.bashrc.local
+

@@ -31,6 +31,8 @@ if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
 fi
 alias vi='vim'
 
+alias j='jobs'
+
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
 alias gp="git push"
 alias gs="git status"

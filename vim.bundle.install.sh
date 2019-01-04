@@ -13,3 +13,4 @@ git clone https://github.com/tpope/vim-fugitive.git
 git clone https://github.com/airblade/vim-gitgutter.git
 git clone https://github.com/Valloric/YouCompleteMe.git
 git clone https://github.com/christoomey/vim-tmux-navigator.git
+git clone https://github.com/rodnaph/vim-color-schemes.git

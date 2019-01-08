@@ -5,7 +5,7 @@ mongodb
 node
 perl
 python
-reattach-to-user-namespace
 ruby
 tmux
 vim
+cmake

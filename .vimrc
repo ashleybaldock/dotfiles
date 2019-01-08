@@ -6,6 +6,8 @@ let g:pathogen_blacklist = []
 "  call add(g:pathogen_blacklist, 'csscolor')
 "endif
 
+let g:ycm_server_keep_logfiles = 1
+let g:ycm_server_log_level = 'debug'
 execute pathogen#infect()
 
 set t_Co=256
@@ -35,6 +37,11 @@ if has('gui_running')
 else
   " Console only
   set ttyfast
+
+  if &term =~ '^screen'
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+  endif
 
   set ttimeoutlen=10
   augroup FastEscape
@@ -124,16 +131,18 @@ let g:OmniSharp_want_snippet=1
 " YouCompleteMe
 "let g:ycm_autoclose_preview_window_after_insertion=1
 " Bind key to quickly restart completion engine
-"map <leader>yr :YcmRestartServer<CR>
-"map <leader>g  :YcmCompleter GoTo<CR>
-"map <leader>rr :YcmCompleter RefactorRename 
+nnoremap <leader>yr :YcmRestartServer<CR>
+nnoremap <leader>yg  :YcmCompleter GoTo<CR>
+nnoremap <C-g>d :YcmCompleter GoTo<CR>
+nnoremap <C-g>r :YcmCompleter GoToReferences<CR>
+nnoremap <leader>yrr :YcmCompleter RefactorRename 
 "
-"map <leader>L  :set list!<CR>
-"map <leader>e  :Explore<CR>
-"map <leader>es :Sexplore<CR>
-"map <leader>ev :Vexplore<CR>
-"map <leader>t  :set guifont=Monaco:h10<CR>
-"map <leader>T  :set guifont=Monaco:h16<CR>
+nnoremap <leader>L  :set list!<CR>
+nnoremap <leader>e  :Explore<CR>
+nnoremap <leader>es :Sexplore<CR>
+nnoremap <leader>ev :Vexplore<CR>
+nnoremap <leader>t  :set guifont=Monaco:h10<CR>
+nnoremap <leader>T  :set guifont=Monaco:h16<CR>
 
 " Save files as root when vim isn't
 
@@ -210,6 +219,9 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
+" CtrlP
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
 " Filetype: Python
 augroup python_commands
   autocmd!
@@ -223,9 +235,6 @@ augroup js_commands
   au FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 augroup END
 let g:jsx_ext_required = 0
-
-" Filetype: C#
-let g:syntastic_cs_checkers = ['code_checker']
 
 " ALE
 " For a more fancy ale statusline
@@ -265,43 +274,6 @@ let g:ale_set_signs = 0
 let g:ale_warn_about_trailing_whitespace = 0
 let g:ale_lint_on_insert_leave = 1
 
-" Syntastic
-function! SYNGetError()
-  if exists(':SyntasticCheck')
-    let l:res = SyntasticStatuslineFlag()
-    let l:e_w = split(l:res, ',')
-    if l:res !=# '' && l:e_w[0] !=# 'E0'
-      return ' ‡' . matchstr(l:e_w[0], '\d\+') .' '
-    endif
-  endif
-  return ''
-endfunction
-function! SYNGetWarning()
-  if exists(':SyntasticCheck')
-    let l:res = SyntasticStatuslineFlag()
-    let l:e_w = split(l:res, ',')
-    if l:res !=# '' && l:e_w[1] !=# 'W0'
-      return ' •' . matchstr(l:e_w[1], '\d\+') .' '
-    endif
-  endif
-  return ''
-endfunction
-function! SYNGetOk()
-  if exists(':SyntasticCheck')
-    let l:res = SyntasticStatuslineFlag()
-    let l:e_w = split(l:res, ',')
-    if l:res !=# '' && l:e_w[0] ==# 'E0' && l:e_w[1] ==# 'W0'
-      return 'ok'
-    endif
-  endif
-  return ''
-endfunction
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_stl_format = "E%e,W%w"
-
 " Fugitive
 function! S_fugitive()
   if exists('g:loaded_fugitive')
@@ -322,10 +294,6 @@ set statusline=%f\ %h%w%m%r\
 set statusline+=%#syn_error#%{ALEGetError()}%*
 set statusline+=%#syn_warn#%{ALEGetWarning()}%*
 set statusline+=%#syn_ok#%{ALEGetOk()}%*
-" Syntastic statusline
-set statusline+=%#syn_error#%{SYNGetError()}%*
-set statusline+=%#syn_warn#%{SYNGetWarning()}%*
-set statusline+=%#syn_ok#%{SYNGetOk()}%*
 " end of default statusline (with ruler)
 set statusline+=%{S_fugitive()}
 set statusline+=%=%(%l,%c%V\ %=\ %P%)\ 

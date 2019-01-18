@@ -35,6 +35,7 @@ alias j='jobs'
 
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
 alias gp="git push"
+alias gpb='git push -u origin $(git branch | grep \* | cut -d " " -f2)'
 alias gs="git status"
 alias ga="git add"
 alias gc="git commit"

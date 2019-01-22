@@ -8,8 +8,12 @@ export NVM_DIR="$HOME/.nvm"
 
 # Setting PATH for Python 2.7
 # The original version is saved in .profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-export PATH
+export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+
+# Add dotnet tools to path if installed
+if [ -d /usr/local/share/dotnet ]; then
+  export PATH="/usr/local/share/dotnet:~/.dotnet/tools:${PATH}"
+fi
 
 # Start ssh-agent if it isn't already
 # Add new ssh keys with ssh-add -K <key>

@@ -41,6 +41,14 @@ alias ga="git add"
 alias gc="git commit"
 alias gd="git diff"
 alias gco="git checkout"
+gh() {
+  open $(git config remote.origin.url | sed "s/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/")/$1$2
+}
+alias ghb="gh tree/$(git symbolic-ref --quiet --short HEAD )"
+alias gho="gh tree/master/$(git rev-parse --show-prefix)"
+alias ghob="gh tree/$(git symbolic-ref --quiet --short HEAD )/$(git rev-parse --show-prefix)"
+alias ghbo="ghob"
+
 
 export NVM_DIR="$HOME/.nvm"
 nvmload() {

@@ -1,6 +1,3 @@
-" To disable a plugin, add it's bundle name to the following list
-let g:pathogen_blacklist = []
-
 " Disable plugins on non-gui versions
 "if !has('gui_running')
 "  call add(g:pathogen_blacklist, 'csscolor')
@@ -9,6 +6,22 @@ let g:pathogen_blacklist = []
 let g:ycm_server_keep_logfiles = 1
 let g:ycm_server_log_level = 'debug'
 execute pathogen#infect()
+
+nnoremap <leader>L  :set list!<CR>
+nnoremap <leader>e  :Explore<CR>
+nnoremap <leader>es :Sexplore<CR>
+nnoremap <leader>ev :Vexplore<CR>
+nnoremap <leader>t  :set guifont=Monaco:h10<CR>
+nnoremap <leader>T  :set guifont=Monaco:h16<CR>
+"nnoremap <C-g><C-r> :YcmRestartServer<CR>
+nnoremap <C-g><C-G> :YcmCompleter GoTo<CR>
+nnoremap <C-g><C-f> :YcmCompleter GoToReferences<CR>
+nnoremap <C-g><C-r> :YcmCompleter RefactorRename 
+nnoremap <C-g><C-i> :YcmCompleter OrganizeImports<CR>
+
+map <leader>q  :call ToggleQuickfix()<CR>
+map <leader>l  :call ToggleLoclist()<CR>
+
 
 set t_Co=256
 set background=dark
@@ -70,82 +83,6 @@ nnoremap <expr> k v:count ? 'k' : 'gk'
 
 set updatetime=1000
 
-" Use <C-L> to clear the highlighting of :set hlsearch.
-"if maparg('<C-L>', 'n') ==# ''
-"  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-"endif
-" au FileType qf wincmd J " QuickFix window always at bottom
-
-" OmniSharp
-let g:OmniSharp_server_path = '/Users/ashley/.omnisharp/OmniSharp.exe'
-let g:OmniSharp_server_type = 'roslyn'
-let g:OmniSharp_timeout = 10
-let g:OmniSharp_start_without_solution = 1
-let g:OmniSharp_prefer_global_sln = 1
-"let g:omnisharp_proc_debug = 1
-augroup omnisharp_commands
-  autocmd!
-
-  au FileType cs setlocal omnifunc=OmniSharp#Complete
-
-  " automatic syntax check on events
-  au BufEnter,TextChanged,InsertLeave *.cs SyntasticCheck
-
-  "The following commands are contextual, based on the current cursor
-  "position.
-  au FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
-  au FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-  au FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
-  au FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-  au FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
-  "finds members in the current buffer
-  au FileType cs nnoremap <leader>fm :OmniSharpFindMembers<cr>
-  " cursor can be anywhere on the line containing an issue
-  au FileType cs nnoremap <leader>x  :OmniSharpFixIssue<cr>
-  au FileType cs nnoremap <leader>fx :OmniSharpFixUsings<cr>
-  au FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-  au FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
-augroup END
-
-" Contextual code actions (requires CtrlP or unite.vim)
-nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
-" " Run code actions with text selected in visual mode to extract method
-vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
-" rename with dialog
-nnoremap <leader>nm :OmniSharpRename<cr>
-nnoremap <F2> :OmniSharpRename<cr>
-" " rename without dialog - with cursor on the symbol to rename... ':Rename
-" newname'
-command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
-" Force OmniSharp to reload the solution. Useful when switching branches etc.
-nnoremap <leader>rl :OmniSharpReloadSolution<cr>
-nnoremap <leader>cf :OmniSharpCodeFormat<cr>
-" Start the omnisharp server for the current solution
-nnoremap <leader>ss :OmniSharpStartServer<cr>
-nnoremap <leader>sp :OmniSharpStopServer<cr>
-" Add syntax highlighting for types and interfaces
-nnoremap <leader>th :OmniSharpHighlightTypes<cr>
-" Enable snippet completion, requires completeopt-=preview
-let g:OmniSharp_want_snippet=1
-
-" YouCompleteMe
-"let g:ycm_autoclose_preview_window_after_insertion=1
-" Bind key to quickly restart completion engine
-nnoremap <leader>yr :YcmRestartServer<CR>
-nnoremap <leader>yg  :YcmCompleter GoTo<CR>
-nnoremap <C-g>d :YcmCompleter GoTo<CR>
-nnoremap <C-g>r :YcmCompleter GoToReferences<CR>
-nnoremap <leader>yrr :YcmCompleter RefactorRename 
-"
-nnoremap <leader>L  :set list!<CR>
-nnoremap <leader>e  :Explore<CR>
-nnoremap <leader>es :Sexplore<CR>
-nnoremap <leader>ev :Vexplore<CR>
-nnoremap <leader>t  :set guifont=Monaco:h10<CR>
-nnoremap <leader>T  :set guifont=Monaco:h16<CR>
-
-" Save files as root when vim isn't
-
 function! s:BufferCount() abort
   return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
 endfunction
@@ -165,9 +102,6 @@ function! ToggleQuickfix()
     execute "silent! :bo cope "
   endif
 endfunction
-
-map <leader>q  :call ToggleQuickfix()<CR>
-map <leader>l  :call ToggleLoclist()<CR>
 
 let g:netrw_banner=0
 let g:netrw_fastbrowse=0
@@ -203,17 +137,20 @@ augroup misc_commands
   "au FileType netrw au BufLeave <buffer> set list
 augroup END
 
-" Supertab/completion options
-" Enter selects visible menu item in autocomplete
-:inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-set completeopt=longest,menuone
-"set completeopt-=preview
-let g:SuperTabDefaultCompletionType = 'context'
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-let g:SuperTabDefaultCompletionTypeDiscovery = ["&omnifunc:<c-x><c-o>","&completefunc:<c-x><c-n>"]
-let g:SuperTabClosePreviewOnPopupClose = 1
+set completeopt=longest,menuone,noinsert
 set splitbelow
 
+" YouCompleteMe
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_error_symbol = '>>'
+let g:ycm_warning_symbol = '--'
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_echo_current_diagnostic = 0
+let g:ycm_always_populate_location_list = 0
+"let g:ycm_autoclose_preview_window_after_insertion=1
+
+"
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -263,16 +200,30 @@ function! ALEGetOk()
   endif
   return ''
 endfunction
+
+"let g:ale_completion_enabled = 1
 let g:ale_linters = {
-\  'javascript': ['eslint'],
+\  'javascript': ['tsserver', 'eslint'],
 \  'cs': []
 \}
-let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
-let g:ale_lint_delay = 300
-let g:ale_lint_on_enter = 1
-let g:ale_set_signs = 0
-let g:ale_warn_about_trailing_whitespace = 0
 let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_enter = 1
+let g:ale_lint_delay = 300
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['tsserver', 'eslint'],
+\}
+"let g:ale_fix_on_save = 1
+let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
+let g:ale_echo_msg_format = '[%linter%] %severity%: %s'
+let g:ale_set_signs = 0
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+let g:ale_warn_about_trailing_whitespace = 0
+let g:ale_set_highlights = 1
+"highlight ALEError ctermbg=88
+highlight link ALEError SpellBad
+highlight link ALEWarning SpellCap
 
 " Fugitive
 function! S_fugitive()

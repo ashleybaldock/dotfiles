@@ -14,11 +14,15 @@ git clone https://github.com/airblade/vim-gitgutter.git
 git clone https://github.com/christoomey/vim-tmux-navigator.git
 git clone https://github.com/rodnaph/vim-color-schemes.git
 git clone https://github.com/ervandew/supertab.git
+git clone https://github.com/tpope/vim-commentary.git
 
 git clone https://github.com/Valloric/YouCompleteMe.git
 cd ./YouCompleteMe
 git submodule update --init --recursive
 brew install cmake
-./install.py #--clang-completer --cs-completer
+./install.py --ts-completer #--clang-completer --cs-completer
 npm install -g typescript
-cd ../
+cd third_party/ycmd/ && npm install -g --prefix third_party/tsserver typescript
+
+cd ~/.vim/bundle
+

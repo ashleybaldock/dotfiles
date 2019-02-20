@@ -13,7 +13,11 @@ git clone https://github.com/tpope/vim-fugitive.git
 git clone https://github.com/airblade/vim-gitgutter.git
 git clone https://github.com/christoomey/vim-tmux-navigator.git
 git clone https://github.com/rodnaph/vim-color-schemes.git
-git clone https://github.com/ervandew/supertab.git
+git clone https://github.com/leafgarland/typescript-vim.git
+git clone https://github.com/tpope/vim-commentary.git
+git clone https://github.com/tpope/vim-dispatch.git
+git clone https://github.com/pangloss/vim-javascript.git
+git clone https://github.com/ianks/vim-tsx.git
 
 git clone https://github.com/Valloric/YouCompleteMe.git
 cd ./YouCompleteMe

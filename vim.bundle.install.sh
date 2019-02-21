@@ -15,6 +15,8 @@ git clone https://github.com/christoomey/vim-tmux-navigator.git
 git clone https://github.com/rodnaph/vim-color-schemes.git
 git clone https://github.com/ervandew/supertab.git
 git clone https://github.com/tpope/vim-commentary.git
+git clone https://github.com/romainl/vim-qf.git
+git clone https://github.com/mileszs/ack.vim.git
 
 git clone https://github.com/Valloric/YouCompleteMe.git
 cd ./YouCompleteMe

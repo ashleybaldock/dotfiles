@@ -1,3 +1,4 @@
+ack
 bash-completion@2
 cmake
 git
@@ -6,6 +7,6 @@ node
 perl
 python
 ruby
+the_silver_searcher
 tmux
 vim
-cmake

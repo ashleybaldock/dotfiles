@@ -19,9 +19,9 @@ nnoremap <C-g><C-f> :YcmCompleter GoToReferences<CR>
 nnoremap <C-g><C-r> :YcmCompleter RefactorRename 
 nnoremap <C-g><C-i> :YcmCompleter OrganizeImports<CR>
 
-map <leader>q  :call ToggleQuickfix()<CR>
-map <leader>l  :call ToggleLoclist()<CR>
-
+map <leader>q  <Plug>(qf_qf_toggle)
+map <leader>l  <Plug>(qf_loc_toggle)
+let g:qf_loclist_window_bottom = 0
 
 set t_Co=256
 set background=dark
@@ -83,26 +83,6 @@ nnoremap <expr> k v:count ? 'k' : 'gk'
 
 set updatetime=1000
 
-function! s:BufferCount() abort
-  return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-endfunction
-
-function! ToggleLoclist()
-  let bufcount = s:BufferCount()
-  silent! lcl
-  if s:BufferCount() == bufcount
-    execute "silent! lop "
-  endif
-endfunction
-
-function! ToggleQuickfix()
-  let bufcount = s:BufferCount()
-  silent! ccl
-  if s:BufferCount() == bufcount
-    execute "silent! :bo cope "
-  endif
-endfunction
-
 let g:netrw_banner=0
 let g:netrw_fastbrowse=0
 
@@ -149,8 +129,17 @@ let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_echo_current_diagnostic = 0
 let g:ycm_always_populate_location_list = 0
 "let g:ycm_autoclose_preview_window_after_insertion=1
+" Fix weird quickfix window behaviour when using :YcmCompleter GoToReferences
+" https://github.com/Valloric/YouCompleteMe/issues/3272
+autocmd User YcmQuickFixOpened autocmd! WinLeave
 
-"
+" Ack (Ag)
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
+
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"

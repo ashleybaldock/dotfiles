@@ -4,6 +4,8 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+source $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
+
 # Disable per-session shell command history
 export SHELL_SESSION_HISTORY=0
 

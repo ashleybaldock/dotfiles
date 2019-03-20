@@ -2,6 +2,8 @@ ack
 bash-completion@2
 cmake
 git
+highlight
+jq
 mongodb
 node
 perl
@@ -10,3 +12,13 @@ ruby
 the_silver_searcher
 tmux
 vim
+
+https://gregbrown.co/code/typescript-quicklook
+brew cask install qlcolorcode
+mdls -name kMDItemContentType /full/path/to/file.ts
+mdls -name kMDItemContentType /full/path/to/file.tsx
+Copy the file types into the LSItemContentTypes array in
+~/Library/QuickLook/QLColorCode.qlgenerator/Contents/Info.plist
+Finally, reboot Quicklook by moving QLColorCode.qlgenerator out of ~/Library/QuickLook/, then moving it back.
+defaults write org.n8gray.QLColorCode hlTheme Zenburn
+

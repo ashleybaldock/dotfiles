@@ -18,6 +18,7 @@ nnoremap <C-g><C-G> :YcmCompleter GoTo<CR>
 nnoremap <C-g><C-f> :YcmCompleter GoToReferences<CR>
 nnoremap <C-g><C-r> :YcmCompleter RefactorRename 
 nnoremap <C-g><C-i> :YcmCompleter OrganizeImports<CR>
+nnoremap <C-g><C-h> :ALEFix<CR>
 
 map <leader>q  <Plug>(qf_qf_toggle)
 map <leader>l  <Plug>(qf_loc_toggle)
@@ -138,6 +139,7 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 cnoreabbrev Ack Ack!
+cnoreabbrev ag Gcd <bar> Ack!
 nnoremap <Leader>a :Ack!<Space>
 
 " UltiSnips
@@ -193,14 +195,16 @@ endfunction
 "let g:ale_completion_enabled = 1
 let g:ale_linters = {
 \  'javascript': ['tsserver', 'eslint'],
+\  'typescript': ['tsserver'],
 \  'cs': []
 \}
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_delay = 300
 let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['tsserver', 'eslint'],
+\  '*': ['remove_trailing_lines', 'trim_whitespace'],
+\  'javascript': ['eslint'],
+\  'typescript': ['tslint', 'prettier'],
 \}
 "let g:ale_fix_on_save = 1
 let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']

@@ -20,25 +20,9 @@ nnoremap <C-g><C-r> :YcmCompleter RefactorRename
 nnoremap <C-g><C-i> :YcmCompleter OrganizeImports<CR>
 nnoremap <C-g><C-h> :ALEFix<CR>
 
-map <leader>q  <Plug>(qf_qf_toggle)
-map <leader>l  <Plug>(qf_loc_toggle)
+map <silent> <leader>q :call qf#toggle#ToggleQfWindow(0)<CR>
+map <silent> <leader>l :call qf#toggle#ToggleLocWindow(0)<CR>
 let g:qf_loclist_window_bottom = 0
-
-set t_Co=256
-set background=dark
-syntax enable
-filetype plugin indent on
-
-set ts=2 sts=2 sw=2 et
-set enc=utf8
-filetype on
-set hlsearch
-syn on
-set mouse=a
-set backspace=indent,eol,start
-
-set timeout
-set timeoutlen=600
 
 if has('gui_running')
   " GUI only
@@ -48,6 +32,8 @@ if has('gui_running')
   set noantialias
   set guifont=Monaco:h10
   colorscheme vividchalk
+
+  nnoremap <silent> <C-q> :call qf#toggle#ToggleQfWindow(0)<CR>
 else
   " Console only
   set ttyfast
@@ -65,6 +51,21 @@ else
   augroup END
 endif
 
+set t_Co=256
+set background=dark
+syntax enable
+filetype plugin indent on
+
+set ts=2 sts=2 sw=2 et
+set enc=utf8
+filetype on
+set hlsearch
+syn on
+set mouse=a
+set backspace=indent,eol,start
+
+set timeout
+set timeoutlen=600
 set synmaxcol=256
 
 set nrformats-=octal
@@ -77,8 +78,6 @@ set autoread
 set showcmd
 
 " Display line movements, except with count
-set breakindent
-set showbreak=\\\\\
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
@@ -104,6 +103,8 @@ set sessionoptions-=options
 
 set formatoptions+=j " Delete comment character when joining commented lines
 
+set breakindent
+set showbreak=\\\\\
 set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
 set list
 
@@ -134,13 +135,28 @@ let g:ycm_always_populate_location_list = 0
 " https://github.com/Valloric/YouCompleteMe/issues/3272
 autocmd User YcmQuickFixOpened autocmd! WinLeave
 
-" Ack (Ag)
+" Searching & Ack (Ag)
+" Put word under cursor into search register and highlight
+nnoremap <silent> <Leader>* :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
+vnoremap <silent> <Leader>* :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy:let @/=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>:set hls<CR>
+
+:function GcdOrNot()
+:  if exists(":Gcd")
+:    :call Gcd()
+:  endif
+:endfunction
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 cnoreabbrev Ack Ack!
-cnoreabbrev ag Gcd <bar> Ack!
+cnoreabbrev ag call GcdOrNot() <bar> Ack!
 nnoremap <Leader>a :Ack!<Space>
+nnoremap • :call GcdOrNot() <bar> Ack! <C-r><C-w>
+vnoremap • \* "my:call GcdOrNot() <bar> Ack! <C-r>=fnameescape(@m)
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"

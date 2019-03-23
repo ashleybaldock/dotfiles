@@ -4,8 +4,6 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-source $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
-
 # Disable per-session shell command history
 export SHELL_SESSION_HISTORY=0
 
@@ -22,8 +20,6 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
-
 alias ls='ls -F'
 if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
   alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
@@ -36,13 +32,17 @@ alias vi='vim'
 alias j='jobs'
 
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
+alias gb="git branch"
 alias gp="git push"
+alias gpu="git pull"
+alias gpull="git pull"
 alias gpb='git push -u origin $(git branch | grep \* | cut -d " " -f2)'
 alias gs="git status"
 alias ga="git add"
 alias gc="git commit"
 alias gd="git diff"
 alias gco="git checkout"
+alias gcb="git checkout -b"
 gh() {
   open $(git config remote.origin.url | sed "s/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/")/$1$2
 }
@@ -77,6 +77,22 @@ nvm() {
   nvm "$@"
 }
 
+if [ -f `brew --prefix`/etc/bash_completion.d/git-completion.bash ]; then
+  . `brew --prefix`/etc/bash_completion.d/git-completion.bash
+fi
+if [ -f `brew --prefix`/etc/bash_completion.d/git-prompt.sh ]; then
+  . `brew --prefix`/etc/bash_completion.d/git-prompt.sh
+fi
+if [ -f `brew --prefix`/etc/bash_completion.d/ag.bashcomp.sh ]; then
+  . `brew --prefix`/etc/bash_completion.d/ag.bashcomp.sh
+fi
+if [ -f `brew --prefix`/etc/bash_completion.d/brew ]; then
+  . `brew --prefix`/etc/bash_completion.d/brew
+fi
+if [ -f `brew --prefix`/etc/bash_completion.d/tmux ]; then
+  . `brew --prefix`/etc/bash_completion.d/tmux
+fi
+
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
   . /usr/local/share/bash-completion/bash_completion
 fi
@@ -97,3 +113,4 @@ export NODE_ENV='development'
 
 source ~/.bashrc.local
 
+export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '

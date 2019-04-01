@@ -19,6 +19,7 @@ git clone https://github.com/romainl/vim-qf.git
 git clone https://github.com/mileszs/ack.vim.git
 git clone https://github.com/tpope/vim-dispatch.git
 git clone https://github.com/pangloss/vim-javascript.git
+git clone https://github.com/mxw/vim-jsx.git
 git clone https://github.com/ianks/vim-tsx.git
 
 git clone https://github.com/Valloric/YouCompleteMe.git

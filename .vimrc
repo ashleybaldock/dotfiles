@@ -146,7 +146,7 @@ vnoremap <silent> <Leader>* :<C-U>
 
 :function GcdOrNot()
 :  if exists(":Gcd")
-:    :call Gcd()
+:    :Gcd
 :  endif
 :endfunction
 if executable('ag')

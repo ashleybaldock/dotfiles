@@ -68,6 +68,7 @@ set timeout
 set timeoutlen=600
 set synmaxcol=256
 
+set nocompatible
 set nrformats-=octal
 set smarttab
 set incsearch

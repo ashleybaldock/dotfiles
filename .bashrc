@@ -77,20 +77,22 @@ nvm() {
   nvm "$@"
 }
 
-if [ -f `brew --prefix`/etc/bash_completion.d/git-completion.bash ]; then
-  . `brew --prefix`/etc/bash_completion.d/git-completion.bash
-fi
-if [ -f `brew --prefix`/etc/bash_completion.d/git-prompt.sh ]; then
-  . `brew --prefix`/etc/bash_completion.d/git-prompt.sh
-fi
-if [ -f `brew --prefix`/etc/bash_completion.d/ag.bashcomp.sh ]; then
-  . `brew --prefix`/etc/bash_completion.d/ag.bashcomp.sh
-fi
-if [ -f `brew --prefix`/etc/bash_completion.d/brew ]; then
-  . `brew --prefix`/etc/bash_completion.d/brew
-fi
-if [ -f `brew --prefix`/etc/bash_completion.d/tmux ]; then
-  . `brew --prefix`/etc/bash_completion.d/tmux
+if ! [ -x "$(command -v brew)" ]; then
+  if [ -f `brew --prefix`/etc/bash_completion.d/git-completion.bash ]; then
+    . `brew --prefix`/etc/bash_completion.d/git-completion.bash
+  fi
+  if [ -f `brew --prefix`/etc/bash_completion.d/git-prompt.sh ]; then
+    . `brew --prefix`/etc/bash_completion.d/git-prompt.sh
+  fi
+  if [ -f `brew --prefix`/etc/bash_completion.d/ag.bashcomp.sh ]; then
+    . `brew --prefix`/etc/bash_completion.d/ag.bashcomp.sh
+  fi
+  if [ -f `brew --prefix`/etc/bash_completion.d/brew ]; then
+    . `brew --prefix`/etc/bash_completion.d/brew
+  fi
+  if [ -f `brew --prefix`/etc/bash_completion.d/tmux ]; then
+    . `brew --prefix`/etc/bash_completion.d/tmux
+  fi
 fi
 
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
@@ -110,7 +112,8 @@ GIT_PS1_SHOWUNTRACKEDFILES=true
 
 export NODE_ENV='development'
 
-
-source ~/.bashrc.local
+if [ -f ~/.bashrc.local ]; then
+  source ~/.bashrc.local
+fi
 
 export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '

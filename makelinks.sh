@@ -25,13 +25,16 @@ function link {
 }
 
 function linkyn {
-  echo "Link .profile? (Probably mac-specific)"
-  select yn in "Yes" "No"; do
-    case $yn in
-      Yes ) link $1; break;;
-      No ) break;;
-    esac
-  done
+  if [ -z "$1" ]
+  then
+    echo "Link .profile? (Probably mac-specific)"
+    select yn in "Yes" "No"; do
+      case $yn in
+        Yes ) link $1; break;;
+        No ) break;;
+      esac
+    done
+  fi
 }
 
 link .vimrc

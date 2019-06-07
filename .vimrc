@@ -23,11 +23,12 @@ nnoremap <C-g><C-h> :ALEFix<CR>
 map <silent> <leader>q :call qf#toggle#ToggleQfWindow(0)<CR>
 map <silent> <leader>l :call qf#toggle#ToggleLocWindow(0)<CR>
 let g:qf_loclist_window_bottom = 0
+let g:qf_mapping_ack_style = 1
 
 if has('gui_running')
   " GUI only
   set guioptions-=rL
-  set guioptions+=c
+  set guioptions+=ck
   set guicursor+=a:blinkon0
   set noantialias
   set guifont=Monaco:h10
@@ -68,6 +69,7 @@ set timeout
 set timeoutlen=600
 set synmaxcol=256
 
+set noea
 set nrformats-=octal
 set smarttab
 set incsearch
@@ -153,7 +155,7 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 cnoreabbrev Ack Ack!
-cnoreabbrev ag call GcdOrNot() <bar> Ack!
+cnoreabbrev ag call GcdOrNot() <bar> Ack! -Q 
 nnoremap <Leader>a :Ack!<Space>
 nnoremap • :call GcdOrNot() <bar> Ack! <C-r><C-w>
 vnoremap • \* "my:call GcdOrNot() <bar> Ack! <C-r>=fnameescape(@m)

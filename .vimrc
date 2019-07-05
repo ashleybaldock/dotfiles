@@ -59,6 +59,7 @@ else
   augroup END
 endif
 
+autocmd! GUIEnter * set vb t_vb=
 set t_Co=256
 set background=dark
 syntax enable

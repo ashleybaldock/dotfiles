@@ -31,6 +31,8 @@ alias vi='vim'
 
 alias j='jobs'
 
+alias notify="terminal-notifier -message 'Command completed'"
+
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
 alias gb="git branch"
 alias gp="git push"

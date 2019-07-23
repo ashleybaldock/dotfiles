@@ -45,21 +45,28 @@ alias gc="git commit"
 alias gd="git diff"
 alias gco="git checkout"
 alias gcb="git checkout -b"
+
+# Open github for repo (base path)
 gh() {
   open $(git config remote.origin.url | sed "s/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/")/$1$2
 }
+# Open github for branch (base path)
 ghb() {
-  gh tree/$(git symbolic-ref --quiet --short HEAD )
+  gh tree/$(git symbolic-ref --quiet --short HEAD)
 }
+# Open github for repo (current path)
 gho() {
   gh tree/master/$(git rev-parse --show-prefix)
 }
+# Open github for branch (current path)
 ghob() {
-  gh tree/$(git symbolic-ref --quiet --short HEAD )/$(git rev-parse --show-prefix)
+  gh tree/$(git symbolic-ref --quiet --short HEAD)/$(git rev-parse --show-prefix)
 }
-#alias ghb="gh tree/$(git symbolic-ref --quiet --short HEAD )"
-#alias gho="gh tree/master/$(git rev-parse --show-prefix)"
-#alias ghob="gh tree/$(git symbolic-ref --quiet --short HEAD )/$(git rev-parse --show-prefix)"
+# Open new PR for current branch against parent branch
+# See parent alias in .gitconfig
+ghpr() {
+  gh compare/$(git parent)...$(git symbolic-ref --quiet --short HEAD)?expand=1
+}
 alias ghbo="ghob"
 
 

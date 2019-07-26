@@ -32,6 +32,27 @@ let g:qf_mapping_ack_style = 1
 " copy branch
 :command CopyBranch let @+ = fugitive#head()
 
+if has("patch-8.1.0251")
+  if !isdirectory($HOME . "/.vim/backup")
+    call mkdir($HOME . "/.vim/backup", "p", 0711)
+  endif
+  set writebackup
+  set nobackup
+  set backupcopy=auto
+  set backupdir^=~/.vim/backup//
+end
+if !isdirectory($HOME . "/.vim/swap")
+  call mkdir($HOME . "/.vim/swap", "p", 0711)
+endif
+set swapfile
+set directory^=~/.vim/swap//
+if !isdirectory($HOME . "/.vim/undo")
+  call mkdir($HOME . "/.vim/undo", "p", 0711)
+endif
+set undofile
+set undodir^=~/.vim/undo//
+
+
 if has('gui_running')
   " GUI only
   set guioptions-=rL

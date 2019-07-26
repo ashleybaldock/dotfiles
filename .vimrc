@@ -26,11 +26,11 @@ let g:qf_loclist_window_bottom = 0
 let g:qf_mapping_ack_style = 1
 
 " copy full path
-:command CopyPath let @+ = expand("%:p")
+:command! CopyPath let @+ = expand("%:p")
 " copy just filename
-:command CopyFilename let @+ = expand("%:t")
+:command! CopyFilename let @+ = expand("%:t")
 " copy branch
-:command CopyBranch let @+ = fugitive#head()
+:command! CopyBranch let @+ = fugitive#head()
 
 if has("patch-8.1.0251")
   if !isdirectory($HOME . "/.vim/backup")
@@ -176,7 +176,7 @@ vnoremap <silent> <Leader>* :<C-U>
   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>
   \gV:call setreg('"', old_reg, old_regtype)<CR>:set hls<CR>
 
-:function GcdOrNot()
+:function! GcdOrNot()
 :  if exists(":Gcd")
 :    :Gcd
 :  endif

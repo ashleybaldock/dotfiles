@@ -32,6 +32,20 @@ let g:qf_mapping_ack_style = 1
 " copy branch
 :command! CopyBranch let @+ = fugitive#head()
 
+:function! OpenCSSFile()
+: if filereadable(expand('%:r') . ".scss")
+:   :execute 'vsp' expand('%:r') . ".scss"
+: elseif filereadable(expand('%:r') . ".module.scss")
+:   :execute 'vsp' expand('%:r') . ".module.scss"
+: elseif filereadable(expand('%:r') . ".module.css")
+:   :execute 'vsp' expand('%:r') . ".module.css"
+: else
+:   echo "No matching CSS file found"
+: endif
+:endfunction
+:command! OpenCSS call OpenCSSFile()
+nnoremap <C-g><C-s> :OpenCSS<CR>
+
 if has("patch-8.1.0251")
   if !isdirectory($HOME . "/.vim/backup")
     call mkdir($HOME . "/.vim/backup", "p", 0711)

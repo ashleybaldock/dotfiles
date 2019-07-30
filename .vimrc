@@ -256,7 +256,11 @@ endfunction
 
 "let g:ale_completion_enabled = 1
 let g:ale_linters = {
-\  'javascript': ['tsserver', 'eslint'],
+\  'javascript': ['tsserver', 'prettier', 'eslint'],
+\  'css': ['prettier'],
+\  'scss': ['prettier'],
+\  'less': ['prettier'],
+\  'json': ['prettier'],
 \  'typescript': ['tsserver'],
 \  'cs': []
 \}
@@ -265,7 +269,7 @@ let g:ale_lint_on_enter = 1
 let g:ale_lint_delay = 300
 let g:ale_fixers = {
 \  '*': ['remove_trailing_lines', 'trim_whitespace'],
-\  'javascript': ['eslint'],
+\  'javascript': ['eslint', 'prettier'],
 \  'typescript': ['tslint', 'prettier'],
 \}
 "let g:ale_fix_on_save = 1

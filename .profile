@@ -30,9 +30,10 @@ function start_agent {
 
 if [ -f "${SSH_ENV}" ]; then
     . "${SSH_ENV}" > /dev/null
-    ps ${SSH_AGENT_PID} > /dev/null || {
-        start_agent;
-    }
+    PID_PROCESS=$(ps ${SSH_AGENT_PID} | awk '{print $5}' | sed 1d)
+    if [ "$PID_PROCESS" != "/usr/bin/ssh-agent" ]; then
+      start_agent
+    fi
 else
     start_agent;
 fi

@@ -4,6 +4,33 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# Start ssh-agent if it isn't already
+# Add new ssh keys with ssh-add -K <key>
+# They will be added automatically from keychain
+SSH_ENV="$HOME/.ssh/environment"
+
+function new_ssh_agent {
+  echo "Initialising new SSH agent..."
+  /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+  chmod 600 "${SSH_ENV}"
+  . "${SSH_ENV}" > /dev/null
+  /usr/bin/ssh-add -A;
+}
+
+function start_agent {
+  if [ -f "${SSH_ENV}" ]; then
+      . "${SSH_ENV}" > /dev/null
+      PID_PROCESS=$(ps ${SSH_AGENT_PID} | awk '{print $5}' | sed 1d)
+      if [ "$PID_PROCESS" != "/usr/bin/ssh-agent" ]; then
+        new_ssh_agent
+      fi
+  else
+      new_ssh_agent;
+  fi
+}
+
+start_agent
+
 # Disable per-session shell command history
 export SHELL_SESSION_HISTORY=0
 

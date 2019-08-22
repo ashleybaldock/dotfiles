@@ -29,7 +29,9 @@ function start_agent {
   fi
 }
 
-start_agent
+if [[ "$OSTYPE" == "darwin" ]]; then
+  start_agent
+fi
 
 # Disable per-session shell command history
 export SHELL_SESSION_HISTORY=0

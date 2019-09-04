@@ -29,7 +29,7 @@ function start_agent {
   fi
 }
 
-if [[ "$OSTYPE" == "darwin" ]]; then
+if [[ "$OSTYPE" == "darwin"* ]]; then
   start_agent
 fi
 

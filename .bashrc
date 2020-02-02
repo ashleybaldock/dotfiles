@@ -29,7 +29,7 @@ function start_agent {
   fi
 }
 
-if [[ "$OSTYPE" == "darwin" ]]; then
+if [[ "$OSTYPE" == "darwin"* ]]; then
   start_agent
 fi
 
@@ -156,6 +156,29 @@ GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 
+# Split current pane into equal two-part columns in different directories
+# Configure in .bashrc.local with an array and pass it as an alias, e.g.:
+# splits=($HOME/some/path, $HOME/another/path)
+# alias tmux_split_name='tmux_split splits'
+function tmux_split {
+  local -n paths=$1
+
+  initialPaneId=$TMUX_PANE
+  width=$(($(tmux display -p '#{pane_width}') / 3))
+
+  cd "${paths[0]}"
+  tmux split-window -v
+
+  for i in "${paths[@]:1}"
+  do
+    cd "$i"
+    tmux split-window -h -f -l $width
+    tmux split-window -v
+  done
+
+  cd "${paths[0]}"
+  tmux resize-pane -t $initialPaneId -x $width
+}
 
 export NODE_ENV='development'
 

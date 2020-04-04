@@ -161,10 +161,10 @@ GIT_PS1_SHOWUNTRACKEDFILES=true
 # splits=($HOME/some/path, $HOME/another/path)
 # alias tmux_split_name='tmux_split splits'
 function tmux_split {
-  local -n paths=$1
+  local paths=("$@")
 
   initialPaneId=$TMUX_PANE
-  width=$(($(tmux display -p '#{pane_width}') / 3))
+  width=$(($(tmux display -p '#{pane_width}') / ${#paths[@]}))
 
   cd "${paths[0]}"
   tmux split-window -v
@@ -178,6 +178,7 @@ function tmux_split {
 
   cd "${paths[0]}"
   tmux resize-pane -t $initialPaneId -x $width
+  tmux select-pane -t $initialPaneId
 }
 
 export NODE_ENV='development'

@@ -25,7 +25,7 @@ function link {
 }
 
 function linkyn {
-  if [ -z "$1" ]
+  if [ ! -z "$1" ]
   then
     echo "Link .profile? (Probably mac-specific)"
     select yn in "Yes" "No"; do
@@ -45,5 +45,3 @@ link .gitignore
 git config --global core.excludesfile ~/.gitignore
 
 linkyn .profile
-
-

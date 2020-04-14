@@ -43,5 +43,8 @@ link .tmux-osx.conf
 link .bashrc
 link .gitignore
 git config --global core.excludesfile ~/.gitignore
+link Brewfile
 
 linkyn .profile
+
+

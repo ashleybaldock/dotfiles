@@ -1,0 +1,28 @@
+#!/usr/local/bin/bash
+
+mkdir ./$1
+
+touch ./$1/$1.js
+touch ./$1/$1.module.css
+touch ./$1/index.js
+
+cat <<EOF1 >> ./$1/$1.js
+import React from 'react';
+import styles from './$1.module.css';
+
+export const $1 = ({
+  className = '',
+  children,
+  ...props
+}) => {
+  return (
+    <div className={\`\${className}\`}>
+      {children}
+    </div>
+  );
+};
+EOF1
+
+cat <<EOF2 >> ./$1/index.js
+export * from './$1';
+EOF2

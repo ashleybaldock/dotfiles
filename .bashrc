@@ -188,3 +188,5 @@ if [ -f ~/.bashrc.local ]; then
 fi
 
 export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
+
+export PATH="~/dotfiles/bin:$PATH"

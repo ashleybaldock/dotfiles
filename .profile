@@ -21,6 +21,8 @@ if [ -d /usr/local/opt/ruby/bin ]; then
 fi
 if [ -d $HOME/.gem/ruby/2.7.0/bin ]; then
   export PATH="$HOME/.gem/ruby/2.7.0/bin:${PATH}"
+elif [ -d $HOME/.gem/ruby/2.6.0/bin ]; then
+  export PATH="$HOME/.gem/ruby/2.6.0/bin:${PATH}"
 fi
 
 # Also source .bashrc for terminal shells

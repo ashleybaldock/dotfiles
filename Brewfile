@@ -1,5 +1,3 @@
-tap "caskformula/caskformula"
-tap "caskroom/cask"
 tap "graknlabs/tap"
 tap "homebrew/bundle"
 tap "homebrew/cask"

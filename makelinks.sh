@@ -4,6 +4,8 @@
 
 cwd=$(pwd)
 
+AUTO=$1
+
 function link {
   if [ ! -L ~/$1 ]
   then
@@ -25,7 +27,7 @@ function link {
 }
 
 function linkyn {
-  if [ ! -z "$1" ]
+  if [ ! -z "$AUTO" ]
   then
     echo "Link .profile? (Probably mac-specific)"
     select yn in "Yes" "No"; do
@@ -45,6 +47,10 @@ link .gitignore
 git config --global core.excludesfile ~/.gitignore
 link Brewfile
 
-linkyn .profile
+# Skip these if first arg set, e.g. automatic mode
+if [ -z "$1" ]
+then
+  linkyn .profile
+fi
 
 

@@ -12,3 +12,4 @@ brew bundle --global
 # ~/Library/QuickLook/QLColorCode.qlgenerator/Contents/Info.plist
 # Finally, reboot Quicklook by moving QLColorCode.qlgenerator out of ~/Library/QuickLook/, then moving it back.
 # defaults write org.n8gray.QLColorCode hlTheme Zenburn
+# xattr -d -r com.apple.quarantine ~/Library/QuickLook

@@ -25,3 +25,6 @@
 [submodule ".vim/pack/default/start/vim-dispatch"]
 	path = .vim/pack/default/start/vim-dispatch
 	url = https://github.com/tpope/vim-dispatch.git
+[submodule ".vim/pack/default/start/vim-commentary"]
+	path = .vim/pack/default/start/vim-commentary
+	url = https://github.com/tpope/vim-commentary.git

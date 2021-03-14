@@ -13,3 +13,6 @@
 [submodule ".vim/pack/default/start/vim-prettier"]
 	path = .vim/pack/default/start/vim-prettier
 	url = https://github.com/prettier/vim-prettier.git
+[submodule ".vim/pack/default/start/vim-qf"]
+	path = .vim/pack/default/start/vim-qf
+	url = https://github.com/romainl/vim-qf.git

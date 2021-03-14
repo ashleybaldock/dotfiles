@@ -43,6 +43,3 @@
 [submodule ".vim/pack/default/start/ale"]
 	path = .vim/pack/default/start/ale
 	url = https://github.com/dense-analysis/ale.git
-[submodule ".vim/pack/default/start/YouCompleteMe"]
-	path = .vim/pack/default/start/YouCompleteMe
-	url = https://github.com/ycm-core/YouCompleteMe.git

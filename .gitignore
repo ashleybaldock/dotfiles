@@ -6,5 +6,7 @@
 
 .vim/swap/*
 .vim/undo/*
+.vim/autoload/*
+.vim/bundle/*
 .vim/*.session
 

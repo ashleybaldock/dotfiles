@@ -40,3 +40,6 @@
 [submodule ".vim/pack/default/start/ack.vim"]
 	path = .vim/pack/default/start/ack.vim
 	url = https://github.com/mileszs/ack.vim.git
+[submodule ".vim/pack/default/start/ale"]
+	path = .vim/pack/default/start/ale
+	url = https://github.com/dense-analysis/ale.git

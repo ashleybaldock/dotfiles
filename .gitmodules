@@ -16,3 +16,6 @@
 [submodule ".vim/pack/default/start/vim-qf"]
 	path = .vim/pack/default/start/vim-qf
 	url = https://github.com/romainl/vim-qf.git
+[submodule ".vim/pack/default/start/vim-tmux-navigator"]
+	path = .vim/pack/default/start/vim-tmux-navigator
+	url = https://github.com/christoomey/vim-tmux-navigator.git

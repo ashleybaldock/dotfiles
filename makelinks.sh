@@ -40,6 +40,7 @@ function linkyn {
 }
 
 link .vimrc
+link .vim
 link .tmux.conf
 link .tmux-osx.conf
 link .bashrc

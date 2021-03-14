@@ -3,3 +3,8 @@
 *.swn
 *.tern-project
 .DS_Store
+
+.vim/swap/*
+.vim/undo/*
+.vim/*.session
+

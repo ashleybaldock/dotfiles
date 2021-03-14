@@ -31,3 +31,6 @@
 [submodule ".vim/pack/default/start/vim-color-schemes"]
 	path = .vim/pack/default/start/vim-color-schemes
 	url = https://github.com/rodnaph/vim-color-schemes.git
+[submodule ".vim/pack/default/start/typescript-vim"]
+	path = .vim/pack/default/start/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git

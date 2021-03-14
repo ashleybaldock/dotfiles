@@ -37,3 +37,6 @@
 [submodule ".vim/pack/default/start/ctrlp.vim"]
 	path = .vim/pack/default/start/ctrlp.vim
 	url = https://github.com/ctrlpvim/ctrlp.vim.git
+[submodule ".vim/pack/default/start/ack.vim"]
+	path = .vim/pack/default/start/ack.vim
+	url = https://github.com/mileszs/ack.vim.git

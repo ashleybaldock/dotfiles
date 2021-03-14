@@ -19,3 +19,6 @@
 [submodule ".vim/pack/default/start/vim-tmux-navigator"]
 	path = .vim/pack/default/start/vim-tmux-navigator
 	url = https://github.com/christoomey/vim-tmux-navigator.git
+[submodule ".vim/pack/default/start/vim-equinusocio-material"]
+	path = .vim/pack/default/start/vim-equinusocio-material
+	url = https://github.com/chuling/equinusocio-material.vim.git

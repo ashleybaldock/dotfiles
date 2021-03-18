@@ -43,3 +43,6 @@
 [submodule ".vim/pack/default/start/ale"]
 	path = .vim/pack/default/start/ale
 	url = https://github.com/dense-analysis/ale.git
+[submodule ".vim/pack/default/start/coc.nvim"]
+	path = .vim/pack/default/start/coc.nvim
+	url = https://github.com/neoclide/coc.nvim.git

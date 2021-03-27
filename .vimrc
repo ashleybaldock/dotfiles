@@ -3,9 +3,9 @@
 "  call add(g:pathogen_blacklist, 'csscolor')
 "endif
 
-let g:ycm_server_keep_logfiles = 1
-let g:ycm_server_log_level = 'debug'
-execute pathogen#infect()
+" let g:ycm_server_keep_logfiles = 1
+" let g:ycm_server_log_level = 'debug'
+" execute pathogen#infect()
 
 nnoremap <leader>L  :set list!<CR>
 nnoremap <leader>e  :Explore<CR>
@@ -13,12 +13,49 @@ nnoremap <leader>es :Sexplore<CR>
 nnoremap <leader>ev :Vexplore<CR>
 nnoremap <leader>t  :set guifont=Monaco:h10<CR>
 nnoremap <leader>T  :set guifont=Monaco:h16<CR>
-"nnoremap <C-g><C-r> :YcmRestartServer<CR>
-nnoremap <C-g><C-G> :YcmCompleter GoTo<CR>
-nnoremap <C-g><C-f> :YcmCompleter GoToReferences<CR>
-nnoremap <C-g><C-r> :YcmCompleter RefactorRename 
-nnoremap <C-g><C-i> :YcmCompleter OrganizeImports<CR>
-nnoremap <C-g><C-h> :ALEFix<CR>
+
+" nnoremap <C-g><C-G> :YcmCompleter GoTo<CR>                TODO
+" nnoremap <C-g><C-r> :YcmCompleter RefactorRename                TODO
+" nnoremap <C-g><C-i> :YcmCompleter OrganizeImports<CR>               TODO
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> <C-g><C-d> <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> <C-g><C-t> <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> <C-g><C-i> <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <C-g><C-r> <Plug>(coc-references)
+
+"CoC
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Highlight the symbol and its references when holding the cursor.
+"autocmd CursorHold * silent call CocActionAsync('highlight')
+
+
 
 map <silent> <leader>q :call qf#toggle#ToggleQfWindow(0)<CR>
 map <silent> <leader>l :call qf#toggle#ToggleLocWindow(0)<CR>
@@ -74,7 +111,6 @@ if has('gui_running')
   set guicursor+=a:blinkon0
   set noantialias
   set guifont=Monaco:h10
-  colorscheme vividchalk
 
   nnoremap <silent> <C-q> :call qf#toggle#ToggleQfWindow(0)<CR>
 else
@@ -96,15 +132,16 @@ endif
 
 autocmd! GUIEnter * set vb t_vb=
 set t_Co=256
+if !exists("g:syntax_on")
+  syntax enable
+endif
 set background=dark
-syntax enable
 filetype plugin indent on
 
 set ts=2 sts=2 sw=2 et
 set enc=utf8
 filetype on
 set hlsearch
-syn on
 set mouse=a
 set backspace=indent,eol,start
 
@@ -127,7 +164,7 @@ set showcmd
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
-set updatetime=1000
+set updatetime=500
 
 let g:netrw_banner=0
 let g:netrw_fastbrowse=0
@@ -168,19 +205,6 @@ augroup END
 set completeopt=longest,menuone,noinsert
 set splitbelow
 
-" YouCompleteMe
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_enable_diagnostic_signs = 0
-let g:ycm_error_symbol = '>>'
-let g:ycm_warning_symbol = '--'
-let g:ycm_enable_diagnostic_highlighting = 0
-let g:ycm_echo_current_diagnostic = 0
-let g:ycm_always_populate_location_list = 0
-"let g:ycm_autoclose_preview_window_after_insertion=1
-" Fix weird quickfix window behaviour when using :YcmCompleter GoToReferences
-" https://github.com/Valloric/YouCompleteMe/issues/3272
-autocmd User YcmQuickFixOpened autocmd! WinLeave
-
 " Searching & Ack (Ag)
 " Put word under cursor into search register and highlight
 nnoremap <silent> <Leader>* :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
@@ -204,11 +228,6 @@ nnoremap <Leader>a :Ack!<Space>
 nnoremap • :call GcdOrNot() <bar> Ack! <C-r><C-w>
 vnoremap • \* "my:call GcdOrNot() <bar> Ack! <C-r>=fnameescape(@m)
 
-" UltiSnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
 " CtrlP
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
@@ -227,6 +246,7 @@ augroup END
 let g:jsx_ext_required = 0
 
 " ALE
+nnoremap <C-g><C-h> :ALEFix<CR>
 " For a more fancy ale statusline
 " https://github.com/liuchengxu/space-vim/blob/master/layers/%2Bcheckers/syntax-checking/config.vim
 function! ALEGetError()
@@ -293,10 +313,39 @@ function! S_fugitive()
   return ''
 endfunction
 
-" Status line
-hi syn_error cterm=None ctermfg=197 ctermbg=237 gui=None guifg=#CC0033 guibg=#3a3a3a
-hi syn_warn  cterm=None ctermfg=214 ctermbg=237 gui=None guifg=#FFFF66 guibg=#3a3a3a
-hi syn_ok    cterm=None ctermfg=LightGreen ctermbg=237 gui=None guifg=#00FF66 guibg=#3a3a3a
+" vim:set ft=vim et sw=2:
+
+" GitGutter
+"let g:gitgutter_sign_priority = 1
+" background colours to match the sign column
+let g:gitgutter_set_sign_backgrounds = 0
+
+" Run every time ColorScheme changes to ensure overrides
+function! MyHighlights() abort
+  " Status line
+  hi syn_error cterm=None ctermfg=197 ctermbg=237 gui=None guifg=#CC0033 guibg=#3a3a3a
+  hi syn_warn  cterm=None ctermfg=214 ctermbg=237 gui=None guifg=#FFFF66 guibg=#3a3a3a
+  hi syn_ok    cterm=None ctermfg=LightGreen ctermbg=237 gui=None guifg=#00FF66 guibg=#3a3a3a
+
+  "highlight Visual     cterm=NONE ctermbg=76  ctermfg=16  gui=NONE guibg=#5fd700 guifg=#000000
+  "highlight StatusLine cterm=NONE ctermbg=231 ctermfg=160 gui=NONE guibg=#ffffff guifg=#d70000
+  "highlight Normal     cterm=NONE ctermbg=17              gui=NONE guibg=#00005f
+  "highlight NonText    cterm=NONE ctermbg=17              gui=NONE guibg=#00005f
+  highlight! clear SignColumn
+  if has('gui_running')
+    highlight link SignColumn Normal
+  else
+    highlight SignColumn ctermbg=0
+  endif
+  highlight GitGutterAdd    ctermfg=2 ctermbg=0 guifg=#009900 guibg=Black
+  highlight GitGutterChange ctermfg=3 ctermbg=0 guifg=#bbbb00 guibg=Black
+  highlight GitGutterDelete ctermfg=1 ctermbg=0 guifg=#ff2222 guibg=Black
+endfunction
+
+augroup MyColors
+  autocmd!
+  autocmd ColorScheme * call MyHighlights()
+augroup END
 
 " start of default statusline
 set statusline=%f\ %h%w%m%r\ 
@@ -308,4 +357,8 @@ set statusline+=%#syn_ok#%{ALEGetOk()}%*
 set statusline+=%{S_fugitive()}
 set statusline+=%=%(%l,%c%V\ %=\ %P%)\ 
 
-" vim:set ft=vim et sw=2:
+if has('gui_running')
+  colorscheme vividchalk
+else
+  colorscheme vividchalk
+endif

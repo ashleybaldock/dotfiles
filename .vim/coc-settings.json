@@ -1,0 +1,5 @@
+{
+  "diagnostic.enableSign": false,
+  "diagnostic.hintSign": "",
+  "diagnostic.errorSign": "✘"
+}

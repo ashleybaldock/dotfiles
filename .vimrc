@@ -6,6 +6,7 @@
 " let g:ycm_server_keep_logfiles = 1
 " let g:ycm_server_log_level = 'debug'
 " execute pathogen#infect()
+set encoding=utf-8
 
 nnoremap <leader>L  :set list!<CR>
 nnoremap <leader>e  :Explore<CR>
@@ -19,12 +20,17 @@ nnoremap <leader>T  :set guifont=Monaco:h16<CR>
 " nnoremap <C-g><C-i> :YcmCompleter OrganizeImports<CR>               TODO
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> <C-g><C-d> <Plug>(coc-definition)
+nmap <silent> <C-g><C-g> <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> <C-g><C-t> <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> <C-g><C-i> <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <C-g><C-r> <Plug>(coc-references)
+
+" Prettier format
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+nnoremap <C-g><C-h> :Prettier<CR>
 
 "CoC
 " Use tab for trigger completion with characters ahead and navigate.
@@ -35,6 +41,11 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
@@ -51,6 +62,9 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
 
 " Highlight the symbol and its references when holding the cursor.
 "autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -164,7 +178,7 @@ set showcmd
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
-set updatetime=500
+set updatetime=300
 
 let g:netrw_banner=0
 let g:netrw_fastbrowse=0
@@ -245,8 +259,51 @@ augroup js_commands
 augroup END
 let g:jsx_ext_required = 0
 
+
+function! DiagErrors()
+  if exists('g:did_coc_loaded')
+    let l:diaginfo = get(b:, 'coc_diagnostic_info', {})
+    let l:errors = get(l:diaginfo, 'error', 0)
+    return l:errors == 0 ? '' : printf(' ‡%d ', l:errors)
+  endif
+  return ''
+endfunction
+function! DiagWarnings()
+  if exists('g:did_coc_loaded')
+    let l:diaginfo = get(b:, 'coc_diagnostic_info', {})
+    let l:warnings = get(l:diaginfo, 'warning', 0)
+    return l:warnings == 0 ? '' : printf(' •%d ', l:warnings)
+  endif
+  return ''
+endfunction
+function! DiagOk()
+  if exists('g:did_coc_loaded')
+    let l:diaginfo = get(b:, 'coc_diagnostic_info', {})
+    let l:errors = get(l:diaginfo, 'error', 0)
+    let l:warnings = get(l:diaginfo, 'warning', 0)
+    return l:errors + l:warnings == 0 ? ' ok ' : ''
+  endif
+  return ''
+endfunction
+
+function! StatusDiagnostic() abort
+  " Buffer local variable containing diagnostics
+  " :echom get(b:, 'coc_diagnostic_info', {})
+  " e.g. {'information': 19, 'hint': 0, 'lnums': [17, 0, 1, 0], 'warning': 0, 'error': 19}
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, 'E' . info['error'])
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, 'W' . info['warning'])
+  endif
+  return join(msgs, ' '). ' ' . get(g:, 'coc_status', '')
+endfunction
+
 " ALE
-nnoremap <C-g><C-h> :ALEFix<CR>
+"nnoremap <C-g><C-h> :ALEFix<CR>
 " For a more fancy ale statusline
 " https://github.com/liuchengxu/space-vim/blob/master/layers/%2Bcheckers/syntax-checking/config.vim
 function! ALEGetError()
@@ -334,6 +391,10 @@ function! MyHighlights() abort
   highlight! clear SignColumn
   if has('gui_running')
     highlight link SignColumn Normal
+    highlight link CocErrorHighlight SpellBad
+    highlight link CocWarningHighlight SpellRare
+    highlight link CocInfoHighlight SpellCap
+    highlight link CocHintHighlight SpellLocal
   else
     highlight SignColumn ctermbg=0
   endif
@@ -350,9 +411,9 @@ augroup END
 " start of default statusline
 set statusline=%f\ %h%w%m%r\ 
 " ALE statusline
-set statusline+=%#syn_error#%{ALEGetError()}%*
-set statusline+=%#syn_warn#%{ALEGetWarning()}%*
-set statusline+=%#syn_ok#%{ALEGetOk()}%*
+set statusline+=%#syn_error#%{DiagErrors()}%*
+set statusline+=%#syn_warn#%{DiagWarnings()}%*
+set statusline+=%#syn_ok#%{DiagOk()}%*
 " end of default statusline (with ruler)
 set statusline+=%{S_fugitive()}
 set statusline+=%=%(%l,%c%V\ %=\ %P%)\ 

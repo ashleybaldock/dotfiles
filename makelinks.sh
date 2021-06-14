@@ -49,9 +49,6 @@ git config --global core.excludesfile ~/.gitignore
 link Brewfile
 
 # Skip these if first arg set, e.g. automatic mode
-if [ -z "$1" ]
-then
-  linkyn .profile
-fi
+linkyn .profile
 
 

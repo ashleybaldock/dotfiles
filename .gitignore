@@ -10,4 +10,5 @@
 .vim/bundle/*
 .vim/*.session
 .vim/.netrwhist
+.vim/sessions/*
 

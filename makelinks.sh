@@ -4,8 +4,6 @@
 
 cwd=$(pwd)
 
-AUTO=$1
-
 function link {
   if [ ! -L ~/$1 ]
   then
@@ -26,29 +24,13 @@ function link {
   fi
 }
 
-function linkyn {
-  if [ ! -z "$AUTO" ]
-  then
-    echo "Link .profile? (Probably mac-specific)"
-    select yn in "Yes" "No"; do
-      case $yn in
-        Yes ) link $1; break;;
-        No ) break;;
-      esac
-    done
-  fi
-}
-
 link .vimrc
 link .vim
 link .tmux.conf
 link .tmux-osx.conf
 link .bashrc
+link .profile
 link .gitignore
-git config --global core.excludesfile ~/.gitignore
 link Brewfile
-
-# Skip these if first arg set, e.g. automatic mode
-linkyn .profile
 
 

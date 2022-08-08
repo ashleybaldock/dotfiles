@@ -1,9 +1,29 @@
 #!/bin/bash
 
+echo "Setup SSH"
+mkdir ~/.ssh
+chmod 700 ~/.ssh
+(
+  umask 077
+  touch ~/.ssh/authorized_keys
+  touch ~/.ssh/config
+  touch ~/.ssh/environment
+  touch ~/.ssh/known_hosts
+)
+
+echo "Making links"
+(
+  cd ~/dotfiles
+  ./makelinks.sh
+)
+
 echo "Installing brew"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+brew bundle --file ~/Brewfile
 
-brew bundle --global
+echo "Other configuration"
+git config --global core.excludesfile ~/.gitignore
+
 
 # mdls -name kMDItemContentType /full/path/to/file.ts
 # mdls -name kMDItemContentType /full/path/to/file.tsx

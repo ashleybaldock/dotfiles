@@ -14,7 +14,7 @@ function new_ssh_agent {
   /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
   chmod 600 "${SSH_ENV}"
   . "${SSH_ENV}" > /dev/null
-  /usr/bin/ssh-add -A;
+  /usr/bin/ssh-add --apple-load-keychain;
 }
 
 function start_agent {
@@ -62,6 +62,15 @@ alias j='jobs'
 
 alias notify="terminal-notifier -message 'Command completed'"
 
+## Python
+if [ -f /opt/homebrew/bin/python3 ]; then
+  alias python='/opt/homebrew/bin/python3'
+fi
+if [ -f /opt/homebrew/bin/pip3 ]; then
+  alias pip='/opt/homebrew/bin/pip3'
+fi
+
+## git
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
 alias gb="git branch"
 alias gp="git push"
@@ -99,6 +108,7 @@ ghpr() {
 alias ghbo="ghob"
 
 
+## node & nvm
 export NVM_DIR="$HOME/.nvm"
 nvmload() {
   unset -f nvm
@@ -124,6 +134,8 @@ nvm() {
   nvm "$@"
 }
 
+
+## Bash completion
 if [ -x "$(command -v brew)" ]; then
   if [ -f `brew --prefix`/etc/bash_completion.d/git-completion.bash ]; then
     . `brew --prefix`/etc/bash_completion.d/git-completion.bash

@@ -37,7 +37,7 @@ export NVM_DIR="$HOME/.nvm" && (
 echo ""
 
 echo "-- Finishing..."
-git config --global core.excludesfile ~/.gitignore
+./git-setup.sh
 echo ""
 
 

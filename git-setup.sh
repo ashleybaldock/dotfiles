@@ -1,5 +1,6 @@
-git config --global core.editor "/usr/local/bin/vim"
+git config --global core.editor "vim"
 git config --global core.excludesfile "~/.gitignore"
+git config --global user.useConfigOnly true
 
 git config --global alias.last 'log -1 HEAD'
 git config --global alias.conflicts "diff --name-only --diff-filter=U"

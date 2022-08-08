@@ -13,13 +13,13 @@ function new_ssh_agent {
   echo "Initialising new SSH agent..."
   /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
   chmod 600 "${SSH_ENV}"
-  . "${SSH_ENV}" > /dev/null
+  source "${SSH_ENV}" > /dev/null
   /usr/bin/ssh-add --apple-load-keychain;
 }
 
 function start_agent {
   if [ -f "${SSH_ENV}" ]; then
-      . "${SSH_ENV}" > /dev/null
+      source "${SSH_ENV}" > /dev/null
       PID_PROCESS=$(ps ${SSH_AGENT_PID} | awk '{print $5}' | sed 1d)
       if [ "$PID_PROCESS" != "/usr/bin/ssh-agent" ]; then
         new_ssh_agent
@@ -115,8 +115,8 @@ nvmload() {
   unset -f nvm
   unset -f node
   unset -f npm
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
   unset -f nvmload
 }
 
@@ -135,36 +135,38 @@ nvm() {
   nvm "$@"
 }
 
+## homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 ## Bash completion
 if [ -x "$(command -v brew)" ]; then
   if [ -f `brew --prefix`/etc/bash_completion.d/git-completion.bash ]; then
-    . `brew --prefix`/etc/bash_completion.d/git-completion.bash
+    source `brew --prefix`/etc/bash_completion.d/git-completion.bash
   fi
   if [ -f `brew --prefix`/etc/bash_completion.d/git-prompt.sh ]; then
-    . `brew --prefix`/etc/bash_completion.d/git-prompt.sh
+    source `brew --prefix`/etc/bash_completion.d/git-prompt.sh
   fi
   if [ -f `brew --prefix`/etc/bash_completion.d/ag.bashcomp.sh ]; then
-    . `brew --prefix`/etc/bash_completion.d/ag.bashcomp.sh
+    source `brew --prefix`/etc/bash_completion.d/ag.bashcomp.sh
   fi
   if [ -f `brew --prefix`/etc/bash_completion.d/brew ]; then
-    . `brew --prefix`/etc/bash_completion.d/brew
+    source `brew --prefix`/etc/bash_completion.d/brew
   fi
   if [ -f `brew --prefix`/etc/bash_completion.d/tmux ]; then
-    . `brew --prefix`/etc/bash_completion.d/tmux
+    source `brew --prefix`/etc/bash_completion.d/tmux
   fi
 fi
 
-[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && source "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
-  . /usr/local/share/bash-completion/bash_completion
+  source /usr/local/share/bash-completion/bash_completion
 fi
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
+    source /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+    source /etc/bash_completion
   fi
 fi
 GIT_PS1_SHOWDIRTYSTATE=true

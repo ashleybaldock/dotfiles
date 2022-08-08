@@ -1,11 +1,6 @@
-" Disable plugins on non-gui versions
-"if !has('gui_running')
-"  call add(g:pathogen_blacklist, 'csscolor')
-"endif
 
 " let g:ycm_server_keep_logfiles = 1
 " let g:ycm_server_log_level = 'debug'
-" execute pathogen#infect()
 set encoding=utf-8
 
 nnoremap <leader>L  :set list!<CR>
@@ -81,7 +76,7 @@ let g:qf_mapping_ack_style = 1
 " copy just filename
 :command! CopyFilename let @+ = expand("%:t")
 " copy branch
-:command! CopyBranch let @+ = fugitive#head()
+:command! CopyBranch let @+ = FugitiveHead()
 
 :function! OpenCSSFile()
 : if filereadable(expand('%:r') . ".scss")
@@ -364,7 +359,7 @@ highlight link ALEWarning SpellCap
 " Fugitive
 function! S_fugitive()
   if exists('g:loaded_fugitive')
-    let l:head = fugitive#head()
+    let l:head = FugitiveHead()
     return empty(l:head) ? '' : '  ⎇ '.l:head . ' '
   endif
   return ''

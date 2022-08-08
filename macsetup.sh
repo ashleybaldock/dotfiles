@@ -36,6 +36,13 @@ export NVM_DIR="$HOME/.nvm" && (
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 echo ""
 
+echo "-- Installing/updating vim packages"
+(
+  cd ~/dotfiles
+  ./update-vim-packages.sh
+)
+echo ""
+
 echo "-- Finishing..."
 ./git-setup.sh
 echo ""

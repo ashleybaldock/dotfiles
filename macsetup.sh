@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Setup SSH"
+echo "-- Setting up SSH..."
 mkdir ~/.ssh
 chmod 700 ~/.ssh
 (
@@ -10,19 +10,33 @@ chmod 700 ~/.ssh
   touch ~/.ssh/environment
   touch ~/.ssh/known_hosts
 )
+echo ""
 
-echo "Making links"
+echo "-- Making links..."
 (
   cd ~/dotfiles
   ./makelinks.sh
 )
+echo ""
 
-echo "Installing brew"
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+echo "-- Installing/updating brew..."
+which -s brew
+[ $? != 0 ] && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew bundle --file ~/Brewfile
+echo ""
 
-echo "Other configuration"
+echo "-- Installing/updating nvm..."
+export NVM_DIR="$HOME/.nvm" && (
+  [ ! -d "$NVM_DIR" ] && git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
+  cd "$NVM_DIR"
+  git fetch --tags origin
+  git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+) && . "$NVM_DIR/nvm.sh" && . "$NVM_DIR/bash_completion"
+echo ""
+
+echo "-- Finishing..."
 git config --global core.excludesfile ~/.gitignore
+echo ""
 
 
 # mdls -name kMDItemContentType /full/path/to/file.ts

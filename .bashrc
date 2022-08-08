@@ -71,13 +71,14 @@ if [ -f /opt/homebrew/bin/pip3 ]; then
 fi
 
 ## git
+alias gu='echo "User config: $(git config --get user.name) <$(git config --get user.email)>"'
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
 alias gb="git branch"
 alias gp="git push"
 alias gpu="git pull"
 alias gpull="git pull"
 alias gpb='git push -u origin $(git branch | grep \* | cut -d " " -f2)'
-alias gs="git status"
+alias gs="gu && git status"
 alias ga="git add"
 alias gc="git commit"
 alias gd="git diff"

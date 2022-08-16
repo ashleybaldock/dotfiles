@@ -46,3 +46,4 @@
 [submodule ".vim/pack/default/start/coc.nvim"]
 	path = .vim/pack/default/start/coc.nvim
 	url = https://github.com/neoclide/coc.nvim.git
+	branch = release

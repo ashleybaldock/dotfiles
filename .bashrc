@@ -4,6 +4,8 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+
+## SSH
 # Start ssh-agent if it isn't already
 # Add new ssh keys with ssh-add -K <key>
 # They will be added automatically from keychain
@@ -33,6 +35,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   start_agent
 fi
 
+
+## Shell config
 # Disable per-session shell command history
 export SHELL_SESSION_HISTORY=0
 
@@ -62,6 +66,7 @@ alias j='jobs'
 
 alias notify="terminal-notifier -message 'Command completed'"
 
+
 ## Python
 if [ -f /opt/homebrew/bin/python3 ]; then
   alias python='/opt/homebrew/bin/python3'
@@ -69,6 +74,7 @@ fi
 if [ -f /opt/homebrew/bin/pip3 ]; then
   alias pip='/opt/homebrew/bin/pip3'
 fi
+
 
 ## git
 alias gu='echo "User config: $(git config --get user.name) <$(git config --get user.email)>"'
@@ -79,6 +85,8 @@ alias gpu="git pull"
 alias gpull="git pull"
 alias gpb='git push -u origin $(git branch | grep \* | cut -d " " -f2)'
 alias gs="gu && git status"
+alias gm="git merge"
+alias gmm='git merge $(git remote show origin | grep "HEAD branch" | sed "s/.*: //")'
 alias ga="git add"
 alias gc="git commit"
 alias gd="git diff"
@@ -145,24 +153,6 @@ fi
 
 
 ## Bash completion
-if [ -x "$(command -v brew)" ]; then
-  if [ -f `brew --prefix`/etc/bash_completion.d/git-completion.bash ]; then
-    source `brew --prefix`/etc/bash_completion.d/git-completion.bash
-  fi
-  if [ -f `brew --prefix`/etc/bash_completion.d/git-prompt.sh ]; then
-    source `brew --prefix`/etc/bash_completion.d/git-prompt.sh
-  fi
-  if [ -f `brew --prefix`/etc/bash_completion.d/ag.bashcomp.sh ]; then
-    source `brew --prefix`/etc/bash_completion.d/ag.bashcomp.sh
-  fi
-  if [ -f `brew --prefix`/etc/bash_completion.d/brew ]; then
-    source `brew --prefix`/etc/bash_completion.d/brew
-  fi
-  if [ -f `brew --prefix`/etc/bash_completion.d/tmux ]; then
-    source `brew --prefix`/etc/bash_completion.d/tmux
-  fi
-fi
-
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && source "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
@@ -179,6 +169,8 @@ GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 
+
+## tmux
 # Split current pane into equal two-part columns in different directories
 # Configure in .bashrc.local with an array and pass it as an alias, e.g.:
 # splits=($HOME/some/path, $HOME/another/path)
@@ -204,8 +196,8 @@ function tmux_split {
   tmux select-pane -t $initialPaneId
 }
 
-export NODE_ENV='development'
 
+## Other bits
 if [ -f ~/.bashrc.local ]; then
   source ~/.bashrc.local
 fi

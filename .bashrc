@@ -110,33 +110,39 @@ alias ghbo="ghob"
 
 
 ## node & nvm
-export NVM_DIR="$HOME/.nvm"
-nvmload() {
-  unset -f nvm
-  unset -f node
-  unset -f npm
-  [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-  unset -f nvmload
-}
+if [ -z "$NVM_DIR" ]; then
+  export NVM_DIR="$HOME/.nvm"
+fi
 
-# Lazy load nvm first time for tmux shells
-# $PATH with npm etc. will be setup by containing shell
-node() {
-  nvmload
-  node "$@"
-}
-npm() {
-  nvmload
-  npm "$@"
-}
-nvm() {
-  nvmload
-  nvm "$@"
-}
+# If using nvm set up lazy loading
+# First time node/npm/nvm are run this loads nvm
+# If not using nvm node will come from brew or system path
+if [ -d "$NVM_DIR" ] && [ -z "$NVM_BIN" ]; then
+  nvmload() {
+    unset -f nvm
+    unset -f node
+    unset -f npm
+    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+    unset -f nvmload
+  }
 
-## homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
+  # Lazy load nvm first time commands are run
+  # $PATH with npm etc. will be setup by containing shell
+  node() {
+    nvmload
+    node "$@"
+  }
+  npm() {
+    nvmload
+    npm "$@"
+  }
+  nvm() {
+    nvmload
+    nvm "$@"
+  }
+fi
+
 
 ## Bash completion
 if [ -x "$(command -v brew)" ]; then
@@ -206,4 +212,3 @@ fi
 
 export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
 
-export PATH="~/dotfiles/bin:$PATH"

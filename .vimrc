@@ -28,43 +28,7 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 nnoremap <C-g><C-h> :Prettier<CR>
 
 "CoC
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Highlight the symbol and its references when holding the cursor.
-"autocmd CursorHold * silent call CocActionAsync('highlight')
-
-
+source ~/.vim/coc.vimrc
 
 map <silent> <leader>q :call qf#toggle#ToggleQfWindow(0)<CR>
 map <silent> <leader>l :call qf#toggle#ToggleLocWindow(0)<CR>
@@ -298,63 +262,7 @@ function! StatusDiagnostic() abort
 endfunction
 
 " ALE
-"nnoremap <C-g><C-h> :ALEFix<CR>
-" For a more fancy ale statusline
-" https://github.com/liuchengxu/space-vim/blob/master/layers/%2Bcheckers/syntax-checking/config.vim
-function! ALEGetError()
-  if exists('g:loaded_ale')
-    let l:counts = ale#statusline#Count(bufnr(''))
-    let l:all_errors = l:counts.error + l:counts.style_error
-    return l:all_errors == 0 ? '' : printf(' ‡%d ', l:all_errors)
-  endif
-  return ''
-endfunction
-function! ALEGetWarning()
-  if exists('g:loaded_ale')
-    let l:counts = ale#statusline#Count(bufnr(''))
-    let l:all_warnings = l:counts.warning + l:counts.style_warning
-    return l:all_warnings == 0 ? '' : printf(' •%d ', l:all_warnings)
-  endif
-  return ''
-endfunction
-function! ALEGetOk()
-  if exists('g:loaded_ale')
-    let l:counts = ale#statusline#Count(bufnr(''))
-    let l:issues = l:counts.error + l:counts.style_error + l:counts.warning + l:counts.style_warning
-    return l:issues == 0 ? ' ok ' : ''
-  endif
-  return ''
-endfunction
-
-"let g:ale_completion_enabled = 1
-let g:ale_linters = {
-\  'javascript': ['tsserver', 'prettier', 'eslint'],
-\  'css': ['prettier'],
-\  'scss': ['prettier'],
-\  'less': ['prettier'],
-\  'json': ['prettier'],
-\  'typescript': ['tsserver'],
-\  'cs': []
-\}
-let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_enter = 1
-let g:ale_lint_delay = 300
-let g:ale_fixers = {
-\  '*': ['remove_trailing_lines', 'trim_whitespace'],
-\  'javascript': ['eslint', 'prettier'],
-\  'typescript': ['tslint', 'prettier'],
-\}
-"let g:ale_fix_on_save = 1
-let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
-let g:ale_echo_msg_format = '[%linter%] %severity%: %s'
-let g:ale_set_signs = 0
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
-let g:ale_warn_about_trailing_whitespace = 0
-let g:ale_set_highlights = 1
-"highlight ALEError ctermbg=88
-highlight link ALEError SpellBad
-highlight link ALEWarning SpellCap
+"source '~/.vim/ale.vimrc'
 
 " Fugitive
 function! S_fugitive()

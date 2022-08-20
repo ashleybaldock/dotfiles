@@ -7,7 +7,7 @@
 # (Optional) Third argument is a specific branch (e.g. release) to track
 
 __usage="
-Usage: $(basename $0) <repo-url> <package-name> [<branch>]
+Usage: $(basename $0) [options] <repo-url> <package-name> [<branch>]
 
 Options:
   -h, --help                   Print this 🤡

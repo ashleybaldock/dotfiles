@@ -23,6 +23,8 @@ echo "-- Installing/updating brew..."
 which -s brew
 [ $? != 0 ] && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew bundle --file ~/Brewfile
+# defaults write org.n8gray.QLColorCode hlTheme Zenburn
+# xattr -d -r com.apple.quarantine ~/Library/QuickLook
 echo ""
 
 echo "-- Installing/updating nvm..."

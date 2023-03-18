@@ -47,3 +47,6 @@
 	path = .vim/pack/default/start/coc.nvim
 	url = https://github.com/neoclide/coc.nvim.git
 	branch = release
+[submodule ".vim/pack/default/start/graphql"]
+	path = .vim/pack/default/start/graphql
+	url = https://github.com/jparise/vim-graphql.git

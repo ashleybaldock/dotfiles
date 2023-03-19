@@ -32,5 +32,6 @@ link .bashrc
 link .profile
 link .gitignore
 link Brewfile
+link .config
 
 

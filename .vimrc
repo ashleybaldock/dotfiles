@@ -7,12 +7,13 @@ nnoremap <leader>L  :set list!<CR>
 nnoremap <leader>e  :Explore<CR>
 nnoremap <leader>es :Sexplore<CR>
 nnoremap <leader>ev :Vexplore<CR>
-nnoremap <leader>t  :set guifont=Monaco:h10<CR>
-nnoremap <leader>T  :set guifont=Monaco:h16<CR>
+nnoremap <leader>t   :set guifont=Monaco:h12<CR>
+nnoremap <leader>tt  :set guifont=Monaco:h12<CR>
+nnoremap <leader>ttt :set guifont=Monaco:h16<CR>
 
 " nnoremap <C-g><C-G> :YcmCompleter GoTo<CR>                TODO
-" nnoremap <C-g><C-r> :YcmCompleter RefactorRename                TODO
-" nnoremap <C-g><C-i> :YcmCompleter OrganizeImports<CR>               TODO
+" nnoremap <C-g><C-r> :YcmCompleter RefactorRename          TODO
+" nnoremap <C-g><C-i> :YcmCompleter OrganizeImports<CR>    TODO
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> <C-g><C-d> <Plug>(coc-definition)
 nmap <silent> <C-g><C-g> <Plug>(coc-definition)
@@ -83,7 +84,7 @@ if has('gui_running')
   set guioptions+=ck
   set guicursor+=a:blinkon0
   set noantialias
-  set guifont=Monaco:h10
+  set guifont=Monaco:h14
 
   nnoremap <silent> <C-q> :call qf#toggle#ToggleQfWindow(0)<CR>
 else

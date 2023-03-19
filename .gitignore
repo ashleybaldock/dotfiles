@@ -12,3 +12,6 @@
 .vim/.netrwhist
 .vim/sessions/*
 
+.config/*
+.config/coc/extensions/node_modules/*
+

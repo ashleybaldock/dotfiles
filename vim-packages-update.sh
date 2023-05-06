@@ -7,4 +7,4 @@ cwd=$(pwd)
 git submodule init
 git submodule update --remote --merge
 git add .vim/pack
-git commit -m'Update vim packages'
+git commit -m'Updated vim packages'

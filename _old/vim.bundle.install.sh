@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Using the vim-packages-* scripts now
+#
 
 mkdir ~/.vim
 

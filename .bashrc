@@ -80,6 +80,7 @@ alias gmm='git merge $(git remote show origin | grep "HEAD branch" | sed "s/.*: 
 alias ga="git add"
 alias gc="git commit"
 alias gd="git diff"
+alias gdd="git diff --staged"
 alias gco="git checkout"
 alias gcb="git checkout -b"
 

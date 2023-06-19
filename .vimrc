@@ -3,37 +3,24 @@
 " let g:ycm_server_log_level = 'debug'
 set encoding=utf-8
 
-nnoremap <leader>L  :set list!<CR>
-nnoremap <leader>e  :Explore<CR>
-nnoremap <leader>es :Sexplore<CR>
-nnoremap <leader>ev :Vexplore<CR>
+nnoremap <leader>o   <C-o>
+nnoremap <leader>L   :set list!<CR>
+nnoremap <leader>e   :Explore<CR>
+nnoremap <leader>es  :Sexplore<CR>
+nnoremap <leader>ev  :Vexplore<CR>
 nnoremap <leader>t   :set guifont=Monaco:h12<CR>
 nnoremap <leader>tt  :set guifont=Monaco:h12<CR>
 nnoremap <leader>ttt :set guifont=Monaco:h16<CR>
 
-" nnoremap <C-g><C-G> :YcmCompleter GoTo<CR>                TODO
-" nnoremap <C-g><C-r> :YcmCompleter RefactorRename          TODO
-" nnoremap <C-g><C-i> :YcmCompleter OrganizeImports<CR>    TODO
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> <C-g><C-d> <Plug>(coc-definition)
-nmap <silent> <C-g><C-g> <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> <C-g><C-t> <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> <C-g><C-i> <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> <C-g><C-r> <Plug>(coc-references)
-
-" Prettier format
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-nnoremap <C-g><C-h> :Prettier<CR>
-
 "CoC
 source ~/.vim/coc.vimrc
 
-map <silent> <leader>q :call qf#toggle#ToggleQfWindow(0)<CR>
-map <silent> <leader>l :call qf#toggle#ToggleLocWindow(0)<CR>
-let g:qf_loclist_window_bottom = 0
+"vim-qf
+nmap <silent> <C-q> <Plug>(qf_qf_switch)
+nmap <silent> <C-§> <Plug>(qf_qf_toggle_stay)
+nmap <silent> <leader>q <Plug>(qf_qf_toggle_stay)
+nmap <silent> <leader>l <Plug>(qf_loc_toggle)
+" let g:qf_loclist_window_bottom = 0
 let g:qf_mapping_ack_style = 1
 
 " copy full path
@@ -85,8 +72,6 @@ if has('gui_running')
   set guicursor+=a:blinkon0
   set noantialias
   set guifont=Monaco:h14
-
-  nnoremap <silent> <C-q> :call qf#toggle#ToggleQfWindow(0)<CR>
 else
   " Console only
   set ttyfast
@@ -109,6 +94,7 @@ set t_Co=256
 if !exists("g:syntax_on")
   syntax enable
 endif
+set re=0
 set background=dark
 filetype plugin indent on
 
@@ -203,6 +189,8 @@ nnoremap • :call GcdOrNot() <bar> Ack! <C-r><C-w>
 vnoremap • \* "my:call GcdOrNot() <bar> Ack! <C-r>=fnameescape(@m)
 
 " CtrlP
+nnoremap <S-tab>     :CtrlP<CR>
+nnoremap <leader>p   :CtrlP<CR>
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " Filetype: Python
@@ -218,52 +206,6 @@ augroup js_commands
   au FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 augroup END
 let g:jsx_ext_required = 0
-
-
-function! DiagErrors()
-  if exists('g:did_coc_loaded')
-    let l:diaginfo = get(b:, 'coc_diagnostic_info', {})
-    let l:errors = get(l:diaginfo, 'error', 0)
-    return l:errors == 0 ? '' : printf(' ‡%d ', l:errors)
-  endif
-  return ''
-endfunction
-function! DiagWarnings()
-  if exists('g:did_coc_loaded')
-    let l:diaginfo = get(b:, 'coc_diagnostic_info', {})
-    let l:warnings = get(l:diaginfo, 'warning', 0)
-    return l:warnings == 0 ? '' : printf(' •%d ', l:warnings)
-  endif
-  return ''
-endfunction
-function! DiagOk()
-  if exists('g:did_coc_loaded')
-    let l:diaginfo = get(b:, 'coc_diagnostic_info', {})
-    let l:errors = get(l:diaginfo, 'error', 0)
-    let l:warnings = get(l:diaginfo, 'warning', 0)
-    return l:errors + l:warnings == 0 ? ' ok ' : ''
-  endif
-  return ''
-endfunction
-
-function! StatusDiagnostic() abort
-  " Buffer local variable containing diagnostics
-  " :echom get(b:, 'coc_diagnostic_info', {})
-  " e.g. {'information': 19, 'hint': 0, 'lnums': [17, 0, 1, 0], 'warning': 0, 'error': 19}
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  let msgs = []
-  if get(info, 'error', 0)
-    call add(msgs, 'E' . info['error'])
-  endif
-  if get(info, 'warning', 0)
-    call add(msgs, 'W' . info['warning'])
-  endif
-  return join(msgs, ' '). ' ' . get(g:, 'coc_status', '')
-endfunction
-
-" ALE
-"source '~/.vim/ale.vimrc'
 
 " Fugitive
 function! S_fugitive()
@@ -314,7 +256,7 @@ augroup END
 
 " start of default statusline
 set statusline=%f\ %h%w%m%r\ 
-" ALE statusline
+" errors/warnings in statusline (from CoC)
 set statusline+=%#syn_error#%{DiagErrors()}%*
 set statusline+=%#syn_warn#%{DiagWarnings()}%*
 set statusline+=%#syn_ok#%{DiagOk()}%*

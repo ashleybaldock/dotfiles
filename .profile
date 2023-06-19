@@ -25,5 +25,11 @@ if [ -d ~/dotfiles/bin ]; then
   export PATH="~/dotfiles/bin:$PATH"
 fi
 
+## python
+### unversioned aliases to python3
+if [ -d '/opt/homebrew/opt/python@3.11/libexec/bin' ]; then
+  export PATH="/opt/homebrew/opt/python@3.11/libexec/bin:${PATH}"
+fi
+
 # Also source .bashrc for terminal shells
 source ~/.bashrc

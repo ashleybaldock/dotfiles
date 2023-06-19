@@ -66,16 +66,6 @@ alias j='jobs'
 
 alias notify="terminal-notifier -message 'Command completed'"
 
-
-## Python
-if [ -f /opt/homebrew/bin/python3 ]; then
-  alias python='/opt/homebrew/bin/python3'
-fi
-if [ -f /opt/homebrew/bin/pip3 ]; then
-  alias pip='/opt/homebrew/bin/pip3'
-fi
-
-
 ## git
 alias gu='echo "User config: $(git config --get user.name) <$(git config --get user.email)>"'
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"

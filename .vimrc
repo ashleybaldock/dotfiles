@@ -8,9 +8,9 @@ nnoremap <leader>L   :set list!<CR>
 nnoremap <leader>e   :Explore<CR>
 nnoremap <leader>es  :Sexplore<CR>
 nnoremap <leader>ev  :Vexplore<CR>
-nnoremap <leader>t   :set guifont=Monaco:h12<CR>
-nnoremap <leader>tt  :set guifont=Monaco:h12<CR>
-nnoremap <leader>ttt :set guifont=Monaco:h16<CR>
+nnoremap <leader>t   :set guifont=Menlo:h12<CR>
+nnoremap <leader>tt  :set guifont=Menlo:h14<CR>
+nnoremap <leader>ttt :set guifont=Menlo:h16<CR>
 
 "CoC
 source ~/.vim/coc.vimrc
@@ -71,7 +71,7 @@ if has('gui_running')
   set guioptions+=ck
   set guicursor+=a:blinkon0
   set noantialias
-  set guifont=Monaco:h14
+  set guifont=Menlo:h14
 else
   " Console only
   set ttyfast
@@ -211,7 +211,8 @@ let g:jsx_ext_required = 0
 function! S_fugitive()
   if exists('g:loaded_fugitive')
     let l:head = FugitiveHead()
-    return empty(l:head) ? '' : '  ⎇ '.l:head . ' '
+    " return empty(l:head) ? '' : '⎇⃝  ⎇⃣ '.l:head . ' '
+    return empty(l:head) ? '' : '⎇ '
   endif
   return ''
 endfunction
@@ -226,9 +227,18 @@ let g:gitgutter_set_sign_backgrounds = 0
 " Run every time ColorScheme changes to ensure overrides
 function! MyHighlights() abort
   " Status line
-  hi syn_error cterm=None ctermfg=197 ctermbg=237 gui=None guifg=#CC0033 guibg=#3a3a3a
-  hi syn_warn  cterm=None ctermfg=214 ctermbg=237 gui=None guifg=#FFFF66 guibg=#3a3a3a
-  hi syn_ok    cterm=None ctermfg=LightGreen ctermbg=237 gui=None guifg=#00FF66 guibg=#3a3a3a
+  " StatusLine     xxx term=bold,reverse cterm=bold ctermfg=0 ctermbg=15 gui=bold guifg=Black guibg=#aabbee
+  " StatusLineNC   xxx term=reverse ctermfg=0 ctermbg=7 guifg=#444444 guibg=#aaaaaa
+
+  hi StatusLine     cterm=bold ctermfg=0 ctermbg=5 gui=none guifg=White guibg=#232323
+  hi StatusLineNC   cterm=italic ctermfg=0 gui=italic guifg=#DDDDDD guibg=#151515
+  hi VertSplit      term=reverse cterm=reverse gui=none guifg=#666666 guibg=#151515
+  hi syn_error      ctermfg=197 guifg=#FFFFFF guibg=#000000
+  hi syn_warn       ctermfg=220 guifg=#FFCC00 guibg=#000000
+  hi syn_ok         ctermfg=LightGreen guifg=#55CC00 guibg=#000000
+  hi syn_git        ctermfg=92 guifg=#7D27A8 guibg=bg
+
+  hi syn_bold       guibg=#151515
 
   "highlight Visual     cterm=NONE ctermbg=76  ctermfg=16  gui=NONE guibg=#5fd700 guifg=#000000
   "highlight StatusLine cterm=NONE ctermbg=231 ctermfg=160 gui=NONE guibg=#ffffff guifg=#d70000
@@ -254,15 +264,32 @@ augroup MyColors
   autocmd ColorScheme * call MyHighlights()
 augroup END
 
-" start of default statusline
-set statusline=%f\ %h%w%m%r\ 
+set statusline=
 " errors/warnings in statusline (from CoC)
+set statusline+=
+" Error indicators
 set statusline+=%#syn_error#%{DiagErrors()}%*
 set statusline+=%#syn_warn#%{DiagWarnings()}%*
 set statusline+=%#syn_ok#%{DiagOk()}%*
-" end of default statusline (with ruler)
+" file info
+" %t - file name
+" %H - help flag
+" %W - preview flag
+" %M - modified flag
+" %R - readonly flag
+set statusline+=\ %-t%<\ %H%W%M%R\ 
+" git detail if repo
+"set statusline+=%#syn_git#%{S_fugitive()}%*
 set statusline+=%{S_fugitive()}
-set statusline+=%=%(%l,%c%V\ %=\ %P%)\ 
+" Sep. between left and right
+set statusline+=%=
+" %(...%) - item group
+" %n - buffer number
+" %l - line number
+" %c - col number
+" %V - virtual col number
+set statusline+=%(%n\ %l,%c%V\ %P%)\ 
+set statusline+=\ 
 
 if has('gui_running')
   colorscheme vividchalk

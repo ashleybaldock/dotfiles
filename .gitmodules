@@ -50,3 +50,6 @@
 [submodule ".vim/pack/default/start/yats.vim"]
 	path = .vim/pack/default/start/yats.vim
 	url = git@github.com:HerringtonDarkholme/yats.vim.git
+[submodule ".vim/pack/default/start/vim-css-color"]
+	path = .vim/pack/default/start/vim-css-color
+	url = https://github.com/ap/vim-css-color.git

@@ -10,7 +10,7 @@
 .vim/bundle/*
 .vim/*.session
 .vim/.netrwhist
-.vim/sessions/*
+.vim/session/*
 
 .config/*
 .config/coc/extensions/node_modules/*

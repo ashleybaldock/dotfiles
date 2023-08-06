@@ -1,20 +1,25 @@
 {
-  "diagnostic.enableSign": false,
-  "diagnostic.hintSign": "",
+  "diagnostic.enableSign": true,
+  "list.signOffset": 1,
   "diagnostic.errorSign": "✘",
+  "diagnostic.warningSign": "w",
+  "diagnostic.infoSign": "i",
+  "diagnostic.hintSign": "h",
+
+  "diagnostic.signLevel": "warning",
+  "diagnostic.signPriority": 10,
+
   "prettier.requireConfig": true,
 
-  "tslint.enable": true,
-  "tslint.autoFixOnSave": true,
+  "eslint.autoFixOnSave": true,
 
-  "coc.preferences.hoverTarget": "preview",
-  "coc.preferences.formatOnSaveFiletypes": [
-    "css",
-    "markdown",
-    "Markdown",
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ]
+  "coc.preferences.useQuickfixForLocations": true,
+  "coc.preferences.extensionUpdateCheck": "never",
+
+  "hover.target": "preview",
+  "coc.preferences.formatOnSave": true,
+  "json.format.enable": true,
+  "javascript.format.enable": false,
+  "prettier.formatterPriority": 1,
+  "prettier.enable": true
 }

@@ -1,6 +1,4 @@
 
-" let g:ycm_server_keep_logfiles = 1
-" let g:ycm_server_log_level = 'debug'
 set encoding=utf-8
 
 nnoremap <leader>o   <C-o>
@@ -207,16 +205,6 @@ augroup js_commands
 augroup END
 let g:jsx_ext_required = 0
 
-" Fugitive
-function! S_fugitive()
-  if exists('g:loaded_fugitive')
-    let l:head = FugitiveHead()
-    " return empty(l:head) ? '' : '⎇⃝  ⎇⃣ '.l:head . ' '
-    return empty(l:head) ? '' : '⎇ '
-  endif
-  return ''
-endfunction
-
 " vim:set ft=vim et sw=2:
 
 " GitGutter
@@ -224,26 +212,8 @@ endfunction
 " background colours to match the sign column
 let g:gitgutter_set_sign_backgrounds = 0
 
-" Run every time ColorScheme changes to ensure overrides
-function! MyHighlights() abort
-  " Status line
-  " StatusLine     xxx term=bold,reverse cterm=bold ctermfg=0 ctermbg=15 gui=bold guifg=Black guibg=#aabbee
-  " StatusLineNC   xxx term=reverse ctermfg=0 ctermbg=7 guifg=#444444 guibg=#aaaaaa
-
-  hi StatusLine     cterm=bold ctermfg=0 ctermbg=5 gui=none guifg=White guibg=#232323
-  hi StatusLineNC   cterm=italic ctermfg=0 gui=italic guifg=#DDDDDD guibg=#151515
-  hi VertSplit      term=reverse cterm=reverse gui=none guifg=#666666 guibg=#151515
-  hi syn_error      ctermfg=197 guifg=#FFFFFF guibg=#000000
-  hi syn_warn       ctermfg=220 guifg=#FFCC00 guibg=#000000
-  hi syn_ok         ctermfg=LightGreen guifg=#55CC00 guibg=#000000
-  hi syn_git        ctermfg=92 guifg=#7D27A8 guibg=bg
-
-  hi syn_bold       guibg=#151515
-
-  "highlight Visual     cterm=NONE ctermbg=76  ctermfg=16  gui=NONE guibg=#5fd700 guifg=#000000
-  "highlight StatusLine cterm=NONE ctermbg=231 ctermfg=160 gui=NONE guibg=#ffffff guifg=#d70000
-  "highlight Normal     cterm=NONE ctermbg=17              gui=NONE guibg=#00005f
-  "highlight NonText    cterm=NONE ctermbg=17              gui=NONE guibg=#00005f
+" TODO - about time I just made a colourscheme
+function! SignColumnHighlights() abort
   highlight! clear SignColumn
   if has('gui_running')
     highlight link SignColumn Normal
@@ -259,40 +229,21 @@ function! MyHighlights() abort
   highlight GitGutterDelete ctermfg=1 ctermbg=0 guifg=#ff2222 guibg=Black
 endfunction
 
-augroup MyColors
-  autocmd!
-  autocmd ColorScheme * call MyHighlights()
-augroup END
+function! MiscHighlights() abort
+  hi Conceal ctermfg=NONE guifg=NONE guibg=#3333AA 
+  hi Comment term=bold ctermfg=92 gui=none guifg=#CC22DD
+endfunction
 
-set statusline=
-" errors/warnings in statusline (from CoC)
-set statusline+=
-" Error indicators
-set statusline+=%#syn_error#%{DiagErrors()}%*
-set statusline+=%#syn_warn#%{DiagWarnings()}%*
-set statusline+=%#syn_ok#%{DiagOk()}%*
-" file info
-" %t - file name
-" %H - help flag
-" %W - preview flag
-" %M - modified flag
-" %R - readonly flag
-set statusline+=\ %-t%<\ %H%W%M%R\ 
-" git detail if repo
-"set statusline+=%#syn_git#%{S_fugitive()}%*
-set statusline+=%{S_fugitive()}
-" Sep. between left and right
-set statusline+=%=
-" %(...%) - item group
-" %n - buffer number
-" %l - line number
-" %c - col number
-" %V - virtual col number
-set statusline+=%(%n\ %l,%c%V\ %P%)\ 
-set statusline+=\ 
+augroup MyHighlights
+  autocmd!
+  autocmd VimEnter,ColorScheme * call SignColumnHighlights()
+  autocmd VimEnter,ColorScheme * call MiscHighlights()
+augroup END
 
 if has('gui_running')
   colorscheme vividchalk
 else
   colorscheme vividchalk
 endif
+
+"source ~/.vim/plugin/statusline.vim

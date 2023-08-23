@@ -2,7 +2,7 @@
   "diagnostic.enableSign": true,
   "list.signOffset": 1,
   "diagnostic.errorSign": "✘",
-  "diagnostic.warningSign": "w",
+  "diagnostic.warningSign": "!",
   "diagnostic.infoSign": "i",
   "diagnostic.hintSign": "h",
 
@@ -16,7 +16,7 @@
   "coc.preferences.useQuickfixForLocations": true,
   "coc.preferences.extensionUpdateCheck": "never",
 
-  "hover.target": "preview",
+  "hover.target": "float",
   "coc.preferences.formatOnSave": true,
   "json.format.enable": true,
   "javascript.format.enable": false,

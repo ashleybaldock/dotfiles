@@ -21,8 +21,8 @@ function! StatusLineHighlights() abort
   hi StatusSynOffNC  ctermfg=Cyan guifg=#00DDDD
 
   " StatusLine git info
-  hi StatusGit       ctermfg=92 guifg=#7D27A8 guibg=bg
-  hi StatusGitNC     ctermfg=92 guifg=#7D27A8 guibg=bg
+  hi StatusGit       ctermfg=92 guifg=#7D27A8
+  hi StatusGitNC     ctermfg=92 guifg=#7D27A8 
 endfunction
 
 augroup MyStatusLineHighlights
@@ -76,7 +76,7 @@ function! DiagCoC()
 
     let l:errors = get(l:diaginfo, 'error', 0)
     if l:errors > 0
-      return printf('%%#StatusLineSynErr%s#%s%%*', l:hisuffix, get(l:numbers, l:errors, l:err))
+      return printf('%%#StatusSynErr%s#%s%%*', l:hisuffix, get(l:numbers, l:errors, l:err))
     endif
 
     let l:warnings = get(l:diaginfo, 'warning', 0)
@@ -93,7 +93,7 @@ function! S_fugitive()
   if exists('g:loaded_fugitive')
     let l:head = FugitiveHead()
     let l:hisuffix = g:actual_curwin == win_getid() ? '' : 'NC'
-    let l:git = '⎇'
+    let l:git = '⎇ '
     " return empty(l:head) ? '' : '⎇⃝  ⎇⃣ '.l:head . ' '
     " return empty(l:head) ? '' : '⎇ '
     if !empty(l:head)

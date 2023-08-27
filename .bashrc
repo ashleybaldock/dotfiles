@@ -66,23 +66,38 @@ alias j='jobs'
 
 alias notify="terminal-notifier -message 'Command completed'"
 
+
+## Bash completion
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && source "/opt/homebrew/etc/profile.d/bash_completion.sh"
+
+if [ -f /usr/local/share/bash-completion/bash_completion ]; then
+  source /usr/local/share/bash-completion/bash_completion
+fi
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    source /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+  fi
+fi
+
 ## git
 alias gu='echo "User config: $(git config --get user.name) <$(git config --get user.email)>"'
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
-alias gb="git branch"
-alias gp="git push"
-alias gpu="git pull"
-alias gpull="git pull"
+alias gb="git branch" && __git_complete gb git_branch
+alias gp="git push" && __git_complete gp git_push
+alias gpu="git pull" && __git_complete gpu git_pull
+# alias gpull="git pull" && __git_complete gpull git_pull
 alias gpb='git push -u origin $(git branch | grep \* | cut -d " " -f2)'
-alias gs="gu && git status"
-alias gm="git merge"
+alias gs="gu && git status" && __git_complete gs git_status
+alias gm="git merge" && __git_complete gm git_merge
 alias gmm='git merge $(git remote show origin | grep "HEAD branch" | sed "s/.*: //")'
-alias ga="git add"
-alias gc="git commit"
-alias gd="git diff"
-alias gdd="git diff --staged"
-alias gco="git checkout"
-alias gcb="git checkout -b"
+alias ga="git add" && __git_complete ga git_add
+alias gc="git commit" && __git_complete gc git_commit
+alias gd="git diff" && __git_complete gd git_diff
+alias gdd="git diff --staged" && __git_complete gdd git_diff
+alias gco="git checkout" && __git_complete gco git_checkout
+alias gcb="git checkout -b" && __git_complete gcb git_checkout
 
 # Open github for repo (base path)
 gh() {
@@ -106,7 +121,6 @@ ghpr() {
   gh compare/$(git parent)...$(git symbolic-ref --quiet --short HEAD)?expand=1
 }
 alias ghbo="ghob"
-
 
 ## node & nvm
 if [ -z "$NVM_DIR" ]; then
@@ -142,25 +156,6 @@ if [ -d "$NVM_DIR" ] && [ -z "$NVM_BIN" ]; then
   }
 fi
 
-
-## Bash completion
-[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && source "/opt/homebrew/etc/profile.d/bash_completion.sh"
-
-if [ -f /usr/local/share/bash-completion/bash_completion ]; then
-  source /usr/local/share/bash-completion/bash_completion
-fi
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    source /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
-  fi
-fi
-GIT_PS1_SHOWDIRTYSTATE=true
-GIT_PS1_SHOWSTASHSTATE=true
-GIT_PS1_SHOWUNTRACKEDFILES=true
-
-
 ## tmux
 # Split current pane into equal two-part columns in different directories
 # Configure in .bashrc.local with an array and pass it as an alias, e.g.:
@@ -193,5 +188,8 @@ if [ -f ~/.bashrc.local ]; then
   source ~/.bashrc.local
 fi
 
+GIT_PS1_SHOWDIRTYSTATE=true
+GIT_PS1_SHOWSTASHSTATE=true
+GIT_PS1_SHOWUNTRACKEDFILES=true
 export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
 

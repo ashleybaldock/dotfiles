@@ -117,6 +117,7 @@ set wildmenu
 set display+=lastline
 set autoread
 set showcmd
+set shortmess+=sAIt
 
 " Display line movements, except with count
 nnoremap <expr> j v:count ? 'j' : 'gj'
@@ -164,27 +165,61 @@ set completeopt=longest,menuone,noinsert
 set splitbelow
 
 " Searching & Ack (Ag)
-" Put word under cursor into search register and highlight
-nnoremap <silent> <Leader>* :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
-vnoremap <silent> <Leader>* :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy:let @/=substitute(
-  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>
-  \gV:call setreg('"', old_reg, old_regtype)<CR>:set hls<CR>
 
-:function! GcdOrNot()
-:  if exists(":Gcd")
-:    :Gcd
-:  endif
+" search up to root when using gf, opening files etc.
+set path+=;~
+
+" Seach current buffer
+" word under cursor
+"   hl    +prev  +next
+"   \\       *      #   (word boundaries)
+"   \\\     g*     g#   (anywhere)
+" visual selection:
+"   prev  next
+"     *     #  anywhere
+" Put word under cursor into search register and highlight
+nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
+" vnoremap <silent> <Leader>* :<C-U>
+"   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+"   \gvy:let @/=substitute(
+"   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>
+"   \gV:call setreg('"', old_reg, old_regtype)<CR>:set hls<CR>
+
+" Search across files
+" Get a useful search root folder
+" - parent git dir
+" - folder patterns
+:function! ProjectRoot()
+  let l:root_dirs = ['.git']
+  let l:root_files = ['.root', '.gitignore']
+  for l:item in l:root_dirs
+    let l:dirs = finddir(l:item, '.;~', -1)
+    if !empty(l:dirs)
+      return fnameescape(fnamemodify(l:dirs[-1].'/../', ':p:h'))
+    endif
+  endfor
+  for l:item in l:root_files
+    let l:files = findfile(l:item, '.;~', -1)
+    if !empty(l:files)
+      return fnameescape(fnamemodify(l:files[-1], ':p:h'))
+    endif
+  endfor
+  return getcwd()
 :endfunction
+:command! -bar ProjectRoot :echo GetProjectRoot()
+
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+
 cnoreabbrev Ack Ack!
-cnoreabbrev ag call GcdOrNot() <bar> Ack! -Q 
+cnoreabbrev ag call ProjectRoot <bar> Ack! -Q 
 nnoremap <Leader>a :Ack!<Space>
-nnoremap • :call GcdOrNot() <bar> Ack! <C-r><C-w>
-vnoremap • \* "my:call GcdOrNot() <bar> Ack! <C-r>=fnameescape(@m)
+" • = ⌥ + *
+nnoremap # :exec 'cd' ProjectRoot()  <bar> Ack! <C-r><C-w>
+nnoremap • :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w>
+nnoremap <Leader>' :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w>
+nnoremap <Leader>" :exec 'cd' ProjectRoot() <bar> Ack! <C-r>/
 
 " CtrlP
 nnoremap <S-tab>     :CtrlP<CR>

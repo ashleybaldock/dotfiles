@@ -53,3 +53,6 @@
 [submodule ".vim/pack/default/start/vim-css-color"]
 	path = .vim/pack/default/start/vim-css-color
 	url = https://github.com/ap/vim-css-color.git
+[submodule ".vim/pack/default/start/visual-star-search"]
+	path = .vim/pack/default/start/visual-star-search
+	url = https://github.com/bronson/vim-visual-star-search.git

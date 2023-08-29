@@ -206,25 +206,29 @@ nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hl
   endfor
   return getcwd()
 :endfunction
-:command! -bar ProjectRoot :echo GetProjectRoot()
+:command! -bar ProjectRoot :echo ProjectRoot()
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
 cnoreabbrev Ack Ack!
-cnoreabbrev ag call ProjectRoot <bar> Ack! -Q 
+cnoreabbrev ag call ProjectRoot() <bar> Ack! -Q 
 nnoremap <Leader>a :Ack!<Space>
 " • = ⌥ + *
-nnoremap # :exec 'cd' ProjectRoot()  <bar> Ack! <C-r><C-w>
+nnoremap # :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w>
 nnoremap • :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w>
 nnoremap <Leader>' :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w>
 nnoremap <Leader>" :exec 'cd' ProjectRoot() <bar> Ack! <C-r>/
 
 " CtrlP
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_root_markers = ['.git', '.root']
+let g:ctrlp_match_window = 'top,order:btt,min:1,max:10,results:10'
 nnoremap <S-tab>     :CtrlP<CR>
 nnoremap <leader>p   :CtrlP<CR>
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " Filetype: Python
 augroup python_commands

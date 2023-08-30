@@ -216,10 +216,10 @@ cnoreabbrev Ack Ack!
 cnoreabbrev ag call ProjectRoot() <bar> Ack! -Q 
 nnoremap <Leader>a :Ack!<Space>
 " • = ⌥ + *
-nnoremap # :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w>
-nnoremap • :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w>
-nnoremap <Leader>' :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w>
-nnoremap <Leader>" :exec 'cd' ProjectRoot() <bar> Ack! <C-r>/
+nnoremap # :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w><CR>
+nnoremap • :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w><CR>
+nnoremap <Leader>' :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w><CR>
+nnoremap <Leader>" :exec 'cd' ProjectRoot() <bar> Ack! <C-r>/<CR>
 
 " CtrlP
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
@@ -233,8 +233,10 @@ nnoremap <leader>p   :CtrlP<CR>
 " Filetype: Python
 augroup python_commands
   autocmd!
-  au BufEnter *.py set ts=4 sts=4 sw=4 et
-  au BufEnter *.pyw set ts=4 sts=4 sw=4 et
+  " au BufEnter *.py set ts=4 sts=4 sw=4 et
+  " au BufEnter *.pyw set ts=4 sts=4 sw=4 et
+  au BufEnter *.py set ts=2 sts=2 sw=2 et
+  au BufEnter *.pyw set ts=2 sts=2 sw=2 et
 augroup END
 
 " Filetype: JavaScript
@@ -273,16 +275,14 @@ function! MiscHighlights() abort
   hi Comment term=bold ctermfg=92 gui=none guifg=#CC22DD
 endfunction
 
-augroup MyHighlights
-  autocmd!
-  autocmd VimEnter,ColorScheme * call SignColumnHighlights()
-  autocmd VimEnter,ColorScheme * call MiscHighlights()
-augroup END
+" augroup MyHighlights
+"   autocmd!
+  " autocmd VimEnter,ColorScheme * call SignColumnHighlights()
+  " autocmd VimEnter,ColorScheme * call MiscHighlights()
+" augroup END
 
 if has('gui_running')
-  colorscheme vividchalk
+  colorscheme vividmayhem
 else
   colorscheme vividchalk
 endif
-
-"source ~/.vim/plugin/statusline.vim

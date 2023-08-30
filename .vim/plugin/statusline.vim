@@ -1,10 +1,3 @@
-
-" set statusline+=%#IsModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
-" set statusline+=%#IsModified#%{&mod?'+':''}%*
-" set statusline+=%#IsNotModified#%{&mod?'':''}%*
-
-" Run every time ColorScheme changes to ensure overrides
-" TODO - about time I just made a colourscheme
 function! StatusLineHighlights() abort
   hi StatusLine      cterm=bold ctermfg=0 ctermbg=5 gui=none guifg=White guibg=#232323
   hi StatusLineNC    cterm=italic ctermfg=0 gui=italic guifg=#DDDDDD guibg=#151515
@@ -25,10 +18,9 @@ function! StatusLineHighlights() abort
   hi StatusGitNC     ctermfg=92 guifg=#7D27A8 
 endfunction
 
-augroup MyStatusLineHighlights
-  autocmd!
-  autocmd VimEnter,ColorScheme * call StatusLineHighlights()
-augroup END
+" set statusline+=%#IsModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
+" set statusline+=%#IsModified#%{&mod?'+':''}%*
+" set statusline+=%#IsNotModified#%{&mod?'':''}%*
 
 function! DebugWinNumber()
   " :redir @" | echo getwininfo(winnr()) | redir END | vsplit | enew | put | %s/, '/,^M'/g 
@@ -90,21 +82,24 @@ endfunction
 
 " Fugitive
 function! S_fugitive()
+  let l:hisuffix = g:actual_curwin == win_getid() ? '' : 'NC'
+  let l:git = '⎇ '
+  let l:off = '⎇ ' "??'
   if exists('g:loaded_fugitive')
     let l:head = FugitiveHead()
-    let l:hisuffix = g:actual_curwin == win_getid() ? '' : 'NC'
-    let l:git = '⎇ '
     " return empty(l:head) ? '' : '⎇⃝  ⎇⃣ '.l:head . ' '
     " return empty(l:head) ? '' : '⎇ '
     if !empty(l:head)
       return printf('%%#StatusGit%s#%s%%*', l:hisuffix, l:git)
     endif
   endif
-  return ''
+  return printf('%%#StatusGit%s#%s%%*', l:hisuffix, l:off)
 endfunction
 
 set statusline=
-set statusline+=
+set statusline+=\ 
+" Git info
+set statusline+=%{%S_fugitive()%}
 " file info - e.g. .vimrc +
 " %t    - file name
 " %h/%H - help flag     ,HLP/[help]
@@ -113,8 +108,6 @@ set statusline+=
 " %r/%R - readonly flag ,RO /[RO]
 " %y/%Y - filetype      ,VIM/[vim]
 set statusline+=\ %-t%<\ %H%W%M%R\ 
-" Git info
-set statusline+=%{%S_fugitive()%}
 " Sep. between left and right
 set statusline+=%=
 " buffer info - e.g. 1 300,82-85 99%

@@ -81,6 +81,12 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# tabtab source for packages (pnpm)
+[ -f ~/.config/tabtab/bash/__tabtab.bash ] && . ~/.config/tabtab/bash/__tabtab.bash || true
+
+alias p="pnpm" && complete -o default -F _pnpm_completion p
+
+## Git
 gitSubmodulesHaveChanges() {
   git submodule status | grep '^[^ ]'
 }
@@ -95,7 +101,6 @@ gitCurrentPathInRepo() {
   git rev-parse --show-prefix
 }
 
-## git
 alias gu='echo "User config: $(git config --get user.name) <$(git config --get user.email)>"'
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
 alias gb="git branch" && __git_complete gb git_branch
@@ -138,6 +143,7 @@ ghpr() {
   gh compare/$(git parent)...$(git symbolic-ref --quiet --short HEAD)?expand=1
 }
 alias ghbo="ghob"
+
 
 ## node & nvm
 if [ -z "$NVM_DIR" ]; then

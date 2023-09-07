@@ -10,6 +10,9 @@ nnoremap <leader>t   :set guifont=Menlo:h12<CR>
 nnoremap <leader>tt  :set guifont=Menlo:h14<CR>
 nnoremap <leader>ttt :set guifont=Menlo:h16<CR>
 
+"Repeat last edit n times
+nnoremap . :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
+
 "CoC
 source ~/.vim/coc.vimrc
 
@@ -64,14 +67,12 @@ set undodir^=~/.vim/undo//
 
 
 if has('gui_running')
-  " GUI only
   set guioptions-=rL
   set guioptions+=ck
   set guicursor+=a:blinkon0
   set noantialias
   set guifont=Menlo:h14
 else
-  " Console only
   set ttyfast
 
   if &term =~ '^screen'
@@ -143,7 +144,8 @@ if !empty(&viminfo)
 endif
 set sessionoptions-=options
 
-set formatoptions+=j " Delete comment character when joining commented lines
+" Delete comment character when joining commented lines
+set formatoptions+=j
 
 set breakindent
 set showbreak=\\\\\
@@ -163,6 +165,7 @@ augroup END
 
 set completeopt=longest,menuone,noinsert
 set splitbelow
+
 
 " Searching & Ack (Ag)
 
@@ -230,6 +233,7 @@ let g:ctrlp_match_window = 'top,order:btt,min:1,max:10,results:10'
 nnoremap <S-tab>     :CtrlP<CR>
 nnoremap <leader>p   :CtrlP<CR>
 
+
 " Filetype: Python
 augroup python_commands
   autocmd!
@@ -252,34 +256,6 @@ let g:jsx_ext_required = 0
 "let g:gitgutter_sign_priority = 1
 " background colours to match the sign column
 let g:gitgutter_set_sign_backgrounds = 0
-
-" TODO - about time I just made a colourscheme
-function! SignColumnHighlights() abort
-  highlight! clear SignColumn
-  if has('gui_running')
-    highlight link SignColumn Normal
-    highlight link CocErrorHighlight SpellBad
-    highlight link CocWarningHighlight SpellRare
-    highlight link CocInfoHighlight SpellCap
-    highlight link CocHintHighlight SpellLocal
-  else
-    highlight SignColumn ctermbg=0
-  endif
-  highlight GitGutterAdd    ctermfg=2 ctermbg=0 guifg=#009900 guibg=Black
-  highlight GitGutterChange ctermfg=3 ctermbg=0 guifg=#bbbb00 guibg=Black
-  highlight GitGutterDelete ctermfg=1 ctermbg=0 guifg=#ff2222 guibg=Black
-endfunction
-
-function! MiscHighlights() abort
-  hi Conceal ctermfg=NONE guifg=NONE guibg=#3333AA 
-  hi Comment term=bold ctermfg=92 gui=none guifg=#CC22DD
-endfunction
-
-" augroup MyHighlights
-"   autocmd!
-  " autocmd VimEnter,ColorScheme * call SignColumnHighlights()
-  " autocmd VimEnter,ColorScheme * call MiscHighlights()
-" augroup END
 
 if has('gui_running')
   colorscheme vividmayhem

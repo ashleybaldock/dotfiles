@@ -81,7 +81,26 @@ if ! shopt -oq posix; then
   fi
 fi
 
-## git
+# tabtab source for packages (pnpm)
+[ -f ~/.config/tabtab/bash/__tabtab.bash ] && . ~/.config/tabtab/bash/__tabtab.bash || true
+
+alias p="pnpm" && complete -o default -F _pnpm_completion p
+
+## Git
+gitSubmodulesHaveChanges() {
+  git submodule status | grep '^[^ ]'
+}
+gitRemoteHeadName() {
+# git remote show origin | grep "HEAD branch" | sed "s/.*: //")
+  basename $(git symbolic-ref --quiet --short refs/remotes/origin/HEAD)
+}
+gitCurrentBranchName() {
+  git symbolic-ref --quiet --short HEAD
+}
+gitCurrentPathInRepo() {
+  git rev-parse --show-prefix
+}
+
 alias gu='echo "User config: $(git config --get user.name) <$(git config --get user.email)>"'
 alias gl="git log --color --pretty=format:'%C(auto)%h %Cred %<(10,trunc)%an %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'"
 alias gb="git branch" && __git_complete gb git_branch
@@ -91,12 +110,15 @@ alias gpu="git pull" && __git_complete gpu git_pull
 alias gpb='git push -u origin $(git branch | grep \* | cut -d " " -f2)'
 alias gs="gu && git status" && __git_complete gs git_status
 alias gm="git merge" && __git_complete gm git_merge
-alias gmm='git merge $(git remote show origin | grep "HEAD branch" | sed "s/.*: //")'
+alias gmm='PREVBRANCH=$(gitCurrentBranchName) && git checkout $(gitRemoteHeadName) && git pull --commit --no-edit --ff-only && git checkout $PREVBRANCH && git merge --commit --no-edit $(gitRemoteHeadName)'
 alias ga="git add" && __git_complete ga git_add
 alias gc="git commit" && __git_complete gc git_commit
+alias gcq="gc -n -m'quick commit'"
+alias gcn="gc -n -m'"
 alias gd="git diff" && __git_complete gd git_diff
 alias gdd="git diff --staged" && __git_complete gdd git_diff
 alias gco="git checkout" && __git_complete gco git_checkout
+alias gcom='git checkout $(gitRemoteHeadName)' && __git_complete gco git_checkout
 alias gcb="git checkout -b" && __git_complete gcb git_checkout
 
 # Open github for repo (base path)
@@ -105,15 +127,15 @@ gh() {
 }
 # Open github for branch (base path)
 ghb() {
-  gh tree/$(git symbolic-ref --quiet --short HEAD)
+  gh tree/$(gitCurrentBranchName)
 }
 # Open github for repo (current path)
 gho() {
-  gh tree/master/$(git rev-parse --show-prefix)
+  gh tree/master/$(gitCurrentPathInRepo)
 }
 # Open github for branch (current path)
 ghob() {
-  gh tree/$(git symbolic-ref --quiet --short HEAD)/$(git rev-parse --show-prefix)
+  gh tree/$(gitCurrentBranchName)/$(gitCurrentPathInRepo)
 }
 # Open new PR for current branch against parent branch
 # See parent alias in .gitconfig
@@ -121,6 +143,7 @@ ghpr() {
   gh compare/$(git parent)...$(git symbolic-ref --quiet --short HEAD)?expand=1
 }
 alias ghbo="ghob"
+
 
 ## node & nvm
 if [ -z "$NVM_DIR" ]; then

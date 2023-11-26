@@ -62,3 +62,6 @@
 [submodule ".vim/pack/default/startvim-repeat"]
 	path = .vim/pack/default/startvim-repeat
 	url = https://github.com/tpope/vim-repeat.git
+[submodule ".vim/pack/default/start/vim-repeat"]
+	path = .vim/pack/default/start/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git

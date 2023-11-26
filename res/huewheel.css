@@ -1,0 +1,146 @@
+
+svg path {
+  /*! filter: sepia(10) invert(0.2); */
+  fill: #ff0000;
+  stroke: blue;
+}
+svg path {
+  filter: hue-rotate(60deg) sepia(100%) saturate(210%) brightness(190%);
+}
+div {
+}
+
+
+@keyframes spin {
+  from {
+    rotate: -600deg;
+    scale: 0.2;
+  }
+
+  80% {
+    rotate: 0deg;
+    scale: 1.8;
+  }
+  to {
+    rotate: -360deg;
+    scale: 1.4;
+  }
+}
+
+@keyframes hue {
+  from {
+    filter: saturate(0) hue-rotate(-90deg);
+    
+  }
+  50% {
+    filter: saturate(1) hue-rotate(-90deg);
+  }
+  to {
+    filter: saturate(1) hue-rotate(90deg);
+
+  }
+}
+
+.colorwheel {
+  position: relative;
+  left: 100px;
+  top: 100px;
+  rotate: 90deg;
+  rotate: calc(720deg / var(--num-colors));
+  transition-duration: 3s;
+  transition-timing-function:ease;
+  transition-property: rotate;
+
+  animation-duration: 2s;
+  animation-name: spin;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+.colorwheel:hover {
+  rotate: 270deg;
+  rotate: calc(720deg / var(--num-colors));
+
+  transition-duration: 10s;
+  transition-timing-function:cubic-bezier;
+  transition-property: rotate;
+}
+.colorwheel, .colorwheel::before {
+  --num-colors: 6;
+  --size: 200px;
+  --color-size: calc(100% / var(--num-colors));
+  width: var(--size);
+  height: var(--size);
+  border: 10px solid black;
+  border-width: calc(var(--size) * 0.3);
+  border-radius: 50%;
+  background: conic-gradient(
+    #f00 calc(0 * var(--color-size)), 
+    #ff0 calc(1 * var(--color-size)), 
+    #0f0 calc(2 * var(--color-size)), 
+    #0ff calc(3 * var(--color-size)), 
+    #00f calc(4 * var(--color-size)), 
+    #f0f calc(5 * var(--color-size)),
+    #f00 calc(6 * var(--color-size)) 
+  );
+  border-image: conic-gradient(
+    #f00 calc(0 * var(--color-size)), 
+    #ff0 calc(1 * var(--color-size)), 
+    #0f0 calc(2 * var(--color-size)), 
+    #0ff calc(3 * var(--color-size)), 
+    #00f calc(4 * var(--color-size)), 
+    #f0f calc(5 * var(--color-size)),
+    #f00 calc(6 * var(--color-size)) 
+  );
+}
+
+.colorwheel::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(calc(-270deg / var(--num-colors)));
+
+  
+  animation-duration: 800ms;
+  animation-name: hue;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-direction: alternate;
+}
+
+.colorwheel::after {
+  content: '';
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  border-radius: 50%;
+  background: black;
+  width: 3%;
+  height: 3%;
+  transform: translate(-90%, -30%);
+  
+  border: 10px solid black;
+  border-width: calc(var(--size) * 0.3);
+  border-image: conic-gradient(
+    #f00 calc(0 * var(--color-size)), 
+    #ff0 calc(1 * var(--color-size)), 
+    #0f0 calc(2 * var(--color-size)), 
+    #0ff calc(3 * var(--color-size)), 
+    #00f calc(4 * var(--color-size)), 
+    #f0f calc(5 * var(--color-size)),
+    #f00 calc(6 * var(--color-size)) 
+  );
+  border-image-outset: 110px;
+  border-image-repeat: 2px;
+  
+  animation-duration: 4s;
+  animation-name: spin;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-direction: alternate;
+}

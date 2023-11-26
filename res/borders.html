@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#000000" />
+<style>
+:root {
+  --icon-fg-color: #ffffff;
+  --icon-bg-color: #000000;
+  --icon-border: 1;
+  --icon-padding: 20;
+  --icon-radius: 60;
+  --icon-border-style: dashed;
+}
+
+body {
+  font-size: 14px;
+  line-height: 14px;
+  display: flex;
+  flex-direction: column;
+  margin: 0.6em;
+  gap: 0.6em;
+  padding: 0;
+  background-color: #222222;
+  color: #ffffff;
+}
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 1em;
+}
+
+h1 {
+  width: 100%;
+}
+
+.container {
+  position: relative;
+  --color-tab-active: #ee7;
+  font-size: 48px;
+}
+
+svg {
+  fill: var(--color-tab-active);
+}
+
+.t1 {
+  --color-fg-section-header: #eee;
+  --sheader-base-height: 1em;
+
+  position: relative;
+  color: var(--color-tab-active);
+  
+  font-size: 16px;
+  height: calc(var(--sheader-base-height) * 1.5);
+  line-height: calc(var(--sheader-base-height) * 1.75);
+  font-weight: bold;
+  font-variant-caps: small-caps;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+.t1::after {
+  content: '';
+  position: absolute;
+  right: 0px;
+  left: -4px;
+  bottom: -7px;
+  border-radius: 0em 9em 15em 0em;
+  border-bottom: 0 solid transparent;
+  border-left: 0 solid transparent;
+  border-top: 0 dashed var(--color-fg-section-header);
+  border-right: 3px solid var(--color-fg-section-header);
+  border-bottom: 6px double var(--color-fg-section-header);
+  border-collapse: collapse;
+}
+.t1::before {
+  content: '';
+  position: absolute;
+  top: 0px;
+  right: -4px;
+  left: 0px;
+  border-radius: 13em 0em 0em 9em;
+  border-bottom: 0em dashed transparent;
+  border-left: 3px solid var(--color-fg-section-header);
+  border-top: 1px solid var(--color-fg-section-header);
+  border-right: 0 solid transparent;
+  width: inherit;
+  height: 100%;
+  padding-left: 1em;
+}
+
+.topleft {
+  --radius-tl: 13em;
+  --radius-tr: 0em;
+  --radius-br: 0em;
+  --radius-bl: 9em;
+
+  border-bottom: 1px dashed transparent;
+  border-left: 1px solid var(--color-fg-section-header);
+  border-top: 6px double var(--color-fg-section-header);
+  border-right: 0 solid transparent;
+  border-top-left-radius: var(--radius-tl, 0em);
+  border-top-right-radius: var(--radius-tr, 0em);
+  border-bottom-right-radius: var(--radius-br, 0em);
+  border-bottom-left-radius: var(--radius-bl, 0em);
+  border-color: red;
+  height: 100%;
+}
+
+
+.curve {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.container:hover {
+  border: 1px solid #f0fc;
+}
+.type-1 {
+  font-variant-caps: small-caps;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1em;
+  height: 1em;
+  padding: 0.4em;
+  color: var(--color-fg);
+  font-size: 16px;
+  --color-fg: #ccc;
+  --transition-properties: color, border-color, transform, background-color, fill, stroke;
+  background-color: var(--color-bg);
+  --color-bg: #1d1d1d;
+  fill: var(--color-fg);
+  --border-color: red;
+  --borderbg-color: blue;
+}
+.type-1:hover {
+  --color-fg: #ee3;
+  --color-bg: #176b6b;
+}
+.transition-1 {
+  transition-timing-function: ease-out;
+  transition-property: var(--transition-properties);
+  transition-duration: 150ms;
+}
+.transition-1:hover {
+  transition-timing-function: ease-in;
+  transition-property: var(--transition-properties);
+  transition-duration: 250ms;
+}
+
+/* foreground curve, radius/border */
+.curve::after {
+  content: '';
+  position: absolute;
+  border-top-left-radius: var(--radius-tl, 0em);
+  border-top-right-radius: var(--radius-tr, 0em);
+  border-bottom-right-radius: var(--radius-br, 0em);
+  border-bottom-left-radius: var(--radius-bl, 0em);
+  top: var(--off-t, 0em);
+  border-top-width: var(--border-t-w, 0em);
+  border-top-style: var(--border-t-s, none);
+  border-top-color: var(--border-t-c, transparent);
+  right: var(--off-r, 0em);
+  border-right-width: var(--border-r-w, 0em);
+  border-right-style: var(--border-r-s, none);
+  border-right-color: var(--border-r-c, transparent);
+  bottom: var(--off-b, 0em);
+  border-bottom-width: var(--border-b-w, 0em);
+  border-bottom-style: var(--border-b-s, none);
+  border-bottom-color: var(--border-b-c, transparent);
+  left: var(--off-l, 0em);
+  border-left-width: var(--border-l-w, 0em);
+  border-left-style: var(--border-l-s, none);
+  border-left-color: var(--border-l-c, transparent);
+}
+/**
+ * background curve, radiusbg/borderbg
+ * (defaults to match foreground curve)
+ */
+.curve::before {
+  content: '';
+  position: absolute;
+  border-top-left-radius: var(--radiusbg-tl, var(--radius-tl, 0em));
+  border-top-right-radius: var(--radiusbg-tr, var(--radius-tr, 0em));
+  border-bottom-right-radius: var(--radiusbg-br, var(--radius-br, 0em));
+  border-bottom-left-radius: var(--radiusbg-bl, var(--radius-bl, 0em));
+  top: var(--offbg-t, 0em);
+  border-top-width: var(--borderbg-t-w, 0em);
+  border-top-style: var(--borderbg-t-s, none);
+  border-top-color: var(--borderbg-t-c, transparent);
+  right: var(--offbg-r, 0em);
+  border-right-width: var(--borderbg-r-w, 0em);
+  border-right-style: var(--borderbg-r-s, none);
+  border-right-color: var(--borderbg-r-c, transparent);
+  bottom: var(--offbg-b, 0em);
+  border-bottom-width: var(--borderbg-b-w, 0em);
+  border-bottom-style: var(--borderbg-b-s, none);
+  border-bottom-color: var(--borderbg-b-c, transparent);
+  left: var(--offbg-l, 0em);
+  border-left-width: var(--borderbg-l-w, 0em);
+  border-left-style: var(--borderbg-l-s, none);
+  border-left-color: var(--borderbg-l-c, transparent);
+}
+
+.topleft {
+  --radius-tl: 16em;
+  --radius-bl: 19em;
+  --border-t-w: 0.3em;
+  --border-t-s: solid;
+  --border-t-c: var(--border-color);
+  --border-l-w: 0.16em;
+  --border-l-s: solid;
+  --border-l-c: var(--border-color);
+  --border-r-w: 0.4em;
+  --border-r-s: solid;
+  --border-b-w: 0.01em;
+  --border-b-s: double;
+  --borderbg-t-w: 0.3em;
+  --borderbg-t-s: double;
+  --borderbg-t-c: var(--borderbg-color);
+  --borderbg-r-w: 0.38em;
+  --borderbg-r-s: solid;
+  --borderbg-b-w: 1em;
+  --borderbg-b-s: double;
+  --borderbg-l-w: 0.19em;
+  --borderbg-l-s: solid;
+  --borderbg-l-c: var(--borderbg-color);
+}
+
+.botright {
+  --border-t-w: 0.1em;
+  --border-t-s: solid;
+  --border-r-w: 0.4em;
+  --border-r-s: solid;
+  --border-b-w: 0.3em;
+  --border-b-s: solid;
+  --border-b-c: var(--border-color, #dd0000);
+  --border-l-w: 0.4em;
+  --border-l-s: solid;
+  --radiusbg: 0;
+  --radiusbg-br: -10.3em;
+  --borderbg-t-w: 0.3em;
+  --borderbg-t-s: double;
+  --borderbg-r-w: 0.4em;
+  --borderbg-r-s: double;
+  --borderbg-b-w: 0.2em;
+  --borderbg-b-s: solid;
+  --borderbg-b-c: var(--borderbg-color, #331199);
+  --borderbg-l-w: 2.4em;
+  --borderbg-l-c: transparent;
+  --borderbg-l-s: solid;
+}
+</style>
+
+<link rel="stylesheet" href="spells-1.css"/>
+
+<script>
+  window.addEventListener('load', (event) => {
+  });
+</script>
+
+  </head>
+  <body>
+    <section>
+      <h1>Borders</h1>
+      <div class="container">
+        <div class="curve topleft"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"></path></svg>Some Text</div>
+      </div>
+      <div class="container">
+        <div class="curve topleft"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"></path></svg>Some Text</div>
+      </div>
+      <div class="container">
+        <div class="curve botright"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"></path></svg>Some Text</div>
+      </div>
+</section>
+
+<section>
+  <h1>Elipse</h1>
+  <div class="ellipseContainer">
+
+
+    <button class="pebble transition-1" style="--color-border-active: blue;--bg-img: url('data:image/svg+xml,%3Csvg style=%22fill: %23ffffff;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3C!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --%3E%3Cpath d=%22M125.7 160H176c17.7 0 32 14.3 32 32s-14.3 32-32 32H48c-17.7 0-32-14.3-32-32V64c0-17.7 14.3-32 32-32s32 14.3 32 32v51.2L97.6 97.6c87.5-87.5 229.3-87.5 316.8 0s87.5 229.3 0 316.8s-229.3 87.5-316.8 0c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0c62.5 62.5 163.8 62.5 226.3 0s62.5-163.8 0-226.3s-163.8-62.5-226.3 0L125.7 160z%22%3E%3C/path%3E%3C/svg%3E');--color-button-border-hover: #4fcaad;">Undo</button>
+    <button class="pebble transition-1" style="--color-border-active: blue;--bg-img: url('data:image/svg+xml,%3Csvg style=%22fill: %23ffffff;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3C!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --%3E%3Cpath d=%22M386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H464c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z%22%3E%3C/path%3E%3C/svg%3E');">Redo</button>
+
+    <button class="pebble transition-1" style="--color-border-active: yellow;--bg-img: url('data:image/svg+xml,%3Csvg style=%22fill: %23ffffff;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3C!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --%3E%3Cpath d=%22M224 32H64C46.3 32 32 46.3 32 64v64c0 17.7 14.3 32 32 32H441.4c4.2 0 8.3-1.7 11.3-4.7l48-48c6.2-6.2 6.2-16.4 0-22.6l-48-48c-3-3-7.1-4.7-11.3-4.7H288c0-17.7-14.3-32-32-32s-32 14.3-32 32zM480 256c0-17.7-14.3-32-32-32H288V192H224v32H70.6c-4.2 0-8.3 1.7-11.3 4.7l-48 48c-6.2 6.2-6.2 16.4 0 22.6l48 48c3 3 7.1 4.7 11.3 4.7H448c17.7 0 32-14.3 32-32V256zM288 480V384H224v96c0 17.7 14.3 32 32 32s32-14.3 32-32z%22%3E%3C/path%3E%3C/svg%3E'); --color-button-border-hover: green;">Reset</button>
+
+    <button class="pebble transition-1" style="--color-border-active: purple;--bg-img: url('data:image/svg+xml,%3Csvg style=%22fill: %23ffffff;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 576 512%22%3E%3C!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --%3E%3Cpath d=%22M384 480h48c11.4 0 21.9-6 27.6-15.9l112-192c5.8-9.9 5.8-22.1 .1-32.1S555.5 224 544 224H144c-11.4 0-21.9 6-27.6 15.9L48 357.1V96c0-8.8 7.2-16 16-16H181.5c4.2 0 8.3 1.7 11.3 4.7l26.5 26.5c21 21 49.5 32.8 79.2 32.8H416c8.8 0 16 7.2 16 16v32h48V160c0-35.3-28.7-64-64-64H298.5c-17 0-33.3-6.7-45.3-18.7L226.7 50.7c-12-12-28.3-18.7-45.3-18.7H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H87.7 384z%22%3E%3C/path%3E%3C/svg%3E');">Load</button>
+
+    <button class="pebble transition-1" style="--color-border-active: #702c5f;--bg-img: url('data:image/svg+xml,%3Csvg style=%22fill: %23ffffff;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 576 512%22%3E%3C!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --%3E%3Cpath d=%22M290.8 48.6l78.4 29.7L288 109.5 206.8 78.3l78.4-29.7c1.8-.7 3.8-.7 5.7 0zM136 92.5V204.7c-1.3 .4-2.6 .8-3.9 1.3l-96 36.4C14.4 250.6 0 271.5 0 294.7V413.9c0 22.2 13.1 42.3 33.5 51.3l96 42.2c14.4 6.3 30.7 6.3 45.1 0L288 457.5l113.5 49.9c14.4 6.3 30.7 6.3 45.1 0l96-42.2c20.3-8.9 33.5-29.1 33.5-51.3V294.7c0-23.3-14.4-44.1-36.1-52.4l-96-36.4c-1.3-.5-2.6-.9-3.9-1.3V92.5c0-23.3-14.4-44.1-36.1-52.4l-96-36.4c-12.8-4.8-26.9-4.8-39.7 0l-96 36.4C150.4 48.4 136 69.3 136 92.5zM392 210.6l-82.4 31.2V152.6L392 121v89.6zM154.8 250.9l78.4 29.7L152 311.7 70.8 280.6l78.4-29.7c1.8-.7 3.8-.7 5.7 0zm18.8 204.4V354.8L256 323.2v95.9l-82.4 36.2zM421.2 250.9c1.8-.7 3.8-.7 5.7 0l78.4 29.7L424 311.7l-81.2-31.1 78.4-29.7zM523.2 421.2l-77.6 34.1V354.8L528 323.2v90.7c0 3.2-1.9 6-4.8 7.3z%22%3E%3C/path%3E%3C/svg%3E'); ">Export</button>
+
+  </div>
+</section>
+
+  </body>
+</html>

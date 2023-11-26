@@ -100,7 +100,6 @@ filetype plugin indent on
 set ts=2 sts=2 sw=2 et
 set enc=utf8
 filetype on
-set hlsearch
 set mouse=a
 set backspace=indent,eol,start
 
@@ -112,7 +111,6 @@ set noea
 set nocompatible
 set nrformats-=octal
 set smarttab
-set incsearch
 set laststatus=2
 set wildmenu
 set display+=lastline
@@ -169,6 +167,8 @@ set splitbelow
 
 " Searching & Ack (Ag)
 
+set hlsearch
+set incsearch
 " search up to root when using gf, opening files etc.
 set path+=;~
 
@@ -216,7 +216,7 @@ if executable('ag')
 endif
 
 cnoreabbrev Ack Ack!
-cnoreabbrev ag call ProjectRoot() <bar> Ack! -Q 
+cnoreabbrev ag exec 'cd' ProjectRoot() <bar> Ack! -Q 
 nnoremap <Leader>a :Ack!<Space>
 " • = ⌥ + *
 nnoremap # :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w><CR>
@@ -233,21 +233,6 @@ let g:ctrlp_match_window = 'top,order:btt,min:1,max:10,results:10'
 nnoremap <S-tab>     :CtrlP<CR>
 nnoremap <leader>p   :CtrlP<CR>
 
-
-" Filetype: Python
-augroup python_commands
-  autocmd!
-  " au BufEnter *.py set ts=4 sts=4 sw=4 et
-  " au BufEnter *.pyw set ts=4 sts=4 sw=4 et
-  au BufEnter *.py set ts=2 sts=2 sw=2 et
-  au BufEnter *.pyw set ts=2 sts=2 sw=2 et
-augroup END
-
-" Filetype: JavaScript
-augroup js_commands
-  autocmd!
-  au FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-augroup END
 let g:jsx_ext_required = 0
 
 " vim:set ft=vim et sw=2:

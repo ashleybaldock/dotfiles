@@ -120,6 +120,8 @@ alias gdd="git diff --staged" && __git_complete gdd git_diff
 alias gco="git checkout" && __git_complete gco git_checkout
 alias gcom='git checkout $(gitRemoteHeadName)' && __git_complete gco git_checkout
 alias gcb="git checkout -b" && __git_complete gcb git_checkout
+alias gst="git stash" && __git_complete gst git_stash
+alias gstls="git stash list" && __git_complete gstls git_stash
 
 # Open github for repo (base path)
 gh() {

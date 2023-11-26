@@ -13,7 +13,7 @@ Options:
   -h, --help                   Print this 🤡
 "
 
-if [ $1 = "-h" ] || [ $1 = "--help" ]; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo 1>&2 "$__usage"
   exit 2
 elif [ $# -lt 2 ]; then
@@ -25,12 +25,12 @@ fi
 cwd=$(pwd)
 
 git submodule init
-if [ $3 != "" ]; then
-  git submodule add -b $3 $1 .vim/pack/default/start/$2
+if [ "$3" != "" ]; then
+  git submodule add -b "$3" "$1" ".vim/pack/default/start/$2"
 # Changing existing submodule's branch:
 ##   git submodule set-branch --branch release -- .vim/pack/default/start/$2
 else
-  git submodule add $1 .vim/pack/default/start/$2
+  git submodule add "$1" ".vim/pack/default/start$2"
 fi
-git add .gitmodules .vim/pack/default/start/$2
+git add .gitmodules ".vim/pack/default/start/$2"
 git commit -m"Add vim package '$2'"

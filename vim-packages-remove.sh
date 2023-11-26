@@ -6,7 +6,7 @@
 
 cwd=$(pwd)
 
-git submodule deinit .vim/pack/default/start/$1
-git rm .vim/pack/default/start/$1
-rm -Rf .git/modules/.vim/pack/default/start/$1
+git submodule deinit ".vim/pack/default/start/$1"
+git rm ".vim/pack/default/start/$1"
+rm -Rf ".git/modules/.vim/pack/default/start/$1"
 git commit -m"Remove vim package '$1'"

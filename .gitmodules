@@ -56,6 +56,3 @@
 [submodule ".vim/pack/default/start/visual-star-search"]
 	path = .vim/pack/default/start/visual-star-search
 	url = https://github.com/bronson/vim-visual-star-search.git
-[submodule ".vim/pack/default/start/surround"]
-	path = .vim/pack/default/start/surround
-	url = https://tpope.io/vim/surround.git

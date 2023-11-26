@@ -110,7 +110,7 @@ alias gpu="git pull" && __git_complete gpu git_pull
 alias gpb='git push -u origin $(git branch | grep \* | cut -d " " -f2)'
 alias gs="gu && git status" && __git_complete gs git_status
 alias gm="git merge" && __git_complete gm git_merge
-alias gmm='PREVBRANCH=$(gitCurrentBranchName) && git checkout $(gitRemoteHeadName) && git pull --commit --no-edit --ff-only && git checkout $PREVBRANCH && git merge --commit --no-edit $(gitRemoteHeadName)'
+alias gmm='git checkout $(gitRemoteHeadName) && git pull --commit --no-edit --ff-only && git checkout - && git merge --commit --no-edit $(gitRemoteHeadName)'
 alias ga="git add" && __git_complete ga git_add
 alias gc="git commit" && __git_complete gc git_commit
 alias gcq="gc -n -m'quick commit'"
@@ -118,6 +118,7 @@ alias gcn="gc -n -m'"
 alias gd="git diff" && __git_complete gd git_diff
 alias gdd="git diff --staged" && __git_complete gdd git_diff
 alias gco="git checkout" && __git_complete gco git_checkout
+alias gcol='git checkout -'
 alias gcom='git checkout $(gitRemoteHeadName)' && __git_complete gco git_checkout
 alias gcb="git checkout -b" && __git_complete gcb git_checkout
 alias gst="git stash" && __git_complete gst git_stash

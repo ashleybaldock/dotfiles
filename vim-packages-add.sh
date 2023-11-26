@@ -30,7 +30,7 @@ if [ "$3" != "" ]; then
 # Changing existing submodule's branch:
 ##   git submodule set-branch --branch release -- .vim/pack/default/start/$2
 else
-  git submodule add "$1" ".vim/pack/default/start$2"
+  git submodule add "$1" ".vim/pack/default/start/$2"
 fi
 git add .gitmodules ".vim/pack/default/start/$2"
 git commit -m"Add vim package '$2'"

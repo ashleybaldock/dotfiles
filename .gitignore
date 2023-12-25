@@ -9,8 +9,15 @@
 .vim/autoload/*
 .vim/bundle/*
 .vim/*.session
+.vim/*.Session
 .vim/.netrwhist
 .vim/session/*
+.vim/Session/*
+*.session.vim*
+
+bin/HandBrakeCLI
+
+.vim/node_modules/*
 
 .config/*
 .config/coc/extensions/node_modules/*

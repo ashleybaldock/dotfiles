@@ -15,7 +15,7 @@ echo ""
 echo "-- Making links..."
 (
   cd ~/dotfiles
-  ./makelinks.sh
+  ./scripts/setup/makelinks.sh
 )
 echo ""
 
@@ -41,12 +41,15 @@ echo ""
 echo "-- Installing/updating vim packages"
 (
   cd ~/dotfiles
-  ./update-vim-packages.sh
+  ./scripts/update-vim-packages.sh
 )
 echo ""
 
 echo "-- Finishing..."
-./git-setup.sh
+(
+  cd ~/dotfiles
+  ./scripts/git-setup.sh
+)
 echo ""
 
 

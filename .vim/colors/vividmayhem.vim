@@ -1,5 +1,8 @@
 " - about time I just made a colourscheme (foreshadowing)
 " Based on tpope's vividchalk
+"
+" so $VIMRUNTIME/syntax/hitest.vim
+" 
 
 set background=dark
 hi clear
@@ -20,25 +23,29 @@ hi link javascriptRegexpString  Regexp
 hi link javascriptNumber        Number
 hi link javascriptNull          Constant
 
-hi Normal     guifg=#EEEEEE guibg=#000000 gui=bold ctermfg=White ctermbg=Black
+" Attributes (gui=) ignored for Normal
+hi Normal     guifg=#DEDEDE guibg=#000000 gui=bold ctermfg=White ctermbg=Black
 if &background == "light" || has("gui_running")
-    hi Normal guibg=Black ctermbg=Black
+    hi Normal ctermbg=Black
 else
-    hi Normal guibg=Black ctermbg=NONE
+    hi Normal ctermbg=NONE
 endif
 
-highlight WildMenu      guifg=Black   guibg=#ffff00 gui=bold ctermfg=Black ctermbg=Yellow cterm=bold
-highlight Cursor        guifg=Black guibg=White ctermfg=Black ctermbg=White
+" listchars: eol,extends,precedes; 
+highlight NonText       guifg=#404040 ctermfg=8
+" listchars: tab,nbsp,space,multispace,lead,trail;
+highlight SpecialKey    guifg=#404040 ctermfg=8
+
+highlight WildMenu      guifg=#000000 guibg=#FFFF00 gui=bold ctermfg=Black ctermbg=Yellow cterm=bold
+highlight Cursor        guifg=#000000 guibg=#FFFFFF gui=bold ctermfg=Black ctermbg=White
 highlight CursorLine    guibg=#333333 guifg=NONE
 highlight CursorColumn  guibg=#333333 guifg=NONE
-highlight NonText       guifg=#404040 ctermfg=8
-highlight SpecialKey    guifg=#404040 ctermfg=8
 highlight Directory     none
 high link Directory     Identifier
-highlight ErrorMsg      guibg=Red ctermbg=DarkRed guifg=NONE ctermfg=NONE
-highlight Search        guifg=NONE guibg=#555555 ctermfg=NONE gui=none cterm=none
+highlight ErrorMsg      guifg=NONE    guibg=#CE0000 ctermfg=NONE ctermbg=DarkRed
+highlight Search        guifg=NONE    guibg=#555555 ctermfg=NONE gui=none cterm=none
 call s:hibg("Search"    ,"#555555","Black",81)
-highlight IncSearch     guifg=White guibg=Black ctermfg=White ctermbg=Black
+highlight IncSearch     guifg=#FEFEFE guibg=Black ctermfg=White ctermbg=Black
 highlight MoreMsg       guifg=#00AA00 ctermfg=Green
 highlight LineNr        guifg=#DDEEFF guibg=#222222 ctermfg=White
 call s:hibg("LineNr"    ,"#222222","DarkBlue",80)
@@ -49,12 +56,6 @@ highlight VisualNOS     gui=none cterm=none
 call s:hibg("Visual"    ,"#555577","LightBlue",83)
 call s:hibg("VisualNOS" ,"#444444","DarkBlue",81)
 highlight WarningMsg    guifg=Red ctermfg=Red
-
-highlight Folded        guibg=#1100aa ctermbg=DarkBlue
-call s:hibg("Folded"    ,"#110077","DarkBlue",17)
-call s:hifg("Folded"    ,"#aaddee","LightCyan",63)
-highlight FoldColumn    none
-high link FoldColumn    Folded
 
 highlight Pmenu         guifg=White ctermfg=White gui=bold cterm=bold
 highlight PmenuSel      guifg=White ctermfg=White gui=bold cterm=bold
@@ -71,6 +72,13 @@ highlight TabLineFill   gui=underline cterm=underline
 call s:hifg("TabLineFill","#bbbbbb","LightGrey",85)
 call s:hibg("TabLineFill","#808080","Grey",83)
 
+" Inline error formatting
+hi ErrorHint         guifg=#FEE3E3 guibg=NONE guisp=#FE0000 gui=undercurl term=reverse ctermbg=12
+hi WarningHint       guifg=#EFEEAC guibg=NONE guisp=#FFDD00 gui=undercurl term=reverse ctermbg=12
+hi link InfoHint            SpellCap
+hi link HintHint            SpellLocal
+
+hi link Error ErrorHint
 hi Type      gui=none
 hi Statement gui=none
 hi Identifier cterm=none
@@ -87,39 +95,50 @@ call s:hifg("Type"           ,"#AAAA77","Grey",57)
 call s:hifg("Special"        ,"#33AA00","DarkGreen",24)
 call s:hifg("Regexp"         ,"#44B4CC","DarkCyan",21)
 
+hi DiffText        guifg=#FFECEE guibg=#DD2233 gui=none
 
 hi link javascriptRegexpString  Regexp
 hi link javascriptNumber        Number
 hi link javascriptNull          Constant
 
+hi link CocErrorHighlight   ErrorHint
+hi link CocWarningHighlight WarningHint
+hi link CocInfoHighlight    InfoHint
+hi link CocHintHighlight    HintHint
 
-highlight! clear SignColumn
+hi Folded      guifg=#aaddee  guibg=NONE ctermbg=LightCyan ctermbg=DarkBlue
+hi FoldColumn    none
+" high link FoldColumn   Folded
+hi FoldColumn      guifg=#aaddee  guibg=NONE ctermbg=LightCyan ctermbg=DarkBlue
+
+hi! clear FoldColumn
+hi! clear SignColumn
 if has('gui_running')
-  highlight link SignColumn          Normal
-  highlight link CocErrorHighlight   SpellBad
-  highlight link CocWarningHighlight SpellRare
-  highlight link CocInfoHighlight    SpellCap
-  highlight link CocHintHighlight    SpellLocal
+  hi link SignColumn          Normal
+  hi link FoldColumn          Normal
 else
-  highlight SignColumn ctermbg=0
+  hi SignColumn ctermbg=0
+  hi FoldColumn ctermbg=0
 endif
 hi GitGutterAdd    guifg=#009900 guibg=#000000 gui=none  ctermfg=2 ctermbg=0 
 hi GitGutterChange guifg=#bbbb00 guibg=#000000 gui=none  ctermfg=3 ctermbg=0 
-hi GitGutterDelete guifg=#ff2222 guibg=#000000 gui=none  ctermfg=1 ctermbg=0 
+hi GitGutterDelete guifg=#ee2222 guibg=#000000 gui=none  ctermfg=1 ctermbg=0 
 
 hi VertSplit       guifg=#666666 guibg=#151515 gui=none term=reverse cterm=reverse 
 
-hi Conceal         guifg=NONE    guibg=#3333AA ctermfg=NONE
+hi Conceal         guifg=#6666A2 guibg=#002244 ctermfg=NONE
+hi Ignore          guifg=#8888AA guibg=#222244 ctermfg=NONE
 hi Comment         guifg=#CC22DD               gui=none  term=bold ctermfg=DarkMagenta 
 
 " StatusLine
-" StatusLine       guifg=Black   guibg=#aabbee gui=bold ctermfg=Black ctermbg=White  cterm=bold
+" StatusLine       guifg=#000000 guibg=#aabbee gui=bold ctermfg=Black ctermbg=White  cterm=bold
 " StatusLineNC     guifg=#444444 guibg=#aaaaaa gui=none ctermfg=Black ctermbg=Grey   cterm=none
 hi StatusLine      guifg=#FFFFFF guibg=#232323 gui=none  cterm=bold ctermfg=0 ctermbg=5 
+hi StatusBold      gui=bold
 hi StatusLineNC    guifg=#DDDDDD guibg=#151515 gui=none  cterm=none ctermfg=0   
 " diagnostics
-hi StatusSynErr    guifg=#FF0000 guibg=#000000 gui=none  ctermfg=197 
-hi StatusSynErrNC  guifg=#DC0000 guibg=#000000 gui=none  ctermfg=197 
+hi StatusSynErr    guifg=#FC0000 guibg=#000000 gui=none  ctermfg=197 
+hi StatusSynErrNC  guifg=#CC0000 guibg=#000000 gui=none  ctermfg=197 
 hi StatusSynWarn   guifg=#FFAA00 guibg=#000000 gui=none  ctermfg=220 
 hi StatusSynWarnNC guifg=#D08800 guibg=#000000 gui=none  ctermfg=220 
 hi StatusSynOk     guifg=#55CC00 guibg=#000000 gui=none  ctermfg=LightGreen   
@@ -136,3 +155,5 @@ hi StatusGit       guifg=#FFEEF0 guibg=#660099 gui=none  ctermfg=92
 " call s:hifg("railsUserClass" ,"#AAAAAA","Grey",7)
 " call s:hifg("rubyMethod"     ,"#DDE93D","Yellow",77)
 
+hi link jsonNoQuotesError SpellBad
+hi link jsonMissingCommaError SpellBad

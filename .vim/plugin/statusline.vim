@@ -101,13 +101,16 @@ set statusline+=\
 " Git info
 set statusline+=%{%S_fugitive()%}
 " file info - e.g. .vimrc +
-" %t    - file name
-" %h/%H - help flag     ,HLP/[help]
-" %w/%W - preview flag  ,PRV/[Preview]
-" %m/%M - modified flag ,+  /[+]
-" %r/%R - readonly flag ,RO /[RO]
-" %y/%Y - filetype      ,VIM/[vim]
-set statusline+=\ %-t%<\ %H%W%M%R\ 
+" %t    - file name:so %
+" %H/%h - help flag     ,HLP/[help]
+" %W/%w - preview flag  ,PRV/[Preview]
+" %M/%m - modified flag ,+  /[+]
+" %R/%r - readonly flag ,RO /[RO]
+" %Y/%y - filetype      ,VIM/[vim]
+" set statusline+=%#StatusBold#
+set statusline+=%{&mod?'＋⃞⧺⃞\':''}%*\ %-t%<\ %H%W%M%R\ 
+" set statusline+=%*
+" set statusline+=%{&mod?' ':''}\ %-t%<\ %H%W%M%R\ 
 " Sep. between left and right
 set statusline+=%=
 " buffer info - e.g. 1 300,82-85 99%

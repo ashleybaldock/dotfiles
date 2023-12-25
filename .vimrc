@@ -1,50 +1,8 @@
 
 set encoding=utf-8
+set nocompatible
 
-nnoremap <leader>o   <C-o>
-nnoremap <leader>L   :set list!<CR>
-nnoremap <leader>e   :Explore<CR>
-nnoremap <leader>es  :Sexplore<CR>
-nnoremap <leader>ev  :Vexplore<CR>
-nnoremap <leader>t   :set guifont=Menlo:h12<CR>
-nnoremap <leader>tt  :set guifont=Menlo:h14<CR>
-nnoremap <leader>ttt :set guifont=Menlo:h16<CR>
-
-"Repeat last edit n times
-nnoremap . :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
-
-"CoC
-source ~/.vim/coc.vimrc
-
-"vim-qf
-nmap <silent> <C-q> <Plug>(qf_qf_switch)
-nmap <silent> <C-§> <Plug>(qf_qf_toggle_stay)
-nmap <silent> <leader>q <Plug>(qf_qf_toggle_stay)
-nmap <silent> <leader>l <Plug>(qf_loc_toggle)
-" let g:qf_loclist_window_bottom = 0
-let g:qf_mapping_ack_style = 1
-
-" copy full path
-:command! CopyPath let @+ = expand("%:p")
-" copy just filename
-:command! CopyFilename let @+ = expand("%:t")
-" copy branch
-:command! CopyBranch let @+ = FugitiveHead()
-
-:function! OpenCSSFile()
-: if filereadable(expand('%:r') . ".scss")
-:   :execute 'vsp' expand('%:r') . ".scss"
-: elseif filereadable(expand('%:r') . ".module.scss")
-:   :execute 'vsp' expand('%:r') . ".module.scss"
-: elseif filereadable(expand('%:r') . ".module.css")
-:   :execute 'vsp' expand('%:r') . ".module.css"
-: else
-:   echo "No matching CSS file found"
-: endif
-:endfunction
-:command! OpenCSS call OpenCSSFile()
-nnoremap <C-g><C-s> :OpenCSS<CR>
-
+let g:coc_node_path = '/opt/homebrew/bin/node'
 if has("patch-8.1.0251")
   if !isdirectory($HOME . "/.vim/backup")
     call mkdir($HOME . "/.vim/backup", "p", 0711)
@@ -64,14 +22,61 @@ if !isdirectory($HOME . "/.vim/undo")
 endif
 set undofile
 set undodir^=~/.vim/undo//
+if !isdirectory($HOME . "/.vim/view")
+  call mkdir($HOME . "/.vim/view", "p", 0711)
+endif
+set viewdir^=~/.vim/view//
+if !isdirectory($HOME . "/.vim/session")
+  call mkdir($HOME . "/.vim/session", "p", 0711)
+endif
 
+set helpheight=10
 
+set linespace
+set breakindent
+set showbreak=\\\\\
+set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
+set list
+"set fillchars=vert:|,eob:~,lastline:@,foldclose:+,foldopen:-,foldsep:|,fold:-m,diff:-
+colorscheme vividchalk
+
+autocmd! GUIEnter * set vb t_vb=
 if has('gui_running')
   set guioptions-=rL
   set guioptions+=ck
   set guicursor+=a:blinkon0
   set noantialias
   set guifont=Menlo:h14
+
+  " set showbreak=\\\\\
+  set showbreak=╲
+
+  set listchars=
+  " set listchars+=tab:⡢⠤⠤⡦⡢⠤⠤⡦tab
+  " set listchars+=tab:⡦⠤⠤⡦⡦⠤⠤⡦tab
+  " set listchars+=tab:⢰⠤⠤⡦⢰⠤⠤⡦tab
+  " set listchars+=tab:⠕⠒⠒⠗⠕⠒⠒⠗tab
+  " set listchars+=tab:⠽⠒⠒⠕⠽⠒⠒⠕tab
+  " set listchars+=tab:⠗⠒⠒⠕⠗⠒⠒⠕tab
+  " set listchars+=tab:⣲⣒⣒⡢⣲⣒⣒⡢tab
+  set listchars+=tab:⣲⣒⡢
+  " set listchars+=tab:⣲⠤⠤⡦⣲⠤⠤⡦tab
+  set listchars+=multispace:\ ⣀⣀⣀⢀⣀⣀⣀
+  set listchars+=lead:⣄
+  set listchars+=trail:⢠
+  set listchars+=eol:⡟
+  "⣏⢽⣎⣝⣟⢟⢛⢹⢻⢼⢫⢣⡯⡱⢷
+  " set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
+  set fillchars=
+  set fillchars+=vert:║
+  set fillchars+=eob:⣇
+  set fillchars+=lastline:@
+  set fillchars+=foldclose:◉
+  set fillchars+=foldopen:◯
+  set fillchars+=foldsep:▫︎
+  set fillchars+=fold:⌶
+
+  colorscheme vividmayhem
 else
   set ttyfast
 
@@ -88,27 +93,27 @@ else
   augroup END
 endif
 
-autocmd! GUIEnter * set vb t_vb=
 set t_Co=256
+set background=dark
 if !exists("g:syntax_on")
   syntax enable
 endif
 set re=0
-set background=dark
-filetype plugin indent on
 
+filetype plugin indent on
 set ts=2 sts=2 sw=2 et
 set enc=utf8
 filetype on
+
 set mouse=a
 set backspace=indent,eol,start
 
 set timeout
 set timeoutlen=600
+set updatetime=300
 set synmaxcol=256
 
-set noea
-set nocompatible
+set noequalalways
 set nrformats-=octal
 set smarttab
 set laststatus=2
@@ -117,12 +122,6 @@ set display+=lastline
 set autoread
 set showcmd
 set shortmess+=sAIt
-
-" Display line movements, except with count
-nnoremap <expr> j v:count ? 'j' : 'gj'
-nnoremap <expr> k v:count ? 'k' : 'gk'
-
-set updatetime=300
 
 let g:netrw_banner=0
 let g:netrw_fastbrowse=0
@@ -145,93 +144,36 @@ set sessionoptions-=options
 " Delete comment character when joining commented lines
 set formatoptions+=j
 
-set breakindent
-set showbreak=\\\\\
-set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
-set list
-
-augroup misc_commands
-  autocmd!
-  " Set working directory to current file
-  au BufEnter * silent! lcd %:p:h
-
-  au FileType netrw set nolist
-  au FileType gitcommit set nolist
-  "au FileType netrw au BufEnter <buffer> set nolist
-  "au FileType netrw au BufLeave <buffer> set list
-augroup END
-
 set completeopt=longest,menuone,noinsert
 set splitbelow
 
-
-" Searching & Ack (Ag)
-
+" Searching
 set hlsearch
 set incsearch
 " search up to root when using gf, opening files etc.
 set path+=;~
 
-" Seach current buffer
-" word under cursor
-"   hl    +prev  +next
-"   \\       *      #   (word boundaries)
-"   \\\     g*     g#   (anywhere)
-" visual selection:
-"   prev  next
-"     *     #  anywhere
-" Put word under cursor into search register and highlight
-nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
-" vnoremap <silent> <Leader>* :<C-U>
-"   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-"   \gvy:let @/=substitute(
-"   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>
-"   \gV:call setreg('"', old_reg, old_regtype)<CR>:set hls<CR>
-
-" Search across files
-" Get a useful search root folder
-" - parent git dir
-" - folder patterns
-:function! ProjectRoot()
-  let l:root_dirs = ['.git']
-  let l:root_files = ['.root', '.gitignore']
-  for l:item in l:root_dirs
-    let l:dirs = finddir(l:item, '.;~', -1)
-    if !empty(l:dirs)
-      return fnameescape(fnamemodify(l:dirs[-1].'/../', ':p:h'))
-    endif
-  endfor
-  for l:item in l:root_files
-    let l:files = findfile(l:item, '.;~', -1)
-    if !empty(l:files)
-      return fnameescape(fnamemodify(l:files[-1], ':p:h'))
-    endif
-  endfor
-  return getcwd()
-:endfunction
-:command! -bar ProjectRoot :echo ProjectRoot()
-
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
-cnoreabbrev Ack Ack!
-cnoreabbrev ag exec 'cd' ProjectRoot() <bar> Ack! -Q 
-nnoremap <Leader>a :Ack!<Space>
-" • = ⌥ + *
-nnoremap # :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w><CR>
-nnoremap • :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w><CR>
-nnoremap <Leader>' :exec 'cd' ProjectRoot() <bar> Ack! <C-r><C-w><CR>
-nnoremap <Leader>" :exec 'cd' ProjectRoot() <bar> Ack! <C-r>/<CR>
+
+"vim-qf
+" let g:qf_loclist_window_bottom = 0
+" let g:qf_window_bottom = 0
+let g:qf_mapping_ack_style = 1
+let g:qf_auto_resize = 0
+let g:qf_auto_open_loclist = 0
+let g:qf_auto_open_quickfix = 0
+let g:qf_max_height = 8
+
 
 " CtrlP
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_root_markers = ['.git', '.root']
-let g:ctrlp_match_window = 'top,order:btt,min:1,max:10,results:10'
-nnoremap <S-tab>     :CtrlP<CR>
-nnoremap <leader>p   :CtrlP<CR>
+let g:ctrlp_match_window = 'top,order:btt,min:1,max:7,results:7'
 
 let g:jsx_ext_required = 0
 
@@ -242,8 +184,5 @@ let g:jsx_ext_required = 0
 " background colours to match the sign column
 let g:gitgutter_set_sign_backgrounds = 0
 
-if has('gui_running')
-  colorscheme vividmayhem
-else
-  colorscheme vividchalk
-endif
+
+

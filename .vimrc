@@ -1,5 +1,5 @@
-
 set encoding=utf-8
+scriptencoding utf-8
 set nocompatible
 
 let g:coc_node_path = '/opt/homebrew/bin/node'
@@ -32,51 +32,26 @@ endif
 
 set helpheight=10
 
+set t_Co=256
+set background=dark
 set linespace
 set breakindent
-set showbreak=\\\\\
+" set breakat= 	!@*-+;:,./?
+set showbreak=\\
 set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
 set list
 "set fillchars=vert:|,eob:~,lastline:@,foldclose:+,foldopen:-,foldsep:|,fold:-m,diff:-
-colorscheme vividchalk
+colorscheme vividmayhem
 
+" Visual bell + error flash off
 autocmd! GUIEnter * set vb t_vb=
+
 if has('gui_running')
   set guioptions-=rL
   set guioptions+=ck
   set guicursor+=a:blinkon0
-  set noantialias
+  set antialias
   set guifont=Menlo:h14
-
-  " set showbreak=\\\\\
-  set showbreak=╲
-
-  set listchars=
-  " set listchars+=tab:⡢⠤⠤⡦⡢⠤⠤⡦tab
-  " set listchars+=tab:⡦⠤⠤⡦⡦⠤⠤⡦tab
-  " set listchars+=tab:⢰⠤⠤⡦⢰⠤⠤⡦tab
-  " set listchars+=tab:⠕⠒⠒⠗⠕⠒⠒⠗tab
-  " set listchars+=tab:⠽⠒⠒⠕⠽⠒⠒⠕tab
-  " set listchars+=tab:⠗⠒⠒⠕⠗⠒⠒⠕tab
-  " set listchars+=tab:⣲⣒⣒⡢⣲⣒⣒⡢tab
-  set listchars+=tab:⣲⣒⡢
-  " set listchars+=tab:⣲⠤⠤⡦⣲⠤⠤⡦tab
-  set listchars+=multispace:\ ⣀⣀⣀⢀⣀⣀⣀
-  set listchars+=lead:⣄
-  set listchars+=trail:⢠
-  set listchars+=eol:⡟
-  "⣏⢽⣎⣝⣟⢟⢛⢹⢻⢼⢫⢣⡯⡱⢷
-  " set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
-  set fillchars=
-  set fillchars+=vert:║
-  set fillchars+=eob:⣇
-  set fillchars+=lastline:@
-  set fillchars+=foldclose:◉
-  set fillchars+=foldopen:◯
-  set fillchars+=foldsep:▫︎
-  set fillchars+=fold:⌶
-
-  colorscheme vividmayhem
 else
   set ttyfast
 
@@ -93,8 +68,6 @@ else
   augroup END
 endif
 
-set t_Co=256
-set background=dark
 if !exists("g:syntax_on")
   syntax enable
 endif
@@ -102,8 +75,6 @@ set re=0
 
 filetype plugin indent on
 set ts=2 sts=2 sw=2 et
-set enc=utf8
-filetype on
 
 set mouse=a
 set backspace=indent,eol,start

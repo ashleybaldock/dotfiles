@@ -5,8 +5,13 @@ nnoremap <leader>o   <C-o>
 nnoremap §x          <C-i>
 nnoremap <leader>i   <C-i>
 
+" :w
+nnoremap §w :w<CR>
+nnoremap §!w :w!<CR>
+
 " :e
 nnoremap §e :e .<CR>
+nnoremap §!e :e! .<CR>
 
 nnoremap <S-tab>     :CtrlP<CR>
 nnoremap <leader>p   :CtrlP<CR>
@@ -30,6 +35,9 @@ nnoremap §p %!npx prettier --stdin-filepath %<CR>
 " nnoremap ?? :CopyPath<CR>
 " nnoremap ?? :CopyFilename<CR>
 " nnoremap ?? :CopyBranch<CR>
+
+" Remove blank lines
+" :g/^$/d
 
 " Quickfix 
 nnoremap §q :windo lcl\|ccl<CR>
@@ -84,7 +92,7 @@ nnoremap <expr> k v:count ? 'k' : 'gk'
   call inputsave()
   let search = input("Ack! ")
   call inputrestore()
-  AckEscaped(search)
+  call AckEscaped(search)
 :endfunc
 
 :command! AckInput :exec AckInput()
@@ -124,18 +132,6 @@ nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hl
 "   \gvy:let @/=substitute(
 "   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>
 "   \gV:call setreg('"', old_reg, old_regtype)<CR>:set hls<CR>
-
-
-" a⃝ l@w
-" 
-" wa⃝
-" 
-" s/ ⃝/ /
-" %s/ ⃝/ /
-" s/ ⃝/ /g
-" s/ /  /
-" s/ /  /g
-" s/ /   /g
 
 " Diagnostics
 " [[   list

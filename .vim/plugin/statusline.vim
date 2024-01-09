@@ -1,22 +1,4 @@
-function! StatusLineHighlights() abort
-  hi StatusLine      cterm=bold ctermfg=0 ctermbg=5 gui=none guifg=White guibg=#232323
-  hi StatusLineNC    cterm=italic ctermfg=0 gui=italic guifg=#DDDDDD guibg=#151515
-  hi VertSplit       term=reverse cterm=reverse gui=none guifg=#666666 guibg=#151515
-
-  " StatusLine syntax errors
-  hi StatusSynErr    ctermfg=197 guifg=#FF0000 guibg=#000000
-  hi StatusSynErrNC  ctermfg=197 guifg=#AA0000 guibg=#000000
-  hi StatusSynWarn   ctermfg=220 guifg=#FFAA00 guibg=#000000
-  hi StatusSynWarnNC ctermfg=220 guifg=#CC7700 guibg=#000000
-  hi StatusSynOk     ctermfg=LightGreen guifg=#55CC00 guibg=#000000
-  hi StatusSynOkNC   ctermfg=LightGreen guifg=#229900 guibg=#000000
-  hi StatusSynOff    ctermfg=Cyan guifg=#00FFFF
-  hi StatusSynOffNC  ctermfg=Cyan guifg=#00DDDD
-
-  " StatusLine git info
-  hi StatusGit       ctermfg=92 guifg=#7D27A8
-  hi StatusGitNC     ctermfg=92 guifg=#7D27A8 
-endfunction
+scriptencoding utf-8
 
 " set statusline+=%#IsModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
 " set statusline+=%#IsModified#%{&mod?'+':''}%*
@@ -31,21 +13,6 @@ function! DebugWinNumber()
   return printf(' %%#Statement#%w%s:%s%%* ', win_getid(), g:actual_curwin)
 endfunction
 
-" function! StatusDiagnostic() abort
-"   " Buffer local variable containing diagnostics
-"   " :echom get(b:, 'coc_diagnostic_info', {})
-"   " e.g. {'information': 19, 'hint': 0, 'lnums': [17, 0, 1, 0], 'warning': 0, 'error': 19}
-"   let info = get(b:, 'coc_diagnostic_info', {})
-"   if empty(info) | return '' | endif
-"   let msgs = []
-"   if get(info, 'error', 0)
-"     call add(msgs, 'E' . info['error'])
-"   endif
-"   if get(info, 'warning', 0)
-"     call add(msgs, 'W' . info['warning'])
-"   endif
-"   return join(msgs, ' '). ' ' . get(g:, 'coc_status', '')
-" endfunction
 function! DiagCoC()
   if exists('g:did_coc_loaded')
     " let l:wininfo = getwininfo(g:actual_curwin)
@@ -83,36 +50,89 @@ endfunction
 " Fugitive
 function! S_fugitive()
   let l:hisuffix = g:actual_curwin == win_getid() ? '' : 'NC'
-  let l:git = '⎇ '
-  let l:off = '⎇ ' "??'
+  " †‡※⁕⁑𑀛•◦ 𐀿𐠩𐠸 𐩯𐩮𐩠𐩪 𐠫𐠃𐠠𐠨 𐱃𐠊𐠒𐠑𐠙 𐠘 ʎ𐝕 𐝕 𑀕 𑀰 𑀏 ⫷ ⧷⧶𝞧 𝞒 𝛹 𝚿 𐩻𐩠𐩮𐩼 ⎇ 
+  let l:git = '𑀛'
+  let l:notgit = '⁞'
+  let l:gitoff = '⸮'
   if exists('g:loaded_fugitive')
     let l:head = FugitiveHead()
     " return empty(l:head) ? '' : '⎇⃝  ⎇⃣ '.l:head . ' '
     " return empty(l:head) ? '' : '⎇ '
-    if !empty(l:head)
+    if empty(l:head)
+      return printf('%%#StatusNotGit%s#%s%%*', l:hisuffix, l:notgit)
+    else
       return printf('%%#StatusGit%s#%s%%*', l:hisuffix, l:git)
     endif
   endif
-  return printf('%%#StatusGit%s#%s%%*', l:hisuffix, l:off)
-endfunction
+  return printf('%%#StatusGitOff%s#%s%%*', l:hisuffix, l:gitoff)
+endfunc
+
+function! StatuslineMode() abort
+  " ^V/^S need to be real, i.e. entered using ctrl+v,ctrl+v/ctrl+s
+  return { 'n':'n', 'v':'v', 'V':'v̅', '': 'v̺͆', 's': 's', 'S': 's̅', '': 's̺͆', 'i': 'ɪ', 'R': 'ʀ', 'r': 'ᴚ', 't': 'ʇ', 'c': 'ɔ', '!': 'S', }[mode()]
+endfunc
+
+function! ScrollHint() abort
+" Top ˥
+"     ꜈ 1%-24%
+" 25% ˦
+"     ꜉ 26%-49%
+" 50% ˧
+"     ꜋
+" 75% ˨
+"     ꜌
+" Bot ˩
+" ꜛꜜꜝꜞꜟ ↓↑ ˥꜈꜉꜊꜋꜌ ꜍꜎꜏꜐꜑꜒꜓꜔꜕꜖˩
+" ᵦᵧᵨᵩᵪ₀₁₂₃₄₅₆₇₈₉
+" ⣏⢽⣎⣝⣟⢟⢛⢻⢼⢫⢣⡯⡱⢷
+endfunc
+
+function! StatuslineEncoding() abort
+  if &fileencoding && &fileencoding!= 'utf-8'
+    set statusline+= 
+  endif
+endfunc
 
 set statusline=
-set statusline+=\ 
+" set statusline+=\ 
 " Git info
 set statusline+=%{%S_fugitive()%}
-" file info - e.g. .vimrc +
-" %t    - file name:so %
-" %H/%h - help flag     ,HLP/[help]
-" %W/%w - preview flag  ,PRV/[Preview]
-" %M/%m - modified flag ,+  /[+]
-" %R/%r - readonly flag ,RO /[RO]
-" %Y/%y - filetype      ,VIM/[vim]
+set statusline+=\ 
+set statusline+=%-t
+" Truncation point- following items hidden first
+set statusline+=%<
+set statusline+=\ 
 " set statusline+=%#StatusBold#
-set statusline+=%{&mod?'＋⃞⧺⃞\':''}%*\ %-t%<\ %H%W%M%R\ 
-" set statusline+=%*
-" set statusline+=%{&mod?' ':''}\ %-t%<\ %H%W%M%R\ 
-" Sep. between left and right
+set statusline+=%{&modified?'+':''}
+
+" Split between <<left and right>>
 set statusline+=%=
+
+set statusline+=%{&modifiable?'':'m⃞̸\ '}
+set statusline+=%{&readonly?'ʀ⃞\ ':''}
+" set statusline+=%{&modified?'⧺':''}
+" set statusline+=%{&modified?&modifiable?'-':'+':''}
+" set statusline+=%{&help?'𝒾⃟':''}
+" set statusline+=%{&help?'𝓲⃝':''}
+" set statusline+=%{&help?'𝓲⃞':''}
+set statusline+=%#StatusSynErr#
+set statusline+=%{&fileformat=='unix'?'':'␌⃞ˣ'}
+set statusline+=%{&fileencoding!~'^$\\|utf-8'?'':'∪⃞⃥\ '}
+set statusline+=%*
+
+set statusline+=%{&previewwindow?'ᴘ⃞':''}
+" reset:StatusBold
+" set statusline+=%*
+" file info - e.g. .vimrc +
+" %t  - file name:so %
+" %Hh - help flag     ,HLP/[help]     𝓲⃝ 𝓲⃞ 𝒾⃟ 
+" %Ww - preview flag  ,PRV/[Preview]  ᴾ⃞ Ⓟ⃞ ᵖ⃞ Ⓟ⃞  
+" %Mm - modified flag ,+  /[+]        f
+" %Rr - readonly flag ,RO /[RO]       ʀ⃞ ᴿ͇̅ ʷ⃠ ᴿ̲̅ R⃞ ʀ⃞
+" %Yy - filetype      ,VIM/[vim]
+set statusline+=%y
+set statusline+=\ 
+
 " buffer info - e.g. 1 300,82-85 99%
 " %(...%) - item group
 " %n - buffer number
@@ -120,9 +140,15 @@ set statusline+=%=
 " %c - col number
 " %V - virtual col number
 " %P - percentage scrolled
-set statusline+=%(%n\ %l,%c%V\ %P%)\ 
-" Errors/warnings in statusline (from CoC)
+" set statusline+=%(%n\ %l,%c%V\ %P%)\ 
+set statusline+=%(%P%)\ 
+" Errors/warnings from CoC
 set statusline+=%{%DiagCoC()%}
+" set statusline+=\ 
+" set statusline+=%{%StatuslineMode()%}
+
 " Debug
 " set statusline+=%{%DebugWinNumber()%}
-set statusline+=\ 
+" set statusline+=\ 
+" set statusline+=%{&mod?'+⃞':''}%*\ %-t%<\ %H%W%M%R\ 
+

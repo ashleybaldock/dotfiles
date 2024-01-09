@@ -8,6 +8,21 @@ git config --global alias.unstage 'reset HEAD --'
 git config --global alias.change-commits "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
 git config --global alias.parent "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
 
+git config --global core.pager "delta"
+git config --global interactive.diffFilter "delta --color-only --features=interactive"
+
+git config --global delta.features "decorations"
+
+git config --global delta.interactive.keep-plus-minus-marker "false"
+
+git config --global delta.decorations.commit-decoration-style "blue ol"
+git config --global delta.decorations.commit-style "raw"
+git config --global delta.decorations.file-style "omit"
+git config --global delta.decorations.hunk-header-decoration-style "blue box"
+git config --global delta.decorations.hunk-header-file-style "red"
+git config --global delta.decorations.hunk-header-line-number-style "#067a00"
+git config --global delta.decorations.hunk-header-style "file line-number syntax"
+
 # Tidy
 # git remote prune origin
 # git checkout develop && git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d

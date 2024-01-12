@@ -93,6 +93,24 @@ function! StatuslineEncoding() abort
   endif
 endfunc
 
+
+" Statusline for narrow windows (<16)
+" filen….vim
+" filen⋯.vim
+" filen⋮.vim
+" filen…vim
+" filen⋯vim
+" filen⋮vim
+" ຯ❋ ❊⬮⬬ ⬭ ⬯ ◌ 
+" filen‥.vim
+" filen·.vim
+" filen•vim
+" filen•.vim
+" filen‥vim
+" filen·vim
+" Statusline for zero height windows
+
+
 set statusline=
 " set statusline+=\ 
 " Git info

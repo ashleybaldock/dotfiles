@@ -84,7 +84,13 @@ set timeoutlen=600
 set updatetime=300
 set synmaxcol=256
 
-set noequalalways
+set cmdheight
+set equalalways
+set eadirection=hor
+set splitbelow
+set splitright
+set splitkeep=cursor
+set winminheight=0
 set nrformats-=octal
 set smarttab
 set laststatus=2
@@ -116,7 +122,6 @@ set sessionoptions-=options
 set formatoptions+=j
 
 set completeopt=longest,menuone,noinsert
-set splitbelow
 
 " Searching
 set hlsearch

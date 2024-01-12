@@ -6,15 +6,39 @@ nnoremap §x          <C-i>
 nnoremap <leader>i   <C-i>
 
 " :w
-nnoremap §w :w<CR>
-nnoremap §!w :w!<CR>
+nnoremap §ww :w<CR>
+nnoremap §wW :w!<CR>
+nnoremap §wa :wa<CR>
 
-" :e
-nnoremap §e :e .<CR>
-nnoremap §!e :e! .<CR>
+" open
+" [:e, :e!] <filename>
+" §ee, $eE ⇉ same window
+" §es, $eS ⇉ horizontal split
+" §ev, §eV ⇉ vertical split
+" §er, §eR ⇉ reload
+" §ed, §eD ⇉ current directory
+" §ec, §eC ⇉ enew
+"
+nnoremap §ee :e 
+nnoremap §eE :e! 
+nnoremap §es :sp 
+nnoremap §eS :sp! 
+nnoremap §ev :vsp 
+nnoremap §eV :vsp! 
+nnoremap §er :e %<CR>
+nnoremap §eR :e! %<CR>
+nnoremap §ed :e .<CR>
+nnoremap §eD :e .<CR>
+nnoremap §ec :enew<CR>
+nnoremap §eC :enew!<CR>
 
+nnoremap §1 :CtrlP<CR>
 nnoremap <S-tab>     :CtrlP<CR>
 nnoremap <leader>p   :CtrlP<CR>
+
+" Splits & windows
+nnoremap §ss :sp<CR>
+nnoremap §sv :vsp<CR>
 
 nnoremap §<S-i> :so $VIMRUNTIME/syntax/hitest.vim<CR>
 nnoremap §i :SynStack<CR>

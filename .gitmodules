@@ -68,3 +68,6 @@
 [submodule ".vim/pack/default/start/vim-surround"]
 	path = .vim/pack/default/start/vim-surround
 	url = https://github.com/tpope/vim-surround.git
+[submodule ".vim/pack/default/start/quickr-preview"]
+	path = .vim/pack/default/start/quickr-preview
+	url = https://github.com/ronakg/quickr-preview.vim.git

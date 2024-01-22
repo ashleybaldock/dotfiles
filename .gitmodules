@@ -71,3 +71,6 @@
 [submodule ".vim/pack/default/start/quickr-preview"]
 	path = .vim/pack/default/start/quickr-preview
 	url = https://github.com/ronakg/quickr-preview.vim.git
+[submodule ".vim/pack/default/start/mediawiki.vim"]
+	path = .vim/pack/default/start/mediawiki.vim
+	url = https://github.com/chikamichi/mediawiki.vim.git

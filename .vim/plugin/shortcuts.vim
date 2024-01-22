@@ -47,12 +47,23 @@ nnoremap §i :SynStack<CR>
 nnoremap            §c :nohlsearch<CR>
 nnoremap <silent> <CR> :nohlsearch<CR><CR>
 
-" Source current file
+" Source current buffer
+nnoremap §rf :so<CR>
+" nnoremap §rf :if &filetype=='vim' && $HOME . '/.vim/ :so<CR>
+" Source current saved file
 nnoremap §rf :so %<CR>
 " Source current line
 nnoremap §rr :.,.so<CR>
+" Source vimrc
+nnoremap §rv :so ~/.vimrc<CR>
 " Execute currently selected
 vmap §<space> "xy:@x<CR>
+" Get result of command in new buffer
+" redir @">|silent echo getbufinfo(bufnr())|redir END|vsp|enew|put|silent %s/'/"/ge|silent %s/\\/\\\\/ge|silent %s/: \zs[^0-9[{",]*\ze,/"\0"/ge|setlocal filetype=json|call CocAction('format')|setlocal nomodified
+"
+" s/^[[:blank:]"]*\zs.*/
+" %s/,\ /,/g
+
 
 " Prettify
 nnoremap §p %!npx prettier --stdin-filepath %<CR>
@@ -95,33 +106,8 @@ nnoremap <C-g><C-s> :OpenCSS<CR>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
-:function! AckEscaped(search)
-  " The ! avoids jumping to first result automatically
-  execute printf('Ack! -Q -- "%s"', substitute(a:search, '\([%"\\]\)', '\\\1', 'g'))
-:endfunc
 
-:function! AckClipboard()
-  call AckEscaped(@")
-:endfunc
-
-:function! AckCurrentWord()
-  call AckEscaped(expand("<cword>"))
-:endfunc
-
-:function! AckLastSearch()
-  call AckEscaped(expand("<cword>"))
-:endfunc
-
-:function! AckInput()
-  call inputsave()
-  let search = input("Ack! ")
-  call inputrestore()
-  call AckEscaped(search)
-:endfunc
-
-:command! AckInput :exec AckInput()
-:command! AckClipboard :exec AckClipboard()
-:command! AckCurrentWord :exec AckCurrentWord()
+" === Ack / Search ===
 
 " Searching
 " cnoreabbrev ag :CdProjectRoot <bar> Ack! -Q --
@@ -157,6 +143,9 @@ nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hl
 "   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>
 "   \gV:call setreg('"', old_reg, old_regtype)<CR>:set hls<CR>
 
+
+" === Coc ===
+
 " Diagnostics
 " [[   list
 " []   next
@@ -166,14 +155,37 @@ nmap <silent> [[  :<C-u>CocList diagnostics<cr>
 nmap <silent> ]]  :<C-u>CocDiagnostics<cr>
 nmap <silent> ][ <Plug>(coc-diagnostic-prev)
 nmap <silent> [] <Plug>(coc-diagnostic-next)
+nmap <silent> ][ <Plug>(coc-diagnostic-prev-error)
+nmap <silent> [] <Plug>(coc-diagnostic-next-error)
 
 " GoTo code navigation.
+" 
+"<Plug>(coc-definition)|
+"<Plug>(coc-declaration)|
+"<Plug>(coc-implementation)|
+"<Plug>(coc-type-definition)|
+"<Plug>(coc-references)|
+"<Plug>(coc-references-used)|
+"
+"CocAction('jumpDefinition')| Jump to definition locations.
+"CocAction('jumpDeclaration')| Jump to declaration locations.
+"CocAction('jumpImplementation')| Jump to implementation locations.
+"CocAction('jumpTypeDefinition')| Jump to type definition locations.
+"CocAction('jumpReferences')|| Jump to references.
+"CocAction('jumpUsed')| Jump to references without declarations.
+"CocAction('definitions')| Get definition list.
+"CocAction('declarations')| Get declaration list.
+"CocAction('implementations')| Get implementation list.
+"CocAction('typeDefinitions')| Get type definition list.
+"CocAction('references')| Get reference list.
 nmap <silent> <C-g><C-g> <Plug>(coc-definition)
 nmap <silent> <C-g><C-t> <Plug>(coc-type-definition)
 nmap <silent> <C-g><C-i> <Plug>(coc-implementation)
 
 nmap <silent> <C-g><C-v> <Plug>(coc-diagnostic-prev)
 nmap <silent> <C-g><C-b> <Plug>(coc-diagnostic-next)
+nmap <silent> <C-g><C-v> <Plug>(coc-diagnostic-prev-error)
+nmap <silent> <C-g><C-b> <Plug>(coc-diagnostic-next-error)
 
 " nmap <silent> gi <Plug>(coc-implementation)
 
@@ -181,6 +193,22 @@ nmap <silent> gr <Plug>(coc-references)
 
 " nmap <silent> gf <Plug>(coc-fix-current)
 nmap <silent> <C-g><C-f> <Plug>(coc-fix-current)
+nnoremap <silent> §2 <Plug>(coc-codeaction-line)
+"<Plug>(coc-fix-current)| Invoke quickfix action at current line if any.
+"<Plug>(coc-codeaction-cursor)| Choose code actions at cursor position.
+"<Plug>(coc-codeaction-line)| Choose code actions at current line.
+"<Plug>(coc-codeaction)| Choose code actions of current file.
+"<Plug>(coc-codeaction-source)| Choose source code action of current file.
+"<Plug>(coc-codeaction-selected)| Choose code actions from selected range.
+"<Plug>(coc-codeaction-refactor)| Choose refactor code action at cursor position.
+"<Plug>(coc-codeaction-refactor-selected)| Choose refactor code action with selected code.
+"CocAction('codeActions')|
+"CocAction('organizeImport')|
+"CocAction('fixAll')|
+"CocAction('quickfixes')|
+"CocAction('doCodeAction')|
+"CocAction('doQuickfix')|
+"CocAction('codeActionRange')|
 
 " Symbol renaming.
 nmap <silent> <C-g><C-r> <Plug>(coc-rename)
@@ -194,6 +222,9 @@ nmap <leader>ca  <Plug>(coc-codeaction-selected)
 
 " gh - get hint on whatever's under the cursor
 nnoremap <silent> gh :ShowDocumentation<CR>
+
+" ctrl-space to refresh suggestions
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " list commands available in tsserver (and others)
 nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>

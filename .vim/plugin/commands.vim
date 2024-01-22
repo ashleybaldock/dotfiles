@@ -12,7 +12,7 @@ function! <SID>SynStack()
   if !exists("*synstack")
     return
   endif
-  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '▹')
+  echo join(map(synstack(line('.'), col('.')), 'hlget(synIDattr(v:val, "name"))'), '▹')
 endfunc
 :command! SynStack :echo <SID>SynStack()
 " nmap <leader>sp :call <SID>SynStack()<CR>
@@ -24,10 +24,46 @@ augroup misc_commands
   " Set working directory to current file
   au BufEnter * silent! lcd %:p:h
 
-  au FileType netrw set nolist
-  au FileType gitcommit set nolist
+  au FileType netrw setlocal nolist
+  au FileType gitcommit setlocal nolist
   "au FileType netrw au BufEnter <buffer> set nolist
   "au FileType netrw au BufLeave <buffer> set list
   " Use <esc> to close quickfix window
-  au FileType qf if mapcheck('<esc>', 'n') ==# '' | nnoremap <buffer><silent> <esc> :cclose<bar>lclose<CR> | endif
+  " au FileType qf if mapcheck('<esc>', 'n') ==# '' | nnoremap <buffer><silent> <esc> :cclose<bar>lclose<CR> | endif
 augroup END
+
+
+" === Ack / Search ===
+
+:function! s:AckEscaped(search)
+  " The ! avoids jumping to first result automatically
+  execute printf('Ack! -Q -- "%s"', substitute(a:search, '\([%"\\]\)', '\\\1', 'g'))
+:endfunc
+
+:function! s:AckClipboard()
+  call s:AckEscaped(@")
+:endfunc
+
+:function! s:AckCurrentWord()
+  call s:AckEscaped(expand("<cword>"))
+:endfunc
+
+:function! s:AckLastSearch()
+  call s:AckEscaped(expand("<cword>"))
+:endfunc
+
+:function! s:AckInput()
+  call inputsave()
+  let search = input("Ack! ")
+  call inputrestore()
+  call s:AckEscaped(search)
+:endfunc
+
+:command! AckInput :exec <SID>AckInput()
+:command! AckClipboard :exec <SID>AckClipboard()
+:command! AckCurrentWord :exec <SID>AckCurrentWord()
+
+
+
+let topline = line("w0")
+let botline = line("w$")

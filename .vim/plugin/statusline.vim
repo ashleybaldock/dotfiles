@@ -11,7 +11,7 @@ function! DebugWinNumber()
   " let l:wininfo = getwininfo(g:statusline_winid)
   " let l:winactive = g:statusline_winid == win_getid()
   return printf(' %%#Statement#%w%s:%s%%* ', win_getid(), g:actual_curwin)
-endfunction
+endfunc
 
 function! DiagCoC()
   if exists('g:did_coc_loaded')
@@ -45,7 +45,7 @@ function! DiagCoC()
     return printf('%%#StatusSynOk%s#%s%%*', l:hisuffix, l:ok)
   endif
   return printf('%%#StatusSynOff%s#%s%%*', l:hisuffix, l:off)
-endfunction
+endfunc
 
 " Fugitive
 function! S_fugitive()
@@ -93,6 +93,34 @@ function! StatuslineEncoding() abort
   endif
 endfunc
 
+function! WinType() abort
+" (empty) = normal window, 'unknown' = not window
+" autocmd command loclist popup preview quickfix
+  let wintype = win_gettype()
+
+endfunc
+
+function! SetStatusVars()
+  if !exists('b:mayhem')
+    let b:mayhem = {}
+  endif
+  if !exists('b:mayhem.sl')
+    let b:mayhem['sl'] = {}
+  endif
+  if !exists('b:mayhem.f')
+    let b:mayhem['f'] = {}
+  endif
+
+  let b:mayhem.f.projroot = ProjectRoot()
+  " let b:mayhem.f.full = expand('%')
+  let b:mayhem.f.tail = expand('%:t')
+  let b:mayhem.f.head = expand('%:p:h')
+  let b:mayhem.f.ext = expand('%:e')
+  let b:mayhem.projname = fnamemodify(b:mayhem.f.projroot,':p:h:t')
+  let b:mayhem.f.name = expand('%:p:h')
+  let b:mayhem.f.type = getbufvar(bufnr(), '&filetype')
+endfunc
+" sp|enew|pu=execute('echo getbufvar(bufnr(), "name")')
 
 " Statusline for narrow windows (<16)
 " filen….vim
@@ -110,63 +138,127 @@ endfunc
 " filen·vim
 " Statusline for zero height windows
 
+function! NC() abort
+  let l:hisuffix = g:actual_curwin == win_getid() ? '' : 'NC'
+  return printf('%%#StatusInfo%s#𝓲⃝ %%*', l:hisuffix)
+endfunc
 
-set statusline=
-" set statusline+=\ 
-" Git info
-set statusline+=%{%S_fugitive()%}
-set statusline+=\ 
-set statusline+=%-t
-" Truncation point- following items hidden first
-set statusline+=%<
-set statusline+=\ 
-" set statusline+=%#StatusBold#
-set statusline+=%{&modified?'+':''}
+" Specific statuslines for special buffers
+function! HelpStatus() abort
+  let l:hisuffix = g:actual_curwin == win_getid() ? '' : 'NC'
 
-" Split between <<left and right>>
-set statusline+=%=
+  let b:mayhem['sl']['current'] = ''
+        \ .. printf('%%#StatusInfo%s#𝓲⃝ %%*', l:hisuffix)
+        \ .. '%*' .. '\ '
+        \ .. '%-f'
+        \ .. '%<' .. '%='
+        \ .. '%(%n\ %l,%c%V\ %P%)\ '
 
-set statusline+=%{&modifiable?'':'m⃞̸\ '}
-set statusline+=%{&readonly?'ʀ⃞\ ':''}
-" set statusline+=%{&modified?'⧺':''}
-" set statusline+=%{&modified?&modifiable?'-':'+':''}
-" set statusline+=%{&help?'𝒾⃟':''}
-" set statusline+=%{&help?'𝓲⃝':''}
-" set statusline+=%{&help?'𝓲⃞':''}
-set statusline+=%#StatusSynErr#
-set statusline+=%{&fileformat=='unix'?'':'␌⃞ˣ'}
-set statusline+=%{&fileencoding!~'^$\\|utf-8'?'':'∪⃞⃥\ '}
-set statusline+=%*
+  setlocal statusline=
+  setlocal statusline+=%#StatusInfo%{%NC()%}#𝓲⃝\ 
+  setlocal statusline+=%*
+  setlocal statusline+=\ 
+  setlocal statusline+=%-F
+  " Truncation point- following items hidden first
+  setlocal statusline+=%<
+  " Split between <<left and right>>
+  setlocal statusline+=%=
+  setlocal statusline+=%(%n\ %l,%c%V\ %P%)\ 
+endfunc
 
-set statusline+=%{&previewwindow?'ᴘ⃞':''}
-" reset:StatusBold
-" set statusline+=%*
-" file info - e.g. .vimrc +
-" %t  - file name:so %
-" %Hh - help flag     ,HLP/[help]     𝓲⃝ 𝓲⃞ 𝒾⃟ 
-" %Ww - preview flag  ,PRV/[Preview]  ᴾ⃞ Ⓟ⃞ ᵖ⃞ Ⓟ⃞  
-" %Mm - modified flag ,+  /[+]        f
-" %Rr - readonly flag ,RO /[RO]       ʀ⃞ ᴿ͇̅ ʷ⃠ ᴿ̲̅ R⃞ ʀ⃞
-" %Yy - filetype      ,VIM/[vim]
-set statusline+=%y
-set statusline+=\ 
+function! LeftIcon() abort
+    let l:hisuffix = g:actual_curwin == win_getid() ? '' : 'NC'
+  if &buftype == 'help'
+    return printf('%%#StatusInfo%s#𝓲⃝ %%*', l:hisuffix)
+    " return printf('%%#StatusInfo%s#𝒾⃟ %%*', l:hisuffix)
+  endif
+  if &buftype == 'quickfix'
+    return printf('%%#StatusInfo%s#ℚ⃞ %%*', l:hisuffix)
+    " ' ℺⃞ 🅀 𝒬⃞  ⍰ \ %%*'
+  endif
+  return S_fugitive() 
+endfunc
 
-" buffer info - e.g. 1 300,82-85 99%
-" %(...%) - item group
-" %n - buffer number
-" %l - line number
-" %c - col number
-" %V - virtual col number
-" %P - percentage scrolled
-" set statusline+=%(%n\ %l,%c%V\ %P%)\ 
-set statusline+=%(%P%)\ 
-" Errors/warnings from CoC
-set statusline+=%{%DiagCoC()%}
-" set statusline+=\ 
-" set statusline+=%{%StatuslineMode()%}
+function! DefaultCustomStatus()
+  " ⨕⃞ ⨧⃞ ⨳⃞ ⩆⃞ ➔⃞  ⫸⃞ 
+  set statusline=
+  " set statusline+=\ 
+  " Git info
+  set statusline+=%{%S_fugitive()%}
+  set statusline+=\ 
+  set statusline+=%-f
+  set statusline+=%#StatusSynErr#
+  " set statusline+=%{%pathshorten(getbufinfo(bufnr())[0].name,3)%}
+  set statusline+=%*
+  " Truncation point- following items hidden first
+  set statusline+=%<
+  set statusline+=\ 
+  " set statusline+=%#StatusBold#
+  set statusline+=%{&modified?'+':''}
 
-" Debug
-" set statusline+=%{%DebugWinNumber()%}
-" set statusline+=\ 
-" set statusline+=%{&mod?'+⃞':''}%*\ %-t%<\ %H%W%M%R\ 
+  " Split between <<left and right>>
+  set statusline+=%=
+
+  set statusline+=%{&modifiable?'':'ᴚ⃞'}
+  set statusline+=%{&readonly?'ᴚ⃞ʀ⃞ᴚ⃞':''}
+  " set statusline+=%{&modified?'⧺':''}
+  " set statusline+=%{&modified?&modifiable?'-':'+':''}
+  set statusline+=%#StatusSynErr#
+  set statusline+=%{&fileformat=='unix'?'':'␌⃞ˣ'}
+  set statusline+=%{&fileencoding!~'^$\\|utf-8'?'':'∪⃞⃥\ '}
+  set statusline+=%*
+
+  set statusline+=%{&previewwindow?'ᴘ⃞':''}
+  " reset:StatusBold
+  " set statusline+=%*
+  " file info - e.g. .vimrc +
+  " %t  - file name:so %
+  " %Hh - help flag     ,HLP/[help]     𝓲⃝ 𝓲⃞ 𝒾⃟ 
+  " %Ww - preview flag  ,PRV/[Preview]  ᴾ⃞ Ⓟ⃞ ᵖ⃞ Ⓟ⃞  
+  " %Mm - modified flag ,+  /[+]        f
+  " %Rr - readonly flag ,RO /[RO]       ʀ⃞ ᴿ͇̅ ʷ⃠ ᴿ̲̅ R⃞ ʀ⃞
+  " %Yy - filetype      ,VIM/[vim]
+  set statusline+=%y
+  set statusline+=\ 
+
+  " buffer info - e.g. 1 300,82-85 99%
+  " %(...%) - item group
+  " %n - buffer number
+  " %l - line number
+  " %c - col number
+  " %V - virtual col number
+  " %P - percentage scrolled
+  " set statusline+=%(%n\ %l,%c%V\ %P%)\ 
+  set statusline+=%(%P%)\ 
+  " Errors/warnings from CoC
+  set statusline+=%{%DiagCoC()%}
+  " set statusline+=\ 
+  " set statusline+=%{%StatuslineMode()%}
+
+  " Debug
+  " set statusline+=%{%DebugWinNumber()%}
+  " set statusline+=\ 
+  " set statusline+=%{&mod?'+⃞':''}%*\ %-t%<\ %H%W%M%R\ 
+endfunc
+
+function! UpdateCustomStatus()
+  call SetStatusVars()
+  if &buftype == 'help'
+    call HelpStatus()
+    return 
+  endif
+  call DefaultCustomStatus()
+endfunc
+
+augroup statusline
+  autocmd! * <buffer>
+  " autocmd BufEfter    <buffer> match ExtraWhitespace /\s\+$/
+  " autocmd InsertEnter <buffer> match ExtraWhitespace /\s\+\%#\@<!$/
+  " autocmd InsertLeave <buffer> match ExtraWhitespace /\s\+$/
+
+  au BufWinEnter,BufFilePost <buffer> call UpdateCustomStatus()
+  " au BufWinEnter,BufFilePost * call UpdateCustomStatus()
+  " au BufWinEnter,BufFilePost * silent! call UpdateCustomStatus()
+  au User CocDiagnosticChange let b:mayhem.sl.diag = DiagCoc()
+augroup END
 

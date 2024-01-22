@@ -2,10 +2,11 @@
   "diagnostic.enableSign": true,
   "list.signOffset": 1,
   "diagnostic.errorSign": "✘",
-  "diagnostic.warningSign": "!",
-  "diagnostic.infoSign": "i",
-  "diagnostic.hintSign": "h",
+  "diagnostic.warningSign": "‼︎",
+  "diagnostic.infoSign": "𝓲",
+  "diagnostic.hintSign": "⌁",
 
+  "suggest.noselect": true,
   "diagnostic.signLevel": "warning",
   "diagnostic.signPriority": 10,
 

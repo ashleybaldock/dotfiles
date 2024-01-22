@@ -34,14 +34,20 @@ set helpheight=10
 
 set t_Co=256
 set background=dark
-set linespace
+set linespace=0
 set breakindent
 " set breakat= 	!@*-+;:,./?
+
+" fallback for ./plugins/chars.vim
 set showbreak=\\
 set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
-set list
-"set fillchars=vert:|,eob:~,lastline:@,foldclose:+,foldopen:-,foldsep:|,fold:-m,diff:-
+let g:hide_list_in_visual = 1
+let g:default_list_style = 'minimal'
+
 colorscheme vividmayhem
+if !exists("g:syntax_on")
+  syntax enable
+endif
 
 " Visual bell + error flash off
 autocmd! GUIEnter * set vb t_vb=
@@ -68,9 +74,6 @@ else
   augroup END
 endif
 
-if !exists("g:syntax_on")
-  syntax enable
-endif
 set re=0
 
 filetype plugin indent on
@@ -84,22 +87,29 @@ set timeoutlen=600
 set updatetime=300
 set synmaxcol=256
 
-set cmdheight
+set foldnestmax=4
+set foldminlines=3
+
+set cmdheight=1
 set equalalways
 set eadirection=hor
 set splitbelow
 set splitright
-set splitkeep=cursor
+set splitkeep=screen
+
+set previewheight=8
+set winheight=14
 set winminheight=0
 set nrformats-=octal
 set smarttab
 set laststatus=2
 set wildmenu
+set wildoptions=pum
+set pumwidth=30
 set display+=lastline
 set autoread
 set showcmd
 set shortmess+=sAIt
-
 let g:netrw_banner=0
 let g:netrw_fastbrowse=0
 
@@ -133,10 +143,9 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
-
 "vim-qf
 " let g:qf_loclist_window_bottom = 0
-" let g:qf_window_bottom = 0
+let g:qf_window_bottom = 0
 let g:qf_mapping_ack_style = 1
 let g:qf_auto_resize = 0
 let g:qf_auto_open_loclist = 0
@@ -144,12 +153,14 @@ let g:qf_auto_open_quickfix = 0
 let g:qf_max_height = 8
 
 
+let g:coc_enable_locationlist = 0
+
 " CtrlP
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_root_markers = ['.git', '.root']
-let g:ctrlp_match_window = 'top,order:btt,min:1,max:7,results:7'
+let g:ctrlp_match_window = 'top,order:btt,min:1,max:6,results:20'
 
 let g:jsx_ext_required = 0
 
@@ -160,5 +171,12 @@ let g:jsx_ext_required = 0
 " background colours to match the sign column
 let g:gitgutter_set_sign_backgrounds = 0
 
-
+" let g:quickr_preview_keymaps = 0
+let g:quickr_preview_position = 'right'
+let g:quickr_preview_size = '0'
+let g:quickr_preview_line_hl = "Search"
+let g:quickr_preview_options = 'number norelativenumber nofoldenable '
+let g:quickr_preview_on_cursor = 1
+let g:quickr_preview_exit_on_enter = 1
+let g:quickr_preview_modifiable = 0
 

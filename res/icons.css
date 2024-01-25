@@ -1,0 +1,238 @@
+
+:root {
+  --icon-fg-color: #ffffff;
+  --icon-bg-color: #000000;
+  --icon-border: 1;
+  --icon-padding: 20;
+  --icon-radius: 60;
+  --icon-border-style: dashed;
+
+  --section-border: 0.44em solid #262626;
+  --section-border-radius: 1em;
+  --section-padding: 0.6em;
+}
+
+body {
+  font-size: 14px;
+  line-height: 14px;
+  display: flex;
+  flex-direction: column;
+  margin: 0.6em;
+  gap: 0.6em;
+  padding: 0;
+  background-color: #222222;
+  color: #ffffff;
+}
+
+h1 {
+  display: block;
+}
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+  border: var(--section-border);
+  border-radius: var(--section-border-radius);
+  padding: var(--section-padding);
+}
+
+.subsection {
+  flex: 1 1 100%;
+}
+
+div {
+  display: flex;
+}
+
+.iconRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6em;
+  stroke-width: var(--bound-val-stroke-width);
+  stroke: red;
+}
+.copyAs {
+  display: flex;
+  gap: 0.2em;
+  flex-direction: column;
+  width: fit-content;
+  font-family: Menlo, fixed-width;
+  height: 100%;
+}
+.asSVG {
+  font-size: 4em;
+}
+section label {
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  cursor: pointer;
+  background-position: right top;
+  background-repeat: no-repeat;
+  padding: 0 1.2em 0 0;
+  line-height: 1.2em;
+  background-image: var(--icon-copy);
+  background-size: 0.77em;
+}
+section label:hover {
+  text-decoration: underline;
+}
+section label.copied::before {
+  content: 'copied';
+  display: block;
+  color: green;
+  border: 1px solid green;
+}
+section label.copyfail::before {
+  content: 'copy failed';
+  display: block;
+  color: red;
+  border: 1px solid red;
+}
+section label::before {
+  content: unset;
+  display: none;
+  position: absolute;
+  top: -1.4em;
+  background-color: black;
+  padding: 0 0.4em;
+  width: max-content;
+  border-radius: 1em;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+fieldset label {
+  display: flex;
+  align-items: center;
+}
+fieldset label::before {
+  content: attr(data-sink-value);
+  font-family: monospace;
+  width: 2em;
+}
+fieldset datalist {
+  display: flex;
+}
+input[type='range'] {
+  position: relative;
+}
+input[type='range'] label::before,
+input[type='range'] output
+{
+  position: absolute;
+  display: flex;
+  left: calc(var(--bound-val-stroke-width, 0) * 1px);
+  content: var(--bound-str-stroke-width);
+  width: 2em;
+  height: 2em;
+}
+
+fieldset {
+  border: var(--section-border);
+  border-radius: var(--section-border-radius);
+  padding: var(--section-padding);
+}
+fieldset label {
+  flex-direction: column;
+  width: 500px;
+  margin: 0;
+  border: 0;
+}
+
+
+fieldset datalist {
+  display: grid;
+  place-items: start;
+  grid-template-columns: [sm] repeat(9, calc(((100% - (var(--offset) * 2)) / 8))) [em];
+  grid-template-rows: 1fr;
+  grid-auto-flow: row;
+  font-size: 0.7em;
+  --offset: 10px;
+  --wmark: calc(((100% - (var(--offset) * 2)) / 8));
+  position: relative;
+  width: 100%;
+}
+input[type="range"] {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+fieldset datalist option {
+  display: flex;
+  justify-content: center;
+  grid-column-start: sm;
+  grid-column: auto;
+  max-width: 1px;
+  background-color: red;
+  position: relative;
+  left: 10px;
+}
+
+option::before {
+  position: absolute;
+  left: 0px;
+  content: attr(value);
+  display: block;
+  min-width: 20px;
+  text-align: center;
+}
+
+fieldset datalist option:nth-child(2n)::before {
+  color: #ad5bff;
+  font-size: 0.8em;
+}
+
+
+
+
+h1 {
+  display: block;
+  width: 100%;
+  margin: 0.2em 0.2em 0 0.2em;
+  font-size: 1.23em;
+  font-family: Menlo, fixed-width;
+  font-weight: normal;
+  letter-spacing: 0.04em;
+  line-height: 1.23em;
+}
+
+.iconRow input {
+  height: 1px;
+  font-size: 1px;
+  width: 0px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--icon-bg-color);
+  opacity: 0;
+}
+.iconRow:hover input {
+  opacity: 0.9;
+}
+
+
+svg {
+  width: 1em;
+  height: 1em;
+  fill: var(--icon-fg-color, #ffffff);
+  background-color: var(--icon-bg-color, #000000);
+  padding: calc(0.01em * (var(--icon-padding, 16) - var(--icon-border, 3)));
+  border-radius: calc(0.005em * var(--icon-radius, 3));
+  border-width: calc(0.01em * var(--icon-border, 3));
+  max-height: 1em;
+  box-sizing:  border-box;
+  border-style: var(--icon-border-style, solid);
+  border-color: var(--icon-fg-color, #ffffff);
+}
+
+svg path {
+  fill: var(--icon-fg-color, #ffffff);
+}
+
+

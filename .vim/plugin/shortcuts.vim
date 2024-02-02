@@ -43,15 +43,11 @@ nnoremap §sv :vsp<CR>
 nnoremap §<S-i> :so $VIMRUNTIME/syntax/hitest.vim<CR>
 nnoremap §i :SynStack<CR>
 
-" clear last search highlighting
-nnoremap            §c :nohlsearch<CR>
-nnoremap <silent> <CR> :nohlsearch<CR><CR>
-
-" Source current buffer
-nnoremap §rf :so<CR>
 " nnoremap §rf :if &filetype=='vim' && $HOME . '/.vim/ :so<CR>
 " Source current saved file
 nnoremap §rf :so %<CR>
+" Source current buffer (doesn't refresh everything)
+nnoremap §re :so<CR>
 " Source current line
 nnoremap §rr :.,.so<CR>
 " Source vimrc
@@ -74,6 +70,11 @@ nnoremap §p %!npx prettier --stdin-filepath %<CR>
 " Remove blank lines
 " :g/^$/d
 
+" Swap text with following whitespace (right-align)
+" (V, pick lines, :)
+" %s/^\s*\[\zs\('\w*',\)\(\s*\)/\2\1/g
+
+
 " Quickfix 
 nnoremap §q :windo lcl\|ccl<CR>
 
@@ -88,9 +89,9 @@ nnoremap <leader>es  :Sexplore<CR>
 nnoremap <leader>ev  :Vexplore<CR>
 
 "
-nnoremap <leader>t   :set guifont=Menlo:h12<CR>
-nnoremap <leader>tt  :set guifont=Menlo:h14<CR>
-nnoremap <leader>ttt :set guifont=Menlo:h16<CR>
+nnoremap <leader>t   :set guifont=Menlo:h14<CR>
+nnoremap <leader>tt  :set guifont=Menlo:h16<CR>
+nnoremap <leader>ttt :set guifont=Menlo:h18<CR>
 
 "
 nnoremap        §t   :set list!<CR>
@@ -108,6 +109,10 @@ nnoremap <expr> k v:count ? 'k' : 'gk'
 
 
 " === Ack / Search ===
+
+" clear last search highlighting
+nnoremap            §c :nohlsearch<CR>
+nnoremap <silent> <CR> :nohlsearch<CR><CR>
 
 " Searching
 " cnoreabbrev ag :CdProjectRoot <bar> Ack! -Q --
@@ -143,6 +148,28 @@ nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hl
 "   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>
 "   \gV:call setreg('"', old_reg, old_regtype)<CR>:set hls<CR>
 
+" Search(+Replace) for visual selection
+" vnoremap §s "xy:%s//
+vnoremap §s y<ESC>/<c-r>"<CR> 
+vnoremap §r y<ESC>:%s/<c-r>"//g<Left><Left>
+
+" Substitute using last search pattern
+" :%s//<replacement>/g
+" Or this, which uses register '/'
+" :%s///<replacement>/g
+" :%s/<c-r>///g<Left><Left>
+
+" Substitute using register 'a'
+" :%s/a/<replacement>/g
+" :%s/<c-r>a//g<Left><Left>
+
+" *E146*
+" Instead of the '/' which surrounds the pattern and replacement string, you
+" can use any other single-byte character, but not an alphanumeric character,
+" '\', '"'' or '|'.  This is useful if you want to include a '/' in the search
+" pattern or replacement string.  Example:
+"   :s+/+//+
+
 
 " === Coc ===
 
@@ -154,9 +181,13 @@ nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hl
 nmap <silent> [[  :<C-u>CocList diagnostics<cr>
 nmap <silent> ]]  :<C-u>CocDiagnostics<cr>
 nmap <silent> ][ <Plug>(coc-diagnostic-prev)
-nmap <silent> [] <Plug>(coc-diagnostic-next)
 nmap <silent> ][ <Plug>(coc-diagnostic-prev-error)
+nmap <silent> [] <Plug>(coc-diagnostic-next)
 nmap <silent> [] <Plug>(coc-diagnostic-next-error)
+
+
+" :CocCommand document.jumpToPrevSymbol
+" :CocCommand document.jumpToNextSymbol
 
 " GoTo code navigation.
 " 
@@ -191,7 +222,7 @@ nmap <silent> <C-g><C-b> <Plug>(coc-diagnostic-next-error)
 
 nmap <silent> gr <Plug>(coc-references)
 
-" nmap <silent> gf <Plug>(coc-fix-current)
+nmap <silent> <tab> <Plug>(coc-fix-current)
 nmap <silent> <C-g><C-f> <Plug>(coc-fix-current)
 nnoremap <silent> §2 <Plug>(coc-codeaction-line)
 "<Plug>(coc-fix-current)| Invoke quickfix action at current line if any.

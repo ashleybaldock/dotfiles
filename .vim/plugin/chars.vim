@@ -171,14 +171,14 @@ endfunc
 
 " Default list style
 function! s:ListDefault()
-  if exists('g:default_list_style')
-    if default_list_style == 'minimal'
+  if exists('g:mayhem_default_list_style')
+    if g:mayhem_default_list_style == 'minimal'
       :ListMinimal
     endif
-    if default_list_style == 'none'
+    if g:mayhem_default_list_style == 'none'
       :ListNone
     endif
-    if g:default_list_style == 'diagnostic'
+    if g:mayhem_default_list_style == 'diagnostic'
       :ListDiagnostic
     endif
   endif
@@ -192,7 +192,7 @@ endfunc
 " Auto-hide list chars when entering visual mode
 function! s:EnterVisual() abort
   let g:list_state_on_last_entering_visual = &list
-  if exists('g:hide_list_in_visual') && g:hide_list_in_visual
+  if exists('g:mayhem_hide_list_in_visual') && g:mayhem_hide_list_in_visual
     set nolist
   endif
 endfunc
@@ -209,6 +209,46 @@ augroup VisualEvent
   autocmd ModeChanged *:[vV\x16]* call s:EnterVisual()
   " Leave Visual Mode
   autocmd Modechanged [vV\x16]*:* call s:LeaveVisual()
+augroup END
+
+function s:ClearCurHoldHighlights() abort
+  augroup CurHoldHighlightOverride
+    autocmd!
+  augroup END
+  call clearmatches()
+  " if exists('b:lastCursorHoldHighlight')
+  "   silent! matchdelete(b:lastCursorHoldHighlight)
+  " endif
+endfunc
+
+function s:CurHoldHlBrighterComments() abort
+  call s:ClearCurHoldHighlights()
+  augroup CurHoldHighlightOverride
+    autocmd!
+    " autocmd ColorScheme vividmayhem call s:CurHoldHlBrighterComments()
+    autocmd CursorMoved <buffer> call s:ClearCurHoldHighlights()
+  augroup END
+  " sy match cursor +\%#+ contained
+  " syn off | syn on
+  " sy region htmlCommentCursor2 start=+<!+ end=+>+ contains=cursor
+
+  "
+  let b:lastCursorHoldHighlight = matchadd('CommentBright', '\%'.line('.').'l')
+  " redraw!
+endfunc
+
+function s:CursorHoldHighlights() abort
+  if !exists(g:mayhem_curhold_highlights) || !g:mayhem_curhold_highlights
+    return
+  endif
+  if CursorOnComment()
+    call s:CurHoldHlBrighterComments()
+  endif
+endfunc
+
+augroup HighlightHold
+  autocmd!
+  autocmd CursorHold <buffer> call s:CursorHoldHighlights()
 augroup END
 
 

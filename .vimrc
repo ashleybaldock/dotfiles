@@ -41,8 +41,9 @@ set breakindent
 " fallback for ./plugins/chars.vim
 set showbreak=\\
 set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
-let g:hide_list_in_visual = 1
-let g:default_list_style = 'minimal'
+let g:mayhem_hide_list_in_visual = 1
+let g:mayhem_default_list_style = 'minimal'
+let g:mayhem_curhold_highlights = 1
 
 colorscheme vividmayhem
 if !exists("g:syntax_on")

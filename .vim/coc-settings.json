@@ -17,6 +17,8 @@
   "coc.preferences.useQuickfixForLocations": true,
   "coc.preferences.extensionUpdateCheck": "never",
 
+   "diagnostic.checkCurrentLine": true,
+
   "hover.target": "float",
   "coc.preferences.formatOnSave": true,
   "json.format.enable": true,
@@ -24,5 +26,5 @@
   "prettier.formatterPriority": 1,
   "prettier.enable": true,
 
-  "typescript.preferences.preferTypeOnlyAutoImports": true
+  "typescript.preferences.prefer TypeOnlyAutoImports": true
 }

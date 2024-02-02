@@ -6,6 +6,11 @@
 " copy branch
 :command! CopyBranch let @+ = FugitiveHead()
 
+function CursorOnComment()
+  return join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')) =~? 'comment'
+endfunc
+
+command! CursorOnComment :echo CursorOnComment()
 
 " Highlighting & Syntax debug
 function! <SID>SynStack()
@@ -32,6 +37,15 @@ augroup misc_commands
   " au FileType qf if mapcheck('<esc>', 'n') ==# '' | nnoremap <buffer><silent> <esc> :cclose<bar>lclose<CR> | endif
 augroup END
 
+
+" Split if unsaved
+function! s:SplitIfModified()
+  if &modified
+    split
+  endif
+endfunc
+
+:command! SplitIfModified :exec <SID>SplitIfModified()
 
 " === Ack / Search ===
 

@@ -1,5 +1,13 @@
+function! ToggleOutline() abort
+  let winid = coc#window#find('cocViewId', 'OUTLINE')
+  if winid == -1
+    call CocActionAsync('showOutline', 1)
+  else
+    call coc#window#close(winid)
+  endif
+endfunc
 
-
+" nnoremap <silent><nowait> <space>o  :call ToggleOutline()<CR>
 
 function! s:ShowDocumentation()
   if CocAction('hasProvider', 'hover')

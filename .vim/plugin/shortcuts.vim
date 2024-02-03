@@ -74,6 +74,14 @@ nnoremap §p %!npx prettier --stdin-filepath %<CR>
 " (V, pick lines, :)
 " %s/^\s*\[\zs\('\w*',\)\(\s*\)/\2\1/g
 
+" Swap around pivot (e.g. AAA,BBB -> BBB,AAA
+" vnoremap  <C-S> :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR>:noh<CR>
+"
+" Shift {token} back/forward in {container}
+" e.g. [ 'a', 'b̲', 'c' ] -> [ 'a', 'c', 'b' ]
+"
+" Shift line(s) up/down (taking cursor with them)
+" 
 
 " Quickfix 
 nnoremap §q :windo lcl\|ccl<CR>

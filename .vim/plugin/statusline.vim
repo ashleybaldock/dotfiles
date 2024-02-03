@@ -16,7 +16,7 @@ scriptencoding utf-8
   " %Ww - preview flag  ,PRV/[Preview]  ᴾ⃞ Ⓟ⃞ ᵖ⃞ Ⓟ⃞  
   " %Mm - modified flag ,+  /[+]        f
   " %Rr - readonly flag ,RO /[RO]       ʀ⃞ ᴿ͇̅ ʷ⃠ ᴿ̲̅ R⃞ ʀ⃞
-  " set statusline+=%#StatusSynErr#
+  " set statusline+=%#SlSynErrC#
 " set statusline+=%#IsModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
 " set statusline+=%#IsModified#%{&mod?'+':''}%*
 " set statusline+=%#IsNotModified#%{&mod?'':''}%*
@@ -37,7 +37,7 @@ scriptencoding utf-8
   " return printf(' %%#Statement#%w%s:%s%%* ', win_getid(), g:actual_curwin)
 " endfunc
 
-        " \ .. '%#StatusBold#'
+        " \ .. '%#SlB#'
         " \ .. '{&modified?&modifiable?"-":"+":""}
         " \ .. '%{&modified?&modifiable?"+":"⨁":""}'
 
@@ -67,20 +67,8 @@ function! WinType() abort
   let wintype = win_gettype()
 endfunc
 
-function! SLineIsCurwin()
-  return g:actual_curwin == win_getid()
-endfunc
-
-function CachedDiag()
-  return SLineIsCurwin()
-        \ ? get(get(b:, 'mayhem', {}), 'sl_cache_diag', 'diag?')
-        \ : get(get(b:, 'mayhem', {}), 'sl_cache_diagNC', 'diag?')
-endfunc
-
-function s:UpdateCachedDiagnostics()
-  call s:SetStatusVars()
-  let [b:mayhem.sl_cache_diag, b:mayhem.sl_cache_diagNC] =
-        \ s:GetCurrentDiagnostics()
+function ChDiag()
+  return get(get(b:, 'mayhem', {}), 'sl_cache_diag', ['D?','DN'])[NC()]
 endfunc
 
 let g:mayhem.symbols_diag8 = {
@@ -99,13 +87,15 @@ let g:mayhem.symbols_diagA = {
       \ }
 
 " TODO - Add gutter display of errors elsewhere in file
-function s:GetCurrentDiagnostics()
+function s:Update_Diag()
   let symbols = has("multi_byte_encoding") && &encoding == "utf-8" ?
         \ g:mayhem.symbols_diag8 : g:mayhem.symbols_diagA
 
   if !exists('g:did_coc_loaded')
-    return ['%#StatusSynOff#'   .. symbols.off .. '%*',
-          \ '%#StatusSynOffNC#' .. symbols.off .. '%*']
+    let b:mayhem.sl_cache_diag = [
+        \ '%#SlSynOffC#' .. symbols.off .. '%*',
+        \ '%#SlSynOffN#' .. symbols.off .. '%*']
+    return
   endif
 
   let diaginfo     = get(b:, 'coc_diagnostic_info', {})
@@ -118,18 +108,24 @@ function s:GetCurrentDiagnostics()
 
   if errorCount > 0
     let symbol = get(symbols.numbers, errorCount, symbols.error)
-    return ['%#StatusSynErr#'   .. symbol .. '%*',
-          \ '%#StatusSynErrNC#' .. symbol .. '%*']
+    let b:mayhem.sl_cache_diag = [
+        \ '%#SlSynErrC#' .. symbol .. '%*',
+        \ '%#SlSynErrN#' .. symbol .. '%*']
+    return
   endif
 
   if warningCount > 0
     let symbol = get(symbols.numbers, warningCount, symbols.warning)
-    return ['%#StatusSynWarn#'   .. symbol .. '%*',
-          \ '%#StatusSynWarnNC#' .. symbol .. '%*']
+    let b:mayhem.sl_cache_diag = [
+        \ '%#SlSynWarnC#' .. symbol .. '%*',
+        \ '%#SlSynWarnN#' .. symbol .. '%*']
+    return
   endif
 
-  return ['%#StatusSynOk#'   .. symbols.ok .. '%*',
-        \ '%#StatusSynOkNC#' .. symbols.ok .. '%*']
+  let b:mayhem.sl_cache_diag = [
+        \ '%#SlSynOkC#' .. symbols.ok .. '%*',
+        \ '%#SlSynOkN#' .. symbols.ok .. '%*']
+  return
 endfunc
 
 
@@ -143,73 +139,102 @@ endfunc
 " 𑀣𑀞 𑀟𑀠𑀢𑀦𑀖𑀬 𑀯𑀵𑀫
 " 𑀩𑁇𑁈𑁉𑁋𑁊𑀓𑁋𑁌𑁜𑁣𑁜𑁋𑁊 𑁓𑁕𑁒𑁒𑁓𑁔𑁉𑁊𑁉𑁋𑁈 𑁍 
 " 𑀛†‡※⁕⁑•◦ 𐠘 𝞒𝞧ʎ𑀛𐠨𑀕𑀰𑀏𐠫𐠃𐠠𐱃𐀿𐠊𐠒𐠑𐠙𐠸𐝕 𐠩
-let g:mayhem.symbols_git8 = {
-      \ 'isgit':  '𑀛',
-      \ 'notgit': '⁑',
-      \ 'gitoff': '𐝕',
-      \ }
-let g:mayhem.symbols_gitA = {
-      \ 'isgit':  'y',
-      \ 'notgit': 'n',
-      \ 'gitoff': 'o',
-      \ }
+let g:mayhem.symbols_git8 = { 'isgit': '𑀛', 'notgit': '⁑', 'gitoff': '𐝕' }
+let g:mayhem.symbols_gitA = { 'isgit': 'y', 'notgit': 'n', 'gitoff': 'o' }
 
-function CachedGit()
-  return get(get(b:, 'mayhem', {}), 'sl_cache_git', ['G?','GN'])[NC() ? 1 : 0]
-endfunc
-function s:UpdateCachedGit()
-  call s:SetStatusVars()
-  " let [sl_git, sl_gitNC] =
-  let b:mayhem.sl_cache_git = s:GetCurrentGit()
+function ChGit()
+  return get(get(b:, 'mayhem', {}), 'sl_cache_git', ['G?','GN'])[NC()]
 endfunc
 
 " Fugitive
 " TODO - add detailed git status info
-function s:GetCurrentGit()
+function s:Update_Git()
   let symbols = has("multi_byte_encoding") && &encoding == "utf-8" ?
         \ g:mayhem.symbols_git8 : g:mayhem.symbols_gitA
 
   if !exists('g:loaded_fugitive')
-    return ['%#StatusGitOff#'   .. symbols.gitoff .. '%*',
-          \ '%#StatusGitOffNC#' .. symbols.gitoff .. '%*']
+    let b:mayhem.sl_cache_git =  [
+          \ '%#SlGitOffC#' .. symbols.gitoff .. '%*',
+          \ '%#SlGitOffN#' .. symbols.gitoff .. '%*']
+    return
   endif
 
   let head = FugitiveHead()
   if empty(head)
-    return ['%#StatusNotGit#'   .. symbols.notgit .. '%*',
-          \ '%#StatusNotGitNC#' .. symbols.notgit .. '%*']
+    let b:mayhem.sl_cache_git =  [
+          \ '%#SlNotGitC#' .. symbols.notgit .. '%*',
+          \ '%#SlNotGitN#' .. symbols.notgit .. '%*']
+    return
   else
-    return ['%#StatusGit#'   .. symbols.isgit .. '%*',
-          \ '%#StatusGitNC#' .. symbols.isgit .. '%*']
+    let b:mayhem.sl_cache_git =  [
+          \ '%#SlGitC#' .. symbols.isgit .. '%*',
+          \ '%#SlGitN#' .. symbols.isgit .. '%*']
+    return
   endif
 endfunc
 
+function CheckRO()
+  return &readonly ? "ᴿ" : " "
+endfunc
+function CheckUtf8()
+  return &fenc !~ "^$\\|utf-8" || &bomb ? "∪⃞⃥ " : ""
+endfunc
+function CheckUnix()
+  return &fileformat == "unix" ? "" : "␌⃞ "
+endfunc
+
+
+function ChFName()
+  return get(get(b:, 'mayhem', {}), 'sl_cached_filename',
+        \ [expand('%'),expand('%')])[NC()]
+endfunc
+function ChFInfo()
+  return get(get(b:, 'mayhem', {}), 'sl_cached_fileinfo',
+        \ ['',''])[NC()]
+endfunc
 let g:mayhem.type_ext_map = {
+      \ 'javascriptreact': ['jsx'],
+      \ 'javascript': ['js'],
       \ 'typescriptreact': ['tsx'],
       \ 'typescript': ['ts'],
       \ }
-function CachedFileInfo()
-  return get(get(b:, 'mayhem', {}), 'sl_cache_fileinfo',
-        \ [expand('%'),expand('%')])[NC() ? 1 : 0]
-endfunc
-function s:UpdateCachedFileInfo()
+function s:Update_FileInfo()
   call s:SetStatusVars()
-  let b:mayhem.sl_cache_fileinfo = s:GetCurrentFileInfo()
-endfunc
-function s:GetCurrentFileInfo()
   let ext = expand('%:e')
   let name = expand('%:r')
-  let tail =  expand('%:t')
+  let tail = expand('%:t')
   let type = getbufvar(bufnr(), '&filetype')
 
+  if name == ''
+    let b:mayhem.sl_cached_filename = [
+      \ '%#SlFNoNameC#nameless%* ' ..
+      \ '%{&modified?&modifiable?"+":"⨁":""}',
+      \ '%#SlFNoNameN#nameless%* ' ..
+      \ '%{&modified?&modifiable?"+":"⨁":""}']
+    let b:mayhem.sl_cached_fileinfo = [
+      \ '%#SlFTyp2C#' .. type .. '%*',
+      \ '%#SlFTyp2N#' .. type .. '%*']
+    return
+  endif
+    "'%=%{&modifiable?&readonly?"R":"":"r"}' 
+    "'%{&readonly?"ʀ⃞":""}'
+"  Ⓡ ⓡ  🅡 🆁 🄡  
   if type == ext || index(get(g:mayhem.type_ext_map, type, []), ext) >= 0
-    return ['%#SlFName#' .. name .. '.%#SlFTypExt#' .. ext .. '%*' ..
-          \ ' %#SlFTyp2#' .. type .. '%*',
-          \ '%#SlFNameNC#' .. name .. '.%#SlFTypExtNC#' .. ext .. '%*' ..
-          \ ' %#SlFTyp2NC#' .. type .. '%*']
+    let b:mayhem.sl_cached_filename = [
+      \ '%{%CheckRO()%}%#SlFNameC#' .. name .. '.%#SlFTypExtC#' .. ext .. '%* ' ..
+      \ '%{&modified?&modifiable?"+":"⨁":""}',
+      \ '%{%CheckRO()%}%#SlFNameN#' .. name .. '.%#SlFTypExtN#' .. ext .. '%* ' ..
+      \ '%{&modified?&modifiable?"+":"⨁":""}']
+    let b:mayhem.sl_cached_fileinfo = [
+      \ '%#SlFTyp2C#' .. type .. '%*',
+      \ '%#SlFTyp2N#' .. type .. '%*']
   else
-    return ['%#SlFName#' .. tail .. '%#SlFTyp#[' .. type .. ']%*' ,
-          \ '%#SlFNameNC#' .. tail .. '%#SlFTypNC#[' .. type .. ']%*']
+    let b:mayhem.sl_cached_filename = [
+      \ '%{%CheckRO()%}%#SlFNameC#' .. tail .. '%*',
+      \ '%{%CheckRO()%}%#SlFNameN#' .. tail .. '%*']
+    let b:mayhem.sl_cached_fileinfo = [
+      \ '%#SlFTyp2C#' .. type .. '%*',
+      \ '%#SlFTyp2N#' .. type .. '%*']
   endif
 
 endfunc
@@ -276,15 +301,10 @@ function ScrollHint() abort
   return symbols.steps[position]
 endfunc
 
-function s:StatuslineEncoding() abort
-  if &fileencoding && &fileencoding != 'utf-8'
-    set statusline+= 
-  endif
-endfunc
-
 function s:SetStatusVars()
   let b:mayhem = get(b:, 'mayhem', {})
-  let b:mayhem.sl_norm = get(b:mayhem, 'sl_norm', '')
+  let b:mayhem.sl_normC = get(b:mayhem, 'sl_normC', '')
+  let b:mayhem.sl_normN = get(b:mayhem, 'sl_normN', '')
 
   let b:mayhem.f_projroot = ProjectRoot()
   " let b:mayhem.f_full = expand('%')
@@ -299,77 +319,65 @@ endfunc
 
 function s:UpdateStatuslines() abort
   call s:SetStatusVars()
-  call s:UpdateCachedFileInfo()
-  call s:UpdateCachedGit()
-  call s:UpdateCachedDiagnostics()
+  call s:Update_FileInfo()
+  call s:Update_Git()
+  call s:Update_Diag()
 
-  let g:mayhem['sl_norm'] = ''
-        \ .. '%{%CachedGit()%} ' .. '%{&previewwindow?"ᴘ⃞":""}'
-        \ .. '%{%CachedFileInfo()%} %<'
-        \ .. '%{&modified?&modifiable?"+":"⨁":""}'
-        \ .. '%=%{&modifiable?&readonly?"R":"":"r"}' 
-        \ .. '%{&modifiable?&readonly?"ʀ⃞":"":"ᴚ⃞"}'
-        \ .. '%( %#StatusSynErr#'
-        \ .. '%{&fileencoding=="utf-8"?"":"∪⃞⃥ "}'
-        \ .. '%{&fileformat=="unix"?"":"␌⃞ "}'
-        \ .. '%* %)'
-        \ .. '%{%ScrollHint()%}'
-        \ .. ' %{%CachedDiag()%}'
+  let g:mayhem['sl_norm'] = [
+    \ '%{%ChGit()%} %{%ChFName()%} %<%=' ..
+    \ '%( %#SlSynErrC#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)' ..
+    \ '%{%ChFInfo()%} %{%ScrollHint()%} %{%ChDiag()%}',
+    \
+    \ '%{%ChGit()%} %{%ChFName()%} %<%=' ..
+    \ '%( %#SlSynErrC#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)' ..
+    \ '%{%ChFInfo()%} %{%ScrollHint()%} %{%ChDiag()%}']
 
-  let g:mayhem['sl_normNC'] = g:mayhem['sl_norm']
 
-  let g:mayhem['sl_help'] = ''
-        \ .. '%#StatusInfo#𝓲⃝ %*'
-        \ .. '%*' .. '\ '
-        \ .. '%-f'
-        \ .. '%<' .. '%='
-        \ .. '%(%n\ %l,%c%V\ %P%)\ '
-  let g:mayhem['sl_helpNC'] = ''
-        \ .. '%#StatusInfoNC#𝓲⃝ %*'
-        \ .. '%*' .. '\ '
-        \ .. '%-f'
-        \ .. '%<' .. '%='
-        \ .. '%(%n\ %l,%c%V\ %P%)\ '
+  let g:mayhem['sl_prev'] = [
+    \ '%#SlInfoC#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ',
+    \ '%#SlInfoN#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ']
+
+  let g:mayhem['sl_help'] = [
+    \ '%#SlInfoC#𝓲⃝  %-f%*%<%=%(%n %l,%c%V %P%) ',
+    \ '%#SlInfoN#𝓲⃝  %-f%*%<%=%(%n %l,%c%V %P%) ']
 
     " ' ℺⃞ 🅀 𝒬⃞  ⍰ \ %%*'
-  let g:mayhem['sl_qfix'] = ''
-        \ .. '%#StatusInfo#ℚ⃞\ %*'
-  let g:mayhem['sl_qfixNC'] = ''
-        \ .. '%#StatusInfoNC#𝒬⃞\ %*'
+  let g:mayhem['sl_qfixC'] = ''
+        \ .. '%#SlInfoC#ℚ⃞ %*'
+  let g:mayhem['sl_qfixN'] = ''
+        \ .. '%#SlInfoN#𝒬⃞ %*'
 endfunc
 
 function NC()
-  return g:actual_curwin != win_getid()
+  return g:actual_curwin == win_getid() ? 0 : 1
 endfunc
 
 function CustomStatusline()
   if &buftype == 'help'
-    return get(get(g:, 'mayhem', {}), NC() ? 'sl_help' : 'sl_helpNC', 'help-statusline-not-found') 
+    return get(get(g:, 'mayhem', {}), 'sl_help', ['sl_helpC', 'sl_helpN'])[NC()]
   elseif &buftype == 'quickfix'
-    return get(get(g:, 'mayhem', {}), NC() ? 'sl_qfix' : 'sl_qfixNC', 'qfix-statusline-not-found') 
+    return get(get(g:, 'mayhem', {}), 'sl_qfix', ['sl_qfixC', 'sl_qfixN'])[NC()]
+  elseif &buftype == 'preview'
+    return get(get(g:, 'mayhem', {}), 'sl_prev', ['sl_prevC', 'sl_prevN'])[NC()]
   endif
-  return get(get(g:, 'mayhem', {}), NC() ? 'sl_norm' : 'sl_normNC', 'norm-statusline-not-found')  
+  return get(get(g:, 'mayhem', {}), 'sl_norm', ['sl_normC', 'sl_normN'])[NC()]
 endfunc
 
 
 augroup statusline
   autocmd! * <buffer>
-  " autocmd BufEfter    <buffer> match ExtraWhitespace /\s\+$/
+  " autocmd BufEnter    <buffer> match ExtraWhitespace /\s\+$/
   " autocmd InsertEnter <buffer> match ExtraWhitespace /\s\+\%#\@<!$/
   " autocmd InsertLeave <buffer> match ExtraWhitespace /\s\+$/
 
   " au EncodingChanged * call s:UpdateCustomStatuslines()
   " au BufWinEnter,BufFilePost,EncodingChanged <buffer> call s:UpdateStatuslines()
-  " au BufWinEnter,BufFilePost * call UpdateCustomStatusline()
-  " au BufWinEnter,BufFilePost * silent! call UpdateCustomStatusline()
 
   au BufWinEnter,BufFilePost,EncodingChanged * call s:UpdateStatuslines()
   au User CocDiagnosticChange call s:UpdateCachedDiagnostics()
- 
-  " autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 augroup END
 
-:command! UpdateCachedDiagnostics :call <SID>UpdateCachedDiagnostics()
+:command! UpdateDiagnostics :call <SID>Update_Diag()
 
 :command! UpdateCustomStatusline :call <SID>UpdateStatuslines()
 

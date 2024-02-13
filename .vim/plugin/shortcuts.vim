@@ -1,10 +1,16 @@
-" ^O
-nnoremap §z          <C-o>
-nnoremap <leader>o   <C-o>
-" ^I
-nnoremap §x          <C-i>
-nnoremap <leader>i   <C-i>
 
+" a === 33
+" !==
+
+
+" Jump forward (^O)
+" <⌥⃣ ‑a> ▬▶︎ å
+nnoremap å           <C-o>
+nnoremap <leader>o   <C-o>
+" Jump backward (^I)
+" <⌥⃣ ‑s> ▬▶︎ ß
+nnoremap ß           <C-i>
+nnoremap <leader>i   <C-i>
 " :w
 nnoremap §ww :w<CR>
 nnoremap §wW :w!<CR>
@@ -18,7 +24,7 @@ nnoremap §wa :wa<CR>
 " §er, §eR ⇉ reload
 " §ed, §eD ⇉ current directory
 " §ec, §eC ⇉ enew
-"
+" <- 
 nnoremap §ee :e 
 nnoremap §eE :e! 
 nnoremap §es :sp 
@@ -69,6 +75,9 @@ nnoremap §p %!npx prettier --stdin-filepath %<CR>
 
 " Remove blank lines
 " :g/^$/d
+
+" Extract CSS variable
+"
 
 " Swap text with following whitespace (right-align)
 " (V, pick lines, :)
@@ -178,65 +187,76 @@ vnoremap §r y<ESC>:%s/<c-r>"//g<Left><Left>
 " pattern or replacement string.  Example:
 "   :s+/+//+
 
+" Select visual block (<C-v> etc.) 
+" in visual mode:
+" x - cut block replacing it with whitespace
+vnoremap x y<ESC>gvr 
+vnoremap v y<ESC>1vp
+" h - move block left by 1
+" j - move block down by 1
+" k - move block up by 1
+" l - move block right by 1
+
 
 " === Coc ===
 
-" Diagnostics
-" [[   list
-" []   next
-" ][   prev
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [[  :<C-u>CocList diagnostics<cr>
-nmap <silent> ]]  :<C-u>CocDiagnostics<cr>
+" <⌥⃣ ‑r> ▬▶︎ ®
+nmap <silent> ® <Plug>(coc-range-select)
+xmap <silent> ® <Plug>(coc-range-select)
+
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+
+" ╔═╾Diagnostics╼═════════╦══════════════════════════╗
+" ║           ║ [] ➤ next ║ ]] ➤ next most important ║
+" ║ [[ ➤ list ║           ║  ß <⌥⃣ ‑a>                ║
+" ║ ¡ (<⌥⃣ ‑1>)╠═══════════╬══════════════════════════╣
+" ║           ║ ][ ➤ prev ║                          ║
+" ║           ║ å (<⌥⃣ ‑a>)║                          ║
+" ╚═══════════╩═══════════╩══════════════════════════╝
+nmap <silent> [[  :<C-u>CocList diagnostics<CR>
 nmap <silent> ][ <Plug>(coc-diagnostic-prev)
-nmap <silent> ][ <Plug>(coc-diagnostic-prev-error)
 nmap <silent> [] <Plug>(coc-diagnostic-next)
-nmap <silent> [] <Plug>(coc-diagnostic-next-error)
+nmap <silent> ]] :NextMostImportantDiagnostic<CR>
 
+" <⌥⃣ ‑[> ▬▶︎ “
+nnoremap “ :CocCommand document.jumpToPrevSymbol<CR>
+" <⌥⃣ ‑]> ▬▶︎ ‘
+nnoremap ‘ :CocCommand document.jumpToNextSymbol<CR>
 
-" :CocCommand document.jumpToPrevSymbol
-" :CocCommand document.jumpToNextSymbol
+" Symbol renaming.
+nnoremap ® <Plug>(coc-rename)
+nnoremap <silent> <C-g><C-r> <Plug>(coc-rename)
 
 " GoTo code navigation.
-" 
-"<Plug>(coc-definition)|
-"<Plug>(coc-declaration)|
-"<Plug>(coc-implementation)|
-"<Plug>(coc-type-definition)|
-"<Plug>(coc-references)|
-"<Plug>(coc-references-used)|
-"
-"CocAction('jumpDefinition')| Jump to definition locations.
-"CocAction('jumpDeclaration')| Jump to declaration locations.
-"CocAction('jumpImplementation')| Jump to implementation locations.
-"CocAction('jumpTypeDefinition')| Jump to type definition locations.
-"CocAction('jumpReferences')|| Jump to references.
-"CocAction('jumpUsed')| Jump to references without declarations.
-"CocAction('definitions')| Get definition list.
-"CocAction('declarations')| Get declaration list.
-"CocAction('implementations')| Get implementation list.
-"CocAction('typeDefinitions')| Get type definition list.
-"CocAction('references')| Get reference list.
-nmap <silent> <C-g><C-g> <Plug>(coc-definition)
+"  CocAction('jumpDefinition')    | Jump to definition locations.
+"  CocAction('jumpDeclaration')   | Jump to declaration locations.
+"  CocAction('jumpImplementation')| Jump to implementation locations.
+"  CocAction('jumpTypeDefinition')| Jump to type definition locations.
+"  CocAction('jumpReferences')    | Jump to references.
+"  CocAction('jumpUsed')          | Jump to references without declarations.
+"  CocAction('definitions')       | Get definition list.
+"  CocAction('declarations')      | Get declaration list.
+"  CocAction('implementations')   | Get implementation list.
+"  CocAction('typeDefinitions')   | Get type definition list.
+"  CocAction('references')        | Get reference list.
+nmap <silent> <C-g><C-g> call CocAction('jumpDefinition')
 nmap <silent> <C-g><C-t> <Plug>(coc-type-definition)
 nmap <silent> <C-g><C-i> <Plug>(coc-implementation)
 
-nmap <silent> <C-g><C-v> <Plug>(coc-diagnostic-prev)
-nmap <silent> <C-g><C-b> <Plug>(coc-diagnostic-next)
-nmap <silent> <C-g><C-v> <Plug>(coc-diagnostic-prev-error)
-nmap <silent> <C-g><C-b> <Plug>(coc-diagnostic-next-error)
-
-" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gi <Plug>(coc-implementation)  ¡€     
 
 nmap <silent> gr <Plug>(coc-references)
 
-nmap <silent> <tab> <Plug>(coc-fix-current)
+" nmap <silent> <tab> <Plug>(coc-fix-current)
 nmap <silent> <C-g><C-f> <Plug>(coc-fix-current)
+" <⌥⃣ ‑f> ▬▶︎ ƒ
+nnoremap <silent> ƒ <Plug>(coc-fix-current)
 nnoremap <silent> §2 <Plug>(coc-codeaction-line)
-"<Plug>(coc-fix-current)| Invoke quickfix action at current line if any.
-"<Plug>(coc-codeaction-cursor)| Choose code actions at cursor position.
+nnoremap <silent> §3 <Plug>(coc-codeaction-source)
+" <⌥⃣ ‑c> ▬▶︎ ç
+nnoremap <silent> ç <Plug>(coc-fix-current)
 "<Plug>(coc-codeaction-line)| Choose code actions at current line.
-"<Plug>(coc-codeaction)| Choose code actions of current file.
 "<Plug>(coc-codeaction-source)| Choose source code action of current file.
 "<Plug>(coc-codeaction-selected)| Choose code actions from selected range.
 "<Plug>(coc-codeaction-refactor)| Choose refactor code action at cursor position.
@@ -248,10 +268,6 @@ nnoremap <silent> §2 <Plug>(coc-codeaction-line)
 "CocAction('doCodeAction')|
 "CocAction('doQuickfix')|
 "CocAction('codeActionRange')|
-
-" Symbol renaming.
-nmap <silent> <C-g><C-r> <Plug>(coc-rename)
-nmap <leader>rn <Plug>(coc-rename)
 
 " Format & fix
 nmap <leader>cf  <Plug>(coc-format-selected)
@@ -266,12 +282,13 @@ nnoremap <silent> gh :ShowDocumentation<CR>
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " list commands available in tsserver (and others)
-nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
+nnoremap <silent> <leader>cc  :<C-u>CocList commands<CR>
 
 " restart when tsserver gets wonky
 nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
 
 " manage extensions
-nnoremap <silent> <leader>cx  :<C-u>CocList extensions<cr>
+nnoremap <silent> <leader>cx  :<C-u>CocList extensions<CR>
+
 
 

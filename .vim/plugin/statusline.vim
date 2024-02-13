@@ -61,6 +61,14 @@ scriptencoding utf-8
 let g:mayhem = get(g:, 'mayhem', {})
 let g:mayhem.sl = get(g:mayhem, 'sl', {})
 
+function FName()
+  return expand('%:t:r')
+endfunc
+function FDotExt()
+  let ext = expand('%:e')
+  return ext == '' ? '' : '.' .. ext
+endfunc
+
 function! WinType() abort
 " (empty) = normal window, 'unknown' = not window
 " autocmd command loclist popup preview quickfix
@@ -174,7 +182,7 @@ function s:Update_Git()
 endfunc
 
 function CheckRO()
-  return &readonly ? "ᴿ" : " "
+  return &readonly ? "ᴿ" : ""
 endfunc
 function CheckUtf8()
   return &fenc !~ "^$\\|utf-8" || &bomb ? "∪⃞⃥ " : ""
@@ -197,6 +205,7 @@ let g:mayhem.type_ext_map = {
       \ 'javascript': ['js'],
       \ 'typescriptreact': ['tsx'],
       \ 'typescript': ['ts'],
+      \ 'markdown': ['md'],
       \ }
 function s:Update_FileInfo()
   call s:SetStatusVars()
@@ -336,16 +345,14 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_prev'] = [
     \ '%#SlInfoC#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ',
     \ '%#SlInfoN#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ']
-
   let g:mayhem['sl_help'] = [
-    \ '%#SlInfoC#𝓲⃝  %-f%*%<%=%(%n %l,%c%V %P%) ',
-    \ '%#SlInfoN#𝓲⃝  %-f%*%<%=%(%n %l,%c%V %P%) ']
+        \ '%#SlInfoC#𝓲⃝  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
+        \ '%#SlInfoN#𝓲⃝  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
 
     " ' ℺⃞ 🅀 𝒬⃞  ⍰ \ %%*'
-  let g:mayhem['sl_qfixC'] = ''
-        \ .. '%#SlInfoC#ℚ⃞ %*'
-  let g:mayhem['sl_qfixN'] = ''
-        \ .. '%#SlInfoN#𝒬⃞ %*'
+  let g:mayhem['sl_qfix'] = [
+        \ '%#SlInfoC#ℚ⃞ %*',
+        \ '%#SlInfoN#𝒬⃞ %*']
 endfunc
 
 function NC()
@@ -373,8 +380,8 @@ augroup statusline
   " au EncodingChanged * call s:UpdateCustomStatuslines()
   " au BufWinEnter,BufFilePost,EncodingChanged <buffer> call s:UpdateStatuslines()
 
-  au BufWinEnter,BufFilePost,EncodingChanged * call s:UpdateStatuslines()
-  au User CocDiagnosticChange call s:UpdateCachedDiagnostics()
+  au CursorHold,BufWinEnter,BufFilePost,EncodingChanged * call s:UpdateStatuslines()
+  au User CocDiagnosticChange call s:Update_Diag()
 augroup END
 
 :command! UpdateDiagnostics :call <SID>Update_Diag()

@@ -1,0 +1,295 @@
+:root {
+  --icon-fg-color: #ffffff;
+  --icon-bg-color: #000000;
+  --icon-border: 1;
+  --icon-padding: 20;
+  --icon-radius: 60;
+  --icon-border-style: dashed;
+}
+
+body {
+  font-size: 14px;
+  line-height: 14px;
+  display: flex;
+  flex-direction: column;
+  margin: 0.6em;
+  gap: 0.6em;
+  padding: 0;
+  background-color: #222222;
+  color: #ffffff;
+}
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+h1 {
+  width: 100%;
+}
+
+.container {
+  position: relative;
+  --color-tab-active: #ee7;
+  font-size: 48px;
+}
+
+svg {
+  fill: var(--color-tab-active);
+}
+
+.testbase {
+  width: 200px;
+  height: 200px;
+  background: white;
+  color: black;
+}
+
+.curve.topleft.stest {
+  border-radius: var(--tl) var(--tr) var(--br) var(--bl) / var(--tl2) var(--tr2) var(--br2) var(--bl2);
+  --tl: 100%;
+  --tr: 100%;
+  --br: 100%;
+  --bl: 100%;
+  --tl2: 0%;
+  --tr2: 0%;
+  --br2: 0%;
+  --bl2: 0%;
+}
+.stest {
+  /* border radius rotations */
+  border-radius: var(--bdr-r0);
+  --bdr-r0: var(--a) var(--b) var(--c) var(--d) / var(--A) var(--B) var(--C) var(--D);
+  border-radius: var(--bdr-r1);
+  --bdr-r1: var(--d) var(--a) var(--b) var(--c) / var(--D) var(--A) var(--B) var(--C);
+  border-radius: var(--bdr-r2);
+  --bdr-r2: var(--c) var(--d) var(--a) var(--b) / var(--C) var(--D) var(--A) var(--B);
+  border-radius: var(--bdr-r3);
+  --bdr-r3: var(--b) var(--c) var(--d) var(--a) / var(--B) var(--C) var(--D) var(--A);
+  /* raw border radius components */
+  --a: 20%;
+  --b: 20%;
+  --c: 20%;
+  --d: 20%;
+  --A: 100%;
+  --B: 100%;
+  --C: 100%;
+  --D: 100%;
+
+  /* pairs identical */
+  --a: var(--aA);
+  --b: var(--bB);
+  --c: var(--cC);
+  --d: var(--dD);
+  --A: var(--aA);
+  --B: var(--bB);
+  --C: var(--cC);
+  --D: var(--dD);
+  --aA: 100%;
+  --bB: 50%;
+  --cC: 20%;
+  --dD: 0%;
+
+  /* all first the same */
+  --a: var(--x);
+  --b: var(--x);
+  --c: var(--x);
+  --d: var(--x);
+  --A: var(--AA);
+  --B: var(--BB);
+  --C: var(--CC);
+  --D: var(--DD);
+  --AA: 100%;
+  --BB: 50%;
+  --CC: 20%;
+  --DD: 0%;
+  --x: 30%;
+
+  /* all second the same */
+  --a: var(--aa);
+  --b: var(--bb);
+  --c: var(--cc);
+  --d: var(--dd);
+  --A: var(--X);
+  --B: var(--X);
+  --C: var(--X);
+  --D: var(--X);
+  --aa: 100%;
+  --bb: 50%;
+  --cc: 20%;
+  --dd: 0%;
+  --X: 30%;
+
+  /* circular pairings */
+  --A: var(--Ab);
+  --b: var(--Ab);
+  --B: var(--Bc);
+  --c: var(--Bc);
+  --C: var(--Cd);
+  --d: var(--Cd);
+  --D: var(--Da);
+  --a: var(--Da);
+  --Ab: 100%;
+  --Bc: 50%;
+  --Cd: 20%;
+  --Da: 0%;
+
+  background-color: white;
+  width: 200px;
+  height: 200px;
+  border: 4px solid orchid;
+  position: relative;
+  box-sizing:  border-box;
+}
+.stest {
+  width: 50vw;
+  height: 50vh;
+  display: grid;
+  grid-template-areas:
+    ". . a a . . " 
+    ". . b b . . " 
+    "A D p p B C" 
+    "A D p p B C" 
+    ". . c c . . "
+    ". . d d . . ";
+}
+
+.stest > div::after {
+  content: attr(id);
+}
+.stest .preview {
+  grid-area: p;
+  border: 1px dashed lightblue;
+  background-color: #ddd;
+}
+.stest .preview .coord {
+  position: absolute;
+  left: var(--bd1_d);
+}
+.stest .slider-wrapper[data-sink-for="bd1_a"] {
+  grid-area: a;
+}
+.stest .slider-wrapper[data-sink-for="bd1_b"] {
+  grid-area: b;
+}
+.stest .slider-wrapper[data-sink-for="bd1_c"] {
+  grid-area: c;
+}
+.stest .slider-wrapper[data-sink-for="bd1_d"] {
+  grid-area: d;
+}
+.stest .slider-wrapper[data-sink-for="bd1_A"] {
+  grid-area: A;
+}
+.stest .slider-wrapper[data-sink-for="bd1_B"] {
+  grid-area: B;
+}
+.stest .slider-wrapper[data-sink-for="bd1_C"] {
+  grid-area: C;
+}
+.stest .slider-wrapper[data-sink-for="bd1_D"] {
+  grid-area: D;
+}
+
+
+
+.container2 {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+}
+input[type="range"][orient="vertical"] {
+  writing-mode: bt-lr;
+  appearance: slider-vertical;
+}
+input[type="range"] {
+  --track-size: 1em;
+  --track-foreground: #ffffff;
+  --track-background: #da0000;
+  --track-border-style: solid;
+  --track-border-width: 0.16em;
+  --track-border-color: #5a0000;
+
+  --thumb-size: 2em;
+  --thumb-ratio: 2;
+  --thumb-foreground: #ffffff;
+  --thumb-background: #d6b2b2;
+  --thumb-border-style: solid;
+  --thumb-border-width: 0.16em;
+  --thumb-border-color: #5a0000;
+
+  --tl: 0%;
+  --tr: 100%;
+  --br: 100%;
+  --bl: 100%;
+  --tl2: 1%;
+  --tr2: 1%;
+  --br2: 100%;
+  --bl2: 1%;
+  appearance: none;
+  box-sizing: border-box;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+input[type="range"]::-webkit-slider-runnable-track,
+input[type="range"]::-moz-range-track {
+  box-sizing: inherit;
+  height: var(--track-size);
+  width: 100%;
+  color: var(--track-foreground);
+  background: var(--track-background);
+  border-style: var(--track-border-style);
+  border-width: var(--track-border-width);
+  border-color: var(--track-border-color);
+  border-radius: var(--bdr-r1);
+  --bdr-r1: var(--d) var(--a) var(--b) var(--c) / var(--D) var(--A) var(--B) var(--C);
+}
+input[type="range"][orient="vertical"]::-webkit-slider-runnable-track,
+input[type="range"][orient="vertical"]::-moz-range-track {
+  width: var(--track-size);
+  height: 100%;
+  border-radius: var(--bdr-r0);
+  --bdr-r0: var(--a) var(--b) var(--c) var(--d) / var(--A) var(--B) var(--C) var(--D);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  margin-top: calc((var(--track-size) / 2) - (var(--thumb-size) / 2));
+}
+input[type="range"]::-webkit-slider-thumb,
+input[type="range"]::-moz-range-thumb {
+  box-sizing: inherit;
+  height: var(--thumb-size);
+  width: calc(var(--thumb-size) * var(--thumb-ratio, 1));
+  color: var(--thumb-foreground);
+  background: var(--thumb-background);
+  border-style: var(--thumb-border-style);
+  border-width: var(--thumb-border-width);
+  border-color: var(--thumb-border-color);
+  border-radius: var(--bdr-r1);
+  --bdr-r1: var(--d) var(--a) var(--b) var(--c) / var(--D) var(--A) var(--B) var(--C);
+}
+
+input[type="range"][orient="vertical"]::-webkit-slider-thumb,
+input[type="range"][orient="vertical"]::-moz-range-thumb {
+  width: var(--thumb-size);
+  height: calc(var(--thumb-size) * var(--thumb-ratio, 1));
+  border-radius: var(--bdr-r0);
+  --bdr-r0: var(--a) var(--b) var(--c) var(--d) / var(--A) var(--B) var(--C) var(--D);
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]:focus::-webkit-slider-thumb,
+input[type="range"]:focus::-moz-range-thumb {
+  border: 1px solid #053a5f;
+  outline: 3px solid #053a5f;
+  outline-offset: 0.125rem;     
+}
+
+
+

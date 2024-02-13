@@ -1,0 +1,41 @@
+.fieldset1 .fieldset1-container {
+  --border-thickness: 14px;
+  --border-radius: 23px;
+  --border-color: pink;
+  --text-to-line-gap: 6px;
+  --font-size: 26px;
+  --width: 300px;
+  --height: 300px;
+  position: relative;
+  width: var(--width); 
+  height: var(--height); 
+}
+.fieldset1 fieldset {
+  box-sizing: border-box;
+  position: absolute;
+  width: var(--width); 
+  height: var(--height); 
+  border: 0px solid transparent;
+  border-top-color: var(--border-color);
+  border-width: var(--border-thickness);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size);
+  line-height: var(--border-thickness);
+}
+.fieldset1 legend {
+  padding: 0 var(--text-to-line-gap); 
+  margin-left: calc(var(--border-radius) * 0.1);
+} 
+
+.fieldset1 fieldset:nth-of-type(2) {
+  transform: rotate(90deg);
+}
+.fieldset1 fieldset:nth-of-type(3) {
+  transform: rotate(180deg);
+}
+.fieldset1 fieldset:nth-of-type(3) > legend {
+  transform: rotate(180deg);
+} 
+.fieldset1 fieldset:nth-of-type(4) {
+  transform: rotate(-90deg);
+}

@@ -4,9 +4,10 @@
 " endif
 " b:did_ftplugin = 1
 
-wincmd K
-resize 8
-setlocal winfixheight
+" wincmd K
+" resize 8
+" setlocal winfixheight
+"
 " pclose
 " rightbelow vsplit pedit 
 " resize 8

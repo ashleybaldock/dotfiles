@@ -1,0 +1,76 @@
+.portable-infobox.pi-theme-spell  :is(.pi-title,.pi-header) {
+  --spellType-passive-hsla:
+    hsla(
+      calc(var(--passive-h) + var(--passive-off-h)),
+      calc(var(--passive-s) + var(--passive-off-s)),
+      calc(var(--passive-l) + var(--passive-off-l)),
+      calc(var(--passive-a) + var(--passive-off-a)));
+  --passive-h: var(--spTypePassive-hsl-h, 141);
+  --passive-s: var(--spTypePassive-hsl-s, 18%);
+  --passive-l: var(--spTypePassive-hsl-l, 16%);
+  --passive-a: var(--spTypePassive-hsl-a, 1);
+  --passive-off-h: var(--spTypePassive-hsl-offset-h, 0);
+  --passive-off-s: var(--spTypePassive-hsl-offset-s, 0%);
+  --passive-off-l: var(--spTypePassive-hsl-offset-l, 0%);
+  --passive-off-a: var(--spTypePassive-hsl-offset-a, 0);
+}
+
+.portable-infobox.pi-theme-spell :is(.pi-title,.pi-header) {
+  filter: saturate(1);
+  --offtop: 0.11;
+  --inedges: 0.1;
+  --thickness: 0.1;
+  --blurratio: 1.8;
+  box-shadow:
+    var(--x) var(--y) var(--b) var(--w) var(--highlight-color) inset,
+    calc(var(--x) * -1) var(--y) var(--b) var(--w) var(--highlight-color) inset;
+  --x: calc(1em * var(--inedges));
+  --y: calc(1em * var(--offtop));
+  --w: calc(1em * var(--thickness));
+  --b: calc(var(--w) * var(--blurratio));
+}
+.portable-infobox.pi-theme-Passive :is(.pi-title,.pi-header) {
+  --thickness: 0.15;
+  --blurratio: 1.4;
+  --highlight-color: var(--spellType-passive-hsla);
+
+  /* Add a constant amount to HSLA values with these: */
+  --spTypePassive-hsl-offset-h: 10;
+/*   --spTypePassive-hsl-offset-s: 0%; */
+  --spTypePassive-hsl-offset-l: 10%;
+/*   --spTypePassive-hsl-offset-a: 0.1; */
+
+  /* Override HSLA values with these: */
+/*   --spTypePassive-hsl-h: 1; */
+/*   --spTypePassive-hsl-l: 100%; */
+/*   --spTypePassive-hsl-s: 100%; */
+  --spTypePassive-hsl-a: 0.8;
+}
+.portable-infobox.pi-theme-Material :is(.pi-title,.pi-header) {
+/*     filter: hue-rotate(10deg); */
+
+  --spellType-hsla-material: hsla(136, 35%, 32%, 1);
+
+  --spellType-passive-hsla: hsla(var(--spellType-passive-Hsla), var(--spellType-passive-hSla), var(--spellType-passive-hsLa), var(--spellType-passive-hslA));
+  --spellType-passive-Hsla: hsla(141, 18%, 16%, 1);
+  --spellType-passive-hSla: hsla(141, 18%, 16%, 1);
+  --spellType-passive-hsLa: hsla(141, 18%, 16%, 1);
+  --spellType-passive-hslA: hsla(141, 18%, 16%, 1);
+}
+
+.portable-infobox.pi-theme-Projectile :is(.pi-title,.pi-header) {
+  --thickness: 0.16;
+  --blurratio: 1.2;
+}
+.portable-infobox.pi-theme-Other :is(.pi-title,.pi-header) {
+  filter: hue-rotate(20deg);
+  --thickness: 0.15;
+  --blurratio: 1.2;
+}
+
+.portable-infobox.pi-theme-Projectile :is(.pi-title,.pi-header) {}
+.portable-infobox.pi-theme-Static :is(.pi-title,.pi-header) {}
+.portable-infobox.pi-theme-Modifier :is(.pi-title,.pi-header) {}
+.portable-infobox.pi-theme-Multicast :is(.pi-title,.pi-header) {}
+.portable-infobox.pi-theme-Utility :is(.pi-title,.pi-header) {}
+.portable-infobox.pi-theme-Unknown :is(.pi-title,.pi-header) {}

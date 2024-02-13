@@ -1,8 +1,12 @@
-#!/usr/bin/env bash
+#!/opt/homebrew/bin/bash
+
+DIR="$(dirname ${BASH_SOURCE[0]})"
+. "$DIR/createFile.sh"
 
 MOVE_M2TS_TO=_m2ts_converted
 
 FFMPEG=/opt/homebrew/bin/ffmpeg
+TRASH=/opt/homebrew/bin/trash
 
 args=("$@")
 
@@ -18,6 +22,20 @@ then
   args=("$PWD")
 fi
 
+processFile() {
+  local file="$1"
+  echo "Processing file '$file'"
+  if [ "${file: -5}" == ".m2ts" ]
+  then
+    cd $(dirname "$file")
+      createFile 3 "${file%.m2ts}" ".mp4" || exit
+      $FFMPEG -y -i "$file" -vcodec copy -acodec copy -f mp4 "$REPLY" \
+        && exec 3>&- && $TRASH "$file"
+  else
+    echo "Not an .m2ts file, skipping" >&2
+  fi
+}
+
 for arg in "${args[@]}"
 do
   if [ -d "$arg" ]
@@ -25,36 +43,30 @@ do
     echo ""
     echo "Processing directory '$arg'"
     cd $arg
-    mkdir $MOVE_M2TS_TO || true
+    #mkdir $MOVE_M2TS_TO || true
     for file in *.m2ts
     do
       if [ -f "$file" ]
       then
         echo ""
-        echo "Processing file '$file'"
-        $FFMPEG -i "$file" -vcodec copy -acodec copy -f mp4 "${file%.m2ts}.mp4" \
-          && mv "$file" "./$MOVE_M2TS_TO/"
+        processFile "$file"
       fi
     done
   else
     if [ -f "$arg" ]
     then
-      file="$arg"
       echo ""
-      echo "Processing file '$file'"
-      if [ "${file: -5}" == ".m2ts" ]
-      then
-        cd $(dirname "$file") \
-          && (mkdir $MOVE_M2TS_TO || true) \
-          && $FFMPEG -i "$file" -vcodec copy -acodec copy -f mp4 "${file%.m2ts}.mp4" \
-          && mv "$file" "./$MOVE_M2TS_TO/"
-      else
-        echo "Not an .m2ts file, skipping" >&2
-      fi
+      processFile "$arg"
     else
       echo "Not a file or directory, skipping" >&2
     fi
   fi
 done
 
+        # $FFMPEG -i "$file" -vcodec copy -acodec copy -f mp4 "${file%.m2ts}.mp4" \
+          # && $TRASH "$file" # mv "$file" "./$MOVE_M2TS_TO/"
+
+          #\ #&& (mkdir $MOVE_M2TS_TO || true) \
+          # \ # && $FFMPEG -i "$file" -vcodec copy -acodec copy -f mp4 "${file%.m2ts}.mp4" \
+          # && $TRASH "$file" # mv "$file" "./$MOVE_M2TS_TO/"
 

@@ -77,3 +77,6 @@
 [submodule "scripts/.vim/pack/default/start/vim-obsession"]
 	path = scripts/.vim/pack/default/start/vim-obsession
 	url = https://github.com/tpope/vim-obsession.git
+[submodule ".vim/pack/default/start/vim-styled-components"]
+	path = .vim/pack/default/start/vim-styled-components
+	url = https://github.com/styled-components/vim-styled-components.git

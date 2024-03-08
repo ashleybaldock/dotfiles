@@ -1,43 +1,60 @@
 
 :root {
-  font-size: 14px;
+  font-size: 16px;
+  --font-ratio: calc(1em / 1ch);
   --font-to-test: 'Menlo';
 
-  --color-fg-base: #FAFAFA;
+  --color-fg-base: #eaeaea;
+  --color-bg-base: #0B0B0B;
 
   --color-radio-bd: #9e0000;
   --color-radio-bd2: #d30000;
   --color-radio-checked-bg: #bf000078;
 
   --color-bd-red: #720000;
-  --color-fg-red: #720000;
+  ddw: #720000;
+
+  --grid-color: #343434;
   
-}
-
-html {
-  overscroll-behavior: none;
-  background-color: #0B0B0B;
-  color: var(--color-fg-base);
-  font-family: 'Menlo', 'AdobeBlank';
-}
-
-body {
   --font-size-1: 16px;
   --font-size-2: 32px;
   --font-size-3: 64px;
   --font-size-4: 96px;
   --font-size-5: 128px;
   --grid-thickness-thick: max(0.08em, 1px);
-  --grid-thickness-thin: min(0.02em, 0.5px);
+  --grid-thickness-thin: max(0.01em, 1px);
   --grid-thickness-none: 0px;
   --grid-thickness: var(--grid-thickness-thin);
-  --grid-color: #b4b4b42b;
+}
+::selection {
+  color: #7d1818;
+  background: #ffececeb;
+}
+
+html {
+  overscroll-behavior: none;
+  background-color: var(--color-bg-base);
+  color: #ff4242;
+  font-family: 'Menlo', 'AdobeBlank';
+}
+
+body {
   position: relative;
   border: none;
   padding: 0;
   margin: 0;
 }
 
+fieldset {
+  display: flex;
+  flex-direction: column;
+  flex-direction: row;
+  border: 0.4em double var(--color-bd-red);
+  border-radius: 1em / 5em;
+  margin: 0 auto;
+  gap: 0.4em;
+  padding: 0.5em;
+}
 [id="s1"]:checked ~ * dd {
   font-size: var(--font-size-1);
 }
@@ -54,19 +71,23 @@ body {
   font-size: var(--font-size-5);
 }
 
-[id="g1"]:checked ~ * dd::after {
-  --grid-thickness: var(--grid-thickness-thick);
-}
-[id="g2"]:checked ~ * dd::after {
-  --grid-thickness: var(--grid-thickness-thin);
-}
-[id="g3"]:checked ~ * dd::after {
+[id="g1"] ~ * dd::after {
   --grid-thickness: var(--grid-thickness-none);
 }
+[id="g1"]:checked ~ * dd::after {
+  --grid-thickness: var(--grid-thickness-thin);
+}
+
+[id="d1"] ~ * dd::after {
+  --active-theme: var(--theme-light);
+}
+[id="d1"]:checked ~ * dd::after {
+  --active-theme: var(--theme-dark);
+}
+
 dd::after {
   /*! --a: calc(var(--grid-size) - var(--grid-thickness)); */
   /*! --b: var(--grid-size); */
-  --c: var(--grid-color);
   position: absolute;
   width: auto;
   height: auto;
@@ -74,43 +95,51 @@ dd::after {
   content: '';
   display: block;
   pointer-events: none;
-  opacity: 0.3;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+/*   opacity: 0.3; */
+  top: var(--grid-halfthick);
+  right: var(--grid-halfthick);
+  bottom: var(--grid-halfthick);
+  left: var(--grid-halfthick);
+  border: var(--grid-halfthick) solid var(--c);
+  border: var(--grid-halfthick) solid blue;
+  border: var(--grid-halfthick) solid transparent;
   background-image:
   repeating-linear-gradient(to left,
     var(--c),
-    var(--c) var(--grid-thickness),
-    transparent var(--grid-thickness),
+    var(--c) var(--aw),
+    transparent var(--aw),
     transparent var(--bw),
     var(--d) var(--bw),
     var(--d) var(--grid-size-w),
-    transparent var(--grid-size-w),
-    blue calc(var(--grid-size-w) * 2 - var(--grid-thickness))),
+    transparent var(--grid-size-w)
+  ),
   repeating-linear-gradient(to top,
     var(--c),
-    var(--c) var(--grid-thickness),
-    transparent var(--grid-thickness),
+    var(--c) var(--ah),
+    transparent var(--ah),
     transparent var(--bh),
     var(--d) var(--bh),
     var(--d) var(--grid-size-h),
-    transparent var(--grid-size-h),
-      blue calc(var(--grid-size-h) * 2 - var(--grid-thickness))
+    transparent var(--grid-size-h)
     );
-  background-size: 1ch 1em;
-  --aw: calc(var(--grid-size-w) - var(--grid-thickness));
-  --ah: calc(var(--grid-size-h) - var(--grid-thickness));
-  --bw: calc(var(--grid-size-w) - var(--grid-thickness));
-  --bh: calc(var(--grid-size-h) - var(--grid-thickness));
+  background-size: var(--grid-size-w) var(--grid-size-h);
+  --grid-halfthick: calc(var(--grid-thickness) * .5);
+  --aw: calc(var(--grid-halfthick) * 1);
+  --ah: var(--grid-halfthick);
+  --bw: calc(var(--grid-size-w) - var(--grid-halfthick));
+  --bh: calc(var(--grid-size-h) - var(--grid-halfthick));
   --grid-size-w: 1ch;
   --grid-size-h: 1em;
-  --d: yellow;
+/*   --d: yellow;
   --c: #1400ff;
+  --c: yellow; */
+  --c: var(--grid-color);
+  --d: var(--grid-color);
+  background-position: calc(var(--grid-halfthick) * -1) calc(var(--grid-halfthick) * -1);
   background-position: 0 0;
-  /*! background-position: 0.5ch 0.5em; */
+/*   background-position: 0.5ch 0.5em; */
   line-height: 0.9em;
+  line-height: 1;
 }
 
 p {
@@ -126,6 +155,7 @@ dt {
   border-bottom: 1px dotted #720000;
   user-select: none;
   pointer-events: none;
+  text-shadow: 0.04em 0.02em 0.0em #de0000;
 }
 dd {
   margin: 1em 1ch;
@@ -150,22 +180,67 @@ dd {
 
 dd a {
   white-space: break-spaces;
-  /*! padding: 0.1em; */
-  /*! border: 0.04em solid #300000; */
   background-color: #3f1122;
-  /*! aspect-ratio: 1; */
-  /*! border-radius: 0.44em 0.1em / 0.1em 0.3em; */
-  line-height: 1;
+  /*! line-height: 1em; */
+  padding: 0em;
+  background-color: #2e0202;
+  /*! position: relative; */
+  left: 0em;
+  top: 0em;
+  box-sizing: border-box;
+/*! box-shadow: 0px 0 0px max(2px, 0.06em) #520000d6; */
+  display: grid;
+  /*! place-content: center center; */
+  width: fit-content;
+  /*! background-color: blue; */
+  aspect-ratio: 1;
+  font-size: 1em;
+  height: 1em;
+}
+
+dd > a > q {
+  display: block;
+  /*! place-self:   center baseline; */
+  /*! width: min-content; */
+  /*! height: min-content; */
+  grid-row: 1/1;
+  grid-column: 1/1;
+}
+dd > a > q:first-child {
+  font-family: 'Menlo', 'LastResort';
+  color: cyan;
+}
+dd > a > q:nth-child(2) {
+  font-family: 'Menlo', 'LastResort';
+  color:  greenyellow;
+}
+dd > a > q:last-child {
+  font-family: 'Menlo', 'AdobeBlank';
+  color: rebeccapurple;
+  background-color: #ffffff61;
+  width:  88%;
+  /*! height: 100%; */
+  border: 4px solid red;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  line-height: 1em;
+  background-image: linear-gradient(to top right, transparent, transparent 46%, red 46%, red 55%, transparent 56%);
+  box-sizing: content-box;
+  /*! filter: drop-shadow(0 0 0.2px black) drop-shadow(0 0 0.7px white); */
+}
+dd q::after, dd q::before {
+  display: none;
 }
 
 div:has(button:hover) {
   background-color: cyan;
 } 
 dd:has(a) {
-display: grid;
+  display: grid;
 }
 
 
+input[type=checkbox],
 input[type=radio] {
   --size: 1.2em;
   appearance: none;
@@ -181,12 +256,25 @@ input[type=radio] {
   position: relative;
   transition: border 100ms ease;
 }
+input[type=checkbox] {
+  border-radius: calc(var(--size) / 10);
+}
+input[type="checkbox"]:checked,
 input[type="radio"]:checked {
   background-color: #970000a6;
   border-color: var(--color-radio-bd2);
   border-style: double;
   border-width: calc(var(--size) / 2);
   transition: border 100ms ease;
+}
+
+/* Sets of controls */
+.toggles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8em;
+  margin: 1em;
 }
 .toggles label,
 label.toggle {
@@ -225,7 +313,6 @@ label.toggle::before {
   display: inline;
   margin-right: 0.7em;
 }
-
 .toggles label::after,
 label.toggle::after {
   margin-left: 0.5em;
@@ -244,8 +331,7 @@ label.toggle::after {
 [id="s4"]:checked ~ * [for="s4"]::before,
 [id="s5"]:checked ~ * [for="s5"]::before,
 [id="g1"]:checked ~ * [for="g1"]::before,
-[id="g2"]:checked ~ * [for="g2"]::before,
-[id="g3"]:checked ~ * [for="g3"]::before {
+[id="d1"]:checked ~ * [for="d1"]::before {
   background-color: #2e0000a6;
   border-color: var(--color-radio-bd2);
   border-style: double;
@@ -259,16 +345,15 @@ label.toggle::after {
 [id="s4"]:checked ~ * [for="s4"],
 [id="s5"]:checked ~ * [for="s5"],
 [id="g1"]:checked ~ * [for="g1"],
-[id="g2"]:checked ~ * [for="g2"],
-[id="g3"]:checked ~ * [for="g3"] {
+[id="d1"]:checked ~ * [for="d1"] {
   background-color: var(--color-radio-checked-bg);
 }
 
+/* Font */
 dd {
   font-family: 'Menlo', 'LastResort';
   font-size: var(--demo-font-size);
 }
-
 [id="f1"] ~ * [for="f1"]::after,
 [id="f1"]:checked ~ * [for="f1"]::after {
   content: 'Menlo ❱❱ Blank';
@@ -284,14 +369,6 @@ dd {
   font-family: 'Menlo', 'LastResort', 'AdobeBlank';
 }
 
-
-.toggles {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.8em;
-  margin: 1em;
-}
 
 .fontSize {
   margin-left: 1em;

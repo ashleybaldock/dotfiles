@@ -1,63 +1,19 @@
 scriptencoding utf-8
 
-  " buffer info - e.g. 1 300,82-85 99%
-  " %(...%) - item group
-  " %n - buffer number
-  " %l - line number
-  " %c - col number
-  " %V - virtual col number
-  " %P - percentage scrolled
-  " set statusline+=%(%n\ %l,%c%V\ %P%)\ 
-  " set statusline+=%(%P%)\ 
-
-  " file info - e.g. .vimrc +
-  " %t  - file name:so %
-  " %Hh - help flag     ,HLP/[help]     𝓲⃝ 𝓲⃞ 𝒾⃟ 
-  " %Ww - preview flag  ,PRV/[Preview]  ᴾ⃞ Ⓟ⃞ ᵖ⃞ Ⓟ⃞  
-  " %Mm - modified flag ,+  /[+]        f
-  " %Rr - readonly flag ,RO /[RO]       ʀ⃞ ᴿ͇̅ ʷ⃠ ᴿ̲̅ R⃞ ʀ⃞
-  " set statusline+=%#SlSynErrC#
-" set statusline+=%#IsModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
-" set statusline+=%#IsModified#%{&mod?'+':''}%*
-" set statusline+=%#IsNotModified#%{&mod?'':''}%*
-
-  " set statusline+=%{%StatuslineMode()%}
-
-  " set statusline+=%{%pathshorten(getbufinfo(bufnr())[0].name,3)%}
-  " set statusline+=%*
-
-  " Debug
-  " set statusline+=%{%DebugWinNumber()%}
-  " set statusline+=\ 
-  " set statusline+=%{&mod?'+⃞':''}%*\ %-t%<\ %H%W%M%R\ 
-" function! s:debugwinnumber()
-  " g:statusline_winid is set for %!
-  " let l:wininfo = getwininfo(g:statusline_winid)
-  " let l:winactive = g:statusline_winid == win_getid()
-  " return printf(' %%#Statement#%w%s:%s%%* ', win_getid(), g:actual_curwin)
-" endfunc
-
-        " \ .. '%#SlB#'
-        " \ .. '{&modified?&modifiable?"-":"+":""}
-        " \ .. '%{&modified?&modifiable?"+":"⨁":""}'
-
-
 " TODO Statusline for narrow windows (<16)
 " filen….vim
 " filen⋯.vim
 " filen⋮.vim
 " filen…vim
-" filen⋯vim
-" filen⋮vim
+" fi⋯me.vim
 " ຯ❋ ❊⬮⬬ ⬭ ⬯ ◌ 
 " filen‥.vim
-" filen·.vim
 " filen•vim
-" filen•.vim
+" fi•me.vim
 " filen‥vim
 " filen·vim
 " Statusline for zero height windows
-
+let
 let g:mayhem = get(g:, 'mayhem', {})
 let g:mayhem.sl = get(g:mayhem, 'sl', {})
 
@@ -380,16 +336,58 @@ augroup statusline
   " au EncodingChanged * call s:UpdateCustomStatuslines()
   " au BufWinEnter,BufFilePost,EncodingChanged <buffer> call s:UpdateStatuslines()
 
-  au CursorHold,BufWinEnter,BufFilePost,EncodingChanged * call s:UpdateStatuslines()
-  au User CocDiagnosticChange call s:Update_Diag()
+  autocmd CursorHold,BufWinEnter,BufFilePost,EncodingChanged * call s:UpdateStatuslines()
 augroup END
 
-:command! UpdateDiagnostics :call <SID>Update_Diag()
+" This is called via an autocmd - see commands.coc.vim
+:command! UpdateSlCachedDiagnostics :call <SID>Update_Diag()
 
 :command! UpdateCustomStatusline :call <SID>UpdateStatuslines()
 
 set statusline=%{%CustomStatusline()%}
 
+
+"{{{
+  " buffer info - e.g. 1 300,82-85 99%
+  " %(...%) - item group
+  " %n - buffer number
+  " %l - line number
+  " %c - col number
+  " %V - virtual col number
+  " %P - percentage scrolled
+  " set statusline+=%(%n\ %l,%c%V\ %P%)\ 
+  " set statusline+=%(%P%)\ 
+
+  " file info - e.g. .vimrc +
+  " %t  - file name:so %
+  " %Hh - help flag     ,HLP/[help]     𝓲⃝ 𝓲⃞ 𝒾⃟ 
+  " %Ww - preview flag  ,PRV/[Preview]  ᴾ⃞ Ⓟ⃞ ᵖ⃞ Ⓟ⃞  
+  " %Mm - modified flag ,+  /[+]        f
+  " %Rr - readonly flag ,RO /[RO]       ʀ⃞ ᴿ͇̅ ʷ⃠ ᴿ̲̅ R⃞ ʀ⃞
+  " set statusline+=%#SlSynErrC#
+" set statusline+=%#IsModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
+" set statusline+=%#IsModified#%{&mod?'+':''}%*
+" set statusline+=%#IsNotModified#%{&mod?'':''}%*
+
+  " set statusline+=%{%StatuslineMode()%}
+
+  " set statusline+=%{%pathshorten(getbufinfo(bufnr())[0].name,3)%}
+  " set statusline+=%*
+
+  " Debug
+  " set statusline+=%{%DebugWinNumber()%}
+  " set statusline+=\ 
+  " set statusline+=%{&mod?'+⃞':''}%*\ %-t%<\ %H%W%M%R\ 
+" function! s:debugwinnumber()
+  " g:statusline_winid is set for %!
+  " let l:wininfo = getwininfo(g:statusline_winid)
+  " let l:winactive = g:statusline_winid == win_getid()
+  " return printf(' %%#Statement#%w%s:%s%%* ', win_getid(), g:actual_curwin)
+" endfunc
+
+        " \ .. '%#SlB#'
+        " \ .. '{&modified?&modifiable?"-":"+":""}
+        " \ .. '%{&modified?&modifiable?"+":"⨁":""}'
 
 
   " ⨕⃞ ⨧⃞ ⨳⃞ ⩆⃞ ➔⃞  ⫸⃞ 
@@ -441,3 +439,8 @@ set statusline=%{%CustomStatusline()%}
 " ᵦᵧᵨᵩᵪ₀₁₂₃₄₅₆₇₈₉
 " ⣏⢽⣎⣝⣟⢟⢛⢻⢼⢫⢣⡯⡱⢷̲̅꜍̳̿
 "  ̲̲̅̅⟦̲̅⦀̲̅꜎̲̅⫼̲̅⫻̲̅⁽̲̅⧫̲̅█̲̅ 
+"
+
+"}}}
+
+" vim:signcolumn=auto:foldcolumn=1:foldmethod=marker:nolist:nowrap

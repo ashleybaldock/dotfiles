@@ -1,7 +1,7 @@
 
 " a === 33
 " !==
-
+" " set previewpopup=height:10,width:60
 
 " Jump forward (^O)
 " <⌥⃣ ‑a> ▬▶︎ å
@@ -65,6 +65,8 @@ vmap §<space> "xy:@x<CR>
 "
 " s/^[[:blank:]"]*\zs.*/
 " %s/,\ /,/g
+"
+" %s/\s\+$//e
 
 
 " Prettify
@@ -76,8 +78,29 @@ nnoremap §p %!npx prettier --stdin-filepath %<CR>
 " Remove blank lines
 " :g/^$/d
 
-" Extract CSS variable
+" Extract CSS variable ▲⃨ ❙◢̲◣̲       △̲▲̳ ▲̲ ▲̲ ▲̳ ▲̳ ▲̳̲ ▲̲̳
+" name: value;  ▬▶︎▟▙▕▏ ▕▏▏⎤⎡  ►▶︎   ❙❘ ┃ ╹▲̳̲
+"                 ◥◤◢◣ ⎦⎣ ⎦⎣    ╹ ▼╻  ┃
+"                   ⎤⎡ ◥̄◤̄ ◥̅◤̅          ┗━━▶︎      
 "
+" CSS
+"
+" * templates
+" 
+"
+" * variables
+" Extract, name from property
+" name: value;  ▬▶︎  name: var(--name, value);
+"           +yank:  --name: value;
+"               
+"  --bsize-spell: 40px;
+"
+"  display: flex;
+"  flex-direction: column;
+"  flex: 1 1;
+
+
+
 
 " Swap text with following whitespace (right-align)
 " (V, pick lines, :)
@@ -90,9 +113,9 @@ nnoremap §p %!npx prettier --stdin-filepath %<CR>
 " e.g. [ 'a', 'b̲', 'c' ] -> [ 'a', 'c', 'b' ]
 "
 " Shift line(s) up/down (taking cursor with them)
-" 
+"
 
-" Quickfix 
+" Quickfix
 nnoremap §q :windo lcl\|ccl<CR>
 
 nmap <silent> <C-q> <Plug>(qf_qf_switch)
@@ -210,7 +233,7 @@ omap af <Plug>(coc-funcobj-a)
 " ╔═╾Diagnostics╼═════════╦══════════════════════════╗
 " ║           ║ [] ➤ next ║ ]] ➤ next most important ║
 " ║ [[ ➤ list ║           ║  ß <⌥⃣ ‑a>                ║
-" ║ ¡ (<⌥⃣ ‑1>)╠═══════════╬══════════════════════════╣
+" ║ ¡ (<⌥⃣ +1>)╠═══════════╬══════════════════════════╣
 " ║           ║ ][ ➤ prev ║                          ║
 " ║           ║ å (<⌥⃣ ‑a>)║                          ║
 " ╚═══════════╩═══════════╩══════════════════════════╝
@@ -229,27 +252,19 @@ nnoremap ® <Plug>(coc-rename)
 nnoremap <silent> <C-g><C-r> <Plug>(coc-rename)
 
 " GoTo code navigation.
-"  CocAction('jumpDefinition')    | Jump to definition locations.
-"  CocAction('jumpDeclaration')   | Jump to declaration locations.
-"  CocAction('jumpImplementation')| Jump to implementation locations.
-"  CocAction('jumpTypeDefinition')| Jump to type definition locations.
-"  CocAction('jumpReferences')    | Jump to references.
-"  CocAction('jumpUsed')          | Jump to references without declarations.
-"  CocAction('definitions')       | Get definition list.
-"  CocAction('declarations')      | Get declaration list.
-"  CocAction('implementations')   | Get implementation list.
-"  CocAction('typeDefinitions')   | Get type definition list.
-"  CocAction('references')        | Get reference list.
-nmap <silent> <C-g><C-g> call CocAction('jumpDefinition')
-nmap <silent> <C-g><C-t> <Plug>(coc-type-definition)
-nmap <silent> <C-g><C-i> <Plug>(coc-implementation)
+"nnoremap <silent>    :call CocAction('definitions')<CR>
+nnoremap ∂   :call CocAction('jumpDefinition')<CR>
+"nnoremap <silent>    :call CocAction('declarations')<CR>
+"nnoremap <silent>    :call CocAction('jumpDeclaration')<CR>
+"nnoremap <silent>    :call CocAction('implementations')<CR>
+"nnoremap <silent>   :call CocAction('jumpImplementation')<CR>
+"nnoremap <silent>    :call CocAction('typeDefinitions')<CR>
+nnoremap <silent> <C-g><C-t> :call CocAction('jumpTypeDefinition')<CR>
+nnoremap <silent>  gr :call CocAction('references')<CR>
+"nnoremap <silent>    :call CocAction('jumpReferences')<CR>
+"nnoremap <silent>    :call CocAction('jumpUsed')<CR>
 
-" nmap <silent> gi <Plug>(coc-implementation)  ¡€     
-
-nmap <silent> gr <Plug>(coc-references)
-
-" nmap <silent> <tab> <Plug>(coc-fix-current)
-nmap <silent> <C-g><C-f> <Plug>(coc-fix-current)
+nnoremap <silent> <C-g><C-f> <Plug>(coc-fix-current)
 " <⌥⃣ ‑f> ▬▶︎ ƒ
 nnoremap <silent> ƒ <Plug>(coc-fix-current)
 nnoremap <silent> §2 <Plug>(coc-codeaction-line)

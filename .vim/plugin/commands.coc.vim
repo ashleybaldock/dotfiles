@@ -51,11 +51,6 @@ function s:ShowDocumentation()
 endfunc
 
 :command! ShowDocumentation :call <SID>ShowDocumentation()
-" :autocmd User CocDiagnosticChange {command}:
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
 " Tab autocomplete for popup menu
 function! s:CocCheckBackspace() abort
@@ -74,3 +69,46 @@ inoremap <silent><expr> <CR>
       \ coc#pum#visible() ? coc#pum#confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
+function s:OnCocDiagnosticChange()
+  echom "s:OnCocDiagnosticChange"
+endfunc
+
+function s:OnCocLocationsChange()
+  echom "s:OnCocLocationsChange"
+endfunc
+
+" :autocmd User CocDiagnosticChange {command}:
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" on startup
+" autocmd User CocNvimInit echom "---CocNvimInit---"
+
+" On diagnostics changed
+"autocmd User CocStatusChange,CocDiagnosticChange call dostuff()
+" autocmd User CocStatusChange echom "---CocStatusChange---"
+" autocmd User CocDiagnosticChange echom "---CocDiagnosticChange---"
+autocmd User CocStatusChange,CocDiagnosticChange call s:OnCocDiagnosticChange()
+autocmd User CocDiagnosticChange UpdateSlCachedDiagnostics
+
+"Triggered on jump to placeholder
+" autocmd User CocJumpPlaceholder echom "---CocJumpPlaceholder---"
+autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+
+"Triggered when a floating window is opened.  The window is not
+"focused, use |g:coc_last_float_win| to get window id.
+" autocmd User CocOpenFloat echom "---CocOpenFloat---"
+
+"Triggered when terminal shown (e.g. for adjusting window height)
+" autocmd User CocTerminalOpen echom "---CocTerminalOpen---"
+
+"Triggered on location list change,
+"   new list in: g:coc_jump_locations
+" 'filename': full file path.
+" 'lnum': line number (1 based).
+" 'col': column number(1 based).
+" 'text':  line content of location.
+let g:coc_enable_locationlist = 0
+" autocmd User CocLocationsChange echom "---CocLocationsChange---"
+autocmd User CocLocationsChange call s:OnCocLocationsChange()

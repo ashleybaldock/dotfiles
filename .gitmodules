@@ -74,9 +74,6 @@
 [submodule ".vim/pack/default/start/mediawiki.vim"]
 	path = .vim/pack/default/start/mediawiki.vim
 	url = https://github.com/chikamichi/mediawiki.vim.git
-[submodule "scripts/.vim/pack/default/start/vim-obsession"]
-	path = scripts/.vim/pack/default/start/vim-obsession
-	url = https://github.com/tpope/vim-obsession.git
 [submodule ".vim/pack/default/start/vim-styled-components"]
 	path = .vim/pack/default/start/vim-styled-components
 	url = https://github.com/styled-components/vim-styled-components.git

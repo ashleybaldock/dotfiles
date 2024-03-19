@@ -12,12 +12,11 @@ endfunc
 function s:CopyDiagnostic()
   redir @+>|silent echo CocAction('diagnosticInfo', 'echo')|redir END
 endfunc
+:command! CopyDiagnostic :call <SID>CopyDiagnostic()
 
 function s:CopyHoverInfo()
   redir @+>|silent echo CocAction('getHover')|redir END
 endfunc
-
-:command! CopyDiagnostic :call <SID>CopyDiagnostic()
 :command! CopyHoverInfo :call <SID>CopyHoverInfo()
 
 
@@ -70,14 +69,12 @@ inoremap <silent><expr> <CR>
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function s:OnCocDiagnosticChange()
-  echom "s:OnCocDiagnosticChange"
+  UpdateSlCachedDiagnostics
 endfunc
 
 function s:OnCocLocationsChange()
-  echom "s:OnCocLocationsChange"
+"   new list in: g:coc_jump_locations
 endfunc
-
-" :autocmd User CocDiagnosticChange {command}:
 
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -90,7 +87,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " autocmd User CocStatusChange echom "---CocStatusChange---"
 " autocmd User CocDiagnosticChange echom "---CocDiagnosticChange---"
 autocmd User CocStatusChange,CocDiagnosticChange call s:OnCocDiagnosticChange()
-autocmd User CocDiagnosticChange UpdateSlCachedDiagnostics
 
 "Triggered on jump to placeholder
 " autocmd User CocJumpPlaceholder echom "---CocJumpPlaceholder---"

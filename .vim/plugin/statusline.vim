@@ -13,7 +13,7 @@ scriptencoding utf-8
 " filen‥vim
 " filen·vim
 " Statusline for zero height windows
-let
+
 let g:mayhem = get(g:, 'mayhem', {})
 let g:mayhem.sl = get(g:mayhem, 'sl', {})
 
@@ -93,12 +93,12 @@ function s:Update_Diag()
 endfunc
 
 
-" ‡ ‡ † † ⁊ ⸗ ⁞ ⸬ ⸭ ⁜ ⸔ ꩜ 𒑲𒑳𒑱𒑰᰽᰾᰿☓⚡︎⍦ ♮ ♯ 𝄐𝄑 ⏒⏓⏑⏑⏘ ⏙ 
+" ‡ ‡ † † ⁊ ⸗ ⁞ ⸬ ⸭ ⁜ ⸔ ꩜ 𒑲𒑳 𒑱𒑰᰽᰾᰿☓⚡︎⍦ ♮ ♯ 𝄐𝄑 ⏒⏓⏑⏑⏘ ⏙ 
 " ⌅⌄⌃⌵𐠐𐠅𐠦𐠣 𐠪𐠵𐠤𐠊𐠯𐠯𐠂 𐜝 𐝀 𐝁
-" 𐰊𐱀 𐰒 𐱄𐰼 𐰋𐰲𐰱𐰮𐰯𐰄𐰀𐰚𐰇𐰭𐰃𐱈𐰚𐰇𐰩𐰳𐰏𐰀𐰞 𐰔𐰬𐱄𐱀𐰬𐰕 𐰔𐰑𐰔𐱄𐰚 𐰂𐰒𐰳𐰸𐰹𐱁𐰨𐰆𐰊 𐰋𐰌𐰞𐰃𐰐𐰢𐰤𐰞
+" 𐰊 𐱀 𐰒 𐱄𐰼 𐰋𐰲𐰱𐰮𐰯𐰄𐰀 𐰚𐰇𐰭𐰃𐱈 𐰚𐰇𐰩𐰳𐰏𐰀𐰞 𐰔𐰬𐱄𐱀𐰬𐰕 𐰔𐰑𐰔𐱄𐰚 𐰂𐰒𐰳𐰸𐰹𐱁𐰨𐰆𐰊 𐰋𐰌𐰞𐰃𐰐𐰢𐰤𐰞
 " 𐙞 𐙟 𐰧𐰗 🁢🁣𐙦
-" 𐰶𐰷𐰬 𐱄𐱀𐱃
-" 𐰸𐰹𐰋𐰲𐰱𐱄𐱀𐰬𐰕 𐠤𐠯𐠮𐠵𐠙𐠠𐠃𐠳  ∎∣
+" 𐰶𐰷𐰬 𐱄 𐱀 𐱃
+" 𐰸𐰹𐰋𐰲𐰱𐱄 𐱀 𐰬 𐰕 𐠤 𐠯 𐠮 𐠵 𐠙 𐠠 𐠃 𐠳  ∎∣
 " 𑀋𑀃𑀄𑀅𑀆𑀉𑀊𑀒𑀔𑀖𑀱𑀗𑀘𑀙𑀯𑀚𑀛𑀜𑁖𑁟 𑀷
 " 𑀣𑀞 𑀟𑀠𑀢𑀦𑀖𑀬 𑀯𑀵𑀫
 " 𑀩𑁇𑁈𑁉𑁋𑁊𑀓𑁋𑁌𑁜𑁣𑁜𑁋𑁊 𑁓𑁕𑁒𑁒𑁓𑁔𑁉𑁊𑁉𑁋𑁈 𑁍 
@@ -117,7 +117,7 @@ function s:Update_Git()
         \ g:mayhem.symbols_git8 : g:mayhem.symbols_gitA
 
   if !exists('g:loaded_fugitive')
-    let b:mayhem.sl_cache_git =  [
+    let b:mayhem.sl_cache_git = [
           \ '%#SlGitOffC#' .. symbols.gitoff .. '%*',
           \ '%#SlGitOffN#' .. symbols.gitoff .. '%*']
     return
@@ -288,14 +288,21 @@ function s:UpdateStatuslines() abort
   call s:Update_Git()
   call s:Update_Diag()
 
+  let obsessionStatus = exists("*ObsessionStatus")
+        \ ? '%{ObsessionStatus("𐰬","𐠃")}' : '𑀠'
+
   let g:mayhem['sl_norm'] = [
-    \ '%{%ChGit()%} %{%ChFName()%} %<%=' ..
-    \ '%( %#SlSynErrC#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)' ..
-    \ '%{%ChFInfo()%} %{%ScrollHint()%} %{%ChDiag()%}',
+    \ '%{%ChGit()%} %{%ChFName()%} %#SlSepC#%<%=%*' ..
+    \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)' ..
+    \ '%{%ChFInfo()%} %{%ScrollHint()%}' ..
+    \ obsessionStatus ..
+    \ ' %{%ChDiag()%}',
     \
-    \ '%{%ChGit()%} %{%ChFName()%} %<%=' ..
-    \ '%( %#SlSynErrC#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)' ..
-    \ '%{%ChFInfo()%} %{%ScrollHint()%} %{%ChDiag()%}']
+    \ '%{%ChGit()%} %{%ChFName()%} %#SlSepN#%<%=%*' ..
+    \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)' ..
+    \ '%{%ChFInfo()%} %{%ScrollHint()%}' ..
+    \ obsessionStatus ..
+    \ ' %{%ChDiag()%}']
 
 
   let g:mayhem['sl_prev'] = [
@@ -309,6 +316,9 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_qfix'] = [
         \ '%#SlInfoC#ℚ⃞ %*',
         \ '%#SlInfoN#𝒬⃞ %*']
+  let g:mayhem['sl_dir'] = [
+        \ '%#SlDirC#DIR %-F:h%*',
+        \ '%#SlDirN#DIR %-F:h%*']
 endfunc
 
 function NC()
@@ -322,6 +332,9 @@ function CustomStatusline()
     return get(get(g:, 'mayhem', {}), 'sl_qfix', ['sl_qfixC', 'sl_qfixN'])[NC()]
   elseif &buftype == 'preview'
     return get(get(g:, 'mayhem', {}), 'sl_prev', ['sl_prevC', 'sl_prevN'])[NC()]
+  endif
+  if &ft == 'netrw'
+    return get(get(g:, 'mayhem', {}), 'sl_dir', ['sl_dirC', 'sl_dirN'])[NC()]
   endif
   return get(get(g:, 'mayhem', {}), 'sl_norm', ['sl_normC', 'sl_normN'])[NC()]
 endfunc
@@ -346,6 +359,7 @@ augroup END
 
 set statusline=%{%CustomStatusline()%}
 
+UpdateCustomStatusline
 
 "{{{
   " buffer info - e.g. 1 300,82-85 99%

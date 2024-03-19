@@ -42,7 +42,7 @@ set breakindent
 set showbreak=\\
 set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
 let g:mayhem_hide_list_in_visual = 1
-let g:mayhem_default_list_style = 'minimal'
+let g:mayhem_default_list_style = 'none'
 let g:mayhem_curhold_highlights = 1
 
 colorscheme vividmayhem
@@ -55,10 +55,36 @@ autocmd! GUIEnter * set vb t_vb=
 
 if has('gui_running')
   set guioptions-=rL
-  set guioptions+=ck
+  set guioptions+=ckT
   set guicursor+=a:blinkon0
   set antialias
   set guifont=Menlo:h14
+
+nnoremenu 1.10 WinBar.‼️      :
+nnoremenu 1.20 WinBar.🔶     :
+nnoremenu 1.30 WinBar.🌈     :
+nnoremenu 1.30 WinBar.🐵     :
+nnoremenu 1.30 WinBar.🐵.🙈  :Next<CR>
+nnoremenu 1.30 WinBar.🐵.🙉  :Next<CR>
+nnoremenu 1.30 WinBar.🐵.🙊  :Next<CR>
+nnoremenu 1.40 WinBar.🍆     :
+nnoremenu 1.40 WinBar.🍆.🤟  :Next<CR>
+nnoremenu 1.40 WinBar.🍆.🖖  :Next<CR>
+nnoremenu 1.40 WinBar.🍆.🤙  :Next<CR>
+nnoremenu 1.40 WinBar.🍆.👌  :Next<CR>
+
+  aunmenu Toolbar.Open
+  aunmenu ToolBar.Save
+  aunmenu ToolBar.SaveAll
+  aunmenu ToolBar.Print
+  aunmenu ToolBar.Undo
+  aunmenu ToolBar.Redo
+  aunmenu ToolBar.Cut
+  aunmenu ToolBar.Copy
+  aunmenu ToolBar.Paste
+  aunmenu ToolBar.RunScript
+  aunmenu ToolBar.Make
+  aunmenu ToolBar.Help
 else
   set ttyfast
 

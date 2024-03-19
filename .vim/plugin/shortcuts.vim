@@ -89,7 +89,7 @@ nnoremap §p %!npx prettier --stdin-filepath %<CR>
 " 
 "
 " * variables
-" Extract, name from property
+" Extract, name from property  TODO
 " name: value;  ▬▶︎  name: var(--name, value);
 "           +yank:  --name: value;
 "               
@@ -109,10 +109,10 @@ nnoremap §p %!npx prettier --stdin-filepath %<CR>
 " Swap around pivot (e.g. AAA,BBB -> BBB,AAA
 " vnoremap  <C-S> :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR>:noh<CR>
 "
-" Shift {token} back/forward in {container}
+" Shift {token} back/forward in {container} TODO
 " e.g. [ 'a', 'b̲', 'c' ] -> [ 'a', 'c', 'b' ]
 "
-" Shift line(s) up/down (taking cursor with them)
+" Shift line(s) up/down (taking cursor with them) TODO
 "
 
 " Quickfix
@@ -192,6 +192,7 @@ nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hl
 " vnoremap §s "xy:%s//
 vnoremap §s y<ESC>/<c-r>"<CR> 
 vnoremap §r y<ESC>:%s/<c-r>"//g<Left><Left>
+vnoremap §<S-r> y<ESC>:%s^<c-r>"^^g<Left><Left>
 
 " Substitute using last search pattern
 " :%s//<replacement>/g
@@ -203,6 +204,10 @@ vnoremap §r y<ESC>:%s/<c-r>"//g<Left><Left>
 " :%s/a/<replacement>/g
 " :%s/<c-r>a//g<Left><Left>
 
+
+" register does not contain char
+" getreg('<reg>') !~ '\S'
+
 " *E146*
 " Instead of the '/' which surrounds the pattern and replacement string, you
 " can use any other single-byte character, but not an alphanumeric character,
@@ -210,11 +215,21 @@ vnoremap §r y<ESC>:%s/<c-r>"//g<Left><Left>
 " pattern or replacement string.  Example:
 "   :s+/+//+
 
+
+" Visual mode
+" move to next displayed line in mode v (but not V or )
+"  (useful with wrap on)
+xnoremap <expr> j  mode() ==# "v" ? "gj" : "j"
+xnoremap <expr> gj mode() ==# "v" ? "j"  : "gj"
+xnoremap <expr> k  mode() ==# "v" ? "gk" : "k"
+xnoremap <expr> gk mode() ==# "v" ? "k"  : "gk"
 " Select visual block (<C-v> etc.) 
 " in visual mode:
 " x - cut block replacing it with whitespace
 vnoremap x y<ESC>gvr 
 vnoremap v y<ESC>1vp
+xnoremap <expr> x  mode() ==# "" ? "y<ESC>gvr" : "x"
+xnoremap <expr> v  mode() ==# "" ? "y<ESC>1vp" : "v"
 " h - move block left by 1
 " j - move block down by 1
 " k - move block up by 1

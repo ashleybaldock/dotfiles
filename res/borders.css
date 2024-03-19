@@ -156,8 +156,8 @@ svg {
     ". . d d . . ";
 }
 
-.stest > div::after {
-  content: attr(id);
+[data-sink="bd1_B"] > div::after {
+  content: attr(data-from-bd1_b);
 }
 .stest .preview {
   grid-area: p;
@@ -200,6 +200,11 @@ svg {
   flex-direction: column;
   justify-items: center;
 }
+.slider-wrapper {
+  --thumb-size: 2em;
+  --thumb-ratio: 2;
+
+}
 input[type="range"][orient="vertical"] {
   writing-mode: bt-lr;
   appearance: slider-vertical;
@@ -236,7 +241,7 @@ input[type="range"] {
 }
 input[type="range"]::-webkit-slider-runnable-track,
 input[type="range"]::-moz-range-track {
-  box-sizing: inherit;
+  box-sizing: border-box;
   height: var(--track-size);
   width: 100%;
   color: var(--track-foreground);
@@ -260,7 +265,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 input[type="range"]::-webkit-slider-thumb,
 input[type="range"]::-moz-range-thumb {
-  box-sizing: inherit;
+  box-sizing: border-box;
   height: var(--thumb-size);
   width: calc(var(--thumb-size) * var(--thumb-ratio, 1));
   color: var(--thumb-foreground);
@@ -278,6 +283,7 @@ input[type="range"][orient="vertical"]::-moz-range-thumb {
   height: calc(var(--thumb-size) * var(--thumb-ratio, 1));
   border-radius: var(--bdr-r0);
   --bdr-r0: var(--a) var(--b) var(--c) var(--d) / var(--A) var(--B) var(--C) var(--D);
+  background-color: green;
 }
 
 input[type="range"]:focus {
@@ -289,6 +295,37 @@ input[type="range"]:focus::-moz-range-thumb {
   border: 1px solid #053a5f;
   outline: 3px solid #053a5f;
   outline-offset: 0.125rem;
+}
+
+
+.slider-wrapper::after {
+  --val-readout-size: 20px;
+  content: var(--bdata-str-bd1_c);
+  background-color: blue;
+  width: var(--val-readout-size);
+  height: var(--val-readout-size);
+  position: absolute;
+  color: white;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 2px;
+  box-sizing: border-box;
+  font-size: 0.8em;
+  left: calc(((var(--bdata-bd1_c) / 100) * (100% - (var(--thumb-size) * var(--thumb-ratio)))) );
+}
+.slider-wrapper {
+  position: relative;
+}
+.slider-wrapper input[type="range"] {
+  width: 100%;
+  height: auto;
+}
+.slider-wrapper input[type="range"][orient="vertical"] {
+  width: auto;
+  height: 100%;
 }
 
 

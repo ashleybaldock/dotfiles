@@ -83,6 +83,6 @@
 [submodule ".vim/pack/default/start/vim-obsession"]
 	path = .vim/pack/default/start/vim-obsession
 	url = https://github.com/tpope/vim-obsession.git
-[submodule "scripts/~/dotfiles/.vim/pack/default/start/vim-characterize"]
-	path = scripts/~/dotfiles/.vim/pack/default/start/vim-characterize
+[submodule "/Users/ashley/dotfiles/.vim/pack/default/start/vim-chracterize"]
+	path = /Users/ashley/dotfiles/.vim/pack/default/start/vim-chracterize
 	url = https://github.com/tpope/vim-characterize.git

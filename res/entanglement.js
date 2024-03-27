@@ -64,10 +64,36 @@ const entanglement = (() => {
         throw new Exception('Nothing to bind on');
       }
       const events = dataSource.getAttribute('data-source-on')?.split?.(' ') ?? ['input'];
-      events.forEach((evname) => 
-        dataSource.addEventListener(evname, (e) => {
-          const val = e.target.value;
-          e.target.setAttribute(`data-${name}`, val);
+      events.forEach((evname) => {
+        const updateValue = ((dataSource, name, target) => {
+          const val = dataSource.value;
+          dataSource.setAttribute(`data-${name}`, val);
+
+          /* Update all listeners */
+          document.querySelectorAll(`[data-sink-for~=${name}],[data-sink~=${name}]`).forEach((node) => {
+            const sinkAttr = (node.getAttribute('data-map-attr')?.split?.(' ') ?? [])
+              .flatMap((s) => ((n, v) => n === name ? [v] : [])(...s.split(':')[0]))[0] ?? `data-from-${name}`;
+            node?.setAttribute?.(sinkAttr, val);
+          });
+          /* Update nearest parent sink-all */
+          (dataSource.closest(`[data-sink-all]`) ?? document.body).setAttribute(`data-from-${name}`, val);
+          document.documentElement.style.setProperty(`--${prefix}-str-${name}`, `"${val}"`);
+          document.documentElement.style.setProperty(`--${prefix}-${name}`, `${val}`);
+        }).bind(null, dataSource, name);
+
+        updateValue(dataSource);
+        dataSource.addEventListener(evname, (e) => updateValue(e.target), {signal});
+      });
+      return () => signal.abort();
+    });
+  };
+  
+  return {
+    bindStuff
+  };
+})();
+
+
 
           /* Update nearest parent sink */
           // const closestParentSink = e.target.closest(`[data-sink-for~=${name}]`);
@@ -77,23 +103,3 @@ const entanglement = (() => {
 
           //   closestParentSink.setAttribute?.(sinkAttr, val);
           // }
-          /* Update all listeners */
-          document.querySelectorAll(`[data-sink-for~=${name}],[data-sink~=${name}]`).forEach((node) => {
-            const sinkAttr = (node.getAttribute('data-map-attr')?.split?.(' ') ?? [])
-              .flatMap((s) => ((n, v) => n === name ? [v] : [])(...s.split(':')[0]))[0] ?? `data-from-${name}`;
-            node?.setAttribute?.(sinkAttr, val);
-          });
-          /* Update nearest parent sink-all */
-          (e.target.closest(`[data-sink-all]`) ?? document.body).setAttribute(`data-from-${name}`, val);
-          document.documentElement.style.setProperty(`--${prefix}-str-${name}`, `"${val}"`);
-          document.documentElement.style.setProperty(`--${prefix}-${name}`, `${val}`);
-        }, {signal})
-      );
-      return () => signal.abort();
-    });
-  };
-  
-  return {
-    bindStuff
-  };
-})();

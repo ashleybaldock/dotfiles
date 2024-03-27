@@ -1,254 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" /><!--{{{-->
+    <title>Borders</title><!--{{{-->
+    <meta charset="utf-8" />
     <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="common.css"/>
+    <script type="application/javascript" src="entanglement.js"></script>
+
     <link rel="stylesheet" href="borders.css"/>
-    <script type="application/javascript" src="entanglement.js"></script><!--}}}-->
-<style>
-.t1 {
-  --color-fg-section-header: #eee;
-  --sheader-base-height: 1em;
-
-  position: relative;
-  color: var(--color-tab-active);
-  
-  font-size: 16px;
-  height: calc(var(--sheader-base-height) * 1.5);
-  line-height: calc(var(--sheader-base-height) * 1.75);
-  font-weight: bold;
-  font-variant-caps: small-caps;
-  font-weight: 600;
-  text-align: center;
-  white-space: nowrap;
-}
-.t1::after {
-  content: '';
-  position: absolute;
-  right: 0px;
-  left: -4px;
-  bottom: -7px;
-  border-radius: 0em 9em 15em 0em;
-  border-bottom: 0 solid transparent;
-  border-left: 0 solid transparent;
-  border-top: 0 dashed var(--color-fg-section-header);
-  border-right: 3px solid var(--color-fg-section-header);
-  border-bottom: 6px double var(--color-fg-section-header);
-  border-collapse: collapse;
-}
-.t1::before {
-  content: '';
-  position: absolute;
-  top: 0px;
-  right: -4px;
-  left: 0px;
-  border-radius: 13em 0em 0em 9em;
-  border-bottom: 0em dashed transparent;
-  border-left: 3px solid var(--color-fg-section-header);
-  border-top: 1px solid var(--color-fg-section-header);
-  border-right: 0 solid transparent;
-  width: inherit;
-  height: 100%;
-  padding-left: 1em;
-}
-
-.topleft {
-  --radius-tl: 13em;
-  --radius-tr: 0em;
-  --radius-br: 0em;
-  --radius-bl: 9em;
-
-  border-bottom: 1px dashed transparent;
-  border-left: 1px solid var(--color-fg-section-header);
-  border-top: 6px double var(--color-fg-section-header);
-  border-right: 0 solid transparent;
-  border-top-left-radius: var(--radius-tl, 0em);
-  border-top-right-radius: var(--radius-tr, 0em);
-  border-bottom-right-radius: var(--radius-br, 0em);
-  border-bottom-left-radius: var(--radius-bl, 0em);
-  border-color: red;
-  height: 100%;
-}
-
-
-.curve {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.container:hover {
-  border: 1px solid #f0fc;
-}
-.type-1 {
-  font-variant-caps: small-caps;
-  font-weight: 600;
-  text-align: center;
-  white-space: nowrap;
-  line-height: 1em;
-  height: 1em;
-  padding: 0.4em;
-  color: var(--color-fg);
-  font-size: 16px;
-  --color-fg: #ccc;
-  --transition-properties: color, border-color, transform, background-color, fill, stroke;
-  background-color: var(--color-bg);
-  --color-bg: #1d1d1d;
-  fill: var(--color-fg);
-  --border-color: red;
-  --borderbg-color: blue;
-}
-.type-1:hover {
-  --color-fg: #ee3;
-  --color-bg: #176b6b;
-}
-.transition-1 {
-  transition-timing-function: ease-out;
-  transition-property: var(--transition-properties);
-  transition-duration: 150ms;
-}
-.transition-1:hover {
-  transition-timing-function: ease-in;
-  transition-property: var(--transition-properties);
-  transition-duration: 250ms;
-}
-
-/* foreground curve, radius/border */
-.curve::after {
-  content: '';
-  position: absolute;
-  border-top-left-radius: var(--radius-tl, 0em);
-  border-top-right-radius: var(--radius-tr, 0em);
-  border-bottom-right-radius: var(--radius-br, 0em);
-  border-bottom-left-radius: var(--radius-bl, 0em);
-  top: var(--off-t, 0em);
-  border-top-width: var(--border-t-w, 0em);
-  border-top-style: var(--border-t-s, none);
-  border-top-color: var(--border-t-c, transparent);
-  right: var(--off-r, 0em);
-  border-right-width: var(--border-r-w, 0em);
-  border-right-style: var(--border-r-s, none);
-  border-right-color: var(--border-r-c, transparent);
-  bottom: var(--off-b, 0em);
-  border-bottom-width: var(--border-b-w, 0em);
-  border-bottom-style: var(--border-b-s, none);
-  border-bottom-color: var(--border-b-c, transparent);
-  left: var(--off-l, 0em);
-  border-left-width: var(--border-l-w, 0em);
-  border-left-style: var(--border-l-s, none);
-  border-left-color: var(--border-l-c, transparent);
-}
-/**
- * background curve, radiusbg/borderbg
- * (defaults to match foreground curve)
- */
-.curve::before {
-  content: '';
-  position: absolute;
-  border-top-left-radius: var(--radiusbg-tl, var(--radius-tl, 0em));
-  border-top-right-radius: var(--radiusbg-tr, var(--radius-tr, 0em));
-  border-bottom-right-radius: var(--radiusbg-br, var(--radius-br, 0em));
-  border-bottom-left-radius: var(--radiusbg-bl, var(--radius-bl, 0em));
-  top: var(--offbg-t, 0em);
-  border-top-width: var(--borderbg-t-w, 0em);
-  border-top-style: var(--borderbg-t-s, none);
-  border-top-color: var(--borderbg-t-c, transparent);
-  right: var(--offbg-r, 0em);
-  border-right-width: var(--borderbg-r-w, 0em);
-  border-right-style: var(--borderbg-r-s, none);
-  border-right-color: var(--borderbg-r-c, transparent);
-  bottom: var(--offbg-b, 0em);
-  border-bottom-width: var(--borderbg-b-w, 0em);
-  border-bottom-style: var(--borderbg-b-s, none);
-  border-bottom-color: var(--borderbg-b-c, transparent);
-  left: var(--offbg-l, 0em);
-  border-left-width: var(--borderbg-l-w, 0em);
-  border-left-style: var(--borderbg-l-s, none);
-  border-left-color: var(--borderbg-l-c, transparent);
-}
-
-.topleft {
-  --radius-tl: 16em;
-  --radius-bl: 19em;
-  --border-t-w: 0.3em;
-  --border-t-s: solid;
-  --border-t-c: var(--border-color);
-  --border-l-w: 0.16em;
-  --border-l-s: solid;
-  --border-l-c: var(--border-color);
-  --border-r-w: 0.4em;
-  --border-r-s: solid;
-  --border-b-w: 0.01em;
-  --border-b-s: double;
-  --borderbg-t-w: 0.3em;
-  --borderbg-t-s: double;
-  --borderbg-t-c: var(--borderbg-color);
-  --borderbg-r-w: 0.38em;
-  --borderbg-r-s: solid;
-  --borderbg-b-w: 1em;
-  --borderbg-b-s: double;
-  --borderbg-l-w: 0.19em;
-  --borderbg-l-s: solid;
-  --borderbg-l-c: var(--borderbg-color);
-}
-
-.botright {
-  --border-t-w: 0.1em;
-  --border-t-s: solid;
-  --border-r-w: 0.4em;
-  --border-r-s: solid;
-  --border-b-w: 0.3em;
-  --border-b-s: solid;
-  --border-b-c: var(--border-color, #dd0000);
-  --border-l-w: 0.4em;
-  --border-l-s: solid;
-  --radiusbg: 0;
-  --radiusbg-br: -10.3em;
-  --borderbg-t-w: 0.3em;
-  --borderbg-t-s: double;
-  --borderbg-r-w: 0.4em;
-  --borderbg-r-s: double;
-  --borderbg-b-w: 0.2em;
-  --borderbg-b-s: solid;
-  --borderbg-b-c: var(--borderbg-color, #331199);
-  --borderbg-l-w: 2.4em;
-  --borderbg-l-c: transparent;
-  --borderbg-l-s: solid;
-}
-</style>
-
-<link rel="stylesheet" href="spells-1.css"/>
-<link rel="stylesheet" href="borders-fieldset.css"/>
+    <link rel="stylesheet" href="borders-buttons.css"/>
+    <link rel="stylesheet" href="spells-1.css"/>
+    <link rel="stylesheet" href="borders-fieldset.css"/>
 
 <script>
   window.addEventListener('load', (event) => {
     const unbind = entanglement.bindStuff();
   });
 </script>
-
+<!--}}}-->
   </head>
   <body>
-    <section>
-      <h1>Borders</h1><!--{{{-->
-      <div class="container">
-        <div class="curve topleft"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><path d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"></path></svg>Some Text</div>
-      </div>
-      <div class="container">
-        <div class="curve topleft"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><path d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"></path></svg>Some Text</div>
-      </div>
-      <div class="container">
-        <div class="curve botright"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><path d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"></path></svg>Some Text</div>
-      </div><!--}}}-->
+    <h1>Borders</h1>
+
+<section class="screen">
+      <h2>Border Radius</h2>
+      <div class="vertical">
+        <div class="testbase stest">
+          <div class="preview" data-sink="bd1_a bd1_b bd1_c bd1_d bd1_A bd1_B bd1_C bd1_D">
+            <div class="line">
+            <div class="oval bd1_aA"></div>
+            <div class="oval bd1_bB"></div>
+            <div class="oval bd1_cC"></div>
+            <div class="oval bd1_dD"></div>
+            <div class="point bd1_a"></div>
+            <div class="point bd1_b"></div>
+            <div class="point bd1_c"></div>
+            <div class="point bd1_d"></div>
+            <div class="point bd1_A"></div>
+            <div class="point bd1_B"></div>
+            <div class="point bd1_C"></div>
+            <div class="point bd1_D"></div>
+            </div>
+          </div>
+  <div class="slider-wrapper" data-sink="bd1_A">
+    <label for="bd1_A">left-top</label>
+    <input data-source class="reversed" id="bd1_A" type="range" value="0" min="0" max="200" orient="vertical">
+  </div>
+  <div class="slider-wrapper" data-sink="bd1_a">
+    <label for="bd1_a">top-left</label>
+    <input data-source id="bd1_a" type="range" value="0" min="0" max="200" orient="horizontal">
+  </div>
+  <div class="slider-wrapper" data-sink="bd1_b">
+    <label for="bd1_b">top-right</label>
+    <input data-source class="reversed" id="bd1_b" type="range" value="0" min="0" max="200" orient="horizontal">
+  </div>
+  <div class="slider-wrapper" data-sink="bd1_B">
+    <label for="bd1_B">right-top</label>
+    <input data-source class="reversed" id="bd1_B" type="range" value="0" min="0" max="200" orient="vertical">
+  </div>
+  <div class="slider-wrapper" data-sink="bd1_C">
+    <label for="bd1_C">right-bot</label>
+    <input data-source id="bd1_C" type="range" value="0" min="0" max="200" orient="vertical">
+  </div>
+  <div class="slider-wrapper" data-sink="bd1_c">
+    <label for="bd1_c">bot-right</label>
+    <input data-source class="reversed" id="bd1_c" type="range" value="0" min="0" max="200" orient="horizontal">
+  </div>
+  <div class="slider-wrapper" data-sink="bd1_d">
+    <label for="bd1_d">bot-left</label>
+    <input data-source id="bd1_d" type="range" value="0" min="0" max="200" orient="horizontal">
+  </div>
+  <div class="slider-wrapper" data-sink="bd1_D">
+    <label for="bd1_D">left-bot</label>
+    <input data-source id="bd1_D" type="range" value="0" min="0" max="200" orient="vertical">
+  </div>
+
+  <!-- <label for="bd1_a">top-left-horizontal</label> -->
+  <!-- <input id="bd1_a" type="range" min="0" max="100" orient="horizontal"> -->
+  <!-- <input type="range" min="0" max="100" orient="vertical"> -->
+  <!--         </div> -->
+        </div>
+</section>
+<section>
+  <h2>Test 5</h2>
+
+        <div class="vertical">
+          <div class="testbase test5">
+          </div>
+        </div>
 </section>
 
 <section>
-  <h1>Elipse</h1><!--{{{-->
+  <h2>Elipse Buttons</h2><!--{{{-->
   <div class="ellipseContainer">
 
 
@@ -264,82 +107,45 @@
   </div><!--}}}-->
 </section>
 <section>
-      <h1>Borders</h1>
-      <div class="container2">
-        <div class="testbase stest">
-          <div class="preview"></div>
-  <!-- <div id="tl"></div> -->
-  <!-- <div id="tr"></div> -->
-  <!-- <div id="br"></div> -->
-  <!-- <div id="bl"></div> -->
-
-
-  <!-- <div id="tl2"></div> -->
-  <!-- <div id="tr2"></div> -->
-  <!-- <div id="br2"></div> -->
-  <!-- <div id="bl2"></div> -->
-  
-  <div class="slider-wrapper" data-sink="bd1_A">
-    <label for="bd1_A">left-top</label>
-    <input data-source id="bd1_A" type="range" min="0" max="100" orient="vertical">
-  </div>
-  <div class="slider-wrapper" data-sink="bd1_a">
-    <label for="bd1_a">top-left</label>
-    <input data-source id="bd1_a" type="range" min="0" max="100" orient="horizontal">
-  </div>
-  <div class="slider-wrapper" data-sink="bd1_b">
-    <label for="bd1_b">top-right</label>
-    <input data-source id="bd1_b" type="range" min="0" max="100" orient="horizontal">
-  </div>
-  <div class="slider-wrapper" data-sink="bd1_B">
-    <label for="bd1_B">right-top</label>
-    <input data-source id="bd1_B" type="range" min="0" max="100" orient="vertical">
-  </div>
-  <div class="slider-wrapper" data-sink="bd1_C">
-    <label for="bd1_C">right-bot</label>
-    <input data-source id="bd1_C" type="range" min="0" max="100" orient="vertical">
-  </div>
-  <div class="slider-wrapper" data-sink="bd1_c">
-    <label for="bd1_c">bot-right</label>
-    <input data-source id="bd1_c" type="range" min="0" max="100" orient="horizontal">
-  </div>
-  <div class="slider-wrapper" data-sink="bd1_d">
-    <label for="bd1_d">bot-left</label>
-    <input data-source id="bd1_d" type="range" min="0" max="100" orient="horizontal">
-  </div>
-  <div class="slider-wrapper" data-sink="bd1_D">
-    <label for="bd1_D">left-bot</label>
-    <input data-source id="bd1_D" type="range" min="0" max="100" orient="vertical">
-  </div>
-
-  <!-- <label for="bd1_a">top-left-horizontal</label> -->
-  <!-- <input id="bd1_a" type="range" min="0" max="100" orient="horizontal"> -->
-  <!-- <input type="range" min="0" max="100" orient="vertical"> -->
-  <!--         </div> -->
-        </div><div class="container2">
-        <div class="testbase test5">
-  
- 
-          </div>
-        </div>
-      
-      
-</section>
-
 <a href="#until-found-box">Go to hidden content</a>
 
 <div>I'm not hidden</div>
 <div id="until-found-box" hidden="until-found">Hidden until found</div>
 <div>I'm not hidden</div>
+</section>
 
 
 <section class="fieldset1">
+<h2>Fieldset Side Text</h2><!--{{{-->
 <div class="fieldset1-container">
     <fieldset><legend>Topside</legend></fieldset>
     <fieldset><legend>Starboard</legend></fieldset>
     <fieldset><legend>Bottomside</legend></fieldset>
     <fieldset><legend>Port</legend></fieldset>
-</div>
+</div><!--}}}-->
+</section>
+
+  <section>
+    <h2>Double borders</h2><!--{{{-->
+    <div class="horizontal">
+      <div class="container">
+        <div class="curve topleft"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--{{{-->
+          <path d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"></path><!--}}}-->
+        </svg>
+        Some Text
+      </div>
+      <div class="container">
+        <div class="curve topleft"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--{{{--><path d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"><!--}}}--></path></svg>Some Text
+      </div>
+      <div class="container">
+        <div class="curve botright"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--{{{--><path d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"><!--}}}--></path></svg>
+        Some Text
+      </div>
+
+      </div><!--}}}-->
 </section>
 
   </body>

@@ -1,0 +1,213 @@
+
+.t1 {
+  --color-fg-section-header: #eee;
+  --sheader-base-height: 1em;
+
+  position: relative;
+  color: var(--color-tab-active);
+  
+  font-size: 16px;
+  height: calc(var(--sheader-base-height) * 1.5);
+  line-height: calc(var(--sheader-base-height) * 1.75);
+  font-weight: bold;
+  font-variant-caps: small-caps;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+.t1::after {
+  content: '';
+  position: absolute;
+  right: 0px;
+  left: -4px;
+  bottom: -7px;
+  border-radius: 0em 9em 15em 0em;
+  border-bottom: 0 solid transparent;
+  border-left: 0 solid transparent;
+  border-top: 0 dashed var(--color-fg-section-header);
+  border-right: 3px solid var(--color-fg-section-header);
+  border-bottom: 6px double var(--color-fg-section-header);
+  border-collapse: collapse;
+}
+.t1::before {
+  content: '';
+  position: absolute;
+  top: 0px;
+  right: -4px;
+  left: 0px;
+  border-radius: 13em 0em 0em 9em;
+  border-bottom: 0em dashed transparent;
+  border-left: 3px solid var(--color-fg-section-header);
+  border-top: 1px solid var(--color-fg-section-header);
+  border-right: 0 solid transparent;
+  width: inherit;
+  height: 100%;
+  padding-left: 1em;
+}
+
+.topleft {
+  --radius-tl: 13em;
+  --radius-tr: 0em;
+  --radius-br: 0em;
+  --radius-bl: 9em;
+
+  border-bottom: 1px dashed transparent;
+  border-left: 1px solid var(--color-fg-section-header);
+  border-top: 6px double var(--color-fg-section-header);
+  border-right: 0 solid transparent;
+  border-top-left-radius: var(--radius-tl, 0em);
+  border-top-right-radius: var(--radius-tr, 0em);
+  border-bottom-right-radius: var(--radius-br, 0em);
+  border-bottom-left-radius: var(--radius-bl, 0em);
+  border-color: red;
+  height: 100%;
+}
+
+
+.curve {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.container:hover {
+  border: 1px solid #f0fc;
+}
+.type-1 {
+  font-variant-caps: small-caps;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1em;
+  height: 1em;
+  padding: 0.4em;
+  color: var(--color-fg);
+  font-size: 16px;
+  --color-fg: #ccc;
+  --transition-properties: color, border-color, transform, background-color, fill, stroke;
+  background-color: var(--color-bg);
+  --color-bg: #1d1d1d;
+  fill: var(--color-fg);
+  --border-color: red;
+  --borderbg-color: blue;
+}
+.type-1:hover {
+  --color-fg: #ee3;
+  --color-bg: #176b6b;
+}
+.transition-1 {
+  transition-timing-function: ease-out;
+  transition-property: var(--transition-properties);
+  transition-duration: 150ms;
+}
+.transition-1:hover {
+  transition-timing-function: ease-in;
+  transition-property: var(--transition-properties);
+  transition-duration: 250ms;
+}
+
+/* foreground curve, radius/border */
+.curve::after {
+  content: '';
+  position: absolute;
+  border-top-left-radius: var(--radius-tl, 0em);
+  border-top-right-radius: var(--radius-tr, 0em);
+  border-bottom-right-radius: var(--radius-br, 0em);
+  border-bottom-left-radius: var(--radius-bl, 0em);
+  top: var(--off-t, 0em);
+  border-top-width: var(--border-t-w, 0em);
+  border-top-style: var(--border-t-s, none);
+  border-top-color: var(--border-t-c, transparent);
+  right: var(--off-r, 0em);
+  border-right-width: var(--border-r-w, 0em);
+  border-right-style: var(--border-r-s, none);
+  border-right-color: var(--border-r-c, transparent);
+  bottom: var(--off-b, 0em);
+  border-bottom-width: var(--border-b-w, 0em);
+  border-bottom-style: var(--border-b-s, none);
+  border-bottom-color: var(--border-b-c, transparent);
+  left: var(--off-l, 0em);
+  border-left-width: var(--border-l-w, 0em);
+  border-left-style: var(--border-l-s, none);
+  border-left-color: var(--border-l-c, transparent);
+}
+/**
+ * background curve, radiusbg/borderbg
+ * (defaults to match foreground curve)
+ */
+.curve::before {
+  content: '';
+  position: absolute;
+  border-top-left-radius: var(--radiusbg-tl, var(--radius-tl, 0em));
+  border-top-right-radius: var(--radiusbg-tr, var(--radius-tr, 0em));
+  border-bottom-right-radius: var(--radiusbg-br, var(--radius-br, 0em));
+  border-bottom-left-radius: var(--radiusbg-bl, var(--radius-bl, 0em));
+  top: var(--offbg-t, 0em);
+  border-top-width: var(--borderbg-t-w, 0em);
+  border-top-style: var(--borderbg-t-s, none);
+  border-top-color: var(--borderbg-t-c, transparent);
+  right: var(--offbg-r, 0em);
+  border-right-width: var(--borderbg-r-w, 0em);
+  border-right-style: var(--borderbg-r-s, none);
+  border-right-color: var(--borderbg-r-c, transparent);
+  bottom: var(--offbg-b, 0em);
+  border-bottom-width: var(--borderbg-b-w, 0em);
+  border-bottom-style: var(--borderbg-b-s, none);
+  border-bottom-color: var(--borderbg-b-c, transparent);
+  left: var(--offbg-l, 0em);
+  border-left-width: var(--borderbg-l-w, 0em);
+  border-left-style: var(--borderbg-l-s, none);
+  border-left-color: var(--borderbg-l-c, transparent);
+}
+
+.topleft {
+  --radius-tl: 16em;
+  --radius-bl: 19em;
+  --border-t-w: 0.3em;
+  --border-t-s: solid;
+  --border-t-c: var(--border-color);
+  --border-l-w: 0.16em;
+  --border-l-s: solid;
+  --border-l-c: var(--border-color);
+  --border-r-w: 0.4em;
+  --border-r-s: solid;
+  --border-b-w: 0.01em;
+  --border-b-s: double;
+  --borderbg-t-w: 0.3em;
+  --borderbg-t-s: double;
+  --borderbg-t-c: var(--borderbg-color);
+  --borderbg-r-w: 0.38em;
+  --borderbg-r-s: solid;
+  --borderbg-b-w: 1em;
+  --borderbg-b-s: double;
+  --borderbg-l-w: 0.19em;
+  --borderbg-l-s: solid;
+  --borderbg-l-c: var(--borderbg-color);
+}
+
+.botright {
+  --border-t-w: 0.1em;
+  --border-t-s: solid;
+  --border-r-w: 0.4em;
+  --border-r-s: solid;
+  --border-b-w: 0.3em;
+  --border-b-s: solid;
+  --border-b-c: var(--border-color, #dd0000);
+  --border-l-w: 0.4em;
+  --border-l-s: solid;
+  --radiusbg: 0;
+  --radiusbg-br: -10.3em;
+  --borderbg-t-w: 0.3em;
+  --borderbg-t-s: double;
+  --borderbg-r-w: 0.4em;
+  --borderbg-r-s: double;
+  --borderbg-b-w: 0.2em;
+  --borderbg-b-s: solid;
+  --borderbg-b-c: var(--borderbg-color, #331199);
+  --borderbg-l-w: 2.4em;
+  --borderbg-l-c: transparent;
+  --borderbg-l-s: solid;
+}

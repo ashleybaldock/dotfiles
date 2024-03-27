@@ -32,9 +32,6 @@ augroup misc_commands
   " Set working directory to current file
   au BufEnter * silent! lcd %:p:h
 
-  " au FileType netrw setlocal nolist
-  " au FileType gitcommit setlocal nolist
- 
   " Use <esc> to close quickfix window
   " au FileType qf if mapcheck('<esc>', 'n') ==# '' | nnoremap <buffer><silent> <esc> :cclose<bar>lclose<CR> | endif
 augroup END
@@ -52,29 +49,29 @@ endfunc
 
 " === Ack / Search ===
 
-:function s:AckEscaped(search)
+function s:AckEscaped(search)
   " The ! avoids jumping to first result automatically
   execute printf('Ack! -Q -- "%s"', substitute(a:search, '\([%"\\]\)', '\\\1', 'g'))
-:endfunc
+endfunc
 
-:function s:AckClipboard()
+function s:AckClipboard()
   call s:AckEscaped(@")
-:endfunc
+endfunc
 
-:function s:AckCurrentWord()
+function s:AckCurrentWord()
   call s:AckEscaped(expand("<cword>"))
-:endfunc
+endfunc
 
-:function s:AckLastSearch()
+function s:AckLastSearch()
   call s:AckEscaped(@/)
-:endfunc
+endfunc
 
-:function! s:AckInput()
+function! s:AckInput()
   call inputsave()
   let search = input("Ack! ")
   call inputrestore()
   call s:AckEscaped(search)
-:endfunc
+endfunc
 
 :command! AckInput :exec <SID>AckInput()
 :command! AckClipboard :exec <SID>AckClipboard()

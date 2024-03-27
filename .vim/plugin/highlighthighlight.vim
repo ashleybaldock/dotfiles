@@ -2,7 +2,7 @@
 if exists("g:loaded_highlighthighlight")
   finish
 endif
-let g:loaded_obsession = 1
+let g:loaded_highlighthighlight = 1
 
 function! s:AddHighlightHighlight(name) abort
   let matchid = matchadd(a:name, '\(^\s*\||\s\+\)"\?:\?hi\w*\s\(\clear\)\@!\(link\)\?\s*\zs' .. a:name .. '\ze\s\+', 10, -1)

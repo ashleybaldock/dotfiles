@@ -19,6 +19,8 @@ function s:CopyHoverInfo()
 endfunc
 :command! CopyHoverInfo :call <SID>CopyHoverInfo()
 
+:command! CopyJumpList :let @+=get(g:last_coc_jump_locations)
+
 
 function s:WorstDiagnosticSeverity()
   let diaginfo = get(b:, 'coc_diagnostic_info', {})
@@ -74,6 +76,7 @@ endfunc
 
 function s:OnCocLocationsChange()
 "   new list in: g:coc_jump_locations
+   let g:last_coc_jump_locations = g:coc_jump_locations
 endfunc
 
 " Highlight symbol under cursor on CursorHold

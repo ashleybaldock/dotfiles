@@ -21,8 +21,8 @@ elif [ -d $HOME/.gem/ruby/2.6.0/bin ]; then
   export PATH="$HOME/.gem/ruby/2.6.0/bin:${PATH}"
 fi
 
-if [ -d ~/dotfiles/bin ]; then
-  export PATH="~/dotfiles/bin:$PATH"
+if [ -d $HOME/dotfiles/bin ]; then
+  export PATH="$HOME/dotfiles/bin:${PATH}"
 fi
 
 ## python

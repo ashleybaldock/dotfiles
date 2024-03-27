@@ -1,0 +1,36 @@
+.horizontal {
+  display: flex;
+  flex-flow: row wrap;
+  flex: 1 1;
+  align-content: center;
+  justify-content: center;
+}
+
+.vertical {
+  display: flex;
+  flex-flow: column wrap;
+  flex: 1 1;
+  align-content: center;
+  justify-content: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  background-color: #121212;
+  color: #eee;
+  padding: 0.4em;
+  border-top: 0.1em solid #65005f;
+}
+
+body, h1, h2, h3, h4, p,
+figure, blockquote, dl, dd {
+  margin-block-end: 0;
+}
+
+
+section > h2 {
+  position: sticky;
+  top: 0;
+}
+.screen {
+  min-height: 100vh;
+}

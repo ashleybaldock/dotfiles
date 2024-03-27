@@ -152,6 +152,12 @@ alias ghbo="ghob"
 if [ -z "$NVM_DIR" ]; then
   export NVM_DIR="$HOME/.nvm"
 fi
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 
 # If using nvm set up lazy loading
 # First time node/npm/nvm are run this loads nvm
@@ -161,6 +167,8 @@ if [ -d "$NVM_DIR" ] && [ -z "$NVM_BIN" ]; then
     unset -f nvm
     unset -f node
     unset -f npm
+    unset -f yarn
+    unset -f pnpm
     [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
     unset -f nvmload
@@ -179,6 +187,14 @@ if [ -d "$NVM_DIR" ] && [ -z "$NVM_BIN" ]; then
   nvm() {
     nvmload
     nvm "$@"
+  }
+  yarn() {
+    nvmload
+    yarn "$@"
+  }
+  pnpm() {
+    nvmload
+    pnpm "$@"
   }
 fi
 
@@ -220,3 +236,12 @@ GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWUPSTREAM=auto
 export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
 
+
+
+# pnpm
+export PNPM_HOME="/Users/ashley/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

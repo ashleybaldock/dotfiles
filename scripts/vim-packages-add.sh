@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VIMDIR="~/dotfiles/.vim/"
+VIMDIR="$HOME/dotfiles/.vim"
 
 __usage="
 Usage: $(basename $0) [options] <repo-url> <package-name> [<branch>]
@@ -23,14 +23,17 @@ fi
 
 if [ ! -d "$VIMDIR" ]
 then
-  echo "Failed to find VIMDIR ($VIMDIR), aborting" >&2
+  echo "Failed to find VIMDIR '($VIMDIR)', aborting" >&2
+  exit 1
 fi
 
 cwd=$(pwd)
 
 cd $VIMDIR
 
-git submodule init
+git diff --cached --quiet || echo "Git has staged changes, commit or stash them first" >&2 || exit 1
+
+git submodule init || echo "Git submodule init failed" >&2 || exit 1
 if [ "$3" != "" ]; then
   git submodule add -b "$3" "$1" "$VIMDIR/pack/default/start/$2"
 # Changing existing submodule's branch:
@@ -38,5 +41,5 @@ if [ "$3" != "" ]; then
 else
   git submodule add "$1" "$VIMDIR/pack/default/start/$2"
 fi
-git add .gitmodules "$VIMDIR/pack/default/start/$2"
+git add .gitmodules "$VIMDIR/pack/default/start/$2" || echo "git add .gitmodules failed" >&2 || exit 1
 git commit -m"Add vim package '$2'"

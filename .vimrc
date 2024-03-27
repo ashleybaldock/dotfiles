@@ -60,31 +60,6 @@ if has('gui_running')
   set antialias
   set guifont=Menlo:h14
 
-nnoremenu 1.10 WinBar.‼️      :
-nnoremenu 1.20 WinBar.🔶     :
-nnoremenu 1.30 WinBar.🌈     :
-nnoremenu 1.30 WinBar.🐵     :
-nnoremenu 1.30 WinBar.🐵.🙈  :Next<CR>
-nnoremenu 1.30 WinBar.🐵.🙉  :Next<CR>
-nnoremenu 1.30 WinBar.🐵.🙊  :Next<CR>
-nnoremenu 1.40 WinBar.🍆     :
-nnoremenu 1.40 WinBar.🍆.🤟  :Next<CR>
-nnoremenu 1.40 WinBar.🍆.🖖  :Next<CR>
-nnoremenu 1.40 WinBar.🍆.🤙  :Next<CR>
-nnoremenu 1.40 WinBar.🍆.👌  :Next<CR>
-
-  aunmenu Toolbar.Open
-  aunmenu ToolBar.Save
-  aunmenu ToolBar.SaveAll
-  aunmenu ToolBar.Print
-  aunmenu ToolBar.Undo
-  aunmenu ToolBar.Redo
-  aunmenu ToolBar.Cut
-  aunmenu ToolBar.Copy
-  aunmenu ToolBar.Paste
-  aunmenu ToolBar.RunScript
-  aunmenu ToolBar.Make
-  aunmenu ToolBar.Help
 else
   set ttyfast
 

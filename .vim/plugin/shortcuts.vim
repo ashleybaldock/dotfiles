@@ -247,7 +247,7 @@ omap af <Plug>(coc-funcobj-a)
 
 " ╔═╾Diagnostics╼═════════╦══════════════════════════╗
 " ║           ║ [] ➤ next ║ ]] ➤ next most important ║
-" ║ [[ ➤ list ║           ║  ß <⌥⃣ ‑a>                ║
+" ║ [[ ➤ list ║           ║  ß <⌥⃣ ‑s>                ║
 " ║ ¡ (<⌥⃣ +1>)╠═══════════╬══════════════════════════╣
 " ║           ║ ][ ➤ prev ║                          ║
 " ║           ║ å (<⌥⃣ ‑a>)║                          ║
@@ -267,7 +267,9 @@ nnoremap ® <Plug>(coc-rename)
 nnoremap <silent> <C-g><C-r> <Plug>(coc-rename)
 
 " GoTo code navigation.
-"nnoremap <silent>    :call CocAction('definitions')<CR>
+" <⇧⃣ -⌥⃣ ‑d> ▬▶︎ Î
+nnoremap Î   :call CocAction('definitions')<CR>
+" <⌥⃣ ‑d> ▬▶︎ ∂
 nnoremap ∂   :call CocAction('jumpDefinition')<CR>
 "nnoremap <silent>    :call CocAction('declarations')<CR>
 "nnoremap <silent>    :call CocAction('jumpDeclaration')<CR>
@@ -275,6 +277,8 @@ nnoremap ∂   :call CocAction('jumpDefinition')<CR>
 "nnoremap <silent>   :call CocAction('jumpImplementation')<CR>
 "nnoremap <silent>    :call CocAction('typeDefinitions')<CR>
 nnoremap <silent> <C-g><C-t> :call CocAction('jumpTypeDefinition')<CR>
+" <⇧⃣ -⌥⃣ ‑r> ▬▶︎ Â
+nnoremap Â :call CocAction('jumpReferences')<CR>
 nnoremap <silent>  gr :call CocAction('references')<CR>
 "nnoremap <silent>    :call CocAction('jumpReferences')<CR>
 "nnoremap <silent>    :call CocAction('jumpUsed')<CR>

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-VIMDIR="~/dotfiles/.vim/"
-GITDIR="~/dotfiles/.git/"
+VIMDIR="$HOME/dotfiles/.vim"
+GITDIR="$HOME/dotfiles/.git"
 
 __usage="
 Usage: $(basename $0) [options] <package-name>
@@ -20,8 +20,15 @@ elif [ $# -lt 1 ]; then
   exit 2
 fi
 
+if [ ! -d "$VIMDIR" ]
+then
+  echo "Failed to find VIMDIR '($VIMDIR)', aborting" >&2
+  exit 1
+fi
 
-git submodule deinit "$VIMDIR/pack/default/start/$1"
-git rm "$VIMDIR/pack/default/start/$1"
-rm -Rf "$GITDIR/modules/.vim/pack/default/start/$1"
-git commit -m"Remove vim package '$1'"
+git diff --cached --quiet || echo "Git has staged changes, commit or stash them first" >&2 || exit 1
+
+git submodule deinit "$VIMDIR/pack/default/start/$1" || echo "submodule deinit failed" >&2 || exit 1
+git rm "$VIMDIR/pack/default/start/$1" || echo "git rm failed" >&2 || exit 1
+rm -Rf "$GITDIR/modules/.vim/pack/default/start/$1" || exit 1
+git commit -m"Remove vim package '$1'" || exit 1

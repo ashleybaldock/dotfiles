@@ -1,0 +1,43 @@
+
+" Replace numbered infobox field's value
+
+" Add new numbered infobox field below existing one
+%s/|\s*NAME_OF_FIELD\([2-8]\?\)\s*=\s*\([^|}]*\)\zs/\="\n| pattern" .. submatch(1) .. "         = " .. submatch(1) .. submatch(1)
+
+" Add line inside numbered infobox tag
+%s/source="NAME_OF_FIELD\([2-8]\?\)"\s*\zs/\="\n<format><span class="frames">{{{hitShooterFrames|}}}<\/span><\/format>/
+
+
+" Replace surrounding tag
+" <a>bl̲ah</a>  ▬▬▶︎  <b>blah</b>    cst<b>
+" Tag with attributes
+"           <a>bl̲ah</a>  ▬▬▶︎  <b class="P">blah</b>  ║  cst<b class="P">
+" <a class="X">bl̲ah</a>  ▬▬▶︎  <b>blah</b>            ║  cst<b>
+" <a class="Q">bl̲ah</a>  ▬▬▶︎  <b class="Q">blah</b>  ║  cst<b>
+
+" Replace surrounding punctuation with tag
+" 'bl̲ah'  ▬▬▶︎  <b>blah</b>
+"        cs'<b>
+" {bl̲ah}  ▬▬▶︎  <b>blah</b>
+"        cs{<b>
+
+" Replace surrounding tag with punctuation
+" <a>bl̲ah</a>  ▬▬▶︎  { blah }  ║ …  ▬▬▶︎  {blah}
+"              cst{           ║    cst}
+
+
+" Add internal surrounding tag
+" <a>bl̲ah</a>  ▬▬▶︎  <a><b class="c">blah</b></a>  ║  vitS<b class="c">
+"   [bl̲ah]     ▬▬▶︎    [<b class="c">blah</b>]     ║  vi[S<b class="c">
+" On new line                                     ║
+" <a>bl̲ah</a>  ▬▬▶︎  <a>                           ║
+                      <b class="c">blah</b>       ║  vitS<b class="c">
+                    </a>                          ║
+
+" Add external surrounding tag
+" <a>bl̲ah</a>  ▬▬▶︎  <b><a>blah</a></b>  ║  vatS<b>
+"                                       ║
+"  [̲[blah]]̲    ▬▬▶︎   <b>[[blah]]</b>    ║  vi[S<b>
+"                                       ║
+"  [[̲b̲l̲a̲h̲]̲]    ▬▬▶︎   [<b>[blah]</b>]    ║  vi[S<b>
+

@@ -9,5 +9,10 @@ endfunc
       \ :mksession ~/.vim/session/<args>.session.vim
 
 :command! -nargs=? -complete=customlist,<SID>SessionComplete
+      \ LoadObsession
+      \ :so ~/.vim/session/<args>.session.vim |
+      \ :Obsession
+
+:command! -nargs=? -complete=customlist,<SID>SessionComplete
       \ LoadSession
       \ :so ~/.vim/session/<args>.session.vim

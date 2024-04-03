@@ -48,6 +48,7 @@ nnoremap §sv :vsp<CR>
 
 nnoremap §<S-i> :so $VIMRUNTIME/syntax/hitest.vim<CR>
 nnoremap §i :SynStack<CR>
+nnoremap §I :SynStackAuto<CR>
 
 " nnoremap §rf :if &filetype=='vim' && $HOME . '/.vim/ :so<CR>
 " Source current saved file
@@ -61,7 +62,9 @@ nnoremap §rv :so ~/.vimrc<CR>
 " Execute currently selected
 vmap §<space> "xy:@x<CR>
 " Get result of command in new buffer
-" redir @">|silent echo getbufinfo(bufnr())|redir END|vsp|enew|put|silent %s/'/"/ge|silent %s/\\/\\\\/ge|silent %s/: \zs[^0-9[{",]*\ze,/"\0"/ge|setlocal filetype=json|call CocAction('format')|setlocal nomodified
+" redir @">|silent echo 
+"          \ <<command>>
+"          \ |redir END|vsp|enew|put
 "
 " s/^[[:blank:]"]*\zs.*/
 " %s/,\ /,/g
@@ -78,12 +81,9 @@ nnoremap §p %!npx prettier --stdin-filepath %<CR>
 " Remove blank lines
 " :g/^$/d
 
-" Extract CSS variable ▲⃨ ❙◢̲◣̲       △̲▲̳ ▲̲ ▲̲ ▲̳ ▲̳ ▲̳̲ ▲̲̳
-" name: value;  ▬▶︎▟▙▕▏ ▕▏▏⎤⎡  ►▶︎   ❙❘ ┃ ╹▲̳̲
-"                 ◥◤◢◣ ⎦⎣ ⎦⎣    ╹ ▼╻  ┃
-"                   ⎤⎡ ◥̄◤̄ ◥̅◤̅          ┗━━▶︎      
-"
-" CSS
+" Extract CSS variable
+" name: value;       
+" " CSS
 "
 " * templates
 " 

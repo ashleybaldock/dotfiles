@@ -23,3 +23,5 @@ bin/HandBrakeCLI
 .config/*
 .config/coc/extensions/node_modules/*
 
+res/node_modules/*
+

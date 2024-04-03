@@ -14,24 +14,34 @@ endfunc
 command! CursorOnComment :echo CursorOnComment()
 
 
+" Information & Debug
+"
+:command! FormatInfo :setlocal filetype=javascript|call CocAction('format')|setlocal filetype=mh_winfo|setlocal nomodified nomodifiable
+" getbufinfo(bufnr())
+:command! BufferInfo :redir @">|silent echo '// Buffer Info'|silent echo getbufinfo(bufnr())|redir END|vsp|enew|put|FormatInfo
+" getbufinfo()
+:command! BuffersInfo :redir @">|silent echo '// All Buffers Info'|silent echo getbufinfo()|redir END|vsp|enew|put|FormatInfo
+" getwininfo(winnr())
+:command! WindowInfo :redir @">|silent echo '// Window Info'|silent echo getwininfo(win_getid())|redir END|vsp|enew|put|FormatInfo
+" getwininfo()
+:command! WindowsInfo :redir @">|silent echo '// All Windows Info'|silent echo getwininfo()|redir END|vsp|enew|put|FormatInfo
+
+"[{'id': 491, 'name': 'vimFuncBody', 'cleared': v:true}]▹[{'id': 435, 'name': 'vimEcho', 'cleared': v:true}]▹[{'id': 417, 'linksto': 'Statement', 'name': 'vimCommand', 'default': v
+
 " Highlighting & Syntax debug
-function <SID>SynStack()
-  if !exists("*synstack")
-    return
+"(ↀ ⋈ ⋯ ⨳ ♾ ⩆(◇▷ ⩈ ⩉⃞  ⫘  (⟠ ⧞  (○▫︎▫︎◎▹ ▻→'
+function! DiffToggle()
+  if &diff
+    setlocal wincolor=WinDiff
   endif
-  echo join(map(synstack(line('.'), col('.')), 'hlget(synIDattr(v:val, "name"))'), '▹')
 endfunc
-
-:command! SynStack :echo <SID>SynStack()
-
-:command! HighlightThis :hi <c-r><c-w>
-
-
 augroup misc_commands
   autocmd!
   " Set working directory to current file
   au BufEnter * silent! lcd %:p:h
 
+  au DiffUpdated * setlocal wincolor=WinDiff
+  au OptionSet diff call SetUpDiffMappings()
   " Use <esc> to close quickfix window
   " au FileType qf if mapcheck('<esc>', 'n') ==# '' | nnoremap <buffer><silent> <esc> :cclose<bar>lclose<CR> | endif
 augroup END
@@ -45,6 +55,27 @@ function s:SplitIfModified()
 endfunc
 
 :command! SplitIfModified :exec <SID>SplitIfModified()
+
+" Overide current window background color temporarily
+function! s:WinColorOverride(tempwincolor)
+  let w:mayhem_saved_wincolor = &l:wincolor
+  let &l:wincolor = a:tempwincolor
+endfunc
+function! s:WinColorReset()
+  echom 'WinColorReset'..&l:wincolor..&wincolor
+  let &l:wincolor = get(w:, 'mayhem_saved_wincolor', 'WinNormal')
+endfunc
+
+function! s:HighlightUnsavedWindows()
+  if &modified && &l:wincolor != 'WinUnsaved'
+    let w:mayhem_saved_wincolor = &l:wincolor
+    let &l:wincolor = 'WinUnsaved'
+    call timer_start(get(g:, 'mayhem_show_unsaved_duration', 800), {_ -> s:WinColorReset()})
+  endif
+endfunc
+  
+:command! WinColorReset :call <SID>WinColorReset()
+:command! Unsaved :windo call <SID>HighlightUnsavedWindows()
 
 
 " === Ack / Search ===

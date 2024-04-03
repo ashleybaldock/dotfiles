@@ -44,6 +44,7 @@ set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
 let g:mayhem_hide_list_in_visual = 1
 let g:mayhem_default_list_style = 'none'
 let g:mayhem_curhold_highlights = 1
+let g:mayhem_show_unsaved_duration = 800
 
 colorscheme vividmayhem
 if !exists("g:syntax_on")

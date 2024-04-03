@@ -89,11 +89,11 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 "autocmd User CocStatusChange,CocDiagnosticChange call dostuff()
 " autocmd User CocStatusChange echom "---CocStatusChange---"
 " autocmd User CocDiagnosticChange echom "---CocDiagnosticChange---"
-autocmd User CocStatusChange,CocDiagnosticChange call s:OnCocDiagnosticChange()
+autocmd User CocStatusChange,CocDiagnosticChange silent call s:OnCocDiagnosticChange()
 
 "Triggered on jump to placeholder
 " autocmd User CocJumpPlaceholder echom "---CocJumpPlaceholder---"
-autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+autocmd User CocJumpPlaceholder silent call CocActionAsync('showSignatureHelp')
 
 "Triggered when a floating window is opened.  The window is not
 "focused, use |g:coc_last_float_win| to get window id.
@@ -110,4 +110,4 @@ autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 " 'text':  line content of location.
 let g:coc_enable_locationlist = 0
 " autocmd User CocLocationsChange echom "---CocLocationsChange---"
-autocmd User CocLocationsChange call s:OnCocLocationsChange()
+autocmd User CocLocationsChange silent call s:OnCocLocationsChange()

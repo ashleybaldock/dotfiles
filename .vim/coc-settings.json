@@ -10,6 +10,39 @@
   "diagnostic.signLevel": "warning",
   "diagnostic.signPriority": 10,
 
+  "suggest.floatConfig": {
+    "border": true,
+    "rounded": false,
+    "highlight": "HlPop01Bg",
+    "borderhighlight": "HlPop01Bd",
+    "maxWidth": 40
+  },
+
+  "diagnostic.floatConfig": {
+    "border": true,
+    "rounded": false,
+    "highlight": "HlPop01Bg",
+    "borderhighlight": "HlPop01Bd",
+    "maxWidth": 80
+  },
+
+  "signature.floatConfig": {
+    "border": true,
+    "rounded": false,
+    "highlight": "HlPop01Bg",
+    "borderhighlight": "HlPop01Bd",
+    "maxWidth": 40
+  },
+
+  "hover.floatConfig": {
+    "border": true,
+    "rounded": false,
+    "highlight": "HlPop01Bg",
+    "borderhighlight": "HlPop01Bd",
+    "maxWidth": 90
+  },
+  
+
   "prettier.requireConfig": true,
 
   "eslint.autoFixOnSave": true,
@@ -17,7 +50,7 @@
   "coc.preferences.useQuickfixForLocations": true,
   "coc.preferences.extensionUpdateCheck": "never",
 
-   "diagnostic.checkCurrentLine": true,
+  "diagnostic.checkCurrentLine": true,
 
   "hover.target": "float",
   "coc.preferences.formatOnSave": true,

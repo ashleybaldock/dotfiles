@@ -50,6 +50,15 @@ nnoremap §<S-i> :so $VIMRUNTIME/syntax/hitest.vim<CR>
 nnoremap §i :SynStack<CR>
 nnoremap §I :SynStackAuto<CR>
 
+" Add a vertical column guide at cursor position
+nnoremap §\ :exec 'set colorcolumn+='..virtcol('.')<CR>
+" Add a horzontal row guide at cursor position
+" TODO
+" Clear guides at the cursor position (horizontal first, then vertical)
+" TODO
+" Clear all guides in window
+nnoremap §| :set colorcolumn=<CR>
+
 " nnoremap §rf :if &filetype=='vim' && $HOME . '/.vim/ :so<CR>
 " Source current saved file
 nnoremap §rf :so %<CR>
@@ -239,11 +248,28 @@ xnoremap <expr> v  mode() ==# "" ? "y<ESC>1vp" : "v"
 " === Coc ===
 
 " <⌥⃣ ‑r> ▬▶︎ ®
-nmap <silent> ® <Plug>(coc-range-select)
+" nmap <silent> ® <Plug>(coc-range-select)
 xmap <silent> ® <Plug>(coc-range-select)
 
+" Map function and class text objects
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Remap <C-f> and <C-b> to scroll float windows/popups
+if has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
 
 " ╔═╾Diagnostics╼═════════╦══════════════════════════╗
 " ║           ║ [] ➤ next ║ ]] ➤ next most important ║
@@ -257,19 +283,20 @@ nmap <silent> ][ <Plug>(coc-diagnostic-prev)
 nmap <silent> [] <Plug>(coc-diagnostic-next)
 nmap <silent> ]] :NextMostImportantDiagnostic<CR>
 
-" <⌥⃣ ‑[> ▬▶︎ “
+" <⌥⃣ ‑[⃣ > ▬▶︎ “
 nnoremap “ :CocCommand document.jumpToPrevSymbol<CR>
-" <⌥⃣ ‑]> ▬▶︎ ‘
+" <⌥⃝ _]⃝ > ▬▶︎ ‘
 nnoremap ‘ :CocCommand document.jumpToNextSymbol<CR>
 
 " Symbol renaming.
+" ⌈⌥⃣ ⍚R⃣ > ▬▶︎ ®
 nnoremap ® <Plug>(coc-rename)
 nnoremap <silent> <C-g><C-r> <Plug>(coc-rename)
 
 " GoTo code navigation.
-" <⇧⃣ -⌥⃣ ‑d> ▬▶︎ Î
+" ǀ⇧⃣ ǀ⌥⃣ ǀD⃣ ǀ ▬▶︎ Î
 nnoremap Î   :call CocAction('definitions')<CR>
-" <⌥⃣ ‑d> ▬▶︎ ∂
+" ꜔ ⃣ ː⌥⃣ ːD⃣ ˧ ▬▶︎ ∂
 nnoremap ∂   :call CocAction('jumpDefinition')<CR>
 "nnoremap <silent>    :call CocAction('declarations')<CR>
 "nnoremap <silent>    :call CocAction('jumpDeclaration')<CR>
@@ -277,7 +304,7 @@ nnoremap ∂   :call CocAction('jumpDefinition')<CR>
 "nnoremap <silent>   :call CocAction('jumpImplementation')<CR>
 "nnoremap <silent>    :call CocAction('typeDefinitions')<CR>
 nnoremap <silent> <C-g><C-t> :call CocAction('jumpTypeDefinition')<CR>
-" <⇧⃣ -⌥⃣ ‑r> ▬▶︎ Â
+" >⇧⃣ -⌥⃣ ‑R⃣ < ▬▶︎ Â
 nnoremap Â :call CocAction('jumpReferences')<CR>
 nnoremap <silent>  gr :call CocAction('references')<CR>
 "nnoremap <silent>    :call CocAction('jumpReferences')<CR>

@@ -97,10 +97,10 @@ autocmd User CocJumpPlaceholder silent call CocActionAsync('showSignatureHelp')
 
 "Triggered when a floating window is opened.  The window is not
 "focused, use |g:coc_last_float_win| to get window id.
-" autocmd User CocOpenFloat echom "---CocOpenFloat---"
+" autocmd User CocOpenFloat echom '---CocOpenFloat---'
 
 "Triggered when terminal shown (e.g. for adjusting window height)
-" autocmd User CocTerminalOpen echom "---CocTerminalOpen---"
+" autocmd User CocTerminalOpen echom '---CocTerminalOpen---'
 
 "Triggered on location list change,
 "   new list in: g:coc_jump_locations
@@ -109,5 +109,5 @@ autocmd User CocJumpPlaceholder silent call CocActionAsync('showSignatureHelp')
 " 'col': column number(1 based).
 " 'text':  line content of location.
 let g:coc_enable_locationlist = 0
-" autocmd User CocLocationsChange echom "---CocLocationsChange---"
+" autocmd User CocLocationsChange echom '---CocLocationsChange---'
 autocmd User CocLocationsChange silent call s:OnCocLocationsChange()

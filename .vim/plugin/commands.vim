@@ -30,7 +30,7 @@ command! CursorOnComment :echo CursorOnComment()
 
 " Highlighting & Syntax debug
 "(ↀ ⋈ ⋯ ⨳ ♾ ⩆(◇▷ ⩈ ⩉⃞  ⫘  (⟠ ⧞  (○▫︎▫︎◎▹ ▻→'
-function! DiffToggle()
+function! s:DiffToggle()
   if &diff
     setlocal wincolor=WinDiff
   endif
@@ -41,7 +41,7 @@ augroup misc_commands
   au BufEnter * silent! lcd %:p:h
 
   au DiffUpdated * setlocal wincolor=WinDiff
-  au OptionSet diff call SetUpDiffMappings()
+  au OptionSet diff call s:DiffToggle()
   " Use <esc> to close quickfix window
   " au FileType qf if mapcheck('<esc>', 'n') ==# '' | nnoremap <buffer><silent> <esc> :cclose<bar>lclose<CR> | endif
 augroup END

@@ -16,10 +16,10 @@ let g:mayhem.borders_n1 = ['╴','╎',' ','╎', '⎧','⎫','⎭','⎩']
 "  ⎭         ⎩
 let g:mayhem.borders_n2 = ['╴','╎',' ','╎', '⎫','⎧','⎩','⎭']
 
-"  ⎛ Title  ⎞
-"  ⎢ item 1 ⎥
-"  ⎝ item 2 ⎠
-let g:mayhem.borders_bracket = ['╴','⎥',' ','⎢', '⎛','⎞','⎠','⎝']
+"  ⎛ Title  ⎞⎫  ⎡  ⎤  ⎛  ⎞   ⎛  ⎞  
+"  ⎢ item 1 ⎥⎨  ⎢  ⎥  ⎢  ⎥   ⎡  ⎤  ⎢  ⎥  
+"  ⎝ item 2 ⎠⎭  ⎝  ⎠  ⎣  ⎦   ⎝  ⎠  ⎣  ⎦  
+let g:mayhem.borders_bracket = [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝']
 
 "  ⎞ Title  ⎛
 "  ⎥ item 1 ⎢
@@ -30,4 +30,8 @@ let g:mayhem.borders_invbracket = ['╴','⎢',' ','⎥', '⎞','⎛','⎝','⎠
 "  ⎩ item 1 ⎬╶──╴⎨ item 1 ⎪  ⎭ ⸢  ⎧  ⎫ ┟  item 1  ┧
 "  ⎩ item 2 ⎭    ⎩ item 2 ⎭  ⎭ ⸤  ⎪  ⎪ ┠  item 2  ┨
 "  ⎩ item 2 ⎭    ⎩ item 2 ⎭  ⎭ ⎩  ⎩  ⎭ ┗━━━━━━━━━━┛
+
+
+let g:mayhem.borders_cocdefault = ['─', '│', '─', '│', '┌', '┐', '┘', '└'
+let g:mayhem.borders_cocdefjoinchars = ['┬', '┤', '┴', '├']
 

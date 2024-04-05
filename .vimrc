@@ -3,31 +3,37 @@ scriptencoding utf-8
 set nocompatible
 
 let g:coc_node_path = '/opt/homebrew/bin/node'
+
 if has("patch-8.1.0251")
-  if !isdirectory($HOME . "/.vim/backup")
-    call mkdir($HOME . "/.vim/backup", "p", 0711)
+  if !isdirectory($HOME .. "/.vim/backup")
+    call mkdir($HOME .. "/.vim/backup", "p", 0711)
   endif
   set writebackup
   set nobackup
   set backupcopy=auto
   set backupdir^=~/.vim/backup//
 end
-if !isdirectory($HOME . "/.vim/swap")
-  call mkdir($HOME . "/.vim/swap", "p", 0711)
+
+if !isdirectory($HOME .. "/.vim/swap")
+  call mkdir($HOME .. "/.vim/swap", "p", 0711)
 endif
 set swapfile
 set directory^=~/.vim/swap//
-if !isdirectory($HOME . "/.vim/undo")
-  call mkdir($HOME . "/.vim/undo", "p", 0711)
+
+if !isdirectory($HOME .. "/.vim/undo")
+  call mkdir($HOME .. "/.vim/undo", "p", 0711)
 endif
 set undofile
 set undodir^=~/.vim/undo//
-if !isdirectory($HOME . "/.vim/view")
-  call mkdir($HOME . "/.vim/view", "p", 0711)
+
+if !isdirectory($HOME .. "/.vim/view")
+  call mkdir($HOME .. "/.vim/view", "p", 0711)
 endif
 set viewdir^=~/.vim/view//
-if !isdirectory($HOME . "/.vim/session")
-  call mkdir($HOME . "/.vim/session", "p", 0711)
+
+let g:sessiondir = $HOME .. "/.vim/session"
+if !isdirectory(g:sessiondir)
+  call mkdir(g:sessiondir, "p", 0711)
 endif
 
 set helpheight=10
@@ -46,15 +52,16 @@ let g:mayhem_default_list_style = 'none'
 let g:mayhem_curhold_highlights = 1
 let g:mayhem_show_unsaved_duration = 800
 
-colorscheme vividmayhem
-if !exists("g:syntax_on")
-  syntax enable
-endif
-
 " Visual bell + error flash off
 autocmd! GUIEnter * set vb t_vb=
 
 if has('gui_running')
+  colorscheme vividmayhem
+
+  if !exists("g:syntax_on")
+    syntax enable
+  endif
+
   set guioptions-=rL
   set guioptions+=ckT
   set guicursor+=a:blinkon0
@@ -62,6 +69,12 @@ if has('gui_running')
   set guifont=Menlo:h14
 
 else
+  colorscheme termayhem
+
+  if !exists("g:syntax_on")
+    syntax enable
+  endif
+
   set ttyfast
 
   if &term =~ '^screen'
@@ -77,7 +90,7 @@ else
   augroup END
 endif
 
-set re=0
+set regexpengine=0
 
 filetype plugin indent on
 set ts=2 sts=2 sw=2 et
@@ -98,7 +111,7 @@ set equalalways
 set eadirection=hor
 set splitbelow
 set splitright
-set splitkeep=screen
+set splitkeep=cursor
 
 set previewheight=8
 set winheight=14
@@ -109,6 +122,7 @@ set laststatus=2
 set wildmenu
 set wildoptions=pum
 set pumwidth=30
+set pumheight=30
 set display+=lastline
 set autoread
 set showcmd
@@ -157,6 +171,8 @@ let g:qf_max_height = 8
 
 
 let g:coc_enable_locationlist = 0
+let g:coc_borderchars      = [' ', '⎥', ' ', '⎢', '⎛', '⎞', '⎠', '⎝']
+let g:coc_border_joinchars = ['┬', '┤', '┴', '├']
 
 " CtrlP
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']

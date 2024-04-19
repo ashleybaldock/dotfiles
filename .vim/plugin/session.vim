@@ -4,9 +4,9 @@ function! s:SessionComplete(ArgLead, CmdLine, CursorPos)
         \ {_, val -> fnamemodify(val, ":t:r:r")})
 endfunc
 
-:command! -nargs=? -complete=customlist,<SID>SessionComplete
+:command! -nargs=? -bang -complete=customlist,<SID>SessionComplete
       \ NewSession
-      \ :mksession ~/.vim/session/<args>.session.vim
+      \ :mksession<bang> ~/.vim/session/<args>.session.vim
 
 :command! -nargs=? -complete=customlist,<SID>SessionComplete
       \ LoadObsession

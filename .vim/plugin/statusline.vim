@@ -1,5 +1,8 @@
 scriptencoding utf-8
 
+" TODO indicator for virtualedit (+toolbar button)
+" TODO indicator for delcombine (+toolbar button)
+
 " TODO Statusline for narrow windows (<16)
 " filen….vim
 " filen⋯.vim
@@ -367,6 +370,7 @@ function NC()
   return g:actual_curwin == win_getid() ? 0 : 1
 endfunc
 
+" -> See also WinColorUpdate in ./wincolor.vim
 function CustomStatusline()
   if &buftype == 'help'
     return get(get(g:, 'mayhem', {}), 'sl_help', ['sl_helpC', 'sl_helpN'])[NC()]

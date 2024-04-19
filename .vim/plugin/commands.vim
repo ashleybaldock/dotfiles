@@ -5,6 +5,14 @@
 :command! CopyFilename let @+ = expand("%:t")
 " copy branch
 :command! CopyBranch let @+ = FugitiveHead()
+" copy buffer
+:command! CopyBuffer let @+ = 'TODO'
+" copy diff
+:command! CopyDiff let @+ = 'TODO'
+
+" find cursor
+" highlight current cursor position by horizontal and vertical cursor
+:command! PingCursor :
 
 
 function CursorOnComment()
@@ -30,53 +38,48 @@ command! CursorOnComment :echo CursorOnComment()
 
 " Highlighting & Syntax debug
 "(ↀ ⋈ ⋯ ⨳ ♾ ⩆(◇▷ ⩈ ⩉⃞  ⫘  (⟠ ⧞  (○▫︎▫︎◎▹ ▻→'
-function! s:DiffToggle()
-  if &diff
-    setlocal wincolor=WinDiff
-  endif
-endfunc
 augroup misc_commands
   autocmd!
   " Set working directory to current file
   au BufEnter * silent! lcd %:p:h
+  au BufWinEnter * if (get(b:, 'linecount', 0) < get(g:, 'mayhem_sync_start_max_lines', 0)) | syn sync fromstart | endif
 
-  au DiffUpdated * setlocal wincolor=WinDiff
-  au OptionSet diff call s:DiffToggle()
   " Use <esc> to close quickfix window
   " au FileType qf if mapcheck('<esc>', 'n') ==# '' | nnoremap <buffer><silent> <esc> :cclose<bar>lclose<CR> | endif
 augroup END
 
 " Create a split if current buffer has modifications
 " Useful to run before a command that may open a new buffer
-function s:SplitIfModified()
-  if &modified
-    split
-  endif
-endfunc
+:command! SplitIfModified :if (&modified) | split | endif
 
-:command! SplitIfModified :exec <SID>SplitIfModified()
 
-" Overide current window background color temporarily
-function! s:WinColorOverride(tempwincolor)
-  let w:mayhem_saved_wincolor = &l:wincolor
-  let &l:wincolor = a:tempwincolor
+  " !open '$VIMRUNTIME/../../../bin/mvim'
+  "       \ --args -c 'delay 500m<CR>'
+  "       \ -c 'echom testing<CR>'
+  "       \ -c 'so /Users/ashley/tmp/vimpipe<CR>'
+function s:ReopenSessionInNewPane()
+  let pipe = shellescape(expand('$HOME/tmp/vimpipe'))
+  exec '!rm '..pipe
+  exec '!mkfifo '..pipe
+  exec '!open --env VFR="'..shellescape(v:servername)..'" -a ''/Applications/MacVim.app/Contents/bin/mvim'' --args -c ''echom get(environ(), "VFR", "UNKNOWN")'' -c ''so '..pipe..''''
+  exec 'mksession!'..pipe
 endfunc
-function! s:WinColorReset()
-  echom 'WinColorReset'..&l:wincolor..&wincolor
-  let &l:wincolor = get(w:, 'mayhem_saved_wincolor', 'WinNormal')
-endfunc
+command! MoveToNewPane :call <SID>ReopenSessionInNewPane()
 
 function! s:HighlightUnsavedWindows()
-  if &modified && &l:wincolor != 'WinUnsaved'
-    let w:mayhem_saved_wincolor = &l:wincolor
-    let &l:wincolor = 'WinUnsaved'
-    call timer_start(get(g:, 'mayhem_show_unsaved_duration', 800), {_ -> s:WinColorReset()})
+  if (&modified && &l:wincolor != 'WinUnsaved')
+    s:WinColorOverride('WinUnsaved', 800)
   endif
 endfunc
   
-:command! WinColorReset :call <SID>WinColorReset()
 :command! Unsaved :windo call <SID>HighlightUnsavedWindows()
 
+
+" ColorColumn guides TODO
+command! AlignRightToCC :
+command! AlignRightOnCC :
+command! AlignLeftToCC :
+command! AlignLeftOnCC :
 
 " === Ack / Search ===
 

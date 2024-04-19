@@ -32,6 +32,11 @@ let g:mayhem.borders_invbracket = ['╴','⎢',' ','⎥', '⎞','⎛','⎝','⎠
 "  ⎩ item 2 ⎭    ⎩ item 2 ⎭  ⎭ ⎩  ⎩  ⎭ ┗━━━━━━━━━━┛
 
 
-let g:mayhem.borders_cocdefault = ['─', '│', '─', '│', '┌', '┐', '┘', '└'
+let g:mayhem.borders_cocdefault = ['─', '│', '─', '│', '┌', '┐', '┘', '└']
 let g:mayhem.borders_cocdefjoinchars = ['┬', '┤', '┴', '├']
 
+
+
+" ┌┬┐┏┳┓┍┯┑┎┰┒╒╤╕╔╦╗╓╥╖
+" ├┼┤┣╋┫┝┿┥┠╂┨╞╪╡╠╬╣╟╫╢║
+" └┴┘┗┻┛┕┷┙┖┸┚╘╧╛╚╩╝╙╨╜═

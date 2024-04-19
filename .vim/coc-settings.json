@@ -1,15 +1,19 @@
 {
-  "diagnostic.enableSign": true,
+  "coc.preferences.renameFillCurrent": false,
+  "coc.preferences.useQuickfixForLocations": true,
+  "coc.preferences.extensionUpdateCheck": "never",
+  "coc.preferences.formatOnSave": true,
+
   "list.signOffset": 1,
-  "diagnostic.errorSign": "✘",
-  "diagnostic.warningSign": "‼︎",
-  "diagnostic.infoSign": "𝓲",
-  "diagnostic.hintSign": "⌁",
+  "list.floatPreview": false,
+  "css.lint.float": "warning",
+  "css.lint.zeroUnits": "warning",
+  "css.format.braceStyle": "collapse",
+  "css.lint.duplicateProperties": "warning",
+  "css.format.newlineBetweenSelectors": true,
+  "css.lint.propertyIgnoredDueToDisplay": "warning",
 
   "suggest.noselect": true,
-  "diagnostic.signLevel": "warning",
-  "diagnostic.signPriority": 10,
-
   "suggest.floatConfig": {
     "border": true,
     "rounded": false,
@@ -18,6 +22,14 @@
     "maxWidth": 40
   },
 
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.enableSign": true,
+  "diagnostic.signLevel": "warning",
+  "diagnostic.signPriority": 10,
+  "diagnostic.errorSign": "✘",
+  "diagnostic.warningSign": "‼︎",
+  "diagnostic.infoSign": "𝓲",
+  "diagnostic.hintSign": "⌁",
   "diagnostic.floatConfig": {
     "border": true,
     "rounded": false,
@@ -34,6 +46,7 @@
     "maxWidth": 40
   },
 
+  "hover.target": "float",
   "hover.floatConfig": {
     "border": true,
     "rounded": false,
@@ -42,20 +55,13 @@
     "maxWidth": 90
   },
   
-
-  "prettier.requireConfig": true,
-
   "eslint.autoFixOnSave": true,
 
-  "coc.preferences.useQuickfixForLocations": true,
-  "coc.preferences.extensionUpdateCheck": "never",
-
-  "diagnostic.checkCurrentLine": true,
-
-  "hover.target": "float",
-  "coc.preferences.formatOnSave": true,
   "json.format.enable": true,
+
   "javascript.format.enable": false,
+
+  "prettier.requireConfig": true,
   "prettier.formatterPriority": 1,
   "prettier.enable": true,
 

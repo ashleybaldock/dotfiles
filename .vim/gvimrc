@@ -1,0 +1,86 @@
+
+
+function! s:MenuBuild()
+  call popup_notification("      🙈 🙉 🙊", #{ line: 2, col: 10, highlight: 'ToolbarLine', time: 2000} )
+endfunc
+
+function! s:TestMenu()
+  nunmenu WinBar
+  nnoremenu 1.10 WinBar.‼️\     :
+  nnoremenu 1.20 WinBar.🔶     :
+  nnoremenu 1.30 WinBar.🌈     :
+  nnoremenu 1.40 WinBar.🐵     :call s:MenuBuild()
+  nnoremenu 1.50 WinBar.🍆     :
+endfunc
+
+command! TestMenu :call <SID>TestMenu()
+
+if !exists("g:mayhem_did_toolbar_init")
+  let g:mayhem_did_toolbar_init = 1
+
+  aunmenu ToolBar.-sep1-
+  aunmenu ToolBar.-sep2-
+  aunmenu ToolBar.-sep7-
+  aunmenu ToolBar.Open
+  aunmenu ToolBar.Save
+  aunmenu ToolBar.SaveAll
+  aunmenu ToolBar.Print
+  aunmenu ToolBar.Undo
+  aunmenu ToolBar.Redo
+  aunmenu ToolBar.Cut
+  aunmenu ToolBar.Copy
+  aunmenu ToolBar.Paste
+  aunmenu ToolBar.RunScript
+  aunmenu ToolBar.Make
+  aunmenu ToolBar.Help
+  aunmenu ToolBar.SaveSesn
+  aunmenu ToolBar.LoadSesn
+
+  " an ToolBar.WinClose <Nop>
+  " an ToolBar.WinMax <Nop>
+  " an ToolBar.WinMin <Nop>
+  " an ToolBar.WinSplit <Nop>
+  " an ToolBar.WinVSplit <Nop>
+  " an ToolBar.WinMaxWidth <Nop>
+  " an ToolBar.WinMinWidth <Nop>
+
+  an <silent> icon=arrow.rectanglepath
+        \ ToolBar.Reload\ Pane                  <Nop>
+  tmenu ToolBar.Reload\ Pane Reload current pane
+
+  an <silent> icon=gearshape.arrow.triangle.2.circlepath 
+        \ ToolBar.Reload\ Config                <Nop>
+  tmenu ToolBar.Reload\ Config Reload config
+
+  an <silent> icon=paintpalette
+        \ ToolBar.Reload\ Colorscheme           :colorscheme vividmayhem
+  tmenu ToolBar.Reload\ Colorscheme Reload Colourscheme
+
+  an ToolBar.-space1-        <Nop>
+
+  an icon=poweron
+        \ ToolBar.Sep1 <Nop>
+ 
+  an ToolBar.-space2-        <Nop>
+
+  an <silent> icon=terminal
+        \ ToolBar.Terminal                      :terminal
+  tmenu ToolBar.Terminal Open Terminal window in split
+
+  an <silent> icon=folder
+        \ ToolBar.Show\ In\ Finder              <Nop>
+  tmenu ToolBar.Show\ In\ Finder Show current file in Finder
+
+  an ToolBar.-flexspace2-    <Nop>
+
+  an <silent> icon=cursorarrow.and.square.on.square.dashed
+        \ ToolBar.Toggle\ Virtualedit           :setlocal virtualedit
+  tmenu ToolBar.Toggle\ Virtualedit             Toggle virtualedit
+
+  an <silent> icon=character.cursor.ibeam
+        \ ToolBar.Toggle\ DelCombine            :setlocal delcombine
+  tmenu ToolBar.Toggle\ DelCombine              Toggle delcombine
+
+  " an ToolBar.-space3-        <Nop>
+  an ToolBar.-space4-        <Nop>
+endif

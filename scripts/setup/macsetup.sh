@@ -1,30 +1,30 @@
 #!/bin/bash
 
 echo "-- Setting up SSH..."
-mkdir ~/.ssh
-chmod 700 ~/.ssh
+mkdir "$HOME/.ssh"
+chmod 700 "$HOME/.ssh"
 (
   umask 077
-  touch ~/.ssh/authorized_keys
-  touch ~/.ssh/config
-  touch ~/.ssh/environment
-  touch ~/.ssh/known_hosts
+  touch "$HOME/.ssh/authorized_keys"
+  touch "$HOME/.ssh/config"
+  touch "$HOME/.ssh/environment"
+  touch "$HOME/.ssh/known_hosts"
 )
 echo ""
 
 echo "-- Making links..."
 (
-  cd ~/dotfiles
-  ./scripts/setup/makelinks.sh
+  cd "$HOME/dotfiles"
+  "$HOME/dotfiles/scripts/setup/makelinks.sh"
 )
 echo ""
 
 echo "-- Installing/updating brew..."
 which -s brew
 [ $? != 0 ] && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-brew bundle --file ~/Brewfile
+brew bundle --file "$HOME/Brewfile"
 # defaults write org.n8gray.QLColorCode hlTheme Zenburn
-# xattr -d -r com.apple.quarantine ~/Library/QuickLook
+# xattr -d -r com.apple.quarantine $HOME/Library/QuickLook
 echo ""
 
 echo "-- Installing/updating nvm..."
@@ -40,15 +40,21 @@ echo ""
 
 echo "-- Installing/updating vim packages"
 (
-  cd ~/dotfiles
-  ./scripts/update-vim-packages.sh
+  cd "$HOME/dotfiles"
+  "$HOME/dotfiles/scripts/update-vim-packages.sh"
+)
+echo ""
+echo "-- Setting up macvim"
+(
+  cd "$HOME/dotfiles"
+  "$HOME/dotfiles/scripts/macvim-write-defaults.sh"
 )
 echo ""
 
 echo "-- Finishing..."
 (
-  cd ~/dotfiles
-  ./scripts/git-setup.sh
+  cd "$HOME/dotfiles"
+  "$HOME/dotfiles/scripts/git-setup.sh"
 )
 echo ""
 

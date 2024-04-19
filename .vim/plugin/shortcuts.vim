@@ -50,14 +50,26 @@ nnoremap §<S-i> :so $VIMRUNTIME/syntax/hitest.vim<CR>
 nnoremap §i :SynStack<CR>
 nnoremap §I :SynStackAuto<CR>
 
-" Add a vertical column guide at cursor position
-nnoremap §\ :exec 'set colorcolumn+='..virtcol('.')<CR>
-" Add a horzontal row guide at cursor position
+"  §\              ┊+┊      Add column guide (at cursor)
+" ╸§]╺╾⎝ A̲bc ▬▶︎ A̲bc┃▒┃    ⎠ Align To Left
+" ╸§[╺╾⎛ A̲bc ▬▶︎    ┃▒┃A̲bc ⎞          Right 
+" ╸§}╺╾⎝ A̲bc ▬▶︎  A̲b┃c┃    ⎠ Align On Left
+" ╸§{╺╾⎛ A̲bc ▬▶︎    ┃A̲┃bc  ⎞          Right
+"  §|              ┊✕┊      Remove column guide (at cursor)
+nnoremap §\ :silent exec 'setlocal colorcolumn+='..virtcol('.')<CR>
+nnoremap §] :AlignRightToCC<CR>
+nnoremap §} :AlignRightOnCC<CR>
+nnoremap §[ :AlignLeftToCC<CR>
+nnoremap §{ :AlignLeftOnCC<CR>
+" Add a horizontal row guide at cursor position
 " TODO
 " Clear guides at the cursor position (horizontal first, then vertical)
 " TODO
-" Clear all guides in window
-nnoremap §| :set colorcolumn=<CR>
+" 
+nnoremap §<S-\> :setlocal colorcolumn=<CR>
+
+" Draw a box around visual block selection
+"
 
 " nnoremap §rf :if &filetype=='vim' && $HOME . '/.vim/ :so<CR>
 " Source current saved file
@@ -90,6 +102,12 @@ nnoremap §p %!npx prettier --stdin-filepath %<CR>
 " Remove blank lines
 " :g/^$/d
 
+" Change hex color codes to uppercase
+command! UppercaseHex :%s/\<\(#[0-9a-fA-F]\{8}\|#[0-9a-fA-F]\{6}\|#[0-9a-fA-F]\{4}\|#[0-9a-fA-F]\{3}\)\>/\U&/g
+" Change hex color codes to lowercase
+command! LowercaseHex :%s/\<\(#[0-9a-fA-F]\{8}\|#[0-9a-fA-F]\{6}\|#[0-9a-fA-F]\{3}\)\>/\L&/g
+" Expand short hex codes (#F0E ▬▶︎ #FF00EE, #FB3A ▬▶︎ #FFBB33AA)
+command! ExpandHex :%s/\<#\([0-9a-fA-F]\)\([0-9a-fA-F]\)\([0-9a-fA-F]\)\>/#\1\1\2\2\3\3/g
 " Extract CSS variable
 " name: value;       
 " " CSS

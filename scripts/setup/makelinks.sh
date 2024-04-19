@@ -24,8 +24,8 @@ function link {
   fi
 }
 
-link .vimrc
-link .gvimrc
+# link .vimrc
+# link .gvimrc
 link .vim
 link .tmux.conf
 link .tmux-osx.conf

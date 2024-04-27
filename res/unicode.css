@@ -12,7 +12,7 @@
   --color-radio-checked-bg: #bf000078;
 
   --color-bd-red: #720000;
-  ddw: #720000;
+  --ddw: #720000;
 
   --grid-color: #343434;
   
@@ -47,7 +47,6 @@ body {
 
 fieldset {
   display: flex;
-  flex-direction: column;
   flex-direction: row;
   border: 0.4em double var(--color-bd-red);
   border-radius: 1em / 5em;
@@ -275,6 +274,7 @@ input[type="radio"]:checked {
   align-items: center;
   gap: 0.8em;
   margin: 1em;
+  user-select: none;
 }
 .toggles label,
 label.toggle {

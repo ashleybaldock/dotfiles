@@ -1,3 +1,9 @@
+if exists("g:mayhem_loaded_coc_commands")
+  finish
+endif
+let g:mayhem_loaded_coc_commands = 1
+
+
 function! ToggleOutline() abort
   let winid = coc#window#find('cocViewId', 'OUTLINE')
   if winid == -1
@@ -77,6 +83,18 @@ endfunc
 function s:OnCocLocationsChange()
 "   new list in: g:coc_jump_locations
    let g:last_coc_jump_locations = g:coc_jump_locations
+   " call setloclist(0, g:coc_jump_locations) | lwindow
+endfunc
+
+
+function s:OnCocOpenFloat()
+  call popup_setoptions(g:coc_last_float_win, #{
+        \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
+        \ padding: [0,1,0,1], 
+        \ border: [1,1,1,1],
+        \ title:'╸━ Coc ━╺',
+        \ line: 'cursor+2'
+        \ })
 endfunc
 
 " Highlight symbol under cursor on CursorHold
@@ -97,7 +115,7 @@ autocmd User CocJumpPlaceholder silent call CocActionAsync('showSignatureHelp')
 
 "Triggered when a floating window is opened.  The window is not
 "focused, use |g:coc_last_float_win| to get window id.
-" autocmd User CocOpenFloat echom '---CocOpenFloat---'
+autocmd User CocOpenFloat silent call s:OnCocOpenFloat()
 
 "Triggered when terminal shown (e.g. for adjusting window height)
 " autocmd User CocTerminalOpen echom '---CocTerminalOpen---'

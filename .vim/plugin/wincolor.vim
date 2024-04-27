@@ -1,3 +1,8 @@
+if exists("g:mayhem_loaded_wincolor")
+  finish
+endif
+let g:mayhem_loaded_wincolor = 1
+
 
 " Set individual window backgrounds
 " -> See also CustomStatusline in ./statusline.vim
@@ -30,12 +35,14 @@ function! s:WinColorOverride(tempwincolor, duration)
     call timer_start(duration, {_ -> s:WinColorReset(w:mayhem_wincolor_saved)})
   endif
 endfunc
+
 function! s:WinColorReset()
   unlet w:mayhem_wincolor_override
   let &l:wincolor = get(w:, 'mayhem_wincolor_saved', 'WinNormal')
   call s:WinColorUpdate()
   echom 'WinColorReset '..&l:wincolor..' '..&wincolor
 endfunc
+
 :command! WinColorReset :call <SID>WinColorReset()
 :command! WinColorOverride :call <SID>WinColorOverride()
 
@@ -45,3 +52,12 @@ augroup wincolor
   au OptionSet diff call s:WinColorUpdate()
   au WinEnter,WinLeave,BufEnter,BufLeave,DiffUpdated * call s:WinColorUpdate()
 augroup END
+
+function! s:HighlightUnsavedWindows()
+  if (&modified && &l:wincolor != 'WinUnsaved')
+    s:WinColorOverride('WinUnsaved', 800)
+  endif
+endfunc
+  
+:command! Unsaved :windo call <SID>HighlightUnsavedWindows()
+

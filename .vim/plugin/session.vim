@@ -5,6 +5,10 @@ function! s:SessionComplete(ArgLead, CmdLine, CursorPos)
 endfunc
 
 :command! -nargs=? -bang -complete=customlist,<SID>SessionComplete
+      \ NewObsession
+      \ :Obsession<bang> ~/.vim/session/<args>.session.vim
+
+:command! -nargs=? -bang -complete=customlist,<SID>SessionComplete
       \ NewSession
       \ :mksession<bang> ~/.vim/session/<args>.session.vim
 

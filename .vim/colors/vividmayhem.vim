@@ -1,7 +1,18 @@
-" Based on tpope's vividchalk
 "
-" so $VIMRUNTIME/syntax/hitest.vim
+"
+"                 Vivid Mayhem
+"
+"   Related files:
+"
+"  ../plugin/chars.vim        -  fillchars, listchars etc.
+"  ../plugin/highlight.vim    -  Colourscheme Utils        ⎞
+"               ⎢  :HiHi      -  inline highlight preview  ⎥
+"               ⎝  :Synstack  -  floating syntax info      ⎠ 
+"
+"
+"     Originally based on tpope's vividchalk
 " 
+"
 
 set background=dark
 hi clear
@@ -26,6 +37,7 @@ call extend(v:colornames, {
 hi Normal         guifg=yormalf guibg=yormalb
 
 " Per-window background colors
+" See: ../plugin/wincolor.vim
 hi WinNormal      guifg=ywnormf guibg=ywnormb gui=none
 hi WinReadonly    guifg=ywnormf guibg=ywreadb gui=none
 hi WinNoModify    guifg=ywnormf guibg=ywreadb gui=none
@@ -139,6 +151,19 @@ hi link HlPop01L HlPop01Bd
 "CocHintFloat           " hint text
                         
 
+"════════════════════════════════════════════════════════╡ Vertical
+
+hi VertSplit      guifg=#666666 guibg=#151515 gui=none
+
+hi Folded         guifg=#aaddee guibg=NONE    gui=none  
+hi FoldColumn     guifg=#00ffff guibg=#10101f gui=none  
+hi SignColumn     guifg=NONE    guibg=#10101f gui=none  
+
+hi ColorColNormal guifg=NONE    guibg=#171031 gui=none  
+hi ColorColBright guifg=NONE    guibg=#292243 gui=none  
+
+hi ColorColumn none | hi link ColorColumn ColorColNormal
+
 "════════════════════════════════════════════════════════╡ Diffs
 
 hi WinDiff        guifg=#555533 guibg=#111111 gui=italic
@@ -147,22 +172,19 @@ hi DiffAdd        guifg=#defeff guibg=#081145 gui=none
 hi DiffChange     guifg=#eeccbb guibg=#2a002a gui=none
 hi DiffDelete     guifg=#7a0000 guibg=#3a0000 gui=none
 
-"════════════════════════════════════════════════════════╡ Vertical
-
-hi VertSplit      guifg=#666666 guibg=#151515 gui=none
-
-hi Folded         guifg=#aaddee guibg=NONE    gui=none  
-hi FoldColumn     guifg=#00ffff guibg=#001166
-hi SignColumn     guifg=#00ffff guibg=#101025
-
-hi ColorColumn    guifg=NONE    guibg=#222255
-
 "════════════════════════════════════════════════════════╡ Signs
 
-hi GitGutterAdd    guifg=#009900 guibg=#0a1f0a gui=none
-hi GitGutterChange guifg=#cfc040 guibg=#101025 gui=none
-hi GitGutterDelete guifg=#ee2222 guibg=#101025 gui=none
-hi GitGutterChangeDelete guifg=#ee2222 guibg=#cfc040 gui=none
+" hi GitGutterAdd    guifg=#009900 guibg=#0a1f0a gui=none
+" hi GitGutterChange guifg=#cfc040 guibg=#606015 gui=none
+hi GitGutterDelete guifg=#bb0044 guibg=#10101f gui=underdotted
+hi GitGutterChangeDelete guifg=#ee2222 guibg=#10101f gui=none
+hi GitGutterAdd guifg=#005500 guibg=#10101f gui=none
+hi GitGutterChange guifg=#cfc040 guibg=#10101f gui=none
+
+hi link GitGutterAddLine DiffAdd
+hi link GitGutterChangeLine DiffChange
+hi link GitGutterDeleteLine DiffDelete
+hi link GitGutterChangeDeleteLine DiffChange
 
 hi CocErrorSign   guifg=#dd2222 guibg=#1f0505 gui=none
 hi CocWarningSign guifg=#ffaa00 guibg=#301e00 gui=none
@@ -189,7 +211,7 @@ hi TabLineFill    guifg=#bbbbbb guibg=#808080 gui=underline
 " Background toolbar line
 hi ToolbarLine    guifg=NONE    guibg=#030327 gui=none
 " Background and foreground for toolbar buttons
-hi ToolbarButton  guifg=#EE98EE guibg=#030327 gui=none
+hi ToolbarButton  guifg=#fEc8fE guibg=#030327 gui=none
 
 "════════════════════════════════════════════════════════╡ Inline Errors
 
@@ -362,4 +384,4 @@ hi link jsonMissingCommaError   ErrorHint
 "CocSnippetVisual       " snippet placeholders
 "CocInputBoxVirtualText " input box placeholders
 
-" vim:colorcolumn=18,58:signcolumn=no:nolist:nowrap:wfw:ww=125:wfh:wh=12:
+" vim:colorcolumn=18,58:nolist:nowrap:wfw:ww=125:wfh:wh=12:

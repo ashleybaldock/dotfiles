@@ -52,12 +52,13 @@ let g:mayhem_default_list_style = 'none'
 let g:mayhem_curhold_highlights = 1
 let g:mayhem_show_unsaved_duration = 800
 let g:mayhem_sync_start_max_lines = 800
+let g:mayhem_move_after = '<Right>'
 
 " Visual bell + error flash off
 autocmd! GUIEnter * set vb t_vb=
 
 if has('gui_running')
-  :let no_buffers_menu = 1
+  let no_buffers_menu = 1
 
   colorscheme vividmayhem
 
@@ -72,6 +73,14 @@ if has('gui_running')
   set guicursor+=a:blinkon0
   set antialias
   set guifont=Menlo:h14
+
+  set cursorline
+  set cursorlineopt=screenline,number
+  augroup Cursorline
+    autocmd!
+    au WinLeave * set cursorlineopt=number
+    au WinEnter * set cursorlineopt=screenline,number
+  augroup END
 
 else
   colorscheme termayhem
@@ -165,19 +174,10 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
-"vim-qf
-" let g:qf_loclist_window_bottom = 0
-let g:qf_window_bottom = 0
-let g:qf_mapping_ack_style = 1
-let g:qf_auto_resize = 0
-let g:qf_auto_open_loclist = 0
-let g:qf_auto_open_quickfix = 0
-let g:qf_max_height = 8
-
 
 let g:coc_enable_locationlist = 0
-let g:coc_borderchars      = [' ', '⎥', ' ', '⎢', '⎛', '⎞', '⎠', '⎝']
-let g:coc_border_joinchars = ['┬', '┤', '┴', '├']
+let g:coc_border_joinchars = ['┬','┤','┴','├']
+let g:coc_borderchars  = [' ','⎥',' ','⎢','⎛','⎞','⎠','⎝']
 
 " CtrlP
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
@@ -188,11 +188,40 @@ let g:ctrlp_match_window = 'top,order:btt,min:1,max:6,results:20'
 
 let g:jsx_ext_required = 0
 
+
 " GitGutter
-"let g:gitgutter_sign_priority = 1
-" background colours to match the sign column
+let g:gitgutter_sign_priority = 1
+let g:gitgutter_map_keys = 0
+let g:gitgutter_max_signs = 500
+" g:gitgutter_sign_column_always = 0
+" let g:gitgutter_realtime = 0
+" let g:gitgutter_eager = 0
+" let g:gitgutter_diff_base = '<commit SHA>'
+" let g:gitgutter_diff_args = '-w'
+" if executable('ag')
+"   let g:gitgutter_grep = 'ag --vimgrep'
+" endif
 let g:gitgutter_set_sign_backgrounds = 0
 let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_sign_removed_first_line    = '⎏'
+let g:gitgutter_sign_removed_above_and_below = '⧰'
+let g:gitgutter_sign_modified_removed = '⍚'
+let g:gitgutter_preview_win_floating = 1
+let g:gitgutter_sign_added    = '+'
+let g:gitgutter_sign_modified = '⟐'
+let g:gitgutter_sign_removed  = '𐰇'
+
+
+
+
+"vim-qf
+" let g:qf_loclist_window_bottom = 0
+let g:qf_window_bottom = 0
+let g:qf_mapping_ack_style = 1
+let g:qf_auto_resize = 0
+let g:qf_auto_open_loclist = 0
+let g:qf_auto_open_quickfix = 0
+let g:qf_max_height = 8
 
 " let g:quickr_preview_keymaps = 0
 let g:quickr_preview_position = 'right'
@@ -204,4 +233,3 @@ let g:quickr_preview_exit_on_enter = 1
 let g:quickr_preview_modifiable = 0
 
 " vim:set ft=vim et sw=2:
-

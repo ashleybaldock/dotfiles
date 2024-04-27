@@ -1,8 +1,9 @@
 {
   "coc.preferences.renameFillCurrent": false,
   "coc.preferences.useQuickfixForLocations": true,
-  "coc.preferences.extensionUpdateCheck": "never",
+  "coc.preferences.extensionUpdateCheck": "daily",
   "coc.preferences.formatOnSave": true,
+  "coc.preferences.jumpCommand": "JumpTo",
 
   "list.signOffset": 1,
   "list.floatPreview": false,
@@ -10,13 +11,14 @@
   "css.lint.zeroUnits": "warning",
   "css.format.braceStyle": "collapse",
   "css.lint.duplicateProperties": "warning",
+
   "css.format.newlineBetweenSelectors": true,
   "css.lint.propertyIgnoredDueToDisplay": "warning",
 
   "suggest.noselect": true,
   "suggest.floatConfig": {
-    "border": true,
     "rounded": false,
+    "border": true,
     "highlight": "HlPop01Bg",
     "borderhighlight": "HlPop01Bd",
     "maxWidth": 40
@@ -25,7 +27,7 @@
   "diagnostic.checkCurrentLine": true,
   "diagnostic.enableSign": true,
   "diagnostic.signLevel": "warning",
-  "diagnostic.signPriority": 10,
+  "diagnostic.signPriority": 4,
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "‼︎",
   "diagnostic.infoSign": "𝓲",

@@ -2,21 +2,22 @@
 <html lang="en">
   <head>
     <title>Borders</title><!--{{{-->
-    <meta charset="utf-8" />
+    <meta charset="utf-8" http-equiv="Content-type">
     <meta name="theme-color" content="#000000" />
-    <link rel="stylesheet" href="common.css"/>
-    <script type="application/javascript" src="entanglement.js"></script>
 
+    <link rel="stylesheet" href="common.css"/>
     <link rel="stylesheet" href="borders.css"/>
     <link rel="stylesheet" href="borders-buttons.css"/>
     <link rel="stylesheet" href="spells-1.css"/>
     <link rel="stylesheet" href="borders-fieldset.css"/>
 
-<script>
-  window.addEventListener('load', (event) => {
-    const unbind = entanglement.bindStuff();
-  });
-</script>
+    <script type="application/javascript" src="entanglement.js"></script>
+
+    <script>
+      entanglement().then((untangle) => {
+        console.log(untangle);
+      });
+    </script>
 <!--}}}-->
   </head>
   <body>

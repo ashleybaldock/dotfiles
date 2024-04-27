@@ -8,11 +8,11 @@
  * 
  * Switch on:
  *   window.addEventListener('load', (event) => {
- *     const unbind = entanglement.bindStuff();
+ *     const untangle = entanglement();
  *   });
  *
  * Switch off:
- *   unbind();
+ *   untangle();
  *
  * Configure:
  *   const unbind = entanglement.bindStuff({
@@ -49,50 +49,71 @@
  * data-map-cssv=               Mapping between data id and css variable name
  *  "<id1>:<v1>[ <id2>:<v2>]"
  */
-const entanglement = (() => {
+const entanglement = ((window) => {
+  const { document } = window;
 
-  const bindStuff = (prefix = 'bdata') => {
+  const getCurrentValue = (source, type) => {
+    if (type === 'checkbox' || type === 'radio') {
+      return source.checked;
+    }
+    return source.value;
+  };
+
+  const entangle = (document, prefix) => {
+    console.log('entangle()');
     /* Auto: uses id as data source name */
     const dataSources = [...document.querySelectorAll(`[data-source]`)];
 
-    return dataSources.map((dataSource) => {
-      const controller = new AbortController();
-      const signal = controller.signal;
+    const controller = new AbortController();
+    const signal = controller.signal;
 
+    dataSources.forEach((dataSource) => {
       const name = dataSource.getAttribute('data-source') || dataSource.getAttribute('id');
       if (typeof name !== 'string') {
         throw new Exception('Nothing to bind on');
       }
-      const events = dataSource.getAttribute('data-source-on')?.split?.(' ') ?? ['input'];
+      const type = dataSource.getAttribute('type');
+      const defaultEvents = ['input'];
+      if (type === 'checkbox' || type === 'radio') {
+        defaultEvents.push('change');
+      }
+      const events = dataSource.getAttribute('data-source-on')?.split?.(' ') ?? defaultEvents;
       events.forEach((evname) => {
         const updateValue = ((dataSource, name, target) => {
-          const val = dataSource.value;
-          dataSource.setAttribute(`data-${name}`, val);
+          const currentValue = getCurrentValue(dataSource, type);
+          dataSource.setAttribute(`data-${name}`, currentValue);
 
           /* Update all listeners */
           document.querySelectorAll(`[data-sink-for~=${name}],[data-sink~=${name}]`).forEach((node) => {
             const sinkAttr = (node.getAttribute('data-map-attr')?.split?.(' ') ?? [])
               .flatMap((s) => ((n, v) => n === name ? [v] : [])(...s.split(':')[0]))[0] ?? `data-from-${name}`;
-            node?.setAttribute?.(sinkAttr, val);
+            node?.setAttribute?.(sinkAttr, currentValue);
           });
           /* Update nearest parent sink-all */
-          (dataSource.closest(`[data-sink-all]`) ?? document.body).setAttribute(`data-from-${name}`, val);
-          document.documentElement.style.setProperty(`--${prefix}-str-${name}`, `"${val}"`);
-          document.documentElement.style.setProperty(`--${prefix}-${name}`, `${val}`);
+          (dataSource.closest(`[data-sink-all]`) ?? document.body).setAttribute(`data-from-${name}`, currentValue);
+          document.documentElement.style.setProperty(`--${prefix}-str-${name}`, `"${currentValue}"`);
+          document.documentElement.style.setProperty(`--${prefix}-${name}`, `${currentValue}`);
         }).bind(null, dataSource, name);
 
         updateValue(dataSource);
         dataSource.addEventListener(evname, (e) => updateValue(e.target), {signal});
       });
-      return () => signal.abort();
     });
+    return () => signal.abort();
   };
   
-  return {
-    bindStuff
-  };
-})();
+  return ((options = {}) => {
+  const {prefix = 'bdata'} = options;
+    const promise = new Promise((resolve, reject) => { 
+    const waitForComplete = () => document.readyState === 'complete' ?
+      resolve(entangle(document, prefix)) : 
+      document.addEventListener('readystatechange', waitForComplete);
+      waitForComplete();
+    });
+    return promise;
+})
 
+})(window);
 
 
           /* Update nearest parent sink */

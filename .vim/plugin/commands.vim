@@ -1,20 +1,38 @@
 
-" copy full path
+" ╭──────────────────╮
+" ╰─◯  Copy things   │
+" ╭──────────────────╯
+" │
+" ╰─╴filesystem
+" ╎   ├─▶︎ full path
 :command! CopyPath let @+ = expand("%:p")
-" copy just filename
+" ╎   ╰─▶︎ full path
 :command! CopyFilename let @+ = expand("%:t")
-" copy branch
-:command! CopyBranch let @+ = FugitiveHead()
-" copy buffer
+" ╎
+" ╰─╴git
+" ╎   ├─▶︎ branch
+:command! CopyGitBranch let @+ = FugitiveHead()
+" ╎   ╰─▶︎ diff                                      TODO
+:command! CopyGitDiff let @+ = 'TODO'
+" ╎
+" ╰─╴current buffer
+" ╎   ├─▶︎ info                                      TODO
+:command! CopyBufferInfo let @+ = 'TODO'
+" ╎   ╰─▶︎ contents                                  TODO
 :command! CopyBuffer let @+ = 'TODO'
-" copy diff
-:command! CopyDiff let @+ = 'TODO'
+" ╎
+" ╰─▶︎ search
+"     ╰─▶︎ last
+:command! CopyLastSearch :let @+=@/
 
-" find cursor
+
+
+" find cursor                                       TODO
 " highlight current cursor position by horizontal and vertical cursor
-:command! PingCursor :
+:command! PingCursor <Nop>
 
 
+" 
 function CursorOnComment()
   return join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')) =~? 'comment'
 endfunc
@@ -24,36 +42,102 @@ command! CursorOnComment :echo CursorOnComment()
 
 " Information & Debug
 "
-:command! FormatInfo :setlocal filetype=javascript|call CocAction('format')|setlocal filetype=mh_winfo|setlocal nomodified nomodifiable
-" getbufinfo(bufnr())
-:command! BufferInfo :redir @">|silent echo '// Buffer Info'|silent echo getbufinfo(bufnr())|redir END|vsp|enew|put|FormatInfo
-" getbufinfo()
-:command! BuffersInfo :redir @">|silent echo '// All Buffers Info'|silent echo getbufinfo()|redir END|vsp|enew|put|FormatInfo
-" getwininfo(winnr())
-:command! WindowInfo :redir @">|silent echo '// Window Info'|silent echo getwininfo(win_getid())|redir END|vsp|enew|put|FormatInfo
-" getwininfo()
-:command! WindowsInfo :redir @">|silent echo '// All Windows Info'|silent echo getwininfo()|redir END|vsp|enew|put|FormatInfo
-
-"[{'id': 491, 'name': 'vimFuncBody', 'cleared': v:true}]▹[{'id': 435, 'name': 'vimEcho', 'cleared': v:true}]▹[{'id': 417, 'linksto': 'Statement', 'name': 'vimCommand', 'default': v
-
-" Highlighting & Syntax debug
-"(ↀ ⋈ ⋯ ⨳ ♾ ⩆(◇▷ ⩈ ⩉⃞  ⫘  (⟠ ⧞  (○▫︎▫︎◎▹ ▻→'
 augroup misc_commands
   autocmd!
   " Set working directory to current file
   au BufEnter * silent! lcd %:p:h
+
+  " Set syntax sync if file short enough
   au BufWinEnter * if (get(b:, 'linecount', 0) < get(g:, 'mayhem_sync_start_max_lines', 0)) | syn sync fromstart | endif
 
   " Use <esc> to close quickfix window
   " au FileType qf if mapcheck('<esc>', 'n') ==# '' | nnoremap <buffer><silent> <esc> :cclose<bar>lclose<CR> | endif
 augroup END
 
+
+
+" Window & Buffer debug info
+"
+
+function! s:FormatInfo()
+  setlocal filetype=javascript
+  call CocAction('format')
+  setlocal filetype=mh_winfo
+  setlocal nomodified nomodifiable
+endfunc
+:command! FormatInfo call <SID>FormatInfo()
+
+function! s:WindowInfo(winid = win_getid())
+  let wInfo = getwininfo(a:winid)
+  let float = get(get(wInfo, 'variables', {}), 'float', 0)
+  let bufnr = get(wInfo, 'bufnr', bufnr())
+  let popOpts = float ? popup_getoptions(float) : ''
+
+  let winInfo = [
+        \ '// Window Info',
+        \ wInfo],
+  let popInfo = [
+        \ '// popup options',
+        \ popOpts],
+  let bufinfo = [
+        \ '// Buffer Info',
+        \ getbufinfo(bufnr())
+        \ '// ------------------']
+  vsp
+  enew
+  call append('$', info)
+  call s:FormatInfo()
+endfunc
+
+" Print window and buffer info into a split
+" By default, uses current window, argument is ID of window
+" to us otherwise
+" Optionally takes ID of a different window
+:command! -nargs=? Winfo call <SID>WindowInfo(<f-args>)
+
+" getbufinfo(bufnr())
+" :command! -nargs=? BufferInfo :redir @">|silent echo |redir END|vsp|enew|put|FormatInfo
+
+" getbufinfo()
+" :command! BuffersInfo :redir @">|silent echo '// All Buffers Info'|silent echo getbufinfo()|redir END|vsp|enew|put|FormatInfo
+
+" getwininfo()
+" :command! WindowsInfo :redir @">|silent echo '// All Windows Info'|silent echo getwininfo()|redir END|vsp|enew|put|FormatInfo
+
+:command! WinfoLastCocFloat call <SID>WindowInfo(g:coc_last_float_win)
+" :redir @">|silent echo '// Last Coc Float Window Info'|silent echo getwininfo(g:coc_last_float_win)|silent echo popup_getoptions(g:coc_last_float_win)|redir END|vsp|enew|put|FormatInfo
+
+
 " Create a split if current buffer has modifications
 " Useful to run before a command that may open a new buffer
-:command! SplitIfModified :if (&modified) | split | endif
+function! s:JumpTo(filepath, position)
+  " 1. is file open in a window already? if so, use that
+  " 2. is current window unsaved? if not, use this window
+  " 3. open in split
+  if (&modified) 
+    split filepath
+  else
+    e filepath
+  endif
+  call setcursorcharpos(position)
+  m
+endfunc
+command! -bar -nargs=+ JumpTo :call <SID>JumpTo(<f-args>)
+
+" line   29:
+" E605: Error on 'jumpDefinition' request:
+"  Vim(endfunction):E171:
+"   Missing :endif on api 'call_function'
+"    ["coc#util#jump",
+"    ["SplitIfModified",
+"     "/Users/ashley/proj
+" ects/noita-wand-simulator/node_modules/immer/dist/types/types-external.d.ts",
+"     [18,20]
+"   ]]   
 
 
-  " !open '$VIMRUNTIME/../../../bin/mvim'
+
+  " !open '$VIMRUNTIME/../../../bin/mvim'           TODO
   "       \ --args -c 'delay 500m<CR>'
   "       \ -c 'echom testing<CR>'
   "       \ -c 'so /Users/ashley/tmp/vimpipe<CR>'
@@ -64,53 +148,99 @@ function s:ReopenSessionInNewPane()
   exec '!open --env VFR="'..shellescape(v:servername)..'" -a ''/Applications/MacVim.app/Contents/bin/mvim'' --args -c ''echom get(environ(), "VFR", "UNKNOWN")'' -c ''so '..pipe..''''
   exec 'mksession!'..pipe
 endfunc
+
 command! MoveToNewPane :call <SID>ReopenSessionInNewPane()
 
-function! s:HighlightUnsavedWindows()
-  if (&modified && &l:wincolor != 'WinUnsaved')
-    s:WinColorOverride('WinUnsaved', 800)
-  endif
-endfunc
-  
-:command! Unsaved :windo call <SID>HighlightUnsavedWindows()
 
-
-" ColorColumn guides TODO
-command! AlignRightToCC :
-command! AlignRightOnCC :
-command! AlignLeftToCC :
-command! AlignLeftOnCC :
-
-" === Ack / Search ===
-
-function s:AckEscaped(search)
-  " The ! avoids jumping to first result automatically
-  execute printf('Ack! -Q -- "%s"', substitute(a:search, '\([%"\\]\)', '\\\1', 'g'))
+function! Todo()
+  let todoCol = get(g:, 'mayhem_todo_align_column', 50)
+  exec 'AlignLeftOnCol '..todoCol
 endfunc
 
-function s:AckClipboard()
-  call s:AckEscaped(@")
+
+"
+" 
+"
+function! s:RepeatMove()
+  let g:mayhem_move_after = get(g:, 'mayhem_move_after', 'normal l') 
+  exec g:mayhem_move_after
 endfunc
 
-function s:AckCurrentWord()
-  call s:AckEscaped(expand("<cword>"))
+command! RepeatMoveRight :let g:mayhem_move_after = 'normal l'
+command! RepeatMoveLeft  :let g:mayhem_move_after = 'normal h'
+command! RepeatMoveUp    :let g:mayhem_move_after = 'normal k'
+command! RepeatMoveDown  :let g:mayhem_move_after = 'normal j'
+command! RepeatMoveNot   :let g:mayhem_move_after = ''
+command! RepeatMove call <SID>RepeatMove()
+
+
+function! s:GetCursorChar() abort
+  return getline('.')[col('.')-1:-1]
 endfunc
 
-function s:AckLastSearch()
-  call s:AckEscaped(@/)
+" Replaces the base character in a glyph made up of
+" multiple characters (combining diacritics, 
+" variation selectors etc.)
+"
+" Takes two arguments:
+" 1. the replacement base character
+" 2. (optional) the character to modify
+"     - defaults to the character under the cursor
+"       (this method doesn't change it)
+"
+" e.g. (B⃝ , C)  ▬▶︎ C⃝  
+"
+" No cleverness here, it just swaps the first character,
+" will probably not work for some inputs
+" 
+function! ReplaceBaseChar(replacement, char = s:GetCursorChar()) abort
+  return a:replacement..strpart(a:char, 1)
 endfunc
 
-function! s:AckInput()
-  call inputsave()
-  let search = input("Ack! ")
-  call inputrestore()
-  call s:AckEscaped(search)
+    " s/\zs\(\%#\)\ze/\=s:ReplaceBaseChar(submatch(0))/n
+command! -bar -nargs=+ ReplaceBase echo <SID>ReplaceBaseChar(<q-args>)
+
+let g:mayhem_combining_diacriticals = [ ['\u20d0'] ]
+"                                                           TODO
+" Combine a char with various diacritical marks
+" Shows a popup with the results
+"
+function! s:GenerateCombinings(arg) abort
+  let parts = s:SplitChar(a:arg)
+  let base = parts[0]
+  echom s:SplitChar(a:arg)
 endfunc
 
-:command! AckInput :exec <SID>AckInput()
-:command! AckClipboard :exec <SID>AckClipboard()
-:command! AckCurrentWord :exec <SID>AckCurrentWord()
-:command! AckLastSearch :exec <SID>AckLastSearch()
+command! -bar -nargs=? GenerateCombinings call <SID>GenerateCombinings(<q-args>)
 
-:command! CopyLastSearch :let @+=@/
+"                                                           TODO
+" Cycle through predefined sets of Unicodepoints
+" 
+" A given codepoint may have more than one dimension
+" along which it can be cycled
+" 
+" e.g. ┼ ▬▶︎ ├ ▬▶︎ ┌ ▬▶︎ ┬ ▬▶︎ ┐ ▬▶︎ ┤ ▬▶︎ ┘ ▬▶︎ ┴ ▬▶︎ └ 
+" rotation
+"      ┘ ▶︎ ╴ ▶︎ ┐ ▶︎ ╷ ▶︎ ┌ ▶︎ ╶ ▶︎ └ ▶︎ ╵   ▮◀︎ 
+"      │ ▶︎ ╱ ▶︎ ─ ▶︎ ╲   ⏮
+" style
+"      ┘ ▶︎ ┙ ▶︎ ┚ ▶ ┛ ▶ ╛ ▶ ╜ ▶ ╝ ▶ ╯  ▮◀︎◀︎
+"      
+"
+let g:mayhem_unicycles = [
+      \ ['', '', '╭', '','╮', '','╯','', '╰'],
+      \ ['┼','├','┌','┬','┐','┤','┘','┴','└'],
+      \ ['╋','┣','┏','┳','┓','┫','┛','┻','┗'],
+      \ ['╬','╠','╔','╦','╗','╣','╝','╩','╚'],
+      \ ['╴','─','╶','╌','┄','┈','╼','╾'],
+      \ ['╸','━','╺','╍','┅','┉'],
+      \ ['╵','│','╷','╎','┆','┊','╽','╿'],
+      \ ['╹','┃','╻','╏','┇','┋'],
+      \ ['╱','╲','╳']
+      \ ]
+function! s:CycleChars(arg) abort
+  " find base char
+  let parts = s:SplitChar(a:arg)
+  " check cycle arrays for combined, and then base
+endfunc
 

@@ -12,7 +12,7 @@ for arg in "${args[@]}"
 do
   if [ -f "$arg" ]
   then
-    scp "$arg" higgs.local:ToHiggs/
+    scp "$arg" higgs.home:ToHiggs/
   else
     echo "Not a file, skipping" >&2
   fi

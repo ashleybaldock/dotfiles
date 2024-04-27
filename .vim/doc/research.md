@@ -1,3 +1,23 @@
+
+
+CTRL-R {register}					*c_CTRL-R* *c_<C-R>*
+		Special registers:
+			'"'	the unnamed register, containing the text of
+				the last delete or yank
+			'%'	the current file name
+			'#'	the alternate file name
+			'*'	the clipboard contents (X11: primary selection)
+			'+'	the clipboard contents
+			'/'	the last search pattern
+			':'	the last command-line
+			'-'	the last small (less than a line) delete
+			'.'	the last inserted text
+							*c_CTRL-R_=*
+			'='	the expression register: you are prompted to
+				enter an expression (see |expression|)
+
+
+
 # ---------------------------------------------------------
 ## Interesting buffer vars
 

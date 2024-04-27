@@ -1,23 +1,66 @@
 
 
-function! s:MenuBuild()
-  call popup_notification("      🙈 🙉 🙊", #{ line: 2, col: 10, highlight: 'ToolbarLine', time: 2000} )
+" function! s:MenuBuild()
+"   call popup_notification("      🙈 🙉 🙊", #{ line: 2, col: 10, highlight: 'ToolbarLine', time: 2000} )
+" endfunc
+
+" function! s:TestMenu()
+"   nunmenu WinBar
+"   nnoremenu 1.10 WinBar.‼️\     :
+"   nnoremenu 1.20 WinBar.🔶     :
+"   nnoremenu 1.30 WinBar.🌈     :
+"   nnoremenu 1.40 WinBar.🐵     :call s:MenuBuild()
+"   nnoremenu 1.50 WinBar.🍆     :
+" endfunc
+
+" command! TestMenu :call <SID>TestMenu()
+
+ " TODO
+function! s:ToolBarToggleGlobalSetting(priority, name, iconOn, iconOff)
+  if exists('+'..a:name)
+    exec 'let value = &g:'..a:name
+    if value
+      exec 'an <silent> icon='..a:iconOn..' '..a:priority..' ToolBar.Toggle\ '..a:name..' :setlocal no'..a:name
+      exec 'tmenu ToolBar.Toggle\ '..a:name..' Setting: "'..a:name..'" is enabled, click to disable'
+    else
+      exec 'an <silent> icon='..a:iconOff..' ToolBar.Toggle\ '..a:name..' :setlocal '..a:name
+      exec 'tmenu ToolBar.Toggle\ '..a:name..' Setting: "'..a:name..'" is disabled, click to enable'
+    endif
+  else
+    echom 'ToolBarToggle: Setting "'..a:name..'" does not exist'
+  endif
 endfunc
 
-function! s:TestMenu()
-  nunmenu WinBar
-  nnoremenu 1.10 WinBar.‼️\     :
-  nnoremenu 1.20 WinBar.🔶     :
-  nnoremenu 1.30 WinBar.🌈     :
-  nnoremenu 1.40 WinBar.🐵     :call s:MenuBuild()
-  nnoremenu 1.50 WinBar.🍆     :
+" SF icons can be suffixed with:
+" :monochrome
+" :hierarchical
+" :palette
+" :multicolor
+" :variable-[0..1]
+function! s:ObsessionTBStatus()
+  silent! aunmenu ToolBar.ObsessionStatus
+
+  if exists("g:loaded_obsession")
+    let obstatus = ObsessionStatus('active','paused')
+
+    if obstatus == 'active'
+      an icon=gear.badge.checkmark 1.10 ToolBar.ObsessionStatus :Obsession<CR>
+      tmenu ToolBar.ObsessionStatus Obsessing, click to pause
+    elseif obstatus == 'paused'
+      an icon=gear.badge.xmark:hierarchical 1.10 ToolBar.ObsessionStatus :Obsession<CR>
+      tmenu ToolBar.ObsessionStatus Obsession paused, click to resume
+    else
+      an icon=gear.badge.questionmark:hierarchical 1.10 ToolBar.ObsessionStatus :NewObsession<space>
+      tmenu ToolBar.ObsessionStatus No Session, click to create one
+    endif
+  else
+    an icon=gear 1.10 ToolBar.ObsessionStatus <Nop>
+    amenu disable ToolBar.ObsessionStatus
+    tmenu ToolBar.ObsessionStatus Obsession not loaded.
+  endif
 endfunc
 
-command! TestMenu :call <SID>TestMenu()
-
-if !exists("g:mayhem_did_toolbar_init")
-  let g:mayhem_did_toolbar_init = 1
-
+function! s:RemoveDefaultToolBar()
   aunmenu ToolBar.-sep1-
   aunmenu ToolBar.-sep2-
   aunmenu ToolBar.-sep7-
@@ -43,6 +86,31 @@ if !exists("g:mayhem_did_toolbar_init")
   " an ToolBar.WinVSplit <Nop>
   " an ToolBar.WinMaxWidth <Nop>
   " an ToolBar.WinMinWidth <Nop>
+endfunc
+
+function! s:DividerBetweenStatusAndActions()
+  an ToolBar.-flexspace1a-       <Nop>
+  " an ToolBar.-space1a-          <Nop>
+  " an ToolBar.-space1b-          <Nop>
+  an icon=poweron ToolBar.Sep1  <Nop>
+  amenu disable ToolBar.Sep1
+  an ToolBar.-flexspace1b-       <Nop>
+endfunc
+function! s:DividerBetweenActionsAndToggles()
+  " an ToolBar.-space2a-          <Nop>
+  an ToolBar.-flexspace2a-       <Nop>
+  an icon=poweron ToolBar.Sep2  <Nop>
+  amenu disable ToolBar.Sep2
+  an ToolBar.-flexspace2b-       <Nop>
+  " an ToolBar.-space2b-          <Nop>
+endfunc
+
+function! s:AddDynamicToolBar()
+  " Status indicators
+  call s:ObsessionTBStatus()
+
+  " Actions
+  call s:DividerBetweenStatusAndActions()
 
   an <silent> icon=arrow.rectanglepath
         \ ToolBar.Reload\ Pane                  <Nop>
@@ -56,13 +124,6 @@ if !exists("g:mayhem_did_toolbar_init")
         \ ToolBar.Reload\ Colorscheme           :colorscheme vividmayhem
   tmenu ToolBar.Reload\ Colorscheme Reload Colourscheme
 
-  an ToolBar.-space1-        <Nop>
-
-  an icon=poweron
-        \ ToolBar.Sep1 <Nop>
- 
-  an ToolBar.-space2-        <Nop>
-
   an <silent> icon=terminal
         \ ToolBar.Terminal                      :terminal
   tmenu ToolBar.Terminal Open Terminal window in split
@@ -71,16 +132,38 @@ if !exists("g:mayhem_did_toolbar_init")
         \ ToolBar.Show\ In\ Finder              <Nop>
   tmenu ToolBar.Show\ In\ Finder Show current file in Finder
 
-  an ToolBar.-flexspace2-    <Nop>
+  " Toggles
+  call s:DividerBetweenActionsAndToggles()
 
   an <silent> icon=cursorarrow.and.square.on.square.dashed
         \ ToolBar.Toggle\ Virtualedit           :setlocal virtualedit
   tmenu ToolBar.Toggle\ Virtualedit             Toggle virtualedit
 
-  an <silent> icon=character.cursor.ibeam
-        \ ToolBar.Toggle\ DelCombine            :setlocal delcombine
-  tmenu ToolBar.Toggle\ DelCombine              Toggle delcombine
+  call s:ToolBarToggleGlobalSetting('600.10', 'delcombine', 'delete.left.fill', 'delete.left')
+  " an <silent> icon=delete.left.fill
+  "       \ ToolBar.Toggle\ DelCombine            :setlocal nodelcombine
+  " tmenu ToolBar.Toggle\ DelCombine              Turn delcombine off
+  " an <silent> icon=delete.left
+  "       \ ToolBar.Toggle\ DelCombine            :setlocal delcombine
+  " tmenu ToolBar.Toggle\ DelCombine              Turn delcombine on
 
-  " an ToolBar.-space3-        <Nop>
-  an ToolBar.-space4-        <Nop>
+  an ToolBar.-flexspace5-        <Nop>
+
+endfunc
+
+
+augroup DynamicToolbar
+  autocmd User Obsession call s:ObsessionTBStatus() | redraw!
+  autocmd SessionLoadPost * call s:ObsessionTBStatus() | redraw!
+augroup END
+
+if !exists("g:mayhem_did_toolbar_init")
+  let g:mayhem_did_toolbar_init = 1
+
+  call s:RemoveDefaultToolBar()
+
+  call s:AddDynamicToolBar()
+
+  " call UpdateDynamicToolBar(0)
 endif
+

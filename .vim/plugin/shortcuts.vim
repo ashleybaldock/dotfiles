@@ -1,79 +1,230 @@
 
-" a === 33
-" !==
-" " set previewpopup=height:10,width:60
+" 
+" Key mappings
+"
 
-" Jump forward (^O)
-" <⌥⃣ ‑a> ▬▶︎ å
+" ╭──▷ ⌘⃝ 𝄐E⃝  ────▷ LH Enter
+cnoremap <D-e> <CR>
+nnoremap <D-e> <CR>
+inoremap <D-e> <CR>
+xnoremap <D-e> <CR>
+
+" ⌥⃝   ⃝  ◁╮                   
+" ╭▷ ⌥⃝  ⇧⃝   ⃝  
+"
+" ╰▷ ⌥⃝ 𝄑⇧⃝ 𝄑 ⃝           
+" ⌥⃝   ⃝  ◁╯
+"
+" ╭──▷ ⌥⃝ 𝄐1⃝  ────▷ Start a command 
+nnoremap ¡ :
+
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐1⃝  ──▷ Start a shell command 
+nnoremap ⁄ :!
+
+" ╭──▷ ⌥⃝ 𝄐A⃝  ────▷ Jump forward (^O)
 nnoremap å           <C-o>
 nnoremap <leader>o   <C-o>
-" Jump backward (^I)
-" <⌥⃣ ‑s> ▬▶︎ ß
+
+" ╭──▷ ⌥⃝ 𝄐S⃝  ────▷ Jump backward (^I/<Tab>)
 nnoremap ß           <C-i>
 nnoremap <leader>i   <C-i>
-" :w
+
+
+"
+" Change:
+"
+"  Character under cursor
+"
+" ╭──▷ ⌥⃝ 𝄐0⃝  ────────────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝ 
+nnoremap º a⃝ <Cmd>RepeatMove<CR>
+
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐0⃝  ──────────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞ 
+nnoremap ‚ a⃞ <Cmd>RepeatMove<CR>
+
+" ╭──▷ ⌥⃝ 𝄐-⃝  ────────────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲
+nnoremap – a̲<Cmd>RepeatMove<CR>
+
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐-⃝  ──────────▷ O̅v̅e̅r̅l̅i̅n̅e̅
+nnoremap — a̅<Cmd>RepeatMove<CR>
+
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐E⃝  ──────────▷ Replace with last yanked
+nnoremap ‰ s<c-r>0<ESC><Cmd>RepeatMove<CR>
+
+"
+"" §w - Save / write
+"
 nnoremap §ww :w<CR>
 nnoremap §wW :w!<CR>
 nnoremap §wa :wa<CR>
 
-" open
-" [:e, :e!] <filename>
-" §ee, $eE ⇉ same window
-" §es, $eS ⇉ horizontal split
-" §ev, §eV ⇉ vertical split
-" §er, §eR ⇉ reload
-" §ed, §eD ⇉ current directory
-" §ec, §eC ⇉ enew
-" <- 
+"
+"  Edit: §e       ╭╌╌╌╌╌╸Quick Bookmarks╺╌╌╌╌╌╮
+" ╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╎
+" ╎           Default              ┊  Rebind  ╎
+" ╎╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╌╌╎
+" ╎ §e1 ┊  $HOME/projects/         ┊   §E1    ╎
+" ╎ §e2 ┊  $HOME/.vim/             ┊   §E2    ╎
+" ╎ §e3 ┊  $HOME/.vim/plugin/      ┊   §E3    ╎
+" ╎ §e4 ┊  $HOME/                  ┊   §E4    ╎
+" ╎ §e5 ┊  $HOME/                  ┊   §E5    ╎
+" ╎╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╎
+" ╎         §e§ :  Select from PUM            ╎
+" ╎╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
+" ╎  :e! ─╮ ┊    Open ..   ┊      in ..       ╎
+" ╎╌╌╌╌╌╌╌∇╌╎╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
+" ╎ §ew $eW ┊ ./<select>   ┊ same window      ╎
+" ╎ §es $eS ┊ ./<select>   ┊ horizontal split ╎
+" ╎ §ev §eV ┊ ./<select>   ┊ vertical split   ╎
+" ╎ §er §eR ┊ current file ┊ same window      ╎
+" ╎ §ed §eD ┊ ./ (DIR)     ┊ same window      ╎
+" ╎ §ec §eC ┊ <blank>      ┊ same window      ╎
+" ╎ §ee     ┊ ./<select>   ┊ exist;same;split ╎
+" ╎ §eE     ┊ ./<select>   ┊ same;split       ╎
+" ╎╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
+" ╎  §ee ⇉ ╶─?⃞╶┮[ if file is open already ]   ╎
+" ╎          ∇ └─▷ jump to existing window    ╎
+" ╎  §eE ⇉ ╶─?⃞╶┮[ if window can be reused ]   ╎
+" ╎          ┆ └─▷ replace current            ╎
+" ╎          ╰─▷ open in split                ╎
+" ╵╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╵
 nnoremap §ee :e 
-nnoremap §eE :e! 
-nnoremap §es :sp 
-nnoremap §eS :sp! 
-nnoremap §ev :vsp 
-nnoremap §eV :vsp! 
+nnoremap §ew :e ./
+nnoremap §eW :e! ./
+nnoremap §es :sp ./
+nnoremap §eS :sp! ./
+nnoremap §ev :vsp ./
+nnoremap §eV :vsp! ./
 nnoremap §er :e %<CR>
 nnoremap §eR :e! %<CR>
 nnoremap §ed :e .<CR>
 nnoremap §eD :e .<CR>
 nnoremap §ec :enew<CR>
 nnoremap §eC :enew!<CR>
+nnoremap §e§ :e ~/.vim/
+nnoremap <expr> §e1 ':e '..get(g:, 'mayhem_quick1', '~/projects/')..''
+nnoremap <expr> §e2 ':e '..get(g:, 'mayhem_quick2', '~/.vim/')..''
+nnoremap <expr> §e3 ':e '..get(g:, 'mayhem_quick3', '~/.vim/plugin/')..''
+nnoremap <expr> §e4 ':e '..get(g:, 'mayhem_quick4', '~/')..''
+nnoremap <expr> §e5 ':e '..get(g:, 'mayhem_quick5', '~/')..''
+nnoremap §e2 :e ~/.vim/
+nnoremap §e3 :e ~/.vim/plugin/
+nnoremap §e4 :e ~/
+nnoremap §e5 :e ~/
+nnoremap <silent> §E1 :let g:mayhem_quick1=getcwd()..'/'<CR>
+nnoremap <silent> §E2 :let g:mayhem_quick2=getcwd()..'/'<CR>
+nnoremap <silent> §E3 :let g:mayhem_quick3=getcwd()..'/'<CR>
+nnoremap <silent> §E4 :let g:mayhem_quick4=getcwd()..'/'<CR>
+nnoremap <silent> §E5 :let g:mayhem_quick5=getcwd()..'/'<CR>
 
-nnoremap §1 :CtrlP<CR>
 nnoremap <S-tab>     :CtrlP<CR>
 nnoremap <leader>p   :CtrlP<CR>
 
-" Splits & windows
+"
+"  §w & §s - Windows & Splits
+" 
 nnoremap §ss :sp<CR>
 nnoremap §sv :vsp<CR>
 
+
+"
+" Highlighting
+"
+" See: ./highlighthighlight.vim
 nnoremap §<S-i> :so $VIMRUNTIME/syntax/hitest.vim<CR>
 nnoremap §i :SynStack<CR>
 nnoremap §I :SynStackAuto<CR>
 
-"  §\              ┊+┊      Add column guide (at cursor)
-" ╸§]╺╾⎝ A̲bc ▬▶︎ A̲bc┃▒┃    ⎠ Align To Left
-" ╸§[╺╾⎛ A̲bc ▬▶︎    ┃▒┃A̲bc ⎞          Right 
-" ╸§}╺╾⎝ A̲bc ▬▶︎  A̲b┃c┃    ⎠ Align On Left
-" ╸§{╺╾⎛ A̲bc ▬▶︎    ┃A̲┃bc  ⎞          Right
-"  §|              ┊✕┊      Remove column guide (at cursor)
-nnoremap §\ :silent exec 'setlocal colorcolumn+='..virtcol('.')<CR>
-nnoremap §] :AlignRightToCC<CR>
-nnoremap §} :AlignRightOnCC<CR>
-nnoremap §[ :AlignLeftToCC<CR>
-nnoremap §{ :AlignLeftOnCC<CR>
-" Add a horizontal row guide at cursor position
-" TODO
-" Clear guides at the cursor position (horizontal first, then vertical)
-" TODO
-" 
-nnoremap §<S-\> :setlocal colorcolumn=<CR>
 
-" Draw a box around visual block selection
+"─── Column guides ─────────────────────────────────────
+"
+" See: ./colorcolumn.vim
+nnoremap §] :AddColumnGuide<CR>
+nnoremap §] :AlignRightToGuide<CR>
+nnoremap §} :AlignRightOnGuide<CR>
+nnoremap §[ :AlignLeftToGuide<CR>
+nnoremap §{ :AlignLeftOnGuide<CR>
+
+                " red*          llohe| test
+ 
+"
+" Editing:
+"
+" Swap:
+" word <-> following whitespace ('right align')
+" (V, pick lines, :)
+nnoremap §ar :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR>:noh<CR>
+xnoremap §ar :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR>:noh<CR>
+
+" words around pivot     (AAA,BBB -> BBB,AAA
+"  (Swaps the first two words found in selection)
+nnoremap §as :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR>:noh<CR>
+xnoremap §as :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR>:noh<CR>
+" words around cursor (AD̲G -> ED̲C | AA, ̲XX -> XX, ̲AA | AB̲C XX -> CB̲A XX)
+nnoremap §ac :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>:noh<CR>
+"
+" Shift {token} back/forward in {container}       TODO
+"
+"  Cursor moves with the shifted item
+"  (This is essentially the same as swapping around
+"   a pivot, but repeated)
+" e.g. [ 'a', 'b̲', 'c' ] -> [ 'a', 'c', 'b' ]
+
+" nnoremap
+" xnoremap 
+
+" Select visual block (<C-v> etc.) 
+" in visual mode:
+" x - cut block replacing it with whitespace
+xnoremap <expr> x  mode() ==# "\x16" ? "y<ESC>gvr<Space>" : "x"
+xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
+" h - move block left by 1
+" j - move block down by 1
+" k - move block up by 1
+" l - move block right by 1
+"
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐1⃝  ──▷ Start substitution w/ last search
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐3⃝  ──▷ Word under cursor
+"
+"      
+"
+"   ⇧⃝ 𝄐⌥⃝   🅆   ⎫     Move line
+" ╭─▷    🄰 🅂 🄳 ⎭─▷  V: up/down
+" │                   ^V: up/right/down/left              
+"   ⇧⃝ 𝄐⌥⃝ 𝄐(🅆 🄰 🅂 🄳 )─▷  V: up/down
+"
+" Move:
+"               Visual (v/V)
+"          ╭W⃝  ─▷ Up
+" ╭▷ ⇧⃝ 𝄐⌥⃝ 𝄐┴S⃝  ─▷ Down
+"
+
+command! MoveBlockUp <Nop>                     "  TODO
+command! MoveBlockDown <Nop>                   "  TODO
+command! MoveBlockLeft <Nop>                   "  TODO
+command! MoveBlockRight <Nop>                  "  TODO
+" Shift line(s) up/down (taking cursor with them) TODO
+"              ⎧ Visual ╷ v/V ╷ ^V  ⎫
+"              │╴╴╴╴╴╴╴╴┤╴╴╴╴╴┤╴╴╴╴╴┤
+"        ╭╴W⃝  ──▷ Up    │  y  │  y  │
+"        ├╴S⃝  ──▷ Down  │  y  │  y  │
+"        ├╴A⃝  ──▷ Left  │     │  y  │
+" ╭▷  ⌥⃝ 𝄐┴╴D⃝  ──▷ Right │     │  y  │
+xnoremap <expr> ∑  mode() ==# "\x16" ? "MoveBlockUp" : "m -2"
+xnoremap <expr> ß  mode() ==# "\x16" ? "MoveBlockDown" : "m +2"
+xnoremap <expr> å  mode() ==# "\x16" ? "MoveBlockLeft" : "echo Try with ^V"
+xnoremap <expr> ∂  mode() ==# "\x16" ? "MoveBlockRight" : "echo Try with ^V"
+"
+" Line Drawing                                    TODO
+"
+" Box Drawing                                     TODO
+" - Draw a box around visual block selection
 "
 
 " nnoremap §rf :if &filetype=='vim' && $HOME . '/.vim/ :so<CR>
 " Source current saved file
 nnoremap §rf :so %<CR>
+" Save and then Source current file
+nnoremap §rs :w :so %<CR>
 " Source current buffer (doesn't refresh everything)
 nnoremap §re :so<CR>
 " Source current line
@@ -92,61 +243,44 @@ vmap §<space> "xy:@x<CR>
 "
 " %s/\s\+$//e
 
-
-" Prettify
-nnoremap §p %!npx prettier --stdin-filepath %<CR>
-" nnoremap ?? :CopyPath<CR>
-" nnoremap ?? :CopyFilename<CR>
-" nnoremap ?? :CopyBranch<CR>
-
 " Remove blank lines
 " :g/^$/d
 
-" Change hex color codes to uppercase
-command! UppercaseHex :%s/\<\(#[0-9a-fA-F]\{8}\|#[0-9a-fA-F]\{6}\|#[0-9a-fA-F]\{4}\|#[0-9a-fA-F]\{3}\)\>/\U&/g
-" Change hex color codes to lowercase
-command! LowercaseHex :%s/\<\(#[0-9a-fA-F]\{8}\|#[0-9a-fA-F]\{6}\|#[0-9a-fA-F]\{3}\)\>/\L&/g
-" Expand short hex codes (#F0E ▬▶︎ #FF00EE, #FB3A ▬▶︎ #FFBB33AA)
-command! ExpandHex :%s/\<#\([0-9a-fA-F]\)\([0-9a-fA-F]\)\([0-9a-fA-F]\)\>/#\1\1\2\2\3\3/g
-" Extract CSS variable
-" name: value;       
-" " CSS
+
+" Prettify
+nnoremap §p %!npx prettier --stdin-filepath %<CR>
+
+"  §f  - Formatting
+" CSS
+" See: ./css.vim
 "
-" * templates
-" 
+" Hex codes
+" §fH ⇉  To UPPERCASE
+" §fh ⇉  To lowercase
+" §fX ⇉  Expand  (#F0E ▬▶︎ #FF00EE / #FB3A ▬▶︎ #FFBB33AA)
+" §fx ⇉  Compact (#F0E ▬▶︎ #FF00EE / #FB3A ▬▶︎ #FFBB33AA)
+nnoremap §fH :UppercaseHex
+nnoremap §fh :LowercaseHex
+nnoremap §fX :ExpandHex
 "
-" * variables
-" Extract, name from property  TODO
-" name: value;  ▬▶︎  name: var(--name, value);
-"           +yank:  --name: value;
-"               
-"  --bsize-spell: 40px;
+" Variables
+" $fv ⇉  Extract                                  TODO
+" $fV ⇉  Inline                                   TODO
+"   name: value;  ▬▶︎  --name: value;
+"                       name: var(--name);
 "
-"  display: flex;
-"  flex-direction: column;
-"  flex: 1 1;
+"   name: value;  ▬▶︎  name: var(--name, value);
+"                     [ +yank:  --name: value; ]
+"
+"
+nnoremap <C-g><C-s> :OpenCSS<CR>
 
 
 
-
-" Swap text with following whitespace (right-align)
-" (V, pick lines, :)
-" %s/^\s*\[\zs\('\w*',\)\(\s*\)/\2\1/g
-
-" Swap around pivot (e.g. AAA,BBB -> BBB,AAA
-" vnoremap  <C-S> :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR>:noh<CR>
-"
-" Shift {token} back/forward in {container} TODO
-" e.g. [ 'a', 'b̲', 'c' ] -> [ 'a', 'c', 'b' ]
-"
-" Shift line(s) up/down (taking cursor with them) TODO
-"
 
 " Quickfix
 nnoremap §q :windo lcl\|ccl<CR>
 
-nmap <silent> <C-q> <Plug>(qf_qf_switch)
-nmap <silent> <C-§> <Plug>(qf_qf_toggle_stay)
 nmap <silent> <leader>q <Plug>(qf_qf_toggle_stay)
 nmap <silent> <leader>l <Plug>(qf_loc_toggle)
 
@@ -164,11 +298,8 @@ nnoremap <leader>ttt :set guifont=Menlo:h18<CR>
 nnoremap        §t   :set list!<CR>
 nnoremap <leader>L   :set list!<CR>
 
-"Repeat last edit n times
+" Repeat last edit n times
 nnoremap . :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
-
-"
-nnoremap <C-g><C-s> :OpenCSS<CR>
 
 " Display line movements, except with count
 nnoremap <expr> j v:count ? 'j' : 'gj'
@@ -191,15 +322,25 @@ nnoremap <silent> <CR> :nohlsearch<CR><CR>
 " nnoremap <Leader>' :CdProjectRoot <bar> Ack! <C-r><C-w><CR>
 " nnoremap <Leader>" :CdProjectRoot <bar> Ack! <C-r>/<CR>
 
-" ⌥⃝ ⋯⇧⃝ ⋯8⃝ ▬▶︎•⃣  
+" Search: Current Project
+"
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐8⃝  ─┬▷ Word under cursor
+" ├─▷    \'    ─╯
 nnoremap • :CdProjectRoot <bar> AckCurrentWord<CR>
+nnoremap <Leader>' :CdProjectRoot <bar> AckCurrentWord<CR>
+
+" ╭─▷    \"    ──▷ Last search
+nnoremap <Leader>" :CdProjectRoot <bar> AckLastSearch<CR>
+
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐3⃝  ──▷ Word under cursor
 nnoremap # :CdProjectRoot <bar> AckCurrentWord<CR>
 
+" ╭─▷   :ag    ──▷ Input
 cnoreabbrev ag :CdProjectRoot <bar> AckInput<CR>
 
-nnoremap <Leader>' :CdProjectRoot <bar> AckCurrentWord<CR>
-nnoremap <Leader>" :CdProjectRoot <bar> AckLastSearch<CR>
-" Seach current buffer
+
+" Search: Current Buffer
+"
 " word under cursor
 "   hl    +prev  +next
 "   \\       *      #   (word boundaries)
@@ -207,7 +348,9 @@ nnoremap <Leader>" :CdProjectRoot <bar> AckLastSearch<CR>
 " visual selection:
 "   prev  next
 "     *     #  anywhere
+"
 " Put word under cursor into search register and highlight
+" ╭──▷ \\    ────▷ Search
 nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 " vnoremap <silent> <Leader>* :<C-U>
 "   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
@@ -215,14 +358,23 @@ nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hl
 "   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>
 "   \gV:call setreg('"', old_reg, old_regtype)<CR>:set hls<CR>
 
-" Search(+Replace) for visual selection
-" vnoremap §s "xy:%s//
-vnoremap §s y<ESC>/<c-r>"<CR> 
-vnoremap §r y<ESC>:%s/<c-r>"//g<Left><Left>
-vnoremap §<S-r> y<ESC>:%s^<c-r>"^^g<Left><Left>
 
-" Substitute using last search pattern
-" :%s//<replacement>/g
+"  visual selection
+"
+" ╭──▷ §s    ────▷ Search
+vnoremap §s y<ESC>/<c-r>"<CR> 
+" ╭──▷ §r    ────▷ Replace, delimiter: /
+xnoremap §r y<ESC>:%s/<c-r>"//g<Left><Left>
+" ╭──▷ §R    ────▷ Replace, delimiter: ^
+xnoremap §<S-r> y<ESC>:%s^<c-r>"^^g<Left><Left>
+" vnoremap §s "xy:%s//
+
+" ╭──▷ ⌥⃝ 𝄐1⃝  ────▷ Start a search 
+nnoremap € /
+
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐1⃝  ──▷ Start substitution w/ last search
+nnoremap ™ :%s///g<Left><Left>
+
 " Or this, which uses register '/'
 " :%s///<replacement>/g
 " :%s/<c-r>///g<Left><Left>
@@ -250,17 +402,27 @@ xnoremap <expr> j  mode() ==# "v" ? "gj" : "j"
 xnoremap <expr> gj mode() ==# "v" ? "j"  : "gj"
 xnoremap <expr> k  mode() ==# "v" ? "gk" : "k"
 xnoremap <expr> gk mode() ==# "v" ? "k"  : "gk"
-" Select visual block (<C-v> etc.) 
-" in visual mode:
-" x - cut block replacing it with whitespace
-vnoremap x y<ESC>gvr 
-vnoremap v y<ESC>1vp
-xnoremap <expr> x  mode() ==# "" ? "y<ESC>gvr" : "x"
-xnoremap <expr> v  mode() ==# "" ? "y<ESC>1vp" : "v"
-" h - move block left by 1
-" j - move block down by 1
-" k - move block up by 1
-" l - move block right by 1
+
+
+" Diff
+"
+nnoremap §dd :diffget
+nnoremap §ds :diffput
+"
+" GitGutter
+" 
+" nmap ]c <Plug>GitGutterNextHunk
+" nmap [c <Plug>GitGutterPrevHunk
+" nmap <Leader>ha <Plug>GitGutterStageHunk
+" nmap <Leader>hu <Plug>GitGutterUndoHunk
+" nmap <Leader>hv <Plug>GitGutterPreviewHunk
+" omap ih <Plug>GitGutterTextObjectInnerPending
+" omap ah <Plug>GitGutterTextObjectOuterPending
+" xmap ih <Plug>GitGutterTextObjectInnerVisual
+" xmap ah <Plug>GitGutterTextObjectOuterVisual
+
+
+
 
 
 " === Coc ===
@@ -349,10 +511,10 @@ nnoremap <silent> ç <Plug>(coc-fix-current)
 "CocAction('codeActionRange')|
 
 " Format & fix
-nmap <leader>cf  <Plug>(coc-format-selected)
-vmap <leader>cf  <Plug>(coc-format-selected)
-vmap <leader>ca  <Plug>(coc-codeaction-selected)
-nmap <leader>ca  <Plug>(coc-codeaction-selected)
+nnoremap <leader>cf  <Plug>(coc-format-selected)
+vnoremap <leader>cf  <Plug>(coc-format-selected)
+nnoremap <leader>ca  <Plug>(coc-codeaction-selected)
+vnoremap <leader>ca  <Plug>(coc-codeaction-selected)
 
 " gh - get hint on whatever's under the cursor
 nnoremap <silent> gh :ShowDocumentation<CR>

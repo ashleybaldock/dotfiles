@@ -84,6 +84,7 @@ function s:OnCocLocationsChange()
 "   new list in: g:coc_jump_locations
    let g:last_coc_jump_locations = g:coc_jump_locations
    " call setloclist(0, g:coc_jump_locations) | lwindow
+   CocList --normal -A location
 endfunc
 
 

@@ -16,18 +16,25 @@
 " command! TestMenu :call <SID>TestMenu()
 
  " TODO
-function! s:ToolBarToggleGlobalSetting(priority, name, iconOn, iconOff)
+ "
+ " states = { current: [next, tooltip, icon] }
+function! s:ToolBarToggle(priority, name, states)
   if exists('+'..a:name)
-    exec 'let value = &g:'..a:name
-    if value
-      exec 'an <silent> icon='..a:iconOn..' '..a:priority..' ToolBar.Toggle\ '..a:name..' :setlocal no'..a:name
-      exec 'tmenu ToolBar.Toggle\ '..a:name..' Setting: "'..a:name..'" is enabled, click to disable'
+    exec 'let value = '..a:name
+    let state = get(states, value, get(states, '*', []))
+    let nextvalue = state[0]
+    let tooltip = state[1]
+    let icon = state[2]
+    if nextvalue
+      exec 'an icon='..icon..' '..a:priority..' ToolBar.Toggle\ '..a:name..' :setlocal '..nextvalue
+      exec 'tmenu ToolBar.Toggle\ '..a:name..' '..tooltip
     else
-      exec 'an <silent> icon='..a:iconOff..' ToolBar.Toggle\ '..a:name..' :setlocal '..a:name
-      exec 'tmenu ToolBar.Toggle\ '..a:name..' Setting: "'..a:name..'" is disabled, click to enable'
+      exec 'an icon=exclamationmark.square '..a.priority..' ToolBar.Toggle\ '..a:name..' <Nop>'
+      exec 'tmenu ToolBar.Toggle\ '..a:name..' ToolBarToggle:Err: No matching state and fallback missing'
     endif
   else
-    echom 'ToolBarToggle: Setting "'..a:name..'" does not exist'
+    exec 'an icon=questionmark.square.dashed '..a.priority..' ToolBar.Toggle\ '..a:name..' <Nop>'
+    echom 'ToolBarToggle:Err: Setting "'..a:name..'" does not exist'
   endif
 endfunc
 
@@ -135,11 +142,25 @@ function! s:AddDynamicToolBar()
   " Toggles
   call s:DividerBetweenActionsAndToggles()
 
-  an <silent> icon=cursorarrow.and.square.on.square.dashed
-        \ ToolBar.Toggle\ Virtualedit           :setlocal virtualedit
+  an icon=cursorarrow.and.square.on.square.dashed
+        \ ToolBar.Toggle\ Virtualedit           :let &g:virtualedit='block'<CR>
   tmenu ToolBar.Toggle\ Virtualedit             Toggle virtualedit
 
-  call s:ToolBarToggleGlobalSetting('600.10', 'delcombine', 'delete.left.fill', 'delete.left')
+        " \ ['all', '', 'Turn delcombine off', 'delete.left.fill'],
+        " \ ['none', '0', 'Turn delcombine off', 'delete.left.fill'],
+        " \ ['onemore', '0', 'Turn delcombine off', 'delete.left.fill'],
+  call s:ToolBarToggle('600.10', '&g:virtualedit', {
+        \ 'block': ['block',  'insert', 'Virtualedit:  Off [Block]▹Insert ', 'cursorarrow.and.square.on.square.dashed'],
+        \ 'insert': ['insert', 'none',   'Virtualedit: ▹Off  Block [Insert]', 'filemenu.and.cursorarrow'],
+        \ 'none': ['none',   'block',  'Virtualedit: [Off]▹Block  Insert', 'dots.and.line.vertical.and.cursorarrow.rectangle'],
+        \ '*': ['',       'block',  'Virtualedit:  Off ▹Block  Insert [???]', 'dots.and.line.vertical.and.cursorarrow.rectangle'],
+        \ })
+    " amenu disable ToolBar.ObsessionStatus
+    " :hierarchical
+  call s:ToolBarToggle('600.20', '&g:delcombine', {
+        \ '0': ['1', 'Turn delcombine on', 'delete.left'],
+        \ '1': ['0', 'Turn delcombine off', 'delete.left.fill'],
+        \ })
   " an <silent> icon=delete.left.fill
   "       \ ToolBar.Toggle\ DelCombine            :setlocal nodelcombine
   " tmenu ToolBar.Toggle\ DelCombine              Turn delcombine off

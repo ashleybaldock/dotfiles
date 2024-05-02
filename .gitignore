@@ -16,7 +16,11 @@
 .vim/Session/*
 *.session.vim*
 
+bin/test/*
 bin/HandBrakeCLI
+
+res/_old/*
+res/data/*
 
 .vim/node_modules/*
 

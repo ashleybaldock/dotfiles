@@ -1,8 +1,5 @@
 scriptencoding utf-8
 
-" TODO indicator for virtualedit (+toolbar button)
-" TODO indicator for delcombine (+toolbar button)
-
 " TODO Statusline for narrow windows (<16)
 " filen….vim
 " filen⋯.vim
@@ -25,7 +22,7 @@ function FName()
 endfunc
 function FDotExt()
   let ext = expand('%:e')
-  return ext == '' ? '' : '.' .. ext
+  return ext == '' ? '' : '.'..ext
 endfunc
 
 function! WinType() abort
@@ -60,8 +57,8 @@ function s:Update_Diag()
 
   if !exists('g:did_coc_loaded')
     let b:mayhem.sl_cache_diag = [
-        \ '%#SlSynOffC#' .. symbols.off .. '%*',
-        \ '%#SlSynOffN#' .. symbols.off .. '%*']
+        \ '%#SlSynOffC#'..symbols.off..'%*',
+        \ '%#SlSynOffN#'..symbols.off..'%*']
     return
   endif
 
@@ -76,80 +73,43 @@ function s:Update_Diag()
   if errorCount > 0
     let symbol = get(symbols.numbers, errorCount, symbols.error)
     let b:mayhem.sl_cache_diag = [
-        \ '%#SlSynErrC#' .. symbol .. '%*',
-        \ '%#SlSynErrN#' .. symbol .. '%*']
+        \ '%#SlSynErrC#'..symbol..'%*',
+        \ '%#SlSynErrN#'..symbol..'%*']
     return
   endif
 
   if warningCount > 0
     let symbol = get(symbols.numbers, warningCount, symbols.warning)
     let b:mayhem.sl_cache_diag = [
-        \ '%#SlSynWarnC#' .. symbol .. '%*',
-        \ '%#SlSynWarnN#' .. symbol .. '%*']
+        \ '%#SlSynWarnC#'..symbol..'%*',
+        \ '%#SlSynWarnN#'..symbol..'%*']
     return
   endif
 
   let b:mayhem.sl_cache_diag = [
-        \ '%#SlSynOkC#' .. symbols.ok .. '%*',
-        \ '%#SlSynOkN#' .. symbols.ok .. '%*']
+        \ '%#SlSynOkC#'..symbols.ok..'%*',
+        \ '%#SlSynOkN#'..symbols.ok..'%*']
   return
 endfunc
 
 
-" ‡ ‡ † † ⁊ ⸗ ⁞ ⸬ ⸭ ⁜ ⸔ ꩜ 𒑲𒑳 𒑱𒑰᰽᰾᰿☓⚡︎⍦ ♮ ♯ 𝄐𝄑 ⏒⏓⏑⏑⏘ ⏙ 
-" ⌅⌄⌃⌵𐠐𐠅𐠦𐠣 𐠪𐠵𐠤𐠊𐠯𐠯𐠂 𐜝 𐝀 𐝁
-" 𐰊 𐱀 𐱄𐰼 𐰋𐰲𐰱𐰮𐰯𐰄𐰀 𐰚𐰇𐰭𐰃𐱈 𐰚𐰇𐰩𐰳𐰏𐰀𐰞 𐰔𐰬𐱄𐱀𐰬𐰕 𐰔𐰑𐰔𐱄𐰚 𐰂𐰒𐰳𐰸𐰹𐱁𐰨𐰆𐰊 𐰋𐰌𐰞𐰃𐰐𐰢𐰤𐰞
-" 𐙞 𐙟 𐰧𐰗 🁢🁣𐙦
-" 𐰶𐰷𐰬 𐱄 𐱀 𐱃
-" 𝍖 ⚌ ䷖
-" 𐠴 𐠔 𐠲 𐠫 𐠒𐠞𐠙𐠍𐘁𐘂𐘃𐘥 𐠘
-" 𐰸𐰹𐰋𐰲𐰱𐱄 𐱀 𐰬 𐰕 𐠤 𐠯 𐠮 𐠵 𐠙 𐠠 𐠃 𐠳  ∎∣
-" 𑀋𑀃𑀄𑀅𑀆𑀉𑀊𑀒𑀔𑀖𑀱𑀗𑀘𑀙𑀯𑀚𑀛𑀜𑁖𑁟 𑀷
-" 𐚳 𐚶 𐚷 𐝀𐀞𐁖𐀝𐀷𐂧𐂬𐂞𐂲𐃏𐃘  𐀮𐀳 𐝁𐝎 𐝍 𐝏𐝐𐝑 𐝒 𐝓𐝕
-" 𐀿𐁘  𐌄𐌅𐌆𐌎𐌏𐩩𐩪𐩫𐩰𐩺𐩻𐩼𐩲𐩥𐩤
-" 𐰎
-" 𑀣𑀞 𑀟𑀠𑀢𑀦𑀖𑀬 𑀯𑀵𑀫
-" 𑀩𑁇𑁈𑁉𑁋𑁊𑀓𑁋𑁌𑁜𑁣𑁜𑁋𑁊 𑁓𑁕𑁒𑁒𑁓𑁔𑁉𑁊𑁉𑁋𑁈 𑁍 
-" 𑀛†‡※⁕⁑•◦ 𐠘 𝞒𝞧ʎ𑀛𐠨𑀕𑀰𑀏𐠫𐠃𐠠𐱃𐀿𐠊𐠒𐠑𐠙𐠸𐝕 𐠩
-" 𐘨𐘥
 let g:mayhem.symbols_git8 = {
       \ 'isgit': '𑀛',
       \ 'notgit': '⁑',
       \ 'gitoff': '𐝕' 
       \}
 let g:mayhem.symbols_gitA = { 'isgit': 'y', 'notgit': 'n', 'gitoff': 'o' }
-" local, has
-"  *   unstaged changes
-"  +   staged changes
-"  $   stashes
-"  %   untracked files
-"
-"      has changes
-" ⨁⃫ ⨁⃦ ⨤⨈⃦ ⨇⃦ ⨆⃦ 
-" ◇⃓◆⃓ ▲⃓ ▽⃓△⃓  ◦⃓ ●⃫ ○⃫ □⃫ ✱⃓⃗ ✱⃓⃡ ✱⃓⃖ ✱⃓ ✱⃓⃖ ✲⃫ ⚙︎⃩ ‣▵▴◎
-" ▞͢ ▙͎  ◐⃡ ◑⃖ ◒̴⃟ ◓⃘ ◪⃥  ◨⃑ ◩⃐ ◊⃨ ⟠̤⧫͎∆͍ ∇  
-"
-" ⍰ ⎕̶⎕̵⎕̴⎕⃓⎕⃦ ⎕⃥⎕̸⎕̷⎕⃟⎕⃠ ⎕⃞  ⎕̶⃞ ⎕⃓⃞ ⎕⃝  ⎕⃪⃝ ⎕⃓⃟  ⎕⃞̷ ⎕⃞⃦ ⎕⃞̸ ⎕⃞⃫ ⎕̶⃘ ⎕ ∧∨<>
-"⊕⊛
-" >͛ >⃖ >⃗ >⃓ >⃔ >⃦ >⃕ >⃨ >̶ >⃞ >̈ >̇ >͘ >݃ >̍ >̎⃞ >̏ >̋ >̂⃞ > >͐
-" ≷ ≷⃖ ≷⃗ ≷⃡ ≷⃔ ≷ ≷⃕ ≷⃨ ≷ ≷⃞ ≷̈ ≷̇ ≷͘ ≷݃ ≷̍ ≷̎ ≷̏ ≷ ≷̂ ≷⃑⃞ ≷⃐ ≷̊ ≷⃩ ≷⃥
-" < <⃖ <⃗ < <⃔ < <⃕ <⃨ < <⃞ <⃦ <⃒ <⃫ <⃓ <̷ <⃥ <͛̾ <⃔ <̵ ⃖<⃑ <⃐ <⃖ < <
-" = =⃖ =⃗ = =⃔ = =⃕ =⃨ = =⃞ = = = =𑀸= = = = = = = = =
-">⃞ ≷⃞ <⃞ =⃞ 
-"
-" ≺ ≻ ∗͐ ∗͔ ∗͕ ∗⃖ ∗⃗ ∗⃡ ∗̿ ∗̅  ∗̽ ∗ͣ ∗ͨ ∗ͤͥ ∗ͯ ∗͍ ∗͇ ʢǂʘʕ↑ɤ ∘∙∫
-" ∗ ∗̟̟ ∗̊ ∗⃔ ∗͞ ∗⃕ ∗͛ ̃∗̃ ∗⃒ ∗⃦ ∗⃓ ∗̸ ∗⃫ ∗̷ ∗⃟ ∗⃘ ∗⃠ ∗⃝ ∗ ∗
-"
-" branch, relative to upstream
-" ⍃   <   behind
-" ⍄   >   ahead
-" ⌺   <>  diverged
-" ⌸   =   in sync
-" ✮✮✭✬✫✪⭐︎★☆⭐︎✡︎✩✯✥✤✣✢✧❊✽✻❉✱✲✾✾❃❋✴︎✴︎❇︎⚙︎❄︎❆❅※❈﹅✘✗✖︎✕❍❥❍❤︎✰❡►❖◼︎⁍☑︎☒☐★
-" ⭐︎♕♔⚀✍︎☻♙☕︎✦✟    ✠ ⚙︎⚑⚐☯︎⚘☘︎⚘⚛︎⚈⚆⚇⁕＊⁂⁗
-
-" ᰽᰾᰿᛭᛬⸕ ⸖⸋⁙⁘⁏ ⁏⸰%‰‱
-" ⌵⎀⌵⌄⌃⌤ ⏏︎ ⎊⎌⎀⌅⌆⌂⌒⌓⌔⌤
+"  local, has
+"   *   unstaged changes
+"   +   staged changes
+"   $   stashes
+"   %   untracked files
+" 
+"  branch, relative to upstream
+"   ⍃   <   behind
+"   ⍄   >   ahead
+"   ⌺   <>  diverged
+"   ⌸   =   in sync
 
 function ChGit()
   return get(get(b:, 'mayhem', {}), 'sl_cache_git', ['G?','GN'])[NC()]
@@ -163,21 +123,21 @@ function s:Update_Git()
 
   if !exists('g:loaded_fugitive')
     let b:mayhem.sl_cache_git = [
-          \ '%#SlGitOffC#' .. symbols.gitoff .. '%*',
-          \ '%#SlGitOffN#' .. symbols.gitoff .. '%*']
+          \ '%#SlGitOffC#'..symbols.gitoff..'%*',
+          \ '%#SlGitOffN#'..symbols.gitoff..'%*']
     return
   endif
 
   let head = FugitiveHead()
   if empty(head)
     let b:mayhem.sl_cache_git =  [
-          \ '%#SlNotGitC#' .. symbols.notgit .. '%*',
-          \ '%#SlNotGitN#' .. symbols.notgit .. '%*']
+          \ '%#SlNotGitC#'..symbols.notgit..'%*',
+          \ '%#SlNotGitN#'..symbols.notgit..'%*']
     return
   else
     let b:mayhem.sl_cache_git =  [
-          \ '%#SlGitC#' .. symbols.isgit .. '%*',
-          \ '%#SlGitN#' .. symbols.isgit .. '%*']
+          \ '%#SlGitC#'..symbols.isgit..'%*',
+          \ '%#SlGitN#'..symbols.isgit..'%*']
     return
   endif
 endfunc
@@ -208,6 +168,15 @@ let g:mayhem.type_ext_map = {
       \ 'typescript': ['ts'],
       \ 'markdown': ['md'],
       \ }
+function s:TypeMatchesFilename(type, filename)
+  let ext = fnamemodify(a:filename, ':e')
+  let name = fnamemodify(a:filename, ':r')
+  let tail = fnamemodify(a:filename, ':t')
+  let typemapping = get(g:mayhem.type_ext_map, a:type, [])
+
+  return a:type == ext || index(typemapping, ext) >= 0
+        \ || name == tail && index(typemapping, name) >= 0
+endfunc
 function s:Update_FileInfo()
   call s:SetStatusVars()
   let ext = expand('%:e')
@@ -217,36 +186,37 @@ function s:Update_FileInfo()
 
   if name == ''
     let b:mayhem.sl_cached_filename = [
-      \ '%#SlFNoNameC#nameless%* ' ..
+      \ '%#SlFNoNameC#nameless%* '..
       \ '%{&modified?&modifiable?"+":"⨁":""}',
-      \ '%#SlFNoNameN#nameless%* ' ..
+      \ '%#SlFNoNameN#nameless%* '..
       \ '%{&modified?&modifiable?"+":"⨁":""}']
     let b:mayhem.sl_cached_fileinfo = [
-      \ '%#SlFTyp2C#' .. type .. '%*',
-      \ '%#SlFTyp2N#' .. type .. '%*']
+      \ '%#SlFTyp2C#'..type..'%*',
+      \ '%#SlFTyp2N#'..type..'%*']
     return
   endif
-    "'%=%{&modifiable?&readonly?"R":"":"r"}' 
-    "'%{&readonly?"ʀ⃞":""}'
-"  Ⓡ ⓡ  🅡 🆁 🄡  
-  if type == ext || index(get(g:mayhem.type_ext_map, type, []), ext) >= 0
+
+  if s:TypeMatchesFilename(type, expand('%'))
     let b:mayhem.sl_cached_filename = [
-      \ '%{%CheckRO()%}%#SlFNameC#' .. name .. '.%#SlFTypExtC#' .. ext .. '%* ' ..
+      \ '%{%CheckRO()%}%#SlFNameC#'..name..
+      \ '.%#SlFTypExtC#'..ext..'%* '..
       \ '%{&modified?&modifiable?"+":"⨁":""}',
-      \ '%{%CheckRO()%}%#SlFNameN#' .. name .. '.%#SlFTypExtN#' .. ext .. '%* ' ..
+      \ '%{%CheckRO()%}%#SlFNameN#'..name..
+      \ '.%#SlFTypExtN#'..ext..'%* '..
       \ '%{&modified?&modifiable?"+":"⨁":""}']
     let b:mayhem.sl_cached_fileinfo = [
-      \ '%#SlFTyp2C#' .. type .. '%*',
-      \ '%#SlFTyp2N#' .. type .. '%*']
+      \ '%#SlFTyp2C#'..type..'%*',
+      \ '%#SlFTyp2N#'..type..'%*']
   else
     let b:mayhem.sl_cached_filename = [
-      \ '%{%CheckRO()%}%#SlFNameC#' .. tail .. '%*',
-      \ '%{%CheckRO()%}%#SlFNameN#' .. tail .. '%*']
+      \ '%{%CheckRO()%}%#SlFNameC#'..tail..'%* '..
+      \ '%{&modified?&modifiable?"+":"⨁":""}',
+      \ '%{%CheckRO()%}%#SlFNameN#'..tail..'%* '..
+      \ '%{&modified?&modifiable?"+":"⨁":""}']
     let b:mayhem.sl_cached_fileinfo = [
-      \ '%#SlFTyp2C#' .. type .. '%*',
-      \ '%#SlFTyp2N#' .. type .. '%*']
+      \ '%#SlFTyp2C#'..type..'%*',
+      \ '%#SlFTyp2N#'..type..'%*']
   endif
-
 endfunc
 
 function! s:StatuslineMode() abort
@@ -262,22 +232,16 @@ endfunc
 "ꘖǀǀǁǂ|‖꜏ꖔ꜊   ꜏̲̅ ꜊̲̅
 let g:mayhem.symbols_scroll8L = {
       \ 'steps': ['꜒','꜍','꜓','꜎','꜔','꜐','꜕','꜑','꜖'],
-      \ 'top':    '꜒̅',
-      \ 'full':   'ǁ',
-      \ 'bot':    '꜖̲',
+      \ 'top':'꜒̅', 'full':'ǁ', 'bot':'꜖̲',
       \ }
 let g:mayhem.symbols_scroll8R = {
       \ 'steps': ['˥','꜈','˦','꜉','˧','꜋','˨','꜌','˩'],
-      \ 'top':    '˥̅',
-      \ 'full':   'ǁ',
-      \ 'bot':    '˩̲',
+      \ 'top':'˥̅', 'full':'ǁ', 'bot':'˩̲',
       \ }
 let g:mayhem.symbols_scroll8 = g:mayhem.symbols_scroll8R
 let g:mayhem.symbols_scrollA = {
       \ 'steps': ['1','2','3','4','5','6','7','8','9'],
-      \ 'top':    '¯',
-      \ 'full':   ']',
-      \ 'bot':    '_',
+      \ 'top':'¯', 'full':']', 'bot':'_',
       \ }
 function ScrollHint() abort
   if !exists('g:mayhem.symbols_scroll8')
@@ -337,14 +301,14 @@ function s:UpdateStatuslines() abort
   "       \ ? '%{ObsessionStatus("𐱃","𐠂")}' : '𑀠'
 
   let g:mayhem['sl_norm'] = [
-    \ '%{%ChGit()%} %{%ChFName()%} %#SlSepC#%<%=%*' ..
-    \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)' ..
-    \ '%{%ChFInfo()%} %{%ScrollHint()%}' ..
+    \ '%{%ChGit()%} %{%ChFName()%} %#SlSepC#%<%=%*'..
+    \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)'..
+    \ '%{%ChFInfo()%} %{%ScrollHint()%}'..
     \ ' %{%ChDiag()%}',
     \
-    \ '%{%ChGit()%} %{%ChFName()%} %#SlSepN#%<%=%*' ..
-    \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)' ..
-    \ '%{%ChFInfo()%} %{%ScrollHint()%}' ..
+    \ '%{%ChGit()%} %{%ChFName()%} %#SlSepN#%<%=%*'..
+    \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)'..
+    \ '%{%ChFInfo()%} %{%ScrollHint()%}'..
     \ ' %{%ChDiag()%}']
 
 

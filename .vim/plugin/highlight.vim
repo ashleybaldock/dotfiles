@@ -1,10 +1,10 @@
-if exists("g:mayhem_loaded_highlighthighlight")
-  finish
-endif
-let g:mayhem_loaded_highlighthighlight = 1
+" if exists("g:mayhem_loaded_highlighthighlight")
+"   finish
+" endif
+" let g:mayhem_loaded_highlighthighlight = 1
 
 function! s:AddHighlightHighlight(name) abort
-  let matchid = matchadd(a:name, '\(^\s*\||\s\+\)"\?:\?hi\w*\s\(\clear\)\@!\(link\)\?\s*\<\zs' .. a:name .. '\ze\>\s\+')
+  let matchid = matchadd(a:name, '\(^\s*\||\s\+\)"\?:\?hi\w*\s*\(clear\)\@!\(link\s\)\?\<\zs'..a:name..'\ze\>')
   if matchid == -1
     echo 'HiHi:AddHighlightHighlight: Empty matchid returned'
   else 
@@ -19,7 +19,7 @@ endfunc
 
 function! s:ToggleHighlightHighlight() abort
   if empty(get(w:, 'highlighthighlights', [])) 
-    %s/^:\?hi\w*\s\(link\|clear\)\@!\s*\<\zs\(\w\+\)\ze\>\s\+/\=s:AddHighlightHighlight(submatch(0))/n
+    %s/^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>/\=s:AddHighlightHighlight(submatch(0))/n
   else
     for matchid in get(w:, 'highlighthighlights', [])
       call matchdelete(matchid)

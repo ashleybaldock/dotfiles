@@ -18,8 +18,16 @@
 " ╰─╴current buffer
 " ╎   ├─▶︎ info                                      TODO
 :command! CopyBufferInfo let @+ = 'TODO'
-" ╎   ╰─▶︎ contents                                  TODO
+" ╎   ├─▶︎ contents                                  TODO
 :command! CopyBuffer let @+ = 'TODO'
+" ╎
+" ╰─╴cursor
+" ╎   ├─▶︎ unicode info from Characterize
+:command!  -nargs=? CopyCharacterize redir @+>| Characterize <args> | redir END
+" ╎   ├─▶︎ unicode char name                         TODO
+" :command!  -nargs=? CopyCharacterize redir @+>| Characterize <args> | redir END
+" ╎   ╰─▶︎ unicode info, character codepoint         TODO
+:command! CopyCharCode let @+ = 'TODO'
 " ╎
 " ╰─▶︎ search
 "     ╰─▶︎ last
@@ -36,7 +44,6 @@
 function CursorOnComment()
   return join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')) =~? 'comment'
 endfunc
-
 command! CursorOnComment :echo CursorOnComment()
 
 
@@ -58,7 +65,6 @@ augroup END
 
 " Window & Buffer debug info
 "
-
 function! s:FormatInfo()
   setlocal filetype=javascript
   call CocAction('format')
@@ -75,17 +81,24 @@ function! s:WindowInfo(winid = win_getid())
 
   let winInfo = [
         \ '// Window Info',
-        \ wInfo],
+        \ wInfo,
+        \ '// ------------------------------------'
+        \]
   let popInfo = [
         \ '// popup options',
-        \ popOpts],
+        \ popOpts,
+        \ '// ------------------------------------'
+        \]
   let bufinfo = [
         \ '// Buffer Info',
-        \ getbufinfo(bufnr())
-        \ '// ------------------']
+        \ getbufinfo(bufnr()),
+        \ '// ------------------------------------'
+        \]
   vsp
   enew
-  call append('$', info)
+  call append('$', winInfo)
+  call append('$', popInfo)
+  call append('$', bufinfo)
   call s:FormatInfo()
 endfunc
 
@@ -95,47 +108,35 @@ endfunc
 " Optionally takes ID of a different window
 :command! -nargs=? Winfo call <SID>WindowInfo(<f-args>)
 
-" getbufinfo(bufnr())
-" :command! -nargs=? BufferInfo :redir @">|silent echo |redir END|vsp|enew|put|FormatInfo
-
-" getbufinfo()
-" :command! BuffersInfo :redir @">|silent echo '// All Buffers Info'|silent echo getbufinfo()|redir END|vsp|enew|put|FormatInfo
-
-" getwininfo()
-" :command! WindowsInfo :redir @">|silent echo '// All Windows Info'|silent echo getwininfo()|redir END|vsp|enew|put|FormatInfo
-
 :command! WinfoLastCocFloat call <SID>WindowInfo(g:coc_last_float_win)
-" :redir @">|silent echo '// Last Coc Float Window Info'|silent echo getwininfo(g:coc_last_float_win)|silent echo popup_getoptions(g:coc_last_float_win)|redir END|vsp|enew|put|FormatInfo
 
 
 " Create a split if current buffer has modifications
 " Useful to run before a command that may open a new buffer
-function! s:JumpTo(filepath, position)
+" function! s:JumpTo(filepath, position)
   " 1. is file open in a window already? if so, use that
   " 2. is current window unsaved? if not, use this window
   " 3. open in split
-  if (&modified) 
-    split filepath
-  else
-    e filepath
-  endif
-  call setcursorcharpos(position)
-  m
-endfunc
-command! -bar -nargs=+ JumpTo :call <SID>JumpTo(<f-args>)
+  " if (&modified) 
+  "   split filepath
+  " else
+  "   e filepath
+  " endif
+  " call setcursorcharpos(position)
+  " m'
+" endfunc
+" command! -bar -nargs=+ -complete=file JumpTo :call <SID>JumpTo(<f-args>)
 
-" line   29:
-" E605: Error on 'jumpDefinition' request:
-"  Vim(endfunction):E171:
-"   Missing :endif on api 'call_function'
-"    ["coc#util#jump",
-"    ["SplitIfModified",
-"     "/Users/ashley/proj
-" ects/noita-wand-simulator/node_modules/immer/dist/types/types-external.d.ts",
-"     [18,20]
-"   ]]   
-
-
+" function! s:SplitIfModified(...)
+"   echom a:000
+"   echom a:1
+"   if (&modified) 
+"     split a:000
+"   else
+"     e a:000
+"   endif
+" endfunc
+" command! -bar -nargs=+ -complete=file SplitIfModified :call <SID>SplitIfModified(<f-args>)
 
   " !open '$VIMRUNTIME/../../../bin/mvim'           TODO
   "       \ --args -c 'delay 500m<CR>'
@@ -166,14 +167,17 @@ function! s:RepeatMove()
   exec g:mayhem_move_after
 endfunc
 
-command! RepeatMoveRight :let g:mayhem_move_after = 'normal l'
-command! RepeatMoveLeft  :let g:mayhem_move_after = 'normal h'
-command! RepeatMoveUp    :let g:mayhem_move_after = 'normal k'
-command! RepeatMoveDown  :let g:mayhem_move_after = 'normal j'
-command! RepeatMoveNot   :let g:mayhem_move_after = ''
+command! RepeatMoveRight let g:mayhem_move_after = 'normal l'
+command! RepeatMoveLeft  let g:mayhem_move_after = 'normal h'
+command! RepeatMoveUp    let g:mayhem_move_after = 'normal k'
+command! RepeatMoveDown  let g:mayhem_move_after = 'normal j'
+command! RepeatMoveNot   let g:mayhem_move_after = ''
 command! RepeatMove call <SID>RepeatMove()
 
 
+"
+"
+"
 function! s:GetCursorChar() abort
   return getline('.')[col('.')-1:-1]
 endfunc

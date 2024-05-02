@@ -1,13 +1,13 @@
 "
 "
-"                 Vivid Mayhem
+"                     Vivid Mayhem
 "
-"   Related files:
 "
-"  ../plugin/chars.vim        -  fillchars, listchars etc.
-"  ../plugin/highlight.vim    -  Colourscheme Utils        ⎞
-"               ⎢  :HiHi      -  inline highlight preview  ⎥
-"               ⎝  :Synstack  -  floating syntax info      ⎠ 
+"   Related:
+"  ../plugin/chars.vim      -  fillchars, listchars etc.
+"  ../plugin/highlight.vim  -  Colourscheme Utils
+"            ╰─▷ ⎧ :HiHi    -  inline highlight preview  ⎫
+"                ⎩ :Synfo   -  floating syntax info      ⎭ 
 "
 "
 "     Originally based on tpope's vividchalk
@@ -28,7 +28,8 @@ call extend(v:colornames, {
       \ 'ywreadb': '#090909',
       \ 'ywnormb': '#060606', 'ywnormf': '#dedede',
       \ 'ywhelpb': '#020922', 'ywhelpf': '#e5e5ff',
-      \ 'yunsavb': '#440000', 'yunsavf': '#f5f5f5'
+      \ 'yunsavb': '#440000', 'yunsavf': '#f5f5f5',
+      \ 'ysignsb': '#10101f',
       \ }, 'keep')
 
 "════════════════════════════════════════════════════════╡ Window
@@ -46,6 +47,7 @@ hi WinQuickfix    guifg=#FFFFBB guibg=#0D0616 gui=none
 hi WinHelp        guifg=ywhelpf guibg=ywhelpb gui=none
 hi WinNetrw       guifg=ywnormf guibg=ywreadb gui=none
 hi WinUnsaved     guifg=yunsavf guibg=yunsavb gui=none
+hi WinDiff        guifg=#555533 guibg=#111111 gui=italic
 
 "════════════════════════════════════════════════════════╡ Cursor
 "
@@ -62,7 +64,7 @@ hi CursorColumn   guifg=NONE    guibg=#4d006d
 
 "CocCursorRange   " activated cursors ranges
 "CocLinkedEditing " activated linked editing ranges
-"CocHoverRange    " range of hovered symbol
+hi CocHoverRange  guibg=#502a2a gui=none
 
 "════════════════════════════════════════════════════════╡ Search
 hi Search         guifg=NONE    guibg=#555555 gui=none
@@ -130,9 +132,7 @@ hi PmenuExtra     guifg=#af00af guibg=#220055
 hi PmenuExtraSel  guifg=#af00af guibg=#440077 gui=bold 
 hi PmenuSbar                   guibg=#220055                       
 hi PmenuThumb                  guibg=#4400ff                       
-hi link CocPum Pmenu
-" hi CocSymbol
-hi link CocMenuSel PmenuSel
+
 " Custom
 hi HlPop01Bg      guifg=#ddaacc guibg=#100008    
 hi HlPop01Bd      guifg=#cc66cc guibg=#100008
@@ -140,15 +140,31 @@ hi link HlPop01T HlPop01Bd
 hi link HlPop01R HlPop01Bd
 hi link HlPop01B HlPop01Bd
 hi link HlPop01L HlPop01Bd
+hi HlPop02Bg      guifg=#00ff08 guibg=#779908    
+hi HlPop02Bd      guifg=#00ff08 guibg=NONE
+hi HlPop03Bg      guifg=#ddaacc guibg=#333300    
+hi HlPop03Bd      guifg=#ffeedd guibg=NONE
+
+hi HlCocPuSugsBg  guifg=#ddaacc guibg=#333300    
+hi HlCocPuSugsBd  guifg=#ffeedd guibg=NONE
+hi HlCocPuDiagBg  guifg=#ddaacc guibg=#333300    
+hi HlCocPuDiagBd  guifg=#bb0008 guibg=NONE
+hi HlCocPuSgtrBg  guifg=#ddaacc guibg=#333300    
+hi HlCocPuSgtrBd  guifg=#559999 guibg=NONE
+hi HlCocPuHovrBg  guifg=#ddaacc guibg=#3319f8    
+hi HlCocPuHovrBd  guifg=#cc66cc guibg=#0000ff
 
 " CoC Float window/popup related
-"CocFloating            " floating windows/popups,  |Pmenu|
-"CocFloatThumb          " scrollbar thumb 
-"CocFloatSbar           " scrollbar track
-"CocFloatDividingLine   " dividing lines, |NonText|
-"CocFloatActive         " activated text, |CocSearch|
-"CocErrorFloat          " error text
-"CocHintFloat           " hint text
+hi link CocPum               Pmenu
+" hi CocSymbol
+hi link CocMenuSel           PmenuSel
+hi link CocFloating          Pmenu
+hi link CocFloatThumb        PmenuThumb
+hi link CocFloatSbar         PmenuThumb
+hi link CocFloatDividingLine NonText
+hi link CocFloatActive       HlPop02Bg
+hi link CocErrorFloat        WarningMsgt
+hi link CocHintFloat         SlSynWarnC 
                         
 
 "════════════════════════════════════════════════════════╡ Vertical
@@ -156,8 +172,8 @@ hi link HlPop01L HlPop01Bd
 hi VertSplit      guifg=#666666 guibg=#151515 gui=none
 
 hi Folded         guifg=#aaddee guibg=NONE    gui=none  
-hi FoldColumn     guifg=#00ffff guibg=#10101f gui=none  
-hi SignColumn     guifg=NONE    guibg=#10101f gui=none  
+hi FoldColumn     guifg=#00ffff guibg=ysignsb gui=none  
+hi SignColumn     guifg=NONE    guibg=ysignsb gui=none  
 
 hi ColorColNormal guifg=NONE    guibg=#171031 gui=none  
 hi ColorColBright guifg=NONE    guibg=#292243 gui=none  
@@ -165,8 +181,8 @@ hi ColorColBright guifg=NONE    guibg=#292243 gui=none
 hi ColorColumn none | hi link ColorColumn ColorColNormal
 
 "════════════════════════════════════════════════════════╡ Diffs
+" See: WinDiff for background
 
-hi WinDiff        guifg=#555533 guibg=#111111 gui=italic
 hi DiffText       guifg=#feddff guibg=#990088 gui=none
 hi DiffAdd        guifg=#defeff guibg=#081145 gui=none
 hi DiffChange     guifg=#eeccbb guibg=#2a002a gui=none
@@ -174,17 +190,21 @@ hi DiffDelete     guifg=#7a0000 guibg=#3a0000 gui=none
 
 "════════════════════════════════════════════════════════╡ Signs
 
-" hi GitGutterAdd    guifg=#009900 guibg=#0a1f0a gui=none
-" hi GitGutterChange guifg=#cfc040 guibg=#606015 gui=none
-hi GitGutterDelete guifg=#bb0044 guibg=#10101f gui=underdotted
-hi GitGutterChangeDelete guifg=#ee2222 guibg=#10101f gui=none
-hi GitGutterAdd guifg=#005500 guibg=#10101f gui=none
-hi GitGutterChange guifg=#cfc040 guibg=#10101f gui=none
+hi SignAdd        guifg=#117711 guibg=ysignsb gui=bold
+hi SignDel        guifg=#bb1144 guibg=ysignsb gui=underdotted
+hi SignChg        guifg=#cfc040 guibg=ysignsb gui=none
+hi SignChgDel     guifg=#cfc040 guibg=ysignsb gui=underdotted guisp=#bb0044
 
-hi link GitGutterAddLine DiffAdd
-hi link GitGutterChangeLine DiffChange
-hi link GitGutterDeleteLine DiffDelete
+hi WarningHint    guifg=NONE    guibg=NONE    gui=underdotted guisp=#ddbb00 
+
+hi link GitGutterAdd              SignAdd
+hi link GitGutterAddLine          DiffAdd
+hi link GitGutterChange           SignChg
+hi link GitGutterChangeLine       DiffChange
+hi link GitGutterChangeDelete     SignChgDel
 hi link GitGutterChangeDeleteLine DiffChange
+hi link GitGutterDelete           SignDel
+hi link GitGutterDeleteLine       DiffDelete
 
 hi CocErrorSign   guifg=#dd2222 guibg=#1f0505 gui=none
 hi CocWarningSign guifg=#ffaa00 guibg=#301e00 gui=none
@@ -235,20 +255,25 @@ hi Delimiter      guifg=#33aa00
 hi Regexp         guifg=#44b4cc               
 
 "════════════════════════════════════════════════════════╡ Comments
-
+"
 hi Comment        guifg=#cc22dd               gui=none
 hi CommentBright  guifg=#33eeff               gui=none
 
-hi HlBold                                     gui=bold
-hi HlItalic                                   gui=italic
-hi HlUnderline                                gui=underline
-hi HlUnCurl                                   gui=undercurl
-hi HlUnDouble                                 gui=underdouble
-hi HlUnDot                                    gui=underdotted
-hi HlUnDash                                   gui=underdashed
-hi HlStrike                                   gui=strikethrough
-hi HlInverse                                  gui=reverse
-hi HlStandout                                 gui=standout
+"════════════════════════════════════════════════════════╡ Format Aliases
+
+hi HlBold         gui=bold
+hi HlItalic       gui=italic
+hi HlUnderline    gui=underline
+hi HlUnCurl       gui=undercurl
+hi HlUnDouble     gui=underdouble
+hi HlUnDot        gui=underdotted
+hi HlUnDash       gui=underdashed
+hi HlStrike       gui=strikethrough
+hi HlInverse      gui=reverse
+hi HlStandout     gui=standout
+
+"════════════════════════════════════════════════════════╡ Markdown
+"
 hi HlMkDnCode     guifg=#441144 guibg=#ddaadd gui=reverse
 hi HlMkDnHeader   guifg=#cc44cc               gui=bold
 hi HlMkDnLink     guifg=#15aabf               gui=italic,underline
@@ -383,5 +408,18 @@ hi link jsonMissingCommaError   ErrorHint
 "CocMenuSel             " current item in menu dialog (bg color ONLY)
 "CocSnippetVisual       " snippet placeholders
 "CocInputBoxVirtualText " input box placeholders
+"
+
+" *CocDisabled* highlight for disabled items, eg: menu item.
+" *CocCodeLens* for virtual text of codeLens.
+" *CocCursorRange* for highlight of activated cursors ranges.
+" *CocLinkedEditing* for highlight of activated linked editing ranges.
+" *CocHoverRange* for range of current hovered symbol.
+" *CocMenuSel* for current menu item in menu dialog (should only provide
+" background color).
+" *CocSelectedRange* for highlight ranges of outgoing calls.
+" *CocSnippetVisual* for highlight snippet placeholders.
+" *CocLink* for highlight document links.
+" *CocInputBoxVirtualText* for highlight placeholder of input box.
 
 " vim:colorcolumn=18,58:nolist:nowrap:wfw:ww=125:wfh:wh=12:

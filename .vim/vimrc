@@ -178,6 +178,23 @@ endif
 let g:coc_enable_locationlist = 0
 let g:coc_border_joinchars = ['┬','┤','┴','├']
 let g:coc_borderchars  = [' ','⎥',' ','⎢','⎛','⎞','⎠','⎝']
+"g:coc_prompt_win_width = 32
+"g:coc_notify_error_icon = 
+"g:coc_notify_warning_icon =
+"g:coc_notify_info_icon = 
+
+"let g:coc_uri_prefix_replace_patterns = {'/Users': '/home'}
+"let g:coc_global_extensions = ['coc-json', 'coc-git']
+"g:coc_list_preview_filetype
+"g:coc_start_at_startup = 1
+"g:coc_text_prop_offset = 1000
+"g:coc_filetype_map (coc-document-filetype)
+"g:coc_node_path
+"g:coc_node_args
+"
+"g:coc_quickfix_open_command = copen (copen|cfirst)
+"g:coc_open_url_command
+"
 
 " CtrlP
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
@@ -203,17 +220,13 @@ let g:gitgutter_max_signs = 500
 " endif
 let g:gitgutter_set_sign_backgrounds = 0
 let g:gitgutter_override_sign_column_highlight = 0
-let g:gitgutter_sign_removed_first_line    = '⎏'
-let g:gitgutter_sign_removed_above_and_below = '⧰'
-let g:gitgutter_sign_modified_removed = '⍚'
 let g:gitgutter_preview_win_floating = 1
-let g:gitgutter_sign_added    = '+'
-let g:gitgutter_sign_modified = '⟐'
-let g:gitgutter_sign_removed  = '𐰇'
-
-
-
-
+let g:gitgutter_sign_added                   = '+'
+let g:gitgutter_sign_modified                = '𐰇'
+let g:gitgutter_sign_removed                 = '◇'
+let g:gitgutter_sign_removed_first_line      = '◇̅'
+let g:gitgutter_sign_removed_above_and_below = '◇̲̅'
+let g:gitgutter_sign_modified_removed        = '◇̲'
 "vim-qf
 " let g:qf_loclist_window_bottom = 0
 let g:qf_window_bottom = 0

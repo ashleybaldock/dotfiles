@@ -275,8 +275,14 @@ hi HlStandout     gui=standout
 "════════════════════════════════════════════════════════╡ Markdown
 "
 hi HlMkDnCode     guifg=#441144 guibg=#ddaadd gui=reverse
+hi HlMkDnCdBlock  guifg=#c9c9a3 guibg=#060606 gui=none
+hi HlMkDnCdDelim  guifg=#ffff00 guibg=NONE    gui=strikethrough,bold 
 hi HlMkDnHeader   guifg=#cc44cc               gui=bold
 hi HlMkDnLink     guifg=#15aabf               gui=italic,underline
+
+hi link markdownCode HlMkDnCode;
+hi link markdownCodeBlock HlMkDnCdBlock
+hi link markdownCodeDelimiter HlMkDnCdDelim
 
 " Coc/Markdown
 hi link CocBold HlBold

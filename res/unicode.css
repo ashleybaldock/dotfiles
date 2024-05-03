@@ -1,4 +1,5 @@
 
+
 :root {
   font-size: 16px;
   --font-ratio: calc(1em / 1ch);
@@ -14,7 +15,7 @@
   --color-bd-red: #720000;
   --ddw: #720000;
 
-  --grid-color: #343434;
+  --grid-color: #a1a1a1;
   
   --font-size-1: 16px;
   --font-size-2: 32px;
@@ -43,6 +44,12 @@ body {
   border: none;
   padding: 0;
   margin: 0;
+}
+
+pre {
+  overflow-x: scroll;
+  padding: 1em;
+  white-space: break-spaces;
 }
 
 fieldset {
@@ -85,60 +92,65 @@ fieldset {
 }
 
 dd::after {
-  /*! --a: calc(var(--grid-size) - var(--grid-thickness)); */
-  /*! --b: var(--grid-size); */
   position: absolute;
   width: auto;
   height: auto;
-  z-index: 9999;
   content: '';
   display: block;
   pointer-events: none;
-/*   opacity: 0.3; */
-  top: var(--grid-halfthick);
-  right: var(--grid-halfthick);
-  bottom: var(--grid-halfthick);
-  left: var(--grid-halfthick);
-  border: var(--grid-halfthick) solid var(--c);
-  border: var(--grid-halfthick) solid blue;
-  border: var(--grid-halfthick) solid transparent;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: 0;
+  
+  --w-sz: var(--base);
+  --h-sz: var(--base);
+  --h-gap: var(--grid-row-gap);
+  --w-gap: var(--grid-col-gap);
+  --w-repeat: calc(var(--w-sz) + var(--w-gap));
+  --h-repeat: calc(var(--h-sz) + var(--h-gap));
+  
+  --thinnest-noq: var(--vvvthin-noq); /*-/ not opaque /-*/
+  --vvvthin-noq: 0;                     /*  vvvthin */
+  --vvthin-noq: 0.1px;                 /*  vvthin  */
+  --thinnest: var(--vthin);        /*-/-- opaque --/-*/
+  --vthin: 0.29px;                   /*  vthin   */
+  --thin: 0.85px;                   /*  thin    */
+  --medium: 1.22px;                /*  medium  */
+  
+  --thickness: var(--thinnest-noq);
+
+  background-position: 
+    calc(var(--l-pad) - 0px) calc(var(--t-pad) - 0px),
+    calc(var(--l-pad) + var(--w-sz) - 0px) calc(var(--t-pad) + var(--h-sz) - 0px); 
+  background-size: var(--w-repeat) var(--h-repeat);
   background-image:
-  repeating-linear-gradient(to left,
-    var(--c),
-    var(--c) var(--aw),
-    transparent var(--aw),
-    transparent var(--bw),
-    var(--d) var(--bw),
-    var(--d) var(--grid-size-w),
-    transparent var(--grid-size-w)
-  ),
-  repeating-linear-gradient(to top,
-    var(--c),
-    var(--c) var(--ah),
-    transparent var(--ah),
-    transparent var(--bh),
-    var(--d) var(--bh),
-    var(--d) var(--grid-size-h),
-    transparent var(--grid-size-h)
-    );
-  background-size: var(--grid-size-w) var(--grid-size-h);
-  --grid-halfthick: calc(var(--grid-thickness) * .5);
-  --aw: calc(var(--grid-halfthick) * 1);
-  --ah: var(--grid-halfthick);
-  --bw: calc(var(--grid-size-w) - var(--grid-halfthick));
-  --bh: calc(var(--grid-size-h) - var(--grid-halfthick));
-  --grid-size-w: 1ch;
-  --grid-size-h: 1em;
-/*   --d: yellow;
-  --c: #1400ff;
-  --c: yellow; */
-  --c: var(--grid-color);
-  --d: var(--grid-color);
-  background-position: calc(var(--grid-halfthick) * -1) calc(var(--grid-halfthick) * -1);
-  background-position: 0 0;
-/*   background-position: 0.5ch 0.5em; */
-  line-height: 0.9em;
-  line-height: 1;
+    repeating-linear-gradient(to left,
+      transparent 0 0,
+      red 0 var(--thickness),
+      transparent 0.4px 0.4px,
+      transparent 100%
+    )
+    ,repeating-linear-gradient(to right,
+      transparent 0 0,
+      red 0 var(--thickness),
+      transparent 0.4px 0.4px,
+      transparent 100%
+    )
+    ,repeating-linear-gradient(to top,
+      transparent 0 0,
+      red 0 var(--thickness),
+      transparent 0.4px 0.4px,
+      transparent 100%
+    )
+    ,repeating-linear-gradient(to bottom,
+      transparent 0 0,
+      red 0 var(--thickness),
+      transparent 0.4px 0.4px,
+      transparent 100%
+    )
+    ,linear-gradient(#0000,#0000);
 }
 
 p {
@@ -149,59 +161,66 @@ p {
 }
 dt {
   color: #720000;
-  margin: 0em 0 0.4em 0;
+  margin: 0em 3em 0.4em 0;
   text-align: end;
   border-bottom: 1px dotted #720000;
   user-select: none;
   pointer-events: none;
   text-shadow: 0.04em 0.02em 0.0em #de0000;
+  overflow-x: scroll;
 }
 dd {
-  margin: 1em 1ch;
-  /*! padding: 0.1em; */
-  font-family: 'Menlo', 'AdobeBlank';
+  --base: 16px;
+  --grid-row-gap: 8px;
+  --grid-col-gap: 8px;
+  --t-pad: 20px;
+  --l-pad: 20px;
 
-  display: grid;
-  display: block;
-  grid-row-gap: 1em;
-  grid-column-gap: 1ch;
-  grid-auto-rows: 1em;
-  grid-auto-columns: 1ch;
-  grid-template-columns: repeat(auto-fill, 1ch);
-  --b: var(--grid-size);
-  white-space: normal;
   position: relative;
-  grid-auto-flow: dense;
+  display: grid;
+  grid-row-gap: var(--grid-row-gap);
+  grid-column-gap: var(--grid-col-gap);
+  grid-auto-rows: var(--base);
+  grid-template-columns: repeat(16, var(--base));
+  
+
+  margin: 1em;
+  padding: var(--t-pad) var(--l-pad);
+  font-family: 'Menlo', 'AdobeBlank';
+  white-space: normal;  
+  overflow-x: scroll;
+  overflow-y: visible;
+  width: auto;
 }
 .tall {
   line-height: 2em;
 }
 
+dd b {
+  display: block;
+  grid-column: 1 / span 1;
+}
+
 dd a {
   white-space: break-spaces;
   background-color: #3f1122;
-  /*! line-height: 1em; */
   padding: 0em;
   background-color: #2e0202;
-  /*! position: relative; */
   left: 0em;
   top: 0em;
   box-sizing: border-box;
-/*! box-shadow: 0px 0 0px max(2px, 0.06em) #520000d6; */
   display: grid;
-  /*! place-content: center center; */
   width: fit-content;
-  /*! background-color: blue; */
   aspect-ratio: 1;
   font-size: 1em;
   height: 1em;
+  overflow-x: clip;
+  overflow-y: visible;
+}
 }
 
 dd > a > q {
   display: block;
-  /*! place-self:   center baseline; */
-  /*! width: min-content; */
-  /*! height: min-content; */
   grid-row: 1/1;
   grid-column: 1/1;
 }
@@ -211,21 +230,19 @@ dd > a > q:first-child {
 }
 dd > a > q:nth-child(2) {
   font-family: 'Menlo', 'LastResort';
-  color:  greenyellow;
+  color: greenyellow;
 }
 dd > a > q:last-child {
   font-family: 'Menlo', 'AdobeBlank';
   color: rebeccapurple;
   background-color: #ffffff61;
-  width:  88%;
-  /*! height: 100%; */
+  width: 88%;
   border: 4px solid red;
   aspect-ratio: 1;
   border-radius: 50%;
   line-height: 1em;
   background-image: linear-gradient(to top right, transparent, transparent 46%, red 46%, red 55%, transparent 56%);
   box-sizing: content-box;
-  /*! filter: drop-shadow(0 0 0.2px black) drop-shadow(0 0 0.7px white); */
 }
 dd q::after, dd q::before {
   display: none;
@@ -381,3 +398,6 @@ dd {
   display: block;
   line-height: 1em;
 }
+
+
+

@@ -15,25 +15,100 @@
 
 " command! TestMenu :call <SID>TestMenu()
 
- " TODO
- "
- " states = { current: [next, tooltip, icon] }
-function! s:ToolBarToggle(priority, name, states)
-  if exists('+'..a:name)
-    exec 'let value = '..a:name
-    let state = get(states, value, get(states, '*', []))
-    let nextvalue = state[0]
-    let tooltip = state[1]
-    let icon = state[2]
-    if nextvalue
-      exec 'an icon='..icon..' '..a:priority..' ToolBar.Toggle\ '..a:name..' :setlocal '..nextvalue
-      exec 'tmenu ToolBar.Toggle\ '..a:name..' '..tooltip
-    else
-      exec 'an icon=exclamationmark.square '..a.priority..' ToolBar.Toggle\ '..a:name..' <Nop>'
-      exec 'tmenu ToolBar.Toggle\ '..a:name..' ToolBarToggle:Err: No matching state and fallback missing'
-    endif
+if empty(&guitablabel)
+  set guitablabel=%M%t
+endif
+
+" Send print jobs to Preview.app.  The user can then print from it.
+set printexpr=macvim#PreviewConvertPostScript()
+
+" askpass
+let $SSH_ASKPASS = simplify($VIM . '/../../Resources') . '/macvim-askpass'
+let $SUDO_ASKPASS = $SSH_ASKPASS
+
+
+
+let g:mayhem_toolbarToggles = {
+      \ 'virtualedit': {
+        \ 'priority': 100,
+        \ 'states': {
+          \ 'block': {
+            \ 'next': 'insert',
+            \ 'ttip': 'Virtualedit:  Off [Block]▹Insert ',
+            \ 'icon': 'cursorarrow.and.square.on.square.dashed'
+          \ },
+          \ 'insert': {
+            \ 'next': 'none',
+            \ 'ttip': 'Virtualedit: ▹Off  Block [Insert]',
+            \ 'icon': 'filemenu.and.cursorarrow'
+          \ },
+          \ 'none': {
+            \ 'next': 'block',
+            \ 'ttip': 'Virtualedit: [Off]▹Block  Insert',
+            \ 'icon': 'dots.and.line.vertical.and.cursorarrow.rectangle'
+          \ },
+          \ '*': {
+            \ 'next': 'block',
+            \ 'ttip': 'Virtualedit:  Off ▹Block  Insert [???]',
+            \ 'icon': 'dots.and.line.vertical.and.cursorarrow.rectangle'
+          \ },
+        \ }
+      \},
+      \ 'delcombine': {
+        \ 'priority': 120,
+        \ 'states': {
+          \ 0: {
+            \ 'next': 1,
+            \ 'ttip': 'Turn delcombine on',
+            \ 'icon': 'delete.left'
+          \ },
+          \ 1: {
+            \ 'next': 0,
+            \ 'ttip': 'Turn delcombine off',
+            \ 'icon': 'delete.left.fill'
+          \ },
+          \ '*': {
+            \ 'next': 1,
+            \ 'ttip': 'Turn delcombine off',
+            \ 'icon': 'delete.left.fill'
+          \ },
+        \ },
+      \ },
+    \ }
+
+
+function! s:UpdateDynamicToolBarToggle(name)
+  exec 'aunmenu <silent> ToolBar.Toggle\ '..a:name
+
+  exec 'let value = &g:'..a:name
+  let toggles = get(g:, 'mayhem_toolbarToggles', {})
+  let toggle = get(toggles, a:name, {})
+  let priority = get(toggles, 'priority', 500)
+  let states = get(toggle, 'states', {})
+  let state = get(states, value, get(states, '*', {}))
+  let nextvalue = get(state, 'next', v:null)
+  let tooltip = get(state, 'ttip', '')
+  let icon = get(state, 'icon', 'puzzlepiece.extension')
+
+  if nextvalue isnot v:null
+    exec 'an icon='..icon..' '..priority..' ToolBar.Toggle\ '..a:name..' :let &g:'..a:name..'='..nextvalue..'<CR>'
+    exec 'tmenu ToolBar.Toggle\ '..a:name..' '..tooltip
   else
-    exec 'an icon=questionmark.square.dashed '..a.priority..' ToolBar.Toggle\ '..a:name..' <Nop>'
+    exec 'an icon=exclamationmark.square '..priority..' ToolBar.Toggle\ '..a:name..' <Nop>'
+    exec 'tmenu ToolBar.Toggle\ '..a:name..' UpdateDynamicToolBarToggle:Err: No matching state and fallback missing'
+  endif
+endfunc
+
+function! s:AddDynamicToolBarToggle(name)
+
+  if exists('+'..a:name)
+    augroup DynamicToolBar
+      exec 'autocmd OptionSet '..a:name..' exec s:UpdateDynamicToolBarToggle(expand(''<amatch>''))'
+    augroup END
+
+    call s:UpdateDynamicToolBarToggle(a:name)
+  else
+    exec 'an icon=questionmark.square.dashed '..priority..' ToolBar.Toggle\ '..a:name..' <Nop>'
     echom 'ToolBarToggle:Err: Setting "'..a:name..'" does not exist'
   endif
 endfunc
@@ -45,23 +120,23 @@ endfunc
 " :multicolor
 " :variable-[0..1]
 function! s:ObsessionTBStatus()
-  silent! aunmenu ToolBar.ObsessionStatus
+  silent! nunmenu ToolBar.ObsessionStatus
 
   if exists("g:loaded_obsession")
     let obstatus = ObsessionStatus('active','paused')
 
     if obstatus == 'active'
-      an icon=gear.badge.checkmark 1.10 ToolBar.ObsessionStatus :Obsession<CR>
+      an icon=gear.badge.checkmark 110 ToolBar.ObsessionStatus :Obsession<CR>
       tmenu ToolBar.ObsessionStatus Obsessing, click to pause
     elseif obstatus == 'paused'
-      an icon=gear.badge.xmark:hierarchical 1.10 ToolBar.ObsessionStatus :Obsession<CR>
+      an icon=gear.badge.xmark:hierarchical 110 ToolBar.ObsessionStatus :Obsession<CR>
       tmenu ToolBar.ObsessionStatus Obsession paused, click to resume
     else
-      an icon=gear.badge.questionmark:hierarchical 1.10 ToolBar.ObsessionStatus :NewObsession<space>
+      an icon=gear.badge.questionmark:hierarchical 110 ToolBar.ObsessionStatus :NewObsession<space>
       tmenu ToolBar.ObsessionStatus No Session, click to create one
     endif
   else
-    an icon=gear 1.10 ToolBar.ObsessionStatus <Nop>
+    an icon=gear 110 ToolBar.ObsessionStatus <Nop>
     amenu disable ToolBar.ObsessionStatus
     tmenu ToolBar.ObsessionStatus Obsession not loaded.
   endif
@@ -95,85 +170,61 @@ function! s:RemoveDefaultToolBar()
   " an ToolBar.WinMinWidth <Nop>
 endfunc
 
-function! s:DividerBetweenStatusAndActions()
-  an ToolBar.-flexspace1a-       <Nop>
-  " an ToolBar.-space1a-          <Nop>
-  " an ToolBar.-space1b-          <Nop>
-  an icon=poweron ToolBar.Sep1  <Nop>
-  amenu disable ToolBar.Sep1
-  an ToolBar.-flexspace1b-       <Nop>
-endfunc
-function! s:DividerBetweenActionsAndToggles()
-  " an ToolBar.-space2a-          <Nop>
-  an ToolBar.-flexspace2a-       <Nop>
-  an icon=poweron ToolBar.Sep2  <Nop>
-  amenu disable ToolBar.Sep2
-  an ToolBar.-flexspace2b-       <Nop>
-  " an ToolBar.-space2b-          <Nop>
-endfunc
-
 function! s:AddDynamicToolBar()
-  " Status indicators
+  " ---- Status Indicators ------ 100
   call s:ObsessionTBStatus()
 
-  " Actions
-  call s:DividerBetweenStatusAndActions()
+  " ------------Sep-------------- 200
+  an 200 ToolBar.-flexspace1a-       <Nop>
+  an icon=poweron 210 ToolBar.Sep1   <Nop>
+  amenu disable ToolBar.Sep1
+  an 220 ToolBar.-flexspace1b-       <Nop>
+  " --------- Actions ----------- 300
 
-  an <silent> icon=arrow.rectanglepath
-        \ ToolBar.Reload\ Pane                  <Nop>
+  an <silent> icon=arrow.rectanglepath 310
+        \ ToolBar.Reload\ Pane
+        \ <Nop>
   tmenu ToolBar.Reload\ Pane Reload current pane
 
-  an <silent> icon=gearshape.arrow.triangle.2.circlepath 
-        \ ToolBar.Reload\ Config                <Nop>
+  an <silent> icon=gearshape.arrow.triangle.2.circlepath 320
+        \ ToolBar.Reload\ Config
+        \ <Nop>
   tmenu ToolBar.Reload\ Config Reload config
 
-  an <silent> icon=paintpalette
-        \ ToolBar.Reload\ Colorscheme           :colorscheme vividmayhem
+  an <silent> icon=paintpalette 330
+        \ ToolBar.Reload\ Colorscheme
+        \ :colorscheme vividmayhem
   tmenu ToolBar.Reload\ Colorscheme Reload Colourscheme
 
-  an <silent> icon=terminal
-        \ ToolBar.Terminal                      :terminal
+  an <silent> icon=terminal 340
+        \ ToolBar.Terminal
+        \ :terminal
   tmenu ToolBar.Terminal Open Terminal window in split
 
-  an <silent> icon=folder
-        \ ToolBar.Show\ In\ Finder              <Nop>
+  nnoremenu icon=folder 350
+        \ ToolBar.Show\ In\ Finder
+        \ <Nop>
   tmenu ToolBar.Show\ In\ Finder Show current file in Finder
+  inoremenu icon=questionmark.folder
+        \ ToolBar.Show\ In\ Finder
+        \ <Nop>
 
-  " Toggles
-  call s:DividerBetweenActionsAndToggles()
+  " ------------Sep-------------- 400
+  an 400 ToolBar.-flexspace2a-       <Nop>
+  an icon=poweron 410 ToolBar.Sep2   <Nop>
+  amenu disable ToolBar.Sep2
+  an 420 ToolBar.-flexspace2b-       <Nop>
+  " --------- Toggles ----------- 500
 
-  an icon=cursorarrow.and.square.on.square.dashed
-        \ ToolBar.Toggle\ Virtualedit           :let &g:virtualedit='block'<CR>
-  tmenu ToolBar.Toggle\ Virtualedit             Toggle virtualedit
+  call s:AddDynamicToolBarToggle('virtualedit')
+  call s:AddDynamicToolBarToggle('delcombine')
 
-        " \ ['all', '', 'Turn delcombine off', 'delete.left.fill'],
-        " \ ['none', '0', 'Turn delcombine off', 'delete.left.fill'],
-        " \ ['onemore', '0', 'Turn delcombine off', 'delete.left.fill'],
-  call s:ToolBarToggle('600.10', '&g:virtualedit', {
-        \ 'block': ['block',  'insert', 'Virtualedit:  Off [Block]▹Insert ', 'cursorarrow.and.square.on.square.dashed'],
-        \ 'insert': ['insert', 'none',   'Virtualedit: ▹Off  Block [Insert]', 'filemenu.and.cursorarrow'],
-        \ 'none': ['none',   'block',  'Virtualedit: [Off]▹Block  Insert', 'dots.and.line.vertical.and.cursorarrow.rectangle'],
-        \ '*': ['',       'block',  'Virtualedit:  Off ▹Block  Insert [???]', 'dots.and.line.vertical.and.cursorarrow.rectangle'],
-        \ })
-    " amenu disable ToolBar.ObsessionStatus
-    " :hierarchical
-  call s:ToolBarToggle('600.20', '&g:delcombine', {
-        \ '0': ['1', 'Turn delcombine on', 'delete.left'],
-        \ '1': ['0', 'Turn delcombine off', 'delete.left.fill'],
-        \ })
-  " an <silent> icon=delete.left.fill
-  "       \ ToolBar.Toggle\ DelCombine            :setlocal nodelcombine
-  " tmenu ToolBar.Toggle\ DelCombine              Turn delcombine off
-  " an <silent> icon=delete.left
-  "       \ ToolBar.Toggle\ DelCombine            :setlocal delcombine
-  " tmenu ToolBar.Toggle\ DelCombine              Turn delcombine on
-
-  an ToolBar.-flexspace5-        <Nop>
+  " ------------Sep-------------- 600
+  an 600 ToolBar.-flexspace5-        <Nop>
 
 endfunc
 
-
-augroup DynamicToolbar
+augroup DynamicToolBar
   autocmd User Obsession call s:ObsessionTBStatus() | redraw!
   autocmd SessionLoadPost * call s:ObsessionTBStatus() | redraw!
 augroup END

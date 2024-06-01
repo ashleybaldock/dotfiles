@@ -148,17 +148,6 @@ ghpr() {
 alias ghbo="ghob"
 
 
-## node & nvm
-if [ -z "$NVM_DIR" ]; then
-  export NVM_DIR="$HOME/.nvm"
-fi
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
 # If using nvm set up lazy loading
 # First time node/npm/nvm are run this loads nvm
 # If not using nvm node will come from brew or system path
@@ -236,12 +225,3 @@ GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWUPSTREAM=auto
 export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
 
-
-
-# pnpm
-export PNPM_HOME="/Users/ashley/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end

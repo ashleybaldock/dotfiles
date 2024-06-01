@@ -33,22 +33,22 @@ nnoremap <leader>i   <C-i>
 "
 " Change:
 "
-"  Character under cursor
+"  Character under ̲cursor
 "
 " ╭──▷ ⌥⃝ 𝄐0⃝  ────────────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝ 
-nnoremap º a⃝ <Cmd>RepeatMove<CR>
-
+nnoremap º a⃝ <Cmd>RepeatMove<CR><Esc>
+"
 " ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐0⃝  ──────────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞ 
-nnoremap ‚ a⃞ <Cmd>RepeatMove<CR>
-
+nnoremap ‚ a⃞ <Cmd>RepeatMove<CR><Esc>
+"
 " ╭──▷ ⌥⃝ 𝄐-⃝  ────────────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲
-nnoremap – a̲<Cmd>RepeatMove<CR>
-
+nnoremap – a̲<Cmd>RepeatMove<CR><Esc>
+"
 " ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐-⃝  ──────────▷ O̅v̅e̅r̅l̅i̅n̅e̅
-nnoremap — a̅<Cmd>RepeatMove<CR>
-
+nnoremap — a̅<Cmd>RepeatMove<CR><Esc>
+"
 " ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐E⃝  ──────────▷ Replace with last yanked
-nnoremap ‰ s<c-r>0<ESC><Cmd>RepeatMove<CR>
+nnoremap ‰ s<c-r>0<Cmd>RepeatMove<CR><Esc>
 
 "
 "" §w - Save / write
@@ -129,7 +129,7 @@ nnoremap §sv :vsp<CR>
 "
 " Highlighting
 "
-" See: ./highlighthighlight.vim
+" See: ./highlight.vim
 nnoremap §<S-i> :so $VIMRUNTIME/syntax/hitest.vim<CR>
 nnoremap §i :SynStack<CR>
 nnoremap §I :SynStackAuto<CR>
@@ -138,14 +138,14 @@ nnoremap §I :SynStackAuto<CR>
 "─── Column guides ─────────────────────────────────────
 "
 " See: ./colorcolumn.vim
-nnoremap §] :AddColumnGuide<CR>
-nnoremap §] :AlignRightToGuide<CR>
-nnoremap §} :AlignRightOnGuide<CR>
-nnoremap §[ :AlignLeftToGuide<CR>
-nnoremap §{ :AlignLeftOnGuide<CR>
+nnoremap §\ :AddColorColumn<CR>
+nnoremap §] :AlignRightToColorColumn<CR>
+nnoremap §} :AlignRightOnColorColumn<CR>
+nnoremap §[ :AlignLeftToColorColumn<CR>
+nnoremap §{ :AlignLeftOnColorColumn<CR>
 
-                " red*          llohe| test
- 
+inoremap  :AlignRightToColorColumn<CR>
+
 "
 " Editing:
 "
@@ -222,7 +222,7 @@ xnoremap <expr> ∂  mode() ==# "\x16" ? "MoveBlockRight" : "echo Try with ^V"
 
 " nnoremap §rf :if &filetype=='vim' && $HOME . '/.vim/ :so<CR>
 " Source current saved file
-nnoremap §rf :so %<CR>
+nnoremap §rf :UnsetAndReload<CR>
 " Save and then Source current file
 nnoremap §rs :w :so %<CR>
 " Source current buffer (doesn't refresh everything)

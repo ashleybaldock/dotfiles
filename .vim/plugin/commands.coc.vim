@@ -15,18 +15,6 @@ endfunc
 
 " nnoremap <silent><nowait> <space>o  :call ToggleOutline()<CR>
 
-function s:CopyDiagnostic()
-  redir @+>|silent echo CocAction('diagnosticInfo', 'echo')|redir END
-endfunc
-:command! CopyDiagnostic :call <SID>CopyDiagnostic()
-
-function s:CopyHoverInfo()
-  redir @+>|silent echo CocAction('getHover')|redir END
-endfunc
-:command! CopyHoverInfo :call <SID>CopyHoverInfo()
-
-:command! CopyJumpList :let @+=get(g:last_coc_jump_locations)
-
 
 function s:WorstDiagnosticSeverity()
   let diaginfo = get(b:, 'coc_diagnostic_info', {})
@@ -42,9 +30,9 @@ function s:NextMostImportantDiagnostic()
   return CocActionAsync('diagnosticNext', <SID>WorstDiagnosticSeverity())
 endfunc
 
-:command! WorstDiagnosticSeverity :call <SID>WorstDiagnosticSeverity()
-:command! PrevMostImportantDiagnostic :call <SID>PrevMostImportantDiagnostic()
-:command! NextMostImportantDiagnostic :call <SID>NextMostImportantDiagnostic()
+command! WorstDiagnosticSeverity :call <SID>WorstDiagnosticSeverity()
+command! PrevMostImportantDiagnostic :call <SID>PrevMostImportantDiagnostic()
+command! NextMostImportantDiagnostic :call <SID>NextMostImportantDiagnostic()
 
 function s:ShowDocumentation()
   if CocAction('hasProvider', 'hover')
@@ -57,7 +45,7 @@ function s:ShowDocumentation()
   endif
 endfunc
 
-:command! ShowDocumentation :call <SID>ShowDocumentation()
+command! ShowDocumentation :call <SID>ShowDocumentation()
 
 " Tab autocomplete for popup menu
 function! s:CocCheckBackspace() abort
@@ -89,13 +77,60 @@ endfunc
 
 
 function s:OnCocOpenFloat()
-  call popup_setoptions(g:coc_last_float_win, #{
-        \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
-        \ padding: [0,1,0,1], 
-        \ border: [1,1,1,1],
-        \ title:'╸━ Coc ━╺',
-        \ line: 'cursor+2'
-        \ })
+  " w:preview_window = 1
+  let cocbufnr = get(get(getwininfo(g:coc_last_float_win), 0, {}), 'bufnr', -1)
+  let name = get(get(getbufinfo(get(get(getwininfo(g:coc_last_float_win), 0, {}), 'bufnr', -1)), 0, {}), 'name', 'unknown')
+  echom name
+  let popOpts = popup_getoptions(g:coc_last_float_win)
+  let highlight = get(popOpts, 'highlight', 'unknown')
+
+  if highlight == 'HlCocPuHovrBg'
+    " Coc hover float
+    call popup_setoptions(g:coc_last_float_win, #{
+          \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
+          \ padding: [0,1,0,1], 
+          \ border: [1,1,1,1],
+          \ title:'╸━ Coc: Hover ━╺',
+          \ line: 'cursor+2'
+          \ })
+  elseif highlight == 'HlCocPuSgtrBg'
+    " Coc signature float
+    call popup_setoptions(g:coc_last_float_win, #{
+          \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
+          \ padding: [0,1,0,1], 
+          \ border: [1,1,1,1],
+          \ title:'╸━ Coc: Signature ━╺',
+          \ line: 'cursor+2'
+          \ })
+  elseif highlight == 'HlCocPuDiagBg'
+    " Coc diagnostic float
+    call popup_setoptions(g:coc_last_float_win, #{
+          \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
+          \ padding: [0,1,0,1], 
+          \ border: [1,1,1,1],
+          \ title:'╸━ Coc: Diagnostic ━╺',
+          \ line: 'cursor+2'
+          \ })
+  elseif highlight == 'HlCocPuSugsBg'
+    " Coc suggestion float
+    call popup_setoptions(g:coc_last_float_win, #{
+          \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
+          \ padding: [0,0,0,0], 
+          \ border: [0,0,0,0],
+          \ title:'╸━ Coc: Suggestion ━╺',
+          \ line: 'cursor+2'
+          \ })
+  elseif name ~= '\[List Preview]'
+    echom 'preview'
+  else
+    call popup_setoptions(g:coc_last_float_win, #{
+          \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
+          \ padding: [0,1,0,1], 
+          \ border: [1,1,1,1],
+          \ title:'╸━ Coc ━╺',
+          \ line: 'cursor+2'
+          \ })
+  endif
 endfunc
 
 " Highlight symbol under cursor on CursorHold

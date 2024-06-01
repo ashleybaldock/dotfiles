@@ -161,7 +161,7 @@ p {
 }
 dt {
   color: #720000;
-  margin: 0em 3em 0.4em 0;
+  margin: 0 3em 0.4em 0;
   text-align: end;
   border-bottom: 1px dotted #720000;
   user-select: none;
@@ -203,11 +203,10 @@ dd b {
 
 dd a {
   white-space: break-spaces;
-  background-color: #3f1122;
-  padding: 0em;
+  padding: 0;
   background-color: #2e0202;
-  left: 0em;
-  top: 0em;
+  left: 0;
+  top: 0;
   box-sizing: border-box;
   display: grid;
   width: fit-content;
@@ -216,7 +215,6 @@ dd a {
   height: 1em;
   overflow-x: clip;
   overflow-y: visible;
-}
 }
 
 dd > a > q {
@@ -298,10 +296,8 @@ label.toggle {
   bottom: 0.06em;
   font-size: 1em;
   background-color: #4a000078;
-  padding: 0.1em 0.8em 0.1em 0.8em;
   position: relative;
   display: inline-flex;
-  margin-left: 1.4em;
   border-width: 0.12em;
   border-radius: 0.8em;
   border-color: var(--color-radio-bd);

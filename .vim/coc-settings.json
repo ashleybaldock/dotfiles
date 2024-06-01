@@ -4,88 +4,37 @@
   "coc.preferences.extensionUpdateCheck": "daily",
   "coc.preferences.formatOnSave": true,
   "coc.preferences.jumpCommand": "drop",
+  "coc.preferences.bracketEnterImprove": false,
+  "coc.preferences.currentFunctionSymbolAutoUpdate": false,
+  "coc.preferences.currentFunctionSymbolDebounceTime": 300,
+  "coc.preferences.maxFileSize": "10MB",
 
-  "workspace.rootPatterns": [],
+  "workspace.rootPatterns": [".git", ".root"],
   "workspace.ignoredFolders": [],
-  "workspace.ignoredFiletypes": [],
-
-  "css.lint.float": "warning",
-  "css.lint.zeroUnits": "warning",
-  "css.format.braceStyle": "collapse",
-  "css.lint.duplicateProperties": "warning",
-
-  "css.format.newlineBetweenSelectors": true,
-  "css.lint.propertyIgnoredDueToDisplay": "warning",
+  "workspace.ignoredFiletypes": [".DS_Store", ".swo", ".swp", ".swn"],
 
   "list.signOffset": 1,
   "list.floatPreview": true,
-  "list.source.diagnostics.defaultArgs": [],
   "list.height": 10,
-  "list.maxPreviewHeight": 12,
+  "list.maxPreviewHeight": 10,
   "list.indicator": ">",
-  "list.smartCase": false,
-  "list.limitLines": null,
-  "list.menuAction": false,
   "list.nextKeymap": "<C-j>",
   "list.previousKeymap": "<C-k>",
   "list.alignColumns": false,
-  "list.insertMappings": {},
-  "list.normalMappings": {},
   "list.selectedSignText": "*",
   "list.previewSplitRight": false,
   "list.extendedSearchMode": true,
-  "list.statusLineSegments": [],
-  "list.previewToplineStyle": "offset",
-  "list.previewToplineOffset": 3,
   "list.previewHighlightGroup": "Search",
   "list.interactiveDebounceTime": 100,
-
-  "list.source.commands.defaultAction": null,
-  "list.source.commands.defaultArgs": [],
-  "list.source.commands.defaultOptions": [],
-
-  "list.source.diagnostics.defaultAction": null,
-  "list.source.diagnostics.defaultOptions": [],
-  "list.source.diagnostics.includeCode": true,
   "list.source.diagnostics.pathFormat": "short",
-
-  "list.source.extensions.defaultAction": null,
-  "list.source.extensions.defaultArgs": [],
-  "list.source.extensions.defaultOptions": [],
-
-  "list.source.folders.defaultAction": null,
-  "list.source.folders.defaultArgs": [],
-  "list.source.folders.defaultOptions": [],
-
-  "list.source.links.defaultAction": null,
-  "list.source.links.defaultArgs": [],
-  "list.source.links.defaultOptions": [],
-
-  "list.source.lists.defaultAction": null,
-  "list.source.lists.defaultArgs": [],
-  "list.source.lists.defaultOptions": [],
-
-  "list.source.location.defaultAction": null,
-  "list.source.location.defaultArgs": [],
-  "list.source.location.defaultOptions": [],
-
-  "list.source.outline.ctagsFiletypes": [],
-  "list.source.outline.defaultAction": null,
-  "list.source.outline.defaultArgs": [],
-  "list.source.outline.defaultOptions": [],
-
-  "list.source.services.defaultAction": null,
-  "list.source.services.defaultArgs": [],
-  "list.source.services.defaultOptions": [],
-
-  "list.source.sources.defaultAction": null,
-  "list.source.sources.defaultArgs": [],
-  "list.source.sources.defaultOptions": [],
-
-  "list.source.symbols.excludes": [],
-  "list.source.symbols.defaultAction": null,
-  "list.source.symbols.defaultArgs": [],
-  "list.source.symbols.defaultOptions": [],
+  "list.statusLineSegments": [
+    "%#CocListMode#-- %{coc#list#status(\"mode\")\\} --%*",
+    "%{coc#list#status(\"loading\")\\}",
+    "%{coc#list#status(\"args\")\\}",
+    "(%L/%{coc#list#status(\"total\")\\})",
+    "%=",
+    "%#CocListPath# %{coc#list#status(\"cwd\")\\} %l/%L%*"
+  ],
 
   "suggest.timeout": 5000,
   "suggest.selection":"first",
@@ -94,7 +43,6 @@
   "suggest.autoTrigger": "always",
   "suggest.detailField": "preview",
   "suggest.enableFloat": true,
-  "suggest.formatItems": ["abbr","menu","kind","shortcut"],
   "suggest.virtualText": false,
   "suggest.ignoreRegexps": [],
   "suggest.localityBonus": true,
@@ -113,9 +61,8 @@
   "suggest.reversePumAboveCursor": false,
   "suggest.triggerCompletionWait": 0,
   "suggest.languageSourcePriority": 99,
-  "suggest.lowPrioritySourceLimit": 0,
-  "suggest.highPrioritySourceLimit": 0,
-  "suggest.invalidInsertCharacters": [],
+  "suggest.lowPrioritySourceLimit": 2,
+  "suggest.highPrioritySourceLimit": 5,
   "suggest.triggerAfterInsertEnter": false,
   "suggest.completionItemKindLabels": {},
   "suggest.acceptSuggestionOnCommitCharacter": false,
@@ -124,7 +71,6 @@
   "suggest.floatConfig": {
     "rounded": false,
     "border": false,
-    "title": "Coc Suggest",
     "highlight": "HlCocPuSugsBg",
     "borderhighlight": "HlCocPuSugsBd",
     "maxWidth": 40
@@ -154,7 +100,7 @@
   "signature.triggerSignatureWait": 500,
   "signature.floatConfig": {
     "border": true,
-    "rounded": false,
+    "rounded": true,
     "title": "Coc Signature",
     "highlight": "HlCocPuSgtrBg",
     "borderhighlight": "HlCocPuSgtrBd",
@@ -173,6 +119,13 @@
     "maxWidth": 90
   },
   
+  "css.lint.float": "warning",
+  "css.lint.zeroUnits": "warning",
+  "css.lint.duplicateProperties": "warning",
+  "css.lint.propertyIgnoredDueToDisplay": "warning",
+  "css.format.braceStyle": "collapse",
+  "css.format.newlineBetweenSelectors": true,
+
   "yank.byteLengthLimit": 1024,
   "yank.enableCompletion": true,
   "yank.highlight.duration": 100,
@@ -187,6 +140,20 @@
 
   "javascript.format.enable": false,
   "javascript.preferGoToSourceDefinition": false,
+
+  "html.filetypes": [
+    "html",
+    "handlebars",
+    "htmldjango",
+    "blade"
+  ],
+  "html.autoClosingTags": true,
+  "html.validate.styles": true,
+  "html.validate.scripts": true,
+  "html.hover.references": true,
+  "html.format.extraLiners": "head, body, /html",
+  "html.format.contentUnformatted": "pre,code,textarea",
+  "html.completion.attributeDefaultValue": "doublequotes",
 
   "prettier.requireConfig": true,
   "prettier.formatterPriority": 1,

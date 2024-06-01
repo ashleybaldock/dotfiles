@@ -1,3 +1,8 @@
+if exists("g:mayhem_loaded_typescript_commands")
+  finish
+endif
+let g:mayhem_loaded_typescript_commands = 1
+
 
 " export const EmptyComponent_Basic = ({
 "   className = '',

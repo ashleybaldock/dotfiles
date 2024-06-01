@@ -1,50 +1,17 @@
-
-" ╭──────────────────╮
-" ╰─◯  Copy things   │
-" ╭──────────────────╯
-" │
-" ╰─╴filesystem
-" ╎   ├─▶︎ full path
-:command! CopyPath let @+ = expand("%:p")
-" ╎   ╰─▶︎ full path
-:command! CopyFilename let @+ = expand("%:t")
-" ╎
-" ╰─╴git
-" ╎   ├─▶︎ branch
-:command! CopyGitBranch let @+ = FugitiveHead()
-" ╎   ╰─▶︎ diff                                      TODO
-:command! CopyGitDiff let @+ = 'TODO'
-" ╎
-" ╰─╴current buffer
-" ╎   ├─▶︎ info                                      TODO
-:command! CopyBufferInfo let @+ = 'TODO'
-" ╎   ├─▶︎ contents                                  TODO
-:command! CopyBuffer let @+ = 'TODO'
-" ╎
-" ╰─╴cursor
-" ╎   ├─▶︎ unicode info from Characterize
-:command!  -nargs=? CopyCharacterize redir @+>| Characterize <args> | redir END
-" ╎   ├─▶︎ unicode char name                         TODO
-" :command!  -nargs=? CopyCharacterize redir @+>| Characterize <args> | redir END
-" ╎   ╰─▶︎ unicode info, character codepoint         TODO
-:command! CopyCharCode let @+ = 'TODO'
-" ╎
-" ╰─▶︎ search
-"     ╰─▶︎ last
-:command! CopyLastSearch :let @+=@/
-
-
+if exists("g:mayhem_loaded_commands")
+  finish
+endif
+let g:mayhem_loaded_commands = 1
 
 " find cursor                                       TODO
 " highlight current cursor position by horizontal and vertical cursor
 :command! PingCursor <Nop>
 
-
 " 
 function CursorOnComment()
   return join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')) =~? 'comment'
 endfunc
-command! CursorOnComment :echo CursorOnComment()
+command! CursorOnComment echo CursorOnComment()
 
 
 " Information & Debug
@@ -62,53 +29,6 @@ augroup misc_commands
 augroup END
 
 
-
-" Window & Buffer debug info
-"
-function! s:FormatInfo()
-  setlocal filetype=javascript
-  call CocAction('format')
-  setlocal filetype=mh_winfo
-  setlocal nomodified nomodifiable
-endfunc
-:command! FormatInfo call <SID>FormatInfo()
-
-function! s:WindowInfo(winid = win_getid())
-  let wInfo = getwininfo(a:winid)
-  let float = get(get(wInfo, 'variables', {}), 'float', 0)
-  let bufnr = get(wInfo, 'bufnr', bufnr())
-  let popOpts = float ? popup_getoptions(float) : ''
-
-  let winInfo = [
-        \ '// Window Info',
-        \ wInfo,
-        \ '// ------------------------------------'
-        \]
-  let popInfo = [
-        \ '// popup options',
-        \ popOpts,
-        \ '// ------------------------------------'
-        \]
-  let bufinfo = [
-        \ '// Buffer Info',
-        \ getbufinfo(bufnr()),
-        \ '// ------------------------------------'
-        \]
-  vsp
-  enew
-  call append('$', winInfo)
-  call append('$', popInfo)
-  call append('$', bufinfo)
-  call s:FormatInfo()
-endfunc
-
-" Print window and buffer info into a split
-" By default, uses current window, argument is ID of window
-" to us otherwise
-" Optionally takes ID of a different window
-:command! -nargs=? Winfo call <SID>WindowInfo(<f-args>)
-
-:command! WinfoLastCocFloat call <SID>WindowInfo(g:coc_last_float_win)
 
 
 " Create a split if current buffer has modifications
@@ -160,91 +80,41 @@ endfunc
 
 
 "
-" 
+" Set a direction to move in after doing somthing
 "
 function! s:RepeatMove()
-  let g:mayhem_move_after = get(g:, 'mayhem_move_after', 'normal l') 
-  exec g:mayhem_move_after
+  let b:mayhem_move_after = get(b:, 'mayhem_move_after', 'normal l') 
+  exec b:mayhem_move_after
 endfunc
 
-command! RepeatMoveRight let g:mayhem_move_after = 'normal l'
-command! RepeatMoveLeft  let g:mayhem_move_after = 'normal h'
-command! RepeatMoveUp    let g:mayhem_move_after = 'normal k'
-command! RepeatMoveDown  let g:mayhem_move_after = 'normal j'
-command! RepeatMoveNot   let g:mayhem_move_after = ''
+
+let s:directionMap = {
+      \ 'none       ⥀⃝ ':          '',
+      \ 'up       ↑⃝ ':            'normal k',
+      \ 'upright    ↗︎⃝ ':       '',
+      \ 'right       →⃝ ':         'normal l',
+      \ 'downright  ↘︎⃝ ':     '',
+      \ 'down     ↓⃝ ':      'normal j',
+      \ 'downleft   ↙︎⃝ ':      '',
+      \ 'upleft     ↖︎⃝ ':        '',
+      \ 'up,left    ↑⃝ ,←⃝ ':    'normal kh',
+      \ 'up,right   ↑⃝ ,→⃝ ':   'normal kl',
+      \ 'right,up   →⃝ ,↑⃝  ': 'normal lk',
+      \ 'right,down →⃝ ,↓⃝  ': 'normal lj',
+      \ 'down,left  ↓⃝ ,←⃝ ': 'normal jh',
+      \ 'down,right ↓⃝ ,→⃝ ': 'normal jl',
+      \ 'left        ←⃝ ':   'normal h',
+      \ 'left,up    ←⃝ ,↑⃝ ': 'normal hk',
+      \ 'left,down  ←⃝ ,↓⃝ ': 'normal hj',
+      \}
+function! s:RepMoveComplete(ArgLead, CmdLine, CursorPos)
+  return keys(s:directionMap)
+  " return map(keys(s:directionMap), {_, val -> ''''..val..''''})
+endfunc
+
+command! -nargs=1 -complete=customlist,<SID>RepMoveComplete
+      \ ChangeRepeatDirection 
+      \ :let b:mayhem_move_after = s:directionMap[<q-args>]
+
 command! RepeatMove call <SID>RepeatMove()
-
-
-"
-"
-"
-function! s:GetCursorChar() abort
-  return getline('.')[col('.')-1:-1]
-endfunc
-
-" Replaces the base character in a glyph made up of
-" multiple characters (combining diacritics, 
-" variation selectors etc.)
-"
-" Takes two arguments:
-" 1. the replacement base character
-" 2. (optional) the character to modify
-"     - defaults to the character under the cursor
-"       (this method doesn't change it)
-"
-" e.g. (B⃝ , C)  ▬▶︎ C⃝  
-"
-" No cleverness here, it just swaps the first character,
-" will probably not work for some inputs
-" 
-function! ReplaceBaseChar(replacement, char = s:GetCursorChar()) abort
-  return a:replacement..strpart(a:char, 1)
-endfunc
-
-    " s/\zs\(\%#\)\ze/\=s:ReplaceBaseChar(submatch(0))/n
-command! -bar -nargs=+ ReplaceBase echo <SID>ReplaceBaseChar(<q-args>)
-
-let g:mayhem_combining_diacriticals = [ ['\u20d0'] ]
-"                                                           TODO
-" Combine a char with various diacritical marks
-" Shows a popup with the results
-"
-function! s:GenerateCombinings(arg) abort
-  let parts = s:SplitChar(a:arg)
-  let base = parts[0]
-  echom s:SplitChar(a:arg)
-endfunc
-
-command! -bar -nargs=? GenerateCombinings call <SID>GenerateCombinings(<q-args>)
-
-"                                                           TODO
-" Cycle through predefined sets of Unicodepoints
-" 
-" A given codepoint may have more than one dimension
-" along which it can be cycled
-" 
-" e.g. ┼ ▬▶︎ ├ ▬▶︎ ┌ ▬▶︎ ┬ ▬▶︎ ┐ ▬▶︎ ┤ ▬▶︎ ┘ ▬▶︎ ┴ ▬▶︎ └ 
-" rotation
-"      ┘ ▶︎ ╴ ▶︎ ┐ ▶︎ ╷ ▶︎ ┌ ▶︎ ╶ ▶︎ └ ▶︎ ╵   ▮◀︎ 
-"      │ ▶︎ ╱ ▶︎ ─ ▶︎ ╲   ⏮
-" style
-"      ┘ ▶︎ ┙ ▶︎ ┚ ▶ ┛ ▶ ╛ ▶ ╜ ▶ ╝ ▶ ╯  ▮◀︎◀︎
-"      
-"
-let g:mayhem_unicycles = [
-      \ ['', '', '╭', '','╮', '','╯','', '╰'],
-      \ ['┼','├','┌','┬','┐','┤','┘','┴','└'],
-      \ ['╋','┣','┏','┳','┓','┫','┛','┻','┗'],
-      \ ['╬','╠','╔','╦','╗','╣','╝','╩','╚'],
-      \ ['╴','─','╶','╌','┄','┈','╼','╾'],
-      \ ['╸','━','╺','╍','┅','┉'],
-      \ ['╵','│','╷','╎','┆','┊','╽','╿'],
-      \ ['╹','┃','╻','╏','┇','┋'],
-      \ ['╱','╲','╳']
-      \ ]
-function! s:CycleChars(arg) abort
-  " find base char
-  let parts = s:SplitChar(a:arg)
-  " check cycle arrays for combined, and then base
-endfunc
 

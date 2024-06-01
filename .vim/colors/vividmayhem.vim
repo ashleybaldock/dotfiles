@@ -131,7 +131,7 @@ hi PmenuKindSel   guifg=#00ffaf guibg=#440077 gui=bold
 hi PmenuExtra     guifg=#af00af guibg=#220055          
 hi PmenuExtraSel  guifg=#af00af guibg=#440077 gui=bold 
 hi PmenuSbar                   guibg=#220055                       
-hi PmenuThumb                  guibg=#4400ff                       
+hi PmenuThumb                  guibg=#6600ff                       
 
 " Custom
 hi HlPop01Bg      guifg=#ddaacc guibg=#100008    
@@ -160,7 +160,7 @@ hi link CocPum               Pmenu
 hi link CocMenuSel           PmenuSel
 hi link CocFloating          Pmenu
 hi link CocFloatThumb        PmenuThumb
-hi link CocFloatSbar         PmenuThumb
+hi link CocFloatSbar         PmenuSbar
 hi link CocFloatDividingLine NonText
 hi link CocFloatActive       HlPop02Bg
 hi link CocErrorFloat        WarningMsgt
@@ -190,32 +190,42 @@ hi DiffDelete     guifg=#7a0000 guibg=#3a0000 gui=none
 
 "════════════════════════════════════════════════════════╡ Signs
 
-hi SignAdd        guifg=#117711 guibg=ysignsb gui=bold
-hi SignDel        guifg=#bb1144 guibg=ysignsb gui=underdotted
-hi SignChg        guifg=#cfc040 guibg=ysignsb gui=none
-hi SignChgDel     guifg=#cfc040 guibg=ysignsb gui=underdotted guisp=#bb0044
+hi SignGitAdd     guifg=#117711 guibg=ysignsb gui=bold
+hi SignGitDel     guifg=#bb1144 guibg=ysignsb gui=underdotted
+hi SignGitChg     guifg=#cfc040 guibg=ysignsb gui=none
+hi SignGitCgD     guifg=#cfc040 guibg=ysignsb gui=underdotted guisp=#bb0044
 
 hi WarningHint    guifg=NONE    guibg=NONE    gui=underdotted guisp=#ddbb00 
 
-hi link GitGutterAdd              SignAdd
+hi SignDgErr      guifg=#dd2222 guibg=#1f0505 gui=none
+hi SignDgWarn     guifg=#ffaa00 guibg=#301e00 gui=none
+hi SignDgInfo     guifg=#00ffff guibg=#101025 gui=none
+hi SignDgHint     guifg=#bb99ff guibg=#101025 gui=none
+
+hi LineDgErr                    guibg=#1f0505 gui=none
+hi LineDgWarn                   guibg=#121200 gui=none
+hi LineDgInfo                   guibg=#001f1f gui=none
+hi LineDgHint                   guibg=#1b191f gui=none
+
+hi link GitGutterAdd              SignGitAdd
 hi link GitGutterAddLine          DiffAdd
-hi link GitGutterChange           SignChg
+hi link GitGutterChange           SignGitChg
 hi link GitGutterChangeLine       DiffChange
-hi link GitGutterChangeDelete     SignChgDel
+hi link GitGutterChangeDelete     SignGitChgDel
 hi link GitGutterChangeDeleteLine DiffChange
-hi link GitGutterDelete           SignDel
+hi link GitGutterDelete           SignGitDel
 hi link GitGutterDeleteLine       DiffDelete
 
-hi CocErrorSign   guifg=#dd2222 guibg=#1f0505 gui=none
-hi CocWarningSign guifg=#ffaa00 guibg=#301e00 gui=none
-hi CocInfoSign    guifg=#00ffff guibg=#101025 gui=none
-hi CocHintSign    guifg=#bb99ff guibg=#101025 gui=none
+hi link CocErrorSign   SignDgErr 
+hi link CocWarningSign SignDgWarn  
+hi link CocInfoSign    SignDgInfo  
+hi link CocHintSign    SignDgHint  
 
 " Sign line highlights
-hi CocErrorLine                  guibg=#1f0505 gui=none
-" hi CocWarningLine                guibg=#121200 gui=none
-" hi CocInfoLine
-" hi CocHintLine
+hi link CocErrorLine   LineDgErr
+" hi link CocWarningLine LineDgWarn
+" hi link CocInfoLine    LineDgInfo
+" hi link CocHintLine    LineDgHint
 
 hi link CocErrorHighlight       ErrorHint
 hi link CocWarningHighlight     WarningHint
@@ -280,7 +290,7 @@ hi HlMkDnCdDelim  guifg=#ffff00 guibg=NONE    gui=strikethrough,bold
 hi HlMkDnHeader   guifg=#cc44cc               gui=bold
 hi HlMkDnLink     guifg=#15aabf               gui=italic,underline
 
-hi link markdownCode HlMkDnCode;
+hi link markdownCode HlMkDnCode
 hi link markdownCodeBlock HlMkDnCdBlock
 hi link markdownCodeDelimiter HlMkDnCdDelim
 

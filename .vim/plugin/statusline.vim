@@ -1,17 +1,29 @@
+if exists("g:mayhem_loaded_statusline")
+  finish
+endif
+let g:mayhem_loaded_statusline = 1
+
 scriptencoding utf-8
 
 " TODO Statusline for narrow windows (<16)
-" filen….vim
-" filen⋯.vim
-" filen⋮.vim
-" filen…vim
-" fi⋯me.vim
+"
+" fi⠒me.vim
+" fi⠤me.vim
+" fi𝌀lme.vim
+" fi𛲟me.vim
+" fi⋅len.vim
+"
+" fil⋆en⋯.vim
+" fil•en⋮.vim
+" 𐱁𐰠Ⴤ Ⴄ Ⴅ Ⴈ Ⴕ Ⴖ Ⴞ Ⴌ Ⴙ ევ მ ნ ქ ძ ჾჲჸჹჼ ჻ ჽ Ⴘჸ Ⴎ Ⴇ Ⴃ Ю ю  ზ Ⴟ Ⴀ ტ  𐕢𐕠𐔶
+" 𐔼 𐔶 𐔺𐔿𐕇𐕣𐕢𐕁𐕟 𐔾𐕙𐔾 𐕍𐕠𐕢
+" Ӿ Ө Ѧ Ѫ Џ Ѳ ҮҰ Ԝ ґғ  ҂ꙩ ꙫ ꙭ Ꙭ Ꙫ Ꙟ ҈ ҉ Ж Г Ш Н О П КХфԒ
 " ຯ❋ ❊⬮⬬ ⬭ ⬯ ◌ 
-" filen‥.vim
-" filen•vim
+" fil∶∶⋰⋫⋅⋱⋮⋯en‥.vim
+" fi⁓le᛫᛫n•vim⫙⫘⫶⫶⫶⫾⫿⫻⫼⟐⦁⦂⧟⧫fil⧫*¨¨⠉⠒⠤⣀me
 " fi•me.vim
-" filen‥vim
-" filen·vim
+" fi⸗me.vim
+" fil«»en·vim
 " Statusline for zero height windows
 
 let g:mayhem = get(g:, 'mayhem', {})

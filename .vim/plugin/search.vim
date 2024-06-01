@@ -1,4 +1,3 @@
-
 if exists("g:mayhem_loaded_search")
   finish
 endif

@@ -1,8 +1,14 @@
+if exists("g:mayhem_loaded_project_root")
+  finish
+endif
+let g:mayhem_loaded_project_root = 1
+
+
 " Search across files
 " Get a useful search root folder
 " - parent git dir
 " - folder patterns
-:function! ProjectRoot()
+function! ProjectRoot()
   let l:root_dirs = ['.git']
   let l:root_files = ['.root', '.gitignore']
   for l:item in l:root_dirs
@@ -18,8 +24,8 @@
     endif
   endfor
   return getcwd()
-:endfunc
+endfunc
 
-:command! -bar ProjectRoot :echo ProjectRoot()
-:command! -bar CdProjectRoot :exec 'cd' ProjectRoot()
+command! -bar ProjectRoot echo ProjectRoot()
+command! -bar CdProjectRoot exec 'cd' ProjectRoot()
 

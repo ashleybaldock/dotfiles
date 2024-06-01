@@ -59,6 +59,7 @@ autocmd! GUIEnter * set vb t_vb=
 
 if has('gui_running')
   let no_buffers_menu = 1
+  let did_install_syntax_menu = 1
 
   colorscheme vividmayhem
 
@@ -82,6 +83,7 @@ if has('gui_running')
     au WinEnter * set cursorlineopt=screenline,number
   augroup END
 
+"   let macvim_skip_colorscheme=1
 else
   colorscheme termayhem
 
@@ -161,6 +163,8 @@ set sessionoptions-=options
 
 " Delete comment character when joining commented lines
 set formatoptions+=j
+set delcombine
+set virtualedit=block
 
 set completeopt=longest,menuone,noinsert
 
@@ -194,7 +198,7 @@ let g:coc_borderchars  = [' ','⎥',' ','⎢','⎛','⎞','⎠','⎝']
 "
 "g:coc_quickfix_open_command = copen (copen|cfirst)
 "g:coc_open_url_command
-"
+
 
 " CtrlP
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
@@ -204,6 +208,16 @@ let g:ctrlp_root_markers = ['.git', '.root']
 let g:ctrlp_match_window = 'top,order:btt,min:1,max:6,results:20'
 
 let g:jsx_ext_required = 0
+
+
+" Prettier
+let g:prettier#autoformat = 0
+let g:prettier#autoformat_config_present = 0
+let g:prettier#exec_cmd_path = "~/.vim/node_modules/prettier"
+let g:prettier#exec_cmd_async = 1
+let g:prettier#quickfix_enabled  = 1
+let g:prettier#quickfix_auto_focus = 0
+" %!npx prettier --stdin-filepath %
 
 
 " GitGutter
@@ -227,6 +241,8 @@ let g:gitgutter_sign_removed                 = '◇'
 let g:gitgutter_sign_removed_first_line      = '◇̅'
 let g:gitgutter_sign_removed_above_and_below = '◇̲̅'
 let g:gitgutter_sign_modified_removed        = '◇̲'
+
+
 "vim-qf
 " let g:qf_loclist_window_bottom = 0
 let g:qf_window_bottom = 0
@@ -235,6 +251,7 @@ let g:qf_auto_resize = 0
 let g:qf_auto_open_loclist = 0
 let g:qf_auto_open_quickfix = 0
 let g:qf_max_height = 8
+
 
 " let g:quickr_preview_keymaps = 0
 let g:quickr_preview_position = 'right'

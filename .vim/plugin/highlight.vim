@@ -1,7 +1,8 @@
-" if exists("g:mayhem_loaded_highlighthighlight")
-"   finish
-" endif
-" let g:mayhem_loaded_highlighthighlight = 1
+if exists("g:mayhem_loaded_highlight")
+  finish
+endif
+let g:mayhem_loaded_highlight = 1
+
 
 function! s:AddHighlightHighlight(name) abort
   let matchid = matchadd(a:name, '\(^\s*\||\s\+\)"\?:\?hi\w*\s*\(clear\)\@!\(link\s\)\?\<\zs'..a:name..'\ze\>')
@@ -28,7 +29,7 @@ function! s:ToggleHighlightHighlight() abort
   endif
 endfunc
 
-:command! HiHi :call <SID>ToggleHighlightHighlight()
+command! HiHi call <SID>ToggleHighlightHighlight()
 
 
 function s:GetLinkChain(name)
@@ -126,8 +127,8 @@ function s:SynStack()
   call s:UpdateSynStackBuffer(winid)
 endfunc
 
-:command! SynStack :call <SID>SynStack()
-:command! SynStackBuf :vsp|enew|call <SID>UpdateSynStackBuffer(winnr())
+command! SynStack call <SID>SynStack()
+command! SynStackBuf vsp|enew|call <SID>UpdateSynStackBuffer(winnr())
 
 function! s:AutoSynStack() abort
   augroup AutoSynStack
@@ -138,10 +139,10 @@ function! s:AutoSynStack() abort
   augroup END
 endfunc
 
-:command! SynStackAuto :let g:mayhem_autosynstack_enabled = !get(g:, 'mayhem_autosynstack_enabled', 0) | call s:AutoSynStack()
+command! SynStackAuto let g:mayhem_autosynstack_enabled = !get(g:, 'mayhem_autosynstack_enabled', 0) | call s:AutoSynStack()
 
 
-:command! HighlightThis :hi <c-r><c-w>
+command! HighlightThis :hi <c-r><c-w>
 
 " Capture name of highlight
 " '^:\?hi\w*\s\(link\|clear\)\@!\s*\zs\(\w\+\)\ze\s\+'

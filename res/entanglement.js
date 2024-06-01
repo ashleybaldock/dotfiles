@@ -3,15 +3,22 @@
 /*
  * === Quick Start ===
  *
+ *
  * Include:
+ *
  *   <script type="application/javascript" src="entanglement.js"></script>
  * 
+ *
  * Enable:
+ *
  *   entanglement([options]).then((untangle) => {
  *      console.log('Entangled');
  *   });
+ *
  * Or:
+ *
  *   const untangle = await entanglement([options]);
+ *
  *
  * Switch off:
  *   untangle();
@@ -21,25 +28,36 @@
  *     // CSS variables are prefixed with this string
  *     prefix: 'myCustomPrefix',  // Default: 'bdata'
  *
- *     // Automatically wire up inputs with their labels
- *     autoLabel: true,           // Default: true         (TODO)
+ *     // Add generated data-source IDs to elements missing them
+ *     autoId:   true,            // Default: true
+ *
+ *     // Entangle inputs with label/output elements using 'for' attribute
+ *     autoFor:  true,            // Default: true
  *
  *     // Watch DOM for addition of new data sources/sinks (TODO)
- *     observer: true,
+ *     observe: true,
  *   }
  *
  * === Data Sources ===
- * data-source                  Identifies this element as a source      ⎫ Uses id attr as data-
- * data-source=":evt1,evt2"     List of events that trigger data update  ⎭  source identifier
- * data-source="<data-id>"      Set a custom data-source identifier
- * data-source="<data-id>:evt1,evt2"
- *                              Map events to one or more data source identifiers
- *                               (which can be consumed by different sinks)
+ *
+ *
+ * data-source="<data-source-1>:<data-source-2>:..."
+ *  <data-source-list> is a colon separated list of:
+ *  <data-id>;<event-list>;<option-list>
+ *
+ * data-source              Identifies this element as a source      ⎫ Uses id attr as data-
+ * <data-id>                Set a custom data-source identifier
+ *                           If element has an id, this is used instead
+ * <event-list>             List of events to listen to
+ *  ="<data-id>;evt1,evt2"  Map events to one or more data source identifiers
+ *                           (which can be consumed by different sinks)
+ * <option-list>
+ *  root,                   Publish source as CSS variables to :root
  *
  * ===  Data Sinks  ===
- * data-sink="*"                Element is a sink for all data sources
+ * data-sink="*"            Element is a sink for all data sources
  * data-sink=
- *  "<id_1>[ <id_2> ...]"       Element is a sink for specific data source(s)
+ *  "<id_1>[ <id_2> ...]"   Element is a sink for specific data source(s)
  *
  * === Data Mapping ===
  *
@@ -66,116 +84,163 @@
  *
  */
 const entanglement = ((window) => {
+  console.log('entanglement()');
   const { document } = window;
+  const { querySelectorAll: qs } = document;
 
-  const getCurrentValue = (source) => {
-    const type = source.getAttribute('type');
-    if (type === 'checkbox' || type === 'radio') {
-      return source.checked;
-    }
-    return source.value;
-  };
+  const entangle = (document, options) => {
+    const {
+      prefix = 'tngl',
+      autoId = true,
+      autoFor = true,
+      observe = true,
+    } = options;
 
-  const getRadioGroupValue = (name) => {
-    // Only works if the radio buttons are inside a form
-    if (dataSource.form?.elements?.namedItem?.(name)?.value ?? false) {
-      return dataSource.form?.elements?.namedItem?.(name)?.value;
-    } else {
-      return [...qs(`input[type='radio'][name=${name}]:checked`)][0]?.value ?? null;
-    }
-  };
-
-  const entangle = (document, prefix) => {
     console.log('entangle()');
 
-    const { querySelectorAll: qs } = document;
+    const getUpdateQueue = (() => {
+      const dataSinksMap = new Map();
+
+      return () => ({
+        enqueue: ({source, sink, newValue}) => {
+          dataSinksMap.has(sink)
+            ? dataSinksMap.get(sink).set(source.id, newValue)
+            : dataSinksMap.set(sink, new Map([source.id, newValue]));
+        },
+        /* Update everything */
+        send: () => {
+          for ([sink, newValues] of dataSinksMap) {
+            for ([sourceId, newValue] of newValues) {
+              sink?.setAttribute?.(`data-from-${sourceId}`, newValue);
+              sink?.style?.setProperty(`--${prefix}-s-${dataSourceId}`, `"${currentValue}"`);
+              sink?.style?.setProperty(`--${prefix}-${dataSourceId}`, `${currentValue}`);
+            }
+          }
+        },
+            /* Map output TODO */
+            // const sinkAttr = (dataSink.getAttribute('data-map-attr')?.split?.(' ') ?? [])
+            //   .flatMap((s) => ((n, v) => n === dataSourceId
+            //     ? [v] 
+            //     : [])(...s.split(':')[0]))[0] ?? `data-from-${dataSourceId}`;
+            // dataSink?.setAttribute?.(sinkAttr, currentValue);
+      });
+    })();
+
+    const getCurrentValue = (source) => {
+      const type = source.getAttribute('type');
+      if (type === 'checkbox' || type === 'radio') {
+        return source.checked;
+      }
+      return source.value;
+    };
+
+    const getRadioGroupValue = ({ element, name }) =>
+        element.form?.elements?.namedItem?.(name)?.value ?? 
+        [...qs(`input[type='radio'][name=${name}]:checked`)][0]?.value ?? null;
+
+    const sourceDefinitions = [
+      { query: `[data-source]`, events: [``], },
+      { query: `input[type=radio]`, events: [``], },
+      { query: `input[type=checkbox]`, events: [``], },
+    ];
+
+    const nextId = ((id) => () => ++id)(0);
+
+    const getOrAssignIdFor = (element) =>
+      (element.hasAttribute('data-source') && element.getAttribute('data-source'))
+        || (element.hasAttribute('id') && getAttribute('id'))
+        || autoId
+          ? ((id) => element.setAttribute('data-source',
+              `${prefix}${id.toString(16).padStart(6, '0')}`) ?? id)(nextId())
+          : null;
+
+    const typeFor = (element) =>
+      `${element.localName}:${(element.hasAttribute('type') && element.getAttribute('type')) || ''}`
+
+    const nameFor = (element) => element.getAttribute('name');
+
+    const defaultEventsFor = ((sourceTypeMap, defaultEvents) =>
+      (sourceType) => sourceTypeMap.has(sourceType)
+        ? sourceTypeMap.get(sourceType)
+        : defaultEvents)(new Map([
+          ['input:checkbox', ['input', 'change']],
+          ['input:radio', ['input', 'change']]]),
+        ['input']);
+
+    const eventsFor = (element) => (element.hasAttribute('data-source-on') && 
+          element.getAttribute('data-source-on')?.split?.(' ')) ?? defaultEventsFor(element);
+
+  // : { element: sourceElement, id: sourceId }
+    const entangleEvent = ({ source }) => {
+      const pending = getUpdateQueue();
+
+      const update = ({ eventName, newValue }) => {
+        /* Update self */
+        pending.enqueue({ source, sink: source.element, newValue });
+
+        /* Update associated labels & outputs */
+        // TODO memoise and update via mutationobserver
+        qs(`:is(label,output)[for=${dataSourceId}]`).forEach((sink) => {
+          pending.enqueue({ source, sink, newValue });
+        });
+        /* Update listeners */
+        qs(`[data-sink~=${dataSourceId}]`).forEach((sink) => {
+          pending.enqueue({ source, sink, newValue });
+        });
+
+        if (source.type === 'input:radio' && eventName === 'change') {
+          if (source.name) {
+            qs(`[data-sink~=name%${source.name}], [name=${source.name}]`).forEach((sink) => 
+              pending.enqueue({source, sink, newValue: getRadioGroupValue(source), alias: `name-${source.name}`}));
+          } else {
+            console.warn(`Entanglement: Found input(radio) with no name - id: '${dataSourceId}'`);
+          }
+        }
+
+        /* Update nearest parent sink-all */
+        pending.enqueue({ source, sink: source.closest(`[data-sink-all]`) ?? document.body, newValue });
+
+        pending.send();
+      };
+
+      update();
+
+      return update; 
+    };
 
     /* Auto: uses id as data source name */
-    const dataSources = [...qs(`[data-source], input[type=radio], input[type=checkbox]`)];
+    const potentialSourceElements = [...qs(sourceDefinitions.map((d) => d.query))]; // TODO memoise
 
     const controller = new AbortController();
     const signal = controller.signal;
 
-    dataSources.forEach((dataSource) => {
-      const dataSourceId = dataSource.getAttribute('data-source') || dataSource.getAttribute('id');
-      if (typeof dataSourceId !== 'string') {
-        throw new Exception('Nothing to bind on');
+    const sources = potentialSourceElements.flatMap((element) => {
+      const source = {
+        element,
+        id: getOrAssignIdFor(element),
+        type: typeFor(element),
+        name: nameFor(element),
+        events: eventsFor(element),
+      };
+
+      if (source.id === null) {
+        console.log(`Could not find an id for source element`, source);
+        return [];
       }
 
-      const dataSourceType = dataSource.getAttribute('type');
+      const valueUpdater = entangleEvent({ source });
 
-      const defaultEvents = ['input'];
-      if (dataSourceType === 'checkbox' || dataSourceType === 'radio') {
-        defaultEvents.push('change');
-      }
-      const events = dataSource.getAttribute('data-source-on')?.split?.(' ') ?? defaultEvents;
-
-      events.forEach((event) => {
-        const updateValue = ((dataSource, dataSourceId, target) => {
-          const currentValue = getCurrentValue(dataSource);
-
-          /* Update self */
-          queueUpdate({dataSource, dataSink: dataSource});
-
-          /* Update associated labels */
-          qs(`label[for=${dataSourceId}]`).forEach((dataSink) => {
-            queueUpdate({dataSource, dataSink});
-          });
-
-          if (dataSourceType === 'radio' && event === 'change') {
-            if (dataSource.hasAttribute('name')) {
-              const dataSourceName = dataSource.getAttribute('name');
-              qs(`[data-sink~=name%${dataSourceName}], [name=${dataSourceName}]`).forEach((dataSink) => {
-                queueUpdate({dataSource, dataSink, value: () => getRadioGroupValue(dataSourceName), alias: `name-${dataSourceName}`});
-              });
-            } else {
-              console.warn(`Entanglement: Found input(radio) with no name - id: '${dataSourceId}'`);
-            }
-          }
-
-          /* Update listeners */
-          qs(`[data-sink~=${dataSourceId}]`).forEach((dataSink) => {
-            queueUpdate({dataSource, dataSink});
-          });
-
-          /* Update nearest parent sink-all */
-          queueUpdate({dataSource, dataSink: dataSource.closest(`[data-sink-all]`) ?? document.body});
-
-          sendQueuedUpdates();
-
-
-          const queueUpdate = ({dataSource, dataSink, value = () => getCurrentValue(dataSource), alias = `TODO`}) => {
-
-          };  //TODO
-
-          const sendQueuedUpdates = () => {  //TODO
-            /* Update everything */
-            dataSinksToUpdate.forEach(([dataSinkNode, getValue = () => , name]) => {
-              /* Map output */
-              // const sinkAttr = (dataSink.getAttribute('data-map-attr')?.split?.(' ') ?? [])
-              //   .flatMap((s) => ((n, v) => n === dataSourceId
-              //     ? [v] 
-              //     : [])(...s.split(':')[0]))[0] ?? `data-from-${dataSourceId}`;
-              // dataSink?.setAttribute?.(sinkAttr, currentValue);
-              dataSink?.setAttribute?.(`data-from-${dataSourceId}`, currentValue);
-              dataSink?.style?.setProperty(`--${prefix}-s-${dataSourceId}`, `"${currentValue}"`);
-              dataSink?.style?.setProperty(`--${prefix}-${dataSourceId}`, `${currentValue}`);
-            });
-          };
-        }).bind(null, dataSource, dataSourceId);
-
-        updateValue(dataSource);
-        dataSource.addEventListener(event, (e) => updateValue(e.target), {signal});
+      eventsFor(sourceElement).forEach((eventName) => {
+        source.addEventListener(eventName, valueUpdater, { signal });
       });
     });
     return () => signal.abort();
   };
   
   return ((options = {}) => {
-  const {prefix = 'bdata'} = options;
     const promise = new Promise((resolve, reject) => { 
     const waitForComplete = () => document.readyState === 'complete' ?
-      resolve(entangle(document, prefix)) : 
+      resolve(entangle(document, options)) : 
       document.addEventListener('readystatechange', waitForComplete);
       waitForComplete();
     });

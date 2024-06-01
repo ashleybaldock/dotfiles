@@ -1,0 +1,337 @@
+
+.borderlight4 {
+  --ou: var(--outline-base-unit, 0.005em);
+  --su: var(--shadow-base-unit, 0.01em);
+
+  --soff1: var(--shadow1-offset, 2);
+  --sdir1: var(--shadow1-base-angle, 0deg);
+  --sblur1: var(--shadow1-blur, 3px);
+  --shue1: var(--shadow1-hue, 0deg);
+  --ssat1: var(--shadow1-sat, 50);
+  --sbasel1: var(--shadow1-base-lightness, 0);
+  --salpha1: var(--shadow1-alpha, 0.8);
+  
+  --soff2: var(--shadow2-offset, 2);
+  --sdir2: var(--shadow2-base-angle, 0deg);
+  --sblur2: var(--shadow2-blur, 3px);
+  --shue2: var(--shadow2-hue, 0deg);
+  --ssat2: var(--shadow2-sat, 0);
+  --sbasel2: var(--shadow2-base-lightness, 50);
+  --salpha2: var(--shadow2-alpha, 0.5);
+
+  --ow: var(--outline-width, 4);
+  --oblur: var(--outline-blur, 0);
+  --bhue: var(--outline-hue, 280deg);
+  --bsat: var(--outline-sat, 90%);
+  --bdir: var(--outline-light-angle, 45deg);
+  --obasel: var(--outline-base-lightness, 50%);
+  color: black;
+  font-weight: bold;
+  --a: calc(var(--ow) * var(--ou));
+  --b: calc(var(--a) * -1);
+  letter-spacing: calc(var(--a) * 2);
+  --c1l: calc(var(--obasel) * (2 - sin(var(--c1angle) + var(--bdir))) * 0.5);
+  --c2l: calc(var(--obasel) * (2 - sin(var(--c2angle) + var(--bdir))) * 0.5);
+  --c3l: calc(var(--obasel) * (2 - sin(var(--c3angle) + var(--bdir))) * 0.5);
+  --c4l: calc(var(--obasel) * (2 - sin(var(--c4angle) + var(--bdir))) * 0.5);
+  --c1: hsl(var(--bhue) var(--bsat) var(--c1l));
+  --c2: hsl(var(--bhue) var(--bsat) var(--c2l));
+  --c3: hsl(var(--bhue) var(--bsat) var(--c3l));
+  --c4: hsl(var(--bhue) var(--bsat) var(--c4l));
+  --c1angle: 0deg;
+  --c2angle: calc(var(--c1angle) + 90deg);
+  --c3angle: calc(var(--c2angle) + 90deg);
+  --c4angle: calc(var(--c3angle) + 90deg);
+  text-shadow: 
+    var(--b) 0 var(--oblur) var(--c1),
+    0 var(--a) var(--oblur) var(--c2),
+    var(--a) 0 var(--oblur) var(--c3),
+    0 var(--b) var(--oblur) var(--c4),
+    var(--s1x) var(--s1y) var(--sblur1) var(--sc1),
+    var(--s2x) var(--s2y) var(--sblur2) var(--sc2);
+  --s1x: calc(sin(var(--sdir1) - var(--bdir)) * var(--soff1) * var(--su));
+  --s1y: calc(cos(var(--sdir1) + var(--bdir)) * var(--soff1) * var(--su));
+  --s2x: calc(sin(var(--sdir2) - var(--bdir)) * var(--soff2) * var(--su));
+  --s2y: calc(cos(var(--sdir2) + var(--bdir)) * var(--soff2) * var(--su));
+  --scl1: calc(var(--sbasel1) * (2 - sin(var(--sdir1) + var(--bdir))) * 0.5);
+  --scl2: calc(var(--sbasel2) * (2 - sin(var(--sdir2) + var(--bdir))) * 0.5);
+  --sc1: hsl(var(--shue1) var(--ssat1) var(--scl1) / var(--salpha1));
+  --sc2: hsl(var(--shue2) var(--ssat2) var(--scl2) / var(--salpha2));
+}
+
+.borderlight8 {
+  color: black;
+  font-weight: bold;
+
+  --ou: var(--outline-base-unit, 0.002em);
+  --su: var(--shadow-base-unit, 0.01em);
+
+  --soff1: var(--shadow1-offset, 2);
+  --sdir1: var(--shadow1-base-angle, 0deg);
+  --sblur1: var(--shadow1-blur, 3px);
+  --shue1: var(--shadow1-hue, 0deg);
+  --ssat1: var(--shadow1-sat, 50);
+  --sbasel1: var(--shadow1-base-lightness, 0);
+  --salpha1: var(--shadow1-alpha, 0.8);
+  
+  --soff2: var(--shadow2-offset, 2);
+  --sdir2: var(--shadow2-base-angle, 0deg);
+  --sblur2: var(--shadow2-blur, 3px);
+  --shue2: var(--shadow2-hue, 0deg);
+  --ssat2: var(--shadow2-sat, 0);
+  --sbasel2: var(--shadow2-base-lightness, 50);
+  --salpha2: var(--shadow2-alpha, 0.5);
+
+  --ow: calc(var(--outline-width, 12) * var(--ou));
+  --oblur: calc(var(--outline-blur, 4) * var(--ou));
+  --obulge: calc(var(--outline-bulge, 2) * var(--ou));
+  --bhue: var(--outline-hue, 280deg);
+  --bsat: var(--outline-sat, 90%);
+  --bdir: var(--outline-light-angle, 45deg);
+  --obasel: var(--outline-base-lightness, 50%);
+
+  --a: var(--ow);
+  --a2: calc(var(--ow) + var(--obulge));
+
+  --b: calc(var(--a) * -1);
+  --b2: calc(var(--a2) * -1);
+  /*! letter-spacing: calc(var(--a) * 2); */
+  --c1ln: calc(var(--obasel) * (2 - sin(var(--c1an) + var(--bdir))) * 0.5);
+  --c1lne: calc(var(--obasel) * (2 - sin(var(--c1ane) + var(--bdir))) * 0.5);
+  --c1le: calc(var(--obasel) * (2 - sin(var(--c1ae) + var(--bdir))) * 0.5);
+  --c1lse: calc(var(--obasel) * (2 - sin(var(--c1ase) + var(--bdir))) * 0.5);
+  --c1ls: calc(var(--obasel) * (2 - sin(var(--c1as) + var(--bdir))) * 0.5);
+  --c1lsw: calc(var(--obasel) * (2 - sin(var(--c1asw) + var(--bdir))) * 0.5);
+  --c1lw: calc(var(--obasel) * (2 - sin(var(--c1aw) + var(--bdir))) * 0.5);
+  --c1lnw: calc(var(--obasel) * (2 - sin(var(--c1anw) + var(--bdir))) * 0.5);
+  --c1n: hsl(var(--bhue) var(--bsat) var(--c1ln));
+  --c1ne: hsl(var(--bhue) var(--bsat) var(--c1lne));
+  --c1e: hsl(var(--bhue) var(--bsat) var(--c1le));
+  --c1se: hsl(var(--bhue) var(--bsat) var(--c1lse));
+  --c1s: hsl(var(--bhue) var(--bsat) var(--c1ls));
+  --c1sw: hsl(var(--bhue) var(--bsat) var(--c1lsw));
+  --c1w: hsl(var(--bhue) var(--bsat) var(--c1lw));
+  --c1nw: hsl(var(--bhue) var(--bsat) var(--c1lnw));
+  --c1an: -90deg;
+  --c1ane: calc(var(--c1an) - 45deg);
+  --c1ae: calc(var(--c1an) - 90deg);
+  --c1ase: calc(var(--c1ae) - 45deg);
+  --c1as: calc(var(--c1an) - 180deg);
+  --c1asw: calc(var(--c1as) - 45deg);
+  --c1aw: calc(var(--c1an) - 270deg);
+  --c1anw: calc(var(--c1aw) - 45deg);
+  --ts-n:  0       var(--b2) var(--oblur) var(--c1n);
+  --ts-ne: var(--a) var(--b) var(--oblur) var(--c1ne);
+  --ts-e:  var(--a2) 0       var(--oblur) var(--c1e);
+  --ts-se: var(--a) var(--a) var(--oblur) var(--c1se);
+  --ts-s:  0       var(--a2) var(--oblur) var(--c1s);
+  --ts-sw: var(--b) var(--a) var(--oblur) var(--c1sw);
+  --ts-w:  var(--b2) 0       var(--oblur) var(--c1w);
+  --ts-nw: var(--b) var(--b) var(--oblur) var(--c1nw);
+
+  --ts000:0;
+  --ts045:0;
+  --ts090:0;
+  --ts135:0;
+  --ts180:0;
+  --ts225:0;
+  --ts270:0;
+  --ts335:0;
+
+  --stack-ne:
+    var(--ts-ne),
+    var(--ts-n),
+    var(--ts-e),
+    var(--ts-nw),
+    var(--ts-se),
+    var(--ts-w),
+    var(--ts-s),
+    var(--ts-sw);
+  --stack-n:
+    var(--ts-n),
+    var(--ts-ne),
+    var(--ts-nw),
+    var(--ts-e),
+    var(--ts-w),
+    var(--ts-se),
+    var(--ts-sw),
+    var(--ts-s);
+  text-shadow: 
+    var(--stack-ne),
+    var(--a) var(--a) 0 #000, 
+    var(--b) var(--a) 0 #000, 
+    var(--a) var(--b) 0 #000,
+    var(--b) var(--b) 0 #000, 
+    var(--s1x) var(--s1y) var(--sblur1) var(--sc1), 
+    var(--s2x) var(--s2y) var(--sblur2) var(--sc2);
+  --s1x: calc(sin(var(--sdir1) - var(--bdir)) * var(--soff1) * var(--su));
+  --s1y: calc(cos(var(--sdir1) + var(--bdir)) * var(--soff1) * var(--su));
+  --s2x: calc(sin(var(--sdir2) - var(--bdir)) * var(--soff2) * var(--su));
+  --s2y: calc(cos(var(--sdir2) + var(--bdir)) * var(--soff2) * var(--su));
+  --scl1: calc(var(--sbasel1) * (2 - sin(var(--sdir1) + var(--bdir))) * 0.5);
+  --scl2: calc(var(--sbasel2) * (2 - sin(var(--sdir2) + var(--bdir))) * 0.5);
+  --sc1: hsl(var(--shue1) var(--ssat1) var(--scl1) / var(--salpha1));
+  --sc2: hsl(var(--shue2) var(--ssat2) var(--scl2) / var(--salpha2));
+}
+
+body {
+}
+
+main {
+  display: flex;
+    justify-content: center;
+}
+section {
+  padding: 3em;
+
+}
+:root {
+  --icon-fg-color: #ffffff;
+  --icon-bg-color: #000000;
+  --icon-border: 1;
+  --icon-padding: 20;
+  --icon-radius: 60;
+  --icon-border-style: dashed;
+}
+
+body, h1, h2, h3, h4, p,
+figure, blockquote, dl, dd {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+}
+
+
+
+body {
+  font-size: 14px;
+  line-height: 14px;
+  display: flex;
+  flex-direction: column;
+  margin: 0.6em;
+  gap: 0.6em;
+  padding: 0;
+  background-color: #222222;
+  color: #ffffff;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  gap: 1em;
+  padding: 0;
+  position: relative;
+}
+
+@keyframes orbit {
+  from {
+    --outline-light-angle: 0deg;
+  }
+  50% {
+    --outline-light-angle: 180deg;
+  }
+
+  to {
+    --outline-light-angle: 360deg;
+  }
+}
+
+.test1::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-image: radial-gradient(
+    circle at var(--light-x) var(--light-y),
+    var(--light-color),
+    var(--light-color) var(--light-radius),
+    #0000 var(--light-radius));
+}
+
+.test1 {
+  font-size: 5em;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  --angle: calc(var(--outline-light-angle, 0deg));
+  --shadow1-offset: 33;
+  --shadow2-offset: 12;
+  --outline-blur: 3;
+  --outline-bulge: 4;
+  --outline-width: 10;
+  
+  /*
+  /* background-image: radial-gradient( */
+  /*     circle at 50% 50%, */
+  /*     var(--inner-c) var(--inner-r1), */
+  /*     transparent calc(var(--inner-r1) + var(--inner-fade)), */
+  /*     transparent calc(var(--ring-d) - 1px), */
+  /*     #454545 var(--ring-d), */
+  /*     transparent calc(var(--ring-d) + var(--ring-w)) */
+  /*   ), */
+  /*   conic-gradient( */
+  /*     from calc(var(--angle) + 180deg) at center, */
+  /*     white 0deg, */
+  /*     white calc((var(--beam-w) / 2) - var(--beam-fade)), */
+  /*     #0000 calc(var(--beam-w) / 2), */
+  /*     #0000 calc(360deg - (var(--beam-w) / 2)), */
+  /*     white calc(360deg - (var(--beam-w) / 2) + var(--beam-fade)) */
+  /*   ); */
+  
+  background-image: radial-gradient(
+      circle at var(--ring-x) var(--ring-y),
+      var(--inner-c) var(--inner-r1),
+      transparent calc(var(--inner-r1) + var(--inner-fade)),
+      transparent calc(var(--ring-radius) - 1px),
+      #454545 var(--ring-radius),
+      transparent calc(var(--ring-radius) + var(--ring-w))
+    ),
+    radial-gradient(
+      circle at var(--light-x) var(--light-y),
+      var(--light-color),
+      var(--light-color) var(--light-radius),
+      #0000 var(--light-radius)
+    );
+
+
+  background-size: 100%;
+  background-repeat: no-repeat;
+
+  margin: 0;
+  position: relative;
+  --beam-w: 50deg;
+  --beam-fade: 10deg;
+  --ring-radius: 24vw;
+  --ring-d: 45vw;
+  --ring-w: 3em;
+  overflow: visible;
+  --beam-xpc: calc(50% + (50% * sin(var(--angle) - 0deg)));
+  --beam-ypc: calc(50% + (50% * cos(var(--angle) + 180deg)));
+  --inner-r1: 36%;
+  --inner-fade: 26%;
+  --inner-c: #222;
+  --s: max(100vw, 100vh);
+  --beam-x: calc(50vw + (var(--ring-radius) * sin(var(--angle) - 0deg)));
+  --beam-y: calc(50vh + (var(--ring-radius) * cos(var(--angle) + 180deg)));
+  --ring-x: 50vw;
+  --ring-y: 50vh;
+  --light-x: calc(50vw + (((var(--ring-radius) * 2) - var(--light-radius)) * sin(var(--angle) - 0deg)));
+  --light-y: calc(50vh + (((var(--ring-radius) * 2) - var(--light-radius)) * cos(var(--angle) + 180deg)));
+  --light-color: #fff;
+  --light-radius: 0.8em;
+}
+
+.test1output {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}

@@ -31,5 +31,16 @@ if [ -d '/opt/homebrew/opt/python@3.11/libexec/bin' ]; then
   export PATH="/opt/homebrew/opt/python@3.11/libexec/bin:${PATH}"
 fi
 
+## node & nvm
+if [ -z "$NVM_DIR" ]; then
+  export NVM_DIR="$HOME/.nvm"
+fi
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
 # Also source .bashrc for terminal shells
 source ~/.bashrc

@@ -50,6 +50,9 @@ endfunc
 command! TestSign echo <SID>PlaceSign()
 
 
+
+" TODO place signs showing if there are more above/below current window
+" position
  
 "  +⎫
 "  +⎪

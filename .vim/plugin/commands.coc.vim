@@ -24,28 +24,39 @@ function s:WorstDiagnosticSeverity()
        \ get(diaginfo, 'information', 0) > 0 ? 'information' : ''
 endfunc
 function s:PrevMostImportantDiagnostic()
-  return CocActionAsync('diagnosticPrevious', <SID>WorstDiagnosticSeverity())
+  return CocActionAsync('diagnosticPrevious', s:WorstDiagnosticSeverity())
 endfunc
 function s:NextMostImportantDiagnostic()
-  return CocActionAsync('diagnosticNext', <SID>WorstDiagnosticSeverity())
+  return CocActionAsync('diagnosticNext', s:WorstDiagnosticSeverity())
 endfunc
 
-command! WorstDiagnosticSeverity :call <SID>WorstDiagnosticSeverity()
-command! PrevMostImportantDiagnostic :call <SID>PrevMostImportantDiagnostic()
-command! NextMostImportantDiagnostic :call <SID>NextMostImportantDiagnostic()
+command! WorstDiagnosticSeverity echo <SID>WorstDiagnosticSeverity()
+command! PrevMostImportantDiagnostic 
+      \ call <SID>PrevMostImportantDiagnostic()
+command! NextMostImportantDiagnostic
+      \ call <SID>NextMostImportantDiagnostic()
+
+
+let s:docOverrideMap = {
+      \ 'map': 'map-table',
+      \ '\(n\|i\|c\|v\|x\|s\|o\|t\|l\)\{-,1}map': 'map-table',
+      \ }
 
 function s:ShowDocumentation()
   if CocAction('hasProvider', 'hover')
     call CocActionAsync('definitionHover')
     " call CocActionAsync('doHover')
-  else
+    " call CocActionAsync('getHover')
     if &filetype == 'vim'
       execute 'h '..expand('<cword>')
     endif
   endif
+  if &filetype == 'vim'
+    execute 'h '..expand('<cword>')
+  endif
 endfunc
 
-command! ShowDocumentation :call <SID>ShowDocumentation()
+command! ShowDocumentation call <SID>ShowDocumentation()
 
 " Tab autocomplete for popup menu
 function! s:CocCheckBackspace() abort
@@ -91,7 +102,6 @@ function s:OnCocOpenFloat()
           \ padding: [0,1,0,1], 
           \ border: [1,1,1,1],
           \ title:'╸━ Coc: Hover ━╺',
-          \ line: 'cursor+2'
           \ })
   elseif highlight == 'HlCocPuSgtrBg'
     " Coc signature float
@@ -100,7 +110,6 @@ function s:OnCocOpenFloat()
           \ padding: [0,1,0,1], 
           \ border: [1,1,1,1],
           \ title:'╸━ Coc: Signature ━╺',
-          \ line: 'cursor+2'
           \ })
   elseif highlight == 'HlCocPuDiagBg'
     " Coc diagnostic float
@@ -109,7 +118,6 @@ function s:OnCocOpenFloat()
           \ padding: [0,1,0,1], 
           \ border: [1,1,1,1],
           \ title:'╸━ Coc: Diagnostic ━╺',
-          \ line: 'cursor+2'
           \ })
   elseif highlight == 'HlCocPuSugsBg'
     " Coc suggestion float
@@ -118,9 +126,8 @@ function s:OnCocOpenFloat()
           \ padding: [0,0,0,0], 
           \ border: [0,0,0,0],
           \ title:'╸━ Coc: Suggestion ━╺',
-          \ line: 'cursor+2'
           \ })
-  elseif name ~= '\[List Preview]'
+  elseif name =~ '\[List Preview]'
     echom 'preview'
   else
     call popup_setoptions(g:coc_last_float_win, #{
@@ -133,35 +140,38 @@ function s:OnCocOpenFloat()
   endif
 endfunc
 
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup CocEvents
+  autocmd!
+  " Highlight symbol under cursor on CursorHold
+  au CursorHold * silent call CocActionAsync('highlight')
 
-" on startup
-" autocmd User CocNvimInit echom "---CocNvimInit---"
+  " on startup
+  " au User CocNvimInit echom "---CocNvimInit---"
 
-" On diagnostics changed
-"autocmd User CocStatusChange,CocDiagnosticChange call dostuff()
-" autocmd User CocStatusChange echom "---CocStatusChange---"
-" autocmd User CocDiagnosticChange echom "---CocDiagnosticChange---"
-autocmd User CocStatusChange,CocDiagnosticChange silent call s:OnCocDiagnosticChange()
+  " On diagnostics changed
+  "au User CocStatusChange,CocDiagnosticChange call dostuff()
+  " au User CocStatusChange echom "---CocStatusChange---"
+  " au User CocDiagnosticChange echom "---CocDiagnosticChange---"
+  au User CocStatusChange,CocDiagnosticChange silent call s:OnCocDiagnosticChange()
 
-"Triggered on jump to placeholder
-" autocmd User CocJumpPlaceholder echom "---CocJumpPlaceholder---"
-autocmd User CocJumpPlaceholder silent call CocActionAsync('showSignatureHelp')
+  "Triggered on jump to placeholder
+  " au User CocJumpPlaceholder echom "---CocJumpPlaceholder---"
+  au User CocJumpPlaceholder silent call CocActionAsync('showSignatureHelp')
 
-"Triggered when a floating window is opened.  The window is not
-"focused, use |g:coc_last_float_win| to get window id.
-autocmd User CocOpenFloat silent call s:OnCocOpenFloat()
+  "Triggered when a floating window is opened.  The window is not
+  "focused, use |g:coc_last_float_win| to get window id.
+  au User CocOpenFloat silent call s:OnCocOpenFloat()
 
-"Triggered when terminal shown (e.g. for adjusting window height)
-" autocmd User CocTerminalOpen echom '---CocTerminalOpen---'
+  "Triggered when terminal shown (e.g. for adjusting window height)
+  " au User CocTerminalOpen echom '---CocTerminalOpen---'
 
-"Triggered on location list change,
-"   new list in: g:coc_jump_locations
-" 'filename': full file path.
-" 'lnum': line number (1 based).
-" 'col': column number(1 based).
-" 'text':  line content of location.
-let g:coc_enable_locationlist = 0
-" autocmd User CocLocationsChange echom '---CocLocationsChange---'
-autocmd User CocLocationsChange silent call s:OnCocLocationsChange()
+  "Triggered on location list change,
+  "   new list in: g:coc_jump_locations
+  " 'filename': full file path.
+  " 'lnum': line number (1 based).
+  " 'col': column number(1 based).
+  " 'text':  line content of location.
+  let g:coc_enable_locationlist = 0
+  " au User CocLocationsChange echom '---CocLocationsChange---'
+  au User CocLocationsChange silent call s:OnCocLocationsChange()
+augroup END

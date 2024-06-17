@@ -69,14 +69,17 @@ hi CocHoverRange  guibg=#502a2a gui=none
 "════════════════════════════════════════════════════════╡ Search
 hi Search         guifg=NONE    guibg=#555555 gui=none
 hi IncSearch      guifg=#fefefe guibg=#000000         
-hi link CurSearch Search
+hi CurSearch      guifg=NONE    guibg=#444422 gui=reverse
 
 hi Visual none | hi Visual     guibg=#2a2a50 gui=none
 
+hi ModeMsg        guifg=#f050a0 guibg=#440022 gui=italic
+" more-prompt/pager
 hi MoreMsg        guifg=#00aa00                       
 hi ErrorMsg       guifg=NONE    guibg=#ce1111         
 hi WarningMsg     guifg=#ff7c00 guibg=#550000         
 
+" Hit-Enter prompt & yes/no questions
 hi Question none | hi link Question MoreMsg
 
 hi Title          guifg=#dd22dd                       
@@ -106,11 +109,11 @@ hi SpecialKey  none | hi link SpecialKey SpecialNone
 " ListNone
 hi EndOfBuNone    guifg=#3a3a3a guibg=#050505
 hi NonTextNone    guifg=#2a2a2a 
-hi SpecialNone    guifg=#3a3a3a 
+hi SpecialNone    guifg=#2ada6a guibg=#102210
 " ListMinimal
 hi EndOfBuMini    guifg=#3a3a3a guibg=#050505
 hi NonTextMini    guifg=#303030
-hi SpecialMini    guifg=#505050
+hi SpecialMini    guifg=#4a6a4a
 " ListDiagnostic
 hi EndOfBuDiag    guifg=#3a3a3a guibg=#050505
 hi NonTextDiag    guifg=#409040
@@ -122,16 +125,16 @@ hi U8Whitespace   guifg=#dd1111 guibg=#dd1111
 "════════════════════════════════════════════════════════╡ Menu Popups
 
 " Popup menu (e.g. tab completion)
-hi Pmenu          guifg=#ffffff guibg=#220055          
-hi PmenuSel       guifg=#ffffff guibg=#440077 gui=bold 
+hi Pmenu          guifg=#eeeeff guibg=#220055          
+hi PmenuSel       guifg=#ffffff guibg=#440077
 " e.g. K in: |match   K [TSC]|
 hi PmenuKind      guifg=#00ffaf guibg=#220055          
 hi PmenuKindSel   guifg=#00ffaf guibg=#440077 gui=bold 
 " e.g. [TSC] in: |match   K [TSC]|
 hi PmenuExtra     guifg=#af00af guibg=#220055          
 hi PmenuExtraSel  guifg=#af00af guibg=#440077 gui=bold 
-hi PmenuSbar                   guibg=#220055                       
-hi PmenuThumb                  guibg=#6600ff                       
+hi PmenuSbar                    guibg=#220055                       
+hi PmenuThumb                   guibg=#4400dd                       
 
 " Custom
 hi HlPop01Bg      guifg=#ddaacc guibg=#100008    
@@ -144,13 +147,19 @@ hi HlPop02Bg      guifg=#00ff08 guibg=#779908
 hi HlPop02Bd      guifg=#00ff08 guibg=NONE
 hi HlPop03Bg      guifg=#ddaacc guibg=#333300    
 hi HlPop03Bd      guifg=#ffeedd guibg=NONE
-
+" Floating help window
+hi HlPopHelpBg    guifg=ywhelpf guibg=ywhelpb    
+hi HlPopHelpBd    guifg=#ffeedd guibg=NONE
+" Coc suggestion float
 hi HlCocPuSugsBg  guifg=#ddaacc guibg=#333300    
 hi HlCocPuSugsBd  guifg=#ffeedd guibg=NONE
+" Coc diagnostic float
 hi HlCocPuDiagBg  guifg=#ddaacc guibg=#333300    
 hi HlCocPuDiagBd  guifg=#bb0008 guibg=NONE
+" Coc signature float
 hi HlCocPuSgtrBg  guifg=#ddaacc guibg=#333300    
 hi HlCocPuSgtrBd  guifg=#559999 guibg=NONE
+" Coc hover float
 hi HlCocPuHovrBg  guifg=#ddaacc guibg=#3319f8    
 hi HlCocPuHovrBd  guifg=#cc66cc guibg=#0000ff
 

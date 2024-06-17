@@ -4,17 +4,6 @@
 "   call popup_notification("      🙈 🙉 🙊", #{ line: 2, col: 10, highlight: 'ToolbarLine', time: 2000} )
 " endfunc
 
-" function! s:TestMenu()
-"   nunmenu WinBar
-"   nnoremenu 1.10 WinBar.‼️\     :
-"   nnoremenu 1.20 WinBar.🔶     :
-"   nnoremenu 1.30 WinBar.🌈     :
-"   nnoremenu 1.40 WinBar.🐵     :call s:MenuBuild()
-"   nnoremenu 1.50 WinBar.🍆     :
-" endfunc
-
-" command! TestMenu :call <SID>TestMenu()
-
 if empty(&guitablabel)
   set guitablabel=%M%t
 endif
@@ -27,215 +16,87 @@ let $SSH_ASKPASS = simplify($VIM . '/../../Resources') . '/macvim-askpass'
 let $SUDO_ASKPASS = $SSH_ASKPASS
 
 
-
-let g:mayhem_toolbarToggles = {
-      \ 'virtualedit': {
-        \ 'priority': 100,
-        \ 'states': {
-          \ 'block': {
-            \ 'next': 'insert',
-            \ 'ttip': 'Virtualedit:  Off [Block]▹Insert ',
-            \ 'icon': 'cursorarrow.and.square.on.square.dashed'
-          \ },
-          \ 'insert': {
-            \ 'next': 'none',
-            \ 'ttip': 'Virtualedit: ▹Off  Block [Insert]',
-            \ 'icon': 'filemenu.and.cursorarrow'
-          \ },
-          \ 'none': {
-            \ 'next': 'block',
-            \ 'ttip': 'Virtualedit: [Off]▹Block  Insert',
-            \ 'icon': 'dots.and.line.vertical.and.cursorarrow.rectangle'
-          \ },
-          \ '*': {
-            \ 'next': 'block',
-            \ 'ttip': 'Virtualedit:  Off ▹Block  Insert [???]',
-            \ 'icon': 'dots.and.line.vertical.and.cursorarrow.rectangle'
-          \ },
-        \ }
-      \},
-      \ 'delcombine': {
-        \ 'priority': 120,
-        \ 'states': {
-          \ 0: {
-            \ 'next': 1,
-            \ 'ttip': 'Turn delcombine on',
-            \ 'icon': 'delete.left'
-          \ },
-          \ 1: {
-            \ 'next': 0,
-            \ 'ttip': 'Turn delcombine off',
-            \ 'icon': 'delete.left.fill'
-          \ },
-          \ '*': {
-            \ 'next': 1,
-            \ 'ttip': 'Turn delcombine off',
-            \ 'icon': 'delete.left.fill'
-          \ },
-        \ },
-      \ },
-    \ }
+DynamicToolBar
 
 
-function! s:UpdateDynamicToolBarToggle(name)
-  exec 'aunmenu <silent> ToolBar.Toggle\ '..a:name
+" Remove unwanted bits of menu
+" TODO
 
-  exec 'let value = &g:'..a:name
-  let toggles = get(g:, 'mayhem_toolbarToggles', {})
-  let toggle = get(toggles, a:name, {})
-  let priority = get(toggles, 'priority', 500)
-  let states = get(toggle, 'states', {})
-  let state = get(states, value, get(states, '*', {}))
-  let nextvalue = get(state, 'next', v:null)
-  let tooltip = get(state, 'ttip', '')
-  let icon = get(state, 'icon', 'puzzlepiece.extension')
+" Unbind default command key mappings for other uses
+" (Commented entries are unaltered from menu.vim)
 
-  if nextvalue isnot v:null
-    exec 'an icon='..icon..' '..priority..' ToolBar.Toggle\ '..a:name..' :let &g:'..a:name..'='..nextvalue..'<CR>'
-    exec 'tmenu ToolBar.Toggle\ '..a:name..' '..tooltip
-  else
-    exec 'an icon=exclamationmark.square '..priority..' ToolBar.Toggle\ '..a:name..' <Nop>'
-    exec 'tmenu ToolBar.Toggle\ '..a:name..' UpdateDynamicToolBarToggle:Err: No matching state and fallback missing'
-  endif
-endfunc
+" macm File.New\ Window                             key=<Nop>   " key=<D-n>
+" macm File.New\ Clean\ Window                      key=<Nop>   " key=<D-N>
+" macm File.New\ Clean\ Window\ (No\ Defaults)      key=<Nop>   " key=<D-M-N>
+macm File.New\ Tab                                key=<Nop>   " key=<D-t>
+macm File.Open…                                   key=<Nop>   " key=<D-o>
+macm File.Open\ Tab\.\.\.<Tab>:tabnew             key=<Nop>   " key=<D-T>
+" macm File.Open\ Recent                                        " 
+" macm File.Close\ Window<Tab>:qa                   key=<Nop>   " key=<D-W>
+" macm File.Close                                   key=<Nop>   " key=<D-w>
+" macm File.Save<Tab>:w                             key=<Nop>   " key=<D-s>
+" macm File.Save\ All                               key=<Nop>   " key=<D-M-s>
+" macm File.Save\ As…<Tab>:sav                      key=<Nop>   " key=<D-S>
+macm File.Print                                   key=<Nop>   " key=<D-p>
+                                                              " 
+macm Edit.Undo<Tab>u                              key=<Nop>   " key=<D-z>
+macm Edit.Redo<Tab>^R                             key=<Nop>   " key=<D-Z>
+" macm Edit.Cut<Tab>"+x                             key=<Nop>   " key=<D-x>
+" vnoremenu 20.350 &Edit.&Copy<Tab>"+y		"+y
+" cnoremenu 20.350 &Edit.&Copy<Tab>"+y		<C-Y>
+" macm Edit.Copy<Tab>"+y                            key=<Nop>   " key=<D-c>
+macm Edit.Copy\ All<Tab>ggVG"+y                   key=<D-C>   " ----NEW----
+" macm Edit.Paste<Tab>"+gP                          key=<Nop>   " key=<D-v>
+macm Edit.Paste\ Split<Tab>"+gP                   key=<D-V>   " ----NEW----
+" macm Edit.Select\ All<Tab>ggVG                    key=<Nop> " key=<D-a>
+macm Edit.Find.Find…                              key=<Nop>   " key=<D-f>
+macm Edit.Find.Find\ Next                         key=<Nop>   " key=<D-g>
+macm Edit.Find.Find\ Previous                     key=<Nop>   " key=<D-G>
+macm Edit.Find.Use\ Selection\ for\ Find          key=<Nop>   " key=<D-e>
+" macm Edit.Font.Show\ Fonts                                    " 
+macm Edit.Font.Bigger                             key=<Nop>   " key=<D-=>
+macm Edit.Font.Smaller                            key=<Nop>   " key=<D-->
+                                                              " 
+macm Tools.Spelling.To\ Next\ Error<Tab>]s        key=<Nop>   " key=<D-;>
+macm Tools.Spelling.Suggest\ Corrections<Tab>z=   key=<Nop>   " key=<D-:>
+macm Tools.Make<Tab>:make                         key=<Nop>   " key=<D-b>
+macm Tools.List\ Errors<Tab>:cl                   key=<Nop>   " key=<D-l>
+macm Tools.Next\ Error<Tab>:cn                    key=<Nop>   " key=<D-C-Right>
+macm Tools.Previous\ Error<Tab>:cp                key=<Nop>   " key=<D-C-Left>
+macm Tools.Older\ List<Tab>:cold                  key=<Nop>   " key=<D-C-Up>
+macm Tools.Newer\ List<Tab>:cnew                  key=<Nop>   " key=<D-C-Down>
 
-function! s:AddDynamicToolBarToggle(name)
+" macm Window.Minimize                              key=<Nop>   " key=<D-m>
+" macm Window.Minimize\ All                         key=<Nop>   " key=<D-M-m>
+" macm Window.Zoom                                  key=<Nop>   " key=<D-C-z>
+" macm Window.Zoom\ All                             key=<Nop>   " key=<D-M-C-z>
+macm Window.Toggle\ Full\ Screen\ Mode            key=<Nop>   " key=<D-C-f>
+macm Window.Show\ Next\ Tab                       key=<Nop>   " key=<D-}>
+macm Window.Show\ Previous\ Tab                   key=<Nop>   " key=<D-{>
+" macm Window.Bring\ All\ To\ Front                             " 
+" macm Window.Stay\ in\ Front                                   " 
+" macm Window.Stay\ in\ Back                                    " 
+" macm Window.Stay\ Level\ Normal                               " 
 
-  if exists('+'..a:name)
-    augroup DynamicToolBar
-      exec 'autocmd OptionSet '..a:name..' exec s:UpdateDynamicToolBarToggle(expand(''<amatch>''))'
-    augroup END
+macm Help.MacVim\ Help                            key=<Nop>   " key=<D-?>
+" macm Help.MacVim\ Website                                     " 
+" macm Help.What's\ New                                         " 
 
-    call s:UpdateDynamicToolBarToggle(a:name)
-  else
-    exec 'an icon=questionmark.square.dashed '..priority..' ToolBar.Toggle\ '..a:name..' <Nop>'
-    echom 'ToolBarToggle:Err: Setting "'..a:name..'" does not exist'
-  endif
-endfunc
 
-" SF icons can be suffixed with:
-" :monochrome
-" :hierarchical
-" :palette
-" :multicolor
-" :variable-[0..1]
-function! s:ObsessionTBStatus()
-  silent! nunmenu ToolBar.ObsessionStatus
+" Add new or replacement bindings for ⌘⃣  
 
-  if exists("g:loaded_obsession")
-    let obstatus = ObsessionStatus('active','paused')
+nmap <D-t> :sp .<CR>
+" Fix under cursor
+nmap <D-f> :sp .<CR>
+" Fix in current line
+nmap <D-F> :sp .<CR>
 
-    if obstatus == 'active'
-      an icon=gear.badge.checkmark 110 ToolBar.ObsessionStatus :Obsession<CR>
-      tmenu ToolBar.ObsessionStatus Obsessing, click to pause
-    elseif obstatus == 'paused'
-      an icon=gear.badge.xmark:hierarchical 110 ToolBar.ObsessionStatus :Obsession<CR>
-      tmenu ToolBar.ObsessionStatus Obsession paused, click to resume
-    else
-      an icon=gear.badge.questionmark:hierarchical 110 ToolBar.ObsessionStatus :NewObsession<space>
-      tmenu ToolBar.ObsessionStatus No Session, click to create one
-    endif
-  else
-    an icon=gear 110 ToolBar.ObsessionStatus <Nop>
-    amenu disable ToolBar.ObsessionStatus
-    tmenu ToolBar.ObsessionStatus Obsession not loaded.
-  endif
-endfunc
-
-function! s:RemoveDefaultToolBar()
-  aunmenu ToolBar.-sep1-
-  aunmenu ToolBar.-sep2-
-  aunmenu ToolBar.-sep7-
-  aunmenu ToolBar.Open
-  aunmenu ToolBar.Save
-  aunmenu ToolBar.SaveAll
-  aunmenu ToolBar.Print
-  aunmenu ToolBar.Undo
-  aunmenu ToolBar.Redo
-  aunmenu ToolBar.Cut
-  aunmenu ToolBar.Copy
-  aunmenu ToolBar.Paste
-  aunmenu ToolBar.RunScript
-  aunmenu ToolBar.Make
-  aunmenu ToolBar.Help
-  aunmenu ToolBar.SaveSesn
-  aunmenu ToolBar.LoadSesn
-
-  " an ToolBar.WinClose <Nop>
-  " an ToolBar.WinMax <Nop>
-  " an ToolBar.WinMin <Nop>
-  " an ToolBar.WinSplit <Nop>
-  " an ToolBar.WinVSplit <Nop>
-  " an ToolBar.WinMaxWidth <Nop>
-  " an ToolBar.WinMinWidth <Nop>
-endfunc
-
-function! s:AddDynamicToolBar()
-  " ---- Status Indicators ------ 100
-  call s:ObsessionTBStatus()
-
-  " ------------Sep-------------- 200
-  an 200 ToolBar.-flexspace1a-       <Nop>
-  an icon=poweron 210 ToolBar.Sep1   <Nop>
-  amenu disable ToolBar.Sep1
-  an 220 ToolBar.-flexspace1b-       <Nop>
-  " --------- Actions ----------- 300
-
-  an <silent> icon=arrow.rectanglepath 310
-        \ ToolBar.Reload\ Pane
-        \ <Nop>
-  tmenu ToolBar.Reload\ Pane Reload current pane
-
-  an <silent> icon=gearshape.arrow.triangle.2.circlepath 320
-        \ ToolBar.Reload\ Config
-        \ <Nop>
-  tmenu ToolBar.Reload\ Config Reload config
-
-  an <silent> icon=paintpalette 330
-        \ ToolBar.Reload\ Colorscheme
-        \ :colorscheme vividmayhem
-  tmenu ToolBar.Reload\ Colorscheme Reload Colourscheme
-
-  an <silent> icon=terminal 340
-        \ ToolBar.Terminal
-        \ :terminal
-  tmenu ToolBar.Terminal Open Terminal window in split
-
-  nnoremenu icon=folder 350
-        \ ToolBar.Show\ In\ Finder
-        \ <Nop>
-  tmenu ToolBar.Show\ In\ Finder Show current file in Finder
-  inoremenu icon=questionmark.folder
-        \ ToolBar.Show\ In\ Finder
-        \ <Nop>
-
-  " ------------Sep-------------- 400
-  an 400 ToolBar.-flexspace2a-       <Nop>
-  an icon=poweron 410 ToolBar.Sep2   <Nop>
-  amenu disable ToolBar.Sep2
-  an 420 ToolBar.-flexspace2b-       <Nop>
-  " --------- Toggles ----------- 500
-
-  call s:AddDynamicToolBarToggle('virtualedit')
-  call s:AddDynamicToolBarToggle('delcombine')
-
-  " ------------Sep-------------- 600
-  an 600 ToolBar.-flexspace5-        <Nop>
-
-endfunc
-
-augroup DynamicToolBar
-  autocmd User Obsession call s:ObsessionTBStatus() | redraw!
-  autocmd SessionLoadPost * call s:ObsessionTBStatus() | redraw!
-augroup END
-
-if !exists("g:mayhem_did_toolbar_init")
-  let g:mayhem_did_toolbar_init = 1
-
-  call s:RemoveDefaultToolBar()
-
-  call s:AddDynamicToolBar()
-
-  " call UpdateDynamicToolBar(0)
-endif
-
+" commenting
+" toggle current line
+nmap <D-/> gcc
+" current line:
+"  is comment: uncomment surrounding block
+"  else: comment line
+nmap <D-M-/> gcgc
+" toggle current visual selection
+xmap <D-/> gc

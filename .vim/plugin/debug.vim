@@ -19,6 +19,8 @@ function! s:SplitWithScriptnames()
 endfunc
 command! ListPlugins call <SID>SplitWithScriptnames()
 
+
+
 " Window & Buffer debug info
 "
 function! s:FormatInfo()
@@ -44,6 +46,7 @@ function! s:WindowInfo(winid = win_getid())
         \ '// popup options',
         \ popOpts,
         \ '// ------------------------------------'
+        \]
  
   let bufinfo = [
         \ '// Buffer Info',
@@ -65,5 +68,42 @@ endfunc
 command! -nargs=? Winfo call <SID>WindowInfo(<f-args>)
 
 command! WinfoLastCocFloat call <SID>WindowInfo(g:coc_last_float_win)
+
+
+
+function! s:CursorInfoUpdateFocusGained()
+  let s:hasfocus = 1
+  call s:CursorInfoUpdate()
+endfunc
+
+function! s:CursorInfoUpdateFocusLost()
+  let s:hasfocus = 0
+  call s:CursorInfoUpdate()
+endfunc
+
+function! s:CursorInfoUpdate()
+  let mousepos = getmousepos()
+
+endfunc
+
+function! s:CursorInfoOff()
+  augroup CursorInfo
+    autocmd!
+  augroup END
+  
+  " remove popup
+endfunc
+
+function! s:CursorInfoOn()
+  augroup CursorInfo
+    autocmd!
+
+    au FocusGained * call s:CursorInfoUpdateFocusGained()
+    au FocusLost * call s:CursorInfoUpdateFocusLost()
+    au VimResized,FocusGained,FocusLost,CursorMoved,CursorMovedI * call s:CursorInfoUpdate()
+  augroup END
+endfunc
+
+command! CursorInfo call <SID>CursorInfoOn()<CR>
 
 

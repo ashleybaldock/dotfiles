@@ -184,7 +184,7 @@ endfunc
 function! s:OnVimEnter() abort
   if !argc() && line('$') == 1 && getline('.') == ''
     " Detect session file and offer option to load it   TODO
-    if get(g:, 'mayhem_home_autoload_session') && filereadable('Session.vim')
+    if (get(g:, 'mayhem_home_autoload_session', 0) == 1) && filereadable('Session.vim')
       source Session.vim
     else
       if !get(g:, 'mayhem_disable_home_on_start')
@@ -258,6 +258,6 @@ function! s:ShowHome()
         \ nomodified 
         \ nomodifiable
 
-  au BufUnload <buffer> CloseMessages
+  au BufWinLeave,BufUnload <buffer> CloseMessages
 endfunction
 

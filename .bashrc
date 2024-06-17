@@ -123,6 +123,8 @@ alias gcom='git checkout $(gitRemoteHeadName)' && __git_complete gco git_checkou
 alias gcb="git checkout -b" && __git_complete gcb git_checkout
 alias gst="git stash" && __git_complete gst git_stash
 alias gstls="git stash list" && __git_complete gstls git_stash
+alias cloneshallow="git clone --depth=1"
+alias clone="git clone"
 
 # Open github for repo (base path)
 gh() {
@@ -147,6 +149,10 @@ ghpr() {
 }
 alias ghbo="ghob"
 
+
+# Other aliases
+alias imgurl="imgurl.sh"
+alias dataurl="imgurl.sh"
 
 # If using nvm set up lazy loading
 # First time node/npm/nvm are run this loads nvm

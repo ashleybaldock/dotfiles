@@ -250,6 +250,7 @@ fieldset::before {
 }
 svg > g > path, svg > path {
   stroke-width: 37px;
+  stroke-width: 0;
   stroke: #eee;
 }
 svg path:only-of-type {

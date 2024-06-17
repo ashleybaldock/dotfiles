@@ -4,36 +4,42 @@ set nocompatible
 
 let g:coc_node_path = '/opt/homebrew/bin/node'
 
+let g:mayhem_dir_backup = $HOME..'/.vim/backup'
+let g:mayhem_dir_swap = $HOME..'/.vim/swap'
+let g:mayhem_dir_undo =  $HOME..'/.vim/undo'
+let g:mayhem_dir_view =  $HOME..'/.vim/view'
+let g:mayhem_dir_session = $HOME..'/.vim/session'
+
 if has("patch-8.1.0251")
-  if !isdirectory($HOME .. "/.vim/backup")
+  if !isdirectory(g:mayhem_dir_backup)
+    echom 'backup dir '''..g:mayhem_dir_backup..'''not found- creating it'
     call mkdir($HOME .. "/.vim/backup", "p", 0711)
   endif
   set writebackup
   set nobackup
   set backupcopy=auto
-  set backupdir^=~/.vim/backup//
+  exec 'set backupdir^='..g:mayhem_dir_backup..'//'
 end
 
-if !isdirectory($HOME .. "/.vim/swap")
-  call mkdir($HOME .. "/.vim/swap", "p", 0711)
+if !isdirectory(g:mayhem_dir_swap)
+  call mkdir(g:mayhem_dir_swap, "p", 0711)
 endif
 set swapfile
-set directory^=~/.vim/swap//
+exec 'set directory^='..g:mayhem_dir_swap..'//'
 
-if !isdirectory($HOME .. "/.vim/undo")
-  call mkdir($HOME .. "/.vim/undo", "p", 0711)
+if !isdirectory(g:mayhem_dir_undo)
+  call mkdir(g:mayhem_dir_undo, "p", 0711)
 endif
 set undofile
-set undodir^=~/.vim/undo//
+exec 'set undodir^='..g:mayhem_dir_undo..'//'
 
-if !isdirectory($HOME .. "/.vim/view")
-  call mkdir($HOME .. "/.vim/view", "p", 0711)
+if !isdirectory(g:mayhem_dir_view)
+  call mkdir(g:mayhem_dir_view, "p", 0711)
 endif
-set viewdir^=~/.vim/view//
+exec 'set viewdir^='..g:mayhem_dir_view..'//'
 
-let g:sessiondir = $HOME .. "/.vim/session"
-if !isdirectory(g:sessiondir)
-  call mkdir(g:sessiondir, "p", 0711)
+if !isdirectory(g:mayhem_dir_session)
+  call mkdir(g:mayhem_dir_session, "p", 0711)
 endif
 
 set helpheight=10
@@ -53,6 +59,7 @@ let g:mayhem_curhold_highlights = 1
 let g:mayhem_show_unsaved_duration = 800
 let g:mayhem_sync_start_max_lines = 800
 let g:mayhem_move_after = '<Right>'
+let g:mayhem_home_autoload_session = 0
 
 " Visual bell + error flash off
 autocmd! GUIEnter * set vb t_vb=
@@ -60,6 +67,7 @@ autocmd! GUIEnter * set vb t_vb=
 if has('gui_running')
   let no_buffers_menu = 1
   let did_install_syntax_menu = 1
+  let macvim_skip_colorscheme = 1
 
   colorscheme vividmayhem
 
@@ -75,6 +83,11 @@ if has('gui_running')
   set antialias
   set guifont=Menlo:h14
 
+  augroup Focus
+    autocmd!
+    au FocusGained * :redraw!
+  augroup END
+
   set cursorline
   set cursorlineopt=screenline,number
   augroup Cursorline
@@ -82,8 +95,6 @@ if has('gui_running')
     au WinLeave * set cursorlineopt=number
     au WinEnter * set cursorlineopt=screenline,number
   augroup END
-
-"   let macvim_skip_colorscheme=1
 else
   colorscheme termayhem
 

@@ -51,7 +51,7 @@ function! s:PopupWithMessages()
   let s:mayhem_messages_popupwinid = popup_create('', #{
         \ title: 'Messages',
         \ pos: 'topleft',
-        \ minwidth: 10,
+        \ minwidth: 40,
         \ maxwidth: 80,
         \ minheight: 6,
         \ padding: [0,1,0,1],
@@ -68,24 +68,25 @@ function! s:PopupWithMessages()
 
   call s:WriteMessagesToBufferInWindow(s:mayhem_messages_popupwinid)
 
-	call setbufvar(winbufnr(s:mayhem_messages_popupwinid), '&filetype', 'vimmessages')
+  call setbufvar(winbufnr(s:mayhem_messages_popupwinid), '&filetype', 'vimmessages')
 endfunc
 
 function! s:CloseMessagesWindow()
-  call win_execute(s:mayhem_messages_winid, 'close')
+  if exists('s:mayhem_messages_winid')
+    call win_execute(s:mayhem_messages_winid, 'close')
+    unlet s:mayhem_messages_winid
+  endif
 endfunc
 
 function! s:CloseMessagesPopup()
-  call win_execute(s:mayhem_messages_popupwinid, 'close')
-endfunc
-
-function! s:CloseMessages()
-  call s:CloseMessagesWindow()
-  call s:CloseMessagesPopup()
+  if exists('s:mayhem_messages_popupwinid')
+    call popup_close(s:mayhem_messages_popupwinid)
+    unlet s:mayhem_messages_popupwinid
+  endif
 endfunc
 
 command! MessagesPopup call <SID>PopupWithMessages()
 command! MessagesSplit call <SID>SplitWithMessages()
 
-command! CloseMessages call <SID>CloseMessages()
+command! CloseMessages call <SID>CloseMessagesWindow()
 

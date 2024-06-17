@@ -1,4 +1,3 @@
-
 " 
 " Key mappings
 "
@@ -32,8 +31,7 @@ nnoremap <leader>i   <C-i>
 
 "
 " Change:
-"
-"  Character under ̲cursor
+"   Character: (under cursor)
 "
 " ╭──▷ ⌥⃝ 𝄐0⃝  ────────────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝ 
 nnoremap º a⃝ <Cmd>RepeatMove<CR><Esc>
@@ -49,9 +47,13 @@ nnoremap — a̅<Cmd>RepeatMove<CR><Esc>
 "
 " ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐E⃝  ──────────▷ Replace with last yanked
 nnoremap ‰ s<c-r>0<Cmd>RepeatMove<CR><Esc>
+"
+"  Word: (Under Cursor)
+"
+
 
 "
-"" §w - Save / write
+" Write: §⃝  w - Save / write
 "
 nnoremap §ww :w<CR>
 nnoremap §wW :w!<CR>
@@ -162,18 +164,17 @@ xnoremap §as :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR>:noh<CR>
 " words around cursor (AD̲G -> ED̲C | AA, ̲XX -> XX, ̲AA | AB̲C XX -> CB̲A XX)
 nnoremap §ac :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>:noh<CR>
 "
-" Shift {token} back/forward in {container}       TODO
+"
+" Move Token:
+"   {token} back/forward in {container}       TODO
 "
 "  Cursor moves with the shifted item
 "  (This is essentially the same as swapping around
 "   a pivot, but repeated)
 " e.g. [ 'a', 'b̲', 'c' ] -> [ 'a', 'c', 'b' ]
 
-" nnoremap
-" xnoremap 
-
+" Move Block:
 " Select visual block (<C-v> etc.) 
-" in visual mode:
 " x - cut block replacing it with whitespace
 xnoremap <expr> x  mode() ==# "\x16" ? "y<ESC>gvr<Space>" : "x"
 xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
@@ -182,22 +183,16 @@ xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
 " k - move block up by 1
 " l - move block right by 1
 "
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐1⃝  ──▷ Start substitution w/ last search
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐3⃝  ──▷ Word under cursor
-"
-"      
-"
 "   ⇧⃝ 𝄐⌥⃝   🅆   ⎫     Move line
 " ╭─▷    🄰 🅂 🄳 ⎭─▷  V: up/down
 " │                   ^V: up/right/down/left              
 "   ⇧⃝ 𝄐⌥⃝ 𝄐(🅆 🄰 🅂 🄳 )─▷  V: up/down
 "
-" Move:
+" Move Lines:
 "               Visual (v/V)
 "          ╭W⃝  ─▷ Up
 " ╭▷ ⇧⃝ 𝄐⌥⃝ 𝄐┴S⃝  ─▷ Down
 "
-
 command! MoveBlockUp <Nop>                     "  TODO
 command! MoveBlockDown <Nop>                   "  TODO
 command! MoveBlockLeft <Nop>                   "  TODO
@@ -213,6 +208,13 @@ xnoremap <expr> ∑  mode() ==# "\x16" ? "MoveBlockUp" : "m -2"
 xnoremap <expr> ß  mode() ==# "\x16" ? "MoveBlockDown" : "m +2"
 xnoremap <expr> å  mode() ==# "\x16" ? "MoveBlockLeft" : "echo Try with ^V"
 xnoremap <expr> ∂  mode() ==# "\x16" ? "MoveBlockRight" : "echo Try with ^V"
+
+
+" Mouse Mappings:
+"
+nnoremap <M-LeftMouse> VirtualEditOnClick
+
+
 "
 " Line Drawing                                    TODO
 "
@@ -246,6 +248,14 @@ vmap §<space> "xy:@x<CR>
 " Remove blank lines
 " :g/^$/d
 
+" Split tab-separated columns into arrays
+" %s/^	/    ["/g
+" %s/	.*\zs\ze$/"],/g
+" %s/	/", "/g
+"
+" %s/^	/    "/g
+" %s/	.*\zs\ze$/",/g
+" %s/	/": "/g
 
 " Prettify
 nnoremap §p %!npx prettier --stdin-filepath %<CR>
@@ -306,9 +316,11 @@ nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
 
-" === Ack / Search ===
 
-" clear last search highlighting
+
+"
+" Search:
+"  Clear: last search highlighting
 nnoremap            §c :nohlsearch<CR>
 nnoremap <silent> <CR> :nohlsearch<CR><CR>
 
@@ -317,35 +329,38 @@ nnoremap <silent> <CR> :nohlsearch<CR><CR>
 " nnoremap <Leader>a :Ack!<Space>
 " <C-r><C-w> - gets word under cursor
 " <C-r>/     - gets last search string
-" nnoremap • :CdProjectRoot <bar> Ack! -- '<C-r><C-w>'
-" nnoremap # :CdProjectRoot <bar> Ack! -- '<C-r><C-w>'
 " nnoremap <Leader>' :CdProjectRoot <bar> Ack! <C-r><C-w><CR>
 " nnoremap <Leader>" :CdProjectRoot <bar> Ack! <C-r>/<CR>
 
-" Search: Current Project
+" Search:
+"  Current Project:
 "
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐8⃝  ─┬▷ Word under cursor
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐3⃝  ─╮
+" ├─▷ ⌥⃝ 𝄐⇧⃝ 𝄐8⃝  ─┼▷ Word under cursor
 " ├─▷    \'    ─╯
+nnoremap # :CdProjectRoot <bar> AckCurrentWord<CR>
 nnoremap • :CdProjectRoot <bar> AckCurrentWord<CR>
 nnoremap <Leader>' :CdProjectRoot <bar> AckCurrentWord<CR>
 
 " ╭─▷    \"    ──▷ Last search
 nnoremap <Leader>" :CdProjectRoot <bar> AckLastSearch<CR>
 
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐3⃝  ──▷ Word under cursor
-nnoremap # :CdProjectRoot <bar> AckCurrentWord<CR>
-
 " ╭─▷   :ag    ──▷ Input
 cnoreabbrev ag :CdProjectRoot <bar> AckInput<CR>
 
-
-" Search: Current Buffer
+" Search:
+"  Current Buffer:
 "
-" word under cursor
-"   hl    +prev  +next
-"   \\       *      #   (word boundaries)
-"   \\\     g*     g#   (anywhere)
-" visual selection:
+"  Word Under Cursor:
+" ┌───────────┬────────────────┬───────────────────┐
+" │ highlight │ …and jump to   │ Limit search to   │
+" │   only    │ prev ◁╯╰▷ next │                   │
+" ├───────────┼────────────────┼───────────────────┤
+" │   \\      │   *        #   │ (word boundaries) │
+" │   \\\     │  g*       g#   │ (anywhere)        │
+" └───────────┴────────────────┴───────────────────┘
+"
+"  Visual Selection:
 "   prev  next
 "     *     #  anywhere
 "
@@ -358,9 +373,6 @@ nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hl
 "   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>
 "   \gV:call setreg('"', old_reg, old_regtype)<CR>:set hls<CR>
 
-
-"  visual selection
-"
 " ╭──▷ §s    ────▷ Search
 vnoremap §s y<ESC>/<c-r>"<CR> 
 " ╭──▷ §r    ────▷ Replace, delimiter: /
@@ -369,7 +381,7 @@ xnoremap §r y<ESC>:%s/<c-r>"//g<Left><Left>
 xnoremap §<S-r> y<ESC>:%s^<c-r>"^^g<Left><Left>
 " vnoremap §s "xy:%s//
 
-" ╭──▷ ⌥⃝ 𝄐1⃝  ────▷ Start a search 
+" ╭──▷ ⌥⃝ 𝄐1⃝  ────▷ Start a search
 nnoremap € /
 
 " ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐1⃝  ──▷ Start substitution w/ last search
@@ -383,7 +395,6 @@ nnoremap ™ :%s///g<Left><Left>
 " :%s/a/<replacement>/g
 " :%s/<c-r>a//g<Left><Left>
 
-
 " register does not contain char
 " getreg('<reg>') !~ '\S'
 
@@ -396,12 +407,26 @@ nnoremap ™ :%s///g<Left><Left>
 
 
 " Visual mode
+"
 " move to next displayed line in mode v (but not V or )
 "  (useful with wrap on)
 xnoremap <expr> j  mode() ==# "v" ? "gj" : "j"
 xnoremap <expr> gj mode() ==# "v" ? "j"  : "gj"
 xnoremap <expr> k  mode() ==# "v" ? "gk" : "k"
 xnoremap <expr> gk mode() ==# "v" ? "k"  : "gk"
+" Disarm trap
+xnoremap u <Nop>
+
+" insert/append in visual blockwise
+" i = I, a = A, 
+xnoremap <expr> i  mode() ==# "\x16" ? "I" : "i"
+xnoremap <expr> a  mode() ==# "\x16" ? "A" : "a"
+ 
+xnoremap <expr> x  mode() ==# "\x16" ? "y<ESC>gvr<Space>" : "x"
+xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
+ 
+nnoremap <M-LeftMouse> :echom getmousepos()<CR>:call <SID>TempVirtualEditAll()<CR><M-LeftMouse><M-LeftMouse>:call <SID>RestoreVirtualEdit()<CR> 
+
 
 
 " Diff
@@ -462,6 +487,7 @@ nmap <silent> [[  :<C-u>CocList diagnostics<CR>
 nmap <silent> ][ <Plug>(coc-diagnostic-prev)
 nmap <silent> [] <Plug>(coc-diagnostic-next)
 nmap <silent> ]] :NextMostImportantDiagnostic<CR>
+nmap <D-d> :NextMostImportantDiagnostic<CR>
 
 " <⌥⃣ ‑[⃣ > ▬▶︎ “
 nnoremap “ :CocCommand document.jumpToPrevSymbol<CR>
@@ -493,6 +519,7 @@ nnoremap <silent>  gr :call CocAction('references')<CR>
 nnoremap <silent> <C-g><C-f> <Plug>(coc-fix-current)
 " <⌥⃣ ‑f> ▬▶︎ ƒ
 nnoremap <silent> ƒ <Plug>(coc-fix-current)
+nnoremap <silent> <D-f> <Plug>(coc-fix-current)
 nnoremap <silent> §2 <Plug>(coc-codeaction-line)
 nnoremap <silent> §3 <Plug>(coc-codeaction-source)
 " <⌥⃣ ‑c> ▬▶︎ ç
@@ -502,13 +529,6 @@ nnoremap <silent> ç <Plug>(coc-fix-current)
 "<Plug>(coc-codeaction-selected)| Choose code actions from selected range.
 "<Plug>(coc-codeaction-refactor)| Choose refactor code action at cursor position.
 "<Plug>(coc-codeaction-refactor-selected)| Choose refactor code action with selected code.
-"CocAction('codeActions')|
-"CocAction('organizeImport')|
-"CocAction('fixAll')|
-"CocAction('quickfixes')|
-"CocAction('doCodeAction')|
-"CocAction('doQuickfix')|
-"CocAction('codeActionRange')|
 
 " Format & fix
 nnoremap <leader>cf  <Plug>(coc-format-selected)
@@ -532,4 +552,19 @@ nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
 nnoremap <silent> <leader>cx  :<C-u>CocList extensions<CR>
 
 
+
+
+  " • Disable completion for buffer: |b:coc_suggest_disable|
+  " • Disable specific sources for buffer: |b:coc_disabled_sources|
+  " • Disable words for completion: |b:coc_suggest_blacklist|
+  " • Add additional keyword characters: |b:coc_additional_keywords|
+
+
+"   • |CocAction('codeActions')|
+"   • |CocAction('organizeImport')|
+"   • |CocAction('fixAll')|
+"   • |CocAction('quickfixes')|
+"   • |CocAction('doCodeAction')|
+"   • |CocAction('doQuickfix')|
+"   • |CocAction('codeActionRange')|
 

@@ -673,40 +673,6 @@ endif
 
 endif " !exists("no_buffers_menu")
 
-" Window menu
-if !has("gui_macvim")
-an 70.300 &Window.&New<Tab>^Wn			<C-W>n
-an 70.310 &Window.S&plit<Tab>^Ws		<C-W>s
-an 70.320 &Window.Sp&lit\ To\ #<Tab>^W^^	<C-W><C-^>
-an 70.330 &Window.Split\ &Vertically<Tab>^Wv	<C-W>v
-an <silent> 70.332 &Window.Split\ File\ E&xplorer	:call MenuExplOpen()<CR>
-if !exists("*MenuExplOpen")
-  def MenuExplOpen()
-    if @% == ""
-      :20vsp .
-    else
-      exe ":20vsp " .. fnameescape(expand("%:p:h"))
-    endif
-  enddef
-endif
-an 70.335 &Window.-SEP1-				<Nop>
-an 70.340 &Window.&Close<Tab>^Wc			:confirm close<CR>
-an 70.345 &Window.Close\ &Other(s)<Tab>^Wo		:confirm only<CR>
-an 70.350 &Window.-SEP2-				<Nop>
-an 70.355 &Window.Move\ &To.&Top<Tab>^WK		<C-W>K
-an 70.355 &Window.Move\ &To.&Bottom<Tab>^WJ		<C-W>J
-an 70.355 &Window.Move\ &To.&Left\ Side<Tab>^WH		<C-W>H
-an 70.355 &Window.Move\ &To.&Right\ Side<Tab>^WL	<C-W>L
-an 70.360 &Window.Rotate\ &Up<Tab>^WR			<C-W>R
-an 70.362 &Window.Rotate\ &Down<Tab>^Wr			<C-W>r
-an 70.365 &Window.-SEP3-				<Nop>
-an 70.370 &Window.&Equal\ Size<Tab>^W=			<C-W>=
-an 70.380 &Window.&Max\ Height<Tab>^W_			<C-W>_
-an 70.390 &Window.M&in\ Height<Tab>^W1_			<C-W>1_
-an 70.400 &Window.Max\ &Width<Tab>^W\|			<C-W>\|
-an 70.410 &Window.Min\ Widt&h<Tab>^W1\|			<C-W>1\|
-endif " !has("gui_macvim")
-
 " The popup menu
 if has("gui_macvim")
   vnoremenu 1.05 PopUp.Look\ Up     :<C-U>call macvim#ShowDefinitionSelected()<CR>
@@ -901,54 +867,6 @@ if has("gui_macvim")
 endif " if has("gui_macvim")
 
 endif " !exists("did_install_default_menus")
-
-" Define these items always, so that syntax can be switched on when it wasn't.
-" But skip them when the Syntax menu was disabled by the user.
-if !exists("did_install_syntax_menu")
-  an 50.212 &Syntax.&Manual		:syn manual<CR>
-  an 50.214 &Syntax.A&utomatic		:syn on<CR>
-  an <silent> 50.216 &Syntax.On/Off\ for\ &This\ File :call <SID>SynOnOff()<CR>
-  if !exists("*s:SynOnOff")
-    def s:SynOnOff()
-      if has("syntax_items")
-	syn clear
-      else
-	if !exists("g:syntax_on")
-	  syn manual
-	endif
-	set syn=ON
-      endif
-    enddef
-  endif
-endif
-
-
-" Install the Syntax menu only when filetype.vim has been loaded or when
-" manual syntax highlighting is enabled.
-" Avoid installing the Syntax menu twice.
-if (exists("did_load_filetypes") || exists("syntax_on"))
-	\ && !exists("did_install_syntax_menu")
-  let did_install_syntax_menu = 1
-
-" Skip setting up the individual syntax selection menus unless
-" do_syntax_sel_menu is defined (it takes quite a bit of time).
-if exists("do_syntax_sel_menu")
-  runtime! synmenu.vim
-else
-  an <silent> 50.10 &Syntax.&Show\ File\ Types\ in\ Menu	:let do_syntax_sel_menu = 1<Bar>runtime! synmenu.vim<Bar>aunmenu &Syntax.&Show\ File\ Types\ in\ Menu<CR>
-  an 50.195 &Syntax.-SEP1-		<Nop>
-endif
-
-an 50.210 &Syntax.&Off			:syn off<CR>
-an 50.700 &Syntax.-SEP3-		<Nop>
-an 50.710 &Syntax.Co&lor\ Test		:sp $VIMRUNTIME/syntax/colortest.vim<Bar>so %<CR>
-an 50.720 &Syntax.&Highlight\ Test	:runtime syntax/hitest.vim<CR>
-an 50.730 &Syntax.&Convert\ to\ HTML	:runtime syntax/2html.vim<CR>
-
-" Uncomment the next line to compile the functions early to find any mistakes
-" defcompile
-
-endif " !exists("did_install_syntax_menu")
 
 " Restore the previous value of 'cpoptions'.
 let &cpo = s:cpo_save

@@ -8,45 +8,90 @@ then
   exit 1
 fi
 
-# gen-delims  = " : / ? # [ ] @ "
-# sub-delims  = " ! $ & ' ( ) /  * + , ; = "
+PNGOUT="/opt/homebrew/bin/pngout"
+
+# TODO multiple inputs: accumulate and copy together
+# TODO input directories too
+# TODO configurable option for optimise/copy etc.
+
+optimise=1
+alwaysbase64=0
+copy=1
+
+if [ $# -gt 1 ]
+then
+  echo "Multiple inputs, will skip copy" >&2
+  copy=0
+fi
 
 for arg in "${args[@]}"
 do
+  detectedtype=unknown
+  base64=
+  dataurl=
+
   if [ -f "$arg" ]
   then
     file=$( tr '[:upper:]' '[:lower:]' <<<"$arg" )
     if [ "${file: -4}" == ".png" ]
     then
-      base64="$(pngout "$arg" - | base64 -i - -o -)"
-      echo "b64(png): (+copied to clipboard)" >&2
-      echo "url('data:image/png;base64,$base64');"
-      echo "url('data:image/png;base64,$base64');" | pbcopy
+      detectedtype=png
+      # base64="$(base64 -i "$arg" -o -)"
+      echo "pngout:" >&2
+      base64="$("$PNGOUT" "$arg" - 2> >(sed 's/^/pngout: /' >&2) | base64 -i - -o -)"
+      echo "" >&2
+      dataurl="url('data:image/png;base64,$base64');"
     elif [ "${file: -4}" == ".gif" ]
     then
+      detectedtype=gif
+      # TODO optimise gifs
       base64="$(base64 -i "$arg" -o -)"
-      echo "b64(gif): (+copied to clipboard)" >&2
-      echo "url('data:image/gif;base64,$base64');"
-      echo "url('data:image/gif;base64,$base64');" | pbcopy
+      dataurl="url('data:image/gif;base64,$base64');"
     elif [ "${file: -4}" == ".jpg" || "${file: -5}" == ".jpeg" ]
     then
+      detectedtype=jpeg
+      # TODO optimise jpegs
       base64="$(base64 -i "$arg" -o -)"
-      echo "b64(jpeg): (+copied to clipboard)" >&2
-      echo "url('data:image/jpeg;base64,$base64');"
-      echo "url('data:image/jpeg;base64,$base64');" | pbcopy
+      dataurl="url('data:image/jpeg;base64,$base64');"
     elif [ "${file: -4}" == ".svg" ]
     then
-      echo "url(svg): (+copied to clipboard)" >&2
-      echo "url('data:image/svg+xml;base64,$base64');"
-      echo "url('data:image/png;base64,$base64');" | pbcopy
-    else
-      echo "Unknown file type for file "$arg"" >&2
+      detectedtype=svg
+      # TODO optimise svgs
+      # TODO encode svg and select quotes
+      base64="$(base64 -i "$arg" -o -)"
+      dataurl="url('data:image/svg+xml;base64,$base64');"
     fi
+
+    if [ "$detectedtype" == "unknown" ]
+    then
+      echo "Unknown file type for input "$arg"" >&2
+    else
+      optcopy=""
+      if [ $copy -eq 1 ]
+      then
+        echo -n "$dataurl" | tee >(pbcopy)
+        echo ''
+        if [ $? -eq 0 ]
+        then
+          echo "copied dataurl to clipboard" >&2
+        else
+          echo "copy command failed ($?)" >&2
+        fi
+        optcopy=",copy"
+      fi
+
+      optbase64="base64"
+      optoptimise=",optimise"
+      echo "in:$detectedtype options:$optbase64$optoptimise out:stdout$optcopy" >&2
+    fi
+
   else
+    detectedtype="not a file"
     echo "Not a file, skipping" >&2
   fi
 done
 
 
-
+# gen-delims  = " : / ? # [ ] @ "
+# sub-delims  = " ! $ & ' ( ) /  * + , ; = "
 

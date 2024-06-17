@@ -15,6 +15,9 @@
 .vim/session/*
 .vim/Session/*
 *.session.vim*
+*.Session.vim*
+.vim/pack/default/start/tags*
+.vim/pack/default/opt/tags*
 
 bin/test/*
 bin/HandBrakeCLI

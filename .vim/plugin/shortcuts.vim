@@ -1,5 +1,23 @@
+if exists("g:mayhem_loaded_shortcuts")
+  finish
+endif
+let g:mayhem_loaded_shortcuts = 1
+
 " 
-" Key mappings
+" Key Mappings:
+"
+" (commands/functions are defined elsewhere)
+"
+"  Option: ⌥⃝  
+"            ‣ bound as resulting unicode character
+"               e.g. (option + 5) ⌥⃝ 𝄐5⃝  ──▷ ∞
+"                :map ∞ <Nop>
+"
+" Command: ⌘⃝   (<D-x>)
+"            ‣ case-sensitive
+"               e.g. <D-e> != <D-E> 
+"            ‣ must first be un-mapped in ../gvimrc
+"               before being redefined
 "
 
 " ╭──▷ ⌘⃝ 𝄐E⃝  ────▷ LH Enter
@@ -405,10 +423,41 @@ nnoremap ™ :%s///g<Left><Left>
 " pattern or replacement string.  Example:
 "   :s+/+//+
 
+" J:
+" ╭──▷    ⌥⃝ 𝄐J⃝   ────▷ join line below to end (with no space between)
+" nnoremap ∆ Jx
+" ╭──▷ ⇧⃝ 𝄐⌥⃝ 𝄐J⃝   ────▷ reverse of  ⌥⃝ 𝄐J⃝ 
+nnoremap Ô i<CR><Esc>k$
 
-" Visual mode
+" K:
+"─────────────────────────────────────────────────────
+"    ⌥⃝ 𝄐K⃝    │             │   f text
+"            │             │   line o̲
+"─────────────────────────────────────────────────────
+" ⇧⃝ 𝄐J⃝   J   │ line o̲      │   line o f̲ text
+" <S-j>      │ f text      │       
+"─────────────────────────────────────────────────────
+" ⌥⃝ 𝄐J⃝   ∆   │ line o̲      │   line of̲ text
+" <M-j>      │ f text      │       
+"─────────────────────────────────────────────────────
+" inverse of │ f text      │
+" ⇧⃝ 𝄐J⃝       │ line o̲      │   line o f̲ text
+"─────────────────────────────────────────────────────
+" ⌥⃝ 𝄐K⃝   ˚   │    f text   │          
+" <M-k>      │    line o̲   │      line of̲ text
+"─────────────────────────────────────────────────────
+"            │             │
+"            │    line o   │
+
+" ╭──▷    ⌥⃝ 𝄐K⃝   ────▷ join line above to end (with no space between)
+nnoremap ˚ :m -2,+<CR><S-j>
+" ╭──▷ ⇧⃝ 𝄐⌥⃝ 𝄐K⃝   ────▷ reverse of <S-K>
+nnoremap  i<CR><Esc>:m -2<CR>j$
+
+" Visual Mode:
 "
-" move to next displayed line in mode v (but not V or )
+" move to next displayed line in 
+" mode v (but not V or )
 "  (useful with wrap on)
 xnoremap <expr> j  mode() ==# "v" ? "gj" : "j"
 xnoremap <expr> gj mode() ==# "v" ? "j"  : "gj"
@@ -421,11 +470,26 @@ xnoremap u <Nop>
 " i = I, a = A, 
 xnoremap <expr> i  mode() ==# "\x16" ? "I" : "i"
 xnoremap <expr> a  mode() ==# "\x16" ? "A" : "a"
+"║     n,v,V         ║        ^V       ║ 
+"║  J, linewise      ║  J, blockwise:  ║ 
+"║                   ║                 ║                
+"║ A B┆C┆  ABCDEFGHI̲ ║  A B┆C┆  ABCJKL ║  A B┆C┆  ABCL  
+"║ D E┆F┆  JKL       ║  D E┆F┆  DEFMNO ║  D E┆F┆  DEFO  
+"║ G H┆I̲┆  MNO       ║  G H┆I̲┆  GHIPQR̲ ║  G H┆I̲┆  GHIR̲  
+"║ J K L   PQR       ║  J K L   ↑      ║  J K L   JK    
+"║ M N O   ↑         ║  M N O   ↑      ║  M N O   MN    
+"║ P Q R   ↑         ║  P Q R   ↑      ║  P Q R   PQ    
+"
  
 xnoremap <expr> x  mode() ==# "\x16" ? "y<ESC>gvr<Space>" : "x"
 xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
  
-nnoremap <M-LeftMouse> :echom getmousepos()<CR>:call <SID>TempVirtualEditAll()<CR><M-LeftMouse><M-LeftMouse>:call <SID>RestoreVirtualEdit()<CR> 
+" Option Left Click On Focused Window:
+"    starts visual block selection from click location
+"     (as if virtualedit=all)
+"
+nnoremap <expr> <M-LeftMouse> getmousepos().winid==win_getid() ? '<Cmd>StartVisualBlockToClick<CR>' : '<Cmd>StartVisualBlockFromClick<CR>'
+" nnoremap <M-LeftMouse> :StartVisualBlockFromClick<CR>
 
 
 

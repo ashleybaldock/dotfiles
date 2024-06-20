@@ -12,15 +12,12 @@ let g:mayhem_loaded_reload = 1
 " the first non-commented thing in the file
 "
 function! s:SetReloadName(name)
-  echom a:name
   let s:reloadvar = a:name
   return a:name
 endfunc
 function! s:UnsetAndReload() abort
   for line in readfile(fnameescape(expand('%')), '', 10)
-    echom line
     let result = substitute(line, '\_^\s*if \s*exists(\s*\([''"]\)\zs\([bwtgls]:[A-Za-z][A-Za-z0-9_]*\ze\)\1)', {m -> s:SetReloadName(m[0])}, '')
-    echom result
   endfor
 
   echom 'UnsetAndReload detected reloadvar: '''..s:reloadvar..''''

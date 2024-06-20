@@ -22,23 +22,27 @@ if has("patch-8.1.0251")
 end
 
 if !isdirectory(g:mayhem_dir_swap)
+  echom 'swap dir '''..g:mayhem_dir_swap..'''not found- creating it'
   call mkdir(g:mayhem_dir_swap, "p", 0711)
 endif
 set swapfile
 exec 'set directory^='..g:mayhem_dir_swap..'//'
 
 if !isdirectory(g:mayhem_dir_undo)
+  echom 'undo dir '''..g:mayhem_dir_undo..'''not found- creating it'
   call mkdir(g:mayhem_dir_undo, "p", 0711)
 endif
 set undofile
 exec 'set undodir^='..g:mayhem_dir_undo..'//'
 
 if !isdirectory(g:mayhem_dir_view)
+  echom 'view dir '''..g:mayhem_dir_view..'''not found- creating it'
   call mkdir(g:mayhem_dir_view, "p", 0711)
 endif
 exec 'set viewdir^='..g:mayhem_dir_view..'//'
 
 if !isdirectory(g:mayhem_dir_session)
+  echom 'session dir '''..g:mayhem_dir_session..'''not found- creating it'
   call mkdir(g:mayhem_dir_session, "p", 0711)
 endif
 

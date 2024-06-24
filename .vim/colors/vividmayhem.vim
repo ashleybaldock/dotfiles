@@ -150,21 +150,40 @@ hi HlPop03Bd      guifg=#ffeedd guibg=NONE
 " Floating help window
 hi HlPopHelpBg    guifg=ywhelpf guibg=ywhelpb    
 hi HlPopHelpBd    guifg=#ffeedd guibg=NONE
+" Coc hover float
+hi link HlCocPuHovrBg HlPopHelpBg
+hi link HlCocPuHovrBd HlPopHelpBd
 " Coc suggestion float
-hi HlCocPuSugsBg  guifg=#ddaacc guibg=#333300    
+hi HlCocPuSugsBg  guifg=#eeeeff guibg=#220055    
 hi HlCocPuSugsBd  guifg=#ffeedd guibg=NONE
 " Coc diagnostic float
-hi HlCocPuDiagBg  guifg=#ddaacc guibg=#333300    
-hi HlCocPuDiagBd  guifg=#bb0008 guibg=NONE
+" hi HlCocPuDiagBg  guifg=#ddaacc guibg=#333300    
+" hi HlCocPuDiagBd  guifg=#bb0008 guibg=NONE
+hi link HlCocPuDiagBg PopDiagErr
+hi link HlCocPuDiagBd PopDiagErrBd
 " Coc signature float
 hi HlCocPuSgtrBg  guifg=#ddaacc guibg=#333300    
 hi HlCocPuSgtrBd  guifg=#559999 guibg=NONE
-" Coc hover float
-hi HlCocPuHovrBg  guifg=#ddaacc guibg=#3319f8    
-hi HlCocPuHovrBd  guifg=#cc66cc guibg=#0000ff
+
+hi link PopDiagErrBd  SignDgErr
+hi link PopDiagWarnBd SignDgWarn
+hi link PopDiagInfoBd SignDgInfo
+hi link PopDiagHintBd SignDgHint
+
+hi link PopDiagErr    LineDgErr
+hi link PopDiagWarn   LineDgWarn
+hi link PopDiagInfo   LineDgInfo
+hi link PopDiagHint   LineDgHint
 
 " CoC Float window/popup related
 hi link CocPum               Pmenu
+"CocPumSearch      "matched input characters, linked to |CocSearch| by default.
+"CocPumDetail      "highlight label details that follows label 
+"CocPumMenu        "menu of complete item.
+"CocPumShortcut    "shortcut text of source.
+"CocPumDeprecated  "deprecated label.
+"CocPumVirtualText "virtual text which enabled by
+
 " hi CocSymbol
 hi link CocMenuSel           PmenuSel
 hi link CocFloating          Pmenu
@@ -172,8 +191,11 @@ hi link CocFloatThumb        PmenuThumb
 hi link CocFloatSbar         PmenuSbar
 hi link CocFloatDividingLine NonText
 hi link CocFloatActive       HlPop02Bg
-hi link CocErrorFloat        WarningMsgt
-hi link CocHintFloat         SlSynWarnC 
+
+hi link CocErrorFloat        PopDiagErr 
+hi link CocWarningFloat      PopDiagWarn  
+hi link CocInfoFloat         PopDiagInfo  
+hi link CocHintFloat         PopDiagHint  
                         
 
 "════════════════════════════════════════════════════════╡ Vertical
@@ -225,6 +247,11 @@ hi link GitGutterChangeDeleteLine DiffChange
 hi link GitGutterDelete           SignGitDel
 hi link GitGutterDeleteLine       DiffDelete
 
+hi link CocErrorVirtualText   SignDgErr 
+hi link CocWarningVirtualText SignDgWarn  
+hi link CocInfoVirtualText    SignDgInfo  
+hi link CocHintVirtualText    SignDgHint  
+
 hi link CocErrorSign   SignDgErr 
 hi link CocWarningSign SignDgWarn  
 hi link CocInfoSign    SignDgInfo  
@@ -235,6 +262,8 @@ hi link CocErrorLine   LineDgErr
 " hi link CocWarningLine LineDgWarn
 " hi link CocInfoLine    LineDgInfo
 " hi link CocHintLine    LineDgHint
+"hi CocSelectedLine
+"hi CocSelectedText
 
 hi link CocErrorHighlight       ErrorHint
 hi link CocWarningHighlight     WarningHint
@@ -372,7 +401,7 @@ hi link SlGitOffC  SlSynOffC
 hi link SlGitOffN  SlSynOffN
 
 "╔═════════════════════════════════════════════════════╦═╡ Demo
-"║ 	                                        ║
+"║ 	  "  " "   "                            ║
 "║                               ‐           　        ║
 "╚═════════════════════════════════════════════════════╝
 
@@ -391,60 +420,72 @@ hi link javascriptNull          Constant
 hi link jsonNoQuotesError       ErrorHint
 hi link jsonMissingCommaError   ErrorHint
 
-" floating/popup windows and dialogs
-"CocFloating            " For floating window background.
-"CocFloatDividingLine   " For dividing lines.
-"CocFloatActive         " For active parts.
-"CocMenuSel             " For selected line.
-  
-"CocInlayHint
-"CocInlayHintType
-"CocInlayHintParameter
-
-" diagnostics
-" code range
-"CocErrorHighlight
-"CocWarningHighlight
-"CocInfoHighlight
-"CocHintHighlight
-" virtual text
-"CocErrorVirtualText
-"CocWarningVirtualText
-"CocInfoVirtualText
-"CocHintVirtualText
-
-" Document highlight related
-" matching symbols in the buffer at cursor position
-"CocHighlightText       " default symbol highlight
-"CocHighlightRead       " Read kind of document symbol
-"CocHighlightWrite      " Write kind of document symbol
-
-" Inlay hint related    
-"CocInlayHint           " f|CocHintSign| b|SignColumn|
-"CocInlayHintParameter  " parameter kind of inlay hint
-"CocInlayHintType       " type kind of inlay hint
-
-                       
-"Others~               
-"CocSelectedRange       " outgoing calls
-"CocLink                " document links
-"CocDisabled            " disabled items, eg: menu item
-"CocCodeLens            " virtual text of codeLens
-"CocMenuSel             " current item in menu dialog (bg color ONLY)
-"CocSnippetVisual       " snippet placeholders
-"CocInputBoxVirtualText " input box placeholders
 "
+" Floating Windows: popup windows and dialogs
+" CocFloating            " For floating window background.
+" CocFloatDividingLine   " For dividing lines.
+" CocFloatActive         " For active parts.
+" CocMenuSel             " For selected line.
+"
+" CocDisabled            " disabled items, eg: menu item
+" CocMenuSel             " current item in menu dialog (bg color ONLY)
+ 
 
-" *CocDisabled* highlight for disabled items, eg: menu item.
-" *CocCodeLens* for virtual text of codeLens.
-" *CocCursorRange* for highlight of activated cursors ranges.
-" *CocLinkedEditing* for highlight of activated linked editing ranges.
-" *CocHoverRange* for range of current hovered symbol.
-" *CocMenuSel* for current menu item in menu dialog (should only provide
-" background color).
-" *CocSelectedRange* for highlight ranges of outgoing calls.
-" *CocSnippetVisual* for highlight snippet placeholders.
-" *CocLink* for highlight document links.
-" *CocInputBoxVirtualText* for highlight placeholder of input box.
+"
+" Diagnostics:
+"
+" |CocUnusedHighlight| > |CocDeprecatedHighlight| > |CocErrorHighlight|
+"   > |CocWarningHighlight| > |CocInfoHighlight| > |CocHintHighlight|
+"
+" CocFadeOut             " faded out text, such as for highlighting unnecessary code.
+"
+" CocErrorSign           " error signs.
+" CocWarningSign         " warning signs.
+" CocInfoSign            " information signs.
+" CocHintSign            " hint signs.
+"
+" CocErrorVirtualText    " error virtual text.
+" CocWarningVirtualText  " warning virtual text.
+" CocInfoVirtualText     " information virtual text.
+" CocHintVirtualText     " hint virtual text.
+"
+" CocErrorHighlight      " error code range.
+" CocWarningHighlight    " warning code range.
+" CocInfoHighlight       " information code range.
+" CocHintHighlight       " hint code range.
+" CocDeprecatedHighlight " deprecated code range, links to |CocStrikeThrough| by default.
+" CocUnusedHighlight     " unnecessary code range, links to |CocFadeOut| by default.
+"
+" CocErrorLine           " line highlight of sign which contains error.
+" CocWarningLine         " line highlight of sign which contains warning.
+" CocInfoLine            " line highlight of sign which information.
+" CocHintLine            " line highlight of sign which contains hint.
+
+" Document Highlights:
+" Matching Symbols: in the buffer at cursor position
+" CocHighlightText       " default symbol highlight
+" CocHighlightRead       " Read kind of document symbol
+" CocHighlightWrite      " Write kind of document symbol
+"
+" CocLink                " document links
+"
+" Inlay Hints:
+" CocInlayHint           " f|CocHintSign| b|SignColumn|
+" CocInlayHintParameter  " parameter kind of inlay hint
+" CocInlayHintType       " type kind of inlay hint
+"
+" Virtual Text:
+" CocCodeLens            " virtual text of codeLens
+" CocInputBoxVirtualText " input box placeholders
+" CocSnippetVisual       " snippet placeholders
+"
+" Ranges:
+" CocHoverRange          " range of current hovered symbol
+" CocSelectedRange       " range of outgoing calls
+" CocCursorRange         " for highlight of activated cursors ranges.
+" CocLinkedEditing       " for highlight of activated linked editing ranges.
+
+
+
 
 " vim:colorcolumn=18,58:nolist:nowrap:wfw:ww=125:wfh:wh=12:

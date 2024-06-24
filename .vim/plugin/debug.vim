@@ -32,7 +32,7 @@ endfunc
 command! FormatInfo call <SID>FormatInfo()
 
 function! s:WindowInfo(winid = win_getid())
-  let wInfo = getwininfo(a:winid)
+  let wInfo = getwininfo(a:winid)[0]
   let float = get(get(wInfo, 'variables', {}), 'float', 0)
   let popOpts = float ? popup_getoptions(a:winid) : ''
   let bufnr = get(wInfo, 'bufnr', 0)
@@ -48,16 +48,16 @@ function! s:WindowInfo(winid = win_getid())
         \ '// ------------------------------------'
         \]
  
-  let bufinfo = [
+  let bufInfo = [
         \ '// Buffer Info',
-        \ getbufinfo(bufnr()),
+        \ getbufinfo(bufnr),
         \ '// ------------------------------------'
         \]
   vsp
   enew
   call append('$', winInfo)
   call append('$', popInfo)
-  call append('$', bufinfo)
+  call append('$', bufInfo)
   call s:FormatInfo()
 endfunc
 

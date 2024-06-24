@@ -14,6 +14,9 @@ let g:mayhem_loaded_colorcolumn = 1
 "                                          the cursor, if two are equally close, 
 "                                          remove the leftmost first.
 
+" TODO - use this with vartabstop/varsofttabstop
+"
+
 command! AddColumnGuide :silent exec 'setlocal colorcolumn+='..virtcol('.')
 command! RemoveColumnGuide :silent exec 'setlocal colorcolumn+='..virtcol('.')
 

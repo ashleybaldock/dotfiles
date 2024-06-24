@@ -42,7 +42,7 @@ function s:GetLinkChain(name)
       let hl = hlget(lastName)[0]
       let lastName = get(hl, 'linksto', '')
     else
-      lastName = ''
+      let lastName = ''
     endif
   endwhile
   return chain

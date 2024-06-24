@@ -26,7 +26,7 @@
  * Configure:
  *   options: {
  *     // CSS variables are prefixed with this string
- *     prefix: 'myCustomPrefix',  // Default: 'bdata'
+ *     prefix: 'myCustomPrefix',  // Default: 'tngl'
  *
  *     // Add generated data-source IDs to elements missing them
  *     autoId:   true,            // Default: true
@@ -68,7 +68,7 @@
  *      %name    'name' attribute (e.g. radio button groups)
  *
  *  Default: new data value is written to:
- *    HTML attr: 'data-from-${id}'           (prefix defaults to 'bdata', 
+ *    HTML attr: 'data-from-${id}'           (prefix defaults to 'tngl', 
  *      CSS var: '--${prefix}-${id}'          customise via options.prefix)
  *      CSS str: '--${prefix}-s-${id}'
  *
@@ -86,7 +86,7 @@
 const entanglement = ((window) => {
   console.log('entanglement()');
   const { document } = window;
-  const { querySelectorAll: qs } = document;
+  const qs = document.querySelectorAll.bind(document);
 
   const entangle = (document, options) => {
     const {
@@ -109,11 +109,11 @@ const entanglement = ((window) => {
         },
         /* Update everything */
         send: () => {
-          for ([sink, newValues] of dataSinksMap) {
-            for ([sourceId, newValue] of newValues) {
+          for (const [sink, newValues] of dataSinksMap) {
+            for (const [sourceId, newValue] of newValues) {
               sink?.setAttribute?.(`data-from-${sourceId}`, newValue);
-              sink?.style?.setProperty(`--${prefix}-s-${dataSourceId}`, `"${currentValue}"`);
-              sink?.style?.setProperty(`--${prefix}-${dataSourceId}`, `${currentValue}`);
+              sink?.style?.setProperty(`--${prefix}-s-${sourceId}`, `"${newValue}"`);
+              sink?.style?.setProperty(`--${prefix}-${sourceId}`, `${newValue}`);
             }
           }
         },
@@ -174,12 +174,12 @@ const entanglement = ((window) => {
     const entangleEvent = ({ source }) => {
       const pending = getUpdateQueue();
 
-      const update = ({ eventName, newValue }) => {
+      const update = ({eventName, }) => {
         /* Update self */
         pending.enqueue({ source, sink: source.element, newValue });
 
-        /* Update associated labels & outputs */
         // TODO memoise and update via mutationobserver
+        /* Update associated labels & outputs */
         qs(`:is(label,output)[for=${dataSourceId}]`).forEach((sink) => {
           pending.enqueue({ source, sink, newValue });
         });
@@ -202,17 +202,20 @@ const entanglement = ((window) => {
 
         pending.send();
       };
+      const eventListener = ({type: eventName, target, currentTarget }) => {
+        update({ eventName, newValue: getCurrentValue(target)});
+      };
 
-      update();
+      update({ eventName: 'init', newValue: getCurrentValue(source) });
 
       return update; 
     };
 
     /* Auto: uses id as data source name */
-    const potentialSourceElements = [...qs(sourceDefinitions.map((d) => d.query))]; // TODO memoise
+    // TODO memoise
+    const potentialSourceElements = [...qs(sourceDefinitions.map((d) => d.query))];
 
-    const controller = new AbortController();
-    const signal = controller.signal;
+    const { signal, abort } = new AbortController();
 
     const sources = potentialSourceElements.flatMap((element) => {
       const source = {
@@ -234,7 +237,7 @@ const entanglement = ((window) => {
         source.addEventListener(eventName, valueUpdater, { signal });
       });
     });
-    return () => signal.abort();
+    return abort;
   };
   
   return ((options = {}) => {

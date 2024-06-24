@@ -3,9 +3,11 @@ if exists("g:mayhem_loaded_copy")
 endif
 let g:mayhem_loaded_copy = 1
 
-" ╭──────────────────╮
-" ╰─◯  Copy things   │
-" ╭──────────────────╯
+" ╭────────────────────────────────╮
+" ╰─◯  Copy Things ◯─╮             │
+"                    ╰ See also:   │
+"           $y in ./shortcuts.vim  │
+" ╭────────────────────────────────╯
 " │
 " ╰─╴filesystem
 " ╎   ├─▶︎ full path

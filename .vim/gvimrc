@@ -56,9 +56,9 @@ macm File.Open\ Tab\.\.\.<Tab>:tabnew             key=<Nop>
 macm File.Print                                   key=<Nop>
 
 "  <D-z>
-macm Edit.Undo<Tab>u                              key=<Nop>
+" macm Edit.Undo<Tab>u                              key=<Nop>
 "  <D-Z>
-macm Edit.Redo<Tab>^R                             key=<Nop>
+" macm Edit.Redo<Tab>^R                             key=<Nop>
 
 " " key=<D-x>
 " macm Edit.Cut<Tab>"+x                             key=<Nop>

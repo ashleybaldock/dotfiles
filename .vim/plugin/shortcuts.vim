@@ -3,6 +3,12 @@ if exists("g:mayhem_loaded_shortcuts")
 endif
 let g:mayhem_loaded_shortcuts = 1
 
+" ⌥⃝   ⃝  ◁╮                   
+" ╭▷ ⌥⃝  ⇧⃝   ⃝  
+"
+" ╰▷ ⌥⃝ 𝄑⇧⃝ 𝄑 ⃝           
+" ⌥⃝   ⃝  ◁╯
+"
 " 
 " Key Mappings:
 "
@@ -26,12 +32,6 @@ nnoremap <D-e> <CR>
 inoremap <D-e> <CR>
 xnoremap <D-e> <CR>
 
-" ⌥⃝   ⃝  ◁╮                   
-" ╭▷ ⌥⃝  ⇧⃝   ⃝  
-"
-" ╰▷ ⌥⃝ 𝄑⇧⃝ 𝄑 ⃝           
-" ⌥⃝   ⃝  ◁╯
-"
 " ╭──▷ ⌥⃝ 𝄐1⃝  ────▷ Start a command 
 nnoremap ¡ :
 
@@ -305,6 +305,14 @@ nnoremap <C-g><C-s> :OpenCSS<CR>
 
 
 
+" Y: Copy/Yank
+" §y,<⌥⃣ ‑c>
+"
+nnoremap §y <Nop>
+" <⌥⃣ ‑c> ▬▶︎ ç
+nnoremap <silent> ç <Nop>
+
+
 
 " Quickfix
 nnoremap §q :windo lcl\|ccl<CR>
@@ -328,10 +336,6 @@ nnoremap <leader>L   :set list!<CR>
 
 " Repeat last edit n times
 nnoremap . :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
-
-" Display line movements, except with count
-nnoremap <expr> j v:count ? 'j' : 'gj'
-nnoremap <expr> k v:count ? 'k' : 'gk'
 
 
 
@@ -422,12 +426,20 @@ nnoremap ™ :%s///g<Left><Left>
 " '\', '"'' or '|'.  This is useful if you want to include a '/' in the search
 " pattern or replacement string.  Example:
 "   :s+/+//+
+" let l:slash = exists('+shellslash')
+"     && !&shellslash ? '\' : '/'
+" if count(getcwd(), l:slash) > 3
+"   
 
 " J:
 " ╭──▷    ⌥⃝ 𝄐J⃝   ────▷ join line below to end (with no space between)
 " nnoremap ∆ Jx
 " ╭──▷ ⇧⃝ 𝄐⌥⃝ 𝄐J⃝   ────▷ reverse of  ⌥⃝ 𝄐J⃝ 
 nnoremap Ô i<CR><Esc>k$
+
+" Display line movements, except with count
+nnoremap <expr> j v:count ? 'j' : 'gj'
+nnoremap <expr> k v:count ? 'k' : 'gk'
 
 " K:
 "─────────────────────────────────────────────────────
@@ -586,8 +598,6 @@ nnoremap <silent> ƒ <Plug>(coc-fix-current)
 nnoremap <silent> <D-f> <Plug>(coc-fix-current)
 nnoremap <silent> §2 <Plug>(coc-codeaction-line)
 nnoremap <silent> §3 <Plug>(coc-codeaction-source)
-" <⌥⃣ ‑c> ▬▶︎ ç
-nnoremap <silent> ç <Plug>(coc-fix-current)
 "<Plug>(coc-codeaction-line)| Choose code actions at current line.
 "<Plug>(coc-codeaction-source)| Choose source code action of current file.
 "<Plug>(coc-codeaction-selected)| Choose code actions from selected range.

@@ -16,6 +16,21 @@ endfunc
 " nnoremap <silent><nowait> <space>o  :call ToggleOutline()<CR>
 
 
+
+"
+" Symbols And Ranges:
+"
+"
+"
+":CocCommand document.jumpToPrevSymbol
+":CocCommand document.jumpToNextSymbol
+
+
+
+
+"
+" Diagnostics:
+"
 function s:WorstDiagnosticSeverity()
   let diaginfo = get(b:, 'coc_diagnostic_info', {})
   return get(diaginfo, 'error', 0) > 0 ? 'error' :
@@ -37,6 +52,9 @@ command! NextMostImportantDiagnostic
       \ call <SID>NextMostImportantDiagnostic()
 
 
+" TODO
+" Special extra documentation for various things
+"
 let s:docOverrideMap = {
       \ 'map': 'map-table',
       \ '\(n\|i\|c\|v\|x\|s\|o\|t\|l\)\{-,1}map': 'map-table',
@@ -58,6 +76,37 @@ endfunc
 
 command! ShowDocumentation call <SID>ShowDocumentation()
 
+
+
+
+
+
+"
+" Completion:
+"
+
+  " • Disable completion for buffer: |b:coc_suggest_disable|
+  " • Disable specific sources for buffer: |b:coc_disabled_sources|
+  " • Disable words for completion: |b:coc_suggest_blacklist|
+  " • Add additional keyword characters: |b:coc_additional_keywords|
+
+" Related functions:~
+
+  " • Trigger completion with options: |coc#start()|.
+  " • Trigger completion refresh: |coc#refresh()|.
+  " • Select and confirm completion: |coc#_select_confirm()|.
+  " • Check if the custom popupmenu is visible: |coc#pum#visible()|.
+  " • Select the next completion item: |coc#pum#next()|.
+  " • Select the previous completion item: |coc#pum#prev()|.
+  " • Cancel completion and reset trigger text: |coc#pum#cancel()|.
+  " • Confirm completion: |coc#pum#confirm()|.
+  " • Close the popupmenu only: |coc#pum#stop()|.
+  " • Get information about the popupmenu: |coc#pum#info()|.
+  " • Select specific completion item: |coc#pum#select()|.
+  " • Insert word of selected item and finish completion: |coc#pum#insert()|.
+  " • Insert one more character from current complete item: |coc#pum#one_more()|.
+  " • Scroll popupmenu: |coc#pum#scroll()|.
+
 " Tab autocomplete for popup menu
 function! s:CocCheckBackspace() abort
   let col = col('.') - 1
@@ -74,6 +123,13 @@ inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 inoremap <silent><expr> <CR>
       \ coc#pum#visible() ? coc#pum#confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
+
+
+"
+" Events And Autocommands:
+"
 
 function s:OnCocDiagnosticChange()
   UpdateSlCachedDiagnostics
@@ -122,17 +178,16 @@ function s:OnCocOpenFloat()
   elseif highlight == 'HlCocPuSugsBg'
     " Coc suggestion float
     call popup_setoptions(g:coc_last_float_win, #{
-          \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
+          \ borderchars: ['─','⎥','━','⎢', '⎛','⎞','⎠','⎝'], 
           \ padding: [0,0,0,0], 
-          \ border: [0,0,0,0],
-          \ title:'╸━ Coc: Suggestion ━╺',
+          \ border: [1,0,0,0],
           \ })
   elseif name =~ '\[List Preview]'
     echom 'preview'
   else
     call popup_setoptions(g:coc_last_float_win, #{
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
-          \ padding: [0,1,0,1], 
+          \ padding: [0,0,0,0], 
           \ border: [1,1,1,1],
           \ title:'╸━ Coc ━╺',
           \ line: 'cursor+2'
@@ -161,6 +216,7 @@ augroup CocEvents
   "Triggered when a floating window is opened.  The window is not
   "focused, use |g:coc_last_float_win| to get window id.
   au User CocOpenFloat silent call s:OnCocOpenFloat()
+  " au User CocOpenFloatPrompt silent call s:OnCocOpenFloatPrompt()
 
   "Triggered when terminal shown (e.g. for adjusting window height)
   " au User CocTerminalOpen echom '---CocTerminalOpen---'

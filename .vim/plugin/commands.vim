@@ -24,19 +24,18 @@ endfunc
 " column  text column inside winid
 " coladd  offset (in screen columns) from the
 "          start of the clicked char
+  " call winrestview({'curswant': pos.column + pos.coladd})
 function s:StartVisualBlockFromClick()
   let pos = getmousepos()
-  exec winnr(pos.winid)..'wincmd w'
-  call setcursorcharpos(pos.line, pos.column, pos.coladd)
-  call winrestview({'curswant': pos.column + pos.coladd})
+  exec getwininfo(pos.winid)[0].winnr..'wincmd w'
+  call cursor([pos.line, pos.column, pos.coladd, pos.column + pos.coladd])
   execute "normal! \<C-v>"
 endfunc
 
 function s:StartVisualBlockToClick()
   let pos = getmousepos()
   execute "normal! \<C-v>"
-  call setcursorcharpos(pos.line, pos.column, pos.coladd)
-  call winrestview({'curswant': pos.column + pos.coladd})
+  call cursor([pos.line, pos.column, pos.coladd, pos.column + pos.coladd])
 endfunc
 
 command! StartVisualBlockFromClick call <SID>StartVisualBlockFromClick()

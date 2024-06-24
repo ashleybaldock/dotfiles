@@ -86,3 +86,6 @@
 [submodule "/Users/ashley/dotfiles/.vim/pack/default/start/vim-chracterize"]
 	path = /Users/ashley/dotfiles/.vim/pack/default/start/vim-chracterize
 	url = https://github.com/tpope/vim-characterize.git
+[submodule "/Users/ashley/dotfiles/.vim/pack/default/start/undotree"]
+	path = /Users/ashley/dotfiles/.vim/pack/default/start/undotree
+	url = https://github.com/mbbill/undotree.git

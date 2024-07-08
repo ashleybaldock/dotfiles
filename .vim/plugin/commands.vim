@@ -3,6 +3,18 @@ if exists("g:mayhem_loaded_commands")
 endif
 let g:mayhem_loaded_commands = 1
 
+ "" yank all matching lines to register
+ " :let @a=""
+ " :g/<pattern>/y A
+ "" :echo @a
+ "" copy register to clipboard
+ " :let @*=@a
+
+ "" delete all matching lines
+ " :g/pattern/d
+ " :g//d
+
+
 " find cursor                                       TODO
 " highlight current cursor position by horizontal and vertical cursor
 command! PingCursor <Nop>
@@ -28,7 +40,7 @@ endfunc
 function s:StartVisualBlockFromClick()
   let pos = getmousepos()
   exec getwininfo(pos.winid)[0].winnr..'wincmd w'
-  call cursor([pos.line, pos.column, pos.coladd, pos.column + pos.coladd])
+call cursor([pos.line, pos.column, pos.coladd, pos.column + pos.coladd])
   execute "normal! \<C-v>"
 endfunc
 
@@ -65,6 +77,24 @@ augroup misc_commands
   " au FileType qf if mapcheck('<esc>', 'n') ==# '' | nnoremap <buffer><silent> <esc> :cclose<bar>lclose<CR> | endif
 augroup END
 
+
+
+"
+" File Changed Since Reading:...
+" For when a file has been changed externally and there are also changes to
+" the buffer, open a split with the on-disk version and start a diff
+"
+" TODO - close temp window on diffoff
+" TODO - closing temp window ends diff in both
+" TODO - closing source window closes temp one
+"
+command! DiffWithSaved diffoff! | let sourceft = &filetype
+      \ | vert new | set bt=nofile 
+      \ | r ++edit #
+      \ | 0d_ | let filetype = sourceft
+      \ | diffthis | wincmd p | diffthis 
+      \ | call setbufvar(bufnr('$'), 'filetype', &filetype)
+      \ | call setbufvar(bufnr('$'), 'mayhem_diff_saved', expand('%'))
 
 
 
@@ -117,7 +147,7 @@ endfunc
 
 
 "
-" Set a direction to move in after doing somthing
+" Set a direction to move in after doing something
 "
 function! s:RepeatMove()
   let b:mayhem_move_after = get(b:, 'mayhem_move_after', 'normal l') 

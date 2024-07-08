@@ -6,11 +6,18 @@
     <meta name="theme-color" content="#000000" />
     <link rel="stylesheet" href="icons.css"/>
 
-  <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
 
-  <script type="application/javascript" src="entanglement.js"></script>
+    <script type="application/javascript" src="entanglement.js"></script>
   
-<script>
+    <script>
+      entanglement().then((untangle) => {
+        console.log(untangle);
+      });
+    </script>
+
+
+    <script>
   const encodeSVG = (data, { fill = '#ffffff' } = {}) =>
         data.replace(/<svg/g, `<svg style="fill: ${fill};"`)
         .replace(/>\s{1,}</g, `><`)
@@ -36,12 +43,6 @@
         setTimeout(() => e.target?.classList?.remove('copyfail'), 4000);
       });
   }
-
-  window.addEventListener('load', (event) => {
-    const unbind = entanglement.bindStuff();
-  });
-
-
 
   window.addEventListener('load', (event) => {
 
@@ -80,16 +81,16 @@
     </script>
 
   </head>
-  <body data-sink-all>
+  <body data-sink-all data-sink="*">
     <fieldset>
-        <label for="stroke-width" data-sink-for="stroke-width">
+        <label for="stroke-width" data-sink="stroke-width">
             SVG::stroke-width
           <output for="stroke-width"/></output>
           <input type="range" list="markers" min="0" max="64" step="1"
             id="stroke-width"
-            data-source-id
-            data-source-for="stroke-width"
-            data-source-on="input change"/>
+            data-source="stroke-width"
+            />
+            <!-- data-source="stroke-width;input,change;root" -->
           <datalist id="markers">
             <option value="0"></option>
             <option value="8"></option>

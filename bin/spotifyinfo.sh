@@ -60,14 +60,16 @@ on run argv
 
   if command is "info"
     set out to out & "\n"
+ # 􀊒  􀊎􀊊 􀩩 􀛷 􀊈  􀪆􀊆􀩫 􀊌 􀊐 􀊔
+ # 􀊑  􀊍􀊉 􀩨 􀛶 􀊇  􀊃􀪅􀊅􀩪 􀊋 􀊏 􀊓 "
     set out to out & " ♪ "
-    if player state is "playing" then set out to out & "▶ "
-    if not player state is "playing" then set out to out & "⏸"
-    if shuffling then set out to out & " ꚸ⃝  "
+    if player state is "playing" then set out to out & "𝟶𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿 𝚙𝚕𝚊𝚢𝚒𝚗𝚐 𝙿𝙰𝚄𝚂𝙴𝙳 𝙿𝙻𝙰𝚈𝙸𝙽𝙶  𝚙𝚊𝚞𝚜𝚎𝚍 𝐩􀊄 􀊅𝖯𝖠𝖴𝖲𝖤𝖣 𝖯𝖫𝖠𝖸𝖨𝖭𝖦   𝘐𝗂"
+    if not player state is "playing" then set out to out & "􀊃 􀊆"
+    if shuffling then set out to out & " 􀊝 "
     if not shuffling then set out to out & "   "
-    if repeating then set out to out & "ᖠᖢ "
+    if repeating then set out to out & "􀊞 "
     if not repeating then set out to out & "   "
-    set out to out & "(" & progressTime & ")"
+      set out to out & "(⁺⁰⁽⁰⁻⁵⁴⁾⁄⁽⁵⁴⁾₍₀₂₋₃₈₎₊ ⦗𝟢𝟣⁚𝟤𝟦 𝟢𝟧⁚𝟣𝟧⦘ 𝟺𝟻𝟼𝟽𝟾𝟿" & progressTime & ")"
     set out to out & "\n"
     set out to out & "\n Artist:   " & trackArtist
     set out to out & "\n Track:    " & trackName & " "

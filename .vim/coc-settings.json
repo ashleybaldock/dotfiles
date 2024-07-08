@@ -28,12 +28,11 @@
   "list.interactiveDebounceTime": 100,
   "list.source.diagnostics.pathFormat": "short",
   "list.statusLineSegments": [
-    "%#CocListMode#-- %{coc#list#status(\"mode\")\\} --%*",
-    "%{coc#list#status(\"loading\")\\}",
-    "%{coc#list#status(\"args\")\\}",
-    "(%L/%{coc#list#status(\"total\")\\})",
+    "%{%coc#list#status('loading')%}",
+    "(%L/%{%coc#list#status('total')%})",
+    "%{%coc#list#status('args')%}",
     "%=",
-    "%#CocListPath# %{coc#list#status(\"cwd\")\\} %l/%L%*"
+    "%#CocListPath# %{%coc#list#status('cwd')%} %l/%L%*"
   ],
 
   "suggest.timeout": 5000,
@@ -64,7 +63,51 @@
   "suggest.lowPrioritySourceLimit": 2,
   "suggest.highPrioritySourceLimit": 5,
   "suggest.triggerAfterInsertEnter": false,
-  "suggest.completionItemKindLabels": {},
+  "suggest.completionItemKindLabels": {
+    "default":       " 􀍠 ",  
+    "file":          " 􀈷 ",  
+    "folder":        " 􀈕 ",  
+    "reference":     " 􂇏  ",  
+    "snippet":       " 􁇔 ",  
+
+    "unit":          " 􀭭 ",
+    "text":          " 􀅒 ",      
+    "color":         " 􀆃 ",  
+    "variable":      " 􁎢 ",
+    "constant":      " 𝛑⃝  ",
+    "value":         " ＆ ",
+    "keyword":       " Ｗ ",   
+    "typeParameter": "‹T› ",
+
+    "operator":      " 􀛺 ",
+
+    "event":         " 􀋉 ",
+    "function":      " λ􀸏",
+    "method":        "􀐘․λ",
+    "property":      "􀐘􀡅",
+    "field":         "􀐘․x",
+
+    "interface":     " 􀬨 ",
+    "class":         " 􀐙 ",
+    "constructor":   "(􀐙)",
+    "module":        " 􀥭 ",
+
+    "enum":          " 􁂷 ",
+    "enumMember":    " 􀔪 ",
+    "struct":        " 􁉼 ",
+
+/*
+    "Namespace":     "",
+    "Package":       "",
+
+    "Key":           "",
+    "Null":          "",
+    "Boolean":       "",
+    "Number":        "",
+    "String":        "",
+    "Array":         ""
+*/
+  },
   "suggest.acceptSuggestionOnCommitCharacter": false,
   "suggest.preferCompleteThanJumpPlaceholder": false,
   "suggest.noselect": true,
@@ -120,6 +163,8 @@
   },
   
   "css.lint.float": "warning",
+  "css.lint.emptyRules": "warning",
+  "css.validate": true,
   "css.lint.zeroUnits": "warning",
   "css.lint.duplicateProperties": "warning",
   "css.lint.propertyIgnoredDueToDisplay": "warning",
@@ -159,5 +204,8 @@
   "prettier.formatterPriority": 1,
   "prettier.enable": true,
 
-  "typescript.preferences.prefer TypeOnlyAutoImports": true
+  "typescript.preferences.importModuleSpecifier": "shortest",
+  "typescript.preferences.useAliasesForRenames": false,
+  "typescript.preferGoToSourceDefinition": true,
+  "typescript.preferences.preferTypeOnlyAutoImports": true
 }

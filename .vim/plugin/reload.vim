@@ -8,6 +8,8 @@ let g:mayhem_loaded_reload = 1
 "
 " Reload a plugin after unsetting flag to avoid reloading
 "
+" (This doesn't work on itself at the moment)
+"
 " Works if the 'if exists(name) finish endif' is
 " the first non-commented thing in the file
 "

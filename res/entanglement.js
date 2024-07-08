@@ -88,12 +88,47 @@ const entanglement = ((window) => {
   const { document } = window;
   const qs = document.querySelectorAll.bind(document);
 
+
+  const nameFor = (element) => element.getAttribute('name');
+  const typeFor = (element) =>
+    `${element.localName}:${(element.hasAttribute('type') && element.getAttribute('type')) || ''}`
+
+
+
+  /*
+   *
+
+let update = (objWrapper, newvalue) => objWrapper.valueOf = objWrapper.toSource = objWrapper.toString = () => newvalue
+o = {get a() {return this._a}, set a(to) {this._a ? update(this._a, to) : this._a = Object(a)}}
+
+
+ooo = {_a: Object(undefined), get a() {return this._a}, set a(to) {this._a =  updateOrWrap(this._a, to)}}
+
+
+
+ updateOrWrap = (obj, val) => obj === undefined ? Object(val) : (obj.valueOf = obj.toSource = obj.toString = () => val) && obj
+oooo = {_a: Object(undefined), get a() {return this._a}, set a(to) {this._a =  updateOrWrap(this._a, to)}}
+
+
+let l = Object('meh')
+l.__proto__
+oooo.a.toSource()
+oooo.a.toString()
+oooo.a.valueOf()
+l.toString = l.toSource = l.getValue = () => 'bleh'
+
+   *
+   */
+  const wrapped = () => {
+  };
+
+
   const entangle = (document, options) => {
     const {
-      prefix = 'tngl',
-      autoId = true,
-      autoFor = true,
-      observe = true,
+      prefix = wrapped('tngl'),
+      autoId = wrapped(true),
+      autoFor = wrapped(true),
+      observe = wrapped(true),
     } = options;
 
     console.log('entangle()');
@@ -117,26 +152,32 @@ const entanglement = ((window) => {
             }
           }
         },
-            /* Map output TODO */
-            // const sinkAttr = (dataSink.getAttribute('data-map-attr')?.split?.(' ') ?? [])
-            //   .flatMap((s) => ((n, v) => n === dataSourceId
-            //     ? [v] 
-            //     : [])(...s.split(':')[0]))[0] ?? `data-from-${dataSourceId}`;
-            // dataSink?.setAttribute?.(sinkAttr, currentValue);
+        /* Map output TODO */
+        // const sinkAttr = (dataSink.getAttribute('data-map-attr')?.split?.(' ') ?? [])
+        //   .flatMap((s) => ((n, v) => n === dataSourceId
+        //     ? [v] 
+        //     : [])(...s.split(':')[0]))[0] ?? `data-from-${dataSourceId}`;
+        // dataSink?.setAttribute?.(sinkAttr, currentValue);
       });
     })();
 
-    const getCurrentValue = (source) => {
-      const type = source.getAttribute('type');
-      if (type === 'checkbox' || type === 'radio') {
-        return source.checked;
-      }
-      return source.value;
-    };
+    const nextId = ((id) => () => ++id)(0);
 
-    const getRadioGroupValue = ({ element, name }) =>
+
+    const getCurrentValue = (() => {
+      const getRadioGroupValue = ({ element, name }) =>
         element.form?.elements?.namedItem?.(name)?.value ?? 
         [...qs(`input[type='radio'][name=${name}]:checked`)][0]?.value ?? null;
+      const getChecked = ({ checked }) => checked;
+      const getValue = ({ value }) => value;
+
+      const inputTypeValueMap = new Map([
+        'checkbox', getChecked,
+        'radio', getChecked,
+      ]);
+      return (source) => inputTypeValueMap
+          .get(source.type)?.(source) ?? getValue(source);
+    })();
 
     const sourceDefinitions = [
       { query: `[data-source]`, events: [``], },
@@ -144,20 +185,22 @@ const entanglement = ((window) => {
       { query: `input[type=checkbox]`, events: [``], },
     ];
 
-    const nextId = ((id) => () => ++id)(0);
-
-    const getOrAssignIdFor = (element) =>
-      (element.hasAttribute('data-source') && element.getAttribute('data-source'))
-        || (element.hasAttribute('id') && getAttribute('id'))
-        || autoId
+    const getOrAssignIdFor = (({ nextId, options }) =>
+      (element) => element.getAttribute('data-source')
+        ?? element.getAttribute('id')
+        ?? options.autoId
           ? ((id) => element.setAttribute('data-source',
               `${prefix}${id.toString(16).padStart(6, '0')}`) ?? id)(nextId())
-          : null;
+          : null)({ nextId, options });
 
-    const typeFor = (element) =>
-      `${element.localName}:${(element.hasAttribute('type') && element.getAttribute('type')) || ''}`
-
-    const nameFor = (element) => element.getAttribute('name');
+    const validEventNames = new Map([
+      ['input', ['input:radio', 'input:checkbox', 'input']],
+      ['change', ['input:radio', 'input:checkbox', 'input']],
+      ['close', ['dialog']],
+      ['slotchange', ['slot']],
+      ['toggle', ['details']]
+    ]);
+    const validateEvent = (eventName) => validEventNames.has(eventName) ? [eventName] : [];
 
     const defaultEventsFor = ((sourceTypeMap, defaultEvents) =>
       (sourceType) => sourceTypeMap.has(sourceType)
@@ -167,14 +210,15 @@ const entanglement = ((window) => {
           ['input:radio', ['input', 'change']]]),
         ['input']);
 
-    const eventsFor = (element) => (element.hasAttribute('data-source-on') && 
-          element.getAttribute('data-source-on')?.split?.(' ')) ?? defaultEventsFor(element);
+    const eventsFor = (element) => 
+      element.getAttribute('data-source-on')?.split?.(' ').flatMap(validateEvent)
+        ?? defaultEventsFor(element);
 
   // : { element: sourceElement, id: sourceId }
     const entangleEvent = ({ source }) => {
       const pending = getUpdateQueue();
 
-      const update = ({eventName, }) => {
+      const update = ({eventName, newValue}) => {
         /* Update self */
         pending.enqueue({ source, sink: source.element, newValue });
 
@@ -183,6 +227,7 @@ const entanglement = ((window) => {
         qs(`:is(label,output)[for=${dataSourceId}]`).forEach((sink) => {
           pending.enqueue({ source, sink, newValue });
         });
+ 
         /* Update listeners */
         qs(`[data-sink~=${dataSourceId}]`).forEach((sink) => {
           pending.enqueue({ source, sink, newValue });
@@ -193,7 +238,7 @@ const entanglement = ((window) => {
             qs(`[data-sink~=name%${source.name}], [name=${source.name}]`).forEach((sink) => 
               pending.enqueue({source, sink, newValue: getRadioGroupValue(source), alias: `name-${source.name}`}));
           } else {
-            console.warn(`Entanglement: Found input(radio) with no name - id: '${dataSourceId}'`);
+            console.warn(`Entanglement: Found input(radio) with no name - id: '${dAtaSourceId}'`);
           }
         }
 
@@ -203,10 +248,10 @@ const entanglement = ((window) => {
         pending.send();
       };
       const eventListener = ({type: eventName, target, currentTarget }) => {
-        update({ eventName, newValue: getCurrentValue(target)});
+        update({ eventName, newValue: getCurrentValue(eventName, target)});
       };
 
-      update({ eventName: 'init', newValue: getCurrentValue(source) });
+      update({ eventName: 'init', newValue: getCurrentValue('init', source) });
 
       return update; 
     };
@@ -253,11 +298,11 @@ const entanglement = ((window) => {
 })(window);
 
 
-          /* Update nearest parent sink */
-          // const closestParentSink = e.target.closest(`[data-sink-for~=${name}]`);
-          // if (closestParentSink) {
-          //   const sinkAttr = (closestParentSink.getAttribute('data-map-attr')?.split?.(' ') ?? [])
-          //     .flatMap((s) => ((n, v) => n === name ? [v] : [])(...s.split(':')[0]))[0] ?? `data-from-${name}`;
+/* Update nearest parent sink */
+// const closestParentSink = e.target.closest(`[data-sink-for~=${name}]`);
+// if (closestParentSink) {
+//   const sinkAttr = (closestParentSink.getAttribute('data-map-attr')?.split?.(' ') ?? [])
+//     .flatMap((s) => ((n, v) => n === name ? [v] : [])(...s.split(':')[0]))[0] ?? `data-from-${name}`;
 
-          //   closestParentSink.setAttribute?.(sinkAttr, val);
-          // }
+//   closestParentSink.setAttribute?.(sinkAttr, val);
+// }

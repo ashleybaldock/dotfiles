@@ -147,7 +147,7 @@ function s:OnCocOpenFloat()
   " w:preview_window = 1
   let cocbufnr = get(get(getwininfo(g:coc_last_float_win), 0, {}), 'bufnr', -1)
   let name = get(get(getbufinfo(get(get(getwininfo(g:coc_last_float_win), 0, {}), 'bufnr', -1)), 0, {}), 'name', 'unknown')
-  echom name
+
   let popOpts = popup_getoptions(g:coc_last_float_win)
   let highlight = get(popOpts, 'highlight', 'unknown')
 
@@ -157,8 +157,8 @@ function s:OnCocOpenFloat()
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
           \ padding: [0,1,0,1], 
           \ border: [1,1,1,1],
-          \ title:'╸━ Coc: Hover ━╺',
           \ })
+          " \ title:'╸━ Coc: Hover ━╺',
   elseif highlight == 'HlCocPuSgtrBg'
     " Coc signature float
     call popup_setoptions(g:coc_last_float_win, #{
@@ -173,8 +173,8 @@ function s:OnCocOpenFloat()
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
           \ padding: [0,1,0,1], 
           \ border: [1,1,1,1],
-          \ title:'╸━ Coc: Diagnostic ━╺',
           \ })
+          " \ title:'╸━ Coc: Diagnostic ━╺',
   elseif highlight == 'HlCocPuSugsBg'
     " Coc suggestion float
     call popup_setoptions(g:coc_last_float_win, #{
@@ -190,7 +190,6 @@ function s:OnCocOpenFloat()
           \ padding: [0,0,0,0], 
           \ border: [1,1,1,1],
           \ title:'╸━ Coc ━╺',
-          \ line: 'cursor+2'
           \ })
   endif
 endfunc

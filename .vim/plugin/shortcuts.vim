@@ -497,20 +497,21 @@ xnoremap <expr> x  mode() ==# "\x16" ? "y<ESC>gvr<Space>" : "x"
 xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
  
 " Option Left Click On Focused Window:
-"    starts visual block selection from click location
+"  i⁺₊﹢＋rts visual block selection from click location
 "     (as if virtualedit=all)
 "
 nnoremap <expr> <M-LeftMouse> getmousepos().winid==win_getid() ? '<Cmd>StartVisualBlockToClick<CR>' : '<Cmd>StartVisualBlockFromClick<CR>'
 " nnoremap <M-LeftMouse> :StartVisualBlockFromClick<CR>
 
-
-
-" Diff
+" Diff:
 "
-nnoremap §dd :diffget
-nnoremap §ds :diffput
+nnoremap §dd :diffthis<CR>
+nnoremap §de :diffget<CR>
+nnoremap §dt :diffput<CR>
+nnoremap §dx :diffoff<CR>
+nnoremap §dr :diffupdate<CR>
 "
-" GitGutter
+" GitGutter:
 " 
 " nmap ]c <Plug>GitGutterNextHunk
 " nmap [c <Plug>GitGutterPrevHunk

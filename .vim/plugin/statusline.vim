@@ -163,6 +163,10 @@ endfunc
 function CheckUnix()
   return &fileformat == "unix" ? "" : "␌⃞ "
 endfunc
+function Diffing()
+  return &diff ? "􀉆􀄭􀕹" : ""
+  " return &diff ? "DIFF" : ""
+endfunc
 
 
 function ChFName()
@@ -193,15 +197,29 @@ function s:Update_FileInfo()
   call s:SetStatusVars()
   let ext = expand('%:e')
   let name = expand('%:r')
+  let diffname = getbufvar(bufnr(), 'mayhem_diff_saved', '')
   let tail = expand('%:t')
   let type = getbufvar(bufnr(), '&filetype')
 
   if name == ''
-    let b:mayhem.sl_cached_filename = [
-      \ '%#SlFNoNameC#nameless%* '..
-      \ '%{&modified?&modifiable?"+":"⨁":""}',
-      \ '%#SlFNoNameN#nameless%* '..
-      \ '%{&modified?&modifiable?"+":"⨁":""}']
+    if &diff && diffname != ''
+      " let b:mayhem.sl_cached_filename = [
+      "   \ '%#SlFDfSvNmC#Saved('..diffname..')%* '..
+      "   \ '%{&modified?&modifiable?"+":"⨁":""}',
+      "   \ '%#SlFDfSvNmN#Saved('..diffname..')%* '..
+      "   \ '%{&modified?&modifiable?"+":"⨁":""}']
+      let b:mayhem.sl_cached_filename = [
+        \ '%#SlFDfSvNmC#Saved('..diffname..')%* '..
+        \ '%{&modified?&modifiable?"􀑍":"􀴥􀍼":""}',
+        \ '%#SlFDfSvNmN#Saved('..diffname..')%* '..
+        \ '%{&modified?&modifiable?"􀑍":"􀴥􀍼":""}']
+    else
+      let b:mayhem.sl_cached_filename = [
+        \ '%#SlFNoNameC#nameless%* '..
+        \ '%{&modified?&modifiable?"􀑍":"􀴥":""}',
+        \ '%#SlFNoNameN#nameless%* '..
+        \ '%{&modified?&modifiable?"􀑍":"􀴥":""}']
+    endif
     let b:mayhem.sl_cached_fileinfo = [
       \ '%#SlFTyp2C#'..type..'%*',
       \ '%#SlFTyp2N#'..type..'%*']
@@ -231,14 +249,99 @@ function s:Update_FileInfo()
   endif
 endfunc
 
-function! s:StatuslineMode() abort
-  " ^V/^S need to be real, i.e. entered using ctrl+v,ctrl+v/ctrl+s
-  return {'n': 'n', 'i': 'ɪ',
+" ^V/^S need to be real, i.e. entered using ctrl+v,ctrl+v/ctrl+s
+" Single letter mode() - Ascii
+function! SimpleModeA() abort
+  return {
+        \ 'n': 'n',
+        \ 'i': 'i',
+        \ 'v': 'v', 'V': 'V', '': '^V',
+        \ 's': 's', 'S': 'S', '': '^S',
+        \ 'R': 'R',
+        \ 'r': 'r',
+        \ 't': 't',
+        \ 'c': 'c',
+        \ '!': 'S',
+        \ }[mode()]
+endfunc
+
+" Single letter mode() - Unicode
+function! SimpleMode8() abort
+  return {
+        \ 'n': 'n',
+        \ 'i': 'ɪ',
         \ 'v': 'v', 'V': 'v̅', '': 'v̺͆',
         \ 's': 's', 'S': 's̅', '': 's̺͆',
-        \ 'R': 'ʀ', 'r': 'ᴚ',
-        \ 't': 'ʇ', 'c': 'ɔ',\
-        \ '!': 'S', }[mode()]
+        \ 'R': 'ʀ',
+        \ 'r': 'ᴚ',
+        \ 't': 'ʇ',
+        \ 'c': 'ɔ',
+        \ '!': 'S',
+        \ }[mode()]
+endfunc
+
+" Single letter mode() - SF Symbols
+function! SimpleModeSF() abort
+  return {
+        \ 'n': 'n',
+        \ 'i': 'ɪ',
+        \ 'v': 'v', 'V': 'v̅', '': 'v̺͆',
+        \ 's': 's', 'S': 's̅', '': 's̺͆',
+        \ 'R': 'ʀ',
+        \ 'r': 'ᴚ',
+        \ 't': 'ʇ',
+        \ 'c': 'ɔ',
+        \ '!': 'S',
+        \ }[mode()]
+endfunc
+
+" Multi letter mode(true) - Ascii
+function! ModeA() abort
+endfunc
+" Multi letter mode(true) - Unicode
+function! Mode8() abort
+endfunc
+" Multi letter mode(true) - SF Symbols
+function! ModeSF() abort
+  return {'n':    '􀂮',
+        \ 'no':   '􀂮􀍡',
+        \ 'nov':  '􀂮􀍡',
+        \ 'noV':  '􀂮􀍡',
+        \ 'no': '􀂮􀍡',
+        \ 'niI':  '􀈎',
+        \ 'niR':  '􀈎',
+        \ 'niV':  '􀈎',
+        \ 'nt':   '􀂮􀩼',
+        \ 'v':    '􀍳',
+        \ 'V':    'v̅',
+        \ '':   'v̺͆ v⃞',
+        \ 'vs':   '',
+        \ 'Vs':   '',
+        \ 's':  '',
+        \ 's':    's',
+        \ 'S':    's̅',
+        \ '':   's̺͆ s⃞',
+        \ 'i':    '􀈎',
+        \ 'ic':   '􀈎',
+        \ 'ix':   '􀈎',
+        \ 'R':    'ʀ',
+        \ 'Rc':   'ʀ',
+        \ 'Rx':   'ʀ',
+        \ 'Rv':   'ʀ',
+        \ 'Rvc':  'ʀ',
+        \ 'Rvx':  'ʀ',
+        \ 'c':    '􀂘',
+        \ 'ct':   '􀂘􀩼􀄄',
+        \ 'cr':   '􀂘',
+        \ 'cv':   '􀕲',
+        \ 'cvr':  '􀕲',
+        \ 'ce':   '􀕲',
+        \ 'r':    '􀅇',
+        \ 'rm':   '􀋷',
+        \ 'r?':   '􀢰',
+        \ 't':    '􀃼􀩼',
+        \ '!':    '􀖇',
+        \ }[mode(v:true)]
 endfunc
 
 "ꘖǀǀǁǂ|‖꜏ꖔ꜊   ꜏̲̅ ꜊̲̅
@@ -311,33 +414,65 @@ function s:UpdateStatuslines() abort
 
   " let obsessionStatus = exists("*ObsessionStatus")
   "       \ ? '%{ObsessionStatus("𐱃","𐠂")}' : '𑀠'
+  "
+
+  "     Size:  left╺╮  ╭╸zeros
+  "               %{-}{0}{minwid}.{maxwid}
+  " Truncate: %< ║ %-f %< %f ┃ abcdefghi.vim < efghi.vim ┃
+  " Separate: %= ║ L%=Mid%=R ┃ L          Mid          R ┃
 
   let g:mayhem['sl_norm'] = [
-    \ '%{%ChGit()%} %{%ChFName()%} %#SlSepC#%<%=%*'..
-    \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)'..
-    \ '%{%ChFInfo()%} %{%ScrollHint()%}'..
-    \ ' %{%ChDiag()%}',
-    \
-    \ '%{%ChGit()%} %{%ChFName()%} %#SlSepN#%<%=%*'..
-    \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)'..
-    \ '%{%ChFInfo()%} %{%ScrollHint()%}'..
-    \ ' %{%ChDiag()%}']
+        \ '%{%ChGit()%} %{%ChFName()%} %#SlSepC#%<%=%*'..
+        \ '%{%Diffing()%}'..
+        \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)'..
+        \ '%{%ChFInfo()%} %{%ScrollHint()%}'..
+        \ ' %{%ChDiag()%}',
+        \
+        \ '%{%ChGit()%} %{%ChFName()%} %#SlSepN#%<%=%*'..
+        \ '%{%Diffing()%}'..
+        \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)'..
+        \ '%{%ChFInfo()%} %{%ScrollHint()%}'..
+        \ ' %{%ChDiag()%}']
 
 
+  " let g:mayhem['sl_prev'] = [
+  "   \ '%#SlInfoC#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ',
+  "   \ '%#SlInfoN#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ']
   let g:mayhem['sl_prev'] = [
-    \ '%#SlInfoC#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ',
-    \ '%#SlInfoN#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ']
+    \ '%#SlInfoC#􀬸 %-f%*%<%=%(%n %l,%c%V %P%) ',
+    \ '%#SlInfoN#􀬸 %-f%*%<%=%(%n %l,%c%V %P%) ']
+  " let g:mayhem['sl_help'] = [
+  "       \ '%#SlInfoC#𝓲⃝  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
+  "       \ '%#SlInfoN#𝓲⃝  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
   let g:mayhem['sl_help'] = [
-        \ '%#SlInfoC#𝓲⃝  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
-        \ '%#SlInfoN#𝓲⃝  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
+        \ '%#SlInfoC#􀉚  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
+        \ '%#SlInfoN#􀉚  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
+
+  let g:mayhem['sl_messages'] = [
+        \ '  􀤏  %=%#SlMessC#􁈏 Messages 􁈐%*%=  􀤏  ',
+        \ '  􀤏  %=%#SlMessN#􁈏 Messages 􁈐%*%=  􀤏  ']
+
+  let g:mayhem['sl_terminal'] = [
+        \ '%#SlTermC#􀩼 %*',
+        \ '%#SlTermN#􀩼 %*']
 
   " ' ℺⃞ 🅀 𝒬⃞  ⍰ \ %%*'
   let g:mayhem['sl_qfix'] = [
-        \ '%#SlInfoC#ℚ⃞ %*',
-        \ '%#SlInfoN#𝒬⃞ %*']
+        \ '%#SlQfixC#􀩳 %*',
+        \ '%#SlQfixN#􀩳 %*']
+  " let g:mayhem['sl_dir_todo'] = [
+  "       \ '%#SlDirC#DIR %-F:h%*',
+  "       \ '%#SlDirN#DIR %-F:h%*']
   let g:mayhem['sl_dir'] = [
-        \ '%#SlDirC#DIR %-F:h%*',
-        \ '%#SlDirN#DIR %-F:h%*']
+        \ '%#SlDirC#􀈕 %-F:h%*%<%=%#SlDirInvC#netrw%*',
+        \ '%#SlDirN#􀈕 %-F:h%*%<%=%#SlDirInvN#netrw%*']
+
+  " let g:mayhem['sl_home_todo'] = [
+  "       \ '%#SlHomeC#HOME Vim Mayhem%*%<%=%#SlHmRtC#%*',
+  "       \ '%#SlHomeN#HOME Vim Mayhem%*%<%=%#SlHmRtN#%*']
+  let g:mayhem['sl_home'] = [
+        \ '%#SlHomeLC#􁘭  %*%<%=%#SlHomeMC#Vim Mayhem%*%=%#SlHomeRC#􁘭 %*',
+        \ '%#SlHomeLN#􁘭  %*%<%=%#SlHomeMN#Vim Mayhem%*%=%#SlHomeRN#􁘭 %*']
 endfunc
 
 function NC()
@@ -353,9 +488,15 @@ function CustomStatusline()
   elseif &buftype == 'preview'
     return get(get(g:, 'mayhem', {}), 'sl_prev', ['sl_prevC', 'sl_prevN'])[NC()]
   endif
+
   if &ft == 'netrw'
     return get(get(g:, 'mayhem', {}), 'sl_dir', ['sl_dirC', 'sl_dirN'])[NC()]
+  elseif &ft == 'vimmessages'
+    return get(get(g:, 'mayhem', {}), 'sl_messages', ['sl_messagesC', 'sl_messagesN'])[NC()]
+  elseif &ft == 'mayhemhome'
+    return get(get(g:, 'mayhem', {}), 'sl_home', ['sl_homeC', 'sl_homeN'])[NC()]
   endif
+
   return get(get(g:, 'mayhem', {}), 'sl_norm', ['sl_normC', 'sl_normN'])[NC()]
 endfunc
 

@@ -130,14 +130,23 @@ endfunc
 command! SynStack call <SID>SynStack()
 command! SynStackBuf vsp|enew|call <SID>UpdateSynStackBuffer(winnr())
 
+function! s:AutoSynStackStatus() abort
+  if exists('g:mayhem_autosynstack_enabled') && g:mayhem_autosynstack_enabled
+    return 1
+  endif
+  return 0
+endfunc
+
 function! s:AutoSynStack() abort
   augroup AutoSynStack
     autocmd!
-    if exists('g:mayhem_autosynstack_enabled') && g:mayhem_autosynstack_enabled
+    if s:AutoSynStackStatus() == 1
       autocmd CursorHold * call s:SynStack()
     endif
   augroup END
 endfunc
+
+command! SynStackAutoStatus echo <SID>AutoSynStackStatus()
 
 command! SynStackAuto let g:mayhem_autosynstack_enabled = !get(g:, 'mayhem_autosynstack_enabled', 0) | call s:AutoSynStack()
 
@@ -155,4 +164,11 @@ command! HighlightThis :hi <c-r><c-w>
 
 " :%s/^:\?hi\s\(link\|clear\)\@!\s*\zs\(\w\+\)\ze\s\+/\=AddHighlightHighlight(submatch(0))/
     "       '\(^\s*\||\s\+\)"\?:\?hi\w*\s\(\clear\)\@!\(link\)\?\s*\zs'
+    "
+"
+"
+"
+" ⌠
+" ⎮
+" ⌡∖∙∖∙⦁⦗⦙⦙⦘⦛⟠⧴ ∖∙∣∙⫶∣∶⎮∷⎮≀∣∿∙∽∣∘∣∘∣∗∖√∖∛∖∜∖⎮∟∠∖∣∖
 

@@ -1,22 +1,68 @@
 hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x70000002A,"HIDKeyboardModifierMappingDst":0x700000029},{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000002A}]}'
 
 # ioreg -l|grep FnFunctionUsageMap|grep -Eo 0x[0-9a-fA-F]+,0x[0-9a-fA-F]+ | pbcopy
-0x 0007 003a, 0x 00ff 0005 // F1   􀆫🔅 Screen Brightness Down
-0x 0007 003b, 0x 00ff 0004 // F2   􀆭🔆 Screen Brightness Up
-0x 0007 003c, 0x ff01 0010 // F3   􀇴
-0x 0007 003d, 0x 000c 0221 // F4      Search
-0x 0007 003e, 0x 000c 00cf // F5   🎤︎ Mic
-0x 0007 003f, 0x 0001 009b // F6   􀆹 Toggle Do not disturb
-0x 0007 0040, 0x 000c 00b4 // F7   Skip Prev.
-0x 0007 0041, 0x 000c 00cd // F8   Play/Pause
-0x 0007 0042, 0x 000c 00b3 // F9   Skip Next.
-0x 0007 0043, 0x 000c 00e2 // F10  Mute
-0x 0007 0044, 0x 000c 00ea // F11  Volume Down
-0x 0007 0045, 0x 000c 00e9 // F12  Volume Up
+# 0001: Generic Desktop
+# 0007: Keyboard
+# 000c: Consumer
+# 00ff: kHIDUsage_AV_TopCase
+# ff00: kHIDPage_AppleVendor
+# ff01: kHIDPage_AppleVendorKeyboard
+#  ╻     From (FnX)     ╻      To      ╻ Sym ╻      Description        ╻
+#  ╏─────┬──────────────╏──────────────╏─────╏─────────────────────────╏
+#  │  F1 │ 0x 0007 003a │ 0x 00ff 0005 │ 􀆫  │ Screen Brightness Down  │  🔅
+#  │  F2 │ 0x 0007 003b │ 0x 00ff 0004 │ 􀆭  │ Screen Brightness Up    │  🔆
+#  │  F3 │ 0x 0007 003c │ 0x ff01 0010 │ 􀇴  │                         │
+#  │  F4 │ 0x 0007 003d │ 0x 000c 0221 │ 􀊫  │ Search                  │  🔍
+#  │  F5 │ 0x 0007 003e │ 0x 000c 00cf │ 🎤︎  │ Mic                     │  🎤
+#  │  F6 │ 0x 0007 003f │ 0x 0001 009b │ 􀆹  │ Toggle Do not disturb   │  
+#  │  F7 │ 0x 0007 0040 │ 0x 000c 00b4 │ 􀊉  │ Skip Prev.              │ ⏪️
+#  │  F8 │ 0x 0007 0041 │ 0x 000c 00cd │ 􀊇  │ Play/Pause              │ ⏯️
+#  │  F9 │ 0x 0007 0042 │ 0x 000c 00b3 │ 􀊋  │ Skip Next.              │ ⏩️
+#  │ F10 │ 0x 0007 0043 │ 0x 000c 00e2 │ 􀊠  │ Mute                    │ 🔈🔇
+#  │ F11 │ 0x 0007 0044 │ 0x 000c 00ea │ 􀊤  │ Volume Down             │ 🔉
+#  │ F12 │ 0x 0007 0045 │ 0x 000c 00e9 │ 􀊨  │ Volume Up               │ 🔊
+#  ╹     ╹              ╹              ╹     ╹                         ╹
+#                         0x ff01 0002         Dashboard
+#                         0x ff01 0010         Expose_All
+#                         0x ff01 0020         Brightness_Up
+#                         0x ff01 0021         Brightness_Down
 
 
+# FF00-FFFF Vendor-defined
 
 
+#    0x 00ff -- kHIDUsage_AV_TopCase_
+#  ╻              ╻                     ╻                                                   ╻
+#  │ 0x 00ff 0003 │ KeyboardFn          │ kHIDUsage_AV_TopCase_KeyboardFn                   │
+#  │ 0x 00ff 0004 │ BrightnessUp        │ kHIDUsage_AV_TopCase_BrightnessUp                 │
+#  │ 0x 00ff 0004 │ BrightnessDown      │ kHIDUsage_AV_TopCase_BrightnessDown               │
+#  │ 0x 00ff 0005 │ VideoMirror         │ kHIDUsage_AV_TopCase_VideoMirror                  │
+#  │ 0x 00ff 0006 │ IlluminationToggle  │ kHIDUsage_AV_TopCase_IlluminationToggle           │
+#  │ 0x 00ff 0007 │ IlluminationUp      │ kHIDUsage_AV_TopCase_IlluminationUp               │
+#  │ 0x 00ff 0008 │ IlluminationDown    │ kHIDUsage_AV_TopCase_IlluminationDown             │
+#  │ 0x 00ff 0009 │ ClamshellLatched    │ kHIDUsage_AV_TopCase_ClamshellLatched             │
+#  │ 0x 00ff 000A │ DeviceManagement    │ kHIDUsage_AV_TopCase_DeviceManagement             │
+#  │ 0x 00ff 00C0 │ Keyboard            │ kHIDUsage_AV_TopCase_Keyboard                     │
+#  │ 0x 00ff 00ff │ Trackpad            │ kHIDUsage_AV_TopCase_Trackpad                     │
+#  │ 0x 00ff 00ff │ Reserved            │ kHIDUsage_AV_TopCase_Reserved                     │
+#  │ 0x 00ff 00ff │ Reserved_MouseData  │ kHIDUsage_AV_TopCase_Reserved_MouseData           │
+#  ╹              ╹                     ╹                                                   ╹
+
+#    0x ff01 --  AppleVendor Keyboard Page
+#  ╻              ╻                     ╻                                                   ╻
+#  │ 0x ff01 0001 │ Spotlight           │ kHIDUsage_AppleVendorKeyboard_Spotlight           │
+#  │ 0x ff01 0002 │ Dashboard           │ kHIDUsage_AppleVendorKeyboard_Dashboard           │
+#  │ 0x ff01 0003 │ Function            │ kHIDUsage_AppleVendorKeyboard_Function            │
+#  │ 0x ff01 0004 │ Launchpad           │ kHIDUsage_AppleVendorKeyboard_Launchpad           │
+#  │ 0x ff01 000a │ Reserved            │ kHIDUsage_AppleVendorKeyboard_Reserved            │
+#  │ 0x ff01 000b │ CapsLockDelayEnable │ kHIDUsage_AppleVendorKeyboard_CapsLockDelayEnable │
+#  │ 0x ff01 000c │ PowerState          │ kHIDUsage_AppleVendorKeyboard_PowerState          │
+#  │ 0x ff01 0010 │ Expose_All          │ kHIDUsage_AppleVendorKeyboard_Expose_All          │
+#  │ 0x ff01 0011 │ Expose_Desktop      │ kHIDUsage_AppleVendorKeyboard_Expose_Desktop      │
+#  │ 0x ff01 0020 │ Brightness_Up       │ kHIDUsage_AppleVendorKeyboard_Brightness_Up       │
+#  │ 0x ff01 0021 │ Brightness_Down     │ kHIDUsage_AppleVendorKeyboard_Brightness_Down     │
+#  │ 0x ff01 0030 │ Language            │ kHIDUsage_AppleVendorKeyboard_Language            │
+#  ╹              ╹                     ╹                                                   ╹
 
 {
   "source": "https://www.freebsddiary.org/APC/usb_hid_usages.php",

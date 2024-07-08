@@ -161,6 +161,9 @@ set shortmess+=sAIt
 let g:netrw_banner=0
 let g:netrw_fastbrowse=0
 
+" ftplugin/vim.vim
+let no_vim_maps = 1
+
 if !&scrolloff
   set scrolloff=1
 endif

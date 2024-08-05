@@ -4,7 +4,46 @@ endif
 let g:mayhem_loaded_css = 1
 
 
-" Extract variable
+" 1. Extract variable
+"
+" color: #556677;
+"   ▼▼
+" color: var(--color001);
+" --color001: #556677;
+"
+"
+" 2. Extract component variables
+"
+" box-shadow: 1px 2px 0.1px 0 #449988 inset;
+"   ▼
+" box-shadow: var(--boxs01);
+" --boxs01: 1px 2px 0.1px 0 #449988 inset;
+"   ▼
+" --boxs01-x: 1px;
+" --boxs01-y: 2px;
+" --boxs01-r: 0.1px;
+" --boxs01-o: 0;
+" --boxs01-c: #449988;
+" --boxs01-i: inset;
+" --boxs01: var(--boxs01-x) var(--boxs01-y) var(--boxs01-r) var(--boxs01-o) var(--boxs01-c) var(--boxs01-i); 
+" box-shadow: var(--boxs01);
+"
+"
+" color: #01020304;
+" 
+" color: var(--color02);
+" --color02: #01020380;
+"
+" --c02r: 1;
+" --c02g: 2;
+" --c02b: 3;
+" --c02a: 0.5;
+" --color02: rgb(var(--c02r) var(--c02g) var(--c02b) / var(--c02a));
+
+"
+" Split dataurls across multiple lines
+"
+
 
 " Change hex color codes to uppercase
 command! UppercaseHex %s/\<\(#\x\{8}\|#\x\{6}\|#\x\{4}\|#\x\{3}\)\>/\U&/g
@@ -49,6 +88,34 @@ command! Complement <Nop>
 
 
 
+" Text outline, 8 sides, identical
+"
+" --➕: 1px;
+" --➖: calc(var(--➕) * -1);
+" --🟰: 0;
+" --🔸: 0 #000f;
+" text-shadow:
+"   var(--➕) var(--🟰) var(--🔸),
+"   var(--➕) var(--➕) var(--🔸),
+"   var(--🟰) var(--➕) var(--🔸),
+"   var(--➖) var(--➕) var(--🔸),
+"   var(--➖) var(--🟰) var(--🔸),
+"   var(--➖) var(--➖) var(--🔸),
+"   var(--🟰) var(--➖) var(--🔸),
+"   var(--➕) var(--➖) var(--🔸);
+"
+" text-shadow:
+" --textoutline1px: 1px 0 0 #000f, 1px 1px 0 #000f, 0 1px 0 #000f, -1px 1px 0 #000f, -1px 0 0 #000f, -1px -1px 0 #000f, 0 -1px 0 #000f, 1px -1px 0 #000f;
+" --textoutline1px: 1px 0 0.6px #ffff, 1px 1px 0.6px #ffff, 0 1px 0.6px #ffff, -1px 1px 0.6px #ffff, -1px 0 0.6px #ffff, -1px -1px 0.6px #ffff, 0 -1px 0.6px #ffff, 1px -1px 0.6px #ffff;
+"
+"  1px   0     0 #000f,
+"  1px   1px   0 #000f,
+"  0     1px   0 #000f,
+"  -1px  1px   0 #000f,
+"  -1px  0     0 #000f,
+"  -1px  -1px  0 #000f,
+"  0     -1px  0 #000f,
+"  1px   -1px  0 #000f;
 
 " Text border, 4 sides
 

@@ -15,7 +15,7 @@ let g:mayhem_loaded_colorcolumn = 1
 "                                          remove the leftmost first.
 
 " TODO - use this with vartabstop/varsofttabstop
-"
+" 
 
 command! AddColumnGuide :silent exec 'setlocal colorcolumn+='..virtcol('.')
 command! RemoveColumnGuide :silent exec 'setlocal colorcolumn+='..virtcol('.')

@@ -32,129 +32,123 @@ DynamicToolBar
 "  <D-M-N>
 " macm File.New\ Clean\ Window\ (No\ Defaults)      key=<Nop>
 
-"  <D-t>
+"                                                             - Unbind <D-t>
 macm File.New\ Tab key=<Nop>
 
-"  <D-o>
+"                                                             - Unbind <D-o>
 macm File.Open… key=<Nop>
 
-"  <D-T>
+"                                                             - Unbind <D-T>
 macm File.Open\ Tab\.\.\.<Tab>:tabnew             key=<Nop>
 
 " macm File.Open\ Recent
 "  <D-W>
-" macm File.Close\ Window<Tab>:qa                   key=<Nop>
-" macm File.Close                                   key=<Nop>
+" macm File.Close\ Window<Tab>:qa                 key=<Nop>
+" macm File.Close                                 key=<Nop>
 "  <D-s>
-" macm File.Save<Tab>:w                             key=<Nop>
+" macm File.Save<Tab>:w                           key=<Nop>
 "  <D-M-s>
-" macm File.Save\ All                               key=<Nop>
+" macm File.Save\ All                             key=<Nop>
 "  <D-S>
-" macm File.Save\ As…<Tab>:sav                      key=<Nop>
+" macm File.Save\ As…<Tab>:sav                    key=<Nop>
 
-"  <D-p>
+"                                                             - Unbind <D-p> -
 macm File.Print                                   key=<Nop>
 
-"  <D-z>
+"                                                             - Unbind <D-z>
 macm Edit.Undo<Tab>u                              key=<Nop>
-"  <D-Z>
+"                                                             - Unbind <D-Z>
 macm Edit.Redo<Tab>^R                             key=<Nop>
 
 " " key=<D-x>
-" macm Edit.Cut<Tab>"+x                             key=<Nop>
+" macm Edit.Cut<Tab>"+x                           key=<Nop>
 " " key=<D-c>
-" macm Edit.Copy<Tab>"+y                            key=<Nop>
-
-" ----NEW----
-"  <D-C>
-nnoremenu 20.355 Edit.Copy\ All<Tab>ggVG"+y       ggVG"+y
+" macm Edit.Copy<Tab>"+y                          key=<Nop>
 
 "  <D-v>
-" macm Edit.Paste<Tab>"+gP                          key=<Nop>
-
-" ----NEW----
-"  <D-V>
-an 20.360 &Edit.&Paste\ VSplit<Tab>^Wv"+gP        <C-W>v"+gP
+" macm Edit.Paste<Tab>"+gP                        key=<Nop>
 
 "  <D-a>
-" macm Edit.Select\ All<Tab>ggVG                    key=<Nop>
+" macm Edit.Select\ All<Tab>ggVG                  key=<Nop>
 
-"  <D-f>
+"                                                             - Unbind <D-f>
 macm Edit.Find.Find…                              key=<Nop>
 
-"  <D-g>
+"                                                             - Unbind <D-g>
 macm Edit.Find.Find\ Next                         key=<Nop>
 
-"  <D-G>
+"                                                             - Unbind <D-G>
 macm Edit.Find.Find\ Previous                     key=<Nop>
 
-"  <D-e>
+"                                                             - Unbind <D-e>
 macm Edit.Find.Use\ Selection\ for\ Find          key=<Nop>
 
 " macm Edit.Font.Show\ Fonts
-"  <D-=>
+"                                                             - Unbind <D-=>
 macm Edit.Font.Bigger                             key=<Nop>
-"  <D-->
+"                                                             - Unbind <D-->
 macm Edit.Font.Smaller                            key=<Nop>
-"  <D-;>
+"                                                             - Unbind <D-;>
 macm Tools.Spelling.To\ Next\ Error<Tab>]s        key=<Nop>
-"  <D-:>
+"                                                             - Unbind <D-:>
 macm Tools.Spelling.Suggest\ Corrections<Tab>z=   key=<Nop>
-"  <D-b>
+"                                                             - Unbind <D-b>
 macm Tools.Make<Tab>:make                         key=<Nop>
-"  <D-l>
+"                                                             - Unbind <D-l>
 macm Tools.List\ Errors<Tab>:cl                   key=<Nop>
-"  <D-C-Right>
+"                                                             - Unbind <D-C-Right>
 macm Tools.Next\ Error<Tab>:cn                    key=<Nop>
-"  <D-C-Left>
+"                                                             - Unbind <D-C-Left>
 macm Tools.Previous\ Error<Tab>:cp                key=<Nop>
-"  <D-C-Up>
+"                                                             - Unbind <D-C-Up>
 macm Tools.Older\ List<Tab>:cold                  key=<Nop>
-"  <D-C-Down>
+"                                                             - Unbind <D-C-Down>
 macm Tools.Newer\ List<Tab>:cnew                  key=<Nop>
 
 "  <D-m>
-" macm Window.Minimize                              key=<Nop
+" macm Window.Minimize                            key=<Nop
 "  <D-M-m>
-" macm Window.Minimize\ All                         key=<Nop>
+" macm Window.Minimize\ All                       key=<Nop>
 "  <D-C-z>
-" macm Window.Zoom                                  key=<Nop>
+" macm Window.Zoom                                key=<Nop>
 "  <D-M-C-z>
-" macm Window.Zoom\ All                             key=<Nop>
-"  <D-C-f>
+" macm Window.Zoom\ All                           key=<Nop>
+"                                                             - Unbind <D-C-f>
 macm Window.Toggle\ Full\ Screen\ Mode            key=<Nop>
-"  <D-}>
+"                                                             - Unbind <D-}>
 macm Window.Show\ Next\ Tab                       key=<Nop>
-"  <D-{>
+"                                                             - Unbind <D-{>
 macm Window.Show\ Previous\ Tab                   key=<Nop>
 " macm Window.Bring\ All\ To\ Front
 " macm Window.Stay\ in\ Front
 " macm Window.Stay\ in\ Back
 " macm Window.Stay\ Level\ Normal
 
-"  <D-?>
+"                                                             - Unbind <D-?>
 macm Help.MacVim\ Help                            key=<Nop>
 " macm Help.MacVim\ Website
 " macm Help.What's\ New
 
 
-" Add new or replacement bindings for ⌘⃣  
+" ------------------------------------ Add new or replacement bindings for ⌘⃣  --
 
+"                                                             - Bind <D-C>
+nnoremenu 20.355 Edit.Copy\ All<Tab>ggVG"+y       ggVG"+y
 macm Edit.Copy\ All                               key=<D-C>
+
+"                                                             - Bind <D-V>
+an 20.360 &Edit.&Paste\ VSplit<Tab>^Wv"+gP        <C-W>v"+gP
 macm Edit.Paste\ VSplit                           key=<D-V>
 
+"                                                             - Bind <D-t>
 nmap <D-t> :sp .<CR>
-" Fix under cursor
-nmap <D-f> :sp .<CR>
-" Fix in current line
-nmap <D-F> :sp .<CR>
 
 " commenting
-" toggle current line
-nmap <D-/> gcc
-" current line:
+" toggle current line                                         - Bind <D-/>
+nmap <D-/> gc
+" toggle current visual selection                             - Bind <D-/>
+xmap <D-/> gc
+" current line:                                               - Bind <D-M-/>
 "  is comment: uncomment surrounding block
 "  else: comment line
 nmap <D-M-/> gcgc
-" toggle current visual selection
-xmap <D-/> gc

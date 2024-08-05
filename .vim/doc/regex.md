@@ -1,5 +1,5 @@
 
-```
+```vim
 " Find first element of table to amend
 " %s/\-\n| \({\)\@!\zs\(.*\)\ze$/
 

@@ -68,6 +68,8 @@ let g:mayhem_home_autoload_session = 0
 " Visual bell + error flash off
 autocmd! GUIEnter * set vb t_vb=
 
+set timeout timeoutlen=3000 ttimeoutlen=100
+
 if has('gui_running')
   let no_buffers_menu = 1
   let did_install_syntax_menu = 1
@@ -113,11 +115,13 @@ else
     set ttymouse=xterm2
   endif
 
+  " We have a fast terminal
   set ttimeoutlen=10
   augroup FastEscape
     autocmd!
+    " Breaks multi-character insert mode mappings
     au InsertEnter * set timeoutlen=0
-    au InsertLeave * set timeoutlen=1000
+    au InsertLeave * set timeoutlen=3000
   augroup END
 endif
 
@@ -129,8 +133,6 @@ set ts=2 sts=2 sw=2 et
 set mouse=a
 set backspace=indent,eol,start
 
-set timeout
-set timeoutlen=600
 set updatetime=300
 set synmaxcol=256
 
@@ -196,7 +198,24 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
+" Syntax highlighting for code blocks inside markdown docs
+let g:markdown_fenced_languages = ['javascript', 'typescript', 'css', 'json', 'python', 'lua', 'vim', 'sh']
 
+
+" 2html script options
+let g:html_line_ids=1
+let g:html_ignore_folding=1
+" let g:html_dynamic_folds=
+" let g:html_no_foldcolumn=
+let g:html_prevent_copy='fntd'
+let g:html_use_input_for_pc='none'
+let g:html_no_modeline=0
+let g:html_no_links=0
+let g:html_use_encoding='UTF-8'
+let g:html_font='monospace'
+
+
+" Coc settings
 let g:coc_enable_locationlist = 0
 let g:coc_border_joinchars = ['┬','┤','┴','├']
 let g:coc_borderchars  = [' ','⎥',' ','⎢','⎛','⎞','⎠','⎝']
@@ -263,21 +282,21 @@ let g:gitgutter_sign_modified_removed        = '◇̲'
 
 "vim-qf
 " let g:qf_loclist_window_bottom = 0
-let g:qf_window_bottom = 0
-let g:qf_mapping_ack_style = 1
-let g:qf_auto_resize = 0
-let g:qf_auto_open_loclist = 0
-let g:qf_auto_open_quickfix = 0
-let g:qf_max_height = 8
+" let g:qf_window_bottom = 0
+" let g:qf_mapping_ack_style = 1
+" let g:qf_auto_resize = 0
+" let g:qf_auto_open_loclist = 0
+" let g:qf_auto_open_quickfix = 0
+" let g:qf_max_height = 8
 
 
 " let g:quickr_preview_keymaps = 0
-let g:quickr_preview_position = 'right'
-let g:quickr_preview_size = '0'
-let g:quickr_preview_line_hl = "Search"
-let g:quickr_preview_options = 'number norelativenumber nofoldenable '
-let g:quickr_preview_on_cursor = 1
-let g:quickr_preview_exit_on_enter = 1
-let g:quickr_preview_modifiable = 0
+" let g:quickr_preview_position = 'right'
+" let g:quickr_preview_size = '0'
+" let g:quickr_preview_line_hl = "Search"
+" let g:quickr_preview_options = 'number norelativenumber nofoldenable '
+" let g:quickr_preview_on_cursor = 1
+" let g:quickr_preview_exit_on_enter = 1
+" let g:quickr_preview_modifiable = 0
 
 " vim:set ft=vim et sw=2:

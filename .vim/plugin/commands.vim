@@ -19,48 +19,35 @@ let g:mayhem_loaded_commands = 1
 " highlight current cursor position by horizontal and vertical cursor
 command! PingCursor <Nop>
 
-function s:TempSetVirtualEditAll()
-    let s:prevvirtualedit = &virtualedit
-    set virtualedit=all
-endfunc
-function s:TempResetVirtualEdit()
-    let &virtualedit = s:prevvirtualedit
-endfunc
-
-" screenrow screen row         (All 1-based)
-" screencol screen column
-" winid   Window ID of the click
-" winrow  row inside winid
-" wincol  column inside winid
-" line    text line inside winid
-" column  text column inside winid
-" coladd  offset (in screen columns) from the
-"          start of the clicked char
-  " call winrestview({'curswant': pos.column + pos.coladd})
-function s:StartVisualBlockFromClick()
-  let pos = getmousepos()
-  exec getwininfo(pos.winid)[0].winnr..'wincmd w'
-call cursor([pos.line, pos.column, pos.coladd, pos.column + pos.coladd])
-  execute "normal! \<C-v>"
-endfunc
-
-function s:StartVisualBlockToClick()
-  let pos = getmousepos()
-  execute "normal! \<C-v>"
-  call cursor([pos.line, pos.column, pos.coladd, pos.column + pos.coladd])
-endfunc
-
-command! StartVisualBlockFromClick call <SID>StartVisualBlockFromClick()
-command! StartVisualBlockToClick call <SID>StartVisualBlockToClick()
 
 
-
-command! RepeatMove call <SID>RepeatMove()
 " 
+" Predicate: Cursor Is On A Comment
 function CursorOnComment()
   return join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')) =~? 'comment'
 endfunc
 command! CursorOnComment echo CursorOnComment()
+
+
+
+"
+" Util: Format numbers with SI prefixes in a
+"       way that is pleasing to humans
+"
+function! PrefixDecimal(n)
+  let prefixes = ['', 'k', 'M', 'G', 'T']
+  let cur = a:n
+  let i = 0
+  while cur > 1000 && i < len(prefixes) - 1
+    let cur = cur / 1000.0
+    let i = i + 1
+  endwhile
+
+  return printf("%4.1f%s", cur, prefixes[i])
+endfunc
+
+
+
 
 
 " Information & Debug
@@ -83,7 +70,7 @@ augroup END
 " File Changed Since Reading:...
 " For when a file has been changed externally and there are also changes to
 " the buffer, open a split with the on-disk version and start a diff
-"
+
 " TODO - close temp window on diffoff
 " TODO - closing temp window ends diff in both
 " TODO - closing source window closes temp one

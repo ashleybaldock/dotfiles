@@ -38,18 +38,16 @@ function s:WorstDiagnosticSeverity()
        \ get(diaginfo, 'hint', 0) > 0 ? 'hint' :
        \ get(diaginfo, 'information', 0) > 0 ? 'information' : ''
 endfunc
-function s:PrevMostImportantDiagnostic()
+function s:PrevWorstDiagnostic()
   return CocActionAsync('diagnosticPrevious', s:WorstDiagnosticSeverity())
 endfunc
-function s:NextMostImportantDiagnostic()
+function s:NextWorstDiagnostic()
   return CocActionAsync('diagnosticNext', s:WorstDiagnosticSeverity())
 endfunc
 
 command! WorstDiagnosticSeverity echo <SID>WorstDiagnosticSeverity()
-command! PrevMostImportantDiagnostic 
-      \ call <SID>PrevMostImportantDiagnostic()
-command! NextMostImportantDiagnostic
-      \ call <SID>NextMostImportantDiagnostic()
+command! PrevWorstDiagnostic call <SID>PrevWorstDiagnostic()
+command! NextWorstDiagnostic call <SID>NextWorstDiagnostic()
 
 
 " TODO
@@ -208,7 +206,7 @@ augroup CocEvents
   " au User CocDiagnosticChange echom "---CocDiagnosticChange---"
   au User CocStatusChange,CocDiagnosticChange silent call s:OnCocDiagnosticChange()
 
-  "Triggered on jump to placeholder
+  " Triggered on jump to placeholder during snippet completion (in insert mode)
   " au User CocJumpPlaceholder echom "---CocJumpPlaceholder---"
   au User CocJumpPlaceholder silent call CocActionAsync('showSignatureHelp')
 

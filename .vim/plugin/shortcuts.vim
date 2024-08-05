@@ -266,6 +266,14 @@ vmap §<space> "xy:@x<CR>
 " Remove blank lines
 " :g/^$/d
 
+"
+" Columns:
+"
+
+" Align selected text in columns
+"
+" %!column -t
+
 " Split tab-separated columns into arrays
 " %s/^	/    ["/g
 " %s/	.*\zs\ze$/"],/g
@@ -510,6 +518,7 @@ nnoremap §de :diffget<CR>
 nnoremap §dt :diffput<CR>
 nnoremap §dx :diffoff<CR>
 nnoremap §dr :diffupdate<CR>
+nnoremap §df :DiffWithSaved<CR>
 "
 " GitGutter:
 " 
@@ -563,8 +572,8 @@ endif
 nmap <silent> [[  :<C-u>CocList diagnostics<CR>
 nmap <silent> ][ <Plug>(coc-diagnostic-prev)
 nmap <silent> [] <Plug>(coc-diagnostic-next)
-nmap <silent> ]] :NextMostImportantDiagnostic<CR>
-nmap <D-d> :NextMostImportantDiagnostic<CR>
+nmap <silent> ]] :NextWorstDiagnostic<CR>
+nmap <D-d> :NextWorstDiagnostic<CR>
 
 " <⌥⃣ ‑[⃣ > ▬▶︎ “
 nnoremap “ :CocCommand document.jumpToPrevSymbol<CR>
@@ -581,11 +590,11 @@ nnoremap <silent> <C-g><C-r> <Plug>(coc-rename)
 nnoremap Î   :call CocAction('definitions')<CR>
 " ꜔ ⃣ ː⌥⃣ ːD⃣ ˧ ▬▶︎ ∂
 nnoremap ∂   :call CocAction('jumpDefinition')<CR>
-"nnoremap <silent>    :call CocAction('declarations')<CR>
-"nnoremap <silent>    :call CocAction('jumpDeclaration')<CR>
-"nnoremap <silent>    :call CocAction('implementations')<CR>
+"nnoremap <silent>   :call CocAction('declarations')<CR>
+"nnoremap <silent>   :call CocAction('jumpDeclaration')<CR>
+"nnoremap <silent>   :call CocAction('implementations')<CR>
 "nnoremap <silent>   :call CocAction('jumpImplementation')<CR>
-"nnoremap <silent>    :call CocAction('typeDefinitions')<CR>
+"nnoremap <silent>   :call CocAction('typeDefinitions')<CR>
 nnoremap <silent> <C-g><C-t> :call CocAction('jumpTypeDefinition')<CR>
 " >⇧⃣ -⌥⃣ ‑R⃣ < ▬▶︎ Â
 nnoremap Â :call CocAction('jumpReferences')<CR>
@@ -593,23 +602,29 @@ nnoremap <silent>  gr :call CocAction('references')<CR>
 "nnoremap <silent>    :call CocAction('jumpReferences')<CR>
 "nnoremap <silent>    :call CocAction('jumpUsed')<CR>
 
-nnoremap <silent> <C-g><C-f> <Plug>(coc-fix-current)
+
+" Fixes, Formatting, and Code Actions
+"
 " <⌥⃣ ‑f> ▬▶︎ ƒ
 nnoremap <silent> ƒ <Plug>(coc-fix-current)
-nnoremap <silent> <D-f> <Plug>(coc-fix-current)
+"
+" Choose from code actions for current line
 nnoremap <silent> §2 <Plug>(coc-codeaction-line)
+nnoremap <silent> <D-f> <Plug>(coc-codeaction-line)
+" Choose from code actions for currently selected
+vnoremap <silent> <D-f> <Plug>(coc-codeaction-selected)
+"
+" Choose from code actions for current file
 nnoremap <silent> §3 <Plug>(coc-codeaction-source)
-"<Plug>(coc-codeaction-line)| Choose code actions at current line.
-"<Plug>(coc-codeaction-source)| Choose source code action of current file.
-"<Plug>(coc-codeaction-selected)| Choose code actions from selected range.
-"<Plug>(coc-codeaction-refactor)| Choose refactor code action at cursor position.
-"<Plug>(coc-codeaction-refactor-selected)| Choose refactor code action with selected code.
-
-" Format & fix
+nnoremap <silent> <D-F> <Plug>(coc-codeaction-source)
+"
 nnoremap <leader>cf  <Plug>(coc-format-selected)
 vnoremap <leader>cf  <Plug>(coc-format-selected)
 nnoremap <leader>ca  <Plug>(coc-codeaction-selected)
 vnoremap <leader>ca  <Plug>(coc-codeaction-selected)
+"<Plug>(coc-codeaction-refactor)| Choose refactor code action at cursor position.
+"<Plug>(coc-codeaction-refactor-selected)| Choose refactor code action with selected code.
+
 
 " gh - get hint on whatever's under the cursor
 nnoremap <silent> gh :ShowDocumentation<CR>

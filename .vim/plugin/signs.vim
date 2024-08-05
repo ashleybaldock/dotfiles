@@ -50,6 +50,20 @@ endfunc
 command! TestSign echo <SID>PlaceSign()
 
 
+function! s:CodeBlockBackground()
+  let aSign = sign_define(s:prefix..'testsign', { 
+        \ 'text': ' }',
+        \ 'linehl': 'markdownHighlight_sh', 
+        \ 'numhl': '', 
+        \ 'texthl': '',
+        \ 'culhl': '',
+        \})
+  let signid = sign_place(0, s:group, s:prefix..'codeblockbackground', bufnr(), { 'lnum': 20 }) 
+  return signid
+endfunc
+
+command! CodeLine echo <SID>CodeBlockLine()
+
 
 " TODO place signs showing if there are more above/below current window
 " position

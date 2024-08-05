@@ -29,7 +29,39 @@ function! s:ToggleHighlightHighlight() abort
   endif
 endfunc
 
-command! HiHi call <SID>ToggleHighlightHighlight()
+command! HiHiMatch call <SID>ToggleHighlightHighlight()
+
+
+
+
+function! s:AddSynMatch(name) abort
+  exec 'syn match ' .. a:name .. ' /\<' .. a:name .. '\>/'
+    \ .. ' contained contains=NONE containedin=VimHiGroup'
+  return a:name
+endfunc
+
+function! s:HighlightHighlight() abort
+  augroup HiHi
+    autocmd!
+    autocmd ColorScheme vividmayhem call s:HighlightHighlight()
+  augroup END
+
+  " e.g.:
+  " syn match HlMkDnCdDelim /\<HlMkDnCdDelim\>/ contained contains=NONE containedin=VimHiGroup
+  "
+  let w:synmatches = []
+  %s/^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/n
+  for synmatch in w:synmatches
+    exec 'syn match ' .. synmatch .. ' /\<' .. synmatch .. '\>/'
+      \ .. ' contained contains=NONE containedin=VimHiGroup'
+  endfor
+  " %g/^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>/echo s:AddSynMatch(submatch(0))
+  " %g|^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>|exec 'syn match ' .. submatch(0) .. ' /\<' .. submatch(0).. '\>/ contained contains=NONE containedin=VimHiGroup'
+endfunc
+
+command! HiHi call <SID>HighlightHighlight()
+
+
 
 
 function s:GetLinkChain(name)
@@ -62,11 +94,15 @@ function! s:UpdateSynStackBuffer(winid)
     let res = ""
     if (get(val, 'cleared'))
       let res = 'ᴄ' .. res
+    else
+      let res = ' ' .. res
     endif
     if (get(val, 'default'))
       let res = 'ᴅ' .. res
+    else
+      let res = ' ' .. res
     endif
-    let res = res .. printf(' %4S: ', val.id)
+    let res = res .. printf('%5S: ', val.id)
     if (get(val, 'linksto', "") != "")
       let chain = s:GetLinkChain(val.name)
       let matchids = mapnew(chain, {i, link -> win_execute(a:winid, 'call matchadd('''..link..''', ''\<'..link..'\>'')'  )})
@@ -106,8 +142,12 @@ function s:SynStack()
     return
   endif
 
-        "\ title: ' SynStack ╴╴╴Row ' .. col('.') .. ' Col ' .. line('.') .. ' ',
-  let winid = popup_create('', #{
+  if exists('w:mayhem_synstack_popid') && !empty(popup_getpos(w:mayhem_synstack_popid))
+    popup_close(w:mayhem_synstack_popid)
+  endif
+
+  "\ title: ' SynStack ╴╴╴Row ' .. col('.') .. ' Col ' .. line('.') .. ' ',
+  let w:mayhem_synstack_popid = popup_create('', #{
         \ pos: 'topleft',
         \ minwidth: 10,
         \ maxwidth: 80,
@@ -124,7 +164,7 @@ function s:SynStack()
         \ filtermode: 'n'
         \ })
 
-  call s:UpdateSynStackBuffer(winid)
+  call s:UpdateSynStackBuffer(w:mayhem_synstack_popid)
 endfunc
 
 command! SynStack call <SID>SynStack()
@@ -168,7 +208,5 @@ command! HighlightThis :hi <c-r><c-w>
 "
 "
 "
-" ⌠
-" ⎮
-" ⌡∖∙∖∙⦁⦗⦙⦙⦘⦛⟠⧴ ∖∙∣∙⫶∣∶⎮∷⎮≀∣∿∙∽∣∘∣∘∣∗∖√∖∛∖∜∖⎮∟∠∖∣∖
+
 

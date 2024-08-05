@@ -49,7 +49,7 @@ function! s:SessionList()
         \ ->join()
 endfunc
 
-function! s:SessionInfo()
+function! SessionInfo()
   if empty(v:this_session)
     return 'No Session'
   else
@@ -61,7 +61,15 @@ function! s:SessionInfo()
   endif
 endfunc
 
-command! SessionInfo call <SID>SessionInfo()
+function! SessionName()
+  if empty(v:this_session)
+    return 'no session'
+  else
+    return fnamemodify(v:this_session, ':t:r:r')
+  endif
+endfunc
+
+command! SessionInfo call SessionInfo()
 command! SessionList echo <SID>SessionList()
 
 " TODO - this could have a default for session name

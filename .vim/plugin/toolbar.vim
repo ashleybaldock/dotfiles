@@ -12,97 +12,229 @@ let g:mayhem_loaded_toolbar = 1
 "
 "ᖠᖢ
 
-let g:mayhem_toolbarToggles = {
-      \ 'virtualedit': {
-        \ 'priority': '1.510',
-        \ 'states': {
-          \ 'block': {
-            \ 'next': '"insert"',
-            \ 'ttip': 'virtualedit: insert; click to toggle',
-            \ 'icon': 'cursorarrow.and.square.on.square.dashed'
-          \ },
-          \ 'insert': {
-            \ 'next': '"none"',
-            \ 'ttip': 'virtualedit: off; click to toggle',
-            \ 'icon': 'filemenu.and.cursorarrow'
-          \ },
-          \ 'none': {
-            \ 'next': '"block"',
-            \ 'ttip': 'virtualedit: block; click to toggle',
-            \ 'icon': 'dots.and.line.vertical.and.cursorarrow.rectangle'
-          \ },
-          \ '*': {
-            \ 'next': '"block"',
-            \ 'ttip': 'virtualedit: ???; click to toggle',
-            \ 'icon': 'dots.and.line.vertical.and.cursorarrow.rectangle'
-          \ },
-        \ }
-      \},
-      \ 'delcombine': {
-        \ 'priority': '1.520',
-        \ 'states': {
-          \ 0: {
-            \ 'next': 1,
-            \ 'ttip': 'nodelcombine; click to toggle',
-            \ 'icon': 'delete.left'
-          \ },
-          \ 1: {
-            \ 'next': 0,
-            \ 'ttip': 'delcombine; click to toggle',
-            \ 'icon': 'delete.left.fill'
-          \ },
-          \ '*': {
-            \ 'next': 1,
-            \ 'ttip': 'delcombine: ???; click to toggle',
-            \ 'icon': 'delete.left.fill'
-          \ },
+let g:mayhem_toolbarToggles = [
+    \ { 'name': 'virtualedit',
+      \ 'priority': '1.560',
+      \ 'type': 'set',
+      \ 'states': {
+        \ 'block': {
+          \ 'next': '"insert"',
+          \ 'ttip': 'virtualedit: ''block'' (click to set to ''insert'')',
+          \ 'icon': 'cursorarrow.and.square.on.square.dashed'
+        \ },
+        \ 'insert': {
+          \ 'next': '"none"',
+          \ 'ttip': 'virtualedit: ''insert'' (click to set to ''none'')',
+          \ 'icon': 'filemenu.and.cursorarrow'
+        \ },
+        \ 'none': {
+          \ 'next': '"block"',
+          \ 'ttip': 'virtualedit: ''none'' (click to set to ''block'')',
+          \ 'icon': 'dots.and.line.vertical.and.cursorarrow.rectangle'
+        \ },
+        \ '*': {
+          \ 'next': '"block"',
+          \ 'ttip': 'virtualedit: ''???'' (click to set to ''block'')',
+          \ 'icon': 'dots.and.line.vertical.and.cursorarrow.rectangle'
+        \ },
+      \ }
+    \ },
+    \ {
+      \ 'name': 'delcombine',
+      \ 'priority': '1.570',
+      \ 'type': 'set',
+      \ 'states': {
+        \ 0: {
+          \ 'next': 1,
+          \ 'ttip': '􀆛 nodelcombine (click to toggle)',
+          \ 'icon': 'delete.left'
+        \ },
+        \ 1: {
+          \ 'next': 0,
+          \ 'ttip': '􀆜 delcombine (click to toggle)',
+          \ 'icon': 'delete.left.fill'
+        \ },
+        \ '*': {
+          \ 'next': 1,
+          \ 'ttip': '􀆛 no?delcombine (click to toggle)',
+          \ 'icon': 'delete.left.fill'
         \ },
       \ },
-    \ }
+    \ },
+    \ {
+      \ 'name': 'autosynstack',
+      \ 'priority': '1.510',
+      \ 'type': 'exec',
+      \ 'current': 'SynStackAutoStatus',
+      \ 'states': {
+        \ 1: {
+          \ 'next': 'SynStackAuto',
+          \ 'ttip': '􀲴 SynStackAuto: On (click to toggle)',
+          \ 'icon': 'sparkles.rectangle.stack.fill'
+        \ },
+        \ 0: {
+          \ 'next': 'SynStackAuto',
+          \ 'ttip': '􀲳 SynStackAuto: Off (click to toggle)',
+          \ 'icon': 'sparkles.rectangle.stack'
+        \ },
+        \ '*': {
+          \ 'next': 'SynStackAuto',
+          \ 'ttip': '􀲳 SynStackAuto: ??? (click to toggle)',
+          \ 'icon': 'sparkles.rectangle.stack'
+        \ },
+      \ },
+    \ },
+  \ ]
 
 
 function! s:RemoveDynamicToolBarToggle(name)
   exec 'silent! aunmenu <silent> ToolBar.Toggle\ '..a:name
 endfunc
 
-function! s:UpdateDynamicToolBarToggle(name)
+" function! s:UpdateToggle(name)
+"   exec 'silent! aunmenu <silent> ToolBar.Toggle\ '..a:name
+
+"   exec 'let value = &g:'..a:name
+"   let toggles =   get(g:,     'mayhem_toolbarToggles',     {})
+"   let toggle =    get(toggles, a:name,                     {})
+
+"   let priority =  get(toggle, 'priority',             '1.555')
+"   let states =    get(toggle, 'states',                    {})
+"   let state =     get(states,  value,    get(states, '*', {}))
+"   let nextvalue = get(state,  'next',                  v:null)
+"   let tooltip =   get(state,  'ttip',                      '')
+"   let icon =      get(state,  'icon', 'puzzlepiece.extension')
+
+"   if nextvalue isnot v:null
+"     exec 'an icon='..icon..' '..priority..
+"           \ ' ToolBar.Toggle\ '..a:name..
+"           \ ' :let &g:'..a:name..'='..nextvalue..'<CR>'
+"     exec 'tmenu ToolBar.Toggle\ '..a:name..' '..tooltip
+"   else
+"     exec 'an icon=exclamationmark.square '..priority..
+"           \ ' ToolBar.Toggle\ '..a:name..' <Nop>'
+"     exec 'tmenu ToolBar.Toggle\ '..a:name..
+"           \ ' UpdateToggle:Err: No matching state and fallback missing'
+"   endif
+" endfunc
+
+" function! s:AddSetToggle(toggle)
+"   if exists('+'..a:toggle.name)
+"     augroup DynamicToolBar
+"       exec 'autocmd OptionSet '..a:name..
+"             \ ' exec s:UpdateToggle(expand(''<amatch>''))'
+"       " exec 'autocmd OptionSet '..a:name..' call s:UpdateDynamicToolBar()'
+"     augroup END
+
+"     call s:UpdateToggle(a:name)
+"   else
+"     let toggles = get(g:, 'mayhem_toolbarToggles', {})
+"     let toggle = get(toggles, a:name, {})
+"     let priority = get(toggle, 'priority', '1.555')
+
+"     exec 'an icon=questionmark.square.dashed '..priority..' ToolBar.Toggle\ '..a:name..' <Nop>'
+"     echom 'ToolBarToggle:Err: Setting "'..a:name..'" does not exist'
+"   endif
+" endfunc
+
+let s:toggles = {}
+
+function! s:UpdateToggle(name, priority, states, current)
   exec 'silent! aunmenu <silent> ToolBar.Toggle\ '..a:name
 
   exec 'let value = &g:'..a:name
-  let toggles = get(g:, 'mayhem_toolbarToggles', {})
-  let toggle = get(toggles, a:name, {})
-  let priority = get(toggle, 'priority', '1.555')
-  let states = get(toggle, 'states', {})
-  let state = get(states, value, get(states, '*', {}))
-  let nextvalue = get(state, 'next', v:null)
-  let tooltip = get(state, 'ttip', '')
-  let icon = get(state, 'icon', 'puzzlepiece.extension')
+  " let toggles =   get(g:,     'mayhem_toolbarToggles',     {})
+  " let toggle =    get(toggles, a:name,                     {})
+
+  let priority =  get(toggle, 'priority',             '1.555')
+
+  let states =    get(toggle, 'states',                    {})
+  let state =     get(states,  value,    get(states, '*', {}))
+  let nextvalue = get(state,  'next',                  v:null)
+  let tooltip =   get(state,  'ttip',                      '')
+  let icon =      get(state,  'icon', 'puzzlepiece.extension')
 
   if nextvalue isnot v:null
-    exec 'an icon='..icon..' '..priority..' ToolBar.Toggle\ '..a:name..' :let &g:'..a:name..'='..nextvalue..'<CR>'
+    exec 'an icon='..icon..' '..priority..
+          \ ' ToolBar.Toggle\ '..a:name..
+          \ ' :let &g:'..a:name..'='..nextvalue..'<CR>'
     exec 'tmenu ToolBar.Toggle\ '..a:name..' '..tooltip
   else
-    exec 'an icon=exclamationmark.square '..priority..' ToolBar.Toggle\ '..a:name..' <Nop>'
-    exec 'tmenu ToolBar.Toggle\ '..a:name..' UpdateDynamicToolBarToggle:Err: No matching state and fallback missing'
+    exec 'an icon=exclamationmark.square '..priority..
+          \ ' ToolBar.Toggle\ '..a:name..' <Nop>'
+    exec 'tmenu ToolBar.Toggle\ '..a:name..
+          \ ' UpdateToggle:Err: No matching state and fallback missing'
   endif
 endfunc
 
-function! s:AddDynamicToolBarToggle(name)
-  if exists('+'..a:name)
-    augroup DynamicToolBar
-      exec 'autocmd OptionSet '..a:name..' exec s:UpdateDynamicToolBarToggle(expand(''<amatch>''))'
-      " exec 'autocmd OptionSet '..a:name..' call s:UpdateDynamicToolBar()'
-    augroup END
+" Add a toggle for all enabled entries in g:mayhem_toolbarToggles
+function! s:AddToggles()
+  " name, type ('set', 'exec'), priority, enable, states
+  for toggle in get(g:, 'mayhem_toolbarToggles', [])
+    let priority =  get(toggle, 'priority',             '1.555')
+    let name =      get(toggle, 'name',                  v:null)
+    let type =      get(toggle, 'type',                  'exec')
+    let enable =    get(toggle, 'enable',                     1)
 
-    call s:UpdateDynamicToolBarToggle(a:name)
-  else
-    let toggles = get(g:, 'mayhem_toolbarToggles', {})
-    let toggle = get(toggles, a:name, {})
-    let priority = get(toggle, 'priority', '1.555')
+    if !enable
+      continue
+    endif
+    if name is v:null
+      echom 'AddToggles: Found toggle config entry without a name'
+      continue
+    endif
 
-    exec 'an icon=questionmark.square.dashed '..priority..' ToolBar.Toggle\ '..a:name..' <Nop>'
-    echom 'ToolBarToggle:Err: Setting "'..a:name..'" does not exist'
-  endif
+    let states =    get(toggle, 'states',                    {})
+    
+    if type == 'set'
+      if exists('+'..name)
+        " let Cb = function('s:UpdateToggle', [toggle])
+
+        let toggler = {
+              \ 'name': name,
+              \ 'states': deepcopy(states),
+              \ 'priority': priority,
+              \ 'getcurrent': getcurrent,
+              \ }
+        function toggler.update()
+          let name = self['name']
+          exec 'silent! aunmenu <silent> ToolBar.Toggle\ '..name
+          exec 'let current = &g:'..self['current']
+          let states    = get(self,  'states', {}                     )
+          let state     = get(states, current, get(states, '*', {})   )
+          let nextvalue = get(state,   'next', v:null                 )
+
+          if nextvalue isnot v:null
+            let tooltip = get(state,   'ttip', '􀥭'..name..': '..state..' (click to toggle)')
+            let icon    = get(state,   'icon', 'puzzlepiece.extension')
+
+            exec 'an icon='..icon..' '..priority..
+                  \ ' ToolBar.Toggle\ '..name..' '..nextvalue..'<CR>'
+                  " \ ' :let &g:'..name..'='..nextvalue..'<CR>'
+            exec 'tmenu ToolBar.Toggle\ '..name..' '..tooltip
+          else
+            exec 'an icon=exclamationmark.square '..priority..
+                  \ ' ToolBar.Toggle\ '..name..' <Nop>'
+            exec 'tmenu ToolBar.Toggle\ '..name..
+                  \ ' Toggle.update():Err: No matching state and fallback missing'
+          endif
+        endfunc
+
+        let s:toggles[name] = toggler
+        augroup DynamicToolBar
+          exec 'autocmd OptionSet '..name..
+                \ ' exec s:toggles[expand(''<amatch>'')].update()'
+"         exec 'autocmd OptionSet '..name..
+"               \ ' call s:UpdateDynamicToolBar()'
+        augroup END
+
+        call s:UpdateToggle(name)
+      else
+        exec 'an icon=questionmark.square.dashed '..priority..' ToolBar.Toggle\ '..name..' <Nop>'
+        echom 'ToolBarToggle:Err: Setting "'..name..'" does not exist'
+      endif
+  endfor
+
 endfunc
 
 function! s:RemoveSessionTBStatus()
@@ -122,14 +254,14 @@ function! s:UpdateSessionTBStatus()
         exec 'tmenu ToolBar.SessionStatus Obsessing, click to pause. Session:'..v:this_session..')'
       else
         " TODO pause/play icons
-        an icon=gear.badge.xmark:multicolor
+        an icon=gear.badge.questionmark:multicolor
               \ 1.110
               \ ToolBar.SessionStatus
               \ :SessionResume<CR>
         exec 'tmenu ToolBar.SessionStatus Obsession paused, click to resume  ('..v:this_session..')'
       endif
     else
-      an icon=gear.badge.questionmark:multicolor
+      an icon=gear.badge.xmark:multicolor
             \ 1.110
             \ ToolBar.SessionStatus
             \ :SessionCreate<space>
@@ -184,66 +316,97 @@ endfunc
 
 function! s:AddDynamicToolBar()
   " ---- Status Indicators ------ 100
+  "  􀍟 gear 􁓹.badge 􁅦.badge.checkmark 􁅧.badge.xmark
+  "                   􁅨.badge.questionmark
   call s:AddSessionTBStatus()
 
   " ------------Sep-------------- 200
+  " 􀥤poweron
+  " 􁆭 alternatingcurrent
+  " 􀍠 ellipsis
+  " 􀆉􀆊chevron.left,right  􀆒􀆓chevron.compact.left,right
+  " 
   an icon=poweron 1.210 ToolBar.Sep1   <Nop>
   amenu disable ToolBar.Sep1
   " --------- Actions ----------- 300
 
-  an <silent> icon=arrow.rectanglepath 1.310
-        \ ToolBar.Reload\ Pane
-        \ <Nop>
-  tmenu ToolBar.Reload\ Pane Reload current pane
+  "     Reload Pane
+  " an <silent> icon=arrow.rectanglepath 1.310
+  "       \ ToolBar.Reload\ Pane
+  "       \ <Nop>
+  " tmenu ToolBar.Reload\ Pane Reload current pane
 
-  " an <silent> icon=theatermasks.circle 1.321
+  " CocRestart:
+  " 􀺧 theatermasks 􀺨 .fill
+  " 􁔘 theatermask.and.paintbrush 􁕒.fill
   an <silent> icon=theatermasks 1.321
           \ ToolBar.RestartCoc
           \ :CocRestart<CR>
   tmenu ToolBar.RestartCoc Restart Coc
-  an <silent> icon=hammer.circle 1.322
+
+  " PopupClear:
+  " 􀠳 pip 􀠴 .fill 
+  "        􀭲 .remove 􀭱 .swap 􀑧 .exit 􀑨 .enter
+  an <silent> icon=pip.remove 1.322
           \ ToolBar.PopupClear
           \ call popup_clear()
-  tmenu ToolBar.PopupClear Clear Floating Windows
+  tmenu ToolBar.PopupClear 􀭲 Clear Floating Windows
+
+  " Unused:
+  " 􀖇hourglass 􀖈.bottomhalf.filled 􀖉.tophalf.filled
+  "             􁇛.circle 􁇜.circle.fill
   an <silent> icon=hourglass.circle 1.323
           \ ToolBar.Unused1 <Nop>
-  " an <silent> icon=exclamationmark.bubble.circle 1.324
+
+  " Unused:
+  " 􀌬 exclamationmark.bubble 􀌭.fill
+  " 􁃒 bubble.left.and.exclamationmark.bubble.right 􁃓 .fill
   an <silent> icon=exclamationmark.bubble 1.324
           \ ToolBar.Unused2 <Nop>
   " an <silent> icon=gear.badge.exclamationmark 1.325
   an <silent> icon=gear.badge 1.325
           \ ToolBar.Unused3 <Nop>
-
+  " 􀣋 gearshape 􀣌.fill 􀥎 .2  􀥏 .2.fill 􀺼.circle
+  "           􁐂.arrow.triangle.2.circlepath  
   an <silent> icon=gearshape.arrow.triangle.2.circlepath 1.360
         \ ToolBar.ReloadConfig
         \ <Nop>
-  tmenu ToolBar.ReloadConfig Reload config
+  tmenu ToolBar.ReloadConfig 􁐂 Reload config
 
+  " 􀝥 paintpalette 􀝦.fill
+  " 􀎑 paintbrush 􀎒.fill
+  " 􀣶 paintbrush.pointed 􀣷.fill
+  " 􁙧 swatchpalette 􁙨.fill
   an <silent> icon=paintpalette 1.370
         \ ToolBar.ReloadColorscheme
         \ :colorscheme vividmayhem
-  tmenu ToolBar.ReloadColorscheme Reload Colourscheme
+  tmenu ToolBar.ReloadColorscheme 􀝥 Reload Colourscheme
 
+  " 􀩼 terminal 􀪏.fill 􂝕 .circle 􂝖.circle.fill
+  " 􁹛  apple.terminal.on.rectangle 􁹜  .fill
   an <silent> icon=terminal 1.380
         \ ToolBar.Terminal
         \ :terminal
-  tmenu ToolBar.Terminal Open Terminal window in split
+  tmenu ToolBar.Terminal 􀩼 Open Terminal window in split
 
+  " 􀈕 folder 􀈖.fill
+  " 􀬔 questionmark.folder
   nnoremenu icon=folder 1.390
-        \ ToolBar.Show\ In\ Finder
+        \ ToolBar.ShowInFinder
         \ <Nop>
-  tmenu ToolBar.ShowInFinder Show current file in Finder
   inoremenu icon=questionmark.folder
         \ ToolBar.ShowInFinder
         \ <Nop>
+  tmenu ToolBar.ShowInFinder 􀈕 Show current file in Finder
 
   " ------------Sep-------------- 400
   an icon=poweron 1.410 ToolBar.Sep2   <Nop>
   amenu disable ToolBar.Sep2
   " --------- Toggles ----------- 500
 
-  call s:AddDynamicToolBarToggle('virtualedit')
-  call s:AddDynamicToolBarToggle('delcombine')
+  call s:AddToggles()
+  " call s:AddToggle('virtualedit')
+  " call s:AddToggle('delcombine')
 endfunc
 
 function! s:RemoveDynamicToolBar()
@@ -269,6 +432,7 @@ function! s:RemoveDynamicToolBar()
   silent! aunmenu ToolBar.Sep2
   " --------- Toggles ----------- 500
 
+  call s:RemoveToggles()
   call s:RemoveDynamicToolBarToggle('virtualedit')
   call s:RemoveDynamicToolBarToggle('delcombine')
 endfunc

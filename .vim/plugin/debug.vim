@@ -14,7 +14,7 @@ endfunc
 function! s:SplitWithScriptnames()
   vsp
   enew
-  call append('$', s:GetMessages())
+  call append('$', s:GetScriptnames())
   setlocal filetype=vimscriptnames nomodified nomodifiable
 endfunc
 command! ListPlugins call <SID>SplitWithScriptnames()
@@ -24,34 +24,93 @@ command! ListPlugins call <SID>SplitWithScriptnames()
 " Window & Buffer debug info
 "
 function! s:FormatInfo()
-  setlocal filetype=javascript
-  call CocAction('format')
-  setlocal filetype=mayhemwinfo
+  setlocal filetype=javascript buftype=nowrite nobuflisted
+  file notarealfile.js
+  setlocal nomodified
+  Prettier
+  " call CocAction('format')
   setlocal nomodified nomodifiable
+  0file
 endfunc
 command! FormatInfo call <SID>FormatInfo()
 
 function! s:WindowInfo(winid = win_getid())
   let wInfo = getwininfo(a:winid)[0]
   let float = get(get(wInfo, 'variables', {}), 'float', 0)
+  let isFloat = float ? 'Yes' : 'No'
   let popOpts = float ? popup_getoptions(a:winid) : ''
   let bufnr = get(wInfo, 'bufnr', 0)
-
+  let winType = win_gettype(a:winid)
+  if winType == ''
+    let winType = '<none>'
+  endif
+  let bufType = getbufvar(bufnr, '&buftype')
+  if bufType == ''
+    let bufType = '<none>'
+  endif
+  let tabnr = win_id2tabwin(a:winid)[0]
+  let winnr = win_id2tabwin(a:winid)[1]
   let winInfo = [
-        \ '// Window Info',
-        \ wInfo,
-        \ '// ------------------------------------'
+        \ '/*═*/ const winfo = { /*═══════════════════════╱ Window ╱═════*/',
         \]
-  let popInfo = [
-        \ '// popup options',
-        \ popOpts,
-        \ '// ------------------------------------'
+  let winInfo = winInfo + [
+        \ '/**/ winid: ' .. a:winid .. ', /**/'
+        \ .. ' floating: ''' .. isFloat .. ''',/**/',
+        \ '/**/  type: ''' .. winType .. ''',/**/'
+        \ .. ' bufnr: ' .. bufnr .. ',/**/'
+        \ .. ' tabnr: ' .. tabnr .. ',/**/'
+        \ .. ' winnr: ' .. winnr .. ',/**/',
         \]
+  let winInfo = winInfo + [
+        \ '/*─*/ "getwininfo": /*─────────────────────────*/',
+        \ wInfo->items()->copy()->filter(
+        \   {idx, val -> type(val) != v:t_func}
+        \ )->js_encode()
+        \ ..',',
+        \ '/*─*/ "w:": /*─────────────────────────────────*/',
+        \ items(w:)->copy()->filter(
+        \   {idx, val -> type(val) != v:t_func}
+        \ )->js_encode()
+        \ ..',',
+        \ '/*─*/ "getwinvar&": /*─────────────────────────*/',
+        \ getwinvar(winnr, '&')->copy()->filter(
+        \   {idx, val -> type(val) != v:t_func}
+        \ )->js_encode()
+        \ ..',',
+        \]
+  let popInfo = []
+  if float
+    let popInfo = popInfo + [
+        \ '/*───────────────────╱ popup_getoptions() ╱───*/',
+        \ 'const popup_info = ',
+        \ popOpts->copy()->filter(
+        \   {idx, val -> type(val) != v:t_func}
+        \ )->js_encode()
+        \]
+  endif
  
   let bufInfo = [
-        \ '// Buffer Info',
-        \ getbufinfo(bufnr),
-        \ '// ------------------------------------'
+        \ '/*════════════════════════════════╱ Buffer ╱═══*/',
+        \]
+  let bufInfo = bufInfo + [
+        \ '/**/ bufnr: ' .. bufnr .. ', /**/'
+        \ .. ' buftype: ''' .. bufType .. ''',/**/',
+        \ 'windows: ' .. win_findbuf(bufnr)->copy()->filter(
+        \   {idx, val -> type(val) != v:t_func}
+        \ )->js_encode(),
+        \]
+  let bufInfo = bufInfo + [
+        \ '/*─*/ "getbufinfo": /*─────────────────────────*/',
+        \ getbufinfo(bufnr)[0]->copy()->filter(  {idx, val -> type(val) != v:t_func} )->js_encode(),
+        \]
+  let bufInfo = bufInfo + [
+        \ '/*─*/ "getbufvar&": /*─────────────────────────*/',
+        \ getbufvar(bufnr, '&')->copy()->filter(
+        \   {idx, val -> type(val) != v:t_func}
+        \ )->js_encode(),
+        \]
+  let bufInfo = bufInfo + [
+        \ '/*────────────────╱  fin  ╱───────────────────*/'
         \]
   vsp
   enew

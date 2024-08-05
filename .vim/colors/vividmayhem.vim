@@ -4,10 +4,10 @@
 "
 "
 "   Related:
-"  ../plugin/chars.vim      -  fillchars, listchars etc.
-"  ../plugin/highlight.vim  -  Colourscheme Utils
-"            ╰─▷ ⎧ :HiHi    -  inline highlight preview  ⎫
-"                ⎩ :Synfo   -  floating syntax info      ⎭ 
+"  ../plugin/chars.vim       - fillchars, listchars etc.
+"  ../plugin/highlight.vim   - Colourscheme Utils
+"            ╰─▷ ⎧ :HiHi     - inline highlight preview  ⎫
+"                ⎩ :SynStack - floating syntax info      ⎭ 
 "
 "
 "     Originally based on tpope's vividchalk
@@ -325,21 +325,21 @@ hi link HintHint  SpellLocal
 
 "════════════════════════════════════════════════════════╡ Code Sections
 
-hi Type           guifg=#aaaa77               gui=none
-hi Statement      guifg=#ff6600               gui=none 
-hi Identifier     guifg=#ffcc00                        
-hi Constant       guifg=#339999                        
-hi String         guifg=#66fa00                        
-hi PreProc        guifg=#aaffff                        
+hi Type           guifg=#aaaa77 guibg=NONE    gui=none
+hi Statement      guifg=#ff6600 guibg=NONE    gui=none 
+hi Identifier     guifg=#ffcc00 guibg=NONE    gui=none
+hi Constant       guifg=#339999 guibg=NONE    gui=none
+hi String         guifg=#66fa00 guibg=NONE    gui=none
+hi PreProc        guifg=#aaffff guibg=NONE    gui=none
 
-hi Special        guifg=#33aa00               
-hi Delimiter      guifg=#33aa00
-hi Regexp         guifg=#44b4cc               
+hi Special        guifg=#33aa00 guibg=NONE    gui=none
+hi Delimiter      guifg=#33aa00 guibg=NONE    gui=none
+hi Regexp         guifg=#44b4cc guibg=NONE    gui=none
 
 "════════════════════════════════════════════════════════╡ Comments
 "
-hi Comment        guifg=#cc22dd               gui=none
-hi CommentBright  guifg=#33eeff               gui=none
+hi Comment        guifg=#cc22dd guibg=NONE    gui=none
+hi CommentBright  guifg=#33eeff guibg=NONE    gui=none
 
 "════════════════════════════════════════════════════════╡ Format Aliases
 
@@ -355,16 +355,28 @@ hi HlInverse      gui=reverse
 hi HlStandout     gui=standout
 
 "════════════════════════════════════════════════════════╡ Markdown
+" HlMkDnCode 
+" HlMkDnCdDelim
 "
-hi HlMkDnCode     guifg=#441144 guibg=#ddaadd gui=reverse
+hi HlMkDnCode     guifg=#ddaadd guibg=#441144 gui=none
+hi HlMkDnCodeBg   guifg=NONE    guibg=#163646 gui=none
 hi HlMkDnCdBlock  guifg=#c9c9a3 guibg=#060606 gui=none
 hi HlMkDnCdDelim  guifg=#ffff00 guibg=NONE    gui=strikethrough,bold 
 hi HlMkDnHeader   guifg=#cc44cc               gui=bold
 hi HlMkDnLink     guifg=#15aabf               gui=italic,underline
 
+hi markdownH1     guifg=#cc44cc               gui=bold,underline      guisp=#00cc11
+hi markdownH2     guifg=#cc44cc               gui=bold,underdashed    guisp=#00cc11
+hi markdownH3     guifg=#cc44cc               gui=underdotted         guisp=#00aa11
+hi markdownH4     guifg=#cc44cc               gui=underdotted,italic  guisp=#aa66aa
+
 hi link markdownCode HlMkDnCode
 hi link markdownCodeBlock HlMkDnCdBlock
 hi link markdownCodeDelimiter HlMkDnCdDelim
+hi link markdownHighlight_sh HlMkDnCodeBg
+hi link markdownHighlight_javascript HlMkDnCodeBg
+hi link markdownHighlight_typescript HlMkDnCodeBg
+hi link markdownHighlight_json HlMkDnCodeBg
 
 " Coc/Markdown
 hi link CocBold HlBold

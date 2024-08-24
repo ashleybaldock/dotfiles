@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>~/dotfiles/.vim/colors/vividmayhem.vim.html</title>
+<meta name="Generator" content="Vim/9.1">
+<meta name="plugin-version" content="vim9.0_v2">
+<meta name="syntax" content="vim">
+<meta name="settings" content="use_css,no_foldcolumn,expand_tabs,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="vividmayhem">
+<style>
+<!--
+pre { font-family: monospace; color: #eeeeee; background-color: #0f0f0f; }
+body { font-family: monospace; color: #eeeeee; background-color: #0f0f0f; }
+* { font-size: 1em; }
+.BGaa66aa { color: #000000; background-color: #aa66aa; padding-bottom: 1px; }
+.BG00cc11 { color: #000000; background-color: #00cc11; padding-bottom: 1px; }
+.BG00aa11 { color: #ffffff; background-color: #00aa11; padding-bottom: 1px; }
+.BGffff00 { color: #000000; background-color: #ffff00; padding-bottom: 1px; }
+.BG00ffff { color: #000000; background-color: #00ffff; padding-bottom: 1px; }
+.Todo { color: #0000ff; background-color: #ffff00; padding-bottom: 1px; }
+.Error { color: #ffffff; background-color: #ff0000; padding-bottom: 1px; }
+.Type { color: #aaaa77; }
+.Statement { color: #ff6600; }
+.Constant { color: #339999; }
+.String { color: #66fa00; }
+.PreProc { color: #aaffff; }
+.Special { color: #33aa00; }
+.Delimiter { color: #33aa00; }
+.Comment { color: #cc22dd; }
+.BGf5f5f5 { color: #000000; background-color: #f5f5f5; padding-bottom: 1px; }
+.BG000000 { color: #ffffff; background-color: #000000; padding-bottom: 1px; }
+.BG808080 { color: #000000; background-color: #808080; padding-bottom: 1px; }
+.BGffffff { color: #000000; background-color: #ffffff; padding-bottom: 1px; }
+.Identifier { color: #ffcc00; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot;                     Vivid Mayhem</span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot;</span>   <span class="PreProc">Related:</span>
+<span class="Comment">&quot;  ../plugin/chars.vim      -  fillchars, listchars etc.</span>
+<span class="Comment">&quot;  ../plugin/highlight.vim  -  Colourscheme Utils</span>
+<span class="Comment">&quot;            ╰─▷ ⎧ :HiHi    -  inline highlight preview  ⎫</span>
+<span class="Comment">&quot;                ⎩ :Synfo   -  floating syntax info      ⎭ </span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot;     Originally based on tpope's vividchalk</span>
+<span class="Comment">&quot; </span>
+<span class="Comment">&quot;</span>
+
+<span class="Statement">set</span> <span class="PreProc">background</span>=dark
+<span class="Statement">hi</span> <span class="Statement">clear</span>
+<span class="Statement">if</span> <span class="Identifier">exists</span><span class="Delimiter">(</span><span class="String">&quot;syntax_on</span><span class="String">&quot;</span><span class="Delimiter">)</span>
+  <span class="Statement">syntax</span> <span class="Type">reset</span>
+<span class="Statement">endif</span>
+
+<span class="Statement">let</span> <span class="Identifier">g:colors_name</span> <span class="Statement">=</span> <span class="String">&quot;vividmayhem</span><span class="String">&quot;</span>
+
+<span class="Comment">&quot; These names have to be lower case</span>
+<span class="Statement">call</span> <span class="Identifier">extend</span><span class="Delimiter">(</span><span class="Identifier">v:colornames</span>, <span class="Delimiter">{</span>
+<span class="Special">      \</span> <span class="String">'yormalb'</span>: <span class="String">'</span>#0f0f0f<span class="String">'</span>, <span class="String">'yormalf'</span>: <span class="String">'</span>#eeeeee<span class="String">'</span>,
+<span class="Special">      \</span> <span class="String">'ywreadb'</span>: <span class="String">'</span>#090909<span class="String">'</span>,
+<span class="Special">      \</span> <span class="String">'ywnormb'</span>: <span class="String">'</span>#060606<span class="String">'</span>, <span class="String">'ywnormf'</span>: <span class="String">'</span>#dedede<span class="String">'</span>,
+<span class="Special">      \</span> <span class="String">'ywhelpb'</span>: <span class="String">'</span>#020922<span class="String">'</span>, <span class="String">'ywhelpf'</span>: <span class="String">'</span>#e5e5ff<span class="String">'</span>,
+<span class="Special">      \</span> <span class="String">'yunsavb'</span>: <span class="String">'</span>#440000<span class="String">'</span>, <span class="String">'yunsavf'</span>: <span class="String">'</span><span class="BGf5f5f5">#f5f5f5</span><span class="String">'</span>,
+<span class="Special">      \</span> <span class="String">'ysignsb'</span>: <span class="String">'</span>#10101f<span class="String">'</span>,
+<span class="Special">      \</span> <span class="Delimiter">}</span>, <span class="String">'keep'</span><span class="Delimiter">)</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Window</span>
+
+<span class="Comment">&quot; 𝓲⃞  [gui=] ignored for 'Normal' highlight</span>
+<span class="Statement">hi</span> <span class="Type">Normal</span>         <span class="Type">guifg</span>=<span class="Type">yormalf</span> <span class="Type">guibg</span>=<span class="Type">yormalb</span>
+
+<span class="Comment">&quot; Per-window background colors</span>
+<span class="Comment">&quot;</span> <span class="PreProc">See:</span><span class="Comment"> ../plugin/wincolor.vim</span>
+<span class="Statement">hi</span> <span class="Type">WinNormal</span>      <span class="Type">guifg</span>=<span class="Type">ywnormf</span> <span class="Type">guibg</span>=<span class="Type">ywnormb</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">WinReadonly</span>    <span class="Type">guifg</span>=<span class="Type">ywnormf</span> <span class="Type">guibg</span>=<span class="Type">ywreadb</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">WinNoModify</span>    <span class="Type">guifg</span>=<span class="Type">ywnormf</span> <span class="Type">guibg</span>=<span class="Type">ywreadb</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">WinPreview</span>     <span class="Type">guifg</span>=<span class="Type">ywnormf</span> <span class="Type">guibg</span>=<span class="Type">ywreadb</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">WinQuickfix</span>    <span class="Type">guifg</span>=#FFFFBB <span class="Type">guibg</span>=#0D0616 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">WinHelp</span>        <span class="Type">guifg</span>=<span class="Type">ywhelpf</span> <span class="Type">guibg</span>=<span class="Type">ywhelpb</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">WinNetrw</span>       <span class="Type">guifg</span>=<span class="Type">ywnormf</span> <span class="Type">guibg</span>=<span class="Type">ywreadb</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">WinUnsaved</span>     <span class="Type">guifg</span>=<span class="Type">yunsavf</span> <span class="Type">guibg</span>=<span class="Type">yunsavb</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">WinDiff</span>        <span class="Type">guifg</span>=#555533 <span class="Type">guibg</span>=#111111 <span class="Type">gui</span>=<span class="PreProc">italic</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Cursor</span>
+<span class="Comment">&quot;</span>
+<span class="Statement">hi</span> <span class="Type">LineNr</span>         <span class="Type">guifg</span>=#ddeeff <span class="Type">guibg</span>=#222222
+<span class="Comment">&quot;hi LineNrAbove</span>
+<span class="Comment">&quot;hi LineNrBelow</span>
+
+<span class="Statement">hi</span> <span class="Type">Cursor</span>         <span class="Type">guifg</span>=<span class="BG000000">#000000</span> <span class="Type">guibg</span>=<span class="BGffffff">#ffffff</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">CursorLine</span>     <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=#1d002d
+<span class="Comment">&quot;hi CursorLineNr  (w/ relativenumber)</span>
+<span class="Comment">&quot;hi CursorLineFold (in folds column)</span>
+<span class="Statement">hi</span> <span class="Type">CursorLineSign</span> <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=#4d006d
+<span class="Statement">hi</span> <span class="Type">CursorColumn</span>   <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=#4d006d
+
+<span class="Comment">&quot;CocCursorRange   </span><span class="Comment">&quot; activated cursors ranges</span>
+<span class="Comment">&quot;CocLinkedEditing </span><span class="Comment">&quot; activated linked editing ranges</span>
+<span class="Comment">&quot; CocSelectedRange       </span><span class="Comment">&quot; range of outgoing calls</span>
+<span class="Statement">hi</span> <span class="Type">CocHoverRange</span>  <span class="Type">guibg</span>=#502a2a <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Comment">&quot;</span> <span class="PreProc">Document Highlights:</span>
+<span class="Comment">&quot;</span> <span class="PreProc">Matching Symbols:</span><span class="Comment"> in the buffer at cursor position</span>
+<span class="Comment">&quot; CocHighlightText       </span><span class="Comment">&quot; default symbol highlight</span>
+<span class="Comment">&quot; CocHighlightRead       </span><span class="Comment">&quot; Read kind of document symbol</span>
+<span class="Comment">&quot; CocHighlightWrite      </span><span class="Comment">&quot; Write kind of document symbol</span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot; CocLink                </span><span class="Comment">&quot; document links</span>
+<span class="Comment">&quot;</span> <span class="PreProc">Inlay Hints:</span>
+<span class="Comment">&quot; CocInlayHint           </span><span class="Comment">&quot; f|CocHintSign| b|SignColumn|</span>
+<span class="Comment">&quot; CocInlayHintParameter  </span><span class="Comment">&quot; parameter kind of inlay hint</span>
+<span class="Comment">&quot; CocInlayHintType       </span><span class="Comment">&quot; type kind of inlay hint</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Search</span>
+<span class="Statement">hi</span> <span class="Type">Search</span>         <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=#555555 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">IncSearch</span>      <span class="Type">guifg</span>=#fefefe <span class="Type">guibg</span>=<span class="BG000000">#000000</span>
+<span class="Statement">hi</span> <span class="Type">CurSearch</span>      <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=#444422 <span class="Type">gui</span>=<span class="PreProc">reverse</span>
+
+<span class="Statement">hi</span> <span class="Type">Visual</span> <span class="Type">none</span> | <span class="Statement">hi</span> <span class="Type">Visual</span>     <span class="Type">guibg</span>=#2a2a50 <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Statement">hi</span> <span class="Type">ModeMsg</span>        <span class="Type">guifg</span>=#f050a0 <span class="Type">guibg</span>=#440022 <span class="Type">gui</span>=<span class="PreProc">italic</span>
+<span class="Comment">&quot; more-prompt/pager</span>
+<span class="Statement">hi</span> <span class="Type">MoreMsg</span>        <span class="Type">guifg</span>=#00aa00
+<span class="Statement">hi</span> <span class="Type">ErrorMsg</span>       <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=#ce1111
+<span class="Statement">hi</span> <span class="Type">WarningMsg</span>     <span class="Type">guifg</span>=#ff7c00 <span class="Type">guibg</span>=#550000
+
+<span class="Comment">&quot; Hit-Enter prompt &amp; yes/no questions</span>
+<span class="Statement">hi</span> <span class="Type">Question</span> <span class="Type">none</span> | <span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">Question</span> <span class="Type">MoreMsg</span>
+
+<span class="Statement">hi</span> <span class="Type">Title</span>          <span class="Type">guifg</span>=#dd22dd
+
+<span class="Statement">hi</span> <span class="Type">WildMenu</span>       <span class="Type">guifg</span>=<span class="BG000000">#000000</span> <span class="Type">guibg</span>=#767fff <span class="Type">gui</span>=<span class="PreProc">bold</span>
+
+<span class="Statement">hi</span> <span class="Type">Directory</span> <span class="Type">none</span> | <span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">Directory</span> <span class="Type">Identifier</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Invisible(ish)</span>
+
+<span class="Statement">hi</span> <span class="Type">Conceal</span>        <span class="Type">guifg</span>=#6666a2 <span class="Type">guibg</span>=<span class="PreProc">NONE</span>
+<span class="Statement">hi</span> <span class="Type">Ignore</span>         <span class="Type">guifg</span>=#8888aa <span class="Type">guibg</span>=#222244
+<span class="Comment">&quot; Diagnostics related</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocFadeOut</span>             <span class="Type">Conceal</span>
+
+<span class="Comment">&quot; Used for: fillchars: eob</span>
+<span class="Comment">&quot;hi EndOfBuffer   guifg=</span>#403030<span class="Comment"> guibg=</span>#040404
+<span class="Statement">hi</span> <span class="Type">EndOfBuffer</span> <span class="Type">none</span> | <span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">EndOfBuffer</span> <span class="Type">EndOfBuNone</span>
+<span class="Comment">&quot; Used for: listchars: eol,extends,precedes;</span>
+<span class="Statement">hi</span> <span class="Type">NonText</span>     <span class="Type">none</span> | <span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">NonText</span> <span class="Type">NonTextNone</span>
+<span class="Comment">&quot; Used for: listchars: tab,nbsp,space,multispace,lead,trail;</span>
+<span class="Statement">hi</span> <span class="Type">SpecialKey</span>  <span class="Type">none</span> | <span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">SpecialKey</span> <span class="Type">SpecialNone</span>
+
+<span class="Comment">&quot; Used for different List styles (see plugin/chars.vim)</span>
+<span class="Comment">&quot; ListNone</span>
+<span class="Statement">hi</span> <span class="Type">EndOfBuNone</span>    <span class="Type">guifg</span>=#3a3a3a <span class="Type">guibg</span>=#050505
+<span class="Statement">hi</span> <span class="Type">NonTextNone</span>    <span class="Type">guifg</span>=#2a2a2a
+<span class="Statement">hi</span> <span class="Type">SpecialNone</span>    <span class="Type">guifg</span>=#2ada6a <span class="Type">guibg</span>=#102210
+<span class="Comment">&quot; ListMinimal</span>
+<span class="Statement">hi</span> <span class="Type">EndOfBuMini</span>    <span class="Type">guifg</span>=#3a3a3a <span class="Type">guibg</span>=#050505
+<span class="Statement">hi</span> <span class="Type">NonTextMini</span>    <span class="Type">guifg</span>=#303030
+<span class="Statement">hi</span> <span class="Type">SpecialMini</span>    <span class="Type">guifg</span>=#4a6a4a
+<span class="Comment">&quot; ListDiagnostic</span>
+<span class="Statement">hi</span> <span class="Type">EndOfBuDiag</span>    <span class="Type">guifg</span>=#3a3a3a <span class="Type">guibg</span>=#050505
+<span class="Statement">hi</span> <span class="Type">NonTextDiag</span>    <span class="Type">guifg</span>=#409040
+<span class="Statement">hi</span> <span class="Type">SpecialDiag</span>    <span class="Type">guifg</span>=#d70000
+
+<span class="Comment">&quot; [U8Whitespace] Used for whitespace diagnostic mode</span>
+<span class="Statement">hi</span> <span class="Type">U8Whitespace</span>   <span class="Type">guifg</span>=#dd1111 <span class="Type">guibg</span>=#dd1111
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Menu Popups</span>
+
+<span class="Comment">&quot; Popup menu (e.g. tab completion)</span>
+<span class="Statement">hi</span> <span class="Type">Pmenu</span>          <span class="Type">guifg</span>=#eeeeff <span class="Type">guibg</span>=#220055
+<span class="Statement">hi</span> <span class="Type">PmenuSel</span>       <span class="Type">guifg</span>=<span class="BGffffff">#ffffff</span> <span class="Type">guibg</span>=#440077
+<span class="Comment">&quot; e.g. K in: |match   K [TSC]|</span>
+<span class="Statement">hi</span> <span class="Type">PmenuKind</span>      <span class="Type">guifg</span>=#00ffaf <span class="Type">guibg</span>=#220055
+<span class="Statement">hi</span> <span class="Type">PmenuKindSel</span>   <span class="Type">guifg</span>=#00ffaf <span class="Type">guibg</span>=#440077 <span class="Type">gui</span>=<span class="PreProc">bold</span>
+<span class="Comment">&quot; e.g. [TSC] in: |match   K [TSC]|</span>
+<span class="Statement">hi</span> <span class="Type">PmenuExtra</span>     <span class="Type">guifg</span>=#af00af <span class="Type">guibg</span>=#220055
+<span class="Statement">hi</span> <span class="Type">PmenuExtraSel</span>  <span class="Type">guifg</span>=#af00af <span class="Type">guibg</span>=#440077 <span class="Type">gui</span>=<span class="PreProc">bold</span>
+<span class="Statement">hi</span> <span class="Type">PmenuSbar</span>                    <span class="Type">guibg</span>=#220055
+<span class="Statement">hi</span> <span class="Type">PmenuThumb</span>                   <span class="Type">guibg</span>=#4400dd
+
+<span class="Comment">&quot; Custom</span>
+<span class="Statement">hi</span> <span class="Type">HlPop01Bg</span>      <span class="Type">guifg</span>=#ddaacc <span class="Type">guibg</span>=#100008
+<span class="Statement">hi</span> <span class="Type">HlPop01Bd</span>      <span class="Type">guifg</span>=#cc66cc <span class="Type">guibg</span>=#100008
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">HlPop01T</span> <span class="Type">HlPop01Bd</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">HlPop01R</span> <span class="Type">HlPop01Bd</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">HlPop01B</span> <span class="Type">HlPop01Bd</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">HlPop01L</span> <span class="Type">HlPop01Bd</span>
+<span class="Statement">hi</span> <span class="Type">HlPop02Bg</span>      <span class="Type">guifg</span>=#00ff08 <span class="Type">guibg</span>=#779908
+<span class="Statement">hi</span> <span class="Type">HlPop02Bd</span>      <span class="Type">guifg</span>=#00ff08 <span class="Type">guibg</span>=<span class="PreProc">NONE</span>
+<span class="Statement">hi</span> <span class="Type">HlPop03Bg</span>      <span class="Type">guifg</span>=#ddaacc <span class="Type">guibg</span>=#333300
+<span class="Statement">hi</span> <span class="Type">HlPop03Bd</span>      <span class="Type">guifg</span>=#ffeedd <span class="Type">guibg</span>=<span class="PreProc">NONE</span>
+<span class="Comment">&quot; Floating help window</span>
+<span class="Statement">hi</span> <span class="Type">HlPopHelpBg</span>    <span class="Type">guifg</span>=<span class="Type">ywhelpf</span> <span class="Type">guibg</span>=<span class="Type">ywhelpb</span>
+<span class="Statement">hi</span> <span class="Type">HlPopHelpBd</span>    <span class="Type">guifg</span>=#ffeedd <span class="Type">guibg</span>=<span class="PreProc">NONE</span>
+<span class="Comment">&quot; Coc hover float</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">HlCocPuHovrBg</span> <span class="Type">HlPopHelpBg</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">HlCocPuHovrBd</span> <span class="Type">HlPopHelpBd</span>
+<span class="Comment">&quot; Coc suggestion float</span>
+<span class="Statement">hi</span> <span class="Type">HlCocPuSugsBg</span>  <span class="Type">guifg</span>=#eeeeff <span class="Type">guibg</span>=#220055
+<span class="Statement">hi</span> <span class="Type">HlCocPuSugsBd</span>  <span class="Type">guifg</span>=#ffeedd <span class="Type">guibg</span>=<span class="PreProc">NONE</span>
+<span class="Comment">&quot; Coc diagnostic float</span>
+<span class="Comment">&quot; hi HlCocPuDiagBg  guifg=</span>#ddaacc<span class="Comment"> guibg=</span>#333300<span class="Comment">    </span>
+<span class="Comment">&quot; hi HlCocPuDiagBd  guifg=</span>#bb0008<span class="Comment"> guibg=NONE</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">HlCocPuDiagBg</span> <span class="Type">PopDiagErr</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">HlCocPuDiagBd</span> <span class="Type">PopDiagErrBd</span>
+<span class="Comment">&quot; Coc signature float</span>
+<span class="Statement">hi</span> <span class="Type">HlCocPuSgtrBg</span>  <span class="Type">guifg</span>=#ddaacc <span class="Type">guibg</span>=#333300
+<span class="Statement">hi</span> <span class="Type">HlCocPuSgtrBd</span>  <span class="Type">guifg</span>=#559999 <span class="Type">guibg</span>=<span class="PreProc">NONE</span>
+
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">PopDiagErrBd</span>  <span class="Type">SignDgErr</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">PopDiagWarnBd</span> <span class="Type">SignDgWarn</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">PopDiagInfoBd</span> <span class="Type">SignDgInfo</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">PopDiagHintBd</span> <span class="Type">SignDgHint</span>
+
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">PopDiagErr</span>    <span class="Type">LineDgErr</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">PopDiagWarn</span>   <span class="Type">LineDgWarn</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">PopDiagInfo</span>   <span class="Type">LineDgInfo</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">PopDiagHint</span>   <span class="Type">LineDgHint</span>
+
+<span class="Comment">&quot; CoC Float window/popup related</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocPum</span>               <span class="Type">Pmenu</span>
+<span class="Comment">&quot;CocPumSearch      </span><span class="Comment">&quot;matched input characters, linked to |CocSearch| by default.</span>
+<span class="Comment">&quot;CocPumDetail      </span><span class="Comment">&quot;highlight label details that follows label </span>
+<span class="Comment">&quot;CocPumMenu        </span><span class="Comment">&quot;menu of complete item.</span>
+<span class="Comment">&quot;CocPumShortcut    </span><span class="Comment">&quot;shortcut text of source.</span>
+<span class="Comment">&quot;CocPumDeprecated  </span><span class="Comment">&quot;deprecated label.</span>
+<span class="Comment">&quot;CocPumVirtualText </span><span class="Comment">&quot;virtual text which enabled by</span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot;</span>
+
+<span class="Comment">&quot; hi CocSymbol</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocMenuSel</span>           <span class="Type">PmenuSel</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocFloating</span>          <span class="Type">Pmenu</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocFloatThumb</span>        <span class="Type">PmenuThumb</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocFloatSbar</span>         <span class="Type">PmenuSbar</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocFloatDividingLine</span> <span class="Type">NonText</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocFloatActive</span>       <span class="Type">HlPop02Bg</span>
+
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocErrorFloat</span>        <span class="Type">PopDiagErr</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocWarningFloat</span>      <span class="Type">PopDiagWarn</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocInfoFloat</span>         <span class="Type">PopDiagInfo</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocHintFloat</span>         <span class="Type">PopDiagHint</span>
+
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Vertical</span>
+
+<span class="Statement">hi</span> <span class="Type">VertSplit</span>      <span class="Type">guifg</span>=#666666 <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Statement">hi</span> <span class="Type">Folded</span>         <span class="Type">guifg</span>=#aaddee <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">FoldColumn</span>     <span class="Type">guifg</span>=<span class="BG00ffff">#00ffff</span> <span class="Type">guibg</span>=<span class="Type">ysignsb</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SignColumn</span>     <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=<span class="Type">ysignsb</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Statement">hi</span> <span class="Type">ColorColNormal</span> <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=#171031 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">ColorColBright</span> <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=#292243 <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Statement">hi</span> <span class="Type">ColorColumn</span> <span class="Type">none</span> | <span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">ColorColumn</span> <span class="Type">ColorColNormal</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Diffs</span>
+<span class="Comment">&quot;</span> <span class="PreProc">See:</span><span class="Comment"> WinDiff for background</span>
+
+<span class="Statement">hi</span> <span class="Type">DiffText</span>       <span class="Type">guifg</span>=#feddff <span class="Type">guibg</span>=#990088 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">DiffAdd</span>        <span class="Type">guifg</span>=#defeff <span class="Type">guibg</span>=#081145 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">DiffChange</span>     <span class="Type">guifg</span>=#eeccbb <span class="Type">guibg</span>=#2a002a <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">DiffDelete</span>     <span class="Type">guifg</span>=#7a0000 <span class="Type">guibg</span>=#3a0000 <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Signs</span>
+
+<span class="Statement">hi</span> <span class="Type">SignGitAdd</span>     <span class="Type">guifg</span>=#117711 <span class="Type">guibg</span>=<span class="Type">ysignsb</span> <span class="Type">gui</span>=<span class="PreProc">bold</span>
+<span class="Statement">hi</span> <span class="Type">SignGitDel</span>     <span class="Type">guifg</span>=#bb1144 <span class="Type">guibg</span>=<span class="Type">ysignsb</span> <span class="Type">gui</span>=<span class="Error">underdotted</span>
+<span class="Statement">hi</span> <span class="Type">SignGitChg</span>     <span class="Type">guifg</span>=#cfc040 <span class="Type">guibg</span>=<span class="Type">ysignsb</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SignGitCgD</span>     <span class="Type">guifg</span>=#cfc040 <span class="Type">guibg</span>=<span class="Type">ysignsb</span> <span class="Type">gui</span>=<span class="Error">underdotted</span> <span class="Type">guisp</span>=#bb0044
+
+<span class="Statement">hi</span> <span class="Type">WarningHint</span>    <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="Error">underdotted</span> <span class="Type">guisp</span>=#ddbb00
+
+<span class="Statement">hi</span> <span class="Type">SignDgErr</span>      <span class="Type">guifg</span>=#dd2222 <span class="Type">guibg</span>=#1f0505 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SignDgWarn</span>     <span class="Type">guifg</span>=#ffaa00 <span class="Type">guibg</span>=#301e00 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SignDgInfo</span>     <span class="Type">guifg</span>=<span class="BG00ffff">#00ffff</span> <span class="Type">guibg</span>=#101025 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SignDgHint</span>     <span class="Type">guifg</span>=#bb99ff <span class="Type">guibg</span>=#101025 <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Statement">hi</span> <span class="Type">LineDgErr</span>                    <span class="Type">guibg</span>=#1f0505 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">LineDgWarn</span>                   <span class="Type">guibg</span>=#121200 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">LineDgInfo</span>                   <span class="Type">guibg</span>=#001f1f <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">LineDgHint</span>                   <span class="Type">guibg</span>=#1b191f <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">VtextDgErr</span>     <span class="Type">SignDgErr</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">VtextDgWarn</span>    <span class="Type">SignDgWarn</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">VtextDgInfo</span>    <span class="Type">SignDgInfo</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">VtextDgHint</span>    <span class="Type">SignDgHint</span>
+
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">GitGutterAdd</span>              <span class="Type">SignGitAdd</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">GitGutterAddLine</span>          <span class="Type">DiffAdd</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">GitGutterChange</span>           <span class="Type">SignGitChg</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">GitGutterChangeLine</span>       <span class="Type">DiffChange</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">GitGutterChangeDelete</span>     <span class="Type">SignGitChgDel</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">GitGutterChangeDeleteLine</span> <span class="Type">DiffChange</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">GitGutterDelete</span>           <span class="Type">SignGitDel</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">GitGutterDeleteLine</span>       <span class="Type">DiffDelete</span>
+
+<span class="Comment">&quot;</span> <span class="PreProc">Virtual Text:</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocErrorVirtualText</span>   <span class="Type">VtextDgErr</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocWarningVirtualText</span> <span class="Type">VtextDgWarn</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocInfoVirtualText</span>    <span class="Type">VtextDgInfo</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocHintVirtualText</span>    <span class="Type">VtextDgHint</span>
+<span class="Comment">&quot; Virtual text</span>
+<span class="Comment">&quot; CocCodeLens            </span><span class="Comment">&quot; virtual text of codeLens</span>
+<span class="Comment">&quot; CocInputBoxVirtualText </span><span class="Comment">&quot; input box placeholders</span>
+<span class="Comment">&quot; CocSnippetVisual       </span><span class="Comment">&quot; snippet placeholders</span>
+
+<span class="Comment">&quot;</span> <span class="PreProc">Signs:</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocErrorSign</span>   <span class="Type">SignDgErr</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocWarningSign</span> <span class="Type">SignDgWarn</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocInfoSign</span>    <span class="Type">SignDgInfo</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocHintSign</span>    <span class="Type">SignDgHint</span>
+
+<span class="Comment">&quot;</span> <span class="PreProc">Sign Lines:</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocErrorLine</span>   <span class="Type">LineDgErr</span>
+<span class="Comment">&quot; hi link CocWarningLine LineDgWarn</span>
+<span class="Comment">&quot; hi link CocInfoLine    LineDgInfo</span>
+<span class="Comment">&quot; hi link CocHintLine    LineDgHint</span>
+<span class="Comment">&quot;hi CocSelectedLine</span>
+<span class="Comment">&quot;hi CocSelectedText</span>
+
+<span class="Comment">&quot; Priority order</span>
+<span class="Comment">&quot; ↳ CocUnusedHighlight</span>
+<span class="Comment">&quot; ↳ CocDeprecatedHighlight</span>
+<span class="Comment">&quot; ↳ CocErrorHighlight</span>
+<span class="Comment">&quot; ↳ CocWarningHighlight</span>
+<span class="Comment">&quot; ↳ CocInfoHighlight</span>
+<span class="Comment">&quot; ↳ CocHintHighlight</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocUnusedHighlight</span>      <span class="Type">CocFadeOut</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocDeprecatedHighlight</span>  <span class="Type">CocStrikeThrough</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocErrorHighlight</span>       <span class="Type">ErrorHint</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocWarningHighlight</span>     <span class="Type">WarningHint</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocInfoHighlight</span>        <span class="Type">InfoHint</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocHintHighlight</span>        <span class="Type">HintHint</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡  Horizontal</span>
+
+<span class="Statement">hi</span> <span class="Type">TabLine</span>        <span class="Type">guifg</span>=#bbbbbb <span class="Type">guibg</span>=#333333 <span class="Type">gui</span>=<span class="PreProc">underline</span>
+<span class="Statement">hi</span> <span class="Type">TabLineSel</span>     <span class="Type">guifg</span>=<span class="BGffffff">#ffffff</span> <span class="Type">guibg</span>=<span class="BG000000">#000000</span>
+<span class="Statement">hi</span> <span class="Type">TabLineFill</span>    <span class="Type">guifg</span>=#bbbbbb <span class="Type">guibg</span>=<span class="BG808080">#808080</span> <span class="Type">gui</span>=<span class="PreProc">underline</span>
+
+<span class="Comment">&quot;</span> <span class="PreProc">WinBar:</span>
+<span class="Comment">&quot; Background for the whole bar</span>
+<span class="Statement">hi</span> <span class="Type">ToolbarLine</span>    <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=#030327 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Comment">&quot; Background and foreground for toolbar buttons</span>
+<span class="Statement">hi</span> <span class="Type">ToolbarButton</span>  <span class="Type">guifg</span>=#eeeeee <span class="Type">guibg</span>=#232347 <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Inline Errors</span>
+
+<span class="Statement">hi</span> <span class="Type">ErrorHint</span>      <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">undercurl</span>   <span class="Type">guisp</span>=#fe0000
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">Error</span> <span class="Type">ErrorHint</span>
+<span class="Statement">hi</span> <span class="Type">WarningHint</span>    <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="Error">underdotted</span> <span class="Type">guisp</span>=#ddbb00
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">InfoHint</span>  <span class="Type">SpellCap</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">HintHint</span>  <span class="Type">SpellLocal</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Code Sections</span>
+
+<span class="Statement">hi</span> <span class="Type">Type</span>           <span class="Type">guifg</span>=#aaaa77 <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">Statement</span>      <span class="Type">guifg</span>=#ff6600 <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">Identifier</span>     <span class="Type">guifg</span>=#ffcc00 <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">Constant</span>       <span class="Type">guifg</span>=#339999 <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">String</span>         <span class="Type">guifg</span>=#66fa00 <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">PreProc</span>        <span class="Type">guifg</span>=#aaffff <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Statement">hi</span> <span class="Type">Special</span>        <span class="Type">guifg</span>=#33aa00 <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">Delimiter</span>      <span class="Type">guifg</span>=#33aa00 <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">Regexp</span>         <span class="Type">guifg</span>=#44b4cc <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Comments</span>
+<span class="Comment">&quot;</span>
+<span class="Statement">hi</span> <span class="Type">Comment</span>        <span class="Type">guifg</span>=#cc22dd <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">CommentBright</span>  <span class="Type">guifg</span>=#33eeff <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">none</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Format Aliases</span>
+
+<span class="Statement">hi</span> <span class="Type">HlBold</span>         <span class="Type">gui</span>=<span class="PreProc">bold</span>
+<span class="Statement">hi</span> <span class="Type">HlItalic</span>       <span class="Type">gui</span>=<span class="PreProc">italic</span>
+<span class="Statement">hi</span> <span class="Type">HlUnderline</span>    <span class="Type">gui</span>=<span class="PreProc">underline</span>
+<span class="Statement">hi</span> <span class="Type">HlUnCurl</span>       <span class="Type">gui</span>=<span class="PreProc">undercurl</span>
+<span class="Statement">hi</span> <span class="Type">HlUnDouble</span>     <span class="Type">gui</span>=<span class="Error">underdouble</span>
+<span class="Statement">hi</span> <span class="Type">HlUnDot</span>        <span class="Type">gui</span>=<span class="Error">underdotted</span>
+<span class="Statement">hi</span> <span class="Type">HlUnDash</span>       <span class="Type">gui</span>=<span class="Error">underdashed</span>
+<span class="Statement">hi</span> <span class="Type">HlStrike</span>       <span class="Type">gui</span>=<span class="PreProc">strikethrough</span>
+<span class="Statement">hi</span> <span class="Type">HlInverse</span>      <span class="Type">gui</span>=<span class="PreProc">reverse</span>
+<span class="Statement">hi</span> <span class="Type">HlStandout</span>     <span class="Type">gui</span>=<span class="PreProc">standout</span>
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Markdown</span>
+<span class="Comment">&quot;</span>
+<span class="Statement">hi</span> <span class="Type">HlMkDnCode</span>     <span class="Type">guifg</span>=#441144 <span class="Type">guibg</span>=#ddaadd <span class="Type">gui</span>=<span class="PreProc">reverse</span>
+<span class="Statement">hi</span> <span class="Type">HlMkDnCodeBg</span>   <span class="Type">guifg</span>=<span class="PreProc">NONE</span>    <span class="Type">guibg</span>=#163646 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">HlMkDnCdBlock</span>  <span class="Type">guifg</span>=#c9c9a3 <span class="Type">guibg</span>=#060606 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">HlMkDnCdDelim</span>  <span class="Type">guifg</span>=<span class="BGffff00">#ffff00</span> <span class="Type">guibg</span>=<span class="PreProc">NONE</span>    <span class="Type">gui</span>=<span class="PreProc">strikethrough</span>,<span class="PreProc">bold</span>
+<span class="Statement">hi</span> <span class="Type">HlMkDnHeader</span>   <span class="Type">guifg</span>=#cc44cc               <span class="Type">gui</span>=<span class="PreProc">bold</span>
+<span class="Statement">hi</span> <span class="Type">HlMkDnLink</span>     <span class="Type">guifg</span>=#15aabf               <span class="Type">gui</span>=<span class="PreProc">italic</span>,<span class="PreProc">underline</span>
+
+<span class="Statement">hi</span> <span class="Type">markdownH1</span>     <span class="Type">guifg</span>=#cc44cc               <span class="Type">gui</span>=<span class="PreProc">bold</span>,<span class="PreProc">underline</span>      <span class="Type">guisp</span>=<span class="BG00cc11">#00cc11</span>
+<span class="Statement">hi</span> <span class="Type">markdownH2</span>     <span class="Type">guifg</span>=#cc44cc               <span class="Type">gui</span>=<span class="PreProc">bold</span>,<span class="Error">underdashed</span>    <span class="Type">guisp</span>=<span class="BG00cc11">#00cc11</span>
+<span class="Statement">hi</span> <span class="Type">markdownH3</span>     <span class="Type">guifg</span>=#cc44cc               <span class="Type">gui</span>=<span class="Error">underdotted</span>         <span class="Type">guisp</span>=<span class="BG00aa11">#00aa11</span>
+<span class="Statement">hi</span> <span class="Type">markdownH4</span>     <span class="Type">guifg</span>=#cc44cc               <span class="Type">gui</span>=<span class="Error">underdotted</span>,<span class="PreProc">italic</span>  <span class="Type">guisp</span>=<span class="BGaa66aa">#aa66aa</span>
+
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">markdownCode</span> <span class="Type">HlMkDnCode</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">markdownCodeBlock</span> <span class="Type">HlMkDnCdBlock</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">markdownCodeDelimiter</span> <span class="Type">HlMkDnCdDelim</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">markdownHighlight_sh</span> <span class="Type">HlMkDnCodeBg</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">markdownHighlight_javascript</span> <span class="Type">HlMkDnCodeBg</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">markdownHighlight_typescript</span> <span class="Type">HlMkDnCodeBg</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">markdownHighlight_json</span> <span class="Type">HlMkDnCodeBg</span>
+
+<span class="Comment">&quot; Coc/Markdown</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocBold</span> <span class="Type">HlBold</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocItalic</span> <span class="Type">HlItalic</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocUnderline</span> <span class="Type">HlUnderline</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocStrikeThrough</span> <span class="Type">HlStrike</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocMarkdownCode</span>  <span class="Type">HlMkDnCode</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocMarkdownHeader</span> <span class="Type">HlMkDnHeader</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocMarkdownLink</span>  <span class="Type">HlMkDnLink</span>
+
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ netrw</span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot; hi netrwClassify</span>
+<span class="Comment">&quot; hi netrwLink</span>
+<span class="Comment">&quot; hi netrwSymLink</span>
+<span class="Comment">&quot; hi netrwDir</span>
+<span class="Comment">&quot; hi netrwExe</span>
+<span class="Comment">&quot; hi netrwList</span>
+<span class="Comment">&quot; hi netrwComma</span>
+<span class="Comment">&quot; hi netrwVersion</span>
+<span class="Comment">&quot; hi netrwQuickHelp</span>
+<span class="Comment">&quot; hi netrwCmdSep</span>
+<span class="Comment">&quot; hi netrwHelpCmd</span>
+
+
+<span class="Comment">&quot;════════════════════════════════════════════════════════╡ Status</span>
+<span class="Comment">&quot;</span>
+<span class="Statement">hi</span> <span class="Type">StatusLineTerm</span> <span class="Type">none</span> | <span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">StatusLineTerm</span>  <span class="Type">SlTerminal</span>
+<span class="Statement">hi</span> <span class="Type">StatusLineTermNC</span> <span class="Type">none</span> | <span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">StatusLineTermNC</span> <span class="Type">SlTerminalNC</span>
+
+<span class="Statement">hi</span> <span class="Type">StatusLine</span>     <span class="Type">guifg</span>=<span class="BGffffff">#ffffff</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">StatusLineNC</span>   <span class="Type">guifg</span>=<span class="Constant">#dddddd</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlTermC</span>        <span class="Type">guifg</span>=#eeeeff <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlTermN</span>        <span class="Type">guifg</span>=<span class="Constant">#ccccee</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlInfoC</span>        <span class="Type">guifg</span>=<span class="Constant">#0088ff</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlInfoN</span>        <span class="Type">guifg</span>=<span class="Constant">#0066ff</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlMessC</span>        <span class="Type">guifg</span>=<span class="Constant">#aa6622</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlMessN</span>        <span class="Type">guifg</span>=<span class="Constant">#884422</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlHomeLC</span>       <span class="Type">guifg</span>=<span class="Constant">#aa00dd</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlHomeMC</span>       <span class="Type">guifg</span>=<span class="Constant">#dd00dd</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlHomeRC</span>       <span class="Type">guifg</span>=<span class="Constant">#dd00aa</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlHomeLN</span>       <span class="Type">guifg</span>=<span class="Constant">#9900bb</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlHomeMN</span>       <span class="Type">guifg</span>=<span class="Constant">#bb00bb</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlHomeRN</span>       <span class="Type">guifg</span>=<span class="Constant">#bb0099</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlDirC</span>         <span class="Type">guifg</span>=<span class="Constant">#ddaa33</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlDirN</span>         <span class="Type">guifg</span>=<span class="Constant">#bb9933</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlDirInvC</span>      <span class="Type">guifg</span>=<span class="Constant">#ddaa33</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">inverse</span>
+<span class="Statement">hi</span> <span class="Type">SlDirInvN</span>      <span class="Type">guifg</span>=<span class="Constant">#bb9933</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">inverse</span>
+<span class="Statement">hi</span> <span class="Type">SlPrevC</span>        <span class="Type">guifg</span>=<span class="Constant">#4427ff</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlPrevN</span>        <span class="Type">guifg</span>=<span class="Constant">#0066ff</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Comment">&quot; for the &lt; collapsed separator</span>
+<span class="Statement">hi</span> <span class="Type">SlSepC</span>         <span class="Type">guifg</span>=<span class="Constant">#11ee22</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlSepN</span>         <span class="Type">guifg</span>=<span class="Constant">#00dd11</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Comment">&quot;</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">SlB</span> <span class="Type">HlBold</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">SlI</span> <span class="Type">HlItalic</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">SlU</span> <span class="Type">HlUnderline</span>
+<span class="Statement">hi</span> <span class="Type">SlHintC</span>        <span class="Type">guifg</span>=#555555 <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">italic</span>
+<span class="Statement">hi</span> <span class="Type">SlHintN</span>        <span class="Type">guifg</span>=<span class="Constant">#444444</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">italic</span>
+<span class="Comment">&quot; filename</span>
+<span class="Statement">hi</span> <span class="Type">SlFNameC</span>       <span class="Type">guifg</span>=<span class="BGffffff">#ffffff</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlFNameN</span>       <span class="Type">guifg</span>=<span class="Constant">#dddddd</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Comment">&quot; unnamed§</span>
+<span class="Statement">hi</span> <span class="Type">SlFNoNameC</span>     <span class="Type">guifg</span>=<span class="Constant">#ccafaf</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">italic</span>,<span class="Error">underdotted</span>
+<span class="Statement">hi</span> <span class="Type">SlFNoNameN</span>     <span class="Type">guifg</span>=<span class="Constant">#bbafaf</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">italic</span>,<span class="Error">underdotted</span>
+<span class="Comment">&quot; Diff with original (disk) version</span>
+<span class="Statement">hi</span> <span class="Type">SlFDfSvNmC</span>     <span class="Type">guifg</span>=<span class="Constant">#ccccaf</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">italic</span>,<span class="Error">underdotted</span>
+<span class="Statement">hi</span> <span class="Type">SlFDfSvNmN</span>     <span class="Type">guifg</span>=<span class="Constant">#bbbbaf</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">italic</span>,<span class="Error">underdotted</span>
+<span class="Statement">hi</span> <span class="Type">SlFNameSvdC</span>    <span class="Type">guifg</span>=<span class="BGffffff">#ffffff</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span>
+<span class="Statement">hi</span> <span class="Type">SlFNameSvdN</span>    <span class="Type">guifg</span>=<span class="Type">yormalf</span> <span class="Type">guibg</span>=#151515
+<span class="Statement">hi</span> <span class="Type">SlFNameModC</span>    <span class="Type">guifg</span>=<span class="BGffffff">#ffffff</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">italic</span>,<span class="Error">underdotted</span>
+<span class="Statement">hi</span> <span class="Type">SlFNameModN</span>    <span class="Type">guifg</span>=<span class="BGffffff">#ffffff</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">italic</span>,<span class="Error">underdotted</span>
+<span class="Statement">hi</span> <span class="Type">SlFTypExtC</span>     <span class="Type">guifg</span>=<span class="Constant">#00cc00</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">bold</span>
+<span class="Statement">hi</span> <span class="Type">SlFTypExtN</span>     <span class="Type">guifg</span>=<span class="Constant">#ddd0dd</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">bold</span>
+<span class="Statement">hi</span> <span class="Type">SlFTypC</span>        <span class="Type">guifg</span>=<span class="Constant">#eeccff</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">underline</span>
+<span class="Statement">hi</span> <span class="Type">SlFTypN</span>        <span class="Type">guifg</span>=#bb99ff <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">SlFTyp2C</span>  <span class="Type">SlHintC</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">SlFTyp2N</span>  <span class="Type">SlHintN</span>
+<span class="Comment">&quot; file &amp; buffer warning flags</span>
+<span class="Statement">hi</span> <span class="Type">SlFlagC</span>        <span class="Type">guifg</span>=<span class="Constant">#ff1111</span> <span class="Type">guibg</span>=<span class="Constant">#232323</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlFlagN</span>        <span class="Type">guifg</span>=<span class="Constant">#ee0000</span> <span class="Type">guibg</span>=#151515 <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Comment">&quot; diagnostics</span>
+<span class="Statement">hi</span> <span class="Type">SlSynErrC</span>      <span class="Type">guifg</span>=<span class="Constant">#fc0000</span> <span class="Type">guibg</span>=<span class="BG000000">#000000</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlSynErrN</span>      <span class="Type">guifg</span>=<span class="Constant">#cc0000</span> <span class="Type">guibg</span>=<span class="BG000000">#000000</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlSynWarnC</span>     <span class="Type">guifg</span>=#ffaa00 <span class="Type">guibg</span>=<span class="BG000000">#000000</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlSynWarnN</span>     <span class="Type">guifg</span>=<span class="Constant">#d08800</span> <span class="Type">guibg</span>=<span class="BG000000">#000000</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlSynOkC</span>       <span class="Type">guifg</span>=<span class="Constant">#55cc00</span> <span class="Type">guibg</span>=<span class="BG000000">#000000</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlSynOkN</span>       <span class="Type">guifg</span>=<span class="Constant">#229900</span> <span class="Type">guibg</span>=<span class="BG000000">#000000</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlSynOffC</span>      <span class="Type">guifg</span>=<span class="BG00ffff">#00ffff</span> <span class="Type">guibg</span>=<span class="BG000000">#000000</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlSynOffN</span>      <span class="Type">guifg</span>=<span class="Constant">#00dddd</span> <span class="Type">guibg</span>=<span class="BG000000">#000000</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Comment">&quot; git</span>
+<span class="Statement">hi</span> <span class="Type">SlGitC</span>         <span class="Type">guifg</span>=<span class="Constant">#ffeef0</span> <span class="Type">guibg</span>=<span class="Constant">#660099</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlGitN</span>         <span class="Type">guifg</span>=<span class="Constant">#d0c4e0</span> <span class="Type">guibg</span>=<span class="Constant">#660099</span> <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlNotGitC</span>      <span class="Type">guifg</span>=<span class="Constant">#660099</span>               <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Type">SlNotGitN</span>      <span class="Type">guifg</span>=<span class="Constant">#660099</span>               <span class="Type">gui</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">SlGitOffC</span>  <span class="Type">SlSynOffC</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">SlGitOffN</span>  <span class="Type">SlSynOffN</span>
+
+<span class="Comment">&quot;╔═════════════════════════════════════════════════════╦═╡ Demo</span>
+<span class="Comment">&quot;║   ^@&quot; ^K ^L&quot; ^M&quot;   &lt;85&gt;&quot;                            ║</span>
+<span class="Comment">&quot;║                               ‐           　        ║</span>
+<span class="Comment">&quot;╚═════════════════════════════════════════════════════╝</span>
+
+
+
+<span class="Comment">&quot; </span><span class="Todo">TODO</span><span class="Comment"> - move these to filetype specific files</span>
+<span class="Comment">&quot;</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">javascriptRegexpString</span>  <span class="Type">Regexp</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">javascriptNumber</span>        <span class="Type">Number</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">javascriptNull</span>          <span class="Type">Constant</span>
+
+<span class="Comment">&quot; hi link testing44 Constant</span>
+<span class="Comment">&quot; hi link testing33 testing44</span>
+<span class="Comment">&quot; hi link cssFunction testing33</span>
+
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">jsonNoQuotesError</span>       <span class="Type">ErrorHint</span>
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">jsonMissingCommaError</span>   <span class="Type">ErrorHint</span>
+
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot;</span> <span class="PreProc">Floating Windows:</span><span class="Comment"> popup windows and dialogs</span>
+<span class="Comment">&quot; CocFloating            </span><span class="Comment">&quot; For floating window background.</span>
+<span class="Comment">&quot; CocFloatDividingLine   </span><span class="Comment">&quot; For dividing lines.</span>
+<span class="Comment">&quot; CocFloatActive         </span><span class="Comment">&quot; For active parts.</span>
+<span class="Comment">&quot; CocMenuSel             </span><span class="Comment">&quot; For selected line.</span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot; CocDisabled            </span><span class="Comment">&quot; disabled items, eg: menu item</span>
+<span class="Comment">&quot; CocMenuSel             </span><span class="Comment">&quot; current item in menu dialog (bg color ONLY)</span>
+
+
+<span class="Statement">hi</span> <span class="Statement">link</span> <span class="Type">CocSymbolDefault</span>  <span class="Type">hl</span>-<span class="Type">MoreMsg</span>
+<span class="Comment">&quot; hi link CocSymbolFile</span>
+<span class="Comment">&quot; hi link CocSymbolFolder</span>
+<span class="Comment">&quot; hi link CocSymbolReference</span>
+<span class="Comment">&quot; hi link CocSymbolSnippet</span>
+
+<span class="Comment">&quot; hi link CocSymbolUnit</span>
+<span class="Comment">&quot; hi link CocSymbolText</span>
+<span class="Comment">&quot; hi link CocSymbolColor</span>
+<span class="Comment">&quot; hi link CocSymbolVariable</span>
+<span class="Comment">&quot; hi link CocSymbolConstant</span>
+<span class="Comment">&quot; hi link CocSymbolValue</span>
+<span class="Comment">&quot; hi link CocSymbolKeyword</span>
+<span class="Comment">&quot; hi link CocSymbolTypeParameter</span>
+
+<span class="Comment">&quot; hi link CocSymbolOperator</span>
+
+<span class="Comment">&quot; hi link CocSymbolEvent</span>
+<span class="Comment">&quot; hi link CocSymbolFunction</span>
+<span class="Comment">&quot; hi link CocSymbolMethod</span>
+<span class="Comment">&quot; hi link CocSymbolProperty</span>
+<span class="Comment">&quot; hi link CocSymbolField</span>
+
+<span class="Comment">&quot; hi link CocSymbolInterface</span>
+<span class="Comment">&quot; hi link CocSymbolClass</span>
+<span class="Comment">&quot; hi link CocSymbolConstructor</span>
+<span class="Comment">&quot; hi link CocSymbolModule</span>
+
+<span class="Comment">&quot; hi link CocSymbolEnum</span>
+<span class="Comment">&quot; hi link CocSymbolEnumMember</span>
+<span class="Comment">&quot; hi link CocSymbolStruct</span>
+
+<span class="Comment">&quot; hi link CocSymbolNamespace</span>
+<span class="Comment">&quot; hi link CocSymbolPackage</span>
+
+<span class="Comment">&quot; hi link CocSymbolKey</span>
+<span class="Comment">&quot; hi link CocSymbolNull</span>
+
+<span class="Comment">&quot; hi link CocSymbolBoolean</span>
+<span class="Comment">&quot; hi link CocSymbolNumber</span>
+<span class="Comment">&quot; hi link CocSymbolString</span>
+<span class="Comment">&quot; hi link CocSymbolArray</span>
+<span class="Comment">&quot; hi link CocSymbolObject</span>
+
+
+<span class="Comment">&quot; vim&#0058;colorcolumn=18,58:nolist:nowrap:wfw:ww=125:wfh:wh=12:</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

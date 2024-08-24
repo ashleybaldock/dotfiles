@@ -1,7 +1,7 @@
-" if exists("g:mayhem_loaded_signs")
-"   finish
-" endif
-" let g:mayhem_loaded_signs = 1
+if exists("g:mayhem_loaded_signs")
+  finish
+endif
+let g:mayhem_loaded_signs = 1
 
 
 let s:prefix = 'sign_of_mayhem_'
@@ -81,3 +81,78 @@ command! CodeLine echo <SID>CodeBlockLine()
 "   ✘
 "   ✘
 "  +⎭
+
+" echo prop_type_add('test1', {'bufnr': bufnr(), 'highlight': 'TestHint1', 'priority': 1, 'combine': 0, 'override': 0 }
+
+" call prop_type_list({ bufnr })
+" call prop_type_[get/delete](name, { bufnr })
+" call prop_type_[add/change](name, {
+"   \ bufnr
+"   \ highlight  (group name)
+"   \ priority   (larger = higher priority, default 0)
+"   \ combine    (false = ignore/overwrite syntax)
+"   \ override   (true = override any other highlight)
+"   \ start_incl (true = inserts at start/end
+"   \ end_incl           position are included)
+" \})
+
+" (end_col == col && lnum == end_lnum): zero-width prop
+" call prop_add(lnum, col, {
+" \ id  (auto, or supply specific number)
+" \ bufnr
+" \ type   (same as use for prop_type_add)
+" \ length  (same-line only)(length of prop in byes)
+" \ end_lnum (line nr for end of prop, inclusive)
+" \ end_col (column just after end of prop)
+
+" \ text (to display before col, 
+"          row above/below if col == 0)
+"  \ text_align, (text && col==0) where to display:
+"  " after (eol), right (aligned in window, 1 per line)
+"  " below (next screen line), above (line before)
+" \ text_padding_left (text && col==0) 
+" \ text_wrap (wrap or truncate)
+" \}
+
+
+" prop_add({lnum}, {col}, {props})
+" prop_add_list({props}, [{item}, ...])
+
+" prop_find({props} [, {direction}])
+" prop_list({lnum} [, {props}])
+" prop_clear({lnum} [, {lnum-end} [, {bufnr}]])
+" prop_remove({props} [, {lnum} [, {lnum-end}]])
+
+
+function! s:GroupByFile(acc, val)
+  if ( has_key(a:acc, a:val['file']) ) 
+    call add(a:acc[a:val['file']], a:val)
+  else
+    let a:acc[a:val['file']] = [ a:val ]
+  endif
+  return a:acc
+endfunc
+
+" TODO caching
+" TODO async
+function! s:FetchDiagnostics(fresh = 0)
+  return reduce(CocAction('diagnosticList'), {acc, cur -> s:GroupByFile(acc, cur)}, {})
+endfunc
+
+
+function! s:DiagnosticSummary()
+  let l:above = { 'error': 0, 'warning': 0, 'hint': 0, 'info': 0 }
+  let l:below = { 'error': 0, 'warning': 0, 'hint': 0, 'info': 0 }
+endfunc
+
+
+function! s:DebugDiagnostics()
+  let grouped = s:FetchDiagnostics(1)
+  vsp
+  enew
+  call append('$', FormatJSON(json_encode(grouped)))
+  setlocal filetype=json
+  setlocal nomodifiable nomodified 
+endfunc
+
+command! -bar DebugDiagnostics call <SID>DebugDiagnostics()

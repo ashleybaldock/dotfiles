@@ -41,8 +41,15 @@ let g:mayhem_loaded_css = 1
 " --color02: rgb(var(--c02r) var(--c02g) var(--c02b) / var(--c02a));
 
 "
-" Split dataurls across multiple lines
+" Data URLs:
 "
+" Split: across multiple lines
+"
+" Add Quotes:
+"
+" 
+"  url(\("\|'\|\)data:\([A-Za-z/]\+\);\(base64\)\?,\([A-Za-z0-9/+=]\+\)\1)
+" 
 
 
 " Change hex color codes to uppercase

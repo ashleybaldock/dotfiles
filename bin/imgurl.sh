@@ -9,6 +9,7 @@ then
 fi
 
 PNGOUT="/opt/homebrew/bin/pngout"
+SVGO="$HOME/.nvm/versions/node/v18.19.0/bin/svgo"
 
 # TODO multiple inputs: accumulate and copy together
 # TODO input directories too
@@ -16,7 +17,7 @@ PNGOUT="/opt/homebrew/bin/pngout"
 
 optimise=1
 alwaysbase64=0
-copy=1
+copy=0
 
 if [ $# -gt 1 ]
 then
@@ -27,12 +28,24 @@ fi
 for arg in "${args[@]}"
 do
   detectedtype=unknown
-  base64=
+  # the output encoding used within the data url
+  # 'auto' - base64 (with exceptions: svg uses minimal encoding)
+  # 'b64' - base64
+  encoding=auto
+  # encoding used
+  usedencoding=
+  # name to use for generating CSS variable
+  name=
+  # resulting dataurl
   dataurl=
 
   if [ -f "$arg" ]
   then
     file=$( tr '[:upper:]' '[:lower:]' <<<"$arg" )
+
+    name=${file%.*}
+
+    ## input type: PNG
     if [ "${file: -4}" == ".png" ]
     then
       detectedtype=png
@@ -40,36 +53,57 @@ do
       echo "pngout:" >&2
       base64="$("$PNGOUT" "$arg" - 2> >(sed 's/^/pngout: /' >&2) | base64 -i - -o -)"
       echo "" >&2
-      dataurl="url('data:image/png;base64,$base64');"
+      dataurl="url('data:image/png;base64,$base64')"
+      usedencoding="b64"
+
+    ## input type: GIF
     elif [ "${file: -4}" == ".gif" ]
     then
       detectedtype=gif
       # TODO optimise gifs
       base64="$(base64 -i "$arg" -o -)"
-      dataurl="url('data:image/gif;base64,$base64');"
-    elif [ "${file: -4}" == ".jpg" || "${file: -5}" == ".jpeg" ]
+      dataurl="url('data:image/gif;base64,$base64')"
+      usedencoding="b64"
+
+    elif [ "${file: -4}" == ".jpg" -o "${file: -5}" == ".jpeg" ]
     then
       detectedtype=jpeg
       # TODO optimise jpegs
       base64="$(base64 -i "$arg" -o -)"
-      dataurl="url('data:image/jpeg;base64,$base64');"
+      dataurl="url('data:image/jpeg;base64,$base64')"
+      usedencoding="b64"
+
+    ## input type: SVG
     elif [ "${file: -4}" == ".svg" ]
     then
       detectedtype=svg
-      # TODO optimise svgs
-      # TODO encode svg and select quotes
-      base64="$(base64 -i "$arg" -o -)"
-      dataurl="url('data:image/svg+xml;base64,$base64');"
+      echo "svgo:" >&2
+      optimised="$(cat "$arg" | "$SVGO" -q -i - -o - 2> >(sed 's/^/svgo: /' >&2))"
+      echo "" >&2
+      if [ "$encoding" == "b64" ]
+      then
+        base64data="$(echo "$optimised" | base64 -i - -o -)"
+        dataurl="url('data:image/svg+xml;base64,$base64')"
+        usedencoding="b64"
+      else
+        dataurl="$(encodeSVG.js $optimised)"
+        usedencoding="svgmin"
+      fi
     fi
+
+    cssvar="--data-${name//_/-}: $dataurl;"
 
     if [ "$detectedtype" == "unknown" ]
     then
       echo "Unknown file type for input "$arg"" >&2
     else
       optcopy=""
-      if [ $copy -eq 1 ]
+      if [ $copy -eq 0 ]
       then
-        echo -n "$dataurl" | tee >(pbcopy)
+        echo -n "$cssvar"
+        echo ''
+      else
+        echo -n "$cssvar" | tee >(pbcopy)
         echo ''
         if [ $? -eq 0 ]
         then
@@ -80,9 +114,10 @@ do
         optcopy=",copy"
       fi
 
-      optbase64="base64"
+      optencoding="encoding=$encoding"
       optoptimise=",optimise"
-      echo "in:$detectedtype options:$optbase64$optoptimise out:stdout$optcopy" >&2
+      cssvar=",cssvar"
+      echo "in:$detectedtype options:$optencoding$optoptimise$cssvar out:$detectedtype,stdout$optcopy" >&2
     fi
 
   else

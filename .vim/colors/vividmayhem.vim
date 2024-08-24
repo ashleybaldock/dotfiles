@@ -1,16 +1,28 @@
 "
+" 𐰟𐰞𐰟𐰞𐰖 𐰾𐰟𐰯𐰟𐰯 
+"  𐠠 𐠨𐠳𐠨𐠳ᗪ 𐌃
+" 𐌖𐌉𐌖𐌠𐌃 ᗞ               ╲𝐕𝓲𝐢𝐯  v╲/√𝓲∖         𝙑𝙞𝙫𝙞𝘿
+"    𐘠 𐝆  𐝇                                   𝙫𝙞𝙑𝜤𐠳𝙑𝛪𝘿
+"                ∇∨  𝑉𝐼𝑉𝐢𝐦𝐢𝐕𝐈𝐕𝑉 𝒱𝒾𝓋 𝒱𝓥𝓲𝓥𝒱  𝐯 ╲𝐕╱/𝓭   Mayhem
 "
-"                     Vivid Mayhem
+"╲ ╲╱ ╱∆    ⋁⋁  ∨⧴ ⧵⧹𝑉 𝐕  V⧸∣⩔⩕⩗∆ ⨈         𝝼
+" ╲╱/╱/                    ╲ν\/ ╱𝓲╱𝓲𝐃  \ ∕        
+"      ⩗⩗⫐⧸                ╲∨╱×╲╱       Vivid  Mayhem
+"                  𝕍ⅈ𝕧ⅈⅅ              Mayhem
+"  Ⲽ Ⲷ ⲼⲶⲼⲶⲶⲼⲼⳆⳆⳆⲺⲴⲓⳞⳘⲠ     ᏙᏆᏤ ꭵᏤꮖᏙꮖ Ꮤ ꮖ  ꮩꮖꮩꮖꭰ
 "
+"  ꮞꮪᐝ ᐨᐧᐩᐪᗮVᐟᣔᐠᘁᐥᐦᐢᐡᐣᐤᙆᙇᕽᙾᙿ᐀᙮ ᙚᑉᑊᑋᑦᒃᒄᣖᒡᣕᒢᣗᒻᒼᒽᣘᒾᓑᓐᓒᣙᓪ
+"  ᓫᣞᣟᣜᣝ ᣛᙚᔆᔅᔇᔈ ᔥ ᔾᔿᕀᕁᖟ ᖦ ᣳᣴᣵ
 "
 "   Related:
+"   ./termayhem.vim          - Terminal colorscheme
 "  ../plugin/chars.vim       - fillchars, listchars etc.
 "  ../plugin/highlight.vim   - Colourscheme Utils
 "            ╰─▷ ⎧ :HiHi     - inline highlight preview  ⎫
-"                ⎩ :SynStack - floating syntax info      ⎭ 
+"                ⎩ :SynStack - floating syntax info      ⎭
 "
 "
-"     Originally based on tpope's vividchalk
+" Originally based on tpope's vividchalk
 " 
 "
 
@@ -103,10 +115,12 @@ hi Directory none | hi link Directory Identifier
 
 "════════════════════════════════════════════════════════╡ Invisible(ish)
 
-hi Conceal        guifg=#6666a2 guibg=NONE            
+" Replacements for concealed text
+hi Conceal        guifg=#7777a2 guibg=NONE            
 hi Ignore         guifg=#8888aa guibg=#222244         
+
 " Diagnostics related
-hi link CocFadeOut             Conceal
+hi CocFadeOut     guifg=#6666a2 guibg=NONE            
 
 " Used for: fillchars: eob
 "hi EndOfBuffer   guifg=#403030 guibg=#040404
@@ -270,10 +284,11 @@ hi link CocErrorVirtualText   VtextDgErr
 hi link CocWarningVirtualText VtextDgWarn
 hi link CocInfoVirtualText    VtextDgInfo
 hi link CocHintVirtualText    VtextDgHint
-" Virtual text
-" CocCodeLens            " virtual text of codeLens
-" CocInputBoxVirtualText " input box placeholders
-" CocSnippetVisual       " snippet placeholders
+
+hi CocCodeLens    guifg=#999999
+hi CocVirtualText guifg=#504945
+hi link CocInputBoxVirtualText   CocVirtualText
+hi link CocSnippetVisual         Visual
 
 " Signs:
 hi link CocErrorSign   SignDgErr 
@@ -286,16 +301,11 @@ hi link CocErrorLine   LineDgErr
 " hi link CocWarningLine LineDgWarn
 " hi link CocInfoLine    LineDgInfo
 " hi link CocHintLine    LineDgHint
-"hi CocSelectedLine
-"hi CocSelectedText
+" hi CocSelectedLine
+hi CocSelectedText guifg=#fb4934
 
 " Priority order
-" ↳ CocUnusedHighlight
-" ↳ CocDeprecatedHighlight
-" ↳ CocErrorHighlight
-" ↳ CocWarningHighlight
-" ↳ CocInfoHighlight
-" ↳ CocHintHighlight
+" ↳ Unused ↳ Deprecated ↳ Error ↳ Warning ↳ Info ↳ Hint
 hi link CocUnusedHighlight      CocFadeOut
 hi link CocDeprecatedHighlight  CocStrikeThrough
 hi link CocErrorHighlight       ErrorHint
@@ -323,6 +333,11 @@ hi WarningHint    guifg=NONE    guibg=NONE    gui=underdotted guisp=#ddbb00
 hi link InfoHint  SpellCap
 hi link HintHint  SpellLocal
 
+hi TestHint1      guifg=#ddddaa gui=underdouble,strikethrough guisp=#cc22dd 
+hi TestHint2      guifg=#ddddaa gui=underdouble,strikethrough guisp=#22ccff 
+hi TestHint3      guifg=#ddddaa gui=underdouble,strikethrough guisp=#22ff22 
+hi TestHint4      guifg=#ddddaa gui=underdouble,strikethrough guisp=#ffff22 
+
 "════════════════════════════════════════════════════════╡ Code Sections
 
 hi Type           guifg=#aaaa77 guibg=NONE    gui=none
@@ -344,6 +359,7 @@ hi CommentBright  guifg=#33eeff guibg=NONE    gui=none
 "════════════════════════════════════════════════════════╡ Format Aliases
 
 hi HlBold         gui=bold
+hi HlBoldItalic   gui=bold,italic
 hi HlItalic       gui=italic
 hi HlUnderline    gui=underline
 hi HlUnCurl       gui=undercurl
@@ -355,24 +371,69 @@ hi HlInverse      gui=reverse
 hi HlStandout     gui=standout
 
 "════════════════════════════════════════════════════════╡ Markdown
+"
+hi htmlComment    guifg=#aaaaaa guibg=#111111
+
 " HlMkDnCode 
 " HlMkDnCdDelim
 "
-hi HlMkDnCode     guifg=#ddaadd guibg=#441144 gui=none
+hi HlMkDnCode     guifg=#ddaadd guibg=#441144 gui=underline  guisp=#ddaadd
 hi HlMkDnCodeBg   guifg=NONE    guibg=#163646 gui=none
 hi HlMkDnCdBlock  guifg=#c9c9a3 guibg=#060606 gui=none
 hi HlMkDnCdDelim  guifg=#ffff00 guibg=NONE    gui=strikethrough,bold 
 hi HlMkDnHeader   guifg=#cc44cc               gui=bold
 hi HlMkDnLink     guifg=#15aabf               gui=italic,underline
 
-hi markdownH1     guifg=#cc44cc               gui=bold,underline      guisp=#00cc11
-hi markdownH2     guifg=#cc44cc               gui=bold,underdashed    guisp=#00cc11
-hi markdownH3     guifg=#cc44cc               gui=underdotted         guisp=#00aa11
-hi markdownH4     guifg=#cc44cc               gui=underdotted,italic  guisp=#aa66aa
+"hi markdownHeadingRule
+hi markdownH1     guifg=#cc44cc               gui=standout   guisp=#00cc11
+hi markdownH2     guifg=#cc44cc               gui=bold,underline      guisp=#00cc11
+hi markdownH3     guifg=#cc44cc               gui=bold,underdashed    guisp=#00cc11
+hi markdownH4     guifg=#cc44cc               gui=underdotted         guisp=#00aa11
+hi markdownH5     guifg=#cc44cc               gui=underdotted,italic  guisp=#aa66aa
+hi markdownH6     guifg=#cc44cc               gui=italic  guisp=#aa66aa
+hi link markdownH1Delimiter Delimiter
+hi link markdownH2Delimiter Delimiter
+hi link markdownH3Delimiter Delimiter
+hi link markdownH4Delimiter Delimiter
+hi link markdownH5Delimiter Delimiter
+hi link markdownH6Delimiter Delimiter
+hi link markdownHeadingDelimiter Delimiter
+
+" hi markdownOrderedListMarker
+" hi markdownListMarker
+" hi markdownBlockquote
+" hi markdownRule
+
+" hi markdownFootnote
+" hi markdownFootnoteDefinition
+
+hi link markdownLinkText              htmlLink
+hi link markdownAutomaticLink         markdownUrl
+hi link markdownUrl                   Float
+hi link markdownUrlTitle              String
+hi link markdownUrlDelimiter          htmlTag
+hi link markdownUrlTitleDelimiter     Delimiter
+
+hi markdownId guifg=#cc00ff guibg=#ff0000
+hi markdownIdDeclaration guifg=#cc00ff guibg=#ff0000
+hi link markdownIdDelimiter           markdownLinkDelimiter
+
+hi link markdownItalic HlItalic
+hi markdownItalicDelimiter gui=italic,inverse
+hi link markdownBold HlBold
+hi markdownBoldDelimiter gui=bold,inverse
+hi link markdownBoldItalic HlBoldItalic
+hi markdownBoldItalicDelimiter gui=bold,italic,inverse
+hi link markdownStrike HlStrike
+hi markdownStrikeDelimiter gui=strikethrough,inverse
 
 hi link markdownCode HlMkDnCode
 hi link markdownCodeBlock HlMkDnCdBlock
 hi link markdownCodeDelimiter HlMkDnCdDelim
+
+hi markdownEscape guifg=#33aa00 guibg=#061400    gui=none
+hi link markdownError Error
+
 hi link markdownHighlight_sh HlMkDnCodeBg
 hi link markdownHighlight_javascript HlMkDnCodeBg
 hi link markdownHighlight_typescript HlMkDnCodeBg
@@ -412,22 +473,22 @@ hi StatusLine     guifg=#ffffff guibg=#232323 gui=none
 hi StatusLineNC   guifg=#dddddd guibg=#151515 gui=none
 hi SlTermC        guifg=#eeeeff guibg=#232323 gui=none
 hi SlTermN        guifg=#ccccee guibg=#232323 gui=none
-hi SlInfoC        guifg=#0088ff guibg=#232323 gui=none  
-hi SlInfoN        guifg=#0066ff guibg=#151515 gui=none  
-hi SlMessC        guifg=#aa6622 guibg=#232323 gui=none  
-hi SlMessN        guifg=#884422 guibg=#151515 gui=none  
-hi SlHomeLC       guifg=#aa00dd guibg=#232323 gui=none  
-hi SlHomeMC       guifg=#dd00dd guibg=#232323 gui=none  
-hi SlHomeRC       guifg=#dd00aa guibg=#232323 gui=none  
-hi SlHomeLN       guifg=#9900bb guibg=#151515 gui=none  
-hi SlHomeMN       guifg=#bb00bb guibg=#151515 gui=none  
-hi SlHomeRN       guifg=#bb0099 guibg=#151515 gui=none  
-hi SlDirC         guifg=#ddaa33 guibg=#232323 gui=none  
-hi SlDirN         guifg=#bb9933 guibg=#151515 gui=none  
-hi SlDirInvC      guifg=#ddaa33 guibg=#232323 gui=inverse  
-hi SlDirInvN      guifg=#bb9933 guibg=#151515 gui=inverse  
-hi SlPrevC        guifg=#4427ff guibg=#232323 gui=none  
-hi SlPrevN        guifg=#0066ff guibg=#151515 gui=none  
+hi SlInfoC        guifg=#0088ff guibg=#232323 gui=none
+hi SlInfoN        guifg=#0066ff guibg=#151515 gui=none
+hi SlMessC        guifg=#aa6622 guibg=#232323 gui=none
+hi SlMessN        guifg=#884422 guibg=#151515 gui=none
+hi SlHomeLC       guifg=#aa00dd guibg=#232323 gui=none
+hi SlHomeMC       guifg=#dd00dd guibg=#232323 gui=none
+hi SlHomeRC       guifg=#dd00aa guibg=#232323 gui=none
+hi SlHomeLN       guifg=#9900bb guibg=#151515 gui=none
+hi SlHomeMN       guifg=#bb00bb guibg=#151515 gui=none
+hi SlHomeRN       guifg=#bb0099 guibg=#151515 gui=none
+hi SlDirC         guifg=#ddaa33 guibg=#232323 gui=none
+hi SlDirN         guifg=#bb9933 guibg=#151515 gui=none
+hi SlDirInvC      guifg=#ddaa33 guibg=#232323 gui=inverse
+hi SlDirInvN      guifg=#bb9933 guibg=#151515 gui=inverse
+hi SlPrevC        guifg=#4427ff guibg=#232323 gui=none
+hi SlPrevN        guifg=#0066ff guibg=#151515 gui=none
 " for the < collapsed separator
 hi SlSepC         guifg=#11ee22 guibg=#232323 gui=none
 hi SlSepN         guifg=#00dd11 guibg=#151515 gui=none
@@ -457,22 +518,22 @@ hi SlFTypN        guifg=#bb99ff guibg=#151515 gui=none
 hi link SlFTyp2C  SlHintC
 hi link SlFTyp2N  SlHintN
 " file & buffer warning flags
-hi SlFlagC        guifg=#ff1111 guibg=#232323 gui=none  
-hi SlFlagN        guifg=#ee0000 guibg=#151515 gui=none  
+hi SlFlagC        guifg=#ff1111 guibg=#232323 gui=none
+hi SlFlagN        guifg=#ee0000 guibg=#151515 gui=none
 " diagnostics
-hi SlSynErrC      guifg=#fc0000 guibg=#000000 gui=none  
-hi SlSynErrN      guifg=#cc0000 guibg=#000000 gui=none  
-hi SlSynWarnC     guifg=#ffaa00 guibg=#000000 gui=none  
-hi SlSynWarnN     guifg=#d08800 guibg=#000000 gui=none  
-hi SlSynOkC       guifg=#55cc00 guibg=#000000 gui=none  
-hi SlSynOkN       guifg=#229900 guibg=#000000 gui=none 
-hi SlSynOffC      guifg=#00ffff guibg=#000000 gui=none  
-hi SlSynOffN      guifg=#00dddd guibg=#000000 gui=none  
+hi SlSynErrC      guifg=#fc0000 guibg=#000000 gui=none
+hi SlSynErrN      guifg=#cc0000 guibg=#000000 gui=none
+hi SlSynWarnC     guifg=#ffaa00 guibg=#000000 gui=none
+hi SlSynWarnN     guifg=#d08800 guibg=#000000 gui=none
+hi SlSynOkC       guifg=#55cc00 guibg=#000000 gui=none
+hi SlSynOkN       guifg=#229900 guibg=#000000 gui=none
+hi SlSynOffC      guifg=#00ffff guibg=#000000 gui=none
+hi SlSynOffN      guifg=#00dddd guibg=#000000 gui=none
 " git
-hi SlGitC         guifg=#ffeef0 guibg=#660099 gui=none  
-hi SlGitN         guifg=#d0c4e0 guibg=#660099 gui=none  
-hi SlNotGitC      guifg=#660099               gui=none  
-hi SlNotGitN      guifg=#660099               gui=none  
+hi SlGitC         guifg=#ffeef0 guibg=#660099 gui=none
+hi SlGitN         guifg=#d0c4e0 guibg=#660099 gui=none
+hi SlNotGitC      guifg=#660099               gui=none
+hi SlNotGitN      guifg=#660099               gui=none
 hi link SlGitOffC  SlSynOffC
 hi link SlGitOffN  SlSynOffN
 
@@ -489,12 +550,11 @@ hi link javascriptRegexpString  Regexp
 hi link javascriptNumber        Number
 hi link javascriptNull          Constant
 
-" hi link testing44 Constant
-" hi link testing33 testing44
-" hi link cssFunction testing33
-
 hi link jsonNoQuotesError       ErrorHint
 hi link jsonMissingCommaError   ErrorHint
+
+
+hi cssVendor      guifg=#ffaa00 guibg=NONE gui=italic,strikethrough guisp=#ff0000
 
 "
 " Floating Windows: popup windows and dialogs

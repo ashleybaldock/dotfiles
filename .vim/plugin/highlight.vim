@@ -4,6 +4,9 @@ endif
 let g:mayhem_loaded_highlight = 1
 
 
+"
+" Has two implementations, this one uses `matchadd()`
+"
 function! s:AddHighlightHighlight(name) abort
   let matchid = matchadd(a:name, '\(^\s*\||\s\+\)"\?:\?hi\w*\s*\(clear\)\@!\(link\s\)\?\<\zs'..a:name..'\ze\>')
   if matchid == -1
@@ -33,7 +36,9 @@ command! HiHiMatch call <SID>ToggleHighlightHighlight()
 
 
 
-
+"
+" Has two implementatins, this one uses `syn match`
+"
 function! s:AddSynMatch(name) abort
   exec 'syn match ' .. a:name .. ' /\<' .. a:name .. '\>/'
     \ .. ' contained contains=NONE containedin=VimHiGroup'
@@ -50,13 +55,12 @@ function! s:HighlightHighlight() abort
   " syn match HlMkDnCdDelim /\<HlMkDnCdDelim\>/ contained contains=NONE containedin=VimHiGroup
   "
   let w:synmatches = []
-  %s/^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/n
+  %s/^:\?hi\w*\s\+\(clear\)\@!\(def\w*\s*\)\?\(link\s*\)\?\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/ne
+  %s/^:\?syn\w*\s\+\(match\|region\|keyword\)\s\+\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/ne
   for synmatch in w:synmatches
     exec 'syn match ' .. synmatch .. ' /\<' .. synmatch .. '\>/'
-      \ .. ' contained contains=NONE containedin=VimHiGroup'
+      \ .. ' contained contains=NONE containedin=VimGroupName,VimHiGroup'
   endfor
-  " %g/^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>/echo s:AddSynMatch(submatch(0))
-  " %g|^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>|exec 'syn match ' .. submatch(0) .. ' /\<' .. submatch(0).. '\>/ contained contains=NONE containedin=VimHiGroup'
 endfunc
 
 command! HiHi call <SID>HighlightHighlight()
@@ -204,7 +208,11 @@ command! HighlightThis :hi <c-r><c-w>
 
 " :%s/^:\?hi\s\(link\|clear\)\@!\s*\zs\(\w\+\)\ze\s\+/\=AddHighlightHighlight(submatch(0))/
     "       '\(^\s*\||\s\+\)"\?:\?hi\w*\s\(\clear\)\@!\(link\)\?\s*\zs'
-    "
+
+
+
+  " %g/^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>/echo s:AddSynMatch(submatch(0))
+  " %g|^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>|exec 'syn match ' .. submatch(0) .. ' /\<' .. submatch(0).. '\>/ contained contains=NONE containedin=VimHiGroup'
 "
 "
 "

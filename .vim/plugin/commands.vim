@@ -47,7 +47,46 @@ function! PrefixDecimal(n)
 endfunc
 
 
+function! FormatJSON(jsonString)
+  return systemlist('npx prettier --stdin-filepath nameless.json', a:jsonString)
+endfunc
+"
+" Apply code beautification to current
+" contents of buffer (or part thereof)
+"
+function! FormatBuffer(bufnr = bufnr()) range
+  let l:filetype = &filetype
+  let l:filename = expand('%')
+  if ( l:filename != '' )
+    let stdinpath = shellescape(l:filename)
+  elseif ( l:filetype != '')
+    let l:stdinpath = 'nameless.' .. l:filetype
+  else
+    let l:stdinpath = 'nameless.html'
+  endif
 
+  exec a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath ' .. l:stdinpath
+endfunc
+
+"
+" Add line continutation (\⏎) to the current cursor line,
+" or to the selected range of lines
+" Can be given a specific column to wrap at (defaults 
+" to cursor column)
+" If used in an existing continuation block, reformats it
+" to the new width
+"
+function! Continuation(column) range
+endfunc
+
+"
+" Remove line continuation from the continuation block
+" the cursor is currently within, leaving a single line
+" When called with a range, applies only to those
+" lines (may affect multiple blocks, or only a part of one)
+"
+function! Discontinuation() range
+endfunc
 
 
 " Information & Debug

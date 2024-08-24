@@ -4,16 +4,18 @@ set nocompatible
 
 let g:coc_node_path = '/opt/homebrew/bin/node'
 
-let g:mayhem_dir_backup = $HOME..'/.vim/backup'
-let g:mayhem_dir_swap = $HOME..'/.vim/swap'
-let g:mayhem_dir_undo =  $HOME..'/.vim/undo'
-let g:mayhem_dir_view =  $HOME..'/.vim/view'
-let g:mayhem_dir_session = $HOME..'/.vim/session'
+let $VIMHOME=expand('<sfile>:p:h')
+
+let g:mayhem_dir_backup  = $VIMHOME .. '/backup'
+let g:mayhem_dir_swap    = $VIMHOME .. '/swap'
+let g:mayhem_dir_undo    = $VIMHOME .. '/undo'
+let g:mayhem_dir_view    = $VIMHOME .. '/view'
+let g:mayhem_dir_session = $VIMHOME .. '/session'
 
 if has("patch-8.1.0251")
   if !isdirectory(g:mayhem_dir_backup)
     echom 'backup dir '''..g:mayhem_dir_backup..'''not found- creating it'
-    call mkdir($HOME .. "/.vim/backup", "p", 0711)
+    call mkdir(g:mayhem_dir_backup, "p", 0711)
   endif
   set writebackup
   set nobackup

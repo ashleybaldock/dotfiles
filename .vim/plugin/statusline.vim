@@ -183,6 +183,7 @@ let g:mayhem.type_ext_map = {
       \ 'typescriptreact': ['tsx'],
       \ 'typescript': ['ts'],
       \ 'markdown': ['md'],
+      \ 'dosbatch': ['bat'],
       \ }
 function s:TypeMatchesFilename(type, filename)
   let ext = fnamemodify(a:filename, ':e')

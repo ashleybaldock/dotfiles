@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#000000" />
     <link rel="stylesheet" href="icons.css"/>
 
-    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+    <!-- Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com/license - Copyright 2023 Fonticons, Inc. -->
 
     <script type="application/javascript" src="entanglement.js"></script>
   
@@ -18,17 +18,54 @@
 
 
     <script>
-  const encodeSVG = (data, { fill = '#ffffff' } = {}) =>
-        data.replace(/<svg/g, `<svg style="fill: ${fill};"`)
-        .replace(/>\s{1,}</g, `><`)
-        .replace(/\s{2,}/g, ` `)
-        .replace(/[\r\n%#()"'<>?[\\\]^`{|}]/g, encodeURIComponent);
+  /**
+   * Inject a style attribute into an SVG
+   *
+   * TODO re-use style attribute if SVG already has one
+   */
+  const styleSVG = (svg, { fill = '#ffffff', stroke = null, stroke_width = null } = {}) =>
+    svg.replace(/<svg/g, `<svg style="fill: ${fill};${
+      (stroke && `stroke: ${stroke}`) ?? ''}${
+      (stroke_width && `stroke_width: ${stroke_width}`) ?? ''}"`);
 
-  const svgToCSSBackground = (svgHTML) => `background-image: url('data:image/svg+xml,${encodeSVG(svgHTML)}');`;
-  const svgToCSSvar = (svgHTML, varName) => `--icon-${varName}: url('data:image/svg+xml,${encodeSVG(svgHTML)}');`;
+/**
+* Minimally transform SVG for use in a dataurl
+*/
+const encodeSVG = (svg) => `data:image/svg+xml,${svg
+  .replace(/>\s{1,}</g, `><`) /* strip spaces between tags */
+  .replace(/\s{2,}/g, ` `)    /* remove multiple spaces */
+  .replace(/[\r\n%#()"'<>?[\\\]^`{|}]/g, encodeURIComponent)}`;
+
+/**
+ * Encode SVG into a dataurl
+ *
+ * Note: output does not include trailing ';'
+ */
+const dataurlSVG = (svg) => `url('${encodeSVG(svg)}')`;
+
+
+  const defaultBackground = `
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  `;
+
+  const svgToCSSBackground = (svg) =>
+    `background-image: ${dataurlSVG(svg)};${defaultBackground}`;
+
+  const svgToCSSContent = (svg) =>
+    `content: ${dataurlSVG(svg)};`;
+
+  const svgToCSSvar = (svg, varName) =>
+    `--icon-${varName}: ${dataurlSVG(svg)};`;
+
+  const svgToURL = (svg) => `${dataurlSVG(svg)};`;
+
 
   const copyTextToClipboard = async (text) =>
-    ('clipboard' in navigator) ? await navigator.clipboard.writeText(text) : document.execCommand('copy', true, text);
+    ('clipboard' in navigator) 
+      ? await navigator.clipboard.writeText(text) 
+      : document.execCommand('copy', true, text);
 
   const copy = (e) => {
     const toCopy = e.target?.querySelector?.('input')?.value;
@@ -49,24 +86,42 @@
     const styles = [':root {'];
     document.querySelectorAll('svg').forEach((svg) => {
       const name = svg.getAttribute('data-name');
-      if (name !== null && name?.length > 0) {
-        styles.push(`  ${svgToCSSvar(svg.outerHTML, name)}`);
-      }
+      const cssvar = (name !== null && name?.length > 0) ? svgToCSSvar(svg.outerHTML, name) : null;
+      cssvar && styles.push(`  ${svgToCSSvar(svg.outerHTML, name)}`);
+
       const div = document.createElement('div');
       div.className = 'iconRow';
       div.insertAdjacentHTML('afterbegin', `
-        <div class="asSVG">${svg.outerHTML}</div>
-        <div class="copyAs">
-          <label class="copySVG" onClick="copy(event)">
-            <input type="text"/>SVG
-          </label>
-          <label class="copyBG" onClick="copy(event)">
-            <input type="text"/>CSS
-          </label>
+        <div class="outer">
+          <div class="inner">
+            <div class="copyAs">
+              <label class="downSVG" onClick="">
+                <input type="text"/>DL .&lt;SVG&gt;
+              </label>
+              <label class="copySVG" onClick="copy(event)">
+                <input type="text"/>&lt;SVG&gt;
+              </label>
+              <label class="copyURL" onClick="copy(event)">
+                <input type="text"/>url()
+              </label>
+              <label class="copyCSSbackground" onClick="copy(event)">
+                <input type="text"/>background
+              </label>
+              <label class="copyCSScontent" onClick="copy(event)">
+                <input type="text"/>content
+              </label>
+              ${cssvar === null ? '' : `<label class="copyCSSvar" onClick="copy(event)">
+                <input type="text"/>var()
+              </label>`}
+            </div>
+            <div class="asSVG">${svg.outerHTML}</div>
+          </div>
         </div>
       `);
       div.querySelector('.copySVG input').value = svg.outerHTML;
-      div.querySelector('.copyBG input').value = svgToCSSBackground(svg.outerHTML);
+      div.querySelector('.copyURL input').value = svgToURL(svg.outerHTML);
+      div.querySelector('.copyCSSbackground input').value = svgToCSSBackground(svg.outerHTML);
+      div.querySelector('.copyCSScontent input').value = svgToCSSContent(svg.outerHTML);
       svg.replaceWith(div);
     });
 
@@ -84,6 +139,42 @@
   <body data-sink-all data-sink="*">
     <fieldset>
         <label for="stroke-width" data-sink="stroke-width">
+            test:glass
+          <output for="testmetal"/></output>
+          <input type="range" list="markersglass" min="-30" max="30" step="3"
+            class="glass"
+            id="testglass"
+            />
+            <!-- data-source="stroke-width;input,change;root" -->
+          <datalist id="markersglass" class="text-outline-thick">
+            <option value="-30"></option>
+            <option value="0"></option>
+            <option value="30"></option>
+          </datalist>
+        </label>
+    </fieldset>
+    <fieldset>
+        <label for="stroke-width" data-sink="stroke-width">
+            test:metal
+          <output for="testmetal"/></output>
+          <input type="range" list="markersmetal" min="0" max="6" step="1"
+            class="metal"
+            id="testmetal"
+            />
+            <!-- data-source="stroke-width;input,change;root" -->
+          <datalist id="markersmetal" class="text-outline-thick">
+            <option value="0"></option>
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value="3"></option>
+            <option value="4"></option>
+            <option value="5"></option>
+            <option value="6"></option>
+          </datalist>
+        </label>
+    </fieldset>
+    <fieldset>
+        <label for="stroke-width" data-sink="stroke-width">
             SVG::stroke-width
           <output for="stroke-width"/></output>
           <input type="range" list="markers" min="0" max="64" step="1"
@@ -91,7 +182,7 @@
             data-source="stroke-width"
             />
             <!-- data-source="stroke-width;input,change;root" -->
-          <datalist id="markers">
+          <datalist id="markers" class="text-outline-thick" data-sink="stroke-width">
             <option value="0"></option>
             <option value="8"></option>
             <option value="16"></option>
@@ -104,11 +195,12 @@
           </datalist>
         </label>
     </fieldset>
-
-      <!-- <div> -->
-      <!--   <input type="range" id="stroke-width" name="stroke-width" min="0" max="64" /> -->
-      <!-- <label for="stroke-width"> = <output name="data-output-stroke-width" for="stroke-width"></output></label> -->
-    <!-- </div> -->
+<section>
+  <h1>Preview</h1>
+    <div id="droptarget"></div>
+  
+    <div id="droppedpreview"></div>
+</section>
 <section>
   <h1>Arrows</h1>
   <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.3155" height="29.6873">

@@ -284,7 +284,8 @@ vmap §<space> "xy:@x<CR>
 " %s/	/": "/g
 
 " Prettify
-nnoremap §p %!npx prettier --stdin-filepath %<CR>
+nnoremap §p call FormatBuffer()<CR>
+" nnoremap §p %!npx prettier --stdin-filepath shellescape(expand('%'))<CR>
 
 "  §f  - Formatting
 " CSS

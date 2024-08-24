@@ -26,9 +26,21 @@ then
   exit 1
 fi
 
-git diff --cached --quiet || echo "Git has staged changes, commit or stash them first" >&2 || exit 1
+if [ ! -d "$VIMDIR/pack/default/start/$1" ]
+then
+  echo "Failed to find package directory '($VIMDIR)/pack/default/start/($1)', aborting" >&2
+  exit 1
+fi
 
-git submodule deinit "$VIMDIR/pack/default/start/$1" || echo "submodule deinit failed" >&2 || exit 1
-git rm "$VIMDIR/pack/default/start/$1" || echo "git rm failed" >&2 || exit 1
-rm -Rf "$GITDIR/modules/.vim/pack/default/start/$1" || exit 1
-git commit -m"Remove vim package '$1'" || exit 1
+cwd=$(pwd)
+
+cd $VIMDIR
+git diff --cached --quiet || echo "Git has staged changes, commit or stash them first" >&2 && exit 1
+
+git submodule deinit ".vim/pack/default/start/$1" || echo "submodule deinit failed" >&2 && exit 1
+
+git rm "pack/default/start/$1" || echo "git rm failed" >&2 && exit 1
+
+rm -Rf "$GITDIR/modules/.vim/pack/default/start/$1" && exit 1
+
+git commit -m"Remove vim package '$1'" && exit 1

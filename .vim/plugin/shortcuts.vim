@@ -47,36 +47,44 @@ nnoremap ß           <C-i>
 nnoremap <leader>i   <C-i>
 
 
+
 "
-" Change:
+" Change: 
 "   Character: (under cursor)
 "
-" ╭──▷ ⌥⃝ 𝄐0⃝  ────────────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝ 
-nnoremap º a⃝ <Cmd>RepeatMove<CR><Esc>
+" ╭─▷    ⌥⃝ 𝄐0⃝  ──────────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝ 
+nnoremap º a⃝ <Esc>h<Cmd>RepeatMove<CR>
+xnoremap º :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR> 
 "
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐0⃝  ──────────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞ 
-nnoremap ‚ a⃞ <Cmd>RepeatMove<CR><Esc>
+" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐0⃝  ──────────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞ 
+nnoremap ‚ a⃞ <Esc>h<Cmd>RepeatMove<CR>
 "
-" ╭──▷ ⌥⃝ 𝄐-⃝  ────────────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲
-nnoremap – a̲<Cmd>RepeatMove<CR><Esc>
+" ╭─▷    ⌥⃝ 𝄐-⃝  ──────────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲
+nnoremap – a̲<Esc><Cmd>RepeatMove<CR>
 "
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐-⃝  ──────────▷ O̅v̅e̅r̅l̅i̅n̅e̅
-nnoremap — a̅<Cmd>RepeatMove<CR><Esc>
+" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐-⃝  ──────────▷ O̅v̅e̅r̅l̅i̅n̅e̅
+nnoremap — a̅<Esc><Cmd>RepeatMove<CR>
 "
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐E⃝  ──────────▷ Replace with last yanked
-nnoremap ‰ s<c-r>0<Cmd>RepeatMove<CR><Esc>
+" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐=⃝  ──────────▷ O꛰v꛰e꛰r꛰l꛰i꛰n꛰꛰꛰e
+nnoremap ≠ a꛱<Esc><Cmd>RepeatMove<CR>
 "
+" ╭─▷    ⌥⃝ 𝄐=⃝  ──────────▷ O꛱v꛱e꛱r꛱l꛱i꛱n꛱e
+nnoremap ± a꛰<Esc><Cmd>RepeatMove<CR>
+
+" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐E⃝  ──────────▷ Replace with last yanked
+nnoremap ‰ s<c-r>0<Esc><Cmd>RepeatMove<CR>
+"
+
+" Move to character (skipping whitespace)
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐L⃝  ──────────▷ Next character
+nnoremap ¬ :call search('\S', 'W', line('.'))<CR>
+" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐H⃝  ──────────▷ Previous character
+nnoremap ˙ :call search('\S', 'bW', line('.'))<CR>
+
+
+
 "  Word: (Under Cursor)
 "
-
-
-"
-" Write: §⃝  w - Save / write
-"
-nnoremap §ww :w<CR>
-nnoremap §wW :w!<CR>
-nnoremap §wa :wa<CR>
-
 "
 "  Edit: §e       ╭╌╌╌╌╌╸Quick Bookmarks╺╌╌╌╌╌╮
 " ╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╎
@@ -89,23 +97,41 @@ nnoremap §wa :wa<CR>
 " ╎ §e5 ┊  $HOME/                  ┊   §E5    ╎
 " ╎╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╎
 " ╎         §e§ :  Select from PUM            ╎
-" ╎╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
-" ╎  :e! ─╮ ┊    Open ..   ┊      in ..       ╎
-" ╎╌╌╌╌╌╌╌∇╌╎╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
-" ╎ §ew $eW ┊ ./<select>   ┊ same window      ╎
-" ╎ §es $eS ┊ ./<select>   ┊ horizontal split ╎
-" ╎ §ev §eV ┊ ./<select>   ┊ vertical split   ╎
-" ╎ §er §eR ┊ current file ┊ same window      ╎
-" ╎ §ed §eD ┊ ./ (DIR)     ┊ same window      ╎
-" ╎ §ec §eC ┊ <blank>      ┊ same window      ╎
-" ╎ §ee     ┊ ./<select>   ┊ exist;same;split ╎
-" ╎ §eE     ┊ ./<select>   ┊ same;split       ╎
-" ╎╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
-" ╎  §ee ⇉ ╶─?⃞╶┮[ if file is open already ]   ╎
-" ╎          ∇ └─▷ jump to existing window    ╎
-" ╎  §eE ⇉ ╶─?⃞╶┮[ if window can be reused ]   ╎
+" ╎╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╎
+" ╎  :e! ─╮ ┊    Open ..         ┊   in ..    ╎
+" ╎╌╌╌╌╌╌╌∇╌╎╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╌╌╌╌╎
+" ╎ §ew $eW ┊ ./<select>         ┊    same    ╎
+" ╎ §er §eR ┊ current file       ┊    same    ╎
+" ╎ §ed §eD ┊ ./ (DIR)           ┊    same    ╎
+" ╎ §ec §eC ┊ <new|blank>        ┊    same    ╎
+" ╎╴ ╴ ╴ ╴ ╴┆╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ┆ ╴ ╴ ╴ ╴ ╴ ╴╎
+" ╎  §evv   ┊ <new> derived¹     ┊   vsplit   ╎
+" ╎  §evc   ┊ <new> blank        ┊   vsplit   ╎
+" ╎  §es  ┊ <new> clipboard    ┊   vsplit   ╎
+" ╎  §esx   ┊ <pick> template    ┊   vsplit   ╎
+" ╎  §evw   ┊ <pick> file in ./  ┊   vsplit   ╎
+" ╎  §evd   ┊ ./ (DIR)           ┊   vsplit   ╎
+" ╎  §evr   ┊ current file       ┊   vsplit   ╎
+" ╎╴ ╴ ╴ ╴ ╴┆╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ┆ ╴ ╴ ╴ ╴ ╴ ╴╎
+" ╎  §esv   ┊ <new> derived¹     ┊    split   ╎
+" ╎  §esc   ┊ <new> blank        ┊    split   ╎
+" ╎  §es  ┊ <new> clipboard    ┊    split   ╎
+" ╎  §esx   ┊ <pick> template    ┊    split   ╎
+" ╎  §esw   ┊ <pick> file in ./  ┊    split   ╎
+" ╎  §evd   ┊ ./ (DIR)           ┊    split   ╎
+" ╎  §esr   ┊ current file       ┊    split   ╎
+" ╎╴ ╴ ╴ ╴ ╴┆╴ ╴ ╴ ╴ ╴ ╴ ╌╭╌╌╌╌╌╌╯ ╴ ╴ ╴ ╴ ╴ ╴╎
+" ╎ §ee     ┊ ./<select>  ┊  existing² or     ╎
+" ╎ §eE     ┊ ./<select>  ┊  same or split³   ╎
+" ╎╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
+" ╎²⃝︎  §ee ⇉ ╶─?⃞╶┮[ if file is open already ]  ╎
+" ╎           ∇ └─▷ jump to existing window   ╎
+" ╎³⃝  §eE ⇉ ╶─?⃞╶┮[ if window can be reused ]  ╎
 " ╎          ┆ └─▷ replace current            ╎
 " ╎          ╰─▷ open in split                ╎
+" ╎ Notes:                                    ╎
+" ╎                                           ╎
+" ╎¹⃝  derived: blank, same filetype           ╎
 " ╵╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╵
 nnoremap §ee :e 
 nnoremap §ew :e ./
@@ -140,10 +166,27 @@ nnoremap <S-tab>     :CtrlP<CR>
 nnoremap <leader>p   :CtrlP<CR>
 
 "
-"  §w & §s - Windows & Splits
+" Sessions: §s
+"
+nnoremap §se :SessionInfo<CR>
+nnoremap §sc :SessionCreate<CR>
+nnoremap §ss :SessionLoad<CR>
+" nnoremap §s  :SessionPause<CR>
+" nnoremap §s  :SessionResume<CR>
+" nnoremap §s  :SessionDelete<CR>
+
+"
+" Window: §w - Windows & Splits
 " 
-nnoremap §ss :sp<CR>
-nnoremap §sv :vsp<CR>
+nnoremap §ws :sp<CR>
+nnoremap §wv :vsp<CR>
+
+"
+" Write: §w - Write
+"
+nnoremap §ww :w<CR>
+nnoremap §wW :w!<CR>
+nnoremap §wa :wa<CR>
 
 
 "
@@ -152,7 +195,9 @@ nnoremap §sv :vsp<CR>
 " See: ./highlight.vim
 nnoremap §<S-i> :so $VIMRUNTIME/syntax/hitest.vim<CR>
 nnoremap §i :SynStack<CR>
+nnoremap <D-i> :SynStack<CR>
 nnoremap §I :SynStackAuto<CR>
+nnoremap <D-I> :SynStackAuto<CR>
 
 
 "─── Column guides ─────────────────────────────────────

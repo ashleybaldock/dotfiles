@@ -1,0 +1,27 @@
+#modern-rgb-valid {
+    --t0: rgb(0 0 0);
+    --t1: rgb(0% 0% 0%);
+    --t2: rgb(0 0 0 / 0);
+    --t3: rgb(0% 0% 0% / 0);
+    --t4: rgb(0 0 0 / 0);
+    --t5: rgb(0% 0% 0% / 0);
+    --t6: rgb(255 255 255);
+    --t7: rgb(100% 100% 100%);
+    --t8: rgb(255 255 255 / 1);
+    --t9: rgb(100% 100% 100% / 1);
+    --t10: rgb(255 255 255 / 1);
+    --t11: rgb(100% 100% 100% / 1);
+    --t12: rgb(none none none);
+    --t13: rgb(none none none / none);
+    --t14: rgb(0 none none / none);
+    --t15: rgb(none 0 none / none);
+    --t16: rgb(none none 0 / none);
+    --t17: rgb(none none none / 0);
+}
+
+#modern-rgb-invalid {
+    --t1: rgb(256 256 256);
+    --t2: rgb(256 256 256 / 1.1);
+    --t3: rgb(101% 101% 101%);
+    --t4: rgb(101% 101% 101% / 1.00009);
+}

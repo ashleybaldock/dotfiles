@@ -8,9 +8,16 @@ syn match markdownLineBreak " \{2,\}$" conceal cchar=⏎⃞
 
 " syn region mdEscapedItalic start="\\_" end="\\_" oneline contains=mdEscapedItalicDelimiter
 
-syn region mdEscapedItalic matchgroup=mdEscapedItalicDelimiter start="\\\*\S\@=" end="\S\@<=\\\*\|^$" contains=mdEscapedItalicDelimiter,markdownLineStart,@Spell
+syn region mdEscapedItalic
+      \ matchgroup=mdEscapedItalicDelimiter
+      \ start="\\\*\S\@="
+      \ end="\S\@<=\\\*\|^$"
+      \ contains=mdEscapedItalicDelimiter,markdownLineStart,@Spell
 
-syn match mdEscapedItalicDelimiter "\\\*" contained contains=mdConcealedEscape
+syn match mdEscapedItalicDelimiter
+      \ "\\\*"
+      \ contained
+      \ contains=mdConcealedEscape
 
 " syn region mdEscapedBold start="\\\*\\\*\S\@=" end="\S\@<=\\\*\\\*" oneline contains=mdConcealedEscape,mdEscapedItalic
 

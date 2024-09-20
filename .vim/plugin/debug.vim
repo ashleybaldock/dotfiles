@@ -51,41 +51,41 @@ function! s:WindowInfo(winid = win_getid())
   let tabnr = win_id2tabwin(a:winid)[0]
   let winnr = win_id2tabwin(a:winid)[1]
   let winInfo = [
-        \ '/*═*/ const winfo = { /*═══════════════════════╱ Window ╱═════*/',
+        \ '/*═*/ { /*═══════════════════════╱ Window ╱═════*/',
         \]
   let winInfo = winInfo + [
-        \ '/**/ winid: ' .. a:winid .. ', /**/'
-        \ .. ' floating: ''' .. isFloat .. ''',/**/',
-        \ '/**/  type: ''' .. winType .. ''',/**/'
-        \ .. ' bufnr: ' .. bufnr .. ',/**/'
-        \ .. ' tabnr: ' .. tabnr .. ',/**/'
-        \ .. ' winnr: ' .. winnr .. ',/**/',
+        \ '/**/ "winid": "' .. a:winid .. '", /**/'
+        \ .. ' "floating": ' .. isFloat .. ',/**/',
+        \ '/**/  "type": "' .. winType .. '",/**/'
+        \ .. ' "bufnr": ' .. bufnr .. ',/**/'
+        \ .. ' "tabnr": ' .. tabnr .. ',/**/'
+        \ .. ' "winnr": ' .. winnr .. ',/**/',
         \]
   let winInfo = winInfo + [
-        \ '/*─*/ "getwininfo": /*─────────────────────────*/',
+        \ '/*─────────────────────────────*/ "getwininfo":',
         \ wInfo->items()->copy()->filter(
         \   {idx, val -> type(val) != v:t_func}
-        \ )->js_encode()
+        \ )->json_encode()
         \ ..',',
-        \ '/*─*/ "w:": /*─────────────────────────────────*/',
+        \ '/*─────────────────────────────────────*/ "w:":',
         \ items(w:)->copy()->filter(
         \   {idx, val -> type(val) != v:t_func}
-        \ )->js_encode()
+        \ )->json_encode()
         \ ..',',
-        \ '/*─*/ "getwinvar&": /*─────────────────────────*/',
+        \ '/*─────────────────────────────*/ "getwinvar&":',
         \ getwinvar(winnr, '&')->copy()->filter(
         \   {idx, val -> type(val) != v:t_func}
-        \ )->js_encode()
+        \ )->json_encode()
         \ ..',',
         \]
   let popInfo = []
   if float
     let popInfo = popInfo + [
         \ '/*───────────────────╱ popup_getoptions() ╱───*/',
-        \ 'const popup_info = ',
+        \ '"popup_info": ',
         \ popOpts->copy()->filter(
         \   {idx, val -> type(val) != v:t_func}
-        \ )->js_encode()
+        \ )->json_encode()
         \]
   endif
  
@@ -93,31 +93,33 @@ function! s:WindowInfo(winid = win_getid())
         \ '/*════════════════════════════════╱ Buffer ╱═══*/',
         \]
   let bufInfo = bufInfo + [
-        \ '/**/ bufnr: ' .. bufnr .. ', /**/'
-        \ .. ' buftype: ''' .. bufType .. ''',/**/',
-        \ 'windows: ' .. win_findbuf(bufnr)->copy()->filter(
+        \ '/**/ { "bufnr": "' .. bufnr .. '", /**/'
+        \ .. ' "buftype": "' .. bufType .. '",/**/',
+        \ '"windows": ' .. win_findbuf(bufnr)->copy()->filter(
         \   {idx, val -> type(val) != v:t_func}
-        \ )->js_encode(),
+        \ )->json_encode(),
         \]
   let bufInfo = bufInfo + [
-        \ '/*─*/ "getbufinfo": /*─────────────────────────*/',
-        \ getbufinfo(bufnr)[0]->copy()->filter(  {idx, val -> type(val) != v:t_func} )->js_encode(),
+        \ '/*─*/ ,"getbufinfo": /*─────────────────────────*/',
+        \ getbufinfo(bufnr)[0]->copy()->filter(  {idx, val -> type(val) != v:t_func} )->json_encode(),
+        \ '/*'
         \]
   let bufInfo = bufInfo + [
-        \ '/*─*/ "getbufvar&": /*─────────────────────────*/',
+        \ '/*─*/ ,"getbufvar&": /*─────────────────────────*/',
         \ getbufvar(bufnr, '&')->copy()->filter(
         \   {idx, val -> type(val) != v:t_func}
-        \ )->js_encode(),
+        \ )->json_encode(),
         \]
   let bufInfo = bufInfo + [
-        \ '/*────────────────╱  fin  ╱───────────────────*/'
+        \ '/*─*/ } /*────╱  fin  ╱───────────────────*/'
         \]
   vsp
   enew
-  call append('$', winInfo)
-  call append('$', popInfo)
-  call append('$', bufInfo)
-  call s:FormatInfo()
+  call append('$', FormatJSON(winInfo))
+  call append('$', FormatJSON(popInfo))
+  call append('$', FormatJSON(bufInfo))
+  setlocal filetype=json
+  setlocal nomodifiable nomodified 
 endfunc
 
 " Print window and buffer info into a split

@@ -105,24 +105,6 @@ augroup END
 
 
 
-"
-" File Changed Since Reading:...
-" For when a file has been changed externally and there are also changes to
-" the buffer, open a split with the on-disk version and start a diff
-
-" TODO - close temp window on diffoff
-" TODO - closing temp window ends diff in both
-" TODO - closing source window closes temp one
-"
-command! DiffWithSaved diffoff! | let sourceft = &filetype
-      \ | vert new | set bt=nofile 
-      \ | r ++edit #
-      \ | 0d_ | let filetype = sourceft
-      \ | diffthis | wincmd p | diffthis 
-      \ | call setbufvar(bufnr('$'), 'filetype', &filetype)
-      \ | call setbufvar(bufnr('$'), 'mayhem_diff_saved', expand('%'))
-
-
 
 " Create a split if current buffer has modifications
 " Useful to run before a command that may open a new buffer
@@ -176,12 +158,15 @@ endfunc
 " Set a direction to move in after doing something
 "
 function! s:RepeatMove()
-  let b:mayhem_move_after = get(b:, 'mayhem_move_after', 'normal l') 
+  " let b:mayhem_move_after = get(b:, 'mayhem_move_after', 'normal l') 
+  let b:mayhem_move_after = get(b:, 'mayhem_move_after', 'call search(''\S'', ''W'', line(''.''))') 
   exec b:mayhem_move_after
 endfunc
 
 
 let s:directionMap = {
+      \ 'line,skip,right': 'call search(''\S'', ''W'', line(''.''))',
+      \ 'line,skip,left': 'call search(''\S'', ''bW'', line(''.''))',
       \ 'none       ⥀⃝ ':          '',
       \ 'up       ↑⃝ ':            'normal k',
       \ 'upright    ↗︎⃝ ':       '',

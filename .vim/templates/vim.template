@@ -1,0 +1,6 @@
+if exists("g:mayhem_loaded_%FILE%")
+  finish
+endif
+let g:mayhem_loaded_%FILE% = 1
+
+

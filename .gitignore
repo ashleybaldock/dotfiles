@@ -24,6 +24,7 @@ bin/HandBrakeCLI
 
 res/_old/*
 res/data/*
+res/icons/osx/*.svg
 
 .vim/node_modules/*
 

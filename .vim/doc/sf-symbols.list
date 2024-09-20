@@ -303,11 +303,11 @@
   􀀅    a.circle.fill
   􀂔    a.square
   􀂕    a.square.fill
-  􁢷    abs
+  􁢷    abs{{{
   􁀴    abs.brakesignal
   􁟆    abs.brakesignal.slash
   􁢸    abs.circle
-  􁢹    abs.circle.fill
+  􁢹    abs.circle.fill}}}
   􀕾    accessibility
   􀮓    accessibility.badge.arrow.up.right
   􀕿    accessibility.fill
@@ -322,15 +322,15 @@
   􀒸    airplane.circle
   􀒹    airplane.circle.fill
   􀷰    airplane.departure
-  􀑢    airplay.audio
+  􀑢    airplay.audio{{{
   􀱫    airplay.audio.badge.exclamationmark
   􀾧    airplay.audio.circle
   􀾨    airplay.audio.circle.fill
   􀑡    airplay.video
   􀱪    airplay.video.badge.exclamationmark
   􀾑    airplay.video.circle
-  􀾒    airplay.video.circle.fill
-  􁄣    airpod.gen3.left
+  􀾒    airplay.video.circle.fill}}}
+  􁄣    airpod.gen3.left{{{
   􁄢    airpod.gen3.right
   􀲌    airpod.left
   􀲋    airpod.right
@@ -356,7 +356,7 @@
   􁄾    airtag
   􁄿    airtag.fill
   􁄼    airtag.radiowaves.forward
-  􁄽    airtag.radiowaves.forward.fill
+  􁄽    airtag.radiowaves.forward.fill}}}
   􀐭    alarm
   􀐮    alarm.fill
   􁗀    alarm.waves.left.and.right
@@ -377,14 +377,14 @@
   􁒆    allergens.fill
   􀆖    alt
   􁆭    alternatingcurrent
-  􁗋    american.football
+  􁗋    american.football{{{
   􁚿    american.football.circle
   􁛀    american.football.circle.fill
   􁗌    american.football.fill
   􂎵    american.football.professional
   􂎷    american.football.professional.circle
   􂎸    american.football.professional.circle.fill
-  􂎶    american.football.professional.fill
+  􂎶    american.football.professional.fill}}}
   􀧰    amplifier
   􁑡    angle
   􀌚    ant
@@ -398,12 +398,12 @@
   􂪻    antenna.radiowaves.left.and.right.slash.circle
   􂪽    antenna.radiowaves.left.and.right.slash.circle.fill
   􀑋    app
-  􀑏    app.badge
+  􀑏    app.badge{{{
   􁂠    app.badge.checkmark
   􁂡    app.badge.checkmark.fill
   􂡆    app.badge.clock
   􂡇    app.badge.clock.fill
-  􀑐    app.badge.fill
+  􀑐    app.badge.fill}}}
   􁀘    app.connected.to.app.below.fill
   􀿫    app.dashed
   􀑌    app.fill
@@ -416,27 +416,27 @@
   􂝾    apple.haptics.and.music.note
   􂞀    apple.haptics.and.music.note.slash
   􀣺    apple.logo
-  􁂙    apple.meditate
+  􁂙    apple.meditate{{{
   􂛑    apple.meditate.circle
   􂛒    apple.meditate.circle.fill
   􁟾    apple.meditate.square.stack
-  􁟿    apple.meditate.square.stack.fill
+  􁟿    apple.meditate.square.stack.fill}}}
   􀩼    apple.terminal
   􂝕    apple.terminal.circle
   􂝖    apple.terminal.circle.fill
   􀪏    apple.terminal.fill
   􁹛    apple.terminal.on.rectangle
   􁹜    apple.terminal.on.rectangle.fill
-  􀺮    applepencil
+  􀺮    applepencil{{{
   􁰒    applepencil.adapter.usb.c
   􁰓    applepencil.adapter.usb.c.fill
   􁤑    applepencil.and.scribble
   􁰤    applepencil.gen1
   􁰥    applepencil.gen2
-  􁤓    applepencil.tip
+  􁤓    applepencil.tip}}}
   􀤭    applescript
   􀤮    applescript.fill
-  􀨫    appletv
+  􀨫    appletv{{{
   􀡴    appletv.fill
   􀼩    appletvremote.gen1
   􀼪    appletvremote.gen1.fill
@@ -445,14 +445,14 @@
   􀝩    appletvremote.gen3
   􀝪    appletvremote.gen3.fill
   􀼧    appletvremote.gen4
-  􀼨    appletvremote.gen4.fill
-  􀟤    applewatch
+  􀼨    appletvremote.gen4.fill}}}
+  􀟤    applewatch{{{
   􂄅    applewatch.and.arrow.forward
   􂠼    applewatch.case.sizes
   􀢷    applewatch.radiowaves.left.and.right
   􀸎    applewatch.side.right
   􀨶    applewatch.slash
-  􀫋    applewatch.watchface
+  􀫋    applewatch.watchface}}}
   􀮕    apps.ipad
   􀮖    apps.ipad.landscape
   􀟞    apps.iphone
@@ -462,13 +462,13 @@
   􀵀    aqi.high
   􀴾    aqi.low
   􀴿    aqi.medium
-  􂁢    arcade.stick
+  􂁢    arcade.stick{{{
   􂁨    arcade.stick.and.arrow.down
   􂁤    arcade.stick.and.arrow.left
   􂁣    arcade.stick.and.arrow.left.and.arrow.right.outward
   􂁥    arcade.stick.and.arrow.right
   􂁧    arcade.stick.and.arrow.up
-  􂁦    arcade.stick.and.arrow.up.and.arrow.down
+  􂁦    arcade.stick.and.arrow.up.and.arrow.down}}}
   􂁠    arcade.stick.console
   􂁡    arcade.stick.console.fill
   􀈭    archivebox
@@ -956,7 +956,7 @@
   􂒴    australian.football.circle
   􂒵    australian.football.circle.fill
   􂒳    australian.football.fill
-  􁾍    australiandollarsign
+  􁾍    australiandollarsign{{{
   􂈹    australiandollarsign.arrow.trianglehead.counterclockwise.rotate.90
   􂕉    australiandollarsign.bank.building
   􂕊    australiandollarsign.bank.building.fill
@@ -965,8 +965,8 @@
   􂨼    australiandollarsign.gauge.chart.lefthalf.righthalf
   􂩦    australiandollarsign.gauge.chart.leftthird.topthird.rightthird
   􀮢    australiandollarsign.square
-  􀮣    australiandollarsign.square.fill
-  􁑐    australsign
+  􀮣    australiandollarsign.square.fill}}}
+  􁑐    australsign{{{
   􂈣    australsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔝    australsign.bank.building
   􂔞    australsign.bank.building.fill
@@ -975,25 +975,25 @@
   􂨻    australsign.gauge.chart.lefthalf.righthalf
   􂩥    australsign.gauge.chart.leftthird.topthird.rightthird
   􀗹    australsign.square
-  􀗺    australsign.square.fill
-  􁟁    automatic.brakesignal
+  􀗺    australsign.square.fill}}}
+  􁟁    automatic.brakesignal{{{
   􁢧    automatic.headlight.high.beam
   􁢨    automatic.headlight.high.beam.fill
   􁢩    automatic.headlight.low.beam
   􁢪    automatic.headlight.low.beam.fill
   􁉢    autostartstop
   􁉣    autostartstop.slash
-  􁊀    autostartstop.trianglebadge.exclamationmark
+  􁊀    autostartstop.trianglebadge.exclamationmark}}}
   􁓺    av.remote
   􁓻    av.remote.fill
-  􁢚    axle.2
+  􁢚    axle.2{{{
   􁠤    axle.2.driveshaft.disengaged
   􁠡    axle.2.front.and.rear.engaged
   􁠢    axle.2.front.disengaged
   􁠟    axle.2.front.engaged
   􁠣    axle.2.rear.disengaged
   􁠠    axle.2.rear.engaged
-  􁠨    axle.2.rear.lock
+  􁠨    axle.2.rear.lock}}}
   􀀆    b.circle
   􀀇    b.circle.fill
   􀂖    b.square
@@ -1026,7 +1026,7 @@
   􀍨    bag.fill.badge.minus
   􀍦    bag.fill.badge.plus
   􁚣    bag.fill.badge.questionmark
-  􁑜    bahtsign
+  􁑜    bahtsign{{{
   􂈯    bahtsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔵    bahtsign.bank.building
   􂔶    bahtsign.bank.building.fill
@@ -1035,7 +1035,7 @@
   􂨽    bahtsign.gauge.chart.lefthalf.righthalf
   􂩧    bahtsign.gauge.chart.leftthird.topthird.rightthird
   􀘑    bahtsign.square
-  􀘒    bahtsign.square.fill
+  􀘒    bahtsign.square.fill}}}
   􁔎    balloon
   􁓷    balloon.2
   􁓸    balloon.2.fill
@@ -1081,6 +1081,7 @@
   􂛱    batteryblock.stack.trianglebadge.exclamationmark.fill
   􁋸    beach.umbrella
   􁋻    beach.umbrella.fill
+{{{
   􀺒    beats.earphones
   􁅞    beats.fitpro
   􁅡    beats.fitpro.chargingcase
@@ -1109,6 +1110,7 @@
   􁹴    beats.studiobuds.plus.left
   􁹵    beats.studiobuds.plus.right
   􀾤    beats.studiobuds.right
+}}}
   􀙩    bed.double
   􁁏    bed.double.circle
   􁁐    bed.double.circle.fill
@@ -1146,6 +1148,7 @@
   􁗠    bird.fill
   􁖩    birthday.cake
   􁖪    birthday.cake.fill
+{{{
   􁑞    bitcoinsign
   􂈱    bitcoinsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔹    bitcoinsign.bank.building
@@ -1156,6 +1159,7 @@
   􂩨    bitcoinsign.gauge.chart.leftthird.topthird.rightthird
   􀘕    bitcoinsign.square
   􀘖    bitcoinsign.square.fill
+}}}
   􁑶    blinds.horizontal.closed
   􁑵    blinds.horizontal.open
   􁑴    blinds.vertical.closed
@@ -1387,7 +1391,7 @@
   􀿵    capsule.tophalf.filled
   􀌴    captions.bubble
   􀌵    captions.bubble.fill
-  􀙘    car
+  􀙘    car{{{
   􀝄    car.2
   􀝅    car.2.fill
   􂤭    car.badge.gearshape
@@ -1580,7 +1584,7 @@
   􁵿    carseat.right.massage
   􁶀    carseat.right.massage.fill
   􁦒    carseat.right.up.and.down
-  􁦓    carseat.right.up.and.down.fill
+  􁦓    carseat.right.up.and.down.fill}}}
   􀍩    cart
   􀍭    cart.badge.minus
   􀍫    cart.badge.plus
@@ -1937,7 +1941,7 @@
   􀇗    cloud.sun.rain.fill
   􂏣    coat
   􂏤    coat.fill
-  􁑔    coloncurrencysign
+  􁑔    coloncurrencysign{{{
   􂈧    coloncurrencysign.arrow.trianglehead.counterclockwise.rotate.90
   􂔥    coloncurrencysign.bank.building
   􂔦    coloncurrencysign.bank.building.fill
@@ -1946,7 +1950,7 @@
   􂩃    coloncurrencysign.gauge.chart.lefthalf.righthalf
   􂩭    coloncurrencysign.gauge.chart.leftthird.topthird.rightthird
   􀘁    coloncurrencysign.square
-  􀘂    coloncurrencysign.square.fill
+  􀘂    coloncurrencysign.square.fill}}}
   􀦈    comb
   􀦉    comb.fill
   􀆔    command
@@ -1963,7 +1967,7 @@
   􁒻    contact.sensor.fill
   􀭈    contextualmenu.and.cursorarrow
   􀆍    control
-  􂥂    convertible.side
+  􂥂    convertible.side{{{
   􂥙    convertible.side.air.circulate
   􂥚    convertible.side.air.circulate.fill
   􂥛    convertible.side.air.fresh
@@ -1994,7 +1998,7 @@
   􂥑    convertible.side.lock
   􂥒    convertible.side.lock.fill
   􂥕    convertible.side.lock.open
-  􂥖    convertible.side.lock.open.fill
+  􂥖    convertible.side.lock.open.fill}}}
   􁕠    cooktop
   􁕡    cooktop.fill
   􀫥    cpu
@@ -2025,7 +2029,7 @@
   􀼙    cross.vial.fill
   􀦅    crown
   􀦆    crown.fill
-  􁑖    cruzeirosign
+  􁑖    cruzeirosign{{{
   􂈩    cruzeirosign.arrow.trianglehead.counterclockwise.rotate.90
   􂔩    cruzeirosign.bank.building
   􂔪    cruzeirosign.bank.building.fill
@@ -2034,7 +2038,7 @@
   􂩄    cruzeirosign.gauge.chart.lefthalf.righthalf
   􂩮    cruzeirosign.gauge.chart.leftthird.topthird.rightthird
   􀘅    cruzeirosign.square
-  􀘆    cruzeirosign.square.fill
+  􀘆    cruzeirosign.square.fill}}}
   􀐘    cube
   􀐙    cube.fill
   􀬨    cube.transparent
@@ -2067,7 +2071,7 @@
   􀀋    d.circle.fill
   􀂚    d.square
   􀂛    d.square.fill
-  􁤮    danishkronesign
+  􁤮    danishkronesign{{{
   􂈷    danishkronesign.arrow.trianglehead.counterclockwise.rotate.90
   􂕅    danishkronesign.bank.building
   􂕆    danishkronesign.bank.building.fill
@@ -2076,7 +2080,7 @@
   􂩅    danishkronesign.gauge.chart.lefthalf.righthalf
   􂩯    danishkronesign.gauge.chart.leftthird.topthird.rightthird
   􀮮    danishkronesign.square
-  􀮯    danishkronesign.square.fill
+  􀮯    danishkronesign.square.fill}}}
   􀋶    decrease.indent
   􀝿    decrease.quotelevel
   􂧤    degreesign.celsius
@@ -2196,7 +2200,7 @@
   􂀾    dog.circle
   􂀿    dog.circle.fill
   􂀇    dog.fill
-  􁎢    dollarsign
+  􁎢    dollarsign{{{
   􁎣    dollarsign.arrow.trianglehead.counterclockwise.rotate.90
   􂓲    dollarsign.bank.building
   􂓳    dollarsign.bank.building.fill
@@ -2205,8 +2209,8 @@
   􂧈    dollarsign.gauge.chart.lefthalf.righthalf
   􂧉    dollarsign.gauge.chart.leftthird.topthird.rightthird
   􀗗    dollarsign.square
-  􀗘    dollarsign.square.fill
-  􁑈    dongsign
+  􀗘    dollarsign.square.fill}}}
+  􁑈    dongsign{{{
   􂈛    dongsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔍    dongsign.bank.building
   􂔎    dongsign.bank.building.fill
@@ -2215,7 +2219,7 @@
   􂩆    dongsign.gauge.chart.lefthalf.righthalf
   􂩰    dongsign.gauge.chart.leftthird.topthird.rightthird
   􀗩    dongsign.square
-  􀗪    dongsign.square.fill
+  􀗪    dongsign.square.fill}}}
   􁏧    door.french.closed
   􁏦    door.french.open
   􁏡    door.garage.closed
@@ -2351,7 +2355,7 @@
   􀆧    escape
   􀲵    esim
   􀲶    esim.fill
-  􁑇    eurosign
+  􁑇    eurosign{{{
   􂈚    eurosign.arrow.trianglehead.counterclockwise.rotate.90
   􂔋    eurosign.bank.building
   􂔌    eurosign.bank.building.fill
@@ -2360,8 +2364,8 @@
   􂩇    eurosign.gauge.chart.lefthalf.righthalf
   􂩱    eurosign.gauge.chart.leftthird.topthird.rightthird
   􀗧    eurosign.square
-  􀗨    eurosign.square.fill
-  􁤴    eurozonesign
+  􀗨    eurosign.square.fill}}}
+  􁤴    eurozonesign{{{
   􂈸    eurozonesign.arrow.trianglehead.counterclockwise.rotate.90
   􂕇    eurozonesign.bank.building
   􂕈    eurozonesign.bank.building.fill
@@ -2370,8 +2374,8 @@
   􂩈    eurozonesign.gauge.chart.lefthalf.righthalf
   􂩲    eurozonesign.gauge.chart.leftthird.topthird.rightthird
   􁤷    eurozonesign.square
-  􁤸    eurozonesign.square.fill
-  􁊨    ev.charger
+  􁤸    eurozonesign.square.fill}}}
+  􁊨    ev.charger{{{
   􁰪    ev.charger.arrowtriangle.left
   􁰫    ev.charger.arrowtriangle.left.fill
   􁰲    ev.charger.arrowtriangle.right
@@ -2396,7 +2400,7 @@
   􁺸    ev.plug.dc.gb.t
   􁺹    ev.plug.dc.gb.t.fill
   􁺺    ev.plug.dc.nacs
-  􁺻    ev.plug.dc.nacs.fill
+  􁺻    ev.plug.dc.nacs.fill}}}
   􀅎    exclamationmark
   􀢒    exclamationmark.2
   􀣴    exclamationmark.3
@@ -2428,7 +2432,7 @@
   􀇿    exclamationmark.triangle.fill
   􁀮    exclamationmark.warninglight
   􁀯    exclamationmark.warninglight.fill
-  􀤂    externaldrive
+  􀤂    externaldrive{{{
   􀩐    externaldrive.badge.checkmark
   􁘥    externaldrive.badge.exclamationmark
   􀪹    externaldrive.badge.icloud
@@ -2440,8 +2444,8 @@
   􀩮    externaldrive.badge.wifi
   􀩑    externaldrive.badge.xmark
   􀨤    externaldrive.connected.to.line.below
-  􀨥    externaldrive.connected.to.line.below.fill
-  􀤃    externaldrive.fill
+  􀨥    externaldrive.connected.to.line.below.fill}}}
+  􀤃    externaldrive.fill{{{
   􀩔    externaldrive.fill.badge.checkmark
   􁘦    externaldrive.fill.badge.exclamationmark
   􀪺    externaldrive.fill.badge.icloud
@@ -2453,7 +2457,7 @@
   􀩯    externaldrive.fill.badge.wifi
   􀩕    externaldrive.fill.badge.xmark
   􁘨    externaldrive.fill.trianglebadge.exclamationmark
-  􁘧    externaldrive.trianglebadge.exclamationmark
+  􁘧    externaldrive.trianglebadge.exclamationmark}}}
   􀋭    eye
   􀛿    eye.circle
   􀜀    eye.circle.fill
@@ -2709,7 +2713,7 @@
   􁔼    figure.sailing
   􂙻    figure.sailing.circle
   􂙼    figure.sailing.circle.fill
-  􀿦    figure.seated.seatbelt
+  􀿦    figure.seated.seatbelt{{{
   􁊂    figure.seated.seatbelt.and.airbag.off
   􁞛    figure.seated.seatbelt.and.airbag.on
   􂒭    figure.seated.seatbelt.left.drive.seats.1
@@ -2737,8 +2741,8 @@
   􂒡    figure.seated.seatbelt.left.drive.seats.3.3.3
   􂑻    figure.seated.seatbelt.left.drive.seats.3.3.3.fill
   􂑿    figure.seated.seatbelt.left.drive.seats.3.3.fill
-  􂒄    figure.seated.seatbelt.left.drive.seats.3.fill
-  􁺼    figure.seated.side.left
+  􂒄    figure.seated.seatbelt.left.drive.seats.3.fill}}}
+  􁺼    figure.seated.side.left{{{
   􁁶    figure.seated.side.left.air.distribution.lower
   􁁵    figure.seated.side.left.air.distribution.middle
   􁁸    figure.seated.side.left.air.distribution.middle.and.lower
@@ -2761,8 +2765,8 @@
   􁻐    figure.seated.side.left.windshield.front.and.heat.waves.air.distribution.upper
   􁻏    figure.seated.side.left.windshield.front.and.heat.waves.air.distribution.upper.and.lower
   􁻎    figure.seated.side.left.windshield.front.and.heat.waves.air.distribution.upper.and.middle
-  􁻌    figure.seated.side.left.windshield.front.and.heat.waves.air.distribution.upper.and.middle.and.lower
-  􂧏    figure.seated.side.right
+  􁻌    figure.seated.side.left.windshield.front.and.heat.waves.air.distribution.upper.and.middle.and.lower}}}
+  􂧏    figure.seated.side.right{{{
   􂧑    figure.seated.side.right.air.distribution.lower
   􂧒    figure.seated.side.right.air.distribution.middle
   􂧓    figure.seated.side.right.air.distribution.middle.and.lower
@@ -2785,7 +2789,7 @@
   􂧝    figure.seated.side.right.windshield.front.and.heat.waves.air.distribution.upper
   􂧜    figure.seated.side.right.windshield.front.and.heat.waves.air.distribution.upper.and.lower
   􂧛    figure.seated.side.right.windshield.front.and.heat.waves.air.distribution.upper.and.middle
-  􂧙    figure.seated.side.right.windshield.front.and.heat.waves.air.distribution.upper.and.middle.and.lower
+  􂧙    figure.seated.side.right.windshield.front.and.heat.waves.air.distribution.upper.and.middle.and.lower}}}
   􁔽    figure.skateboarding
   􂖅    figure.skateboarding.circle
   􂖆    figure.skateboarding.circle.fill
@@ -2993,7 +2997,7 @@
   􀗠    francsign.square.fill
   􁐅    frying.pan
   􁐆    frying.pan.fill
-  􀵞    fuelpump
+  􀵞    fuelpump{{{
   􂥫    fuelpump.and.filter
   􁈾    fuelpump.arrowtriangle.left
   􁈿    fuelpump.arrowtriangle.left.fill
@@ -3005,24 +3009,24 @@
   􁥧    fuelpump.exclamationmark.fill
   􀵟    fuelpump.fill
   􁰚    fuelpump.slash
-  􁰛    fuelpump.slash.fill
+  􁰛    fuelpump.slash.fill}}}
   􀅮    function
   􀅬    fx
   􀀐    g.circle
   􀀑    g.circle.fill
   􀂠    g.square
   􀂡    g.square.fill
-  􀛸    gamecontroller
+  􀛸    gamecontroller{{{
   􂝈    gamecontroller.circle
   􂝉    gamecontroller.circle.fill
-  􀛹    gamecontroller.fill
-  􁫏    gauge.open.with.lines.needle.33percent
+  􀛹    gamecontroller.fill}}}
+  􁫏    gauge.open.with.lines.needle.33percent{{{
   􁊐    gauge.open.with.lines.needle.33percent.and.arrow.trianglehead.from.0percent.to.50percent
   􁉰    gauge.open.with.lines.needle.33percent.and.arrowtriangle
   􁖗    gauge.open.with.lines.needle.67percent.and.arrowtriangle
   􁖜    gauge.open.with.lines.needle.67percent.and.arrowtriangle.and.car
-  􁖘    gauge.open.with.lines.needle.84percent.exclamation
-  􁐙    gauge.with.dots.needle.0percent
+  􁖘    gauge.open.with.lines.needle.84percent.exclamation}}}
+  􁐙    gauge.with.dots.needle.0percent{{{
   􁰉    gauge.with.dots.needle.33percent
   􁐚    gauge.with.dots.needle.50percent
   􀍾    gauge.with.dots.needle.67percent
@@ -3031,7 +3035,7 @@
   􀍽    gauge.with.dots.needle.bottom.50percent
   􀓧    gauge.with.dots.needle.bottom.50percent.badge.minus
   􀓓    gauge.with.dots.needle.bottom.50percent.badge.plus
-  􁐘    gauge.with.dots.needle.bottom.100percent
+  􁐘    gauge.with.dots.needle.bottom.100percent}}}
   􁖫    gauge.with.needle
   􁖬    gauge.with.needle.fill
   􀍟    gear
@@ -3072,22 +3076,22 @@
   􁆾    graduationcap.circle
   􁆿    graduationcap.circle.fill
   􀫔    graduationcap.fill
-  􀆂    greaterthan
+  􀆂    greaterthan{{{
   􀁖    greaterthan.circle
   􀁗    greaterthan.circle.fill
   􀃨    greaterthan.square
-  􀃩    greaterthan.square.fill
-  􂪱    greaterthanorequalto
+  􀃩    greaterthan.square.fill}}}
+  􂪱    greaterthanorequalto{{{
   􂫋    greaterthanorequalto.circle
   􂫌    greaterthanorequalto.circle.fill
   􂫍    greaterthanorequalto.square
-  􂫎    greaterthanorequalto.square.fill
+  􂫎    greaterthanorequalto.square.fill}}}
   􀤠    greetingcard
   􀤡    greetingcard.fill
   􀓗    grid
   􀓘    grid.circle
   􀘟    grid.circle.fill
-  􁑓    guaranisign
+  􁑓    guaranisign{{{
   􂈦    guaranisign.arrow.trianglehead.counterclockwise.rotate.90
   􂔣    guaranisign.bank.building
   􂔤    guaranisign.bank.building.fill
@@ -3096,7 +3100,7 @@
   􂩋    guaranisign.gauge.chart.lefthalf.righthalf
   􂩵    guaranisign.gauge.chart.leftthird.topthird.rightthird
   􀗿    guaranisign.square
-  􀘀    guaranisign.square.fill
+  􀘀    guaranisign.square.fill}}}
   􀑭    guitars
   􀟑    guitars.fill
   􀬗    gyroscope
@@ -3110,10 +3114,10 @@
   􀷔    hammer.circle
   􀷕    hammer.circle.fill
   􀙅    hammer.fill
-  􀖓    hand.draw
+  􀖓    hand.draw{{{
   􂚖    hand.draw.badge.ellipsis
   􂚗    hand.draw.badge.ellipsis.fill
-  􀖔    hand.draw.fill
+  􀖔    hand.draw.fill}}}
   􂤃    hand.palm.facing
   􂤄    hand.palm.facing.fill
   􁟱    hand.pinch
@@ -3164,10 +3168,10 @@
   􀊀    hand.thumbsup.fill
   􀟰    hand.wave
   􀟱    hand.wave.fill
-  􁞸    handbag
+  􁞸    handbag{{{
   􁿜    handbag.circle
   􁿝    handbag.circle.fill
-  􁞹    handbag.fill
+  􁞹    handbag.fill}}}
   􀲮    hands.and.sparkles
   􀲯    hands.and.sparkles.fill
   􀟮    hands.clap
@@ -3184,14 +3188,14 @@
   􁀰    hazardsign
   􁕣    hazardsign.fill
   􁟹    head.profile.arrow.forward.and.vision.pro
-  􀾺    headlight.daytime
+  􀾺    headlight.daytime{{{
   􀾻    headlight.daytime.fill
   􀾶    headlight.fog
   􀾷    headlight.fog.fill
   􀾲    headlight.high.beam
   􀾳    headlight.high.beam.fill
   􀾴    headlight.low.beam
-  􀾵    headlight.low.beam.fill
+  􀾵    headlight.low.beam.fill}}}
   􀑈    headphones
   􀒾    headphones.circle
   􀒿    headphones.circle.fill
@@ -3235,7 +3239,7 @@
   􁀾    hexagon.tophalf.filled
   􁒬    hifireceiver
   􁒭    hifireceiver.fill
-  􀝎    hifispeaker
+  􀝎    hifispeaker{{{
   􀟵    hifispeaker.2
   􂡔    hifispeaker.2.badge.minus
   􂡕    hifispeaker.2.badge.minus.fill
@@ -3262,7 +3266,7 @@
   􂡝    hifispeaker.badge.minus.fill
   􂡚    hifispeaker.badge.plus
   􂡛    hifispeaker.badge.plus.fill
-  􀝏    hifispeaker.fill
+  􀝏    hifispeaker.fill}}}
   􀦇    highlighter
   􁛽    hockey.puck
   􁛿    hockey.puck.circle
@@ -3270,7 +3274,7 @@
   􁛾    hockey.puck.fill
   􁋌    hold.brakesignal
   􀠀    homekit
-  􀟢    homepod
+  􀟢    homepod{{{
   􀮍    homepod.2
   􂡀    homepod.2.badge.minus
   􂡁    homepod.2.badge.minus.fill
@@ -3307,30 +3311,30 @@
   􂋔    homepod.mini.badge.plus.fill
   􀷨    homepod.mini.fill
   􀻹    homepodmini.and.appletv
-  􀻺    homepodmini.and.appletv.fill
-  􁄵    horn
+  􀻺    homepodmini.and.appletv.fill}}}
+  􁄵    horn{{{
   􁄷    horn.blast
   􁄸    horn.blast.fill
-  􁄶    horn.fill
-  􀖇    hourglass
+  􁄶    horn.fill}}}
+  􀖇    hourglass{{{
   􂇗    hourglass.and.lock
   􂜶    hourglass.badge.eye
   􀣬    hourglass.badge.plus
   􀖈    hourglass.bottomhalf.filled
   􁇛    hourglass.circle
   􁇜    hourglass.circle.fill
-  􀖉    hourglass.tophalf.filled
+  􀖉    hourglass.tophalf.filled}}}
   􀎞    house
-  􁘱    house.and.flag
+  􁘱    house.and.flag{{{
   􁞈    house.and.flag.circle
   􁞉    house.and.flag.circle.fill
-  􁘲    house.and.flag.fill
-  􂧄    house.badge.exclamationmark
+  􁘲    house.and.flag.fill}}}
+  􂧄    house.badge.exclamationmark{{{
   􂧅    house.badge.exclamationmark.fill
   􂘞    house.badge.wifi
   􂘟    house.badge.wifi.fill
   􀥆    house.circle
-  􀥇    house.circle.fill
+  􀥇    house.circle.fill}}}
   􀎟    house.fill
   􁘭    house.lodge
   􁞆    house.lodge.circle
@@ -3338,7 +3342,7 @@
   􁘮    house.lodge.fill
   􂣊    house.slash
   􂣋    house.slash.fill
-  􁑑    hryvniasign
+  􁑑    hryvniasign{{{
   􂈤    hryvniasign.arrow.trianglehead.counterclockwise.rotate.90
   􂔟    hryvniasign.bank.building
   􂔠    hryvniasign.bank.building.fill
@@ -3347,11 +3351,11 @@
   􂩌    hryvniasign.gauge.chart.lefthalf.righthalf
   􂩶    hryvniasign.gauge.chart.leftthird.topthird.rightthird
   􀗻    hryvniasign.square
-  􀗼    hryvniasign.square.fill
-  􁘘    humidifier
+  􀗼    hryvniasign.square.fill}}}
+  􁘘    humidifier{{{
   􁔆    humidifier.and.droplets
   􁔇    humidifier.and.droplets.fill
-  􁘙    humidifier.fill
+  􁘙    humidifier.fill}}}
   􁃚    humidity
   􁃛    humidity.fill
   􀇩    hurricane
@@ -3362,20 +3366,20 @@
   􀂤    i.square
   􀂥    i.square.fill
   􀌋    icloud
-  􀌕    icloud.and.arrow.down
+  􀌕    icloud.and.arrow.down{{{
   􀌖    icloud.and.arrow.down.fill
   􀌗    icloud.and.arrow.up
   􀌘    icloud.and.arrow.up.fill
   􀌍    icloud.circle
-  􀌎    icloud.circle.fill
+  􀌎    icloud.circle.fill}}}
   􀌌    icloud.fill
-  􀌏    icloud.slash
+  􀌏    icloud.slash{{{
   􀌐    icloud.slash.fill
   􀽑    icloud.square
-  􀽒    icloud.square.fill
+  􀽒    icloud.square.fill}}}
   􀋵    increase.indent
   􀞀    increase.quotelevel
-  􁑉    indianrupeesign
+  􁑉    indianrupeesign{{{
   􂈜    indianrupeesign.arrow.trianglehead.counterclockwise.rotate.90
   􂔏    indianrupeesign.bank.building
   􂔐    indianrupeesign.bank.building.fill
@@ -3384,7 +3388,7 @@
   􂩍    indianrupeesign.gauge.chart.lefthalf.righthalf
   􂩷    indianrupeesign.gauge.chart.leftthird.topthird.rightthird
   􀗫    indianrupeesign.square
-  􀗬    indianrupeesign.square.fill
+  􀗬    indianrupeesign.square.fill}}}
   􀯠    infinity
   􀵏    infinity.circle
   􀵐    infinity.circle.fill
@@ -3484,7 +3488,7 @@
   􀷘    inset.filled.tv
   􀥾    internaldrive
   􀨪    internaldrive.fill
-  􀟠    ipad
+  􀟠    ipad{{{
   􀷀    ipad.and.arrow.forward
   􂕙    ipad.badge.exclamationmark
   􂝺    ipad.badge.location
@@ -3514,8 +3518,8 @@
   􂝼    ipad.landscape.badge.location
   􀵒    ipad.landscape.badge.play
   􁀲    ipad.rear.camera
-  􁣶    ipad.sizes
-  􀟜    iphone
+  􁣶    ipad.sizes}}}
+  􀟜    iphone{{{
   􀶼    iphone.and.arrow.forward.inward
   􂎽    iphone.and.arrow.forward.outward
   􁰿    iphone.and.arrow.left.and.arrow.right.inward
@@ -3530,7 +3534,7 @@
   􁄪    iphone.circle.fill
   􂙔    iphone.crop.circle
   􂈉    iphone.dock.motorized.viewfinder
-  􀟝    iphone.gen1
+  􀟝    iphone.gen1{{{
   􂘨    iphone.gen1.and.arrow.left
   􂓻    iphone.gen1.badge.exclamationmark
   􂝰    iphone.gen1.badge.location
@@ -3545,8 +3549,8 @@
   􁅛    iphone.gen1.radiowaves.left.and.right.circle.fill
   􀨴    iphone.gen1.slash
   􁄧    iphone.gen1.slash.circle
-  􁄨    iphone.gen1.slash.circle.fill
-  􁟜    iphone.gen2
+  􁄨    iphone.gen1.slash.circle.fill}}}
+  􁟜    iphone.gen2{{{
   􂘩    iphone.gen2.and.arrow.left.and.arrow.right.inward
   􂕋    iphone.gen2.badge.exclamationmark
   􂝮    iphone.gen2.badge.location
@@ -3561,8 +3565,8 @@
   􁟢    iphone.gen2.radiowaves.left.and.right.circle.fill
   􁟣    iphone.gen2.slash
   􁟤    iphone.gen2.slash.circle
-  􁟥    iphone.gen2.slash.circle.fill
-  􁊮    iphone.gen3
+  􁟥    iphone.gen2.slash.circle.fill}}}
+  􁊮    iphone.gen3{{{
   􂘪    iphone.gen3.and.arrow.left.and.arrow.right.inward
   􂕍    iphone.gen3.badge.exclamationmark
   􂝬    iphone.gen3.badge.location
@@ -3577,7 +3581,7 @@
   􁊴    iphone.gen3.radiowaves.left.and.right.circle.fill
   􁊵    iphone.gen3.slash
   􁊶    iphone.gen3.slash.circle
-  􁊷    iphone.gen3.slash.circle.fill
+  􁊷    iphone.gen3.slash.circle.fill}}}
   􀴏    iphone.landscape
   􂘒    iphone.motion
   􀡇    iphone.radiowaves.left.and.right
@@ -3589,31 +3593,31 @@
   􁄫    iphone.slash.circle
   􁄬    iphone.slash.circle.fill
   􀺐    iphone.smartbatterycase.gen1
-  􀺏    iphone.smartbatterycase.gen2
-  􀢺    ipod
+  􀺏    iphone.smartbatterycase.gen2}}}
+  􀢺    ipod{{{
   􀫨    ipod.shuffle.gen1
   􀫩    ipod.shuffle.gen2
   􀫪    ipod.shuffle.gen3
   􀫫    ipod.shuffle.gen4
   􀫧    ipod.touch
   􀴐    ipod.touch.landscape
-  􁂲    ipod.touch.slash
+  􁂲    ipod.touch.slash}}}
   􀅔    italic
   􀼍    ivfluid.bag
   􀼎    ivfluid.bag.fill
-  􀀖    j.circle
+  􀀖    j.circle{{{
   􀀗    j.circle.fill
   􀂦    j.square
   􀂧    j.square.fill
   􀭚    j.square.on.square
-  􀭛    j.square.on.square.fill
+  􀭛    j.square.on.square.fill}}}
   􂏬    jacket
   􂏭    jacket.fill
-  􀥋    k
+  􀥋    k{{{
   􀀘    k.circle
   􀀙    k.circle.fill
   􀂨    k.square
-  􀂩    k.square.fill
+  􀂩    k.square.fill}}}
   􂃜    kashida.arabic
   􀟕    key
   􂏪    key.2.on.ring
@@ -3645,7 +3649,7 @@
   􁚓    keyboard.onehanded.left.fill
   􀞺    keyboard.onehanded.right
   􁚔    keyboard.onehanded.right.fill
-  􁑍    kipsign
+  􁑍    kipsign{{{
   􂈠    kipsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔗    kipsign.bank.building
   􂔘    kipsign.bank.building.fill
@@ -3654,7 +3658,7 @@
   􂩎    kipsign.gauge.chart.lefthalf.righthalf
   􂩸    kipsign.gauge.chart.leftthird.topthird.rightthird
   􀗳    kipsign.square
-  􀗴    kipsign.square.fill
+  􀗴    kipsign.square.fill}}}
   􁢽    kph
   􁢾    kph.circle
   􁢿    kph.circle.fill
@@ -3662,7 +3666,7 @@
   􀨈    l.button.roundedbottom.horizontal.fill
   􀀚    l.circle
   􀀛    l.circle.fill
-  􀦒    l.joystick
+  􀦒    l.joystick{{{
   􀫁    l.joystick.fill
   􀦔    l.joystick.press.down
   􀫃    l.joystick.press.down.fill
@@ -3673,10 +3677,10 @@
   􀿘    l.joystick.tilt.right
   􀿙    l.joystick.tilt.right.fill
   􀿚    l.joystick.tilt.up
-  􀿛    l.joystick.tilt.up.fill
+  􀿛    l.joystick.tilt.up.fill}}}
   􀂪    l.square
   􀂫    l.square.fill
-  􀨉    l1.button.roundedbottom.horizontal
+  􀨉    l1.button.roundedbottom.horizontal {{{
   􀨊    l1.button.roundedbottom.horizontal.fill
   􁺁    l1.circle
   􁺂    l1.circle.fill
@@ -3689,7 +3693,7 @@
   􁸇    l3.button.angledbottom.horizontal.left
   􁸈    l3.button.angledbottom.horizontal.left.fill
   􁸠    l4.button.horizontal
-  􁸡    l4.button.horizontal.fill
+  􁸡    l4.button.horizontal.fill}}}
   􀯔    ladybug
   􁼛    ladybug.circle
   􁼜    ladybug.circle.fill
@@ -3698,7 +3702,7 @@
   􂟪    ladybug.slash.circle
   􂟬    ladybug.slash.circle.fill
   􂟨    ladybug.slash.fill
-  􁌡    lamp.ceiling
+  􁌡    lamp.ceiling{{{
   􁎻    lamp.ceiling.fill
   􁒨    lamp.ceiling.inverse
   􁎶    lamp.desk
@@ -3706,7 +3710,7 @@
   􁎿    lamp.floor
   􁌠    lamp.floor.fill
   􁏀    lamp.table
-  􁌟    lamp.table.fill
+  􁌟    lamp.table.fill}}}
   􁟏    lane
   􀰵    lanyardcard
   􀰶    lanyardcard.fill
@@ -3714,7 +3718,7 @@
   􀶿    laptopcomputer.and.arrow.down
   􁊭    laptopcomputer.slash
   􁃂    laptopcomputer.trianglebadge.exclamationmark
-  􁑝    larisign
+  􁑝    larisign{{{
   􂈰    larisign.arrow.trianglehead.counterclockwise.rotate.90
   􂔷    larisign.bank.building
   􂔸    larisign.bank.building.fill
@@ -3723,7 +3727,7 @@
   􂩏    larisign.gauge.chart.lefthalf.righthalf
   􂩹    larisign.gauge.chart.leftthird.topthird.rightthird
   􀘓    larisign.square
-  􀘔    larisign.square.fill
+  􀘔    larisign.square.fill}}}
   􂁝    laser.burst
   􀓩    lasso
   􀣳    lasso.badge.sparkles
@@ -3759,16 +3763,16 @@
   􁺫    licenseplate.fill
   􀡦    lifepreserver
   􀡧    lifepreserver.fill
-  􁒰    light.beacon.max
+  􁒰    light.beacon.max{{{
   􁒱    light.beacon.max.fill
   􁜮    light.beacon.min
   􁜯    light.beacon.min.fill
   􁎼    light.cylindrical.ceiling
   􁌤    light.cylindrical.ceiling.fill
-  􁒪    light.cylindrical.ceiling.inverse
+  􁒪    light.cylindrical.ceiling.inverse}}}
   􀇮    light.max
   􀇭    light.min
-  􁋋    light.overhead.left
+  􁋋    light.overhead.left{{{
   􁣇    light.overhead.left.fill
   􁋊    light.overhead.right
   􁣆    light.overhead.right.fill
@@ -3783,9 +3787,9 @@
   􁒜    light.ribbon
   􁒝    light.ribbon.fill
   􁌥    light.strip.2
-  􁏒    light.strip.2.fill
+  􁏒    light.strip.2.fill}}}
   􀛭    lightbulb
-  􁓼    lightbulb.2
+  􁓼    lightbulb.2{{{
   􁓽    lightbulb.2.fill
   􁇖    lightbulb.circle
   􁇗    lightbulb.circle.fill
@@ -3801,18 +3805,18 @@
   􁹅    lightbulb.min.badge.exclamationmark.fill
   􁷗    lightbulb.min.fill
   􀞃    lightbulb.slash
-  􀞄    lightbulb.slash.fill
+  􀞄    lightbulb.slash.fill}}}
   􀷺    lightrail
   􀷻    lightrail.fill
   􁹩    lightspectrum.horizontal
-  􁏯    lightswitch.off
+  􁏯    lightswitch.off{{{
   􁏼    lightswitch.off.fill
   􁎒    lightswitch.off.square
-  􁌨    lightswitch.off.square.fill
-  􁏮    lightswitch.on
+  􁌨    lightswitch.off.square.fill}}}
+  􁏮    lightswitch.on{{{
   􁏻    lightswitch.on.fill
   􁎑    lightswitch.on.square
-  􁌧    lightswitch.on.square.fill
+  􁌧    lightswitch.on.square.fill}}}
   􀘵    line.2.horizontal.decrease.circle
   􀘶    line.2.horizontal.decrease.circle.fill
   􀫎    line.3.crossed.swirl.circle
@@ -3837,7 +3841,7 @@
   􀒡    link.circle.fill
   􀒞    link.icloud
   􀒟    link.icloud.fill
-  􁑏    lirasign
+  􁑏    lirasign{{{
   􂈢    lirasign.arrow.trianglehead.counterclockwise.rotate.90
   􂔛    lirasign.bank.building
   􂔜    lirasign.bank.building.fill
@@ -3846,7 +3850,7 @@
   􂩐    lirasign.gauge.chart.lefthalf.righthalf
   􂩺    lirasign.gauge.chart.leftthird.topthird.rightthird
   􀗷    lirasign.square
-  􀗸    lirasign.square.fill
+  􀗸    lirasign.square.fill}}}
   􀬉    list.and.film
   􀋲    list.bullet
   􀋷    list.bullet.below.rectangle
@@ -3957,21 +3961,21 @@
   􀀝    m.circle.fill
   􀂬    m.square
   􀂭    m.square.fill
-  􁸤    m1.button.horizontal
+  􁸤    m1.button.horizontal{{{
   􁸥    m1.button.horizontal.fill
   􁸦    m2.button.horizontal
   􁸧    m2.button.horizontal.fill
   􁸨    m3.button.horizontal
   􁸩    m3.button.horizontal.fill
   􁸪    m4.button.horizontal
-  􁸫    m4.button.horizontal.fill
-  􁟬    macbook
+  􁸫    m4.button.horizontal.fill}}}
+  􁟬    macbook{{{
   􁘞    macbook.and.ipad
   􀬩    macbook.and.iphone
   􁜙    macbook.and.vision.pro
   􁟫    macbook.gen1
-  􁈸    macbook.gen2
-  􀪯    macmini
+  􁈸    macbook.gen2}}}
+  􀪯    macmini{{{
   􀪰    macmini.fill
   􀪲    macpro.gen1
   􀼢    macpro.gen1.fill
@@ -3981,7 +3985,7 @@
   􀼣    macpro.gen3.fill
   􀨳    macpro.gen3.server
   􁏍    macstudio
-  􁏎    macstudio.fill
+  􁏎    macstudio.fill}}}
   􀏜    macwindow
   􁝸    macwindow.and.cursorarrow
   􀥃    macwindow.badge.plus
@@ -4000,7 +4004,7 @@
   􀣫    mail.fill
   􀍝    mail.stack
   􀍞    mail.stack.fill
-  􂣪    malaysianringgitsign
+  􂣪    malaysianringgitsign{{{
   􂣱    malaysianringgitsign.arrow.trianglehead.counterclockwise.rotate.90
   􂣯    malaysianringgitsign.bank.building
   􂣰    malaysianringgitsign.bank.building.fill
@@ -4009,8 +4013,8 @@
   􂩒    malaysianringgitsign.gauge.chart.lefthalf.righthalf
   􂩼    malaysianringgitsign.gauge.chart.leftthird.topthird.rightthird
   􂣭    malaysianringgitsign.square
-  􂣮    malaysianringgitsign.square.fill
-  􁑚    manatsign
+  􂣮    malaysianringgitsign.square.fill}}}
+  􁑚    manatsign{{{
   􂈭    manatsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔱    manatsign.bank.building
   􂔲    manatsign.bank.building.fill
@@ -4019,12 +4023,12 @@
   􂩑    manatsign.gauge.chart.lefthalf.righthalf
   􂩻    manatsign.gauge.chart.leftthird.topthird.rightthird
   􀘍    manatsign.square
-  􀘎    manatsign.square.fill
+  􀘎    manatsign.square.fill}}}
   􀙊    map
   􀻫    map.circle
   􀻬    map.circle.fill
   􀙋    map.fill
-  􀎪    mappin
+  􀎪    mappin{{{
   􀎫    mappin.and.ellipse
   􁼡    mappin.and.ellipse.circle
   􁼢    mappin.and.ellipse.circle.fill
@@ -4034,7 +4038,7 @@
   􁇯    mappin.slash.circle
   􁇰    mappin.slash.circle.fill
   􀽕    mappin.square
-  􀽖    mappin.square.fill
+  􀽖    mappin.square.fill}}}
   􁏋    medal
   􁏌    medal.fill
   􂙣    medal.star
@@ -4056,7 +4060,7 @@
   􀦍    menubar.rectangle
   􀻒    menucard
   􀻓    menucard.fill
-  􀌤    message
+  􀌤    message{{{
   􁋬    message.badge
   􁗗    message.badge.circle
   􁗘    message.badge.circle.fill
@@ -4066,7 +4070,7 @@
   􀼂    message.badge.waveform.fill
   􀌦    message.circle
   􀌧    message.circle.fill
-  􀌥    message.fill
+  􀌥    message.fill}}}
   􀎌    metronome
   􀠕    metronome.fill
   􁈹    microbe
@@ -4093,7 +4097,7 @@
   􀽀    microphone.square.fill
   􁐨    microwave
   􁐩    microwave.fill
-  􁑘    millsign
+  􁑘    millsign{{{
   􂈫    millsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔭    millsign.bank.building
   􂔮    millsign.bank.building.fill
@@ -4102,7 +4106,7 @@
   􂩓    millsign.gauge.chart.lefthalf.righthalf
   􂩽    millsign.gauge.chart.leftthird.topthird.rightthird
   􀘉    millsign.square
-  􀘊    millsign.square.fill
+  􀘊    millsign.square.fill}}}
   􀅽    minus
   􀘩    minus.arrow.trianglehead.counterclockwise
   􀁎    minus.circle
@@ -4111,7 +4115,7 @@
   􀢂    minus.diamond.fill
   􀅻    minus.forwardslash.plus
   􀊭    minus.magnifyingglass
-  􁠄    minus.plus.and.fluid.batteryblock
+  􁠄    minus.plus.and.fluid.batteryblock{{{
   􀫬    minus.plus.batteryblock
   􁠿    minus.plus.batteryblock.exclamationmark
   􁡀    minus.plus.batteryblock.exclamationmark.fill
@@ -4121,19 +4125,19 @@
   􁡁    minus.plus.batteryblock.stack
   􁡃    minus.plus.batteryblock.stack.exclamationmark
   􁡄    minus.plus.batteryblock.stack.exclamationmark.fill
-  􁡂    minus.plus.batteryblock.stack.fill
+  􁡂    minus.plus.batteryblock.stack.fill}}}
   􀏉    minus.rectangle
   􀏊    minus.rectangle.fill
   􀡬    minus.rectangle.portrait
   􀡭    minus.rectangle.portrait.fill
   􀃞    minus.square
   􀃟    minus.square.fill
-  􁉱    mirror.side.left
+  􁉱    mirror.side.left{{{
   􁉵    mirror.side.left.and.arrow.turn.down.right
   􁉳    mirror.side.left.and.heat.waves
   􁉲    mirror.side.right
   􁉶    mirror.side.right.and.arrow.turn.down.left
-  􁉴    mirror.side.right.and.heat.waves
+  􁉴    mirror.side.right.and.heat.waves}}}
   􀆹    moon
   􀆻    moon.circle
   􀆼    moon.circle.fill
@@ -4220,7 +4224,7 @@
   􀀟    n.circle.fill
   􀂮    n.square
   􀂯    n.square.fill
-  􁑒    nairasign
+  􁑒    nairasign{{{
   􂈥    nairasign.arrow.trianglehead.counterclockwise.rotate.90
   􂔡    nairasign.bank.building
   􂔢    nairasign.bank.building.fill
@@ -4229,7 +4233,7 @@
   􂩔    nairasign.gauge.chart.lefthalf.righthalf
   􂩾    nairasign.gauge.chart.leftthird.topthird.rightthird
   􀗽    nairasign.square
-  􀗾    nairasign.square.fill
+  􀗾    nairasign.square.fill}}}
   􀤆    network
   􁅏    network.badge.shield.half.filled
   􁣡    network.slash
@@ -4237,7 +4241,7 @@
   􁆴    newspaper.circle
   􁆵    newspaper.circle.fill
   􀥅    newspaper.fill
-  􁤬    norwegiankronesign
+  􁤬    norwegiankronesign{{{
   􂈵    norwegiankronesign.arrow.trianglehead.counterclockwise.rotate.90
   􂕁    norwegiankronesign.bank.building
   􂕂    norwegiankronesign.bank.building.fill
@@ -4246,7 +4250,7 @@
   􂩕    norwegiankronesign.gauge.chart.lefthalf.righthalf
   􂩿    norwegiankronesign.gauge.chart.leftthird.topthird.rightthird
   􀮦    norwegiankronesign.square
-  􀮧    norwegiankronesign.square.fill
+  􀮧    norwegiankronesign.square.fill}}}
   􀨯    nose
   􀨰    nose.fill
   􀍼    nosign
@@ -4282,14 +4286,14 @@
   􁀇    octagon.lefthalf.filled
   􁀈    octagon.righthalf.filled
   􁀼    octagon.tophalf.filled
-  􀿄    oilcan
+  􀿄    oilcan{{{
   􂞎    oilcan.and.thermometer
   􂞐    oilcan.and.thermometer.fill
-  􀿅    oilcan.fill
-  􀢸    opticaldisc
+  􀿅    oilcan.fill}}}
+  􀢸    opticaldisc{{{
   􁘤    opticaldisc.fill
   􀤄    opticaldiscdrive
-  􀤅    opticaldiscdrive.fill
+  􀤅    opticaldiscdrive.fill}}}
   􁢙    opticid
   􁣂    opticid.fill
   􀆕    option
@@ -4311,18 +4315,18 @@
   􀀣    p.circle.fill
   􀂲    p.square
   􀂳    p.square.fill
-  􁸬    p1.button.horizontal
+  􁸬    p1.button.horizontal{{{
   􁸭    p1.button.horizontal.fill
   􁸮    p2.button.horizontal
   􁸯    p2.button.horizontal.fill
   􁸰    p3.button.horizontal
   􁸱    p3.button.horizontal.fill
   􁸲    p4.button.horizontal
-  􁸳    p4.button.horizontal.fill
-  􁸴    paddleshifter.left
+  􁸳    p4.button.horizontal.fill}}}
+  􁸴    paddleshifter.left{{{
   􁸵    paddleshifter.left.fill
   􁸶    paddleshifter.right
-  􁸷    paddleshifter.right.fill
+  􁸷    paddleshifter.right.fill}}}
   􀎑    paintbrush
   􀎒    paintbrush.fill
   􀣶    paintbrush.pointed
@@ -4343,7 +4347,7 @@
   􀈠    paperplane.fill
   􀒆    paragraphsign
   􀸏    parentheses
-  􀾼    parkinglight
+  􀾼    parkinglight{{{
   􀾽    parkinglight.fill
   􀵢    parkingsign
   􀿀    parkingsign.brakesignal
@@ -4355,7 +4359,7 @@
   􁥨    parkingsign.radiowaves.right.and.safetycone
   􂨈    parkingsign.square
   􂨉    parkingsign.square.fill
-  􁉨    parkingsign.steeringwheel
+  􁉨    parkingsign.steeringwheel}}}
   􁓵    party.popper
   􁓶    party.popper.fill
   􀊅    pause
@@ -4370,12 +4374,12 @@
   􀾟    pawprint.fill
   􀥺    pc
   􀺎    peacesign
-  􁸗    pedal.accelerator
+  􁸗    pedal.accelerator{{{
   􁸘    pedal.accelerator.fill
   􁸙    pedal.brake
   􁸚    pedal.brake.fill
   􁸛    pedal.clutch
-  􁸜    pedal.clutch.fill
+  􁸜    pedal.clutch.fill}}}
   􁓡    pedestrian.gate.closed
   􁓢    pedestrian.gate.open
   􀈊    pencil
@@ -4388,7 +4392,7 @@
   􀈌    pencil.circle.fill
   􁚛    pencil.line
   􀈍    pencil.slash
-  􀒋    pencil.tip
+  􀒋    pencil.tip{{{
   􀉥    pencil.tip.crop.circle
   􀧚    pencil.tip.crop.circle.badge.arrow.forward
   􁿵    pencil.tip.crop.circle.badge.arrow.forward.fill
@@ -4396,7 +4400,7 @@
   􁿳    pencil.tip.crop.circle.badge.minus.fill
   􀉦    pencil.tip.crop.circle.badge.plus
   􁾝    pencil.tip.crop.circle.badge.plus.fill
-  􁾛    pencil.tip.crop.circle.fill
+  􁾛    pencil.tip.crop.circle.fill}}}
   􀶺    pentagon
   􁀻    pentagon.bottomhalf.filled
   􀶻    pentagon.fill
@@ -4406,7 +4410,7 @@
   􀘾    percent
   􀉩    person
   􀉫    person.2
-  􁙙    person.2.arrow.trianglehead.counterclockwise
+  􁙙    person.2.arrow.trianglehead.counterclockwise{{{
   􁙚    person.2.badge.gearshape
   􁙛    person.2.badge.gearshape.fill
   􁷩    person.2.badge.key
@@ -4423,12 +4427,12 @@
   􁝞    person.2.slash
   􁝟    person.2.slash.fill
   􀾌    person.2.wave.2
-  􀾍    person.2.wave.2.fill
+  􀾍    person.2.wave.2.fill}}}
   􀝊    person.3
   􀝋    person.3.fill
   􀻷    person.3.sequence
   􀻸    person.3.sequence.fill
-  􀪼    person.and.arrow.left.and.arrow.right.outward
+  􀪼    person.and.arrow.left.and.arrow.right.outward{{{
   􁙁    person.and.background.dotted
   􁠃    person.and.background.striped.horizontal
   􁅖    person.badge.clock
@@ -4440,7 +4444,7 @@
   􁙓    person.badge.shield.checkmark
   􁙔    person.badge.shield.checkmark.fill
   􂧻    person.badge.shield.exclamationmark
-  􂧼    person.badge.shield.exclamationmark.fill
+  􂧼    person.badge.shield.exclamationmark.fill}}}
   􂄽    person.bubble
   􂄾    person.bubble.fill
   􁗡    person.bust
@@ -4451,7 +4455,7 @@
   􀓤    person.circle.fill
   􀿏    person.crop.artframe
   􁹕    person.crop.badge.magnifyingglass
-  􁹖    person.crop.badge.magnifyingglass.fill
+  􁹖    person.crop.badge.magnifyingglass.fill{{{
   􀉭    person.crop.circle
   􁂛    person.crop.circle.badge
   􀉳    person.crop.circle.badge.checkmark
@@ -4490,8 +4494,8 @@
   􀦎    person.crop.square.filled.and.at.rectangle
   􀿐    person.crop.square.filled.and.at.rectangle.fill
   􂣄    person.crop.square.on.square.angled
-  􂣅    person.crop.square.on.square.angled.fill
-  􀉪    person.fill
+  􂣅    person.crop.square.on.square.angled.fill}}}
+  􀉪    person.fill{{{
   􀪽    person.fill.and.arrow.left.and.arrow.right.outward
   􀜘    person.fill.badge.minus
   􀜖    person.fill.badge.plus
@@ -4501,7 +4505,7 @@
   􀯓    person.fill.turn.left
   􀯑    person.fill.turn.right
   􀲏    person.fill.viewfinder
-  􀯨    person.fill.xmark
+  􀯨    person.fill.xmark}}}
   􀙳    person.icloud
   􀙴    person.icloud.fill
   􁒃    person.line.dotted.person
@@ -4516,7 +4520,7 @@
   􁈨    personalhotspot.circle
   􁈩    personalhotspot.circle.fill
   􀒱    perspective
-  􂨴    peruviansolessign
+  􂨴    peruviansolessign{{{
   􂥯    peruviansolessign.arrow.trianglehead.counterclockwise.rotate.90
   􂨹    peruviansolessign.bank.building
   􂨺    peruviansolessign.bank.building.fill
@@ -4525,8 +4529,8 @@
   􂩖    peruviansolessign.gauge.chart.lefthalf.righthalf
   􂪀    peruviansolessign.gauge.chart.leftthird.topthird.rightthird
   􂨷    peruviansolessign.square
-  􂨸    peruviansolessign.square.fill
-  􁑋    pesetasign
+  􂨸    peruviansolessign.square.fill}}}
+  􁑋    pesetasign{{{
   􂈞    pesetasign.arrow.trianglehead.counterclockwise.rotate.90
   􂔓    pesetasign.bank.building
   􂔔    pesetasign.bank.building.fill
@@ -4535,8 +4539,8 @@
   􂩗    pesetasign.gauge.chart.lefthalf.righthalf
   􂪁    pesetasign.gauge.chart.leftthird.topthird.rightthird
   􀗯    pesetasign.square
-  􀗰    pesetasign.square.fill
-  􁑌    pesosign
+  􀗰    pesetasign.square.fill}}}
+  􁑌    pesosign{{{
   􂈟    pesosign.arrow.trianglehead.counterclockwise.rotate.90
   􂔕    pesosign.bank.building
   􂔖    pesosign.bank.building.fill
@@ -4545,8 +4549,8 @@
   􂩘    pesosign.gauge.chart.lefthalf.righthalf
   􂪂    pesosign.gauge.chart.leftthird.topthird.rightthird
   􀗱    pesosign.square
-  􀗲    pesosign.square.fill
-  􀌾    phone
+  􀗲    pesosign.square.fill}}}
+  􀌾    phone{{{
   􀍂    phone.arrow.down.left
   􀍃    phone.arrow.down.left.fill
   􀍄    phone.arrow.right
@@ -4574,8 +4578,8 @@
   􁂅    phone.down.waves.left.and.right
   􀌿    phone.fill
   􁙘    phone.fill.badge.checkmark
-  􀖏    phone.fill.badge.plus
-  􀏅    photo
+  􀖏    phone.fill.badge.plus}}}
+  􀏅    photo{{{
   􁀶    photo.artframe
   􁼧    photo.artframe.circle
   􁼨    photo.artframe.circle.fill
@@ -4588,33 +4592,33 @@
   􁃏    photo.badge.plus
   􁃐    photo.badge.plus.fill
   􁂮    photo.circle
-  􁂯    photo.circle.fill
+  􁂯    photo.circle.fill}}}
   􀏆    photo.fill
   􀏬    photo.fill.on.rectangle.fill
-  􀏫    photo.on.rectangle
+  􀏫    photo.on.rectangle{{{
   􀣵    photo.on.rectangle.angled
   􂣳    photo.on.rectangle.angled.fill
   􀏯    photo.stack
   􀏰    photo.stack.fill
-  􀵪    photo.tv
+  􀵪    photo.tv}}}
   􀎏    pianokeys
   􀟽    pianokeys.inverse
   􁚭    pill
-  􁚯    pill.circle
+  􁚯    pill.circle{{{
   􁚰    pill.circle.fill
   􁚮    pill.fill
   􀠱    pills
   􁇂    pills.circle
   􁇃    pills.circle.fill
-  􀠲    pills.fill
-  􀎦    pin
+  􀠲    pills.fill}}}
+  􀎦    pin{{{
   􀒴    pin.circle
   􀒵    pin.circle.fill
   􀎧    pin.fill
   􀎨    pin.slash
   􀎩    pin.slash.fill
   􀽋    pin.square
-  􀽌    pin.square.fill
+  􀽌    pin.square.fill}}}
   􀠳    pip
   􀑨    pip.enter
   􀑧    pip.exit
@@ -4636,7 +4640,7 @@
   􁃄    platter.filled.top.applewatch.case
   􁊿    platter.filled.top.iphone
   􁃆    platter.top.applewatch.case
-  􀊃    play
+  􀊃    play{{{
   􀊕    play.circle
   􀊖    play.circle.fill
   􁏳    play.desktopcomputer
@@ -4650,22 +4654,22 @@
   􀾬    play.rectangle.on.rectangle
   􁃀    play.rectangle.on.rectangle.circle
   􁃁    play.rectangle.on.rectangle.circle.fill
-  􀾭    play.rectangle.on.rectangle.fill
-  􀪅    play.slash
+  􀾭    play.rectangle.on.rectangle.fill}}}
+  􀪅    play.slash{{{
   􀪆    play.slash.fill
   􀽍    play.square
   􀽎    play.square.fill
   􁟼    play.square.stack
   􁟽    play.square.stack.fill
   􀵨    play.tv
-  􀵩    play.tv.fill
-  􀊇    playpause
+  􀵩    play.tv.fill}}}
+  􀊇    playpause{{{
   􁚞    playpause.circle
   􁚟    playpause.circle.fill
-  􀊈    playpause.fill
+  􀊈    playpause.fill}}}
   􀾈    playstation.logo
   􀅼    plus
-  􀑍    plus.app
+  􀑍    plus.app{{{
   􀑎    plus.app.fill
   􀘨    plus.arrow.trianglehead.clockwise
   􀌶    plus.bubble
@@ -4674,16 +4678,16 @@
   􂞶    plus.circle.dashed
   􀁍    plus.circle.fill
   􀡿    plus.diamond
-  􀢀    plus.diamond.fill
+  􀢀    plus.diamond.fill}}}
   􀅺    plus.forwardslash.minus
   􀊬    plus.magnifyingglass
   􀡙    plus.message
   􀡚    plus.message.fill
-  􀏇    plus.rectangle
+  􀏇    plus.rectangle{{{
   􀏈    plus.rectangle.fill
   􀏪    plus.rectangle.fill.on.rectangle.fill
   􀤰    plus.rectangle.on.folder
-  􀤱    plus.rectangle.on.folder.fill
+  􀤱    plus.rectangle.on.folder.fill}}}
   􀏩    plus.rectangle.on.rectangle
   􀡪    plus.rectangle.portrait
   􀡫    plus.rectangle.portrait.fill
@@ -4698,25 +4702,25 @@
   􀘝    plusminus.circle.fill
   􁆬    point.3.connected.trianglepath.dotted
   􁅥    point.3.filled.connected.trianglepath.dotted
-  􁻶    point.bottomleft.filled.forward.to.point.topright.scurvepath
+  􁻶    point.bottomleft.filled.forward.to.point.topright.scurvepath{{{
   􂤜    point.bottomleft.forward.to.arrow.triangle.scurvepath
   􂤝    point.bottomleft.forward.to.arrow.triangle.scurvepath.fill
   􁻷    point.bottomleft.forward.to.arrow.triangle.uturn.scurvepath
   􁸹    point.bottomleft.forward.to.arrow.triangle.uturn.scurvepath.fill
   􁻵    point.bottomleft.forward.to.point.topright.filled.scurvepath
   􁻴    point.bottomleft.forward.to.point.topright.scurvepath
-  􁸸    point.bottomleft.forward.to.point.topright.scurvepath.fill
+  􁸸    point.bottomleft.forward.to.point.topright.scurvepath.fill}}}
   􁻸    point.forward.to.point.capsulepath
   􁸺    point.forward.to.point.capsulepath.fill
-  􀣱    point.topleft.down.to.point.bottomright.curvepath
+  􀣱    point.topleft.down.to.point.bottomright.curvepath{{{
   􀬱    point.topleft.down.to.point.bottomright.curvepath.fill
   􀾔    point.topleft.down.to.point.bottomright.filled.curvepath
-  􀾕    point.topleft.filled.down.to.point.bottomright.curvepath
-  􂤛    point.topright.arrow.triangle.backward.to.point.bottomleft.filled.scurvepath
+  􀾕    point.topleft.filled.down.to.point.bottomright.curvepath}}}
+  􂤛    point.topright.arrow.triangle.backward.to.point.bottomleft.filled.scurvepath{{{
   􂤙    point.topright.arrow.triangle.backward.to.point.bottomleft.scurvepath
   􂤚    point.topright.arrow.triangle.backward.to.point.bottomleft.scurvepath.fill
-  􂤞    point.topright.filled.arrow.triangle.backward.to.point.bottomleft.scurvepath
-  􁤯    polishzlotysign
+  􂤞    point.topright.filled.arrow.triangle.backward.to.point.bottomleft.scurvepath}}}
+  􁤯    polishzlotysign{{{
   􂈴    polishzlotysign.arrow.trianglehead.counterclockwise.rotate.90
   􂔿    polishzlotysign.bank.building
   􂕀    polishzlotysign.bank.building.fill
@@ -4725,7 +4729,7 @@
   􂩙    polishzlotysign.gauge.chart.lefthalf.righthalf
   􂪃    polishzlotysign.gauge.chart.leftthird.topthird.rightthird
   􁤲    polishzlotysign.square
-  􁤳    polishzlotysign.square.fill
+  􁤳    polishzlotysign.square.fill}}}
   􁐇    popcorn
   􁚱    popcorn.circle
   􁚲    popcorn.circle.fill
@@ -4739,7 +4743,7 @@
   􂚛    powermeter
   􀥥    poweroff
   􀥤    poweron
-  􁌲    poweroutlet.strip
+  􁌲    poweroutlet.strip{{{
   􁓜    poweroutlet.strip.fill
   􁌽    poweroutlet.type.a
   􁍀    poweroutlet.type.a.fill
@@ -4800,13 +4804,13 @@
   􁍡    poweroutlet.type.o
   􁍢    poweroutlet.type.o.fill
   􁁽    poweroutlet.type.o.square
-  􁍣    poweroutlet.type.o.square.fill
+  􁍣    poweroutlet.type.o.square.fill}}}
   􀡷    powerplug
   􀡸    powerplug.fill
   􂬹    powerplug.portrait
   􂬺    powerplug.portrait.fill
   􀥦    powersleep
-  􀎚    printer
+  􀎚    printer{{{
   􀪞    printer.dotmatrix
   􀪟    printer.dotmatrix.fill
   􀪿    printer.dotmatrix.filled.and.paper
@@ -4815,7 +4819,7 @@
   􀎛    printer.fill
   􀪾    printer.filled.and.paper
   􁑱    printer.filled.and.paper.inverse
-  􂨖    printer.inverse
+  􂨖    printer.inverse}}}
   􀴽    progress.indicator
   􀆎    projective
   􀚐    purchased
@@ -4863,7 +4867,7 @@
   􀨎    r.button.roundedbottom.horizontal.fill
   􀀦    r.circle
   􀀧    r.circle.fill
-  􀦓    r.joystick
+  􀦓    r.joystick{{{
   􀫂    r.joystick.fill
   􀦕    r.joystick.press.down
   􀫄    r.joystick.press.down.fill
@@ -4874,12 +4878,12 @@
   􀿠    r.joystick.tilt.right
   􀿡    r.joystick.tilt.right.fill
   􀿢    r.joystick.tilt.up
-  􀿣    r.joystick.tilt.up.fill
+  􀿣    r.joystick.tilt.up.fill}}}
   􀂶    r.square
   􀂷    r.square.fill
   􀭘    r.square.on.square
   􀭙    r.square.on.square.fill
-  􀨏    r1.button.roundedbottom.horizontal
+  􀨏    r1.button.roundedbottom.horizontal{{{
   􀨐    r1.button.roundedbottom.horizontal.fill
   􁺉    r1.circle
   􁺊    r1.circle.fill
@@ -4892,7 +4896,7 @@
   􁸉    r3.button.angledbottom.horizontal.right
   􁸊    r3.button.angledbottom.horizontal.right.fill
   􁺤    r4.button.horizontal
-  􁺥    r4.button.horizontal.fill
+  􁺥    r4.button.horizontal.fill}}}
   􀪔    radio
   􀪕    radio.fill
   􀼭    rainbow
@@ -4935,11 +4939,11 @@
   􀥂    rectangle.dashed.badge.record
   􀐸    rectangle.expand.vertical
   􀏄    rectangle.fill
-  􀏖    rectangle.fill.badge.checkmark
+  􀏖    rectangle.fill.badge.checkmark{{{
   􀏔    rectangle.fill.badge.minus
   􀵛    rectangle.fill.badge.person.crop
   􀏒    rectangle.fill.badge.plus
-  􀏘    rectangle.fill.badge.xmark
+  􀏘    rectangle.fill.badge.xmark}}}
   􀑰    rectangle.fill.on.rectangle.angled.fill
   􀏨    rectangle.fill.on.rectangle.fill
   􀪦    rectangle.filled.and.hand.point.up.left
@@ -5086,7 +5090,7 @@
   􀨚    rt.button.roundedtop.horizontal.fill
   􁺏    rt.circle
   􁺐    rt.circle.fill
-  􁑆    rublesign
+  􁑆    rublesign{{{
   􂈙    rublesign.arrow.trianglehead.counterclockwise.rotate.90
   􂔉    rublesign.bank.building
   􂔊    rublesign.bank.building.fill
@@ -5095,14 +5099,14 @@
   􂩚    rublesign.gauge.chart.lefthalf.righthalf
   􂪄    rublesign.gauge.chart.leftthird.topthird.rightthird
   􀗥    rublesign.square
-  􀗦    rublesign.square.fill
+  􀗦    rublesign.square.fill}}}
   􂎹    rugbyball
   􂎻    rugbyball.circle
   􂎼    rugbyball.circle.fill
   􂎺    rugbyball.fill
   􀟀    ruler
   􀟁    ruler.fill
-  􁑛    rupeesign
+  􁑛    rupeesign{{{
   􂈮    rupeesign.arrow.trianglehead.counterclockwise.rotate.90
   􂔳    rupeesign.bank.building
   􂔴    rupeesign.bank.building.fill
@@ -5111,7 +5115,7 @@
   􂩛    rupeesign.gauge.chart.lefthalf.righthalf
   􂪅    rupeesign.gauge.chart.leftthird.topthird.rightthird
   􀘏    rupeesign.square
-  􀘐    rupeesign.square.fill
+  􀘐    rupeesign.square.fill}}}
   􀀨    s.circle
   􀀩    s.circle.fill
   􀂸    s.square
@@ -5150,15 +5154,15 @@
   􁁞    sensor.tag.radiowaves.forward.fill
   􀪬    server.rack
   􀨡    shadow
-  􁅁    sharedwithyou
+  􁅁    sharedwithyou{{{
   􂇄    sharedwithyou.circle
   􂄀    sharedwithyou.circle.fill
   􁇦    sharedwithyou.circle.slash
   􁃑    shareplay
   􀴔    shareplay.slash
   􁈴    shazam.logo
-  􁈵    shazam.logo.fill
-  􁑙    shekelsign
+  􁈵    shazam.logo.fill}}}
+  􁑙    shekelsign{{{
   􂈬    shekelsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔯    shekelsign.bank.building
   􂔰    shekelsign.bank.building.fill
@@ -5167,7 +5171,7 @@
   􂩜    shekelsign.gauge.chart.lefthalf.righthalf
   􂪆    shekelsign.gauge.chart.leftthird.topthird.rightthird
   􀘋    shekelsign.square
-  􀘌    shekelsign.square.fill
+  􀘌    shekelsign.square.fill}}}
   􀙦    shield
   􀙧    shield.fill
   􀙨    shield.lefthalf.filled
@@ -5227,11 +5231,11 @@
   􁞌    signpost.right.circle
   􁞍    signpost.right.circle.fill
   􀯍    signpost.right.fill
-  􀠅    simcard
+  􀠅    simcard{{{
   􀡹    simcard.2
   􀡺    simcard.2.fill
-  􀠆    simcard.fill
-  􂨰    singaporedollarsign
+  􀠆    simcard.fill}}}
+  􂨰    singaporedollarsign{{{
   􂨱    singaporedollarsign.arrow.trianglehead.counterclockwise.rotate.90
   􂨲    singaporedollarsign.bank.building
   􂨳    singaporedollarsign.bank.building.fill
@@ -5240,7 +5244,7 @@
   􂩝    singaporedollarsign.gauge.chart.lefthalf.righthalf
   􂪇    singaporedollarsign.gauge.chart.leftthird.topthird.rightthird
   􂉰    singaporedollarsign.square
-  􂉱    singaporedollarsign.square.fill
+  􂉱    singaporedollarsign.square.fill}}}
   􁐪    sink
   􁐫    sink.fill
   􂂩    skateboard
@@ -5282,12 +5286,12 @@
   􁕹    snowflake.road.lane
   􁖀    snowflake.road.lane.dashed
   􁠂    snowflake.slash
-  􀦥    soccerball
+  􀦥    soccerball{{{
   􁚸    soccerball.circle
   􁚹    soccerball.circle.fill
   􁜽    soccerball.circle.fill.inverse
   􁚺    soccerball.circle.inverse
-  􁗈    soccerball.inverse
+  􁗈    soccerball.inverse}}}
   􁐲    sofa
   􁐳    sofa.fill
   􀜥    sos
@@ -5486,13 +5490,13 @@
   􀠨    star.square.fill
   􁚍    star.square.on.square
   􁚎    star.square.on.square.fill
-  􀑆    staroflife
+  􀑆    staroflife{{{
   􀒺    staroflife.circle
   􀒻    staroflife.circle.fill
   􀑇    staroflife.fill
   􁣖    staroflife.shield
-  􁣗    staroflife.shield.fill
-  􁂩    steeringwheel
+  􁣗    staroflife.shield.fill}}}
+  􁂩    steeringwheel{{{
   􂏐    steeringwheel.and.hands
   􁉙    steeringwheel.and.heat.waves
   􁞿    steeringwheel.and.key
@@ -5507,8 +5511,8 @@
   􁉚    steeringwheel.exclamationmark
   􁖥    steeringwheel.road.lane
   􁖦    steeringwheel.road.lane.dashed
-  􁡉    steeringwheel.slash
-  􁑂    sterlingsign
+  􁡉    steeringwheel.slash}}}
+  􁑂    sterlingsign{{{
   􂈕    sterlingsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔁    sterlingsign.bank.building
   􂔂    sterlingsign.bank.building.fill
@@ -5517,7 +5521,7 @@
   􂩞    sterlingsign.gauge.chart.lefthalf.righthalf
   􂪈    sterlingsign.gauge.chart.leftthird.topthird.rightthird
   􀗝    sterlingsign.square
-  􀗞    sterlingsign.square.fill
+  􀗞    sterlingsign.square.fill}}}
   􀝾    stethoscope
   􁇄    stethoscope.circle
   􁇅    stethoscope.circle.fill
@@ -5592,7 +5596,7 @@
   􀆴    sunset.fill
   􂂯    surfboard
   􂂰    surfboard.fill
-  􁠀    suv.side
+  􁠀    suv.side{{{
   􁠑    suv.side.air.circulate
   􁠒    suv.side.air.circulate.fill
   􁠓    suv.side.air.fresh
@@ -5621,10 +5625,10 @@
   􁠏    suv.side.rear.open
   􂞘    suv.side.rear.open.crop
   􂞙    suv.side.rear.open.crop.fill
-  􁠐    suv.side.rear.open.fill
+  􁠐    suv.side.rear.open.fill}}}
   􁙧    swatchpalette
   􁙨    swatchpalette.fill
-  􁤭    swedishkronasign
+  􁤭    swedishkronasign{{{
   􂈶    swedishkronasign.arrow.trianglehead.counterclockwise.rotate.90
   􂕃    swedishkronasign.bank.building
   􂕄    swedishkronasign.bank.building.fill
@@ -5633,7 +5637,7 @@
   􂩟    swedishkronasign.gauge.chart.lefthalf.righthalf
   􂪉    swedishkronasign.gauge.chart.leftthird.topthird.rightthird
   􀮪    swedishkronasign.square
-  􀮫    swedishkronasign.square.fill
+  􀮫    swedishkronasign.square.fill}}}
   􀫊    swift
   􁗫    swiftdata
   􁹢    swirl.circle.righthalf.filled
@@ -5677,7 +5681,7 @@
   􀴧    teletype.answer.circle.fill
   􀜅    teletype.circle
   􀜆    teletype.circle.fill
-  􁑊    tengesign
+  􁑊    tengesign{{{
   􂈝    tengesign.arrow.trianglehead.counterclockwise.rotate.90
   􂔑    tengesign.bank.building
   􂔒    tengesign.bank.building.fill
@@ -5686,7 +5690,7 @@
   􂩠    tengesign.gauge.chart.lefthalf.righthalf
   􂪊    tengesign.gauge.chart.leftthird.topthird.rightthird
   􀗭    tengesign.square
-  􀗮    tengesign.square.fill
+  􀗮    tengesign.square.fill}}}
   􁗍    tennis.racket
   􁜤    tennis.racket.circle
   􁜥    tennis.racket.circle.fill
@@ -5801,9 +5805,9 @@
   􀓑    tortoise.fill
   􀴌    torus
   􀟒    touchid
-  􁢳    traction.control.tirepressure
+  􁢳    traction.control.tirepressure{{{
   􁢵    traction.control.tirepressure.exclamationmark
-  􁢴    traction.control.tirepressure.slash
+  􁢴    traction.control.tirepressure.slash}}}
   􀼮    train.side.front.car
   􀼯    train.side.middle.car
   􀼰    train.side.rear.car
@@ -5863,7 +5867,7 @@
   􀇨    tropicalstorm
   􁛵    tropicalstorm.circle
   􁛶    tropicalstorm.circle.fill
-  􁁾    truck.box
+  􁁾    truck.box{{{
   􁂀    truck.box.badge.clock
   􁂁    truck.box.badge.clock.fill
   􁁿    truck.box.fill
@@ -5892,12 +5896,12 @@
   􁥹    truck.pickup.side.lock
   􁥺    truck.pickup.side.lock.fill
   􁥻    truck.pickup.side.lock.open
-  􁥼    truck.pickup.side.lock.open.fill
+  􁥼    truck.pickup.side.lock.open.fill}}}
   􀾠    tshirt
   􁽬    tshirt.circle
   􁽭    tshirt.circle.fill
   􀾡    tshirt.fill
-  􁑗    tugriksign
+  􁑗    tugriksign{{{
   􂈪    tugriksign.arrow.trianglehead.counterclockwise.rotate.90
   􂔫    tugriksign.bank.building
   􂔬    tugriksign.bank.building.fill
@@ -5906,9 +5910,9 @@
   􂩡    tugriksign.gauge.chart.lefthalf.righthalf
   􂪋    tugriksign.gauge.chart.leftthird.topthird.rightthird
   􀘇    tugriksign.square
-  􀘈    tugriksign.square.fill
+  􀘈    tugriksign.square.fill}}}
   􀎐    tuningfork
-  􁑅    turkishlirasign
+  􁑅    turkishlirasign{{{
   􂈘    turkishlirasign.arrow.trianglehead.counterclockwise.rotate.90
   􂔇    turkishlirasign.bank.building
   􂔈    turkishlirasign.bank.building.fill
@@ -5917,7 +5921,7 @@
   􂩢    turkishlirasign.gauge.chart.lefthalf.righthalf
   􂪌    turkishlirasign.gauge.chart.leftthird.topthird.rightthird
   􀗣    turkishlirasign.square
-  􀗤    turkishlirasign.square.fill
+  􀗤    turkishlirasign.square.fill}}}
   􀎲    tv
   􀫑    tv.and.hifispeaker.fill
   􀲰    tv.and.mediabox
@@ -5975,7 +5979,7 @@
   􀏀    viewfinder.circle.fill
   􁹿    viewfinder.rectangular
   􁣓    viewfinder.trianglebadge.exclamationmark
-  􁎖    vision.pro
+  􁎖    vision.pro{{{
   􁳔    vision.pro.and.arrow.forward
   􁳕    vision.pro.and.arrow.forward.fill
   􁷇    vision.pro.badge.exclamationmark
@@ -5991,7 +5995,7 @@
   􁽄    vision.pro.slash.fill
   􂓮    vision.pro.trianglebadge.exclamationmark
   􂓯    vision.pro.trianglebadge.exclamationmark.fill
-  􀭻    voiceover
+  􀭻    voiceover}}}
   􁜪    volleyball
   􁜬    volleyball.circle
   􁜭    volleyball.circle.fill
@@ -6088,7 +6092,7 @@
   􀇦    wind.snow
   􁛱    wind.snow.circle
   􁛲    wind.snow.circle.fill
-  􁑽    window.awning
+  􁑽    window.awning{{{
   􁑾    window.awning.closed
   􁑿    window.casement
   􁒀    window.casement.closed
@@ -6099,8 +6103,8 @@
   􁏣    window.shade.closed
   􁏢    window.shade.open
   􁑬    window.vertical.closed
-  􁑫    window.vertical.open
-  􁞼    windshield.front.and.fluid.and.spray
+  􁑫    window.vertical.open}}}
+  􁞼    windshield.front.and.fluid.and.spray{{{
   􁀟    windshield.front.and.heat.waves
   􁀕    windshield.front.and.spray
   􁀔    windshield.front.and.wiper
@@ -6115,10 +6119,10 @@
   􁀣    windshield.rear.and.wiper.and.drop
   􁞽    windshield.rear.and.wiper.and.spray
   􁉑    windshield.rear.and.wiper.exclamationmark
-  􁀢    windshield.rear.and.wiper.intermittent
+  􁀢    windshield.rear.and.wiper.intermittent}}}
   􁎤    wineglass
   􁎥    wineglass.fill
-  􁑎    wonsign
+  􁑎    wonsign{{{
   􂈡    wonsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔙    wonsign.bank.building
   􂔚    wonsign.bank.building.fill
@@ -6127,7 +6131,7 @@
   􂩤    wonsign.gauge.chart.lefthalf.righthalf
   􂪎    wonsign.gauge.chart.leftthird.topthird.rightthird
   􀗵    wonsign.square
-  􀗶    wonsign.square.fill
+  􀗶    wonsign.square.fill}}}
   􀎕    wrench.adjustable
   􀎖    wrench.adjustable.fill
   􀤊    wrench.and.screwdriver
@@ -6171,7 +6175,7 @@
   􀀵    y.circle.fill
   􀃄    y.square
   􀃅    y.square.fill
-  􁑁    yensign
+  􁑁    yensign{{{
   􂈔    yensign.arrow.trianglehead.counterclockwise.rotate.90
   􂓿    yensign.bank.building
   􂔀    yensign.bank.building.fill
@@ -6180,7 +6184,7 @@
   􂩣    yensign.gauge.chart.lefthalf.righthalf
   􂪍    yensign.gauge.chart.leftthird.topthird.rightthird
   􀗛    yensign.square
-  􀗜    yensign.square.fill
+  􀗜    yensign.square.fill}}}
   􁕤    yieldsign
   􁕥    yieldsign.fill
   􀀶    z.circle
@@ -6193,3 +6197,6 @@
   􀨝    zr.button.roundedtop.horizontal
   􀨞    zr.button.roundedtop.horizontal.fill
   􀖃    zzz
+
+" vim:nolist:nowrap:colorcolumn=1,6,7:foldmethod=marker:foldlevel=0
+

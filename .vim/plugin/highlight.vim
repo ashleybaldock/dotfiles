@@ -4,40 +4,10 @@ endif
 let g:mayhem_loaded_highlight = 1
 
 
-"
-" Has two implementations, this one uses `matchadd()`
-"
-function! s:AddHighlightHighlight(name) abort
-  let matchid = matchadd(a:name, '\(^\s*\||\s\+\)"\?:\?hi\w*\s*\(clear\)\@!\(link\s\)\?\<\zs'..a:name..'\ze\>')
-  if matchid == -1
-    echo 'HiHi:AddHighlightHighlight: Empty matchid returned'
-  else 
-    if exists('w:highlighthighlights') && type(w:highlighthighlights) == type([])
-      call add(w:highlighthighlights, matchid)
-    else
-      let w:highlighthighlights = [ matchid ]
-    endif
-  endif
-  return a:name
-endfunc
-
-function! s:ToggleHighlightHighlight() abort
-  if empty(get(w:, 'highlighthighlights', [])) 
-    %s/^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>/\=s:AddHighlightHighlight(submatch(0))/n
-  else
-    for matchid in get(w:, 'highlighthighlights', [])
-      call matchdelete(matchid)
-    endfor
-    let w:highlighthighlights = []
-  endif
-endfunc
-
-command! HiHiMatch call <SID>ToggleHighlightHighlight()
-
 
 
 "
-" Has two implementatins, this one uses `syn match`
+" Has two implementations, this one uses `syn match`
 "
 function! s:AddSynMatch(name) abort
   exec 'syn match ' .. a:name .. ' /\<' .. a:name .. '\>/'
@@ -111,10 +81,7 @@ function! s:UpdateSynStackBuffer(winid)
       let chain = s:GetLinkChain(val.name)
       let matchids = mapnew(chain, {i, link -> win_execute(a:winid, 'call matchadd('''..link..''', ''\<'..link..'\>'')'  )})
       let res = res .. join(chain, ' ⫘⃗  ')
-      " let res = res .. join(chain, '▶︎▬ᷞ▬ͥ▬ᷠ▬ᷜ▶︎')
-      " let res = res .. join(chain, ' ▬▶︎ ')
-      " let res = res .. join(chain, ' -> ')
-      " let res = res .. join(chain, ' ʟɪɴ͢ᴋ ')
+      " join(chain, '▶︎▬ᷞ▬ͥ▬ᷠ▬ᷜ▶︎') join(chain, ' ▬▶︎ ') join(chain, ' -> ') join(chain, ' ʟɪɴ͢ᴋ ')
     else
       let res = res .. val.name
     endif
@@ -123,7 +90,7 @@ function! s:UpdateSynStackBuffer(winid)
     let longest = max([longest, strwidth(res)])
     let i = i + 1
   endfor
-  let title = printf('%'..longest..'S', printf(' SynStack @ Row %s, Col %s', col('.'), line('.')))
+  let title = printf('%'..longest..'S', printf(' SynStack @ Row %s, Col %s', line('.'), col('.')))
   call setbufline(bufnr, max([3, i]), title)
 endfunc
 
@@ -135,7 +102,8 @@ function s:SynStackPopupFilter(winid, key)
   "   return 0
   " endif
   if a:key == 'x'
-    call popup_close(a:winid)
+    call s:SynStackDisable()
+    call s:SynstackSetup()
     return 1
   endif
   return 0
@@ -146,27 +114,36 @@ function s:SynStack()
     return
   endif
 
-  if exists('w:mayhem_synstack_popid') && !empty(popup_getpos(w:mayhem_synstack_popid))
-    popup_close(w:mayhem_synstack_popid)
-  endif
+  if empty(popup_getpos(get(w:, 'mayhem_synstack_popid', 0)))
+    echom 'no existing popup, make a new one'
 
-  "\ title: ' SynStack ╴╴╴Row ' .. col('.') .. ' Col ' .. line('.') .. ' ',
-  let w:mayhem_synstack_popid = popup_create('', #{
-        \ pos: 'topleft',
-        \ minwidth: 10,
-        \ maxwidth: 80,
-        \ minheight: 3,
-        \ padding: [0,1,0,1],
-        \ border: [1,1,1,1],
-        \ highlight: 'HlPop01Bg',
-        \ borderhighlight: ['HlPop01T','HlPop01R','HlPop01B','HlPop01L'],
-        \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'],
-        \ line: 'cursor+2',
-        \ col: 'cursor',
-        \ moved: 'any',
-        \ filter: 's:SynStackPopupFilter',
-        \ filtermode: 'n'
-        \ })
+    let w:mayhem_synstack_popid = popup_create('', #{
+          \ pos: 'topleft',
+          \ line: 'cursor+2',
+          \ col: 'cursor',
+          \ minwidth: 30,
+          \ maxwidth: 80,
+          \ minheight: 3,
+          \ padding: [0,1,0,1],
+          \ border: [1,1,1,1],
+          \ highlight: 'HlPop01Bg',
+          \ borderhighlight: ['HlPop01T','HlPop01R','HlPop01B','HlPop01L'],
+          \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'],
+          \ moved: 'any',
+          \ filter: 's:SynStackPopupFilter',
+          \ filtermode: 'n'
+          \ })
+  else
+    echom 're-using existing popup'
+    popup_move(w:mayhem_synstack_popid, #{
+          \ pos: 'topleft',
+          \ line: 'cursor+2',
+          \ col: 'cursor',
+          \ minwidth: 30,
+          \ maxwidth: 80,
+          \ minheight: 3,
+          \ })
+  endif
 
   call s:UpdateSynStackBuffer(w:mayhem_synstack_popid)
 endfunc
@@ -174,26 +151,37 @@ endfunc
 command! SynStack call <SID>SynStack()
 command! SynStackBuf vsp|enew|call <SID>UpdateSynStackBuffer(winnr())
 
-function! s:AutoSynStackStatus() abort
-  if exists('g:mayhem_autosynstack_enabled') && g:mayhem_autosynstack_enabled
-    return 1
-  endif
-  return 0
-endfunc
-
-function! s:AutoSynStack() abort
-  augroup AutoSynStack
+function! s:SynStackSetup() abort
+  augroup MayhemSynStack
     autocmd!
-    if s:AutoSynStackStatus() == 1
+    if w:mayhem_synstack_enabled == 1
       autocmd CursorHold * call s:SynStack()
+    else
+      call popup_close(w:mayhem_synstack_popid)
     endif
   augroup END
 endfunc
 
-command! SynStackAutoStatus echo <SID>AutoSynStackStatus()
+function! s:SynStackDisable(winid)
+  let w:mayhem_synstack_enabled = 0
+  call s:SynStackSetup()
+endfunc
 
-command! SynStackAuto let g:mayhem_autosynstack_enabled = !get(g:, 'mayhem_autosynstack_enabled', 0) | call s:AutoSynStack()
+function! s:SynStackEnable(winid)
+  let w:mayhem_synstack_enabled = 1
+  call s:SynStackSetup()
+endfunc
 
+function! s:SynStackToggle(winid)
+  let w:mayhem_synstack_enabled = !get(w:, 'mayhem_synstack_enabled', 0)
+  call s:SynStackSetup()
+endfunc
+
+command! SynStackStatus :get(w:, 'mayhem_synstack_enabled', 0)
+
+" command! SynStackAuto let w:mayhem_synstack_enabled =  | call s:SynStackSetup()
+
+command! SynStackToggle :call <SID>SynStackToggle()
 
 command! HighlightThis :hi <c-r><c-w>
 
@@ -213,8 +201,38 @@ command! HighlightThis :hi <c-r><c-w>
 
   " %g/^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>/echo s:AddSynMatch(submatch(0))
   " %g|^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>|exec 'syn match ' .. submatch(0) .. ' /\<' .. submatch(0).. '\>/ contained contains=NONE containedin=VimHiGroup'
-"
-"
-"
 
+
+
+
+"
+" Highlight syntax group names with themselves
+" Uses `matchadd()`, see :syn version above
+"
+" function! s:AddHighlightHighlight(name) abort
+"   let matchid = matchadd(a:name, '\(^\s*\||\s\+\)"\?:\?hi\w*\s*\(clear\)\@!\(link\s\)\?\<\zs'..a:name..'\ze\>')
+"   if matchid == -1
+"     echo 'HiHi:AddHighlightHighlight: Empty matchid returned'
+"   else 
+"     if exists('w:highlighthighlights') && type(w:highlighthighlights) == type([])
+"       call add(w:highlighthighlights, matchid)
+"     else
+"       let w:highlighthighlights = [ matchid ]
+"     endif
+"   endif
+"   return a:name
+" endfunc
+
+" function! s:ToggleHighlightHighlight() abort
+"   if empty(get(w:, 'highlighthighlights', [])) 
+"     %s/^:\?hi\w*\s*\(clear\)\@!\(link\s*\)\?\<\zs\(\w\+\)\ze\>/\=s:AddHighlightHighlight(submatch(0))/n
+"   else
+"     for matchid in get(w:, 'highlighthighlights', [])
+"       call matchdelete(matchid)
+"     endfor
+"     let w:highlighthighlights = []
+"   endif
+" endfunc
+
+" command! HiHiMatch call <SID>ToggleHighlightHighlight()
 

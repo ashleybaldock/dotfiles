@@ -67,7 +67,23 @@ command! CodeLine echo <SID>CodeBlockLine()
 
 " TODO place signs showing if there are more above/below current window
 " position
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 "  +⎫
 "  +⎪
 "  ‼

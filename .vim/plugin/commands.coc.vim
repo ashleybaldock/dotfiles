@@ -54,8 +54,10 @@ command! NextWorstDiagnostic call <SID>NextWorstDiagnostic()
 " Special extra documentation for various things
 "
 let s:docOverrideMap = {
-      \ 'map': 'map-table',
       \ '\(n\|i\|c\|v\|x\|s\|o\|t\|l\)\{-,1}map': 'map-table',
+      \ '\(args\|q-args\|nargs\|\)': 'args-table',
+      \ '': 'regex',
+      \ 'command': '',
       \ }
 
 function s:ShowDocumentation()
@@ -74,6 +76,9 @@ endfunc
 
 command! ShowDocumentation call <SID>ShowDocumentation()
 
+" TODO
+" add a cursorhold command to show a small hint if there is
+"  a custom help item
 
 
 

@@ -25,12 +25,16 @@ endfunc
 " No cleverness here, it just swaps the first character,
 " will probably not work for some inputs
 " 
-function! ReplaceBaseChar(replacement, char = s:GetCursorChar()) abort
+function! s:ReplaceBaseChar(replacement, char = s:GetCursorChar()) abort
   return a:replacement..strpart(a:char, 1)
 endfunc
 
     " s/\zs\(\%#\)\ze/\=s:ReplaceBaseChar(submatch(0))/n
-command! -bar -nargs=+ ReplaceBase echo <SID>ReplaceBaseChar(<q-args>)
+command! -bar -nargs=+ ReplaceBaseCharWith echo <SID>ReplaceBaseChar(<q-args>)
+
+" 
+command! -bar -nargs=+ CombineWithDiacritic echo <SID>CombineWith(<q-args>)
+
 
 let g:mayhem_combining_diacriticals = [ ['\u20d0'] ]
 "                                                           TODO

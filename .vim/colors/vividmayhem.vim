@@ -81,15 +81,21 @@ hi CocHoverRange  guibg=#502a2a gui=none
 
 " Document Highlights:
 " Matching Symbols: in the buffer at cursor position
-" CocHighlightText       " default symbol highlight
-" CocHighlightRead       " Read kind of document symbol
-" CocHighlightWrite      " Write kind of document symbol
-"
+" default symbol highlight
+hi CocHighlightText       guifg=#20aa70 gui=underline guisp=#cccc22
+" Read kind of document symbol
+hi CocHighlightRead       guifg=#20aa70 gui=underline guisp=#22cc22
+" Write kind of document symbol
+hi CocHighlightWrite      guifg=#20aa70 gui=underline guisp=#cc0022
+
 " CocLink                " document links
+
 " Inlay Hints:
-" CocInlayHint           " f|CocHintSign| b|SignColumn|
-" CocInlayHintParameter  " parameter kind of inlay hint
-" CocInlayHintType       " type kind of inlay hint
+hi CocInlayHint           guifg=#bb99ff guibg=ysignsb
+" parameter kind of inlay hint
+hi CocInlayHintParameter  guifg=#ff99ff guibg=ysignsb
+" type kind of inlay hint
+hi CocInlayHintType       guifg=#ff99bb guibg=ysignsb
 
 "════════════════════════════════════════════════════════╡ Search
 hi Search         guifg=NONE    guibg=#555555 gui=none

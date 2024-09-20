@@ -6,46 +6,58 @@ let g:coc_node_path = '/opt/homebrew/bin/node'
 
 let $VIMHOME=expand('<sfile>:p:h')
 
-let g:mayhem_dir_backup  = $VIMHOME .. '/backup'
-let g:mayhem_dir_swap    = $VIMHOME .. '/swap'
-let g:mayhem_dir_undo    = $VIMHOME .. '/undo'
-let g:mayhem_dir_view    = $VIMHOME .. '/view'
-let g:mayhem_dir_session = $VIMHOME .. '/session'
+let g:mayhem_dir_backup    = $VIMHOME .. '/backup'
+let g:mayhem_dir_swap      = $VIMHOME .. '/swap'
+let g:mayhem_dir_undo      = $VIMHOME .. '/undo'
+let g:mayhem_dir_view      = $VIMHOME .. '/view'
+let g:mayhem_dir_session   = $VIMHOME .. '/session'
+let g:mayhem_dir_templates = $VIMHOME .. '/templates'
 
 if has("patch-8.1.0251")
   if !isdirectory(g:mayhem_dir_backup)
-    echom 'backup dir '''..g:mayhem_dir_backup..'''not found- creating it'
+    echom 'backup dir ''' .. g:mayhem_dir_backup
+          \ .. '''not found- creating it'
     call mkdir(g:mayhem_dir_backup, "p", 0711)
   endif
   set writebackup
   set nobackup
   set backupcopy=auto
-  exec 'set backupdir^='..g:mayhem_dir_backup..'//'
+  exec 'set backupdir^=' .. g:mayhem_dir_backup .. '//'
 end
 
 if !isdirectory(g:mayhem_dir_swap)
-  echom 'swap dir '''..g:mayhem_dir_swap..'''not found- creating it'
+  echom 'swap dir ''' .. g:mayhem_dir_swap
+        \ .. '''not found- creating it'
   call mkdir(g:mayhem_dir_swap, "p", 0711)
 endif
 set swapfile
-exec 'set directory^='..g:mayhem_dir_swap..'//'
+exec 'set directory^=' .. g:mayhem_dir_swap .. '//'
 
 if !isdirectory(g:mayhem_dir_undo)
-  echom 'undo dir '''..g:mayhem_dir_undo..'''not found- creating it'
+  echom 'undo dir ''' .. g:mayhem_dir_undo
+        \ .. '''not found- creating it'
   call mkdir(g:mayhem_dir_undo, "p", 0711)
 endif
 set undofile
-exec 'set undodir^='..g:mayhem_dir_undo..'//'
+exec 'set undodir^=' .. g:mayhem_dir_undo .. '//'
 
 if !isdirectory(g:mayhem_dir_view)
-  echom 'view dir '''..g:mayhem_dir_view..'''not found- creating it'
+  echom 'view dir ''' .. g:mayhem_dir_view
+        \ .. '''not found- creating it'
   call mkdir(g:mayhem_dir_view, "p", 0711)
 endif
-exec 'set viewdir^='..g:mayhem_dir_view..'//'
+exec 'set viewdir^=' .. g:mayhem_dir_view .. '//'
 
 if !isdirectory(g:mayhem_dir_session)
-  echom 'session dir '''..g:mayhem_dir_session..'''not found- creating it'
+  echom 'session dir ''' .. g:mayhem_dir_session
+        \ .. '''not found- creating it'
   call mkdir(g:mayhem_dir_session, "p", 0711)
+endif
+
+if !isdirectory(g:mayhem_dir_templates)
+  echom 'templates dir ''' .. g:mayhem_dir_templates
+        \ .. '''not found- creating it'
+  call mkdir(g:mayhem_dir_templates, "p", 0711)
 endif
 
 set helpheight=10

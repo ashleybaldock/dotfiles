@@ -5,7 +5,6 @@ let g:mayhem_loaded_sessions = 1
 
 
 function! s:SessionComplete(ArgLead, CmdLine, CursorPos)
-  " return map(globpath('$HOME/.vim/session/', a:ArgLead .. "*.session.vim", 0, 1),
   return map(globpath(g:mayhem_dir_session, a:ArgLead .. "*.session.vim", 0, 1),
         \ {_, val -> fnamemodify(val, ":t:r:r")})
 endfunc
@@ -69,7 +68,7 @@ function! SessionName()
   endif
 endfunc
 
-command! SessionInfo call SessionInfo()
+command! SessionInfo echo SessionInfo()
 command! SessionList echo <SID>SessionList()
 
 " TODO - this could have a default for session name

@@ -4,6 +4,26 @@ endif
 let g:mayhem_loaded_css = 1
 
 
+" CSSO
+
+
+
+"
+" Remove units from zero values in CSS
+"  - But not for:
+"       <angle>  \(deg\|grad\|rad\|turn\)
+"        <time>  \(s\|ms\)
+"   <frequency>  \(Hz\|kHz\)
+"  <resolution>  \(dpi\|dppx\|dpcm\)
+"
+command! -range=% NoZeroUnits <line1>,<line2> s/\s\zs[-+]\?0\+\.\?\0*\(cap\|ch\|em\|ex\|ic\|lh\|rcap\|rch\|rem\|rex\|ric\|rlh\|vh\|vw\|vmax\|vmin\|vb\|vi\|cqw\|cqh\|cqi\|cqb\|cqmin\|cqmax\|px\|cm\|mm\|Q\|in\|pc\|pt\)\ze\s/0/ge
+
+" 
+" Add semicolon to end of last declaration in a rule
+" (Anywhere else would be a syntax error)
+" Useful for output from CSSO
+command! -range=% AddTrailingCommas <line1>,<line2> s/[^;{}]\zs\ze$\n\s*}/;/
+
 " 1. Extract variable
 "
 " color: #556677;
@@ -42,23 +62,33 @@ let g:mayhem_loaded_css = 1
 
 "
 " Data URLs:
+" See also: ./dataurl.vim
+"
+" /url(\("\|'\|\)data:\([A-Za-z/]\+\);\(base64\)\?,\([A-Za-z0-9/+=]\+\)\1)/
 "
 " Split: across multiple lines
 "
-" Add Quotes:
-"
+" Quotes: add if missing, change to ''
+" (Assumes no syntax errors to start with)
 " 
-"  url(\("\|'\|\)data:\([A-Za-z/]\+\);\(base64\)\?,\([A-Za-z0-9/+=]\+\)\1)
-" 
+command! -range=% DataURLQuotesNone
+      \ <line1>,<line2> s/url(\zs\("\|\'\|\)\(data:\_.\{-}\)\1\ze)/\2/
+command! -range=% DataURLQuotesSingle
+      \ <line1>,<line2> s/url(\zs\("\|\'\|\)\(data:\_.\{-}\)\1\ze)/\'\2\'/
+command! -range=% DataURLQuotesDouble
+      \ <line1>,<line2> s/url(\zs\("\|\'\|\)\(data:\_.\{-}\)\1\ze)/\"\2\"/
+
 
 
 " Change hex color codes to uppercase
-command! UppercaseHex %s/\<\(#\x\{8}\|#\x\{6}\|#\x\{4}\|#\x\{3}\)\>/\U&/g
-" command! UppercaseHex :%s/\<\(#[0-9a-fA-F]\{8}\|#[0-9a-fA-F]\{6}\|#[0-9a-fA-F]\{4}\|#[0-9a-fA-F]\{3}\)\>/\U&/g
+command! -range=% UppercaseHex
+      \ <line1>,<line2> s/\<\(#\x\{8}\|#\x\{6}\|#\x\{4}\|#\x\{3}\)\>/\U&/g
 " Change hex color codes to lowercase
-command! LowercaseHex %s/\<\(#\x\{8}\|#\x\{6}\|#\x\{4}\|#\x\{3}\)\>/\L&/g
+command! -range=% LowercaseHex
+      \ <line1>,<line2> s/\<\(#\x\{8}\|#\x\{6}\|#\x\{4}\|#\x\{3}\)\>/\L&/g
 " Expand short hex codes (#F0E ▬▶︎ #FF00EE, #FB3A ▬▶︎ #FFBB33AA)
-command! ExpandHex :%s/\<#\(\x\)\(\x\)\(\x\)\>/#\1\1\2\2\3\3/g
+command! -range=% ExpandHex
+      \ <line1>,<line2> s/\<#\(\x\)\(\x\)\(\x\)\>/#\1\1\2\2\3\3/g
 
 "       #rrggbb[aa] ▬▶︎ rgb(r g b [/ aa])
 "                                                           TODO
@@ -93,9 +123,43 @@ command! Complement <Nop>
 "   (legacy) rgba(R,G,B,A) |
 " rgb(R G B / [0-0.999])| rgb(R G B / [0-99.99%])  ▬▶︎ #xxyyzzaa
 
+" Absolute value syntax
+" rgb(R G B[ / A])  R,G,B = 0-255 or 0%-100% or none
+" let rgb = "\<rgb(\(\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\s\+\(\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\s\+\(\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\(\s\+\/\s\+\(0\?\.\d\+\|1\(\.0*\)\?\|0\?\|none\))\|)\)"
+
+" fast
+" <number[0-255]>   (…but also 256-999)
+"let byte = 
+"      \ "\d{1,3}"
+"      \ .."\d{1,3}"
+" <percentage>      (…but also 000%,00% etc.)
+"/100%\|\d{1,2}%/
+" <number[0.0-1.0]> (…but also 1.0-1.9 etc.)
+"let p = '[01]\?\.\?\d\+'
+
+" :%s/\<rgb(\s*\(\d{1,3}\|100%\|\d{1,2}%\|none\)\s\+\(\d{1,3}\|100%\|\d{1,2}%\|none\)\s\+\(\d{1,3}\|100%\|\d{1,2}%\|none\)\(\s+\/\s+[01]\?\.\?\d\+\|none\)\?)/
+
+" strict
+" 0-255
+"/\([0-9]\|[1-9][0-9]\|1[0-9]\{2}\|2[0-4][0-9]\|25[0-5]\)/
+" 0%-100%
+"/\(100%\|[1-9]\?[0-9]%\)/
+" 0.0-1.0
+"/\([01]\(\.0*\)\|0\.\d*\)/
+
+"/\<rgb(\([01][0-9][0-9]\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\s\+\(\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\s\+\(\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\(\s\+\/\s\+\(0\?\.\d\+\|1\(\.0*\)\?\|0\?\|none\))\|)\)/
+
+      
+" /\ze\(\s\|;\|,\)/
+
+
+
+
+
 
 
 " Text outline, 8 sides, identical
+"
 "
 " --➕: 1px;
 " --➖: calc(var(--➕) * -1);

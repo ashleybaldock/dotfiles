@@ -17,7 +17,7 @@ SVGO="$HOME/.nvm/versions/node/v18.19.0/bin/svgo"
 
 optimise=1
 alwaysbase64=0
-copy=0
+copy=1
 
 if [ $# -gt 1 ]
 then

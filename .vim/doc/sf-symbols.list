@@ -1237,7 +1237,7 @@
   􂂆    brain.head.profile.fill
   􀾾    brakesignal
   􁀷    brakesignal.dashed
-  􁑟    brazilianrealsign
+  􁑟    brazilianrealsign{{{
   􂈲    brazilianrealsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔻    brazilianrealsign.bank.building
   􂔼    brazilianrealsign.bank.building.fill
@@ -1246,7 +1246,7 @@
   􂨿    brazilianrealsign.gauge.chart.lefthalf.righthalf
   􂩩    brazilianrealsign.gauge.chart.leftthird.topthird.rightthird
   􀮲    brazilianrealsign.square
-  􀮳    brazilianrealsign.square.fill
+  􀮳    brazilianrealsign.square.fill}}}
   􀎜    briefcase
   􀷡    briefcase.circle
   􀷢    briefcase.circle.fill
@@ -1601,7 +1601,7 @@
   􂂀    cat.circle
   􂂁    cat.circle.fill
   􂁿    cat.fill
-  􁑕    cedisign
+  􁑕    cedisign{{{
   􂈨    cedisign.arrow.trianglehead.counterclockwise.rotate.90
   􂔧    cedisign.bank.building
   􂔨    cedisign.bank.building.fill
@@ -1610,9 +1610,9 @@
   􂩀    cedisign.gauge.chart.lefthalf.righthalf
   􂩪    cedisign.gauge.chart.leftthird.topthird.rightthird
   􀘃    cedisign.square
-  􀘄    cedisign.square.fill
+  􀘄    cedisign.square.fill}}}
   􀭧    cellularbars
-  􁑀    centsign
+  􁑀    centsign{{{
   􂈓    centsign.arrow.trianglehead.counterclockwise.rotate.90
   􂓽    centsign.bank.building
   􂓾    centsign.bank.building.fill
@@ -1621,7 +1621,7 @@
   􂩁    centsign.gauge.chart.lefthalf.righthalf
   􂩫    centsign.gauge.chart.leftthird.topthird.rightthird
   􀗙    centsign.square
-  􀗚    centsign.square.fill
+  􀗚    centsign.square.fill}}}
   􁐶    chair
   􁐷    chair.fill
   􁐴    chair.lounge
@@ -1767,7 +1767,7 @@
   􂪏    chevron.up.right.dotted.2
   􀃾    chevron.up.square
   􀃿    chevron.up.square.fill
-  􁺑    chineseyuanrenminbisign
+  􁺑    chineseyuanrenminbisign{{{
   􂈳    chineseyuanrenminbisign.arrow.trianglehead.counterclockwise.rotate.90
   􂔽    chineseyuanrenminbisign.bank.building
   􂔾    chineseyuanrenminbisign.bank.building.fill
@@ -1776,7 +1776,7 @@
   􂩂    chineseyuanrenminbisign.gauge.chart.lefthalf.righthalf
   􂩬    chineseyuanrenminbisign.gauge.chart.leftthird.topthird.rightthird
   􀯥    chineseyuanrenminbisign.square
-  􀯦    chineseyuanrenminbisign.square.fill
+  􀯦    chineseyuanrenminbisign.square.fill}}}
   􀀀    circle
   􀠌    circle.and.line.horizontal
   􀞍    circle.and.line.horizontal.fill
@@ -2220,7 +2220,7 @@
   􂩰    dongsign.gauge.chart.leftthird.topthird.rightthird
   􀗩    dongsign.square
   􀗪    dongsign.square.fill}}}
-  􁏧    door.french.closed
+  􁏧    door.french.closed{{{
   􁏦    door.french.open
   􁏡    door.garage.closed
   􁘡    door.garage.closed.trianglebadge.exclamationmark
@@ -2237,7 +2237,7 @@
   􁏟    door.sliding.left.hand.closed
   􁏞    door.sliding.left.hand.open
   􁏫    door.sliding.right.hand.closed
-  􁏪    door.sliding.right.hand.open
+  􁏪    door.sliding.right.hand.open}}}
   􀝯    dot.arrowtriangles.up.right.down.left.circle
   􀫍    dot.circle.and.cursorarrow
   􀺪    dot.circle.and.hand.point.up.left.fill
@@ -2985,7 +2985,7 @@
   􀩫    forward.frame.fill
   􁕔    fossil.shell
   􁕕    fossil.shell.fill
-  􁑃    francsign
+  􁑃    francsign {{{
   􂈖    francsign.arrow.trianglehead.counterclockwise.rotate.90
   􂔃    francsign.bank.building
   􂔄    francsign.bank.building.fill
@@ -2994,7 +2994,7 @@
   􂩊    francsign.gauge.chart.lefthalf.righthalf
   􂩴    francsign.gauge.chart.leftthird.topthird.rightthird
   􀗟    francsign.square
-  􀗠    francsign.square.fill
+  􀗠    francsign.square.fill}}}
   􁐅    frying.pan
   􁐆    frying.pan.fill
   􀵞    fuelpump{{{
@@ -6198,5 +6198,5 @@
   􀨞    zr.button.roundedtop.horizontal.fill
   􀖃    zzz
 
-" vim:nolist:nowrap:colorcolumn=1,6,7:foldmethod=marker:foldlevel=0
+" vim:nolist:nowrap:readonly:colorcolumn=1,6,7:foldmethod=marker:foldlevel=0
 

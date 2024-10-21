@@ -1,7 +1,7 @@
 
 syn match markdownEscape "\\\~"
 
-syn match markdownLineBreak " \{2,\}$" conceal cchar=⏎⃞
+syn match markdownLineBreak " \{2,\}$" conceal cchar=⏎️
 
 
 " syn region mdEscapedItalicText start="\\\*\zs\S\@=" end="\S\ze\@<=\\\*\|^$" oneline contained contains=mdEscapedItalicDelimiter,markdownLineStart,@Spell

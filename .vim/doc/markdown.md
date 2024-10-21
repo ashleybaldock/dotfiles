@@ -49,7 +49,7 @@ Paragraph the first. ⏎⏎
 Paragraph the second. ⏎
 Second continued... ⏎⏎ Two newlines start a paragraph
 
-And a third one. ⏎
+And a third one. ⏎ ¶
 
 ## Quotes
 
@@ -59,25 +59,135 @@ And a third one. ⏎
 > > Nested quote of two
 > > lines
 >
-> -   A list
-> -   of things
+> - A list
+> - of things
 >
 > Last paragraph
 
 ```
            ╻
-           ∇
-⎛ This is a quote       ⎞
-⎢ with two lines        ⎟
-⎢                       ⎟
-⎢⎛ Nested quote of two ⎞⎟
-⎢⎝ lines               ⎠⎟
-⎢                       ⎟
-⎢                       ⎟
-⎢ • A list              ⎟
-⎢ • of things           ⎟
-⎢                       ⎟
-⎝ Last Paragraph        ⎠
+ ❛⃞  ❜⃞
+    ∇
+❛͛  ❜       ∇
+❝⃗ ❞⃖  ❢ ❣
+❝⃖ ❞⃗
+❝⃡ ❞⃡
+❝⃔ ❞⃕
+❝⃕ ❞⃔
+❝͡️ ❞⃩ ❝̿️ ❞̽ ❝͂ ❞̚ ❝͠ ❞⃜ ❝⃛ ❞̈️ ❝̆ ❞̑
+❝̊ ❞͢ ❝͍ ❞͎ ❝͔ ❞͕ ❝̭ ❞̬ ❝̪ ❞̺ ❝̻ ❝͜͡ ❞͜ ❞͡️ ❞͜͝
+
+❝̰️ ❞͟ ❝̲️ ❞̳️ ❝̱️ ❞̩️ ❝͈ ❞͉ ❝̫️ ❞̼️ ❝̤️ ❞⃨
+
+❝̟️ ❞̠️ ❝͓ ❞͇
+
+❞ͣ ❝ͨ ❞ͩ ❝ͤ ❞ͪ ❝ͥ ❞ᷜ ❝ͫ ❞ͦ ❝ͬ ❞ͭ ❝ͧ ❞ͮ ❝ͯ
+
+❝͙ ❞͚ ❝⃖⃗ ❞̳⃩  ❞ ❝̿️ ❞̿️ ❝̳️ ❞̳️ ❝̲️ ❞̲️ ❝̅️ ❞̅️
+
+❝ ❞ ❝ ❞ ❝ ❞ ❝ ❞ ❝ ❞
+
+ ❢⃝  ❣⃝     ¶⃣  ¶⃝  ¶̶⃝    ¶⃖️▷ ¶⃗️▶︎
+􀌮
+❛⃞ This is a quote
+⎞▏ with two lines
+❞️▏⎥
+⎥▏ ⎛ Nested quote of two
+⎥▏ ⎝ lines
+⎥▏
+❝️▏
+⎥▏• A list
+⎥▏• of things
+⎥▏
+❞⃞ Last Paragraph
+
+ ⎛ ⎧ ⎫ ⎤
+[] [ ] []
+ ⎜ ⎪ ⎪ ⎥
+ ⎪ ] [ ⎪
+ ⎜ ⎪ ⎪ ⎥
+ ⦗ ⦗ ⦘ ⦘
+ ⎜ ⎪ ⎪ ⎥   ⎡    ⎫
+   ⁆ ⁅     ⸤    ⸥
+ 》》》》  ⸢⸡⸠⸡⸠⸣
+ ⎜ ⎪ ⎪ ⎥   ⸠⸣⸤⸥⸢⸡
+ ❲ ❲ ❳ ❳   ⸡⸤⸣⸢⸤⸠﹂
+ ⎜ ⎪ ⎪ ⎥
+ ⎜ ⎨ ⎬ ⎥⎟
+〔     〕     ❝̿️
+              ⎡
+ ⎜     ⎥
+ 〕   〔   ⸦⁐ ⸦‿ ⸦⁀ ⸧⁐ ⸧‿ ⸧⁀
+ ⎜
+      ⬛︎ ⬜︎ ◼︎ ◻︎ ▪︎ ▫︎ ■ ◻︎
+      ⬛ ⬜︎️ ◼︎️ ◻︎️ ▪︎️ ▫︎️ ■️◻︎️
+◢     ▛▜ ▛️▜️  ▞▚▝ ▘ ▖▖▗
+❝️     ▙▟ ▙️▟️  ▚▞▗ ▖ ▘▘▝
+◢     ▛ ▜ ▛️ ▜️  ▞ ▚ ▘▝ ▖▖▗
+❝️     ▙ ▟ ▙️ ▟️  ▚ ▞ ▖▗ ▘▘▝
+◢ ◣    ▛ ▜  ▛️▐▜️  ▞️▚️ ▘️▝️ ▖️▖️▗️▗️▗️  ▖️▗️▖️▗️▖️
+◥ ◤ ❝️  ▙▬▟  ▙️▐▟️  ▚️▞️ ▖️▗️ ▘️▘️▝️▝️▝️  ▝️▘️▝️▘️▝️▘️
+◢️ ◣️    ▛❚▜ ▛️▘▝▜️ ▐ ◤️◥️◤️◥️  ▞️▚️ ▝️▘️ ▖️▖️▖️▖️▖️▗️▗️▗️▗️▖️▗️▖️▖️ ▖️▖️
+◥️ ◤️ ❝️  ▙❚▟ ▙️▖▗▟️ ▐  ◣️◢️   ▚️▞️ ▗️▖️ ▘️▘️▘️▘️▘️▝️▝️▝️▝️▘️▝️▘️▘️ ▘️▘️
+ ▌️     ▀▁ ▂ ▃ ▄ ▅ ▆ ▇ █ ▉ ▊ ▋ ▌ ▍ ▎ ▏▕▐ ░ ▒ ▓ ▰ ▱ ◭◮ ◿◺◹◸
+ ▌️     ▀️▁️ ▂️ ▃️ ▄️ ▅️ ▆️ ▇️ █️ ▉️ ▊️ ▋️ ▌️ ▍️ ▎️ ▏️▕️▐️ ░️░▒️▓▓️ ▰️ ▱️ ◭️◮️ ️◿️◺️◹️◸️
+ ▌️     ◐️ ◑️ ◒️ ◓️  ◔ ◕ ◴ ◵ ◶ ◷ ❍ ◍
+        ◇ ◊ ► ◄ ▸ ◂ ▼ ▲ ▾ ▴
+        ◇️ ◊️ ►️ ◄️ ▸️ ◂️ ▼️ ▲️ ▾️ ▴️
+ ▌️     ◐️ ◑️ ◒️ ◓️  ◔️ ◕️ ◴️ ◵️ ◶️ ◷️ ❍️ ◍️
+ ❞⃞     ● ○ ◯ ◦ ⦿ ◉ ◎ ◌ ◍ ◜◝◠◡◜
+                         ◟◞◠◡
+ ❞⃞     ●️ ○️ ◯️ ◦️ ⦿️ ◉️ ◎️ ◌️ ◍️ ◜️◝️◠️◡️◜️
+                         ◟️◞️◠️◡️
+       ◚ ◛ ◙ ▤ ▥ ▦ ▧ ▨ ▩ ❖ ◈
+       ◚️ ◛️ ◙️ ▤️ ▥️ ▦️ ▧️ ▨️ ▩️ ❖️ ◈️
+       ◧ ◨ ◩ ◪ ◫ ◰ ◱ ◲ ◳  ❏ ❐ ❑ ❒
+       ◧️ ◨️ ◩️ ◪️ ◫️ ◰️ ◱️ ◲️ ◳️  ❏️ ❐️ ❑️ ❒️
+       ◧️ ◨️ ◩️ ◪️ ◫️ ◰️ ◱️ ◲️ ◳️  ❏️ ❐️ ❑️ ❒️
+ ▌️
+ ▌️
+▍️▍️
+▍️️▍️
+▍️▍️
+▜▬
+▬▐
+▐
+▐
+❞⃞
+▐▬◤
+▐
+▐
+
+⎣ ⎦
+⎡❞̿️⎤
+      ⎣
+❝̳️ ❝̲️ ❞̲️ ❝̅️ ⎧❞̅️
+▛ This is a quote
+▌ with two lines
+▌
+║║ Nested quote of two
+║║ lines
+║
+║
+║ • A list
+║ • of things
+║
+║ Last Paragraph
+║
+╚
+⎡
+⎡    ⎞
+⎣⎦    ⎟
+⎡⎟    ⎟
+⎜⎡⎤    ⎞⎟ ⎧        ⎧
+⎡⎣⎟     ⎠⎟ ⎪        ⎪
+ ⎞⎤    ⎟ ⎪        ⎪
+ ⎥⎟  ⎟ ⎭        ⎭
+ ⎥⎡ ⎧⎫  ⎞ ⎣   ⎟
+ ⎥⎜  ⎟
+⎦⎡⎝ ⎟
+    ⎠
+
 ```
 
 ## Comments
@@ -97,7 +207,7 @@ And a third one. ⏎
 
 ## Code Blocks
 
-Inline code:  
+Inline code:
 \`let a = 'hello world';\` `let a = 'hello world';`
 \`\`let a = \`hello world\`;\`\` ``let a = `hello world`;``
 
@@ -110,8 +220,6 @@ inline code █`let a = hello world;`█ like this
 inline code ▉`let a = hello world;`█ like this
 inline code ▊`◊let a = hello world;◊` like this
 inline code ▋`let a = hello world;` like this
-
-inline code ◢`〗let a = hello world;`◤ like this
 
 inline code `░let a = hello world;░` like this
 inline code `✱let a = hello world;◉` like this
@@ -136,11 +244,11 @@ inline code ▎`›let a = hello world;‹`▕ like this
 
 ❯❯let a = 'hello world';❮
 
--   backticks: let a = `hello world`;╱
+- backticks: let a = `hello world`;╱
 
 ```javascript
-let a = () => 'hello world'
-console.log(a())
+let a = () => 'hello world';
+console.log(a());
 ```
 
 json / jsonc / [js|javascript|node] / [ts|typescript]
@@ -181,10 +289,10 @@ Ordered Elements
 
 Nested
 
--   α ∙ α
-    -   β ╺━▶︎ ▫︎ β
-        -   γ ▪︎ γ
-    -   δ ▫︎ δ
+- α ∙ α
+  - β ╺━▶︎ ▫︎ β
+    - γ ▪︎ γ
+  - δ ▫︎ δ
 
 ```
 ⎧ Align ⎫ ⏐+⏐α⏐ 10. Tenth ⒑ Tenth
@@ -195,9 +303,9 @@ Nested
 
 ## Task Lists
 
--   [x] Task to be undone
--   [ ] Task to be done
--   [ ] \(Optional) Task starting with bracket
+- [x] Task to be undone
+- [ ] Task to be done
+- [ ] \\\(Optional) Task starting with bracket
 
 ## Tables
 

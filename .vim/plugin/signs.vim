@@ -4,7 +4,7 @@ endif
 let g:mayhem_loaded_signs = 1
 
 
-let s:prefix = 'sign_of_mayhem_'
+let s:prefix = 'mayhem_'
 let s:group = 'signs_of_mayhem'
 
 "     \ {'name': '',
@@ -28,38 +28,70 @@ let s:diagsigns = [
       \]
 
 function! s:PlaceSign()
-  "  numhl  texthl     linehl (or culhl if cursor on line)
-  "  ╭─↓─╮ | ╭↓╮ | ╭────────────────↓─────────────────────────╮                  
-  "   123  |  ⚑  |  A Line of the sig̲ns
-  "  ╰───╯   ╰↑╯   ╰──────────────────────────────────────────╯
-  "     sign/text     hlt: texthl; hll: linehl; hlc: curhl;
-  "
-  " ✘+
-  "
+" ┃ numhl  texthl  linehl (or culhl if cursor on line)
+" ┃ ╭─↓─╮ ╭↓╮ | ╭────────────────↓──────────────────╮   
+" ┃+✘        █
+" ┃ ⚑ 123  █A Line of the sig̲ns
+" ┃╰↑╰───╯ █   ╰───────────────────────────────────╯
+" ┃  ▏️    ▏️▕️
+" ┃  ▏️    ▏️▕️
+" ┃  ▏️    ▏️▕️
+" ┃  ▏️    ▏️▕️
+" ┃  ▏️991 ▏️▕️
+" ┃  ▏️992 ▏️▕️
+" ┃  ▏️    ▏️▕️
+" ┃􀰫1123  █A Line of the sig̲ns
+" ┃1234567      sign/text  hlt: texthl; hll: linehl; hlc: curhl;
+" ┃􀅃
+" ┃􀑂
+" ┃􀬚
+" ┃􀓜
+" ┃  
+" ┃􀌼
+" ┃􀌸
+" ┃􀌨
+
+
   let aSign = sign_define(s:prefix..'testsign', { 
         \ 'text': '✘+',
-        \ 'linehl': '', 
+        \ 'linehl': 'TestHint5', 
         \ 'numhl': '', 
         \ 'texthl': '',
         \ 'culhl': '',
         \})
-  let signid = sign_place(0, s:group, s:prefix..'testsign', bufnr(), { 'lnum': 20 }) 
+  let signid = sign_place(0, s:group, s:prefix..'testsign', bufnr(), { 'lnum': line('.') }) 
   return signid
 endfunc
 
 command! TestSign echo <SID>PlaceSign()
 
 
-function! s:CodeBlockBackground()
-  let aSign = sign_define(s:prefix..'testsign', { 
-        \ 'text': ' }',
+" 
+"┏ {…}  javascript
+"┃
+"┃ let a = () => 'hello world' 
+"┃ console.log(a())            
+"╹────────────────────────────────
+function! CodeBlockBackground()
+  let multisign = { 's':' ⎛', 'm':' ⎢', 'e':' ⎝', 't': '' }
+  let aSign = sign_define(s:prefix..'codeblockstart', { 
+        \ 'text': ' ╭',
         \ 'linehl': 'markdownHighlight_sh', 
-        \ 'numhl': '', 
-        \ 'texthl': '',
-        \ 'culhl': '',
+        \ 'culhl': 'markdownHighlight_sh',
         \})
-  let signid = sign_place(0, s:group, s:prefix..'codeblockbackground', bufnr(), { 'lnum': 20 }) 
-  return signid
+  let aSign = sign_define(s:prefix..'codeblockmid', { 
+        \ 'text': ' │',
+        \ 'linehl': 'markdownHighlight_sh', 
+        \})
+  let aSign = sign_define(s:prefix..'codeblockend', { 
+        \ 'text': ' ╰',
+        \ 'linehl': 'markdownHighlight_sh', 
+        \})
+  let signid1 = sign_place(0, s:group, s:prefix..'codeblockstart', bufnr(), { 'lnum': line('.') }) 
+  let signid2 = sign_place(0, s:group, s:prefix..'codeblockmid', bufnr(), { 'lnum': line('.') + 1 }) 
+  let signid3 = sign_place(0, s:group, s:prefix..'codeblockmid', bufnr(), { 'lnum': line('.') + 2 }) 
+  let signid4 = sign_place(0, s:group, s:prefix..'codeblockend', bufnr(), { 'lnum': line('.') + 3 }) 
+  return signid1
 endfunc
 
 command! CodeLine echo <SID>CodeBlockLine()
@@ -68,7 +100,86 @@ command! CodeLine echo <SID>CodeBlockLine()
 " TODO place signs showing if there are more above/below current window
 " position
 
+"
+" group:
+"  '*' = all groups
+"  ''  = global group only  
+"
+function! s:ListSignsInCurrentBuffer()
+  return sign_getplaced(bufnr(), { 'group': '*'})
+endfunc
+function! s:ListSignsOfMayhemInCurrentBuffer()
+  return sign_getplaced(bufnr(), { 'group': a:group })
+endfunc
 
+function! s:ListSignsInCurrentLine()
+  return sign_getplaced(bufnr(), { 'lnum': line('.'), 'group': '*'})
+endfunc
+function! s:ListSignsOfMayhemInCurrentLine()
+  return sign_getplaced(bufnr(), { 'lnum': line('.'), 'group': a:group })
+endfunc
+
+command! AllSignsInThisLine echo <SID>ListSignsInCurrentLine()
+command! AllSignsInThisBuffer echo <SID>ListSignsInCurrentBuffer()
+command! OurSignsInThisLine echo <SID>ListSignsOfMayhemInCurrentLine()
+command! OurSignsInThisBuffer echo <SID>ListSignsOfMayhemInCurrentBuffer()
+
+"
+"  prop_type_add/prop_type_change
+" bufnr      : buffer local
+" highlight  : hlgroup
+" priority   : highest wins, def. 0
+" combine    : with syntax, def true
+" override   : anything else
+" start_incl : inserts @ start included
+" end_incl   : inserts @ end included
+"
+"  prop_type_delete/prop_type_change
+
+function! AddTestTextPropType()
+  return prop_type_add(s:prefix .. '', {
+        \ 'bufnr': ,
+        \ 'highlight': ,
+        \ 'priority': ,
+        \ 'combine': ,
+        \ 'override': ,
+        \ 'start_incl': ,
+        \ 'end_incl': 
+        \ })
+endfunc
+
+
+
+function! s:ListTextPropsInCurrentBuffer()
+  return prop_list(1, {
+        \ 'bufnr': bufnr(),
+        \ 'end_lnum': -1,
+        \ })
+endfunc
+
+function! s:ListTextPropsInCurrentLine()
+  return prop_list(line('.'), {
+        \ 'bufnr': bufnr(),
+        \ 'end_lnum': line('.'),
+        \ })
+endfunc
+
+function! s:ListTextsOfMayhemInCurrentBuffer()
+  return prop_list(1, {
+        \ 'bufnr': bufnr(),
+        \ 'end_lnum': -1,
+        \ 'types': [],
+        \ 'ids': [] 
+        \ })
+endfunc
+function! s:ListTextsOfMayhemInCurrentLine()
+  return prop_list(line('.'), {
+        \ 'bufnr': bufnr(),
+        \ 'end_lnum': line('.'),
+        \ 'types': [],
+        \ 'ids': [] 
+        \ })
+endfunc
 
 
 

@@ -12,45 +12,44 @@ let g:mayhem_loaded_shortcuts = 1
 " 
 " Key Mappings:
 "
+" See Also: ./mouse.vim
+"
 " (commands/functions are defined elsewhere)
 "
-"  Option: ⌥⃝  
-"            ‣ bound as resulting unicode character
-"               e.g. (option + 5) ⌥⃝ 𝄐5⃝  ──▷ ∞
-"                :map ∞ <Nop>
+"  Option: ⌥️   (<M-x> or <A-x>)
+"  ‣ bound as resulting unicode character e.g.
+"  (option + 5)           ⌥️ 5 ──▷ ∞     :map ∞ <Nop>
+"  (option + shift + 5) ⌥️ ⇧️ 5 ──▷ ﬁ     :map ﬁ <Nop>
 "
-" Command: ⌘⃝   (<D-x>)
-"            ‣ case-sensitive
-"               e.g. <D-e> != <D-E> 
-"            ‣ must first be un-mapped in ../gvimrc
-"               before being redefined
+" Command: ⌘️   (<D-x>)
+"  ‣ case-sensitive in mapping definition e.g. <D-e> != <D-E> 
+"  ‣ must be un-mapped in ../gvimrc before being redefined
 "
 
-" ╭──▷ ⌘⃝ 𝄐E⃝  ────▷ LH Enter
+" ▌️ ⌘️ E ▐️────▷ LH Enter
 cnoremap <D-e> <CR>
 nnoremap <D-e> <CR>
 inoremap <D-e> <CR>
 xnoremap <D-e> <CR>
 
-" ╭──▷ ⌥⃝ 𝄐1⃝  ────▷ Start a command 
+" ▌️ ⌥️ 1 ▐️────▷ Start a command 
 nnoremap ¡ :
 
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐1⃝  ──▷ Start a shell command 
+" ▌️⌥️ ⇧️ 1▐️────▷ Start a shell command 
 nnoremap ⁄ :!
 
-" ╭──▷ ⌥⃝ 𝄐A⃝  ────▷ Jump forward (^O)
+" ▌️ ⌥️ A️ ▐️────▷ Jump forward (^O)
 nnoremap å           <C-o>
 nnoremap <leader>o   <C-o>
 
-" ╭──▷ ⌥⃝ 𝄐S⃝  ────▷ Jump backward (^I/<Tab>)
+" ▌️ ⌥️ S️ ▐️────▷ Jump backward (^I/<Tab>)
 nnoremap ß           <C-i>
 nnoremap <leader>i   <C-i>
 
 
 
 "
-" Change: 
-"   Character: (under cursor)
+" Combining: 
 "
 " ╭─▷    ⌥⃝ 𝄐0⃝  ──────────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝ 
 nnoremap º a⃝ <Esc>h<Cmd>RepeatMove<CR>
@@ -58,18 +57,20 @@ xnoremap º :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR
 "
 " ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐0⃝  ──────────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞ 
 nnoremap ‚ a⃞ <Esc>h<Cmd>RepeatMove<CR>
+xnoremap ‚ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<CR> 
 "
 " ╭─▷    ⌥⃝ 𝄐-⃝  ──────────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲
 nnoremap – a̲<Esc><Cmd>RepeatMove<CR>
 "
 " ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐-⃝  ──────────▷ O̅v̅e̅r̅l̅i̅n̅e̅
 nnoremap — a̅<Esc><Cmd>RepeatMove<CR>
+" nnoremap <plug> a꛱<Esc><Cmd>RepeatMove<CR>
+" nnoremap <plug> a꛰<Esc><Cmd>RepeatMove<CR>
 "
-" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐=⃝  ──────────▷ O꛰v꛰e꛰r꛰l꛰i꛰n꛰꛰꛰e
-nnoremap ≠ a꛱<Esc><Cmd>RepeatMove<CR>
-"
-" ╭─▷    ⌥⃝ 𝄐=⃝  ──────────▷ O꛱v꛱e꛱r꛱l꛱i꛱n꛱e
-nnoremap ± a꛰<Esc><Cmd>RepeatMove<CR>
+" ╭─▷    ⌥⃝ 𝄐=⃝  ──────────▷ V️ariation Selector 16
+nnoremap ≠ a️<Esc><Cmd>RepeatMove<CR>
+" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐=⃝  ──────────▷ Variation Selector 15
+nnoremap ± a︎<Esc><Cmd>RepeatMove<CR>
 
 " ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐E⃝  ──────────▷ Replace with last yanked
 nnoremap ‰ s<c-r>0<Esc><Cmd>RepeatMove<CR>
@@ -86,67 +87,87 @@ nnoremap ˙ :call search('\S', 'bW', line('.'))<CR>
 "  Word: (Under Cursor)
 "
 "
-"  Edit: §e       ╭╌╌╌╌╌╸Quick Bookmarks╺╌╌╌╌╌╮
-" ╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╎
-" ╎           Default              ┊  Rebind  ╎
-" ╎╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╌╌╎
-" ╎ §e1 ┊  $HOME/projects/         ┊   §E1    ╎
-" ╎ §e2 ┊  $HOME/.vim/             ┊   §E2    ╎
-" ╎ §e3 ┊  $HOME/.vim/plugin/      ┊   §E3    ╎
-" ╎ §e4 ┊  $HOME/                  ┊   §E4    ╎
-" ╎ §e5 ┊  $HOME/                  ┊   §E5    ╎
-" ╎╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╎
-" ╎         §e§ :  Select from PUM            ╎
-" ╎╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╎
-" ╎  :e! ─╮ ┊    Open ..         ┊   in ..    ╎
-" ╎╌╌╌╌╌╌╌∇╌╎╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╌╌╌╌╎
-" ╎ §ew $eW ┊ ./<select>         ┊    same    ╎
-" ╎ §er §eR ┊ current file       ┊    same    ╎
-" ╎ §ed §eD ┊ ./ (DIR)           ┊    same    ╎
-" ╎ §ec §eC ┊ <new|blank>        ┊    same    ╎
-" ╎╴ ╴ ╴ ╴ ╴┆╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ┆ ╴ ╴ ╴ ╴ ╴ ╴╎
-" ╎  §evv   ┊ <new> derived¹     ┊   vsplit   ╎
-" ╎  §evc   ┊ <new> blank        ┊   vsplit   ╎
-" ╎  §es  ┊ <new> clipboard    ┊   vsplit   ╎
-" ╎  §esx   ┊ <pick> template    ┊   vsplit   ╎
-" ╎  §evw   ┊ <pick> file in ./  ┊   vsplit   ╎
-" ╎  §evd   ┊ ./ (DIR)           ┊   vsplit   ╎
-" ╎  §evr   ┊ current file       ┊   vsplit   ╎
-" ╎╴ ╴ ╴ ╴ ╴┆╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ┆ ╴ ╴ ╴ ╴ ╴ ╴╎
-" ╎  §esv   ┊ <new> derived¹     ┊    split   ╎
-" ╎  §esc   ┊ <new> blank        ┊    split   ╎
-" ╎  §es  ┊ <new> clipboard    ┊    split   ╎
-" ╎  §esx   ┊ <pick> template    ┊    split   ╎
-" ╎  §esw   ┊ <pick> file in ./  ┊    split   ╎
-" ╎  §evd   ┊ ./ (DIR)           ┊    split   ╎
-" ╎  §esr   ┊ current file       ┊    split   ╎
-" ╎╴ ╴ ╴ ╴ ╴┆╴ ╴ ╴ ╴ ╴ ╴ ╌╭╌╌╌╌╌╌╯ ╴ ╴ ╴ ╴ ╴ ╴╎
-" ╎ §ee     ┊ ./<select>  ┊  existing² or     ╎
-" ╎ §eE     ┊ ./<select>  ┊  same or split³   ╎
-" ╎╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
-" ╎²⃝︎  §ee ⇉ ╶─?⃞╶┮[ if file is open already ]  ╎
-" ╎           ∇ └─▷ jump to existing window   ╎
-" ╎³⃝  §eE ⇉ ╶─?⃞╶┮[ if window can be reused ]  ╎
-" ╎          ┆ └─▷ replace current            ╎
-" ╎          ╰─▷ open in split                ╎
-" ╎ Notes:                                    ╎
-" ╎                                           ╎
-" ╎¹⃝  derived: blank, same filetype           ╎
-" ╵╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╵
+"  Edit: §e       ╭╌╌╌╌╌╸Quick Bookmarks╺╌╌╌╌╮
+" ╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╎
+" ╎           Default               ┊ Rebind ╎
+" ╎╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╎
+" ╎  §e1   ┊  $HOME/projects/       ┊  §E1   ╎
+" ╎  §e2   ┊  $HOME/.vim/           ┊  §E2   ╎
+" ╎  §e3   ┊  $HOME/.vim/plugin/    ┊  §E3   ╎
+" ╎  §e4   ┊  $HOME/                ┊  §E4   ╎
+" ╎  §e5   ┊  $HOME/                ┊  §E5   ╎
+" ╎╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╎
+" ╎         §e§ :  Select from PUM           ╎
+" ╎╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╎
+" ╎  :e    ┊    Open ..             ┊  :e!   ╎
+" ╎╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╎
+" ╎  §ew   ┊  ./<select>            ┊  $eW   ╎
+" ╎  §er   ┊  % (current,saved)     ┊  §eR   ╎
+" ╎  §ed   ┊  ./ (DIR)              ┊  §eD   ╎
+" ╎  §ec   ┊  <new|blank>           ┊  §eC   ╎
+" ╎╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╎
+" ╎ vsplit                             split ┆
+" ╎╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╎
+" ╎  §evv  ┊      same buffer       ┊  §ess  ╎
+" ╎  §eva  ┊        derived¹        ┊  §esv  ╎
+" ╎  §evc  ┊         blank          ┊  §esc  ╎
+" ╎  §evz  ┊       clipboard        ┊  §esz  ╎
+" ╎  §evx  ┊    <pick> template     ┊  §esx  ╎
+" ╎  §evw  ┊   <pick> file in ./    ┊  §esw  ╎
+" ╎  §evd  ┊     <list dir> ./      ┊  §evd  ╎
+" ╎  §evr  ┊       % saved          ┊  §esr  ╎
+" ╎╴ ╴ ╴ ╴ ┆╴╴╴ ╴ ╴ ╴ ╴ ╴ ╌╭╌╌╌╌╌╌╌╌╯        ╎
+" ╎  §ee   ┊   ./<select>  ┊  existing² or   ╎
+" ╎  §eE   ┊   ./<select>  ┊  same or split³ ╎
+" ╎╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
+" ╎²⃝︎  §ee ⇉ ╶─?⃞╶┮[ if file is open already ] ╎
+" ╎           ∇ └─▷ jump to existing window  ╎
+" ╎³⃝  §eE ⇉ ╶─?⃞╶┮[ if window can be reused ] ╎
+" ╎          ┆ └─▷ replace current           ╎
+" ╎          ╰─▷ open in split               ╎
+" ╎ Notes:                                   ╎
+" ╎                                          ╎
+" ╎¹⃝  derived: blank, same filetype          ╎
+" ╵╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╵
 nnoremap §ee :e 
+nnoremap §eE :e 
+nnoremap §e§ :e ~/.vim/
+
 nnoremap §ew :e ./
 nnoremap §eW :e! ./
-nnoremap §es :sp ./
-nnoremap §eS :sp! ./
-nnoremap §ev :vsp ./
-nnoremap §eV :vsp! ./
+
 nnoremap §er :e %<CR>
 nnoremap §eR :e! %<CR>
+
 nnoremap §ed :e .<CR>
 nnoremap §eD :e .<CR>
+
 nnoremap §ec :enew<CR>
 nnoremap §eC :enew!<CR>
-nnoremap §e§ :e ~/.vim/
+
+" Horizontal
+nnoremap §ess :sp<CR>
+nnoremap §eS :sp! ./
+nnoremap §esa :exec ':new +setlocal\ ft='..&l:filetype
+nnoremap §esc :new<CR>
+nnoremap §esz <C-W>v"+gP
+nnoremap §esx :InsertTemplate 
+nnoremap §esw :sp ./
+nnoremap §esd :sp .<CR>
+nnoremap §esr :sp %<CR>
+
+" Vertical
+nnoremap §evv :vsp<CR>
+nnoremap §eV :vsp! ./
+nnoremap §eva :exec ':vnew +setlocal\ ft='..&l:filetype
+nnoremap §evc :vnew<CR>
+nnoremap §evz <C-W>v"+gP
+nnoremap §evx :InsertTemplate 
+nnoremap §evw :vsp ./
+nnoremap §evd :vsp .<CR>
+nnoremap §evr :vsp %<CR>
+
+
 nnoremap <expr> §e1 ':e '..get(g:, 'mayhem_quick1', '~/projects/')..''
 nnoremap <expr> §e2 ':e '..get(g:, 'mayhem_quick2', '~/.vim/')..''
 nnoremap <expr> §e3 ':e '..get(g:, 'mayhem_quick3', '~/.vim/plugin/')..''
@@ -273,11 +294,6 @@ xnoremap <expr> å  mode() ==# "\x16" ? "MoveBlockLeft" : "echo Try with ^V"
 xnoremap <expr> ∂  mode() ==# "\x16" ? "MoveBlockRight" : "echo Try with ^V"
 
 
-" Mouse Mappings:
-"
-nnoremap <M-LeftMouse> VirtualEditOnClick
-
-
 "
 " Line Drawing                                    TODO
 "
@@ -285,6 +301,9 @@ nnoremap <M-LeftMouse> VirtualEditOnClick
 " - Draw a box around visual block selection
 "
 
+"
+" Source: §r
+"
 " nnoremap §rf :if &filetype=='vim' && $HOME . '/.vim/ :so<CR>
 " Source current saved file
 nnoremap §rf :UnsetAndReload<CR>
@@ -311,6 +330,7 @@ vmap §<space> "xy:@x<CR>
 " Remove blank lines
 " :g/^$/d
 
+
 "
 " Columns:
 "
@@ -332,9 +352,11 @@ vmap §<space> "xy:@x<CR>
 nnoremap §p call FormatBuffer()<CR>
 " nnoremap §p %!npx prettier --stdin-filepath shellescape(expand('%'))<CR>
 
-"  §f  - Formatting
-" CSS
-" See: ./css.vim
+" 
+" Formatting: §f §p
+"
+" CSS:
+" See also: ./css.vim
 "
 " Hex codes
 " §fH ⇉  To UPPERCASE
@@ -358,36 +380,37 @@ nnoremap §fX :ExpandHex
 nnoremap <C-g><C-s> :OpenCSS<CR>
 
 
-
-" Y: Copy/Yank
-" §y,<⌥⃣ ‑c>
+"
+" Copy And Yank: §y,<⌥⃣ ‑c>
+"
 "
 nnoremap §y <Nop>
 " <⌥⃣ ‑c> ▬▶︎ ç
 nnoremap <silent> ç <Nop>
 
 
-
-" Quickfix
+"
+" Quickfix:
+"
 nnoremap §q :windo lcl\|ccl<CR>
-
+"
 nmap <silent> <leader>q <Plug>(qf_qf_toggle_stay)
 nmap <silent> <leader>l <Plug>(qf_loc_toggle)
-
+"
 "
 nnoremap <leader>e   :Explore<CR>
 nnoremap <leader>es  :Sexplore<CR>
 nnoremap <leader>ev  :Vexplore<CR>
-
+"
 "
 nnoremap <leader>t   :set guifont=Menlo:h14<CR>
 nnoremap <leader>tt  :set guifont=Menlo:h16<CR>
 nnoremap <leader>ttt :set guifont=Menlo:h18<CR>
-
+"
 "
 nnoremap        §t   :set list!<CR>
 nnoremap <leader>L   :set list!<CR>
-
+"
 " Repeat last edit n times
 nnoremap . :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
 
@@ -396,6 +419,7 @@ nnoremap . :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
 
 "
 " Search:
+"
 "  Clear: last search highlighting
 nnoremap            §c :nohlsearch<CR>
 nnoremap <silent> <CR> :nohlsearch<CR><CR>
@@ -520,6 +544,7 @@ nnoremap ˚ :m -2,+<CR><S-j>
 " ╭──▷ ⇧⃝ 𝄐⌥⃝ 𝄐K⃝   ────▷ reverse of <S-K>
 nnoremap  i<CR><Esc>:m -2<CR>j$
 
+"
 " Visual Mode:
 "
 " move to next displayed line in 
@@ -550,14 +575,10 @@ xnoremap <expr> a  mode() ==# "\x16" ? "A" : "a"
 xnoremap <expr> x  mode() ==# "\x16" ? "y<ESC>gvr<Space>" : "x"
 xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
  
-" Option Left Click On Focused Window:
-"  i⁺₊﹢＋rts visual block selection from click location
-"     (as if virtualedit=all)
-"
-nnoremap <expr> <M-LeftMouse> getmousepos().winid==win_getid() ? '<Cmd>StartVisualBlockToClick<CR>' : '<Cmd>StartVisualBlockFromClick<CR>'
-" nnoremap <M-LeftMouse> :StartVisualBlockFromClick<CR>
 
-" Diff:
+
+"
+" Diff: §d
 "
 nnoremap §dd :diffthis<CR>
 nnoremap §de :diffget<CR>
@@ -565,25 +586,11 @@ nnoremap §dt :diffput<CR>
 nnoremap §dx :diffoff<CR>
 nnoremap §dr :diffupdate<CR>
 nnoremap §df :DiffWithSaved<CR>
+
+
 "
-" GitGutter:
-" 
-" nmap ]c <Plug>GitGutterNextHunk
-" nmap [c <Plug>GitGutterPrevHunk
-" nmap <Leader>ha <Plug>GitGutterStageHunk
-" nmap <Leader>hu <Plug>GitGutterUndoHunk
-" nmap <Leader>hv <Plug>GitGutterPreviewHunk
-" omap ih <Plug>GitGutterTextObjectInnerPending
-" omap ah <Plug>GitGutterTextObjectOuterPending
-" xmap ih <Plug>GitGutterTextObjectInnerVisual
-" xmap ah <Plug>GitGutterTextObjectOuterVisual
-
-
-
-
-
-" === Coc ===
-
+" Coc:
+"
 " <⌥⃣ ‑r> ▬▶︎ ®
 " nmap <silent> ® <Plug>(coc-range-select)
 xmap <silent> ® <Plug>(coc-range-select)
@@ -688,19 +695,31 @@ nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
 nnoremap <silent> <leader>cx  :<C-u>CocList extensions<CR>
 
 
+" • Disable completion for buffer: |b:coc_suggest_disable|
+" • Disable specific sources for buffer: |b:coc_disabled_sources|
+" • Disable words for completion: |b:coc_suggest_blacklist|
+" • Add additional keyword characters: |b:coc_additional_keywords|
+" • |CocAction('codeActions')|
+" • |CocAction('organizeImport')|
+" • |CocAction('fixAll')|
+" • |CocAction('quickfixes')|
+" • |CocAction('doCodeAction')|
+" • |CocAction('doQuickfix')|
+" • |CocAction('codeActionRange')|
 
 
-  " • Disable completion for buffer: |b:coc_suggest_disable|
-  " • Disable specific sources for buffer: |b:coc_disabled_sources|
-  " • Disable words for completion: |b:coc_suggest_blacklist|
-  " • Add additional keyword characters: |b:coc_additional_keywords|
 
+"
+" GitGutter:
+" 
+" nmap ]c <Plug>GitGutterNextHunk
+" nmap [c <Plug>GitGutterPrevHunk
+" nmap <Leader>ha <Plug>GitGutterStageHunk
+" nmap <Leader>hu <Plug>GitGutterUndoHunk
+" nmap <Leader>hv <Plug>GitGutterPreviewHunk
+" omap ih <Plug>GitGutterTextObjectInnerPending
+" omap ah <Plug>GitGutterTextObjectOuterPending
+" xmap ih <Plug>GitGutterTextObjectInnerVisual
+" xmap ah <Plug>GitGutterTextObjectOuterVisual
 
-"   • |CocAction('codeActions')|
-"   • |CocAction('organizeImport')|
-"   • |CocAction('fixAll')|
-"   • |CocAction('quickfixes')|
-"   • |CocAction('doCodeAction')|
-"   • |CocAction('doQuickfix')|
-"   • |CocAction('codeActionRange')|
 

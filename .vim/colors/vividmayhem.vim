@@ -1,18 +1,40 @@
 "
-" 𐰟𐰞𐰟𐰞𐰖 𐰾𐰟𐰯𐰟𐰯 
-"  𐠠 𐠨𐠳𐠨𐠳ᗪ 𐌃
-" 𐌖𐌉𐌖𐌠𐌃 ᗞ               ╲𝐕𝓲𝐢𝐯  v╲/√𝓲∖         𝙑𝙞𝙫𝙞𝘿
-"    𐘠 𐝆  𐝇                                   𝙫𝙞𝙑𝜤𐠳𝙑𝛪𝘿
-"                ∇∨  𝑉𝐼𝑉𝐢𝐦𝐢𝐕𝐈𝐕𝑉 𝒱𝒾𝓋 𝒱𝓥𝓲𝓥𝒱  𝐯 ╲𝐕╱/𝓭   Mayhem
+" 𐰟𐰞𐰟𐰞𐰖 𐰾𐰟𐰯𐰟𐰯                      𐌡 𐌖𐌡𐌖 ╲𐌞 
+"  𐠠 𐠨𐠳𐠨𐠳ᗪ 𐌃               ╲ ╱╱╲╱╲ ╱╲╲  ╱  ╳𐌞
+" 𐌖𐌉𐌖𐌠𐌃 ᗞ             𝐕𝓲    𝐕╱𝓲𝐯𝓲𝐃╱  ╲╲╱ ╱  ╳𐌃 ╳ ╱  ╱ 𝓲    𝐯  v╲/√𝓲∖         𝙑𝙞𝙫𝙞𝘿
+"    𐘠 𐝆  𐝇             /   ╱    ╳    ╳ ╱  ╱             𝙫𝙞𝙑𝜤𐠳𝙑𝛪𝘿
+"                ∇∨  𝑉𝐼𝑉𝐢𝐦𝐢𝐕𝐈𝐕𝑉 𝒱𝒾𝓋 𝒱𝓥𝓲𝓥𝒱  𝐯𝐕╱/   Mayhem
+" 𝘝𝘐
+" 𝘝𝘐𝘋
 "
-"╲ ╲╱ ╱∆    ⋁⋁  ∨⧴ ⧵⧹𝑉 𝐕  V⧸∣⩔⩕⩗∆ ⨈         𝝼
-" ╲╱/╱/                    ╲ν\/ ╱𝓲╱𝓲𝐃  \ ∕        
-"      ⩗⩗⫐⧸                ╲∨╱×╲╱       Vivid  Mayhem
-"                  𝕍ⅈ𝕧ⅈⅅ              Mayhem
-"  Ⲽ Ⲷ ⲼⲶⲼⲶⲶⲼⲼⳆⳆⳆⲺⲴⲓⳞⳘⲠ     ᏙᏆᏤ ꭵᏤꮖᏙꮖ Ꮤ ꮖ  ꮩꮖꮩꮖꭰ
+"   ╲𝘝𝘐      𐌢               _ 
+"    ╳𝘝𝘐       𐌢    ╱╲╱╲╳╲╲╱╱̲╱̲╱̲ /𐰟\  ⃫ 
+"     ╳𝘋         𐌢   ╱   ╱╲╲╳╱╱╱ ╱    
+"      ╲  𝙑𝗗𝙫𝙞           𐌢          𝐕╱𝓲꛱𝐯𝓲𝓭     𝚅𝚒𝚟𝚒𝚍 𝓥𝓲𝓲𝓭 ╱𝓲𝓿╱𝓲  𝓋𝒾𝓋𝒾𝒹 𝒱ℐ𝒱ℐ𝒟𝒟
 "
-"  ꮞꮪᐝ ᐨᐧᐩᐪᗮVᐟᣔᐠᘁᐥᐦᐢᐡᐣᐤᙆᙇᕽᙾᙿ᐀᙮ ᙚᑉᑊᑋᑦᒃᒄᣖᒡᣕᒢᣗᒻᒼᒽᣘᒾᓑᓐᓒᣙᓪ
-"  ᓫᣞᣟᣜᣝ ᣛᙚᔆᔅᔇᔈ ᔥ ᔾᔿᕀᕁᖟ ᖦ ᣳᣴᣵ
+"     ╲𝗩𝗂  ╱                   ╲𝙑𝙄  ╲ᐻꮖꭹꭺꮴ ᐥᓗ ᓯᓯᔿᕷ ᖙ  ᘁᢴᢴᗪ ᗞ  ᣔᣜᣟᣞᣳᒥᒣᒧᒋᒍ ᘁᐠᘁꭰꭵꭰꭲꮖꮴᐥᐟᑊᑊᒻᒽᘁ   ᐭ    𝙫𝙞  𝙑𝙄𝙫𝙞𝘿     
+"      ╲𝗩𝗂𝝙   𝗶𝗜                  ᐻ ᐎ         𝙑𝙄╲𝙑𝙄𝞓  𝙑𝙄𝙑𝙄𝘿      
+"      ╲𝗩𝗂𝝙   𝗶𝗜                  ᐻ ᐎ             ⲗλ   𐐺𐑋 ⱻ  ꮖ ⲓ𐐹  ⳇⳏ𐑁я𐑈𐐰 ʌ    ⲩ
+"       ╲╱       Ⅴ Ⅳ ⅦⅮ Ⅵ ⅵⅮ ⅶ Ⅾ ⅷ Ⅾⅼ  𐌡 Ⅵ Ⅳ Ⅵ   ⳅꮞꮾ  ꭺⲃ𐐽ꭰꭼ𐔥ɢꮋɪꭻⲕꮮꮇ𐔓𐐬ꮲ ꭱꮪꭲᴜꮩꮃ ᙮ʏꮓ
+"                                                𐐩  𐐬    ꮯꮳ ꮐꮹ  ꮵ 𐑍ꮕ  ꮢꭶꮥꮜꮣ   ꮍ
+"𝓥/𝓲𝓥/𝓲𝓭
+
+"          ╱╲     
+"    ╎    ╱╱̲╲╳ ╱̲ ╱╱̲ ╳╲    ╎    ╲𝐕╱𝓲/
+"    ┝━━╾╱╱  ╲╱ ╱╱ ╱ ╲╲╼━━┥     ╳𝐕i𝐃╳
+"    ╎        ╱ ╱  ̅╱         ╎      ╲ ╱
+"    ╎               v0.1.2 ╎          𐌡 
+"    ╰╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯            ╲╱╲/╱
+"                                                 /
+"       ╲        ╱__     
+"     ╲╱╲╳╲╲  ╱╱̲╱̲╱̲ ╱╲╱╲  
+"      ╲╱╲╲╲╲╱╱╱╱ ╱ ╱   
+"       ╲ ╲╲╱ ╱╱𝓲𝐯𝓲╱        
+"        ╲  ╲╱╱   ╱       
+"         ╲      ╱         
+"
+"
+"
 "
 "   Related:
 "   ./termayhem.vim          - Terminal colorscheme
@@ -21,6 +43,7 @@
 "            ╰─▷ ⎧ :HiHi     - inline highlight preview  ⎫
 "                ⎩ :SynStack - floating syntax info      ⎭
 "
+"  ../after/syntax/vim.vim   - Tweaks to highlighting
 "
 " Originally based on tpope's vividchalk
 " 
@@ -36,7 +59,7 @@ let g:colors_name = "vividmayhem"
 
 " These names have to be lower case
 call extend(v:colornames, {
-      \ 'yormalb': '#0f0f0f', 'yormalf': '#eeeeee',
+      \ 'yormalb': '#0f0f0f', 'yormalf': '#f2f2f2',
       \ 'ywreadb': '#090909',
       \ 'ywnormb': '#060606', 'ywnormf': '#dedede',
       \ 'ywhelpb': '#020922', 'ywhelpf': '#e5e5ff',
@@ -63,30 +86,31 @@ hi WinDiff        guifg=#555533 guibg=#111111 gui=italic
 
 "════════════════════════════════════════════════════════╡ Cursor
 "
-hi LineNr         guifg=#ddeeff guibg=#222222
-"hi LineNrAbove
-"hi LineNrBelow
+hi LineNr         guifg=#400060 guibg=#100020
+hi LineNrAbove    guifg=#6d008d guibg=#100020 gui=none
+hi LineNrBelow    guifg=#6d448d guibg=#101120 gui=none
 
 hi Cursor         guifg=#000000 guibg=#ffffff gui=none
 hi CursorLine     guifg=NONE    guibg=#1d002d
-"hi CursorLineNr  (w/ relativenumber)
-"hi CursorLineFold (in folds column)
-hi CursorLineSign guifg=NONE    guibg=#4d006d
+hi CursorLineNr   guifg=#dda4fd guibg=#400060 gui=none
+hi CursorLineFold guifg=#ff0066 guibg=#0d0020
+hi CursorLineSign guifg=NONE    guibg=NONE
 hi CursorColumn   guifg=NONE    guibg=#4d006d
 
 "CocCursorRange   " activated cursors ranges
 "CocLinkedEditing " activated linked editing ranges
-" CocSelectedRange       " range of outgoing calls
+" range of outgoing calls
+hi CocSelectedRange guibg=#00ffff
 hi CocHoverRange  guibg=#502a2a gui=none
 
 " Document Highlights:
 " Matching Symbols: in the buffer at cursor position
 " default symbol highlight
-hi CocHighlightText       guifg=#20aa70 gui=underline guisp=#cccc22
+hi CocHighlightText       guifg=NONE gui=none
 " Read kind of document symbol
-hi CocHighlightRead       guifg=#20aa70 gui=underline guisp=#22cc22
+hi CocHighlightRead       guifg=NONE gui=underline guisp=#22cc22
 " Write kind of document symbol
-hi CocHighlightWrite      guifg=#20aa70 gui=underline guisp=#cc0022
+hi CocHighlightWrite      guifg=NONE gui=underline guisp=#cc0022
 
 " CocLink                " document links
 
@@ -97,11 +121,16 @@ hi CocInlayHintParameter  guifg=#ff99ff guibg=ysignsb
 " type kind of inlay hint
 hi CocInlayHintType       guifg=#ff99bb guibg=ysignsb
 
+"
 "════════════════════════════════════════════════════════╡ Search
+"
 hi Search         guifg=NONE    guibg=#555555 gui=none
 hi IncSearch      guifg=#fefefe guibg=#000000         
 hi CurSearch      guifg=NONE    guibg=#444422 gui=reverse
 
+"
+"════════════════════════════════════════════════════════╡ Visual
+"
 hi Visual none | hi Visual     guibg=#2a2a50 gui=none
 
 hi ModeMsg        guifg=#f050a0 guibg=#440022 gui=italic
@@ -117,44 +146,50 @@ hi Title          guifg=#dd22dd
 
 hi WildMenu       guifg=#000000 guibg=#767fff gui=bold
 
-hi Directory none | hi link Directory Identifier
-
+"
 "════════════════════════════════════════════════════════╡ Invisible(ish)
-
+"
 " Replacements for concealed text
 hi Conceal        guifg=#7777a2 guibg=NONE            
 hi Ignore         guifg=#8888aa guibg=#222244         
-
+"
 " Diagnostics related
 hi CocFadeOut     guifg=#6666a2 guibg=NONE            
-
+"
 " Used for: fillchars: eob
 "hi EndOfBuffer   guifg=#403030 guibg=#040404
 hi EndOfBuffer none | hi link EndOfBuffer EndOfBuNone
+"
 " Used for: listchars: eol,extends,precedes;
 hi NonText     none | hi link NonText NonTextNone
+"
 " Used for: listchars: tab,nbsp,space,multispace,lead,trail;
 hi SpecialKey  none | hi link SpecialKey SpecialNone
-
-" Used for different List styles (see plugin/chars.vim)
+"
+" Used for different List styles
+" See: ../plugin/chars.vim)
+"
 " ListNone
 hi EndOfBuNone    guifg=#3a3a3a guibg=#050505
 hi NonTextNone    guifg=#2a2a2a 
 hi SpecialNone    guifg=#2ada6a guibg=#102210
+"
 " ListMinimal
 hi EndOfBuMini    guifg=#3a3a3a guibg=#050505
 hi NonTextMini    guifg=#303030
 hi SpecialMini    guifg=#4a6a4a
+"
 " ListDiagnostic
 hi EndOfBuDiag    guifg=#3a3a3a guibg=#050505
 hi NonTextDiag    guifg=#409040
 hi SpecialDiag    guifg=#d70000
-
+"
 " [U8Whitespace] Used for whitespace diagnostic mode
 hi U8Whitespace   guifg=#dd1111 guibg=#dd1111
 
-"════════════════════════════════════════════════════════╡ Menu Popups
-
+"
+"════════════════════════════════════════════════════════╡ Floating Windows
+"
 " Popup menu (e.g. tab completion)
 hi Pmenu          guifg=#eeeeff guibg=#220055          
 hi PmenuSel       guifg=#ffffff guibg=#440077
@@ -206,33 +241,31 @@ hi link PopDiagWarn   LineDgWarn
 hi link PopDiagInfo   LineDgInfo
 hi link PopDiagHint   LineDgHint
 
-" CoC Float window/popup related
-hi link CocPum               Pmenu
-"CocPumSearch      "matched input characters, linked to |CocSearch| by default.
-"CocPumDetail      "highlight label details that follows label 
-"CocPumMenu        "menu of complete item.
-"CocPumShortcut    "shortcut text of source.
-"CocPumDeprecated  "deprecated label.
-"CocPumVirtualText "virtual text which enabled by
-"
-"
+" Coc Floating window
+hi link CocPum            Pmenu
+hi link CocPumSearch      CocSearch
+hi link CocPumDetail      Comment
+hi link CocPumMenu        CocFloating
+hi link CocPumShortcut    Comment
+hi link CocPumDeprecated  CocStrikeThrough
+hi link CocPumVirtualText CocVirtualText
 
-" hi CocSymbol
 hi link CocMenuSel           PmenuSel
 hi link CocFloating          Pmenu
 hi link CocFloatThumb        PmenuThumb
 hi link CocFloatSbar         PmenuSbar
 hi link CocFloatDividingLine NonText
 hi link CocFloatActive       HlPop02Bg
+hi link CocDisabled          CocVirtualText
 
 hi link CocErrorFloat        PopDiagErr 
 hi link CocWarningFloat      PopDiagWarn  
 hi link CocInfoFloat         PopDiagInfo  
 hi link CocHintFloat         PopDiagHint  
                         
-
+"
 "════════════════════════════════════════════════════════╡ Vertical
-
+"
 hi VertSplit      guifg=#666666 guibg=#151515 gui=none
 
 hi Folded         guifg=#aaddee guibg=NONE    gui=none  
@@ -244,6 +277,7 @@ hi ColorColBright guifg=NONE    guibg=#292243 gui=none
 
 hi ColorColumn none | hi link ColorColumn ColorColNormal
 
+"
 "════════════════════════════════════════════════════════╡ Diffs
 " See: WinDiff for background
 
@@ -252,8 +286,10 @@ hi DiffAdd        guifg=#defeff guibg=#081145 gui=none
 hi DiffChange     guifg=#eeccbb guibg=#2a002a gui=none
 hi DiffDelete     guifg=#7a0000 guibg=#3a0000 gui=none
 
+"
 "════════════════════════════════════════════════════════╡ Signs
-
+" See: ../plugin/signs.vim
+"
 hi SignGitAdd     guifg=#117711 guibg=ysignsb gui=bold
 hi SignGitDel     guifg=#bb1144 guibg=ysignsb gui=underdotted
 hi SignGitChg     guifg=#cfc040 guibg=ysignsb gui=none
@@ -335,6 +371,7 @@ hi ToolbarButton  guifg=#eeeeee guibg=#232347 gui=none
 
 hi ErrorHint      guifg=NONE    guibg=NONE    gui=undercurl   guisp=#fe0000 
 hi link Error ErrorHint
+
 hi WarningHint    guifg=NONE    guibg=NONE    gui=underdotted guisp=#ddbb00 
 hi link InfoHint  SpellCap
 hi link HintHint  SpellLocal
@@ -343,6 +380,7 @@ hi TestHint1      guifg=#ddddaa gui=underdouble,strikethrough guisp=#cc22dd
 hi TestHint2      guifg=#ddddaa gui=underdouble,strikethrough guisp=#22ccff 
 hi TestHint3      guifg=#ddddaa gui=underdouble,strikethrough guisp=#22ff22 
 hi TestHint4      guifg=#ddddaa gui=underdouble,strikethrough guisp=#ffff22 
+hi TestHint5      guifg=NONE gui=underline guisp=#ff5522
 
 "════════════════════════════════════════════════════════╡ Code Sections
 
@@ -383,20 +421,20 @@ hi htmlComment    guifg=#aaaaaa guibg=#111111
 " HlMkDnCode 
 " HlMkDnCdDelim
 "
-hi HlMkDnCode     guifg=#ddaadd guibg=#441144 gui=underline  guisp=#ddaadd
+hi HlMkDnCode     guifg=#ddaadd guibg=#441144 gui=underline           guisp=#ddaadd
 hi HlMkDnCodeBg   guifg=NONE    guibg=#163646 gui=none
 hi HlMkDnCdBlock  guifg=#c9c9a3 guibg=#060606 gui=none
-hi HlMkDnCdDelim  guifg=#ffff00 guibg=NONE    gui=strikethrough,bold 
+hi HlMkDnCdDelim  guifg=#ffff00 guibg=NONE    gui=bold,strikethrough
 hi HlMkDnHeader   guifg=#cc44cc               gui=bold
 hi HlMkDnLink     guifg=#15aabf               gui=italic,underline
 
 "hi markdownHeadingRule
-hi markdownH1     guifg=#cc44cc               gui=standout   guisp=#00cc11
+hi markdownH1     guifg=#cc44cc               gui=standout            guisp=#00cc11
 hi markdownH2     guifg=#cc44cc               gui=bold,underline      guisp=#00cc11
 hi markdownH3     guifg=#cc44cc               gui=bold,underdashed    guisp=#00cc11
 hi markdownH4     guifg=#cc44cc               gui=underdotted         guisp=#00aa11
 hi markdownH5     guifg=#cc44cc               gui=underdotted,italic  guisp=#aa66aa
-hi markdownH6     guifg=#cc44cc               gui=italic  guisp=#aa66aa
+hi markdownH6     guifg=#cc44cc               gui=italic              guisp=#aa66aa
 hi link markdownH1Delimiter Delimiter
 hi link markdownH2Delimiter Delimiter
 hi link markdownH3Delimiter Delimiter
@@ -420,8 +458,8 @@ hi link markdownUrlTitle              String
 hi link markdownUrlDelimiter          htmlTag
 hi link markdownUrlTitleDelimiter     Delimiter
 
-hi markdownId guifg=#cc00ff guibg=#ff0000
-hi markdownIdDeclaration guifg=#cc00ff guibg=#ff0000
+hi markdownId guifg=#cc00ff guibg=#440000
+hi markdownIdDeclaration guifg=#cc00ff guibg=#440000
 hi link markdownIdDelimiter           markdownLinkDelimiter
 
 hi link markdownItalic HlItalic
@@ -455,19 +493,22 @@ hi link CocMarkdownHeader HlMkDnHeader
 hi link CocMarkdownLink  HlMkDnLink
 
 
-"════════════════════════════════════════════════════════╡ netrw
 "
-" hi netrwClassify
-" hi netrwLink
-" hi netrwSymLink
-" hi netrwDir
-" hi netrwExe
-" hi netrwList
-" hi netrwComma
-" hi netrwVersion
-" hi netrwQuickHelp
-" hi netrwCmdSep
-" hi netrwHelpCmd
+"════════════════════════════════════════════════════════╡ Netrw
+"
+hi Directory     none | hi link Directory Identifier
+
+hi netrwClassify none | hi link netrwClassify Function
+hi netrwLink     none | hi link netrwLink     Special
+hi netrwSymLink  none | hi link netrwSymLink  Question
+hi netrwDir      none | hi link netrwDir      Directory
+hi netrwExe      none | hi link netrwExe      PreProc
+hi netrwList     none | hi link netrwList     Statement
+hi netrwComma    none | hi link netrwComma    netrwComment
+hi netrwVersion  none | hi link netrwVersion  Identifier
+hi netrwCmdSep   none | hi link netrwCmdSep   Delimiter
+hi netrwHelpCmd  none | hi link netrwHelpCmd  Function
+hi clear netrwQuickHelp
 
 
 "════════════════════════════════════════════════════════╡ Status
@@ -562,18 +603,8 @@ hi link jsonMissingCommaError   ErrorHint
 
 hi cssVendor      guifg=#ffaa00 guibg=NONE gui=italic,strikethrough guisp=#ff0000
 
-"
-" Floating Windows: popup windows and dialogs
-" CocFloating            " For floating window background.
-" CocFloatDividingLine   " For dividing lines.
-" CocFloatActive         " For active parts.
-" CocMenuSel             " For selected line.
-"
-" CocDisabled            " disabled items, eg: menu item
-" CocMenuSel             " current item in menu dialog (bg color ONLY)
-
  
-hi link CocSymbolDefault  hl-MoreMsg
+" hi link CocSymbolDefault  hl-MoreMsg
 " hi link CocSymbolFile
 " hi link CocSymbolFolder
 " hi link CocSymbolReference

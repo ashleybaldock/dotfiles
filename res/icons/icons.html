@@ -95,22 +95,22 @@ const dataurlSVG = (svg) => `url('${encodeSVG(svg)}')`;
         <div class="outer">
           <div class="inner">
             <div class="copyAs">
-              <label class="downSVG" onClick="">
+              <label class="download downSVG" onClick="">
                 <input type="text"/>DL .&lt;SVG&gt;
               </label>
-              <label class="copySVG" onClick="copy(event)">
+              <label class="copy copySVG" onClick="copy(event)">
                 <input type="text"/>&lt;SVG&gt;
               </label>
-              <label class="copyURL" onClick="copy(event)">
+              <label class="copy copyURL" onClick="copy(event)">
                 <input type="text"/>url()
               </label>
-              <label class="copyCSSbackground" onClick="copy(event)">
+              <label class="copy copyCSSbackground" onClick="copy(event)">
                 <input type="text"/>background
               </label>
-              <label class="copyCSScontent" onClick="copy(event)">
+              <label class="copy copyCSScontent" onClick="copy(event)">
                 <input type="text"/>content
               </label>
-              ${cssvar === null ? '' : `<label class="copyCSSvar" onClick="copy(event)">
+              ${cssvar === null ? '' : `<label class="copy copyCSSvar" onClick="copy(event)">
                 <input type="text"/>var()
               </label>`}
             </div>
@@ -201,8 +201,9 @@ const dataurlSVG = (svg) => `url('${encodeSVG(svg)}')`;
   
     <div id="droppedpreview"></div>
 </section>
+<div class="snapsize">
 <section>
-  <h1>Arrows</h1>
+  <h1>Imported</h1>
   <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.3155" height="29.6873">
  <g>
   <rect height="29.6873" opacity="0" width="28.3155" x="0" y="0"/>
@@ -221,6 +222,7 @@ const dataurlSVG = (svg) => `url('${encodeSVG(svg)}')`;
   <path d="M37.9691 24.8403C37.9691 28.092 35.2433 30.7878 32.0215 30.7878C28.7599 30.7878 26.0589 28.1168 26.0589 24.8403C26.0589 21.5787 28.7599 18.8927 32.0215 18.8927C35.283 18.8927 37.9691 21.5761 37.9691 24.8403ZM31.2997 21.8317L31.2997 24.1184L29.0079 24.1184C28.5848 24.1184 28.2885 24.4071 28.2885 24.8403C28.2885 25.2734 28.5848 25.5596 29.0079 25.5596L31.2997 25.5596L31.2997 27.8514C31.2997 28.2795 31.5759 28.5732 32.0215 28.5732C32.4521 28.5732 32.7408 28.2795 32.7408 27.8514L32.7408 25.5596L35.03 25.5596C35.4557 25.5596 35.7369 25.2734 35.7369 24.8403C35.7369 24.4071 35.4557 24.1184 35.03 24.1184L32.7408 24.1184L32.7408 21.8317C32.7408 21.4061 32.4521 21.1098 32.0215 21.1098C31.5759 21.1098 31.2997 21.4061 31.2997 21.8317Z" fill="#ffffff" fill-opacity="0.85"/>
  </g>
 </section>
+  </div>
 
 
 <section>

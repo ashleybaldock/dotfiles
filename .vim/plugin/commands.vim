@@ -93,6 +93,9 @@ endfunc
 "
 augroup misc_commands
   autocmd!
+  " Set readonly for specific directories
+  au BufRead ~/noita/data* set readonly
+
   " Set working directory to current file
   au BufEnter * silent! lcd %:p:h
 

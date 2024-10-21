@@ -30,8 +30,8 @@ if !isdirectory(g:mayhem_dir_swap)
         \ .. '''not found- creating it'
   call mkdir(g:mayhem_dir_swap, "p", 0711)
 endif
-set swapfile
-exec 'set directory^=' .. g:mayhem_dir_swap .. '//'
+exec 'set directory-=~/tmp,/var/tmp,/tmp'
+exec 'set directory+=' .. g:mayhem_dir_swap .. '//'
 
 if !isdirectory(g:mayhem_dir_undo)
   echom 'undo dir ''' .. g:mayhem_dir_undo
@@ -148,7 +148,7 @@ set mouse=a
 set backspace=indent,eol,start
 
 set updatetime=300
-set synmaxcol=256
+set synmaxcol=1024
 
 set foldnestmax=4
 set foldminlines=3

@@ -18,14 +18,15 @@ function s:InsertTemplate(filename)
 endfunc
 
 function! s:TemplateComplete(ArgLead, CmdLine, CursorPos)
-  let l:filetype = get(&l, 'filetype', '')
-  return map(globpath(g:mayhem_dir_templates, a:ArgLead .. 'filetype' ..".template.vim", 0, 1),
-        \ {_, val -> fnamemodify(val, ":t:r:r")})
+  return map(globpath(g:mayhem_dir_templates,
+        \   a:ArgLead .. "*" .. &l:filetype .. ".template",
+        \ 0, 1), {_, val -> fnamemodify(val, ":t:r:r")})
 endfunc
 
-command! -nargs=1 -complete=customlist,<SID>InsertTemplate 
+command! -nargs=1 -complete=customlist,<SID>TemplateComplete 
+      \ InsertTemplate call <SID>InsertTemplate(<f-args>)
 
-augroup Templates
+augroup MayhemTemplates
   autocmd!
   " Read template skeleton with matching filename
   autocmd BufNewFile *.* call s:InsertTemplate(expand('<afile>'))

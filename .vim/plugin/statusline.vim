@@ -43,6 +43,13 @@ function ChDiag()
   return get(get(b:, 'mayhem', {}), 'sl_cache_diag', ['D?','DN'])[NC()]
 endfunc
 
+let g:mayhem.symbols_diagS = {
+      \ 'numbers': ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ],
+      \ 'error'  : '⚑⃝ ',
+      \ 'warning': '!⃝ ',
+      \ 'ok'     : '✓⃝ ',
+      \ 'off'    : '?⃣ ',
+      \ }
 let g:mayhem.symbols_diag8 = {
       \ 'numbers': ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ],
       \ 'error'  : '⚑⃝ ',
@@ -101,23 +108,52 @@ function s:Update_Diag()
 endfunc
 
 
-let g:mayhem.symbols_git8 = {
-      \ 'isgit': '𑀛',
-      \ 'notgit': '⁑',
-      \ 'gitoff': '𐝕' 
+let g:mayhem.symbols_gitS = {
+      \ 'isgit':    '􀐅',
+      \ 'notgit':   '􁊓',
+      \ 'gitoff':   '􀃮',
+      \ 'problem':  '􀃮',
+      \ 'norepo':   '􁊓',
+      \ 'behind':   '􁄻',
+      \ 'ahead':    '􀯇',
+      \ 'diverged': '􀐉',
+      \ 'unstaged': '􁚍',
+      \ 'staged':   '􀐇'
       \}
-let g:mayhem.symbols_gitA = { 'isgit': 'y', 'notgit': 'n', 'gitoff': 'o' }
-"  local, has
-"   *   unstaged changes
-"   +   staged changes
-"   $   stashes
+let g:mayhem.symbols_git8 = {
+      \ 'isgit':    '𑀛',
+      \ 'notgit':   '⁑',
+      \ 'gitoff':   '𐝕',
+      \ 'problem':  '𐝕',
+      \ 'norepo':   'n',
+      \ 'behind':   '❮',
+      \ 'ahead':    '❯', 
+      \ 'diverged': '◇',
+      \ 'unstaged': '*',
+      \ 'staged':   '+'
+      \}
+let g:mayhem.symbols_gitA = {
+      \ 'isgit':    '=',
+      \ 'notgit':   'n',
+      \ 'gitoff':   '!',
+      \ 'problem':  '!',
+      \ 'norepo':   'n',
+      \ 'behind':   '<',
+      \ 'ahead':    '>',
+      \ 'diverged': '~',
+      \ 'unstaged': '*',
+      \ 'staged':   '+'
+      \}
+"   $   stashes          􀐆 􀫝 􀠧 􀓔 􁊓  􀴨􀖄􀖅 􀙡􀙠
 "   %   untracked files
-" 
-"  branch, relative to upstream
-"   ⍃   <   behind
-"   ⍄   >   ahead
-"   ⌺   <>  diverged
-"   ⌸   =   in sync
+" 􀙡branch, relative to upstream
+"               no changes     with changes
+"     !       􀃮  problem
+"     n       􁊓  not a repo
+" <   <   ❮   􁄻  behind       􁚍 unstaged (*)
+" >   >   ❯   􀯇  ahead        􀐇 staged   (+)
+" <>  ~   ◇   􀐉  diverged   
+" =   =       􀐅  in sync
 
 function ChGit()
   return get(get(b:, 'mayhem', {}), 'sl_cache_git', ['G?','GN'])[NC()]

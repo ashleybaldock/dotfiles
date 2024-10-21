@@ -39,10 +39,14 @@ command! HiHi call <SID>HighlightHighlight()
 
 
 function s:GetLinkChain(name)
-  " Break if same name encountered twice (= loop or no chain)
+  " Follow links to the end
+  " (or until detecting a loop)
   let chain = []
   let lastName = a:name
   while lastName != ''
+    " if name seen already, must be in a loop
+    " this isn't a very efficient lookup
+    " but highlighting chains are very short
     if (len(hlget(lastName)) > 0)
       call add(chain, lastName)
       let hl = hlget(lastName)[0]
@@ -54,6 +58,20 @@ function s:GetLinkChain(name)
   return chain
 endfunc
 
+"
+"
+" ⎛                                                  ⎞
+" ⎢ ᴅ  1234: cssUrlFunction ⫘⃗  UrlFunc ⫘⃗  Statement  ⎥
+" ⎢  ᴄ  567: cssAttrRegion                           ⎥
+" ⎢  ᴄ   89: cssDefinition                           ⎥
+" ⎝                        Synstack @ Row 62 Col 39  ⎠
+"
+" ⎛                                       ⎞
+" ⎢ ᴅ  1234: cssUrlFunction ⫘⃗  Statement  ⎥
+" ⎢  ᴄ  567: cssAttrRegion                ⎥
+" ⎢  ᴄ   89: cssDefinition                ⎥
+" ⎝             Synstack @ Row 62 Col 39  ⎠
+"
 function! s:UpdateSynStackBuffer(winid)
   let bufnr = winbufnr(a:winid)
 
@@ -157,7 +175,9 @@ function! s:SynStackSetup() abort
     if w:mayhem_synstack_enabled == 1
       autocmd CursorHold * call s:SynStack()
     else
-      call popup_close(w:mayhem_synstack_popid)
+      if !empty(popup_getpos(w:mayhem_synstack_popid))
+        call popup_close(w:mayhem_synstack_popid)
+      endif
     endif
   augroup END
 endfunc
@@ -184,6 +204,37 @@ command! SynStackStatus :get(w:, 'mayhem_synstack_enabled', 0)
 command! SynStackToggle :call <SID>SynStackToggle()
 
 command! HighlightThis :hi <c-r><c-w>
+
+
+
+"
+" Execute a command and paste the result into the current buffer
+"
+function! ExecAndPut(command, )
+    redir => output
+    silent exec a:command
+    redir END
+    let @o = output
+    execute "put o"
+    return ''
+endfunc
+
+
+" Insert a highlight entry for the current word
+command! ExpandHlGroup :call ExecAndPut('hi '..expand("<cword>"))
+
+nnoremap <expr> §`i ExecAndPut('hi '..<c-r><c-w>)
+
+function! JumpToHighlightDefinition(hlname = expand("cword"))
+  let file = ''
+  let lnum = 0
+  redir => output
+  silent exec 'verbose hi '..a:hlname
+  redir END
+endfunc
+
+command! -nargs=? JumpToHighlightDefinition :call JumpToHighlightDefinition(<f-args>)
+
 
 " Capture name of highlight
 " '^:\?hi\w*\s\(link\|clear\)\@!\s*\zs\(\w\+\)\ze\s\+'

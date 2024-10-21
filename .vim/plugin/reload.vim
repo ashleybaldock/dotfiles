@@ -3,8 +3,6 @@ if exists("g:mayhem_loaded_reload")
 endif
 let g:mayhem_loaded_reload = 1
 
-" %s/\%^\(\_^\s*".*\_$\)*\_^\s*if \s*exists(\s*\(['"]\)\(\zs\([bwtgls]:\)\=[A-Za-z][A-Za-z0-9_]*\ze\)\2\s*)\s*\n\=\s*finish\s*\n\=\s*endif/\=s:SetReloadName(submatch(0))/n
-
 "
 " Reload a plugin after unsetting flag to avoid reloading
 "
@@ -38,3 +36,7 @@ endfunc
 
 command! -bar -nargs=? -complete=customlist,<SID>UnsetAndReloadComplete
       \ UnsetAndReload call <SID>UnsetAndReload(<f-args>)
+
+
+" %s/\%^\(\_^\s*".*\_$\)*\_^\s*if \s*exists(\s*\(['"]\)\(\zs\([bwtgls]:\)\=[A-Za-z][A-Za-z0-9_]*\ze\)\2\s*)\s*\n\=\s*finish\s*\n\=\s*endif/\=s:SetReloadName(submatch(0))/n
+

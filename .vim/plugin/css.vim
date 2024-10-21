@@ -9,6 +9,27 @@ let g:mayhem_loaded_css = 1
 
 
 "
+"
+" Extract individual copy of rule for selector under cursor                TODO
+" e.g.
+" .foo, .b̲ar, .baz {       .foo, .baz {
+"   color: red;       ▬▶︎     color: red;...
+"   ...                    .bar {
+"                            color: red;...
+"
+" Same but for all selectors in list                                       TODO
+"
+
+"
+" Prefix all CSS rules in selection/file                                   TODO
+" e.g.
+"  .foo {              #someid .foo {
+"    color: red;  ▬▶︎      color: red;
+"  }                   }
+"
+" command! -range=% PrefixRules <line1>,<line2>
+
+"
 " Remove units from zero values in CSS
 "  - But not for:
 "       <angle>  \(deg\|grad\|rad\|turn\)
@@ -16,7 +37,41 @@ let g:mayhem_loaded_css = 1
 "   <frequency>  \(Hz\|kHz\)
 "  <resolution>  \(dpi\|dppx\|dpcm\)
 "
-command! -range=% NoZeroUnits <line1>,<line2> s/\s\zs[-+]\?0\+\.\?\0*\(cap\|ch\|em\|ex\|ic\|lh\|rcap\|rch\|rem\|rex\|ric\|rlh\|vh\|vw\|vmax\|vmin\|vb\|vi\|cqw\|cqh\|cqi\|cqb\|cqmin\|cqmax\|px\|cm\|mm\|Q\|in\|pc\|pt\)\ze\s/0/ge
+command! -range=% NoZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?\0*\(cap\|ch\|em\|ex\|ic\|lh\|rcap\|rch\|rem\|rex\|ric\|rlh\|vh\|vw\|vmax\|vmin\|vb\|vi\|cqw\|cqh\|cqi\|cqb\|cqmin\|cqmax\|px\|cm\|mm\|Q\|in\|pc\|pt\)\ze\s/0/ge
+
+
+" These properties use <time>
+" Ensure zero values have units (0 -> 0s)
+"
+" directly:
+"    transition           ⎫
+"     transition-delay    ├ any word in these starting with
+"     transition-duration ⎪  0 must be a <time>
+"    animation            ⎪
+"     animation-delay     ⎪
+"     animation-duration  ⎭
+"   
+"
+" These properties use <angle>
+" Ensure zero values have units 
+"
+" directly:
+"    image-orientation     any valid value starting
+"                          with 0 must be an <angle>
+"
+" via: \%(linear-gradient\|repeating-linear-gradient\)(\s*0
+"    background/background-image
+"    mask/mask-image
+"    border-image-source
+"    shape-outside
+" any valid linear-gradient def. if first property starts
+"   with a 0, it must be an <angle>
+"
+" via: \%(skew\%(X\|Y\)([]0)\|rotate\%(3d\|X\|Y\|Z\)\?\)()
+"    transform 
+"
+"    any valid value(s) in skew/rotate must be <angles>
+"    any valid 4th value for rotate3d must be an <angle>
 
 " 
 " Add semicolon to end of last declaration in a rule
@@ -107,6 +162,9 @@ command! HslToHex <Nop>
 command! RgbToHsl <Nop>
 "                                                           TODO
 command! HslToRgb <Nop>
+"            \1 H                \2 S                \3 L                    \4 A
+"         ╭─────────╮      ╭─────────────╮      ╭─────────────╮           ╭────────────╮
+/\<hsla\?(\(\d\{1,}\)[^ ]* \(100\|\d\d\?\)[^ ]* \(100\|\d\d\?\)[^ )]*\(\/ \(100\|\d\d?\)%\?\)\?)/
 
 " Get color's complement (h+180deg)
 "                                                           TODO
@@ -127,25 +185,38 @@ command! Complement <Nop>
 " rgb(R G B[ / A])  R,G,B = 0-255 or 0%-100% or none
 " let rgb = "\<rgb(\(\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\s\+\(\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\s\+\(\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\(\s\+\/\s\+\(0\?\.\d\+\|1\(\.0*\)\?\|0\?\|none\))\|)\)"
 
-" fast
-" <number[0-255]>   (…but also 256-999)
+let s:none = 'none'
+" fast (false positives / non-validating)
+"
+" <number[0(000)-255(999)]>
+let s:nF_0_255 = '\d{1,3}'
+" <percentage[0%(00%)-100%]>      (…but also 000%,00% etc.)
+let s:pF_0_100 = '100%\|\d{1,2}%'
+" <number[0.0-1.0(1.999)]>        (…but also 1.0-1.9 etc.)
+let s:dF_00_10 = '1\.0\|0\.0\+\|0\?\.\d\+'
+
+let s:rgb_F = '\('..s:nF_0_255..'\|'..s:pF_0_100..'\|'..s:dF_00_10..'\|'..s:none..'\)'
+let s:alpha_F = '\('..s:pF_0_100..'\|'..s:dF_00_10..'\)'
+
+let s:rgbFast = '\<rgba\?('..s:rgb_F..'[^ ] '..s:rgb_F..'[^ ] '..s:rgb_F..'[^)/]\%()\| '..s:alpha_F..'[^)])\)'
+
 "let byte = 
 "      \ "\d{1,3}"
 "      \ .."\d{1,3}"
-" <percentage>      (…but also 000%,00% etc.)
-"/100%\|\d{1,2}%/
-" <number[0.0-1.0]> (…but also 1.0-1.9 etc.)
-"let p = '[01]\?\.\?\d\+'
 
 " :%s/\<rgb(\s*\(\d{1,3}\|100%\|\d{1,2}%\|none\)\s\+\(\d{1,3}\|100%\|\d{1,2}%\|none\)\s\+\(\d{1,3}\|100%\|\d{1,2}%\|none\)\(\s+\/\s+[01]\?\.\?\d\+\|none\)\?)/
 
-" strict
-" 0-255
-"/\([0-9]\|[1-9][0-9]\|1[0-9]\{2}\|2[0-4][0-9]\|25[0-5]\)/
-" 0%-100%
-"/\(100%\|[1-9]\?[0-9]%\)/
-" 0.0-1.0
-"/\([01]\(\.0*\)\|0\.\d*\)/
+"
+" strict (false negatives possible, but no false positives)
+"
+" <number[0-255]>
+let s:nS_0_255 = '\([0-9]\|[1-9][0-9]\|1[0-9]\{2}\|2[0-4][0-9]\|25[0-5]\)'
+" 
+" <percentage[0%-100%]>
+let s:pS_0_100 = '\(100%\|[1-9]\?[0-9]%\)'
+"
+" <number[0.0-1.0]>
+let s:dS_00_10 = '\([01]\(\.0*\)\|0\.\d*\)'
 
 "/\<rgb(\([01][0-9][0-9]\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\s\+\(\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\s\+\(\d\{1,3}\|0\?\d\?\d%\|100%\|none\)\(\s\+\/\s\+\(0\?\.\d\+\|1\(\.0*\)\?\|0\?\|none\))\|)\)/
 

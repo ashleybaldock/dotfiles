@@ -1,3 +1,45 @@
+:root {
+  --𝞅: 1.618;
+  --𝟭∕𝞅: 1 / var(--𝞅);
+  --𝞅∕𝟮: var(--𝞅) / 2;
+  --icon-fg-color: #ffffff;
+  --icon-bg-color: #000000;
+  --icon-border: 1;
+  --icon-padding: 20;
+  --icon-radius: 60;
+  --icon-border-style: dashed;
+}
+
+body {
+  font-size: 14px;
+  line-height: 14px;
+  display: flex;
+  flex-direction: column;
+  margin: 0.6em;
+  gap: 0.6em;
+  padding: 0;
+  background-color: #222222;
+  color: #ffffff;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  gap: 1em;
+}
+
+.container {
+  position: relative;
+  --color-tab-active: #ee7;
+  font-size: 48px;
+}
+
+svg {
+  fill: var(--color-tab-active);
+}
+
 .horizontal {
   display: flex;
   flex-flow: row wrap;
@@ -14,18 +56,30 @@
   justify-content: center;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   background-color: #121212;
   color: #eee;
   padding: 0.4em;
   border-top: 0.1em solid #65005f;
 }
 
-body, h1, h2, h3, h4, p,
-figure, blockquote, dl, dd {
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
   margin-block-end: 0;
 }
-
 
 section > h2 {
   position: sticky;

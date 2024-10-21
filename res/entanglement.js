@@ -187,10 +187,8 @@ const entanglement = ((window) => {
       const getValue = ({ value }) => value;
 
       const inputTypeValueMap = new Map([
-        'checkbox',
-        getChecked,
-        'radio',
-        getChecked,
+        ['checkbox', getChecked],
+        ['radio', getChecked],
       ]);
 
       return (source) =>

@@ -11,6 +11,12 @@ let g:mayhem_loaded_toolbar = 1
 " :variable-[0..1]
 "
 "ᖠᖢ
+"
+"
+"􀛪 􀛩 􀺶 􀺸 􀛨 􀢋
+"
+
+
 
 let g:mayhem_toolbarToggles = [
     \ { 'name': 'virtualedit',

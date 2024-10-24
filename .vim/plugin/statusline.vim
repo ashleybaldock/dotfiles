@@ -25,6 +25,10 @@ scriptencoding utf-8
 let g:mayhem = get(g:, 'mayhem', {})
 let g:mayhem.sl = get(g:mayhem, 'sl', {})
 
+let g:mayhem.symbols_S = get(g:mayhem, 'symbols_S', {})
+let g:mayhem.symbols_8 = get(g:mayhem, 'symbols_8', {})
+let g:mayhem.symbols_A = get(g:mayhem, 'symbols_A', {})
+
 function FName()
   return expand('%:t:r')
 endfunc
@@ -39,25 +43,38 @@ function! WinType() abort
   let wintype = win_gettype()
 endfunc
 
+function! GetBestSymbols()
+   return has("gui_macvim")
+         \ ? get(g:mayhem, 'symbols_S',
+         \     get(g:mayhem, 'symbols_8',
+         \       get(g:mayhem, 'symbols_A', {})))
+         \ : has("multi_byte_encoding") && &encoding == "utf-8"
+         \   ? get(g:mayhem, 'symbols_8',
+         \       get(g:mayhem, 'symbols_A', {}))
+         \   : get(g:mayhem, 'symbols_A', {})
+endfunc
+
+let s:symbols = GetBestSymbols()
+
 function ChDiag()
   return get(get(b:, 'mayhem', {}), 'sl_cache_diag', ['D?','DN'])[NC()]
 endfunc
 
-let g:mayhem.symbols_diagS = {
+let g:mayhem.symbols_S.diag = {
       \ 'numbers': ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ],
       \ 'error'  : '⚑⃝ ',
       \ 'warning': '!⃝ ',
       \ 'ok'     : '✓⃝ ',
       \ 'off'    : '?⃣ ',
       \ }
-let g:mayhem.symbols_diag8 = {
+let g:mayhem.symbols_8.diag = {
       \ 'numbers': ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ],
       \ 'error'  : '⚑⃝ ',
       \ 'warning': '!⃝ ',
       \ 'ok'     : '✓⃝ ',
       \ 'off'    : '?⃣ ',
       \ }
-let g:mayhem.symbols_diagA = {
+let g:mayhem.symbols_A.diag = {
       \ 'numbers': ['', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
       \ 'error'  : 'E',
       \ 'warning': 'W',
@@ -67,13 +84,15 @@ let g:mayhem.symbols_diagA = {
 
 " TODO - Add gutter display of errors elsewhere in file
 function s:Update_Diag()
-  let symbols = has("multi_byte_encoding") && &encoding == "utf-8" ?
-        \ g:mayhem.symbols_diag8 : g:mayhem.symbols_diagA
+  " let symbols = has("multi_byte_encoding") && &encoding == "utf-8" ?
+  "       \ g:mayhem.symbols_diag8 : g:mayhem.symbols_diagA
+  " let symbols = get(s:symbols, 'diag', {})
 
   if !exists('g:did_coc_loaded')
+    let symbol = get(s:symbols.diag, 'off', 'X')
     let b:mayhem.sl_cache_diag = [
-        \ '%#SlSynOffC#'..symbols.off..'%*',
-        \ '%#SlSynOffN#'..symbols.off..'%*']
+          \ '%#SlSynOffC#'..symbol..'%*',
+          \ '%#SlSynOffN#'..symbol..'%*']
     return
   endif
 
@@ -86,7 +105,7 @@ function s:Update_Diag()
   let errorCount   = get(diaginfo, 'error',       0)
 
   if errorCount > 0
-    let symbol = get(symbols.numbers, errorCount, symbols.error)
+    let symbol = get(s:symbols.diag.numbers, errorCount, s:symbols.error)
     let b:mayhem.sl_cache_diag = [
         \ '%#SlSynErrC#'..symbol..'%*',
         \ '%#SlSynErrN#'..symbol..'%*']
@@ -94,21 +113,23 @@ function s:Update_Diag()
   endif
 
   if warningCount > 0
-    let symbol = get(symbols.numbers, warningCount, symbols.warning)
+    let symbol = get(s:symbols.diag.numbers, warningCount, s:symbols.warning)
     let b:mayhem.sl_cache_diag = [
         \ '%#SlSynWarnC#'..symbol..'%*',
         \ '%#SlSynWarnN#'..symbol..'%*']
     return
   endif
 
+  let symbol = get(s:symbols.diag, 'ok', 'X')
   let b:mayhem.sl_cache_diag = [
-        \ '%#SlSynOkC#'..symbols.ok..'%*',
-        \ '%#SlSynOkN#'..symbols.ok..'%*']
+        \ '%#SlSynOkC#'..symbol..'%*',
+        \ '%#SlSynOkN#'..symbol..'%*']
   return
 endfunc
 
 
-let g:mayhem.symbols_gitS = {
+" SF symbols, only works on OSX
+let g:mayhem.symbols_S.git = {
       \ 'isgit':    '􀐅',
       \ 'notgit':   '􁊓',
       \ 'gitoff':   '􀃮',
@@ -120,7 +141,8 @@ let g:mayhem.symbols_gitS = {
       \ 'unstaged': '􁚍',
       \ 'staged':   '􀐇'
       \}
-let g:mayhem.symbols_git8 = {
+" Unicode
+let g:mayhem.symbols_8.git = {
       \ 'isgit':    '𑀛',
       \ 'notgit':   '⁑',
       \ 'gitoff':   '𐝕',
@@ -132,7 +154,8 @@ let g:mayhem.symbols_git8 = {
       \ 'unstaged': '*',
       \ 'staged':   '+'
       \}
-let g:mayhem.symbols_gitA = {
+" ASCII fallback
+let g:mayhem.symbols_A.git = {
       \ 'isgit':    '=',
       \ 'notgit':   'n',
       \ 'gitoff':   '!',
@@ -162,42 +185,58 @@ endfunc
 " Fugitive
 " TODO - add detailed git status info
 function s:Update_Git()
-  let symbols = has("multi_byte_encoding") && &encoding == "utf-8" ?
-        \ g:mayhem.symbols_git8 : g:mayhem.symbols_gitA
+  let gitsymbols = get(s:symbols, 'git', {})
 
   if !exists('g:loaded_fugitive')
     let b:mayhem.sl_cache_git = [
-          \ '%#SlGitOffC#'..symbols.gitoff..'%*',
-          \ '%#SlGitOffN#'..symbols.gitoff..'%*']
+          \ '%#SlGitOffC#'..gitsymbols.gitoff..'%*',
+          \ '%#SlGitOffN#'..gitsymbols.gitoff..'%*']
     return
   endif
 
   let head = FugitiveHead()
   if empty(head)
     let b:mayhem.sl_cache_git =  [
-          \ '%#SlNotGitC#'..symbols.notgit..'%*',
-          \ '%#SlNotGitN#'..symbols.notgit..'%*']
+          \ '%#SlNotGitC#'..gitsymbols.notgit..'%r',
+          \ '%#SlNo1tGitN#'..gitsymbols.notgit..'%*']
     return
   else
     let b:mayhem.sl_cache_git =  [
-          \ '%#SlGitC#'..symbols.isgit..'%*',
-          \ '%#SlGitN#'..symbols.isgit..'%*']
+          \ '%#SlGitC#'..gitsymbols.isgit..'%*',
+          \ '%#SlGitN#'..gitsymbols.isgit..'%*']
     return
   endif
 endfunc
 
+let g:mayhem.symbols_S.status = {
+      \ 'readonly': '⚑⃝ ',
+      \ 'fencnot8': '∪⃞⃥ ',
+      \ 'ffnotnix': '␌⃞ ',
+      \ 'diffing' : '􀉆􀄭􀕹',
+      \ }
+let g:mayhem.symbols_8.status = {
+      \ 'readonly': 'ᴿ',
+      \ 'fencnot8': '∪⃞⃥ ',
+      \ 'ffnotnix': '␌⃞ ',
+      \ 'diffing' : 'DIFF',
+      \ }
+let g:mayhem.symbols_A.status = {
+      \ 'readonly': 'R',
+      \ 'fencnot8': '!8',
+      \ 'ffnotnix': '!F',
+      \ 'diffing' : 'DIFF',
+      \ }
 function CheckRO()
-  return &readonly ? "ᴿ" : ""
+  return &readonly ? s:symbols.status.readonly : ""
 endfunc
 function CheckUtf8()
-  return &fenc !~ "^$\\|utf-8" || &bomb ? "∪⃞⃥ " : ""
+  return &fenc !~ "^$\\|utf-8" || &bomb ? s:symbols.status.fencnot8 : ""
 endfunc
 function CheckUnix()
-  return &fileformat == "unix" ? "" : "␌⃞ "
+  return &fileformat == "unix" ? "" : s:symbols.status.ffnotnix
 endfunc
 function Diffing()
-  return &diff ? "􀉆􀄭􀕹" : ""
-  " return &diff ? "DIFF" : ""
+  return &diff ? s:symbols.status.diffing : ""
 endfunc
 
 
@@ -205,10 +244,12 @@ function ChFName()
   return get(get(b:, 'mayhem', {}), 'sl_cached_filename',
         \ [expand('%'),expand('%')])[NC()]
 endfunc
+
 function ChFInfo()
   return get(get(b:, 'mayhem', {}), 'sl_cached_fileinfo',
         \ ['',''])[NC()]
 endfunc
+
 let g:mayhem.type_ext_map = {
       \ 'javascriptreact': ['jsx'],
       \ 'javascript': ['js'],
@@ -217,6 +258,7 @@ let g:mayhem.type_ext_map = {
       \ 'markdown': ['md'],
       \ 'dosbatch': ['bat'],
       \ }
+
 function s:TypeMatchesFilename(type, filename)
   let ext = fnamemodify(a:filename, ':e')
   let name = fnamemodify(a:filename, ':r')
@@ -226,6 +268,7 @@ function s:TypeMatchesFilename(type, filename)
   return a:type == ext || index(typemapping, ext) >= 0
         \ || name == tail && index(typemapping, name) >= 0
 endfunc
+
 function s:Update_FileInfo()
   call s:SetStatusVars()
   let ext = expand('%:e')
@@ -378,26 +421,22 @@ function! ModeSF() abort
 endfunc
 
 "ꘖǀǀǁǂ|‖꜏ꖔ꜊   ꜏̲̅ ꜊̲̅
-let g:mayhem.symbols_scroll8L = {
+let g:mayhem.symbols_8.scrollL = {
       \ 'steps': ['꜒','꜍','꜓','꜎','꜔','꜐','꜕','꜑','꜖'],
       \ 'top':'꜒̅', 'full':'ǁ', 'bot':'꜖̲',
       \ }
-let g:mayhem.symbols_scroll8R = {
+let g:mayhem.symbols_8.scrollR = {
       \ 'steps': ['˥','꜈','˦','꜉','˧','꜋','˨','꜌','˩'],
       \ 'top':'˥̅', 'full':'ǁ', 'bot':'˩̲',
       \ }
-let g:mayhem.symbols_scroll8 = g:mayhem.symbols_scroll8R
-let g:mayhem.symbols_scrollA = {
+let g:mayhem.symbols_S.scroll = g:mayhem.symbols_8.scrollR
+let g:mayhem.symbols_8.scroll = g:mayhem.symbols_8.scrollR
+let g:mayhem.symbols_A.scroll = {
       \ 'steps': ['1','2','3','4','5','6','7','8','9'],
       \ 'top':'¯', 'full':']', 'bot':'_',
       \ }
 function ScrollHint() abort
-  if !exists('g:mayhem.symbols_scroll8')
-    return
-  endif
-  let symbols = has("multi_byte_encoding") && &encoding == "utf-8" ?
-        \ g:mayhem.symbols_scroll8 : g:mayhem.symbols_scrollA
-
+  let scrollsymbols = get(s:symbols, 'scroll', {})
   let line_cursor = line('.')
   let line_wintop = line('w0')
   let line_winbot = line('w$')
@@ -405,22 +444,22 @@ function ScrollHint() abort
 
   if line_wintop == 1
     if line_winbot == line_count
-      return symbols.full
+      return scrollsymbols.full
     endif
-    return symbols.top
+    return scrollsymbols.top
   endif
   if line_winbot == line_count
-    return symbols.bot
+    return scrollsymbols.bot
   endif
 
-  let position = (line_cursor * len(symbols.steps) - 1) / line_count
+  let position = (line_cursor * len(scrollsymbols.steps) - 1) / line_count
 
   let top    = line('w0')
   let height = line('w$') - top + 1
 
   " echo printf('%i, %i, %i, %s',
-  "\ line_cursor, line_count, position, symbols.steps[position])
-  return symbols.steps[position]
+  "\ line_cursor, line_count, position, scrollsymbols.steps[position])
+  return scrollsymbols.steps[position]
 endfunc
 
 function s:SetStatusVars()

@@ -121,8 +121,63 @@ command! -range=% AddTrailingCommas <line1>,<line2> s/[^;{}]\zs\ze$\n\s*}/;/
 "
 " /url(\("\|'\|\)data:\([A-Za-z/]\+\);\(base64\)\?,\([A-Za-z0-9/+=]\+\)\1)/
 "
-" Split: across multiple lines
+" Split: across multiple lines                              TODO
 "
+" If base64, wrap @ fixed length after preamble
+" If svg, break up by:
+"   attributes in root element
+"     xmlns: hidden next to opening tag
+"     width/height/viewBox: share a line, break if needed
+"     style: own line
+"       break into multiple lines if needed
+"   child elements
+"   svg path components inside d attribute
+" e.g.
+"
+" url('data:image/svg+xml,<svg xmlns={SVG}\
+"    width="1em" height="1em"\
+"    viewBox="0 0 384 512"\
+"    style="fill:#dd1111;"\
+"    ><path d="\
+"      M342.6 150.6\
+"      c12.5-12.5 12.5-32.8 0-45.3\
+"               s-32.8-12.5-45.3 0\
+"      L(192, 210.7)(86.6, 105.4)\
+"      c❲-12.5-12.5❳❲-32.8-12.5❳❲-45.3 0❳\
+"      c←12.5↑12.5,←32.8↑12.5,←45.3 0)\
+"      s{-45.3,   0  }(-12.5,  32.8)(  0,  45.3)\
+"
+"      M[10, 0]
+"        a(10 10 0 1 0 10 10)
+"        A(10 10 0 0 0 10 0)
+"      ↘︎m→1↓16
+"      ↘︎m1→16↓
+"        H(⇢9)
+"        v(-2↑)
+"        h(2→)
+"      z\
+"      m‣2.71▴▫7.6a2.6 2.6 0 0 1-.33.74 3.2 3.2 0 0 1-.48.55\
+"      l-.54.48c-.21.18-.41.35-.58.52a2.5 2.5 0 0 0-.47.56\
+"      A2.3 2.3 0 0 0 11 12a3.8 3.8 0 0 0-.11 1H9.08\
+"      a9 9 0 0 1 .07-1.25 3.3 3.3 0 0 1 .25-.9 2.8 2.8 0 0 1 .41-.67 4 4 0 0 1 .58-.58\
+"      c.17-.16.34-.3.51-.44\
+"      
+"      L146.7 256 41.4 361.4\
+"      c-12.5 12.5-12.5 32.8 0 45.3\
+"      ⤷ s32.8 12.5 45.3 0\
+"      L192 301.3 297.4 406.6\
+"      c12.5 12.5 32.8 12.5 45.3 0\
+"      ⤷ s12.5-32.8 0-45.3\
+"      L237.3 256 342.6 150.6z\
+"      "></path></svg>');
+" Convert:
+"   s => c   (find previous curve endpoint and prepend)
+"   t => q   (find previous curve endpoint and prepend)
+"
+"   abs => rel
+"
+command! -range=% DataURLFit <line1>,<line2>
+
 " Quotes: add if missing, change to ''
 " (Assumes no syntax errors to start with)
 " 

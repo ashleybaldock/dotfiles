@@ -27,20 +27,18 @@ let s:diagsigns = [
       \ {'sign': '⌁', 'hlt': 'SignDgHint', 'hll': 'LineDgHint', 'name': 'diag_hint',         },
       \]
 
-function! s:PlaceSign()
-" ┃ numhl  texthl  linehl (or culhl if cursor on line)
-" ┃ ╭─↓─╮ ╭↓╮ | ╭────────────────↓──────────────────╮   
-" ┃+✘        █
-" ┃ ⚑ 123  █A Line of the sig̲ns
-" ┃╰↑╰───╯ █   ╰───────────────────────────────────╯
-" ┃  ▏️    ▏️▕️
-" ┃  ▏️    ▏️▕️
-" ┃  ▏️    ▏️▕️
-" ┃  ▏️    ▏️▕️
-" ┃  ▏️991 ▏️▕️
-" ┃  ▏️992 ▏️▕️
-" ┃  ▏️    ▏️▕️
-" ┃􀰫1123  █A Line of the sig̲ns
+" ┃ ╭╴texthl
+" ┃ │  ╭╴numhl   ╭╴linehl (or culhl if cursor on line)
+" ╭─∇┬─∇─┬───────∇────────────────────────────────────────╮   
+" ╻ ⚑ 123 A Line of the sig̲ns
+" ┃  ╵   ╵
+" ┃  ╵   ╵
+" ┃  ╵   ╵
+" ┃  ╵   ╵
+" ┃  ╵991╵
+" ┃  ╵992╵
+" ┃  ╵   ╵
+" ┃􀰫1123  A Line of the sig̲ns
 " ┃1234567      sign/text  hlt: texthl; hll: linehl; hlc: curhl;
 " ┃􀅃
 " ┃􀑂
@@ -52,6 +50,10 @@ function! s:PlaceSign()
 " ┃􀌨
 
 
+"
+" -----------------------------------   Signs   -----------
+"
+function! s:PlaceSign()
   let aSign = sign_define(s:prefix..'testsign', { 
         \ 'text': '✘+',
         \ 'linehl': 'TestHint5', 
@@ -109,14 +111,14 @@ function! s:ListSignsInCurrentBuffer()
   return sign_getplaced(bufnr(), { 'group': '*'})
 endfunc
 function! s:ListSignsOfMayhemInCurrentBuffer()
-  return sign_getplaced(bufnr(), { 'group': a:group })
+  return sign_getplaced(bufnr(), { 'group': s:group })
 endfunc
 
 function! s:ListSignsInCurrentLine()
   return sign_getplaced(bufnr(), { 'lnum': line('.'), 'group': '*'})
 endfunc
 function! s:ListSignsOfMayhemInCurrentLine()
-  return sign_getplaced(bufnr(), { 'lnum': line('.'), 'group': a:group })
+  return sign_getplaced(bufnr(), { 'lnum': line('.'), 'group': s:group })
 endfunc
 
 command! AllSignsInThisLine echo <SID>ListSignsInCurrentLine()
@@ -124,6 +126,8 @@ command! AllSignsInThisBuffer echo <SID>ListSignsInCurrentBuffer()
 command! OurSignsInThisLine echo <SID>ListSignsOfMayhemInCurrentLine()
 command! OurSignsInThisBuffer echo <SID>ListSignsOfMayhemInCurrentBuffer()
 
+"
+" ----------------------------------- TextProps -----------
 "
 "  prop_type_add/prop_type_change
 " bufnr      : buffer local
@@ -138,13 +142,13 @@ command! OurSignsInThisBuffer echo <SID>ListSignsOfMayhemInCurrentBuffer()
 
 function! AddTestTextPropType()
   return prop_type_add(s:prefix .. '', {
-        \ 'bufnr': ,
-        \ 'highlight': ,
-        \ 'priority': ,
-        \ 'combine': ,
-        \ 'override': ,
-        \ 'start_incl': ,
-        \ 'end_incl': 
+        \ 'bufnr': bufnr(),
+        \ 'highlight': 'TestHint5',
+        \ 'priority': 4,
+        \ 'combine': 1,
+        \ 'override': 0,
+        \ 'start_incl': 1,
+        \ 'end_incl': 1 
         \ })
 endfunc
 

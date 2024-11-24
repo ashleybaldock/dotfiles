@@ -69,6 +69,19 @@ function! FormatBuffer(bufnr = bufnr()) range
 endfunc
 
 "
+" Transpose Rows And Columns: in range or visual selection
+"
+function! s:TransposeRowCol(sep='	') range abort
+  exec a:firstline..','..a:lastline..'!rs -T -g1 -C'..a:sep
+  exec line("'[")..','..line("']")..'s/^\zs\s*//g'
+endfunc
+"
+" Optional argument sets delimiter to insert between columns of output
+" (defaults to <Tab>)
+"
+command! -nargs=? -range TransposeRowCol <line1>,<line2>call <SID>TransposeRowCol(<f-args>)
+
+"
 " Add line continutation (\⏎) to the current cursor line,
 " or to the selected range of lines
 " Can be given a specific column to wrap at (defaults 

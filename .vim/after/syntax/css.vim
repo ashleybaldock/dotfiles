@@ -1,78 +1,46 @@
 
-"{{{
-" syn region cssUrlSvg  start=+%3[cC]svg+  end=+%3[cC]/svg%3[eE]+  contains=@htmlXml transparent keepend
-
-" syn region cssUrlSvgTag
-"       \ start=+%3[cC][^/]+
-"       \ end=+%3[eE]+
-"       \ contains=cssUrlSvgTagName,cssUrlSvgAttrName,cssUrlSeps,
-"       \  cssUrlSvgAttrValue,cssPer3C,cssPer3E
-
-" syn region cssUrlSvgEndTag
-"       \ start=+%3[cC]/+
-"       \ end=+%3[eE]+
-"       \ contains=cssUrlSvgTagName,cssPer3C,cssPer3E
-
-" syn region cssUrlSvgAttrValueEQ
-"       \ start=+=\zs%22+
-"       \ end=+%22+
+" Remove oneline
+" syn region cssURL contained
+"       \ matchgroup=cssFunctionName
+"       \ start="\<\(uri\|url\|local\|format\)\s*("
+"       \ end=")"
 "       \ contained
-" syn region cssUrlSvgAttrValueSQ
-"       \ start=+='+
-"       \ end=+'+
-"       \ contained
-      " \ contains=cssUrlHeader,cssPerEnc,cssUrlSvgTag,cssUrlSvgTagBracket,cssUrlSvgEndTag
-" syn region cssUrlHeader
-"       \ start="\zedata:"
-"       \ end=+,+
-"       \ contained
-"       \ contains=NONE
-      " \ contains=cssUrlScheme,cssUrlMediaType,cssUrlBase64,cssUrlSeps
-" syn region cssUrlSvgPQ
-"       \ start=^\zs%22\zedata:image/svg+xml\(;[^,]\*\)\*,^
-"       \ end=+%22+
-"       \ contained
-"       \ extend
-"       \ containedin=cssUrl
-"       \ contains=cssUrlHeader,cssPerEnc,cssUrlSvgTag,cssUrlSvgTagBracket,cssUrlSvgEndTag
-" syn match cssUrlSvgTagName
-"     \ /\(%3[cC]\/\|%3[cC]\)\zs[a-zA-Z:_][-.0-9a-zA-Z:_]*\ze\(\s\|%3[eE]\)/
-"     \ contains=NONE
-"     \ contained
+"       \ contains=cssStringQ,cssStringQQ
 
-" syn region cssUrlSvgDQ
-"       \ start=^\zs"\zedata:image/svg+xml\(;[^,]\*\)\*,^
-"       \ end=+"+
-"       \ contained
-"       \ extend
-" syn region cssUrlSvgSQ
-"       \ start=^\zs'\zedata:image/svg+xml\(;\_[^,]\*\)\*,^
-"       \ end=+'+
-"       \ contained
-"       \ extend
-"       \ contains=cssUrlScheme,cssUrlMediaType,cssUrlBase64,cssUrlSvgTag,cssUrlSvgEndTag,cssUrlSeps
+      " \ conceal cchar=╌
+syn match cssVarDashes /--/ contained contains=NONE conceal transparent
+syn match cssVarCustomProp contained "--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)*\Z"
+      \ contained contains=cssVarDashes
+syn match cssCustomPropDashes /--/
+      \ contained contains=NONE transparent
+      \ conceal cchar=╌
+      \ containedin=cssCustomProp
+syn match cssCustomProp contained "--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)*\Z"
 
-" syn region cssUrlQ
-"       \ matchgroup=cssUrlFunctionName
-"       \ start=+\zs\<\(url\)\s*\ze('\ze+
-"       \ end=+'\zs)+
-"       \ contained
-"       \ containedin=cssAttrRegion
-"       \ contains=cssUrlScheme,cssUrlMediaType,
-"       \  cssUrlSvgTag,cssUrlSvgEndTag,cssUrlSeps
+syn keyword cssFunctionNameVar contained conceal cchar=𐐏 var
+syn region cssFunctionVar
+      \ matchgroup=cssVarParens
+      \ start="\<var\s*("ms=s+3,hs=e
+      \ end=")"me=e
+      \ contained oneline
+      \ containedin=cssDefinition,cssAttrRegion,cssAtRule,cssFunction
+      \ contains=cssFunctionNameVar,cssVarCustomProp,cssFunctionVar,cssValue.*,cssFunction,cssColor,cssStringQ,cssStringQQ
+      " \ contains=cssFunctionNameVar,cssVarParens
+" syn region cssVarParens
+"       \ start="("
+"       \ end=")"me=e-1,he=e+2
+"       \ contained oneline
+"       \ contains=cssVarCustomProp,cssFunctionVar,cssValue.*,cssFunction,cssColor,cssStringQ,cssStringQQ
 
-" syn region cssUrlQQ
-"       \ matchgroup=cssUrlFunctionName
-"       \ start=+\<\(url\)\s*(\ze"data:+
-"       \ end=+"\zs)+
-"       \ keepend
-"       \ contained
-"       \ containedin=cssAttrRegion
-"       \ contains=cssUrlFunctionName,cssUrlScheme,cssUrlMediaType,
-"       \  cssUrlSvgTag,cssUrlSvgEndTag,cssUrlSeps
-"       }}}
+hi def link cssFunctionNameVar Conceal
+hi def link cssVarCustomProp cssCustomProp
+hi def link cssVarParens Conceal
 
+syn match cssUrlSeps /[:;,]/ contained contains=NONE
 
+syn match cssUrlSvgTagN !\(%3[cC]/\?\)\@3<=[-a-zA-Z0-9]\+!
+      \ contained transparent
+      \ contains=cssUrlSvgTagName
 
 syn keyword cssUrlSvgTagName contained a altGlyph altGlyphDef altGlyphItem animate 
 syn keyword cssUrlSvgTagName contained animateColor animateMotion animateTransform animation
@@ -94,161 +62,277 @@ syn keyword cssUrlSvgTagName contained stop style svg switch symbol text textAre
 syn keyword cssUrlSvgTagName contained title tref tspan unknown use video view vkern
 
 syn region cssUrlFunction
-      \ matchgroup=cssUrlFunctionStart
-      \ start=+\<\(url\)(\z("\|'\|%22\)+
-      \ matchgroup=cssUrlFunctionEnd
+      \ matchgroup=cssUrlFnName
+      \ start=+\<\(url\)\ze(\z("\|'\)+
       \ end=+\z1)+
       \ keepend
       \ contained
       \ containedin=cssAttrRegion
-      \ contains=cssUrlPreamble,cssUrlFunctionName,cssUrlScheme,cssUrlMediaType,
-      \  cssUrlSvgTag,cssUrlSvgEndTag,cssUrlSeps,cssLineContinues
+      \ contains=cssUrlFunctionParens
 
-syn region cssUrlPreamble
-      \ matchGroup=cssUrlPreamble
-      \ start=+data:+
-      \ end=+,+
+syn region cssUrlFunctionParens
+      \ matchgroup=cssUrlParen
+      \ start=+(\ze\z("\|'\)+
+      \ end=+\z1\zs)+
       \ contained
-      \ contains=cssUrlScheme,cssUrlMediaType,cssUrlSeps,cssLineContinues
-syn match cssUrlScheme +data\ze:+
-      \ contained
-      \ contains=NONE
-syn match cssUrlMediaType /:\zs[^:(,]\+\(;[^,]\+\)*\ze,/
-      \ contained
-      \ contains=cssUrlBase64,cssUrlSeps,cssLineContinues
-syn match cssUrlBase64 /;\zsbase64\ze,/
-      \ contained
-      \ contains=NONE
-syn match cssUrlSeps /[:;,]/
-      \ contained contains=NONE display
-
-syn match cssUrlFunctionName +\<\(url\)\ze\s*(['"]\?data:+
-      \ contained
-
-syn region cssUrlSvgString
-      \ start=+%23+
-      \ end=+%23+
-      \ contained
-      \ contains=cssUrlSvgSpecialChar
-
-syn match cssUrlSvgAttr +\zs\<[a-zA-Z:_][-.0-9a-zA-Z:_]*\>\ze=+
-      \ contained
-      \ contains=NONE
-
-" syn match cssUrlSvgValue contained "=[\t ]*[^'" \t>][^ \t>]*"hs=s+1 contains=@cssUrlSvgPreproc
-syn region cssUrlSvgValue
-      \ start=+=\zs\z\("\|'\|%22\)+
+      \ contains=cssUrlFunctionString
+syn region cssUrlFunctionString
+      \ start=+\z("\|'\)+
       \ end=+\z1+
       \ contained
+      \ contains=cssUrlPrefix,cssUrlMimeType,
+      \ cssUrlSvgComment,
+      \ cssUrlSvgTag,cssUrlSvgEndTag,
+      \ cssUrl64Data,cssUrlSeps,
+      \ cssLineCont,cssPer0A
+" dataurl preamble
+syn match cssUrlPrefix +data+
+      \ contained
+      \ contains=cssLineCont
+      \ nextgroup=cssUrlMimeType
+      \ skipwhite skipnl
+" syn region cssUrlMimeType !:[A-Za-z/+]\+\ze[;,]!
+syn region cssUrlMimeType
+      \ start=+:+
+      \ end=+,+
+      \ end=+;+
+      \ contained
       \ keepend
-      \ contains=cssUrlSvgPath
+      \ contains=cssUrlSeps,cssLineCont
+      \ nextgroup=cssUrl64Data,cssUrlSvgTag
+      \ skipwhite skipnl
 
+" Base64 encoded data
+" syn match cssUrl64Token !base64,\zs[A-Za-z0-9/+]\+=!
+syn region cssUrl64Data 
+      \ matchgroup=cssUrl64Token
+      \ start=+base64,+
+      \ matchgroup=NONE
+      \ end=!=\+!
+      \ end=!\ze'!
+      \ end=!\ze"!
+      \ end=!\ze)!
+      \ keepend
+      \ fold
+      \ cchar=*
+      \ contained
+      \ contains=cssUrlSeps,cssLineCont
+
+syn region cssUrlSvgTag
+      \ start=+%3[cC]+
+      \ end=+%3[eE]+
+      \ keepend
+      \ contained
+      \ contains=cssUrlSvgValue,cssUrlSvgTagN,
+      \ cssUrlSvgPath,cssUrlSvgXmlns,cssUrlSvgAttr,
+      \ cssUrlSvgAttrSep,cssPerTag,cssLineCont
 syn region cssUrlSvgEndTag
       \ start=+%3[cC]/+
       \ end=+%3[eE]+
       \ keepend
       \ contained
-      \ contains=cssUrlSvgTagN,cssUrlSvgTagError,cssPer3C,cssPer3E
+      \ contains=cssUrlSvgTagN,cssPerTag,cssLineCont
 
-syn region cssUrlSvgTag
-      \ start=+%3[cC][^/]+
-      \ end=+%3[eE]+
+syn region cssUrlSvgComment
+      \ start=+%3[cC]!--[!]\?+
+      \ end=+--[!]\?%3[eE]+
       \ keepend
       \ contained
-      \ contains=cssUrlSvgTagN,cssUrlSvgString,cssUrlSvgAttr,
-      \ cssUrlSvgValue,cssUrlSvgTagError,cssPer3C,cssPer3E
+      \ contains=@Spell,cssPerTag,cssLineCont
 
-syn match cssUrlSvgTagN +%3[cC]\s*[-a-zA-Z0-9]\++hs=s+1
+syn match cssUrlSvgAttr +\zs\<[a-zA-Z:_][-.0-9a-zA-Z:_]*\>\ze=+
       \ contained
-      \ contains=cssUrlSvgTagName
-
-syn match cssUrlSvgTagN +%3[cC]/\s*[-a-zA-Z0-9]\++hs=s+2
-      \ contained
-      \ contains=cssUrlSvgTagName
-
-syn match cssUrlSvgTagError +\%(%3[eE]\)\@3<!%3[cC]+ms=s+1
-      \ contained 
-
+      \ contains=cssUrlSvgAttrSep,cssLineCont,cssPer
 
 syn region cssUrlSvgPath
-      \ start=+path=\zs\z\("\|'\|%22\)+
-      \ end=+\z1+
+      \ start=+d=%22+
+      \ end=+%22+
       \ keepend
       \ contained
-      \ contains=pathAbsMove,pathRelMove,pathClose,
-      \ pathLineAbs,pathLineRel,pathHLineAbs,pathHLineRel,
+      \ contains=cssUrlSvgAttr,pathClose,
+      \ pathMoveAbs,pathMoveRel,
+      \ pathLineAbs,pathLineRel,
+      \ pathHLineAbs,pathHLineRel,
       \ pathVLineAbs,pathVLineRel,
-      \ pathCubicAbs,pathCubicRel,pathCubic2Abs,pathCubic2Rel,
-      \ pathQuadAbs,pathQuadRel,pathQuad2Abs,pathQuad2Rel,
-      \ pathEllipticalAbs,pathEllipticalRel,
-      \ cssLineContinues
+      \ pathCubicAbs,pathCubicRel,
+      \ pathCubi2Abs,pathCubi2Rel,
+      \ pathQuadAbs,pathQuadRel,
+      \ pathQuad2Abs,pathQuad2Rel,
+      \ pathEllipAbs,pathEllipRel,
+      \ cssUrlSeps,cssPer22,cssLineCont,cssPer
 
-syn region svgPathCmdM
-      \ matchGroup=svgPathCmdM
-      \ start=+M+
-      \ end=+\ze[MZVHLCSQTAmzvhlcsqta]+
+syn region cssUrlSvgXmlns
+      \ start=+xmlns=%22+
+      \ end=+%22+
+      \ keepend
       \ contained
-      \ contains=svgPathCmdParam,cssLineContinues
+      \ contains=cssUrlSvgAttr,cssUrlSvgAttrSep,
+      \ cssLineCont,cssPer22,cssPer
 
-syn match svgPathCmdParam +[0-9. -]\{1,}+
-
-" syn match pathAbsMove /M\d*\.\?\d\+ \d
-
-
-syn match cssLineContinues /\\$/ conceal cchar=╲
+syn region cssUrlSvgValue
+      \ start=+%22+
+      \ end=+%22+
+      \ keepend
       \ contained
-      \ contains=NONE
-      \ containedin=cssUrlSvg,cssUrlSvgTag,cssUrlSvgEndTag,cssDefinition,cssStringQ,cssStringQQ
+      \ contains=cssPer22,cssPer
 
-syn region cssUrlSvgComment start=+%3[cC]!--+	end=+--[!]\?%3[eE]+	contains=@Spell
+syn case match
 
-syn match cssUrlSvgSpecialChar "&#\=[0-9A-Za-z]\{1,8};"
-syn match cssPer0A /%0A/ conceal cchar=⮐ 
+syn match pathClose +[zZ]+ contained
+
+syn region pathMoveAbs
+      \ start=+M+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+syn region pathMoveRel
+      \ start=+m+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+
+syn region pathLineAbs
+      \ start=+L+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+syn region pathLineRel
+      \ start=+l+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+
+syn region pathHLineAbs
+      \ start=+H+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+syn region pathHLineRel
+      \ start=+h+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+
+syn region pathVLineAbs
+      \ start=+V+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+syn region pathVLineRel
+      \ start=+v+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+
+syn region pathCubicAbs
+      \ start=+C+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+syn region pathCubicRel
+      \ start=+c+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+syn region pathCubi2Abs
+      \ start=+S+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+syn region pathCubi2Abs
+      \ start=+s+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+
+syn region pathQuadAbs
+      \ start=+Q+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+syn region pathQuadRel
+      \ start=+q+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+syn region pathQuad2Abs
+      \ start=+T+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+syn region pathQuad2Rel
+      \ start=+t+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+
+syn region pathEllipAbs
+      \ start=+A+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+syn region pathEllipRel
+      \ start=+a+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+
+      \ oneline contained contains=svgPathParam
+
+syn match svgPathParam +[0-9. -]\{1,}+ transparent
       \ contained contains=NONE
-      \ containedin=cssUrlSvg,cssUrlSvgTag,cssUrlSvgEndTag,cssStringQ,cssStringQQ
 
-syn match cssPer22 /%22/ conceal cchar="
-      \ contained contains=NONE
-      \ containedin=cssUrlSvg,cssUrlSvgTag,cssUrlSvgEndTag,cssStringQ,cssStringQQ
+syn case ignore
 
-syn match cssPer23 /%23/ conceal cchar=#
-      \ contained contains=NONE
-      \ containedin=cssUrlSvg,cssUrlSvgTag,cssUrlSvgEndTag,cssStringQ,cssStringQQ
+" syn match cssUrlSvgTagN +\/\?%3[cC]\zs[-a-zA-Z0-9]\++
 
-syn match cssPer3C /%3[cC]/ conceal cchar=<
-      \ contained contains=NONE
-      \ containedin=cssUrlSvg,cssUrlSvgTag,cssUrlSvgEndTag,cssStringQ,cssStringQQ
+syn match cssUrlSvgAttrSep /=/ contained contains=NONE
 
-syn match cssPer3E /%3[eE]/ conceal cchar=>
-      \ contained contains=NONE
-      \ containedin=cssUrlSvg,cssUrlSvgTag,cssUrlSvgEndTag,cssStringQ,cssStringQQ
+syn match cssLineCont /\\$/ conceal cchar=╲ contained contains=NONE
+      \ containedin=cssDefinition,cssStringQ,cssStringQQ
+
+syn match cssPer0A /%0[aA]/ conceal cchar=⮐  contained contains=NONE
+      \ containedin=cssStringQ,cssStringQQ
+
+syn match cssPer /%20/    conceal cchar=␣ contained contains=NONE
+syn match cssPer /%21/    conceal cchar=! contained contains=NONE
+syn match cssPer22 /%22/    conceal cchar=" contained contains=NONE
+syn match cssPer /%23/    conceal cchar=# contained contains=NONE
+syn match cssPer /%24/    conceal cchar=$ contained contains=NONE
+syn match cssPer /%25/    conceal cchar=% contained contains=NONE
+syn match cssPer /%26/    conceal cchar=& contained contains=NONE
+syn match cssPer /%27/    conceal cchar=' contained contains=NONE
+syn match cssPer /%28/    conceal cchar=( contained contains=NONE
+syn match cssPer /%29/    conceal cchar=) contained contains=NONE
+syn match cssPer /%2[aA]/ conceal cchar=* contained contains=NONE
+syn match cssPer /%2[bB]/ conceal cchar=+ contained contains=NONE
+syn match cssPer /%2[cC]/ conceal cchar=, contained contains=NONE
+syn match cssPer /%2[dD]/ conceal cchar=- contained contains=NONE
+syn match cssPer /%2[eE]/ conceal cchar=. contained contains=NONE
+syn match cssPer /%2[fF]/ conceal cchar=/ contained contains=NONE
+syn match cssPer /%3[aA]/ conceal cchar=: contained contains=NONE
+syn match cssPer /%3[bB]/ conceal cchar=; contained contains=NONE
+syn match cssPerTag /%3[cC]/ conceal cchar=< contained contains=NONE
+syn match cssPer /%3[dD]/ conceal cchar== contained contains=NONE
+syn match cssPerTag /%3[eE]/ conceal cchar=> contained contains=NONE
+syn match cssPer /%3[fF]/ conceal cchar=? contained contains=NONE
+syn match cssPer /%40/    conceal cchar=@ contained contains=NONE
+syn match cssPer /%5[bB]/ conceal cchar=[ contained contains=NONE
+syn match cssPer /%5[cC]/ conceal cchar=\ contained contains=NONE
+syn match cssPer /%5[dD]/ conceal cchar=] contained contains=NONE
+syn match cssPer /%5[eE]/ conceal cchar=^ contained contains=NONE
+syn match cssPer /%5[fF]/ conceal cchar=_ contained contains=NONE
 
 
-hi def link cssUrlFunction Statement
-hi def cssUrlFunctionName guifg=#0544ff
-hi def link cssUrlPreamble PreProc
-hi def cssUrlScheme guifg=#0044cc
-hi def cssUrlMediaType guifg=#0066aa
-hi def cssUrlBase64 guifg=#aa0033
-hi def cssUrlSeps guifg=#ddcc44
+hi def link cssUrlFnName cssFunctionName
+hi def link cssUrlParen  cssFunctionName
+" hi def link cssUrlPre    PreProc
+hi def cssUrlPrefix      guifg=#cc77ee
+hi def cssUrlMimeType    guifg=#ff99ff
+hi def cssUrlSeps        guifg=#ddcc44
+hi def cssUrlSvgAttrSep  guifg=#ff00ff
+hi def cssUrl64Token     guifg=#aa0033
+hi def link cssUrl64Data Conceal
+hi def cssUrlSvgTag      guifg=#1199dd
+hi def cssUrlSvgEndTag   guifg=#1199dd
+hi def cssUrlSvgTagName  guifg=#999900
+
 hi def link cssUrlSvgValue String 
 hi def link cssUrlSvgAttr Type
-hi def link cssUrlSvgString String
-hi def cssUrlSvgTag guifg=#1199dd
-hi def cssUrlSvgEndTag guifg=#1199ff
-hi def cssUrlSvgTagName guifg=#999900
-hi def link cssUrlSvgTagN cssUrlSvgTagName
 hi def link cssUrlSvgTagError htmlCommentError
-hi def link cssUrlSvgSpecialChar Special
 hi def link cssUrlSvgComment htmlComment
+hi def link cssUrlSvgXmlns htmlComment
+
+hi def pathClose    guifg=#ffaa00 guibg=NONE gui=bold
+hi def pathMoveAbs  guifg=#009900 gui=bold guisp=#4444ee
+hi def pathMoveRel  guifg=#009900
+hi def pathLineAbs  guifg=#9900cc gui=bold guisp=#eeeeee
+hi def pathLineRel  guifg=#9900cc
+hi def pathHLineAbs guifg=#0066aa gui=bold guisp=#eeeeee
+hi def pathHLineRel guifg=#0066aa
+hi def pathVLineAbs guifg=#bb0077 gui=bold guisp=#eeeeee
+hi def pathVLineRel guifg=#aa0066
+hi def pathCubicAbs guifg=#8800ff gui=bold guisp=#44eeee
+hi def pathCubicRel guifg=#8800ff
+hi def pathCubi2Abs guifg=#8855ff
+hi def pathCubi2Rel guifg=#8855ff
+hi def pathQuadAbs  guifg=#664488 gui=bold guisp=#eeeeee
+hi def pathQuadRel  guifg=#664488
+hi def pathQuad2Abs guifg=#665588 gui=bold guisp=#eeeeee
+hi def pathQuad2Rel guifg=#665588
+hi def pathEllipAbs guifg=#aa6666 gui=bold guisp=#eeeeee
+hi def pathEllipRel guifg=#aa6666
+hi def svgPathParam guifg=NONE
 
 
-hi def cssLineContinues guifg=#0022aa
+hi def link cssLineCont Conceal
 hi def link cssPer0A cssPerEnc
+hi def link cssPer cssPerEnc
 hi def link cssPer22 cssPerEnc
-hi def link cssPer23 cssPerEnc
-hi def link cssPer3C cssPerEnc
-hi def link cssPer3E cssPerEnc
+hi def link cssPerTag cssPerEnc
 hi def link cssPerEnc Conceal
 
 " vim: nowrap sw=2 sts=2 ts=8 et fdm=marker:
+

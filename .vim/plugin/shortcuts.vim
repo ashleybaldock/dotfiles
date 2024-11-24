@@ -3,13 +3,7 @@ if exists("g:mayhem_loaded_shortcuts")
 endif
 let g:mayhem_loaded_shortcuts = 1
 
-" ⌥⃝   ⃝  ◁╮                   
-" ╭▷ ⌥⃝  ⇧⃝   ⃝  
 "
-" ╰▷ ⌥⃝ 𝄑⇧⃝ 𝄑 ⃝           
-" ⌥⃝   ⃝  ◁╯
-"
-" 
 " Key Mappings:
 "
 " See Also: ./mouse.vim
@@ -49,43 +43,69 @@ nnoremap <leader>i   <C-i>
 
 
 "
-" Combining: 
-"
-" ╭─▷    ⌥⃝ 𝄐0⃝  ──────────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝ 
+" Add Combining: 
+" ╭─▷    ⌥⃝ 𝄐0⃝  ──────────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝  + RepeatMove
 nnoremap º a⃝ <Esc>h<Cmd>RepeatMove<CR>
 xnoremap º :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR> 
 "
-" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐0⃝  ──────────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞ 
+" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐0⃝  ──────────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞  + RepeatMove
 nnoremap ‚ a⃞ <Esc>h<Cmd>RepeatMove<CR>
 xnoremap ‚ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<CR> 
 "
-" ╭─▷    ⌥⃝ 𝄐-⃝  ──────────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲
+" 𓉘 ⌥️  - 𓉝──▷ ────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ + RepeatMove
 nnoremap – a̲<Esc><Cmd>RepeatMove<CR>
+" 𓉘 ⌥️  - 𓉝──▷ Underline visual selection, skip leading/trailing whitespace
+xnoremap – :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
 "
-" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐-⃝  ──────────▷ O̅v̅e̅r̅l̅i̅n̅e̅
+" 𓉘⌥️ ⇧️ - 𓉝──▷ O̅v̅e̅r̅l̅i̅n̅e̅ + RepeatMove
 nnoremap — a̅<Esc><Cmd>RepeatMove<CR>
+" 𓉘⌥️ ⇧️ - 𓉝──▷ Overline visual selection, skip leading/trailing whitespace
+xnoremap — :s/\%V\%(^"\s*\)\?\S\{-}\zs.\ze\S\{-}\%(\s*)\?$/\0̅/g<CR><Cmd>nohlsearch<CR> 
 " nnoremap <plug> a꛱<Esc><Cmd>RepeatMove<CR>
 " nnoremap <plug> a꛰<Esc><Cmd>RepeatMove<CR>
 "
-" ╭─▷    ⌥⃝ 𝄐=⃝  ──────────▷ V️ariation Selector 16
+" Add Variation Selector:
+" 𓉘 ⌥️  =︎ 𓉝──▷ ────▷ V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️ + RepeatMove
 nnoremap ≠ a️<Esc><Cmd>RepeatMove<CR>
-" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐=⃝  ──────────▷ Variation Selector 15
+" 𓉘 ⌥️  =︎ 𓉝──▷ Add V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️  to all non-whitespace in visual area
+xnoremap ≠ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
+" 𓉘⌥️ ⇧️ =︎ 𓉝──▷ V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ + RepeatMove
 nnoremap ± a︎<Esc><Cmd>RepeatMove<CR>
+" 𓉘⌥️ ⇧️ =︎ 𓉝──▷ Add V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ to all non-whitespace in visual area
+xnoremap ± :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0︎/g<CR><Cmd>nohlsearch<CR> 
+
+" Remove Combining:                                                       TODO
+" 𓉘 ⌥️ ⌫️  𓉝──▷ Remove first combining (as apposed to last, like x) + RepeatMove
+nnoremap <M-BS> <Nop>
+" 𓉘 ⌥️ ⌫️  𓉝──▷ Remove first combining from all chars in visual area
+xnoremap <M-BS> <Nop>
+" 𓉘⌥️ ⇧️ ⌫️ 𓉝──▷ Remove all combining chars + RepeatMove
+nnoremap <M-BS> <Nop>
+" 𓉘⌥️ ⇧️ ⌫️ 𓉝──▷ Remove all combining chars from visual area+ RepeatMove
+xnoremap <M-S-BS> <Nop>
+
+" Expand Spaces:
+" 𓉘𝙣=️𝟣𓉘 ⌥️ ␣️  𓉝──▷ Add count 𝙣 space(s) + RepeatMove
+nnoremap   a <Esc><Cmd>RepeatMove<CR>
+" 𓉘𝙣=️𝟣𓉘⌥️ ⇧️ ␣️ 𓉝──▷ Remove (up to) 𝙣 space(s) + RepeatMove
+nnoremap   a <Esc><Cmd>RepeatMove<CR>
+" 𓉘𝙣=️𝟣𓉘 ⌥️ ␣️  𓉝──▷ Add 𝙣 space(s) after each group of \W in visual area TODO
+xnoremap   :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
+" 𓉘𝙣=️𝟣𓉘⌥️ ⇧️ ␣️ 𓉝──▷ Remove (up to) 𝙣 space(s) from each \W group in visual area TODO
+xnoremap   :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
 
 " ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐E⃝  ──────────▷ Replace with last yanked
 nnoremap ‰ s<c-r>0<Esc><Cmd>RepeatMove<CR>
 "
 
-" Move to character (skipping whitespace)
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐L⃝  ──────────▷ Next character
-nnoremap ¬ :call search('\S', 'W', line('.'))<CR>
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐H⃝  ──────────▷ Previous character
-nnoremap ˙ :call search('\S', 'bW', line('.'))<CR>
-
+" Move: Next Non-Whitespace
+" ▌️ ⌥️ L ▐️────▷ Move to next non-whitespace character
+nnoremap <silent> ¬ :call search('\S', 'W', line('.'))<CR>
+" ▌️ ⌥️ H ▐️────▷ Move to previous non-whitespace character
+nnoremap <silent> ˙ :call search('\S', 'bW', line('.'))<CR>
 
 
 "  Word: (Under Cursor)
-"
 "
 "  Edit: §e       ╭╌╌╌╌╌╸Quick Bookmarks╺╌╌╌╌╮
 " ╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╎
@@ -98,33 +118,35 @@ nnoremap ˙ :call search('\S', 'bW', line('.'))<CR>
 " ╎  §e5   ┊  $HOME/                ┊  §E5   ╎
 " ╎╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╎
 " ╎         §e§ :  Select from PUM           ╎
+" ╎╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
+" ╎  :e    ⋮ same window     …force ⋮  :e!   ╎
 " ╎╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╎
-" ╎  :e    ┊    Open ..             ┊  :e!   ╎
-" ╎╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╎
-" ╎  §ew   ┊  ./<select>            ┊  $eW   ╎
-" ╎  §er   ┊  % (current,saved)     ┊  §eR   ╎
-" ╎  §ed   ┊  ./ (DIR)              ┊  §eD   ╎
-" ╎  §ec   ┊  <new|blank>           ┊  §eC   ╎
+" ╎  §ew   ┊         netrw̲          ┊  $eW   ╎
+" ╎  §er   ┊    r̲evert to saved     ┊  §eR   ╎
+" ╎  §ed   ┊   d̲uplicate current    ┊  §eD   ╎
+" ╎  §ef   ┊       pick f̲ile        ┊  §eF   ╎
+" ╎  §ec   ┊      c̲reate blank      ┊  §eC   ╎
 " ╎╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╎
-" ╎ vsplit                             split ┆
+" ╎  §ev…  ⋮ vsplit    ╱╱     split ⋮  $es…  ┆
 " ╎╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╎
-" ╎  §evv  ┊      same buffer       ┊  §ess  ╎
-" ╎  §eva  ┊        derived¹        ┊  §esv  ╎
-" ╎  §evc  ┊         blank          ┊  §esc  ╎
-" ╎  §evz  ┊       clipboard        ┊  §esz  ╎
-" ╎  §evx  ┊    <pick> template     ┊  §esx  ╎
-" ╎  §evw  ┊   <pick> file in ./    ┊  §esw  ╎
-" ╎  §evd  ┊     <list dir> ./      ┊  §evd  ╎
-" ╎  §evr  ┊       % saved          ┊  §esr  ╎
-" ╎╴ ╴ ╴ ╴ ┆╴╴╴ ╴ ╴ ╴ ╴ ╴ ╌╭╌╌╌╌╌╌╌╌╯        ╎
+" ╎  §evv  ┊      s̲ame buffer       ┊  §ess  ╎
+" ╎  §evd  ┊   d̲uplicate current    ┊  §esd  ╎
+" ╎  §eva  ┊     a̲uto-derived¹      ┊  §esa  ╎
+" ╎  §evc  ┊     c̲reate blank       ┊  §esc  ╎
+" ╎  §evb  ┊   clipb̲oard contents   ┊  §esb  ╎
+" ╎  §evt  ┊      pick t̲emplate     ┊  §est  ╎
+" ╎  §evw  ┊         netrw̲          ┊  §esw  ╎
+" ╎  §evf  ┊       pick f̲ile        ┊  §evf  ╎
+" ╎  §evr  ┊    (r̲e)load saved      ┊  §esr  ╎
+" ╎╴ ╴ ╴ ╴ ┆╴╴╴ ╴ ╴ ╴ ╴ ╴ ╌╭╌╌╌╌╌╌╌╌╯╴ ╴ ╴ ╴ ╎
 " ╎  §ee   ┊   ./<select>  ┊  existing² or   ╎
 " ╎  §eE   ┊   ./<select>  ┊  same or split³ ╎
 " ╎╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
 " ╎²⃝︎  §ee ⇉ ╶─?⃞╶┮[ if file is open already ] ╎
 " ╎           ∇ └─▷ jump to existing window  ╎
 " ╎³⃝  §eE ⇉ ╶─?⃞╶┮[ if window can be reused ] ╎
-" ╎          ┆ └─▷ replace current           ╎
-" ╎          ╰─▷ open in split               ╎
+" ╎           ┆ └─▷ replace current          ╎
+" ╎           ╰─▷ open in split              ╎
 " ╎ Notes:                                   ╎
 " ╎                                          ╎
 " ╎¹⃝  derived: blank, same filetype          ╎
@@ -139,11 +161,27 @@ nnoremap §eW :e! ./
 nnoremap §er :e %<CR>
 nnoremap §eR :e! %<CR>
 
-nnoremap §ed :e .<CR>
-nnoremap §eD :e .<CR>
+nnoremap §ef :e .<CR>
+nnoremap §eF :e .<CR>
 
 nnoremap §ec :enew<CR>
 nnoremap §eC :enew!<CR>
+
+nnoremap §ed <Cmd>DuplicateBuffer<CR>
+nnoremap §eD <Cmd>DuplicateBuffer!<CR>
+
+function! s:Duplicatebuffer(newcmd = 'new')
+  %y
+  let l:view = winsaveview()
+  let l:ft = &filetype
+  exec a:newcmd
+  exec "setf "..l:ft
+  0put
+  $d
+  call winrestview(l:view)
+endfunc
+
+command! -args=1 DuplicateBuffer call <SID>Duplicatebuffer(<f-args>)
 
 " Horizontal
 nnoremap §ess :sp<CR>
@@ -157,8 +195,9 @@ nnoremap §esd :sp .<CR>
 nnoremap §esr :sp %<CR>
 
 " Vertical
-nnoremap §evv :vsp<CR>
 nnoremap §eV :vsp! ./
+nnoremap §evv :vsp<CR>
+nnoremap §evd <Cmd>DuplicateBuffer vnew<CR>
 nnoremap §eva :exec ':vnew +setlocal\ ft='..&l:filetype
 nnoremap §evc :vnew<CR>
 nnoremap §evz <C-W>v"+gP
@@ -208,6 +247,11 @@ nnoremap §wv :vsp<CR>
 nnoremap §ww :w<CR>
 nnoremap §wW :w!<CR>
 nnoremap §wa :wa<CR>
+
+"
+" Help: §h
+"
+nnoremap §hr :vsplit ~/.vim/notes/regex.md<CR>
 
 
 "
@@ -262,10 +306,10 @@ nnoremap §ac :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>:noh<CR>
 " x - cut block replacing it with whitespace
 xnoremap <expr> x  mode() ==# "\x16" ? "y<ESC>gvr<Space>" : "x"
 xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
-" h - move block left by 1
-" j - move block down by 1
-" k - move block up by 1
-" l - move block right by 1
+" h 3h - move block left by 1, by 3
+" j 3j - move block down by 1, by 3
+" k 3k - move block up by 1, by 3
+" l 3l - move block right by 1, by 3
 "
 "   ⇧⃝ 𝄐⌥⃝   🅆   ⎫     Move line
 " ╭─▷    🄰 🅂 🄳 ⎭─▷  V: up/down
@@ -292,7 +336,11 @@ xnoremap <expr> ∑  mode() ==# "\x16" ? "MoveBlockUp" : "m -2"
 xnoremap <expr> ß  mode() ==# "\x16" ? "MoveBlockDown" : "m +2"
 xnoremap <expr> å  mode() ==# "\x16" ? "MoveBlockLeft" : "echo Try with ^V"
 xnoremap <expr> ∂  mode() ==# "\x16" ? "MoveBlockRight" : "echo Try with ^V"
-
+"
+" Add Lines:
+"  Extend 'o'/'O' to keep cursor on current line when count is > 1
+nnoremap <expr> o v:count > 0 ? 'm`:<C-u>exe "norm! ' .. v:count .. 'o"<CR>``' : "o"
+nnoremap <expr> O v:count > 0 ? 'm`:<C-u>exe "norm! ' .. v:count .. 'O"<CR>``' : "O"
 
 "
 " Line Drawing                                    TODO
@@ -377,7 +425,6 @@ nnoremap §fX :ExpandHex
 "                     [ +yank:  --name: value; ]
 "
 "
-nnoremap <C-g><C-s> :OpenCSS<CR>
 
 
 "

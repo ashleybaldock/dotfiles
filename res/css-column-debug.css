@@ -1,0 +1,124 @@
+/**
+ * CSS columns debug tool
+ */
+
+/* debug hints to show where breaks can be inserted
+             precedence
+    break-before  |   high    e.g. A child element setting break-before: auto
+    break-after   |           overrides the parent having break-inside: avoid
+    break-inside  V   low
+*/
+.mw-content-ltr .toc :is(.toclevel-3, .toclevel-2, .toclevel-1) > ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  /*   margin-right: 0; */
+}
+#toc.debug
+  :is(
+    .toclevel-1,
+    .toclevel-1 > a,
+    .toclevel-1 > ul,
+    .toclevel-2,
+    .toclevel-2 > a,
+    .toclevel-2 > ul,
+    .toclevel-3,
+    .toclevel-3 > a,
+    .toclevel-3 > ul
+  ) {
+  content: '';
+  /* --before should be 1 or 0, --b will be 1 or 0(default) */
+  --b: var(--before, 0);
+  /*
+  unset,     -1*-1   1 + 0 = 1
+  set to 1,   1*-1  -1 + 1 = 0
+  set to 0,   0*-1   0 + 0 = 0
+  set to -1, -1*-1   1 + -1 = 0
+  */
+  --⸮b: calc(1 - (calc(var(--before, -1) * -1) + var(--before, 0)));
+  --¬b: calc(1 - var(--b));
+
+  --i: var(--inside, 0);
+  --¬i: calc(1 - var(--i));
+
+  --a: var(--after, 0);
+  --¬a: calc(1 - var(--a));
+
+  --a∨b: max(var(--a), var(--b));
+  --¬⦗a∨b⦘: calc(1 - var(--a∨b));
+  --¬a∧¬b: var(--¬⟨a∨b⟩);
+
+  --a∧b: calc(var(--a) * var(--b));
+  --¬⦗a∧b⦘: calc(1 - var(--a∧b));
+  --¬a∨¬b: var(--¬⦗a∧b⦘);
+
+  width: auto;
+  --hue-allow: 110;
+  --hue-avoid: 10;
+  --hue-overriden: 10;
+  --hue: calc(
+    (var(--hue-allow) * (var(--i) * var(--¬⦗a∨b⦘))) +
+      (var(--hue-avoid) * (var(--¬i) * var(--¬⦗a∨b⦘))) +
+      (var(--hue-overriden) * var(--a∨b))
+  );
+  --background-color: hsl(var(--hue) 50 17 / 2%);
+
+  --bd0: var(--bd-avoid, #f004);
+  --bd1: var(--bd-allow, #0f04);
+
+  --bs0: var(--bd-avoid, #f000);
+  --bs1: var(--bd-allow, #0f04);
+
+  padding-left: 2px;
+  margin-left: 0;
+  padding-right: 2px;
+  margin-right: 0;
+  background-color: var(--background-color);
+  box-sizing: border-box;
+  --hint-inline-thickness: 2px;
+  --hint-offset: 4px;
+  --hint-sides-thickness: 1px;
+  --🟦: var(--hint-inline-thickness);
+  --🔵: calc(var(--hint-inline-thickness) * -1);
+  --➕🔸: var(--hint-offset);
+  --➖🔸: calc(var(--hint-offset) * -1);
+  --➖⏪️: calc(var(--b) * (var(--➖🔸) - var(--hint-sides-thickness)));
+  --➕⏪️: calc(var(--¬b) * (var(--➕🔸) + var(--hint-sides-thickness)));
+  --⏩️: calc(var(--a) * (var(--➖🔸) - var(--hint-sides-thickness)));
+  --⏩️: calc(var(--¬a) * (var(--➕🔸) + var(--hint-sides-thickness)));
+  --⏫️: calc(var(--hint-inline-thickness) * -1);
+  --⏬️: var(--hint-inline-thickness);
+  --🔴: calc(var(--hint-sides-thickness) * -1);
+
+  /* prettier-ignore */
+  box-shadow:
+      0                             calc(var(--b) * var(--⏬️))  0 0           var(--bd0),
+      calc(var(--b) * var(--⏪️🔸))  var(--➕🔸)                 0 var(--➖🔸) var(--bs0),
+      0                             calc(var(--¬b) * var(--⏫️)) 0 0           var(--bd1),
+      calc(var(--¬b) * var(--⏪️🔸)) var(--➕🔸)                 0 var(--➖🔸) var(--bs1),
+inset 8px 0 0 0 var(--background-color),
+inset 0                             calc(var(--a) * var(--⏫️))  0 0            var(--bd0),
+      calc(var(--a) * var(--⏩️🔸))  var(--➖🔸)                 0 var(--➖🔸)  var(--bs0),
+inset 0                             calc(var(--¬a) * var(--⏬️)) 0 0            var(--bd1),
+      calc(var(--¬a) * var(--⏩️🔸)) var(--➖🔸)                 0 var(--➖🔸)  var(--bs1),
+inset -8px 0 0 0 var(--background-color), 0 0;
+}
+.mw-content-ltr .toc :is(.toclevel-3, .toclevel-2, .toclevel-1) > a {
+  background-color: transparent;
+}
+
+#toc.debug
+  :is(
+    .toclevel-1,
+    .toclevel-1 > a,
+    .toclevel-1 > ul,
+    .toclevel-2,
+    .toclevel-2 > a,
+    .toclevel-2 > ul,
+    .toclevel-3,
+    .toclevel-3 > a,
+    .toclevel-3 > ul
+  ):hover:not(:has(ul:hover, li:hover, a:hover)) {
+  --bd-allow: #0f0d;
+  --bd-avoid: #f00d;
+  background-color: #9908;
+}

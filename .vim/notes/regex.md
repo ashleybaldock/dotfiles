@@ -1,6 +1,8 @@
-## Regex quick reference
+# Regex quick reference
 
-```
+## Pattern
+
+```pre
     ╭  pattern             1+ branch   (OR) match first matching branch
     ∆    ╰─┬─────────┬┈┈┈┈   (OR)
     ┊    branch \| branch       1+ concat  (AND)     match if all match at same position
@@ -15,44 +17,55 @@
 
 ```
 
-## -- atoms
+## Atoms
 
-### - character classes
+### Character Classes
 
-```
-    │ \i │ \I │ identifier (isident)         no digits
-    │ \k │ \K │ keyword    (iskeyword)       no digits
-    │ \f │ \F │ file       (isfname)         no digits
-    │ \p │ \P │ printable  (isprint)         no digits
-
-    ╭──────────────────┬─────────────────────────╮
-    │             ┊ =⃝  │ ¬⃝    match  match(non-) │
-    ┟──────────────────╁─────────────────────────┧
-    ┃ whitespace  ┊ \s ┃ \S   [ \t]       [^ \t] ┃
-    ┃ digit         \d ┃ \D   [0-9]       [^0-9] ┃
-    ┃ hex digit   ┊ \x ┃ \X   [0-9A-Fa-f]        ┃
-    ┃ octal digit   \o ┃ \O   [0-7]       [^0-7] ┃
-    ┃ word        ┊ \w ┃ \W   [0-9A-Za-z_]       ┃
-    ┃ head of word  \h ┃ \H   [A-Za-z_]          ┃
-    ┃ alphabetic    \a ┃ \A   [A-Za-z] [^A-Za-z] ┃
-    ┃ lowercase   ╵ \l ┃ \L   [a-z]       [^a-z] ┃
-    ┃ uppercase   ┊ \u ┃ \U   [A-Z]       [^A-Z] ┃
-    ┖──────────────────┸─╴∆╶─────────────────────┚
-            ╰──╴inverse i.e. non-digit
-
-    \_x  where x is any of the characters above,
-         character class with end-of-line included
+```pre
+\_[]  +EoL
+    ╭──────────┬─────────────────────────────────╮┌───────┬──────────┬─────────┐
+    │ \e <Esc> │ \m magic        \M nomagic      ││ range │ geedy \{ │ lazy \{-│
+    │ \t <Tab> │ \v very magic   \V very nomagic │├───────┼──────────┼─────────┤
+    │ \r  <CR> │ \c ignore case  \C match case   ││ 0 → 1 │ \? \{,1} │ \{-,1} ╭┴╮
+    │ \b  <BS> ┢━━━━━━━┱─────────────────────────┤│ 0 → m │    \{,m} │ \{-,m} │m│
+    │ \n  EoL  ┃ ATOMS ┃ ignore combining chars… ││ 0 → ∞ │ *  \{}   │ \{-}   │u│
+    ├──────────┺━━━━━━━┹────────╮ \%C prev. atom │├───────┼──────────┼────────┤l│
+    │ [] - any character inside │ \Z globally    ││ 1 → ∞ │ \+ \(1,} │ \{-1,} │t│
+    │ \~ - last subst. string   ╰────────────────┤│ n → ∞ │    \{n,} │ \{-n,} │i│
+    │ \%[] - sequence of optional atoms          ││ n → m │    \{n,m}│ \{-n,m}╰┬╯
+    │ \z1…9 - indexed matches from \(\) groups   ││   n   │    \{n}  │ \{-n}   │
+    │ char codes  \%d255 decimal   \%o377 octal  │└───────┴──────────┴─────────┘
+    │ hex ¹ᴮ \%xFF  ²ᴮ \%uFFFF   ⁴ᴮ \%U7FFFFFFF  │
+    ┢━━(ascii↴)━━━━━╸=⃝ ╺╸¬⃝ ╺━(character classes)━┪
+    ┃ UPPER        [^0-9]╮̩̣╮̣̩╮̩╮̣     [0-9\n]  ⎛  not:  ⎞ ┃
+    ┃           [0-9]↴       ↓̇↓̍↓̇̍↓̍̇           ⎧⎝[^0-9\n]⎠ ┃
+    ┃ digit       ╷ \d  \D \_d \_D ◁─┴[^0-9]\|\n ┃
+    ┃ hex digit   ┊ \x  \X ╷  [0-9A-Fa-f]        ┃
+    ┃ octal digit ┊ \o  \O ┊        [0-7] [^0-7] ┃
+    ┃ whitespace  ┊ \s  \S ┊        [ \t] [^ \t] ┃
+    ┃ head of…    ┊ \h  \H ┊    [A-Za-z_]        ┃
+    ┃ word        ┊ \w  \W ┊ [0-9A-Za-z_]        ┃
+    ┃ alphabetic  ┊ \a  \A ┊     [A-Za-z]        ┃
+    ┃ lowercase   ┊ \l  \L ┊        [a-z] [^a-z] ┃
+    ┃ uppercase   ╵ \u  \U ╵        [A-Z] [^A-Z] ┃
+    ┡━━(multibyte↴)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+    │ ²ᴮ \%uFFFF     ⁴ᴮ \%U7FFFFFFF  │ see:      │
+    │ identifier  \i  ⎧ \I ⎫         │ isident   │
+    │ keyword     \k  ⎪ \K ⎬ without │ iskeyword │
+    │ file        \f  ⎪ \F ⎪ digits  │ isfname   │
+    │ printable   \p  ⎩ \P ⎭         │ isprint   │
+    ╰────────────────────────────────────────────╯
 
 ```
 
 ### - ordinary
 
-```
+```pre
                                  ╭─────────────────────────────────────────────────╮
          Atoms                   │            line │ file/string │ word │ pattern  │
     ┌────────────────────────────┤         ──┬─────│─────────────│──────│───────── │
-    │W  = zero width             │ beginning │ BoL │    BoF/S    │ BoW  │ BoP      │
-    │ B = not inside []          │       end │ EoL │    EoF/S    │ EoW  │ EoP      │
+    │W ┊= zero width             │ beginning │ BoL │    BoF/S    │ BoW  │ BoP      │
+    │ B┊= not inside []          │       end │ EoL │    EoF/S    │ EoW  │ EoP      │
     ├──┬──────────┬──────────────┼─────────────────────────────────────────────────┤
     │  │   atom   │   matches    │  notes                                          │
     ├──┼──────────┼──────────────┼─────────────────────────────────────────────────┤
@@ -79,9 +92,9 @@
 
 ### - multi
 
-```
+```pre
     ┌───────┬──────────┬─────────┐
-    │ range │ geedy \{ │ lazy \{-│  n,m = 0 or positive
+    │ range │ geedy \{ │ lazy \{-│  n,m = 0 or +ve
     ├───────┼──────────┼─────────┤
     │ 0 → 1 │ \? \{,1} │ \{-,1}  │  also: \=
     │ 0 → m │    \{,m} │ \{-,m}  │
@@ -96,20 +109,21 @@
 
 ### - preceding (zero width)
 
-```
-          match preceeding atom, e.g.:  \(atom\)\@=
-    ┌─────────┬─────────┬─────────────────────────────────┐
-    │   \@>   │  match  │   like matching whole pattern   │
-    ├─────────┼─────────┼───────────────┬─────────────────┤
-    │   \@=   │  match  │               │   same as \&    │
-    │┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈│     here      │┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
-    │   \@!   │ NOmatch │               │                 │
-    ├─────────┼─────────┼───────────────┼─────────────────┤
-    │ \@123<= │  match  │               │ use \zs instead │
-    │┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈│  just before  │┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
-    │ \@123<! │ NOmatch │               │                 │
-    └───╴∆╶───┴─────────┴───────────────┴─────────────────┘
-         ╰──╴look back up to N bytes for match (optional)
+```pre
+         match╶╮   a preceeding atom, e.g.:  \(atom\)\@=
+    ┌────────┬─∇─┬───────────────────────────────┐┌───────┬──────────┬─────────┐
+    │  \@>   │ ✔︎ │  like matching whole pattern  ││ range │ geedy \{ │ lazy \{-│
+    ├────────┼───┼─────────────┬─────────────────┤├───────┼──────────┼─────────┤
+    │ \@= \& │ ✔︎ │             │                 ││ 0 → 1 │ \? \{,1} │ \{-,1}  │
+    │┈┈┈┈┈┈┈┈│┈┈┈│    here     │┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈││ 0 → m │    \{,m} │ \{-,m}  │
+    │  \@!   │ ✘ │             │                 ││ 0 → ∞ │ *  \{}   │ \{-}    │
+    ├────────┼───┼─────────────┼─────────────────┤├───────┼──────────┼─────────┤
+    │  \zs  ¹│ ✔︎ │             │ use \zs instead ││ 1 → ∞ │ \+ \(1,} │ \{-1,}  │
+    │┈┈┈┈┈┈┈┈│┈┈┈│ just before │┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈││ n → ∞ │    \{n,} │ \{-n,}  │
+    │ \@N<!  │ ✘ │             │                 ││ n → m │    \{n,m}│ \{-n,m} │
+    └──╴∆╶───┴───┴─────────────┴─────────────────┘│   n   │    \{n}  │ \{-n}   │
+        ╰─╴look back up to N bytes                └───────┴──────────┴─────────┘
+     Also via: \@N<=
 ```
 
 ## Copy matching texts to buffer
@@ -168,8 +182,10 @@ let m=[] | %s//\=add(m,[submatch(1, 1), submatch(3, 1), submatch(5, 1), submatch
 
 ### First table heading on a line
 
+```pre
 \1: attributes
 \2: content
+```
 
 ```vim
 ^\s*\zs!\s*\([^|!]|\)\{-}\s*\(.\{-}\)\ze\s*\(!!\|$\)
@@ -194,9 +210,9 @@ multibyte characters).
 
 ## Merging table cells
 
-```
-│ A │ A │ B │...│  ▬▶︎  │data-sort-value="B"||   A   │...│
-│ A │ B │ C │...│  ▬▶︎  │data-sort-value="C"|| A - B │...│
+```pre
+│ A │ A │ B │ … │  ⮕   │data-sort-value="B"||   A   │...│
+│ A │ B │ C │ … │      │data-sort-value="C"|| A - B │...│
 ```
 
 ### pass 1, same value in first two cells
@@ -210,9 +226,8 @@ multibyte characters).
 \%([^|]*||\)\{6}
 [^|]*[^%]$
 
- \1        \2
-|420||420||420||13|| || ||5|| || || ▐️▌️
-      =\1
+ \1   =\1  \2                           \2   \1    \1
+|420||420||420|| … ⮕  |data-sort-value="420"|420 - 420|| …
 
 %s/^|\([^|]*\)||\1||\([^|]*\)||\ze\%([^|]*||\)\{6}[^|]*[^%]$/|data-sort-value="\2"|\1||/
 ```
@@ -227,10 +242,8 @@ multibyte characters).
 \ze
 \%([^|]*||\)\{6}
 
- \1   \2   \3
-|743||757||750|| || ||25|| || || ||
-
-|data-sort-value="\3"|\1 - \2||
+ \1   \2   \3                                \3   \1    \2
+|743||757||750|| …    ⮕    |data-sort-value="750"|743 - 757|| …
 
 %s/^|\([^|]*\)||\([^|]*\)||\([^|]*\)||\ze\%([^|]*||\)\{6}/|data-sort-value="\3"|\1 - \2||/
 ```

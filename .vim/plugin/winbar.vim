@@ -11,16 +11,14 @@ let g:mayhem_loaded_winbar = 1
 "
 " Related: CustomStatusline in ./statusline.vim
 function! s:WinBarUpdate()
+		nunmenu WinBar
   if &diff
     " nunmenu WinBar | nnoremenu 1.10 WinBar.􀆧\ $dx\ \ 􀈄\ §de\ 􀈂\ §dt▕\ 􀆇\ [c▕\ 􀆈\ ]c▕\ 􀅌\ §dr <nop>
-    nunmenu WinBar | nnoremenu 1.10 WinBar.􀆧\ $dx\ ╱g\ 􀈄\ §de\ ╱\ 􀈂\ §dt\ ╱\ 􀊉\ [c\ ╱\ 􀊋\ ]c\ ╱\ 􀅌\ §dr\ ╱ <Nop>
+    nnoremenu 1.10 WinBar.􀆧\ $dx\ ╱g\ 􀈄\ §de\ ╱\ 􀈂\ §dt\ ╱\ 􀊉\ [c\ ╱\ 􀊋\ ]c\ ╱\ 􀅌\ §dr\ ╱ <Nop>
     " nunmenu WinBar | nnoremenu 1.10 WinBar.D・$dx:off・§de:get・§gt:put・[c:prv・]c:nxt <nop>
   elseif &ft == 'netrw'
     " nunmenu WinBar | nnoremenu 1.10 WinBar.Netrw・S:sort・I:layout・-:back・<S-B>:up・<S-W>:down・ <nop>
-
     "􀹲􀩳􀹆􀩼􀋱􀩳􁂷
-
-    nunmenu WinBar
     nnoremenu 1.10 WinBar.􀉌‹-› <Nop>
     nnoremenu 1.20 WinBar.􀵬\ ‹S›\ ╱\ 􀞖\ ‹i› <Nop>
     nnoremenu 1.30 WinBar.􀄨‹B›\ ╱\ 􀄩‹W› <Nop>
@@ -28,8 +26,12 @@ function! s:WinBarUpdate()
     nnoremenu 1.99 WinBar.􀈕 <Nop>
   " elseif ISTERMINAL == 'terminal' " TODO
   "   nunmenu WinBar | nnoremenu 1.10 WinBar.Netrw・S:sort・I:layout・-:back・<S-B>:up・<S-W>:down・ <nop>
-  else
-    nunmenu WinBar
+    "
+    " register hints
+    "
+    " nnoremenu 1.10 WinBar. <Nop>
+    " nnoremenu 1.20 WinBar.􀉃‹+›\ 􀈿‹%›
+    " nnoremenu 1.30 WinBar.last\ 􀠍‹/›\ 􀩼\ ‹:›\ 􀅫‹.›\ 􀆛‹-›
   endif
 endfunc
 

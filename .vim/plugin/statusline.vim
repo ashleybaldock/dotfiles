@@ -56,6 +56,12 @@ endfunc
 
 let s:symbols = GetBestSymbols()
 
+" TODO extend this to allow symbol lookup with list index e.g. for numbers
+function! GetSymbol(symbolpath, fallback = 'X!')
+  let lookup = split(a:symbolpath, '\.')->reduce({ acc, val -> get(acc, val, {})}, s:symbols)
+  return empty(lookup) ? a:fallback : l:lookup
+endfunc
+
 function ChDiag()
   return get(get(b:, 'mayhem', {}), 'sl_cache_diag', ['D?','DN'])[NC()]
 endfunc
@@ -89,41 +95,40 @@ function s:Update_Diag()
   " let symbols = get(s:symbols, 'diag', {})
 
   if !exists('g:did_coc_loaded')
-    let symbol = get(s:symbols.diag, 'off', 'X')
     let b:mayhem.sl_cache_diag = [
-          \ '%#SlSynOffC#'..symbol..'%*',
-          \ '%#SlSynOffN#'..symbol..'%*']
+          \ '%#SlSynOffC#'..GetSymbol('diag.off')..'%*',
+          \ '%#SlSynOffN#'..GetSymbol('diag.off')..'%*']
     return
   endif
 
-  let diaginfo     = get(b:, 'coc_diagnostic_info', {})
+  let diaginfo   = get(b:, 'coc_diagnostic_info', {})
   "lnums": [90, 6, 0, 6],
-  let lnums        = get(diaginfo, 'lnums',       0)
-  let infoCount    = get(diaginfo, 'information', 0)
-  let hintCount    = get(diaginfo, 'hint',        0)
-  let warningCount = get(diaginfo, 'warning',     0)
-  let errorCount   = get(diaginfo, 'error',       0)
+  let lnums      = get(diaginfo, 'lnums',       0)
+  let infoCount  = get(diaginfo, 'information', 0)
+  let hintCount  = get(diaginfo, 'hint',        0)
+  let warnCount  = get(diaginfo, 'warning',     0)
+  let errorCount = get(diaginfo, 'error',       0)
 
   if errorCount > 0
-    let symbol = get(s:symbols.diag.numbers, errorCount, s:symbols.error)
+    " TODO symbol lookup with list index
+    let symbol = get(s:symbols.diag.numbers, errorCount, get(s:symbols.diag, 'error', 'X!'))
     let b:mayhem.sl_cache_diag = [
         \ '%#SlSynErrC#'..symbol..'%*',
         \ '%#SlSynErrN#'..symbol..'%*']
     return
   endif
 
-  if warningCount > 0
-    let symbol = get(s:symbols.diag.numbers, warningCount, s:symbols.warning)
+  if warnCount > 0
+    let symbol = get(s:symbols.diag.numbers, warnCount, get(s:symbols.diag, 'warning', 'X!'))
     let b:mayhem.sl_cache_diag = [
         \ '%#SlSynWarnC#'..symbol..'%*',
         \ '%#SlSynWarnN#'..symbol..'%*']
     return
   endif
 
-  let symbol = get(s:symbols.diag, 'ok', 'X')
   let b:mayhem.sl_cache_diag = [
-        \ '%#SlSynOkC#'..symbol..'%*',
-        \ '%#SlSynOkN#'..symbol..'%*']
+        \ '%#SlSynOkC#'..GetSymbol('diag.ok')..'%*',
+        \ '%#SlSynOkN#'..GetSymbol('diag.ok')..'%*']
   return
 endfunc
 
@@ -178,38 +183,37 @@ let g:mayhem.symbols_A.git = {
 " <>  ~   ◇   􀐉  diverged   
 " =   =       􀐅  in sync
 
+" Get latest cached git status
 function ChGit()
   return get(get(b:, 'mayhem', {}), 'sl_cache_git', ['G?','GN'])[NC()]
 endfunc
 
-" Fugitive
+" Update cached git status
 " TODO - add detailed git status info
 function s:Update_Git()
-  let gitsymbols = get(s:symbols, 'git', {})
-
   if !exists('g:loaded_fugitive')
     let b:mayhem.sl_cache_git = [
-          \ '%#SlGitOffC#'..gitsymbols.gitoff..'%*',
-          \ '%#SlGitOffN#'..gitsymbols.gitoff..'%*']
+          \ '%#SlGitOffC#'..GetSymbol('git.gitoff')..'%*',
+          \ '%#SlGitOffN#'..GetSymbol('git.gitoff')..'%*']
     return
   endif
 
   let head = FugitiveHead()
   if empty(head)
     let b:mayhem.sl_cache_git =  [
-          \ '%#SlNotGitC#'..gitsymbols.notgit..'%r',
-          \ '%#SlNo1tGitN#'..gitsymbols.notgit..'%*']
+          \ '%#SlNotGitC#'..GetSymbol('git.notgit')..'%r',
+          \ '%#SlNo1tGitN#'..GetSymbol('git.notgit')..'%*']
     return
   else
     let b:mayhem.sl_cache_git =  [
-          \ '%#SlGitC#'..gitsymbols.isgit..'%*',
-          \ '%#SlGitN#'..gitsymbols.isgit..'%*']
+          \ '%#SlGitC#'..GetSymbol('git.isgit')..'%*',
+          \ '%#SlGitN#'..GetSymbol('git.isgit')..'%*']
     return
   endif
 endfunc
 
 let g:mayhem.symbols_S.status = {
-      \ 'readonly': '⚑⃝ ',
+      \ 'readonly': 'ᴿ',
       \ 'fencnot8': '∪⃞⃥ ',
       \ 'ffnotnix': '␌⃞ ',
       \ 'diffing' : '􀉆􀄭􀕹',
@@ -226,30 +230,49 @@ let g:mayhem.symbols_A.status = {
       \ 'ffnotnix': '!F',
       \ 'diffing' : 'DIFF',
       \ }
+
 function CheckRO()
-  return &readonly ? s:symbols.status.readonly : ""
+  return &readonly ? GetSymbol('status.readonly') : ""
 endfunc
 function CheckUtf8()
-  return &fenc !~ "^$\\|utf-8" || &bomb ? s:symbols.status.fencnot8 : ""
+  return &fenc !~ "^$\\|utf-8" || &bomb ? GetSymbol('status.fencnot8') : ""
 endfunc
 function CheckUnix()
-  return &fileformat == "unix" ? "" : s:symbols.status.ffnotnix
+  return &fileformat == "unix" ? "" : GetSymbol('status.ffnotnix')
 endfunc
 function Diffing()
-  return &diff ? s:symbols.status.diffing : ""
+  return &diff ? GetSymbol('status.diffing') : ""
 endfunc
 
-
+" Get cached filename for statusline
 function ChFName()
   return get(get(b:, 'mayhem', {}), 'sl_cached_filename',
         \ [expand('%'),expand('%')])[NC()]
 endfunc
 
+" Get cached filename info for statusline
 function ChFInfo()
   return get(get(b:, 'mayhem', {}), 'sl_cached_fileinfo',
         \ ['',''])[NC()]
 endfunc
 
+
+" show hint for files in these folders
+" most specific is used
+let g:mayhem.path_hints = {
+      \ '~/.vim/after':          '.v after',
+      \ '~/.vim/after/ftplugin': '.v aft›ftplug',
+      \ '~/.vim/after/plugin':   '.v aft›plug',
+      \ '~/.vim/after/syntax':   '.v aft›syntax',
+      \ '$VIMRUNTIME/syntax':    '$R syntax',
+      \ '~/.vim/colors':         '.v colors',
+      \ '~/.vim/autoload/':      '.v auto',
+      \ '~/.vim/ftplugin/':      '.v ftplug',
+      \ '~/.vim/plugin/':        '.v plug',
+      \ '~/.vim/syntax/':        '.v syntax',
+      \ '~/.vim/templates/':     '.v tmpl',
+      \ '**/node_modules/':      'NM ',
+      \ }
 let g:mayhem.type_ext_map = {
       \ 'javascriptreact': ['jsx'],
       \ 'javascript': ['js'],

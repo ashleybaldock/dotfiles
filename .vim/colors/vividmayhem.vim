@@ -1,40 +1,5 @@
 "
-" 𐰟𐰞𐰟𐰞𐰖 𐰾𐰟𐰯𐰟𐰯                      𐌡 𐌖𐌡𐌖 ╲𐌞 
-"  𐠠 𐠨𐠳𐠨𐠳ᗪ 𐌃               ╲ ╱╱╲╱╲ ╱╲╲  ╱  ╳𐌞
-" 𐌖𐌉𐌖𐌠𐌃 ᗞ             𝐕𝓲    𝐕╱𝓲𝐯𝓲𝐃╱  ╲╲╱ ╱  ╳𐌃 ╳ ╱  ╱ 𝓲    𝐯  v╲/√𝓲∖         𝙑𝙞𝙫𝙞𝘿
-"    𐘠 𐝆  𐝇             /   ╱    ╳    ╳ ╱  ╱             𝙫𝙞𝙑𝜤𐠳𝙑𝛪𝘿
-"                ∇∨  𝑉𝐼𝑉𝐢𝐦𝐢𝐕𝐈𝐕𝑉 𝒱𝒾𝓋 𝒱𝓥𝓲𝓥𝒱  𝐯𝐕╱/   Mayhem
-" 𝘝𝘐
-" 𝘝𝘐𝘋
-"
-"   ╲𝘝𝘐      𐌢               _ 
-"    ╳𝘝𝘐       𐌢    ╱╲╱╲╳╲╲╱╱̲╱̲╱̲ /𐰟\  ⃫ 
-"     ╳𝘋         𐌢   ╱   ╱╲╲╳╱╱╱ ╱    
-"      ╲  𝙑𝗗𝙫𝙞           𐌢          𝐕╱𝓲꛱𝐯𝓲𝓭     𝚅𝚒𝚟𝚒𝚍 𝓥𝓲𝓲𝓭 ╱𝓲𝓿╱𝓲  𝓋𝒾𝓋𝒾𝒹 𝒱ℐ𝒱ℐ𝒟𝒟
-"
-"     ╲𝗩𝗂  ╱                   ╲𝙑𝙄  ╲ᐻꮖꭹꭺꮴ ᐥᓗ ᓯᓯᔿᕷ ᖙ  ᘁᢴᢴᗪ ᗞ  ᣔᣜᣟᣞᣳᒥᒣᒧᒋᒍ ᘁᐠᘁꭰꭵꭰꭲꮖꮴᐥᐟᑊᑊᒻᒽᘁ   ᐭ    𝙫𝙞  𝙑𝙄𝙫𝙞𝘿     
-"      ╲𝗩𝗂𝝙   𝗶𝗜                  ᐻ ᐎ         𝙑𝙄╲𝙑𝙄𝞓  𝙑𝙄𝙑𝙄𝘿      
-"      ╲𝗩𝗂𝝙   𝗶𝗜                  ᐻ ᐎ             ⲗλ   𐐺𐑋 ⱻ  ꮖ ⲓ𐐹  ⳇⳏ𐑁я𐑈𐐰 ʌ    ⲩ
-"       ╲╱       Ⅴ Ⅳ ⅦⅮ Ⅵ ⅵⅮ ⅶ Ⅾ ⅷ Ⅾⅼ  𐌡 Ⅵ Ⅳ Ⅵ   ⳅꮞꮾ  ꭺⲃ𐐽ꭰꭼ𐔥ɢꮋɪꭻⲕꮮꮇ𐔓𐐬ꮲ ꭱꮪꭲᴜꮩꮃ ᙮ʏꮓ
-"                                                𐐩  𐐬    ꮯꮳ ꮐꮹ  ꮵ 𐑍ꮕ  ꮢꭶꮥꮜꮣ   ꮍ
-"𝓥/𝓲𝓥/𝓲𝓭
-
-"          ╱╲     
-"    ╎    ╱╱̲╲╳ ╱̲ ╱╱̲ ╳╲    ╎    ╲𝐕╱𝓲/
-"    ┝━━╾╱╱  ╲╱ ╱╱ ╱ ╲╲╼━━┥     ╳𝐕i𝐃╳
-"    ╎        ╱ ╱  ̅╱         ╎      ╲ ╱
-"    ╎               v0.1.2 ╎          𐌡 
-"    ╰╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯            ╲╱╲/╱
-"                                                 /
-"       ╲        ╱__     
-"     ╲╱╲╳╲╲  ╱╱̲╱̲╱̲ ╱╲╱╲  
-"      ╲╱╲╲╲╲╱╱╱╱ ╱ ╱   
-"       ╲ ╲╲╱ ╱╱𝓲𝐯𝓲╱        
-"        ╲  ╲╱╱   ╱       
-"         ╲      ╱         
-"
-"
-"
+"                    Vivid Mayhem
 "
 "   Related:
 "   ./termayhem.vim          - Terminal colorscheme
@@ -45,8 +10,6 @@
 "
 "  ../after/syntax/vim.vim   - Tweaks to highlighting
 "
-" Originally based on tpope's vividchalk
-" 
 "
 
 set background=dark
@@ -106,11 +69,11 @@ hi CocHoverRange  guibg=#502a2a gui=none
 " Document Highlights:
 " Matching Symbols: in the buffer at cursor position
 " default symbol highlight
-hi CocHighlightText       guifg=NONE gui=none
+hi CocHighlightText       guifg=NONE gui=none guibg=#022c2c
 " Read kind of document symbol
-hi CocHighlightRead       guifg=NONE gui=underline guisp=#22cc22
+hi CocHighlightRead       guifg=NONE gui=none guibg=#021602
 " Write kind of document symbol
-hi CocHighlightWrite      guifg=NONE gui=underline guisp=#cc0022
+hi CocHighlightWrite      guifg=NONE gui=none guibg=#2c0202
 
 " CocLink                " document links
 
@@ -163,6 +126,19 @@ hi EndOfBuffer none | hi link EndOfBuffer EndOfBuNone
 " Used for: listchars: eol,extends,precedes;
 hi NonText     none | hi link NonText NonTextNone
 "
+" Unicode: Whitespace, Control Chars and Variation Selectors
+" See: ../demo/unicode-whitespace
+"      ../plugin/unicode.vim
+"
+hi SpecialSpace   guibg=#440044 gui=underdouble guisp=#8800aa
+hi VS1516         guibg=#221100 gui=underdouble guisp=#aa2299
+hi VS16           guibg=#221100 gui=underline   guisp=#aa4444
+
+hi VS15           guibg=#001a2a gui=underline   guisp=#005ab6
+hi VS16           guibg=#221100 gui=underline   guisp=#993300
+hi VS1516         guibg=#112200 gui=underdouble guisp=#999900
+hi VS1615         guibg=#002211 gui=underdouble guisp=#009999
+
 " Used for: listchars: tab,nbsp,space,multispace,lead,trail;
 hi SpecialKey  none | hi link SpecialKey SpecialNone
 "
@@ -185,7 +161,7 @@ hi NonTextDiag    guifg=#409040
 hi SpecialDiag    guifg=#d70000
 "
 " [U8Whitespace] Used for whitespace diagnostic mode
-hi U8Whitespace   guifg=#dd1111 guibg=#dd1111
+hi U8Whitespace   guifg=#ff6666 guibg=#dd1111
 
 "
 "════════════════════════════════════════════════════════╡ Floating Windows
@@ -401,7 +377,7 @@ hi Comment        guifg=#cc22dd guibg=NONE    gui=none
 hi CommentBright  guifg=#33eeff guibg=NONE    gui=none
 
 "════════════════════════════════════════════════════════╡ Format Aliases
-
+"
 hi HlBold         gui=bold
 hi HlBoldItalic   gui=bold,italic
 hi HlItalic       gui=italic
@@ -416,7 +392,7 @@ hi HlStandout     gui=standout
 
 "════════════════════════════════════════════════════════╡ Markdown
 "
-hi htmlComment    guifg=#aaaaaa guibg=#111111
+hi htmlComment    guifg=#999999 guibg=#111111
 
 " HlMkDnCode 
 " HlMkDnCdDelim
@@ -577,10 +553,10 @@ hi SlSynOkN       guifg=#229900 guibg=#000000 gui=none
 hi SlSynOffC      guifg=#00ffff guibg=#000000 gui=none
 hi SlSynOffN      guifg=#00dddd guibg=#000000 gui=none
 " git
-hi SlGitC         guifg=#ffeef0 guibg=#660099 gui=none
-hi SlGitN         guifg=#d0c4e0 guibg=#660099 gui=none
+hi SlGitC         guifg=#aa00dd guibg=#000000 gui=none
+hi SlGitN         guifg=#9900cc guibg=#000000 gui=none
 hi SlNotGitC      guifg=#660099               gui=none
-hi SlNotGitN      guifg=#660099               gui=none
+hi SlNotGitN      guifg=#550088               gui=none
 hi link SlGitOffC  SlSynOffC
 hi link SlGitOffN  SlSynOffN
 
@@ -601,9 +577,61 @@ hi link jsonNoQuotesError       ErrorHint
 hi link jsonMissingCommaError   ErrorHint
 
 
-hi cssVendor      guifg=#ffaa00 guibg=NONE gui=italic,strikethrough guisp=#ff0000
+hi cssClassNameDot guifg=#ff5500 gui=bold
+hi link cssClassName Function
+" hi cssPseudoClass
+hi link cssPseudoClassId PreProc
+" hi cssPseudoClassFn
+hi link cssPseudoClassLang Constant
+" unimplemented/vendor
+hi cssVendor       guifg=#ffaa00 guibg=NONE gui=italic,strikethrough guisp=#ff0000
+hi link cssHyerlinkProp cssVendor
+hi link cssIEUIProp cssVendor
+" no matches defined
+hi link cssLineboxProp cssProp
+hi link cssMarqueeProp cssProp
+hi link cssPagedMediaProp cssProp
+hi link cssPrintProp cssProp
+hi link cssRubyProp cssProp
+hi link cssSpeechProp cssProp
+hi link cssRenderProp cssProp
+" Generic/common
+hi link cssCascadeProp cssProp
+hi link cssCascadeAttr cssAttr
+hi link cssCommonAttr cssAttr
+" Language content & communication
+hi cssCommsProp  guifg=#aabcc7 guibg=NONE    gui=none
+hi link cssFontProp cssCommsProp
+hi link cssTextProp cssCommsProp
+hi link cssAuralProp cssCommsProp
+hi link cssGeneratedContentProp cssCommsProp
+hi link cssMobileTextProp cssCommsProp
+" Color & appearance
+hi cssPrettyProp guifg=#55aa77 guibg=NONE    gui=none
+hi link cssAnimationProp cssPrettyProp
+hi link cssTransitionProp cssPrettyProp
+hi link cssBackgroundProp cssPrettyProp
+hi link cssColorProp cssPrettyProp
+hi link cssListProp cssPrettyProp
+hi link cssObjectProp cssPrettyProp
+" UI & behaviour
+hi cssBehaveProp guifg=#cc6699 guibg=NONE    gui=none
+hi link cssBorderProp cssBehaveProp
+hi link cssTransformProp cssBehaveProp
+hi link cssUIProp cssBehaveProp
+hi link cssInteractProp cssBehaveProp
+" Layout & structure
+hi cssLayoutProp guifg=#2288dd guibg=NONE    gui=none
+hi link cssBoxProp cssLayoutProp
+hi link cssPositioningProp cssLayoutProp
+hi link cssDimensionProp cssLayoutProp
+hi link cssFlexibleBoxProp cssLayoutProp
+hi link cssGridProp cssLayoutProp
+hi link cssMultiColumnProp cssLayoutProp
+hi link cssTableProp cssLayoutProp
+" Misc
+hi cssImportant guifg=#dddd11 guibg=#005400    gui=none
 
- 
 " hi link CocSymbolDefault  hl-MoreMsg
 " hi link CocSymbolFile
 " hi link CocSymbolFolder

@@ -1,0 +1,11 @@
+
+Key) leading  start  region  end  trailing
+
+1) abcfoosomestringbarabc  // No offset
+
+2) abcfoosomestringbarabc  // Offset
+
+3) abcfoosomestringbarabc  // Match Inside
+
+
+

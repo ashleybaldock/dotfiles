@@ -42,8 +42,9 @@ do
   if [ -f "$arg" ]
   then
     file=$( tr '[:upper:]' '[:lower:]' <<<"$arg" )
+    filename=$(basename "$file")
 
-    name=${file%.*}
+    name=${filename%.*}
 
     ## input type: PNG
     if [ "${file: -4}" == ".png" ]
@@ -83,7 +84,7 @@ do
       if [ "$encoding" == "b64" ]
       then
         base64data="$(echo "$optimised" | base64 -i - -o -)"
-        dataurl="url('data:image/svg+xml;base64,$base64')"
+        dataurl="url('data:image/svg+xml;base64,$base64data')"
         usedencoding="b64"
       else
         dataurl="$(encodeSVG.js $optimised)"

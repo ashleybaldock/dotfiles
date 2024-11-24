@@ -1,0 +1,27 @@
+/*{{{1 -- Comments <!--..--> */
+
+/**
+ * Monospace Font size alignment
+ *
+ * Align char columns (only works for monospace fonts)
+ * Change font size by setting --font-scale variable,
+ * e.g. for 0.8em, set: --font-scale: 0.8;
+ */
+/* .CodeMirror-code, */
+/* .CodeMirror-line > [role='presentation'] > span, */
+.cm-mw-comment:only-child {
+  --spacing: calc((1ch * (1 / var(--font-scale))) - 1ch);
+  --fsize: calc(1em * var(--font-scale));
+  background-image: repeating-linear-gradient(
+    to right,
+    #0000,
+    #3330 1ch,
+    #3339 1ch,
+    #3338 calc((1ch + var(--spacing)) * var(--grid, 0))
+  );
+  background-size: calc(1ch + var(--spacing));
+  letter-spacing: var(--spacing);
+  font-size: var(--fsize);
+  /*   background-size: calc(1ch - (1ch * var(--font-scale))); */
+  /*   font-size: calc(1em * var(--font-scale)); */
+}

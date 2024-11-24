@@ -57,7 +57,7 @@
 }
 
 .borderlight8 {
-  color: black;
+  color: hsl(var(--bhue) var(--bsat) 8%);
   font-weight: bold;
 
   --ou: var(--outline-base-unit, 0.002em);
@@ -83,7 +83,8 @@
   --oblur: calc(var(--outline-blur, 4) * var(--ou));
   --obulge: calc(var(--outline-bulge, 2) * var(--ou));
   --bhue: var(--outline-hue, 280deg);
-  --bsat: var(--outline-sat, 90%);
+  --bsat: var(--outline-sat, 80%);
+  --outline-light-angle: -40deg;
   --bdir: var(--outline-light-angle, 45deg);
   --obasel: var(--outline-base-lightness, 50%);
 
@@ -155,16 +156,19 @@
     var(--s2x) var(--s2y) var(--sblur2) var(--sc2);
 }
 
-body {
+@keyframes orbit {
+  from {
+    --outline-light-angle: 0deg;
+  }
+  50% {
+    --outline-light-angle: 180deg;
+  }
+
+  to {
+    --outline-light-angle: 360deg;
+  }
 }
 
-main {
-  display: flex;
-  justify-content: center;
-}
-section {
-  padding: 3em;
-}
 :root {
   --icon-fg-color: #ffffff;
   --icon-bg-color: #000000;
@@ -172,6 +176,31 @@ section {
   --icon-padding: 20;
   --icon-radius: 60;
   --icon-border-style: dashed;
+}
+
+html {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-size: 14px;
+  line-height: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  padding: 0;
+  background-color: #222222;
+  color: #ffffff;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0;
+  border: 0;
+  overflow: hidden;
 }
 
 body,
@@ -190,16 +219,9 @@ dd {
   margin-inline-end: 0;
 }
 
-body {
-  font-size: 14px;
-  line-height: 14px;
+main {
   display: flex;
-  flex-direction: column;
-  margin: 0.6em;
-  gap: 0.6em;
-  padding: 0;
-  background-color: #222222;
-  color: #ffffff;
+  justify-content: center;
 }
 
 section {
@@ -210,19 +232,6 @@ section {
   gap: 1em;
   padding: 0;
   position: relative;
-}
-
-@keyframes orbit {
-  from {
-    --outline-light-angle: 0deg;
-  }
-  50% {
-    --outline-light-angle: 180deg;
-  }
-
-  to {
-    --outline-light-angle: 360deg;
-  }
 }
 
 .test1::before {
@@ -243,14 +252,14 @@ section {
 
 .test1 {
   font-size: 5em;
-  display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   align-self: center;
-  align-items: center;
   min-width: 100vw;
   min-height: 100vh;
+  height: fit-content;
+  width: fit-content;
   --angle: calc(var(--outline-light-angle, 0deg));
   --shadow1-offset: 13;
   --shadow2-offset: 12;
@@ -258,49 +267,14 @@ section {
   --outline-bulge: 4;
   --outline-width: 10;
 
-  /*
-  /* background-image: radial-gradient( */
-  /*     circle at 50% 50%, */
-  /*     var(--inner-c) var(--inner-r1), */
-  /*     transparent calc(var(--inner-r1) + var(--inner-fade)), */
-  /*     transparent calc(var(--ring-d) - 1px), */
-  /*     #454545 var(--ring-d), */
-  /*     transparent calc(var(--ring-d) + var(--ring-w)) */
-  /*   ), */
-  /*   conic-gradient( */
-  /*     from calc(var(--angle) + 180deg) at center, */
-  /*     white 0deg, */
-  /*     white calc((var(--beam-w) / 2) - var(--beam-fade)), */
-  /*     #0000 calc(var(--beam-w) / 2), */
-  /*     #0000 calc(360deg - (var(--beam-w) / 2)), */
-  /*     white calc(360deg - (var(--beam-w) / 2) + var(--beam-fade)) */
-  /*   ); */
-
-  background-image: radial-gradient(
-      circle at var(--ring-x) var(--ring-y),
-      var(--inner-c) var(--inner-r1),
-      transparent calc(var(--inner-r1) + var(--inner-fade)),
-      transparent calc(var(--ring-radius) - 1px),
-      #454545 var(--ring-radius),
-      transparent calc(var(--ring-radius) + var(--ring-w))
-    ),
-    radial-gradient(
-      circle at var(--light-x) var(--light-y),
-      var(--light-color),
-      var(--light-color) var(--light-radius),
-      #0000 var(--light-radius)
-    );
-
-  background-size: cover;
+  background-size: 100%;
   background-repeat: no-repeat;
 
   margin: 0;
   position: relative;
   --beam-w: 50deg;
   --beam-fade: 10deg;
-  --ring-radius: 24vw;
   --ring-d: 45vw;
-  --ring-w: 3em;
   overflow: visible;
   --beam-xpc: calc(50% + (50% * sin(var(--angle) - 0deg)));
   --beam-ypc: calc(50% + (50% * cos(var(--angle) + 180deg)));
@@ -312,33 +286,69 @@ section {
   --beam-y: calc(50vh + (var(--ring-radius) * cos(var(--angle) + 180deg)));
   --ring-x: 50vw;
   --ring-y: 50vh;
+  --light-color: #fff;
+
+  background-color: #0c0c0c;
+  background-image: radial-gradient(
+      circle at var(--light-x) var(--light-y),
+      var(--light-color),
+      var(--light-color) var(--light-radius),
+      #aaa1 calc(var(--light-radius) * 1.4),
+      #000e calc(var(--light-radius) * 4)
+    ),
+    radial-gradient(
+      circle at var(--ring-x) var(--ring-y),
+      #222,
+      #222 calc(var(--ring-radius) - var(--ring-w)),
+      #8883 calc(var(--ring-radius) - var(--ring-w)),
+      #2223 calc(var(--ring-radius) + var(--ring-w)),
+      #000 calc(var(--ring-radius) + var(--ring-w)) 100%
+    );
+
+  --ring-radius: calc(min(50vh, 50vw) - var(--ring-margin));
+  --ring-margin: 40px;
+  --ring-w: 40px;
+  --ring-fade: 1em;
   --light-x: calc(
-    50vw +
+    var(--ring-x) +
       (
-        ((var(--ring-radius) * 2) - var(--light-radius)) *
-          sin(var(--angle) - 0deg)
+        (
+            var(--ring-radius) + var(--ring-w) + var(--ring-w) -
+              var(--light-radius)
+          ) * sin(var(--angle) - 0deg)
       )
   );
   --light-y: calc(
-    50vh +
+    var(--ring-y) +
       (
-        ((var(--ring-radius) * 2) - var(--light-radius)) *
-          cos(var(--angle) + 180deg)
+        (
+            var(--ring-radius) + var(--ring-w) + var(--ring-w) -
+              var(--light-radius)
+          ) * cos(var(--angle) + 180deg)
       )
   );
-  --light-color: #fff;
-  --light-radius: 0.8em;
-  /*! inset: 10em; */
+  --light-radius: 0.7em;
+
+  display: grid;
+  grid-template-columns: [left] 1fr [right];
+  grid-template-rows: [top] 1fr [bottom];
+  align-items: center;
+  justify-items: center;
+}
+.test1 > span {
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .test1output {
   position: absolute;
-  bottom: 0;
+  top: 0;
   right: 0;
+  margin: 0;
+  padding: 1em;
 }
 
 .borderlight8 span.square {
-  position: absolute;
   width: 200px;
   height: 200px;
   box-shadow: var(--shadow);
@@ -348,7 +358,6 @@ section {
   z-index: 9;
 }
 .borderlight8 span.roundedrect {
-  position: absolute;
   width: 350px;
   height: 280px;
   box-shadow: var(--shadow);

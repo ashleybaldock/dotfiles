@@ -5,10 +5,12 @@ let g:mayhem_loaded_sfsymbols = 1
 
 " Set all SF Symbol codepoints to be 2 chars wide
 " (the majority of them are at least that wide)
-call setcellwidths([[0x100000, 0x102fff, 2]])
-
-
-" if charclass(cs) == 3
+call setcellwidths([[0x100000, 0x103fff, 2]])
+" These could be exceptions
+" '􀟖􀟕􁊘a􁊙􀑪􀆊􀯻􀆉􀯶􂦬􀆒􀆓􂉏􀖄􂉐􀅍􀅎􀅓􀅔􀅕􀮷􀫌􁷁􀳾􂡩􀑹􁍂􁍅􀅖􀨡􀵷􀵿􀅏􀥋􁣣􀘽􁣦􀅳􀒆􁹡􀆏􀠑􀠒􂬮􂬮􁏃􀇬􁏄􁗅􀝢􀝌􀞋􂃵􀎪􀎠􀎡􀖈􀖉'
+" call setcellwidths([[char2nr('􀑹'),char2nr('􀑹'),1]]);
+"
+" if charclass(cs) == 3 
     " setline(lnum, '0x' .. printf("%06x", c) .. ' ' .. charclass(cs) .. ' ' .. strwidth(cs) .. ' |' .. cs .. '| ' )
 
 " This is derived from $VIMRUNTIME/tools/emoji_list.vim
@@ -36,3 +38,4 @@ function! s:Symbols()
 endfunc
 
 command! Symbols call <SID>Symbols()
+

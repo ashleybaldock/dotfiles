@@ -1,0 +1,56 @@
+svg {
+  fill: #fff;
+}
+
+.resize-container {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  margin: 1em 0px;
+}
+.resizeX,
+.resizeY,
+.resizeXY {
+  content: 'Drag corner to resize ⤴︎';
+  resize: both;
+  display: flex;
+  align-items: baseline;
+  line-height: 0;
+  justify-content: space-between;
+  background-color: rgb(0, 0, 0);
+  border: 1px dashed rgb(56, 94, 71);
+  padding: 1em;
+  overflow: hidden;
+  border-radius: 2px 14px 0px;
+  min-width: 128px;
+  box-shadow: 2px 2px 3px 1px black;
+  aspect-ratio: 1;
+}
+
+.resizeX {
+  resize: horizontal;
+}
+.resizeY {
+  resize: vertical;
+}
+:where(.resizeX, .resizeY, .resizeXY) > div {
+  height: 100%;
+  width: auto;
+}
+
+.sizertop {
+  transform: rotateX(180deg);
+}
+.sizertop > * {
+  transform: rotateX(180deg);
+}
+
+:where(.resizeX, .resizeY, .resizeX):where(.sizertop)::after {
+  content: 'Drag corner to resize ⤵︎';
+}
+/*
+ *  ⤶⤷  
+ *    ⤹ ⤵︎   ↰↱↵↲↳↴↶↷
+ *⤣⤤⤥⤦  ⤴ ⤸ ⤺ ⤻ ⤾ ⤿   ↩ ↪ 
+ ⬎ ⬏   ⬐ ⬑   ⭠⭡⭣⭢⭥ ⮂ ⮃  ⮐⮑
+ */

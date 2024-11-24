@@ -37,7 +37,7 @@ let g:mayhem_loaded_css = 1
 "   <frequency>  \(Hz\|kHz\)
 "  <resolution>  \(dpi\|dppx\|dpcm\)
 "
-command! -range=% NoZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?\0*\(cap\|ch\|em\|ex\|ic\|lh\|rcap\|rch\|rem\|rex\|ric\|rlh\|vh\|vw\|vmax\|vmin\|vb\|vi\|cqw\|cqh\|cqi\|cqb\|cqmin\|cqmax\|px\|cm\|mm\|Q\|in\|pc\|pt\)\ze\s/0/ge
+command! -range=% NoZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?\0*\(cap\|ch\|em\|ex\|ic\|lh\|rcap\|rch\|rem\|rex\|ric\|rlh\|vh\|vw\|vmax\|vmin\|vb\|vi\|cqw\|cqh\|cqi\|cqb\|cqmin\|cqmax\|px\|cm\|mm\|Q\|in\|pc\|pt\)\ze\%(\s\|;\)/0/ge
 
 
 " These properties use <time>

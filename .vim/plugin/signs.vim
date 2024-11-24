@@ -7,18 +7,26 @@ let g:mayhem_loaded_signs = 1
 let s:prefix = 'mayhem_'
 let s:group = 'signs_of_mayhem'
 
-"     \ {'name': '',
-"     \ 'text': '⌁',
-"     \ 'texthl': '',
-"     \ 'culhl': '',
-"     \ 'linehl': ''},
-let s:gitsigns = [
-      \ {'sign': '+', 'hlt': 'SignGitAdd', 'hll': 'DiffAdd'   , 'name': 'git_add',           },
-      \ {'sign': '𐰇', 'hlt': 'SignGitChg', 'hll': 'DiffChange', 'name': 'git_mod',           },
-      \ {'sign': '◇', 'hlt': 'SignGitDel', 'hll': 'DiffDelete', 'name': 'git_del',           },
-      \ {'sign': '◇̅', 'hlt': 'SignGitDel', 'hll': 'DiffDelete', 'name': 'git_del_first',     },
-      \ {'sign': '◇̲̅', 'hlt': 'SignGitDel', 'hll': 'DiffDelete', 'name': 'git_del_abovebelow',},
-      \ {'sign': '◇̲', 'hlt': 'SignGitCgD', 'hll': 'DiffDelete', 'name': 'git_del_mod',       },
+let g:mayhem = get(g:, 'mayhem', {})
+let g:mayhem.sl = get(g:mayhem, 'sl', {})
+
+let g:mayhem.signs = get(g:mayhem, 'signs', {})
+
+"            \ {
+"            \  'n[ame]':     'mysign',
+"          ⎧ \  's[igntext]': '⌖⃝ ',
+"          ⎪ \  't[exthl]':   'SignTextHlGroup',
+" optional ⎨ \  'l[inehl]':   'LineHlGroup',
+"          ⎪ \  'c[ulhl]':    'CurrentLineHlGroup',
+"          ⎩ \  'n[umhl]':    'NumberColumnHlGroup'
+"            \ },
+let g:mayhem.signs.git = [
+      \ { 'n': 'add',         's': '+', 't': 'SignGitAdd', 'l': 'DiffAdd'   ,  },
+      \ { 'n': 'mod',         's': '𐰇', 't': 'SignGitChg', 'l': 'DiffChange',  },
+      \ { 'n': 'del',         's': '◇', 't': 'SignGitDel', 'l': 'DiffDelete',  },
+      \ { 'n': 'd_first',     's': '◇̅', 't': 'SignGitDel', 'l': 'DiffDelete',},
+      \ { 'n': 'd_abovebelow','s': '◇̲̅', 't': 'SignGitDel', 'l': 'DiffDelete',},
+      \ { 'n': 'd_mod',       's': '◇̲', 't': 'SignGitCgD', 'l': 'DiffDelete',},
       \]
 let s:diagsigns = [
       \ {'sign': '✘', 'hlt': 'SignDgErr',  'hll': 'LineDgErr',  'name': 'diag_error',        },
@@ -67,6 +75,12 @@ endfunc
 
 command! TestSign echo <SID>PlaceSign()
 
+"
+" Place:
+"
+function s:PlaceSign(name)
+  " Look up sign name
+endfunc
 
 " 
 "┏ {…}  javascript
@@ -129,7 +143,8 @@ command! OurSignsInThisBuffer echo <SID>ListSignsOfMayhemInCurrentBuffer()
 "
 " ----------------------------------- TextProps -----------
 "
-"  prop_type_add/prop_type_change
+"  prop_type_add(name, props)
+"  prop_type_change(name, props)
 " bufnr      : buffer local
 " highlight  : hlgroup
 " priority   : highest wins, def. 0
@@ -138,7 +153,18 @@ command! OurSignsInThisBuffer echo <SID>ListSignsOfMayhemInCurrentBuffer()
 " start_incl : inserts @ start included
 " end_incl   : inserts @ end included
 "
-"  prop_type_delete/prop_type_change
+"  prop_type_delete(name, [props])
+"  prop_type_get(name, [props])
+"  prop_type_list(props)
+"
+" prop_add(lnum, col, props)
+" prop_add_list(props, [item, ...])
+"
+" prop_clear(lnum [, lnum-end [, bufnr]])
+" prop_find(props [, direction])
+" prop_list(lnum [, props])
+" prop_remove(props [, lnum [, lnum-end]])
+"
 
 function! AddTestTextPropType()
   return prop_type_add(s:prefix .. '', {
@@ -151,8 +177,6 @@ function! AddTestTextPropType()
         \ 'end_incl': 1 
         \ })
 endfunc
-
-
 
 function! s:ListTextPropsInCurrentBuffer()
   return prop_list(1, {
@@ -185,15 +209,28 @@ function! s:ListTextsOfMayhemInCurrentLine()
         \ })
 endfunc
 
+command! AllTextPropsInThisLine echo <SID>ListTextPropsInCurrentLine()
+command! AllTextPropsInThisBuffer echo <SID>ListTextPropsInCurrentBuffer()
+command! OurTextPropsInThisLine echo <SID>ListTextsOfMayhemInCurrentLine()
+command! OurTextPropsInThisBuffer echo <SID>ListTextsOfMayhemInCurrentBuffer()
 
 
 
 
 
 
-
-
-
+" let matchid = matchadd(hlgroup, pattern, priority, id, {conceal = 'X', window = N}]]])
+" call matchdelete(matchid)
+" priority default 10
+" id, positive int, -1 = choose automatically
+"
+" Save Restore:
+" echo getmatches()     ⮕  [{},{},...]
+" let matches = getmatches()
+" call clearmatches()
+" echo getmatches()    ⮕  []
+" setmatches(matches)
+" echo getmatches()     ⮕  [{},{},...]
 
 
 

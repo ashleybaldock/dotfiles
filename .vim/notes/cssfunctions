@@ -1,0 +1,156 @@
+
+Transform functions
+  Translate functions
+    translateX()
+    translateY()
+    translateZ()
+    translate()
+    translate3d()
+
+  Rotation functions
+    rotateX()
+    rotateY()
+    rotateZ()
+    rotate()
+    rotate3d()
+
+  Scaling functions
+    scaleX()
+    scaleY()
+    scaleZ()
+    scale()
+    scale3d()
+
+  Skew functions
+    skewX()
+    skewY()
+    skew()
+
+  Matrix functions
+    matrix()
+    matrix3d()
+
+  Perspective functions
+    perspective()
+
+Math functions
+  Basic arithmetic
+    calc()
+    Comparison functions
+      min()
+      max()
+      clamp()
+    Stepped value functions
+      round()
+      mod()
+      rem()
+    Trigonometric functions
+      sin()
+      cos()
+      tan()
+      asin()
+      acos()
+      atan()
+      atan2()
+    Exponential functions
+      pow()
+      sqrt()        √⁎()
+      hypot()
+      log()
+      exp()
+    Sign-related functions
+      abs()
+      sign()
+
+Filter functions
+  blur()
+  brightness()
+  contrast()
+  drop-shadow()
+  grayscale()
+  hue-rotate()
+  invert()
+  opacity()
+  saturate()
+  sepia()
+
+Color functions
+  rgb()
+  hsl()
+  hwb()
+  lch()
+  oklch()
+  lab()
+  oklab()
+  color()
+  color-mix()
+  device-cmyk()
+  light-dark()
+
+Image functions
+  Gradient functions
+    linear-gradient()     ◪◩ ◧ ░▒▓
+    radial-gradient()     ◎⦿◉ ❨❩❪❫❬❭❮❯❰❱❲❳❴❵⌾
+    conic-gradient()      ◔◷
+    repeating-linear-gradient()
+    repeating-radial-gradient()
+    repeating-conic-gradient()
+  Image functions
+    image()
+    image-set()
+    cross-fade()
+    element()
+    paint()
+
+Counter functions
+  counter()
+  counters()
+  symbols()
+
+Shape functions
+  circle()   
+  ellipse()  
+  inset()    
+  rect()     
+  xywh()     
+  polygon()  
+  path()     
+  shape()    
+
+Reference functions
+  attr()  @️()
+  env()   
+  <url>   
+  var()   𐐏()
+
+Grid functions
+  fit-content()
+  minmax()
+  repeat()
+
+Font functions
+  stylistic()
+  styleset()
+  character-variant()
+  swash()
+  ornaments()
+  annotation()
+
+Easing functions
+  linear()
+  cubic-bezier()
+  steps()
+
+Animation functions
+  scroll()
+  view()
+
+Anchor positioning functions
+    anchor()
+    anchor-size()
+
+
+
+ ᶸᶺᶻᵸᴰᴰ᳐ ᳵ᳗᳚᳸ ᳹ ᰩ ᭸ ᢀ ᢁ 
+ ㄧㅡㅣㅡ 
+ ㄇㄈㄩ ㄖㄑㄍㅿ 

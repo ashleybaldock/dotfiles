@@ -1,6 +1,6 @@
 :root {
   --𝞅: 1.618;
-  --𝟭∕𝞅: 1 / var(--𝞅);
+  --𝟭∕𝞅: calc(1 / var(--𝞅));
   --𝞅∕𝟮: var(--𝞅) / 2;
   --icon-fg-color: #ffffff;
   --icon-bg-color: #000000;
@@ -8,6 +8,35 @@
   --icon-padding: 20;
   --icon-radius: 60;
   --icon-border-style: dashed;
+}
+:root {
+  /* Unitless */
+  --𝞅: 1.618;
+  --⅟️𝞅: calc(1 / var(--𝞅));
+  --𝞅⁻¹: calc(1 / var(--𝞅));
+  --𝟣∕𝞅: calc(1 / var(--𝞅));
+  --𝞅∕𝟤: calc(var(--𝞅) / 2);
+  --𝝿: calc(pi);
+  --𝞽️: calc(pi * 2);
+  /* Unit 1 */
+  --Urad: 1rad;
+  --Udeg: 1deg;
+  --Upx: 1px;
+  --Uem: 1em;
+  --Urem: 1rem;
+  /* Radians */
+  --𝝿∕𝟤ᴿ: calc(pi * 0.5rad);
+  --𝝿ᴿ: calc(pi * 1rad);
+  --𝞽ᴿ: calc(pi * 2rad);
+  /* Constants */
+  --e: calc(e);
+  --𝟣∕e: calc(1 / e);
+  --⅟️e: calc(1 / e);
+  --e⁻¹: calc(1 / e);
+  --√𝟤: calc(sqrt(2));
+  --⅟️√𝟤: calc(1 / sqrt(2));
+  --√𝟤⁻¹: calc(1 / sqrt(2));
+  --𝟣∕√𝟤: calc(1 / sqrt(2));
 }
 
 body {
@@ -56,35 +85,62 @@ svg {
   justify-content: center;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+.demo :where(h1, h2, h3, h4, h5, h6) {
   background-color: #121212;
   color: #eee;
   padding: 0.4em;
   border-top: 0.1em solid #65005f;
 }
-
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-figure,
-blockquote,
-dl,
-dd {
-  margin-block-end: 0;
-}
-
-section > h2 {
+.demo section > h2 {
   position: sticky;
   top: 0;
 }
+
+:where(body, h1, h2, h3, h4, p, figure, blockquote, dl, dd) {
+  margin-block-end: 0;
+}
 .screen {
   min-height: 100vh;
+}
+
+.text-outline-thin {
+  --➕: 0.8px;
+  --➖: calc(var(--➕) * -1);
+  --🟰: 0;
+  --🔸: 0.2px #000f;
+  --text-outline-thin: var(--➕) var(--🟰) var(--🔸),
+    var(--➕) var(--➕) var(--🔸), var(--🟰) var(--➕) var(--🔸),
+    var(--➖) var(--➕) var(--🔸), var(--➖) var(--🟰) var(--🔸),
+    var(--➖) var(--➖) var(--🔸), var(--🟰) var(--➖) var(--🔸),
+    var(--➕) var(--➖) var(--🔸);
+  text-shadow: var(--text-outline-thin);
+}
+.text-outline-thick {
+  --➕: 1.4px;
+  --➖: calc(var(--➕) * -1);
+  --🟰: 0;
+  --🔸: 1.2px #000f;
+  --text-outline-thick: var(--➕) var(--🟰) var(--🔸),
+    var(--➕) var(--➕) var(--🔸), var(--🟰) var(--➕) var(--🔸),
+    var(--➖) var(--➕) var(--🔸), var(--➖) var(--🟰) var(--🔸),
+    var(--➖) var(--➖) var(--🔸), var(--🟰) var(--➖) var(--🔸),
+    var(--➕) var(--➖) var(--🔸);
+  text-shadow: var(--text-outline-thick);
+}
+
+:root {
+  --➕: 1px;
+  --➖: calc(var(--➕) * -1);
+  --🟰: 0;
+  --🔸: min(4px, var(--➕) * var(--✖️)) #000f;
+  --text-outline-thick: var(--➕) var(--🟰) var(--🔸),
+    var(--➕➕) var(--➕➕) var(--🔸), var(--🟰) var(--➕) var(--🔸),
+    var(--➖➖) var(--➕➕) var(--🔸), var(--➖) var(--🟰) var(--🔸),
+    var(--➖➖) var(--➖➖) var(--🔸), var(--🟰) var(--➖) var(--🔸),
+    var(--➕➕) var(--➖➖) var(--🔸);
+  text-shadow: var(--text-outline-thick);
+  --➕➕: calc(var(--➕) * var(--✖️));
+  --➖➖: calc(var(--➖) * var(--✖️));
+  --✖️: 0.6;
+  --✖: 0.6;
 }

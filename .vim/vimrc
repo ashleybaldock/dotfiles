@@ -176,6 +176,11 @@ set showcmd
 set shortmess+=sAIt
 let g:netrw_banner=0
 let g:netrw_fastbrowse=0
+let g:netrw_list_hide=[
+      \ '\.DS_Store',
+      \ '.*\.sw[nop]$',
+      \ ]->join(',')
+
 
 " ftplugin/vim.vim
 let no_vim_maps = 1
@@ -213,7 +218,7 @@ if executable('ag')
 endif
 
 " Syntax highlighting for code blocks inside markdown docs
-let g:markdown_fenced_languages = ['javascript', 'typescript', 'css', 'json', 'python', 'lua', 'vim', 'sh']
+let g:markdown_fenced_languages = ['javascript', 'typescript', 'css', 'json', 'python', 'lua', 'vim', 'sh', 'pre', 'ansi']
 
 
 " 2html script options

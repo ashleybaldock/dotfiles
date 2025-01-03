@@ -4,7 +4,7 @@ endif
 let g:mayhem_loaded_shortcuts = 1
 
 "
-" Key Mappings:
+" Key Mappings: 􀇳
 "
 " See Also: ./mouse.vim
 "
@@ -40,6 +40,12 @@ nnoremap <leader>o   <C-o>
 nnoremap ß           <C-i>
 nnoremap <leader>i   <C-i>
 
+
+
+"
+" Replace: Character with its escape code
+"
+nnoremap §u\ "=GetCharCode()Pl
 
 
 "
@@ -181,7 +187,7 @@ function! s:Duplicatebuffer(newcmd = 'new')
   call winrestview(l:view)
 endfunc
 
-command! -args=1 DuplicateBuffer call <SID>Duplicatebuffer(<f-args>)
+command! -nargs=1 DuplicateBuffer call <SID>Duplicatebuffer(<f-args>)
 
 " Horizontal
 nnoremap §ess :sp<CR>
@@ -359,12 +365,33 @@ nnoremap §rf :UnsetAndReload<CR>
 nnoremap §rs :w :so %<CR>
 " Source current buffer (doesn't refresh everything)
 nnoremap §re :so<CR>
+" Execute currently selected (visual)
+vmap §rr "xy:@x<CR>
 " Source current line
 nnoremap §rr :.,.so<CR>
+" nnoremap §rr :^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$
+" §
+" Source current line continuation
+" (From first previous non-continued line to last
+" subsequent one)
+"
+" Matches a continuation line
+" \%(\_^\s*[\\].*\_$\)
+" Matches a line and all subsequent continuated bits
+" \_^.*\_.\%(\_^\s*\\.*\_.\)
+" ^[^\\]*\_$\%(\_^\s*\\.*\_$\)\+\ze\_^[^\\]*$
+"
+" Matches a non-continuation line, followed by all
+" lines until the next non-continuation line
+" ^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$
+" \(.*\%#\)\@=\(^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$\)\@>\(\%#.*\)\@<=
+"
+" Match current line as a continuation
+" /\zs\%(\%.l\_^\s*[^\\].*\_$\)\+/
+" 
+"
 " Source vimrc
 nnoremap §rv :so ~/.vimrc<CR>
-" Execute currently selected
-vmap §<space> "xy:@x<CR>
 " Get result of command in new buffer
 " redir @">|silent echo 
 "          \ <<command>>

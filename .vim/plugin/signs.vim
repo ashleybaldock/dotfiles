@@ -78,9 +78,9 @@ command! TestSign echo <SID>PlaceSign()
 "
 " Place:
 "
-function s:PlaceSign(name)
+" function s:PlaceSign(name)
   " Look up sign name
-endfunc
+" endfunc
 
 " 
 "┏ {…}  javascript

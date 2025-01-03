@@ -44,35 +44,23 @@
 
 source <script>:p:h/common.vim
 
-" Remove oneline
-" syn region cssURL contained
-"       \ matchgroup=cssFunctionName
-"       \ start="\<\(uri\|url\|local\|format\)\s*("
-"       \ end=")"
-"       \ contained
-"       \ contains=cssStringQ,cssStringQQ
-
-      " \ conceal cchar=╌
-" syn match cssVarDashes /--/ contained contains=NONE conceal transparent
 syn match cssVarCustomProp contained "--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)*\Z"
-      \ contained contains=cssCustomPropDashes
-syn match cssCustomPropDashes /--/
-      \ contained contains=NONE transparent
-      \ conceal cchar=╸
+      \ contains=cssCustomPropDashes
+syn match cssCustomPropDashes contained +--+
+      \ conceal cchar=╸ contains=NONE transparent
 
-syn region cssFunctionRegion
+syn region cssFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
-      \ contains=cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssFunctionComma,
-      \ cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength,
-      \ contained
-syn region cssMathFunctionRegion
+      \ contains=cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssFunctionComma,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+
+syn region cssMathFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
-      \ contains=cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssFunctionComma,
-      \ cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength,
-      \ contained
+      \ contains=cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssFunctionComma,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+
 syn keyword cssFunctionNameVar contained conceal cchar=𐐏 var
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssFunctionRegion
+
 syn keyword cssMathFunctionName contained conceal cchar=C calc
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionRegion
@@ -485,7 +473,7 @@ hi def link cssUrlSvgAttr Type
 hi def link cssUrlSvgTagError htmlCommentError
 hi def link cssUrlSvgComment htmlComment
 hi def link cssUrlSvgXmlns htmlComment
-hi def preProcComment guifg=#2a2a2a
+hi def preProcComment guifg=#212121
 
 hi def pathClose    guifg=#ffaa00 guibg=NONE gui=bold
 hi def pathMoveAbs  guifg=#009900 gui=bold guisp=#4444ee

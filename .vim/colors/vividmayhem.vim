@@ -91,10 +91,17 @@ hi Search         guifg=NONE    guibg=#555555 gui=none
 hi IncSearch      guifg=#fefefe guibg=#000000         
 hi CurSearch      guifg=NONE    guibg=#444422 gui=reverse
 
+hi QuickFixLine   guibg=NONE
+hi link qfError        Error
+hi link qfFileName     Directory
+hi link qfLineNr       LineNr
+hi qfLineNr       guifg=#999911
+hi qfSeparator    guifg=#999911
+
 "
 "════════════════════════════════════════════════════════╡ Visual
 "
-hi Visual none | hi Visual     guibg=#2a2a50 gui=none
+hi Visual none | hi Visual      guibg=#2a2a50 gui=none
 
 hi ModeMsg        guifg=#f050a0 guibg=#440022 gui=italic
 " more-prompt/pager
@@ -114,6 +121,9 @@ hi WildMenu       guifg=#000000 guibg=#767fff gui=bold
 "
 " Replacements for concealed text
 hi Conceal        guifg=#7777a2 guibg=NONE            
+hi Conceal        guifg=#33aadd
+hi link vimSynMtchCchar Conceal
+hi link cssUnitDecorators Conceal
 hi Ignore         guifg=#8888aa guibg=#222244         
 "
 " Diagnostics related
@@ -360,15 +370,45 @@ hi TestHint5      guifg=NONE gui=underline guisp=#ff5522
 
 "════════════════════════════════════════════════════════╡ Code Sections
 
-hi Type           guifg=#aaaa77 guibg=NONE    gui=none
-hi Statement      guifg=#ff6600 guibg=NONE    gui=none 
-hi Identifier     guifg=#ffcc00 guibg=NONE    gui=none
 hi Constant       guifg=#339999 guibg=NONE    gui=none
 hi String         guifg=#66fa00 guibg=NONE    gui=none
+hi link Character Constant
+hi Number         guifg=#44aaaa guibg=NONE    gui=none
+hi link Boolean Constant
+hi link Float Constant
+
+hi Identifier     guifg=#ffcc00 guibg=NONE    gui=none
+hi Function       guifg=#eebb11 guibg=NONE    gui=none
+hi link Method Function
+
+hi Statement      guifg=#ff6600 guibg=NONE    gui=none 
+hi link Conditional Statement
+hi link Repeat	    Statement
+hi link Label	      Statement
+hi link Operator    Statement
+hi link Keyword     Statement
+hi link Exception   Statement
+
 hi PreProc        guifg=#aaffff guibg=NONE    gui=none
+hi link Include   PreProc
+hi link Define	  PreProc
+hi link Macro	    PreProc
+hi link PreCondit PreProc
+
+hi Type           guifg=#aaaa77 guibg=NONE    gui=none
+hi link StorageClass Type
+hi link Structure    Type
+hi link Typedef      Type
 
 hi Special        guifg=#33aa00 guibg=NONE    gui=none
+hi link SpecialChar    Special
+hi link Tag	           Special
 hi Delimiter      guifg=#33aa00 guibg=NONE    gui=none
+hi link SpecialComment Special
+hi link Debug	         Special
+
+hi Underlined     guifg=#80a0ff gui=underline 
+
 hi Regexp         guifg=#44b4cc guibg=NONE    gui=none
 
 "════════════════════════════════════════════════════════╡ Comments
@@ -405,9 +445,9 @@ hi HlMkDnHeader   guifg=#cc44cc               gui=bold
 hi HlMkDnLink     guifg=#15aabf               gui=italic,underline
 
 "hi markdownHeadingRule
-hi markdownH1     guifg=#cc44cc               gui=standout            guisp=#00cc11
-hi markdownH2     guifg=#cc44cc               gui=bold,underline      guisp=#00cc11
-hi markdownH3     guifg=#cc44cc               gui=bold,underdashed    guisp=#00cc11
+hi markdownH1     guifg=#cc44cc               gui=bold,italic         guisp=#00cc11
+hi markdownH2     guifg=#cc44cc               gui=underline           guisp=#00cc11
+hi markdownH3     guifg=#cc44cc               gui=underdashed         guisp=#00cc11
 hi markdownH4     guifg=#cc44cc               gui=underdotted         guisp=#00aa11
 hi markdownH5     guifg=#cc44cc               gui=underdotted,italic  guisp=#aa66aa
 hi markdownH6     guifg=#cc44cc               gui=italic              guisp=#aa66aa
@@ -577,12 +617,41 @@ hi link jsonNoQuotesError       ErrorHint
 hi link jsonMissingCommaError   ErrorHint
 
 
-hi cssClassNameDot guifg=#ff5500 gui=bold
+hi cssIdHash         guifg=#ffaa00
+hi cssSelectorOp     guifg=#22ffaa gui=bold
+hi cssSelectorOp2    guifg=#0800ff gui=bold
+hi cssAttrParens     guifg=#ff5500 gui=bold
+hi cssAttrComma      guifg=#ffff00 gui=bold
+hi cssAttrOp         guifg=#ff00ff
+
+hi link cssAtRule Include
+hi link cssAtKeyword PreProc
+
+hi link cssFunctionName Function
+hi link cssFunctionComma Function
+hi cssCustomProp  guifg=#bf53bc
+hi cssNoise       guifg=#bbaf00
+
+hi link cssPropertySyntax String
+hi link cssSyntaxType Type
+hi link cssPropertyAttr Keyword
+hi cssPropertyProp  guifg=#ccccff
+
+hi link cssIdentifier Function
 hi link cssClassName Function
 " hi cssPseudoClass
 hi link cssPseudoClassId PreProc
 " hi cssPseudoClassFn
 hi link cssPseudoClassLang Constant
+
+" Value types
+hi link cssCalcKeyword Constant
+hi link cssValueLength Number
+hi link cssValueInteger Number
+hi link cssValueNumber Number
+hi link cssValueAngle Number
+hi link cssValueTime Number
+hi link cssValueFrequency Number
 " unimplemented/vendor
 hi cssVendor       guifg=#ffaa00 guibg=NONE gui=italic,strikethrough guisp=#ff0000
 hi link cssHyerlinkProp cssVendor
@@ -623,14 +692,18 @@ hi link cssInteractProp cssBehaveProp
 " Layout & structure
 hi cssLayoutProp guifg=#2288dd guibg=NONE    gui=none
 hi link cssBoxProp cssLayoutProp
+hi link cssBoxAttr cssAttr
 hi link cssPositioningProp cssLayoutProp
+hi link cssPositioningAttr cssAttr
 hi link cssDimensionProp cssLayoutProp
+hi link cssDimensionAttr cssAttr
 hi link cssFlexibleBoxProp cssLayoutProp
+hi link cssFlexibleBoxAttr cssAttr
 hi link cssGridProp cssLayoutProp
 hi link cssMultiColumnProp cssLayoutProp
 hi link cssTableProp cssLayoutProp
 " Misc
-hi cssImportant guifg=#dddd11 guibg=#005400    gui=none
+hi cssImportant guifg=#dddd11 guibg=#005400  gui=none
 
 " hi link CocSymbolDefault  hl-MoreMsg
 " hi link CocSymbolFile

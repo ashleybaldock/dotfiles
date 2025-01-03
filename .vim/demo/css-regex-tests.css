@@ -129,37 +129,62 @@
 
 
 /* Match: */
+/* prettier-ignore */
 a b {--a: 0;}
+/* prettier-ignore */
 a	b {--a: 0;}
+/* prettier-ignore */
 a      b {--a: 0;}
+/* prettier-ignore */
 a
 b {--a: 0;}
+/* prettier-ignore */
 a/**/ b {--a: 0;}
+/* prettier-ignore */
 a /**/b {--a: 0;}
+/* prettier-ignore */
 a /*
+/* prettier-ignore */
 */b {--a: 0;}
+/* prettier-ignore */
 a/*
 */ b {--a: 0;}
+/* prettier-ignore */
 a
 /**/b {--a: 0;}
+/* prettier-ignore */
 a/**/
 b {--a: 0;}
+/* prettier-ignore */
 ab {--a: 0;}
+/* prettier-ignore */
 ab {--a: 0;}
 
 /* No Match: */
+/* prettier-ignore */
 a, b {--a: 0;}
+/* prettier-ignore */
 a ,b {--a: 0;}
+/* prettier-ignore */
 a + b {--a: 0;}
+/* prettier-ignore */
 a +b {--a: 0;}
+/* prettier-ignore */
 a+ b {--a: 0;}
+/* prettier-ignore */
 a+b {--a: 0;}
+/* prettier-ignore */
 a > b {--a: 0;}
+/* prettier-ignore */
 a ~ b {--a: 0;}
+/* prettier-ignore */
 a b {--a: 0;}
+/* prettier-ignore */
 a/*
 */b {--a: 0;}
+/* prettier-ignore */
 a/**/b {--a: 0;}
+/* prettier-ignore */
 
 :where([data-a='blah'], a, div) {
   content: 'OK';
@@ -425,4 +450,4 @@ a b {--a: 0;}
 a/*
 */b {--a: 0;}
 /* prettier-ignore */
-  a/**/b {--a: 0;}
+a/**/b {--a: 0;}

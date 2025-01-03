@@ -83,6 +83,7 @@ command! -nargs=1 -complete=customlist,<SID>SessionComplete
       \ SessionLoad
       \ so ~/.vim/session/<args>.session.vim
       \| if exists('g:loaded_obsession')
+        \ && !exists('g:this_obsession')
       \|  Obsession
       \|endif
 

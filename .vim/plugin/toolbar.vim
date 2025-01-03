@@ -143,6 +143,8 @@ endfunc
 "   endif
 " endfunc
 
+"
+" List of active/configured toggles
 let s:toggles = {}
 
 function! s:UpdateToggle(name, priority, states, current)
@@ -169,7 +171,7 @@ function! s:UpdateToggle(name, priority, states, current)
     exec 'an icon=exclamationmark.square '..priority..
           \ ' ToolBar.Toggle\ '..a:name..' <Nop>'
     exec 'tmenu ToolBar.Toggle\ '..a:name..
-          \ ' UpdateToggle:Err: No matching state and fallback missing'
+          \ ' 􀃮 UpdateToggle:Err: No matching state and fallback missing'
   endif
 endfunc
 
@@ -177,70 +179,64 @@ endfunc
 function! s:AddToggles()
   " name, type ('set', 'exec'), priority, enable, states
   for toggle in get(g:, 'mayhem_toolbarToggles', [])
-    let priority =  get(toggle, 'priority',             '1.555')
-    let name =      get(toggle, 'name',                  v:null)
-    let type =      get(toggle, 'type',                  'exec')
-    let enable =    get(toggle, 'enable',                     1)
-
+    let enable = get(toggle, 'enable', 1)
     if !enable
       continue
     endif
+
+    let name = get(toggle, 'name', v:null)
     if name is v:null
       echom 'AddToggles: Found toggle config entry without a name'
       continue
     endif
 
-    let states =    get(toggle, 'states',                    {})
+    let priority = get(toggle, 'priority', '1.555')
+    let type = get(toggle, 'type', 'exec')
+    let current = get(toggle, 'current',
+          \ (type == 'set' && exists('+'..name)) ? '&g:'..name : v:null)
+
+    let states = get(toggle, 'states', {})
     
-    if type == 'set'
-      if exists('+'..name)
-        " let Cb = function('s:UpdateToggle', [toggle])
+    let toggler = {
+          \ 'name': name,
+          \ 'states': deepcopy(states),
+          \ 'priority': priority,
+          \ 'current': current,
+          \ }
+    function toggler.update()
+      let name = self['name']
+      exec 'silent! aunmenu <silent> ToolBar.Toggle\ '..self['name']
+      exec 'let current = '..self['current']
+      exec 'let current = &g:'..self['current']
+      let states    = get(self, 'states', {})
+      let state     = get(states, current, get(states, '*', {}))
+      let nextvalue = get(state, 'next', v:null )
 
-        let toggler = {
-              \ 'name': name,
-              \ 'states': deepcopy(states),
-              \ 'priority': priority,
-              \ 'getcurrent': getcurrent,
-              \ }
-        function toggler.update()
-          let name = self['name']
-          exec 'silent! aunmenu <silent> ToolBar.Toggle\ '..name
-          exec 'let current = &g:'..self['current']
-          let states    = get(self,  'states', {}                     )
-          let state     = get(states, current, get(states, '*', {})   )
-          let nextvalue = get(state,   'next', v:null                 )
+      exec 'an icon=questionmark.square.dashed '..priority..' ToolBar.Toggle\ '..self['name']..' <Nop>'
+      echom 'ToolBarToggle:Err: Setting "'..self['name']..'" does not exist'
 
-          if nextvalue isnot v:null
-            let tooltip = get(state,   'ttip', '􀥭'..name..': '..state..' (click to toggle)')
-            let icon    = get(state,   'icon', 'puzzlepiece.extension')
+      if nextvalue isnot v:null
+        let tooltip = get(state, 'ttip', '􀥭'..self['name']..': '..state..' (click to toggle)')
+        let icon    = get(state, 'icon', 'puzzlepiece.extension')
 
-            exec 'an icon='..icon..' '..priority..
-                  \ ' ToolBar.Toggle\ '..name..' '..nextvalue..'<CR>'
-                  " \ ' :let &g:'..name..'='..nextvalue..'<CR>'
-            exec 'tmenu ToolBar.Toggle\ '..name..' '..tooltip
-          else
-            exec 'an icon=exclamationmark.square '..priority..
-                  \ ' ToolBar.Toggle\ '..name..' <Nop>'
-            exec 'tmenu ToolBar.Toggle\ '..name..
-                  \ ' Toggle.update():Err: No matching state and fallback missing'
-          endif
-        endfunc
-
-        let s:toggles[name] = toggler
-        augroup DynamicToolBar
-          exec 'autocmd OptionSet '..name..
-                \ ' exec s:toggles[expand(''<amatch>'')].update()'
-"         exec 'autocmd OptionSet '..name..
-"               \ ' call s:UpdateDynamicToolBar()'
-        augroup END
-
-        call s:UpdateToggle(name)
+        exec 'an icon='..icon..' '..priority..
+              \ ' ToolBar.Toggle\ '..self['name']..' '..nextvalue..'<CR>'
+        exec 'tmenu ToolBar.Toggle\ '..self['name']..' '..tooltip
       else
-        exec 'an icon=questionmark.square.dashed '..priority..' ToolBar.Toggle\ '..name..' <Nop>'
-        echom 'ToolBarToggle:Err: Setting "'..name..'" does not exist'
+        exec 'an icon=exclamationmark.square '..priority..
+              \ ' ToolBar.Toggle\ '..self['name']..' <Nop>'
+        exec 'tmenu ToolBar.Toggle\ '..self['name']..
+              \ ' toggler.update():Err: No matching state and fallback missing'
       endif
-  endfor
+    endfunc
 
+    let s:toggles[name] = toggler
+
+    augroup DynamicToolBar
+      exec 'autocmd OptionSet '..name..
+            \ ' exec s:toggles[expand(''<amatch>'')].update()'
+    augroup END
+  endfor
 endfunc
 
 function! s:RemoveSessionTBStatus()
@@ -257,26 +253,26 @@ function! s:UpdateSessionTBStatus()
               \ 1.110
               \ ToolBar.SessionStatus
               \ :SessionPause<CR>
-        exec 'tmenu ToolBar.SessionStatus Obsessing, click to pause. Session:'..v:this_session..')'
+        exec 'tmenu ToolBar.SessionStatus 􁅦 Obsessing, click to pause. Session:'..v:this_session..')'
       else
         " TODO pause/play icons
         an icon=gear.badge.questionmark:multicolor
               \ 1.110
               \ ToolBar.SessionStatus
               \ :SessionResume<CR>
-        exec 'tmenu ToolBar.SessionStatus Obsession paused, click to resume  ('..v:this_session..')'
+        exec 'tmenu ToolBar.SessionStatus 􁅨 Obsession paused, click to resume  ('..v:this_session..')'
       endif
     else
       an icon=gear.badge.xmark:multicolor
             \ 1.110
             \ ToolBar.SessionStatus
             \ :SessionCreate<space>
-      exec 'tmenu ToolBar.SessionStatus No Session, click to create one'
+      exec 'tmenu ToolBar.SessionStatus 􁅧 No Session, click to create one'
     endif
   else
     an icon=gear 1.110 ToolBar.SessionStatus <Nop>
     amenu disable ToolBar.SessionStatus
-    exec 'tmenu ToolBar.SessionStatus Obsession not loaded.'
+    exec 'tmenu ToolBar.SessionStatus 􀍟 Obsession not loaded.'
   endif
 endfunc
 
@@ -348,7 +344,7 @@ function! s:AddDynamicToolBar()
   an <silent> icon=theatermasks 1.321
           \ ToolBar.RestartCoc
           \ :CocRestart<CR>
-  tmenu ToolBar.RestartCoc Restart Coc
+  tmenu ToolBar.RestartCoc 􀺧  Restart Coc
 
   " PopupClear:
   " 􀠳 pip 􀠴 .fill 
@@ -361,17 +357,17 @@ function! s:AddDynamicToolBar()
   " Unused:
   " 􀖇hourglass 􀖈.bottomhalf.filled 􀖉.tophalf.filled
   "             􁇛.circle 􁇜.circle.fill
-  an <silent> icon=hourglass.circle 1.323
-          \ ToolBar.Unused1 <Nop>
+  " an <silent> icon=hourglass.circle 1.323
+  "         \ ToolBar.Unused1 <Nop>
 
   " Unused:
   " 􀌬 exclamationmark.bubble 􀌭.fill
   " 􁃒 bubble.left.and.exclamationmark.bubble.right 􁃓 .fill
-  an <silent> icon=exclamationmark.bubble 1.324
-          \ ToolBar.Unused2 <Nop>
+  " an <silent> icon=exclamationmark.bubble 1.324
+  "         \ ToolBar.Unused2 <Nop>
   " an <silent> icon=gear.badge.exclamationmark 1.325
-  an <silent> icon=gear.badge 1.325
-          \ ToolBar.Unused3 <Nop>
+  " an <silent> icon=gear.badge 1.325
+  "         \ ToolBar.Unused3 <Nop>
   " 􀣋 gearshape 􀣌.fill 􀥎 .2  􀥏 .2.fill 􀺼.circle
   "           􁐂.arrow.triangle.2.circlepath  
   an <silent> icon=gearshape.arrow.triangle.2.circlepath 1.360
@@ -399,10 +395,10 @@ function! s:AddDynamicToolBar()
   " 􀬔 questionmark.folder
   nnoremenu icon=folder 1.390
         \ ToolBar.ShowInFinder
-        \ <Nop>
+        \ :silent exe "silent !open -R "..shellescape(expand("%"))<CR>
   inoremenu icon=questionmark.folder
         \ ToolBar.ShowInFinder
-        \ <Nop>
+        \ :silent exe "silent !open -R "..shellescape(expand("%"))<CR>
   tmenu ToolBar.ShowInFinder 􀈕 Show current file in Finder
 
   " ------------Sep-------------- 400

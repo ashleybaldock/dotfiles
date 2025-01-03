@@ -4,6 +4,18 @@ endif
 let g:mayhem_loaded_unicode = 1
 
 
+" Highlight non-ASCII characters.
+" syntax match nonascii [^\x00-\x7F]
+" highlight link nonascii ErrorMsg
+" autocmd BufEnter * syn match ErrorMsg /[^\x00-\x7F]/
+"
+  "au WinEnter * if !exists("w:custom_hi1") | let w:custom_hi1 = matchadd('ErrorMsg', '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$') | endif
+  "
+  "au WinEnter * if !exists("w:custom_hi2") | 
+  "
+  " let w:custom_hi2 = matchadd('U8Whitespace',
+  "   \ '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]', 10, -1, {'conceal': '⌻' })
+  
 
 
 
@@ -59,12 +71,22 @@ endfunc
 
 command! UnicodeWhitespaceHints call <SID>ToggleUnicodeWhitespaceHints()
 
-
+"
+function! s:GetLineFromCursor() abort
+  return getline('.')[col('.') - 1 : -1]
+endfunc
 
 "
-function! s:GetCursorChar() abort
-  return getline('.')[col('.')-1:-1]
+function! s:GetCharUnderCursor() abort
+  return s:GetLineFromCursor()->char2nr()->nr2char()
 endfunc
+
+function! GetCharCode(char = getline('.')[col('.') - 1 : -1])
+  let n = char2nr(a:char)
+  return n < 0xff ? printf('\x%x', n) : n < 0xffff ? printf('\u%04x', n) :  printf('\U%x', n)
+endfunc
+
+command! -bar -nargs=? GetCharCode echo GetCharCode(<f-args>)
 
 " Replaces the base character in a glyph made up of
 " multiple characters (combining diacritics, 
@@ -81,7 +103,7 @@ endfunc
 " No cleverness here, it just swaps the first character,
 " will probably not work for some inputs
 " 
-function! s:ReplaceBaseChar(replacement, char = s:GetCursorChar()) abort
+function! s:ReplaceBaseChar(replacement, char = s:GetLineFromCursor()) abort
   return a:replacement..strpart(a:char, 1)
 endfunc
 
@@ -91,6 +113,19 @@ command! -bar -nargs=+ ReplaceBaseCharWith echo <SID>ReplaceBaseChar(<q-args>)
 " 
 command! -bar -nargs=+ CombineWithDiacritic echo <SID>CombineWith(<q-args>)
 
+
+function! s:GenerateCodepoints(from, count = 16)
+  return s:GenerateCodepointRange(a:from, a:from + a:count)
+endfunc
+
+function! s:GenerateCodepointRange(from, to = a:from + 16)
+  let min = min([a:from, a:to])
+  let max = max([a:from, a:to])
+
+  return range(l:min, l:max)->map({ val -> nr2char(val)})->join(' ')
+endfunc
+
+command! -bar -nargs=+ GenerateCodepointRange echo <SID>GenerateCodepointRange(<q-args>)
 
 let g:mayhem_combining_diacriticals = [ ['\u20d0'] ]
 "                                                           TODO

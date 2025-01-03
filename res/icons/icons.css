@@ -11,63 +11,13 @@
   --section-border-radius: 1em;
   --section-padding: 0.6em;
 
-  font-size: clamp(10px, max(2vh, 2vw), min(4vh, 4vw));
+  font-size: clamp(10px, max(2vh, 2vw), min(4vh, 4vw, 20px));
   line-height: 14px;
-  --𝚽: 1.618;
   --item-size: 4rem;
   --item-gap: 0.6rem;
 }
 
-.text-outline-thin {
-  --➕: 0.8px;
-  --➖: calc(var(--➕) * -1);
-  --🟰: 0;
-  --🔸: 0.2px #000f;
-  --text-outline-thin: var(--➕) var(--🟰) var(--🔸),
-    var(--➕) var(--➕) var(--🔸), var(--🟰) var(--➕) var(--🔸),
-    var(--➖) var(--➕) var(--🔸), var(--➖) var(--🟰) var(--🔸),
-    var(--➖) var(--➖) var(--🔸), var(--🟰) var(--➖) var(--🔸),
-    var(--➕) var(--➖) var(--🔸);
-  text-shadow: var(--text-outline-thin);
-}
-.text-outline-thick {
-  --➕: 1.4px;
-  --➖: calc(var(--➕) * -1);
-  --🟰: 0;
-  --🔸: 1.2px #000f;
-  --text-outline-thick: var(--➕) var(--🟰) var(--🔸),
-    var(--➕) var(--➕) var(--🔸), var(--🟰) var(--➕) var(--🔸),
-    var(--➖) var(--➕) var(--🔸), var(--➖) var(--🟰) var(--🔸),
-    var(--➖) var(--➖) var(--🔸), var(--🟰) var(--➖) var(--🔸),
-    var(--➕) var(--➖) var(--🔸);
-  text-shadow: var(--text-outline-thick);
-}
-
-:root {
-  --➕: 1px;
-  --➖: calc(var(--➕) * -1);
-  --🟰: 0;
-  --🔸: min(4px, var(--➕) * var(--✖️)) #000f;
-  --text-outline-thick: var(--➕) var(--🟰) var(--🔸),
-    var(--➕➕) var(--➕➕) var(--🔸), var(--🟰) var(--➕) var(--🔸),
-    var(--➖➖) var(--➕➕) var(--🔸), var(--➖) var(--🟰) var(--🔸),
-    var(--➖➖) var(--➖➖) var(--🔸), var(--🟰) var(--➖) var(--🔸),
-    var(--➕➕) var(--➖➖) var(--🔸);
-  text-shadow: var(--text-outline-thick);
-  --➕➕: calc(var(--➕) * var(--✖️));
-  --➖➖: calc(var(--➖) * var(--✖️));
-  --✖️: 0.6;
-  --✖: 0.6;
-}
-
 body {
-  display: flex;
-  flex-direction: column;
-  margin: 0.6em;
-  gap: 0.6em;
-  padding: 0;
-  background-color: #222222;
-  color: #ffffff;
 }
 
 h1 {
@@ -105,15 +55,17 @@ div {
   font-size: var(--item-size);
 }
 
-/*╶────────────────────────────────────────────────────────╴ section ╶───────╴*/
+/*╶───────────────────────────────────╴ section ╶───────╴*/
 
 section {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
   gap: var(--item-gap);
   border: var(--section-border);
   border-radius: var(--section-border-radius);
   padding: var(--section-padding);
+  margin-right: max(10vw, 100px);
 
   --available: calc(
     100cqi - var(--gap) - (var(--padding) * 2) - (var(--border) * 2)
@@ -333,6 +285,12 @@ h1 {
   opacity: 0.9;
 }
 
+.iconRow .copyAs textarea {
+  width: 1px;
+  height: 1px;
+  visibility: collapse;
+}
+
 /*╶────────────────────────────────────────────────────────╴ section ╶───────╴*/
 
 /**** svg ****/
@@ -340,167 +298,61 @@ h1 {
 svg {
   width: 1em;
   height: 1em;
-  fill: var(--icon-fg-color, #ffffff);
-  background-color: var(--icon-bg-color, #000000);
-  padding: calc(0.01em * (var(--icon-padding, 16) - var(--icon-border, 3)));
-  border-radius: calc(0.005em * var(--icon-radius, 3));
   max-height: 1em;
+  fill: var(--icon-fg-color, #ffffff);
   box-sizing: border-box;
-  border-style: var(--icon-border-style, solid);
-  box-shadow: 1px 1px 0 0.6px #fff3, 0 1px 0 0.6px #96009633,
-    -1px 1px 0 0.6px #2c00ff33, -1px 0 0 0.6px #f0f3,
-    -1px -1px 0 0.6px #2d274933, 0 -1px 0 0.6px #f0f3,
-    1px -1px 0 0.6px #1b009c33, 1px 0 0 0.6px #a32ba333;
-  border-width: 0;
+}
+
+.svgListing svg {
   /*! background-image:
     radial-gradient(circle at center, #000000d1, #000),
     repeating-conic-gradient(
       #5c5c5c, #fff 9deg, #c00000 9deg, #f00 18deg); */
+  background-color: var(--icon-bg-color, #000000);
   background-clip: padding-box, border-box;
-  border-color: transparent;
   background-repeat: no-repeat;
   background-size: auto, 150% 150%;
   background-position: center, 80% 30%;
+  padding: calc(0.01em * (var(--icon-padding, 16) - var(--icon-border, 3)));
+  border-radius: calc(0.005em * var(--icon-radius, 3));
+  border-style: var(--icon-border-style, solid);
+  border-width: 0;
+  border-color: transparent;
+  box-shadow: 1px 1px 0 0.6px #fff3, 0 1px 0 0.6px #96009633,
+    -1px 1px 0 0.6px #2c00ff33, -1px 0 0 0.6px #f0f3,
+    -1px -1px 0 0.6px #2d274933, 0 -1px 0 0.6px #f0f3,
+    1px -1px 0 0.6px #1b009c33, 1px 0 0 0.6px #a32ba333;
 }
 
-svg path {
+.pathColors svg path {
   fill: var(--icon-fg-color, #ffffff);
 }
 
-svg > g > path,
-svg > path {
+.pathColors svg > g > path,
+.pathColors svg > path {
   stroke-width: 0;
   stroke: #eee;
 }
-svg path:only-of-type {
+.pathColors svg path:only-of-type {
   fill: #ccc;
 }
-svg g:nth-of-type(1) path {
+.pathColors svg g:nth-of-type(1) path {
   fill: red;
 }
-svg g:nth-of-type(2) path {
+.pathColors svg g:nth-of-type(2) path {
   fill: green;
 }
-svg g:nth-of-type(3) path {
+.pathColors svg g:nth-of-type(3) path {
   fill: blue;
 }
-svg g:nth-of-type(4) path {
+.pathColors svg g:nth-of-type(4) path {
   fill: orange;
 }
-svg g:nth-of-type(5) path {
+.pathColors svg g:nth-of-type(5) path {
   fill: purple;
 }
 
 /*╶────────────────────────────────────────────────────────╴ section ╶───────╴*/
-
-input[type='range'] {
-  position: relative;
-  border-radius: 1em;
-  background: transparent;
-  cursor: pointer;
-  width: calc(100% - 1.5em);
-  margin: 0;
-  padding: 0 0.75em;
-}
-
-input[type='range']::-webkit-slider-runnable-track,
-input[type='range']::-moz-range-track {
-  background: repeating-linear-gradient(
-    10deg,
-    #222,
-    #777 0.4em 0.6em,
-    #222 1em
-  );
-  border-radius: 55px;
-  border: 1px solid #6d6d6d;
-  border-width: 3px 2px 3px 2px;
-  border-color: #444 #666 #666 #333;
-  border-style: ridge;
-  box-shadow: 0 0 2px 1px #000, 0 0 1px 0 #000 inset;
-}
-
-input[type='range']::-webkit-slider-thumb,
-input[type='range']::-moz-range-thumb {
-  width: 0.6em;
-  padding: 0.1em 0.3em;
-  margin: 0;
-  background: radial-gradient(
-      circle at top left,
-      #fcfcfc33 13%,
-      #ffffff45 35%,
-      #2e2e2e0f 62%,
-      #fff4 84%,
-      #fff3
-    ),
-    linear-gradient(70deg, red 0, blue 50% 59%, red);
-  border-style: groove ridge ridge groove;
-  box-shadow: 0 0 2.4px 0 black, 0 0 6px 0.4px black, 0 0 2px 2px #0009 inset;
-  border-radius: 0.4em;
-  border-width: 1.6px;
-  cursor: pointer;
-}
-
-input[type='range']:active,
-input[type='range']:active::-webkit-slider-thumb,
-input[type='range']:active::-moz-range-thumb {
-  cursor: grabbing;
-}
-
-input[type='range']::-webkit-slider-progress,
-input[type='range']::-moz-range-progress {
-  border-radius: 0.4em;
-  background-color: #009fff6e;
-  border-width: 3px 2px 3px 2px;
-  border-style: solid;
-  border-color: transparent;
-  background-clip: content-box;
-  box-shadow: 0 0 1px 0 #ffffff82 inset;
-}
-
-input[type='range'] label::before,
-input[type='range'] output {
-  position: absolute;
-  display: flex;
-  left: calc(var(--bound-val-stroke-width, 0) * 1px);
-  content: var(--bound-str-stroke-width);
-  width: 2em;
-  height: 2em;
-}
-
-input[type='range'].metal::-webkit-slider-thumb,
-input[type='range'].metal::-moz-range-thumb {
-  border-radius: 60px 4px 31px 31px / 10px 9px 75px 75px;
-  background: linear-gradient(-45deg, #fff3, #0006, #0003),
-    linear-gradient(70deg, red 0, blue 50% 59%, red),
-    linear-gradient(-370deg, #ff7800 0, white 50% 59%, #2315d3);
-  padding: 0.12em 0.14em;
-  box-shadow: 0 0 0.4px 1px black, 0 0 4px 0.4px black,
-    0.4px 0.4px 1px 0.4px #000d inset;
-  border-style: double;
-  border-width: 0.22em;
-  border-color: #0000000d;
-  background-clip: padding-box, padding-box, border-box;
-  background-size: 36% 15%, 86% 70%, 160% 160%;
-  background-position: -300% 70%, 30%, -90% -340%;
-}
-
-input[type='range'].glass::-webkit-slider-thumb,
-input[type='range'].glass::-moz-range-thumb {
-  background: linear-gradient(-45deg, #fff3, #0006, #0003),
-    linear-gradient(70deg, red 0, blue 50% 59%, red),
-    linear-gradient(10deg, #ff780022 0%, #fff7 54% 58%, #2315d333 68%);
-  padding: 0.12em 0.14em;
-  box-shadow: 0 0 0.4px 1px black, 0 0 4px 0.4px black,
-    0.4px 0.4px 1px 0.4px #000d inset;
-  border-radius: 60px 4px 31px 31px / 10px 9px 75px 75px;
-  border-style: double;
-  border-width: 0.24em;
-  border-color: #0000000d;
-  background-clip: padding-box, padding-box, border-box;
-  background-size: 36% 15%, 86% 70%, 160% 160%;
-  background-position: -300% 70%, 30%, 0% -340%;
-}
-
 section label {
   background-position: left center;
   padding: 0 0 0 1.2em;
@@ -712,7 +564,7 @@ section:hover {
   min-height: 20vh;
   width: 30%;
   max-width: 260px;
-  aspect-ratio: var(--𝚽);
+  aspect-ratio: var(--𝞅);
   border: 0.4em dashed #666;
   border-radius: 0.5em;
   background-image: linear-gradient(-33deg, blue 30%, red 70%), var(--down2),
@@ -729,16 +581,6 @@ section:hover {
   margin: 0.6em;
   box-shadow: 1px 1px 4px 1px darkred inset, -1px -1px 6px 1px #021685 inset,
     0 0 12px -2px #000;
-
-  --down2: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M64 464c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80V448c0 8.8-7.2 16-16 16H64zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64zm97 289c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0L79 303c-9.4 9.4-9.4 24.6 0 33.9l48 48c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-31-31 31-31zM257 255c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l31 31-31 31c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l48-48c9.4-9.4 9.4-24.6 0-33.9l-48-48z%22%3E%3C/path%3E%3C/svg%3E');
-
-  --topleft: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E%3Cpath d=%22 M9.4 9.4C21.9-3.1 42.1-3.1 54.6 9.4L160 114.7V96c0-17.7 14.3-32 32-32s32 14.3 32 32v96c0 4.3-.9 8.5-2.4 12.2c-1.6 3.7-3.8 7.3-6.9 10.3l-.1 .1c-3.1 3-6.6 5.3-10.3 6.9c-3.8 1.6-7.9 2.4-12.2 2.4H96c-17.7 0-32-14.3-32-32s14.3-32 32-32h18.7L9.4 54.6C-3.1 42.1-3.1 21.9 9.4 9.4z %22%3E%3C/path%3E%3C/svg%3E');
-
-  --botleft: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E%3Cpath d=%22 M114.7 352H96c-17.7 0-32-14.3-32-32s14.3-32 32-32h96 0l.1 0c8.8 0 16.7 3.6 22.5 9.3l.1 .1c3 3.1 5.3 6.6 6.9 10.3c1.6 3.8 2.4 7.9 2.4 12.2v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V397.3L54.6 502.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L114.7 352z %22%3E%3C/path%3E%3C/svg%3E');
-
-  --topright: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E%3Cpath d=%22 M416 96c0-17.7 14.3-32 32-32s32 14.3 32 32v18.7L585.4 9.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3L525.3 160H544c17.7 0 32 14.3 32 32s-14.3 32-32 32H448c-8.8 0-16.8-3.6-22.6-9.3l-.1-.1c-3-3.1-5.3-6.6-6.9-10.3s-2.4-7.8-2.4-12.2l0-.1v0V96z %22%3E%3C/path%3E%3C/svg%3E');
-
-  --botright: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E%3Cpath d=%22 M525.3 352L630.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L480 397.3V416c0 17.7-14.3 32-32 32s-32-14.3-32-32V320v0c0 0 0-.1 0-.1c0-4.3 .9-8.4 2.4-12.2c1.6-3.8 3.9-7.3 6.9-10.4c5.8-5.8 13.7-9.3 22.5-9.4c0 0 .1 0 .1 0h0 96c17.7 0 32 14.3 32 32s-14.3 32-32 32H525.3z %22%3E%3C/path%3E%3C/svg%3E');
 }
 
 .svgCombiner svg {
@@ -769,17 +611,17 @@ section:hover {
 .controlgroup {
   position: relative;
 }
-.controlgroup.overlay,
-.controlgroup.overlap {
+.overlay,
+.composite {
   flex-direction: column;
   row-gap: 0.4em;
 }
-.controlgroup.overlap > span:first-of-type {
+.composite > span:first-of-type {
   align-self: center;
   text-decoration: underline;
   font-size: 1em;
 }
-.controlgroup:is(.outline, .fill) > span:first-of-type {
+.composite > :is(.outline, .fill) > span {
   display: flex;
   /*   position: absolute; */
   bottom: 0;
@@ -788,46 +630,83 @@ section:hover {
   align-items: baseline;
   line-height: 1;
 }
-.controlgroup:is(.outline, .fill):hover > span:first-of-type {
+.composite > :is(.outline, .fill):hover > span {
   opacity: 0.6;
-}
-.controlgroup.outline > label {
-  display: flex;
-  align-items: baseline;
-  line-height: 1;
 }
 .controlgroup > label {
   padding: 0;
 }
-.control > .preview {
-  width: 100px;
-  height: 60px;
-  border: 1px dashed #666;
-  border-radius: 2px;
-}
-.control:hover > .preview {
-  border: 1px dashed #bbb;
-}
-.control > input[type='radio'] {
-  display: none;
-}
-.control:has(> :checked) > .preview {
-  border: 1px solid #bbb;
-}
-.control > span:first-of-type {
-  font-size: 0.8em;
-}
-.control:hover {
-  text-decoration: none;
-}
-.controlgroup:is(.outline, .fill) {
+.composite > :is(.outline, .fill) {
   column-gap: 0.2em;
 }
-.controlgroup:is(.outline, .fill) > .control {
+
+.composite > :is(.outline, .fill) > label {
+  line-height: 1;
+}
+
+.composite > :is(.outline, .fill) > .control {
   flex-direction: column;
   justify-content: stretch;
   align-items: end;
+  overflow: clip;
+  border: 1px solid transparent;
+  border-radius: 10px 10px 2px 2px;
+  background-clip: border-box;
 }
+.composite > :is(.outline, .fill) > .control:hover {
+  text-decoration: none;
+}
+.composite > :is(.outline, .fill) > .control > input[type='radio'] {
+  display: none;
+}
+.composite > :is(.outline, .fill) > .control > span:first-of-type {
+  border: 2px solid #0000;
+  align-self: stretch;
+  text-align: center;
+  font-size: 0.7em;
+}
+
+.composite > :is(.outline, .fill) > .control:has(> :checked) > span {
+  color: #000;
+  text-shadow: none;
+  font-weight: bold;
+  border: 2px solid #bbb;
+  border-radius: 10px 10px 0 0;
+  background-color: #bbb;
+}
+.composite > :is(.outline, .fill) > .control > .preview {
+  aspect-ratio: var(--𝞅∕𝟮);
+  width: 100px;
+  height: auto;
+  border: 1px dashed #666;
+  border-radius: 2px;
+  font-size: 20px;
+  background-image: repeating-linear-gradient(
+      230deg,
+      #0002,
+      #fff2 8px,
+      #0002 12px
+    ),
+    repeating-linear-gradient(-60deg, #b00 0 10%, #00f 50%, #b00);
+  background-clip: content-box;
+  background-size: 10% 200%;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.composite > :is(.outline, .fill) > .control:hover > .preview {
+  border: 1px dashed #bbb;
+}
+.composite > :is(.outline, .fill) > .control > .preview > svg {
+  font-size: 60px;
+}
+.composite > :is(.outline, .fill) > .control:has(> :checked) > .preview {
+  border: 1px solid #bbb;
+  border-radius: 0 0 2px 2px;
+}
+
 .controlgroup > .title {
   flex-direction: column;
   margin: auto 0;
@@ -835,20 +714,14 @@ section:hover {
 }
 .controlgroup > .title > svg {
   font-size: 2.4em;
-}
-
-.title > svg {
   margin-top: auto;
 }
-.title > span {
+.controlgroup > .title > span {
   font-size: 0.7em;
   align-self: center;
   margin-bottom: -2em;
   padding-bottom: 2em;
-}
-.control > span:first-of-type {
-  font-size: 0.7em;
-  align-self: center;
+  color: #ccc;
 }
 .sourceOverlay > .title,
 .sourceBase > .title {
@@ -866,6 +739,103 @@ section:hover {
   flex-direction: column;
   width: 100%;
   align-items: start;
+}
+
+.sourceBase {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.4em;
+  border: 3px solid #262626;
+  border-radius: 6px;
+  padding: 0.2em 0.6em;
+}
+
+.sourceBase svg {
+  font-size: 8em;
+  border: none;
+  box-shadow: none;
+  background: none;
+  border-radius: 0;
+  align-self: center;
+  flex: 1 auto;
+}
+
+.splitList {
+  flex-direction: column;
+  width: 100%;
+  align-items: start;
+}
+
+.sourceSplit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.4em;
+  border: 3px solid #262626;
+  border-radius: 6px;
+  padding: 0.2em 0.6em;
+}
+
+.sourceSplit > .title > svg {
+  font-size: 4em;
+  border: 2px dotted #444;
+  border-radius: 2px;
+}
+
+.svgSplitter svg {
+  font-size: 8em;
+  border: none;
+  box-shadow: none;
+  background: none;
+  border-radius: 0;
+  align-self: center;
+  flex: 1 auto;
+}
+
+.svgSplitter .title {
+  flex-direction: column-reverse;
+}
+
+.sourceOverlay > .title,
+.sourceBase > .title {
+  flex-direction: column-reverse;
+  margin: auto 0.2em;
+  align-items: center;
+  row-gap: 0.2em;
+}
+.sourceOverlay .controlgroup > .title {
+  padding-top: 1lh;
+}
+
+.controlgroup > .title > svg {
+  font-size: 1.4em;
+  margin-bottom: 0.2em;
+}
+.sourceOverlay > .title > svg {
+  font-size: 3.2em;
+}
+.sourceOverlay > .title,
+.sourceBase > .title {
+  margin: auto 0.2em;
+}
+.controlgroup > .title {
+  margin: auto 0.4em;
+}
+
+/*{{{1 SVGs*/
+#droptarget {
+  --down2: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M64 464c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80V448c0 8.8-7.2 16-16 16H64zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64zm97 289c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0L79 303c-9.4 9.4-9.4 24.6 0 33.9l48 48c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-31-31 31-31zM257 255c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l31 31-31 31c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l48-48c9.4-9.4 9.4-24.6 0-33.9l-48-48z%22%3E%3C/path%3E%3C/svg%3E');
+
+  --topleft: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E%3Cpath d=%22 M9.4 9.4C21.9-3.1 42.1-3.1 54.6 9.4L160 114.7V96c0-17.7 14.3-32 32-32s32 14.3 32 32v96c0 4.3-.9 8.5-2.4 12.2c-1.6 3.7-3.8 7.3-6.9 10.3l-.1 .1c-3.1 3-6.6 5.3-10.3 6.9c-3.8 1.6-7.9 2.4-12.2 2.4H96c-17.7 0-32-14.3-32-32s14.3-32 32-32h18.7L9.4 54.6C-3.1 42.1-3.1 21.9 9.4 9.4z %22%3E%3C/path%3E%3C/svg%3E');
+
+  --botleft: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E%3Cpath d=%22 M114.7 352H96c-17.7 0-32-14.3-32-32s14.3-32 32-32h96 0l.1 0c8.8 0 16.7 3.6 22.5 9.3l.1 .1c3 3.1 5.3 6.6 6.9 10.3c1.6 3.8 2.4 7.9 2.4 12.2v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V397.3L54.6 502.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L114.7 352z %22%3E%3C/path%3E%3C/svg%3E');
+
+  --topright: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E%3Cpath d=%22 M416 96c0-17.7 14.3-32 32-32s32 14.3 32 32v18.7L585.4 9.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3L525.3 160H544c17.7 0 32 14.3 32 32s-14.3 32-32 32H448c-8.8 0-16.8-3.6-22.6-9.3l-.1-.1c-3-3.1-5.3-6.6-6.9-10.3s-2.4-7.8-2.4-12.2l0-.1v0V96z %22%3E%3C/path%3E%3C/svg%3E');
+
+  --botright: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E%3Cpath d=%22 M525.3 352L630.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L480 397.3V416c0 17.7-14.3 32-32 32s-32-14.3-32-32V320v0c0 0 0-.1 0-.1c0-4.3 .9-8.4 2.4-12.2c1.6-3.8 3.9-7.3 6.9-10.4c5.8-5.8 13.7-9.3 22.5-9.4c0 0 .1 0 .1 0h0 96c17.7 0 32 14.3 32 32s-14.3 32-32 32H525.3z %22%3E%3C/path%3E%3C/svg%3E');
 }
 
 :root {
@@ -890,3 +860,5 @@ section:hover {
   --icon-fill: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M86.6 9.4C74.1-3.1 53.9-3.1 41.4 9.4s-12.5 32.8 0 45.3L122.7 136 30.6 228.1c-37.5 37.5-37.5 98.3 0 135.8L148.1 481.4c37.5 37.5 98.3 37.5 135.8 0L474.3 290.9c28.1-28.1 28.1-73.7 0-101.8L322.9 37.7c-28.1-28.1-73.7-28.1-101.8 0L168 90.7 86.6 9.4zM168 181.3l49.4 49.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L213.3 136l53.1-53.1c3.1-3.1 8.2-3.1 11.3 0L429.1 234.3c3.1 3.1 3.1 8.2 0 11.3L386.7 288H67.5c1.4-5.4 4.2-10.4 8.4-14.6L168 181.3z%22%3E%3C/path%3E%3C/svg%3E');
   --icon-line: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M418.4 157.9c35.3-8.3 61.6-40 61.6-77.9c0-44.2-35.8-80-80-80c-43.4 0-78.7 34.5-80 77.5L136.2 151.1C121.7 136.8 101.9 128 80 128c-44.2 0-80 35.8-80 80s35.8 80 80 80c12.2 0 23.8-2.7 34.1-7.6L259.7 407.8c-2.4 7.6-3.7 15.8-3.7 24.2c0 44.2 35.8 80 80 80s80-35.8 80-80c0-27.7-14-52.1-35.4-66.4l37.8-207.7zM156.3 232.2c2.2-6.9 3.5-14.2 3.7-21.7l183.8-73.5c3.6 3.5 7.4 6.7 11.6 9.5L317.6 354.1c-5.5 1.3-10.8 3.1-15.8 5.5L156.3 232.2z%22%3E%3C/path%3E%3C/svg%3E');
 }
+
+/* vim: set signcolumn=auto foldmethod=marker nolist nowrap conceallevel=2: */

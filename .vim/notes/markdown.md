@@ -64,132 +64,6 @@ And a third one. ⏎ ¶
 >
 > Last paragraph
 
-```
-           ╻
- ❛⃞  ❜⃞
-    ∇
-❛͛  ❜       ∇
-❝⃗ ❞⃖  ❢ ❣
-❝⃖ ❞⃗
-❝⃡ ❞⃡
-❝⃔ ❞⃕
-❝⃕ ❞⃔
-❝͡️ ❞⃩ ❝̿️ ❞̽ ❝͂ ❞̚ ❝͠ ❞⃜ ❝⃛ ❞̈️ ❝̆ ❞̑
-❝̊ ❞͢ ❝͍ ❞͎ ❝͔ ❞͕ ❝̭ ❞̬ ❝̪ ❞̺ ❝̻ ❝͜͡ ❞͜ ❞͡️ ❞͜͝
-
-❝̰️ ❞͟ ❝̲️ ❞̳️ ❝̱️ ❞̩️ ❝͈ ❞͉ ❝̫️ ❞̼️ ❝̤️ ❞⃨
-
-❝̟️ ❞̠️ ❝͓ ❞͇
-
-❞ͣ ❝ͨ ❞ͩ ❝ͤ ❞ͪ ❝ͥ ❞ᷜ ❝ͫ ❞ͦ ❝ͬ ❞ͭ ❝ͧ ❞ͮ ❝ͯ
-
-❝͙ ❞͚ ❝⃖⃗ ❞̳⃩  ❞ ❝̿️ ❞̿️ ❝̳️ ❞̳️ ❝̲️ ❞̲️ ❝̅️ ❞̅️
-
-❝ ❞ ❝ ❞ ❝ ❞ ❝ ❞ ❝ ❞
-
- ❢⃝  ❣⃝     ¶⃣  ¶⃝  ¶̶⃝    ¶⃖️▷ ¶⃗️▶︎
-􀌮
-❛⃞ This is a quote
-⎞▏ with two lines
-❞️▏⎥
-⎥▏ ⎛ Nested quote of two
-⎥▏ ⎝ lines
-⎥▏
-❝️▏
-⎥▏• A list
-⎥▏• of things
-⎥▏
-❞⃞ Last Paragraph
-
- ⎛ ⎧ ⎫ ⎤
-[] [ ] []
- ⎜ ⎪ ⎪ ⎥
- ⎪ ] [ ⎪
- ⎜ ⎪ ⎪ ⎥
- ⦗ ⦗ ⦘ ⦘
- ⎜ ⎪ ⎪ ⎥   ⎡    ⎫
-   ⁆ ⁅     ⸤    ⸥
- 》》》》  ⸢⸡⸠⸡⸠⸣
- ⎜ ⎪ ⎪ ⎥   ⸠⸣⸤⸥⸢⸡
- ❲ ❲ ❳ ❳   ⸡⸤⸣⸢⸤⸠﹂
- ⎜ ⎪ ⎪ ⎥
- ⎜ ⎨ ⎬ ⎥⎟
-〔     〕     ❝̿️
-              ⎡
- ⎜     ⎥
- 〕   〔   ⸦⁐ ⸦‿ ⸦⁀ ⸧⁐ ⸧‿ ⸧⁀
- ⎜
-      ⬛︎ ⬜︎ ◼︎ ◻︎ ▪︎ ▫︎ ■ ◻︎
-      ⬛ ⬜︎️ ◼︎️ ◻︎️ ▪︎️ ▫︎️ ■️◻︎️
-◢     ▛▜ ▛️▜️  ▞▚▝ ▘ ▖▖▗
-❝️     ▙▟ ▙️▟️  ▚▞▗ ▖ ▘▘▝
-◢     ▛ ▜ ▛️ ▜️  ▞ ▚ ▘▝ ▖▖▗
-❝️     ▙ ▟ ▙️ ▟️  ▚ ▞ ▖▗ ▘▘▝
-◢ ◣    ▛ ▜  ▛️▐▜️  ▞️▚️ ▘️▝️ ▖️▖️▗️▗️▗️  ▖️▗️▖️▗️▖️
-◥ ◤ ❝️  ▙▬▟  ▙️▐▟️  ▚️▞️ ▖️▗️ ▘️▘️▝️▝️▝️  ▝️▘️▝️▘️▝️▘️
-◢️ ◣️    ▛❚▜ ▛️▘▝▜️ ▐ ◤️◥️◤️◥️  ▞️▚️ ▝️▘️ ▖️▖️▖️▖️▖️▗️▗️▗️▗️▖️▗️▖️▖️ ▖️▖️
-◥️ ◤️ ❝️  ▙❚▟ ▙️▖▗▟️ ▐  ◣️◢️   ▚️▞️ ▗️▖️ ▘️▘️▘️▘️▘️▝️▝️▝️▝️▘️▝️▘️▘️ ▘️▘️
- ▌️     ▀▁ ▂ ▃ ▄ ▅ ▆ ▇ █ ▉ ▊ ▋ ▌ ▍ ▎ ▏▕▐ ░ ▒ ▓ ▰ ▱ ◭◮ ◿◺◹◸
- ▌️     ▀️▁️ ▂️ ▃️ ▄️ ▅️ ▆️ ▇️ █️ ▉️ ▊️ ▋️ ▌️ ▍️ ▎️ ▏️▕️▐️ ░️░▒️▓▓️ ▰️ ▱️ ◭️◮️ ️◿️◺️◹️◸️
- ▌️     ◐️ ◑️ ◒️ ◓️  ◔ ◕ ◴ ◵ ◶ ◷ ❍ ◍
-        ◇ ◊ ► ◄ ▸ ◂ ▼ ▲ ▾ ▴
-        ◇️ ◊️ ►️ ◄️ ▸️ ◂️ ▼️ ▲️ ▾️ ▴️
- ▌️     ◐️ ◑️ ◒️ ◓️  ◔️ ◕️ ◴️ ◵️ ◶️ ◷️ ❍️ ◍️
- ❞⃞     ● ○ ◯ ◦ ⦿ ◉ ◎ ◌ ◍ ◜◝◠◡◜
-                         ◟◞◠◡
- ❞⃞     ●️ ○️ ◯️ ◦️ ⦿️ ◉️ ◎️ ◌️ ◍️ ◜️◝️◠️◡️◜️
-                         ◟️◞️◠️◡️
-       ◚ ◛ ◙ ▤ ▥ ▦ ▧ ▨ ▩ ❖ ◈
-       ◚️ ◛️ ◙️ ▤️ ▥️ ▦️ ▧️ ▨️ ▩️ ❖️ ◈️
-       ◧ ◨ ◩ ◪ ◫ ◰ ◱ ◲ ◳  ❏ ❐ ❑ ❒
-       ◧️ ◨️ ◩️ ◪️ ◫️ ◰️ ◱️ ◲️ ◳️  ❏️ ❐️ ❑️ ❒️
-       ◧️ ◨️ ◩️ ◪️ ◫️ ◰️ ◱️ ◲️ ◳️  ❏️ ❐️ ❑️ ❒️
- ▌️
- ▌️
-▍️▍️
-▍️️▍️
-▍️▍️
-▜▬
-▬▐
-▐
-▐
-❞⃞
-▐▬◤
-▐
-▐
-
-⎣ ⎦
-⎡❞̿️⎤
-      ⎣
-❝̳️ ❝̲️ ❞̲️ ❝̅️ ⎧❞̅️
-▛ This is a quote
-▌ with two lines
-▌
-║║ Nested quote of two
-║║ lines
-║
-║
-║ • A list
-║ • of things
-║
-║ Last Paragraph
-║
-╚
-⎡
-⎡    ⎞
-⎣⎦    ⎟
-⎡⎟    ⎟
-⎜⎡⎤    ⎞⎟ ⎧        ⎧
-⎡⎣⎟     ⎠⎟ ⎪        ⎪
- ⎞⎤    ⎟ ⎪        ⎪
- ⎥⎟  ⎟ ⎭        ⎭
- ⎥⎡ ⎧⎫  ⎞ ⎣   ⎟
- ⎥⎜  ⎟
-⎦⎡⎝ ⎟
-    ⎠
-
-```
-
 ## Comments
 
 <!-- A comment -->
@@ -253,6 +127,27 @@ console.log(a());
 
 json / jsonc / [js|javascript|node] / [ts|typescript]
 
+## Pre
+
+```pre
+┌─∇─┬─────┬───────────────┐
+│ ✔︎ │ \@> │ whole pattern │
+├───┼─────┴─────┬─────────┤
+│ ✔︎ │ \&  \@=   │         │
+│┈┈┈│┈┈┈┈┈┈┈┈┈┈┈│ here    │
+│ ✘ │     \@!   │         │
+├───┼───────────┼─────────┤
+│ ✔︎ │ \zs \@N<= │ just    │
+│┈┈┈│┈┈┈┈┈┈┈┈┈┈┈│ before  │
+│ ✘ │     \@N<! │         │
+└───┴──────╴∆╶──┴─────────┘
+
+⎡✔︎⎤✔︎⎛✔︎⎞✔︎⎧✔︎⎫ ✓ ☑︎ [☘︎ ☺︎]
+⎜¿⎟¿⎢¿⎥¿⎨¿⎬ ‽ ⸮ ⁈ ⁉︎ (⁇ † ‡)
+⎣✘⎦✘⎝✘⎠✘⎪✘⎪ ✖︎ ✗ ☒ {⚑ ☓ ☹︎ ‼︎}
+        ⎩b⎭
+```
+
 ## Links
 
 [Absolute Link](https://example.com/ 'with a title')
@@ -272,7 +167,15 @@ _[Italic Link](https://example.com/docs/blah.html)_
 
 Unordered Elements In List
 
-```
+- Alpha
+- Beta
+- Gamma
+
+- ABC
+  > Quote
+- XYZ
+
+```pre
 - Alpha    ∙ Alpha   - ABC             ∙ Foo
 - Beta ╺━▶︎ ∙ Beta    ␣␣␣␣> A quote ╺━▶︎ ▋ A quote
 - Gamma    ∙ Gamma   - XYZ             ∙ Baz
@@ -281,7 +184,11 @@ Unordered Elements In List
 
 Ordered Elements
 
-```
+1. Foo
+1. Bar
+1. Baz
+
+```pre
 1. Foo     ⒈ Foo
 1. Bar ╺━▶︎ ⒉ Bar
 1. Baz     ⒊ Baz
@@ -289,12 +196,12 @@ Ordered Elements
 
 Nested
 
-- α ∙ α
-  - β ╺━▶︎ ▫︎ β
-    - γ ▪︎ γ
-  - δ ▫︎ δ
+- α
+  - β
+    - γ
+  - δ
 
-```
+```pre
 ⎧ Align ⎫ ⏐+⏐α⏐ 10. Tenth ⒑ Tenth
 ⎪ with  ⎪ ⏐ ⏐+⏐β⏐ - 10\.A ╺━▶︎ ▫︎ 10.A
 ⎪ first ├▶︎⏐ ⏐ ⏐+⏐γ - 10\.B ▪︎ 10.B
@@ -307,6 +214,10 @@ Nested
 - [ ] Task to be done
 - [ ] \\\(Optional) Task starting with bracket
 
+```pre
+
+```
+
 ## Tables
 
 | Col1 |  Col2  | Col3 |
@@ -314,7 +225,7 @@ Nested
 | C1   |   C3   |   C5 |
 | C2   | \|C4\| |   C6 |
 
-```
+```pre
   ┌────────┬────────┬────────┐
   │  Col1  │  Col2  │  Col3  │
   ├────────┼────────┼────────┤
@@ -337,12 +248,27 @@ A footnote can also have multiple lines[^2].
     To add line breaks within a footnote, prefix new lines with 2 spaces.
     This is a second line.
 
+```pre
+¹꛰︎²꛰︎³꛰︎⁴꛰︎⁵꛰︎⁶꛰︎⁷꛰︎ ⁸꛰︎⁹꛰︎ ¹꛱⁰꛱️ ¹܃¹ ¹܃ܝ²͎︎
+¹️²️³️⁴️⁵️⁶️⁷️⁸️⁹️ ¹️⁰️ ¹️¹️ ¹️²️️܃
+₁️₂️₃️₄️₅️₆️₇️₈️₉️ ₁₂₃₄₅₆₇₈₉܄܃܅¹܇¹܆܈¹܉
+Here is a simple footnote¹꛰︎[^1].
+
+A footnote can also⁴️ have multiple lines²꛰[^2].
+
+[^1]: My reference.
+[^2]:
+    To add line breaks within a footnote, prefix new lines with 2 spaces.
+    This is a second line.
+```
+
 ## Collapsed sections
 
 <details>
 <summary>Tips for collapsed sections</summary>
 
 ...Markdown...
+􀃲􀁢
 
 </details>
 
@@ -350,17 +276,22 @@ A footnote can also have multiple lines[^2].
 
 > [!NOTE]
 > Useful information that users should know, even when skimming content.
+> 􀁜􀃬􀤏 􀉞 􀉟
 
 > [!TIP]
 > Helpful advice for doing things better or more easily.
+> 􀅳􀅴 􁌴
 
 > [!IMPORTANT]
 > Key information users need to know to achieve their goal.
+> 􀁞􀃮􀅎􀢒􀣴
 
 > [!WARNING]
 > Urgent info that needs immediate user attention to avoid problems.
+> 􀋉 􀋊 􀙬
 
 > [!CAUTION]
 > Advises about risks or negative outcomes of certain actions.
+> 􀇾 􀇿
 
 " vim:ts=2 sw=2:conceallevel=2:nowrap

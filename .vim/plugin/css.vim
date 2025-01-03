@@ -7,8 +7,25 @@ let g:mayhem_loaded_css = 1
 " CSSO
 
 
-
 "
+" 
+"" smart layer mover
+" e.g. for background-images
+" <M-Up> / <M-Down>
+" insert/normal:
+"   move line, or layer, up/down
+" visual:
+" - move layer up/down (which may be left/right within line)
+"
+" when adding/moving lines ending in {, adjust surroundings to make sense
+"            ✘       ✔︎        ✘       ✔︎
+" blah,    meh {   meh,     meh,    meh {}                         
+" meh {    blah,   blah {                                          
+" }        }       }        blah {  blah {                         
+"                           }       }                              
+" ditto for , and ;
+"
+
 "
 " Extract individual copy of rule for selector under cursor                TODO
 " e.g.
@@ -44,12 +61,12 @@ command! -range=% NoZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?\0*\(c
 " Ensure zero values have units (0 -> 0s)
 "
 " directly:
-"    transition           ⎫
-"     transition-delay    ├ any word in these starting with
-"     transition-duration ⎪  0 must be a <time>
-"    animation            ⎪
-"     animation-delay     ⎪
-"     animation-duration  ⎭
+"  transition           ⎫
+"   transition-delay    ├ any word in these starting
+"   transition-duration ⎪  with  0 must be a <time>
+"  animation            ⎪
+"   animation-delay     ⎪
+"   animation-duration  ⎭
 "   
 "
 " These properties use <angle>
@@ -78,6 +95,22 @@ command! -range=% NoZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?\0*\(c
 " (Anywhere else would be a syntax error)
 " Useful for output from CSSO
 command! -range=% AddTrailingCommas <line1>,<line2> s/[^;{}]\zs\ze$\n\s*}/;/
+
+
+"
+" Attribute Selectors: [data-attr='value']
+"
+" Replace " with '
+" Add formatting
+"  ║₁⎼⎼⎼⎼⎼⎼⎼₁⏐₂₂⏐₃⏐₄⎼⎼⎼₄⏐₃⏐₆₆⏐
+" [║data-attr⏐$=⏐'⏐value⏐'⏐ i⏐]
+"
+" [data-attr$='value' i]
+" ◥⎻⎻⎻⎻¹⎻⎻⎻⎻₂꛰︎₂꛰︎³꛰︎⎻⎻⁴⎻⎻⁵꛰︎₆͞︎₆̄◤
+"
+command! -range=% AttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\)\([|~$^*]\?=\)\("\)\([^"']*\)\(\3\)\%(\s\([iIsS]\)\)\?\ze]/\1\2'\4'\6/cg
+
+
 
 " 1. Extract variable
 "
@@ -176,6 +209,35 @@ command! -range=% AddTrailingCommas <line1>,<line2> s/[^;{}]\zs\ze$\n\s*}/;/
 "
 "   abs => rel
 "
+" list of matches
+" let list = []
+" :%s/\<foo\(\a*\)\>/\=add(list, submatch(1))/gn
+"
+" '<,'>s//\\\1  \2/
+"
+" line break + continuation before base64
+"     repeat to remove exisiting line continuation
+" :%s/\%(\\$\n\s*\)base64,\%([^\\]*\zs\\$\n\s*\)//g
+:
+"     split base64, onto own line + define match area
+"     \1 indentation    \2 
+" %s/^\(\s\+\)[^;]\+;\zs\(base64,[a-zA-Z0-9/+ \\]\+\)\ze['");]/\\\1  \2/
+"
+"     get rid of existing line continuation and spaces
+" '<,'>s/base64,\S*\zs //g
+"
+"     \1 indentation    \2 everything up to column 80
+" s/^\(\s*\)\(.\+\)\%80c/\1\2\\\1/g
+"
+" s/^\(\s*\)base64,\&.*\%80c\zs\(.*\)\ze\%160c/\\\1\2/g
+"
+" %s/^\(\s\+\)[^;]\+;\zs\(base64,[a-zA-Z0-9/+ \\]\+\)\ze['");]/\\\1  \2/ | s/base64,\S*\zs //g | s/^\(\s*\)\(.\+\)\%80c/\1\2\\\1/g
+"
+"
+"
+" '<,'>s/^\(\s*\)[^;]\+;\zs\(base64,\_[a-zA-Z0-9/+ \\]\+\_[=]*\)\ze['");]
+
+"
 command! -range=% DataURLFit <line1>,<line2>
 
 " Quotes: add if missing, change to ''
@@ -200,26 +262,73 @@ command! -range=% LowercaseHex
 command! -range=% ExpandHex
       \ <line1>,<line2> s/\<#\(\x\)\(\x\)\(\x\)\>/#\1\1\2\2\3\3/g
 
-"       #rrggbb[aa] ▬▶︎ rgb(r g b [/ aa])
+function FormatRGB(colour)
+  let r = get(a:colour, 'r', 0)
+  let g = get(a:colour, 'g', 0)
+  let b = get(a:colour, 'b', 0)
+  let a = get(a:colour, 'a', 1)
+  return a == 0.0
+        \ ? printf('rgb(%d %d %d / 0)', r, g, b)
+        \ : a == 1
+        \ ? printf('rgb(%d %d %d)', r, g, b)
+        \ : printf('rgb(%d %d %d / %.1f%%)', r, g, b, a * 100)
+
+endfunc
+
+function ParseHex(hex)
+  let match8 = matchlist(a:hex, '\(\x\x\)\(\x\x\)\(\x\x\)\(\x\x\)')
+  if len(match8) > 0
+    return {'p': a:hex, 's': 'ok', 'r': str2nr(match8[1], 16), 'g':str2nr(match8[2], 16), 'b':str2nr(match8[3], 16), 'a': str2nr(match8[4], 16) / 255.0}
+  endif
+  let match6 = matchlist(a:hex, '\(\x\x\)\(\x\x\)\(\x\x\)')
+  if len(match6) > 0
+    return {'p': a:hex, 's': 'ok', 'r': str2nr(match6[1], 16), 'g':str2nr(match6[2], 16), 'b':str2nr(match6[3], 16), 'a': 1}
+  endif
+  let match4 = matchlist(a:hex, '\(\x\)\(\x\)\(\x\)\(\x\)')
+  if len(match4) > 0
+    return {'p': a:hex, 's': 'ok', 'r': str2nr(match4[1]..match4[1], 16), 'g':str2nr(match4[2]..match4[2], 16), 'b':str2nr(match4[3]..match4[3], 16), 'a': str2nr(match4[4]..match4[4], 16) / 255.0}
+  endif
+  let match3 = matchlist(a:hex, '\(\x\)\(\x\)\(\x\)')
+  if len(match3) > 0
+    return {'p': a:hex, 's': 'ok', 'r': str2nr(match3[1]..match3[1], 16), 'g':str2nr(match3[2]..match3[2], 16), 'b':str2nr(match3[3]..match3[3], 16), 'a': 1}
+  endif
+  return {'p': a:hex, 's': 'ParseHex Failed', 'r': 0, 'g': 0, 'b': 0, 'a': 0 }
+endfunc
+
 "                                                           TODO
-command! HexToRgb <Nop>
-"  rgb(r g b [/ a]) ▬▶︎ #rrggbb[aa] 
+" #rrggbb[aa] ▬▶︎ rgb(r g b [/ aa])
+command! -range=% HexToRgb
+      \ <line1>,<line2> s/\<\(#\x\{8}\|#\x\{6}\|#\x\{4}\|#\x\{3}\)\>/\=FormatRGB(ParseHex(submatch(0)))/
+
+
+" s/\<#\%(
+"       \ \(\x\x\)\(\x\x\)\(\x\x\)\(\x\x\)\|
+"       \ \(\x\x\)\(\x\x\)\(\x\x\)\|
+"       \ \(\x\)\(\x\)\(\x\)\(\x\)\|
+"       \ \(\x\)\(\x\)\(\x\)\)\>/\=FormatRGB({
+"       \ 'r':parseInt(submatch(1), 16),
+"       \ 'g':parseInt(submatch(2), 16),
+"       \ 'b':parseInt(submatch(3), 16),
+"       \ 'a':parseInt(submatch(4), 16)
+"       \})/
+
 "                                                           TODO
+" rgb(r g b [/ a]) ▬▶︎ #rrggbb[aa] 
 command! RgbToHex <Nop>
-"       #rrggbb[aa] ▬▶︎ hsl(h s l [/ a])
 "                                                           TODO
+" #rrggbb[aa] ▬▶︎ hsl(h s l [/ a])
 command! HexToHsl <Nop>
-"  hsl(h s l [/ a]) ▬▶︎ #rrggbb[aa] 
 "                                                           TODO
+" hsl(h s l [/ a]) ▬▶︎ #rrggbb[aa] 
 command! HslToHex <Nop>
-"
+
 "                                                           TODO
 command! RgbToHsl <Nop>
 "                                                           TODO
 command! HslToRgb <Nop>
-"            \1 H                \2 S                \3 L                    \4 A
-"         ╭─────────╮      ╭─────────────╮      ╭─────────────╮           ╭────────────╮
-/\<hsla\?(\(\d\{1,}\)[^ ]* \(100\|\d\d\?\)[^ ]* \(100\|\d\d\?\)[^ )]*\(\/ \(100\|\d\d?\)%\?\)\?)/
+""            \1 H                \2 S                \3 L                    \4 A
+""         ╭─────────╮      ╭─────────────╮      ╭─────────────╮           ╭────────────╮
+"/\<hsla\?(\(\d\{1,}\)[^ ]* \(100\|\d\d\?\)[^ ]* \(100\|\d\d\?\)[^ )]*\(\/ \(100\|\d\d?\)%\?\)\?)/
 
 " Get color's complement (h+180deg)
 "                                                           TODO

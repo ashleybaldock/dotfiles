@@ -3,35 +3,6 @@ if exists("g:mayhem_loaded_chars")
 endif
 let g:mayhem_loaded_chars = 1
 
-" Highlight non-ASCII characters.
-" syntax match nonascii [^\x00-\x7F]
-" highlight link nonascii ErrorMsg
-" autocmd BufEnter * syn match ErrorMsg /[^\x00-\x7F]/
-"
-  "au WinEnter * if !exists("w:custom_hi1") | let w:custom_hi1 = matchadd('ErrorMsg', '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$') | endif
-  "
-  "au WinEnter * if !exists("w:custom_hi2") | 
-  "
-  " let w:custom_hi2 = matchadd('U8Whitespace',
-  "   \ '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]', 10, -1, {'conceal': '⌻' })
-  
-
-function! FoldTextMarker()
-  let line = getline(v:foldstart)
-  let sub = substitute(trim(line), '<!--\|-->\|/\*\|\*/\|{{{\d\=', '', 'g') 
-  let folded = str2nr(v:foldend) - str2nr(v:foldstart)
-  return '╴' ..  substitute(v:folddashes, '-', '❰', 'g') .. ' ' ..  sub .. ' ❱╶ ─ ╴❰ ' .. folded .. ' lines folded ❱' 
-endfun
-
-" gitgutter#fold#is_changed()
-function! FoldTextIndent()
-  let line = getline(v:foldstart)
-  let sub = substitute(line, '<!--\|-->\|/\*\|\*/\|{{{\d\=', '', 'g') 
-  let folded = str2nr(v:foldend) - str2nr(v:foldstart)
-  return sub[:30] .. ' //════════❰ ' .. folded .. ' lines folded ❱'
-endfun
-
-
 """""""""""""""""""""""""""""""""""""  None 
 " Almost nothing, base for other configs
 "
@@ -211,20 +182,6 @@ endfunc
 command! CharsDefault call <SID>ListDefault()
 
 CharsDefault
-
-
-
-
-" Layout guides
-" TODO
-" - cursorline/cursorcol
-" - colorcolumn
-" - line number column
-"
-" Set number column width based on length of file
-" autocmd BufRead * let &l:numberwidth =
-" \ max([float2nr(log10(line('$')))+3, &numberwidth]) 
-
 
 
 

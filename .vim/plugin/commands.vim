@@ -29,6 +29,10 @@ endfunc
 command! CursorOnComment echo CursorOnComment()
 
 
+" Set number column width based on length of file
+" autocmd BufRead * let &l:numberwidth =
+" \ max([float2nr(log10(line('$')))+3, &numberwidth]) 
+"
 
 "
 " Util: Format numbers with SI prefixes in a

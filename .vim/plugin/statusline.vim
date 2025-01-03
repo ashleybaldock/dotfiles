@@ -136,10 +136,11 @@ endfunc
 " SF symbols, only works on OSX
 let g:mayhem.symbols_S.git = {
       \ 'isgit':    '􀐅',
-      \ 'notgit':   '􁊓',
+      \ 'notgit':   '􀓔',
       \ 'gitoff':   '􀃮',
       \ 'problem':  '􀃮',
-      \ 'norepo':   '􁊓',
+      \ 'norepo':   '􀓔',
+      \ 'insync':   '􀐅',
       \ 'behind':   '􁄻',
       \ 'ahead':    '􀯇',
       \ 'diverged': '􀐉',
@@ -153,6 +154,7 @@ let g:mayhem.symbols_8.git = {
       \ 'gitoff':   '𐝕',
       \ 'problem':  '𐝕',
       \ 'norepo':   'n',
+      \ 'insync':   '=',
       \ 'behind':   '❮',
       \ 'ahead':    '❯', 
       \ 'diverged': '◇',
@@ -163,24 +165,26 @@ let g:mayhem.symbols_8.git = {
 let g:mayhem.symbols_A.git = {
       \ 'isgit':    '=',
       \ 'notgit':   'n',
+      \ 'modified': '+',
       \ 'gitoff':   '!',
       \ 'problem':  '!',
       \ 'norepo':   'n',
+      \ 'insync':   '=',
       \ 'behind':   '<',
       \ 'ahead':    '>',
       \ 'diverged': '~',
       \ 'unstaged': '*',
       \ 'staged':   '+'
       \}
-"   $   stashes          􀐆 􀫝 􀠧 􀓔 􁊓  􀴨􀖄􀖅 􀙡􀙠
+"   $   stashes          􀐆 􀫝 􀠧 􀓔 􁊓 􀼳 􀴨􀖄􀖅 􀙡􀙠
 "   %   untracked files
 " 􀙡branch, relative to upstream
-"               no changes     with changes
 "     !       􀃮  problem
-"     n       􁊓  not a repo
+"               no changes     with changes
+"     n       􀓔  not a repo   􀃜 modified (+)   􁝊 nomodifiable
 " <   <   ❮   􁄻  behind       􁚍 unstaged (*)
 " >   >   ❯   􀯇  ahead        􀐇 staged   (+)
-" <>  ~   ◇   􀐉  diverged   
+" z   ~   ◇   􀐉  diverged   
 " =   =       􀐅  in sync
 
 " Get latest cached git status
@@ -202,7 +206,7 @@ function s:Update_Git()
   if empty(head)
     let b:mayhem.sl_cache_git =  [
           \ '%#SlNotGitC#'..GetSymbol('git.notgit')..'%r',
-          \ '%#SlNo1tGitN#'..GetSymbol('git.notgit')..'%*']
+          \ '%#SlNotGitN#'..GetSymbol('git.notgit')..'%*']
     return
   else
     let b:mayhem.sl_cache_git =  [
@@ -212,11 +216,14 @@ function s:Update_Git()
   endif
 endfunc
 
+"  +͓   +͓ͬ ᵣᴿ͓︎ᴿ̟ᴿͦ︎  ᴿ+ꜝᴹꜝ ᴹ͓︎ᴹ̷ͫᴹ̸ᴹ⃠ ꜚꜟꜝ ᶴᶺ ˯͓ʬ˖ˆʷⁿˢ̷ˢˢˣ
+"
 let g:mayhem.symbols_S.status = {
       \ 'readonly': 'ᴿ',
+      \ 'nomodifiable': 'ᴿ',
       \ 'fencnot8': '∪⃞⃥ ',
       \ 'ffnotnix': '␌⃞ ',
-      \ 'diffing' : '􀉆􀄭􀕹',
+      \ 'diffing' : '􀄐􀕹',
       \ }
 let g:mayhem.symbols_8.status = {
       \ 'readonly': 'ᴿ',
@@ -288,7 +295,8 @@ function s:TypeMatchesFilename(type, filename)
   let tail = fnamemodify(a:filename, ':t')
   let typemapping = get(g:mayhem.type_ext_map, a:type, [])
 
-  return a:type == ext || index(typemapping, ext) >= 0
+  return a:type != '' && a:type == ext
+        \ || index(typemapping, ext) >= 0
         \ || name == tail && index(typemapping, name) >= 0
 endfunc
 
@@ -319,29 +327,35 @@ function s:Update_FileInfo()
         \ '%#SlFNoNameN#nameless%* '..
         \ '%{&modified?&modifiable?"􀑍":"􀴥":""}']
     endif
-    let b:mayhem.sl_cached_fileinfo = [
-      \ '%#SlFTyp2C#'..type..'%*',
-      \ '%#SlFTyp2N#'..type..'%*']
-    return
+  else
+    if s:TypeMatchesFilename(type, expand('%'))
+      let b:mayhem.sl_cached_filename = [
+        \ '%{%CheckRO()%}%#SlFNameC#'..name..
+        \ '.%#SlFTypExtC#'..ext..'%* '..
+        \ '%{&modified?&modifiable?"+":"⨁":""}',
+        \ '%{%CheckRO()%}%#SlFNameN#'..name..
+        \ '.%#SlFTypExtN#'..ext..'%* '..
+        \ '%{&modified?&modifiable?"+":"⨁":""}']
+      let b:mayhem.sl_cached_fileinfo = [
+        \ '%#SlFTyp2C#'..type..'%*',
+        \ '%#SlFTyp2N#'..type..'%*']
+    else
+      let b:mayhem.sl_cached_filename = [
+        \ '%{%CheckRO()%}%#SlFNameC#'..tail..'%* '..
+        \ '%{&modified?&modifiable?"+":"⨁":""}',
+        \ '%{%CheckRO()%}%#SlFNameN#'..tail..'%* '..
+        \ '%{&modified?&modifiable?"+":"⨁":""}']
+      let b:mayhem.sl_cached_fileinfo = [
+        \ '%#SlFTyp2C#'..type..'%*',
+        \ '%#SlFTyp2N#'..type..'%*']
+    endif
   endif
 
-  if s:TypeMatchesFilename(type, expand('%'))
-    let b:mayhem.sl_cached_filename = [
-      \ '%{%CheckRO()%}%#SlFNameC#'..name..
-      \ '.%#SlFTypExtC#'..ext..'%* '..
-      \ '%{&modified?&modifiable?"+":"⨁":""}',
-      \ '%{%CheckRO()%}%#SlFNameN#'..name..
-      \ '.%#SlFTypExtN#'..ext..'%* '..
-      \ '%{&modified?&modifiable?"+":"⨁":""}']
+  if type == ''
     let b:mayhem.sl_cached_fileinfo = [
-      \ '%#SlFTyp2C#'..type..'%*',
-      \ '%#SlFTyp2N#'..type..'%*']
+      \ '%#SlFTyp2C#typeless%*',
+      \ '%#SlFTyp2N#typeless%*']
   else
-    let b:mayhem.sl_cached_filename = [
-      \ '%{%CheckRO()%}%#SlFNameC#'..tail..'%* '..
-      \ '%{&modified?&modifiable?"+":"⨁":""}',
-      \ '%{%CheckRO()%}%#SlFNameN#'..tail..'%* '..
-      \ '%{&modified?&modifiable?"+":"⨁":""}']
     let b:mayhem.sl_cached_fileinfo = [
       \ '%#SlFTyp2C#'..type..'%*',
       \ '%#SlFTyp2N#'..type..'%*']
@@ -410,7 +424,7 @@ function! ModeSF() abort
         \ 'niI':  '􀈎',
         \ 'niR':  '􀈎',
         \ 'niV':  '􀈎',
-        \ 'nt':   '􀂮􀩼',
+        \ 'nt':   '􀩼􀂮',
         \ 'v':    '􀍳',
         \ 'V':    'v̅',
         \ '':   'v̺͆ v⃞',
@@ -438,7 +452,7 @@ function! ModeSF() abort
         \ 'r':    '􀅇',
         \ 'rm':   '􀋷',
         \ 'r?':   '􀢰',
-        \ 't':    '􀃼􀩼',
+        \ 't':    '􀩼􀃼',
         \ '!':    '􀖇',
         \ }[mode(v:true)]
 endfunc
@@ -534,8 +548,8 @@ function s:UpdateStatuslines() abort
   "   \ '%#SlInfoC#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ',
   "   \ '%#SlInfoN#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ']
   let g:mayhem['sl_prev'] = [
-    \ '%#SlInfoC#􀬸 %-f%*%<%=%(%n %l,%c%V %P%) ',
-    \ '%#SlInfoN#􀬸 %-f%*%<%=%(%n %l,%c%V %P%) ']
+    \ '%#SlInfoC#􀬸 %-f%*%<%=%(%n %l,%c%V%) ',
+    \ '%#SlInfoN#􀬸 %-f%*%<%=%(%n %l,%c%V%) ']
   " let g:mayhem['sl_help'] = [
   "       \ '%#SlInfoC#𝓲⃝  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
   "       \ '%#SlInfoN#𝓲⃝  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
@@ -543,13 +557,13 @@ function s:UpdateStatuslines() abort
         \ '%#SlInfoC#􀉚  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
         \ '%#SlInfoN#􀉚  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
 
+  let g:mayhem['sl_term'] = [
+    \ '􀩼%#SlTermC# %-f %F %t%*%<%=%(%n %l,%c%V %P%) ',
+    \ '􀩼%#SlTermN# %-f%*%<%=%(%n %l,%c%V %P%) ']
+
   let g:mayhem['sl_messages'] = [
         \ '  􀤏  %=%#SlMessC#􁈏 Messages 􁈐%*%=  􀤏  ',
         \ '  􀤏  %=%#SlMessN#􁈏 Messages 􁈐%*%=  􀤏  ']
-
-  let g:mayhem['sl_terminal'] = [
-        \ '%#SlTermC#􀩼 %*',
-        \ '%#SlTermN#􀩼 %*']
 
   " ' ℺⃞ 🅀 𝒬⃞  ⍰ \ %%*'
   let g:mayhem['sl_qfix'] = [
@@ -582,6 +596,8 @@ function CustomStatusline()
     return get(get(g:, 'mayhem', {}), 'sl_qfix', ['sl_qfixC', 'sl_qfixN'])[NC()]
   elseif &buftype == 'preview'
     return get(get(g:, 'mayhem', {}), 'sl_prev', ['sl_prevC', 'sl_prevN'])[NC()]
+  elseif &buftype == 'terminal'
+    return get(get(g:, 'mayhem', {}), 'sl_term', ['sl_termC', 'sl_termN'])[NC()]
   endif
 
   if &ft == 'netrw'

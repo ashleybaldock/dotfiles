@@ -1,6 +1,9 @@
 *.swo
 *.swp
 *.swn
+*.swm
+*.swl
+*.swk
 *.tern-project
 .DS_Store
 

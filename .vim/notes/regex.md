@@ -14,116 +14,115 @@
     ┤  \( \) ├╴atom(multi)
     │ \%( \) │   ╰─┬─────┬─────┬┈┈
     ╰        ╯
-
 ```
 
 ## Atoms
 
-### Character Classes
+### Atoms - Character Classes
 
 ```pre
 \_[]  +EoL
-    ╭──────────┬─────────────────────────────────╮┌───────┬──────────┬─────────┐
-    │ \e <Esc> │ \m magic        \M nomagic      ││ range │ geedy \{ │ lazy \{-│
-    │ \t <Tab> │ \v very magic   \V very nomagic │├───────┼──────────┼─────────┤
-    │ \r  <CR> │ \c ignore case  \C match case   ││ 0 → 1 │ \? \{,1} │ \{-,1} ╭┴╮
-    │ \b  <BS> ┢━━━━━━━┱─────────────────────────┤│ 0 → m │    \{,m} │ \{-,m} │m│
-    │ \n  EoL  ┃ ATOMS ┃ ignore combining chars… ││ 0 → ∞ │ *  \{}   │ \{-}   │u│
-    ├──────────┺━━━━━━━┹────────╮ \%C prev. atom │├───────┼──────────┼────────┤l│
-    │ [] - any character inside │ \Z globally    ││ 1 → ∞ │ \+ \(1,} │ \{-1,} │t│
-    │ \~ - last subst. string   ╰────────────────┤│ n → ∞ │    \{n,} │ \{-n,} │i│
-    │ \%[] - sequence of optional atoms          ││ n → m │    \{n,m}│ \{-n,m}╰┬╯
-    │ \z1…9 - indexed matches from \(\) groups   ││   n   │    \{n}  │ \{-n}   │
-    │ char codes  \%d255 decimal   \%o377 octal  │└───────┴──────────┴─────────┘
-    │ hex ¹ᴮ \%xFF  ²ᴮ \%uFFFF   ⁴ᴮ \%U7FFFFFFF  │
-    ┢━━(ascii↴)━━━━━╸=⃝ ╺╸¬⃝ ╺━(character classes)━┪
-    ┃ UPPER        [^0-9]╮̩̣╮̣̩╮̩╮̣     [0-9\n]  ⎛  not:  ⎞ ┃
-    ┃           [0-9]↴       ↓̇↓̍↓̇̍↓̍̇           ⎧⎝[^0-9\n]⎠ ┃
-    ┃ digit       ╷ \d  \D \_d \_D ◁─┴[^0-9]\|\n ┃
-    ┃ hex digit   ┊ \x  \X ╷  [0-9A-Fa-f]        ┃
-    ┃ octal digit ┊ \o  \O ┊        [0-7] [^0-7] ┃
-    ┃ whitespace  ┊ \s  \S ┊        [ \t] [^ \t] ┃
-    ┃ head of…    ┊ \h  \H ┊    [A-Za-z_]        ┃
-    ┃ word        ┊ \w  \W ┊ [0-9A-Za-z_]        ┃
-    ┃ alphabetic  ┊ \a  \A ┊     [A-Za-z]        ┃
-    ┃ lowercase   ┊ \l  \L ┊        [a-z] [^a-z] ┃
-    ┃ uppercase   ╵ \u  \U ╵        [A-Z] [^A-Z] ┃
-    ┡━━(multibyte↴)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-    │ ²ᴮ \%uFFFF     ⁴ᴮ \%U7FFFFFFF  │ see:      │
-    │ identifier  \i  ⎧ \I ⎫         │ isident   │
-    │ keyword     \k  ⎪ \K ⎬ without │ iskeyword │
-    │ file        \f  ⎪ \F ⎪ digits  │ isfname   │
-    │ printable   \p  ⎩ \P ⎭         │ isprint   │
-    ╰────────────────────────────────────────────╯
+  ╭──────────┬─────────────────────────────────╮┌───────┬──────────┬─────────┐
+  │ \e <Esc> │ \m magic        \M nomagic      ││ range │ geedy \{ │ lazy \{-│
+  │ \t <Tab> │ \v very magic   \V very nomagic │├───────┼──────────┼─────────┤
+  │ \r  <CR> │ \c ignore case  \C match case   ││ 0 → 1 │ \? \{,1} │ \{-,1} ╭┴╮
+  │ \b  <BS> ┢━━━━━━━┱─────────────────────────┤│ 0 → m │    \{,m} │ \{-,m} │m│
+  │ \n  EoL  ┃ ATOMS ┃ ignore combining chars… ││ 0 → ∞ │ *  \{}   │ \{-}   │u│
+  ├──────────┺━━━━━━━┹────────╮ \%C prev. atom │├───────┼──────────┼────────┤l│
+  │ [] - any character inside │ \Z globally    ││ 1 → ∞ │ \+ \(1,} │ \{-1,} │t│
+  │ \~ - last subst. string   ╰────────────────┤│ n → ∞ │    \{n,} │ \{-n,} │i│
+  │ \%[] - sequence of optional atoms          ││ n → m │    \{n,m}│ \{-n,m}╰┬╯
+  │ \z1…9 - indexed matches from \(\) groups   ││   n   │    \{n}  │ \{-n}   │
+  │ char codes  \%d255 decimal   \%o377 octal  │└───────┴──────────┴─────────┘
+  │ hex  ¹ᴮ \%xFF  ²ᴮ \%uFFFF  ⁴ᴮ \%U7FFFFFFF  │
+  │ [\d25] [\o44] [\xFF] [\uFFFF] [\U7FFFFFFF] │
+  ┢━━(ascii↴)━━━━━╸=⃝ ╺╸¬⃝ ╺━(character classes)━┪
+  ┃ UPPER        [^0-9]╮̩̣  ╭̩̣[0-9\n]  ⎛  not:  ⎞ ┃
+  ┃           [0-9]↴   ↓̍  ↓̍        ⎧⎝[^0-9\n]⎠ ┃
+  ┃ digit       ╷ \d  \D \_d \_D ◁─┴[^0-9]\|\n ┃
+  ┃ hex digit   ┊ \x  \X ╷  [0-9A-Fa-f]        ┃
+  ┃ octal digit ┊ \o  \O ┊        [0-7] [^0-7] ┃
+  ┃ whitespace  ┊ \s  \S ┊        [ \t] [^ \t] ┃
+  ┃ head of…    ┊ \h  \H ┊    [A-Za-z_]        ┃
+  ┃ word        ┊ \w  \W ┊ [0-9A-Za-z_]        ┃
+  ┃ alphabetic  ┊ \a  \A ┊     [A-Za-z]        ┃
+  ┃ lowercase   ┊ \l  \L ┊        [a-z] [^a-z] ┃
+  ┃ uppercase   ╵ \u  \U ╵        [A-Z] [^A-Z] ┃
+  ┡━━(multibyte↴)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+  │ ²ᴮ \%uFFFF     ⁴ᴮ \%U7FFFFFFF  │ see:      │
+  │ identifier  \i  ⎧ \I ⎫         │ isident   │
+  │ keyword     \k  ⎪ \K ⎬ without │ iskeyword │
+  │ file        \f  ⎪ \F ⎪ digits  │ isfname   │
+  │ printable   \p  ⎩ \P ⎭         │ isprint   │
+  ╰────────────────────────────────────────────╯
 
 ```
 
-### - ordinary
+### Atoms - Ordinary
 
 ```pre
-                                 ╭─────────────────────────────────────────────────╮
-         Atoms                   │            line │ file/string │ word │ pattern  │
-    ┌────────────────────────────┤         ──┬─────│─────────────│──────│───────── │
-    │W ┊= zero width             │ beginning │ BoL │    BoF/S    │ BoW  │ BoP      │
-    │ B┊= not inside []          │       end │ EoL │    EoF/S    │ EoW  │ EoP      │
-    ├──┬──────────┬──────────────┼─────────────────────────────────────────────────┤
-    │  │   atom   │   matches    │  notes                                          │
-    ├──┼──────────┼──────────────┼─────────────────────────────────────────────────┤
-    │WB│ \_^  \_$ │   BoL / EoL  │                                                 │
-    │ B│  \^   \$ │    literal   │  ⎧ ^ = BoL: @BoP or after `\|` `\(` `\n` `\%(`  │
-    │~~│   ^    $ │    varies    │  ⎩ $ = EoL: @EoP or after `\|` `\)` `\n`        │
-    │┈┈│┈┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
-    │WB│ \zs  \ze │              │ sets start/end of match                         │
-    │  │   .  \_. │  ^EoL / Any  │                                                 │
-    │W │  \<   \> │   BoW / EoW  │ next/prev char is first/last of word  \<word\>  │
-    ├──┼──────────┴──────────────┴─────────────────────────────────────────────────┤
-    │  │                 \\%\(\^\|\$\|#\|V\|\([><]\=\(\'M\|\([N.]\+[lcv]\+\)\)\)   │
-    │  │                                                                           │
-    │  │   before╶  ╭╴<╶╮ ╭╴N╶╮ ← Number  ╭╴c╶─ c̲olumn ⎫(bytes)  \%<22c     \%>.c  │
-    │  │       in╶ ╭┼───┼╮┴╴.╶┤ ← cursor  ├─╴v╶─ v̲.col ⎪(chars)  \%<2v \%.l \%>3v  │
-    │  │    after╶ │╰╴>╶╯│    ╰───────────┴──╴l╶─ l̲ine ⎪                           │
-    │W │  ╔════╗   │     ╰'M╶ mark M                   ⎬ not updated on change     │
-    │W │  ║ \% ╟───┴───┬╴#╶ Cursor position  \%#       ⎭                           │
-    │W │  ╚════╝       ├╴V╶ Visual area      \%Vfoo\%V   (current, or previous)    │
-    │W │               ├╴^╶ Beginning ⎫      \%^                                   │
-    │W │               ╰╴$╶ End       ⎭      \%$         (of file/string)          │
-    └──┴───────────────────────────────────────────────────────────────────────────┘
+                               ╭─────────────────────────────────────────────────╮
+       Atoms                   │            line │ file/string │ word │ pattern  │
+  ┌────────────────────────────┤         ──┬─────│─────────────│──────│───────── │
+  │W ┊= zero width             │ beginning │ BoL │    BoF/S    │ BoW  │ BoP      │
+  │ B┊= not inside []          │       end │ EoL │    EoF/S    │ EoW  │ EoP      │
+  ├──┬──────────┬──────────────┼─────────────────────────────────────────────────┤
+  │  │   atom   │   matches    │  notes                                          │
+  ├──┼──────────┼──────────────┼─────────────────────────────────────────────────┤
+  │WB│ \_^  \_$ │   BoL / EoL  │                                                 │
+  │ B│  \^   \$ │    literal   │  ⎧ ^ = BoL: @BoP or after `\|` `\(` `\n` `\%(`  │
+  │~~│   ^    $ │    varies    │  ⎩ $ = EoL: @EoP or after `\|` `\)` `\n`        │
+  │┈┈│┈┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
+  │WB│ \zs  \ze │              │ sets start/end of match                         │
+  │  │   .  \_. │  ^EoL / Any  │                                                 │
+  │W │  \<   \> │   BoW / EoW  │ next/prev char is first/last of word  \<word\>  │
+  ├──┼──────────┴──────────────┴─────────────────────────────────────────────────┤
+  │  │                 \\%\(\^\|\$\|#\|V\|\([><]\=\(\'M\|\([N.]\+[lcv]\+\)\)\)   │
+  │  │                                                                           │
+  │  │   before╶  ╭╴<╶╮ ╭╴N╶╮ ← Number  ╭╴c╶─ c̲olumn ⎫(bytes)  \%<22c     \%>.c  │
+  │  │       in╶ ╭┼───┼╮┴╴.╶┤ ← cursor  ├─╴v╶─ v̲.col ⎪(chars)  \%<2v \%.l \%>3v  │
+  │  │    after╶ │╰╴>╶╯│    ╰───────────┴──╴l╶─ l̲ine ⎪                           │
+  │W │  ╔════╗   │     ╰'M╶ mark M                   ⎬ not updated on change     │
+  │W │  ║ \% ╟───┴───┬╴#╶ Cursor position  \%#       ⎭                           │
+  │W │  ╚════╝       ├╴V╶ Visual area      \%Vfoo\%V   (current, or previous)    │
+  │W │               ├╴^╶ Beginning ⎫      \%^                                   │
+  │W │               ╰╴$╶ End       ⎭      \%$         (of file/string)          │
+  └──┴───────────────────────────────────────────────────────────────────────────┘
 ```
 
-### - multi
+### Atoms - Multi
 
 ```pre
-    ┌───────┬──────────┬─────────┐
-    │ range │ geedy \{ │ lazy \{-│  n,m = 0 or +ve
-    ├───────┼──────────┼─────────┤
-    │ 0 → 1 │ \? \{,1} │ \{-,1}  │  also: \=
-    │ 0 → m │    \{,m} │ \{-,m}  │
-    │ 0 → ∞ │ *  \{}   │ \{-}    │  nomagic: \*
-    ├───────┼──────────┼─────────┤
-    │ 1 → ∞ │ \+ \(1,} │ \{-1,}  │   '\' ╭╴Optional
-    │ n → ∞ │    \{n,} │ \{-n,}  │       ∇
-    │ n → m │    \{n,m}│ \{-n,m} │  \{n,m\}
-    │   n   │    \{n}  │ \{-n}   │
-    └───────┴──────────┴─────────┘
+  ┌───────┬──────────┬─────────┐
+  │ range │ geedy \{ │ lazy \{-│  n,m = 0 or +ve
+  ├───────┼──────────┼─────────┤
+  │ 0 → 1 │ \? \{,1} │ \{-,1}  │  also: \=
+  │ 0 → m │    \{,m} │ \{-,m}  │
+  │ 0 → ∞ │ *  \{}   │ \{-}    │  nomagic: \*
+  ├───────┼──────────┼─────────┤
+  │ 1 → ∞ │ \+ \(1,} │ \{-1,}  │   '\' ╭╴Optional
+  │ n → ∞ │    \{n,} │ \{-n,}  │       ∇
+  │ n → m │    \{n,m}│ \{-n,m} │  \{n,m\}
+  │   n   │    \{n}  │ \{-n}   │
+  └───────┴──────────┴─────────┘
 ```
 
 ### - preceding (zero width)
 
 ```pre
-         match╶╮   a preceeding atom, e.g.:  \(atom\)\@=
-    ┌────────┬─∇─┬───────────────────────────────┐┌───────┬──────────┬─────────┐
-    │  \@>   │ ✔︎ │  like matching whole pattern  ││ range │ geedy \{ │ lazy \{-│
-    ├────────┼───┼─────────────┬─────────────────┤├───────┼──────────┼─────────┤
-    │ \@= \& │ ✔︎ │             │                 ││ 0 → 1 │ \? \{,1} │ \{-,1}  │
-    │┈┈┈┈┈┈┈┈│┈┈┈│    here     │┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈││ 0 → m │    \{,m} │ \{-,m}  │
-    │  \@!   │ ✘ │             │                 ││ 0 → ∞ │ *  \{}   │ \{-}    │
-    ├────────┼───┼─────────────┼─────────────────┤├───────┼──────────┼─────────┤
-    │  \zs  ¹│ ✔︎ │             │ use \zs instead ││ 1 → ∞ │ \+ \(1,} │ \{-1,}  │
-    │┈┈┈┈┈┈┈┈│┈┈┈│ just before │┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈││ n → ∞ │    \{n,} │ \{-n,}  │
-    │ \@N<!  │ ✘ │             │                 ││ n → m │    \{n,m}│ \{-n,m} │
-    └──╴∆╶───┴───┴─────────────┴─────────────────┘│   n   │    \{n}  │ \{-n}   │
-        ╰─╴look back up to N bytes                └───────┴──────────┴─────────┘
-     Also via: \@N<=
+   match a preceeding atom, e.g.: \(atom\)\@=
+  ┌─∇─┬─────┬───────────────┐┌───────┬──────────┬─────────┐
+  │ ✔︎ │ \@> │ whole pattern ││ range │ geedy \{ │ lazy \{-│
+  ├───┼─────┴─────┬─────────┤├───────┼──────────┼─────────┤
+  │ ✔︎ │ \&  \@=   │         ││ 0 → 1 │ \? \{,1} │ \{-,1}  │
+  │┈┈┈│┈┈┈┈┈┈┈┈┈┈┈│ here    ││ 0 → m │    \{,m} │ \{-,m}  │
+  │ ✘ │     \@!   │         ││ 0 → ∞ │ *  \{}   │ \{-}    │
+  ├───┼───────────┼─────────┤├───────┼──────────┼─────────┤
+  │ ✔︎ │ \zs \@N<= │ just    ││ 1 → ∞ │ \+ \(1,} │ \{-1,}  │
+  │┈┈┈│┈┈┈┈┈┈┈┈┈┈┈│ before  ││ n → ∞ │    \{n,} │ \{-n,}  │
+  │ ✘ │     \@N<! │         ││ n → m │    \{n,m}│ \{-n,m} │
+  └───┴──────╴∆╶──┴─────────┘│   n   │    \{n}  │ \{-n}   │
+    look back N bytes        └───────┴──────────┴─────────┘
 ```
 
 ## Copy matching texts to buffer

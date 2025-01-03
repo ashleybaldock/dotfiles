@@ -11,23 +11,33 @@ let g:mayhem_loaded_winbar = 1
 "
 " Related: CustomStatusline in ./statusline.vim
 function! s:WinBarUpdate()
-		nunmenu WinBar
+  silent nunmenu WinBar
+  " tlunmenu WinBar
   if &diff
     " nunmenu WinBar | nnoremenu 1.10 WinBar.􀆧\ $dx\ \ 􀈄\ §de\ 􀈂\ §dt▕\ 􀆇\ [c▕\ 􀆈\ ]c▕\ 􀅌\ §dr <nop>
-    nnoremenu 1.10 WinBar.􀆧\ $dx\ ╱g\ 􀈄\ §de\ ╱\ 􀈂\ §dt\ ╱\ 􀊉\ [c\ ╱\ 􀊋\ ]c\ ╱\ 􀅌\ §dr\ ╱ <Nop>
+    silent nnoremenu 1.10 WinBar.􀆧\ $dx <Nop>
+    silent nnoremenu 1.20 WinBar.􀈄\ §de\ ╱\ 􀈂\ §dt <Nop>
+    silent nnoremenu 1.30 WinBar.􂨫\ [c\ ╱\ 􂨬\ ]c <Nop>
+    silent nnoremenu 1.90 WinBar.􀅌\ §dr <Nop>
     " nunmenu WinBar | nnoremenu 1.10 WinBar.D・$dx:off・§de:get・§gt:put・[c:prv・]c:nxt <nop>
   elseif &ft == 'netrw'
     " nunmenu WinBar | nnoremenu 1.10 WinBar.Netrw・S:sort・I:layout・-:back・<S-B>:up・<S-W>:down・ <nop>
     "􀹲􀩳􀹆􀩼􀋱􀩳􁂷
-    nnoremenu 1.10 WinBar.􀉌‹-› <Nop>
-    nnoremenu 1.20 WinBar.􀵬\ ‹S›\ ╱\ 􀞖\ ‹i› <Nop>
-    nnoremenu 1.30 WinBar.􀄨‹B›\ ╱\ 􀄩‹W› <Nop>
-    nnoremenu 1.90 WinBar.􁜾\ ‹I› <Nop>
-    nnoremenu 1.99 WinBar.􀈕 <Nop>
-  " elseif ISTERMINAL == 'terminal' " TODO
-  "   nunmenu WinBar | nnoremenu 1.10 WinBar.Netrw・S:sort・I:layout・-:back・<S-B>:up・<S-W>:down・ <nop>
+    silent nnoremenu 1.10 WinBar.􀉌‹-› <Nop>
+    silent nnoremenu 1.20 WinBar.􀵬\ ‹S›\ ╱\ 􀞖\ ‹i› <Nop>
+    silent nnoremenu 1.30 WinBar.􀄨‹B›\ ╱\ 􀄩‹W› <Nop>
+    silent nnoremenu 1.90 WinBar.􁜾\ ‹I› <Nop>
+    silent nnoremenu 1.99 WinBar.􀈕 <Nop>
+  endif
+  if &buftype == 'terminal'
+    if mode() =~# 'n'
+      silent nnoremenu 1.20 WinBar.􀊙\ ‹C-W›‹C-N› <nop>
+    else
+      silent nnoremenu 1.20 WinBar.􀊛\ ‹C-W›‹C-N› <nop>
+    endif
+    " tlnoremenu 1.10 WinBar.􀯪􀱢・‹C-W›‹C-N›:・ <nop>
     "
-    " register hints
+    " register hints  􀭈􀆧
     "
     " nnoremenu 1.10 WinBar. <Nop>
     " nnoremenu 1.20 WinBar.􀉃‹+›\ 􀈿‹%›
@@ -42,4 +52,5 @@ augroup winbar
 
   au OptionSet diff call s:WinBarUpdate()
   au WinLeave,BufEnter,BufLeave,DiffUpdated,FileType * call s:WinBarUpdate()
+  au ModeChanged *:nt,*:t* call s:WinBarUpdate()
 augroup END

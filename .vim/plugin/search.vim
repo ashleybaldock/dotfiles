@@ -20,24 +20,24 @@ let s:separatorCandidates = split(
 function! s:FindPatternSeperator(pattern, replacement)
 endfunc
 
-function s:AckEscaped(search)
+function s:AckEscaped(search) abort
   " The ! avoids jumping to first result automatically
   execute printf('Ack! -Q -- "%s"', substitute(a:search, '\([%"\\]\)', '\\\1', 'g'))
 endfunc
 
-function s:AckClipboard()
+function s:AckClipboard() abort
   call s:AckEscaped(@")
 endfunc
 
-function s:AckCurrentWord()
+function s:AckCurrentWord() abort
   call s:AckEscaped(expand("<cword>"))
 endfunc
 
-function s:AckLastSearch()
+function s:AckLastSearch() abort
   call s:AckEscaped(@/)
 endfunc
 
-function! s:AckInput()
+function! s:AckInput() abort
   call inputsave()
   let search = input("Ack! ")
   call inputrestore()

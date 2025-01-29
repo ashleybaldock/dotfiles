@@ -249,9 +249,14 @@ A footnote can also have multiple lines[^2].
     This is a second line.
 
 ```pre
-¹꛰︎²꛰︎³꛰︎⁴꛰︎⁵꛰︎⁶꛰︎⁷꛰︎ ⁸꛰︎⁹꛰︎ ¹꛱⁰꛱️ ¹܃¹ ¹܃ܝ²͎︎
-¹️²️³️⁴️⁵️⁶️⁷️⁸️⁹️ ¹️⁰️ ¹️¹️ ¹️²️️܃
-₁️₂️₃️₄️₅️₆️₇️₈️₉️ ₁₂₃₄₅₆₇₈₉܄܃܅¹܇¹܆܈¹܉
+¹꛰︎²꛰︎³꛰︎⁴꛰︎⁵꛰︎⁶꛰︎⁷꛰︎⁸꛰︎⁹꛰︎⁰꛰︎ ܃¹ ¹܃ܝ²͎︎ ⢫⡝ ⢏⡹ ⢟⡻ ⢯⡽ ⢇⡸ ⢏⡹
+¹²️³️⁴️⁵️⁶️⁷️⁸️⁹️ ¹️⁰️ ¹️¹️ ¹️²️️  ⣜⣣ ⣎⣱ ⣾⣷ ⣮⣵ ⢎⡱ ⢞⡵
+⠘¹⠒²³⁴⠛⁵⁶⁷⠘⁸⁹⠃⁰
+¹⠈⠉⠁⠐¹⠂⠒⠐¹⠂⠠₁⠄⠤⠠₁⠄⢀⣀⡀
+¹⠘⠛⠃¹⠰⠶⠆¹₁⢠⣤⡄₁⢈⣉⡁
+¹⠃⠛⠘¹⠃⠆⠶⠰₁⠆⡄⣤⢠₁️⡁⣉⢈
+⠰₁⠤₂₃₄⠶₅₆₇₈₉܄܃܅¹܇¹¹܈܆܉⠢⢄
+₁️₂️₃️₄️₅️₆️₇️₈️₉️
 Here is a simple footnote¹꛰︎[^1].
 
 A footnote can also⁴️ have multiple lines²꛰[^2].
@@ -294,4 +299,4 @@ A footnote can also⁴️ have multiple lines²꛰[^2].
 > Advises about risks or negative outcomes of certain actions.
 > 􀇾 􀇿
 
-" vim:ts=2 sw=2:conceallevel=2:nowrap
+<!-- vim: set ts=2 sw=2 conceallevel=2 nowrap: -->

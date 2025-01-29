@@ -6,12 +6,14 @@ let g:coc_node_path = '/opt/homebrew/bin/node'
 
 let $VIMHOME=expand('<sfile>:p:h')
 
-let g:mayhem_dir_backup    = $VIMHOME .. '/backup'
-let g:mayhem_dir_swap      = $VIMHOME .. '/swap'
-let g:mayhem_dir_undo      = $VIMHOME .. '/undo'
-let g:mayhem_dir_view      = $VIMHOME .. '/view'
-let g:mayhem_dir_session   = $VIMHOME .. '/session'
-let g:mayhem_dir_templates = $VIMHOME .. '/templates'
+let g:mayhem_dir_backup    = $VIMHOME..'/backup'
+let g:mayhem_dir_swap      = $VIMHOME..'/swap'
+let g:mayhem_dir_undo      = $VIMHOME..'/undo'
+let g:mayhem_dir_view      = $VIMHOME..'/view'
+" See: ./plugin/sessions.vim
+let g:mayhem_dir_session   = $VIMHOME..'/session'
+" See: ./plugin/templates.vim
+let g:mayhem_dir_template = $VIMHOME..'/templates'
 
 if has("patch-8.1.0251")
   if !isdirectory(g:mayhem_dir_backup)
@@ -47,18 +49,6 @@ if !isdirectory(g:mayhem_dir_view)
   call mkdir(g:mayhem_dir_view, "p", 0711)
 endif
 exec 'set viewdir^=' .. g:mayhem_dir_view .. '//'
-
-if !isdirectory(g:mayhem_dir_session)
-  echom 'session dir ''' .. g:mayhem_dir_session
-        \ .. '''not found- creating it'
-  call mkdir(g:mayhem_dir_session, "p", 0711)
-endif
-
-if !isdirectory(g:mayhem_dir_templates)
-  echom 'templates dir ''' .. g:mayhem_dir_templates
-        \ .. '''not found- creating it'
-  call mkdir(g:mayhem_dir_templates, "p", 0711)
-endif
 
 set helpheight=10
 
@@ -99,9 +89,18 @@ if has('gui_running')
 
   set guioptions-=rL
   set guioptions+=ckT
+  set guicursor=n:block-nCur/lCur,
+        \c:ver70-cCur,
+        \i:ver25-nCur/lCur,
+       \ci:ver25-cCur,
+        \r:hor24-rCur/lCur,
+       \cr:hor24-cCur,
+        \v:block-vCur,
+        \o:hor60-nCur
   set guicursor+=a:blinkon0
   set antialias
   set guifont=Menlo:h14
+  " set macthinstrokes
 
   augroup Focus
     autocmd!
@@ -146,6 +145,7 @@ set ts=2 sts=2 sw=2 et
 
 set mouse=a
 set backspace=indent,eol,start
+set imdisable
 
 set updatetime=300
 set synmaxcol=1024
@@ -218,7 +218,7 @@ if executable('ag')
 endif
 
 " Syntax highlighting for code blocks inside markdown docs
-let g:markdown_fenced_languages = ['javascript', 'typescript', 'css', 'json', 'python', 'lua', 'vim', 'sh', 'pre', 'ansi']
+let g:markdown_fenced_languages = ['javascript', 'typescript', 'css', 'json', 'python', 'lua', 'vim', 'sh', 'bash', 'pre', 'ansi', 'ps1']
 
 
 " 2html script options

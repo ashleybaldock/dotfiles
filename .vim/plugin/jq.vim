@@ -12,3 +12,4 @@ function! s:JsonQuery() range
   let seletedids = systemlist('jq -r ".id"', selectedlines)
   let count = len(selectedids)
 endfunc
+

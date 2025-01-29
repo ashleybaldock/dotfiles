@@ -64,7 +64,7 @@
   --notNaN5: calc(NAn);
 }
 .process {
-  --arrow-left-w: calc( 100px - 6em * 3 +
+  --arrow-left-w: calc(100px - 6em * 3 +
     max(var(--arrow-left), var(--arrow-radius)) + (var(--arrow-line-w) / 2)
   );
 }
@@ -109,6 +109,7 @@
   display: flex;
 }
 #lots#of#ids {
+  display: flex;
 }
 
 [data-name='ActionTreeRoot'] {
@@ -213,6 +214,12 @@ div:not(:has(.bad)) {
   syntax: '<angle>';
   inherits: false;
   initial-value: 0deg;
+}
+
+@property --＝ {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
 }
 
 @layer base, special;

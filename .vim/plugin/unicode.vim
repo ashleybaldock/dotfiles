@@ -9,12 +9,12 @@ let g:mayhem_loaded_unicode = 1
 " highlight link nonascii ErrorMsg
 " autocmd BufEnter * syn match ErrorMsg /[^\x00-\x7F]/
 "
-  "au WinEnter * if !exists("w:custom_hi1") | let w:custom_hi1 = matchadd('ErrorMsg', '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$') | endif
-  "
-  "au WinEnter * if !exists("w:custom_hi2") | 
-  "
-  " let w:custom_hi2 = matchadd('U8Whitespace',
-  "   \ '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]', 10, -1, {'conceal': '⌻' })
+"au WinEnter * if !exists("w:custom_hi1") | let w:custom_hi1 = matchadd('ErrorMsg', '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$') | endif
+"
+"au WinEnter * if !exists("w:custom_hi2") | 
+"
+" let w:custom_hi2 = matchadd('U8Whitespace',
+"   \ '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]', 10, -1, {'conceal': '⌻' })
   
 
 
@@ -34,21 +34,22 @@ let g:mayhem_loaded_unicode = 1
 "
 " Reveal Variation Selectors:
 " See: ../demo/unicode-whitespace
-function! s:HintMatchVS15and16() abort
-  let v15 = matchadd('VS15', '︎', 1)
-  let v16 = matchadd('VS16', '️', 1)
-  let v1516 = matchadd('VS1516', '︎️', 1)
-  let v1615 = matchadd('VS1615', '️︎', 1)
-  let spspace = matchadd('SpecialSpace', ' ︎', 1)
+function! s:Hintvs1516() abort
+  let w:mayhem_match_vs1516 = [
+        \ matchadd('VS15', '︎', 1),
+        \ matchadd('VS16', '️', 1),
+        \ matchadd('VS1516', '︎️', 1),
+        \ matchadd('VS1615', '️︎', 1),
+        \ matchadd('SpecialSpace', ' ︎', 1)
+        \]
 endfunc
 
-command! VariationSelectorHints call <SID>HintMatchVS15and16()
+command! VariationSelectorHints call exists('w:mayhem_match_vs1516') ? <SID>UnHintvs1516() : <SID>Hintvs1516()
 
-  "
-  " let w:mayhem_match_u8whitespace2 = matchadd('U8Whitespace', '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]', 10, -1, {'conceal': '⌻' })
-
+" Reveal Exotic Whitespace:
+" See: ../demo/unicode-whitespace
 function! s:HideUnicodeWhitespaceHints() abort
-  if exists("w:mayhem_match_u8only_wsp")
+  if exists('w:mayhem_match_u8only_wsp')
     call matchdelete(w:mayhem_match_u8only_wsp)
     unlet w:mayhem_match_u8only_wsp
   endif
@@ -58,11 +59,11 @@ endfunc
 " [\Ue0000-\Ue007f]
 function! s:ShowUnicodeWhitespaceHints() abort
   call s:HideUnicodeWhitespaceHints()
-  let w:mayhem_match_u8only_wsp = matchadd('U8Whitespace', '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u2800\u3000\u303f\uff00\uffa0\ufeff\ufff0-\uffff\U000e0020]', 10, -1, {'conceal': '⌻' })
+  let w:mayhem_match_u8only_wsp = matchadd('U8Whitespace', '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u2800\u3000\u303f\uff00\uffa0\ufeff\ufff0-\uffff\U000e0020]')
 endfunc
 
 function! s:ToggleUnicodeWhitespaceHints() abort
-  if exists("w:mayhem_match_u8only_wsp")
+  if exists('w:mayhem_match_u8only_wsp')
     call s:HideUnicodeWhitespaceHints()
   else
     call s:ShowUnicodeWhitespaceHints()
@@ -72,21 +73,39 @@ endfunc
 command! UnicodeWhitespaceHints call <SID>ToggleUnicodeWhitespaceHints()
 
 "
+" Line of text starting @ current cursor position
+" (Can use with char2nr(), which works on the
+"  first character in the string)
 function! s:GetLineFromCursor() abort
   return getline('.')[col('.') - 1 : -1]
 endfunc
 
 "
+" The (multibyte) character @ current cursor position
+"
 function! s:GetCharUnderCursor() abort
   return s:GetLineFromCursor()->char2nr()->nr2char()
 endfunc
 
-function! GetCharCode(char = getline('.')[col('.') - 1 : -1])
+"
+" String representation of char code
+" (Char @ cursor position used if no argument given)
+function! GetCharCode(char = s:GetLineFromCursor()) abort
   let n = char2nr(a:char)
   return n < 0xff ? printf('\x%x', n) : n < 0xffff ? printf('\u%04x', n) :  printf('\U%x', n)
 endfunc
 
 command! -bar -nargs=? GetCharCode echo GetCharCode(<f-args>)
+
+"
+" Convert char into regex escaped form
+"
+function! GetCharCodeMatch(char = s:GetLineFromCursor())
+  let n = char2nr(a:char)
+  return n < 0xffff ? printf('\%%u%x', n) :  printf('\%%U%x', n)
+endfunc
+
+command! -bar -nargs=? GetCharCodeMatch echo GetCharCodeMatch(<f-args>)
 
 " Replaces the base character in a glyph made up of
 " multiple characters (combining diacritics, 
@@ -107,30 +126,122 @@ function! s:ReplaceBaseChar(replacement, char = s:GetLineFromCursor()) abort
   return a:replacement..strpart(a:char, 1)
 endfunc
 
-    " s/\zs\(\%#\)\ze/\=s:ReplaceBaseChar(submatch(0))/n
+    " s/\zs\(\%#\)\ze/\=ReplaceBaseCharWith(submatch(0))/n
 command! -bar -nargs=+ ReplaceBaseCharWith echo <SID>ReplaceBaseChar(<q-args>)
 
 " 
-command! -bar -nargs=+ CombineWithDiacritic echo <SID>CombineWith(<q-args>)
+" command! -bar -nargs=+ CombineWithDiacritic echo <SID>CombineWith(<q-args>)
 
 
-function! s:GenerateCodepoints(from, count = 16)
-  return s:GenerateCodepointRange(a:from, a:from + a:count)
+"
+" List of characters in a range
+"  from: number/string, codepoint at start of range
+"         (strings are parsed using str2nr())
+"  count: optional, number/string, count of characters to generate
+"          defaults to from + 16
+"         (strings are parsed using str2nr())
+"
+function! s:CodepointsInRange(
+      \ start,
+      \ count = 16)
+  let l:startidx = type(a:start) == type(0) ? a:start : str2nr(a:start)
+  let l:count = type(a:count) == type(0) ? a:count : str2nr(a:count)
+
+  return range(l:startidx, l:startidx + l:count - 1)->map({ _, val -> nr2char(val)})
 endfunc
 
-function! s:GenerateCodepointRange(from, to = a:from + 16)
-  let min = min([a:from, a:to])
-  let max = max([a:from, a:to])
+"
+" List of characters with codepoints between 
+" the two characters given as arguments
+" fromchar: optional, string (only first character is used),
+"            defaults to char under cursor
+" tochar: optional, string (only first character is used),
+"            defaults to fromchar codepoint + 16
+"
+function! s:CodepointsBetweenChars(
+      \ fromchar = s:GetLineFromCursor(),
+      \ tochar = nr2char(char2nr(a:fromchar) + 16)
+      \)
+  let fromidx = char2nr(a:fromchar)
+  let toidx = char2nr(a:tochar)
+  let min = min([fromidx, toidx])
+  let max = max([fromidx, toidx])
 
-  return range(l:min, l:max)->map({ val -> nr2char(val)})->join(' ')
+  return s:CodepointsInRange(l:min, l:max - l:min + 1)
 endfunc
 
-command! -bar -nargs=+ GenerateCodepointRange echo <SID>GenerateCodepointRange(<q-args>)
+function! s:CodepointsStartingFromChar(
+      \ fromchar = s:GetLineFromCursor(),
+      \ count = 16)
+  let fromidx = char2nr(a:fromchar)
+  return s:CodepointsInRange(fromidx, a:count)
+endfunc
+
+function! s:RenderCodepointRow(for = s:GetLineFromCursor())
+  let foridx = type(a:for) == type(0) ? a:for : char2nr(a:for)
+  let fromidx = foridx / 16 * 16
+
+  echohl None
+  echon printf('%05x ⏐ ', fromidx)
+  for char in s:CodepointsInRange(fromidx, 16)
+    if char2nr(char) == foridx
+      echohl Directory
+      echon char
+      echohl None
+    else
+      echon char
+    endif
+    echon ' '
+  endfor
+
+  return printf('%05x ⏐ ', fromidx)..s:CodepointsInRange(fromidx)->map({ i, v -> char2nr(v) == foridx ? ''..v..'' : v})->join(' ')..''
+endfunc
+
+"
+" Return a string with all chars with codepoints in range
+"  defined by a codepoint and a count
+" arg1: count (defaults to 16)
+" arg2: numeric codepoint (start of range)
+"
+" e.g. :CodepointsStartingFromCodepoint 26 65
+" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+"
+command! -bar -nargs=? -count=16 CodepointsStartingFromCodepoint echo <SID>CodepointsInRange(<q-args>, <count>)->join(' ')
+"
+" Return a string with all chars with codepoints in range
+"  defined by a starting char and a count
+" arg1: count (defaults to 16)
+" arg2: start of range (defaults to cursor char)
+"
+" e.g. :CodepointsStartingFromChar 26 A
+" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+"
+command! -bar -nargs=? -count=16 CodepointsStartingFromChar echo <SID>CodepointsStartingFromChar(<q-args>, <count>)->join(' ')
+
+"
+" Return a string containing all chars with codepoints between
+"  the two characters specified (inclusive)
+" arg1: one end of range (defaults to cursor char)
+" arg2: other end of range (defaults to codepoint of arg1 + 16)
+"  (The order of the ends doesn't matter, but the output is
+"   always in ascending codepoint order)
+"
+" e.g. :CodepointsBetweenChars Z A
+" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+"
+command! -bar -nargs=* CodepointsBetweenChars echo <SID>CodepointsBetweenChars(<f-args>)->join(' ')
+
+" TODO
+" Shows the unicode block that contains a character
+" arg1: character to display (Optional) (defaults to cursor char)
+" command! -bar -nargs=? GenerateUnicodeBlock echo <SID>RenderCodepointRow(<f-args>)
+
+" TODO show row(s) before/after in same block
+command! -bar -nargs=? ShowUnicodeContext call <SID>RenderCodepointRow(<f-args>)
 
 let g:mayhem_combining_diacriticals = [ ['\u20d0'] ]
 "                                                           TODO
 " Combine a char with various diacritical marks
-" Shows a popup with the results
 "
 function! s:GenerateCombinings(arg) abort
   let parts = s:SplitChar(a:arg)
@@ -138,15 +249,23 @@ function! s:GenerateCombinings(arg) abort
   echom s:SplitChar(a:arg)
 endfunc
 
-command! -bar -nargs=? GenerateCombinings call <SID>GenerateCombinings(<q-args>)
+command! -bar -nargs=? GenerateCombinings call <SID>GenerateCombinings(<f-args>)
 
+"
+" Show a popup with possible combinations to pick from
+" If no base character supplied, uses character under cursor
+"
+command! -bar -nargs=? SelectCombination call <SID>GenerateCombinings(<f-args>)
 
 
 function s:SelectVariation()
   " Get character under cursor
 endfunc
 
-command! SelectVariation call <SID>SelectVariation()
+"
+" Show a popup with variations for a given base char
+" Defaults to character @ cursor position if not supplied
+command! -bar -nargs=? SelectVariation call <SID>SelectVariation(<f-args>)
 
 "                                                           TODO
 " Cycle through predefined sets of Unicodepoints

@@ -53,12 +53,22 @@ hi LineNr         guifg=#400060 guibg=#100020
 hi LineNrAbove    guifg=#6d008d guibg=#100020 gui=none
 hi LineNrBelow    guifg=#6d448d guibg=#101120 gui=none
 
-hi Cursor         guifg=#000000 guibg=#ffffff gui=none
+hi Cursor none | hi Cursor guifg=#000000 guibg=#ffffff gui=none
+hi lCursor none | hi lCursor guifg=#000000 guibg=#ccffcc gui=none
+" normal
+hi link nCur Cursor
+hi link lCur lCursor
+" command line
+hi cCur           guifg=NONE    guibg=#dd66ff gui=none
+hi rCur           guifg=#2d004d guibg=#eeeeee
+" visual
+hi vCur           guifg=NONE    guibg=#6a6acc gui=none
 hi CursorLine     guifg=NONE    guibg=#1d002d
 hi CursorLineNr   guifg=#dda4fd guibg=#400060 gui=none
 hi CursorLineFold guifg=#ff0066 guibg=#0d0020
 hi CursorLineSign guifg=NONE    guibg=NONE
-hi CursorColumn   guifg=NONE    guibg=#4d006d
+hi CursorColumn   guifg=NONE    guibg=#2a2a50
+hi CursorColumn none | hi link CursorColumn ColorColNormal
 
 "CocCursorRange   " activated cursors ranges
 "CocLinkedEditing " activated linked editing ranges

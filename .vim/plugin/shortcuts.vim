@@ -41,6 +41,9 @@ nnoremap ß           <C-i>
 nnoremap <leader>i   <C-i>
 
 
+" TODO 
+"nnoremap <expr> §`i ExecAndPut('hi '..<c-r><c-w>)
+
 
 "
 " Replace: Character with its escape code
@@ -232,11 +235,12 @@ nnoremap <S-tab>     :CtrlP<CR>
 nnoremap <leader>p   :CtrlP<CR>
 
 "
-" Sessions: §s
+" Sessions And Splits: §s
+" See: ./sessions.vim
 "
 nnoremap §se :SessionInfo<CR>
-nnoremap §sc :SessionCreate<CR>
-nnoremap §ss :SessionLoad<CR>
+nnoremap <expr> §sc ':SessionCreate '..expand('%:p:h')
+nnoremap §ss :SessionLoad 
 " nnoremap §s  :SessionPause<CR>
 " nnoremap §s  :SessionResume<CR>
 " nnoremap §s  :SessionDelete<CR>
@@ -498,6 +502,9 @@ nnoremap . :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
 nnoremap            §c :nohlsearch<CR>
 nnoremap <silent> <CR> :nohlsearch<CR><CR>
 
+" ▌️ :ag ▐️────▷ Command line abbreviation
+cnoreabbrev ag :CdProjectRoot <bar> AckInput<CR>
+
 " Searching
 " cnoreabbrev ag :CdProjectRoot <bar> Ack! -Q --
 " nnoremap <Leader>a :Ack!<Space>
@@ -506,60 +513,69 @@ nnoremap <silent> <CR> :nohlsearch<CR><CR>
 " nnoremap <Leader>' :CdProjectRoot <bar> Ack! <C-r><C-w><CR>
 " nnoremap <Leader>" :CdProjectRoot <bar> Ack! <C-r>/<CR>
 
-" Search:
-"  Current Project:
-"
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐3⃝  ─╮
-" ├─▷ ⌥⃝ 𝄐⇧⃝ 𝄐8⃝  ─┼▷ Word under cursor
-" ├─▷    \'    ─╯
-nnoremap # :CdProjectRoot <bar> AckCurrentWord<CR>
-nnoremap • :CdProjectRoot <bar> AckCurrentWord<CR>
-nnoremap <Leader>' :CdProjectRoot <bar> AckCurrentWord<CR>
-
-" ╭─▷    \"    ──▷ Last search
-nnoremap <Leader>" :CdProjectRoot <bar> AckLastSearch<CR>
-
-" ╭─▷   :ag    ──▷ Input
-cnoreabbrev ag :CdProjectRoot <bar> AckInput<CR>
-
-" Search:
 "  Current Buffer:
 "
 "  Word Under Cursor:
+"
+" Normal:
+" ▌️ ⇧️ 3 ▐️────▷ Seach backward for word under cursor
+" ▌️ ⇧️ 8 ▐️────▷ Seach forward for word under cursor
+" Visual:
+" ▌️ ⇧️ 3 ▐️────▷ Seach backward for visual selection
+" ▌️ ⇧️ 8 ▐️────▷ Seach forward for visual selection
+"
+" ▌️ \\  ▐️────▷ Put word under cursor into search register & highlight
+nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 " ┌───────────┬────────────────┬───────────────────┐
 " │ highlight │ …and jump to   │ Limit search to   │
 " │   only    │ prev ◁╯╰▷ next │                   │
 " ├───────────┼────────────────┼───────────────────┤
 " │   \\      │   *        #   │ (word boundaries) │
-" │   \\\     │  g*       g#   │ (anywhere)        │
+" │           │  g*       g#   │ (anywhere)        │
 " └───────────┴────────────────┴───────────────────┘
 "
-"  Visual Selection:
-"   prev  next
-"     *     #  anywhere
+"  Current Project:
 "
-" Put word under cursor into search register and highlight
-" ╭──▷ \\    ────▷ Search
-nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
+"  See: ./search.vim
+"       ./projectRoot.vim
+"
+" Normal:
+" ▌️ ⌥️ 3 ▐️────▷ Seach for word under cursor
+nnoremap # :CdProjectRoot <bar> AckCurrentWord<CR>
+" ▌️ ⌥️ 8 ▐️────▷ Seach for word under cursor
+nnoremap • :CdProjectRoot <bar> AckCurrentWord<CR>
+" ▌️ \'  ▐️────▷ Seach for word under cursor
+nnoremap <Leader>' :CdProjectRoot <bar> AckCurrentWord<CR>
+" ▌️ \"  ▐️────▷ Seach for last internal search term
+nnoremap <Leader>" :CdProjectRoot <bar> AckLastSearch<CR>
+"
+" Visual:
+" ▌️ ⌥️ 3 ▐️────▷ Seach for visual selection
+xnoremap # y<ESC>:CdProjectRoot <bar> AckClipboard<CR>
+" ▌️ ⌥️ 8 ▐️────▷ Seach for visual selection
+xnoremap • y<ESC>:CdProjectRoot <bar> AckClipboard<CR>
+"
+"
 " vnoremap <silent> <Leader>* :<C-U>
 "   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
 "   \gvy:let @/=substitute(
 "   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>
 "   \gV:call setreg('"', old_reg, old_regtype)<CR>:set hls<CR>
 
-" ╭──▷ §s    ────▷ Search
-vnoremap §s y<ESC>/<c-r>"<CR> 
-" ╭──▷ §r    ────▷ Replace, delimiter: /
-xnoremap §r y<ESC>:%s/<c-r>"//g<Left><Left>
-" ╭──▷ §R    ────▷ Replace, delimiter: ^
-xnoremap §<S-r> y<ESC>:%s^<c-r>"^^g<Left><Left>
+" ╭──▷       ────▷ Search
+" vnoremap §s y<ESC>/<c-r>"<CR> 
+" ╭──▷       ────▷ Replace, delimiter: /
+" xnoremap §r y<ESC>:%s/<c-r>"//g<Left><Left>
 " vnoremap §s "xy:%s//
 
-" ╭──▷ ⌥⃝ 𝄐1⃝  ────▷ Start a search
+" ▌️ ⌥️ 2 ▐️────▷ Left-hand /
 nnoremap € /
+xnoremap € <ESC>/
 
-" ╭─▷ ⌥⃝ 𝄐⇧⃝ 𝄐1⃝  ──▷ Start substitution w/ last search
+" ▌️⌥️ ⇧️ 2▐️────▷ Start new :substitute (whole buffer)
 nnoremap ™ :%s///g<Left><Left>
+" ▌️⌥️ ⇧️ 2▐️────▷ Start new :substitute (visual area)
+xnoremap ™ :s///g<Left><Left>
 
 " Or this, which uses register '/'
 " :%s///<replacement>/g
@@ -619,7 +635,7 @@ nnoremap ˚ :m -2,+<CR><S-j>
 nnoremap  i<CR><Esc>:m -2<CR>j$
 
 "
-" Visual Mode:
+" Visual Mode Tweaks:
 "
 " move to next displayed line in 
 " mode v (but not V or )
@@ -679,6 +695,8 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
+" nnoremap <silent><nowait> <space>o  :call ToggleOutline()<CR>
+
 " Remap <C-f> and <C-b> to scroll float windows/popups
 if has('patch-8.2.0750')
   nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -689,6 +707,9 @@ if has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
+"
+" See: ./commands.coc.vim
+"
 " ╔═╾Diagnostics╼═════════╦══════════════════════════╗
 " ║           ║ [] ➤ next ║ ]] ➤ next most important ║
 " ║ [[ ➤ list ║           ║  ß <⌥⃣ ‑s>                ║

@@ -7,6 +7,7 @@ let g:mayhem_loaded_mouse = 1
 " Mouse Mappings: 􀺤􁝸 􀇰 
 "
 " Option Left Click On Focused Window:
+"  See: ./visualclick.vim
 "  i⁺₊﹢＋rts visual block selection from click location
 "     (as if virtualedit=all)
 "

@@ -152,7 +152,7 @@ function! s:UpdateToggle(name, priority, states, current)
 
   exec 'let value = &g:'..a:name
   " let toggles =   get(g:,     'mayhem_toolbarToggles',     {})
-  " let toggle =    get(toggles, a:name,                     {})
+  let toggle =    get(s:toggles, a:name,                     {})
 
   let priority =  get(toggle, 'priority',             '1.555')
 
@@ -177,10 +177,11 @@ endfunc
 
 " Add a toggle for all enabled entries in g:mayhem_toolbarToggles
 function! s:AddToggles()
+  echom 'adding toggles'
   " name, type ('set', 'exec'), priority, enable, states
   for toggle in get(g:, 'mayhem_toolbarToggles', [])
-    let enable = get(toggle, 'enable', 1)
-    if !enable
+    if !get(toggle, 'enable', v:true)
+      echom 'not enabled'
       continue
     endif
 
@@ -237,6 +238,8 @@ function! s:AddToggles()
             \ ' exec s:toggles[expand(''<amatch>'')].update()'
     augroup END
   endfor
+  echom DictToJson(s:toggles)
+  echom FormatJSON(DictToJson(s:toggles))
 endfunc
 
 function! s:RemoveSessionTBStatus()
@@ -255,7 +258,6 @@ function! s:UpdateSessionTBStatus()
               \ :SessionPause<CR>
         exec 'tmenu ToolBar.SessionStatus 􁅦 Obsessing, click to pause. Session:'..v:this_session..')'
       else
-        " TODO pause/play icons
         an icon=gear.badge.questionmark:multicolor
               \ 1.110
               \ ToolBar.SessionStatus
@@ -277,7 +279,8 @@ function! s:UpdateSessionTBStatus()
 endfunc
 
 function! s:AddSessionTBStatus()
-  augroup DynamicToolBar
+  augroup DynamicToolBarSessionStatus
+    autocmd!
     " autocmd User Obsession call s:UpdateDynamicToolBar() | redraw!
     " autocmd SessionLoadPost * call s:UpdateDynamicToolBar() | redraw!
     autocmd User Obsession call s:UpdateSessionTBStatus() | redraw!
@@ -288,7 +291,7 @@ function! s:AddSessionTBStatus()
 endfunc
 
 function! s:RemoveDefaultToolBar()
-  echom 'removing'
+  echom 'removing default toolbar'
   silent! aunmenu ToolBar.Open
   silent! aunmenu ToolBar.Save
   silent! aunmenu ToolBar.SaveAll
@@ -317,6 +320,7 @@ function! s:RemoveDefaultToolBar()
 endfunc
 
 function! s:AddDynamicToolBar()
+  echom 'adding dynamic toolbar'
   " ---- Status Indicators ------ 100
   "  􀍟 gear 􁓹.badge 􁅦.badge.checkmark 􁅧.badge.xmark
   "                   􁅨.badge.questionmark
@@ -395,10 +399,10 @@ function! s:AddDynamicToolBar()
   " 􀬔 questionmark.folder
   nnoremenu icon=folder 1.390
         \ ToolBar.ShowInFinder
-        \ :silent exe "silent !open -R "..shellescape(expand("%"))<CR>
+        \ silent exec "silent !open -R "..shellescape(expand("%"))<CR>
   inoremenu icon=questionmark.folder
         \ ToolBar.ShowInFinder
-        \ :silent exe "silent !open -R "..shellescape(expand("%"))<CR>
+        \ silent exec "silent !open -R "..shellescape(expand("%"))<CR>
   tmenu ToolBar.ShowInFinder 􀈕 Show current file in Finder
 
   " ------------Sep-------------- 400
@@ -435,8 +439,8 @@ function! s:RemoveDynamicToolBar()
   " --------- Toggles ----------- 500
 
   call s:RemoveToggles()
-  call s:RemoveDynamicToolBarToggle('virtualedit')
-  call s:RemoveDynamicToolBarToggle('delcombine')
+  " call s:RemoveDynamicToolBarToggle('virtualedit')
+  " call s:RemoveDynamicToolBarToggle('delcombine')
 endfunc
 
 function! s:UpdateDynamicToolBar()

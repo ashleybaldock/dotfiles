@@ -19,7 +19,15 @@ function! s:SplitWithScriptnames()
 endfunc
 command! ListPlugins call <SID>SplitWithScriptnames()
 
-
+"
+" Turn a Vim dict into a JSON, taking care of any pesky Funcrefs
+"
+function! DictToJson(someDict)
+  echom a:someDict->mapnew(
+        \ {key, val -> type(val) }
+        \ )
+endfunc
+        " \ {key, val -> (type(val) == v:t_func) ? 'Funcref:'..string(val) : val}
 
 " Window & Buffer debug info
 "

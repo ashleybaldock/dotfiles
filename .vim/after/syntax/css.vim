@@ -49,25 +49,27 @@ syn match cssVarCustomProp contained "--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)*\Z"
 syn match cssCustomPropDashes contained +--+
       \ conceal cchar=╸ contains=NONE transparent
 
+" Math operators not made valid by being inside these functions
 syn region cssFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssFunctionComma,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 
+" Math operators valid inside these and nested children
 syn region cssMathFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
-      \ contains=cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssFunctionComma,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+      \ contains=cssCalcKeyword,cssError,cssMathFunctionRegion,cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssFunctionComma,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 
 syn keyword cssFunctionNameVar contained conceal cchar=𐐏 var
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssFunctionRegion
 
-syn keyword cssMathFunctionName contained conceal cchar=C calc
+syn keyword cssMathFunctionName contained conceal cchar=c calc
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionRegion
-syn keyword cssMathFunctionName contained conceal cchar=X min
+syn keyword cssMathFunctionName contained conceal cchar=⬇ min
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionRegion
-syn keyword cssMathFunctionName contained conceal cchar=X max
+syn keyword cssMathFunctionName contained conceal cchar=⬆ max
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionRegion
 
@@ -107,12 +109,6 @@ syn keyword cssCalcKeyword contained NaN
 syn match cssError +\<\%(n[aA][nN]\|N\%(an\|A[nN]\)\)\>+ contained containedin=cssFunctionCalc
 syn case ignore
 
-syn region cssFunctionCalc contained
-      \ matchgroup=cssFunctionName start="\<calc\s*("
-      \ end=")"
-      \ contains=cssCalcKeyword,cssError,cssCustomProp,cssValue.*,cssFunction,cssColor,cssStringQ,cssStringQQ
-      \ containedin=cssAttrRegion
-
 hi def link cssCalcKeyword Constant
 
 
@@ -136,36 +132,6 @@ syn region cssPseudoClassFn containedin=cssPseudoClass
       \ end=")"
       \ contains=cssSelectorOp,cssPseudoClass,cssStringQ,cssStringQQ,cssTagName,cssAttributeSelector,cssClassName,cssIdentifier
 
-" /* --𝚷 --𝛑 --𝜋 --𝝅 --𝝿 --𝒆𝑒  -- --𝑒 --𝒆 --𝓮    */
-" /*       𝝅𝝉𝝋𝜽  𝜋𝜏𝜑𝜃 𝛑𝛕𝛗𝛉    
-"  *        𝞹 𝞽 𝞿 𝞱   𝞴
-"  *        𝝿 𝞃 𝞅 𝝷 𝝧 𝝺  ⅟︎ ⅟️︎ ⅟️ ⅟
-"  *        𝜋 𝜏 𝜑 𝜃   𝜆 
-"  *        𝛑 𝛕 𝛗 𝛉   𝛌             KBMBGB
-"  * ㎰ ℹ︎ ⅂⅃ µ ヿ  ᳐᳴ ᳗᳠ ᳲ ᳳ ᳵ᳸᳹  〼  ㎅㎆㎇
-"  * ⬅ ⬆ ⬇ ⮕  ⬈ ⬉ ⬊ ⬋ ⬌ ⬍ ⬎ ⬏ ⬐ ⬑ ⭠ ⭡ ⭢ ⭣ ⭤ ⭥ ⮂ ⮃    Ⱎ 12Ⰿ ⱎ 12ⰿ
-"  * 
-"  * ↖︎↙︎↗︎ ↘︎←→↓↑   ↻⃝  ↺︎ ⟲ ⟳ ⥀ ⥁ */
-
-" /* 𝘦𝙚 ᰓᰱ ᰟᰲ         ⊹  ⸢⸣⸠⸡⸣⸦⸨⸧⸦ ⼀⼀⼁⼕〔〇〕ㄖㅿ㇄㇎㇏ ⸏⸺⸏  ⸏⸎ ⸺⸎  */
-" /* 𝟎𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗  ⎷ ⏶⏷⏴⏵⏻⏼   */
-" /* 𝟢 √𝟣 √️𝟤 √𝟥 √𝟦 √𝟧 √𝟨 √𝟩 √𝟪 √𝟫 𝖺 𝖻 𝖼 𝖽 𝖾 𝖿    ⱻⱼⱽⱴ ⱵH ⱶ ⱱⱳ  
-"  *
-"  * Ⲁ Ⲃ Ⲅ Ⲇ Ⲉ Ⲋ Ⲍ Ⲏ Ⲑ Ⲓ Ⲕ Ⲗ Ⲙ Ⲛ Ⲝ Ⲟ Ⲡ Ⲣ Ⲥ Ⲧ Ⲩ Ⲫ Ⲭ Ⲯ Ⲱ    Ⳏ
-"  * ⲁ ⲃ ⲅ ⲇ ⲉ ⲋ ⲍ ⲏ ⲑ ⲓ ⲕ ⲗ ⲙ ⲛ ⲝ ⲟ ⲡ ⲣ ⲥ ⲧ ⲩ ⲫ ⲭ ⲯ ⲱ    ⳏⲭ 𝓓
-"  *  */
-" /* --𝟢 --𝟣 --𝟤 --𝟥 --𝟦 --𝟧 --𝟨 --𝟩 --𝟪 --𝟫 --𝖺 --𝖻 --𝖼 --𝖽 --𝖾 --𝖿 */
-" /* --𝟬 --𝟭 --𝟮 --𝟯 --𝟰 --𝟱 --𝟲 --𝟳 --𝟴 --𝟵 --𝗔 --𝗕 --𝗖 --𝗗 --𝗘 --𝗙 */
-" /* 𝟶𝟷𝟸𝟺𝟻𝟹𝟼𝟸𝟽𝟾𝟿 */
-"  ⏗ ⏘ ⏙ ⏑ ⏒ ⏓ ⏔  ⏕  ⏖  ⏚  ⏛  ⏜ ⏝ ⏞ ⏟ ⏠ ⏡
-"   ᴾ᙮ᣖᕽ 122ᴾᕽ 66ᴾᕁ  ᔿ ᕯ ៳ᣖͯ    ㏑ ㏒ %  % %️ %︎︎ ٪ ‰ ‱ ⁒ ⏙
-"    ᴘx 𝐱𝞀 𝚙𝚡 𝙥𝙭 𝘱𝘹 𝗽𝘅 𝗉𝗑 𝕡𝕩 𝓹𝔁 𝑥 𝓅𝓍 ℯ𝓂 𝓮𝓶 𝒑𝒙 𝒆𝒎 𝑝𝑥 𝑒 2𝑚 
-"       2𝚎𝚖 𝚎𝚡 𝚌𝚑 𝚛𝚎𝚖  𝚟𝚑 𝚟𝚠 𝚟𝚖𝚒𝚗 𝚟𝚖𝚊𝚡  9°️9°|𝚍𝚎𝚐 ᵍ|𝚐𝚘𝚗|𝚐𝚛𝚊𝚍 𝚛𝚊𝚍
-"
-"        𝚖ͤ𝚖ͨ𝚖                     ᕯ ᕯᕯ ᕀᒾ¯¹ eᐨ¹
-"        "    𝚍𝚙𝚙𝚡|𝚡        100𝚍𝚙𝚌𝚖 𝚍𝚙𝚒    40𝙷️𝚣 6𝚔︎𝙷︎𝚣︎  3𝚜 400𝚖𝚜 
-"    𝚀   22𝚙𝚡 22𝚙𝚝 22𝚙𝚌        𝚒𝚗  
-"                 𝚖𝚖 𝚌𝚖
 "                           
 "   absolute                         …use…
 " ────────────────────────────────────────────
@@ -224,7 +190,7 @@ syn region cssAtRule
       \ start=+@property\>+
       \ end=+\ze{+
       \ skipwhite skipnl nextgroup=cssAtPropertyDef
-      \ contains=cssCustomProp,cssComment
+      \ contains=cssVarCustomProp,cssCustomProp,cssComment
 syn region cssAtPropertyDef transparent fold contained
       \ matchgroup=cssBraces start=+{+ end=+}+
       \ contains=cssPropertyProp,cssPropertyAttr,cssPropertySyntax,cssComment,cssValue.*,cssColor,cssURL,cssCustomProp,cssError,cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssNoise
@@ -353,8 +319,8 @@ syn case match
 
 syn match pathClose +[zZ]+ contained
 
-syn region pathMoveAbs  start=+M+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ contained oneline contains=svgPathParam
-syn region pathMoveRel  start=+m+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ contained oneline contains=svgPathParam
+syn region pathMoveAbs  start=+M+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
+syn region pathMoveRel  start=+m+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
 
 syn region pathLineAbs  start=+L+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
 syn region pathLineRel  start=+l+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam

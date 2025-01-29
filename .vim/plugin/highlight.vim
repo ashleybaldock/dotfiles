@@ -4,6 +4,8 @@ endif
 let g:mayhem_loaded_highlight = 1
 
 
+" TODO - add to symbols repository when implemented
+let s:symbol_linksto = get(g:, 'mayhem_symbol_hihi_linksto', '⫘⃗ ')
 
 
 "
@@ -36,24 +38,41 @@ endfunc
 command! HiHi call <SID>HighlightHighlight()
 
 
-
+"
+" See: ./sfsymbols.vim
+"
 function! s:GetCharacterInfo()
-  let char = getline('.')[col('.') - 1:-1]
+  let char = char2nr(getline('.')[col('.')-1:-1])->nr2char()
+  let output = 'No Char Info'
+
   if IsSfSymbol(char)
     let info = GetSfSymbolInfo(char)
-    return [''..info.symbol..' '..info.code..' '..info.name..'']
+    let output = ''..info['symbol']..
+          \ ' '..info['code']..
+          \ ' '..info['name']..' (SFSymbol)'
   else
+    " TODO implement similar in ./unicode.vim and remove dep.
+    if !exists('g:autoloaded_characterize')
+      " Characterize's autoload uses redir, which can't be nested
+      silent exec 'Characterize'
+    endif
+    let v:errmsg = ''
     redir => output
-    silent exec ':Characterize'
+      silent exec 'Characterize '..char
     redir END
-    return [output]
+    if v:errmsg != ''
+      echom 'Error running Characterize: '..v:errmsg
+      let output = 'Char Info Err'
+    else
+      let output = trim(output)->split(', ')[1]
+    endif
   endif
+  return [output]
 endfunc
 
 
+" Follow links to the end (or until detecting a loop)
 function s:GetLinkChain(name)
-  " Follow links to the end
-  " (or until detecting a loop)
   let chain = []
   let lastName = a:name
   while lastName != ''
@@ -81,20 +100,23 @@ endfunc
 " join(chain, '▶︎▬ᷞ▬ͥ▬ᷠ▬ᷜ▶︎') join(chain, ' ▬▶︎ ') join(chain, ' -> ') join(chain, ' ʟɪɴ͢ᴋ ')
 "
 "  􀯭 􀯮 􀯯 􁉽 􁋼 􁉼 􁋽 􁋛 􁋜 􀯰 􁌅 􀯱 􀯲 􀯳 􁊕
-"􀅓
-"􀅔
+"􀅓􀅔
+"
 "􀅕
 "􀅖
 "􀨡
 "􀅗
-"􀅘
+"􀅘􀅔
+"
+"
+"
 " ⎛                                       ⎞
 " ⎢ ᴅ  1234: cssUrlFunction  S️tatement  ⎥
 " ⎢  ᴄ  567: cssAttrRegion                           ⎥
 " ⎢  ᴄ   89: cssDefinition                           ⎥
 " ⎝                        Synstack @ Row 62 Col 39  ⎠
 "
-" ⎛            fg:#aabbcc bg:#227788                       ⎞
+" ⎛ Synstack   fg:#aabbcc bg:#227788 sp: #445566           ⎞
 " ⎢    1234: cssUrlFunction ───►️ Statement #aabbcc #227788 ⎥
 " ⎢ ᴅ  1234: cssUrlFunction ─2︎⃣╶►️ Statement                 ⎥
 " ⎢  ᴄ  567: cssAttrRegion                  ⎥
@@ -129,44 +151,61 @@ endfunc
           
 "                                           
 function! s:UpdateSynStackBuffer(winid)     
-  let bufnr = winbufnr(a:winid)             
-                                            
-  call setbufline(bufnr, 1, 'No Highlighting Here')
-  call setbufline(bufnr, 2, '')
-
-  let stack = map(synstack(line('.'), col('.')), 'hlget(synIDattr(v:val, "name"))[0]')
-
+  let bufnr = winbufnr(a:winid)
+  let default1 = 'No Highlighting Here'
+  let default2 = ''
+  let alt1 = 'Synstack Unavailable'
   let i = 1
-  let longest = 0
-  for val in reverse(stack)
-    let res = ""
-    if (get(val, 'cleared'))
-      let res = 'ᴄ' .. res
-    else
-      let res = ' ' .. res
-    endif
-    if (get(val, 'default'))
-      let res = 'ᴅ' .. res
-    else
-      let res = ' ' .. res
-    endif
-    let res = res .. printf('%5S: ', val.id)
-  "                                                                        TODO
-  "                              Hide intermediate links in chain to save space
-    if (get(val, 'linksto', "") != "")
-      let chain = s:GetLinkChain(val.name)
-      let matchids = mapnew(chain, {i, link -> win_execute(a:winid, 'call matchadd('''..link..''', ''\<'..link..'\>'')'  )})
-      let res = res .. join(chain, ' ⫘⃗  ')
-    else
-      let res = res .. val.name
-    endif
-    let res = res .. ''
-    call setbufline(bufnr, i, res)
-    let longest = max([longest, strwidth(res)])
-    let i = i + 1
-  endfor
-  "                                                     TODO
-  "              Add info about character at cursor position
+  " Be better to make an array and then write               TODO
+  " the buffer all at once (and handle justifying text)
+  " Would also permit breaking this long function up into bits
+  let longest = max([strwidth(default1), strwidth(default2)])
+                                            
+  call setbufline(bufnr, 1, default1)
+  call setbufline(bufnr, 2, default2)
+
+  if !exists("*synstack")
+    call setbufline(bufnr, 1, alt1)
+  else
+    let stack = map(synstack(line('.'), col('.')),
+          \ 'hlget(synIDattr(v:val, "name"))[0]')
+
+    for val in reverse(stack)
+      let res = ""
+      if (get(val, 'cleared'))
+        let res = 'ᴄ' .. res
+      else
+        let res = ' ' .. res
+      endif
+      if (get(val, 'default'))
+        let res = 'ᴅ' .. res
+      else
+        let res = ' ' .. res
+      endif
+      let res = res .. printf('%5S: ', val.id)
+    " Hide intermediate links in chain to save space?       TODO
+      if (get(val, 'linksto', "") != "")
+        let chain = s:GetLinkChain(val.name)
+        let matchids = mapnew(chain,
+              \ {i, link -> 
+              \  win_execute(a:winid,
+              \   'call matchadd('''..link..''', ''\<'..link..'\>'')'  )})
+        let res = res .. join(chain, ' '..s:symbol_linksto..' ')
+      else
+        let res = res .. val.name
+      endif
+      let res = res .. ''
+      call setbufline(bufnr, i, res)
+      let longest = max([longest, strwidth(res)])
+      let i = i + 1
+    endfor
+  endif
+  "
+  " Get info about character under cursor
+  " let charinfo = printf('%'..longest..'S', ExecAndReturn('Characterize'))
+  let [charinfo] = s:GetCharacterInfo()
+  let longest = max([longest, strwidth(charinfo)])
+  call setbufline(bufnr, max([3, i]), l:charinfo)
   "
   let cc = charcol('.')
   let vc = virtcol('.')
@@ -181,7 +220,7 @@ function! s:UpdateSynStackBuffer(winid)
         \ cc == bc ? '' : printf('(%s)', byte))
   let title = printf('%'..longest..'S', numbers)
   " let title = printf('%'..longest..'S', printf(' SynStack @ Row %s Col %s (V %s H %s)', line('.'), col('.'), virtcol('.'), charcol('.')))
-  call setbufline(bufnr, max([3, i]), title)
+  call setbufline(bufnr, max([4, i + 1]), title)
 endfunc
 
 function s:SynStackPopupFilter(winid, key)
@@ -200,13 +239,7 @@ function s:SynStackPopupFilter(winid, key)
 endfunc
 
 function s:SynStack()
-  if !exists("*synstack")
-    return
-  endif
-
   if empty(popup_getpos(get(w:, 'mayhem_synstack_popid', 0)))
-    echom 'no existing popup, make a new one'
-
     let w:mayhem_synstack_popid = popup_create('', #{
           \ pos: 'topleft',
           \ line: 'cursor+2',
@@ -221,24 +254,25 @@ function s:SynStack()
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'],
           \ moved: 'any',
           \ filter: 's:SynStackPopupFilter',
-          \ filtermode: 'n'
+          \ filtermode: 'n',
+          \ title: ' ★ '
           \ })
   else
-    echom 're-using existing popup'
-    popup_move(w:mayhem_synstack_popid, #{
+    call popup_move(w:mayhem_synstack_popid, #{
           \ pos: 'topleft',
           \ line: 'cursor+2',
           \ col: 'cursor',
           \ minwidth: 30,
           \ maxwidth: 80,
           \ minheight: 3,
+          \ title: ''
           \ })
   endif
 
   call s:UpdateSynStackBuffer(w:mayhem_synstack_popid)
 endfunc
 
-command! SynStack call <SID>SynStack()
+command! -bar SynStack call <SID>SynStack()
 
 command! SynStackBuf vsp|enew|call <SID>UpdateSynStackBuffer(winnr())
 
@@ -252,7 +286,7 @@ endfunc
 function! s:SynStackSetup() abort
   augroup MayhemSynStack
     autocmd!
-    if s:mayhem_synstack_enabled == 1
+    if exists(w:mayhem_synstack_enabled)
       autocmd CursorHold * if w:mayhem_synstack_enabled == 1 | call s:SynStack() | else |call s:SynStackClose() | endif
     endif
   augroup END
@@ -282,23 +316,9 @@ command! -nargs=? SynStackToggle call <SID>SynStackToggle(<f-args>)
 command! HighlightThis hi <c-r><c-w>
 
 
-"
-" Execute a command and paste the result into the current buffer
-"
-function! ExecAndPut(command)
-    redir => output
-    silent exec a:command
-    redir END
-    let @o = output
-    execute "put o"
-    return ''
-endfunc
-
-
 " Insert a highlight entry for the current word
 command! ExpandHlGroup call ExecAndPut('hi '..expand("<cword>"))
 
-nnoremap <expr> §`i ExecAndPut('hi '..<c-r><c-w>)
 
 function! JumpToHighlightDefinition(hlname = expand("cword"))
   let file = ''

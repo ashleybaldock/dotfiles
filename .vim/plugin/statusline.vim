@@ -317,48 +317,56 @@ function s:Update_FileInfo()
       "   \ '%{&modified?&modifiable?"+":"⨁":""}']
       let b:mayhem.sl_cached_filename = [
         \ '%#SlFDfSvNmC#Saved('..diffname..')%* '..
-        \ '%{&modified?&modifiable?"􀑍":"􀴥􀍼":""}',
+        \ '%{&modifiable?&modified?"+":"":"􀍼"}',
         \ '%#SlFDfSvNmN#Saved('..diffname..')%* '..
-        \ '%{&modified?&modifiable?"􀑍":"􀴥􀍼":""}']
+        \ '%{&modified?&modifiable?"+":"":"􀍼"}',
+        \ '']
     else
       let b:mayhem.sl_cached_filename = [
         \ '%#SlFNoNameC#nameless%* '..
-        \ '%{&modified?&modifiable?"􀑍":"􀴥":""}',
+        \ '%{&modifiable?&modified?"+":"":"􁝊"}',
         \ '%#SlFNoNameN#nameless%* '..
-        \ '%{&modified?&modifiable?"􀑍":"􀴥":""}']
+        \ '%{&modifiable?&modified?"+":"":"􁝊"}',
+        \ '']
     endif
   else
+        " \ '%{&modifiable?&modified?"+":"":"-"}',
     if s:TypeMatchesFilename(type, expand('%'))
       let b:mayhem.sl_cached_filename = [
         \ '%{%CheckRO()%}%#SlFNameC#'..name..
         \ '.%#SlFTypExtC#'..ext..'%* '..
-        \ '%{&modified?&modifiable?"+":"⨁":""}',
+        \ '%{&modifiable?&modified?"+":"":"􀍼"}',
         \ '%{%CheckRO()%}%#SlFNameN#'..name..
         \ '.%#SlFTypExtN#'..ext..'%* '..
-        \ '%{&modified?&modifiable?"+":"⨁":""}']
+        \ '%{&modifiable?&modified?"+":"":"􀍼"}',
+        \ '']
       let b:mayhem.sl_cached_fileinfo = [
         \ '%#SlFTyp2C#'..type..'%*',
         \ '%#SlFTyp2N#'..type..'%*']
     else
       let b:mayhem.sl_cached_filename = [
         \ '%{%CheckRO()%}%#SlFNameC#'..tail..'%* '..
-        \ '%{&modified?&modifiable?"+":"⨁":""}',
+        \ '%{&modifiable?&modified?"+":"":"-"}',
         \ '%{%CheckRO()%}%#SlFNameN#'..tail..'%* '..
-        \ '%{&modified?&modifiable?"+":"⨁":""}']
+        \ '%{&modifiable?&modified?"+":"":"-"}',
+        \ '']
       let b:mayhem.sl_cached_fileinfo = [
         \ '%#SlFTyp2C#'..type..'%*',
-        \ '%#SlFTyp2N#'..type..'%*']
+        \ '%#SlFTyp2N#'..type..'%*',
+        \ '']
     endif
   endif
 
   if type == ''
     let b:mayhem.sl_cached_fileinfo = [
       \ '%#SlFTyp2C#typeless%*',
-      \ '%#SlFTyp2N#typeless%*']
+      \ '%#SlFTyp2N#typeless%*',
+      \ '']
   else
     let b:mayhem.sl_cached_fileinfo = [
       \ '%#SlFTyp2C#'..type..'%*',
-      \ '%#SlFTyp2N#'..type..'%*']
+      \ '%#SlFTyp2N#'..type..'%*',
+      \ '']
   endif
 endfunc
 
@@ -504,7 +512,7 @@ function s:SetStatusVars()
   let b:mayhem.sl_normC = get(b:mayhem, 'sl_normC', '')
   let b:mayhem.sl_normN = get(b:mayhem, 'sl_normN', '')
 
-  let b:mayhem.f_projroot = ProjectRoot()
+  let b:mayhem.f_projroot = get(ProjectRoot(), 'path')
   " let b:mayhem.f_full = expand('%')
   let b:mayhem.f_tail = expand('%:t')
   let b:mayhem.f_head = expand('%:p:h')
@@ -531,13 +539,13 @@ function s:UpdateStatuslines() abort
   " Separate: %= ║ L%=Mid%=R ┃ L          Mid          R ┃
 
   let g:mayhem['sl_norm'] = [
-        \ '%{%ChGit()%} %{%ChFName()%} %#SlSepC#%<%=%*'..
+        \ '%{%ChGit()%} %{%ChFName()%} %#SlSepC#%=%*%<'..
         \ '%{%Diffing()%}'..
         \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)'..
         \ '%{%ChFInfo()%} %{%ScrollHint()%}'..
         \ ' %{%ChDiag()%}',
         \
-        \ '%{%ChGit()%} %{%ChFName()%} %#SlSepN#%<%=%*'..
+        \ '%{%ChGit()%} %{%ChFName()%} %#SlSepN#%=%*%<'..
         \ '%{%Diffing()%}'..
         \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)'..
         \ '%{%ChFInfo()%} %{%ScrollHint()%}'..

@@ -23,7 +23,7 @@ call setcellwidths([[s:sfrange_start, s:sfrange_end, 2]])
 " Uses a compiled Vim9 function for speed
 def GenSymbols()
   setline(1, '╔════════════════╗')
-	setline(2, '║   SF Symbols   ║')
+  setline(2, '║   SF Symbols   ║')
   setline(3, '╚════════════════╝')
   setline(4, 'codepoint  w  ⎣12⎦')
   setline(5, '╶╴╶╴╶╴╶╴╶╴╶╴╶╴⎟╶╴⎜')

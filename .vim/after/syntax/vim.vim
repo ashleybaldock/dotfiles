@@ -59,3 +59,6 @@ hi def vimHiAttrStand  guifg=ywnormf gui=standout
 hi def vimHiAttrNoCom  guifg=ywnormf gui=nocombine    
 hi def vimHiAttrNONE   guifg=#009999 gui=none          
 
+syn keyword vimCommand macm[enu] skipwhite nextgroup=@vimMenuList
+
+syn keyword vimCommand maca[ction]

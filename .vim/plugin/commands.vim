@@ -157,15 +157,15 @@ augroup END
   "       \ --args -c 'delay 500m<CR>'
   "       \ -c 'echom testing<CR>'
   "       \ -c 'so /Users/ashley/tmp/vimpipe<CR>'
-function s:ReopenSessionInNewPane()
-  let pipe = shellescape(expand('$HOME/tmp/vimpipe'))
-  exec '!rm '..pipe
-  exec '!mkfifo '..pipe
-  exec '!open --env VFR="'..shellescape(v:servername)..'" -a ''/Applications/MacVim.app/Contents/bin/mvim'' --args -c ''echom get(environ(), "VFR", "UNKNOWN")'' -c ''so '..pipe..''''
-  exec 'mksession!'..pipe
-endfunc
+" function s:ReopenSessionInNewPane()
+"   let pipe = shellescape(expand('$HOME/tmp/vimpipe'))
+"   exec '!rm '..pipe
+"   exec '!mkfifo '..pipe
+"   exec '!open --env VFR="'..shellescape(v:servername)..'" -a ''/Applications/MacVim.app/Contents/bin/mvim'' --args -c ''echom get(environ(), "VFR", "UNKNOWN")'' -c ''so '..pipe..''''
+"   exec 'mksession!'..pipe
+" endfunc
 
-command! MoveToNewPane :call <SID>ReopenSessionInNewPane()
+" command! MoveToNewPane :call <SID>ReopenSessionInNewPane()
 
 
 function! Todo()

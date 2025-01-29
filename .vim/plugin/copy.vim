@@ -3,50 +3,57 @@ if exists("g:mayhem_loaded_copy")
 endif
 let g:mayhem_loaded_copy = 1
 
-" ╭────────────────────────────────╮
-" ╰─◯  Copy Things ◯─╮             │
-"                    ╰ See also:   │
-"           $y in ./shortcuts.vim  │
+" ╭───────────────────────────────●
+" │
+" ╰─◯  Copy Things ◯───────────────╮
+"                                  │
+"    See Also:                     │
+"     $y in ./shortcuts.vim        │
+"           ./redir.vim            │
+"                                  │
 " ╭────────────────────────────────╯
 " │
 " ╰─╴filesystem
 " ╎   ├─▶︎ full path
-command! CopyPath let @+ = expand("%:p")
+command! -bar CopyPath let @+ = expand("%:p")
 " ╎   ╰─▶︎ full path
-command! CopyFilename let @+ = expand("%:t")
+command! -bar CopyFilename let @+ = expand("%:t")
 " ╎
 " ╰─╴git
 " ╎   ├─▶︎ branch
-command! CopyGitBranch let @+ = FugitiveHead()
-" ╎   ╰─▶︎ diff                                      TODO
-command! CopyGitDiff let @+ = 'TODO'
+command! -bar CopyGitBranch let @+ = FugitiveHead()
+" ╎   ╰─▶︎ diff
+command! -bar CopyGitDiff let @+ = 'TODO'
 " ╎
 " ╰─╴current buffer
-" ╎   ├─▶︎ info                                      TODO
-command! CopyBufferInfo let @+ = 'TODO'
-" ╎   ├─▶︎ contents                                  TODO
-command! CopyBuffer let @+ = 'TODO'
+" ╎   ├─▶︎ info
+command! -bar CopyBufferInfo let @+ = 'TODO'
+" ╎   ├─▶︎ contents
+command! -bar -nargs=? -range=% CopyBuffer let @+ = getbufline(bufname(<q-args>), <line1>, <line2>)->join("\n")
 " ╎
 " ╰─╴cursor
 " ╎   ├─▶︎ unicode info from Characterize
-command!  -nargs=? CopyCharacterize redir @+>| Characterize <args> | redir END
-" ╎   ├─▶︎ unicode char name                         TODO
-" :command!  -nargs=? CopyCharacterize redir @+>| Characterize <args> | redir END
-" ╎   ╰─▶︎ unicode info, character codepoint         TODO
-command! CopyCharCode let @+ = 'TODO'
+command! -nargs=? CopyCharacterize redir @+>| Characterize <args> | redir END
+" ╎   ├─▶︎ unicode info, character codepoint
+command! -nargs=? CopyCharCode redir @+>| GetCharCode <args> | redir END
+" ╎   ╰─▶︎ unicode info, character codepoint
+command! -nargs=? CopyCharCodeMatch redir @+>| GetCharCodeMatch <args> | redir END
 " ╎
 " ╰─╴search
 " ╎   ╰─▶︎ last
-command! CopyLastSearch let @+=@/
+command! -bar CopyLastSearch let @+=@/
 " ╎
 " ╰─╴Coc
 " ╎   ├─▶︎ Last diagnostic message
-command! CopyDiagnostic redir @+>| silent echo CocAction('diagnosticInfo', 'echo') | redir END
+command! -bar CopyDiagnostic let @+ = CocAction('diagnosticInfo', 'echo')->join("\n").."\n"
 " ╎   ├─▶︎ Last hover window message
-command! CopyHoverInfo redir @+>| silent echo CocAction('getHover') | redir END
+command! -bar CopyHoverInfo let @+ = CocAction('getHover')->join("\n").."\n"
 " ╎   ╰─▶︎ Last location jump list
-command! CopyLastJumpList let @+ = get(g:last_coc_jump_locations)
+command! -bar CopyLastJumpList let @+ = get(g:last_coc_jump_locations)
 " ╎
 " ╰─╴Vim/Debug
 " ╎   ├─▶︎ Messages
-command! CopyMessages redir @+>| silent messages | redir END
+command! -bar CopyMessages silent call ExecToRegister('silent messages', '+')
+
+"
+command! -nargs=? CopyExec silent call ExecToRegister(<q-args>, '+')

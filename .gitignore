@@ -25,6 +25,7 @@
 bin/test/*
 bin/HandBrakeCLI
 
+res/vm/fix/*
 res/_old/*
 res/data/*
 res/icons/osx/*.svg

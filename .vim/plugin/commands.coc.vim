@@ -31,17 +31,17 @@ endfunc
 "
 " Diagnostics:
 "
-function s:WorstDiagnosticSeverity()
+function s:WorstDiagnosticSeverity() abort
   let diaginfo = get(b:, 'coc_diagnostic_info', {})
   return get(diaginfo, 'error', 0) > 0 ? 'error' :
        \ get(diaginfo, 'warning', 0) > 0 ? 'warning' :
        \ get(diaginfo, 'hint', 0) > 0 ? 'hint' :
        \ get(diaginfo, 'information', 0) > 0 ? 'information' : ''
 endfunc
-function s:PrevWorstDiagnostic()
+function s:PrevWorstDiagnostic() abort
   return CocActionAsync('diagnosticPrevious', s:WorstDiagnosticSeverity())
 endfunc
-function s:NextWorstDiagnostic()
+function s:NextWorstDiagnostic() abort
   return CocActionAsync('diagnosticNext', s:WorstDiagnosticSeverity())
 endfunc
 

@@ -1,9 +1,4 @@
 
-
-" function! s:MenuBuild()
-"   call popup_notification("      🙈 🙉 🙊", #{ line: 2, col: 10, highlight: 'ToolbarLine', time: 2000} )
-" endfunc
-
 if empty(&guitablabel)
   set guitablabel=%M%t
 endif
@@ -33,10 +28,10 @@ DynamicToolBar
 " macm File.New\ Clean\ Window\ (No\ Defaults)      key=<Nop>
 
 "                                                             - Unbind <D-t>
-macm File.New\ Tab key=<Nop>
+macm File.New\ Tab                                key=<Nop>
 
 "                                                             - Unbind <D-o>
-macm File.Open… key=<Nop>
+macm File.Open…                                   key=<Nop>
 
 "                                                             - Unbind <D-T>
 macm File.Open\ Tab\.\.\.<Tab>:tabnew             key=<Nop>
@@ -152,3 +147,82 @@ xmap <D-/> gc
 "  is comment: uncomment surrounding block
 "  else: comment line
 nmap <D-M-/> gcgc
+
+
+
+" HIG Cmd and Option movement mappings 
+if has("gui_macvim")
+" ▌️⌘️ 􁾱  ▐️────▷ Move to ends
+  noremap   <D-Up>     <C-Home>
+  noremap   <D-Right>  <End>
+  noremap!  <D-Right>  <End>
+  noremap   <D-Down>   <C-End>
+  noremap   <D-Left>   <Home>
+  noremap!  <D-Left>   <Home>
+
+  inoremap  <D-BS>         <C-u>
+" ▌️⌘️ 􁾲  ▐️────▷ Jump to top of PUM
+  inoremap <expr> <D-Up>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-Home>"
+" ▌️⌘️ 􁾵  ▐️────▷ Accept selection + exit PUM
+  inoremap <expr> <D-Right>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-Home>"
+" ▌️⌘️ 􁾳  ▐️────▷ Jump to end of PUM
+  inoremap <expr> <D-Down>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
+" ▌️⌘️ 􁾴  ▐️────▷ Cancel out of PUM
+  inoremap <expr> <D-Left>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-Home>"
+
+" ▌️⌥️ 􁾱  ▐️────▷ Move in steps
+  noremap <M-Up> {
+  noremap <M-Right> <C-Right>
+  noremap! <M-Right> <C-Right>
+  noremap <M-Down> }
+  noremap <M-Left> <C-Left>
+  noremap! <M-Left> <C-Left>
+
+  inoremap <M-BS> <C-w>
+
+" ▌️⌥️ 􁾲  ▐️────▷ Jump up a page in PUM listing
+  inoremap <expr> <M-Up> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>"
+" ▌️⌥️ 􁾵  ▐️────▷ Select part of path in PUM + prompt for next part
+  inoremap <expr> <M-Right> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-Home>"
+" ▌️⌥️ 􁾳  ▐️────▷ Jump down a page in PUM listing
+  inoremap <expr> <M-Down> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
+" ▌️⌥️ 􁾴  ▐️────▷ Jump up a level in path, and reselect
+  inoremap <expr> <M-Left> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>}"
+endif
+
+" ^X  open
+" ^P  prev (preview inline)
+" ^N  next (preview inline)
+" ^Y  accept
+" ^E  cancel
+
+
+
+" if has("gui_macvim")
+  " Shift + special movement key (<S-Left>, etc.) and mouse starts insert mode
+  " set selectmode=mouse,key
+  " set keymodel=startsel,stopsel
+
+  " nn   <S-D-Left>     <S-Home>
+  " vn   <S-D-Left>     <S-Home>
+  " ino  <S-D-Left>     <S-Home>
+  " nn   <S-M-Left>     <S-C-Left>
+  " vn   <S-M-Left>     <S-C-Left>
+  " ino  <S-M-Left>     <S-C-Left>
+
+  " nn   <S-D-Right>    <S-End>
+  " vn   <S-D-Right>    <S-End>
+  " ino  <S-D-Right>    <S-End>
+  " nn   <S-M-Right>    <S-C-Right>
+  " vn   <S-M-Right>    <S-C-Right>
+  " ino  <S-M-Right>    <S-C-Right>
+
+  " nn   <S-D-Up>       <S-C-Home>
+  " vn   <S-D-Up>       <S-C-Home>
+  " ino  <S-D-Up>       <S-C-Home>
+
+  " nn   <S-D-Down>     <S-C-End>
+  " vn   <S-D-Down>     <S-C-End>
+  " ino  <S-D-Down>     <S-C-End>
+" endif
+

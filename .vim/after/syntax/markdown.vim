@@ -41,8 +41,8 @@ hi def mdEscapedBoldDelimiter guifg=#dd5555 guibg=#222222
 syn match mdConcealedEscape "\\" conceal
 
 syn match mdQuotePrefix +^>+ contained contains=NONE conceal cchar=┃
-syn match mdAlertConceal +\[\!+ cchar=◢ contained contains=NONE conceal
-syn match mdAlertConceal +\]+ cchar=◣ contained contains=NONE conceal
+syn match mdAlertConceal +\[\!+ cchar=◣ contained contains=NONE conceal
+syn match mdAlertConceal +\]+ cchar=◢ contained contains=NONE conceal
 
 
 syn region mdAlert

@@ -77,33 +77,52 @@
   --hint-inline-thickness: 2px;
   --hint-offset: 4px;
   --hint-sides-thickness: 1px;
-  --🟦: var(--hint-inline-thickness);
-  --🔵: calc(var(--hint-inline-thickness) * -1);
-  --➕🔸: var(--hint-offset);
-  --➖🔸: calc(var(--hint-offset) * -1);
-  --➖⏪️: calc(var(--b) * (var(--➖🔸) - var(--hint-sides-thickness)));
-  --➕⏪️: calc(var(--¬b) * (var(--➕🔸) + var(--hint-sides-thickness)));
-  --⏩️: calc(var(--a) * (var(--➖🔸) - var(--hint-sides-thickness)));
-  --⏩️: calc(var(--¬a) * (var(--➕🔸) + var(--hint-sides-thickness)));
+
+  --ᐩhf: var(--hint-offset);
+  --ᐨhf: calc(var(--hint-offset) * -1);
+  --ᐨhs: calc(var(--b) * (var(--ᐨhf) - var(--hint-sides-thickness)));
+  --ᐩhs: calc(var(--¬b) * (var(--ᐩhf) + var(--hint-sides-thickness)));
+  --ᐨ⏩️: calc(
+    var(--a) * (var(--ᐨhf) var(--ᐨhf) - var(--hint-sides-thickness))
+  );
+  --⏩️: calc(var(--¬a) * (var(--ᐩhf) + var(--hint-sides-thickness)));
   --⏫️: calc(var(--hint-inline-thickness) * -1);
   --⏬️: var(--hint-inline-thickness);
   --🔴: calc(var(--hint-sides-thickness) * -1);
 
   /* prettier-ignore */
   box-shadow:
-      0                             calc(var(--b) * var(--⏬️))  0 0           var(--bd0),
-      calc(var(--b) * var(--⏪️🔸))  var(--➕🔸)                 0 var(--➖🔸) var(--bs0),
-      0                             calc(var(--¬b) * var(--⏫️)) 0 0           var(--bd1),
-      calc(var(--¬b) * var(--⏪️🔸)) var(--➕🔸)                 0 var(--➖🔸) var(--bs1),
+                       0  calc(var(--b) * var(--⏬️))  0 0      var(--bd0),
+       calc(var(--b) * var(--⏪️🔸))  var(--ᐩhf)           0 var(--ᐨhf) var(--bs0),
+                       0  calc(var(--¬b) * var(--⏫️)) 0 0      var(--bd1),
+      calc(var(--¬b) * var(--⏪️🔸))  var(--ᐩhf)           0 var(--ᐨhf) var(--bs1),
 inset 8px 0 0 0 var(--background-color),
-inset 0                             calc(var(--a) * var(--⏫️))  0 0            var(--bd0),
-      calc(var(--a) * var(--⏩️🔸))  var(--➖🔸)                 0 var(--➖🔸)  var(--bs0),
-inset 0                             calc(var(--¬a) * var(--⏬️)) 0 0            var(--bd1),
-      calc(var(--¬a) * var(--⏩️🔸)) var(--➖🔸)                 0 var(--➖🔸)  var(--bs1),
+inset 0                   calc(var(--a) * var(--⏫️))  0 0      var(--bd0),
+       calc(var(--a) * var(--⏩️🔸))   var(--ᐨhf)          0 var(--ᐨhf) var(--bs0),
+inset 0                   calc(var(--¬a) * var(--⏬️)) 0 0      var(--bd1),
+       calc(var(--¬a) * var(--⏩️🔸))  var(--ᐨhf)          0 var(--ᐨhf) var(--bs1),
 inset -8px 0 0 0 var(--background-color), 0 0;
 }
 .mw-content-ltr .toc :is(.toclevel-3, .toclevel-2, .toclevel-1) > a {
   background-color: transparent;
+  --ᗕ: var(--˾hf) var(--˽hf) var(--ᐅhf) var(--ᐝhf) var(--ᐜhf) var(--ᐨhf)
+    var(--ᐩhf) var(--ᐦhf) var(--ᙿhf) var(--᐀hf) \var(--ᐥhf) var(--ᐟhf) var(
+      --ᐠhf
+    ) var(--ᐞhf) var(--ᐪhf) var(--ᑦhf) var(--ᐣhf) var(--ᐡhf) var(--ᐢhf) var(
+      --ᣕhf
+    ) \var(--ᐤhf) var(--ᑉhf) var(--ᘁhf) var(--ᣔhf) var(--ˆhf) var(--ᣛhf)
+    var(--ᑋhf) var(--ᣖhf) var(--ᒃhf) var(--ᒄhf) \var(--ᣗhf) var(--ᒡhf) var(
+      --ᒢhf
+    ) var(--ᒻᣘᒼᒽᙆᒾᕐᓐᓑᓒᕻᓫᕑʷᙚᔆᕝ) var(--ᕽᔿᕁ) var(--ᕀ) var(--◹) var(--◸◿) var(--◺→) var(
+      --˯˰˱˲
+    ) var(--˹˺˻˼);
+  /* var(--+⨭hf⩱⩲) var(--⧿⧾ˌˌˌˈˈ̇ˈ̊) var(--ˣ̊⁺⁻⁼₊₋)) */
+  /* ⨦⨢⨣⨤⨥⨦⨧ */
+
+  --bbb: var(--𛰃hf) var(--𛲆hf) var(--𑁕hf) var(--𑁒hf) var(--𑁓hf) var(--𑁔hf)
+    var(--hf𑁔) var(--hf𑁓) var(--hf𑁒) var(--hf𑁕) \var(--hf) var(--ⳆⲺⳇ) var(--ˤ) var(
+      --↓hf
+    ) var(--ꜜhf) var(--ꜛhf) var(--↑hfˣ);
 }
 
 #toc.debug

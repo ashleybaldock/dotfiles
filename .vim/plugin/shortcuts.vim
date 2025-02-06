@@ -19,7 +19,7 @@ let g:mayhem_loaded_shortcuts = 1
 "  ‣ case-sensitive in mapping definition e.g. <D-e> != <D-E> 
 "  ‣ must be un-mapped in ../gvimrc before being redefined
 "
-
+ 
 " ▌️ ⌘️ E ▐️────▷ LH Enter
 cnoremap <D-e> <CR>
 nnoremap <D-e> <CR>
@@ -370,8 +370,11 @@ nnoremap §rs :w :so %<CR>
 " Source current buffer (doesn't refresh everything)
 nnoremap §re :so<CR>
 " Execute currently selected (visual)
+" TODO prompt for confirmation if not in a vim file, or not in ~/.vim/
 vmap §rr "xy:@x<CR>
 " Source current line
+" TODO prompt for confirmation if not in a vim file, or not in ~/.vim/
+" TODO skip any comment character at the start of the line
 nnoremap §rr :.,.so<CR>
 " nnoremap §rr :^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$
 " §

@@ -2,10 +2,88 @@
 " au BufWritePost <buffer> syn on
 "
 
+
+"
+" Infobox Ext Tags: <infobox></infobox>
+"
+
+" accent-color(-text|)-(source|default)
+"       
+" None
+" infobox;                      name layout type theme
+" title image header navigation data group panel
+"
+" <infobox>
+"   │      ┌╴<section>
+"   ┌──────┘─╴<group>
+" <image>                       name source  
+"   └╴<alt>╶──────┐                    source
+"   └╴<caption>╶┐ │                   source
+"   │           │ │
+"   │           │ └─╴<default>(wikiText:yes)
+"   └───────────└vv
+"   │ <title>   │ │─╴<format>(wikiText:yes)
+"   │           │ │
+"   │ <data>    │ │
+"   │           │ │
+
+" image
+" caption;              source
+" default
+" format
+
+" infobox group section
+" title;                source name
+" default format
+
+" infobox group section
+" data;                 source name layout span 
+" default label format
+
+" data section
+" label;
+" None
+
+" title data image alt caption
+" default;
+" None
+
+" title data caption
+" format;
+" None
+
+" infobox group section
+" group;                        name layout show collapse row-items 
+" data header image title group navigation panel
+
+" infobox group panel section
+" header;                       name
+" None
+
+" infobox group section
+" navigation;                   name
+" None
+
+" infobox group
+" panel;                        name
+" header section
+" 
+" panel
+" section;                      name
+" title data label image group header navigation
+
+
+
+
+
+
+
 syn keyword wikiInfBoxTagName contained title default format panel section label data image caption alt
 
-syn keyword wikiInfBoxAttrs contained theme source
-syn match wikiInfBoxAttrs +theme-source+ contained
+syn keyword wikiInfBoxAttrs contained layout name type class 
+syn match wikiInfBoxAttrs /theme\%(-source\)\?/ contained
+syn match wikiInfBoxAttrs /\(accent-color\%(-text\)\?\)-\(source\)\?/ contained
+
 
 syn region wikiInfBoxValue contained
       \ matchgroup=wikiInfBoxParens start=+=\s\+\z(['"]\)+ end=+\z1+
@@ -13,7 +91,7 @@ syn region wikiInfBoxValue contained
 syn region wikiInfBoxTag contained
       \ matchgroup=wikiInfBoxTagParen start=+<\ze[^!/]+
       \ end=+>+
-      \ contains=wikiInfBoxTagName,wikiInfBoxAttrs,htmlValue
+      \ contains=wikiInfBoxTagName,wikiInfBoxAttrs
 
 syn region wikiInfBoxEndTag contained
       \ matchgroup=wikiInfBoxTagParen start=+<\/+
@@ -23,61 +101,76 @@ syn region wikiInfBoxEndTag contained
 syn region wikiInfBoxDefault contained
       \ start=+<default[^>]*>+
       \ end=+\ze<\/default>+
-      \ contains=wikiInfBoxTag,wikiInfBoxEndTag,wikiText,wikiTempl,wikiParserFunc,wikiParam,htmlTag,htmlComment
+      \ contains=wikiInfBoxTag,wikiInfBoxEndTag,wikiText,wikiTl,wikiParserFunc,wikiParam,htmlTag,htmlEndTag,htmlComment
 
 syn region wikiInfBoxFormat contained
       \ start=+<format[^>]*>+
       \ end=+\ze<\/format>+
-      \ contains=wikiInfBoxTag,wikiInfBoxEndTag,wikiText,wikiTempl,wikiParserFunc,wikiParam,htmlTag,htmlComment
+      \ contains=wikiInfBoxTag,wikiInfBoxEndTag,wikiText,wikiTl,wikiParserFunc,wikiParam,htmlTag,htmlEndTag,htmlComment
 
 syn region wikiInfBoxLabel contained
       \ start=+<label[^>]*>+
       \ end=+\ze<\/label>+
-      \ contains=wikiInfBoxTag,wikiInfBoxEndTag,wikiText,wikiTempl,wikiParserFunc,wikiParam,htmlTag,htmlComment,wikiLink
+      \ contains=wikiInfBoxTag,wikiInfBoxEndTag,wikiText,wikiTl,wikiParserFunc,wikiParam,htmlTag,htmlEndTag,htmlComment,wikiLink
 
 syn region wikiInfBox start=+<infobox\>[^>]*>+ end=+<\/infobox>+ contains=wikiInfBoxTag,wikiInfBoxEndTag,wikiInfBoxDefault,wikiInfBoxLabel,wikiInfBoxFormat,htmlComment
 
 hi def wikiInfBoxTagParen guifg=#339449
-hi def wikiInfBoxTag guifg=#699911
 hi def wikiInfBoxTagName guifg=#aaaa33
 hi def wikiInfBoxAttrs guifg=#aa5920
 hi def wikiInfBoxValue guifg=#99bb33
 hi def wikiInfBoxParens guifg=#666666
 
-syn region wikiTempl
-      \ matchgroup=wikiTemplParens start="{{"
-      \ end="}}" 
-      \ contains=wikiNowiki,wikiNowikiEndTag,wikiTemplName,wikiTemplParam,wikiTempl,wikiParserFunc,wikiParam,wikiLink,htmlComment,wikiMagicVar
 
-syn match wikiTemplName +[^:]<=+ contained
-syn match wikiTemplParam +[^{|}]\++ contained
+"
+" Templates: {{Flex/Row}}
+"
+
+syn region wikiTl
+      \ matchgroup=wikiTlParens start="{{"
+      \ end="}}" 
+      \ contains=wikiTlName,wikiTlParams,wikiTlPDelim,wikiParserFunc,wikiTl,wikiParam
+      \ containedin=wikiTable
+
+syn match wikiTlParams +[^{|}]\++ contained contains=wikiTlPVal,wikiTlPDelim
+
+syn match wikiTlName +\%({{\)\@2<=[^|]\+\ze\%(|\|}}\)+ contained contains=wikiTlPathSep
+
+syn region wikiTlPVal contained
+      \ start="\%(|\)\@1<=\zs"
+      \ end="\ze\%(|\|}}\)" contains=wikiTlPName,wikiTlPSep,wikiTl,wikiParserFunc,wikiParam,@htmlTop,@wikiText,@Magic
+
+syn match wikiTlPName "\%(|\)\@1<=\s*\zs[^=|}]\{-1,}\ze\s*=" contained
+
+syn match wikiTlPathSep +/+ contained
+syn match wikiTlPSep +=+ contained
+syn match wikiTlPDelim +|+ contained
+
+syn cluster wikiText add=wikiTl remove=wikiTemplate
+
+hi def wikiTlParens  guifg=#ef0099
+hi def wikiTlName    guifg=#cc55ff
+hi def wikiTlPDelim  guifg=#ff0099
+hi def wikiTlPName   guifg=#cc88ff
+hi def wikiTlPVal    guifg=#eeeeff
+hi def wikiTlPSep    guifg=#aa44aa
+hi def wikiTlPathSep guifg=#ef0099
+
+
+"
+" Parser Functions: {{#Do|Something}}
+"
 
 syn region wikiParserFunc
-      \ containedin=wikiTemplate,wikiTableFormat,wikiTableNormalCell,wikiTableHeadingCell,wikiText
+      \ containedin=wikiTl,wikiTableFormat,wikiTableNormalCell,wikiTableHeadingCell,wikiText
       \ matchgroup=wikiParFuncParens start=+{{\ze#+ end=+}}+
-      \ contains=wikiParserFunc,wikiParFuncName,wikiParFuncParam,wikiParFuncDelim,wikiParam,wikiTempl,htmlComment,wikiMagicVar
+      \ contains=wikiParserFunc,wikiParFuncName,wikiParFuncParam,wikiParFuncDelim,wikiParam,wikiTl,htmlComment,@Magic
 
 syn match wikiParFuncName +#[^:{|}]\++ contained
 syn match wikiParFuncParam +\([:|]\)\@1<=[^{|}]\++ contained
 syn match wikiParFuncDelim +[:|]+ contained
 
-syn region wikiParam
-      \ matchgroup=wikiParamParens start="{{{"
-      \ end="}}}" 
-      \ contains=wikiParamName,wikiParamDefault,wikiParamDelim,wikiParam,wikiTempl,wikiParserFunc,htmlComment,wikiMagicVar
-
-syn match wikiParamName +\%({{{\)\@3<=[^{|}]\++ contained
-syn match wikiParamDefault +\%(|\)\@1<=[^{|}]\++ contained
-syn match wikiParamDelim +|+ contained
-
-hi def wikiParamParens guifg=#ffdd22
-hi def wikiParamName guifg=#ffee22
-hi def wikiParamDelim guifg=#ff8822
-
-hi def wikiTemplParens guifg=#ee99aa
-hi def wikiTemplName guifg=#ff0099
-hi def wikiTemplParam guifg=#9900dd
-hi def wikiTemplDelim guifg=#9900dd
+syn cluster wikiText add=wikiParserFunc
 
 hi def wikiParserFunc guifg=#0066aa
 hi def wikiParFuncParens guifg=#9944ee
@@ -85,6 +178,32 @@ hi def wikiParFuncName guifg=#0099ff
 hi def wikiParFuncParam guifg=#00ddee
 hi def wikiParFuncDelim guifg=#22ff77
 
+
+"
+" Parameters: {{{param}}}
+"
+
+syn region wikiParam
+      \ matchgroup=wikiParamParens start="{{{"
+      \ end="}}}" 
+      \ contains=wikiParamName,wikiParamDefault,wikiParamDelim,wikiParam,wikiTl,wikiParserFunc,htmlComment,wikiMagicVar
+
+syn match wikiParamName +\%({{{\)\@3<=[^{|}]\++ contained
+syn match wikiParamDefault +\%(|\)\@1<=[^{|}]\++ contained
+syn match wikiParamDelim +|+ contained
+
+syn cluster wikiText add=wikiTl remove=wikiTemplateParam
+
+hi def wikiParamParens guifg=#dd9922
+hi def wikiParamDelim guifg=#dd9922
+hi def wikiParamName guifg=#ffee22
+
+
+syn match wikiTableNormalCell /\(^|\|||\)\([^|]*|\)\?.*/ contains=wikiTableSeparator,@wikiText,wikiTableNormalFormat,@htmlTop
+
+"
+" Magic Words: __TOC__
+"
 
 syn match wikiMagicWord /__\%(NO\|FORCE\|\)TOC__/
 
@@ -105,7 +224,11 @@ syn match wikiMagicWord /__EXPECTUNUSED\%(CATEGORY\|EXPECTUNUSEDTEMPLATE\)__/
 " {{NOEXTERNALLANGLINKS}} 
 
 
-syn match wikiEscaped /{{[!=]}}/
+"
+" Magic Variables: {{{PAGENAME}}}
+"
+
+syn match wikiMagicChar /{{[!=]}}/
 
 syn match wikiMagicVar /{{CURRENT\%(YEAR\|MONTH\%(2\|1\|NAME\%(GEN\|\)\|ABBREV\|\)\|DAY\%(2\|NAME\|\)\|DOW\|TIME\%(STAMP\|\)\|HOUR\|WEEK\|VERSION\)}}/
 syn match wikiMagicVar /{{LOCAL\%(YEAR\|MONTH\|MONTH1\|MONTH2\|MONTHNAME\|MONTHNAMEGEN\|MONTHABBREV\|DAY\|DAY2\|DOW\|DAYNAME\|TIME\|HOUR\|WEEK\|TIMESTAMP\)}}/
@@ -118,8 +241,10 @@ syn match wikiMagicVar /{{\%(NAME\|SUBJECT\|ARTICLE\|TALK\)SPACEE\?}}/
 syn match wikiMagicVar /{{NAMESPACENUMBER}}/
 
 hi def wikiMagicVar guibg=#440022 guifg=#dd4499
-hi def wikiEscaped guibg=#440000 guifg=#ee1111
+hi def wikiMagicChar guibg=#440000 guifg=#ee1111
 hi def wikiMagicWord guibg=#440022 guifg=#ee0099
+
+syn cluster Magic add=wikiMagicVar,wikiMagicChar,wikiMagicWord
 
 
 " {{CASCADINGSOURCES}} expensive

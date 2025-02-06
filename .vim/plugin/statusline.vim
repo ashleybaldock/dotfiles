@@ -37,11 +37,6 @@ function FDotExt()
   return ext == '' ? '' : '.'..ext
 endfunc
 
-function! WinType() abort
-" (empty) = normal window, 'unknown' = not window
-" autocmd command loclist popup preview quickfix
-  let wintype = win_gettype()
-endfunc
 
 function! GetBestSymbols()
    return has("gui_macvim")
@@ -58,7 +53,8 @@ let s:symbols = GetBestSymbols()
 
 " TODO extend this to allow symbol lookup with list index e.g. for numbers
 function! GetSymbol(symbolpath, fallback = 'X!')
-  let lookup = split(a:symbolpath, '\.')->reduce({ acc, val -> get(acc, val, {})}, s:symbols)
+  let lookup = split(a:symbolpath, '\.')->reduce(
+        \{ acc, val -> get(acc, val, {})}, s:symbols)
   return empty(lookup) ? a:fallback : l:lookup
 endfunc
 
@@ -66,6 +62,79 @@ function ChDiag()
   return get(get(b:, 'mayhem', {}), 'sl_cache_diag', ['D?','DN'])[NC()]
 endfunc
 
+" AddSymbols('diag.numbers.S', ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ])
+" AddSymbols('diag.error.S'  , '⚑⃝ ')
+" AddSymbols('diag.warning.S', '!⃝ ')
+" AddSymbols('diag.ok.S'     , '✓⃝ ')
+" AddSymbols('diag.off.S'    , '?⃣ ')
+
+" AddSymbols('diag.numbers.8', ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ])
+" AddSymbols('diag.error.8'  , '⚑⃝ ')
+" AddSymbols('diag.warning.8', '!⃝ ')
+" AddSymbols('diag.ok.8'     , '✓⃝ ')
+" AddSymbols('diag.off.8'    , '?⃣ ')
+
+" Sym range def 'numbers.double'
+"       \ sf=􀔩􀔪􀔫􀔬􀔭􀔮􀔯􀔰􀔱􀔲􀔳􀔴􀔵􀔶􀔷􀔸􀔹􀔺􀔻􀔼􀔽􀔾􀔿􀕀􀕁􀕂􀕃􀕄􀕅􀕆􀕇􀘢􀚽􀚿􀛁􀛃􀛅􀛇􀛉􀛋􀛍􀛏􀛑􀛓􀛕􀛗􀛙􀛛􀛝􀛟􀛡
+"       \ u8=
+"       \ as=
+" Sym range def 'numbers.wide'
+"       \ sf=􀃈􀃊􀃌􀃎􀃐􀃒􀑵􀃖􀃘􀑷􀔳􀔴􀔵􀔶􀔷􀔸􀔹􀔺􀔻􀔼􀔽􀔾􀔿􀕀􀕁􀕂􀕃􀕄􀕅􀕆􀕇􀘢􀚽􀚿􀛁􀛃􀛅􀛇􀛉􀛋􀛍􀛏􀛑􀛓􀛕􀛗􀛙􀛛􀛝􀛟􀛡
+"       \ u8=0⃝ 1⃝ 2⃝ 3⃝ 4⃝ 5⃝ 6⃝ 7⃝ 8⃝ 9⃝ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳
+"       \ u8=⓪ ① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳
+"       \ u8=０⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛
+"       \ u8=〇⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇
+"       \ as=０１２３４５６７８９
+" ['', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+" Sym def diag.error   sf=􀋊️⃝ u8=⚑⃝  as=E   􀋉️⃝  􀋊️⃝ 􀋉⃝   
+" Sym def diag.warning sf=􀢒️⃝ u8=!⃝  as=W  􀋍️⃝  􀋎️⃝  􀋍 􀋎⃤︎
+" Sym def diag.ok      sf=􀆅️⃝ u8=✓⃝  as=O  􀤔􀤔⃝ 􀤔️⃝ 􀤔︎⃝  􀤕􀤕⃝ 􀤕️⃝ 􀤕︎⃝  
+" Sym def diag.off     sf=􀅍️⃝ u8=?⃣  as=X
+"
+" 􀆅️⃝  􀁢️⃝ 􀋙️⃝ 􀋝️⃝ 􀋚️⃝ 􀋞️⃝
+"
+" 􁑣️⃝  􀅍️⃝  􀢒️⃝
+"
+" AddSymbols('warning' '',
+" AddSymbols('ok'      'Ø',
+" AddSymbols('off'     '¿',
+"
+" 􀋙⃞︎   􀋝⃞︎  􀋙️⃝ 􀋝️⃝ 􁄤️⃝
+"   
+" 􀋚︎􀋞︎ 􀋚️⃝ 􀋞️⃝ 􁄠️⃝
+" 􀃮􀃯􀃬􀃭􀃰 􀃱􀃲􀃳􀤘⃞︎ 􀤙 
+" 
+" 􀀹️⃝􀀻️⃝􀀽️⃝􀀿️⃝􀁁️⃝􀘘️⃝􀁃️⃝􀁅️⃝􀔊️⃝􀔋️⃝􀔌️⃝􀔍️⃝􀔎️⃝􀔏️⃝􀔐️⃝􀔑️⃝􀔒️⃝􀔓️⃝􀔔️⃝
+" 􀀸️⃝􀀺️⃝􀀼️⃝􀀾️⃝􀁀️⃝􀘗️⃝􀁂️⃝􀁄️⃝􀓫️⃝􀓬️⃝􀓭️⃝􀓮️⃝􀓯️⃝􀓰️⃝􀓱️⃝􀓲️⃝􀓳️⃝􀓴️⃝􀓵️⃝
+" 􀃈️⃝􀃊️⃝􀃌️⃝􀃎️⃝􀃐️⃝􀘙️⃝􀃒️⃝􀃔️⃝􀔩️⃝􀔪️⃝􀔫️⃝􀔬️⃝􀔭️⃝􀔮️⃝􀔯️⃝􀔰️⃝􀔱️⃝􀔲️⃝􀔳️⃝
+" 􀃋️⃝􀃍️⃝􀃏️⃝􀃑️⃝􀘚️⃝􀃓️⃝􀃕️⃝􀕈️⃝􀕉️⃝􀕊️⃝􀕋️⃝􀕌️⃝􀕍️⃝􀕎️⃝􀕏️⃝􀕐️⃝􀕑️⃝􀕒️⃝
+
+"  􀓄️⃝  􀄦️⃝  􀖄️⃝  􀅈️⃝      􀧐️⃝ 􀄪️⃝ 􀅎️⃝ 􀅍️⃝ 􀒆️⃝ 􀅼️⃝ 􀅽️⃝ 􀅬️⃝ 
+"    􀓅️⃝  􀄧️⃝  􀖅️⃝     􀅉️⃝ 􀬑️⃝        􀢒️⃝  􀅳️⃝     􀥋⃝ 
+"           􀙠️⃝ 􀅊️⃝ 􀄾️⃝     􀄫️⃝     􀣴️⃝   􀅷️⃝     􀘽⃝ 
+"  􀓂️⃝  􀄤️⃝ 􀙡️⃝ 􀱶️⃝     􀑹️⃝                􀘾️⃝  
+"  􀓃️⃝  􀄥️⃝   􂄝️⃝ 􀄿️⃝        􀄨️⃝           􀅮️⃝  
+"                􀅃️⃝        􀄩️⃝ 􀆐️⃝ 
+"         􀅋️⃝   􀅀️⃝        􀄮️⃝     􀆑️⃝ 􀛺️⃝   􀆃️⃝   
+"                􀅄️⃝           􀆒️⃝          􀆄️⃝ 􀅺️⃝ 􀆂️⃝  
+"         􂄧️⃝  􀅁️⃝         􀄯️⃝     􀆓️⃝     􀅻️⃝         􂪱️⃝
+"   􀅓️⃝            􀅅️⃝            􂉏️⃝   􀅾️⃝         􀙚️⃝  
+"     􀅔️⃝                     􀄰️⃝     􂉐️⃝   􀅿️⃝ 
+"       􀅕️⃝   􀅙️⃝   􀅂️⃝              􂦫️⃝       􀆀️⃝ 
+"    􀅖️⃝     􀅪️⃝    􀅆️⃝           􀄱️⃝     􂦬️⃝   􂪯️⃝ 
+"      􀨡️⃝    􀅫️⃝   􁂎️⃝                   􀆁️⃝ 
+"                                    􂪰️⃝ 
+"   􀓶️⃝  􀔕️⃝  􀔴️⃝  􀕓️⃝                         􀛨️⃝         
+" 􀓷️⃝  􀔖️⃝  􀔵️⃝  􀕔️⃝                           􀺸️⃝          
+"   􀓸️⃝  􀔗️⃝  􀔶️⃝  􀕕️⃝   􀆉️⃝  􀁲️⃝  􀁳️⃝  􀄂️⃝  􀄃️⃝    􀺶️⃝         
+" 􀓹️⃝  􀔘️⃝  􀔷️⃝  􀕖️⃝   􀆊️⃝  􀁴️⃝  􀁵️⃝  􀄄️⃝  􀄅️⃝      􀛩️⃝           􀸏️⃝ 
+"   􀓺️⃝  􀔙️⃝  􀔸️⃝  􀕗️⃝   􀆇️⃝  􀁮️⃝  􀁯️⃝  􀃾️⃝  􀃿️⃝    􀛪️⃝         􀡅️⃝ 
+" 􀓻️⃝  􀔚️⃝  􀔹️⃝  􀕘️⃝   􀆈️⃝  􀁰️⃝  􀁱️⃝  􀄀️⃝  􀄁️⃝      􀢋️⃝           􁇵️⃝ 
+"   􀓼️⃝  􀔛️⃝  􀔺️⃝  􀕙️⃝                               
+" 􀓽️⃝  􀔜️⃝  􀔻️⃝  􀕚️⃝                                 
+"   􀓾️⃝  􀔝️⃝  􀔼️⃝  􀕛️⃝ 
+" 􀓿️⃝  􀔞️⃝  􀔽️⃝  􀕜️⃝ 
+"
 let g:mayhem.symbols_S.diag = {
       \ 'numbers': ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ],
       \ 'error'  : '⚑⃝ ',
@@ -176,7 +245,12 @@ let g:mayhem.symbols_A.git = {
       \ 'unstaged': '*',
       \ 'staged':   '+'
       \}
-"   $   stashes          􀐆 􀫝 􀠧 􀓔 􁊓 􀼳 􀴨􀖄􀖅 􀙡􀙠
+"   $   stashes          􀐆️⃞   􀫝️⃞   􀠧︎⃝  􀓔⃞️  􁊓⃞︎  􀼳 􀴨 􀖄⃣ 􀖅⃣  􀙡⃣ 􀙠⃣
+"                                             􀖄️⃣ 􀖅️⃣  􀙡️⃣ 􀙠️⃣
+"                                             􀖄⃟ 􀖅⃟ 􀙡⃟ 􀙠⃟️
+"                                             􀖄⃤ 􀖅⃤  􀙡⃤ 􀙠⃤
+"                                             􀖄⃤︎ 􀖅⃤︎  􀙡⃤︎ 􀙠⃤︎
+"                                             􀖄⃠️ 􀖅⃠️  􀙡⃠️ 􀙠⃠️
 "   %   untracked files
 " 􀙡branch, relative to upstream
 "     !       􀃮  problem
@@ -216,8 +290,7 @@ function s:Update_Git()
   endif
 endfunc
 
-"  +͓   +͓ͬ ᵣᴿ͓︎ᴿ̟ᴿͦ︎  ᴿ+ꜝᴹꜝ ᴹ͓︎ᴹ̷ͫᴹ̸ᴹ⃠ ꜚꜟꜝ ᶴᶺ ˯͓ʬ˖ˆʷⁿˢ̷ˢˢˣ
-"
+
 let g:mayhem.symbols_S.status = {
       \ 'readonly': 'ᴿ',
       \ 'nomodifiable': 'ᴿ',
@@ -370,142 +443,6 @@ function s:Update_FileInfo()
   endif
 endfunc
 
-" ^V/^S need to be real, i.e. entered using ctrl+v,ctrl+v/ctrl+s
-" Single letter mode() - Ascii
-function! SimpleModeA() abort
-  return {
-        \ 'n': 'n',
-        \ 'i': 'i',
-        \ 'v': 'v', 'V': 'V', '': '^V',
-        \ 's': 's', 'S': 'S', '': '^S',
-        \ 'R': 'R',
-        \ 'r': 'r',
-        \ 't': 't',
-        \ 'c': 'c',
-        \ '!': 'S',
-        \ }[mode()]
-endfunc
-
-" Single letter mode() - Unicode
-function! SimpleMode8() abort
-  return {
-        \ 'n': 'n',
-        \ 'i': 'ɪ',
-        \ 'v': 'v', 'V': 'v̅', '': 'v̺͆',
-        \ 's': 's', 'S': 's̅', '': 's̺͆',
-        \ 'R': 'ʀ',
-        \ 'r': 'ᴚ',
-        \ 't': 'ʇ',
-        \ 'c': 'ɔ',
-        \ '!': 'S',
-        \ }[mode()]
-endfunc
-
-" Single letter mode() - SF Symbols
-function! SimpleModeSF() abort
-  return {
-        \ 'n': 'n',
-        \ 'i': 'ɪ',
-        \ 'v': 'v', 'V': 'v̅', '': 'v̺͆',
-        \ 's': 's', 'S': 's̅', '': 's̺͆',
-        \ 'R': 'ʀ',
-        \ 'r': 'ᴚ',
-        \ 't': 'ʇ',
-        \ 'c': 'ɔ',
-        \ '!': 'S',
-        \ }[mode()]
-endfunc
-
-" Multi letter mode(true) - Ascii
-function! ModeA() abort
-endfunc
-" Multi letter mode(true) - Unicode
-function! Mode8() abort
-endfunc
-" Multi letter mode(true) - SF Symbols
-function! ModeSF() abort
-  return {'n':    '􀂮',
-        \ 'no':   '􀂮􀍡',
-        \ 'nov':  '􀂮􀍡',
-        \ 'noV':  '􀂮􀍡',
-        \ 'no': '􀂮􀍡',
-        \ 'niI':  '􀈎',
-        \ 'niR':  '􀈎',
-        \ 'niV':  '􀈎',
-        \ 'nt':   '􀩼􀂮',
-        \ 'v':    '􀍳',
-        \ 'V':    'v̅',
-        \ '':   'v̺͆ v⃞',
-        \ 'vs':   '',
-        \ 'Vs':   '',
-        \ 's':  '',
-        \ 's':    's',
-        \ 'S':    's̅',
-        \ '':   's̺͆ s⃞',
-        \ 'i':    '􀈎',
-        \ 'ic':   '􀈎',
-        \ 'ix':   '􀈎',
-        \ 'R':    'ʀ',
-        \ 'Rc':   'ʀ',
-        \ 'Rx':   'ʀ',
-        \ 'Rv':   'ʀ',
-        \ 'Rvc':  'ʀ',
-        \ 'Rvx':  'ʀ',
-        \ 'c':    '􀂘',
-        \ 'ct':   '􀂘􀩼􀄄',
-        \ 'cr':   '􀂘',
-        \ 'cv':   '􀕲',
-        \ 'cvr':  '􀕲',
-        \ 'ce':   '􀕲',
-        \ 'r':    '􀅇',
-        \ 'rm':   '􀋷',
-        \ 'r?':   '􀢰',
-        \ 't':    '􀩼􀃼',
-        \ '!':    '􀖇',
-        \ }[mode(v:true)]
-endfunc
-
-"ꘖǀǀǁǂ|‖꜏ꖔ꜊   ꜏̲̅ ꜊̲̅
-let g:mayhem.symbols_8.scrollL = {
-      \ 'steps': ['꜒','꜍','꜓','꜎','꜔','꜐','꜕','꜑','꜖'],
-      \ 'top':'꜒̅', 'full':'ǁ', 'bot':'꜖̲',
-      \ }
-let g:mayhem.symbols_8.scrollR = {
-      \ 'steps': ['˥','꜈','˦','꜉','˧','꜋','˨','꜌','˩'],
-      \ 'top':'˥̅', 'full':'ǁ', 'bot':'˩̲',
-      \ }
-let g:mayhem.symbols_S.scroll = g:mayhem.symbols_8.scrollR
-let g:mayhem.symbols_8.scroll = g:mayhem.symbols_8.scrollR
-let g:mayhem.symbols_A.scroll = {
-      \ 'steps': ['1','2','3','4','5','6','7','8','9'],
-      \ 'top':'¯', 'full':']', 'bot':'_',
-      \ }
-function ScrollHint() abort
-  let scrollsymbols = get(s:symbols, 'scroll', {})
-  let line_cursor = line('.')
-  let line_wintop = line('w0')
-  let line_winbot = line('w$')
-  let line_count  = line('$')
-
-  if line_wintop == 1
-    if line_winbot == line_count
-      return scrollsymbols.full
-    endif
-    return scrollsymbols.top
-  endif
-  if line_winbot == line_count
-    return scrollsymbols.bot
-  endif
-
-  let position = (line_cursor * len(scrollsymbols.steps) - 1) / line_count
-
-  let top    = line('w0')
-  let height = line('w$') - top + 1
-
-  " echo printf('%i, %i, %i, %s',
-  "\ line_cursor, line_count, position, scrollsymbols.steps[position])
-  return scrollsymbols.steps[position]
-endfunc
 
 function s:SetStatusVars()
   let b:mayhem = get(b:, 'mayhem', {})
@@ -621,7 +558,7 @@ endfunc
 
 
 augroup statusline
-  autocmd! * <buffer>
+  au! * <buffer>
   " autocmd BufEnter    <buffer> match ExtraWhitespace /\s\+$/
   " autocmd InsertEnter <buffer> match ExtraWhitespace /\s\+\%#\@<!$/
   " autocmd InsertLeave <buffer> match ExtraWhitespace /\s\+$/
@@ -629,13 +566,13 @@ augroup statusline
   " au EncodingChanged * call s:UpdateCustomStatuslines()
   " au BufWinEnter,BufFilePost,EncodingChanged <buffer> call s:UpdateStatuslines()
 
-  autocmd CursorHold,BufWinEnter,BufFilePost,EncodingChanged * call s:UpdateStatuslines()
+  au CursorHold,BufWinEnter,BufFilePost,EncodingChanged * call s:UpdateStatuslines()
 augroup END
 
 " This is called via an autocmd - see commands.coc.vim
-:command! UpdateSlCachedDiagnostics :call <SID>Update_Diag()
+command! UpdateSlCachedDiagnostics call <SID>Update_Diag()
 
-:command! UpdateCustomStatusline :call <SID>UpdateStatuslines()
+command! UpdateCustomStatusline call <SID>UpdateStatuslines()
 
 set statusline=%{%CustomStatusline()%}
 

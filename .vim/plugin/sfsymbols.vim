@@ -1,101 +1,136 @@
+vim9script
 if exists("g:mayhem_loaded_sfsymbols")
   finish
 endif
-let g:mayhem_loaded_sfsymbols = 1
+g:mayhem_loaded_sfsymbols = 1
 
-let s:sfrange_start = 0x100000
-let s:sfrange_end   = 0x103fff
+# Scope: Script
+var sfrange_start = 0x100000
+var sfrange_end   = 0x103fff
 
-" Set all SF Symbol codepoints to be 2 chars wide
-" (the majority of them are at least that wide)
-call setcellwidths([[s:sfrange_start, s:sfrange_end, 2]])
-" These could be exceptions?
-" '􀟖􀟕􁊘a􁊙􀑪􀆊􀯻􀆉􀯶􂦬􀆒􀆓􂉏􀖄􂉐􀅍􀅎􀅓􀅔􀅕􀮷􀫌􁷁'
-" ' 􀳾􂡩􀑹􁍂􁍅􀅖􀨡􀵷􀵿􀅏􀥋􁣣􀘽􁣦􀅳􀒆􁹡􀆏􀠑􀠒􂬮􂬮􁏃􀇬􁏄􁗅􀝢􀝌􀞋􂃵􀎪􀎠􀎡􀖈􀖉'
-" This has to be done as non-overlapping parts of the sequence, bit tedious
-" call setcellwidths([[char2nr('􀑹'),char2nr('􀑹'),1]]);
-" call setcellwidths([[char2nr('﹪'),char2nr('﹪'),1]]);
-"﹪
-" if charclass(cs) == 3 
-    " setline(lnum, '0x' .. printf("%06x", c) .. ' ' .. charclass(cs) .. ' ' .. strwidth(cs) .. ' |' .. cs .. '| ' )
+# Set all SF Symbol codepoints to be 2 chars wide
+# (the majority of them are at least that wide)
+setcellwidths([[sfrange_start, sfrange_end, 2]])
 
-" This is derived from $VIMRUNTIME/tools/emoji_list.vim
-" Uses a compiled Vim9 function for speed
+# TODO
+# This has to be done as non-overlapping parts of the sequence, bit tedious
+# call setcellwidths([[char2nr('􀑹'),char2nr('􀑹'),1]]);
+# call setcellwidths([[char2nr('﹪'),char2nr('﹪'),1]]);
+#﹪
+# if charclass(cs) == 3
+#     setline(lnum, '0x' .. printf("%06x", c) .. ' ' .. charclass(cs) .. ' ' .. strwidth(cs) .. ' |' .. cs .. '| ' )
+
+# This is derived from $VIMRUNTIME/tools/emoji_list.vim
+# Uses a compiled Vim9 function for speed
 def GenSymbols()
-  setline(1, '╔════════════════╗')
-  setline(2, '║   SF Symbols   ║')
-  setline(3, '╚════════════════╝')
-  setline(4, 'codepoint  w  ⎣12⎦')
-  setline(5, '╶╴╶╴╶╴╶╴╶╴╶╴╶╴⎟╶╴⎜')
-  var lnum = 6
-  for c in range(s:sfrange_start, s:sfrange_end)
+  setline(1, '═︎═︎═︎════════════════')
+  setline(2, '    SF Symbols     ')
+  setline(3, '═︎═︎═︎════════════════')
+  var lnum = 4
+  for c in range(sfrange_start, sfrange_end)
     var cs = nr2char(c)
-    setline(lnum, printf("0x%02x⏐%02x%02x  %d  ⎟%s⎜", and(c, 0xff0000) >> 16, and(c, 0xff00) >> 8, and(c, 0xff), strwidth(cs), cs))
+    setline(lnum,
+            printf("⏐%d⏐  %s  ⏐0x%02x%02x%02x⏐",
+            strwidth(cs), cs,
+            and(c, 0xff0000) >> 16,
+            and(c, 0xff00) >> 8,
+            and(c, 0xff)
+            ))
     lnum += 1
   endfor
 enddef
 
-function! s:Symbols()
-	vsplit
- 	enew
-  call GenSymbols()
-  set nomodified
-  set colorcolumn=
-endfunc
+def SymbolsSplit()
+  :19vsplit
+  setlocal winfixwidth winwidth=19 nowrap
+  enew
+  GenSymbols()
+  set nomodified nomodifiable
+  setlocal colorcolumn=5,8
+enddef
 
-command! Symbols call <SID>Symbols()
+command! SymbolCodepoints call SymbolsSplit()
 
-"
-" TODO remove hardcoding and set via range vars
-"
-function! IsSfSymbol(arg)
-  let char = NormalisedChar(a:arg)
+#
+# Simple codepoint range check
+#
+def g:IsSfSymbol(arg: string): bool
+  var char = NormalisedChar(arg)
 
   return char =~# '^[\U00100000-\U00103fff]'
-endfunc
+enddef
 
-"
-" Info about SF symbol in arg, or under cursor
-"
-function! GetSfSymbolInfo(arg)
-  let char = NormalisedChar(a:arg)
+class SfSymbolInfo
+  var isSfSymbol: bool
+  var codepoint: number
+  var symbol: string
+  var code: string
+  var name: string
 
-  let nr = char2nr(char)
-  let chnr = nr2char(nr)
-  return {'symbol': chnr, 'code': printf('U+%04X', nr), 'name': sfsymbols#getSymbolName(chnr) }
-endfunc
+  def new(this.codepoint, this.symbol, this.code, this.name)
+  enddef
+endclass
 
-"
-" In statusline
-"
-function! EchoSymbolInfo(arg)
-  let info = GetSfSymbolInfo(a:arg)
-  return '╱╱ '..chnr..' ╱ '..printf('U+%04X', nr)..' ╱ '..sfsymbols#getSymbolName(chnr)..' ╱'
-endfunc
+#
+# Info about SF symbol in arg, or under cursor
+#
+def GetSfSymbolInfo(arg: string): SfSymbolInfo
+  var char = NormalisedChar(arg)
 
-command! -bar -nargs=? SymbolInfo echo EchoSymbolInfo(<q-args>)
+  var nr = char2nr(char)
+  var chnr = nr2char(nr)
+  return SfSymbolInfo.new(nr, chnr, printf('U+%04X', nr), sfsymbols#getSymbolName(chnr))
+enddef
 
-"
-" First bit of what Characterize does
-function! NormalisedChar(arg) abort
-  let char = a:arg
-  let nl_is_null = 0
+#
+# In statusline
+#
+def EchoSymbolInfo(arg: string): string
+  var info = GetSfSymbolInfo(arg)
+  return $'╱╱ {info.symbol} ╱ {info.code} ╱ {info.name} ╱'
+enddef
+
+command! -bar -nargs=? SfSymbolInfo echo EchoSymbolInfo(<q-args>)
+
+#
+# First bit of what Characterize does
+def NormalisedChar(arg: string): string
+  var char = arg
+  var nl_is_null = 0
   if empty(char)
-    let char = getline('.')[col('.')-1:-1]
-    let nl_is_null = 1
+    char = getline('.')[col('.') - 1 : -1]
+    nl_is_null = 1
   elseif char =~# '^\\[xuU]\=0\+\x\@!'
-    let char = "\n"
-    let nl_is_null = 1
+    char = "\n"
+    nl_is_null = 1
   elseif char =~# '^\\.'
     try
-      let char = eval('"' . char . '"')
+      char = eval('"' .. char .. '"')
     catch
     endtry
   endif
-  let char = matchstr(char, '.')
+  char = matchstr(char, '.')
   if empty(char)
     return 'NUL'
   endif
 
   return char
-endfunc
+enddef
+
+
+defcompile
+
+
+
+# These could be exceptions?
+#
+# 􀟖􀟕􁊘a􁊙􀑪􀆊􀯻􀆉􀯶􂦬􀆒􀆓
+#
+# 􂉏􀖄􂉐􀅍􀅎􀅓􀅔􀅕􀮷􀫌􁷁
+#
+# 􀳾􂡩􀑹􁍂􁍅􀅖􀨡􀵷􀵿􀅏􀥋􁣣
+#
+# 􀘽􁣦􀅳􀒆􁹡􀆏􀠑􀠒􂬮􂬮􁏃􀇬
+#
+# 􁏄􁗅􀝢􀝌􀞋􂃵􀎪􀎠􀎡􀖈􀖉
+#

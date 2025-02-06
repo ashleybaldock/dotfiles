@@ -173,6 +173,6 @@ function! s:CursorInfoOn()
   augroup END
 endfunc
 
-command! CursorInfo call <SID>CursorInfoOn()<CR>
+command! CursorInfo call <SID>CursorInfoOn()
 
 

@@ -166,6 +166,10 @@ set winminheight=0
 set nrformats-=octal
 set smarttab
 set laststatus=2
+
+set conceallevel=2
+set concealcursor=nc
+
 set wildmenu
 set wildoptions=pum
 set pumwidth=30
@@ -212,13 +216,17 @@ set hlsearch
 set incsearch
 " search up to root when using gf, opening files etc.
 set path+=;~
+" Consider comma to not be a part of filenames
+" (So gf works with CSV lists of them)
+set isfname-=,
+
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
 " Syntax highlighting for code blocks inside markdown docs
-let g:markdown_fenced_languages = ['javascript', 'typescript', 'css', 'json', 'python', 'lua', 'vim', 'sh', 'bash', 'pre', 'ansi', 'ps1']
+let g:markdown_fenced_languages = ['javascript', 'typescript', 'css', 'json', 'python', 'lua', 'vim', 'sh', 'bash', 'pre', 'reg', 'ansi', 'ps1']
 
 
 " 2html script options

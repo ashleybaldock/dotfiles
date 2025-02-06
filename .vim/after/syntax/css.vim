@@ -1,4 +1,10 @@
 
+"
+" CSS Syntax Extensions
+"
+" au BufWritePost <buffer> syn on
+"
+
 " TODO
 "
 " highlight invalid base64 characters
@@ -387,6 +393,10 @@ syn match cssPer /%5[cC]/ conceal cchar=\ contained contains=NONE
 syn match cssPer /%5[dD]/ conceal cchar=] contained contains=NONE
 syn match cssPer /%5[eE]/ conceal cchar=^ contained contains=NONE
 syn match cssPer /%5[fF]/ conceal cchar=_ contained contains=NONE
+
+" Concealing - hacks
+syn match specificity /:not(#i#m#p#o#r#t#a#n#t)/
+      \ conceal cchar=⬆︎ contains=NONE
 
 " Concealing - frivolous
 "𖭰 𖭱 𖢈𖦝𖦡𐙘 𐙫 𐙪 𐊁 ﾛﾖﾘ ﾧﾡﾤ

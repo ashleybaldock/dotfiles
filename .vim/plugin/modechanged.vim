@@ -16,24 +16,30 @@ let g:mayhem_loaded_modechanged = 1
 "   (via OptionSet autocmd or comparing the pre- value to the
 "   current one) but it's pretty unlikely to be a problem
 
-" Auto-hide list chars when entering visual mode
 function! s:EnterVisual() abort
+  if exists('#User#MayhemEnterVisual')
+    doautocmd User MayhemEnterVisual
+  endif
+
+  " Auto-hide list chars when entering visual mode
   if exists('g:mayhem_hide_list_in_visual') && g:mayhem_hide_list_in_visual
-    if !exists('s:list_state_on_last_entering_visual')
-      let s:list_state_on_last_entering_visual = &list
-    endif
-    let &list = 0
+    call Remember('vV^V', '&l:list')
+    let &l:list = 0
   endif
 endfunc
+
+"
+" When leaving any visual mode, going to a non-visual one
+"
+" 1.         MayhemLeaveVisual
+" 2. One of: MayhemLeaveModeVC | MayhemLeaveModeVL | MayhemLeaveModeVB
+"
 function! s:LeaveVisual() abort
-  if exists('s:list_state_on_last_entering_visual')
-    let &list = s:list_state_on_last_entering_visual
-    unlet s:list_state_on_last_entering_visual
+  if exists('#User#MayhemLeaveVisual')
+    doautocmd User MayhemLeaveVisual
   endif
-  if exists('s:mouseshape_state_on_last_entering_visual')
-    let &mouseshape = s:mouseshape_state_on_last_entering_visual
-    unlet s:mouseshape_state_on_last_entering_visual
-  endif
+
+  call Restore('vV^V')
 endfunc
 
 function! s:EnterVisualChar() abort
@@ -41,17 +47,13 @@ function! s:EnterVisualChar() abort
     doautocmd User MayhemEnterModeVC
   endif
 
-  if !exists('s:mouseshape_state_on_last_entering_visual')
-    let s:mouseshape_state_on_last_entering_visual = &mouseshape
-  endif
-  let &mouseshape = s:mouseshape_state_on_last_entering_visual..',v:beam'
+  let &mouseshape = Remember('vV^V', '&mouseshape')..',v:beam'
 endfunc
 
 function! s:LeaveVisualChar() abort
   if exists('#User#MayhemLeaveModeVC')
     doautocmd User MayhemLeaveModeVC
   endif
-
 endfunc
 
 function! s:EnterVisualLine() abort
@@ -60,10 +62,6 @@ function! s:EnterVisualLine() abort
   endif
 
   let &mouseshape = Remember('vV^V', '&mouseshape')..',v:beam'
-  " if !exists('s:mouseshape_state_on_last_entering_visual')
-  "   let s:mouseshape_state_on_last_entering_visual = &mouseshape
-  " endif
-  " let &mouseshape = s:mouseshape_state_on_last_entering_visual..',v:beam'
 endfunc
 
 function! s:LeaveVisualLine() abort
@@ -79,25 +77,12 @@ function! s:EnterVisualBlock() abort
     doautocmd User MayhemEnterModeVB
   endif
 endfunc
-  " if !exists('s:colorcolumn_state_on_last_entering_visual_block')
-  "   let s:colorcolumn_state_on_last_entering_visual_block = &l:colorcolumn
-  " endif
-  " let &l:colorcolumn = charcol('.')
-
-  " if !exists('s:mouseshape_state_on_last_entering_visual')
-  "   let s:mouseshape_state_on_last_entering_visual = &mouseshape
-  " endif
-  " let &mouseshape = s:mouseshape_state_on_last_entering_visual..',v:crosshair'
 
 function! s:LeaveVisualBlock() abort
   if exists('#User#MayhemLeaveModeVB')
     doautocmd User MayhemLeaveModeVB
   endif
 endfunc
-
-  " if exists('s:colorcolumn_state_on_last_entering_visual_block')
-  "   let &l:colorcolumn = s:colorcolumn_state_on_last_entering_visual_block
-  " endif
 
 "
 " Store settings for later restoration
@@ -130,9 +115,16 @@ endfunc
 "  echom &virtualedit  -> 'onemore'
 "
 let s:memories = {}
-function! Remember(key, setting)
+
+function! GetSetting(setting) abort
+  exec 'let v = '..a:setting
+  return v
+endfunc
+
+function! Remember(key, setting) abort
   let s:memories[a:key] = get(s:memories, a:key, {})
-  let s:memories[a:key][a:setting] = get(s:memories[a:key], a:setting, ExecAndReturn(a:setting))
+  let s:memories[a:key][a:setting] =
+        \ get(s:memories[a:key], a:setting, GetSetting(a:setting))
   return s:memories[a:key][a:setting]
 endfunc
 
@@ -141,10 +133,15 @@ endfunc
 "
 "  a:key     : name of group of stored settings to restore
 "
-function! Restore(group)
-  for [key, value] in items(get(s:memories, a:group, {}))
-    exec 'let '..key..' = '..value
-  endfor
+function! Restore(group) abort
+  if has_key(s:memories, a:group)
+    for [key, value] in items(remove(s:memories, a:group))
+      echom a:group
+      echom key
+      echom value
+      exec 'let '..key..' = '''..value..''''
+    endfor
+  endif
 endfunc
 
 augroup VisualEvent

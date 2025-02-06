@@ -117,7 +117,7 @@ command! -bar -nargs=? GetCharCodeMatch echo GetCharCodeMatch(<f-args>)
 "     - defaults to the character under the cursor
 "       (this method doesn't change it)
 "
-" e.g. (B⃝ , C)  ▬▶︎ C⃝  
+" e.g. (B⃝ , C)  ▬▶︎ C⃝
 "
 " No cleverness here, it just swaps the first character,
 " will probably not work for some inputs

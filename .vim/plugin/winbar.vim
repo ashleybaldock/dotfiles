@@ -21,19 +21,22 @@ function! s:WinBarUpdate()
     silent nnoremenu 1.90 WinBar.􀅌\ §dr <Nop>
     " nunmenu WinBar | nnoremenu 1.10 WinBar.D・$dx:off・§de:get・§gt:put・[c:prv・]c:nxt <nop>
   elseif &ft == 'netrw'
-    " nunmenu WinBar | nnoremenu 1.10 WinBar.Netrw・S:sort・I:layout・-:back・<S-B>:up・<S-W>:down・ <nop>
-    "􀹲􀩳􀹆􀩼􀋱􀩳􁂷
-    silent nnoremenu 1.10 WinBar.􀉌‹-› <Nop>
-    silent nnoremenu 1.20 WinBar.􀵬\ ‹S›\ ╱\ 􀞖\ ‹i› <Nop>
-    silent nnoremenu 1.30 WinBar.􀄨‹B›\ ╱\ 􀄩‹W› <Nop>
-    silent nnoremenu 1.90 WinBar.􁜾\ ‹I› <Nop>
-    silent nnoremenu 1.99 WinBar.􀈕 <Nop>
+    " nunmenu WinBar | nnoremenu 1.≀0 WinBar.Netrw・S:sort・I:layout・-:back・<S-B>:up・<S-W>:down・ <nop>
+    "􀹲􀩳􀹆􀩼􀋱􀩳􁂷 􀹲 􀕹 􀩳 􀹆
+    silent nnoremenu 1.10 WinBar.􀄼\ - <Nop>
+    silent nnoremenu 1.20 WinBar.􀊬\ a\ 􀄬􀅍s,r\ 􀞖\ i <Nop>
+    " silent nnoremenu 1.30 WinBar.‹B›􀄸􀄹‹W› <Nop>
+    silent nnoremenu 1.60 WinBar.􀤰\ d <Nop>
+    silent nnoremenu 1.70 WinBar.􀈑\ D <Nop>
+    silent nnoremenu 1.80 WinBar.􀈎\ R <Nop>
+    silent nnoremenu 1.90 WinBar.􀦍\ I <Nop>
+    " silent nnoremenu 1.99 WinBar.􁹛  􂝖 􀅌􁊕􀊭 time􀐫 exten name size㎅㎆㎇<Nop>
   endif
   if &buftype == 'terminal'
     if mode() =~# 'n'
       silent nnoremenu 1.20 WinBar.􀊙\ ‹C-W›‹C-N› <nop>
     else
-      silent nnoremenu 1.20 WinBar.􀊛\ ‹C-W›‹C-N› <nop>
+      silent nnoremenu 1.20 WinBar.􀊛\ ‹C️-W›︎‹︎C︎-N› <nop>
     endif
     " tlnoremenu 1.10 WinBar.􀯪􀱢・‹C-W›‹C-N›:・ <nop>
     "

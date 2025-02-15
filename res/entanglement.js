@@ -134,6 +134,7 @@ const entanglement = ((window) => {
 
     const getUpdateQueue = (() => {
       const dataSinksMap = new Map();
+      const dataSinksMap /*: WeakRefMap<HTMLElement, >*/ = createWeakRefMap();
 
       return () => ({
         enqueue: ({ source, sink, newValue }) => {
@@ -143,6 +144,7 @@ const entanglement = ((window) => {
         },
         /* Update everything */
         send: () => {
+          dataSinksMap.entries();
           for (const [sink, newValues] of dataSinksMap) {
             for (const [sourceId, newValue] of newValues) {
               sink?.setAttribute?.(`data-from-${sourceId}`, newValue);

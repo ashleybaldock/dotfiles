@@ -6,6 +6,12 @@ name[.inverse]
 
 name[.(square|.circle)][.on.<X>]
 
+4 columns (group twice)
+
+```
+  􀛶 􀜪 􀛷 􀜫  stop (.circle) (.fill (.circle))
+```
+
 ````pre
   [.fill]
   [.badge[.(ellipsis|plus|minus|checkmark|questionmark|exclamationmark|xmark|person.crop|gearshape|wifi)]]
@@ -42,6 +48,9 @@ name[.(square|.circle)][.on.<X>]
  􀓅 􀄧 􀁬 􀁭 􀃼 􀃽  arrowtriangle.right .fill .circle .circle.fill .square .square.fill
 ````
 
+square.2.layers.3d
+square.3.layers.3d.down.right
+
 ```reg
    \(\%([^a-z0-9]\)\s\)\+\(\%(\.\?\<[a-z0-9]\+\>\)\+\)\(\.*\)\n\(\%([^a-z0-9]\)\s\)\+\2\(\.\<circle\>\|\.\<square\>\|\.\<fill\>\|\.\<dotted\>\|\.\<inverse\>\)\+/\1\4\2 (\3\5)/
 ```
@@ -49,8 +58,6 @@ name[.(square|.circle)][.on.<X>]
 ```reg
 %s/\(\%([^a-z0-9]\s\)\+\)\(\%(\.\?\<[a-z0-9]\+\>\)\+\)\(.*\)\n\(\%([^a-z0-9]\s\)\+\)\2\(\.\<circle\>\|\.\<square\>\|\.\<fill\>\|\.\<dotted\>\|\.\<inverse\>\)\+\(\s\?.*\)$/\1\4\2\3 (\5\6)/
 ```
-
-skip uncastable spells.
 
 ```reg
 '<,'>s/sign\n/\\|/

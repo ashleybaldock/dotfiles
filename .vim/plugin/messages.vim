@@ -19,8 +19,9 @@ function! s:WriteMessagesToBufferInWindow(winid)
     call appendbufline(bufnr, 0, s:GetMessages())
   else
     call setbufline(bufnr, 1, '-- Startup Messages --')
-    call setbufline(bufnr, 2, '')
-    call appendbufline(bufnr, 2, s:GetMessages())
+    call setbufline(bufnr, 2, '<SNR>XX->file? - :ListPlugins')
+    call setbufline(bufnr, 3, '')
+    call appendbufline(bufnr, 3, s:GetMessages())
   endif
 endfunc
 

@@ -27,7 +27,7 @@ function! ExecAndPut(command) abort
   silent exec 'norm "ogp'
 endfunc
 
-command! -nargs=? ExecAndPut silent call ExecAndPut(<q-args>)
+command! -complete=command -nargs=1 ExecAndPut silent call ExecAndPut(<q-args>)
 
 "
 " Execute a command and put the result into a register
@@ -39,11 +39,11 @@ endfunc
 "
 " Execute a command and put the result into a register
 "
-command! -bar -nargs=1 -register ExecToRegister silent call ExecToRegister(<q-args>, <reg>)
+command! -complete=command -nargs=1 -register ExecToRegister silent call ExecToRegister(<q-args>, <reg>)
 
 " Execute a command and put the result into unnamed register
 "
-command! -nargs=? ExecAndYank silent call ExecToRegister(<q-args>, '"')
+command! -complete=command -nargs=1 ExecAndYank silent call ExecToRegister(<q-args>, '"')
 
 
 

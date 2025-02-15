@@ -11,31 +11,47 @@ let s:symbol_linksto = get(g:, 'mayhem_symbol_hihi_linksto', '⫘⃗ ')
 "
 " Has two implementations, this one uses `syn match`
 "
-function! s:AddSynMatch(name) abort
-  exec 'syn match ' .. a:name .. ' /\<' .. a:name .. '\>/'
-    \ .. ' contained contains=NONE containedin=VimHiGroup'
-  return a:name
-endfunc
+" function! s:AddSynMatch(name) abort
+"   exec 'syn match ' .. a:name .. ' /\<' .. a:name .. '\>/'
+"     \ .. ' contained contains=NONE containedin=VimHiGroup'
+"   return a:name
+" endfunc
 
-function! s:HighlightHighlight() abort
+"
+" TODO convert this to vim9script for speed
+function! s:HighlightHighlight()
   augroup HiHi
     autocmd!
     autocmd ColorScheme vividmayhem call s:HighlightHighlight()
   augroup END
 
-  " e.g.:
-  " syn match HlMkDnCdDelim /\<HlMkDnCdDelim\>/ contained contains=NONE containedin=VimHiGroup
-  "
-  let w:synmatches = []
-  %s/^:\?hi\w*\s\+\(clear\)\@!\(def\w*\s*\)\?\(link\s*\)\?\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/ne
-  %s/^:\?syn\w*\s\+\(match\|region\|keyword\)\s\+\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/ne
-  for synmatch in w:synmatches
-    exec 'syn match ' .. synmatch .. ' /\<' .. synmatch .. '\>/'
-      \ .. ' contained contains=NONE containedin=VimGroupName,VimHiGroup'
+  let hlgroups = hlget()
+
+  for hlgroup in hlgroups
+    echo hlgroup['name']
+    exec ['syn match ', hlgroup['name'], ' /\<', hlgroup['name'], '\>/',
+          \ ' contained contains=NONE containedin=VimGroupName,VimHiGroup,VimGroup']->join('')
   endfor
 endfunc
 
-command! HiHi call <SID>HighlightHighlight()
+
+  " e.g.:
+  " syn match HlMkDnCdDelim /\<HlMkDnCdDelim\>/ contained contains=NONE containedin=VimHiGroup
+  "
+  " TODO - match hi commands after |
+  "      - parse output of :hi to get all groups
+  "      - use functions instead of commands + make vim9script
+  "
+  " let w:synmatches = []
+  " %s/^:\?hi\w*\s\+\%(clear\)\@!\%(def\w*\s*\)\?\%(link\s*\)\?\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/ne
+  " %s/^:\?syn\w*\s\+\%(match\|region\|keyword\)\s\+\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/ne
+  " for synmatch in w:synmatches
+  "   silent exec 'syn match ' .. synmatch .. ' /\<' .. synmatch .. '\>/'
+  "     \ .. ' contained contains=NONE containedin=VimGroupName,VimHiGroup,VimGroup'
+  " endfor
+" endfunc
+
+command! -bar HiHi call <SID>HighlightHighlight()
 
 
 "
@@ -95,23 +111,31 @@ endfunc
 "₁⃞️ ₂⃞️ ₃⃞️  ¹⃞ ²⃞ ³⃞ ⁴⃞ ⁵⃞ ⁶⃞ ⁷⃞ ⁸⃞ ⁹⃞  0︎⃣ 1︎⃣ 2︎⃣ 3︎⃣ 4︎⃣ 5︎⃣ 6︎⃣ 7︎⃣ 8︎⃣ 9︎⃣  
 "
 " ⎛             ᐅᐳ         ◁️[ ₁️1︎⃣ ⮕  ◁️]  ᐅᐳ  ▷️ᐳ  ▷️ᐳ⮕ᐳ               ⎞
-"
-"
 " join(chain, '▶︎▬ᷞ▬ͥ▬ᷠ▬ᷜ▶︎') join(chain, ' ▬▶︎ ') join(chain, ' -> ') join(chain, ' ʟɪɴ͢ᴋ ')
 "
 "  􀯭 􀯮 􀯯 􁉽 􁋼 􁉼 􁋽 􁋛 􁋜 􀯰 􁌅 􀯱 􀯲 􀯳 􁊕
-"􀅓􀅔
+"􀅓􀅔 􀅕 􀅖 􀨡 
+
+" 􀑋 􀑍 􀯴 􀮵 􀺾 􀿨 􀑏 􁂠 􂡆  􀿫 􂞹 􂞺  􀿪􁰏 
+" 􀑌 􀑎 􀯵 􀮶 􀻀 􀿩 􀑐 􁂡 􂡇  􀭨 
+" 
+" 􀭅 􀆗􀆛􀆙
+" 􁚀 􀆘􀆜􀆚
+" 􀃬􀃮􀃜􀃞
+" 􀣤 􀏃 􀣦􀂒􀃰􀃲 
+" 􀣥 􀏄 􀣧􀂓􀃱􀃳
+" 􁄻 transparent
+
+" ⎛  ★   fg:􀏄 bg:􀏄 sp:􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾             ⎞
+" ⎢ ᴅ  1234: cssUrlFunction  S️tatement               ⎥
+" ⎢  ᴄ  567: cssAttrRegion                           ⎥
+" ⎢  ᴄ   89: cssDefinition                           ⎥
+" ⎝                        Synstack @ Row 62 Col 39  ⎠
 "
-"􀅕
-"􀅖
-"􀨡
-"􀅗
-"􀅘􀅔
+" ⎛  ★         􀅓️⃝ 􀅔️⃝ 􀅕️⃝ 􀅖️⃝ 􀨡️⃝     􂏾️⃝                  ⎞
 "
-"
-"
-" ⎛                                       ⎞
-" ⎢ ᴅ  1234: cssUrlFunction  S️tatement  ⎥
+" ⎛  ★   fg:􀂓 bg:􀂓 sp:􀂓  􀅓 􀅔 􀅕 􀅖 􀨡    􂏾    ⎞
+" ⎢ ᴅ  1234: cssUrlFunction  S️tatement               ⎥
 " ⎢  ᴄ  567: cssAttrRegion                           ⎥
 " ⎢  ᴄ   89: cssDefinition                           ⎥
 " ⎝                        Synstack @ Row 62 Col 39  ⎠
@@ -126,7 +150,43 @@ endfunc
 "
 " ⎢      ʀᐧ9️5️ ⎟C⎜5️6️ ᵛᶜᵒˡ5️6️  ᵇʸᵗᵉ⎡⎟9️2️⎟
 " ⎢     
+" 
+" fg=􀏄 bg=􀏄 sp=􀏄
+" fg=􀏄 bg=􀣤 sp=􀏃
+"
+" edit colour, rgb + hsl
+"
+"   ╭ #rrggbb ╮ ⎧ #rrggbb ⎫ ⎧ #rrggbb ⎫
+"   ⎨ h  s  l ⎬ ⎧ h  s  l ⎫ ⎧ h  s  l ⎫
+"   ⎩1️8️0️ 9️0️ 6️0️⎭ ⎩ 0  0  0 ⎭ ⎩360 1  1 ⎭
+" 
+"   ╭ #rrggbb ╮
+"   ⎨- h 180°+⎬
+"   ⎪  s .97  ⎪
+"   ⎩  l .60  ⎭
+" 
+"   ⎬ #rrggbb ⎨
+"   ⎪h1️8️0️°⎪
+"   ⎪s.️9️7️ ⎪
+"   ⎩l.️6️0️ ⎭
+" 
 "       
+"   R 100  H 180
+"   G  98  S  97
+"   B   7  L  60
+"
+"   R 100%  H 180°
+"   G  98%  S  97%
+"   B   7%  L  60%
+"                       
+"                  ╭#RF1056┬􀏄
+"                 􀏄╭ʜ𝟥𝟢𝟢
+"                  ╰┼ꜱ.𝟫𝟫
+"                   ╰ʟ.𝟢𝟩
+" 100 100 100
+"
+"                  ╭╴ʀ‑︎ɢ‑︎ʙ
+" R 100% G _98% B __7%
 "        ⎵ 
 "      ᴿ⃞︎]          ̲̅3̲̅3̲̅2̲̅     𝟸̲̅𝟺̲̅𝟹̲̅  𝟮̲̅𝟰̲̅𝟯̲̅ 𝟣̲̅𝟥̲̅𝟧̲̅ 𝟑̲̅𝟔̲̅𝟎̲̅
 "
@@ -139,9 +199,9 @@ endfunc
 " ⎝       Synstack @ row _6̲2̲_ │ ͦͨͮͮ ͦ︎ ͦͨʰʰ️ʰ︎ˡ39│ᵛᵛ️ᵛ︎ ͨͮ35│ ͪͨ29│️ 39 [v 35|c 35]   ⎠
 "     3̲̅9̲̅   ⏐62⏐
 " 
-" ᴿᴼᵂᴿ️ᴼ️ᵂ️ᴿ⃞︎ ᴼ⃞︎ ᵂ⃞︎ ʳᵒʷʳ️ᵒ️ʷ️ʳ⃞︎ ᵒ⃞︎ ʷ⃞︎   ⁿⁿⁿʲʲʲʰʰʰˡˡˡʷʷʷ
-" ᴸᴼᴬᴰᴸ️ᴼ️ᴬ️ᴰ️ᴸ︎ᴼ︎ᴬ︎ᴰ︎  ᴏ   
-"   ʳᵒʷ ᶜᵒˡ ᵛᐧᶜᵒˡ ᶜʰᐧᶜᵒˡ ᵇʸᵗᵉᐧ
+" ᴿᴼᵂᴿ️ᴼ️ᵂ️ᴿ⃞︎ ᴼ⃞︎ ᵂ⃞︎ ʳᵒʷʳ️ᵒ️ʷ️ʳ⃞︎ ᵒ⃞︎ ʷ⃞︎   ⁿⁿⁿʲʲʲʰʰʰˡˡˡʷʷʷ   ┐├▻ ◁┤ ├─▸ ◄─┤ ◂─┤ ◀︎─┤ 
+" ᴸᴼᴬᴰᴸ️ᴼ️ᴬ️ᴰ️ᴸ︎ᴼ︎ᴬ︎ᴰ︎  ᴏ                             ''
+"   ʳᵒʷ ᶜᵒˡ ᵛᐧᶜᵒˡ ᶜʰᐧᶜᵒˡ ᵇʸᵗᵉᐧ                ''
 "   ᴿᵒʷ ᶜᵒˡ ᵛꜞʳᵗᐧᶜᵒˡ ᶜʰᐧᶜᵒˡ          V
 "   Rᵒʷ ᴄᵒˡ vᶜᵒˡ chᶜᵒˡ  R C V H ᴠ Vˡͦͨ ᶜᵒˡCᴏʟ |️ᴄ|️ ʜᶜᵒˡCᴏʟͦ  ᴠɪᴛCᴏʟ ʜᴀCᴏ   ▕️  ʀ̲̅
 "
@@ -150,26 +210,103 @@ endfunc
 "   ˹˺˻˼˽˾ꜚ˿ ̚  ˺͐ ‿ˌ  ˲͕͐ ˱͔ 
           
 "                                           
+function! s:ForColor(color)
+  if a:color == 'NONE'
+    return ['􀣤', '#333333']
+  endif
+  if a:color == 'fg' || a:color == 'foreground'
+    return ['􀯮', '#333333']
+  endif
+  if a:color == 'bg' || a:color == 'background'
+    return ['􀯯', '#333333']
+  endif
+  if v:colornames->has_key(a:color)
+    return ['􀏄', v:colornames[a:color]]
+  endif
+  if a:color =~ '^#'
+    return ['􀏄', a:color]
+  endif
+  return ['􀏃', '#333333']
+endfunc
+
 function! s:UpdateSynStackBuffer(winid)     
   let bufnr = winbufnr(a:winid)
-  let default1 = 'No Highlighting Here'
-  let default2 = ''
-  let alt1 = 'Synstack Unavailable'
-  let i = 1
-  " Be better to make an array and then write               TODO
-  " the buffer all at once (and handle justifying text)
-  " Would also permit breaking this long function up into bits
-  let longest = max([strwidth(default1), strwidth(default2)])
-                                            
-  call setbufline(bufnr, 1, default1)
-  call setbufline(bufnr, 2, default2)
 
+  " Replacement buffer contents
+  let lines = []
+
+  call clearmatches(a:winid)
+  call matchadd('HlSynfoFG', 'fg:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
+  call matchadd('HlSynfoBG', 'bg:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
+  call matchadd('HlSynfoSP', 'sp:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
+
+  "
+  " Top Level Highlight Info:
+  "
+  let results = synID(line("."), col("."), 1)->synIDtrans()->synIDattr("name")->hlget(v:true)
+
+  " ⎢ ᴅ  9999: SomeGroup fg:􀏄 bg:􀏄 sp:􀏄 gui: 􀅓􀅔􀅕􀅖􀨡􂏾   ⎥
+
+  for val in results
+    let [fgsymbol, fgcolor] = s:ForColor(get(val, 'guifg', ''))
+    let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
+    let [spsymbol, spcolor] = s:ForColor(get(val, 'guisp', ''))
+
+    let colors = printf('fg:%s bg:%s sp:%s', fgsymbol, bgsymbol, spsymbol)
+
+    call hlset([{'name': 'HlSynfoFG', 'guifg': fgcolor}])
+    call hlset([{'name': 'HlSynfoBG', 'guifg': bgcolor}])
+    call hlset([{'name': 'HlSynfoSP', 'guifg': spcolor}])
+
+" 􀣤 􀏃 􀣦􀂒􀃰􀃲 
+" ⎛  ★   fg:􀏄 bg:􀏄 sp:􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾             ⎞
+"
+" ⎛  ★                                               ⎞
+" ⎢   fg:􀏄 bg:􀏄 sp:􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾             ⎥
+" ⎢ ᴅ  1234: cssUrlFunction  S️tatement               ⎥
+" 
+    " Gui: (bold/underline etc.)
+    let gui = get(val, 'gui', {})
+
+
+    let flags = [
+          \ 'gui:',
+          \ get(gui, 'bold', v:false) ? '􀅓' : '  ',
+          \ get(gui, 'italic', v:false) ? '􀅔' : '  ',
+          \ get(gui, 'underline', v:false) ? '􀅕' : '  ',
+          \ get(gui, 'strikethrough', v:false) ? '􀅖' : '  ',
+          \ get(gui, 'undercurl', v:false) ? 'uc ' : '   ',
+          \ get(gui, 'underdotted', v:false) ? 'ud ' : '   ',
+          \ get(gui, 'underdashed', v:false) ? 'us ' : '   ',
+          \ get(gui, 'underdouble', v:false) ? 'u2 ' : '   ',
+          \ (get(gui, 'inverse', v:false)
+          \ || get(gui, 'reverse', v:false)) ? '􂏾️⃝  ' : '   ',
+          \ get(gui, 'standout', v:false) ? '􀢒️⃝ ' : '   ',
+          \]->join(' ')
+
+    let res = '  ' .. printf('%5S: ', val.id) .. 
+          \ colors .. ' ' .. flags
+
+    call add(lines, res)
+  endfor
+  if len(lines) == 0
+    call add(lines, 'No highlighting here')
+  endif
+
+  "
+  " TODO Conceal Info:
+  "
+
+  "
+  " Synstack:
+  "
   if !exists("*synstack")
-    call setbufline(bufnr, 1, alt1)
+    call add(lines, 'Synstack Unavailable')
   else
-    let stack = map(synstack(line('.'), col('.')),
-          \ 'hlget(synIDattr(v:val, "name"))[0]')
+    let stack = synstack(line('.'), col('.'))->map(
+          \{_,v -> synIDattr(v, 'name')->hlget()[0]})
 
+    " Stack:
     for val in reverse(stack)
       let res = ""
       if (get(val, 'cleared'))
@@ -182,6 +319,7 @@ function! s:UpdateSynStackBuffer(winid)
       else
         let res = ' ' .. res
       endif
+    " Id:
       let res = res .. printf('%5S: ', val.id)
     " Hide intermediate links in chain to save space?       TODO
       if (get(val, 'linksto', "") != "")
@@ -195,17 +333,28 @@ function! s:UpdateSynStackBuffer(winid)
         let res = res .. val.name
       endif
       let res = res .. ''
-      call setbufline(bufnr, i, res)
-      let longest = max([longest, strwidth(res)])
-      let i = i + 1
+
+      call add(lines, res)
     endfor
-  endif
+  end
+
   "
-  " Get info about character under cursor
+  " TODO Text Object Info:
+  "
+
+  "
+  " TODO Sign Info:
+  "
+
+  "
+  " Character Info:
+  "
   " let charinfo = printf('%'..longest..'S', ExecAndReturn('Characterize'))
   let [charinfo] = s:GetCharacterInfo()
-  let longest = max([longest, strwidth(charinfo)])
-  call setbufline(bufnr, max([3, i]), l:charinfo)
+  call add(lines, charinfo)
+
+  "
+  " Position Info:
   "
   let cc = charcol('.')
   let vc = virtcol('.')
@@ -218,9 +367,15 @@ function! s:UpdateSynStackBuffer(winid)
         \ col,
         \ cc == vc ? '' : printf('(%s)', vcol),
         \ cc == bc ? '' : printf('(%s)', byte))
-  let title = printf('%'..longest..'S', numbers)
+  let title = printf('%'..max(lines)..'S', numbers)
   " let title = printf('%'..longest..'S', printf(' SynStack @ Row %s Col %s (V %s H %s)', line('.'), col('.'), virtcol('.'), charcol('.')))
-  call setbufline(bufnr, max([4, i + 1]), title)
+  " call setbufline(bufnr, max([4, i + 1]), title)
+  call add(lines, title)
+
+  silent call deletebufline(bufnr, 1, '$')
+
+  call appendbufline(bufnr, 0, lines)
+
 endfunc
 
 function s:SynStackPopupFilter(winid, key)
@@ -230,6 +385,9 @@ function s:SynStackPopupFilter(winid, key)
   "   :vsp|enew|call map(contents, {_, val -> appendbufline(bufnr(), 1, val) })|setlocal nomodified nomodifiable
   "   return 0
   " endif
+  if a:key == '︎'
+    return 0
+  endif
   if a:key == 'x'
     call s:SynStackDisable()
     call s:SynstackSetup()
@@ -265,7 +423,7 @@ function s:SynStack()
           \ minwidth: 30,
           \ maxwidth: 80,
           \ minheight: 3,
-          \ title: ''
+          \ title: ' ꛵ '
           \ })
   endif
 

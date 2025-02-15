@@ -21,6 +21,9 @@ endif
 let g:colors_name = "vividmayhem"
 
 " These names have to be lower case
+"
+" echom filter(copy(v:colornames), {key -> key =~ '^y'})
+"
 call extend(v:colornames, {
       \ 'yormalb': '#0f0f0f', 'yormalf': '#f2f2f2',
       \ 'ywreadb': '#090909',
@@ -28,7 +31,9 @@ call extend(v:colornames, {
       \ 'ywhelpb': '#020922', 'ywhelpf': '#e5e5ff',
       \ 'yunsavb': '#440000', 'yunsavf': '#f5f5f5',
       \ 'ysignsb': '#10101f',
-      \ }, 'keep')
+      \ 'yslcccb': '#202020',
+      \ 'yslnnnb': '#151515',
+      \ }, 'force')
 
 "════════════════════════════════════════════════════════╡ Window
 
@@ -180,8 +185,10 @@ hi EndOfBuDiag    guifg=#3a3a3a guibg=#050505
 hi NonTextDiag    guifg=#409040
 hi SpecialDiag    guifg=#d70000
 "
-" [U8Whitespace] Used for whitespace diagnostic mode
+" [U8Whitespace] Used for whitespace diagnostic modes
+" See: ../plugins/unicode.vim
 hi U8Whitespace   guifg=#ff6666 guibg=#dd1111
+hi U8Tags         guifg=#ff4444 guibg=#ff0044
 
 "
 "════════════════════════════════════════════════════════╡ Floating Windows
@@ -262,7 +269,7 @@ hi link CocHintFloat         PopDiagHint
 "
 "════════════════════════════════════════════════════════╡ Vertical
 "
-hi VertSplit      guifg=#666666 guibg=#151515 gui=none
+hi VertSplit      guifg=#666666 guibg=yslnnnb gui=none
 
 hi Folded         guifg=#aaddee guibg=NONE    gui=none  
 hi FoldColumn     guifg=#00ffff guibg=ysignsb gui=none  
@@ -353,9 +360,12 @@ hi link CocHintHighlight        HintHint
 
 "════════════════════════════════════════════════════════╡  Horizontal
 
-hi TabLine        guifg=#bbbbbb guibg=#333333 gui=underline 
+" Inactive tab
+hi TabLine        guifg=#bbbbbb guibg=yslnnnb gui=underline 
+" Active tab
 hi TabLineSel     guifg=#ffffff guibg=#000000               
-hi TabLineFill    guifg=#bbbbbb guibg=#808080 gui=underline 
+" Tabline bar
+hi TabLineFill    guifg=#bbbbbb guibg=yslnnnb guisp=yslcccb gui=underline 
 
 " WinBar:
 " Background for the whole bar
@@ -388,6 +398,7 @@ hi link Boolean Constant
 hi link Float Constant
 
 hi Identifier     guifg=#ffcc00 guibg=NONE    gui=none
+hi Directory none | hi link Directory Identifier
 hi Function       guifg=#eebb11 guibg=NONE    gui=none
 hi link Method Function
 
@@ -440,7 +451,8 @@ hi HlStrike       gui=strikethrough
 hi HlInverse      gui=reverse
 hi HlStandout     gui=standout
 
-"════════════════════════════════════════════════════════╡ Markdown
+"
+" Markdown:
 "
 hi htmlComment    guifg=#999999 guibg=#111111
 
@@ -455,7 +467,7 @@ hi HlMkDnHeader   guifg=#cc44cc               gui=bold
 hi HlMkDnLink     guifg=#15aabf               gui=italic,underline
 
 "hi markdownHeadingRule
-hi markdownH1     guifg=#cc44cc               gui=bold,italic         guisp=#00cc11
+hi markdownH1     guifg=#cc44cc               gui=bold                guisp=#00cc11
 hi markdownH2     guifg=#cc44cc               gui=underline           guisp=#00cc11
 hi markdownH3     guifg=#cc44cc               gui=underdashed         guisp=#00cc11
 hi markdownH4     guifg=#cc44cc               gui=underdotted         guisp=#00aa11
@@ -520,79 +532,69 @@ hi link CocMarkdownLink  HlMkDnLink
 
 
 "
-"════════════════════════════════════════════════════════╡ Netrw
+" Netrw: ../after/syntax/netrw.vim
 "
-hi Directory     none | hi link Directory Identifier
 
-hi netrwClassify none | hi link netrwClassify Function
-hi netrwLink     none | hi link netrwLink     Special
-hi netrwSymLink  none | hi link netrwSymLink  Question
-hi netrwDir      none | hi link netrwDir      Directory
-hi netrwExe      none | hi link netrwExe      PreProc
-hi netrwList     none | hi link netrwList     Statement
-hi netrwComma    none | hi link netrwComma    netrwComment
-hi netrwVersion  none | hi link netrwVersion  Identifier
-hi netrwCmdSep   none | hi link netrwCmdSep   Delimiter
-hi netrwHelpCmd  none | hi link netrwHelpCmd  Function
-hi clear netrwQuickHelp
-
-
-"════════════════════════════════════════════════════════╡ Status
+"
+" Status: ../plugin/statusline.vim
 "
 hi StatusLineTerm none | hi link StatusLineTerm  SlTerminal
 hi StatusLineTermNC none | hi link StatusLineTermNC SlTerminalNC
 
-hi StatusLine     guifg=#ffffff guibg=#232323 gui=none
-hi StatusLineNC   guifg=#dddddd guibg=#151515 gui=none
-hi SlTermC        guifg=#eeeeff guibg=#232323 gui=none
-hi SlTermN        guifg=#ccccee guibg=#232323 gui=none
-hi SlInfoC        guifg=#0088ff guibg=#232323 gui=none
-hi SlInfoN        guifg=#0066ff guibg=#151515 gui=none
-hi SlMessC        guifg=#aa6622 guibg=#232323 gui=none
-hi SlMessN        guifg=#884422 guibg=#151515 gui=none
-hi SlHomeLC       guifg=#aa00dd guibg=#232323 gui=none
-hi SlHomeMC       guifg=#dd00dd guibg=#232323 gui=none
-hi SlHomeRC       guifg=#dd00aa guibg=#232323 gui=none
-hi SlHomeLN       guifg=#9900bb guibg=#151515 gui=none
-hi SlHomeMN       guifg=#bb00bb guibg=#151515 gui=none
-hi SlHomeRN       guifg=#bb0099 guibg=#151515 gui=none
-hi SlDirC         guifg=#ddaa33 guibg=#232323 gui=none
-hi SlDirN         guifg=#bb9933 guibg=#151515 gui=none
-hi SlDirInvC      guifg=#ddaa33 guibg=#232323 gui=inverse
-hi SlDirInvN      guifg=#bb9933 guibg=#151515 gui=inverse
-hi SlPrevC        guifg=#4427ff guibg=#232323 gui=none
-hi SlPrevN        guifg=#0066ff guibg=#151515 gui=none
+hi StatusLine     guifg=#ffffff guibg=yslcccb gui=none
+hi StatusLineNC   guifg=#dddddd guibg=yslnnnb gui=none
+hi SlTermC        guifg=#eeeeff guibg=yslcccb gui=none
+hi SlTermN        guifg=#ccccee guibg=yslcccb gui=none
+hi SlInfoC        guifg=#0088ff guibg=yslcccb gui=none
+hi SlInfoN        guifg=#0066ff guibg=yslnnnb gui=none
+hi SlMessC        guifg=#aa6622 guibg=yslcccb gui=none
+hi SlMessN        guifg=#884422 guibg=yslnnnb gui=none
+hi SlHomeLC       guifg=#aa00dd guibg=yslcccb gui=none
+hi SlHomeMC       guifg=#dd00dd guibg=yslcccb gui=none
+hi SlHomeRC       guifg=#dd00aa guibg=yslcccb gui=none
+hi SlHomeLN       guifg=#9900bb guibg=yslnnnb gui=none
+hi SlHomeMN       guifg=#bb00bb guibg=yslnnnb gui=none
+hi SlHomeRN       guifg=#bb0099 guibg=yslnnnb gui=none
+hi SlDirC         guifg=#ddaa33 guibg=yslcccb gui=none
+hi SlDirN         guifg=#bb9933 guibg=yslnnnb gui=none
+hi SlDirInvC      guifg=#ddaa33 guibg=yslcccb gui=inverse
+hi SlDirInvN      guifg=#bb9933 guibg=yslnnnb gui=inverse
+hi SlPrevC        guifg=#4427ff guibg=yslcccb gui=none
+hi SlPrevN        guifg=#0066ff guibg=yslnnnb gui=none
 " for the < collapsed separator
-hi SlSepC         guifg=#11ee22 guibg=#232323 gui=none
-hi SlSepN         guifg=#00dd11 guibg=#151515 gui=none
+hi SlSepC         guifg=#11ee22 guibg=yslcccb gui=none
+hi SlSepN         guifg=#00dd11 guibg=yslnnnb gui=none
 "
 hi link SlB HlBold
 hi link SlI HlItalic
 hi link SlU HlUnderline
-hi SlHintC        guifg=#555555 guibg=#232323 gui=italic
-hi SlHintN        guifg=#444444 guibg=#151515 gui=italic
+hi SlHintC        guifg=#555555 guibg=yslcccb gui=italic
+hi SlHintN        guifg=#444444 guibg=yslnnnb gui=italic
 " filename
-hi SlFNameC       guifg=#ffffff guibg=#232323 gui=none
-hi SlFNameN       guifg=#dddddd guibg=#151515 gui=none
+hi SlFNameC       guifg=#ffffff guibg=yslcccb gui=none
+hi SlFNameN       guifg=#dddddd guibg=yslnnnb gui=none
+" file path hint
+hi SlFPathC       guifg=#555555 guibg=yslcccb gui=none
+hi SlFPathN       guifg=#444444 guibg=yslnnnb gui=none
 " unnamed§
-hi SlFNoNameC     guifg=#ccafaf guibg=#232323 gui=italic,underdotted
-hi SlFNoNameN     guifg=#bbafaf guibg=#151515 gui=italic,underdotted
+hi SlFNoNameC     guifg=#ccafaf guibg=yslcccb gui=italic,underdotted
+hi SlFNoNameN     guifg=#bbafaf guibg=yslnnnb gui=italic,underdotted
 " Diff with original (disk) version
-hi SlFDfSvNmC     guifg=#ccccaf guibg=#232323 gui=italic,underdotted
-hi SlFDfSvNmN     guifg=#bbbbaf guibg=#151515 gui=italic,underdotted
-hi SlFNameSvdC    guifg=#ffffff guibg=#232323
-hi SlFNameSvdN    guifg=yormalf guibg=#151515
-hi SlFNameModC    guifg=#ffffff guibg=#232323 gui=italic,underdotted
-hi SlFNameModN    guifg=#ffffff guibg=#232323 gui=italic,underdotted
-hi SlFTypExtC     guifg=#00cc00 guibg=#232323 gui=bold
-hi SlFTypExtN     guifg=#ddd0dd guibg=#151515 gui=bold
-hi SlFTypC        guifg=#eeccff guibg=#232323 gui=underline
-hi SlFTypN        guifg=#bb99ff guibg=#151515 gui=none
+hi SlFDfSvNmC     guifg=#ccccaf guibg=yslcccb gui=italic,underdotted
+hi SlFDfSvNmN     guifg=#bbbbaf guibg=yslnnnb gui=italic,underdotted
+hi SlFNameSvdC    guifg=#ffffff guibg=yslcccb
+hi SlFNameSvdN    guifg=yormalf guibg=yslnnnb
+hi SlFNameModC    guifg=#ffffff guibg=yslcccb gui=italic,underdotted
+hi SlFNameModN    guifg=#ffffff guibg=yslcccb gui=italic,underdotted
+hi SlFTypExtC     guifg=#00cc00 guibg=yslcccb gui=bold
+hi SlFTypExtN     guifg=#ddd0dd guibg=yslnnnb gui=bold
+hi SlFTypC        guifg=#eeccff guibg=yslcccb gui=underline
+hi SlFTypN        guifg=#bb99ff guibg=yslnnnb gui=none
 hi link SlFTyp2C  SlHintC
 hi link SlFTyp2N  SlHintN
 " file & buffer warning flags
-hi SlFlagC        guifg=#ff1111 guibg=#232323 gui=none
-hi SlFlagN        guifg=#ee0000 guibg=#151515 gui=none
+hi SlFlagC        guifg=#ff1111 guibg=yslcccb gui=none
+hi SlFlagN        guifg=#ee0000 guibg=yslnnnb gui=none
 " diagnostics
 hi SlSynErrC      guifg=#fc0000 guibg=#000000 gui=none
 hi SlSynErrN      guifg=#cc0000 guibg=#000000 gui=none

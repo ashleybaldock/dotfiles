@@ -3,20 +3,11 @@ if exists("g:mayhem_loaded_unicode")
 endif
 let g:mayhem_loaded_unicode = 1
 
-
-" Highlight non-ASCII characters.
-" syntax match nonascii [^\x00-\x7F]
-" highlight link nonascii ErrorMsg
-" autocmd BufEnter * syn match ErrorMsg /[^\x00-\x7F]/
 "
-"au WinEnter * if !exists("w:custom_hi1") | let w:custom_hi1 = matchadd('ErrorMsg', '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$') | endif
+" Default character used to display lonely combining characters
+" let g:mayhem_unicode_combine_default = '◌'
 "
-"au WinEnter * if !exists("w:custom_hi2") | 
-"
-" let w:custom_hi2 = matchadd('U8Whitespace',
-"   \ '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]', 10, -1, {'conceal': '⌻' })
-  
-
+let s:combase = get(g:, 'mayhem_unicode_combine_default', '◌')
 
 
 " ??
@@ -31,46 +22,62 @@ let g:mayhem_loaded_unicode = 1
 " a\%(\%ufe0f\|\%ufe0e\)\%u20de         a,(v15|v16),enclosing square
 " a\%u20de\%(\%ufe0f\|\%ufe0e\)         a,enclosing square,(v15|v16)
 " a\%(\%ufe0f\|\%ufe0e\)\%C             a,(v16|v15),<any>
+
 "
 " Reveal Variation Selectors:
 " See: ../demo/unicode-whitespace
-function! s:Hintvs1516() abort
-  let w:mayhem_match_vs1516 = [
-        \ matchadd('VS15', '︎', 1),
-        \ matchadd('VS16', '️', 1),
-        \ matchadd('VS1516', '︎️', 1),
-        \ matchadd('VS1615', '️︎', 1),
-        \ matchadd('SpecialSpace', ' ︎', 1)
-        \]
-endfunc
-
-command! VariationSelectorHints call exists('w:mayhem_match_vs1516') ? <SID>UnHintvs1516() : <SID>Hintvs1516()
-
-" Reveal Exotic Whitespace:
-" See: ../demo/unicode-whitespace
-function! s:HideUnicodeWhitespaceHints() abort
-  if exists('w:mayhem_match_u8only_wsp')
-    call matchdelete(w:mayhem_match_u8only_wsp)
-    unlet w:mayhem_match_u8only_wsp
+"
+function! s:ToggleHintVS1516() abort
+  if exists('w:mayhem_match_vs1516')
+    for addedmatch in w:mayhem_match_vs1516
+      call matchdelete(addedmatch)
+    endfor
+    unlet w:mayhem_match_vs1516
+  else
+    let w:mayhem_match_vs1516 = [
+          \ matchadd('VS15', '︎', 1),
+          \ matchadd('VS16', '️', 1),
+          \ matchadd('VS1516', '︎️', 1),
+          \ matchadd('VS1615', '️︎', 1),
+          \ matchadd('SpecialSpace', ' ︎', 1)
+          \]
   endif
 endfunc
 
-" [\Ue0100-\Ue01ef]
-" [\Ue0000-\Ue007f]
-function! s:ShowUnicodeWhitespaceHints() abort
-  call s:HideUnicodeWhitespaceHints()
-  let w:mayhem_match_u8only_wsp = matchadd('U8Whitespace', '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u2800\u3000\u303f\uff00\uffa0\ufeff\ufff0-\uffff\U000e0020]')
-endfunc
+command! VariationSelectorHints call <SID>ToggleHintVS1516()
 
+"
+" Reveal Exotic Whitespace:
+" See: ../demo/unicode-whitespace
+"
+" TODO - also,[\Ue0000-\Ue007f]?  \u20f1'⃱⃲⃳⃴⃵⃶⃷⃸⃹⃺⃻⃼⃽⃾⃿'\u20ff
 function! s:ToggleUnicodeWhitespaceHints() abort
   if exists('w:mayhem_match_u8only_wsp')
-    call s:HideUnicodeWhitespaceHints()
+    call matchdelete(w:mayhem_match_u8only_wsp)
+    unlet w:mayhem_match_u8only_wsp
   else
-    call s:ShowUnicodeWhitespaceHints()
+    let w:mayhem_match_u8only_wsp = matchadd('U8Whitespace', '[\x0b\x0c\u00a0\u00ad\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u2800\u3000\u303f\uff00\uffa0\ufeff\ufff0-\uffff\U000e0020]')
   endif
 endfunc
 
 command! UnicodeWhitespaceHints call <SID>ToggleUnicodeWhitespaceHints()
+
+
+"
+" Reveal Tags:
+" See: ../demo/unicode-whitespace
+"
+function! s:ToggleUnicodeTagHints() abort
+  if exists('w:mayhem_match_u8tags')
+    call matchdelete(w:mayhem_match_u8tags)
+    unlet w:mayhem_match_u8tags
+  else
+    let w:mayhem_match_u8tags = matchadd('U8Tags', '[\U000e0000-\U000e007f]')
+  endif
+endfunc
+
+command! UnicodeTagHints call <SID>ToggleUnicodeTagHints()
+
 
 "
 " Line of text starting @ current cursor position
@@ -88,6 +95,15 @@ function! s:GetCharUnderCursor() abort
 endfunc
 
 "
+" Character class of argument (defaults to char under cursor)
+"
+function! s:GetCharClass(char = s:GetLineFromCursor()) abort
+  return charclass(a:char)
+endfunc
+
+command! -bar -nargs=? GetCharClass echo <SID>GetCharClass(<args>)
+
+"
 " String representation of char code
 " (Char @ cursor position used if no argument given)
 function! GetCharCode(char = s:GetLineFromCursor()) abort
@@ -100,16 +116,15 @@ command! -bar -nargs=? GetCharCode echo GetCharCode(<f-args>)
 "
 " Convert char into regex escaped form
 "
-function! GetCharCodeMatch(char = s:GetLineFromCursor())
+function! GetCharCodeMatch(char = s:GetLineFromCursor()) abort
   let n = char2nr(a:char)
   return n < 0xffff ? printf('\%%u%x', n) :  printf('\%%U%x', n)
 endfunc
 
 command! -bar -nargs=? GetCharCodeMatch echo GetCharCodeMatch(<f-args>)
 
-" Replaces the base character in a glyph made up of
-" multiple characters (combining diacritics, 
-" variation selectors etc.)
+" Replaces the base character in a glyph made up of multiple
+" characters (combining diacritics, variation selectors etc.)
 "
 " Takes two arguments:
 " 1. the replacement base character
@@ -121,15 +136,15 @@ command! -bar -nargs=? GetCharCodeMatch echo GetCharCodeMatch(<f-args>)
 "
 " No cleverness here, it just swaps the first character,
 " will probably not work for some inputs
-" 
+"
 function! s:ReplaceBaseChar(replacement, char = s:GetLineFromCursor()) abort
   return a:replacement..strpart(a:char, 1)
 endfunc
 
-    " s/\zs\(\%#\)\ze/\=ReplaceBaseCharWith(submatch(0))/n
+" s/\zs\(\%#\)\ze/\=ReplaceBaseCharWith(submatch(0))/n
 command! -bar -nargs=+ ReplaceBaseCharWith echo <SID>ReplaceBaseChar(<q-args>)
 
-" 
+"
 " command! -bar -nargs=+ CombineWithDiacritic echo <SID>CombineWith(<q-args>)
 
 
@@ -143,7 +158,7 @@ command! -bar -nargs=+ ReplaceBaseCharWith echo <SID>ReplaceBaseChar(<q-args>)
 "
 function! s:CodepointsInRange(
       \ start,
-      \ count = 16)
+      \ count = 16) abort
   let l:startidx = type(a:start) == type(0) ? a:start : str2nr(a:start)
   let l:count = type(a:count) == type(0) ? a:count : str2nr(a:count)
 
@@ -151,7 +166,7 @@ function! s:CodepointsInRange(
 endfunc
 
 "
-" List of characters with codepoints between 
+" List of characters with codepoints between
 " the two characters given as arguments
 " fromchar: optional, string (only first character is used),
 "            defaults to char under cursor
@@ -161,7 +176,7 @@ endfunc
 function! s:CodepointsBetweenChars(
       \ fromchar = s:GetLineFromCursor(),
       \ tochar = nr2char(char2nr(a:fromchar) + 16)
-      \)
+      \) abort
   let fromidx = char2nr(a:fromchar)
   let toidx = char2nr(a:tochar)
   let min = min([fromidx, toidx])
@@ -172,12 +187,12 @@ endfunc
 
 function! s:CodepointsStartingFromChar(
       \ fromchar = s:GetLineFromCursor(),
-      \ count = 16)
+      \ count = 16) abort
   let fromidx = char2nr(a:fromchar)
   return s:CodepointsInRange(fromidx, a:count)
 endfunc
 
-function! s:RenderCodepointRow(for = s:GetLineFromCursor())
+function! s:RenderCodepointRow(for = s:GetLineFromCursor()) abort
   let foridx = type(a:for) == type(0) ? a:for : char2nr(a:for)
   let fromidx = foridx / 16 * 16
 
@@ -197,26 +212,46 @@ function! s:RenderCodepointRow(for = s:GetLineFromCursor())
   return printf('%05x ⏐ ', fromidx)..s:CodepointsInRange(fromidx)->map({ i, v -> char2nr(v) == foridx ? ''..v..'' : v})->join(' ')..''
 endfunc
 
+
+"
+" Turn array of codepoints into a string
+" Gives standalone combining characters something to combine with
+"
+function! s:ToString(codepoints)
+  return mapnew(a:codepoints,
+        \ {idx, val -> strchars(s:combase..val, 1) == strchars(val, 1)
+        \  ? s:combase..val : val})->join(' ︎')
+endfunc
+
 "
 " Return a string with all chars with codepoints in range
 "  defined by a codepoint and a count
 " arg1: count (defaults to 16)
 " arg2: numeric codepoint (start of range)
 "
-" e.g. :CodepointsStartingFromCodepoint 26 65
+" e.g. :UnicodepointsCountFromIndex 26 65
 " -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
 "
-command! -bar -nargs=? -count=16 CodepointsStartingFromCodepoint echo <SID>CodepointsInRange(<q-args>, <count>)->join(' ')
+function! s:UnicodepointsCountFromIndex(from, count = 16) abort
+  return s:ToString(s:CodepointsInRange(a:from, a:count))
+endfunc
+command! -bar -nargs=? -count=16 UnicodepointsCountFromIndex
+      \ echo <SID>UnicodepointsCountFromIndex(<args>, <count>)
 "
 " Return a string with all chars with codepoints in range
 "  defined by a starting char and a count
 " arg1: count (defaults to 16)
 " arg2: start of range (defaults to cursor char)
 "
-" e.g. :CodepointsStartingFromChar 26 A
+" e.g. :UnicodepointsCountFromChar 26 A
 " -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
 "
-command! -bar -nargs=? -count=16 CodepointsStartingFromChar echo <SID>CodepointsStartingFromChar(<q-args>, <count>)->join(' ')
+function! s:UnicodepointsCountFromChar(
+      \ from = s:GetLineFromCursor(), count = 16) abort
+  return s:ToString(s:CodepointsStartingFromChar(a:from, a:count))
+endfunc
+command! -bar -nargs=? -count=16 UnicodepointsCountFromChar
+      \ echo <SID>UnicodepointsCountFromChar(<args>, <count>)
 
 "
 " Return a string containing all chars with codepoints between
@@ -226,10 +261,16 @@ command! -bar -nargs=? -count=16 CodepointsStartingFromChar echo <SID>Codepoints
 "  (The order of the ends doesn't matter, but the output is
 "   always in ascending codepoint order)
 "
-" e.g. :CodepointsBetweenChars Z A
+" e.g. :UnicodepointsBetween Z A
 " -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
 "
-command! -bar -nargs=* CodepointsBetweenChars echo <SID>CodepointsBetweenChars(<f-args>)->join(' ')
+function! s:UnicodepointsBetween(
+      \ from = s:GetLineFromCursor(),
+      \ to = nr2char(char2nr(a:fromchar) + 16)) abort
+  return s:ToString(s:CodepointsBetweenChars(a:from, a:to))
+endfunc
+command! -bar -nargs=* UnicodepointsBetween
+      \ echo <SID>UnicodepointsBetween(<f-args>)
 
 " TODO
 " Shows the unicode block that contains a character
@@ -237,53 +278,102 @@ command! -bar -nargs=* CodepointsBetweenChars echo <SID>CodepointsBetweenChars(<
 " command! -bar -nargs=? GenerateUnicodeBlock echo <SID>RenderCodepointRow(<f-args>)
 
 " TODO show row(s) before/after in same block
-command! -bar -nargs=? ShowUnicodeContext call <SID>RenderCodepointRow(<f-args>)
+command! -bar -nargs=? ShowUnicodeContext
+      \ call <SID>RenderCodepointRow(<f-args>)
 
-let g:mayhem_combining_diacriticals = [ ['\u20d0'] ]
-"                                                           TODO
+let s:combining_diacriticals = [ '',
+      \
+      \ '̀', '́', '̂', '̃', '̄', '̅', '̆', '̇', '̈', '̉', '̊', '̋', '̌', '̍', '̎', '̏',
+      \ '̐', '̑', '̒', '̓', '̔', '̕', '̖', '̗', '̘', '̙', '̚', '̛', '̜', '̝', '̞', '̟',
+      \ '̠', '̡', '̢', '̣', '̤', '̥', '̦', '̧', '̨', '̩', '̪', '̫', '̬', '̭', '̮', '̯',
+      \ '̰', '̱', '̲', '̳', '̴', '̵', '̶', '̷', '̸', '̹', '̺', '̻', '̼', '̽', '̾', '̿',
+      \ '̀', '́', '͂', '̓', '̈́', 'ͅ', '͆', '͇', '͈', '͉', '͊', '͋', '͌', '͍', '͎', '͏',
+      \ '͐', '͑', '͒', '͓', '͔', '͕', '͖', '͗', '͘', '͙', '͚', '͛', '͜', '͝', '͞', '͟',
+      \ '͠', '͡', '͢', 'ͣ', 'ͤ', 'ͥ', 'ͦ', 'ͧ', 'ͨ', 'ͩ', 'ͪ', 'ͫ', 'ͬ', 'ͭ', 'ͮ', 'ͯ',
+      \
+      \ '᳐', '᳒', '', '᳗', '᳙', '᳚', '᳜', '᳝', '᳠', '᳴', '᳸', '᳹',
+      \
+      \ '᷀', '᷁', '᷂', '᷃', '᷄', '᷅', '᷆', '᷇', '᷈', '᷉', '᷊', '᷋', '᷌', '᷍', '᷎', '᷏',
+      \ '᷐', '᷑', '᷒', 'ᷓ', 'ᷔ', 'ᷕ', 'ᷖ', 'ᷗ', 'ᷘ', 'ᷙ', 'ᷚ', 'ᷛ', 'ᷜ', 'ᷝ', 'ᷞ', 'ᷟ',
+      \ 'ᷠ', 'ᷡ', 'ᷢ', 'ᷣ', 'ᷤ', 'ᷥ', 'ᷦ', 'ᷧ', 'ᷨ', 'ᷩ', 'ᷪ', 'ᷫ', 'ᷬ', 'ᷭ', 'ᷮ', 'ᷯ',
+      \ 'ᷰ', 'ᷱ', 'ᷲ', 'ᷳ', 'ᷴ', '᷵', '', '', '', '', '', '᷻', '᷼', '᷽', '᷾', '᷿',
+      \
+      \ '⃐', '⃑', '⃒', '⃓', '⃔', '⃕', '⃖', '⃗', '⃘', '⃙', '⃚', '⃛', '⃜', '⃝', '⃞', '⃟',
+      \ '⃠', '⃡', '⃢', '⃣', '⃤', '⃥', '⃦', '⃧', '⃨', '⃩', '⃪', '⃫', '⃬', '⃭', '⃮', '⃯',
+      \ '⃰',
+      \
+      \ '︠', '︡', '︢', '︣', '︤', '︥', '︦', '︧', '︨', '︩', '︪', '︫', '︬', '︭', '︮', '︯',
+      \]
+let s:variation_selectors = [ '', '︀', '︁', '︂', '︃', '︄', '︅', '︆', '︇', '︈', '︉', '︊', '︋', '︌', '︍', '︎', '️']
+
+"
 " Combine a char with various diacritical marks
 "
-function! s:GenerateCombinings(arg) abort
-  let parts = s:SplitChar(a:arg)
-  let base = parts[0]
-  echom s:SplitChar(a:arg)
+function! s:GenerateCombinings(
+      \ from = s:GetLineFromCursor(),
+      \ with = s:combining_diacriticals
+      \) abort
+  let base = strpart(a:from, 0, 1)
+  let combined = mapnew(a:with, {_,val -> base .. val})
+  return combined
 endfunc
 
-command! -bar -nargs=? GenerateCombinings call <SID>GenerateCombinings(<f-args>)
+function! s:GenerateVariations(from = s:GetLineFromCursor()) abort
+  return s:GenerateCombinings(a:from, s:variation_selectors)
+endfunc
 
+command! -bar -nargs=? GenerateCombinings echo <SID>GenerateCombinings(<f-args>)->join(' ')
+
+command! -bar -nargs=? GenerateVariations echo <SID>GenerateVariations(<f-args>)->join(' ')
+
+"                                                           TODO
+function s:SelectCombination() abort
+endfunc
 "
 " Show a popup with possible combinations to pick from
 " If no base character supplied, uses character under cursor
 "
-command! -bar -nargs=? SelectCombination call <SID>GenerateCombinings(<f-args>)
+command! -bar -nargs=? SelectCombination call <SID>SelectCombination(<f-args>)
 
-
-function s:SelectVariation()
-  " Get character under cursor
+"                                                           TODO
+function s:SelectVariation() abort
 endfunc
-
+" Show a popup with possible variations to pick from
+" If no base character supplied, uses character under cursor
 "
-" Show a popup with variations for a given base char
-" Defaults to character @ cursor position if not supplied
 command! -bar -nargs=? SelectVariation call <SID>SelectVariation(<f-args>)
 
 "                                                           TODO
 " Cycle through predefined sets of Unicodepoints
-" 
+"
 " A given codepoint may have more than one dimension
 " along which it can be cycled
-" 
-" e.g. ┼ ▬▶︎ ├ ▬▶︎ ┌ ▬▶︎ ┬ ▬▶︎ ┐ ▬▶︎ ┤ ▬▶︎ ┘ ▬▶︎ ┴ ▬▶︎ └ 
+"
+" e.g. ┼ ▬▶︎ ├ ▬▶︎ ┌ ▬▶︎ ┬ ▬▶︎ ┐ ▬▶︎ ┤ ▬▶︎ ┘ ▬▶︎ ┴ ▬▶︎ └
 " rotation
-"      ┘ ▶︎ ╴ ▶︎ ┐ ▶︎ ╷ ▶︎ ┌ ▶︎ ╶ ▶︎ └ ▶︎ ╵   ▮◀︎ 
+"      ┘ ▶︎ ╴ ▶︎ ┐ ▶︎ ╷ ▶︎ ┌ ▶︎ ╶ ▶︎ └ ▶︎ ╵   ▮◀︎
 "      │ ▶︎ ╱ ▶︎ ─ ▶︎ ╲   ⏮
 " style
 "      ┘ ▶︎ ┙ ▶︎ ┚ ▶ ┛ ▶ ╛ ▶ ╜ ▶ ╝ ▶ ╯  ▮◀︎◀︎
-"      
+"     w     w: [╵, ][└,╶][├,][┌,├][┬,┼][┐,┤][,]
+"     ╿     
+"  a╺─┼─╸d  w: [' ','╵','╹']
+"     ╽         ┌ ├ ┞   ┬ ┼ ╀  ╷ │ ╿   ╗ ╣ 
+"     s
+"           s:  ╿ ┃ ╹   
+"
+"           q:  ╷ │ ╎ ┆ ┊ ╵ ╷  e: │ ┃ ║
 "
 let g:mayhem_unicycles = [
       \ ['', '', '╭', '','╮', '','╯','', '╰'],
+      \
       \ ['┼','├','┌','┬','┐','┤','┘','┴','└'],
+      \
+      \ ['┌','┐','┘','└','┐','┤','┘','┴','└'],
+      \
+      \ ['╷','┐','│','┌',],
+      \ ['╴','┘','─','┐',],
+      \
       \ ['╋','┣','┏','┳','┓','┫','┛','┻','┗'],
       \ ['╬','╠','╔','╦','╗','╣','╝','╩','╚'],
       \ ['╴','─','╶','╌','┄','┈','╼','╾'],
@@ -297,4 +387,23 @@ function! s:CycleChars(arg) abort
   let parts = s:SplitChar(a:arg)
   " check cycle arrays for combined, and then base
 endfunc
+
+
+
+
+
+
+" Highlight non-ASCII characters.
+" syntax match nonascii [^\x00-\x7F]
+" highlight link nonascii ErrorMsg
+" autocmd BufEnter * syn match ErrorMsg /[^\x00-\x7F]/
+"
+"au WinEnter * if !exists("w:custom_hi1") | let w:custom_hi1 = matchadd('ErrorMsg', '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$') | endif
+"
+"au WinEnter * if !exists("w:custom_hi2") |
+"
+" let w:custom_hi2 = matchadd('U8Whitespace',
+"   \ '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]', 10, -1, {'conceal': '⌻' })
+
+
 

@@ -182,22 +182,25 @@ function s:Update_Diag()
     " TODO symbol lookup with list index
     let symbol = get(s:symbols.diag.numbers, errorCount, get(s:symbols.diag, 'error', 'X!'))
     let b:mayhem.sl_cache_diag = [
-        \ '%#SlSynErrC#'..symbol..'%*',
-        \ '%#SlSynErrN#'..symbol..'%*']
+        \ ['%#SlSynErrC#',symbol,'%*']->join(''),
+        \ ['%#SlSynErrN#',symbol,'%*']->join(''),
+        \]
     return
   endif
 
   if warnCount > 0
     let symbol = get(s:symbols.diag.numbers, warnCount, get(s:symbols.diag, 'warning', 'X!'))
     let b:mayhem.sl_cache_diag = [
-        \ '%#SlSynWarnC#'..symbol..'%*',
-        \ '%#SlSynWarnN#'..symbol..'%*']
+        \ ['%#SlSynWarnC#',symbol,'%*']->join(''),
+        \ ['%#SlSynWarnN#',symbol,'%*']->join(''),
+        \]
     return
   endif
 
   let b:mayhem.sl_cache_diag = [
-        \ '%#SlSynOkC#'..GetSymbol('diag.ok')..'%*',
-        \ '%#SlSynOkN#'..GetSymbol('diag.ok')..'%*']
+        \ ['%#SlSynOkC#', GetSymbol('diag.ok'), '%*']->join(''),
+        \ ['%#SlSynOkN#', GetSymbol('diag.ok'), '%*']->join(''),
+        \]
   return
 endfunc
 
@@ -245,10 +248,15 @@ let g:mayhem.symbols_A.git = {
       \ 'unstaged': '*',
       \ 'staged':   '+'
       \}
-"   $   stashes          􀐆️⃞   􀫝️⃞   􀠧︎⃝  􀓔⃞️  􁊓⃞︎  􀼳 􀴨 􀖄⃣ 􀖅⃣  􀙡⃣ 􀙠⃣
-"                                             􀖄️⃣ 􀖅️⃣  􀙡️⃣ 􀙠️⃣
-"                                             􀖄⃟ 􀖅⃟ 􀙡⃟ 􀙠⃟️
+"   $   stashes          􀐆️⃞   􀫝️⃞   􀠧︎⃝  􀓔⃞️  􁊓⃞︎  􀼳 􀴨 
+"                                             􀖄️⃞ 􀖄️⃝ 􀖄️⃤ 
+"                                             􀖅️⃞ 􀖅️⃝ 􀖅️⃤ 
+"                                             􀙡️⃞ 􀙡️⃝ 􀙡️⃤
+"                                             􀙠️⃞ 􀙠️⃝ 􀙠️⃤
+"
+"                                             
 "                                             􀖄⃤ 􀖅⃤  􀙡⃤ 􀙠⃤
+"                                             􀖄⃟ 􀖅⃟ 􀙡⃟ 􀙠⃟️
 "                                             􀖄⃤︎ 􀖅⃤︎  􀙡⃤︎ 􀙠⃤︎
 "                                             􀖄⃠️ 􀖅⃠️  􀙡⃠️ 􀙠⃠️
 "   %   untracked files
@@ -293,26 +301,38 @@ endfunc
 
 let g:mayhem.symbols_S.status = {
       \ 'readonly': 'ᴿ',
-      \ 'nomodifiable': 'ᴿ',
+      \ 'modified': '+',
+      \ 'nomodifiable': '􀍼',
       \ 'fencnot8': '∪⃞⃥ ',
       \ 'ffnotnix': '␌⃞ ',
       \ 'diffing' : '􀄐􀕹',
       \ }
 let g:mayhem.symbols_8.status = {
       \ 'readonly': 'ᴿ',
+      \ 'modified': '+',
+      \ 'nomodifiable': ' ⃠',
       \ 'fencnot8': '∪⃞⃥ ',
       \ 'ffnotnix': '␌⃞ ',
       \ 'diffing' : 'DIFF',
       \ }
 let g:mayhem.symbols_A.status = {
       \ 'readonly': 'R',
+      \ 'modified': '+',
+      \ 'nomodifiable': 'x',
       \ 'fencnot8': '!8',
       \ 'ffnotnix': '!F',
       \ 'diffing' : 'DIFF',
       \ }
 
-function CheckRO()
+function RO()
   return &readonly ? GetSymbol('status.readonly') : ""
+endfunc
+function Modified()
+  return ['%{&modifiable?&modified?"',
+        \ GetSymbol('status.modified') .. ' ',
+        \ '":"":"',
+        \ GetSymbol('status.nomodifiable') .. ' ',
+        \ '"}']->join('')
 endfunc
 function CheckUtf8()
   return &fenc !~ "^$\\|utf-8" || &bomb ? GetSymbol('status.fencnot8') : ""
@@ -323,6 +343,15 @@ endfunc
 function Diffing()
   return &diff ? GetSymbol('status.diffing') : ""
 endfunc
+" 0/anything and 2/n are usual
+function Conceal()
+  return (&conceallevel == 0 || (&conceallevel == 2 && &concealcursor !~ "[vic]")) ? ""
+        \ : (["", "➊", "➁", "➌"][&conceallevel] .. (&concealcursor =~ "[vic]" ? "!" : ""))
+endfunc
+
+" TODO status indicators for:
+"      - autocmds active
+"       - syntax refresh on save
 
 " Get cached filename for statusline
 function ChFName()
@@ -339,20 +368,24 @@ endfunc
 
 " show hint for files in these folders
 " most specific is used
-let g:mayhem.path_hints = {
-      \ '~/.vim/after':          '.v after',
-      \ '~/.vim/after/ftplugin': '.v aft›ftplug',
-      \ '~/.vim/after/plugin':   '.v aft›plug',
-      \ '~/.vim/after/syntax':   '.v aft›syntax',
-      \ '$VIMRUNTIME/syntax':    '$R syntax',
-      \ '~/.vim/colors':         '.v colors',
-      \ '~/.vim/autoload/':      '.v auto',
-      \ '~/.vim/ftplugin/':      '.v ftplug',
-      \ '~/.vim/plugin/':        '.v plug',
-      \ '~/.vim/syntax/':        '.v syntax',
-      \ '~/.vim/templates/':     '.v tmpl',
-      \ '**/node_modules/':      'NM ',
-      \ }
+if exists('$VIMHOME')
+  let g:mayhem.path_hints = {
+        \ expand('$VIMHOME/ftplugin'):       ['(️v/️f)️', ''],
+        \ expand('$VIMHOME/after/ftplugin'): ['(️v/️a/️f)️', ''],
+        \ expand('$VIMHOME/plugin'):         ['(️v/️p)️', ''],
+        \ expand('$VIMHOME/after/plugin'):   ['(️v/️a/️p)️', ''],
+        \ expand('$VIMHOME/syntax'):         ['(️v/️s)️', ':syntax'],
+        \ expand('$VIMHOME/after/syntax'):   ['(️v/️a/️s)️', ':syntax'],
+        \ expand('$VIMHOME/autoload'):       ['(️v/️autol)️', ''],
+        \ expand('$VIMHOME/colors'):         ['(️v/️cl)️', ':colors'],
+        \ expand('$VIMHOME/templates'):      ['(️v/️tp)️', ':template'],
+        \ expand('$VIMRUNTIME/syntax'):      ['$R syntax', ''],
+        \ '**/node_modules':      ['NM ', ''],
+        \ }
+else
+  let g:mayhem.path_hints = {}
+endif
+
 let g:mayhem.type_ext_map = {
       \ 'javascriptreact': ['jsx'],
       \ 'javascript': ['js'],
@@ -361,6 +394,14 @@ let g:mayhem.type_ext_map = {
       \ 'markdown': ['md'],
       \ 'dosbatch': ['bat'],
       \ }
+
+function s:GetPathHint(path)
+  return get(g:mayhem.path_hints, fnamemodify(expand(a:path), ':p:h'), ['', ''])
+endfunc
+
+function s:PathDifference(path1, path2)
+  echo fnamemodify(expand(a), ':p:h')
+endfunc
 
 function s:TypeMatchesFilename(type, filename)
   let ext = fnamemodify(a:filename, ':e')
@@ -380,53 +421,33 @@ function s:Update_FileInfo()
   let diffname = getbufvar(bufnr(), 'mayhem_diff_saved', '')
   let tail = expand('%:t')
   let type = getbufvar(bufnr(), '&filetype')
+  let [pathhint, typehint] = s:GetPathHint('%')
 
   if name == ''
     if &diff && diffname != ''
-      " let b:mayhem.sl_cached_filename = [
-      "   \ '%#SlFDfSvNmC#Saved('..diffname..')%* '..
-      "   \ '%{&modified?&modifiable?"+":"⨁":""}',
-      "   \ '%#SlFDfSvNmN#Saved('..diffname..')%* '..
-      "   \ '%{&modified?&modifiable?"+":"⨁":""}']
       let b:mayhem.sl_cached_filename = [
-        \ '%#SlFDfSvNmC#Saved('..diffname..')%* '..
-        \ '%{&modifiable?&modified?"+":"":"􀍼"}',
-        \ '%#SlFDfSvNmN#Saved('..diffname..')%* '..
-        \ '%{&modified?&modifiable?"+":"":"􀍼"}',
-        \ '']
+        \['%#SlFDfSvNmC#Saved(', diffname, ')%* ', '%{%Modified()%}']->join(''),
+        \['%#SlFDfSvNmN#Saved(', diffname, ')%* ', '%{%Modified()%}']->join(''),
+        \]
     else
       let b:mayhem.sl_cached_filename = [
-        \ '%#SlFNoNameC#nameless%* '..
-        \ '%{&modifiable?&modified?"+":"":"􁝊"}',
-        \ '%#SlFNoNameN#nameless%* '..
-        \ '%{&modifiable?&modified?"+":"":"􁝊"}',
-        \ '']
+        \['%#SlFNoNameC#nameless%* ', '%{%Modified()%}']->join(''),
+        \['%#SlFNoNameN#nameless%* ', '%{%Modified()%}']->join(''),
+        \]
     endif
   else
-        " \ '%{&modifiable?&modified?"+":"":"-"}',
     if s:TypeMatchesFilename(type, expand('%'))
       let b:mayhem.sl_cached_filename = [
-        \ '%{%CheckRO()%}%#SlFNameC#'..name..
-        \ '.%#SlFTypExtC#'..ext..'%* '..
-        \ '%{&modifiable?&modified?"+":"":"􀍼"}',
-        \ '%{%CheckRO()%}%#SlFNameN#'..name..
-        \ '.%#SlFTypExtN#'..ext..'%* '..
-        \ '%{&modifiable?&modified?"+":"":"􀍼"}',
-        \ '']
-      let b:mayhem.sl_cached_fileinfo = [
-        \ '%#SlFTyp2C#'..type..'%*',
-        \ '%#SlFTyp2N#'..type..'%*']
+        \['%{%RO()%}%#SlFNameC#', name, '.%#SlFTypExtC#',
+        \ ext, '%* ', '%{%Modified()%}', '%#SlFPathC#', pathhint, '%*']->join(''),
+        \['%{%RO()%}%#SlFNameN#', name, '.%#SlFTypExtN#',
+        \ ext, '%* ', '%{%Modified()%}', '%#SlFPathN#', pathhint, '%*']->join('')
+        \]
     else
       let b:mayhem.sl_cached_filename = [
-        \ '%{%CheckRO()%}%#SlFNameC#'..tail..'%* '..
-        \ '%{&modifiable?&modified?"+":"":"-"}',
-        \ '%{%CheckRO()%}%#SlFNameN#'..tail..'%* '..
-        \ '%{&modifiable?&modified?"+":"":"-"}',
-        \ '']
-      let b:mayhem.sl_cached_fileinfo = [
-        \ '%#SlFTyp2C#'..type..'%*',
-        \ '%#SlFTyp2N#'..type..'%*',
-        \ '']
+            \['%{%RO()%}%#SlFNameC#', tail, '%* ', '%{%Modified()%}']->join(''),
+            \['%{%RO()%}%#SlFNameN#', tail, '%* ', '%{%Modified()%}']->join('')
+            \]
     endif
   endif
 
@@ -437,9 +458,9 @@ function s:Update_FileInfo()
       \ '']
   else
     let b:mayhem.sl_cached_fileinfo = [
-      \ '%#SlFTyp2C#'..type..'%*',
-      \ '%#SlFTyp2N#'..type..'%*',
-      \ '']
+      \['%#SlFTyp2C#', type, typehint, '%*']->join(''),
+      \['%#SlFTyp2N#', type, typehint, '%*']->join('')
+      \]
   endif
 endfunc
 
@@ -476,17 +497,23 @@ function s:UpdateStatuslines() abort
   " Separate: %= ║ L%=Mid%=R ┃ L          Mid          R ┃
 
   let g:mayhem['sl_norm'] = [
-        \ '%{%ChGit()%} %{%ChFName()%} %#SlSepC#%=%*%<'..
-        \ '%{%Diffing()%}'..
-        \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)'..
-        \ '%{%ChFInfo()%} %{%ScrollHint()%}'..
-        \ ' %{%ChDiag()%}',
+        \ ['%{%ChGit()%} %{%ChFName()%} ',
+        \ '%#SlSepC#%=%*%<',
+        \ '%{%Diffing()%}',
+        \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckUnix()%}%*%)',
+        \ '%( %#SlHintC#%{%Conceal()%}%*%)',
+        \ ' %{%ChFInfo()%}',
+        \ ' %{%ScrollHint()%}',
+        \ ' %{%ChDiag()%}']->join(''),
         \
-        \ '%{%ChGit()%} %{%ChFName()%} %#SlSepN#%=%*%<'..
-        \ '%{%Diffing()%}'..
-        \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%* %)'..
-        \ '%{%ChFInfo()%} %{%ScrollHint()%}'..
-        \ ' %{%ChDiag()%}']
+        \ ['%{%ChGit()%} %{%ChFName()%} ',
+        \ '%#SlSepN#%=%*%<',
+        \ '%{%Diffing()%}',
+        \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%*%)',
+        \ ' %{%ChFInfo()%}',
+        \ ' %{%ScrollHint()%}',
+        \ ' %{%ChDiag()%}']->join('')
+        \ ]
 
 
   " let g:mayhem['sl_prev'] = [
@@ -511,22 +538,25 @@ function s:UpdateStatuslines() abort
         \ '  􀤏  %=%#SlMessN#􁈏 Messages 􁈐%*%=  􀤏  ']
 
   " ' ℺⃞ 🅀 𝒬⃞  ⍰ \ %%*'
+  " Quickfix:
   let g:mayhem['sl_qfix'] = [
         \ '%#SlQfixC#􀩳 %*',
         \ '%#SlQfixN#􀩳 %*']
-  " let g:mayhem['sl_dir_todo'] = [
-  "       \ '%#SlDirC#DIR %-F:h%*',
-  "       \ '%#SlDirN#DIR %-F:h%*']
+  " Netrw:
   let g:mayhem['sl_dir'] = [
-        \ '%#SlDirC#􀈕 %-F:h%*%<%=%#SlDirInvC#netrw%*',
-        \ '%#SlDirN#􀈕 %-F:h%*%<%=%#SlDirInvN#netrw%*']
+        \ '%#SlDirC#􀈕 %-F%*%<%=%#SlDirInvC#netrw%*',
+        \ '%#SlDirN#􀈕 %-F%*%<%=%#SlDirInvN#netrw%*']
 
   " let g:mayhem['sl_home_todo'] = [
   "       \ '%#SlHomeC#HOME Vim Mayhem%*%<%=%#SlHmRtC#%*',
   "       \ '%#SlHomeN#HOME Vim Mayhem%*%<%=%#SlHmRtN#%*']
+  " Home:
   let g:mayhem['sl_home'] = [
-        \ '%#SlHomeLC#􁘭  %*%<%=%#SlHomeMC#Vim Mayhem%*%=%#SlHomeRC#􁘭 %*',
-        \ '%#SlHomeLN#􁘭  %*%<%=%#SlHomeMN#Vim Mayhem%*%=%#SlHomeRN#􁘭 %*']
+        \ ['%#SlHomeLC#􁘲  Vim Mayhem%*',
+        \ '%<','%=','%#SlHomeMC# %*','%=','%#SlHomeRC# %*']->join(''),
+        \ ['%#SlHomeLN#􁘱  Vim Mayhem%*',
+        \ '%<','%=','%#SlHomeMN# %*','%=','%#SlHomeRN# %*']->join(''),
+        \]
 endfunc
 
 function NC()

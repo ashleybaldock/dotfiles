@@ -83,11 +83,15 @@ if has('gui_running')
 
   set wincolor=WinNormal
 
+  let g:vimsyn_minlines = 2
+
   if !exists("g:syntax_on")
     syntax enable
   endif
 
+  " No right or left scrollbars
   set guioptions-=rL
+  " Console dialogs, fit to window, toolbar
   set guioptions+=ckT
   set guicursor=n:block-nCur/lCur,
         \c:ver70-cCur,
@@ -168,7 +172,7 @@ set smarttab
 set laststatus=2
 
 set conceallevel=2
-set concealcursor=nc
+set concealcursor=n
 
 set wildmenu
 set wildoptions=pum
@@ -178,12 +182,28 @@ set display+=lastline
 set autoread
 set showcmd
 set shortmess+=sAIt
+
 let g:netrw_banner=0
+let g:netrw_liststyle=2
+let g:netrw_timefmt="%I:%m %d-%m-%Y"
 let g:netrw_fastbrowse=0
 let g:netrw_list_hide=[
       \ '\.DS_Store',
-      \ '.*\.sw[nop]$',
+      \ '.*\.sw[a-p]$',
       \ ]->join(',')
+let g:netrw_sort_sequence=[
+      \ '[\/]$',
+      \ '*',
+      \ '\..*',
+      \ 'node_modules\/$',
+      \ '.*\.sw[a-p]$',
+      \ '\.DS_Store',
+      \ '\.bak$','\.o$','\.h$','.info$','\.obj$',
+      \ '\.[\/]',
+      \ ]->join(',')
+let g:netrw_mousemaps=0
+let g:netrw_sortby='name'
+let g:netrw_sort_direction='normal'
 
 
 " ftplugin/vim.vim

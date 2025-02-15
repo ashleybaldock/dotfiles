@@ -27,17 +27,18 @@ command! -bar CopyGitDiff let @+ = 'TODO'
 " ╎
 " ╰─╴current buffer
 " ╎   ├─▶︎ info
-command! -bar CopyBufferInfo let @+ = 'TODO'
+command! -bar CopyWinfo silent call ExecToRegister('Winfo', '+')
 " ╎   ├─▶︎ contents
 command! -bar -nargs=? -range=% CopyBuffer let @+ = getbufline(bufname(<q-args>), <line1>, <line2>)->join("\n")
 " ╎
 " ╰─╴cursor
 " ╎   ├─▶︎ unicode info from Characterize
-command! -nargs=? CopyCharacterize redir @+>| Characterize <args> | redir END
+" command! -bar -nargs=? CopyCharacterize redir @+>| Characterize <args> | redir END
+command! -bar -nargs=? CopyCharacterize silent call ExecToRegister('Characterize '..<q-args>, '+')
 " ╎   ├─▶︎ unicode info, character codepoint
-command! -nargs=? CopyCharCode redir @+>| GetCharCode <args> | redir END
+command! -bar -nargs=? CopyCharCode redir @+>| GetCharCode <args> | redir END
 " ╎   ╰─▶︎ unicode info, character codepoint
-command! -nargs=? CopyCharCodeMatch redir @+>| GetCharCodeMatch <args> | redir END
+command! -bar -nargs=? CopyCharCodeMatch redir @+>| GetCharCodeMatch <args> | redir END
 " ╎
 " ╰─╴search
 " ╎   ╰─▶︎ last
@@ -56,4 +57,4 @@ command! -bar CopyLastJumpList let @+ = get(g:last_coc_jump_locations)
 command! -bar CopyMessages silent call ExecToRegister('silent messages', '+')
 
 "
-command! -nargs=? CopyExec silent call ExecToRegister(<q-args>, '+')
+command! -complete=command -nargs=? CopyExec silent call ExecToRegister(<q-args>, '+')

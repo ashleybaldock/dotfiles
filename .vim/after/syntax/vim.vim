@@ -1,7 +1,11 @@
-" 
+"
 " Add 'wysiwyg' highlight groups for highlight attributes
 "
 " Also make undercurl etc. not show as errors
+"
+" au BufWritePost <buffer> syn on
+"
+" See also: $VIMRUNTIME/syntax/vim.vim
 "
 
 syn keyword	vimHiAttrib	contained	undercurl underdotted underdouble
@@ -45,20 +49,34 @@ syn keyword vimHiAttrStand  contained standout
 syn keyword vimHiAttrNoCom  contained nocombine
 syn keyword vimHiAttrNONE   contained NONE
 
-hi def vimHiAttrBold   guifg=ywnormf gui=bold               
+hi def vimHiAttrBold   guifg=ywnormf gui=bold
 hi def vimHiAttrUnLine guifg=#009999 gui=underline     guisp=ywnormf
 hi def vimHiAttrUnCurl guifg=#009999 gui=undercurl     guisp=ywnormf
-hi def vimHiAttrUnDbl  guifg=#009999 gui=underdouble   guisp=ywnormf  
+hi def vimHiAttrUnDbl  guifg=#009999 gui=underdouble   guisp=ywnormf
 hi def vimHiAttrUnDot  guifg=#009999 gui=underdotted   guisp=ywnormf
 hi def vimHiAttrUnDash guifg=#009999 gui=underdashed   guisp=ywnormf
 hi def vimHiAttrStrike guifg=#009999 gui=strikethrough guisp=ywnormf
-hi def vimHiAttrItalic guifg=ywnormf gui=italic       
-hi def vimHiAttrInv    guifg=ywnormf gui=inverse            
-hi def vimHiAttrRev    guifg=ywnormf gui=reverse      
-hi def vimHiAttrStand  guifg=ywnormf gui=standout     
-hi def vimHiAttrNoCom  guifg=ywnormf gui=nocombine    
-hi def vimHiAttrNONE   guifg=#009999 gui=none          
+hi def vimHiAttrItalic guifg=ywnormf gui=italic
+hi def vimHiAttrInv    guifg=ywnormf gui=inverse
+hi def vimHiAttrRev    guifg=ywnormf gui=reverse
+hi def vimHiAttrStand  guifg=ywnormf gui=standout
+hi def vimHiAttrNoCom  guifg=ywnormf gui=nocombine
+hi def vimHiAttrNONE   guifg=#009999 gui=none
 
 syn keyword vimCommand macm[enu] skipwhite nextgroup=@vimMenuList
 
 syn keyword vimCommand maca[ction]
+
+syn region DemoCursorRange contained containedin=vimLineComment
+      \ concealends
+      \ matchgroup=Conceal start="󠀨"
+      \ end="󠀩"
+
+syn region DemoCursor contained containedin=DemoCursorRange
+      \ concealends
+      \ matchgroup=Conceal start="󠁛"
+      \ end="󠁝"
+
+hi def DemoCursorRange guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
+hi def DemoCursor guifg=#000000 guibg=#cc22dd
+" hi def link DemoCursor Cursor

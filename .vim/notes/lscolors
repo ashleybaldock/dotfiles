@@ -1,0 +1,26 @@
+      ───────────╮╶────
+       black │ a │ A │
+         red │ b │ B │
+       green │ c │ C │
+      yellow │ d │ D │
+        blue │ e │ E │
+     magenta │ f │ F │
+        cyan │ g │ G │
+       white │ h │ H │
+     default │ x │
+  ──────────────╴╰──────────
+
+ │FB│FB│
+ │e │g │ directory/
+ │f │c │ symlink@
+ │c │d │ socket=
+ │d │b │ pipe|
+ │b │f │ executable*
+ │eg│eg│ block special
+ │ed│ed│ character special
+ │ab│ab│ setuid executable*
+ │ag│ag│ setgid executable*
+ │ac│ac│ directory/ o+w +t (sticky)
+ │ad│ad│ directory/ o+w -t (!sticky)
+
+export LSCOLORS=gxcxdxbxHxegedabagacad

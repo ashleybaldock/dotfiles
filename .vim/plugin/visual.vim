@@ -23,7 +23,7 @@ function! GetVisualSelection() abort
   let drows = torow - fromrow
   let mode = mode()
   let inclusive = &selection == 'inclusive'
-  let modedesc = {'v': 'char', 'V': 'line', '': 'area'}[mode]
+  let modedesc = get({'v': 'char', 'V': 'line', '': 'area'}, mode, '!')
   let lines = getline(fromrow, torow)
 
   " Visual line

@@ -292,6 +292,7 @@ inoremap  :AlignRightToColorColumn<CR>
 " Swap:
 " word <-> following whitespace ('right align')
 " (V, pick lines, :)
+" TODO make this work with visual block + only swap first/nearest to cursor
 nnoremap §ar :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR>:noh<CR>
 xnoremap §ar :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR>:noh<CR>
 
@@ -300,16 +301,22 @@ xnoremap §ar :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR>:noh<CR>
 nnoremap §as :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR>:noh<CR>
 xnoremap §as :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR>:noh<CR>
 " words around cursor (AD̲G -> ED̲C | AA, ̲XX -> XX, ̲AA | AB̲C XX -> CB̲A XX)
-nnoremap §ac :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>:noh<CR>
+nnoremap §ac :keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>:noh<CR>
 "
 "
 " Move Token:
 "   {token} back/forward in {container}       TODO
 "
 "  Cursor moves with the shifted item
-"  (This is essentially the same as swapping around
+" (This is essentially the same as swapping around
 "   a pivot, but repeated)
-" e.g. [ 'a', 'b̲', 'c' ] -> [ 'a', 'c', 'b' ]
+" 󠄀󠄁󠄂e.g. [ 'a', 'b̲', 'c' ] -> [ 'a', 'c', 'b' ]
+" Swap to Rightgg
+" e.g. [ aaa,󠀨 󠁛b󠁝bb󠀩, ccc ] -> [ aaa, ccc, 󠀨󠁛b󠁝󠀩bb ]
+nnoremap §ax :keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>
+" Swap to Left 󠇫󠇬󠇌󠀀󠀕󠀩󠁒󠀼󠁥󠁩󠁽󠅗󠅗󠅗󠄗󠄗󠅃 󠁾󠄀
+" e.g. [ a,_b̲_̓ c ] -> [ b, a, c ]
+nnoremap §az :keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>
 
 " Move Block:
 " Select visual block (<C-v> etc.) 
@@ -363,19 +370,37 @@ nnoremap <expr> O v:count > 0 ? 'm`:<C-u>exe "norm! ' .. v:count .. 'O"<CR>``' :
 " Source: §r
 "
 " nnoremap §rf :if &filetype=='vim' && $HOME . '/.vim/ :so<CR>
-" Source current saved file
+"
+" Source Saved Version:
+"
 nnoremap §rf :UnsetAndReload<CR>
-" Save and then Source current file
+"
+" Save Then Source:
+"
 nnoremap §rs :w :so %<CR>
-" Source current buffer (doesn't refresh everything)
+"
+" Source Buffer: (doesn't refresh everything)
+"
 nnoremap §re :so<CR>
-" Execute currently selected (visual)
-" TODO prompt for confirmation if not in a vim file, or not in ~/.vim/
-vmap §rr "xy:@x<CR>
-" Source current line
+"
+" Execute Visual Selection:
 " TODO prompt for confirmation if not in a vim file, or not in ~/.vim/
 " TODO skip any comment character at the start of the line
+"
+vmap §rr "xy:@x<CR>
+"
+" Source Current Line:
+" TODO prompt for confirmation if not in a vim file, or not in ~/.vim/
+" TODO skip any comment character at the start of the line
+" TODO make this work with multi-line commands with line continuation
+"
 nnoremap §rr :.,.so<CR>
+"
+" Source Vimrc:
+"
+nnoremap §rv :so expand('$VIMHOME/vimrc')<CR>
+
+
 " nnoremap §rr :^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$
 " §
 " Source current line continuation
@@ -396,14 +421,8 @@ nnoremap §rr :.,.so<CR>
 " Match current line as a continuation
 " /\zs\%(\%.l\_^\s*[^\\].*\_$\)\+/
 " 
-"
-" Source vimrc
-nnoremap §rv :so ~/.vimrc<CR>
-" Get result of command in new buffer
-" redir @">|silent echo 
-"          \ <<command>>
-"          \ |redir END|vsp|enew|put
-"
+
+
 " s/^[[:blank:]"]*\zs.*/
 " %s/,\ /,/g
 "
@@ -430,12 +449,16 @@ nnoremap §rv :so ~/.vimrc<CR>
 " %s/	.*\zs\ze$/",/g
 " %s/	/": "/g
 
-" Prettify
-nnoremap §p call FormatBuffer()<CR>
-" nnoremap §p %!npx prettier --stdin-filepath shellescape(expand('%'))<CR>
 
 " 
 " Formatting: §f §p
+"
+" Prettify: §p
+"
+nnoremap §p call FormatBuffer()<CR>
+
+" nnoremap §p %!npx prettier --stdin-filepath shellescape(expand('%'))<CR>
+
 "
 " CSS:
 " See also: ./css.vim
@@ -471,7 +494,7 @@ nnoremap <silent> ç <Nop>
 
 
 "
-" Quickfix:
+" Quickfix: §q
 "
 nnoremap §q :windo lcl\|ccl<CR>
 "
@@ -502,6 +525,7 @@ nnoremap . :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
 " Search:
 "
 "  Clear: last search highlighting
+"
 nnoremap            §c :nohlsearch<CR>
 nnoremap <silent> <CR> :nohlsearch<CR><CR>
 

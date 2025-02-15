@@ -46,6 +46,7 @@ export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 # ... or force ignoredups and ignorespace
 export HISTCONTROL=ignoreboth
 
+# Igored when tab completing paths
 export FIGNORE="node_modules"
 
 # append to the history file, don't overwrite it
@@ -56,6 +57,7 @@ shopt -s histappend
 shopt -s checkwinsize
 
 alias ls='ls -F'
+
 if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
   alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
   alias mvim='vim -g'

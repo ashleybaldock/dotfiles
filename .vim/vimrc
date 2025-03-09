@@ -83,7 +83,7 @@ if has('gui_running')
 
   set wincolor=WinNormal
 
-  let g:vimsyn_minlines = 2
+  let g:vimsyn_minlines = 5
 
   if !exists("g:syntax_on")
     syntax enable
@@ -185,7 +185,7 @@ set shortmess+=sAIt
 
 let g:netrw_banner=0
 let g:netrw_liststyle=2
-let g:netrw_timefmt="%I:%m %d-%m-%Y"
+let g:netrw_timefmt="%I:%M %d-%m-%Y"
 let g:netrw_fastbrowse=0
 let g:netrw_list_hide=[
       \ '\.DS_Store',

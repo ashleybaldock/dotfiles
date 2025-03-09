@@ -20,6 +20,29 @@
 "
 " more obvious where boundary between text-shadow (etc.) layers are
 "
+"
+"
+" TODO - warning for missing '.'
+"  (For things which probably aren't custom tag names)
+" #search .mw-advancedSearch-namespacePresets,
+" mw-advancedSearch-namespace-selection-header {
+"   border-radius: 0;
+"   border-top: 0;
+"   border-bottom: 0;
+" }
+
+" TODO - don't flag 'float:unset;'
+" #search .mw-advancedSearch-namespace-selection-header > .oo-ui-labelElement {
+"   float: unset;
+"   clear: unset;
+"   display: contents;
+" }
+"
+"
+"
+"
+"
+"
 " Combinators:
 " The descendant combinator is technically one or more <whitespace characters>
 " between two selectors in the absence of another combinator.
@@ -418,6 +441,10 @@ syn match cssUnitConc /p\@1<=c/ conceal cchar=𝚌 transparent contained contain
 syn match cssUnitConc /p\@1<=t/ conceal cchar=𝚝 transparent contained containedin=cssUnitDecorators contains=NONE nextgroup=cssUnitConc
 
 syn match preProcComment +\zs/\*\s*prettier-ignore\s*\*/\ze+
+
+syn match devtoolComment +\*\s\?\%(Inline\s#\d\+\|Element\)\s\?|.*$+
+
+
 
 "}}}1
 

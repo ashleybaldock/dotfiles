@@ -136,9 +136,9 @@ endfunc
 function! Restore(group) abort
   if has_key(s:memories, a:group)
     for [key, value] in items(remove(s:memories, a:group))
-      echom a:group
-      echom key
-      echom value
+      " echom a:group
+      " echom key
+      " echom value
       exec 'let '..key..' = '''..value..''''
     endfor
   endif

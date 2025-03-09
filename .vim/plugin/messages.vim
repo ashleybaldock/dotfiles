@@ -3,52 +3,135 @@ if exists("g:mayhem_loaded_messages")
 endif
 let g:mayhem_loaded_messages = 1
 
+"
+" Highlighting For:
+"  Messages:    ../syntax/vimmessages.vim
+"  Scriptnames: ../syntax/vimscriptnames.vim
+"
 
-function! s:GetMessages()
-    redir => l:messages
-        silent messages
-    redir end
-    return split(l:messages, '\n')[1:-1]
+function s:GetScriptnames() abort
+  return execute('silent scriptnames')->split("\n")[1:-1]
 endfunc
 
-function! s:WriteMessagesToBufferInWindow(winid)
+function s:SplitWithScriptnames() abort
+  :8new
+  let s:mayhem_scriptnames_winid = win_getid(winnr())
+  call append('$', s:GetScriptnames())
+  setlocal filetype=vimscriptnames nomodified nomodifiable
+endfunc
+
+command! ListPlugins call <SID>SplitWithScriptnames()
+
+function s:GetMessages() abort
+  return execute('silent messages')->split("\n")[1:-1]
+endfunc
+
+"
+" Expand <SNR> in messages output with real file names
+"
+function s:ExpandMessages(messages) abort
+  call mapnew(a:messages, {i, v -> v})
+
+endfunc
+
+function s:OnVimEnter(when) abort
+  echom 'messages ' .. a:when
+  if !exists('s:startup_messages')
+    let s:startup_messages = s:GetMessages()
+  endif
+  call autocmd_add([{
+        \ 'event': 'QuitPre', 'replace': v:true,
+        \ 'cmd': 'call s:CloseMessages()',
+        \ 'group': 'mayhem_messages_exit',
+        \}])
+endfunc
+
+if v:vim_did_enter
+  echom 'messages did enter direct'
+  call s:OnVimEnter('direct')
+else
+  echom 'messages did enter auto'
+  call autocmd_add([{
+        \ 'event': 'VimEnter','once': v:true,
+        \ 'cmd': 'call s:OnVimEnter("auto")',
+        \ 'group': 'mayhem_messages_init','replace': v:true,
+        \}])
+endif
+
+function s:WriteMessagesToBufferInWindow(winid) abort
   let bufnr = winbufnr(a:winid)
 
   let messages = s:GetMessages()
   if win_gettype(a:winid) == 'popup'
-    call appendbufline(bufnr, 0, s:GetMessages())
+    call appendbufline(bufnr, 0, messages)
   else
-    call setbufline(bufnr, 1, '-- Startup Messages --')
-    call setbufline(bufnr, 2, '<SNR>XX->file? - :ListPlugins')
-    call setbufline(bufnr, 3, '')
-    call appendbufline(bufnr, 3, s:GetMessages())
+    call setbufline(bufnr, 1, 'helpful ╱ <SNR>XX→file  :ListPlugins  ╱  :RefreshMessages')
+    call appendbufline(bufnr, '$', '-- Startup Messages --')
+    call appendbufline(bufnr, '$', '')
+    call appendbufline(bufnr, '$', get(s:, 'startup_messages', []))
+    call appendbufline(bufnr, '$', '')
+    call appendbufline(bufnr, '$', '-- Recent Messages --')
+    call appendbufline(bufnr, '$', '')
+    call appendbufline(bufnr, '$', messages)
+    call appendbufline(bufnr, '$', '')
+    call appendbufline(bufnr, '$', '⁓ Fin ⁓')
   endif
 endfunc
 
-function! s:SplitWithMessages()
-  vsp
-  enew
-  let s:mayhem_messages_winid = win_getid(winnr())
+"
+" Open a split with output of :messages
+"
+function s:SplitWithMessages() abort
+  if !exists('s:mayhem_messages_winid')
+    vnew
+    let s:mayhem_messages_winid = win_getid(winnr())
+    setlocal filetype=vimmessages 
+    setlocal nomodified nomodifiable
+    wincmd h
+  endif
 
-  au QuitPre <buffer> call s:CloseMessagesWindow()
-
-  call s:WriteMessagesToBufferInWindow(s:mayhem_messages_winid)
-  setlocal filetype=vimmessages nomodified nomodifiable
-  wincmd h
+  call s:RefreshMessages()
 endfunc
 
-function s:MessagesPopupFilter(winid, key)
+function s:RefreshMessages() abort
+  call setbufvar(winbufnr(s:mayhem_messages_winid), '&filetype', 'vimmessages')
+  call setwinvar(s:mayhem_messages_winid, '&modifiable', 1)
+  call s:WriteMessagesToBufferInWindow(s:mayhem_messages_winid)
+  call setwinvar(s:mayhem_messages_winid, '&modifiable', 0)
+  call setwinvar(s:mayhem_messages_winid, '&modified', 0)
+endfunc
+
+function s:CloseMessages() abort
+  if exists('s:mayhem_scriptnames_winid')
+    call win_execute(s:mayhem_scriptnames_winid, 'close')
+    unlet s:mayhem_scriptnames_winid
+  endif
+  if exists('s:mayhem_messages_winid')
+    call win_execute(s:mayhem_messages_winid, 'close')
+    unlet s:mayhem_messages_winid
+  endif
+endfunc
+
+
+function s:CloseMessagesPopup() abort
+  if exists('s:mayhem_messages_popupwinid')
+    call popup_close(s:mayhem_messages_popupwinid)
+    unlet s:mayhem_messages_popupwinid
+  endif
+endfunc
+
+function s:MessagesPopupFilter(winid, key) abort
   if a:key == 'x'
-    call popup_close(a:winid)
+    call s:CloseMessagesPopup()
     return 1
   endif
   return 0
 endfunc
 
-function! s:PopupWithMessages()
-  " au QuitPre <buffer> call s:CloseMessagesWindow()
-
-  " setlocal filetype=vimmessages nomodified nomodifiable
+"
+" Open a popup with recent output of :messages
+"
+function s:PopupWithMessages() abort
   let s:mayhem_messages_popupwinid = popup_create('', #{
         \ title: 'Messages',
         \ pos: 'topleft',
@@ -69,25 +152,15 @@ function! s:PopupWithMessages()
 
   call s:WriteMessagesToBufferInWindow(s:mayhem_messages_popupwinid)
 
+  " setlocal filetype=vimmessages nomodified nomodifiable
   call setbufvar(winbufnr(s:mayhem_messages_popupwinid), '&filetype', 'vimmessages')
 endfunc
 
-function! s:CloseMessagesWindow()
-  if exists('s:mayhem_messages_winid')
-    call win_execute(s:mayhem_messages_winid, 'close')
-    unlet s:mayhem_messages_winid
-  endif
-endfunc
-
-function! s:CloseMessagesPopup()
-  if exists('s:mayhem_messages_popupwinid')
-    call popup_close(s:mayhem_messages_popupwinid)
-    unlet s:mayhem_messages_popupwinid
-  endif
-endfunc
-
 command! MessagesPopup call <SID>PopupWithMessages()
+
 command! MessagesSplit call <SID>SplitWithMessages()
 
-command! CloseMessages call <SID>CloseMessagesWindow()
+command! MessagesClose call <SID>CloseMessages()
+
+command! MessagesRefresh call <SID>RefreshMessages()
 

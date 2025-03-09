@@ -19,6 +19,8 @@ DynamicToolBar
 
 " Unbind default command key mappings for other uses
 " (Commented entries are unaltered from menu.vim)
+"
+" See: $VIMRUNTIME/menu.vim
 
 "  <D-n>
 " macm File.New\ Window                             key=<Nop>

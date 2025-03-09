@@ -3,6 +3,13 @@ if exists("g:mayhem_loaded_menu")
 endif
 let g:mayhem_loaded_menu = 1
 
+"
+" See: $VIMRUNTIME/menu.vim
+"
+
+
+
+
 " Make sure the '<' and 'C' flags are not included in 'cpoptions', otherwise
 " <CR> would not be recognized.  See ":help 'cpoptions'".
 let s:cpo_save = &cpo

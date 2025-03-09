@@ -303,6 +303,11 @@ svg {
   box-sizing: border-box;
 }
 
+.svgListing {
+  margin: 0;
+  display: flex;
+  width: auto;
+}
 .svgListing svg {
   /*! background-image:
     radial-gradient(circle at center, #000000d1, #000),

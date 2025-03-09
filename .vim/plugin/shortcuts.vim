@@ -701,6 +701,7 @@ nnoremap §dd :diffthis<CR>
 nnoremap §de :diffget<CR>
 nnoremap §dt :diffput<CR>
 nnoremap §dx :diffoff<CR>
+nnoremap §dq :diffoff!<CR>
 nnoremap §dr :diffupdate<CR>
 nnoremap §df :DiffWithSaved<CR>
 
@@ -765,6 +766,8 @@ nnoremap <silent> <C-g><C-r> <Plug>(coc-rename)
 nnoremap Î   :call CocAction('definitions')<CR>
 " ꜔ ⃣ ː⌥⃣ ːD⃣ ˧ ▬▶︎ ∂
 nnoremap ∂   :call CocAction('jumpDefinition')<CR>
+" nnoremap ∂   :JumpSomewhere
+
 "nnoremap <silent>   :call CocAction('declarations')<CR>
 "nnoremap <silent>   :call CocAction('jumpDeclaration')<CR>
 "nnoremap <silent>   :call CocAction('implementations')<CR>
@@ -783,13 +786,16 @@ nnoremap <silent>  gr :call CocAction('references')<CR>
 " <⌥⃣ ‑f> ▬▶︎ ƒ
 nnoremap <silent> ƒ <Plug>(coc-fix-current)
 "
-" Choose from code actions for current line
+" Choose Code Actions:
+"
+" … for current line
 nnoremap <silent> §2 <Plug>(coc-codeaction-line)
 nnoremap <silent> <D-f> <Plug>(coc-codeaction-line)
-" Choose from code actions for currently selected
+"
+" … for current selection
 vnoremap <silent> <D-f> <Plug>(coc-codeaction-selected)
 "
-" Choose from code actions for current file
+" … for current file
 nnoremap <silent> §3 <Plug>(coc-codeaction-source)
 nnoremap <silent> <D-F> <Plug>(coc-codeaction-source)
 "

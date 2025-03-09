@@ -21,9 +21,32 @@ function s:InsertTemplate(filename)
   silent! exec
         \ '0r ~/.vim/templates/'
         \ .. l:ext .. '.template'
+
   " Replace tokens in template
+  " Filename:
+  "  as-is
   silent! exec '%s/%FILE%/' .. l:head .. '/g'
+  "  lowercase (FileName -> filename)
+  silent! exec '%s/%FILE:LC%/' .. tolower(l:head) .. '/g'
+  "  UPPERCASE (FileName -> FILENAME)
+  silent! exec '%s/%FILE:UC%/' .. toupper(l:head) .. '/g'
+  "  Title Case (fn -> Fn, fiNm -> FiNm, fi_nm -> FiNm)
+  silent! exec '%s/%FILE:TC%/' .. 
+        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
+        \  {_, v -> substitute(v,'\(.\)\(.*\)', '\u\1\2', 'g')}
+        \)->join('') .. '/g'
+  "  Split Title Case (fn -> Fn, fiNm -> Fi Nm, fi_nm -> Fi Nm)
+  silent! exec '%s/%FILE:STC%/' ..
+        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
+        \  {_, v -> substitute(v,'\(.\)\(.*\)', '\u\1\2', 'g')}
+        \)->join(' ') .. '/g'
+
+  " Date And Time:
+  "  current date, DD-MM-YYYY
   silent! exec '%s/%DATE%/' .. strftime("%d-%m-%Y") .. '/g'
+  "  current date, DD-MM-YYYY
+  silent! exec '%s/%TIME%/' .. strftime("%I:%M") .. '/g'
+
   " Source template init script if present
   silent! exec 'source ~/.vim/templates/'
         \ .. l:ext .. '.template.vim'

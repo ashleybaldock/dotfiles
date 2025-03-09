@@ -2,6 +2,12 @@ if exists("b:current_syntax")
   finish
 endif
 
+"
+" Syntax etc. for '%FILE%' files
+"
+" au BufWritePost <buffer> syn on
+"
+
 let s:cpo_save = &cpo
 set cpo&vim
 

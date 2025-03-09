@@ -8,6 +8,15 @@ then
   exit 1
 fi
 
+if [ -z "$NVM_DIR" ]; then
+  export NVM_DIR="$HOME/.nvm"
+fi
+[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
+echo "NVM_DIR: $NVM_DIR"
+echo "NVM_BIN: $NVM_BIN"
+echo "PATH: $PATH"
+
+ENCODESVG="$HOME/dotfiles/bin/encodeSVG.js"
 PNGOUT="/opt/homebrew/bin/pngout"
 SVGO="$HOME/.nvm/versions/node/v18.19.0/bin/svgo"
 
@@ -87,7 +96,7 @@ do
         dataurl="url('data:image/svg+xml;base64,$base64data')"
         usedencoding="b64"
       else
-        dataurl="$(encodeSVG.js $optimised)"
+        dataurl="$(echo "$optimised" | $ENCODESVG)"
         usedencoding="svgmin"
       fi
     fi

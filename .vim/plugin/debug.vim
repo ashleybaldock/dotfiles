@@ -4,30 +4,15 @@ endif
 let g:mayhem_loaded_debug = 1
 
 
-function! s:GetScriptnames()
-    redir => l:scriptnames
-        silent scriptnames
-    redir end
-    return split(l:scriptnames, '\n')
-endfunc
-
-function! s:SplitWithScriptnames()
-  vsp
-  enew
-  call append('$', s:GetScriptnames())
-  setlocal filetype=vimscriptnames nomodified nomodifiable
-endfunc
-command! ListPlugins call <SID>SplitWithScriptnames()
-
 "
 " Turn a Vim dict into a JSON, taking care of any pesky Funcrefs
 "
 function! DictToJson(someDict)
-  echom a:someDict->mapnew(
-        \ {key, val -> type(val) }
-        \ )
+  echom a:someDict->deepcopy()->map(
+        \ {key, val -> (type(val) == v:t_func)
+        \  ? '[FuncRef:'..string(val)..']'
+        \  : val})->json_encode()
 endfunc
-        " \ {key, val -> (type(val) == v:t_func) ? 'Funcref:'..string(val) : val}
 
 " Window & Buffer debug info
 "
@@ -71,29 +56,18 @@ function! s:WindowInfo(winid = win_getid())
         \]
   let winInfo = winInfo + [
         \ '/*─────────────────────────────*/ "getwininfo":',
-        \ wInfo->items()->copy()->filter(
-        \   {idx, val -> type(val) != v:t_func}
-        \ )->json_encode()
-        \ ..',',
+        \ wInfo->items()->DictToJson() .. ',',
         \ '/*─────────────────────────────────────*/ "w:":',
-        \ items(w:)->copy()->filter(
-        \   {idx, val -> type(val) != v:t_func}
-        \ )->json_encode()
-        \ ..',',
+        \ items(w:)->DictToJson() .. ',',
         \ '/*─────────────────────────────*/ "getwinvar&":',
-        \ getwinvar(winnr, '&')->copy()->filter(
-        \   {idx, val -> type(val) != v:t_func}
-        \ )->json_encode()
-        \ ..',',
+        \ getwinvar(winnr, '&')-DictToJson() .. ',',
         \]
   let popInfo = []
   if float
     let popInfo = popInfo + [
         \ '/*───────────────────╱ popup_getoptions() ╱───*/',
         \ '"popup_info": ',
-        \ popOpts->copy()->filter(
-        \   {idx, val -> type(val) != v:t_func}
-        \ )->json_encode()
+        \ popOpts->DictToJson() .. ',',
         \]
   endif
  
@@ -103,20 +77,16 @@ function! s:WindowInfo(winid = win_getid())
   let bufInfo = bufInfo + [
         \ '/**/ { "bufnr": "' .. bufnr .. '", /**/'
         \ .. ' "buftype": "' .. bufType .. '",/**/',
-        \ '"windows": ' .. win_findbuf(bufnr)->copy()->filter(
-        \   {idx, val -> type(val) != v:t_func}
-        \ )->json_encode(),
+        \ '"windows": ' .. win_findbuf(bufnr)->DictToJson() .. ',',
         \]
   let bufInfo = bufInfo + [
         \ '/*─*/ ,"getbufinfo": /*─────────────────────────*/',
-        \ getbufinfo(bufnr)[0]->copy()->filter(  {idx, val -> type(val) != v:t_func} )->json_encode(),
+        \ getbufinfo(bufnr)[0]->DictToJson() .. ',',
         \ '/*'
         \]
   let bufInfo = bufInfo + [
         \ '/*─*/ ,"getbufvar&": /*─────────────────────────*/',
-        \ getbufvar(bufnr, '&')->copy()->filter(
-        \   {idx, val -> type(val) != v:t_func}
-        \ )->json_encode(),
+        \ getbufvar(bufnr, '&')->DictToJson() .. ',',
         \]
   let bufInfo = bufInfo + [
         \ '/*─*/ } /*────╱  fin  ╱───────────────────*/'
@@ -134,7 +104,7 @@ endfunc
 " By default, uses current window, argument is ID of window
 " to us otherwise
 " Optionally takes ID of a different window
-command! -nargs=? Winfo call <SID>WindowInfo(<f-args>)
+command! -bar -nargs=? Winfo call <SID>WindowInfo(<f-args>)
 
 command! WinfoLastCocFloat call <SID>WindowInfo(g:coc_last_float_win)
 

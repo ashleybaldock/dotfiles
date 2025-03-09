@@ -3,19 +3,66 @@ if exists("g:mayhem_loaded_css")
 endif
 let g:mayhem_loaded_css = 1
 
+"
+" CSS:
+"
+" See Also:
+"           ../syntax/css.vim
+"     ../after/syntax/css.vim
+"         ../ftplugin/css.vim
+"   ../after/ftplugin/css.vim
+"
+
 
 " CSSO
-
-
 "
 " 
-"" smart layer mover
+command! -bar -range=% -nargs=1 CssOptimise <line1>,<line2> <Nop>
+
+"
+" Layer Editing Tools:
+"
+" For properties made up of comma-separated layers, e.g. background
+"
+" Break Layers Into Lines:
+"
+" Convert Layers To CSS Variables:
+"
+" Expand All Layer Components:
+" e.g.
+"   background-image: <image1>, <image2>, <image3>, <image4>;
+"   background-repeat: no-repeat, repeat-x;
+" becomes:
+"   background-image: <image1>, <image2>, <image3>, <image4>;
+"   background-repeat: no-repeat, repeat-x, no-repeat, repeat-x;
+"
+" Move Layer Up Or Down:
+"
+" Reorder all layer components together
+"   - Expands layer components as needed  
+"   - Moving the top-most layer up or   ⎫ creates a duplicate 
+"   - Moving the bottom-most layer down ⎭  layer above/below
+"
+" e.g. (cursor on 2nd layer of any layer property)
+"   background-image: <image1>, <ima̲ge2>, <image3>, <image4>;
+"   background-position: top, rig̲ht, bottom, left;
+" (Move Up):              ╭───⇆⃝ ───╮  
+"   background-image: <ima̲ge2>, <image1>, <image3>, <image4>;
+"   background-position: rig̲ht, top, bottom, left;
+" (Move Down):                      ╭───⇆⃝ ───╮ 
+"   background-image: <image1>, <image3>, <ima̲ge2>, <image4>;
+"   background-position: top, bottom, rig̲ht, left;
+"
 " e.g. for background-images
 " <M-Up> / <M-Down>
 " insert/normal:
 "   move line, or layer, up/down
 " visual:
 " - move layer up/down (which may be left/right within line)
+"
+
+"
+" Move Selectors:
 "
 " when adding/moving lines ending in {, adjust surroundings to make sense
 "            ✘       ✔︎        ✘       ✔︎
@@ -27,34 +74,65 @@ let g:mayhem_loaded_css = 1
 "
 
 "
-" Extract individual copy of rule for selector under cursor                TODO
+" Extract A Selector From List:
+"
+" individual copy of rule for selector under cursor TODO
 " e.g.
 " .foo, .b̲ar, .baz {       .foo, .baz {
 "   color: red;       ▬▶︎     color: red;...
 "   ...                    .bar {
 "                            color: red;...
 "
-" Same but for all selectors in list                                       TODO
+" Extract All: Same but for all selectors in list                        TODO
 "
 
+
 "
-" Prefix all CSS rules in selection/file                                   TODO
+" Common Prefix Search:
+"  Find longest prefix shared by rules in selection/file 
+function s:CommonPrefixes()
+endfunc
+
+"
+" Prefix Rules: selection/file                    TODO
 " e.g.
 "  .foo {              #someid .foo {
 "    color: red;  ▬▶︎      color: red;
 "  }                   }
 "
-" command! -range=% PrefixRules <line1>,<line2>
+command! -bar -range=% -nargs=1 CssPrefix <line1>,<line2> <Nop>
+"
+" Prefix selected rules with a specificity increasing hack   TODO
+command! -bar -range=% CssBoostSpecificity <line1>,<line2>CssPrefixRules ':not(#i#m#p#o#r#t#a#n#t)'
 
 "
-" Remove units from zero values in CSS
-"  - But not for:
+" Prefix Conceal: hide long common prefix for readability
+"
+command! -bar call matchadd('Conceal', '#content\s\.mw-search-form-wrapper', 10, -1, #{conceal:'𝓟'})
+
+
+"
+" Unprefix Rules: selection/file
+" e.g.
+"  .b̲ar .foo {          .foo {
+"    color: red;  ▬▶︎      color: red;
+"  }                    }
+"  .bar .baz {}         .baz {}
+"
+" ^\s\?\([.#]\S*\)\s
+command! -bar -range=% -nargs=1 CssUnprefix <line1>,<line2> <Nop>
+
+
+"
+" Remove units from zero values where they are not needed
+"  - Most properties don't need them, e.g. 0px, 0em, 0cqi all become 0
+" Add units for zero values which require them (TODO):
 "       <angle>  \(deg\|grad\|rad\|turn\)
 "        <time>  \(s\|ms\)
 "   <frequency>  \(Hz\|kHz\)
 "  <resolution>  \(dpi\|dppx\|dpcm\)
 "
-command! -range=% NoZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?\0*\(cap\|ch\|em\|ex\|ic\|lh\|rcap\|rch\|rem\|rex\|ric\|rlh\|vh\|vw\|vmax\|vmin\|vb\|vi\|cqw\|cqh\|cqi\|cqb\|cqmin\|cqmax\|px\|cm\|mm\|Q\|in\|pc\|pt\)\ze\%(\s\|;\)/0/ge
+command! -bar -range=% CssCorrectZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?\0*\(cap\|ch\|em\|ex\|ic\|lh\|rcap\|rch\|rem\|rex\|ric\|rlh\|vh\|vw\|vmax\|vmin\|vb\|vi\|cqw\|cqh\|cqi\|cqb\|cqmin\|cqmax\|px\|cm\|mm\|Q\|in\|pc\|pt\)\ze\%(\s\|;\)/0/ge
 
 
 " These properties use <time>
@@ -88,13 +166,22 @@ command! -range=% NoZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?\0*\(c
 "    transform 
 "
 "    any valid value(s) in skew/rotate must be <angles>
-"    any valid 4th value for rotate3d must be an <angle>
+"    any valid 4th value for rotate3d must be an <angle>     TODO
+"
 
 " 
 " Add semicolon to end of last declaration in a rule
 " (Anywhere else would be a syntax error)
 " Useful for output from CSSO
-command! -range=% AddTrailingCommas <line1>,<line2> s/[^;{}]\zs\ze$\n\s*}/;/
+"
+command! -bar -range=% CssAddTrailingSemi <line1>,<line2> s/[^;{}]\zs\ze$\n\s*}/;/
+
+"
+" Remove devtool comments
+"
+command! -bar -range=% CssNoDevToolComments <line1>,<line2> s/\*\s\?\%(Inline\s#\d\+\|Element\)\s\?|.*$//
+
+
 
 
 "
@@ -108,11 +195,14 @@ command! -range=% AddTrailingCommas <line1>,<line2> s/[^;{}]\zs\ze$\n\s*}/;/
 " [data-attr$='value' i]
 " ◥⎻⎻⎻⎻¹⎻⎻⎻⎻₂꛰︎₂꛰︎³꛰︎⎻⎻⁴⎻⎻⁵꛰︎₆͞︎₆̄◤
 "
-command! -range=% AttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\)\([|~$^*]\?=\)\("\)\([^"']*\)\(\3\)\%(\s\([iIsS]\)\)\?\ze]/\1\2'\4'\6/cg
+command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\)\([|~$^*]\?=\)\("\)\([^"']*\)\(\3\)\%(\s\([iIsS]\)\)\?\ze]/\1\2'\4'\6/cg
 
 
-
-" 1. Extract variable
+"
+" CSS Variables:
+"
+"
+" Extract Variable:
 "
 " color: #556677;
 "   ▼▼
@@ -120,7 +210,7 @@ command! -range=% AttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\)\([|~$^
 " --color001: #556677;
 "
 "
-" 2. Extract component variables
+" Extract Component Variables:
 "
 " box-shadow: 1px 2px 0.1px 0 #449988 inset;
 "   ▼
@@ -238,31 +328,95 @@ command! -range=% AttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\)\([|~$^
 " '<,'>s/^\(\s*\)[^;]\+;\zs\(base64,\_[a-zA-Z0-9/+ \\]\+\_[=]*\)\ze['");]
 
 "
-command! -range=% DataURLFit <line1>,<line2>
+" Data URLs:
+"
+" TODO
+command! -bar -range=% CssDataURLFit <line1>,<line2> <Nop>
 
 " Quotes: add if missing, change to ''
 " (Assumes no syntax errors to start with)
 " 
-command! -range=% DataURLQuotesNone
+command! -bar -range=% CssDataURLQuotesNone
       \ <line1>,<line2> s/url(\zs\("\|\'\|\)\(data:\_.\{-}\)\1\ze)/\2/
-command! -range=% DataURLQuotesSingle
+command! -bar -range=% CssDataURLQuotesSingle
       \ <line1>,<line2> s/url(\zs\("\|\'\|\)\(data:\_.\{-}\)\1\ze)/\'\2\'/
-command! -range=% DataURLQuotesDouble
+command! -bar -range=% CssDataURLQuotesDouble
       \ <line1>,<line2> s/url(\zs\("\|\'\|\)\(data:\_.\{-}\)\1\ze)/\"\2\"/
 
 
-
+"
+" Hex Codes:
+"
 " Change hex color codes to uppercase
-command! -range=% UppercaseHex
+command! -bar -range=% CssUppercaseHex
       \ <line1>,<line2> s/\<\(#\x\{8}\|#\x\{6}\|#\x\{4}\|#\x\{3}\)\>/\U&/g
-" Change hex color codes to lowercase
-command! -range=% LowercaseHex
-      \ <line1>,<line2> s/\<\(#\x\{8}\|#\x\{6}\|#\x\{4}\|#\x\{3}\)\>/\L&/g
-" Expand short hex codes (#F0E ▬▶︎ #FF00EE, #FB3A ▬▶︎ #FFBB33AA)
-command! -range=% ExpandHex
-      \ <line1>,<line2> s/\<#\(\x\)\(\x\)\(\x\)\>/#\1\1\2\2\3\3/g
 
-function FormatRGB(colour)
+" Change hex color codes to lowercase
+command! -bar -range=% CssLowercaseHex
+      \ <line1>,<line2> s/\<\(#\x\{8}\|#\x\{6}\|#\x\{4}\|#\x\{3}\)\>/\L&/g
+
+" Expand short hex codes (#F0E ▬▶︎ #FF00EE, #FB3A ▬▶︎ #FFBB33AA)
+command! -bar -range=% CssExpandHex
+      \ <line1>,<line2> s/\<#\(\x\)\(\x\)\(\x\)\(\x\)\?\>/#\1\1\2\2\3\3\4\4/g
+
+" Compact long hex codes (#FF00EE ▬▶︎ #FOE, #FFBB33AA ▬▶︎ #FB3A)   TODO
+command! -bar -range=% CssCompactHex <Nop>
+ 
+
+"
+" Parse Hex Codes:
+"
+" Returns a Color<{p, s, r, g, b, a}>
+" (p: parsed-from, s: parser status, r, g, b, a: obvious)
+"
+" Defaults to #0000 if parsing fails
+"
+function CssParseHex(hex)
+  let result = {'p': a:hex, 's': 'fail', 'r': 0, 'g': 0, 'b': 0, 'a': 0 }
+  let match8 = matchlist(a:hex, '\(\x\x\)\(\x\x\)\(\x\x\)\(\x\x\)')
+  if len(match8) > 0
+    let result['s'] = 'ok:hex8'
+    let result['r'] = str2nr(match8[1], 16)
+    let result['g'] = str2nr(match8[2], 16)
+    let result['b'] = str2nr(match8[3], 16)
+    let result['a'] = str2nr(match8[4], 16) / 255.0
+  else
+    let match6 = matchlist(a:hex, '\(\x\x\)\(\x\x\)\(\x\x\)')
+    if len(match6) > 0
+      let result['s'] = 'ok:hex6'
+      let result['r'] = str2nr(match6[1], 16)
+      let result['g'] = str2nr(match6[2], 16)
+      let result['b'] = str2nr(match6[3], 16)
+      let result['a'] = 1
+    else
+      let match4 = matchlist(a:hex, '\(\x\)\(\x\)\(\x\)\(\x\)')
+      if len(match4) > 0
+        let result['s'] = 'ok:hex4'
+        let result['r'] = str2nr(match4[1] .. match4[1], 16)
+        let result['g'] = str2nr(match4[2] .. match4[2], 16)
+        let result['b'] = str2nr(match4[3] .. match4[3], 16)
+        let result['a'] = str2nr(match4[4] .. match4[4], 16) / 255.0
+      else
+        let match3 = matchlist(a:hex, '\(\x\)\(\x\)\(\x\)')
+        if len(match3) > 0
+          let result['s'] = 'ok:hex3'
+          let result['r'] = str2nr(match3[1] .. match3[1], 16)
+          let result['g'] = str2nr(match3[2] .. match3[2], 16)
+          let result['b'] = str2nr(match3[3] .. match3[3], 16)
+          let result['a'] = 1
+        endif
+      endif
+    endif
+  endif
+  return result
+endfunc
+
+"
+" Color Functions:
+"
+" Format a color in modern form [rgb(rr gg bb / aa)]
+"
+function CssFormatRGB(colour) abort
   let r = get(a:colour, 'r', 0)
   let g = get(a:colour, 'g', 0)
   let b = get(a:colour, 'b', 0)
@@ -272,33 +426,13 @@ function FormatRGB(colour)
         \ : a == 1
         \ ? printf('rgb(%d %d %d)', r, g, b)
         \ : printf('rgb(%d %d %d / %.1f%%)', r, g, b, a * 100)
-
-endfunc
-
-function ParseHex(hex)
-  let match8 = matchlist(a:hex, '\(\x\x\)\(\x\x\)\(\x\x\)\(\x\x\)')
-  if len(match8) > 0
-    return {'p': a:hex, 's': 'ok', 'r': str2nr(match8[1], 16), 'g':str2nr(match8[2], 16), 'b':str2nr(match8[3], 16), 'a': str2nr(match8[4], 16) / 255.0}
-  endif
-  let match6 = matchlist(a:hex, '\(\x\x\)\(\x\x\)\(\x\x\)')
-  if len(match6) > 0
-    return {'p': a:hex, 's': 'ok', 'r': str2nr(match6[1], 16), 'g':str2nr(match6[2], 16), 'b':str2nr(match6[3], 16), 'a': 1}
-  endif
-  let match4 = matchlist(a:hex, '\(\x\)\(\x\)\(\x\)\(\x\)')
-  if len(match4) > 0
-    return {'p': a:hex, 's': 'ok', 'r': str2nr(match4[1]..match4[1], 16), 'g':str2nr(match4[2]..match4[2], 16), 'b':str2nr(match4[3]..match4[3], 16), 'a': str2nr(match4[4]..match4[4], 16) / 255.0}
-  endif
-  let match3 = matchlist(a:hex, '\(\x\)\(\x\)\(\x\)')
-  if len(match3) > 0
-    return {'p': a:hex, 's': 'ok', 'r': str2nr(match3[1]..match3[1], 16), 'g':str2nr(match3[2]..match3[2], 16), 'b':str2nr(match3[3]..match3[3], 16), 'a': 1}
-  endif
-  return {'p': a:hex, 's': 'ParseHex Failed', 'r': 0, 'g': 0, 'b': 0, 'a': 0 }
 endfunc
 
 "                                                           TODO
 " #rrggbb[aa] ▬▶︎ rgb(r g b [/ aa])
-command! -range=% HexToRgb
-      \ <line1>,<line2> s/\<\(#\x\{8}\|#\x\{6}\|#\x\{4}\|#\x\{3}\)\>/\=FormatRGB(ParseHex(submatch(0)))/
+command! -bar -range=% CssHexToRgb
+      \ <line1>,<line2> s/\<\(#\x\{8}\|#\x\{6}\|#\x\{4}\|#\x\{3}\)\>/\=
+      \CssFormatRGB(CssParseHex(submatch(0)))/
 
 
 " s/\<#\%(
@@ -314,25 +448,28 @@ command! -range=% HexToRgb
 
 "                                                           TODO
 " rgb(r g b [/ a]) ▬▶︎ #rrggbb[aa] 
-command! RgbToHex <Nop>
+command! CssRgbToHex <Nop>
 "                                                           TODO
 " #rrggbb[aa] ▬▶︎ hsl(h s l [/ a])
-command! HexToHsl <Nop>
+command! CssHexToHsl <Nop>
 "                                                           TODO
 " hsl(h s l [/ a]) ▬▶︎ #rrggbb[aa] 
-command! HslToHex <Nop>
+command! CssHslToHex <Nop>
 
 "                                                           TODO
-command! RgbToHsl <Nop>
+command! CssRgbToHsl <Nop>
 "                                                           TODO
-command! HslToRgb <Nop>
-""            \1 H                \2 S                \3 L                    \4 A
-""         ╭─────────╮      ╭─────────────╮      ╭─────────────╮           ╭────────────╮
+command! CssHslToRgb <Nop>
+"             \1 H                \2 S                \3 L                    \4 A
+"          ╭─────────╮      ╭─────────────╮      ╭─────────────╮           ╭────────────╮
 "/\<hsla\?(\(\d\{1,}\)[^ ]* \(100\|\d\d\?\)[^ ]* \(100\|\d\d\?\)[^ )]*\(\/ \(100\|\d\d?\)%\?\)\?)/
 
+"
 " Get color's complement (h+180deg)
 "                                                           TODO
-command! Complement <Nop>
+" Returns result in same format as supplied, hex->hex, rgb->rgb, hsl->hsl
+"
+command! CssColorComplement <Nop>
 
 
 " Edge cases and formats etc.
@@ -390,7 +527,27 @@ let s:dS_00_10 = '\([01]\(\.0*\)\|0\.\d*\)'
 
 
 
-
+"                 TODO
+" Macros:
+"
+"
+" Background Image Skeleton:
+"
+"
+" Linear Gradient:
+"
+" Radial Gradient:
+"
+" Conical Gradient:
+"
+"
+"
+" Text Shadow Outline:
+"
+"
+"
+" Filter Drop Shadow Outline:
+"
 
 
 " Text outline, 8 sides, identical
@@ -482,15 +639,19 @@ let s:dS_00_10 = '\([01]\(\.0*\)\|0\.\d*\)'
 "     var(--bxtl) var(--bytl) var(--bltl) var(--bctl),
 "     0 0 #0000;
 
-function! s:OpenCSSFile()
- if filereadable(expand('%:r')..'.scss')
-   exec 'vsp '..expand('%:r')..'.scss'
- elseif filereadable(expand('%:r')..'.module.scss')
-   exec 'vsp '..expand('%:r')..'.module.scss'
- elseif filereadable(expand('%:r')..'.module.css')
-   exec 'vsp '..expand('%:r')..'.module.css'
- else
-   echo 'No matching CSS file found'
- endif
-endfunc
-command! OpenCSSFile call <SID>OpenCSSFile()
+
+
+
+
+" function! s:OpenCSSFile()
+"  if filereadable(expand('%:r')..'.scss')
+"    exec 'vsp '..expand('%:r')..'.scss'
+"  elseif filereadable(expand('%:r')..'.module.scss')
+"    exec 'vsp '..expand('%:r')..'.module.scss'
+"  elseif filereadable(expand('%:r')..'.module.css')
+"    exec 'vsp '..expand('%:r')..'.module.css'
+"  else
+"    echo 'No matching CSS file found'
+"  endif
+" endfunc
+" command! OpenCSSFile call <SID>OpenCSSFile()

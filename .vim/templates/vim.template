@@ -1,6 +1,6 @@
-if exists("g:mayhem_loaded_%FILE%")
+if exists("g:mayhem_loaded_%FILE:LC%")
   finish
 endif
-let g:mayhem_loaded_%FILE% = 1
+let g:mayhem_loaded_%FILE:LC% = 1
 
 

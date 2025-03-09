@@ -6,6 +6,8 @@ let g:mayhem_loaded_visual = 1
 
 
 
+" TODO replace with <plug> and move keybind to shortcuts
+"
 vmap §v <ScriptCmd>echom GetVisualSelection()<CR>
 
 function! GetVisualSelection() abort
@@ -61,13 +63,15 @@ function! GetVisualSelection() abort
   endif
 endfunc
 
+
 "
 " Vertical (ColorColumn) for first and last column
 " Horizontal (Sign w/ line highlight) for top and bottom row
+" TODO replace with <plug> and move keybind to shortcuts
 "
 vmap §o <ScriptCmd>call s:OutlineVisualBlock()<CR>
 
-function! s:OutlineVisualBlock() abort
+function s:OutlineVisualBlock() abort
   if mode() != ''
     return
   endif
@@ -79,6 +83,12 @@ function! s:OutlineVisualBlock() abort
   let dy = abs(y1 - y2)
 
   echom 'visual area: ('..x1..','..y1..')->('..x2..','..y2..')'
+
+  exec 'setlocal colorcolumn='..x1..','..x2
+
+  if s:PlacingSignWillShiftColumns()
+    return
+  endif
 
   let aSign = sign_define('signvisualleft', {
         \ 'text': '􀆒',
@@ -111,6 +121,7 @@ function! s:OutlineVisualBlock() abort
         \})
   call sign_unplace('visualextentsigns')
   " call sign_undefine('visualextentsign')
+ 
   if y1 == y2
     call sign_place(0, 'visualextentsigns', 'signvisualsame',
           \ bufnr(), { 'lnum': y1, 'priority': 11 })
@@ -120,31 +131,60 @@ function! s:OutlineVisualBlock() abort
     call sign_place(0, 'visualextentsigns', 'signvisualbot',
           \ bufnr(), { 'lnum': max([y1,y2]), 'priority': 101 })
   endif
-
-  exec 'setlocal colorcolumn='..x1..','..x2
 endfunc
 
 
-function! s:OnEnterVisualBlock() abort
+"
+" Get visibility status for the sign column in the given window
+" returns:
+"         v:true: Adding a sign will not cause window content to move
+"                  i.e. sign column already visible
+"        v:false: Adding a sign would shift window contents
+"                  i.e. sign column=no, or auto and no signs placed yet
+"              signcolumn=yes,
+"              signcolumn=auto && number of signs > 0
+"              signcolumn=number && number
+"              signcolumn=number && nonumber && number of signs > 0
+"           1 if sign column is visible 
+"
+function s:PlacingSignWillShiftColumns(winid = win_getid(winnr()))
+  let winsigncolumn = getwinvar(a:winid, '&signcolumn')
+  let winsigncount = sign_getplaced(winbufnr(winnr()), {'group':'*'})[0]['signs']->len()
+  let winnumber = getwinvar(a:winid, '&number')
+
+  return ('auto' == winsigncolumn && 0 == winsigncount)
+  \ || ('number' == winsigncolumn && 0 == winnumber && 0 == winsigncount)
+endfunc
+
+"
+" Startup for visual block highlighting
+"
+function s:OnEnterVisualBlock() abort
   let &mouseshape = Remember('vV^V', '&mouseshape')..',v:crosshair'
   call Remember('^V', '&l:colorcolumn')
   call Remember('^V', '&l:cursorcolumn')
   call Remember('^V', '&l:cursorline')
 
-  augroup OutlineVisualBlock
-    au!
-    au CursorMoved <buffer> call s:OutlineVisualBlock()
-  augroup END
+  call autocmd_add([{
+        \ 'cmd': 'call s:OutlineVisualBlock()',
+        \ 'group': 'mayhem_OutlineVisualBlock',
+        \ 'event': 'CursorMoved',
+        \ 'replace': v:true
+        \}])
 
   let &l:cursorline = 0
   let &l:cursorcolumn = 0
   call s:OutlineVisualBlock()
 endfunc
 
+"
+" Shutdown for visual block highlighting
+"
 function! s:OnLeaveVisualBlock() abort
-  augroup OutlineVisualBlock
-    au!
-  augroup END
+  call autocmd_delete([{
+        \ 'group': 'mayhem_OutlineVisualBlock',
+        \ 'event': 'CursorMoved',
+        \}])
 
   call sign_unplace('visualextentsigns')
   " call sign_undefine(['signvisualsame','signvisualbot','signvisualtop'])
@@ -152,7 +192,15 @@ function! s:OnLeaveVisualBlock() abort
   call Restore('^V')
 endfunc
 
-augroup VisualMode
-  au User MayhemEnterModeVB call s:OnEnterVisualBlock()
-  au User MayhemLeaveModeVB call s:OnLeaveVisualBlock()
-augroup END
+call autocmd_add([{
+      \ 'replace': v:true,
+      \ 'cmd': 'call s:OnEnterVisualBlock()',
+      \ 'group': 'mayhem_visual_observer',
+      \ 'event': 'User', 'pattern': 'MayhemEnterModeVB',
+      \}, {
+      \ 'replace': v:true,
+      \ 'cmd': 'call s:OnLeaveVisualBlock()',
+      \ 'group': 'mayhem_visual_observer',
+      \ 'event': 'User', 'pattern': 'MayhemLeaveModeVB',
+      \}])
+

@@ -90,7 +90,7 @@ command! -nargs=? -range TransposeRowCol <line1>,<line2>call <SID>TransposeRowCo
 " or to the selected range of lines
 " Can be given a specific column to wrap at (defaults 
 " to cursor column)
-" If used in an existing continuation block, reformats it
+" If used in an existing continuation block, reformats it   TODO
 " to the new width
 "
 function! Continuation(column) range
@@ -98,7 +98,7 @@ endfunc
 
 "
 " Remove line continuation from the continuation block
-" the cursor is currently within, leaving a single line
+" the cursor is currently within, leaving a single line     TODO
 " When called with a range, applies only to those
 " lines (may affect multiple blocks, or only a part of one)
 "
@@ -118,9 +118,6 @@ augroup misc_commands
 
   " Set syntax sync if file short enough
   au BufWinEnter * if (get(b:, 'linecount', 0) < get(g:, 'mayhem_sync_start_max_lines', 0)) | syn sync fromstart | endif
-
-  " Use <esc> to close quickfix window
-  " au FileType qf if mapcheck('<esc>', 'n') ==# '' | nnoremap <buffer><silent> <esc> :cclose<bar>lclose<CR> | endif
 augroup END
 
 

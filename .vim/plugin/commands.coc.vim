@@ -65,12 +65,17 @@ function s:ShowDocumentation()
     call CocActionAsync('definitionHover')
     " call CocActionAsync('doHover')
     " call CocActionAsync('getHover')
-    if &filetype == 'vim'
-      execute 'h '..expand('<cword>')
-    endif
   endif
   if &filetype == 'vim'
-    execute 'h '..expand('<cword>')
+    try
+      execute 'h '..expand('<cWORD>')
+    catch /^Vim\%((\a\+)\)\=:E149:/
+      try
+        execute 'h '..expand('<cword>')
+      catch /^Vim\%((\a\+)\)\=:E149:/
+        echo 'Not helpful'
+      endtry
+    endtry
   endif
 endfunc
 
@@ -80,7 +85,19 @@ command! ShowDocumentation call <SID>ShowDocumentation()
 " add a cursorhold command to show a small hint if there is
 "  a custom help item
 
+"
+" Jump to a useful location from current cursor position
+"
+function s:JumpSomewhere()
+  try
+    call CocAction('jumpDefinition')
+  catch /^Vim\%((\a\+)\)\=:E605:/
+    echo "caught " .. v:exception
+    
+  endtry
+endfunc
 
+command! -bar JumpSomewhere call <SID>JumpSomewhere()
 
 
 
@@ -138,7 +155,7 @@ function s:OnCocDiagnosticChange()
   UpdateSlCachedDiagnostics
 endfunc
 
-function s:OnCocLocationsChange()
+function s:OnCocLocationsChange() abort
 "   new list in: g:coc_jump_locations
    let g:last_coc_jump_locations = g:coc_jump_locations
    " call setloclist(0, g:coc_jump_locations) | lwindow
@@ -146,7 +163,7 @@ function s:OnCocLocationsChange()
 endfunc
 
 
-function s:OnCocOpenFloat()
+function s:OnCocOpenFloat() abort
   " w:preview_window = 1
   let cocbufnr = get(get(getwininfo(g:coc_last_float_win), 0, {}), 'bufnr', -1)
   let name = get(get(getbufinfo(get(get(getwininfo(g:coc_last_float_win), 0, {}), 'bufnr', -1)), 0, {}), 'name', 'unknown')

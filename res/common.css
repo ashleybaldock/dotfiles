@@ -42,6 +42,26 @@
   /* Null placeholders */
   --Ø‥text-shadow: 0 0 #0000;
 }
+@property --_100vw {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vw;
+}
+@property --_100vh {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vh;
+}
+:root {
+  --w: tan(atan2(var(--_100vw), 1px)); /* screen width */
+  --h: tan(atan2(var(--_100vh), 1px)); /* screen height*/
+  /* The result is an integer without unit  */
+}
+
+body::before {
+  counter-reset: screenw var(--w), screenh var(--h);
+  content: counter(screenw) x counter(screenh);
+}
 
 body {
   font-size: 14px;

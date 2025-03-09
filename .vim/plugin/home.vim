@@ -146,6 +146,9 @@ endfunc
 function! s:BindKeys()
   nnoremap <buffer><nowait><silent> i        :enew <bar> startinsert<CR>
   nnoremap <buffer><nowait><silent> <insert> :enew <bar> startinsert<CR>
+  nnoremap <buffer><nowait><silent> a        :enew <bar> startinsert<CR>
+  nnoremap <buffer><nowait><silent> r        :enew <bar> startinsert<CR>
+  nnoremap <buffer><nowait><silent> R        :enew <bar> startinsert<CR>
   nnoremap <buffer><nowait><silent> q1 :call <SID>OpenQuick(1)<CR>
   nnoremap <buffer><nowait><silent> q2 :call <SID>OpenQuick(2)<CR>
   nnoremap <buffer><nowait><silent> q3 :call <SID>OpenQuick(3)<CR>
@@ -175,13 +178,13 @@ function! s:BindKeys()
   nnoremap <buffer><nowait><silent> s6 :call <SID>OpenFile(6)<CR>
 endfunc
 
-function! s:UpdateRecentlyEdited(file)
+function s:UpdateRecentlyEdited(file)
 endfunc
 
-function! s:OnVimLeavePre() abort
+function s:OnVimLeavePre() abort
 endfunc
 
-function! s:OnVimEnter() abort
+function s:OnVimEnter() abort
   if !argc() && line('$') == 1 && getline('.') == ''
     " Detect session file and offer option to load it   TODO
     if (get(g:, 'mayhem_home_autoload_session', 0) == 1) && filereadable('Session.vim')
@@ -196,7 +199,7 @@ function! s:OnVimEnter() abort
   autocmd! home VimEnter
 endfunc
 
-function! s:ShowHome()
+function s:ShowHome()
   " Handle vim -y, vim -M, unsaved buffer
   if (&insertmode || !&modifiable) || (!&hidden && &modified)
     return
@@ -227,9 +230,7 @@ function! s:ShowHome()
   endif
   
   " Edit buffer contents
-  silent! setlocal
-        \ modifiable
-        \ noreadonly
+  silent! setlocal modifiable noreadonly
 
   call map(v:oldfiles, 'fnamemodify(v:val, ":p")')
   au BufNewFile,BufRead,BufFilePre *
@@ -254,10 +255,8 @@ function! s:ShowHome()
   setlocal filetype=mayhemhome
 
   " Finalise buffer contents
-  silent! setlocal
-        \ nomodified 
-        \ nomodifiable
+  silent! setlocal nomodified nomodifiable
 
-  au BufWinLeave,BufUnload <buffer> CloseMessages
+  au BufWinLeave,BufUnload <buffer> MessagesClose
 endfunction
 

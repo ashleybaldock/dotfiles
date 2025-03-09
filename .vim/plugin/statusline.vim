@@ -481,6 +481,12 @@ function s:SetStatusVars()
 endfunc
 " sp|enew|pu=execute('echo getbufvar(bufnr(), "name")')
 
+  " TODO - change this so that the C/NC distinction doesn't need two
+  "         identical strings
+  " TODO - it would be better to provide a plugin interface
+  "       for custom statusbar, winbar, etc. things 
+  " TODO - convert to vim9script
+  " TODO - finish symbols library
 function s:UpdateStatuslines() abort
   call s:SetStatusVars()
   call s:Update_FileInfo()
@@ -534,8 +540,19 @@ function s:UpdateStatuslines() abort
     \ '􀩼%#SlTermN# %-f%*%<%=%(%n %l,%c%V %P%) ']
 
   let g:mayhem['sl_messages'] = [
-        \ '  􀤏  %=%#SlMessC#􁈏 Messages 􁈐%*%=  􀤏  ',
-        \ '  􀤏  %=%#SlMessN#􁈏 Messages 􁈐%*%=  􀤏  ']
+        \['%#SlMessIC#􀤏%* %#SlMessC#Messages%*%=',
+        \ ' %{%ScrollHint()%}',
+        \ ' %#SlMessIC#􀤏%*']->join(''),
+        \['%#SlMessIN#􀤏%* %#SlMessN#Messages%*%=',
+        \ ' %{%ScrollHint()%}',
+        \ ' %#SlMessIN#􀤏%*']->join(''),
+        \]
+
+  let g:mayhem['sl_scriptnames'] = [
+        \ ['%#SlHomeLC#SF Symbols%*','%<','%=']->join(''),
+        \ ['%#SlHomeLN#SF Symbols%*','%<','%=']->join(''),
+        \]
+
 
   " ' ℺⃞ 🅀 𝒬⃞  ⍰ \ %%*'
   " Quickfix:
@@ -556,6 +573,11 @@ function s:UpdateStatuslines() abort
         \ '%<','%=','%#SlHomeMC# %*','%=','%#SlHomeRC# %*']->join(''),
         \ ['%#SlHomeLN#􁘱  Vim Mayhem%*',
         \ '%<','%=','%#SlHomeMN# %*','%=','%#SlHomeRN# %*']->join(''),
+        \]
+
+  let g:mayhem['sl_sfsym'] = [
+        \ ['%#SlHomeLC#SF Symbols%*','%<','%=']->join(''),
+        \ ['%#SlHomeLN#SF Symbols%*','%<','%=']->join(''),
         \]
 endfunc
 

@@ -7,6 +7,7 @@ g:mayhem_loaded_sfsymbols = 1
 # Scope: Script
 var sfrange_start = 0x100000
 var sfrange_end   = 0x103fff
+var sfrange_valid = printf('^[\U+%08X-\U+%08X]', sfrange_start, sfrange_end)
 
 # Set all SF Symbol codepoints to be 2 chars wide
 # (the majority of them are at least that wide)
@@ -18,17 +19,23 @@ setcellwidths([[sfrange_start, sfrange_end, 2]])
 # call setcellwidths([[char2nr('﹪'),char2nr('﹪'),1]]);
 #﹪
 # if charclass(cs) == 3
-#     setline(lnum, '0x' .. printf("%06x", c) .. ' ' .. charclass(cs) .. ' ' .. strwidth(cs) .. ' |' .. cs .. '| ' )
+#     setline(lnum, '0x' .. printf("%06x", c) .. ' '
+#     \ .. charclass(cs) .. ' ' .. strwidth(cs) .. ' |' .. cs .. '| ' )
 
+#
 # This is derived from $VIMRUNTIME/tools/emoji_list.vim
 # Uses a compiled Vim9 function for speed
-def GenSymbols()
+#
+def GenSymbols(circled = v:false)
   setline(1, '═︎═︎═︎════════════════')
-  setline(2, '    SF Symbols     ')
+  setline(2, circled ?
+        \    '   􀣺️⃝ SF Symbols   ' :
+        \    '   􀣺 SF Symbols   ')
   setline(3, '═︎═︎═︎════════════════')
   var lnum = 4
+  var modifier = circled ?  '️⃝' : ''
   for c in range(sfrange_start, sfrange_end)
-    var cs = nr2char(c)
+    var cs = nr2char(c) .. modifier
     setline(lnum,
             printf("⏐%d⏐  %s  ⏐0x%02x%02x%02x⏐",
             strwidth(cs), cs,
@@ -40,16 +47,18 @@ def GenSymbols()
   endfor
 enddef
 
-def SymbolsSplit()
+def SymbolsSplit(circled = v:false)
   :19vsplit
   setlocal winfixwidth winwidth=19 nowrap
+  setlocal modifiable
   enew
-  GenSymbols()
+  GenSymbols(circled)
   set nomodified nomodifiable
   setlocal colorcolumn=5,8
 enddef
 
-command! SymbolCodepoints call SymbolsSplit()
+command! -bar SfSymbolSplit call SymbolsSplit()
+command! -bar SfCircledSymbolSplit call SymbolsSplit(v:true)
 
 #
 # Simple codepoint range check
@@ -57,7 +66,7 @@ command! SymbolCodepoints call SymbolsSplit()
 def g:IsSfSymbol(arg: string): bool
   var char = NormalisedChar(arg)
 
-  return char =~# '^[\U00100000-\U00103fff]'
+  return char =~# sfrange_valid
 enddef
 
 class SfSymbolInfo
@@ -69,6 +78,10 @@ class SfSymbolInfo
 
   def new(this.codepoint, this.symbol, this.code, this.name)
   enddef
+
+  # def tostring(): string
+  #   return printf('U+%04X', nr)
+  # enddef
 endclass
 
 #
@@ -76,6 +89,7 @@ endclass
 #
 def GetSfSymbolInfo(arg: string): SfSymbolInfo
   var char = NormalisedChar(arg)
+  var isInRange = char =~# sfrange_valid
 
   var nr = char2nr(char)
   var chnr = nr2char(nr)
@@ -85,12 +99,12 @@ enddef
 #
 # In statusline
 #
-def EchoSymbolInfo(arg: string): string
+def EchoSymbolInfo(arg: string = v:none): string
   var info = GetSfSymbolInfo(arg)
   return $'╱╱ {info.symbol} ╱ {info.code} ╱ {info.name} ╱'
 enddef
 
-command! -bar -nargs=? SfSymbolInfo echo EchoSymbolInfo(<q-args>)
+command! -bar -nargs=? SfSymbolInfo echo EchoSymbolInfo(<f-args>)
 
 #
 # First bit of what Characterize does
@@ -109,7 +123,7 @@ def NormalisedChar(arg: string): string
     catch
     endtry
   endif
-  char = matchstr(char, '.')
+  # char = matchstr(char, '.')
   if empty(char)
     return 'NUL'
   endif
@@ -120,10 +134,15 @@ enddef
 
 defcompile
 
-
-
-# These could be exceptions?
+# 􀐐️⃝ 􀐏️⃝  􀐘️⃝  􀐙️⃝ 􀐡️⃝ 􀐢️⃝ 􀐣️⃝ 
 #
+#️⃝  􀐩️⃝  􀐪️⃝  􀐫️⃝  􀐬️⃝  􀐹️⃝  􀜚️⃝ 
+#
+# 􀒂􀒃􀒅􀒄􀓗􀣱􀓨􀓩􀣳􀟈􀓂􀓃􀥰􀛣  􀜍􀜎 
+# 􀑀      􀙌    􀓘  􀟉    􀥱􀛤􀛦􀛧  􀟻􀟼
+# 􀑁  􀓡􀓢 􀎪 􀙉  􀠑    􀓄􀖃        􀟽
+# 􀑂􀘞       􀠒 􀙁    􀓅􀓜􀓞􀛯    
+# 􀟒􀜟􀑃
 # 􀟖􀟕􁊘a􁊙􀑪􀆊􀯻􀆉􀯶􂦬􀆒􀆓
 #
 # 􂉏􀖄􂉐􀅍􀅎􀅓􀅔􀅕􀮷􀫌􁷁
@@ -134,3 +153,4 @@ defcompile
 #
 # 􁏄􁗅􀝢􀝌􀞋􂃵􀎪􀎠􀎡􀖈􀖉
 #
+# 􀀀 􁹤️⃝ 􁹭️⃝ 􁹢️⃝ 􁹦️⃝ 􁷟 􁹣️⃝ 􁹪️⃝ 􁹮️⃝ 􁹥️⃝  􁹧️⃝ 􁹨️⃝ 􁹩️⃝ 􁏰

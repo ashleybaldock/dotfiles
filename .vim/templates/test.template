@@ -1,0 +1,13 @@
+
+To test
+:split anoTher_Bet-ter Test.test.test
+
+
+FILE      %FILE%
+FILE:LC   %FILE:LC%
+FILE:UC   %FILE:UC%
+FILE:TC   %FILE:TC%
+FILE:STC  %FILE:STC%
+
+DATE      %DATE%
+TIME      %TIME%

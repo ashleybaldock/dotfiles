@@ -1,0 +1,6 @@
+vim9script
+if exists("g:mayhem_loaded_%FILE:LC%")
+  finish
+endif
+g:mayhem_loaded_%FILE:LC% = 1
+

@@ -20,14 +20,14 @@ function s:SplitWithScriptnames() abort
   setlocal filetype=vimscriptnames nomodified nomodifiable
 endfunc
 
-command! ListPlugins call <SID>SplitWithScriptnames()
+command! ListPlugins call s:SplitWithScriptnames()
 
 function s:GetMessages() abort
   return execute('silent messages')->split("\n")[1:-1]
 endfunc
 
 "
-" Expand <SNR> in messages output with real file names
+" Expand <SNR> in messages output with real file names      TODO
 "
 function s:ExpandMessages(messages) abort
   call mapnew(a:messages, {i, v -> v})
@@ -39,10 +39,10 @@ function s:OnVimEnter(when) abort
   if !exists('s:startup_messages')
     let s:startup_messages = s:GetMessages()
   endif
-  call autocmd_add([{
-        \ 'event': 'QuitPre', 'replace': v:true,
-        \ 'cmd': 'call s:CloseMessages()',
-        \ 'group': 'mayhem_messages_exit',
+  call autocmd_add([#{
+        \ event: 'QuitPre', replace: v:true,
+        \ cmd: 'call s:CloseMessages()',
+        \ group: 'mayhem_messages_exit',
         \}])
 endfunc
 
@@ -65,7 +65,7 @@ function s:WriteMessagesToBufferInWindow(winid) abort
   if win_gettype(a:winid) == 'popup'
     call appendbufline(bufnr, 0, messages)
   else
-    call setbufline(bufnr, 1, 'helpful ╱ <SNR>XX→file  :ListPlugins  ╱  :RefreshMessages')
+    silent call deletebufline(bufnr, 1, '$')
     call appendbufline(bufnr, '$', '-- Startup Messages --')
     call appendbufline(bufnr, '$', '')
     call appendbufline(bufnr, '$', get(s:, 'startup_messages', []))
@@ -85,6 +85,9 @@ function s:SplitWithMessages() abort
   if !exists('s:mayhem_messages_winid')
     vnew
     let s:mayhem_messages_winid = win_getid(winnr())
+
+    nnoremap <buffer> <nowait> r <ScriptCmd>call s:RefreshMessages()<CR>
+    nnoremap <buffer> <nowait> p <ScriptCmd>call s:SplitWithScriptnames()<CR>
     setlocal filetype=vimmessages 
     setlocal nomodified nomodifiable
     wincmd h
@@ -120,6 +123,9 @@ function s:CloseMessagesPopup() abort
   endif
 endfunc
 
+"
+" Key events intercepted by open popup
+"
 function s:MessagesPopupFilter(winid, key) abort
   if a:key == 'x'
     call s:CloseMessagesPopup()
@@ -156,11 +162,11 @@ function s:PopupWithMessages() abort
   call setbufvar(winbufnr(s:mayhem_messages_popupwinid), '&filetype', 'vimmessages')
 endfunc
 
-command! MessagesPopup call <SID>PopupWithMessages()
+command! MessagesPopup call s:PopupWithMessages()
 
-command! MessagesSplit call <SID>SplitWithMessages()
+command! MessagesSplit call s:SplitWithMessages()
 
-command! MessagesClose call <SID>CloseMessages()
+command! MessagesClose call s:CloseMessages()
 
-command! MessagesRefresh call <SID>RefreshMessages()
+command! MessagesRefresh call s:RefreshMessages()
 

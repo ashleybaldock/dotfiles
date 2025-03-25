@@ -1,0 +1,127 @@
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+.svgListing {
+  min-height: 340px;
+}
+
+.iconRow {
+  overflow: visible;
+  width: 70px;
+  height: 70px;
+  display: grid;
+  pointer-events: none;
+  outline: 1px dotted red;
+}
+.iconRow:hover {
+  background-color: #f004;
+}
+
+.asSVG {
+  visibility: visible;
+  opacity: 1;
+  align-self: center;
+  justify-self: center;
+  pointer-events: all;
+  grid-column: 1;
+  grid-row: 1;
+}
+.inner:hover .copyAs {
+  visibility: visible;
+  opacity: 1;
+}
+.copyAs > .copy {
+  cursor: copy;
+}
+.copyAs {
+  user-select: none;
+}
+.inner:hover {
+  background-color: #00d2;
+}
+.inner:has(> .asSVG:hover) {
+  background-color: #f0f2;
+}
+
+.outer {
+  contain: size;
+  container: size;
+  contain-intrinsic-size: 5em;
+  contain-intrinsic-block-size: 5em;
+  display: flex;
+  pointer-events: none;
+}
+:has(.debug:checked) {
+}
+.inner {
+  outline: 1px dashed blue;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  place-content: top center;
+  /*   margin: -100px -100px -100px -100px; */
+  width: 100cqi;
+  max-height: 100cqi;
+  margin: -100px;
+  pointer-events: none;
+}
+.copyAs > .copy {
+  cursor: copy;
+}
+.inner .copyAs {
+  background-color: #111111f8;
+  border-radius: 1.7em;
+  border: 0.8px dashed #7c7c7c;
+  opacity: 0;
+  transition-property: opacity;
+  transition-delay: 0ms;
+  transition-duration: 80ms;
+  transition-timing-function: ease;
+  box-shadow: 1px 1px 4px 1px #000;
+  grid-column: 1;
+  grid-row: 1;
+  box-sizing: content-box;
+  justify-self: start;
+  align-self: start;
+  position: sticky;
+  top: 10%;
+  bottom: 10%;
+  left: 40%;
+  right: 20%;
+  height: fit-content;
+  width: fit-content;
+  padding: 1em 2em;
+  margin: -1em;
+}
+.inner::before {
+  /*   content: ''; */
+  outline-offset: -1px;
+  width: 10cqmax;
+  outline: 1px solid #8bff8b;
+  outline-offset: -1px;
+  height: 100cqmin;
+  position: absolute;
+  /* position: relative;
+position: sticky; */
+  display: flex;
+}
+
+/* .outer {
+  contain:  size;
+  container: size;
+  contain-intrinsic-size: 5em;
+  contain-intrinsic-block-size: 5em;
+}
+.inner {
+  outline: 1px dashed blue;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  place-content: top center;
+  margin: -100px -100px -100px -100px;
+  width: 100cqi;
+  max-height: 100cqi;
+  margin: -100px;
+} */

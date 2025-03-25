@@ -76,8 +76,8 @@ endfunc
 " Transpose Rows And Columns: in range or visual selection
 "
 function! s:TransposeRowCol(sep='	') range abort
-  exec a:firstline..','..a:lastline..'!rs -T -g1 -C'..a:sep
-  exec line("'[")..','..line("']")..'s/^\zs\s*//g'
+  exec a:firstline .. ',' .. a:lastline .. '!rs -T -g1 -C' .. a:sep
+  exec line("'[") .. ',' .. line("']") .. 's/^\zs\s*//g'
 endfunc
 "
 " Optional argument sets delimiter to insert between columns of output
@@ -156,10 +156,10 @@ augroup END
   "       \ -c 'so /Users/ashley/tmp/vimpipe<CR>'
 " function s:ReopenSessionInNewPane()
 "   let pipe = shellescape(expand('$HOME/tmp/vimpipe'))
-"   exec '!rm '..pipe
-"   exec '!mkfifo '..pipe
-"   exec '!open --env VFR="'..shellescape(v:servername)..'" -a ''/Applications/MacVim.app/Contents/bin/mvim'' --args -c ''echom get(environ(), "VFR", "UNKNOWN")'' -c ''so '..pipe..''''
-"   exec 'mksession!'..pipe
+"   exec '!rm ' .. pipe
+"   exec '!mkfifo ' .. pipe
+"   exec '!open --env VFR="' .. shellescape(v:servername) .. '" -a ''/Applications/MacVim.app/Contents/bin/mvim'' --args -c ''echom get(environ(), "VFR", "UNKNOWN")'' -c ''so ' .. pipe .. ''''
+"   exec 'mksession!' .. pipe
 " endfunc
 
 " command! MoveToNewPane :call <SID>ReopenSessionInNewPane()
@@ -167,7 +167,7 @@ augroup END
 
 function! Todo()
   let todoCol = get(g:, 'mayhem_todo_align_column', 50)
-  exec 'AlignLeftOnCol '..todoCol
+  exec 'AlignLeftOnCol ' .. todoCol
 endfunc
 
 
@@ -204,7 +204,7 @@ let s:directionMap = {
       \}
 function! s:RepMoveComplete(ArgLead, CmdLine, CursorPos)
   return keys(s:directionMap)
-  " return map(keys(s:directionMap), {_, val -> ''''..val..''''})
+  " return map(keys(s:directionMap), {_, val -> '''' .. val .. ''''})
 endfunc
 
 command! -nargs=1 -complete=customlist,<SID>RepMoveComplete

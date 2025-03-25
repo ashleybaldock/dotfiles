@@ -9,7 +9,6 @@
   font-size: 16px;
   height: calc(var(--sheader-base-height) * 1.5);
   line-height: calc(var(--sheader-base-height) * 1.75);
-  font-weight: bold;
   font-variant-caps: small-caps;
   font-weight: 600;
   text-align: center;
@@ -22,7 +21,6 @@
   left: -4px;
   bottom: -7px;
   border-radius: 0em 9em 15em 0em;
-  border-bottom: 0 solid transparent;
   border-left: 0 solid transparent;
   border-top: 0 dashed var(--color-fg-section-header);
   border-right: 3px solid var(--color-fg-section-header);

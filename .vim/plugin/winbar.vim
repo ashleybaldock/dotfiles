@@ -60,6 +60,7 @@ function! s:WinBarUpdate()
     silent nunmenu WinBar
     silent nnoremenu 1.10 WinBar.􀤏\ - <Nop>
     silent nnoremenu 1.20 WinBar.􀅌\ r <Nop>
+    silent nnoremenu 1.30 WinBar.􀀨\ p <Nop>
 
     return
   endif

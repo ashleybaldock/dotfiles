@@ -71,6 +71,8 @@ syn match vimmsgWrite '^.*written$'
 
 syn match vimmsgTitle '-- \w\+ Messages --' fold
 
+syn match vimmsgTitle '⁓ Fin ⁓'
+
 
 hi def vimmsgLineNr   guifg=#dddd00
 hi def vimmsgError    guifg=#dd2222

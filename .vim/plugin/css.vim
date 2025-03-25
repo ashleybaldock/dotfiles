@@ -7,6 +7,8 @@ let g:mayhem_loaded_css = 1
 " CSS:
 "
 " See Also:
+"                  ./csso.vim (CSS optimise)
+"                  ./svgo.vim (SVG optimise)
 "           ../syntax/css.vim
 "     ../after/syntax/css.vim
 "         ../ftplugin/css.vim
@@ -17,7 +19,7 @@ let g:mayhem_loaded_css = 1
 " CSSO
 "
 " 
-command! -bar -range=% -nargs=1 CssOptimise <line1>,<line2> <Nop>
+" command! -bar -range=% -nargs=? CssOptimise <line1>,<line2> <Nop>
 
 "
 " Layer Editing Tools:
@@ -108,7 +110,16 @@ command! -bar -range=% CssBoostSpecificity <line1>,<line2>CssPrefixRules ':not(#
 "
 " Prefix Conceal: hide long common prefix for readability
 "
-command! -bar call matchadd('Conceal', '#content\s\.mw-search-form-wrapper', 10, -1, #{conceal:'𝓟'})
+let s:prefix_matches = []
+command! -bar CssPrefixConceal
+      \ :call add(s:prefix_matches, matchadd('Conceal', 
+      \   '#content\s\.mw-search-form-wrapper',
+      \   10, -1, #{conceal:'𝓟'}))
+
+command! -bar CssPrefixesReveal
+      \ :for p in s:prefix_matches
+      \ :call matchdelete(p)
+      \ :endfor
 
 
 "
@@ -132,7 +143,7 @@ command! -bar -range=% -nargs=1 CssUnprefix <line1>,<line2> <Nop>
 "   <frequency>  \(Hz\|kHz\)
 "  <resolution>  \(dpi\|dppx\|dpcm\)
 "
-command! -bar -range=% CssCorrectZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?\0*\(cap\|ch\|em\|ex\|ic\|lh\|rcap\|rch\|rem\|rex\|ric\|rlh\|vh\|vw\|vmax\|vmin\|vb\|vi\|cqw\|cqh\|cqi\|cqb\|cqmin\|cqmax\|px\|cm\|mm\|Q\|in\|pc\|pt\)\ze\%(\s\|;\)/0/ge
+command! -bar -range=% CssZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?\0*\(cap\|ch\|em\|ex\|ic\|lh\|rcap\|rch\|rem\|rex\|ric\|rlh\|vh\|vw\|vmax\|vmin\|vb\|vi\|cqw\|cqh\|cqi\|cqb\|cqmin\|cqmax\|px\|cm\|mm\|Q\|in\|pc\|pt\)\ze\%(\s\|;\)/0/ge
 
 
 " These properties use <time>

@@ -213,5 +213,8 @@
   "typescript.preferences.importModuleSpecifier": "shortest",
   "typescript.preferences.useAliasesForRenames": false,
   "typescript.preferGoToSourceDefinition": true,
-  "typescript.preferences.preferTypeOnlyAutoImports": true
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }

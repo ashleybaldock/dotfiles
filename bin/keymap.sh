@@ -1,5 +1,33 @@
 hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x70000002A,"HIDKeyboardModifierMappingDst":0x700000029},{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000002A}]}'
 
+hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0xC000000CD,"HIDKeyboardModifierMappingDst": 0x700000041}]}'
+
+# pad to 4 bytes + remove leading 0s:
+# 0x0007 -> 0x00000007
+#     0x0041 ->     0x00000041
+#                  0x700000041
+
+#  ╻   To      ╻Sym╻  Fn (FnX) ╻       Description       ╻
+#  ╏───────────╏───╏┬──────────╏─────────────────────────╏
+#  │                │    0x0007│                         │
+#  │ 00ff 0005  􀆫  │ F1  003a │ Screen Brightness Down  │ 🔅
+#  │ 00ff 0004  􀆭  │ F2  003b │ Screen Brightness Up    │ 🔆
+#  │ ff01 0010  􀇴  │ F3  003c │                         │
+#  │ 000c 0221  􀊫  │ F4  003d │ Search                  │ 🔍
+#  │ 000c 00cf  🎤︎  │ F5  003e │ Mic                     │ 🎤
+#  │ 0001 009b  􀆹  │ F6  003f │ Toggle Do not disturb   │  
+#  │ 000c 00b4  􀊉  │ F7  0040 │ Skip Prev.              │ ⏪️
+#  │ 000c 00cd  􀊇  │ F8  0041 │ Play/Pause              │ ⏯️
+#  │ 000c 00b3  􀊋  │ F9  0042 │ Skip Next.              │ ⏩️
+#  │ 000c 00e2  􀊠  │ F10 0043 │ Mute                    │ 🔈🔇
+#  │ 000c 00ea  􀊤  │ F11 0044 │ Volume Down             │ 🔉
+#  │ 000c 00e9  􀊨  │ F12 0045 │ Volume Up               │ 🔊
+#  ╹                ╹          ╹                         ╹
+# 0x ff01 0002         Dashboard
+# 0x ff01 0010         Expose_All
+# 0x ff01 0020  􀆫     Brightness_Up
+# 0x ff01 0021  􀆭     Brightness_Down
+
 # ioreg -l|grep FnFunctionUsageMap|grep -Eo 0x[0-9a-fA-F]+,0x[0-9a-fA-F]+ | pbcopy
 # 0001: Generic Desktop
 # 0007: Keyboard
@@ -7,25 +35,25 @@ hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x70
 # 00ff: kHIDUsage_AV_TopCase
 # ff00: kHIDPage_AppleVendor
 # ff01: kHIDPage_AppleVendorKeyboard
-#  ╻     From (FnX)     ╻      To      ╻ Sym ╻      Description        ╻
-#  ╏─────┬──────────────╏──────────────╏─────╏─────────────────────────╏
-#  │  F1 │ 0x 0007 003a │ 0x 00ff 0005 │ 􀆫  │ Screen Brightness Down  │  🔅
-#  │  F2 │ 0x 0007 003b │ 0x 00ff 0004 │ 􀆭  │ Screen Brightness Up    │  🔆
-#  │  F3 │ 0x 0007 003c │ 0x ff01 0010 │ 􀇴  │                         │
-#  │  F4 │ 0x 0007 003d │ 0x 000c 0221 │ 􀊫  │ Search                  │  🔍
-#  │  F5 │ 0x 0007 003e │ 0x 000c 00cf │ 🎤︎  │ Mic                     │  🎤
-#  │  F6 │ 0x 0007 003f │ 0x 0001 009b │ 􀆹  │ Toggle Do not disturb   │  
-#  │  F7 │ 0x 0007 0040 │ 0x 000c 00b4 │ 􀊉  │ Skip Prev.              │ ⏪️
-#  │  F8 │ 0x 0007 0041 │ 0x 000c 00cd │ 􀊇  │ Play/Pause              │ ⏯️
-#  │  F9 │ 0x 0007 0042 │ 0x 000c 00b3 │ 􀊋  │ Skip Next.              │ ⏩️
-#  │ F10 │ 0x 0007 0043 │ 0x 000c 00e2 │ 􀊠  │ Mute                    │ 🔈🔇
-#  │ F11 │ 0x 0007 0044 │ 0x 000c 00ea │ 􀊤  │ Volume Down             │ 🔉
-#  │ F12 │ 0x 0007 0045 │ 0x 000c 00e9 │ 􀊨  │ Volume Up               │ 🔊
-#  ╹     ╹              ╹              ╹     ╹                         ╹
+#  ╻     From (FnX)     ╻      To      ╻Sybl╻      Description        ╻
+#  ╏─────┬──────────────╏──────────────╏────╏─────────────────────────╏
+#  │  F1 │ 0x 0007 003a │ 0x 00ff 0005 │ 􀆫 │ Screen Brightness Down  │  🔅
+#  │  F2 │ 0x 0007 003b │ 0x 00ff 0004 │ 􀆭 │ Screen Brightness Up    │  🔆
+#  │  F3 │ 0x 0007 003c │ 0x ff01 0010 │ 􀇴 │                         │
+#  │  F4 │ 0x 0007 003d │ 0x 000c 0221 │ 􀊫 │ Search                  │  🔍
+#  │  F5 │ 0x 0007 003e │ 0x 000c 00cf │ 🎤︎ │ Mic                     │  🎤
+#  │  F6 │ 0x 0007 003f │ 0x 0001 009b │ 􀆹 │ Toggle Do not disturb   │  
+#  │  F7 │ 0x 0007 0040 │ 0x 000c 00b4 │ 􀊉 │ Skip Prev.              │ ⏪️
+#  │  F8 │ 0x 0007 0041 │ 0x 000c 00cd │ 􀊇 │ Play/Pause              │ ⏯️
+#  │  F9 │ 0x 0007 0042 │ 0x 000c 00b3 │ 􀊋 │ Skip Next.              │ ⏩️
+#  │ F10 │ 0x 0007 0043 │ 0x 000c 00e2 │ 􀊠 │ Mute                    │ 🔈🔇
+#  │ F11 │ 0x 0007 0044 │ 0x 000c 00ea │ 􀊤 │ Volume Down             │ 🔉
+#  │ F12 │ 0x 0007 0045 │ 0x 000c 00e9 │ 􀊨 │ Volume Up               │ 🔊
+#  ╹     ╹              ╹              ╹    ╹                         ╹
 #                         0x ff01 0002         Dashboard
 #                         0x ff01 0010         Expose_All
-#                         0x ff01 0020         Brightness_Up
-#                         0x ff01 0021         Brightness_Down
+#                         0x ff01 0020  􀆫     Brightness_Up
+#                         0x ff01 0021  􀆭     Brightness_Down
 
 
 # FF00-FFFF Vendor-defined

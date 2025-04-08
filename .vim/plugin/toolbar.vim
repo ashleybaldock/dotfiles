@@ -324,7 +324,7 @@ endfunc
 
 function! GetGitInfo()
   " TODO get real git info
-  return #{timeSinceLastSync: 1, unsynced: 1, uncommitted: 1}
+  return #{lastSynced: localtime(), unsynced: 1, uncommitted: 1, lastCommitted: localtime()}
 endfunc
 
  " 􀣔 􀱨
@@ -333,15 +333,19 @@ function s:UpdateDTDStatus_Git()
 
   let gitinfo = GetGitInfo()
   if (gitinfo['unsynced'])
-        \ && (gitinto['timeSinceLastSync'] > g:mayhem_gitsync_sincelastmax)
-        an icon=exclamationmark.arrow.trianglehead.2.clockwise.rotate.90:multicolor
-              \ 1.110 ToolBar.Status_Git <Nop>
-    exec 'tmenu ToolBar.Status_Git 􀯛 Unsynched changes.'
-  elseif (gitinfo['uncommitted'])
-        \ && (gitinto['timeSinceLastCommit'] > g:mayhem_gitcommit_sincelastmax)
+        \ && (localtime() > gitinfo['lastSynced'] + g:mayhem_warn_sync_seconds)
+    " 􀱨
     an icon=exclamationmark.arrow.trianglehead.2.clockwise.rotate.90:multicolor
           \ 1.110 ToolBar.Status_Git <Nop>
-    exec 'tmenu ToolBar.Status_Git 􀢤 Changes to commit.'
+    exec 'tmenu ToolBar.Status_Git 􀯛 ' ..
+          \ gitinfo['unsynced'] ' unsynched change'
+          \ .. gitinfo['unsynced'] == 1 ? '' : 's'
+  elseif (gitinfo['uncommitted'])
+        \ && (localtime() > gitinfo['lastCommitted'] + g:mayhem_warn_commit_seconds)
+    " 􀱨
+    an icon=exclamationmark.arrow.trianglehead.2.clockwise.rotate.90:multicolor
+          \ 1.110 ToolBar.Status_Git <Nop>
+    exec 'tmenu ToolBar.Status_Git 􀢤 Changes to commit'
   endif
 endfunc
 
@@ -455,9 +459,11 @@ function! s:AddDynamicToolBar()
   "         \ ToolBar.Unused3 <Nop>
   " 􀣋 gearshape 􀣌.fill 􀥎 .2  􀥏 .2.fill 􀺼.circle
   "           􁐂.arrow.triangle.2.circlepath  
-  an <silent> icon=gearshape.arrow.triangle.2.circlepath 1.360
-        \ ToolBar.ReloadConfig
-        \ <Nop>
+  "
+  " icon=gearshape.arrow.triangle.2.circlepath 1.360
+  exec 'an <silent> icon=' .. SfId('􁐂') .. '1.360' ..
+        \ ' ToolBar.ReloadConfig' ..
+        \ ' <Nop>'
   tmenu ToolBar.ReloadConfig 􁐂 Reload config
 
   " 􀝥 paintpalette 􀝦.fill

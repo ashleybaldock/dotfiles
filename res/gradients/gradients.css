@@ -1,0 +1,32 @@
+.gradient {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.gradient .example {
+  width: 14vw;
+  height: auto;
+  aspect-ratio: var(--𝞅∕𝟮);
+}
+
+.gradient .example:nth-child(1) {
+  background-image: repeating-conic-gradient(
+    #a22 0 90deg,
+    #a2a 90deg 180deg,
+    #22a 180deg 270deg,
+    #2aa 270deg 360deg
+  );
+  background-size: 20% 21%;
+  background-position: 0;
+  background-repeat: round space;
+  background-blend-mode: luminosity;
+  background-color: teal;
+}
+.gradient .example:nth-child(2) {
+  background-image: repeating-conic-gradient(#ff2d 5deg, #000 5.8deg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: top 50% left 50%;
+  background-color: pink;
+  background-blend-mode: difference;
+}

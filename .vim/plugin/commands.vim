@@ -172,7 +172,7 @@ endfunc
 
 
 "
-" Set a direction to move in after doing something
+" S⃝ et a direction to move in after doing something
 "
 function! s:RepeatMove()
   " let b:mayhem_move_after = get(b:, 'mayhem_move_after', 'normal l') 

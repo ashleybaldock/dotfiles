@@ -87,7 +87,7 @@ endclass
 #
 # Info about SF symbol in arg, or under cursor
 #
-def GetSfSymbolInfo(arg: string): SfSymbolInfo
+def g:GetSfSymbolInfo(arg: string): SfSymbolInfo
   var char = NormalisedChar(arg)
   var isInRange = char =~# sfrange_valid
 
@@ -96,11 +96,15 @@ def GetSfSymbolInfo(arg: string): SfSymbolInfo
   return SfSymbolInfo.new(nr, chnr, printf('U+%04X', nr), sfsymbols#getSymbolName(chnr))
 enddef
 
+def g:SfId(arg: string): string
+  return g:GetSfSymbolInfo(arg).name
+enddef
+
 #
 # In statusline
 #
-def EchoSymbolInfo(arg: string = v:none): string
-  var info = GetSfSymbolInfo(arg)
+def g:EchoSymbolInfo(arg: string = v:none): string
+  var info = g:GetSfSymbolInfo(arg)
   return $'╱╱ {info.symbol} ╱ {info.code} ╱ {info.name} ╱'
 enddef
 

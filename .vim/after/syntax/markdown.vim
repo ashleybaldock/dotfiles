@@ -1,5 +1,3 @@
-
-
 "
 " Additions to markdown formatting
 "
@@ -8,6 +6,8 @@
 syn match markdownEscape "\\\~"
 
 syn match markdownLineBreak " \{2,\}$" conceal cchar=⏎️
+
+syn match mdNewPara "$"
 
 
 " syn region mdEscapedItalicText start="\\\*\zs\S\@=" end="\S\ze\@<=\\\*\|^$" oneline contained contains=mdEscapedItalicDelimiter,markdownLineStart,@Spell
@@ -37,13 +37,31 @@ hi def mdEscapedItalicDelimiter guifg=#dddd55 guibg=#288200
 hi def mdEscapedBold guifg=#dddddd guibg=#333333
 hi def mdEscapedBoldDelimiter guifg=#dd5555 guibg=#222222
 
+syn region mdQuoteMulti
+      \ start=+^>+
+      \ end=+\ze\n[^>]+
+      \ contains=mdQuotePrefix,mdQuoteLine
+
+syn region mdQuoteLine contained
+      \ start=+\s\?>\ze\s+
+      \ end=+\ze$+
+      \ contains=mdQuotePrefix
+      \ nextgroup=mdQuoteLine
+
+syn match mdQuotePrefix  +\s*>+ contained contains=NONE conceal cchar=┃
+syn match mdAlertConceal +\[\!+ contained contains=NONE conceal cchar=◣
+syn match mdAlertConceal +\]+ contained contains=NONE conceal cchar=◢
 
 syn match mdConcealedEscape "\\" conceal
 
-syn match mdQuotePrefix +^>+ contained contains=NONE conceal cchar=┃
-syn match mdAlertConceal +\[\!+ cchar=◣ contained contains=NONE conceal
-syn match mdAlertConceal +\]+ cchar=◢ contained contains=NONE conceal
+syn region mdHtmlComment concealends
+      \ matchgroup=Conceal start=+<!--\s\?+
+      \ matchgroup=Conceal end=+\s\?-->+
+      \ containedin=markdownBold,markdownItalic,markdownBoldItalic
 
+hi def mdHtmlComment guifg=#999999 gui=italic
+
+syn match mdHozRule +^\%(---\|\*\*\*\|___\)$+ contains=NONE
 
 syn region mdAlert
       \ start=+^>\s*\[!\%(NOTE\|TIP\|IMPORTANT\|WARNING\|CAUTION\)\]+
@@ -100,3 +118,24 @@ hi def mdAlertTitleCaution guifg=#eeee44
 " echo matchadd('HlMkDnCode', '\\_\\_\zsBold\ze\\_\\_')
 " echo matchadd('HlMkDnCode', '\\\zs_\ze')
 " echo matchadd('Conceal', '\zs\\\ze_')
+
+
+
+silent call prop_type_delete('p')
+silent call prop_type_add('p', #{
+      \ highlight: 'Delimiter',
+      \ combine: v:true,
+      \ })
+call prop_add(21, 0, #{
+      \ type: 'p',
+      \ text: '¶',
+      \ text_align: 'after',
+      \ text_padding_left: 0,
+      \ })
+
+function s:onBufferChanged (bufnr, start, end, added, s)
+  call prop_remove(#{type: 'p'}, a:start, a:end)
+
+  " call prop_add_list()
+endfunc
+" call listener_add(s:onBufferChanged)

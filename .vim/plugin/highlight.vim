@@ -235,11 +235,6 @@ function! s:UpdateSynStackBuffer(winid)
   " Replacement buffer contents
   let lines = []
 
-  call clearmatches(a:winid)
-  call matchadd('HlSynfoFG', 'fg:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
-  call matchadd('HlSynfoBG', 'bg:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
-  call matchadd('HlSynfoSP', 'sp:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
-
   "
   " Top Level Highlight Info:
   "
@@ -257,6 +252,11 @@ function! s:UpdateSynStackBuffer(winid)
     call hlset([{'name': 'HlSynfoFG', 'guifg': fgcolor}])
     call hlset([{'name': 'HlSynfoBG', 'guifg': bgcolor}])
     call hlset([{'name': 'HlSynfoSP', 'guifg': spcolor}])
+
+    call clearmatches(a:winid)
+    call matchadd('HlSynfoFG', 'fg:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
+    call matchadd('HlSynfoBG', 'bg:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
+    call matchadd('HlSynfoSP', 'sp:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
 
 " 􀣤 􀏃 􀣦􀂒􀃰􀃲 
 " ⎛  ★   fg:􀏄 bg:􀏄 sp:􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾             ⎞

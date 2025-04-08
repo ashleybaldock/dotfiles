@@ -152,7 +152,7 @@ command! -nargs=1 -complete=customlist,<SID>SessionComplete
       \ SessionDelete
       \ if exists('g:loaded_obsession')
         \ && exists('g:this_obsession')
-        \ && g:this_obsession == ~/.vim/session/<args>.session.vim
+        \ && g:this_obsession == '~/.vim/session/<args>.session.vim'
       \|  Obsession
       \|endif
       \|!rm ~/.vim/session/<args>.session.vim

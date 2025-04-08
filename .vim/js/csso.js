@@ -6,8 +6,6 @@ import fs from 'fs';
 
 const readStdin = () => fs.readFileSync(0, 'utf-8');
 
-// const minifiedCss = minify('.test { color: #ff0000; }').css;
-
 const options /*: MinifyOptions & CompressOptions*/ = {
   sourceMap: false,
   filename: '<unknown>',

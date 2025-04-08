@@ -5,7 +5,7 @@
 "
 " au BufWritePost <buffer> syn on
 "
-" See also: $VIMRUNTIME/syntax/vim.vim
+" See Also: $VIMRUNTIME/syntax/vim.vim
 "
 
 syn keyword	vimHiAttrib	contained	undercurl underdotted underdouble
@@ -67,6 +67,11 @@ syn keyword vimCommand macm[enu] skipwhite nextgroup=@vimMenuList
 
 syn keyword vimCommand maca[ction]
 
+syn region KeyCombo contained containedin=vimLineComment
+      \ start="▌️"
+      \ end="▐️"
+      \ oneline
+
 syn region DemoCursorRange contained containedin=vimLineComment
       \ concealends
       \ matchgroup=Conceal start="󠀨"
@@ -77,6 +82,7 @@ syn region DemoCursor contained containedin=DemoCursorRange
       \ matchgroup=Conceal start="󠁛"
       \ end="󠁝"
 
+hi def KeyCombo guifg=#3366ff guibg=#000044
 hi def DemoCursorRange guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
 hi def DemoCursor guifg=#000000 guibg=#cc22dd
 " hi def link DemoCursor Cursor

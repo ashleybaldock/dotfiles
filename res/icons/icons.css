@@ -44,12 +44,6 @@ div {
   stroke: red;
 }
 .copyAs {
-  display: flex;
-  gap: 0.2em;
-  flex-direction: column;
-  width: fit-content;
-  font-family: Menlo, fixed-width;
-  height: 100%;
 }
 .asSVG {
   font-size: var(--item-size);
@@ -95,18 +89,6 @@ section label:hover {
   transition: 60ms ease;
   transition-property: background, text-decoration;
 }
-section label.copied::before {
-  content: 'copied';
-  display: block;
-  color: green;
-  border: 1px solid green;
-}
-section label.copyfail::before {
-  content: 'copy failed';
-  display: block;
-  color: red;
-  border: 1px solid red;
-}
 section label::before {
   content: unset;
   display: none;
@@ -118,6 +100,32 @@ section label::before {
   border-radius: 1em;
   left: 50%;
   transform: translate(-50%);
+}
+section label.copied::before {
+  content: 'copied';
+  display: block;
+  color: green;
+  text-align: left;
+  background-color: #111111f8;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E%3C/path%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: contain;
+
+  padding: 0.6em 2em 0.6em 5.6em;
+  border-radius: 1.7em;
+  border: 0.6px dashed #7c7c7c;
+  box-shadow: 1px 1px 4px 1px #000;
+}
+section label.copyfail::before {
+  content: 'copy failed';
+  display: block;
+  color: #f00;
+  background-color: #111111f8;
+  padding: 0.6em 2em 0.6em 5.6em;
+  border-radius: 1.7em;
+  border: 0.6px dashed #7c7c7c;
+  box-shadow: 1px 1px 4px 1px #f00;
 }
 
 /**** fieldset ****/
@@ -196,7 +204,9 @@ option {
   flex: 2 1 auto;
   border-radius: 0 0 0 80px / 20px 50px;
   background-repeat: no-repeat;
-  background-size: 4em 3em, 10em 3em;
+  background-size:
+    4em 3em,
+    10em 3em;
   background-position: center;
   background-color: transparent;
   align-items: center;
@@ -227,7 +237,8 @@ option::before {
 option::after {
   content: attr(value);
   text-align: center;
-  background-image: radial-gradient(
+  background-image:
+    radial-gradient(
       circle at -60% -24%,
       #ffbb19de 34%,
       #fff0 50%,
@@ -316,17 +327,26 @@ svg {
   background-color: var(--icon-bg-color, #000000);
   background-clip: padding-box, border-box;
   background-repeat: no-repeat;
-  background-size: auto, 150% 150%;
-  background-position: center, 80% 30%;
+  background-size:
+    auto,
+    150% 150%;
+  background-position:
+    center,
+    80% 30%;
   padding: calc(0.01em * (var(--icon-padding, 16) - var(--icon-border, 3)));
   border-radius: calc(0.005em * var(--icon-radius, 3));
   border-style: var(--icon-border-style, solid);
   border-width: 0;
   border-color: transparent;
-  box-shadow: 1px 1px 0 0.6px #fff3, 0 1px 0 0.6px #96009633,
-    -1px 1px 0 0.6px #2c00ff33, -1px 0 0 0.6px #f0f3,
-    -1px -1px 0 0.6px #2d274933, 0 -1px 0 0.6px #f0f3,
-    1px -1px 0 0.6px #1b009c33, 1px 0 0 0.6px #a32ba333;
+  box-shadow:
+    1px 1px 0 0.6px #fff3,
+    0 1px 0 0.6px #96009633,
+    -1px 1px 0 0.6px #2c00ff33,
+    -1px 0 0 0.6px #f0f3,
+    -1px -1px 0 0.6px #2d274933,
+    0 -1px 0 0.6px #f0f3,
+    1px -1px 0 0.6px #1b009c33,
+    1px 0 0 0.6px #a32ba333;
 }
 
 .pathColors svg path {
@@ -390,53 +410,62 @@ section label {
 }
 
 .copyAs {
-  box-shadow: 0 0 4px 1px #000;
+  display: flex;
+  gap: 0.2em;
+  flex-direction: column;
+  width: fit-content;
+  font-family: Menlo, fixed-width;
   align-items: first baseline;
-}
-.inner .copyAs {
   position: absolute;
   top: -50%;
   left: -0.6em;
-  background-color: #111111f8;
-  padding: 0.6em 2em 0.6em 5.6em;
   height: fit-content;
   z-index: -1;
+  background-color: #111111f8;
+  padding: 0.6em 2em 0.6em 5.6em;
   border-radius: 1.7em;
   border: 0.6px dashed #7c7c7c;
+  box-shadow: 1px 1px 4px 1px #000;
   opacity: 0;
   transition-property: opacity;
   transition-delay: 0ms;
   transition-duration: 80ms;
   transition-timing-function: ease;
-  box-shadow: 1px 1px 4px 1px #000;
 }
-.iconRow:hover .inner .copyAs {
+.iconRow:hover .inner .copyAs,
+.copyAs:hover {
   z-index: 1;
   opacity: 1;
   transition-property: opacity;
   transition-delay: 250ms;
   transition-duration: 80ms;
   transition-timing-function: ease;
+  pointer-events: all;
 }
-.iconRow:hover .inner .copyAs + .asSVG {
+.iconRow:hover .inner .copyAs + .asSVG,
+.asSVG:hover {
   z-index: 2;
 }
 .iconRow:hover .asSVG > svg {
   filter: brightness(1.6) drop-shadow(0 0 2px #fff);
   /*! box-shadow: 0 0 3px 0 #fff; */
-  background-size: auto, 300% 300%;
-  box-shadow: 1px 1px 0 0.6px #2c00ffab, 0 1px 0 0.6px #f0fa,
-    -1px 1px 0 0.6px #2c00ffab, -1px 0 0 0.6px #f0fa,
-    -1px -1px 0 0.6px #2c00ffab, 0 -1px 0 0.6px #f0fa,
-    1px -1px 0 0.6px #2c00ffab, 1px 0 0 0.6px #f0fa;
+  background-size:
+    auto,
+    300% 300%;
+  box-shadow:
+    1px 1px 0 0.6px #2c00ffab,
+    0 1px 0 0.6px #f0fa,
+    -1px 1px 0 0.6px #2c00ffab,
+    -1px 0 0 0.6px #f0fa,
+    -1px -1px 0 0.6px #2c00ffab,
+    0 -1px 0 0.6px #f0fa,
+    1px -1px 0 0.6px #2c00ffab,
+    1px 0 0 0.6px #f0fa;
 }
 
 .asSVG {
   visibility: visible;
   cursor: crosshair;
-}
-.asSVG:hover {
-  z-index: 2;
 }
 
 .copySVG,
@@ -462,6 +491,49 @@ section label:active {
   background-size: 0.9em;
 }
 
+.copyAs {
+  padding: 0.4em 1em 0.4em 4.2em;
+  row-gap: 0;
+}
+.copyAs > .copy {
+  --icon-copy: url('data:image/svg+xml,%3Csvg data-name=%22copy%22 xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23eeeeee;%22 height=%221em%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z%22%3E%3C/path%3E%3C/svg%3E');
+  border: 0.6px dashed transparent;
+  margin-bottom: -0.3em;
+
+  padding: 0.2em 3em 0.2em 0.8em;
+  transition:
+    background-size 200ms ease,
+    background-position 200ms ease;
+  background-image: var(--icon-copy), var(--icon-tick);
+  background-position:
+    center right 1.7em,
+    center right 0.3em;
+  background-size: 0.8em, 0;
+  margin: 0;
+  background-repeat: no-repeat;
+  border-radius: 0;
+}
+.copyAs > .copy:hover {
+  box-shadow: 1px 1px 4px 1px #000;
+  background-position:
+    center right 1.6em,
+    center right 0.3em;
+  background-size: 1em, 0;
+}
+.copyAs > .copy.copied,
+.copyAs > .copy.copied:hover {
+  background-position:
+    center right 1.7em,
+    center right 0.3em;
+  background-size: 0.8em, 1.1em;
+  transition:
+    background-size 200ms ease,
+    background-position 200ms ease;
+}
+section label.copied::before {
+  display: none;
+}
+
 /* 
 body > section:nth-child(5) > div:nth-child(45) > div:nth-child(2) {
   width: 200px;
@@ -476,30 +548,46 @@ body > section:nth-child(5) > div:nth-child(45) > div:nth-child(2) {
 }
  */
 
-.iconRow:hover .asSVG > svg {
-  filter: brightness(1.6) drop-shadow(0 0 1px #fff);
-  background-size: auto, 300% 300%;
-  box-shadow: 1px 1px 0 0.6px #fff3, 1px 1px 0 0.6px #2c00ffab,
-    0 1px 0 0.6px #f0fa, -1px 1px 0 0.6px #2c00ffab, -1px 0 0 0.6px #f0fa,
-    -1px -1px 0 0.6px #2c00ffab, 0 -1px 0 0.6px #f0fa,
-    1px -1px 0 0.6px #2c00ffab, 1px 0 0 0.6px #f0fa;
-}
-
 svg {
-  box-shadow: 1px 1px 0 0.6px #0003, 0 1px 0 0.6px #96009633,
-    -1px 1px 0 0.6px #2c00ff33, -1px 0 0 0.6px #f0f3,
-    -1px -1px 0 0.6px #2d274933, 0 -1px 0 0.6px #f0f3,
-    1px -1px 0 0.6px #1b009c33, 1px 0 0 0.6px #a32ba333;
+  box-shadow:
+    1px 1px 0 0.6px #0003,
+    0 1px 0 0.6px #96009633,
+    -1px 1px 0 0.6px #2c00ff33,
+    -1px 0 0 0.6px #f0f3,
+    -1px -1px 0 0.6px #2d274933,
+    0 -1px 0 0.6px #f0f3,
+    1px -1px 0 0.6px #1b009c33,
+    1px 0 0 0.6px #a32ba333;
   border-width: 0px;
   background-clip: padding-box, border-box;
   border-color: transparent;
   background-repeat: no-repeat;
-  background-size: auto, 150% 150%;
-  background-position: center, 80% 30%;
+  background-size:
+    auto,
+    150% 150%;
+  background-position:
+    center,
+    80% 30%;
 }
 
 svg path:only-of-type {
   fill: #ccc;
+}
+.iconRow:hover .asSVG > svg {
+  filter: brightness(1.6) drop-shadow(0 0 1px #fff);
+  background-size:
+    auto,
+    300% 300%;
+  box-shadow:
+    1px 1px 0 0.6px #fff3,
+    1px 1px 0 0.6px #2c00ffab,
+    0 1px 0 0.6px #f0fa,
+    -1px 1px 0 0.6px #2c00ffab,
+    -1px 0 0 0.6px #f0fa,
+    -1px -1px 0 0.6px #2c00ffab,
+    0 -1px 0 0.6px #f0fa,
+    1px -1px 0 0.6px #2c00ffab,
+    1px 0 0 0.6px #f0fa;
 }
 
 .asSVG {
@@ -531,8 +619,8 @@ section label:hover {
 }
 
 section label:hover:active {
-  background-size: 1em;
   transition: 30ms ease;
+  background-size: 0.9em;
 }
 
 section label:active {
@@ -540,23 +628,29 @@ section label:active {
   background-size: 0.9em;
 }
 
-section label:hover:active {
-  background-size: 0.9em;
-}
-
 .unused {
-  box-shadow: 1px 1px 0 0.6px #fff3, 0 1px 0 0.6px #96009633,
-    -1px 1px 0 0.6px #2c00ff33, -1px 0 0 0.6px #f0f3,
-    -1px -1px 0 0.6px #2d274933, 0 -1px 0 0.6px #f0f3,
-    1px -1px 0 0.6px #1b009c33, 1px 0 0 0.6px #a32ba333;
+  box-shadow:
+    1px 1px 0 0.6px #fff3,
+    0 1px 0 0.6px #96009633,
+    -1px 1px 0 0.6px #2c00ff33,
+    -1px 0 0 0.6px #f0f3,
+    -1px -1px 0 0.6px #2d274933,
+    0 -1px 0 0.6px #f0f3,
+    1px -1px 0 0.6px #1b009c33,
+    1px 0 0 0.6px #a32ba333;
   border-width: 0;
-  background-image: radial-gradient(circle at center, #000000d1, #000),
+  background-image:
+    radial-gradient(circle at center, #000000d1, #000),
     repeating-conic-gradient(#5c5c5c, #fff 9deg, #c00000 9deg, #f00 18deg);
   background-clip: padding-box, border-box;
   border-color: transparent;
   background-repeat: no-repeat;
-  background-size: auto, 150% 150%;
-  background-position: center, 80% 30%;
+  background-size:
+    auto,
+    150% 150%;
+  background-position:
+    center,
+    80% 30%;
 }
 
 section {
@@ -572,19 +666,27 @@ section:hover {
   aspect-ratio: var(--𝞅);
   border: 0.4em dashed #666;
   border-radius: 0.5em;
-  background-image: linear-gradient(-33deg, blue 30%, red 70%), var(--down2),
-    var(--topleft), var(--topright), var(--botleft), var(--botright),
+  background-image:
+    linear-gradient(-33deg, blue 30%, red 70%), var(--down2), var(--topleft),
+    var(--topright), var(--botleft), var(--botright),
     linear-gradient(80deg, #ffffff70, #0004, #fff, #0004, #ffffff70),
     linear-gradient(0, #0000, #0000);
   background-repeat: no-repeat;
-  background-position: center, center center, top 0.5em left 0.5em,
-    top 0.5em right 0.5em, bottom 0.5em left 0.5em, bottom 0.5em right 0.5em,
+  background-position:
+    center,
+    center center,
+    top 0.5em left 0.5em,
+    top 0.5em right 0.5em,
+    bottom 0.5em left 0.5em,
+    bottom 0.5em right 0.5em,
     center;
   background-size: 100%, 20%, 40%, 40%, 40%, 40%, 100%;
   background-blend-mode: soft-light, normal, normal, normal, normal, normal;
 
   margin: 0.6em;
-  box-shadow: 1px 1px 4px 1px darkred inset, -1px -1px 6px 1px #021685 inset,
+  box-shadow:
+    1px 1px 4px 1px darkred inset,
+    -1px -1px 6px 1px #021685 inset,
     0 0 12px -2px #000;
 }
 
@@ -686,12 +788,8 @@ section:hover {
   border: 1px dashed #666;
   border-radius: 2px;
   font-size: 20px;
-  background-image: repeating-linear-gradient(
-      230deg,
-      #0002,
-      #fff2 8px,
-      #0002 12px
-    ),
+  background-image:
+    repeating-linear-gradient(230deg, #0002, #fff2 8px, #0002 12px),
     repeating-linear-gradient(-60deg, #b00 0 10%, #00f 50%, #b00);
   background-clip: content-box;
   background-size: 10% 200%;
@@ -845,25 +943,11 @@ section:hover {
 
 :root {
   --icon-doc: url('data:image/svg+xml,<svg fill="hsl(0 99 99)" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM112 256H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z"></path></svg>');
-
-  --icon-copy: url('data:image/svg+xml,\
-    %3Csvg\
-      data-name=%22copy%22\
-      xmlns=%22http://www.w3.org/2000/svg%22\
-      height=%221em%22\
-      style=%22fill: %23ffffff;%22\
-      viewBox=%220 0 448 512%22%3E\
-      %3Cpath d=%22\
-        M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9\
-        V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48z\
-        M48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48\
-        H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z%22%3E\
-      %3C/path%3E\
-    %3C/svg%3E');
-
   --icon-download: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 style=%22fill: %23ffffff;%22  viewBox=%220 0 512 512%22%3E%3Cpath d=%22M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z%22%3E%3C/path%3E%3C/svg%3E');
   --icon-fill: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M86.6 9.4C74.1-3.1 53.9-3.1 41.4 9.4s-12.5 32.8 0 45.3L122.7 136 30.6 228.1c-37.5 37.5-37.5 98.3 0 135.8L148.1 481.4c37.5 37.5 98.3 37.5 135.8 0L474.3 290.9c28.1-28.1 28.1-73.7 0-101.8L322.9 37.7c-28.1-28.1-73.7-28.1-101.8 0L168 90.7 86.6 9.4zM168 181.3l49.4 49.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L213.3 136l53.1-53.1c3.1-3.1 8.2-3.1 11.3 0L429.1 234.3c3.1 3.1 3.1 8.2 0 11.3L386.7 288H67.5c1.4-5.4 4.2-10.4 8.4-14.6L168 181.3z%22%3E%3C/path%3E%3C/svg%3E');
   --icon-line: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M418.4 157.9c35.3-8.3 61.6-40 61.6-77.9c0-44.2-35.8-80-80-80c-43.4 0-78.7 34.5-80 77.5L136.2 151.1C121.7 136.8 101.9 128 80 128c-44.2 0-80 35.8-80 80s35.8 80 80 80c12.2 0 23.8-2.7 34.1-7.6L259.7 407.8c-2.4 7.6-3.7 15.8-3.7 24.2c0 44.2 35.8 80 80 80s80-35.8 80-80c0-27.7-14-52.1-35.4-66.4l37.8-207.7zM156.3 232.2c2.2-6.9 3.5-14.2 3.7-21.7l183.8-73.5c3.6 3.5 7.4 6.7 11.6 9.5L317.6 354.1c-5.5 1.3-10.8 3.1-15.8 5.5L156.3 232.2z%22%3E%3C/path%3E%3C/svg%3E');
+  --icon-tick: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %2300aa00;stroke: %23000; stroke-width: 10;%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E%3C/path%3E%3C/svg%3E');
+  --icon-copy: url('data:image/svg+xml,%3Csvg data-name=%22copy%22 xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23eeeeee;%22 height=%221em%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z%22%3E%3C/path%3E%3C/svg%3E');
 }
 
 /* vim: set signcolumn=auto foldmethod=marker nolist nowrap conceallevel=2: */

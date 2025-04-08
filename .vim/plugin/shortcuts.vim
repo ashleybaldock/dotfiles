@@ -53,65 +53,72 @@ nnoremap §u\ "=GetCharCode()Pl
 
 "
 " Add Combining: 
-" ╭─▷    ⌥⃝ 𝄐0⃝  ──────────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝  + RepeatMove
+" ▌️ ⌥️ 0 ▐️────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝  + Re̲p̲e̲a̲t̲M̲o̲ve
 nnoremap º a⃝ <Esc>h<Cmd>RepeatMove<CR>
-xnoremap º :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR> 
+xnoremap º <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR> 
 "
-" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐0⃝  ──────────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞  + RepeatMove
+" ▌️⌥️ ⇧️ 0▐️────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞  + RepeatMove
 nnoremap ‚ a⃞ <Esc>h<Cmd>RepeatMove<CR>
-xnoremap ‚ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<CR> 
+xnoremap ‚ <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<CR> 
 "
-" 𓉘 ⌥️  - 𓉝──▷ ────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ + RepeatMove
-nnoremap – a̲<Esc><Cmd>RepeatMove<CR>
-" 𓉘 ⌥️  - 𓉝──▷ Underline visual selection, skip leading/trailing whitespace
-xnoremap – :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
+" ▌️ ⌥️ - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ + RepeatMove
+nnoremap – a̲<Esc>h<Cmd>RepeatMove<CR>
+" ▌️ ⌥️ - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲h̲i̲t̲e̲s̲p̲a̲c̲e̲
+xnoremap – <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
 "
-" 𓉘⌥️ ⇧️ - 𓉝──▷ O̅v̅e̅r̅l̅i̅n̅e̅ + RepeatMove
-nnoremap — a̅<Esc><Cmd>RepeatMove<CR>
-" 𓉘⌥️ ⇧️ - 𓉝──▷ Overline visual selection, skip leading/trailing whitespace
-xnoremap — :s/\%V\%(^"\s*\)\?\S\{-}\zs.\ze\S\{-}\%(\s*)\?$/\0̅/g<CR><Cmd>nohlsearch<CR> 
+" ▌️⌥️ ⇧️ -▐️──▷ O̅v̅e̅r̅l̅i̅n̅e̅ + RepeatMove
+nnoremap — a̅<Esc>h<Cmd>RepeatMove<CR>
+" ▌️⌥️ ⇧️ -▐️──▷ Overline visual selection, skip leading/trailing whitespace
+xnoremap — <Cmd>s/\%V\%(^"\s*\)\?\S\{-}\zs.\ze\S\{-}\%(\s*)\?$/\0̅/g<CR><Cmd>nohlsearch<CR> 
 " nnoremap <plug> a꛱<Esc><Cmd>RepeatMove<CR>
 " nnoremap <plug> a꛰<Esc><Cmd>RepeatMove<CR>
 "
 " Add Variation Selector:
-" 𓉘 ⌥️  =︎ 𓉝──▷ ────▷ V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️ + RepeatMove
-nnoremap ≠ a️<Esc><Cmd>RepeatMove<CR>
-" 𓉘 ⌥️  =︎ 𓉝──▷ Add V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️  to all non-whitespace in visual area
-xnoremap ≠ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
-" 𓉘⌥️ ⇧️ =︎ 𓉝──▷ V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ + RepeatMove
-nnoremap ± a︎<Esc><Cmd>RepeatMove<CR>
-" 𓉘⌥️ ⇧️ =︎ 𓉝──▷ Add V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ to all non-whitespace in visual area
-xnoremap ± :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0︎/g<CR><Cmd>nohlsearch<CR> 
+" ▌️ ⌥️  =︎ ▐️──▷ ────▷ V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️ + RepeatMove
+nnoremap ≠ a️<Esc>h<Cmd>RepeatMove<CR>
+" ▌️ ⌥️  =︎ ▐️──▷ Add V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️  to all non-whitespace in visual area
+xnoremap ≠ <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
+" ▌️⌥️ ⇧️ =︎ ▐️──▷ V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ + RepeatMove
+nnoremap ± a︎<Esc>h<Cmd>RepeatMove<CR>
+" ▌️⌥️ ⇧️ =︎ ▐️──▷ Add V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ to all non-whitespace in visual area
+xnoremap ± <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0︎/g<CR><Cmd>nohlsearch<CR> 
 
 " Remove Combining:                                                       TODO
-" 𓉘 ⌥️ ⌫️  𓉝──▷ Remove first combining (as apposed to last, like x) + RepeatMove
+" ▌️ ⌥️ ⌫️  ▐️──▷ Remove first combining (as apposed to last, like x) + RepeatMove
 nnoremap <M-BS> <Nop>
-" 𓉘 ⌥️ ⌫️  𓉝──▷ Remove first combining from all chars in visual area
+" ▌️ ⌥️ ⌫️  ▐️──▷ Remove first combining from all chars in visual area
 xnoremap <M-BS> <Nop>
-" 𓉘⌥️ ⇧️ ⌫️ 𓉝──▷ Remove all combining chars + RepeatMove
+" ▌️⌥️ ⇧️ ⌫️ ▐️──▷ Remove all combining chars + RepeatMove
 nnoremap <M-BS> <Nop>
-" 𓉘⌥️ ⇧️ ⌫️ 𓉝──▷ Remove all combining chars from visual area+ RepeatMove
+" ▌️⌥️ ⇧️ ⌫️ ▐️──▷ Remove all combining chars from visual area+ RepeatMove
 xnoremap <M-S-BS> <Nop>
 
 " Expand Spaces:
-" 𓉘𝙣=️𝟣𓉘 ⌥️ ␣️  𓉝──▷ Add count 𝙣 space(s) + RepeatMove
-nnoremap   a <Esc><Cmd>RepeatMove<CR>
-" 𓉘𝙣=️𝟣𓉘⌥️ ⇧️ ␣️ 𓉝──▷ Remove (up to) 𝙣 space(s) + RepeatMove
-nnoremap   a <Esc><Cmd>RepeatMove<CR>
-" 𓉘𝙣=️𝟣𓉘 ⌥️ ␣️  𓉝──▷ Add 𝙣 space(s) after each group of \W in visual area TODO
-xnoremap   :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
-" 𓉘𝙣=️𝟣𓉘⌥️ ⇧️ ␣️ 𓉝──▷ Remove (up to) 𝙣 space(s) from each \W group in visual area TODO
-xnoremap   :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
+" ▌️𝙣=️𝟣❙ ⌥️ ␣️  ▐️──▷ Add count 𝙣 space(s) + RepeatMove
+nnoremap   <Esc>h<Cmd>RepeatMove<CR>
+" ▌️𝙣=️𝟣❙⌥️ ⇧️ ␣️ ▐️──▷ Remove (up to) 𝙣 space(s) + RepeatMove
+nnoremap   <Esc>h<Cmd>RepeatMove<CR>
+" ▌️𝙣=️𝟣❙ ⌥️ ␣️  ▐️──▷ Add 𝙣 space(s) after each group of \W in visual area TODO
+xnoremap   <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
+" ▌️𝙣=️𝟣❙⌥️ ⇧️ ␣️ ▐️──▷ Remove (up to) 𝙣 space(s) from each \W group in visual area TODO
+xnoremap   <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
 
-" ╭─▷ ⇧⃝ 𝄐⌥⃝ 𝄐E⃝  ──────────▷ Replace with last yanked
+" ▌️  ⌥️ E▐️──▷ Replace word with last yanked (e.g. via yiw)
+" nnoremap ´ ciw<c-r>0<Esc><Cmd>undojoin | yanked<CR>
+" xnoremap ´ <Cmd>exec 'normal viw"0p<CR>' | undojoin | RepeatMove
+" nnoremap ´ viw1"0gp
+nnoremap §rp caw<c-r><c-r>0 <esc>w
+" <bar> RepeatMove<CR>
+" ▌️⇧️ ⌥️ E▐️──▷ Replace character with last yanked
 nnoremap ‰ s<c-r>0<Esc><Cmd>RepeatMove<CR>
 "
+xnoremap <expr> ∑  mode() ==# "\x16" ? "<Cmd>MoveBlockUp<CR>" : "<Cmd>move -2<CR>"
 
 " Move: Next Non-Whitespace
-" ▌️ ⌥️ L ▐️────▷ Move to next non-whitespace character
-nnoremap <silent> ¬ :call search('\S', 'W', line('.'))<CR>
-" ▌️ ⌥️ H ▐️────▷ Move to previous non-whitespace character
-nnoremap <silent> ˙ :call search('\S', 'bW', line('.'))<CR>
+" ▌️  ⌥️ L▐️────▷ Move to next non-whitespace character
+nnoremap ¬ <Cmd>call search('\S', 'W', line('.'))<CR>
+" ▌️  ⌥️ H▐️────▷ Move to previous non-whitespace character
+nnoremap ˙ <Cmd>call search('\S', 'bW', line('.'))<CR>
 
 
 "  Word: (Under Cursor)
@@ -225,11 +232,11 @@ nnoremap §e2 :e ~/.vim/
 nnoremap §e3 :e ~/.vim/plugin/
 nnoremap §e4 :e ~/
 nnoremap §e5 :e ~/
-nnoremap <silent> §E1 :let g:mayhem_quick1=getcwd()..'/'<CR>
-nnoremap <silent> §E2 :let g:mayhem_quick2=getcwd()..'/'<CR>
-nnoremap <silent> §E3 :let g:mayhem_quick3=getcwd()..'/'<CR>
-nnoremap <silent> §E4 :let g:mayhem_quick4=getcwd()..'/'<CR>
-nnoremap <silent> §E5 :let g:mayhem_quick5=getcwd()..'/'<CR>
+nnoremap §E1 <Cmd>let g:mayhem_quick1=getcwd()..'/'<CR>
+nnoremap §E2 <Cmd>let g:mayhem_quick2=getcwd()..'/'<CR>
+nnoremap §E3 <Cmd>let g:mayhem_quick3=getcwd()..'/'<CR>
+nnoremap §E4 <Cmd>let g:mayhem_quick4=getcwd()..'/'<CR>
+nnoremap §E5 <Cmd>let g:mayhem_quick5=getcwd()..'/'<CR>
 
 nnoremap <S-tab>     :CtrlP<CR>
 nnoremap <leader>p   :CtrlP<CR>
@@ -238,9 +245,9 @@ nnoremap <leader>p   :CtrlP<CR>
 " Sessions And Splits: §s
 " See: ./sessions.vim
 "
-nnoremap §se :SessionInfo<CR>
+nnoremap §se <Cmd>SessionInfo<CR>
 nnoremap <expr> §sc ':SessionCreate '..expand('%:p:h')
-nnoremap §ss :SessionLoad 
+nnoremap §ss <Cmd>SessionLoad 
 " nnoremap §s  :SessionPause<CR>
 " nnoremap §s  :SessionResume<CR>
 " nnoremap §s  :SessionDelete<CR>
@@ -278,13 +285,13 @@ nnoremap <D-I> :SynStackAuto<CR>
 "─── Column guides ─────────────────────────────────────
 "
 " See: ./colorcolumn.vim
-nnoremap §\ :AddColorColumn<CR>
-nnoremap §] :AlignRightToColorColumn<CR>
-nnoremap §} :AlignRightOnColorColumn<CR>
-nnoremap §[ :AlignLeftToColorColumn<CR>
-nnoremap §{ :AlignLeftOnColorColumn<CR>
+nnoremap §\ <Cmd>AddColorColumn<CR>
+nnoremap §] <Cmd>AlignRightToColorColumn<CR>
+nnoremap §} <Cmd>AlignRightOnColorColumn<CR>
+nnoremap §[ <Cmd>AlignLeftToColorColumn<CR>
+nnoremap §{ <Cmd>AlignLeftOnColorColumn<CR>
 
-inoremap  :AlignRightToColorColumn<CR>
+inoremap  <Cmd>AlignRightToColorColumn<CR>
 
 "
 " Editing:
@@ -293,15 +300,15 @@ inoremap  :AlignRightToColorColumn<CR>
 " word <-> following whitespace ('right align')
 " (V, pick lines, :)
 " TODO make this work with visual block + only swap first/nearest to cursor
-nnoremap §ar :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR>:noh<CR>
-xnoremap §ar :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR>:noh<CR>
+nnoremap §ar <Cmd>s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR><Cmd>noh<CR>
+xnoremap §ar <Cmd>s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR><Cmd>noh<CR>
 
 " words around pivot     (AAA,BBB -> BBB,AAA
 "  (Swaps the first two words found in selection)
-nnoremap §as :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR>:noh<CR>
-xnoremap §as :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR>:noh<CR>
+nnoremap §as <Cmd>s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
+xnoremap §as <Cmd>s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
 " words around cursor (AD̲G -> ED̲C | AA, ̲XX -> XX, ̲AA | AB̲C XX -> CB̲A XX)
-nnoremap §ac :keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>:noh<CR>
+nnoremap §ac <Cmd>keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
 "
 "
 " Move Token:
@@ -334,14 +341,21 @@ xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
 "   ⇧⃝ 𝄐⌥⃝ 𝄐(🅆 🄰 🅂 🄳 )─▷  V: up/down
 "
 " Move Lines:
-"               Visual (v/V)
+"  Normal:
+"
+nnoremap ∑ <Cmd>move -2<CR>
+" xnoremap ∑ :m -2<CR>
+nnoremap ß <Cmd>move +1<CR>
+" xnoremap ß :m +1<CR>
+"
+"  Visual: (v/V)
 "          ╭W⃝  ─▷ Up
 " ╭▷ ⇧⃝ 𝄐⌥⃝ 𝄐┴S⃝  ─▷ Down
 "
-command! MoveBlockUp <Nop>                     "  TODO
-command! MoveBlockDown <Nop>                   "  TODO
-command! MoveBlockLeft <Nop>                   "  TODO
-command! MoveBlockRight <Nop>                  "  TODO
+command! -range MoveBlockUp <Nop>                     "  TODO
+command! -range MoveBlockDown <Nop>                   "  TODO
+" command! -range MoveBlockLeft <Nop>                   "  TODO
+" command! -range MoveBlockRight <Nop>                  "  TODO
 " Shift line(s) up/down (taking cursor with them) TODO
 "              ⎧ Visual ╷ v/V ╷ ^V  ⎫
 "              │╴╴╴╴╴╴╴╴┤╴╴╴╴╴┤╴╴╴╴╴┤
@@ -349,10 +363,10 @@ command! MoveBlockRight <Nop>                  "  TODO
 "        ├╴S⃝  ──▷ Down  │  y  │  y  │
 "        ├╴A⃝  ──▷ Left  │     │  y  │
 " ╭▷  ⌥⃝ 𝄐┴╴D⃝  ──▷ Right │     │  y  │
-xnoremap <expr> ∑  mode() ==# "\x16" ? "MoveBlockUp" : "m -2"
-xnoremap <expr> ß  mode() ==# "\x16" ? "MoveBlockDown" : "m +2"
-xnoremap <expr> å  mode() ==# "\x16" ? "MoveBlockLeft" : "echo Try with ^V"
-xnoremap <expr> ∂  mode() ==# "\x16" ? "MoveBlockRight" : "echo Try with ^V"
+xnoremap <expr> ∑  mode() ==# "\x16" ? "<Cmd>MoveBlockUp<CR>" : "<Cmd>move -2<CR>"
+xnoremap <expr> ß  mode() ==# "\x16" ? "<Cmd>MoveBlockDown<CR>" : "<Cmd>move +1<CR>"
+" xnoremap <expr> å  mode() ==# "\x16" ? ":MoveBlockLeft" : ":echo Try with ^V"
+" xnoremap <expr> ∂  mode() ==# "\x16" ? ":MoveBlockRight" : ":echo Try with ^V"
 "
 " Add Lines:
 "  Extend 'o'/'O' to keep cursor on current line when count is > 1
@@ -456,10 +470,10 @@ nnoremap §rv :so expand('$VIMHOME/vimrc')<CR>
 " Prettify: §p
 "
 nnoremap §p call FormatBuffer()<CR>
-
 " nnoremap §p %!npx prettier --stdin-filepath shellescape(expand('%'))<CR>
 
 "
+
 " CSS:
 " See also: ./css.vim
 "

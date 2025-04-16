@@ -51,10 +51,10 @@ if v:vim_did_enter
   call s:OnVimEnter('direct')
 else
   echom 'messages did enter auto'
-  call autocmd_add([{
-        \ 'event': 'VimEnter','once': v:true,
-        \ 'cmd': 'call s:OnVimEnter("auto")',
-        \ 'group': 'mayhem_messages_init','replace': v:true,
+  call autocmd_add([#{
+        \ event: 'VimEnter', once: v:true,
+        \ cmd: 'call s:OnVimEnter("auto")',
+        \ group: 'mayhem_messages_init', replace: v:true,
         \}])
 endif
 

@@ -524,7 +524,7 @@ function s:UpdateStatuslines() abort
 
   " let g:mayhem['sl_prev'] = [
   "   \ '%#SlInfoC#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ',
-  "   \ '%#SlInfoN#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ']
+  "   \ '%#SlInfo#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ']
   let g:mayhem['sl_prev'] = [
     \ '%#SlInfoC#􀬸 %-f%*%<%=%(%n %l,%c%V%) ',
     \ '%#SlInfoN#􀬸 %-f%*%<%=%(%n %l,%c%V%) ']
@@ -532,8 +532,8 @@ function s:UpdateStatuslines() abort
   "       \ '%#SlInfoC#𝓲⃝  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
   "       \ '%#SlInfoN#𝓲⃝  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
   let g:mayhem['sl_help'] = [
-        \ '%#SlInfoC#􀉚  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
-        \ '%#SlInfoN#􀉚  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
+        \ '%#SlInfoC#􀉚  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(%#SlHintC# help %#SlFPathC#[️%#SlInfoC#%l%#SlFPathC#of%#SlInfoC#%L%#SlFPathC#]️%*%) ',
+        \ '%#SlInfoN#􀉚  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l of %L %*%) ']
 
   let g:mayhem['sl_term'] = [
     \ '􀩼%#SlTermC# %-f %F %t%*%<%=%(%n %l,%c%V %P%) ',
@@ -563,6 +563,8 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_dir'] = [
         \ '%#SlDirC#􀈕 %-F%*%<%=%#SlDirInvC#netrw%*',
         \ '%#SlDirN#􀈕 %-F%*%<%=%#SlDirInvN#netrw%*']
+
+  let test = '%%%=%<%(%{subExpr}%{%subReExpr%} %)'
 
   " let g:mayhem['sl_home_todo'] = [
   "       \ '%#SlHomeC#HOME Vim Mayhem%*%<%=%#SlHmRtC#%*',
@@ -609,20 +611,22 @@ function CustomStatusline()
 endfunc
 
 
-augroup statusline
-  au! * <buffer>
-  " autocmd BufEnter    <buffer> match ExtraWhitespace /\s\+$/
-  " autocmd InsertEnter <buffer> match ExtraWhitespace /\s\+\%#\@<!$/
-  " autocmd InsertLeave <buffer> match ExtraWhitespace /\s\+$/
+call autocmd_add([
+      \#{
+      \ event: ['CursorHold','BufWinEnter','BufFilePost','EncodingChanged'],
+      \ pattern: '*', cmd: 'call s:UpdateStatuslines()',
+      \ group: 'mayhem_statusline', replace: v:true,
+      \},
+      \#{
+      \ event: 'User', pattern: 'MayhemDiagnosticsUpdated',
+      \ cmd: 'call s:Update_Diag()',
+      \ group: 'mayhem_statusline', replace: v:true,
+      \},
+      \])
 
-  " au EncodingChanged * call s:UpdateCustomStatuslines()
-  " au BufWinEnter,BufFilePost,EncodingChanged <buffer> call s:UpdateStatuslines()
-
-  au CursorHold,BufWinEnter,BufFilePost,EncodingChanged * call s:UpdateStatuslines()
-augroup END
-
-" This is called via an autocmd - see commands.coc.vim
-command! UpdateSlCachedDiagnostics call <SID>Update_Diag()
+" autocmd BufEnter    <buffer> match ExtraWhitespace /\s\+$/
+" autocmd InsertEnter <buffer> match ExtraWhitespace /\s\+\%#\@<!$/
+" autocmd InsertLeave <buffer> match ExtraWhitespace /\s\+$/
 
 command! UpdateCustomStatusline call <SID>UpdateStatuslines()
 

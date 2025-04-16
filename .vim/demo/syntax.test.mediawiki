@@ -1,11 +1,50 @@
+
+<nowiki></nowiki>
+<math></math>
+<source></source>
+<ref></ref>
+<syntaxhighlight lang="bash" test ></syntaxhighlight>
+<pre></pre>
+<div></div>
+
 <!--
 -->{{{param|}}}<!--
 -->{{{param|{{{nested|default}}}}}}<!--
 -->{{template|param1|named=param}}<!--
 -->{{template|param1|{{nestedtemplate|param2|named=param}}}}<!--
+-->{{{{templatename|param=blah}}|param1|{{nestedtemplate|param2|named=param}}}}<!--
 -->{{#parserfunc|param1|named=param|{{#nested|param1|named=param}}}}<!--
 -->
 
+{{#vardefine:variantNum|{{#ifeq:{{#var:num}}|1||{{#var:num}} }} }}
+  {{#vardefine:variantNum|{{#ifeq:{{#var:magic{{!}}char}}|1||{{#var:num}} }} }}
+    {{#vardefine
+:variantNum
+|{{#ifeq:{{#var:num}}|
+1
+||
+{{#var:num}}
+ }}
+}}
+
+{{sprite/test|anonparam|2=numbered|meh=param}}
+{{sprite/test|{{{anonparam|}}}|2={{{numparam|}}}|meh={{{param|}}}}}
+{{sprite/test|<span>anonparam</span>|2=<span>numparam</span>|meh={{{param|}}}}}
+
+{{sprite/test
+|anonparam
+|2=numbered
+|meh=param
+}}
+{{sprite/test<!---->|{{{anonparam|}}}<!---->|2={{{numparam|}}}|meh=<!---->{{{param|}}}}}
+{{sprite/test|<span>anonparam</span>|2=<span>num{{!}}pa{{=}}ram</span>|meh={{{param|}}}}}
+
+<!--
+-->
+<syntaxhighlight lang="bash" test >
+</syntaxhighlight>
+<!--
+-->
 
 {{NAMESPACENUMBER}}
 
@@ -24,3 +63,59 @@
 {{LOCALHOUR}}
 {{LOCALWEEK}}
 {{LOCALTIMESTAMP}}
+
+<includeonly><!--
+-->{{#vardefine:damagePerProjectile|{{{1|1}}}}}<!--
+-->{{#vardefine:projectileCount|{{{2|1}}}}}<!--
+
+-->{{#ifexpr:{{#var:projectileCount|1}} > 1
+  | <nowiki> </nowiki>{{#expr:{{#var:projectileCount|1}} * {{#var:damagePerProjectile}}}}<!--
+  --><span style="font-size: 0.9em;">(<!--
+    --><span style="margin: 0 0.1em"><!--
+      -->{{#var:damagePerProjectile}}<!--
+      --><span style="margin: 0 0.1em">×</span><!--
+      -->{{#var:projectileCount}}<!--
+    --></span><!--
+  -->)</span>
+  | {{#var:damagePerProjectile}}
+}}</includeonly><noinclude>
+{{doc}}
+</noinclude>
+
+<onlyinclude><includeonly><!--
+-->{{#vardefine:projectileCount|{{{1|1}}}}}<!--
+-->{{#vardefine:relatedProjCount|{{{2|1}}}}}<!--
+
+-->{{#ifexpr:{{#var:projectileCount}} > 1
+  |{{#var:projectileCount}}<!--
+  -->{{#ifexpr:{{#var:relatedProjCount}} > 1 and {{#var:relatedProjCount}} != {{#var:projectileCount}}
+    |<nowiki> </nowiki>({{sprite|Spell_trigger|nomargin=1|style=margin-bottom:0.2em;}}{{#var:relatedProjCount}})<!--
+  -->{{#ifeq:{{NAMESPACENUMBER}}|0|[[Category:Spells with different related projectile counts]]}}
+  }}
+}}</includeonly></onlyinclude><noinclude>
+{{doc}}
+</noinclude>
+
+
+<onlyinclude><includeonly><!--
+-->{{#vardefine:lifetime|{{{1|0}}}}}<!--
+-->{{#vardefine:lifetimeRandom|{{{2|0}}}}}<!--
+-->{{#vardefine:altLifetimeMin|{{{3|0}}}}}<!--
+-->{{#vardefine:altLifetimeMax|{{{4|0}}}}}<!--
+
+-->{{#vardefine:lifetimeUpper|{{#expr:{{#var:lifetime}} + {{#var:lifetimeRandom}}}}}}<!--
+-->{{#vardefine:lifetimeLower|{{#expr:{{#var:lifetime}} - {{#var:lifetimeRandom}}}}}}<!--
+
+-->{{#ifeq:{{#var:lifetimeUpper}}|{{#var:lifetimeLower}}
+      |{{#ifeq:{{#var:lifetime}}|-1
+        |<span class="upperbound infinite">∞</span>
+        |<span class="frames upperbound">{{#var:lifetime}}</span><!--
+   -->}}<!--
+   -->|<span class="frames lowerbound">{{#var:lifetimeLower}}</span><!--
+    --><span style=" font-size:1.2em; line-height:1em; margin:0 0.2em;">-</span><!--
+    --><span class="upperbound frames">{{#var:lifetimeUpper}}</span><!--
+  -->}}<!--
+--></includeonly></onlyinclude><noinclude>
+{{doc}}
+</noinclude>
+

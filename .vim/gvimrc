@@ -173,10 +173,10 @@ if has("gui_macvim")
   inoremap <expr> <D-Left>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-Home>"
 
 " ▌️⌥️ 􁾱  ▐️────▷ Move in steps
-  noremap <M-Up> {
+  " noremap <M-Up> {
   noremap <M-Right> <C-Right>
   noremap! <M-Right> <C-Right>
-  noremap <M-Down> }
+  " noremap <M-Down> }
   noremap <M-Left> <C-Left>
   noremap! <M-Left> <C-Left>
 

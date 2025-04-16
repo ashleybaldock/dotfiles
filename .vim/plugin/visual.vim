@@ -192,15 +192,17 @@ function! s:OnLeaveVisualBlock() abort
   call Restore('^V')
 endfunc
 
-call autocmd_add([{
-      \ 'replace': v:true,
-      \ 'cmd': 'call s:OnEnterVisualBlock()',
-      \ 'group': 'mayhem_visual_observer',
-      \ 'event': 'User', 'pattern': 'MayhemEnterModeVB',
-      \}, {
-      \ 'replace': v:true,
-      \ 'cmd': 'call s:OnLeaveVisualBlock()',
-      \ 'group': 'mayhem_visual_observer',
-      \ 'event': 'User', 'pattern': 'MayhemLeaveModeVB',
-      \}])
+call autocmd_add([
+      \#{
+      \ event: 'User', pattern: 'MayhemEnterModeVB',
+      \ cmd: 'call s:OnEnterVisualBlock()',
+      \ group: 'mayhem_visual_observer', replace: v:true,
+      \},
+      \#{
+      \ event: 'User', pattern: 'MayhemLeaveModeVB',
+      \ cmd: 'call s:OnLeaveVisualBlock()',
+      \ group: 'mayhem_visual_observer', replace: v:true,
+      \},
+      \])
 
+" vim: signcolumn=yes

@@ -1,10 +1,60 @@
 "
+" Extensions To Mediawiki Syntax Highlighting:
+"
+" See Also:
+"    ../../pack/default/start/mediawiki.vim/syntax/mediawiki.vim
+"
 " au BufWritePost <buffer> syn on
 "
 
 
+" TODO
+"   - Highlighting for expr syntax (=, and, or etc.)
+"   - Extra errorneous }'s
+"   - Different HL group for HTML comments containing only whitespace and newlines
+"   - Warning for missing | in template param
+
 "
-" Infobox Ext Tags: <infobox></infobox>
+" Keyword Lists:
+"
+syn keyword htmlTagN contained b big blockquote br
+syn keyword htmlTagN contained caption center cite code
+syn keyword htmlTagN contained dd del div dl dt em font
+syn keyword htmlTagN contained hr h1 h2 h3 h4 h5 h6 i ins 
+syn keyword htmlTagN contained li ol p pre rb rp rt ruby
+syn keyword htmlTagN contained s small span strike strong sub sup
+syn keyword htmlTagN contained table td th tr tt u ul var
+
+syn keyword htmlArg contained align lang dir width height nowrap bgcolor clear
+syn keyword htmlArg contained noshade cite datetime size face color type start
+syn keyword htmlArg contained value compact summary border frame rules
+syn keyword htmlArg contained cellspacing cellpadding valign char charoff
+syn keyword htmlArg contained colgroup col span abbr axis headers scope rowspan
+syn keyword htmlArg contained colspan id class name style title
+
+
+"
+" Clusters:
+"
+syn cluster htmlTop contains=@Spell,
+      \htmlTag,htmlEndTag,htmlSpecialChar,
+      \htmlPreProc,htmlComment,htmlLink,@htmlPreproc
+
+syn cluster mwText contains=mwLink,mwTl,mwParam,mwParFunc,
+      \mwNowiki,mwNowikiEndTag,
+      \mwItalic,mwBold,mwBoldAndItalic
+
+syn cluster mwTop contains=@Spell,mwLink,
+      \mwNowiki,mwNowikiEndTag
+
+syn cluster mwTableFormat contains=mwTl,
+      \htmlString,htmlArg,htmlValue
+
+syn cluster mwMagic add=mwMagicVar,mwMagicChar,mwMagicWord
+
+
+"
+" Infobox Ext Tags: <infobox></infobox> {{{1
 "
 
 " accent-color(-text|)-(source|default)
@@ -20,9 +70,9 @@
 "   └╴<alt>╶──────┐                    source
 "   └╴<caption>╶┐ │                   source
 "   │           │ │
-"   │           │ └─╴<default>(wikiText:yes)
+"   │           │ └─╴<default>(@wikiText:yes)
 "   └───────────└vv
-"   │ <title>   │ │─╴<format>(wikiText:yes)
+"   │ <title>   │ │─╴<format>(@wikiText:yes)
 "   │           │ │
 "   │ <data>    │ │
 "   │           │ │
@@ -75,146 +125,302 @@
 
 
 
+syn keyword mwPiTagN contained infobox title default format panel 
+syn keyword mwPiTagN contained section label data image caption alt navigation 
+
+syn keyword mwPiAttrs contained class show collapse name layout type source span 
+syn match mwPiAttrs /row-items/ contained
+syn match mwPiAttrs /theme/ contained
+syn match mwPiAttrs /theme-source/ contained
+syn match mwPiAttrs /accent-color-source/ contained
+syn match mwPiAttrs /accent-color-default/ contained
+syn match mwPiAttrs /accent-color-text-source/ contained
+syn match mwPiAttrs /accent-color-text-default/ contained
+syn match mwPiAttrs /data\%(-\w*\)*/ contained
 
 
+syn region mwPiValue contained contains=NONE
+      \ matchgroup=mwPiParens start=+=\s*\z(['"]\)+ end=+\z1+
 
-syn keyword wikiInfBoxTagName contained title default format panel section label data image caption alt
-
-syn keyword wikiInfBoxAttrs contained layout name type class 
-syn match wikiInfBoxAttrs /theme\%(-source\)\?/ contained
-syn match wikiInfBoxAttrs /\(accent-color\%(-text\)\?\)-\(source\)\?/ contained
-
-
-syn region wikiInfBoxValue contained
-      \ matchgroup=wikiInfBoxParens start=+=\s\+\z(['"]\)+ end=+\z1+
-
-syn region wikiInfBoxTag contained
-      \ matchgroup=wikiInfBoxTagParen start=+<\ze[^!/]+
+syn region mwPiTag contained
+      \ matchgroup=mwPiTagParen start=+<\ze[^!/]+
       \ end=+>+
-      \ contains=wikiInfBoxTagName,wikiInfBoxAttrs
+      \ contains=mwPiTagN,mwPiAttrs,mwPiValue
 
-syn region wikiInfBoxEndTag contained
-      \ matchgroup=wikiInfBoxTagParen start=+<\/+
+syn region mwPiEndTag contained
+      \ matchgroup=mwPiTagParen start=+<\/+
       \ end=+>+
-      \ contains=wikiInfBoxTagName
+      \ contains=mwPiTagN
 
-syn region wikiInfBoxDefault contained
-      \ start=+<default[^>]*>+
-      \ end=+\ze<\/default>+
-      \ contains=wikiInfBoxTag,wikiInfBoxEndTag,wikiText,wikiTl,wikiParserFunc,wikiParam,htmlTag,htmlEndTag,htmlComment
+syn region mwPiDefault contained
+      \ start=+\ze<default\>[^>]*>+
+      \ end=+\%(<\/default>\)\@10<=+
+      \ contains=
+      \mwPiTag,mwPiEndTag,@mwText,
+      \@htmlTop,htmlEndTag,htmlComment
 
-syn region wikiInfBoxFormat contained
-      \ start=+<format[^>]*>+
-      \ end=+\ze<\/format>+
-      \ contains=wikiInfBoxTag,wikiInfBoxEndTag,wikiText,wikiTl,wikiParserFunc,wikiParam,htmlTag,htmlEndTag,htmlComment
+syn region mwPiFormat contained
+      \ start=+\ze<format\>[^>]*>+
+      \ end=+\%(<\/format>\)\@9<=+
+      \ contains=
+      \mwPiTag,mwPiEndTag,
+      \@mwText,mwTl,mwParFunc,
+      \mwParam,htmlTag,htmlEndTag,htmlComment
 
-syn region wikiInfBoxLabel contained
-      \ start=+<label[^>]*>+
-      \ end=+\ze<\/label>+
-      \ contains=wikiInfBoxTag,wikiInfBoxEndTag,wikiText,wikiTl,wikiParserFunc,wikiParam,htmlTag,htmlEndTag,htmlComment,wikiLink
+syn region mwPiLabel contained
+      \ start=+\ze<label\>[^>]*>+
+      \ end=+<\/label>+
+      \ contains=
+      \mwPiTag,mwPiEndTag,
+      \@mwText,mwTl,mwParFunc,mwLink,mwParam,
+      \htmlTag,htmlEndTag,htmlComment
 
-syn region wikiInfBox start=+<infobox\>[^>]*>+ end=+<\/infobox>+ contains=wikiInfBoxTag,wikiInfBoxEndTag,wikiInfBoxDefault,wikiInfBoxLabel,wikiInfBoxFormat,htmlComment
+syn region mwPiPanel contained
+      \ start=+\ze<panel\>[^>]*>+
+      \ end=+<\/panel>+
+      \ nextgroup=mwPiTag
+      \ contains=mwPiHeader,mwPiSection,
+      \mwPiEndTag,
+      \@mwText,@htmlTop
 
-hi def wikiInfBoxTagParen guifg=#339449
-hi def wikiInfBoxTagName guifg=#aaaa33
-hi def wikiInfBoxAttrs guifg=#aa5920
-hi def wikiInfBoxValue guifg=#99bb33
-hi def wikiInfBoxParens guifg=#666666
+syn region mwPiGroup contained
+      \ start=+\ze<\z(group\)\>[^>]*>+
+      \ end=+<\/\z1>+
+      \ nextgroup=mwPiTag
+      \ contains=mwPiGroup,mwPiData,mwPiHeader,mwPiTitle,mwPiImage,
+      \mwPiPanel,mwPiNavigation,
+      \mwPiEndTag,
+      \@mwText,
+      \@htmlTop
 
+syn region mwPiSection contained
+      \ start=+<section\>[^>]*>+
+      \ end=+<\/section>+
+      \ nextgroup=mwPiTag
+      \ contains=mwPiGroup,mwPiNavigation,
+      \mwPiEndTag,
+      \@mwText,mwTl,mwParFunc,mwLink,mwParam,
+      \htmlTag,htmlEndTag,htmlComment
+
+syn region mwPiNavigation contained
+      \ start=+<navigation\>[^>]*>+
+      \ end=+<\/navigation>+
+      \ nextgroup=mwPiTag
+      \ contains=
+      \mwPiEndTag,
+      \@mwText,mwTl,mwParFunc,mwLink,mwParam,
+      \htmlTag,htmlEndTag,htmlComment
+
+syn region mwPiTitle contained
+      \ start=+<title\>[^>]*>+
+      \ end=+<\/title>+
+      \ nextgroup=mwPiTag
+      \ contains=mwPiDefault,mwPiFormat,
+      \mwPiEndTag,
+      \@mwText,mwTl,mwParFunc,mwLink,mwParam,
+      \@htmlTop
+
+syn region mwPi
+      \ start=+<infobox\>[^>]*>+
+      \ end=+<\/infobox>+
+      \ nextgroup=mwPiTag
+      \ contains=mwPiTitle,mwPiImage,mwPiHeader,mwPiNavigation,
+      \mwPiData,mwPiGroup,mwPiPanel,
+      \mwPiEndTag,
+      \htmlComment
+
+hi def mwPiTagParen guifg=#339449
+hi def mwPiTagN guifg=#aaaa33
+hi def mwPiAttrs guifg=#aa5920
+hi def mwPiValue guifg=#99bb33
+hi def mwPiParens guifg=#666666
 
 "
-" Templates: {{Flex/Row}}
+" Wiki Tags: <nowiki></nowiki>  {{{1
 "
 
-syn region wikiTl
-      \ matchgroup=wikiTlParens start="{{"
+syn keyword mwTagN contained math nowiki references source syntaxhighlight
+syn keyword mwTagN contained includeonly onlyinclude noinclude
+syn keyword mwTagN contained ref poem
+
+syn region mwTag contained
+      \ start=+<[^/]+
+      \ end=+\%(\s*/\)\?>+
+      \ contains=mwTagN,mwTagArg,mwTagSep,mwTagVal,htmlString
+syn region mwEndTag contained
+      \ start=+</+
+      \ end=+>+
+      \ contains=mwTagN
+      \ containedin=mwSyntaxHLEndTag
+
+syn match mwTagArg /\s\zs\w\+/ contained contains=NONE
+      \ nextgroup=mwTagSep skipwhite skipempty
+syn match mwTagSep /=/ contained contains=NONE
+      \ nextgroup=mwTagVal skipwhite skipempty
+syn region mwTagVal contained skipwhite skipempty
+      \ matchgroup=mwTagValDelim start=+"+ end=+"+
+      \ contains=@mwtext
+      \ nextgroup=mwTagArg 
+
+syn match mwNowikiTag +<nowiki\%(\s*/\)\?>+ contained contains=mwTag
+syn match mwNowikiEndTag +</nowiki>+ contains=mwEndTag
+syn match mwSourceTag /<source\s\+[^>]\+>/ contains=mwTag
+syn match mwSourceEndTag +</source>+ contains=mwEndTag
+syn region mwNowiki
+      \ start=+<\z(nowiki\)>+
+      \ end=+\%(</\z1>\)\@9<=+
+      \ contains=mwNowikiTag,mwNowikiEndTag
+syn match mwNowiki +<nowiki\s*/>+ contains=mwNowikiTag
+syn region mwSource
+      \ start="<\z(source\)\s\+[^>]\+>"
+      \ end=+\%(</\z1>\)\@9<=+
+      \ contains=mwSourceTag,mwSourceEndTag
+syn region mwSyntaxHL
+      \ start=+<\z(syntaxhighlight\)\s*[^>]*>+
+      \ end=+\%(</\z1>\)\@18<=+
+      \ contains=mwTag,mwEndTag
+syn region mwRef
+      \ matchgroup=mwTag
+      \ start="\ze<ref>"
+      \ end="<\/ref>"
+      \ contains=mwRefTag,mwRefEndTag
+
+hi def mwTag guifg=#aa1100 
+hi def link mwEndTag mwTag
+hi def mwTagN guifg=#ff3322 
+hi def mwTagArg guifg=#ff7777
+hi def link mwTagSep mwTag
+hi def link mwTagVal String
+hi def link mwTagValDelim Special
+
+"
+" Templates: {{Flex/Row}}  {{{1
+"
+
+syn region mwTl
+      \ matchgroup=mwTlParens start="{{"
       \ end="}}" 
-      \ contains=wikiTlName,wikiTlParams,wikiTlPDelim,wikiParserFunc,wikiTl,wikiParam
+      \ contains=mwTlName,mwTlPVal,mwTlPDelim,
+      \mwParFunc,mwTl,mwParam,
+      \htmlComment
       \ containedin=wikiTable
 
-syn match wikiTlParams +[^{|}]\++ contained contains=wikiTlPVal,wikiTlPDelim
+syn match mwTlName /[^{|]\+\ze\%($\||\|}}\)/ 
+      \ contained skipwhite skipempty
+      \ contains=mwTl,mwParFunc,mwParam,mwTlPathSep,htmlComment
+      \ nextgroup=mwTlPDelim
+syn match mwTlPathSep +/+ contained contains=NONE
 
-syn match wikiTlName +\%({{\)\@2<=[^|]\+\ze\%(|\|}}\)+ contained contains=wikiTlPathSep
+syn region mwTlPVal contained skipwhite skipempty
+      \ start="\%(=\)\@1<="
+      \ end="\ze\%(|\|}}\)"
+      \ skip="\%({{[!=]\)\@3<=}}"
+      \ contains=@htmlTop,@mwText,@mwMagic,htmlComment
+      \ nextgroup=mwTlPDelim
 
-syn region wikiTlPVal contained
-      \ start="\%(|\)\@1<=\zs"
-      \ end="\ze\%(|\|}}\)" contains=wikiTlPName,wikiTlPSep,wikiTl,wikiParserFunc,wikiParam,@htmlTop,@wikiText,@Magic
+syn region mwTlPStyleVal contained skipwhite skipempty
+      \ start="\%(style\)\@5<="
+      \ end="\ze\%(|\|}}\)"
+      \ skip="\%({{[!=]\)\@3<=}}"
+      \ contains=@htmlTop,@mwText,@mwMagic,htmlComment
+      \ nextgroup=mwTlPDelim
 
-syn match wikiTlPName "\%(|\)\@1<=\s*\zs[^=|}]\{-1,}\ze\s*=" contained
+" syn match mwTlAnonPVal /\%(|\)\@1<=\zs[^=|]\+\ze\%(|\|}}\)/
+syn match mwTlAnonPVal /[^=|}]\+\ze\s*[|}]/
+      \ contained skipwhite skipempty
+      \ contains=@htmlTop,@mwText,@mwMagic
+      \ nextgroup=mwTlPDelim
 
-syn match wikiTlPathSep +/+ contained
-syn match wikiTlPSep +=+ contained
-syn match wikiTlPDelim +|+ contained
+syn match mwTlPName "\%(|\)\@1<=\s*\zs[^=|}]\{-1,}\ze\s*="
+      \ contained skipwhite skipempty
+      \ contains=htmlComment
+      \ nextgroup=mwTlPSep
 
-syn cluster wikiText add=wikiTl remove=wikiTemplate
+" syn match mwTlPStyle "\%(|\)\@1<=\s*\zsstyle\ze\s*="
+"       \ contained skipwhite skipempty
+"       \ nextgroup=mwTlPSep
 
-hi def wikiTlParens  guifg=#ef0099
-hi def wikiTlName    guifg=#cc55ff
-hi def wikiTlPDelim  guifg=#ff0099
-hi def wikiTlPName   guifg=#cc88ff
-hi def wikiTlPVal    guifg=#eeeeff
-hi def wikiTlPSep    guifg=#aa44aa
-hi def wikiTlPathSep guifg=#ef0099
+" syn match mwTlPNum "\%(|\)\@1<=\s*\zs\d\+\ze\s*="
+syn match mwTlPNum "\d\+\ze\s*="
+      \ contained skipwhite skipempty
+      \ contains=htmlComment
+      \ nextgroup=mwTlPSep
+
+syn match mwTlPSep +=+ contained skipwhite skipempty
+      \ nextgroup=mwTlPVal
+syn match mwTlPDelim /|/ contained skipwhite skipempty
+      \ nextgroup=mwTlAnonPVal,mwTlPNum,mwTlPName
+
+
+hi def mwTlParens   guifg=#ef0099
+hi def mwTlName     guifg=#cc55ff
+hi def mwTlPathSep  guifg=#ef0099
+hi def mwTlPDelim   guifg=#ff0099
+hi def mwTlAnonPVal guifg=#cceeff
+hi def mwTlPName    guifg=#cc88ff
+hi def mwTlPNum     guifg=#cc88ff
+hi def mwTlPSep     guifg=#ee66cc
+hi def mwTlPVal     guifg=#eeeeff
 
 
 "
-" Parser Functions: {{#Do|Something}}
+" Parser Functions: {{#Do|Something}}  {{{1
 "
 
-syn region wikiParserFunc
-      \ containedin=wikiTl,wikiTableFormat,wikiTableNormalCell,wikiTableHeadingCell,wikiText
-      \ matchgroup=wikiParFuncParens start=+{{\ze#+ end=+}}+
-      \ contains=wikiParserFunc,wikiParFuncName,wikiParFuncParam,wikiParFuncDelim,wikiParam,wikiTl,htmlComment,@Magic
+syn region mwParFunc
+      \ matchgroup=mwParFuncParens start=+{{#+
+      \ end="}}"me=s+2
+      \ contains=mwParFuncName,mwParFuncDelim,
+      \@mwText,@htmlTop,
+      \htmlComment
 
-syn match wikiParFuncName +#[^:{|}]\++ contained
-syn match wikiParFuncParam +\([:|]\)\@1<=[^{|}]\++ contained
-syn match wikiParFuncDelim +[:|]+ contained
+syn match mwParFuncName +#\@1<=[^:{|}]\+\ze:+ 
+      \ contained skipwhite skipempty contains=NONE
+      \ nextgroup=mwParFuncParam,mwParFuncDelim
 
-syn cluster wikiText add=wikiParserFunc
+      " \ skip=+\%({{[!=]\)\@3<=}}+
+" syn region mwParFuncParam contained skipwhite skipempty 
+"       \ start=+:\@1<=\||\@1<=+
+"       \ end=+\ze\(|\|}}\)+
+syn match mwParFuncParam /\(\_[^|}]\|\s\)*\s*/
+      \ contained
+      \ nextgroup=mwParFuncDelim
+      \ contains=@htmlTop,@mwText,@mwMagic,htmlComment
+syn match mwParFuncDelim /:\||/
+      \ contained
+      \ contains=NONE
+      \ nextgroup=mwParFuncParam,mwParFuncDelim
 
-hi def wikiParserFunc guifg=#0066aa
-hi def wikiParFuncParens guifg=#9944ee
-hi def wikiParFuncName guifg=#0099ff
-hi def wikiParFuncParam guifg=#00ddee
-hi def wikiParFuncDelim guifg=#22ff77
+
+hi def mwParFunc guifg=#0066aa
+hi def mwParFuncParens guifg=#9944ee
+hi def mwParFuncName guifg=#0099ff
+hi def mwParFuncParam guifg=#00ddee
+hi def mwParFuncDelim guifg=#22ff77
 
 
 "
-" Parameters: {{{param}}}
+" Tables: {|  {{{1
 "
-
-syn region wikiParam
-      \ matchgroup=wikiParamParens start="{{{"
-      \ end="}}}" 
-      \ contains=wikiParamName,wikiParamDefault,wikiParamDelim,wikiParam,wikiTl,wikiParserFunc,htmlComment,wikiMagicVar
-
-syn match wikiParamName +\%({{{\)\@3<=[^{|}]\++ contained
-syn match wikiParamDefault +\%(|\)\@1<=[^{|}]\++ contained
-syn match wikiParamDelim +|+ contained
-
-syn cluster wikiText add=wikiTl remove=wikiTemplateParam
-
-hi def wikiParamParens guifg=#dd9922
-hi def wikiParamDelim guifg=#dd9922
-hi def wikiParamName guifg=#ffee22
-
-
-syn match wikiTableNormalCell /\(^|\|||\)\([^|]*|\)\?.*/ contains=wikiTableSeparator,@wikiText,wikiTableNormalFormat,@htmlTop
+syn match mwTableNormalCell /\(^|\|||\)\([^|]*|\)\?.*/
+      \ contains=mwTableSeparator,mwTableNormalFormat,
+      \mwParFunc,
+      \@htmlTop,@mwText
 
 "
-" Magic Words: __TOC__
+" Magic Words: __TOC__  {{{1
 "
 
-syn match wikiMagicWord /__\%(NO\|FORCE\|\)TOC__/
+syn match mwMagicWord /__\%(NO\|FORCE\|\)TOC__/
 
-syn match wikiMagicWord /__\%(NO\)\?\%(NEWSECTIONLINK\|INDEX\)__/
+syn match mwMagicWord /__\%(NO\)\?\%(NEWSECTIONLINK\|INDEX\)__/
 
-syn match wikiMagicWord /__NO\%(EDITSECTION\|GALLERY\|CONTENTCONVERT\|CC\|TITLECONVERT\|TC\)__/
+syn match mwMagicWord /__NO\%(EDITSECTION\|GALLERY\|CONTENTCONVERT\|CC\|TITLECONVERT\|TC\)__/
 
-syn match wikiMagicWord /__\%(HIDDENCAT\|START\|END\|STATICREDIRECT\)__/
-syn match wikiMagicWord /__EXPECTUNUSED\%(CATEGORY\|EXPECTUNUSEDTEMPLATE\)__/
+syn match mwMagicWord /__\%(HIDDENCAT\|START\|END\|STATICREDIRECT\)__/
+syn match mwMagicWord /__EXPECTUNUSED\%(CATEGORY\|EXPECTUNUSEDTEMPLATE\)__/
 
-" syn match wikiMagicWordExt /__TOC__/
+" syn match mwMagicWordExt /__TOC__/
 " __NOGLOBAL__
 " __DISAMBIG__
 " __EXPECTED_UNCONNECTED_PAGE__
@@ -225,26 +431,24 @@ syn match wikiMagicWord /__EXPECTUNUSED\%(CATEGORY\|EXPECTUNUSEDTEMPLATE\)__/
 
 
 "
-" Magic Variables: {{{PAGENAME}}}
+" Magic Variables: {{PAGENAME}}  {{{1
 "
 
-syn match wikiMagicChar /{{[!=]}}/
+syn match mwMagicChar /{{[!=]}}/
 
-syn match wikiMagicVar /{{CURRENT\%(YEAR\|MONTH\%(2\|1\|NAME\%(GEN\|\)\|ABBREV\|\)\|DAY\%(2\|NAME\|\)\|DOW\|TIME\%(STAMP\|\)\|HOUR\|WEEK\|VERSION\)}}/
-syn match wikiMagicVar /{{LOCAL\%(YEAR\|MONTH\|MONTH1\|MONTH2\|MONTHNAME\|MONTHNAMEGEN\|MONTHABBREV\|DAY\|DAY2\|DOW\|DAYNAME\|TIME\|HOUR\|WEEK\|TIMESTAMP\)}}/
-syn match wikiMagicVar /{{\%(SITENAME\|SERVER\%(NAME\|\)\|DIR\%(ECTION\)\?MARK\|\%(ARTICLE\|SCRIPT\|STYLE\)PATH\)}}/
-syn match wikiMagicVar /{{\%(USERLANGUAGE\|CONTENTLANG\%(UAGE\|\)\|PAGE\%(ID\|LANGUAGE\)\|TRANSLAT\%(ABLEPAGE\|IONLANGUAGE\)\)}}/
-syn match wikiMagicVar /{{REVISION\%(ID\|DAY\|DAY2\|MONTH\|MONTH1\|YEAR\|TIMESTAMP\|USER\|SIZE\)}}/
-syn match wikiMagicVar /{{NUMBEROF\%(PAGES\|ARTICLES\|FILES\|EDITS\|VIEWS\|USERS\|ADMINS\|ACTIVEUSERS\)}}/
-syn match wikiMagicVar /{{\%(FULL\|BASE\|SUB\|SUBJECT\|ARTICLE\|TALK\|ROOT\|\)PAGENAMEE\?}}/
-syn match wikiMagicVar /{{\%(NAME\|SUBJECT\|ARTICLE\|TALK\)SPACEE\?}}/
-syn match wikiMagicVar /{{NAMESPACENUMBER}}/
+syn match mwMagicVar /{{CURRENT\%(YEAR\|MONTH\%(2\|1\|NAME\%(GEN\|\)\|ABBREV\|\)\|DAY\%(2\|NAME\|\)\|DOW\|TIME\%(STAMP\|\)\|HOUR\|WEEK\|VERSION\)}}/
+syn match mwMagicVar /{{LOCAL\%(YEAR\|MONTH\|MONTH1\|MONTH2\|MONTHNAME\|MONTHNAMEGEN\|MONTHABBREV\|DAY\|DAY2\|DOW\|DAYNAME\|TIME\|HOUR\|WEEK\|TIMESTAMP\)}}/
+syn match mwMagicVar /{{\%(SITENAME\|SERVER\%(NAME\|\)\|DIR\%(ECTION\)\?MARK\|\%(ARTICLE\|SCRIPT\|STYLE\)PATH\)}}/
+syn match mwMagicVar /{{\%(USERLANGUAGE\|CONTENTLANG\%(UAGE\|\)\|PAGE\%(ID\|LANGUAGE\)\|TRANSLAT\%(ABLEPAGE\|IONLANGUAGE\)\)}}/
+syn match mwMagicVar /{{REVISION\%(ID\|DAY\|DAY2\|MONTH\|MONTH1\|YEAR\|TIMESTAMP\|USER\|SIZE\)}}/
+syn match mwMagicVar /{{NUMBEROF\%(PAGES\|ARTICLES\|FILES\|EDITS\|VIEWS\|USERS\|ADMINS\|ACTIVEUSERS\)}}/
+syn match mwMagicVar /{{\%(FULL\|BASE\|SUB\|SUBJECT\|ARTICLE\|TALK\|ROOT\|\)PAGENAMEE\?}}/
+syn match mwMagicVar /{{\%(NAME\|SUBJECT\|ARTICLE\|TALK\)SPACEE\?}}/
+syn match mwMagicVar /{{NAMESPACENUMBER}}/
 
-hi def wikiMagicVar guibg=#440022 guifg=#dd4499
-hi def wikiMagicChar guibg=#440000 guifg=#ee1111
-hi def wikiMagicWord guibg=#440022 guifg=#ee0099
-
-syn cluster Magic add=wikiMagicVar,wikiMagicChar,wikiMagicWord
+hi def mwMagicVar guibg=#440022 guifg=#dd4499
+hi def mwMagicChar guibg=#440000 guifg=#ee1111
+hi def mwMagicWord guibg=#440022 guifg=#ee0099
 
 
 " {{CASCADINGSOURCES}} expensive
@@ -370,3 +574,26 @@ syn cluster Magic add=wikiMagicVar,wikiMagicChar,wikiMagicWord
 " {{#special:special page name}}
 " {{#speciale:special page name}}
 " {{#tag:tagname |content |attribute1=value1 |attribute2=value2 }} 
+"
+
+"
+" Template Parameters: ❴❴❴param❵❵❵  {{{1
+"
+
+syn region mwParam
+      \ matchgroup=mwParamParens start="{\{3}"
+      \ end="}\{3}" 
+      \ nextgroup=mwParamName
+      \ contains=mwParamName,mwParamDefault,mwParamDelim,
+      \@mwText,htmlComment,mwMagicVar
+
+syn match mwParamName +\%({\{3}\)\@3<=[^{|}]\++ contained
+syn match mwParamDefault /\%(|\)\@1<=[^{|}]\+/ contained
+syn match mwParamDelim /|/ contained
+
+
+hi def mwParamParens guifg=#dd9922
+hi def mwParamDelim guifg=#dd9922
+hi def mwParamName guifg=#ffee22
+
+" vim: nowrap sw=2 sts=2 ts=8 et fdm=marker:

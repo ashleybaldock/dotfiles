@@ -223,17 +223,12 @@ an 20.440.130.50 &Edit.&Global\ Settings.&Virtual\ Edit.Block\ Selection :set ve
 an 20.440.130.60 &Edit.&Global\ Settings.&Virtual\ Edit.Insert\ Mode :set ve=insert<CR>
 an 20.440.130.70 &Edit.&Global\ Settings.&Virtual\ Edit.Block\ and\ Insert :set ve=block,insert<CR>
 an 20.440.130.80 &Edit.&Global\ Settings.&Virtual\ Edit.Always :set ve=all<CR>
-an 20.440.140 &Edit.&Global\ Settings.Toggle\ Insert\ &Mode<Tab>:set\ im!	:set im!<CR>
-an 20.440.145 &Edit.&Global\ Settings.Toggle\ Vi\ C&ompatibility<Tab>:set\ cp!	:set cp!<CR>
 an <silent> 20.440.150 &Edit.&Global\ Settings.Search\ &Path\.\.\.  :call <SID>SearchP()<CR>
 an <silent> 20.440.160 &Edit.&Global\ Settings.Ta&g\ Files\.\.\.  :call <SID>TagFiles()<CR>
 "
 " GUI options
 an 20.440.300 &Edit.&Global\ Settings.-SEP1-				<Nop>
 an <silent> 20.440.310 &Edit.&Global\ Settings.Toggle\ &Toolbar		:call <SID>ToggleGuiOption("T")<CR>
-an <silent> 20.440.320 &Edit.&Global\ Settings.Toggle\ &Bottom\ Scrollbar :call <SID>ToggleGuiOption("b")<CR>
-an <silent> 20.440.330 &Edit.&Global\ Settings.Toggle\ &Left\ Scrollbar	:call <SID>ToggleGuiOption("l")<CR>
-an <silent> 20.440.340 &Edit.&Global\ Settings.Toggle\ &Right\ Scrollbar :call <SID>ToggleGuiOption("r")<CR>
 
 def s:SearchP()
   if !exists("g:menutrans_path_dialog")
@@ -267,29 +262,20 @@ enddef
 " Edit/File Settings
 
 " Boolean options
-an 20.440.100 &Edit.F&ile\ Settings.Toggle\ Line\ &Numbering<Tab>:set\ nu!	:set nu! nu?<CR>
-an 20.440.105 &Edit.F&ile\ Settings.Toggle\ Relati&ve\ Line\ Numbering<Tab>:set\ rnu!	:set rnu! rnu?<CR>
 an 20.440.110 &Edit.F&ile\ Settings.Toggle\ &List\ Mode<Tab>:set\ list!	:set list! list?<CR>
 an 20.440.120 &Edit.F&ile\ Settings.Toggle\ Line\ &Wrapping<Tab>:set\ wrap!	:set wrap! wrap?<CR>
 an 20.440.130 &Edit.F&ile\ Settings.Toggle\ W&rapping\ at\ Word<Tab>:set\ lbr!	:set lbr! lbr?<CR>
-an 20.440.160 &Edit.F&ile\ Settings.Toggle\ Tab\ &Expanding<Tab>:set\ et!	:set et! et?<CR>
 an 20.440.170 &Edit.F&ile\ Settings.Toggle\ &Auto\ Indenting<Tab>:set\ ai!	:set ai! ai?<CR>
 an 20.440.180 &Edit.F&ile\ Settings.Toggle\ &C-Style\ Indenting<Tab>:set\ cin!	:set cin! cin?<CR>
 
 " other options
 an 20.440.600 &Edit.F&ile\ Settings.-SEP2-		<Nop>
 an 20.440.610.20 &Edit.F&ile\ Settings.&Shiftwidth.2	:set sw=2 sw?<CR>
-an 20.440.610.30 &Edit.F&ile\ Settings.&Shiftwidth.3	:set sw=3 sw?<CR>
 an 20.440.610.40 &Edit.F&ile\ Settings.&Shiftwidth.4	:set sw=4 sw?<CR>
-an 20.440.610.50 &Edit.F&ile\ Settings.&Shiftwidth.5	:set sw=5 sw?<CR>
-an 20.440.610.60 &Edit.F&ile\ Settings.&Shiftwidth.6	:set sw=6 sw?<CR>
 an 20.440.610.80 &Edit.F&ile\ Settings.&Shiftwidth.8	:set sw=8 sw?<CR>
 
 an 20.440.620.20 &Edit.F&ile\ Settings.Soft\ &Tabstop.2	:set sts=2 sts?<CR>
-an 20.440.620.30 &Edit.F&ile\ Settings.Soft\ &Tabstop.3	:set sts=3 sts?<CR>
 an 20.440.620.40 &Edit.F&ile\ Settings.Soft\ &Tabstop.4	:set sts=4 sts?<CR>
-an 20.440.620.50 &Edit.F&ile\ Settings.Soft\ &Tabstop.5	:set sts=5 sts?<CR>
-an 20.440.620.60 &Edit.F&ile\ Settings.Soft\ &Tabstop.6	:set sts=6 sts?<CR>
 an 20.440.620.80 &Edit.F&ile\ Settings.Soft\ &Tabstop.8	:set sts=8 sts?<CR>
 
 an <silent> 20.440.630 &Edit.F&ile\ Settings.Te&xt\ Width\.\.\.  :call <SID>TextWidth()<CR>
@@ -680,136 +666,6 @@ endif
 
 endif " !exists("no_buffers_menu")
 
-" The popup menu
-if has("gui_macvim")
-  vnoremenu 1.05 PopUp.Look\ Up     :<C-U>call macvim#ShowDefinitionSelected()<CR>
-  vnoremenu 1.06 PopUp.-SEPLookUp-      <Nop>
-endif
-
-an 1.10 PopUp.&Undo			u
-an 1.15 PopUp.-SEP1-			<Nop>
-vnoremenu 1.20 PopUp.Cu&t		"+x
-vnoremenu 1.30 PopUp.&Copy		"+y
-cnoremenu 1.30 PopUp.&Copy		<C-Y>
-nnoremenu 1.40 PopUp.&Paste		"+gP
-cnoremenu 1.40 PopUp.&Paste		<C-R>+
-exe 'vnoremenu <script> 1.40 PopUp.&Paste	' .. paste#paste_cmd['v']
-exe 'inoremenu <script> 1.40 PopUp.&Paste	' .. paste#paste_cmd['i']
-vnoremenu 1.50 PopUp.&Delete		x
-an 1.55 PopUp.-SEP2-			<Nop>
-vnoremenu 1.60 PopUp.Select\ Blockwise	<C-V>
-
-nnoremenu 1.70 PopUp.Select\ &Word	vaw
-onoremenu 1.70 PopUp.Select\ &Word	aw
-vnoremenu 1.70 PopUp.Select\ &Word	<C-C>vaw
-inoremenu 1.70 PopUp.Select\ &Word	<C-O>vaw
-cnoremenu 1.70 PopUp.Select\ &Word	<C-C>vaw
-
-nnoremenu 1.73 PopUp.Select\ &Sentence	vas
-onoremenu 1.73 PopUp.Select\ &Sentence	as
-vnoremenu 1.73 PopUp.Select\ &Sentence	<C-C>vas
-inoremenu 1.73 PopUp.Select\ &Sentence	<C-O>vas
-cnoremenu 1.73 PopUp.Select\ &Sentence	<C-C>vas
-
-nnoremenu 1.77 PopUp.Select\ Pa&ragraph	vap
-onoremenu 1.77 PopUp.Select\ Pa&ragraph	ap
-vnoremenu 1.77 PopUp.Select\ Pa&ragraph	<C-C>vap
-inoremenu 1.77 PopUp.Select\ Pa&ragraph	<C-O>vap
-cnoremenu 1.77 PopUp.Select\ Pa&ragraph	<C-C>vap
-
-nnoremenu 1.80 PopUp.Select\ &Line	V
-onoremenu 1.80 PopUp.Select\ &Line	<C-C>V
-vnoremenu 1.80 PopUp.Select\ &Line	<C-C>V
-inoremenu 1.80 PopUp.Select\ &Line	<C-O>V
-cnoremenu 1.80 PopUp.Select\ &Line	<C-C>V
-
-nnoremenu 1.90 PopUp.Select\ &Block	<C-V>
-onoremenu 1.90 PopUp.Select\ &Block	<C-C><C-V>
-vnoremenu 1.90 PopUp.Select\ &Block	<C-C><C-V>
-inoremenu 1.90 PopUp.Select\ &Block	<C-O><C-V>
-cnoremenu 1.90 PopUp.Select\ &Block	<C-C><C-V>
-
-noremenu  <script> <silent> 1.100 PopUp.Select\ &All	:<C-U>call <SID>SelectAll()<CR>
-inoremenu <script> <silent> 1.100 PopUp.Select\ &All	<C-O>:call <SID>SelectAll()<CR>
-cnoremenu <script> <silent> 1.100 PopUp.Select\ &All	<C-U>call <SID>SelectAll()<CR>
-
-if has("spell")
-  " Spell suggestions in the popup menu.  Note that this will slow down the
-  " appearance of the menu!
-  def s:SpellPopup()
-    if exists("s:changeitem") && s:changeitem != ''
-      call s:SpellDel()
-    endif
-
-    # Return quickly if spell checking is not enabled.
-    if !&spell || &spelllang == ''
-      return
-    endif
-
-    var curcol = col('.')
-    var w: string
-    var a: string
-    [w, a] = spellbadword()
-    if col('.') > curcol		# don't use word after the cursor
-      w = ''
-    endif
-    if w != ''
-      if a == 'caps'
-	s:suglist = [substitute(w, '.*', '\u&', '')]
-      else
-	s:suglist = spellsuggest(w, 10)
-      endif
-      if len(s:suglist) > 0
-	if !exists("g:menutrans_spell_change_ARG_to")
-	  g:menutrans_spell_change_ARG_to = 'Change\ "%s"\ to'
-	endif
-	s:changeitem = printf(g:menutrans_spell_change_ARG_to, escape(w, ' .'))
-	s:fromword = w
-	var pri = 1
-	for sug in s:suglist
-	  exe 'anoremenu 1.5.' .. pri .. ' PopUp.' .. s:changeitem .. '.' .. escape(sug, ' .')
-		\ .. ' :call <SID>SpellReplace(' .. pri .. ')<CR>'
-	  pri += 1
-	endfor
-
-	if !exists("g:menutrans_spell_add_ARG_to_word_list")
-	  g:menutrans_spell_add_ARG_to_word_list = 'Add\ "%s"\ to\ Word\ List'
-	endif
-	s:additem = printf(g:menutrans_spell_add_ARG_to_word_list, escape(w, ' .'))
-	exe 'anoremenu 1.6 PopUp.' .. s:additem .. ' :spellgood ' .. w .. '<CR>'
-
-	if !exists("g:menutrans_spell_ignore_ARG")
-	  g:menutrans_spell_ignore_ARG = 'Ignore\ "%s"'
-	endif
-	s:ignoreitem = printf(g:menutrans_spell_ignore_ARG, escape(w, ' .'))
-	exe 'anoremenu 1.7 PopUp.' .. s:ignoreitem .. ' :spellgood! ' .. w .. '<CR>'
-
-	anoremenu 1.8 PopUp.-SpellSep- :
-      endif
-    endif
-    call cursor(0, curcol)	# put the cursor back where it was
-  enddef
-
-  def s:SpellReplace(n: number)
-    var l = getline('.')
-    # Move the cursor to the start of the word.
-    call spellbadword()
-    call setline('.', strpart(l, 0, col('.') - 1) .. s:suglist[n - 1]
-	  \ .. strpart(l, col('.') + len(s:fromword) - 1))
-  enddef
-
-  def s:SpellDel()
-    exe "aunmenu PopUp." .. s:changeitem
-    exe "aunmenu PopUp." .. s:additem
-    exe "aunmenu PopUp." .. s:ignoreitem
-    aunmenu PopUp.-SpellSep-
-    s:changeitem = ''
-  enddef
-
-  augroup SpellPopupMenu
-    au! MenuPopup * call <SID>SpellPopup()
-  augroup END
-endif
 
 if has("gui_macvim")
   "
@@ -880,48 +736,5 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 
-if has("touchbar")
-  " Set up default Touch Bar buttons.
-  " 1. Smart fullscreen icon that toggles between going full screen or not.
-
-  if !exists("g:macvim_default_touchbar_fullscreen") || g:macvim_default_touchbar_fullscreen
-    an icon=NSTouchBarEnterFullScreenTemplate 1.20 TouchBar.EnterFullScreen :set fullscreen<CR>
-    tln icon=NSTouchBarEnterFullScreenTemplate 1.20 TouchBar.EnterFullScreen <C-W>:set fullscreen<CR>
-  endif
-
-  let s:touchbar_fullscreen=0
-  func! s:SetupFullScreenTouchBar()
-    if &fullscreen && s:touchbar_fullscreen != 1
-      silent! aun TouchBar.EnterFullScreen
-      silent! tlun TouchBar.EnterFullScreen
-      if !exists("g:macvim_default_touchbar_fullscreen") || g:macvim_default_touchbar_fullscreen
-        an icon=NSTouchBarExitFullScreenTemplate 1.20 TouchBar.ExitFullScreen :set nofullscreen<CR>
-        tln icon=NSTouchBarExitFullScreenTemplate 1.20 TouchBar.ExitFullScreen <C-W>:set nofullscreen<CR>
-      endif
-      let s:touchbar_fullscreen = 1
-    elseif !&fullscreen && s:touchbar_fullscreen != 0
-      silent! aun TouchBar.ExitFullScreen
-      silent! tlun TouchBar.ExitFullScreen
-      if !exists("g:macvim_default_touchbar_fullscreen") || g:macvim_default_touchbar_fullscreen
-        an icon=NSTouchBarEnterFullScreenTemplate 1.20 TouchBar.EnterFullScreen :set fullscreen<CR>
-        tln icon=NSTouchBarEnterFullScreenTemplate 1.20 TouchBar.EnterFullScreen <C-W>:set fullscreen<CR>
-      endif
-      let s:touchbar_fullscreen = 0
-    endif
-  endfunc
-  aug FullScreenTouchBar
-    au!
-    au VimEnter * call <SID>SetupFullScreenTouchBar()
-    au OptionSet fullscreen call <SID>SetupFullScreenTouchBar()
-  aug END
-
-  " 2. Character (i.e. emojis) picker. Only in modes where user is actively
-  " entering text.
-  if !exists("g:macvim_default_touchbar_characterpicker") || g:macvim_default_touchbar_characterpicker
-    inoremenu 1.40 TouchBar.-characterpicker- <Nop>
-    cnoremenu 1.40 TouchBar.-characterpicker- <Nop>
-    tlnoremenu 1.40 TouchBar.-characterpicker- <Nop>
-  endif
-endif
 
 " vim: set sw=2 tabstop=8 :

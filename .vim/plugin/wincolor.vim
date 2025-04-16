@@ -9,30 +9,53 @@ let g:mayhem_loaded_wincolor = 1
 function! s:WinColorUpdate()
   if exists('w:mayhem_wincolor_override')
     let &l:wincolor = get(w:, 'mayhem_wincolor_override', 'WinNormal')
-  elseif &diff
+    return
+  endif
+
+  " Diff mode
+  if &diff
     setlocal wincolor=WinDiff
-  elseif &buftype == 'quickfix'
-    setlocal wincolor=WinQuickfix
-  elseif &buftype == 'preview'
-    setlocal wincolor=WinPreview
-  elseif &buftype == 'help'
-    setlocal wincolor=WinHelp
-  elseif &ft == 'netrw'
+    return
+  endif
+
+  " Filetype specific
+  if &ft == 'netrw'
     setlocal wincolor=WinNetrw
-  elseif (&readonly || !&modifiable)
+    return
+  endif
+
+  " Buffer type specific
+  if &buftype == 'quickfix'
+    setlocal wincolor=WinQuickfix
+    return
+  endif
+  if &buftype == 'preview'
+    setlocal wincolor=WinPreview
+    return
+  endif
+  if &buftype == 'help'
+    setlocal wincolor=WinHelp
+    return
+  endif
+
+  " For all other buffers
+  if (&readonly || !&modifiable)
     setlocal wincolor=WinReadonly
   else
     setlocal wincolor=WinNormal
   endif
 endfunc
 
-" Overide current window background color temporarily
-function! s:WinColorOverride(tempwincolor, duration)
+"
+" (Temporarily) Override current window background color
+" If duration > 0, reset it again after that long
+"
+function! s:WinColorOverride(tempwincolor, duration = 0)
   let w:mayhem_wincolor_override = a:tempwincolor
   let w:mayhem_wincolor_saved = &l:wincolor
   call s:WinColorUpdate()
-  if (get(a:, 'duration', 0) > 0)
-    call timer_start(duration, {_ -> s:WinColorReset(w:mayhem_wincolor_saved)})
+  if a:duration > 0
+    call timer_start(a:duration, {_ -> s:WinColorReset()})
   endif
 endfunc
 
@@ -40,24 +63,30 @@ function! s:WinColorReset()
   unlet w:mayhem_wincolor_override
   let &l:wincolor = get(w:, 'mayhem_wincolor_saved', 'WinNormal')
   call s:WinColorUpdate()
-  echom 'WinColorReset '..&l:wincolor..' '..&wincolor
 endfunc
 
-:command! WinColorReset :call <SID>WinColorReset()
-:command! WinColorOverride :call <SID>WinColorOverride()
+command! WinColorReset call <SID>WinColorReset()
+command! WinColorOverride call <SID>WinColorOverride()
 
-augroup wincolor
-  autocmd!
-
-  au OptionSet diff call s:WinColorUpdate()
-  au WinEnter,WinLeave,BufEnter,BufLeave,DiffUpdated * call s:WinColorUpdate()
-augroup END
+call autocmd_add([
+      \#{
+      \ event: 'OptionSet', pattern: 'diff',
+      \ cmd: 'call s:WinColorUpdate()',
+      \ group: 'mayhem_wincolor', replace: v:true,
+      \},
+      \#{
+      \ event: ['WinEnter','WinLeave','BufEnter','BufLeave','DiffUpdated'],
+      \ pattern: '*',
+      \ cmd: 'call s:WinColorUpdate()',
+      \ group: 'mayhem_wincolor', replace: v:true,
+      \},
+      \])
 
 function! s:HighlightUnsavedWindows()
   if (&modified && &l:wincolor != 'WinUnsaved')
-    s:WinColorOverride('WinUnsaved', 800)
+    call s:WinColorOverride('WinUnsaved', 800)
   endif
 endfunc
   
-:command! Unsaved :windo call <SID>HighlightUnsavedWindows()
+command! Unsaved windo call <SID>HighlightUnsavedWindows()
 

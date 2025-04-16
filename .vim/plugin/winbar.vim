@@ -3,11 +3,28 @@ if exists("g:mayhem_loaded_winbar")
 endif
 let g:mayhem_loaded_winbar = 1
 
+let s:ruler = "╹𝟣\\ \\ \\ \\ \\ \\ \\ ╹𝟣𝟢\\ \\ \\ \\ \\ \\ \\ ╹𝟤𝟢\\ \\ \\ \\ \\ \\ \\ ╹𝟥𝟢\\ \\ \\ \\ \\ \\ \\ ╹𝟦𝟢\\ \\ \\ \\ \\ \\ \\ ╹𝟧𝟢\\ \\ \\ \\ \\ \\ \\ ╹𝟨𝟢\\ \\ \\ \\ \\ \\ \\ ╹𝟩𝟢\\ \\ \\ \\ \\ \\ \\ ╹𝟪𝟢\\ \\ \\ \\ \\ \\ \\ ╹𝟫𝟢\\ \\ \\ \\ \\ \\ \\ ╹𝟣𝟢𝟢\\ \\ \\ \\ \\ \\ ╹𝟣𝟣𝟢\\ \\ \\ \\ \\ \\ ╹𝟣𝟤𝟢\\ \\ \\ \\ \\ \\ ╹𝟣𝟥𝟢\\ \\ \\ \\ \\ \\ ╹𝟣𝟦𝟢\\ \\ \\ \\ \\ ╹𝟣𝟧𝟢"
+
 "
 " ═══╡ Dynamic WinBar menu ╞════════════════════════════════
 "
 " Related: CustomStatusline in ./statusline.vim
 function! s:WinBarUpdate()
+  " If buffer has color columns and option to show in winbar is on
+  if exists("b:mayhem_winbar_show_colcol")
+    silent nunmenu WinBar
+
+    " If signcolumn=yes or signcolumn=auto and is visible, can show index 1+
+    " Otherwise if no signcolumn present, can show index 3+
+    let colorcolumns = split(&l:colorcolumn, ',')
+
+    silent nunmenu WinBar | exec 'silent nnoremenu 1.20 WinBar.' .. s:ruler .. ' <nop>'
+
+    hi ToolbarLine    guifg=NONE    guibg=ysignsb gui=none
+    hi ToolbarButton  guifg=#eeeeee guibg=ysignsb gui=none
+
+    return
+  endif
   " tlunmenu WinBar
 
   " Special cases
@@ -64,6 +81,9 @@ function! s:WinBarUpdate()
 
     return
   endif
+
+  " Otherwise, no bar
+  silent nunmenu WinBar
 endfunc
 
 command! WinBarUpdate call <SID>WinBarUpdate()
@@ -72,27 +92,22 @@ call autocmd_add([
       \#{
       \ event: 'OptionSet', pattern: 'diff',
       \ cmd: 'call s:WinBarUpdate()',
-      \ group: 'mayhem_winbar_events',replace: v:true,
+      \ group: 'mayhem_winbar_events', replace: v:true,
       \},
       \#{
       \ event: 'ModeChanged', pattern: '*:nt,*:t*',
       \ cmd: 'call s:WinBarUpdate()',
-      \ group: 'mayhem_winbar_events',replace: v:true,
+      \ group: 'mayhem_winbar_events', replace: v:true,
       \},
       \#{
-      \ event: ['WinLeave','BufEnter','BufLeave','DiffUpdated','FileType'],
-      \ pattern: '*',
+      \ event: ['WinEnter','WinLeave','BufEnter','BufLeave','DiffUpdated','FileType'],
+      \ pattern: '*', cmd: 'call s:WinBarUpdate()',
+      \ group: 'mayhem_winbar_events', replace: v:true,
+      \},
+      \#{
+      \ event: 'User', pattern: 'MayhemToggleColBar',
       \ cmd: 'call s:WinBarUpdate()',
-      \ group: 'mayhem_winbar_events',replace: v:true,
+      \ group: 'mayhem_winbar_events', replace: v:true,
       \},
       \])
 
-" augroup winbar
-"   autocmd!
-
-"   au OptionSet diff call s:WinBarUpdate()
-"   au WinLeave,BufEnter,BufLeave,DiffUpdated,FileType * call s:WinBarUpdate()
-"   au ModeChanged *:nt,*:t* call s:WinBarUpdate()
-" augroup END
-" 
-" 

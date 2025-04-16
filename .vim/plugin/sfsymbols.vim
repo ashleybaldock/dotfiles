@@ -7,7 +7,7 @@ g:mayhem_loaded_sfsymbols = 1
 # Scope: Script
 var sfrange_start = 0x100000
 var sfrange_end   = 0x103fff
-var sfrange_valid = printf('^[\U+%08X-\U+%08X]', sfrange_start, sfrange_end)
+var sfrange_valid = printf('[U%08X-U%08X]', sfrange_start, sfrange_end)
 
 # Set all SF Symbol codepoints to be 2 chars wide
 # (the majority of them are at least that wide)
@@ -65,8 +65,10 @@ command! -bar SfCircledSymbolSplit call SymbolsSplit(v:true)
 #
 def g:IsSfSymbol(arg: string): bool
   var char = NormalisedChar(arg)
+  var codepoint = char2nr(char)
+  echo 'char "' char .. '": ' .. printf('U+%04X', codepoint)
 
-  return char =~# sfrange_valid
+  return codepoint >= sfrange_start && codepoint <= sfrange_end
 enddef
 
 class SfSymbolInfo
@@ -89,11 +91,12 @@ endclass
 #
 def g:GetSfSymbolInfo(arg: string): SfSymbolInfo
   var char = NormalisedChar(arg)
-  var isInRange = char =~# sfrange_valid
+  var isInRange = g:IsSfSymbol(char)
 
   var nr = char2nr(char)
   var chnr = nr2char(nr)
-  return SfSymbolInfo.new(nr, chnr, printf('U+%04X', nr), sfsymbols#getSymbolName(chnr))
+  return SfSymbolInfo.new(nr, chnr, printf('U+%04X', nr),
+        \ sfsymbols#getSymbolName(chnr))
 enddef
 
 def g:SfId(arg: string): string
@@ -138,15 +141,16 @@ enddef
 
 defcompile
 
-# 􀐐️⃝ 􀐏️⃝  􀐘️⃝  􀐙️⃝ 􀐡️⃝ 􀐢️⃝ 􀐣️⃝ 
+# 􀐐️⃝ 􀐏️⃝ 􀐘️⃝ 􀐙️⃝ 􀐡️⃝ 􀐢️⃝ 􀐣️⃝ 
 #
-#️⃝  􀐩️⃝  􀐪️⃝  􀐫️⃝  􀐬️⃝  􀐹️⃝  􀜚️⃝ 
-#
-# 􀒂􀒃􀒅􀒄􀓗􀣱􀓨􀓩􀣳􀟈􀓂􀓃􀥰􀛣  􀜍􀜎 
-# 􀑀      􀙌    􀓘  􀟉    􀥱􀛤􀛦􀛧  􀟻􀟼
-# 􀑁  􀓡􀓢 􀎪 􀙉  􀠑    􀓄􀖃        􀟽
+#      􀐩️⃝ 􀐪️⃝ 􀐫️⃝ 􀐬️⃝    􀐹️⃝ 􀜚️⃝ 
+#  􀙌️⃝ 􀒂️⃝ 􀒃️⃝ 􀒅️⃝ 􀒄️⃝ 􀓗️⃝ 􀣱️⃝ 􀓨️⃝ 􀓩️⃝ 􀣳️⃝ 􀟈️⃝ 􀓂️⃝ 􀥰️⃝ 􀜎️⃝ 
+# 􀙌 􀒂 􀒃 􀒅 􀒄􀓗️⃝ 􀣱 􀓨 􀓩 􀣳 􀟈️⃝ 􀓂️⃝ 􀥰️⃝ 􀜍️⃝  
+#  􀑀    􀙌️⃝ 􀙌    􀓘  􀟉️⃝ 􀟉􀓃️⃝ 􀓃􀥱️⃝ 􀛤􀛦􀛧  􀟻􀟼
+# 􀑁  􀓡􀓢 􀎪 􀙉  􀠑    􀓄􀖃 􀟽
 # 􀑂􀘞       􀠒 􀙁    􀓅􀓜􀓞􀛯    
 # 􀟒􀜟􀑃
+# 􀟖️⃝ 􀟕️⃝ 􁊘️⃝ a️⃝ 􁊙️⃝ 􀑪️⃝ 􀆊️⃝ 􀯻️⃝ 􀆉️⃝ 􀯶️⃝ 􂦬️⃝ 􀆒️⃝ 􀆓️⃝ 
 # 􀟖􀟕􁊘a􁊙􀑪􀆊􀯻􀆉􀯶􂦬􀆒􀆓
 #
 # 􂉏􀖄􂉐􀅍􀅎􀅓􀅔􀅕􀮷􀫌􁷁

@@ -6,7 +6,12 @@
 " au BufWritePost <buffer> syn on
 "
 " See Also: $VIMRUNTIME/syntax/vim.vim
+"           ../syntax/vim.statusline.vim
 "
+
+if expand('%:p') == expand('$VIMHOME/plugin/statusline.vim')
+  exec 'so ' .. expand('$VIMHOME/after/syntax/vim.statusline.vim')
+endif
 
 syn keyword	vimHiAttrib	contained	undercurl underdotted underdouble
 syn keyword	vimHiAttrib	contained	underdashed strikethrough
@@ -67,6 +72,7 @@ syn keyword vimCommand macm[enu] skipwhite nextgroup=@vimMenuList
 
 syn keyword vimCommand maca[ction]
 
+" Comment items
 syn region KeyCombo contained containedin=vimLineComment
       \ start="▌️"
       \ end="▐️"

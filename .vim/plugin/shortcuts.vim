@@ -7,6 +7,7 @@ let g:mayhem_loaded_shortcuts = 1
 " Key Mappings: 􀇳
 "
 " See Also: ./mouse.vim
+"          ../gvimrc
 "
 " (commands/functions are defined elsewhere)
 "
@@ -174,14 +175,14 @@ nnoremap §e§ :e ~/.vim/
 nnoremap §ew :e ./
 nnoremap §eW :e! ./
 
-nnoremap §er :e %<CR>
-nnoremap §eR :e! %<CR>
+nnoremap §er <Cmd>e %<CR>
+nnoremap §eR <Cmd>e! %<CR>
 
-nnoremap §ef :e .<CR>
-nnoremap §eF :e .<CR>
+nnoremap §ef <Cmd>e .<CR>
+nnoremap §eF <Cmd>e .<CR>
 
-nnoremap §ec :enew<CR>
-nnoremap §eC :enew!<CR>
+nnoremap §ec <Cmd>enew<CR>
+nnoremap §eC <Cmd>enew!<CR>
 
 nnoremap §ed <Cmd>DuplicateBuffer<CR>
 nnoremap §eD <Cmd>DuplicateBuffer!<CR>
@@ -200,27 +201,27 @@ endfunc
 command! -nargs=1 DuplicateBuffer call <SID>Duplicatebuffer(<f-args>)
 
 " Horizontal
-nnoremap §ess :sp<CR>
+nnoremap §ess <Cmd>sp<CR>
 nnoremap §eS :sp! ./
 nnoremap §esa :exec ':new +setlocal\ ft='..&l:filetype
-nnoremap §esc :new<CR>
+nnoremap §esc <Cmd>new<CR>
 nnoremap §esz <C-W>v"+gP
 nnoremap §esx :InsertTemplate 
 nnoremap §esw :sp ./
-nnoremap §esd :sp .<CR>
-nnoremap §esr :sp %<CR>
+nnoremap §esd <Cmd>sp .<CR>
+nnoremap §esr <Cmd>sp %<CR>
 
 " Vertical
 nnoremap §eV :vsp! ./
-nnoremap §evv :vsp<CR>
+nnoremap §evv <Cmd>vsp<CR>
 nnoremap §evd <Cmd>DuplicateBuffer vnew<CR>
 nnoremap §eva :exec ':vnew +setlocal\ ft='..&l:filetype
-nnoremap §evc :vnew<CR>
+nnoremap §evc <Cmd>vnew<CR>
 nnoremap §evz <C-W>v"+gP
 nnoremap §evx :InsertTemplate 
-nnoremap §evw :vsp ./
-nnoremap §evd :vsp .<CR>
-nnoremap §evr :vsp %<CR>
+nnoremap §evw <Cmd>vsp ./
+nnoremap §evd <Cmd>vsp .<CR>
+nnoremap §evr <Cmd>vsp %<CR>
 
 
 nnoremap <expr> §e1 ':e '..get(g:, 'mayhem_quick1', '~/projects/')..''
@@ -255,31 +256,31 @@ nnoremap §ss <Cmd>SessionLoad 
 "
 " Window: §w - Windows & Splits
 " 
-nnoremap §ws :sp<CR>
-nnoremap §wv :vsp<CR>
+nnoremap §ws <Cmd>sp<CR>
+nnoremap §wv <Cmd>vsp<CR>
 
 "
 " Write: §w - Write
 "
-nnoremap §ww :w<CR>
-nnoremap §wW :w!<CR>
-nnoremap §wa :wa<CR>
+nnoremap §ww <Cmd>w<CR>
+nnoremap §wW <Cmd>w!<CR>
+nnoremap §wa <Cmd>wa<CR>
 
 "
 " Help: §h
 "
-nnoremap §hr :vsplit ~/.vim/notes/regex.md<CR>
+nnoremap §hr <Cmd>vsplit ~/.vim/notes/regex.md<CR>
 
 
 "
 " Highlighting
 "
 " See: ./highlight.vim
-nnoremap §<S-i> :so $VIMRUNTIME/syntax/hitest.vim<CR>
-nnoremap §i :SynStack<CR>
-nnoremap <D-i> :SynStack<CR>
-nnoremap §I :SynStackAuto<CR>
-nnoremap <D-I> :SynStackAuto<CR>
+nnoremap §<S-i> <Cmd>so $VIMRUNTIME/syntax/hitest.vim<CR>
+nnoremap §i <Cmd>SynStack<CR>
+nnoremap <D-i> <Cmd>SynStack<CR>
+nnoremap §I <Cmd>SynStackAuto<CR>
+nnoremap <D-I> <Cmd>SynStackAuto<CR>
 
 
 "─── Column guides ─────────────────────────────────────
@@ -334,19 +335,19 @@ xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
 " j 3j - move block down by 1, by 3
 " k 3k - move block up by 1, by 3
 " l 3l - move block right by 1, by 3
-"
-"   ⇧⃝ 𝄐⌥⃝   🅆   ⎫     Move line
-" ╭─▷    🄰 🅂 🄳 ⎭─▷  V: up/down
-" │                   ^V: up/right/down/left              
-"   ⇧⃝ 𝄐⌥⃝ 𝄐(🅆 🄰 🅂 🄳 )─▷  V: up/down
+
 "
 " Move Lines:
 "  Normal:
-"
+" 
+" ▌️⌥️ 􁾲  ▐️────▷ Move line up
+nnoremap <M-Up> <Cmd>move -2<CR>
+" ▌️⌥️ 􁾳  ▐️────▷ Move line down
+nnoremap <M-Down> <Cmd>move +1<CR>
+" ▌️ ⌥️ w ▐️──▷ Move line up
 nnoremap ∑ <Cmd>move -2<CR>
-" xnoremap ∑ :m -2<CR>
-nnoremap ß <Cmd>move +1<CR>
-" xnoremap ß :m +1<CR>
+" ▌️⇧️ ⌥️ w▐️──▷ Move line down
+nnoremap „ <Cmd>move +1<CR>
 "
 "  Visual: (v/V)
 "          ╭W⃝  ─▷ Up
@@ -363,8 +364,12 @@ command! -range MoveBlockDown <Nop>                   "  TODO
 "        ├╴S⃝  ──▷ Down  │  y  │  y  │
 "        ├╴A⃝  ──▷ Left  │     │  y  │
 " ╭▷  ⌥⃝ 𝄐┴╴D⃝  ──▷ Right │     │  y  │
+" ▌️⌥️ 􁾲  ▐️────▷ Move selection  up
+xnoremap <expr> <D-Up> mode() ==# "\x16" ? "<Cmd>MoveBlockUp<CR>" : "<Cmd>move -2<CR>"
 xnoremap <expr> ∑  mode() ==# "\x16" ? "<Cmd>MoveBlockUp<CR>" : "<Cmd>move -2<CR>"
-xnoremap <expr> ß  mode() ==# "\x16" ? "<Cmd>MoveBlockDown<CR>" : "<Cmd>move +1<CR>"
+" ▌️⌥️ 􁾳  ▐️────▷ Move selection down
+xnoremap <expr> <D-Down> mode() ==# "\x16" ? "<Cmd>MoveBlockDown<CR>" : "<Cmd>move +1<CR>"
+xnoremap <expr> „  mode() ==# "\x16" ? "<Cmd>MoveBlockDown<CR>" : "<Cmd>move +1<CR>"
 " xnoremap <expr> å  mode() ==# "\x16" ? ":MoveBlockLeft" : ":echo Try with ^V"
 " xnoremap <expr> ∂  mode() ==# "\x16" ? ":MoveBlockRight" : ":echo Try with ^V"
 "

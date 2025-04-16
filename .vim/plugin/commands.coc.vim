@@ -4,7 +4,7 @@ endif
 let g:mayhem_loaded_coc_commands = 1
 
 
-function! ToggleOutline() abort
+function ToggleOutline() abort
   let winid = coc#window#find('cocViewId', 'OUTLINE')
   if winid == -1
     call CocActionAsync('showOutline', 1)
@@ -19,8 +19,6 @@ endfunc
 
 "
 " Symbols And Ranges:
-"
-"
 "
 ":CocCommand document.jumpToPrevSymbol
 ":CocCommand document.jumpToNextSymbol
@@ -152,7 +150,9 @@ inoremap <silent><expr> <CR>
 "
 
 function s:OnCocDiagnosticChange()
-  UpdateSlCachedDiagnostics
+  if exists('#User#MayhemEnterVisual')
+    doautocmd User MayhemEnterVisual
+  endif
 endfunc
 
 function s:OnCocLocationsChange() abort
@@ -214,27 +214,79 @@ function s:OnCocOpenFloat() abort
   endif
 endfunc
 
-augroup CocEvents
-  autocmd!
+let g:coc_enable_locationlist = 0
+
+let s:modechangemap = [
+      \ ['silent DoUserAutocmd MayhemDiagnosticsUpdated',      'CocStatusChange'],
+      \ ['silent DoUserAutocmd MayhemDiagnosticsUpdated',  'CocDiagnosticChange'],
+      \ ['silent call CocActionAsync("showSignatureHelp")', 'CocJumpPlaceholder'],
+      \ ['silent call s:OnCocOpenFloat()',                        'CocOpenFloat'],
+      \ ['echom "---CocNvimInit---"',                              'CocNvimInit'],
+      \ ['silent call s:OnCocLocationsChange()',            'CocLocationsChange'],
+      \]
+
+call autocmd_add(mapnew(s:modechangemap, {_, vals -> #{
+      \ cmd: vals[0], pattern: vals[1],
+      \ event: 'User', replace: v:true,
+      \ group: 'mayhem_coc',
+      \}}))
+
+call autocmd_add([
+      \#{
+      \ event: ['CursorHold'],
+      \ pattern: '*', cmd: 'silent call CocActionAsync("highlight")',
+      \ group: 'mayhem_coc', replace: v:true,
+      \},
+      \])
+
+      " \#{
+      " \ event: 'User', pattern: ['CocStatusChange','CocDiagnosticChange'],
+      " \ cmd: 'silent DoUserAutocmd MayhemDiagnosticsUpdated',
+      " \ group: 'mayhem_coc', replace: v:true,
+      " \},
+      " \#{
+      " \ event: 'User', pattern: 'CocJumpPlaceholder',
+      " \ cmd: 'silent call CocActionAsync("showSignatureHelp")',
+      " \ group: 'mayhem_coc', replace: v:true,
+      " \},
+      " \#{
+      " \ event: 'User', pattern: 'CocOpenFloat',
+      " \ cmd: 'silent call s:OnCocOpenFloat()',
+      " \ group: 'mayhem_coc', replace: v:true,
+      " \},
+      " \#{
+      " \ event: 'User', pattern: 'CocNvimInit',
+      " \ cmd: 'echom \"---CocNvimInit---"',
+      " \ group: 'mayhem_coc', replace: v:true,
+      " \},
+      " \#{
+      " \ event: 'User', pattern: 'CocLocationsChange',
+      " \ cmd: 'silent call s:OnCocLocationsChange()',
+      " \ group: 'mayhem_coc', replace: v:true,
+      " \},
+      " \])
+
+" augroup CocEvents
+"   autocmd!
   " Highlight symbol under cursor on CursorHold
-  au CursorHold * silent call CocActionAsync('highlight')
+  " au CursorHold * silent call CocActionAsync('highlight')
 
   " on startup
-  " au User CocNvimInit echom "---CocNvimInit---"
+  " au User CocNvimInit echom \"---CocNvimInit---"
 
   " On diagnostics changed
   "au User CocStatusChange,CocDiagnosticChange call dostuff()
-  " au User CocStatusChange echom "---CocStatusChange---"
-  " au User CocDiagnosticChange echom "---CocDiagnosticChange---"
-  au User CocStatusChange,CocDiagnosticChange silent call s:OnCocDiagnosticChange()
+  " au User CocStatusChange echom \"---CocStatusChange---"
+  " au User CocDiagnosticChange echom \"---CocDiagnosticChange---"
+  " au User CocStatusChange,CocDiagnosticChange silent DoUserAutocmd MayhemDiagnosticsUpdated
 
   " Triggered on jump to placeholder during snippet completion (in insert mode)
-  " au User CocJumpPlaceholder echom "---CocJumpPlaceholder---"
-  au User CocJumpPlaceholder silent call CocActionAsync('showSignatureHelp')
+  " au User CocJumpPlaceholder echom \"---CocJumpPlaceholder---"
+  " au User CocJumpPlaceholder silent call CocActionAsync('showSignatureHelp')
 
   "Triggered when a floating window is opened.  The window is not
   "focused, use |g:coc_last_float_win| to get window id.
-  au User CocOpenFloat silent call s:OnCocOpenFloat()
+  " au User CocOpenFloat silent call s:OnCocOpenFloat()
   " au User CocOpenFloatPrompt silent call s:OnCocOpenFloatPrompt()
 
   "Triggered when terminal shown (e.g. for adjusting window height)
@@ -246,7 +298,7 @@ augroup CocEvents
   " 'lnum': line number (1 based).
   " 'col': column number(1 based).
   " 'text':  line content of location.
-  let g:coc_enable_locationlist = 0
+  " let g:coc_enable_locationlist = 0
   " au User CocLocationsChange echom '---CocLocationsChange---'
-  au User CocLocationsChange silent call s:OnCocLocationsChange()
-augroup END
+  " au User CocLocationsChange silent call s:OnCocLocationsChange()
+" augroup END

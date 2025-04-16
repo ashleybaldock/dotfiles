@@ -52,36 +52,28 @@ endfunc
 
 function! s:LeaveVisualChar() abort
   if exists('#User#MayhemLeaveModeVC')
-    doautocmd User MayhemLeaveModeVC
+    doautocmd <nomodeline> User MayhemLeaveModeVC
   endif
 endfunc
 
 function! s:EnterVisualLine() abort
-  if exists('#User#MayhemEnterModeVL')
-    doautocmd User MayhemEnterModeVL
-  endif
+  DoUserAutocmd MayhemEnterModeVL
 
   let &mouseshape = Remember('vV^V', '&mouseshape')..',v:beam'
 endfunc
 
 function! s:LeaveVisualLine() abort
-  if exists('#User#MayhemLeaveModeVL')
-    doautocmd User MayhemLeaveModeVL
-  endif
+  DoUserAutocmd MayhemLeaveModeVL
 endfunc
 
 function! s:EnterVisualBlock() abort
   let &mouseshape = Remember('vV^V', '&mouseshape')..',v:crosshair'
 
-  if exists('#User#MayhemEnterModeVB')
-    doautocmd User MayhemEnterModeVB
-  endif
+  DoUserAutocmd MayhemEnterModeVB
 endfunc
 
 function! s:LeaveVisualBlock() abort
-  if exists('#User#MayhemLeaveModeVB')
-    doautocmd User MayhemLeaveModeVB
-  endif
+  DoUserAutocmd MayhemLeaveModeVB
 endfunc
 
 "
@@ -144,27 +136,84 @@ function! Restore(group) abort
   endif
 endfunc
 
-augroup VisualEvent
-  autocmd!
-  " Leave Visual Mode (Any)
-  " (only fired if new mode is not v, V or ^V)
-  au Modechanged [vV\x16]:[^vV\x16]\+ call s:LeaveVisual()
-  " Enter Any Visual Mode
-  " (only fired if old mode was not v, V or ^V)
-  au ModeChanged [^vV\x16]\+:[vV\x16]* call s:EnterVisual()
+let s:modechangemap = [
+      \ ['call s:LeaveVisual()',  '[vV\x16]:[^vV\x16]\+'],
+      \ ['call s:EnterVisual()', '[^vV\x16]\+:[vV\x16]*'],
+      \ ['call s:LeaveVisualChar()',              'v*:*'],
+      \ ['call s:LeaveVisualLine()',              'V*:*'],
+      \ ['call s:LeaveVisualBlock()',        '[\x16]*:*'],
+      \ ['call s:EnterVisualChar()',              '*:v*'],
+      \ ['call s:EnterVisualLine()',              '*:V*'],
+      \ ['call s:EnterVisualBlock()',        '*:[\x16]*'],
+      \]
 
-  " Leave Visual Mode (Character)
-  au ModeChanged v*:* call s:LeaveVisualChar()
-  " Leave Visual Mode (Line)
-  au ModeChanged V*:* call s:LeaveVisualLine()
-  " Leave Visual Mode (Block)
-  au Modechanged [\x16]*:* call s:LeaveVisualBlock()
+call autocmd_add(mapnew(s:modechangemap, {_, vals -> #{
+      \ cmd: vals[0], pattern: vals[1],
+      \ event: 'ModeChanged', replace: v:true,
+      \ group: 'mayhem_modechanged_visual',
+      \}}))
 
-  " Enter Visual Mode (Character)
-  au ModeChanged *:v* call s:EnterVisualChar()
-  " Enter Visual Mode (Line)
-  au ModeChanged *:V* call s:EnterVisualLine()
-  " Enter Visual Mode (Block)
-  au ModeChanged *:[\x16]* call s:EnterVisualBlock()
-augroup END
+" call autocmd_add([
+"       \#{
+"       \ cmd: 'call s:LeaveVisual()', pattern: '[vV\x16]:[^vV\x16]\+',
+"       \ event: 'ModeChanged', 
+"       \ group: 'mayhem_modechanged_visual', replace: v:true,
+"       \},
+"       \#{
+      " \ cmd: 'call s:EnterVisual()', pattern: '[^vV\x16]\+:[vV\x16]*',
+      " \ event: 'ModeChanged',
+      " \ group: 'mayhem_modechanged_visual', replace: v:true,
+      " \},
+      " \#{
+      " \ cmd: 'call s:LeaveVisualChar()', pattern: 'v*:*',
+      " \ event: 'ModeChanged',
+      " \ group: 'mayhem_modechanged_visual', replace: v:true,
+      " \},
+      " \#{
+      " \ cmd: 'call s:LeaveVisualLine()', pattern: 'V*:*',
+      " \ event: 'ModeChanged',
+      " \ group: 'mayhem_modechanged_visual', replace: v:true,
+      " \},
+      " \#{
+      " \ cmd: 'call s:LeaveVisualBlock()', pattern: '[\x16]*:*',
+      " \ event: 'ModeChanged',
+      " \ group: 'mayhem_modechanged_visual', replace: v:true,
+      " \},
+      " \#{
+      " \ cmd: 'call s:EnterVisualChar()', pattern: '*:v*',
+      " \ event: 'ModeChanged',
+      " \ group: 'mayhem_modechanged_visual', replace: v:true,
+      " \},
+      " \#{
+      " \ cmd: 'call s:EnterVisualLine()', pattern: '*:V*',
+      " \ event: 'ModeChanged',
+      " \ group: 'mayhem_modechanged_visual', replace: v:true,
+      " \},
+      " \#{
+      " \ cmd: 'call s:EnterVisualBlock()', pattern: '*:[\x16]*',
+      " \ event: 'ModeChanged',
+      " \ group: 'mayhem_modechanged_visual', replace: v:true,
+      " \},
+      " \])
+" augroup VisualEvent
+"   autocmd!
+"   " Leave Visual Mode (only fired if new mode is not v, V or ^V)
+"   au Modechanged [vV\x16]:[^vV\x16]\+ call s:LeaveVisual()
+"   " Enter Visual Mode (only fired if old mode was not v, V or ^V)
+"   au ModeChanged [^vV\x16]\+:[vV\x16]* call s:EnterVisual()
+
+"   " Leave Visual Mode (Character)
+"   au ModeChanged v*:* call s:LeaveVisualChar()
+"   " Leave Visual Mode (Line)
+"   au ModeChanged V*:* call s:LeaveVisualLine()
+"   " Leave Visual Mode (Block)
+"   au Modechanged [\x16]*:* call s:LeaveVisualBlock()
+
+"   " Enter Visual Mode (Character)
+"   au ModeChanged *:v* call s:EnterVisualChar()
+"   " Enter Visual Mode (Line)
+"   au ModeChanged *:V* call s:EnterVisualLine()
+"   " Enter Visual Mode (Block)
+"   au ModeChanged *:[\x16]* call s:EnterVisualBlock()
+" augroup END
 

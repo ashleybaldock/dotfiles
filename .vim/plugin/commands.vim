@@ -38,7 +38,7 @@ command! CursorOnComment echo CursorOnComment()
 " Util: Format numbers with SI prefixes in a
 "       way that is pleasing to humans
 "
-function! PrefixDecimal(n)
+function PrefixDecimal(n)
   let prefixes = ['', 'k', 'M', 'G', 'T']
   let cur = a:n
   let i = 0
@@ -51,14 +51,14 @@ function! PrefixDecimal(n)
 endfunc
 
 
-function! FormatJSON(jsonString)
+function FormatJSON(jsonString)
   return systemlist('npx prettier --stdin-filepath nameless.json', a:jsonString)
 endfunc
 "
 " Apply code beautification to current
 " contents of buffer (or part thereof)
 "
-function! FormatBuffer(bufnr = bufnr()) range
+function FormatBuffer(bufnr = bufnr()) range
   let l:filetype = &filetype
   let l:filename = expand('%')
   if ( l:filename != '' )
@@ -93,7 +93,7 @@ command! -nargs=? -range TransposeRowCol <line1>,<line2>call <SID>TransposeRowCo
 " If used in an existing continuation block, reformats it   TODO
 " to the new width
 "
-function! Continuation(column) range
+function Continuation(column) range
 endfunc
 
 "
@@ -102,7 +102,7 @@ endfunc
 " When called with a range, applies only to those
 " lines (may affect multiple blocks, or only a part of one)
 "
-function! Discontinuation() range
+function Discontinuation() range
 endfunc
 
 
@@ -120,6 +120,17 @@ augroup misc_commands
   au BufWinEnter * if (get(b:, 'linecount', 0) < get(g:, 'mayhem_sync_start_max_lines', 0)) | syn sync fromstart | endif
 augroup END
 
+
+"
+" Do User Autocmd (if anything is listening)
+"
+function DoUserAutocmd(name)
+  if exists('#User#' .. a:name)
+    exec 'doautocmd User ' .. a:name
+  endif
+endfunc
+
+command! -nargs=1 -bar DoUserAutocmd call DoUserAutocmd(<q-args>)
 
 
 
@@ -165,14 +176,47 @@ augroup END
 " command! MoveToNewPane :call <SID>ReopenSessionInNewPane()
 
 
-function! Todo()
+function Todo()
   let todoCol = get(g:, 'mayhem_todo_align_column', 50)
   exec 'AlignLeftOnCol ' .. todoCol
 endfunc
 
+"
+" V:
+" Find common prefix of all lines and ignore it for sorting
+" Balance sorted result across lines (including space for
+" the common prefix)
+" :
+" Only sort selected section
+" Keep prefix and suffix intact
+" Balance results across original area
+" If sorted output requires more lines, copy prefix + suffix
+" from line sorted item came from
+"
+"        _____
+" prefix│g i h│suffix    prefix a b c suffix 
+" prefix│d f e│suffix    prefix d e f suffix 
+" prefix│a c b│suffix    prefix g h i suffix 
+"        ‾‾‾‾‾
+"        _____       
+" prefix│bbb i│suffix    prefix aaa   suffix
+" prefix│dd ee│suffix    prefix bbb   suffix
+" prefix│aaa g│suffix    prefix dd ee suffix
+"        ‾‾‾‾‾           prefix g i   suffix
+"                    
+" 1. get list of the strings to sort
+"  - yank selection into list, store each line's prefix + suffix
+"    with the text to be sorted
+"  - skip blank lines
+" 
+
+" skip z b e k d o z c f o e
+" skip d d o w c r n v e o f
+" skip x i w k o d p z p a x
+" skip a f e s w p d w p d p
 
 "
-" S⃝ et a direction to move in after doing something
+" Set a direction to move in after doing something
 "
 function! s:RepeatMove()
   " let b:mayhem_move_after = get(b:, 'mayhem_move_after', 'normal l') 

@@ -27,7 +27,7 @@ let s:combase = get(g:, 'mayhem_unicode_combine_default', '◌')
 " Reveal Variation Selectors:
 " See: ../demo/unicode-whitespace
 "
-function! s:ToggleHintVS1516() abort
+function s:ToggleHintVS1516() abort
   if exists('w:mayhem_match_vs1516')
     for addedmatch in w:mayhem_match_vs1516
       call matchdelete(addedmatch)
@@ -51,7 +51,7 @@ command! VariationSelectorHints call <SID>ToggleHintVS1516()
 " See: ../demo/unicode-whitespace
 "
 " TODO - also,[\Ue0000-\Ue007f]?  \u20f1'⃱⃲⃳⃴⃵⃶⃷⃸⃹⃺⃻⃼⃽⃾⃿'\u20ff
-function! s:ToggleUnicodeWhitespaceHints() abort
+function s:ToggleUnicodeWhitespaceHints() abort
   if exists('w:mayhem_match_u8only_wsp')
     call matchdelete(w:mayhem_match_u8only_wsp)
     unlet w:mayhem_match_u8only_wsp
@@ -67,7 +67,7 @@ command! UnicodeWhitespaceHints call <SID>ToggleUnicodeWhitespaceHints()
 " Reveal Tags:
 " See: ../demo/unicode-whitespace
 "
-function! s:ToggleUnicodeTagHints() abort
+function s:ToggleUnicodeTagHints() abort
   if exists('w:mayhem_match_u8tags')
     call matchdelete(w:mayhem_match_u8tags)
     unlet w:mayhem_match_u8tags
@@ -83,21 +83,21 @@ command! UnicodeTagHints call <SID>ToggleUnicodeTagHints()
 " Line of text starting @ current cursor position
 " (Can use with char2nr(), which works on the
 "  first character in the string)
-function! s:GetLineFromCursor() abort
+function s:GetLineFromCursor() abort
   return getline('.')[col('.') - 1 : -1]
 endfunc
 
 "
 " The (multibyte) character @ current cursor position
 "
-function! s:GetCharUnderCursor() abort
+function s:GetCharUnderCursor() abort
   return s:GetLineFromCursor()->char2nr()->nr2char()
 endfunc
 
 "
 " Character class of argument (defaults to char under cursor)
 "
-function! s:GetCharClass(char = s:GetLineFromCursor()) abort
+function s:GetCharClass(char = s:GetLineFromCursor()) abort
   return charclass(a:char)
 endfunc
 
@@ -137,8 +137,8 @@ command! -bar -nargs=? GetCharCodeMatch echo GetCharCodeMatch(<f-args>)
 " No cleverness here, it just swaps the first character,
 " will probably not work for some inputs
 "
-function! s:ReplaceBaseChar(replacement, char = s:GetLineFromCursor()) abort
-  return a:replacement..strpart(a:char, 1)
+function s:ReplaceBaseChar(replacement, char = s:GetLineFromCursor()) abort
+  return a:replacement .. strpart(a:char, 1)
 endfunc
 
 " s/\zs\(\%#\)\ze/\=ReplaceBaseCharWith(submatch(0))/n
@@ -156,7 +156,7 @@ command! -bar -nargs=+ ReplaceBaseCharWith echo <SID>ReplaceBaseChar(<q-args>)
 "          defaults to from + 16
 "         (strings are parsed using str2nr())
 "
-function! s:CodepointsInRange(
+function s:CodepointsInRange(
       \ start,
       \ count = 16) abort
   let l:startidx = type(a:start) == type(0) ? a:start : str2nr(a:start)
@@ -173,7 +173,7 @@ endfunc
 " tochar: optional, string (only first character is used),
 "            defaults to fromchar codepoint + 16
 "
-function! s:CodepointsBetweenChars(
+function s:CodepointsBetweenChars(
       \ fromchar = s:GetLineFromCursor(),
       \ tochar = nr2char(char2nr(a:fromchar) + 16)
       \) abort
@@ -185,14 +185,14 @@ function! s:CodepointsBetweenChars(
   return s:CodepointsInRange(l:min, l:max - l:min + 1)
 endfunc
 
-function! s:CodepointsStartingFromChar(
+function s:CodepointsStartingFromChar(
       \ fromchar = s:GetLineFromCursor(),
       \ count = 16) abort
   let fromidx = char2nr(a:fromchar)
   return s:CodepointsInRange(fromidx, a:count)
 endfunc
 
-function! s:RenderCodepointRow(for = s:GetLineFromCursor()) abort
+function s:RenderCodepointRow(for = s:GetLineFromCursor()) abort
   let foridx = type(a:for) == type(0) ? a:for : char2nr(a:for)
   let fromidx = foridx / 16 * 16
 
@@ -217,7 +217,7 @@ endfunc
 " Turn array of codepoints into a string
 " Gives standalone combining characters something to combine with
 "
-function! s:ToString(codepoints)
+function s:ToString(codepoints)
   return mapnew(a:codepoints,
         \ {idx, val -> strchars(s:combase..val, 1) == strchars(val, 1)
         \  ? s:combase..val : val})->join(' ︎')
@@ -232,7 +232,7 @@ endfunc
 " e.g. :UnicodepointsCountFromIndex 26 65
 " -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
 "
-function! s:UnicodepointsCountFromIndex(from, count = 16) abort
+function s:UnicodepointsCountFromIndex(from, count = 16) abort
   return s:ToString(s:CodepointsInRange(a:from, a:count))
 endfunc
 command! -bar -nargs=? -count=16 UnicodepointsCountFromIndex
@@ -246,7 +246,7 @@ command! -bar -nargs=? -count=16 UnicodepointsCountFromIndex
 " e.g. :UnicodepointsCountFromChar 26 A
 " -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
 "
-function! s:UnicodepointsCountFromChar(
+function s:UnicodepointsCountFromChar(
       \ from = s:GetLineFromCursor(), count = 16) abort
   return s:ToString(s:CodepointsStartingFromChar(a:from, a:count))
 endfunc
@@ -264,7 +264,7 @@ command! -bar -nargs=? -count=16 UnicodepointsCountFromChar
 " e.g. :UnicodepointsBetween Z A
 " -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
 "
-function! s:UnicodepointsBetween(
+function s:UnicodepointsBetween(
       \ from = s:GetLineFromCursor(),
       \ to = nr2char(char2nr(a:fromchar) + 16)) abort
   return s:ToString(s:CodepointsBetweenChars(a:from, a:to))
@@ -318,7 +318,7 @@ function! s:GenerateCombinings(
   return combined
 endfunc
 
-function! s:GenerateVariations(from = s:GetLineFromCursor()) abort
+function s:GenerateVariations(from = s:GetLineFromCursor()) abort
   return s:GenerateCombinings(a:from, s:variation_selectors)
 endfunc
 

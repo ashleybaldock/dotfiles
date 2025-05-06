@@ -6,7 +6,7 @@ let g:mayhem_loaded_chars = 1
 """""""""""""""""""""""""""""""""""""  None 
 " Almost nothing, base for other configs
 "
-function! s:ListNoneA()
+function s:ListNoneA()
   set showbreak=\\
   set listchars=
   set listchars+=precedes:<,extends:>,tab:\ \ 
@@ -20,7 +20,7 @@ function! s:ListNoneA()
   set fillchars+=fold:-m
   set fillchars+=diff:-
 endfunc
-function! s:ListNone8()
+function s:ListNone8()
   set showbreak=↪︎
   set listchars=
   set listchars+=precedes:❰,extends:❱,tab:\ \ 
@@ -35,7 +35,7 @@ function! s:ListNone8()
   set fillchars+=diff:╱
 endfunc
 
-function! s:HighlightNone() abort
+function s:HighlightNone() abort
   augroup HighlightOverride
     autocmd!
     autocmd ColorScheme vividmayhem call s:HighlightNone()
@@ -56,9 +56,7 @@ function! s:ListNone()
   call s:HighlightNone()
   set list
 
-  if exists('#User#MayhemList')
-    doautocmd User MayhemList
-  endif
+  DoUserAutocmd MayhemList
 endfunc
 
 :command! CharsNone call <SID>ListNone()
@@ -73,13 +71,9 @@ function! s:ListMinimal8()
   set listchars+=eol:⌟
   set listchars+=tab:⊩⇀⇀
   set listchars+=nbsp:⍽
-  " set listchars+=multispace:⢀⢀⢀⢠⢀⢀⢀⢠⢀⢀⢀⢠⢀⢀⢀⢠
   set listchars+=multispace:···∙···∙···∙
-  " set listchars+=multispace:⁃⁃⁃∙⁃⁃⁃∙⁃⁃⁃∙
   set listchars+=leadmultispace:\ ⢀\ ⢠
   set listchars+=leadmultispace:\ ⢀\ ⢠
-  " set listchars+=leadmultispace:├╶
-  " set listchars+=leadmultispace:│\ 
 endfunc
 
 function! s:HighlightMinimal() abort
@@ -103,9 +97,7 @@ function! s:ListMinimal()
   call s:HighlightMinimal()
   set list
 
-  if exists('#User#MayhemList')
-    doautocmd User MayhemList
-  endif
+  DoUserAutocmd MayhemList
 endfunc
 
 command! CharsMinimal call <SID>ListMinimal()
@@ -157,15 +149,13 @@ function! s:ListDiagnostic()
   call s:HighlightDiagnostic()
   set list
 
-  if exists('#User#MayhemList')
-    doautocmd User MayhemList
-  endif
+  DoUserAutocmd MayhemList
 endfunc
 
 command! CharsDiagnostic call <SID>ListDiagnostic()
 
 " Default list style
-function! s:ListDefault()
+function s:ListDefault()
   if exists('g:mayhem_default_list_style')
     if g:mayhem_default_list_style == 'minimal'
       call s:ListMinimal()
@@ -270,3 +260,8 @@ CharsDefault
     " set listchars+=leadmultispace:‥․ ₁‥․⠤₂⠤ ⠤₃⠤ ․₄․․․₅․․
     " 4spc tabs
     " set listchars+=leadmultispace:⠤⠤⠤⠤₂⠤⠤⠤⠤⠤⠤⠤₄⠤⠤⠤⠤⠤⠤⠤₆⠤⠤⠤⠤⠤⠤⠤₈⠤⠤⠤⠤⠤⠤⠤𐅡⠤⠤⠤
+    "
+  " set listchars+=multispace:⢀⢀⢀⢠⢀⢀⢀⢠⢀⢀⢀⢠⢀⢀⢀⢠
+  " set listchars+=multispace:⁃⁃⁃∙⁃⁃⁃∙⁃⁃⁃∙
+  " set listchars+=leadmultispace:├╶
+  " set listchars+=leadmultispace:│\ 

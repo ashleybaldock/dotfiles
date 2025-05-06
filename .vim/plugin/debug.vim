@@ -16,7 +16,7 @@ endfunc
 
 " Window & Buffer debug info
 "
-function! s:FormatInfo()
+function s:FormatInfo()
   setlocal filetype=javascript buftype=nowrite nobuflisted
   file notarealfile.js
   setlocal nomodified
@@ -27,7 +27,7 @@ function! s:FormatInfo()
 endfunc
 command! FormatInfo call <SID>FormatInfo()
 
-function! s:WindowInfo(winid = win_getid())
+function s:WindowInfo(winid = win_getid())
   let wInfo = getwininfo(a:winid)[0]
   let float = get(get(wInfo, 'variables', {}), 'float', 0)
   let isFloat = float ? 'Yes' : 'No'

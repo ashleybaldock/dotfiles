@@ -19,6 +19,8 @@ syn match TestL3Lead contained /[a-z]/
       \ nextgroup=TestL3Region
 syn match TestL4Lead contained /[a-z]/
       \ nextgroup=cssFunctionNameVar
+syn match TestL5Lead contained /[a-z]/
+      \ nextgroup=TestL5Region
 
 syn keyword TestKeyLead contained leading
 syn keyword TestKeyStart contained start
@@ -72,36 +74,46 @@ syn region TestL4 oneline keepend
       \ matchgroup=TestInd start="4)"
       \ end="$"
       \ contains=cssCustomProp,cssFunctionNameVar,TestVarRegion,TestInd,TestComment,TestColon
+syn region TestL5 oneline keepend
+      \ matchgroup=TestInd
+      \ start="5)"
+      \ end="$"
+      \ contains=TestL5Lead,TestL5Region,TestInd,TestComment,TestSpc
 
-syn region TestL1Region
+syn region TestL1Region contained
       \ matchgroup=TestL1Start start="foo"
       \ matchgroup=TestL1End end="bar"
       \ contains=TestContainedFoo,TestContainedBar,TestContainedSome,TestMatchStart,TestMatchEnd
       \ nextgroup=TestTrail
-      \ contained
 " ms=s-1,rs=s,hs=s+2
 
-syn region TestL2Region
+syn region TestL2Region contained
       \ matchgroup=TestL2Start start="foo"hs=s+2,rs=e+2 
       \ matchgroup=TestL2End end="bar"me=e-1,he=e-1,re=s-1
       \ contains=TestContainedFoo,TestContainedBar,TestContainedSome,TestMatchStart,TestMatchEnd
       \ nextgroup=TestTrail
-      \ contained
 
-syn region TestL3Region
+syn region TestL3Region contained
       \ matchgroup=TestL3Start start="foo\@3<="rs=s-1,ms=s-1
       \ matchgroup=TestL3End end="bar"
       \ contains=TestContainedFoo,TestContainedBar,TestContainedSome,TestMatchStart,TestMatchEnd
       \ nextgroup=TestTrail
-      \ contained
 
       " \ matchgroup=TestStart start="\<var\ze("hs=s,rs=e,ms=s
       " \ matchgroup=TestVarParen end=")"me=e,he=e,re=s
-syn region TestVarRegion
+syn region TestVarRegion contained
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssCustomPropRef,cssFunctionNameVar,TestComma
       \ nextgroup=TestTrail
-      \ contained
+
+syn region TestL5Region contained
+      \ start="baz"hs=s+2,rs=e+2 
+      \ end="zab"
+      \ contains=TestL5Start,TestL5End,TestMatchStart,TestMatchEnd
+      \ nextgroup=TestTrail
+
+syn match TestL5Start /baz/ contained cchar=@ conceal contains=NONE
+syn match TestL5End /zab/ contained cchar=$ conceal contains=NONE
 
 syn keyword cssFunctionNameVar contained conceal cchar=𐐏 var nextgroup=TestVarRegion
 syn match cssCustomPropDashes /--/ contained contains=NONE transparent conceal cchar=╌
@@ -121,6 +133,8 @@ syn match TestComment +//.*$+
 syn match TestContainedFoo /foo/ contained
 syn match TestContainedSome /some/ contained
 syn match TestContainedBar /bar/ contained
+syn match TestContainedBaz /baz/ contained
+syn match TestContainedZab /zab/ contained
 
 hi def TestStart guifg=#dd2222
 hi def TestEnd guifg=#00dd00
@@ -137,11 +151,15 @@ hi def link TestL3Start TestStart
 hi def link TestL3End TestEnd
 hi def link TestL3Region TestRegion
 hi def link TestVarRegion TestRegion
+hi def link TestL5Start TestStart
+hi def link TestL5End TestEnd
+hi def link TestL5Region TestRegion
 
 hi def TestString guifg=#999999
 hi def link TestL1 TestString
 hi def link TestL2 TestString
 hi def link TestL3 TestString
+hi def link TestL5 TestString
 hi def TestRegion guisp=#ffff00 gui=underline
 hi def TestTrail guifg=#00ffff guisp=#00ffff gui=underdashed
 hi def TestLead guifg=#ff00ff guisp=#ff00ff gui=underdashed
@@ -150,10 +168,13 @@ hi def TestMatchEnd guisp=#00ffff gui=underline
 hi def link TestL1Lead TestLead
 hi def link TestL2Lead TestLead
 hi def link TestL3Lead TestLead
+hi def link TestL5Lead TestLead
 hi def TestContainedMatch guibg=#ccff99 guifg=#330000
 hi def link TestContainedBar TestContainedMatch
 hi def link TestContainedSome TestContainedMatch
 hi def link TestContainedFoo TestContainedMatch
+hi def link TestContainedZab TestContainedMatch
+hi def link TestContainedBaz TestContainedMatch
 
 hi def TestInd guifg=#ffaa22
 hi def link TestComment Comment

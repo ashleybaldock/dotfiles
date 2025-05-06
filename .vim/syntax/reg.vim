@@ -15,20 +15,36 @@ set cpo&vim
 
 syn region SubstCmd
       \ matchgroup=SubstEnds start=+:\?\%(%\|<,>,\)\?s\z([/|+!@£$%^&:]\)+
+      \ skip=+\\\z1+
       \ end=+\z1+
-      \ contains=CaptureGrp,NonCapGrp,NewLine
+      \ contains=Escaped,Multi,CaptureGrp,NonCapGrp,NewLine
 
 syn region CaptureGrp contained oneline
       \ matchgroup=CaptureEnds start=+\\(+
       \ end=+\\)+
       \ containedin=PreEscaped
-      \ contains=CaptureGrp,NonCapGrp,MatchOr
+      \ contains=Atom,Escaped,Multi,CaptureGrp,NonCapGrp,MatchOr
 
 syn region NonCapGrp contained oneline
       \ matchgroup=CaptureEnds start=+\\%(+
       \ end=+\\)+ 
       \ containedin=PreEscaped
-      \ contains=CaptureGrp,NonCapGrp,MatchOr
+      \ contains=Atom,Escaped,Multi,CaptureGrp,NonCapGrp,MatchOr
+
+syn match Multi contained /\*/ contains=NONE
+syn match Multi contained /\\+/ contains=NONE
+syn match Multi contained /\\=/ contains=NONE
+syn match Multi contained /\\?/ contains=NONE
+syn match Multi contained /\\{-\?\d*,\?\d*}/ contains=NONE
+
+syn match Escaped contained +\\\*+ contains=NONE
+syn match Escaped contained +\\\/+ contains=NONE
+
+syn match Atom contained +\.+
+syn match Atom contained +\\[<>.]+
+
+" syn region Multi contained oneline
+"       \ start=+\\{+
 
 syn match MatchOr /\\|/ contained
 syn match NewLine /\\n/ contained
@@ -51,8 +67,11 @@ hi def NonCapGrp     guifg=#eebbee               gui=underdotted
 hi def CaptureEnds   guifg=#ffaa22 guibg=#003333
 hi def MatchOr       guifg=#ffaa22 guibg=#003333
 hi def NewLine       guifg=#ffdd33 guibg=#8833dd
-hi def SubstCmd      guifg=#00ff00 guibg=#003333
+hi def SubstCmd      guifg=#22ff22
 hi def SubstEnds     guifg=#ffff44 guibg=#003333
+hi def Multi         guifg=#ff9999 gui=nocombine
+hi def Escaped       guifg=#12cd4d
+hi def Atom          guifg=#9999ff
 
 let b:current_syntax = "reg"
 

@@ -62,7 +62,7 @@
 
 ```pre
                                ╭─────────────────────────────────────────────────╮
-       Atoms                   │            line │ file/string │ word │ pattern  │
+       Atoms     􀬚            │            line │ file/string │ word │ pattern  │
   ┌────────────────────────────┤         ──┬─────│─────────────│──────│───────── │
   │W ┊= zero width             │ beginning │ BoL │    BoF/S    │ BoW  │ BoP      │
   │ B┊= not inside []          │       end │ EoL │    EoF/S    │ EoW  │ EoP      │
@@ -139,22 +139,25 @@ let m=[] | %s//\=add(m,submatch(1))/gn
 
 ## All (unique) matches in a list
 
-```
+```pre
 --data-wand-\zs\d\{4}\ze:\|stroke=%22%23\zs\x\{6}\ze%22
 ```
 
 ```vim
-let m=[] | %s//\=add(m,submatch(0))/gn | exec m->sort()->uniq()
-let m=[] | %s/stroke=%22%23\zs\x\{6}\ze%22/\=add(m,submatch(0))/gn | call m->sort()->uniq()
+let m=[] | %s//\=add(m,submatch(0))/gn | exec sort(m)->uniq()
+let m=[] | %s/stroke=%22%23\zs\x\{6}\ze%22/\=add(m,submatch(0))/gn
+       \ | call m->sort()->uniq()
 ```
 
 ## All matches in new buffer
 
 ```vim
 vnew | call append('$', m)
+vnew | call append('$', sort(m)->uniq())
 
 let m=[] | %s//\=add(m,submatch(0))/gn | vnew | call append('$', m)
-let m=[] | %s//\=add(m,submatch(0))/gn | call uniq(sort(m)) | vnew | call append('$', uniq(m))
+let m=[] | %s//\=add(m,submatch(0))/gn
+       \ | vnew | call append('$', sort(m)->uniq())
 ```
 
 ```vim
@@ -264,4 +267,12 @@ multibyte characters).
 %s/|\ {{\w\+|\(\w\+\)}}.*\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n\%(|-\||}\)/
 
                            |.*||\s\?\(.*\)\%(\n|\|||\)
+```
+
+## Match all block comments
+
+Including whitespace before/after
+
+```reg
+%s/\(\_s*\/\*.\{-}\*\/\_s*\)\+//
 ```

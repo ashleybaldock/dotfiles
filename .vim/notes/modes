@@ -1,0 +1,21 @@
+
+All						¬t			a/nore/menu
+       :amenu xxx			:___^M
+equivalent to:
+       :nmenu xxx			:___^M
+ :[v/c/o]menu xxx		:___^M
+       :imenu xxx	:___^M
+
+Normal				n				n/nore/menu
+Op-Pending		no			o/nore/menu
+
+Visual			v,V,		v/nore/menu
+ ├╴Both								x/nore/menu
+Select			s,S,		s/nore/menu
+
+Insert				i				i/nore/menu
+Cmdline				c				c/nore/menu
+
+Terminal		nt,t			tl/nore/menu
+
+<silent>

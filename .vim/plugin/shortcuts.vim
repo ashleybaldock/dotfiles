@@ -12,9 +12,10 @@ let g:mayhem_loaded_shortcuts = 1
 " (commands/functions are defined elsewhere)
 "
 "  Option: ⌥️   (<M-x> or <A-x>)
-"  ‣ bound as resulting unicode character e.g.
-"  (option + 5)           ⌥️ 5 ──▷ ∞     :map ∞ <Nop>
-"  (option + shift + 5) ⌥️ ⇧️ 5 ──▷ ﬁ     :map ﬁ <Nop>
+"  ‣ bound as resulting unicode character
+"   e.g.
+"  (option + 5)            ⌥️ 5  ──▷  ∞    :map ∞ <Nop>
+"  (option + shift + 5)  ⌥️ ⇧️ 5  ──▷  ﬁ    :map ﬁ <Nop>
 "
 " Command: ⌘️   (<D-x>)
 "  ‣ case-sensitive in mapping definition e.g. <D-e> != <D-E> 
@@ -45,6 +46,8 @@ nnoremap <leader>i   <C-i>
 " TODO 
 "nnoremap <expr> §`i ExecAndPut('hi '..<c-r><c-w>)
 
+" J for visual block mode
+" gv"od:put o `[v`]J0"od$dd"oP
 
 "
 " Replace: Character with its escape code
@@ -277,10 +280,10 @@ nnoremap §hr <Cmd>vsplit ~/.vim/notes/regex.md<CR>
 "
 " See: ./highlight.vim
 nnoremap §<S-i> <Cmd>so $VIMRUNTIME/syntax/hitest.vim<CR>
-nnoremap §i <Cmd>SynStack<CR>
-nnoremap <D-i> <Cmd>SynStack<CR>
-nnoremap §I <Cmd>SynStackAuto<CR>
-nnoremap <D-I> <Cmd>SynStackAuto<CR>
+nnoremap §i <Cmd>SynFo<CR>
+" nnoremap <D-i> <Cmd>SynFo<CR>
+nnoremap §I <Cmd>SynFoWindowToggle<CR>
+" nnoremap <D-I> <Cmd>SynFo<CR>
 
 
 "─── Column guides ─────────────────────────────────────
@@ -657,13 +660,13 @@ nnoremap <expr> k v:count ? 'k' : 'gk'
 
 " K:
 "─────────────────────────────────────────────────────
-"    ⌥⃝ 𝄐K⃝    │             │   f text
-"            │             │   line o̲
+"            │             │   f text
+"  􀆕 K   ˚  │             │   line o̲
 "─────────────────────────────────────────────────────
-" ⇧⃝ 𝄐J⃝   J   │ line o̲      │   line o f̲ text
+" 􀆝 𝄐J⃝   J   │ line o̲      │   line o f̲ text
 " <S-j>      │ f text      │       
 "─────────────────────────────────────────────────────
-" ⌥⃝ 𝄐J⃝   ∆   │ line o̲      │   line of̲ text
+"  𝄐J⃝   ∆   │ line o̲      │   line of̲ text
 " <M-j>      │ f text      │       
 "─────────────────────────────────────────────────────
 " inverse of │ f text      │
@@ -693,12 +696,19 @@ xnoremap <expr> gk mode() ==# "v" ? "k"  : "gk"
 " Disarm trap
 xnoremap u <Nop>
 
+" 
+" Selection:
+"
+" ▌️ gp ▐️  (Re)Select last edited/yanked area
+nnoremap <expr> gp '`[' .. getregtype()[0] .. '`]'
+" ▌️ gv ▐️  (Re)Select last visual area
+
 " insert/append in visual blockwise
 " i = I, a = A, 
 xnoremap <expr> i  mode() ==# "\x16" ? "I" : "i"
 xnoremap <expr> a  mode() ==# "\x16" ? "A" : "a"
-"║     n,v,V         ║        ^V       ║ 
-"║  J, linewise      ║  J, blockwise:  ║ 
+"║      n,v,V        ║        ^V       ║ 
+"║    J, linewise    ║  J, blockwise:  ║ 
 "║                   ║                 ║                
 "║ A B┆C┆  ABCDEFGHI̲ ║  A B┆C┆  ABCJKL ║  A B┆C┆  ABCL  
 "║ D E┆F┆  JKL       ║  D E┆F┆  DEFMNO ║  D E┆F┆  DEFO  

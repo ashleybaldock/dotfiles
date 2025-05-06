@@ -68,6 +68,25 @@
     max(var(--arrow-left), var(--arrow-radius)) + (var(--arrow-line-w) / 2)
   );
 }
+#sqrt {
+  --sqrt2: sqrt(︎2 + 2)︎;
+  --sqrt22: sqrt(2);
+
+  --s: sqrt(8);
+  --s8: calc(sqrt(8) + sqrt(22));
+
+  --svar: sqrt(var(--a));
+}
+#pow {
+  --pow22: pow(2,2);
+  --pow24: pow(2,4);
+  --pow31: pow(3,1);
+  --pow3-1: pow(3,-1);
+
+  --pow3123: pow(3,123);
+
+  --powv: pow(2,(var(--a)));
+}
 
 .classpx.classem.classdeg {
   --deg: 100deg;

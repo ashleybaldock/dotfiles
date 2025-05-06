@@ -15,8 +15,6 @@
   --𝞅: calc((1 + sqrt(5)) / 2);
   --𝞅⁻¹: calc(1 / var(--𝞅));
   --𝞅∕𝟤: calc(var(--𝞅) / 2);
-  /* --𝟣∕𝞅: calc(1 / var(--𝞅)); */
-  /* --⅟️𝞅: calc(1 / var(--𝞅)); */
   --𝝿: calc(pi);
   --𝞽️: calc(pi * 2);
   /* Unit 1 */
@@ -26,18 +24,13 @@
   --Uem: 1em;
   --Urem: 1rem;
   /* Radians */
-  /* --𝝿∕𝟤ᴿ: calc(pi * 0.5rad); */
   --𝝿ᴿ: calc(pi * 1rad);
-  /* --𝞽ᴿ: calc(pi * 2rad); */
+  --𝞽ᴿ: calc(pi * 2rad);
   /* Constants */
   --e: calc(e);
   --e⁻¹: calc(1 / e);
-  /* --𝟣∕e: calc(1 / e); */
-  /* --⅟️e: calc(1 / e); */
   --√𝟤: calc(sqrt(2));
   --√𝟤⁻¹: calc(1 / var(--√𝟤));
-  /* --⅟️√𝟤: calc(1 / sqrt(2)); */
-  /* --𝟣∕√𝟤: calc(1 / sqrt(2)); */
 
   /* Null placeholders */
   --Ø‥text-shadow: 0 0 #0000;
@@ -59,7 +52,9 @@
 }
 
 body::before {
-  counter-reset: screenw var(--w), screenh var(--h);
+  counter-reset:
+    screenw var(--w),
+    screenh var(--h);
   content: counter(screenw) x counter(screenh);
 }
 
@@ -132,7 +127,8 @@ svg {
   --－: calc(var(--＋) * -1);
   --＝: 0;
   --🔸: 0.2px #000f;
-  --text-outline-thin: var(--Ø‥text-shadow), var(--＋) var(--＝) var(--🔸),
+  --text-outline-thin:
+    var(--Ø‥text-shadow), var(--＋) var(--＝) var(--🔸),
     var(--＋) var(--＋) var(--🔸), var(--＝) var(--＋) var(--🔸),
     var(--－) var(--＋) var(--🔸), var(--－) var(--＝) var(--🔸),
     var(--－) var(--－) var(--🔸), var(--＝) var(--－) var(--🔸),
@@ -144,7 +140,8 @@ svg {
   --－: calc(var(--＋) * -1);
   --＝: 0;
   --🔸: 1.2px #000f;
-  --text-outline-thick: var(--Ø‥text-shadow), var(--＋) var(--＝) var(--🔸),
+  --text-outline-thick:
+    var(--Ø‥text-shadow), var(--＋) var(--＝) var(--🔸),
     var(--＋) var(--＋) var(--🔸), var(--＝) var(--＋) var(--🔸),
     var(--－) var(--＋) var(--🔸), var(--－) var(--＝) var(--🔸),
     var(--－) var(--－) var(--🔸), var(--＝) var(--－) var(--🔸),
@@ -191,18 +188,19 @@ svg {
 :root {
   --＝: 0;
   --－: calc(var(--＋) * -1);
-  --text-outline-base: var(--Ø‥text-shadow), var(--＋) var(--＝) var(--🔸),
+  --text-outline-base:
+    var(--Ø‥text-shadow), var(--＋) var(--＝) var(--🔸),
     var(--－) var(--＝) var(--🔸), var(--＝) var(--＋) var(--🔸),
     var(--＝) var(--－) var(--🔸), var(--Ø‥text-shadow);
   --➕: 1px;
   --➖: calc(var(--➕) * -1);
   --🟰: 0;
   --🔸: min(4px, var(--➕) * var(--✖️)) #000f;
-  --text-outline-thick: var(--➕) var(--🟰) var(--🔸),
-    var(--➕➕) var(--➕➕) var(--🔸), var(--🟰) var(--➕) var(--🔸),
-    var(--➖➖) var(--➕➕) var(--🔸), var(--➖) var(--🟰) var(--🔸),
-    var(--➖➖) var(--➖➖) var(--🔸), var(--🟰) var(--➖) var(--🔸),
-    var(--➕➕) var(--➖➖) var(--🔸);
+  --text-outline-thick:
+    var(--➕) var(--🟰) var(--🔸), var(--➕➕) var(--➕➕) var(--🔸),
+    var(--🟰) var(--➕) var(--🔸), var(--➖➖) var(--➕➕) var(--🔸),
+    var(--➖) var(--🟰) var(--🔸), var(--➖➖) var(--➖➖) var(--🔸),
+    var(--🟰) var(--➖) var(--🔸), var(--➕➕) var(--➖➖) var(--🔸);
   text-shadow: var(--text-outline-thick);
   --➕➕: calc(var(--➕) * var(--✖️));
   --➖➖: calc(var(--➖) * var(--✖️));

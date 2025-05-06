@@ -271,9 +271,17 @@ Ordered Elements
 1. Baz
 
 ```pre
-1. Foo     ⒈ Foo
-1. Bar ╺━▶︎ ⒉ Bar
-1. Baz     ⒊ Baz
+1. Foo     ⒈  Foo
+1. Bar ╺━▶︎ ⒉  Bar
+1. Baz     ⒊  Baz
+
+1️ Foo
+2️ Bar
+3️ Baz
+
+1⎤ Foo
+2⎫ Bar
+3 Baz
 ```
 
 Nested

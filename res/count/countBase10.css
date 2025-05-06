@@ -1,0 +1,159 @@
+@property --c1 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c10 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c100 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c1000 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+:has(> :nth-child(2))::before {
+  --c1: inherit;
+  --c10: inherit;
+  --c100: inherit;
+  --c1000: inherit;
+  --children: calc(
+    var(--c1) + (var(--c10) * 10) + (var(--c100) * 100) + (var(--c1000) * 1000)
+  );
+
+  counter-reset: out var(--children);
+  content: counter(out);
+  font-size: 0.7rem;
+  background: none;
+  background-color: #a22;
+  border: 2px solid #f44;
+  border-radius: 0.5em / 1em;
+  white-space: nowrap;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  color: #fff;
+  text-shadow:
+    1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000,
+    -1px 1px 0 #000,
+    0 1px 0 #000,
+    1px 0 0 #000,
+    0 -1px 0 #000,
+    -1px 0 0 #000;
+  min-width: 1lh;
+  text-align: center;
+  justify-content: center;
+  font-style: normal;
+  text-transform: none;
+  line-height: normal;
+  opacity: 0.6;
+  padding: 0 0.3em;
+  box-sizing: border-box;
+}
+
+:has(> :nth-child(2)):has(> :not(:hover)):hover {
+  outline: 1px dashed #f44;
+}
+:has(> :nth-child(2)):has(> :not(:hover)):hover::before {
+  opacity: 1;
+}
+
+:has(> :nth-child(1100))::before {
+  content: '>1100';
+}
+
+:has(> :nth-child(1000)) {
+  --c1000: 1;
+}
+
+:has(> :nth-child(100n + 10)) {
+  --c10: 1;
+}
+:has(> :nth-child(100n + 20)) {
+  --c10: 2;
+}
+:has(> :nth-child(100n + 30)) {
+  --c10: 3;
+}
+:has(> :nth-child(100n + 40)) {
+  --c10: 4;
+}
+:has(> :nth-child(100n + 50)) {
+  --c10: 5;
+}
+:has(> :nth-child(100n + 60)) {
+  --c10: 6;
+}
+:has(> :nth-child(100n + 70)) {
+  --c10: 7;
+}
+:has(> :nth-child(100n + 80)) {
+  --c10: 8;
+}
+:has(> :nth-child(100n + 90)) {
+  --c10: 9;
+}
+:has(> :nth-child(1000n + 100)) {
+  --c100: 1;
+}
+:has(> :nth-child(1000n + 200)) {
+  --c100: 2;
+}
+:has(> :nth-child(1000n + 300)) {
+  --c100: 3;
+}
+:has(> :nth-child(1000n + 400)) {
+  --c100: 4;
+}
+:has(> :nth-child(1000n + 500)) {
+  --c100: 5;
+}
+:has(> :nth-child(1000n + 600)) {
+  --c100: 6;
+}
+:has(> :nth-child(1000n + 700)) {
+  --c100: 7;
+}
+:has(> :nth-child(1000n + 800)) {
+  --c100: 8;
+}
+:has(> :nth-child(1000n + 900)) {
+  --c100: 9;
+}
+
+:has(> :nth-child(10n + 1)) {
+  --c1: 1;
+}
+:has(> :nth-child(10n + 2)) {
+  --c1: 2;
+}
+:has(> :nth-child(10n + 3)) {
+  --c1: 3;
+}
+:has(> :nth-child(10n + 4)) {
+  --c1: 4;
+}
+:has(> :nth-child(10n + 5)) {
+  --c1: 5;
+}
+:has(> :nth-child(10n + 6)) {
+  --c1: 6;
+}
+:has(> :nth-child(10n + 7)) {
+  --c1: 7;
+}
+:has(> :nth-child(10n + 8)) {
+  --c1: 8;
+}
+:has(> :nth-child(10n + 9)) {
+  --c1: 9;
+}

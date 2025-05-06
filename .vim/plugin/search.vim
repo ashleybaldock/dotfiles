@@ -44,9 +44,18 @@ function! s:AckInput() abort
   call s:AckEscaped(search)
 endfunc
 
-:command! AckInput :exec <SID>AckInput()
-:command! AckClipboard :exec <SID>AckClipboard()
-:command! AckCurrentWord :exec <SID>AckCurrentWord()
-:command! AckLastSearch :exec <SID>AckLastSearch()
+function s:AckVisual() abort
+  " TODO
+endfunc
 
+function s:AckArgs(args) abort
+  " TODO
+endfunc
 
+command! AckInput exec <SID>AckInput()
+command! AckClipboard exec <SID>AckClipboard()
+command! AckCurrentWord exec <SID>AckCurrentWord()
+command! AckLastSearch exec <SID>AckLastSearch()
+
+command! AckVisual exec <SID>AckVisual()
+command! -nargs=1 AckArgs exec <SID>AckArgs(<q-args>)

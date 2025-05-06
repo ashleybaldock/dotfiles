@@ -1,0 +1,524 @@
+/*{{{*/
+@property --c0 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c1 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c2 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c3 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c4 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c5 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c6 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c7 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c8 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c9 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cA {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cB {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cC {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cD {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cE {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cF {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+/*}}}*/
+
+:has(> :nth-child(2))::before {
+  /*   --c0: inherit;
+  --c1: inherit;
+  --c2: inherit;
+  --c3: inherit;
+  --c4: inherit;
+  --c5: inherit;
+  --c6: inherit;
+  --c7: inherit;
+  --c8: inherit;
+  --c9: inherit;
+  --cA: inherit;
+  --cB: inherit;
+  --cC: inherit;
+  --cD: inherit;
+  --cE: inherit;
+  --cF: inherit; */
+  /*! --children: calc(
+    var(--c0) * pow(2, 0) + var(--c1) * pow(2, 1) + var(--c2) * pow(2, 2) +
+      var(--c3) * pow(2, 3) + var(--c4) * pow(2, 4) + var(--c5) * pow(2, 5) +
+      var(--c6) * pow(2, 6) + var(--c7) * pow(2, 7) + var(--c8) * pow(2, 8) +
+      var(--c9) * pow(2, 9) + var(--cA) * pow(2, 10) + var(--cB) * pow(2, 11) +
+      var(--cC) * pow(2, 12) + var(--cD) * pow(2, 13) + var(--cE) * pow(2, 14) +
+      var(--cF) * pow(2, 15)
+  ); */
+
+  counter-reset: out var(--children);
+  content: counter(out);
+  opacity: 0.6;
+  background: none;
+  background-color: #a22;
+  border: 2px solid #f44;
+  border-radius: 0.5em / 1em;
+  box-sizing: border-box;
+  width: fit-content;
+  min-width: 1lh;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  padding: 0 0.3em;
+  color: #fff;
+  text-shadow:
+    1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000,
+    -1px 1px 0 #000,
+    0 1px 0 #000,
+    1px 0 0 #000,
+    0 -1px 0 #000,
+    -1px 0 0 #000;
+  text-align: center;
+  font-style: normal;
+  text-transform: none;
+  font-size: 0.7rem;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+:has(> :nth-child(2)):has(> :not(:hover)):hover {
+  outline: 1px dashed #f44;
+}
+:has(> :nth-child(2)):has(> :not(:hover)):hover::before {
+  opacity: 1;
+}
+
+:has(> :nth-child(65535))::before {
+  content: '>2¹⁶';
+}
+
+/*
+
+16
+
+2n      even
+2n + 1  odd
+
+:has(> multiple of)
+4n   2^2       count is at least 4
+8n   2^3       count is at least 8
+16n  2^4       count is at least 16
+32n  2^5       count is at least 64
+64n  2^6       count is at least 64
+
+
+3n   multiple of 3
+
+5n   multiple of 5
+
+10n  multiple of 10
+
+
+ */
+/* has a multiple of 1 (2^0) that isn't a multiple of 2 (2^1) */
+:has(> :nth-child(2n + 1)) {
+  --c1: 0;
+}
+/* has a multiple of 2 (2^1) that isn't also a multiple of 4 (2^2) */
+:has(> :nth-child(4n + 2)) {
+  --c1: 1;
+}
+/* has a multiple of 4 (2^2) that isn't also a multiple of 8 (2^3) */
+:has(> :nth-child(8n + 4)) {
+  --c2: 1;
+}
+/* has a multiple of 8 (2^3) that isn't also a multiple of 16 (2^4) */
+:has(> :nth-child(16n + 8)) {
+  --c3: 1;
+}
+/* has a multiple of 16 (2^4) that isn't also a multiple of 32 (2^5) */
+:has(> :nth-child(32n + 16)) {
+  --c4: 1;
+}
+/* has a multiple of 32 (2^5) that isn't also a multiple of 64 (2^6) */
+:has(> :nth-child(64n + 32)) {
+  --c5: 1;
+}
+/* has a multiple of 64 (2^6) that isn't also a multiple of 128 (2^7) */
+:has(> :nth-child(128n + 64)) {
+  --c6: 1;
+}
+/* has a multiple of 128 (2^7) that isn't also a multiple of 256 (2^8) */
+:has(> :nth-child(256n + 128)) {
+  --c7: 1;
+}
+/* has a multiple of 256 (2^8) that isn't also a multiple of 512 (2^9) */
+:has(> :nth-child(512n + 256)) {
+  --c8: 1;
+}
+:has(> :nth-child(1024n + 512)) {
+  --c9: 1;
+}
+:has(> :nth-child(2048n + 1024)) {
+  --cA: 1;
+}
+:has(> :nth-child(4096n + 2048)) {
+  --cB: 1;
+}
+:has(> :nth-child(8192n + 4096)) {
+  --cC: 1;
+}
+:has(> :nth-child(16348n + 8192)) {
+  --cD: 2;
+}
+:has(> :nth-child(32768n + 16348)) {
+  --cE: 3;
+}
+:has(> :nth-child(65536n + 32768)) {
+  --cF: 4;
+}
+@property --c0 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c1 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c2 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c3 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c4 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c5 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c6 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c7 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c8 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --c9 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cA {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cB {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cC {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cD {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cE {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --cF {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+:has(> :nth-child(2)) {
+  --children: calc(
+    (var(--c0, 0) * pow(2, 0)) + (var(--c1, 0) * pow(2, 1)) +
+      (var(--c2, 0) * pow(2, 2)) + (var(--c3, 0) * pow(2, 3)) +
+      (var(--c4, 0) * pow(2, 4)) + var(--c5, 0) * pow(2, 5) + var(--c6, 0) *
+      pow(2, 6) + var(--c7, 0) * pow(2, 7) + var(--c8, 0) * pow(2, 8) +
+      var(--c9, 0) * pow(2, 9) + var(--cA, 0) * pow(2, 10) + var(--cB, 0) *
+      pow(2, 11) + var(--cC, 0) * pow(2, 12) + var(--cD, 0) * pow(2, 13) +
+      var(--cE, 0) * pow(2, 14) + var(--cF, 0) * pow(2, 15)
+  );
+
+  counter-reset: out var(--children);
+}
+:has(> :nth-child(2))::before {
+  counter-reset: out var(--children);
+  content: counter(out);
+  font-size: 0.7rem;
+  background: none;
+  background-color: #a22;
+  border: 2px solid #f44;
+  border-radius: 0.5em / 1em;
+  white-space: nowrap;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  color: #fff;
+  text-shadow:
+    1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000,
+    -1px 1px 0 #000,
+    0 1px 0 #000,
+    1px 0 0 #000,
+    0 -1px 0 #000,
+    -1px 0 0 #000;
+  min-width: 1lh;
+  text-align: center;
+  justify-content: center;
+  font-style: normal;
+  text-transform: none;
+  line-height: normal;
+  opacity: 0.6;
+  padding: 0 0.3em;
+  box-sizing: border-box;
+}
+
+:has(> :nth-child(2)):has(> :not(:hover)):hover {
+  outline: 1px dashed #f44;
+}
+:has(> :nth-child(2)):has(> :not(:hover)):hover::before {
+  opacity: 1;
+}
+
+/* :has(> :nth-child(65535))::before {
+  content: '>2¹⁶';
+} */
+
+/*
+
+16
+
+2n      even
+2n + 1  odd
+
+:has(> multiple of)
+4n   2^2       count is at least 4
+8n   2^3       count is at least 8
+16n  2^4       count is at least 16
+32n  2^5       count is at least 64
+64n  2^6       count is at least 64
+
+
+3n   multiple of 3
+
+5n   multiple of 5
+
+10n  multiple of 10
+
+
+ */
+/* has a multiple of 1 (2^0) that isn't a multiple of 2 (2^1) */
+/* :has(> :nth-child(2n + 1)) { */
+/*   --c1: 0; */
+/* } */
+/* has a multiple of 2 (2^1) that isn't also a multiple of 4 (2^2) */
+/* :has(> :nth-child(4n + 2)) { */
+/*   --c1: 1; */
+/* } */
+/* has a multiple of 4 (2^2) that isn't also a multiple of 8 (2^3) */
+/* :has(> :nth-child(8n + 4)) { */
+/*   --c2: 1; */
+/* } */
+/* has a multiple of 8 (2^3) that isn't also a multiple of 16 (2^4) */
+/* :has(> :nth-child(16n + 8)) { */
+/*   --c3: 1; */
+/* } */
+/* has a multiple of 16 (2^4) that isn't also a multiple of 32 (2^5) */
+:has(> :nth-child(32n + 16)) {
+  --c4: 1;
+}
+/* has a multiple of 32 (2^5) that isn't also a multiple of 64 (2^6) */
+:has(> :nth-child(64n + 32)) {
+  --c5: 1;
+}
+/* has a multiple of 64 (2^6) that isn't also a multiple of 128 (2^7) */
+:has(> :nth-child(128n + 64)) {
+  --c6: 1;
+}
+/* has a multiple of 128 (2^7) that isn't also a multiple of 256 (2^8) */
+:has(> :nth-child(256n + 128)) {
+  --c7: 1;
+}
+/* has a multiple of 256 (2^8) that isn't also a multiple of 512 (2^9) */
+:has(> :nth-child(512n + 256)) {
+  --c8: 1;
+}
+:has(> :nth-child(1024n + 512)) {
+  --c9: 1;
+}
+:has(> :nth-child(2048n + 1024)) {
+  --cA: 1;
+}
+:has(> :nth-child(4096n + 2048)) {
+  --cB: 1;
+}
+:has(> :nth-child(8192n + 4096)) {
+  --cC: 1;
+}
+:has(> :nth-child(16348n + 8192)) {
+  --cD: 1;
+}
+:has(> :nth-child(32768n + 16348)) {
+  --cE: 1;
+}
+:has(> :nth-child(65536n + 32768)) {
+  --cF: 1;
+}
+
+:has(> :nth-child(2n):nth-last-child(-n + 2) ~ :nth-child(2n + 1)) {
+  /* background-color: green; */
+  --c0: 1;
+}
+/* +2 */
+:has(> :nth-child(4n):nth-last-child(-n + 4) ~ :nth-child(4n + 2)) {
+  /* background-color: orangered; */
+  --c1: 1;
+}
+/* +4 */
+:has(> :nth-child(8n):nth-last-child(-n + 8) ~ :nth-child(8n + 4)) {
+  /* background-color: orange; */
+  --c2: 1;
+}
+:has(> :nth-child(16n):nth-last-child(-n + 16) ~ :nth-child(16n + 8)) {
+  /* background-color: yellow; */
+  --c3: 1;
+}
+:has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
+  --c4: 1;
+}
+:has(> :nth-child(64n):nth-last-child(-n + 64) ~ :nth-child(64n + 16)) {
+  --c4: 1;
+}
+:has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
+  --c4: 1;
+}
+:has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
+  --c4: 1;
+}
+:has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
+  --c4: 1;
+}
+:has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
+  --c4: 1;
+}
+:has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
+  --c4: 1;
+}
+
+/* :not(:has(> :nth-child(16n):nth-last-child(-n+16) ~ :nth-child(16n + 8))) {
+   --c3: 0;
+ } 
+:not(:has(> :nth-child(8n):nth-last-child(-n + 8) ~ :nth-child(8n + 4))) {
+  --c2: 0;
+}*/
+
+:nth-child(2n) {
+  border: 2px solid blue;
+}
+:nth-child(2n):nth-last-child(-n + 2),
+:nth-child(4n):nth-last-child(-n + 4),
+:nth-child(8n):nth-last-child(-n + 8),
+:nth-child(16n):nth-last-child(-n + 16) {
+  border-color: cyan;
+}
+:nth-child(4n) {
+  border: 4px solid blue;
+}
+:nth-child(8n) {
+  border: 8px solid blue;
+}
+:nth-child(16n) {
+  border: 16px solid blue;
+}
+:nth-child(2n):nth-last-child(-n + 2) ~ :nth-child(2n + 1),
+:nth-child(4n):nth-last-child(-n + 4) ~ :nth-child(4n + 2),
+:nth-child(8n):nth-last-child(-n + 8) ~ :nth-child(8n + 4),
+:nth-child(16n):nth-last-child(-n + 16) ~ :nth-child(16n + 8) {
+  outline: 10px dashed limegreen;
+  border: 10px solid magenta;
+  outline-offset: -10px;
+  /*   filter: hue-rotate(-180deg); */
+}

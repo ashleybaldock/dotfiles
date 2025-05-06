@@ -8,7 +8,8 @@ let g:mayhem_loaded_visual = 1
 
 " TODO replace with <plug> and move keybind to shortcuts
 "
-vmap §v <ScriptCmd>echom GetVisualSelection()<CR>
+" vmap §v <ScriptCmd>echom GetVisualSelection()<CR>
+vnoremap <unique> <script> <Plug>MayhemGetvisualselection <ScriptCmd>echom GetVisualSelection()<CR>
 
 function! GetVisualSelection() abort
   let [_, fromrow, vcol, voff] = getpos('v')
@@ -31,22 +32,25 @@ function! GetVisualSelection() abort
   " Visual line
   if mode == 'V'
     if drows == 1
-      echom 'visual line, single row '..fromrow
+      echom '[V] 1 row:' fromrow
     else
-      echom 'visual line, '..drows..' rows '..fromrow..' -> '..torow
+      echom '[V]' drows 'rows:' fromrow '->' torow
     endif
     return lines
   endif
 
+  let fromcoords = '(' .. fromrow .. ',' .. tocol .. ')' 
+
   " Visual char
   if mode == 'v'
     if drows == 1 && dcols == 1
-      echom 'visual char, single char at ('..fromrow..','..tocol..')'
+      echom '[v] 1 char @' fromcoords
     else
       if drows == 1
-        echom 'visual char, single row '..fromrow..'['..fromcol..':'..tocol..']'
+        echom '[v] 1 row:' fromrow .. '[' .. fromcol .. ':' .. tocol .. ']'
       else
-      echom 'visual char, from row '..fromrow..'['..fromcol..':] -> '..torow..'[:'.tocol..']'
+      echom '[v]' drows 'rows:' fromrow .. '[' .. fromcol .. ':]'
+            \'->' torow .. '[:' .. tocol .. ']'
       endif
     endif
 
@@ -57,7 +61,7 @@ function! GetVisualSelection() abort
 
   " Visual area
   if mode == ''
-    echom 'visual area, '..drows..'x'..dcols..' from ('..fromrow..','..fromcol..') -> ('..torow..','.tocol..')'
+    echom '[^V]' drows .. '×' .. dcols 'chars: from' fromcoords '->' tocoords
 
     return map(lines, {_, val -> val[fromcol - 1 : tocol - (&selection == 'inclusive' ? 1 : 2)]})
   endif
@@ -65,13 +69,29 @@ endfunc
 
 
 "
+" vmap §o <ScriptCmd>call s:VisualOutline()<CR>
+"
 " Vertical (ColorColumn) for first and last column
 " Horizontal (Sign w/ line highlight) for top and bottom row
 " TODO replace with <plug> and move keybind to shortcuts
 "
-vmap §o <ScriptCmd>call s:OutlineVisualBlock()<CR>
+if !hasmapto('<Plug>MayhemVisualOutline;')
+  vnoremap <unique> <script> <Plug>MayhemVisualOutline <ScriptCmd>echom VisualOutline()<CR>
+endif
 
-function s:OutlineVisualBlock() abort
+function! s:VisualOutline() abort
+  if mode() == ''
+    return s:VisualBlockOutline()
+  " elseif mode() == 'V'
+  "   line-wise, horizontal + sign column
+  " elseif mode() == 'v'
+  "   char-wise, same basic idea as for block
+  else
+    echo 'todo visual outline for other modes'
+  endif
+endfunc
+
+function s:VisualBlockOutline() abort
   if mode() != ''
     return
   endif
@@ -86,41 +106,40 @@ function s:OutlineVisualBlock() abort
 
   exec 'setlocal colorcolumn='..x1..','..x2
 
-  if s:PlacingSignWillShiftColumns()
+  if predicates#addingSignWillShiftSignColumn()
     return
   endif
 
-  let aSign = sign_define('signvisualleft', {
-        \ 'text': '􀆒',
-        \ 'linehl': 'ColorColNormal',
+  let aSign = sign_define('signvisualleft', #{
+        \ text: '􀆒',
+        \ linehl: 'ColorColNormal',
         \})
-  let aSign = sign_define('signvisualright', {
-        \ 'text': '􀆓',
-        \ 'linehl': 'ColorColNormal',
+  let aSign = sign_define('signvisualright', #{
+        \ text: '􀆓',
+        \ linehl: 'ColorColNormal',
         \})
-  let aSign = sign_define('signvisualtop', {
-        \ 'text': '􀆐',
-        \ 'linehl': 'ColorColNormal',
-        \ 'numhl': 'ColorColNormal',
-        \ 'texthl': 'ColorColNormal',
-        \ 'culhl': 'ColorColNormal',
+  let aSign = sign_define('signvisualtop', #{
+        \ text: '􀆐',
+        \ linehl: 'ColorColNormal',
+        \ numhl: 'ColorColNormal',
+        \ texthl: 'ColorColNormal',
+        \ culhl: 'ColorColNormal',
         \})
-  let aSign = sign_define('signvisualbot', {
-        \ 'text': '􀆑',
-        \ 'linehl': 'ColorColNormal',
-        \ 'numhl': 'ColorColNormal',
-        \ 'texthl': 'ColorColNormal',
-        \ 'culhl': 'ColorColNormal',
+  let aSign = sign_define('signvisualbot', #{
+        \ text: '􀆑',
+        \ linehl: 'ColorColNormal',
+        \ numhl: 'ColorColNormal',
+        \ texthl: 'ColorColNormal',
+        \ culhl: 'ColorColNormal',
         \})
-  let aSign = sign_define('signvisualsame', {
-        \ 'text': '􂦫',
-        \ 'linehl': 'ColorColNormal',
-        \ 'numhl': 'ColorColNormal',
-        \ 'texthl': 'ColorColNormal',
-        \ 'culhl': 'ColorColNormal',
+  let aSign = sign_define('signvisualsame', #{
+        \ text: '􂦫',
+        \ linehl: 'ColorColNormal',
+        \ numhl: 'ColorColNormal',
+        \ texthl: 'ColorColNormal',
+        \ culhl: 'ColorColNormal',
         \})
   call sign_unplace('visualextentsigns')
-  " call sign_undefine('visualextentsign')
  
   if y1 == y2
     call sign_place(0, 'visualextentsigns', 'signvisualsame',
@@ -133,29 +152,6 @@ function s:OutlineVisualBlock() abort
   endif
 endfunc
 
-
-"
-" Get visibility status for the sign column in the given window
-" returns:
-"         v:true: Adding a sign will not cause window content to move
-"                  i.e. sign column already visible
-"        v:false: Adding a sign would shift window contents
-"                  i.e. sign column=no, or auto and no signs placed yet
-"              signcolumn=yes,
-"              signcolumn=auto && number of signs > 0
-"              signcolumn=number && number
-"              signcolumn=number && nonumber && number of signs > 0
-"           1 if sign column is visible 
-"
-function s:PlacingSignWillShiftColumns(winid = win_getid(winnr()))
-  let winsigncolumn = getwinvar(a:winid, '&signcolumn')
-  let winsigncount = sign_getplaced(winbufnr(winnr()), {'group':'*'})[0]['signs']->len()
-  let winnumber = getwinvar(a:winid, '&number')
-
-  return ('auto' == winsigncolumn && 0 == winsigncount)
-  \ || ('number' == winsigncolumn && 0 == winnumber && 0 == winsigncount)
-endfunc
-
 "
 " Startup for visual block highlighting
 "
@@ -163,18 +159,21 @@ function s:OnEnterVisualBlock() abort
   let &mouseshape = Remember('vV^V', '&mouseshape')..',v:crosshair'
   call Remember('^V', '&l:colorcolumn')
   call Remember('^V', '&l:cursorcolumn')
-  call Remember('^V', '&l:cursorline')
-
-  call autocmd_add([{
-        \ 'cmd': 'call s:OutlineVisualBlock()',
-        \ 'group': 'mayhem_OutlineVisualBlock',
-        \ 'event': 'CursorMoved',
-        \ 'replace': v:true
-        \}])
-
-  let &l:cursorline = 0
   let &l:cursorcolumn = 0
-  call s:OutlineVisualBlock()
+  call Remember('^V', '&l:cursorline')
+  let &l:cursorline = 0
+
+  call autocmd_add([
+        \#{
+        \ cmd: 'call s:VisualBlockOutline()',
+        \ group: 'mayhem_visual_outline',
+        \ event: 'CursorMoved',
+        \ pattern: '*',
+        \ replace: v:true
+        \}
+        \])
+
+  call s:VisualBlockOutline()
 endfunc
 
 "
@@ -182,12 +181,11 @@ endfunc
 "
 function! s:OnLeaveVisualBlock() abort
   call autocmd_delete([{
-        \ 'group': 'mayhem_OutlineVisualBlock',
+        \ 'group': 'mayhem_visual_outline',
         \ 'event': 'CursorMoved',
         \}])
 
   call sign_unplace('visualextentsigns')
-  " call sign_undefine(['signvisualsame','signvisualbot','signvisualtop'])
 
   call Restore('^V')
 endfunc

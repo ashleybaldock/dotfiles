@@ -15,7 +15,7 @@ let g:mayhem_loaded_toolbar = 1
 " ᖠ􀺸
 "   ᖢ
 "
-"
+" 􁟏 􁟐 􁟑 􁟒 􁟓 􁟔 􁟕 􁟖 􁟗 􁟘 􁟙 􁟚 􁟛
 "􀛪 􀛩 􀺶 􀺸 􀛨 􀢋
 "
 "
@@ -43,30 +43,60 @@ let g:mayhem_warn_sync_seconds = 1800
 " the key '_default'. This command should, when executed, return the toggle
 " to a state for which it has a defined next state.
 "
+"  \ ttip: 'virtualedit: ''block'' (click to set to ''insert'')',
+"  \ ttip: 'virtualedit: ''insert'' (click to set to ''none'')',
+"  \ ttip: 'virtualedit: ''none'' (click to set to ''block'')',
+"  \ ttip: 'virtualedit: ''???'' (click to set to ''block'')',
+" $'{icon} {name}: ''{currentState == '_default' ? '???' : currentState}'' (click to change to ''{nextState}'')'
+"
+"
+" exec 'an' '<silent>' SfIcon('􀝥') s:MenuNextItem()
+"       \ 'ToolBar.ReloadColorscheme'
+"       \ '<Cmd>colorscheme vividmayhem<CR>'
+" exec 'tmenu' 'ToolBar.ReloadColorscheme' '􀝥' 'Reload Colourscheme'
+"
+" exec 'an' '<silent>' SfIcon('􀺧') s:MenuNextItem()
+"       \ 'ToolBar.RestartCoc' '<Cmd>CocRestart<CR>'
+" exec 'tmenu' 'ToolBar.RestartCoc' '􀺧' 'Restart Coc'
 let g:mayhem_toolbarToggles = [
+    \ #{ name: 'Restart\ Coc',
+      \ type: 'exec',
+      \ states: #{
+        \ _default: #{
+          \ icon: '􀺧',
+          \ cmd: '<Cmd>CocRestart<CR>'
+        \ },
+      \ }
+    \ },
+    \ #{ name: 'Reload\ Colorscheme',
+      \ type: 'exec',
+      \ states: #{
+        \ _default: #{
+          \ icon: ['􀝥', 'monochrome', 1.0],
+          \ cmd: '<Cmd>colorscheme vividmayhem<CR>'
+        \ },
+      \ }
+    \ },
     \ #{ name: 'virtualedit',
       \ priority: '1.560',
       \ type: 'set',
+      \ listen: ['OptionSet', 'virtualedit'],
       \ states: #{
         \ block: #{
           \ next: '"insert"',
-          \ ttip: 'virtualedit: ''block'' (click to set to ''insert'')',
-          \ icon: 'cursorarrow.and.square.on.square.dashed'
+          \ icon: '􀮐'
         \ },
         \ insert: #{
           \ next: '"none"',
-          \ ttip: 'virtualedit: ''insert'' (click to set to ''none'')',
-          \ icon: 'filemenu.and.cursorarrow'
+          \ icon: '􀯪'
         \ },
         \ none: #{
           \ next: '"block"',
-          \ ttip: 'virtualedit: ''none'' (click to set to ''block'')',
-          \ icon: 'dots.and.line.vertical.and.cursorarrow.rectangle'
+          \ icon: '􁑢'
         \ },
         \ _default: #{
           \ next: '"block"',
-          \ ttip: 'virtualedit: ''???'' (click to set to ''block'')',
-          \ icon: 'dots.and.line.vertical.and.cursorarrow.rectangle'
+          \ icon: '􁑢'
         \ },
       \ }
     \ },
@@ -100,18 +130,18 @@ let g:mayhem_toolbarToggles = [
       \ states: #{
         \ 1: #{
           \ next: 'SynStackAuto',
-          \ ttip: '􀲴 SynStackAuto: On (click to toggle)',
-          \ icon: 'sparkles.rectangle.stack.fill'
+          \ ttip: 'SynStackAuto: On (click to toggle)',
+          \ icon: '􀲴'
         \ },
         \ 0: #{
           \ next: 'SynStackAuto',
-          \ ttip: '􀲳 SynStackAuto: Off (click to toggle)',
-          \ icon: 'sparkles.rectangle.stack'
+          \ ttip: 'SynStackAuto: Off (click to toggle)',
+          \ icon: '􀲳'
         \ },
         \ _default: #{
           \ next: 'SynStackAuto',
-          \ ttip: '􀲳 SynStackAuto: ??? (click to toggle)',
-          \ icon: 'sparkles.rectangle.stack'
+          \ ttip: 'SynStackAuto: ??? (click to toggle)',
+          \ icon: '􀲳'
         \ },
       \ },
     \ },
@@ -122,71 +152,22 @@ function! s:RemoveDynamicToolBarToggle(name)
   exec 'silent! aunmenu <silent> ToolBar.Toggle\ ' .. a:name
 endfunc
 
-" function! s:UpdateToggle(name)
-"   exec 'silent! aunmenu <silent> ToolBar.Toggle\ ' .. a:name
-
-"   exec 'let value = &g:' .. a:name
-"   let toggles =   get(g:,     'mayhem_toolbarToggles',     {})
-"   let toggle =    get(toggles, a:name,                     {})
-
-"   let priority =  get(toggle, 'priority',             '1.555')
-"   let states =    get(toggle, 'states',                    {})
-"   let state =     get(states,  value,    get(states, '*', {}))
-"   let nextvalue = get(state,  'next',                  v:null)
-"   let tooltip =   get(state,  'ttip',                      '')
-"   let icon =      get(state,  'icon', 'puzzlepiece.extension')
-
-"   if nextvalue isnot v:null
-"     exec 'an icon=' .. icon .. ' ' .. priority..
-"           \ ' ToolBar.Toggle\ ' .. a:name..
-"           \ ' :let &g:' .. a:name .. '=' .. nextvalue .. '<CR>'
-"     exec 'tmenu ToolBar.Toggle\ ' .. a:name .. ' ' .. tooltip
-"   else
-"     exec 'an icon=exclamationmark.square ' .. priority..
-"           \ ' ToolBar.Toggle\ ' .. a:name .. ' <Nop>'
-"     exec 'tmenu ToolBar.Toggle\ ' .. a:name..
-"           \ ' UpdateToggle:Err: No matching state and fallback missing'
-"   endif
-" endfunc
-
-" function! s:AddSetToggle(toggle)
-"   if exists('+' .. a:toggle.name)
-"     augroup DynamicToolBar
-"       exec 'autocmd OptionSet ' .. a:name..
-"             \ ' exec s:UpdateToggle(expand(''<amatch>''))'
-"       " exec 'autocmd OptionSet ' .. a:name .. ' call s:UpdateDynamicToolBar()'
-"     augroup END
-
-"     call s:UpdateToggle(a:name)
-"   else
-"     let toggles = get(g:, 'mayhem_toolbarToggles', {})
-"     let toggle = get(toggles, a:name, {})
-"     let priority = get(toggle, 'priority', '1.555')
-
-"     exec 'an icon=questionmark.square.dashed ' .. priority .. ' ToolBar.Toggle\ ' .. a:name .. ' <Nop>'
-"     echom 'ToolBarToggle:Err: Setting \"' .. a:name .. '" does not exist'
-"   endif
-" endfunc
-
-function! s:Icon(id, modifiers = '')
-  return 'icon=' .. SfId(a:id) .. a:modifiers
-endfunc
-
 "
 "
 " List of active/configured toggles
 let s:toggles = {}
 
 let s:defaultIcon = '􀥭'
+let s:dIconSuffix = v:none
 let s:errIcon = '􀃮'
 
 "
 "
 "
 function! s:UpdateToggle(name, priority, states, current)
-  let toggleName = ' ToolBar.Toggle\ ' .. a:name
+  let tName = ' ToolBar.Toggle\ ' .. a:name
 
-  exec 'silent! aunmenu <silent> ' .. toggleName
+  exec 'silent! aunmenu <silent> ' .. tName
 
   exec 'let curValue = &g:' .. a:name
   let toggle =    get(s:toggles, a:name,         {})
@@ -198,15 +179,16 @@ function! s:UpdateToggle(name, priority, states, current)
   let nextState = get(state,  'next',        v:null)
   let tooltip =   get(state,  'ttip',            '')
   let icon =      get(state,  'icon', s:defaultIcon)
+  let suffix =    get(state,  'ifix', s:dIconSuffix)
+  let variable =  get(state,  'ivar', s:dIconVariable)
 
   if nextState isnot v:null
-    exec ['an', s:Icon(icon), priority, toggleName,
-          \ ':let &g:' .. a:name .. '=' .. nextState .. '<CR>']->join(' ')
-    exec ['tmenu', toggleName, s:Icon(icon), tooltip]->join(' ')
+    exec 'an' SfIcon(icon, suffix) priority tName
+          \ '<Cmd>let &g:' .. a:name .. '=' .. nextState .. '<CR>'
+    exec 'tmenu' tName icon tooltip
   else
-    exec ['an ', s:Icon(s:errIcon), priority, toggleName, '<Nop>']->join(' ')
-    exec ['tmenu', toggleName, s:Icon(s:errIcon), 
-          \ 'Err:UpdateToggle: nextState missing']->join(' ')
+    exec 'an' SfIcon(s:errIcon, v:none) priority tName '<Nop>'
+    exec 'tmenu' tName s:errIcon 'Err:UpdateToggle: nextState missing'
   endif
 endfunc
 
@@ -267,14 +249,26 @@ function s:AddToggles()
 
     let s:toggles[name] = toggler
 
+  call autocmd_add([
+        \#{
+        \ event: 'User', pattern: 'GitStatusChange',
+        \ cmd: 'call s:UpdateStatus_Git(s:Status_GitId) | redraw!',
+        \ group: 'mayhem_toolbar_events', replace: v:true,
+        \},
+        \#{
+        \ event: 'SessionLoadPost', pattern: '*',
+        \ cmd: 'call s:UpdateStatus_Git(s:Status_GitId) | redraw!',
+        \ group: 'mayhem_toolbar_events', replace: v:true,
+        \},
+        \])
     augroup DynamicToolBar
       exec 'autocmd OptionSet ' .. name..
             \ ' exec s:toggles[expand(''<amatch>'')]->update()'
     augroup END
   endfor
 
-  echom DictToJson(s:toggles)
-  echom FormatJSON(DictToJson(s:toggles))
+  " echom DictToJson(s:toggles)
+  " echom FormatJSON(DictToJson(s:toggles))
 endfunc
 
 
@@ -284,58 +278,40 @@ endfunc
 "
 " Session:
 "
-function s:RemoveStatus_Session()
+function s:RemoveStatus_Session() abort
   silent! aunmenu ToolBar.Status_Session
 endfunc
 
-function s:UpdateStatus_Session(toolbarId)
+function s:UpdateStatus_Session(toolbarId) abort
   let name = 'ToolBar.' .. 'Status_Session'
   let id = a:toolbarId
-  silent! aunmenu ToolBar.Status_Session
+  exec 'silent! aunmenu' name
 
   if exists('g:loaded_obsession')
     if exists('g:this_session')
       if exists('g:this_obsession')
-        " gear.badge.checkmark
-        exec ['an icon=' .. SfId('􁅦') .. ':monochrome' ..
-              \ ' ' .. a:toolbarId ..
-              \ ' ToolBar.Status_Session' ..
-              \ ' :SessionPause<CR>'
-        exec 'tmenu ToolBar.Status_Session ' .. 
+        exec 'an' SfIcon('􁅦') id name ':SessionPause<CR>'
+        exec 'tmenu' name
               \'􁅦  Obsessing, click to pause. Session:' ..
               \ v:this_session .. ')'
-      else
-        " gear.badge.questionmark
-        exec 'an icon=' .. SfId('􁅨') .. ':multicolor' ..
-              \ ' ' .. a:toolbarId ..
-              \ ' ToolBar.Status_Session' ..
-              \ ' :SessionResume<CR>'
-        exec 'tmenu ToolBar.Status_Session ' ..
+     else
+        exec 'an' SfIcon('􁅨','multicolor') id name ':SessionResume<CR>'
+        exec 'tmenu' name
               \'􁅨  Obsession paused, click to resume  (' ..
               \ v:this_session .. ')'
       endif
     else
-      " gear.badge.xmark
-      exec 'an icon=' .. SfId('􁅧') .. ':multicolor' ..
-              \ ' ' .. a:toolbarId ..
-              \ ' ToolBar.Status_Session' ..
-              \ ' :SessionCreate<space>'
-      exec 'tmenu ToolBar.Status_Session ' .. 
-            \'􁅧  No Session, click to create one'
+      exec 'an' SfIcon('􁅧', 'multicolor') id name ':SessionCreate<space>'
+      exec 'tmenu' name '􁅧  No Session, click to create one'
     endif
   else
-    " gear 
-    exec 'an icon=' .. SfId('􀍟') ..
-              \ ' ' .. a:toolbarId ..
-              \ ' ToolBar.Status_Session' ..
-              \ ' <Nop>'
-    exec 'amenu disable ToolBar.Status_Session'
-    exec 'tmenu ToolBar.Status_Session ' ..
-          \'􀍟  Obsession not loaded.'
+    exec 'an' SfIcon('􀍟') id name '<Nop>'
+    exec 'amenu disable' name
+    exec 'tmenu' name '􀍟  Obsession not loaded.'
   endif
 endfunc
 
-function s:AddStatus_Session()
+function s:AddStatus_Session() abort
   let s:Status_SessionId = s:MenuNextItem()
   call autocmd_add([
       \#{
@@ -372,7 +348,9 @@ endfunc
 
  " 􀣔 􀱨
 function s:UpdateStatus_Git(toolbarId)
-  silent! aunmenu ToolBar.Status_Git
+  let name = 'ToolBar.' .. 'Status_Git'
+  let id = a:toolbarId
+  exec 'silent! aunmenu' name
 
   let gitinfo = GetGitInfo()
   if (gitinfo['unsynced'])
@@ -409,7 +387,7 @@ function s:AddStatus_Git()
 endfunc
 
 function s:RemoveDefaultToolBar()
-  echom 'removing default toolbar'
+  echom 'removing default toolbar...'
   silent! aunmenu ToolBar.Open
   silent! aunmenu ToolBar.Save
   silent! aunmenu ToolBar.SaveAll
@@ -434,7 +412,7 @@ function s:RemoveDefaultToolBar()
   " an ToolBar.WinSplit <Nop>
   " an ToolBar.WinVSplit <Nop>
   " an ToolBar.WinMaxWidth <Nop> 
-  " an ToolBar.WinMinWidth <Nop>  􀙱􀜞􀙲 􀙱􀝎􀙲 
+  " an ToolBar.WinMinWidth <Nop>
  
 endfunc
 
@@ -448,20 +426,28 @@ function! s:MenuBegin(menuname)
   let s:menuitem = 10
 endfunc
 
+function! s:MenuNextItem()
+  let s:menuitem = s:menuitem + 5
+  return s:menuid .. '.' .. s:menusection .. s:menuitem
+endfunc
+
+function! s:MenuItem(menuname, id=MenuNextItem())
+endfunc
+
+" 􀥤poweron
+" 􁆭 alternatingcurrent
+" 􀍠 ellipsis
+" 􀆉􀆊chevron.left,right
+" 􀆒􀆓chevron.compact.left,right
 function! s:MenuSeparator(menuname, id = s:MenuNextItem())
   let sepname = a:menuname .. '.Sep' .. s:menusection
-  exec 'an icon=' .. SfId('􀥤') .. ' ' .. a:id ..
-        \ ' ' .. sepname .. ' <Nop>'
+  exec 'an' SfIcon('􀥤') a:id sepname '<Nop>'
   exec 'amenu disable ' .. sepname
 
   let s:menusection = s:menusection + 1
   let s:menuitem = 100
 endfunc
 
-function! s:MenuNextItem()
-  let s:menuitem = s:menuitem + 5
-  return 
-endfunc
 
 "
 function! s:AddDynamicToolBar()
@@ -469,27 +455,19 @@ function! s:AddDynamicToolBar()
   call s:MenuBegin('ToolBar')
   " ---- Status Indicators ------ 100
 
-  "  Session:   􀍟 gear 􁓹.badge
-  "   Named : 􁅦.badge.checkmark    
-  "    None : 􁅧.badge.xmark        
-  "    Auto : 􁅨.badge.questionmark 
+  "  Session: 􀍟 􁓹  Named: 􁅦  None: 􁅧  Auto: 􁅨
   call s:AddStatus_Session()
 
   " Last Synced: 􀢤
   "  Git has changes and sync > 3 days ago
   "  Git has more than N unsynced changes 
-  call s:AddStatus_Git()
+  "                                          TODO 
+  " call s:AddStatus_Git()
 
   " ------------Sep-------------- 200
-  " 􀥤poweron
-  " 􁆭 alternatingcurrent
-  " 􀍠 ellipsis
-  " 􀆉􀆊chevron.left,right
-  " 􀆒􀆓chevron.compact.left,right
-  " 
+ 
   call s:MenuSeparator('ToolBar')
-  " an icon=poweron 1.210 ToolBar.Sep1   <Nop>
-  " amenu disable ToolBar.Sep1
+
   " --------- Actions ----------- 300
 
   "     Reload Pane
@@ -498,82 +476,56 @@ function! s:AddDynamicToolBar()
   "       \ <Nop>
   " tmenu ToolBar.Reload\ Pane Reload current pane
 
-  " CocRestart:
-  " 􀺧 theatermasks 􀺨 .fill
-  " 􁔘 theatermask.and.paintbrush 􁕒.fill
-  exec 'an <silent> icon=' .. SfId('􀺧') .. ' ' .. s:MenuNextItem() .. 
-          \ ' ToolBar.RestartCoc'
-          \ ' :CocRestart<CR>'
-  tmenu ToolBar.RestartCoc 􀺧  Restart Coc
+  " CocRestart:   􀺧  􀺨  􁔘 􁕒
+  exec 'an' '<silent>' SfIcon('􀺧') s:MenuNextItem()
+        \ 'ToolBar.RestartCoc' '<Cmd>CocRestart<CR>'
+  exec 'tmenu' 'ToolBar.RestartCoc' '􀺧' 'Restart Coc'
 
-  " PopupClear:
-  " 􀠳 pip 􀠴 .fill 
-  "        􀭲 .remove 􀭱 .swap 􀑧 .exit 􀑨 .enter
-  exec 'an <silent> icon=' .. SfId('􀭲') .. ' ' .. s:MenuNextItem() ..
-          \ ' ToolBar.PopupClear' .. 
-          \ ' call popup_clear()'
-  tmenu ToolBar.PopupClear 􀭲 Clear Floating Windows
+  " PopupClear: 􀠳 􀠴 􀭲 􀭱 􀑧 􀑨
+  exec 'an' '<silent>' SfIcon('􀭲') s:MenuNextItem()
+          \ 'ToolBar.PopupClear' 'call popup_clear()'
+  exec 'tmenu' 'ToolBar.PopupClear' '􀭲' 'Clear Floating Windows'
+
+  " Unused: 􀖇􀖈􀖉􁇛􁇜
+  " exec 'an' '<silent>' SfIcon('􁇛') s:MenuNextItem()
+  "         \ 'ToolBar.Unused1' '<Nop>'
 
   " Unused:
-  " 􀖇hourglass 􀖈.bottomhalf.filled 􀖉.tophalf.filled
-  "             􁇛.circle 􁇜.circle.fill
-  " an <silent> icon=hourglass.circle 1.323
-  "         \ ToolBar.Unused1 <Nop>
-
-  " Unused:
-  " 􀌬 exclamationmark.bubble 􀌭.fill
-  " 􁃒 bubble.left.and.exclamationmark.bubble.right 􁃓 .fill
-  " an <silent> icon=exclamationmark.bubble 1.324
-  "         \ ToolBar.Unused2 <Nop>
-  " an <silent> icon=gear.badge.exclamationmark 1.325
-  " an <silent> icon=gear.badge 1.325
-  "         \ ToolBar.Unused3 <Nop>
-  " 􀣋 gearshape 􀣌.fill 􀥎 .2  􀥏 .2.fill 􀺼.circle
-  "           􁐂.arrow.triangle.2.circlepath  
+  " 􀌬 􀌭 􁃒 􁃓 
+  " 􀣋 􀣌􀥎 􀥏 􀺼 􁐂
   " 􁐑 􁐑️⃞  􁐑️⃝ 
-  " icon=gearshape.arrow.triangle.2.circlepath 1.360
-  " gearshape.arrow.trianglehead.2.clockwise.rotate.90
-  exec 'an icon=' .. SfId('􀣋') .. ' ' .. s:MenuNextItem() ..
-        \ ' 1.360 ToolBar.ReloadConfig <Nop>'
-  tmenu ToolBar.ReloadConfig 􀣋 Reload config
+  exec 'an' SfIcon('􀣋') s:MenuNextItem() 'ToolBar.ReloadConfig' '<Nop>'
+  exec 'tmenu' 'ToolBar.ReloadConfig' '􀣋' 'Reload config'
 
   " 􀝥 􀝦 􀎑 􀎒 􀣶 􀣷 􁙧 􁙨
-  exec 'an <silent> icon=' .. SfId('􀝥') .. ' ' .. s:MenuNextItem() ..
-        \ ' 1.370 ToolBar.ReloadColorscheme' ..
-        \ ' :colorscheme vividmayhem'
-  tmenu ToolBar.ReloadColorscheme 􀝥 Reload Colourscheme
+  exec 'an' '<silent>' SfIcon('􀝥') s:MenuNextItem()
+        \ 'ToolBar.ReloadColorscheme'
+        \ '<Cmd>colorscheme vividmayhem<CR>'
+  exec 'tmenu' 'ToolBar.ReloadColorscheme' '􀝥' 'Reload Colourscheme'
 
   " 􀩼 􀪏 􁹛  􁹜 
-  exec 'an <silent> icon=' .. SfId('􀩼') .. ' ' .. s:MenuNextItem() ..
+  exec 'an' '<silent>' SfIcon('􀩼') s:MenuNextItem()
         \ ' 1.380 ToolBar.Terminal :terminal<CR>'
-  tmenu ToolBar.Terminal 􀩼 Open Terminal window in split
+  exec 'tmenu' 'ToolBar.Terminal' '􀩼' 'Open Terminal window in split'
 
   " 􀈕 􀈖 􀬔
-  exec 'nnoremenu icon=' .. SfId('􀈕') ..  ' ' .. s:MenuNextItem() ..
-        \ ' 1.390 ToolBar.ShowInFinder' ..
-        \ ' :silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
-  exec 'inoremenu icon=' .. SfId('􀬔') ..  ' ' .. s:MenuNextItem() ..
-        \ ' ToolBar.ShowInFinder'
-        \ ' silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
-  tmenu ToolBar.ShowInFinder 􀈕 Show current file in Finder
+  exec 'nnoremenu' SfIcon('􀈕') s:MenuNextItem()
+        \ 'ToolBar.ShowInFinder'
+        \ ':silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
+  exec 'inoremenu' SfIcon('􀬔') s:MenuNextItem()
+        \ 'ToolBar.ShowInFinder'
+        \ 'silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
+  exec 'tmenu' 'ToolBar.ShowInFinder' '􀈕' 'Show current file in Finder'
 
   " ------------Sep-------------- 400
   call s:MenuSeparator('ToolBar')
-  " exec 'an icon=' SfId('􀥤') .. ' 1.410 ToolBar.Sep2 <Nop>'
-  " amenu disable ToolBar.Sep2
   " --------- Toggles ----------- 500
 
   call s:AddToggles()
-  " call s:AddToggle('virtualedit')
-  " call s:AddToggle('delcombine')
 endfunc
 
 function! s:RemoveDynamicToolBar()
-  call autocmd_delete([
-      \#{
-      \ event: '*', group: 'mayhem_toolbar_events',
-      \},
-      \])
+  call autocmd_delete([#{ event: '*', group: 'mayhem_toolbar_events' }])
 
   " ---- Status Indicators ------ 100
   call s:RemoveStatus_Session()
@@ -594,8 +546,6 @@ function! s:RemoveDynamicToolBar()
   " --------- Toggles ----------- 500
 
   call s:RemoveToggles()
-  " call s:RemoveDynamicToolBarToggle('virtualedit')
-  " call s:RemoveDynamicToolBarToggle('delcombine')
 endfunc
 
 function! s:UpdateDynamicToolBar()
@@ -615,4 +565,56 @@ function! s:InitDynamicToolBar()
 endfunc
 
 command! DynamicToolBar call <SID>InitDynamicToolBar()
+
+
+
+
+
+
+
+" function! s:UpdateToggle(name)
+"   exec 'silent! aunmenu <silent> ToolBar.Toggle\ ' .. a:name
+
+"   exec 'let value = &g:' .. a:name
+"   let toggles =   get(g:,     'mayhem_toolbarToggles',     {})
+"   let toggle =    get(toggles, a:name,                     {})
+
+"   let priority =  get(toggle, 'priority',             '1.555')
+"   let states =    get(toggle, 'states',                    {})
+"   let state =     get(states,  value,    get(states, '*', {}))
+"   let nextvalue = get(state,  'next',                  v:null)
+"   let tooltip =   get(state,  'ttip',                      '')
+"   let icon =      get(state,  'icon', 'puzzlepiece.extension')
+
+"   if nextvalue isnot v:null
+"     exec 'an icon=' .. icon .. ' ' .. priority..
+"           \ ' ToolBar.Toggle\ ' .. a:name..
+"           \ ' :let &g:' .. a:name .. '=' .. nextvalue .. '<CR>'
+"     exec 'tmenu ToolBar.Toggle\ ' .. a:name .. ' ' .. tooltip
+"   else
+"     exec 'an icon=exclamationmark.square ' .. priority..
+"           \ ' ToolBar.Toggle\ ' .. a:name .. ' <Nop>'
+"     exec 'tmenu ToolBar.Toggle\ ' .. a:name..
+"           \ ' UpdateToggle:Err: No matching state and fallback missing'
+"   endif
+" endfunc
+
+" function! s:AddSetToggle(toggle)
+"   if exists('+' .. a:toggle.name)
+"     augroup DynamicToolBar
+"       exec 'autocmd OptionSet ' .. a:name..
+"             \ ' exec s:UpdateToggle(expand(''<amatch>''))'
+"       " exec 'autocmd OptionSet ' .. a:name .. ' call s:UpdateDynamicToolBar()'
+"     augroup END
+
+"     call s:UpdateToggle(a:name)
+"   else
+"     let toggles = get(g:, 'mayhem_toolbarToggles', {})
+"     let toggle = get(toggles, a:name, {})
+"     let priority = get(toggle, 'priority', '1.555')
+
+"     exec 'an icon=questionmark.square.dashed ' .. priority .. ' ToolBar.Toggle\ ' .. a:name .. ' <Nop>'
+"     echom 'ToolBarToggle:Err: Setting \"' .. a:name .. '" does not exist'
+"   endif
+" endfunc
 

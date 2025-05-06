@@ -25,6 +25,8 @@ Contained)  foo some bar
 
 4) --a: var(--b, calc(var(--q) + 2));
 
+5) abcbazsomestringzababc  // Conceal ends
+
 ┌ms──────────────────────────────────me┐
 │┌hs─────────┌rs─────────re┐────────he┐│
 ││ start hl  │  region hl  │ end hl   ││

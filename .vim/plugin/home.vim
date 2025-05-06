@@ -4,6 +4,19 @@ endif
 let g:mayhem_loaded_home = 1
 
 
+  call autocmd_add([
+        \#{
+        \ event: 'VimEnter', pattern: '*',
+        \ cmd: 'call s:OnVimEnter()',
+        \ group: 'mayhem_home', replace: v:true,
+        \},
+        \#{
+        \ event: 'VimLeavePre', pattern: '*',
+        \ cmd: 'call s:OnVimLeavePre()',
+        \ group: 'mayhem_home', replace: v:true,
+        \},
+        \])
+
 augroup home
   autocmd VimEnter    * nested call s:OnVimEnter()
   autocmd VimLeavePre * nested call s:OnVimLeavePre()
@@ -145,10 +158,18 @@ endfunc
 
 function! s:BindKeys()
   nnoremap <buffer><nowait><silent> i        :enew <bar> startinsert<CR>
+  nnoremap <buffer><nowait><silent> I        :enew <bar> startinsert<CR>
   nnoremap <buffer><nowait><silent> <insert> :enew <bar> startinsert<CR>
   nnoremap <buffer><nowait><silent> a        :enew <bar> startinsert<CR>
+  nnoremap <buffer><nowait><silent> A        :enew <bar> startinsert<CR>
+  nnoremap <buffer><nowait><silent> o        :enew <bar> startinsert<CR>
+  nnoremap <buffer><nowait><silent> O        :enew <bar> startinsert<CR>
   nnoremap <buffer><nowait><silent> r        :enew <bar> startinsert<CR>
   nnoremap <buffer><nowait><silent> R        :enew <bar> startinsert<CR>
+
+  nnoremap <buffer><nowait><silent> p        :enew <bar> startinsert<CR>
+  nnoremap <buffer><nowait><silent> P        :enew <bar> startinsert<CR>
+  nnoremap <buffer><nowait><silent> <D-v>    :enew <bar> "+gP<CR>
   nnoremap <buffer><nowait><silent> q1 :call <SID>OpenQuick(1)<CR>
   nnoremap <buffer><nowait><silent> q2 :call <SID>OpenQuick(2)<CR>
   nnoremap <buffer><nowait><silent> q3 :call <SID>OpenQuick(3)<CR>
@@ -196,7 +217,12 @@ function s:OnVimEnter() abort
     endif
   endif
 
-  autocmd! home VimEnter
+  call autocmd_delete([
+      \#{
+      \ event: '*', group: 'mayhem_home',
+      \},
+      \])
+  
 endfunc
 
 function s:ShowHome()

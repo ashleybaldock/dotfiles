@@ -151,39 +151,196 @@ xmap <D-/> gc
 nmap <D-M-/> gcgc
 
 
+"
+" Extra Tools Menu:
+"
+"􀥖􀩉􀥗􀩊􀥘
+" aunmenu Tools2
+an 100.310.100 Tools2.Columns.Transpose		<Cmd>TransposeRowCol<CR>
+an 100.310.200 Tools2.Columns.-sep1-	<Nop>
+an icon=align.horizontal.right 100.310.210 Tools2.Columns.Align\ Right		<Cmd>ColAlignRight<CR>
+an icon=arrow.right.to.line.compact 100.310.214 Tools2.Columns.Align\ Right\ To\ Col		<Cmd>AlignRightToColorColumn<CR>
+an 100.310.216 Tools2.Columns.Align\ Right\ To\ Cursor	<Cmd>AlignRightToCursor<CR>
+an 100.310.218 Tools2.Columns.Align\ Right\ To\		<Cmd>AlignRightToCursor<CR>
+vunmenu Tools2.Columns.Align\ Right
+vnoremenu <silent> Tools2.Columns.Align\ Right	<Cmd>ColAlignRight<CR>
+an 100.310.300 Tools2.Columns.-sep2-	<Nop>
+an icon=align.horizontal.left 100.310.320 Tools2.Columns.Align\ Left		<Cmd>ColAlignLeft<CR>
+an icon=arrow.left.to.line.compact 100.310.324 Tools2.Columns.Align\ Left\ To\ Col	<Cmd>AlignLeftToColorColumn<CR>
+an 100.310.326 Tools2.Columns.Align\ Left\ To\ Cursor	<Cmd>AlignLeftToCursor<CR>
+an 100.310.328 Tools2.Columns.Align\ Left\ To		<Cmd>AlignLeftToCursor<CR>
+an 100.310.400 Tools2.Columns.-sep3-	<Nop>
+an icon=align.horizontal.center 100.310.430 Tools2.Columns.Align\ Center		<Cmd>ColAlignCenter<CR>
 
-" HIG Cmd and Option movement mappings 
+an 100.400 Tools2.-sep1-	<Nop>
+
+an 100.400.210 Tools2.Sort.Words	<Cmd>SortWords<CR>
+an 100.400.220 Tools2.Sort.Lines	<Cmd>SortLines<CR>
+
+an 100.500 Tools2.-sep2-	<Nop>
+
+an 100.520.130 Tools2.Hi\ Hi	<Cmd>HiHi<CR>
+an 100.530.130 Tools2.Enable\ Syntax\ Reload\ On\ Write
+      \ <Cmd>au BufWritePost <buffer> syn on<CR>
+
+an 100.600 Tools2.-sep3-	<Nop>
+an icon=sparkles.rectangle.stack 100.630.130 Tools2.SynFo.Toggle\ In\ Current\ Window	<Cmd>SynFoWindowToggle<CR>
+macm Tools2.SynFo.Toggle\ In\ Current\ Window key=<D-I>
+" an 100.530.150 Tools2.SynFo.Enable\ In\ Current\ Window <Cmd>SynFoWindowOn<CR>
+" an 100.530.150 Tools2.SynFo.Disable\ In\ Current\ Window <Cmd>SynFoWindowOff<CR>
+an 100.530.170 Tools2.SynFo.Disable\ In\ All\ Windows	<Cmd>SynFoAllOff<CR>
+" macm Tools2.SynFo.Disable\ In\ All\ Windows
+an 100.530.200 Tools2.SynFo.-sep1-		<Nop>
+an 100.530.230 Tools2.SynFo.Show\ At\ Cursor	<Cmd>SynFo<CR>
+macm Tools2.SynFo.Show\ At\ Cursor key=<D-i>
+
+an 100.600 Tools2.-sep4-	<Nop>
+an 100.650.100 Tools2.Auto\ Format	<Cmd>call FormatBuffer()<CR>
+"
+" 􂠺  􂠸    􁘃 􁘅 􁘇  􁘉 􁘋 􁘍     􀟦 􀟧
+"                     
+" 􂠹  􂠷    􁘂 􁘄 􁘆  􁘈 􁘊 􁘌     􀠉 􀠊
+"
+" 􀰗  􀐗  􁐄
+" 􀐓  􀐑  􀐔  􀐒    􀎮 􀎰 􀎱 􀎯
+" 􀺉  􀺇  􀺊  􀺈  
+" 􀯮  􀯭  􀯯  􁸼   􂁟 􁺟 􁺠 􀩢􀫴􀮟􀮋􀮞􀮌􁓓􀓗􀩷 􀇷􀇵 
+" 
+" 􀟲  􀫸 􀆿  􀩲 􀐕 􀐖    􀐷 􀐸 􂮨 
+"
+" 􀏭 􀏯 􂂼  􀲳 􀢱  􀡜   
+" 􀏮 􀏰 􂂽  􀲴 􀢲  􀡝
+"           
+"
+" 􀧸 􀧹 􀩄 􀩅 􀩆 􀩇 􀞾 􀞿  􀟗  􀇸􀇹 􀙢􀙣 􀬎􀬏
+"                                                       
+" 􀝜 􀍷 􀕩 􀕪 􀕫 􀢊 􁅃 􀓞 􀧒 􂞶  􂞷  􀧙 􀜞 􀫲 􀣽 
+" 􀾘 􀕴 􀕵 􀧺 􀧻    􁊓 􀓔 􀧑 􀴥 􀭉 
+"
+" 􀀀 􀻃  􁹯  􁹮  􁹰  􁹭    􁹢   
+" 􀀁 􀻄  􀪗 􀀃 􀪖 􀀂   􁹪
+"
+" 􀋂 􀋃 􀋄 􀋇 􀋈    􀋃􀋃􀋃􀋄􀋂  􀥭 􀥮 􀤚 􀤛
+"
+" 􀂒 􀣦  􀪛 􀚔 􀪚 􀚓  􀏠 􀕰 􀕮 􀕲 􀡗
+
+"                                   
+" 􀛤 􀚕 􀚖 􁀸 􁀹 􀛣 􀾙 􀇿􀇾  􀥰 􀥱  􁀰 􁕣 􁕤 􁕥
+" 􀟉 􁀃 􁀄 􁀅 􁀆 􀟈 􀾗       􀋀 􀋁
+"
+" 􀂓 􀣧  􁒠 􁒣 􁒡 􁒢  􀘜 􀕱 􀕯 􀕳 􀡘 
+"                                   
+" 􁙠 􀷾 􁙕 􀭞 􀋲 􀋱 􀢽 􀋳 􀋴 􀣩 􀋵 􀋶 􀵬 􁖭 􀲱 􀲲
+"                                                       
+" 􀝿 􀞀 􁖖 􀋷 􀋸 􀋹 􀋺 􀋻 􀋼 􀋽 􀋾 􁘿 􁙀 􀋿
+" 
+" 􀌀 􀌁 􀌂 􀌃 􀌄 􀌅 􁉀 􁉁 􂬁  􀧎 􀵫 􀌇 􀜓
+" 
+" 􀅫 􀅓 􀅔 􀅕 􀅖 􀨡 􀅏 􀵷 􀵿 􀅐 􀅒 􀅑 􀓢 􀓡
+"
+" 􀊫 􀬸 􀒒 􀒓 􀊬 􀊭 􂈂  􀊮 􀥩 􀭥 􁇥 􁈟
+"
+" 􀥊  􂐦   􀅯  􀅰  􂐭     􀎗 􀎘 􀎙  􀍱 􀍲 􀜍 􀜎
+"                                 
+" 􀙚  􀸏 􀡅 􁇵 􀅮   􀆄 􀆅 􀸓 􀆃                         
+"                                          
+" 􀫕 􀤏 􀙊 􀍠 􀍡 􀠩 􀟂 􀟀 􀉈  􀍳 􀍴    
+" 􀫖 􀤐 􀙋       􀠪 􀟃             
+"                                              
+" 􀍺􁎴􀪐 􀍻􁎵􀪑  􀎐  􀣶􀣷   􀰬 􂀙       
+"
+   "       􀏛 􀏚     􂆅  􁚬  􀬸
+"    􀏗 􀏡 􀱥 􀱤 􀏝
+"    􀏗 􂬏  􂬗  􂧮  􂧯  􀤳 􂬑  􂧭  􂧰  􀚅
+" 􀏃 􀣤 􀿯 􀤷 􀤶 􀿰 􁎽 􀧈 􀧊 􀧌 􀇴
+"    􀏑 􀾮 􀤵 􀤴 􀾯    􀾊       
+" 􀢈       􀥟 􀥞    􀥝 􀏟    􀏣 􀏥 􀏢    
+" 􀢉    􀴊 􀨩 􀨱 􀨨       􀓛 􀛦 􂫑  􀇶
+"       􀭳 􀭴 􀭶 􀭵 
+"       􁼁  􁼅  􁼉  􁻽  􂂟  􂂣  􂬜  􀢿 􀠹 􁁀
+" 􀠳 􀠴 􀑧 􀑨 􀭱 􀭲 􀫹 􀫺 􀫻 􀫼 
+" 
+" 􀏧 􀥀 􀏩 􀾬 􀢳 􂠗  􀏫 􀑯 􀣵   􀣂  
+" 􀏨 􀤿 􀏪    􀢴    􀏬 􀑰 􂣳                               
+" 􀶣             􂠘  
+
+" 􀎠 􀎢 􀎤 􀟕 􂅦   􀙇 􀙈 􀙥 􀖀 􁅒 
+" 􀎡 􀎣 􀎥 􀟖 􂅧 
+" 􀋺􀅶
+
+
+"
+" View Menu:
+"
+" aunmenu View
+" an icon=text.badge.checkmark:hierarchical 120.200.100 View.Chars <Nop>
+an icon=checkmark 120.200.200 View.Chars.Default	<Cmd>CharsDefault<CR>
+an icon=poweron 120.200.230 View.Chars.None	<Cmd>CharsNone<CR>
+an 120.200.250 View.Chars.Minimal	<Cmd>CharsMinimal<CR>
+an 120.200.260 View.Chars.Diagnostic	<Cmd>CharsDiagnostic<CR>
+an 120.300 View.-sep1-		<Nop>
+an icon=pin 120.330 View.Marks	<Cmd>marks<CR>
+
+
+an 10.404 &File.Diff\ With\ Saved<Tab>§df	<Cmd>DiffWithSaved<CR>
+
+noremenu  20.402 &Edit.&ReSelect\ Paste<Tab>gp	gp
+noremenu  20.403 &Edit.&ReSelect\ Visual<Tab>gv	gv
+
+"
+" HIG Cmd And Option Movement Mappings:
+" This replaces the section in $VIMRUNTIME/gvimrc, which
+" is disabled via this flag in ./vimrc
+"   let macvim_hig_shift_movement = 1
+"
 if has("gui_macvim")
-" ▌️⌘️ 􁾱  ▐️────▷ Move to ends
-  noremap   <D-Up>     <C-Home>
+  "
+  " ▌️⌘️ 􁾱  ▐️ ️Move to the ends of things
+
+  " ▌️⌘️ 􁾲  ▐️────▷ Jump to top of PUM
+  noremap <D-Up> <C-Home>
+  " ▌️⌘️ 􁾲  ▐️────▷ Jump to top of PUM
+  inoremap <expr> <D-Up>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
+
+  "􀆔􁾵 
   noremap   <D-Right>  <End>
   noremap!  <D-Right>  <End>
+" Accept selection + exit PUM
+  inoremap <expr> <D-Right>  pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
+
   noremap   <D-Down>   <C-End>
+  inoremap  <D-Down>   <C-End>
+  "⬛︎▌️⬛︎ ⌘️ 􁾳  ▐️ Jump to end of PUM
+  inoremap <expr> <D-Down>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
+
   noremap   <D-Left>   <Home>
   noremap!  <D-Left>   <Home>
+  " ▌️⌘️ 􁾴  ▐️ Cancel out of PUM
+  inoremap <expr> <D-Left>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
 
-  inoremap  <D-BS>         <C-u>
-" ▌️⌘️ 􁾲  ▐️────▷ Jump to top of PUM
-  inoremap <expr> <D-Up>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-Home>"
-" ▌️⌘️ 􁾵  ▐️────▷ Accept selection + exit PUM
-  inoremap <expr> <D-Right>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-Home>"
-" ▌️⌘️ 􁾳  ▐️────▷ Jump to end of PUM
-  inoremap <expr> <D-Down>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
-" ▌️⌘️ 􁾴  ▐️────▷ Cancel out of PUM
-  inoremap <expr> <D-Left>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-Home>"
+  " ▌️⌘️  􀆛▐️ ️
+  inoremap  <D-BS> <C-u>
 
-" ▌️⌥️ 􁾱  ▐️────▷ Move in steps
+"
+" ▌️⌥️ 􀆕 􁾱  ▐️ Move (around) things in steps
+
+" ▌️⌥️ 􁾱  ▐️ Move in steps
   " noremap <M-Up> {
-  noremap <M-Right> <C-Right>
+  inoremap <M-Up> <C-o>{
+
+  noremap  <M-Right> <C-Right>
   noremap! <M-Right> <C-Right>
+
   " noremap <M-Down> }
-  noremap <M-Left> <C-Left>
+  inoremap <M-Down> <C-o>}
+
+  noremap  <M-Left> <C-Left>
   noremap! <M-Left> <C-Left>
 
   inoremap <M-BS> <C-w>
 
 " ▌️⌥️ 􁾲  ▐️────▷ Jump up a page in PUM listing
-  inoremap <expr> <M-Up> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>"
+  inoremap <expr> <M-Up> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>{"
 " ▌️⌥️ 􁾵  ▐️────▷ Select part of path in PUM + prompt for next part
   inoremap <expr> <M-Right> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-Home>"
 " ▌️⌥️ 􁾳  ▐️────▷ Jump down a page in PUM listing

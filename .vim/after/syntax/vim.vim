@@ -74,8 +74,16 @@ syn keyword vimCommand maca[ction]
 
 " Comment items
 syn region KeyCombo contained containedin=vimLineComment
-      \ start="▌️"
-      \ end="▐️"
+      \ matchgroup=KeyComboStart start="▌️"
+      \ matchgroup=KeyComboEnd end="▐️"
+      \ oneline
+syn region KeyCombo contained containedin=vimLineComment
+      \ matchgroup=KeyComboStart start="┇️"
+      \ matchgroup=KeyComboEnd end="┇️"
+      \ oneline
+syn region KeyCombo contained containedin=vimLineComment
+      \ matchgroup=KeyComboStart start="︙"
+      \ matchgroup=KeyComboEnd end="︙"
       \ oneline
 
 syn region DemoCursorRange contained containedin=vimLineComment
@@ -88,7 +96,12 @@ syn region DemoCursor contained containedin=DemoCursorRange
       \ matchgroup=Conceal start="󠁛"
       \ end="󠁝"
 
-hi def KeyCombo guifg=#3366ff guibg=#000044
+" hi def KeyCombo guifg=#f9f9f9 guibg=#2255cc gui=underdashed
+hi def KeyCombo guifg=#f9f9f9 guibg=#2255cc guisp=background gui=bold
+" hi def KeyComboEnd guibg=#2255cc guifg=background
+hi def KeyComboEnd guibg=#2255cc guifg=background gui=bold
+" hi def KeyComboStart guifg=foreground guibg=background
+hi def KeyComboStart guibg=#2255cc guifg=background gui=bold
 hi def DemoCursorRange guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
 hi def DemoCursor guifg=#000000 guibg=#cc22dd
 " hi def link DemoCursor Cursor

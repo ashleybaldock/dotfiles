@@ -368,35 +368,18 @@ endfunc
 
 " show hint for files in these folders
 " most specific is used
-if exists('$VIMHOME')
-  let g:mayhem.path_hints = {
-        \ expand('$VIMHOME/ftplugin'):       ['(️v/️f)️', ''],
-        \ expand('$VIMHOME/after/ftplugin'): ['(️v/️a/️f)️', ''],
-        \ expand('$VIMHOME/plugin'):         ['(️v/️p)️', ''],
-        \ expand('$VIMHOME/after/plugin'):   ['(️v/️a/️p)️', ''],
-        \ expand('$VIMHOME/syntax'):         ['(️v/️s)️', ':syntax'],
-        \ expand('$VIMHOME/after/syntax'):   ['(️v/️a/️s)️', ':syntax'],
-        \ expand('$VIMHOME/autoload'):       ['(️v/️autol)️', ''],
-        \ expand('$VIMHOME/colors'):         ['(️v/️cl)️', ':colors'],
-        \ expand('$VIMHOME/templates'):      ['(️v/️tp)️', ':template'],
-        \ expand('$VIMRUNTIME/syntax'):      ['$R syntax', ''],
-        \ '**/node_modules':      ['NM ', ''],
-        \ }
-else
-  let g:mayhem.path_hints = {}
+if !exists('g:mayhem_path_hints')
+  let g:mayhem_path_hints = {}
+endif
+if !exists('g:mayhem_type_ext_map')
+  let g:mayhem_type_ext_map = {}
 endif
 
-let g:mayhem.type_ext_map = {
-      \ 'javascriptreact': ['jsx'],
-      \ 'javascript': ['js'],
-      \ 'typescriptreact': ['tsx'],
-      \ 'typescript': ['ts'],
-      \ 'markdown': ['md'],
-      \ 'dosbatch': ['bat'],
-      \ }
-
 function s:GetPathHint(path)
-  return get(g:mayhem.path_hints, fnamemodify(expand(a:path), ':p:h'), ['', ''])
+  return get(g:mayhem_path_hints, fnamemodify(expand(a:path), ':p:h'), {})->get('hint', '')
+endfunc
+function s:GetPathSubtype(path)
+  return get(g:mayhem_path_hints, fnamemodify(expand(a:path), ':p:h'), {})->get('subtype', '')
 endfunc
 
 function s:PathDifference(path1, path2)
@@ -407,7 +390,7 @@ function s:TypeMatchesFilename(type, filename)
   let ext = fnamemodify(a:filename, ':e')
   let name = fnamemodify(a:filename, ':r')
   let tail = fnamemodify(a:filename, ':t')
-  let typemapping = get(g:mayhem.type_ext_map, a:type, [])
+  let typemapping = get(g:mayhem_type_ext_map, a:type, [])
 
   return a:type != '' && a:type == ext
         \ || index(typemapping, ext) >= 0
@@ -421,7 +404,8 @@ function s:Update_FileInfo()
   let diffname = getbufvar(bufnr(), 'mayhem_diff_saved', '')
   let tail = expand('%:t')
   let type = getbufvar(bufnr(), '&filetype')
-  let [pathhint, typehint] = s:GetPathHint('%')
+  let hint = s:GetPathHint('%')
+  let subtype = s:GetPathSubtype('%')
 
   if name == ''
     if &diff && diffname != ''
@@ -439,9 +423,9 @@ function s:Update_FileInfo()
     if s:TypeMatchesFilename(type, expand('%'))
       let b:mayhem.sl_cached_filename = [
         \['%{%RO()%}%#SlFNameC#', name, '.%#SlFTypExtC#',
-        \ ext, '%* ', '%{%Modified()%}', '%#SlFPathC#', pathhint, '%*']->join(''),
+        \ ext, '%* ', '%{%Modified()%}', '%#SlFPathC#', hint, '%*']->join(''),
         \['%{%RO()%}%#SlFNameN#', name, '.%#SlFTypExtN#',
-        \ ext, '%* ', '%{%Modified()%}', '%#SlFPathN#', pathhint, '%*']->join('')
+        \ ext, '%* ', '%{%Modified()%}', '%#SlFPathN#', hint, '%*']->join('')
         \]
     else
       let b:mayhem.sl_cached_filename = [
@@ -458,8 +442,8 @@ function s:Update_FileInfo()
       \ '']
   else
     let b:mayhem.sl_cached_fileinfo = [
-      \['%#SlFTyp2C#', type, typehint, '%*']->join(''),
-      \['%#SlFTyp2N#', type, typehint, '%*']->join('')
+      \['%#SlFTyp2C#', type, ':', subtype, '%*']->join(''),
+      \['%#SlFTyp2N#', type, ':', subtype, '%*']->join('')
       \]
   endif
 endfunc

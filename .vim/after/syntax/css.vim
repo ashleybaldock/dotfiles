@@ -4,6 +4,8 @@
 "
 " au BufWritePost <buffer> syn on
 "
+" See Also:
+"   ../../demo/css-regex-tests.css
 
 " TODO
 "
@@ -83,6 +85,18 @@ syn region cssFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssFunctionComma,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 
+syn match cssPowSep contained +,+ conceal cchar=^
+      \ contains=NONE
+
+syn region cssPowRegion contained concealends
+      \ matchgroup=Conceal start="(" end=")"
+      \ contains=cssPowSep,cssError,cssFunctionComma,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+
+syn region cssSqrtRegion contained concealends
+      \ matchgroup=Conceal start="(" end=")"
+      \ contains=cssError,cssFunctionComma,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+
+
 " Math operators valid inside these and nested children
 syn region cssMathFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
@@ -92,15 +106,197 @@ syn keyword cssFunctionNameVar contained conceal cchar=𐐏 var
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssFunctionRegion
 
-syn keyword cssMathFunctionName contained conceal cchar=c calc
+syn keyword cssMathFunctionName calc 
+      \ contained conceal cchar=c
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionRegion
-syn keyword cssMathFunctionName contained conceal cchar=⬇ min
+syn keyword cssMathFunctionName min 
+      \ contained conceal cchar=􂪔 
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionRegion
-syn keyword cssMathFunctionName contained conceal cchar=⬆ max
+syn keyword cssMathFunctionName max
+      \ contained conceal cchar=􂪓 
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionRegion
+" 􂲯(30)  􂲯30
+syn keyword cssMathFunctionName sqrt
+      \ contained conceal cchar=√
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssSqrtRegion
+
+syn keyword cssMathFunctionName pow
+      \ contained conceal cchar=
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssPowRegion
+
+syn match cssPowBase contained /\d\+/ contains=NONE
+      \ nextgroup=cssPowSep
+syn match cssPowSep contained /\s*,s*/ contains=NONE conceal
+      \ nextgroup=cssPowMinus,cssPow
+syn match cssPowMinus contained /-/ contains=NONE conceal cchar=⁻ nextgroup=cssPow
+syn match cssPow contained /0/ contains=NONE conceal cchar=⁰ nextgroup=cssPow
+syn match cssPow contained /1/ contains=NONE conceal cchar=¹ nextgroup=cssPow
+syn match cssPow contained /2/ contains=NONE conceal cchar=² nextgroup=cssPow
+syn match cssPow contained /3/ contains=NONE conceal cchar=³ nextgroup=cssPow
+syn match cssPow contained /4/ contains=NONE conceal cchar=⁴ nextgroup=cssPow
+syn match cssPow contained /5/ contains=NONE conceal cchar=⁵ nextgroup=cssPow
+syn match cssPow contained /6/ contains=NONE conceal cchar=⁶ nextgroup=cssPow
+syn match cssPow contained /7/ contains=NONE conceal cchar=⁷ nextgroup=cssPow
+syn match cssPow contained /8/ contains=NONE conceal cchar=⁸ nextgroup=cssPow
+syn match cssPow contained /9/ contains=NONE conceal cchar=⁹ nextgroup=cssPow
+syn region cssPowSimpleRegion contained concealends
+      \ matchgroup=Conceal start="pow(\s*" end="\s*)"
+      \ contains=cssPowBase
+syn match cssPowSimple contained +pow(\s*\(\d\+\)\s*,\s*\(\d\+\)\s*)+
+      \ contains=cssPowSimpleRegion
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+
+syn keyword cssMathFunctionName sin
+      \ contained conceal cchar=􀀨
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssMathFunctionRegion
+syn keyword cssMathFunctionName cos
+      \ contained conceal cchar=􀀈
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssMathFunctionRegion
+syn keyword cssMathFunctionName tan
+      \ contained conceal cchar=􀀪
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssMathFunctionRegion
+syn keyword cssMathFunctionName asin
+      \ contained conceal cchar=􀀩
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssMathFunctionRegion
+syn keyword cssMathFunctionName acos
+      \ contained conceal cchar=􀀉
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssMathFunctionRegion
+syn keyword cssMathFunctionName atan
+      \ contained conceal cchar=􀀫
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssMathFunctionRegion
+syn keyword cssMathFunctionName atan2
+      \ contained conceal cchar=􀂻
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssMathFunctionRegion
+"􁢏􀥄􁇝􁁀 􀐩 􂇏' 􀐪􀓗
+"􀥖􀥗􀥘
+" 􀼰􀼯􀼯 􀼯 􀼯 􀼯 􀼯 􀼯 􀼮
+" 􁥞 􁥟
+"
+" 􀂘􀂙􀂸􀂹􀂺
+"􀩈 􀩉 􀩊 􀩋 􀩌 􀩍􁆬
+"􀍳􀍴 􀎗􀩈􀥖􀩉􀥗􀩊􀥘 􁆭􁅥
+"
+" hypot(a[, b[, c]… ]) /* sqrt(pow(a)[ + pow(b)[ + pow(c)]… ]) */
+ " 􀫰 􀫱 􁹫' 􁹬' 􀍸 􀍹
+" abs()  􀡿 􁢸􁢹􁢷
+" sign()  􀛺􀅺  􀅻􀅼􀅾􀅿􀆀􂪯  􀜓
+          
+" pow(base, n)   2􀆇4 2^4 (2, 4)
+"
+" 5^var(--k)
+"
+" 􀆁􂪰 􀆂􂪱   􀆄️⃝ 􀆅️⃝ 􀃲️⃞ 􀃰️⃞ 􀃳️⃞ 
+" exp(n)    eⁿⁿⁿ e¹ e² e³ e¹⁴e¹⁵e¹⁶e⁷e⁸e⁹  /* pow(e, n) */
+" log()   
+
+" mod()   27􀘾5   mod(27, 5) = 2
+" rem()          rem(27, 5) = 2
+" round()
+
+" env()   􀆃
+" var()
+
+" calc-size()
+" calc()      􀅮
+
+" circle()         􀀀()
+" ellipse()        􀲞()
+" rect()           􀣮()
+" polygon()        􀍵() 
+" path()           􀜢()
+
+" 􀋽 􀋾 􁘿 􁙀 􀋿 􀯭 􁸼' 􀯮 􀯯
+
+" sepia()         􀜤()
+" grayscale()   􀜚
+" blur()
+" brightness()    􀆮()
+" contrast()      􁹭 ()
+" 􂱢 􂱣 􁹭 􁹮  􁹤   
+" drop-shadow()   􀨡() 􀯱() 􀯮() 􀯯()
+" hue-rotate      􁑡()  􁘯() 􁘰()
+" invert()        􀺊()
+" opacity()       􁊕()
+" saturate()
+
+" 􀠑􀠒􁇊􀈀􁹡 􁤈 􁇋 􀈁 􁘯􁘰 􁚂 􁓀 􁚃􁓁􁿌 () 􀫸() 􀆿() 􁒏()
+
+"
+" 􀻄􂁀 􂁄 􂀂 􂁈 􂁌 􂁔 􀀂 􀀃 􀪗 􀪖  􁇋􁛋 􁹢 􁹥 􁹨 􁚌
+" 􂁁 􂁅 􂀃 􂁉 􂁍 􂁕 􁹭 􁹮 􁹯 􁹰 􀝜􀍷􀠌
+" 􀵋􀵌􀯠􀵏􀵐
+
+" color-mix() 􀟗()
+" color()     􀧹()
+" linear-gradient() 􀘱􀅌() 􀊞􀘱     􀊞􁹣() 􁹤() 􁹥() 􁹦
+" conic-gradient()  􀳈􀅌() 􀊞􀳈     􀜋􀅌() 􀊞􀜋() 􀊞􀑀 􀊞􀳇  􀊞􀳈􀊞􀟼􀟻􀕲􀕳
+" radial-gradient() 􀢊􀅌() 􀊞􀢊     􀊞􀢊()    􀧺􀧻     
+" repeating-linear-gradient() 􀘱􀅌􀧐􀬑􀄾􀑹􀅈􀅉 􁹣 􁹤 􁹥 􁹦
+" repeating-conic-gradient() 􀳇􀳈
+" repeating-radial-gradient()􀢊􁊕
+syn match cssMathFunctionName /linear-gradient\>/
+      \ contained conceal cchar=􀘱
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssMathFunctionRegion
+syn match cssMathFunctionName /conic-gradient\>/
+      \ contained conceal cchar=􀳈
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssMathFunctionRegion
+syn match cssMathFunctionName /radial-gradient\>/
+      \ contained conceal cchar=􀢊
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssMathFunctionRegion
+syn match cssMathFunctionName /\<repeating-\ze\(linear\|conic\|radial\)-gradient/
+      \ contained conceal cchar=􀊞
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssMathFunctionName
+"
+syn region cssFunction contained 
+      \ start="\<\%(repeating-\|\)\%(linear-\|radial-\|conic-\)\=\gradient\s*("
+      \ end=")\@1<="
+      \ contains=cssMathFunctionName,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength,
+      \ cssFunction,cssGradientAttr,cssFunctionComma
+" counter()􁂷􀅱
+" counters()􀘽
+" symbols()
+" 􁙠 􀷾 􁙕 􀭞 􀋲 􀋱 􀢽 􀋳 􀋴 􀣩
+" 􀋵 􀋶 􀝿 􀞀 􁖖      􀅸􀅷􀅹􀄢􀁜􀅍􁑣
+"
+
+" matrix()
+" matrix3d()
+
+" repeat()   􀊞()
+" min()   􀅄()
+" max()   􀅃()  􀣊 􀆥􀆦() 􂨨 􀆏􂦩 􀐷
+" minmax()     􂪓􂪔() 􂨧  􂦪   􀐸
+" clamp()  􀰬􀎕􀟀 􂭎  􀚌 􂮨'
+              
+" paint()   􀰗 􁐄
+" palette-mix() Experimental  􀝥()
+" cross-fade()
+" device-cmyk()
+
+" perspective() 􀒱()   􀡠 􀞐 􀡛 􀞑 􀞖 􀞏
+
+" 􀎮 􀎯 􀎰 􀎱􀢇 􁱂' 􀢅 􀢆 􀑠
+" " Easing
+" linear()       􁘶()
+" cubic-bezier() 􁘳() 􀑁() 􁂥() 
+" steps()        􂆐(️)️  􀎌() 􀠕()
+" ray()                􀕧 􀕨 􀸓 􀕬 􀕭 􀝦 􁙧 􁙨
 
 syn match cssCustomPropRefDashes /--/ contained contains=NONE transparent conceal
 syn match cssCustomPropRef contained "--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)*\Z"
@@ -120,15 +316,12 @@ hi def link cssCustomPropRef cssCustomProp
 " "       \ end=")"me=e-1,he=e+2
 " "       \ contained oneline
 " "       \ contains=cssVarCustomProp,cssFunctionVar,cssValue.*,cssFunction,cssColor,cssStringQ,cssStringQQ
-syn region cssFunction contained 
-      \ matchgroup=cssFunctionName start="\<\%(repeating-\|\)\%(linear-\|radial-\|conic-\)\=\gradient\s*("
-      \ end=")"
-      \ contains=cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength,
-      \ cssFunction,cssGradientAttr,cssFunctionComma
 
 hi def link cssFunctionNameVar Conceal
 hi def link cssVarCustomProp cssCustomProp
 hi def link cssVarParens Conceal
+
+hi def cssMathFunctionName gui=bold
 
 syn case ignore
 syn keyword cssCalcKeyword contained e pi
@@ -418,14 +611,21 @@ syn match cssPer /%5[eE]/ conceal cchar=^ contained contains=NONE
 syn match cssPer /%5[fF]/ conceal cchar=_ contained contains=NONE
 
 " Concealing - hacks
-syn match specificity /:not(#i#m#p#o#r#t#a#n#t)/
-      \ conceal cchar=⬆︎ contains=NONE
+syn match specificity
+      \ /:\zenot(\_s*#\%(u#\?n#\?\)\?i#\?m#\?p#\?o#\?r#\?t#\?a#\?n#\?t\_s*)/
+      \ conceal cchar=􀣴 contains=NONE
+syn match specificity
+      \ /:\@1<=not(\_s*#\%(u#\?n#\?\)\?i#\?m#\?p#\?o#\?r#\?t#\?a#\?n#\?t\_s*)/
+      \ conceal contains=NONE
 
-" Concealing - frivolous
-"𖭰 𖭱 𖢈𖦝𖦡𐙘 𐙫 𐙪 𐊁 ﾛﾖﾘ ﾧﾡﾤ
+"     𐠀 ︎𐠅 ︎𐠐 𐠍 ︎𐠑 ︎𐠜 ︎𐠥 ︎𐠃 ︎𐠠 ︎𐠨 𐠤 ︎𐠵 𐠝 ︎ ︎𐠯𐠊𐠮𐠳 ︎ ︎𐠙 𐠞 𐠂 ︎𐠄 ︎ ︎
 "
-" 𖫓 𖫙 𖫛 𖫬 𖫢 𖫡 𖫠 𖫑 𖫧 𖨬 𖨕  𑜀 𐭱 𐭡 𐭢𐭧 𐤒 𐤂𐤋𐤋 𐣢𐣼𐣽𐣿 𐣴 𐤿 
-" ＤＤＥＦｅｉｊ｝ｦｕｕｅｅｅｅ｀;ﾪ   ∅ ⦰ ⦳ 
+" Concealing - frivolous
+"𖭰𖭱 𖦝𖦡𐙘 a𐙫n 𐙪 𐊁 ﾛﾖﾘ ﾧﾡﾤ⸠ⵋ𐠬 🔺 ⬛︎‼️ ❣️ ❗️♦️ ﹗ ！︕⭐️🔝⬆ ⬟ ⬥ ⵰⬤⵰  ⭓ ⭘  ⭆ ⭅ ⬱ ⭑ ⬝⬞
+"Ⱑ    ⍓⬆︎ ⥣ 𐢫 ‼︎❣❢ᐃ 𐠐 𐠥 𐠃 𐠠 𐠠 𐠷 𐠮𐠊 𐠝 𐠯 𐠵 𐠀 𐠤 ◥
+" 𖫓 𖫙 𖫛 𖫬 𖫢 𖫡 𖫠 𖫑 𖫧 𖨬 𖨕  𑜀 𐭱 𐭡 𐭢𐭧 𐤒 𐤂𐤋𐤋 𐣢 𐣼𐣽𐣿 𐣴 𐤿 <ⵦ  Ⱑ  ⵝ ⴳ ⴴ ⴵ ⴷⴸ ⴺⴹ
+"                              ⴱ ⵀ ⴲ ⵁ ⵔ ⵙ ⵕ ⵚ  ⴻ ⵓⴰ  ⵌ  ⵈ ⵗⵧ ⵂ⵿
+" ＤＤＥＦｅｉｊ｝ｦｕｕｅｅｅｅ｀;
 call setcellwidths([[char2nr('﹐'),char2nr('﹫'),1]])
 syn match cssUnitConc /%/ conceal cchar=﹪ transparent contained containedin=cssUnitDecorators contains=NONE
 syn match cssUnitConc /deg/ conceal cchar=° transparent contained containedin=cssUnitDecorators contains=NONE

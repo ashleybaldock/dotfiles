@@ -15,6 +15,42 @@ let g:mayhem_dir_session   = $VIMHOME..'/session'
 " See: ./plugin/templates.vim
 let g:mayhem_dir_template = $VIMHOME..'/templates'
 
+"
+" Set up folders which have special behaviour
+" See: ./plugin/statusline.vim
+"      ./plugin/templates.vim
+"
+" (path)hint: displayed next to file name in statusline
+"    subtype: sets filetype variant based on folder location, used for:
+"             - enabling extended syntax highlighting
+"             - selecting a more specific template
+"
+let g:mayhem_path_hints = {
+      \ $VIMHOME..'/ftplugin':       #{ hint: '(️v/️f)️'},
+      \ $VIMHOME..'/after/ftplugin': #{ hint: '(️v/️a/️f)️'},
+      \ $VIMHOME..'/plugin':         #{ hint: '(️v/️p)️'},
+      \ $VIMHOME..'/after/plugin':   #{ hint: '(️v/️a/️p)️'},
+      \ $VIMHOME..'/syntax':         #{ hint: '(️v/️s)️', subtype: 'syntax'},
+      \ $VIMHOME..'/after/syntax':   #{ hint: '(️v/️a/️s)️', subtype: 'syntax'},
+      \ $VIMHOME..'/autoload':       #{ hint: '(️v/️au)️', subtype: 'autoload'},
+      \ $VIMHOME..'/colors':         #{ hint: '(️v/️cl)️', subtype: 'colors'},
+      \ $VIMHOME..'/templates':      #{ hint: '(️v/️tp)️', subtype: 'template'},
+      \ $VIMRUNTIME..'/syntax':      #{ hint: '[️$️VR/️s]️', subtype: 'syntax'},
+      \ '**/node_modules':           #{ hint: '[️/️️nm/️]️'},
+      \ }
+"
+" Set up file extension to filetype mappings
+" See: ./plugin/statusline.vim
+"
+let g:mayhem_type_ext_map = #{
+      \ javascriptreact: ['jsx'],
+      \ javascript: ['js'],
+      \ typescriptreact: ['tsx'],
+      \ typescript: ['ts'],
+      \ markdown: ['md'],
+      \ dosbatch: ['bat'],
+      \ }
+
 if has("patch-8.1.0251")
   if !isdirectory(g:mayhem_dir_backup)
     echom 'backup dir ''' .. g:mayhem_dir_backup
@@ -78,6 +114,10 @@ if has('gui_running')
   let no_buffers_menu = 1
   let did_install_syntax_menu = 1
   let macvim_skip_colorscheme = 1
+  let macvim_skip_cmd_opt_movement = 1
+  if exists('macvim_hig_shift_movement')
+    unlet macvim_hig_shift_movement
+  endif
 
   colorscheme vividmayhem
 

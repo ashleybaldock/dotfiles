@@ -17,7 +17,7 @@ let g:mayhem_loaded_commands = 1
 
 " find cursor                                       TODO
 " highlight current cursor position by horizontal and vertical cursor
-command! PingCursor <Nop>
+" command! PingCursor <Nop>
 
 
 
@@ -121,16 +121,6 @@ augroup misc_commands
 augroup END
 
 
-"
-" Do User Autocmd (if anything is listening)
-"
-function DoUserAutocmd(name)
-  if exists('#User#' .. a:name)
-    exec 'doautocmd User ' .. a:name
-  endif
-endfunc
-
-command! -nargs=1 -bar DoUserAutocmd call DoUserAutocmd(<q-args>)
 
 
 

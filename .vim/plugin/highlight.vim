@@ -190,7 +190,7 @@ endfunc
 "        ⎵ 
 "      ᴿ⃞︎]          ̲̅3̲̅3̲̅2̲̅     𝟸̲̅𝟺̲̅𝟹̲̅  𝟮̲̅𝟰̲̅𝟯̲̅ 𝟣̲̅𝟥̲̅𝟧̲̅ 𝟑̲̅𝟔̲̅𝟎̲̅
 "
-          "\ ' SynStack @️ ʀ̲̅%s |ᴄ|%s ʙ𝗒%s',
+          "\ ' SynFo @️ ʀ̲̅%s |ᴄ|%s ʙ𝗒%s',
 "        𝘤𝘰𝘭 𝘳𝘰𝘸   
 "
 " ╷   ╷   ╷ 80╷
@@ -229,7 +229,7 @@ function! s:ForColor(color)
   return ['􀏃', '#333333']
 endfunc
 
-function! s:UpdateSynStackBuffer(winid)     
+function! s:UpdateSynFoBuffer(winid)     
   let bufnr = winbufnr(a:winid)
 
   " Replacement buffer contents
@@ -378,7 +378,7 @@ function! s:UpdateSynStackBuffer(winid)
 
 endfunc
 
-function s:SynStackPopupFilter(winid, key)
+function s:SynFoPopupFilter(winid, key)
   " if a:key == '<LeftMouse>'
   "   let contents = getbufline(winbufnr(a:winid), 1, '$')
   "   echom contents
@@ -389,14 +389,14 @@ function s:SynStackPopupFilter(winid, key)
     return 0
   endif
   if a:key == 'x'
-    call s:SynStackDisable()
+    call s:SynFoDisable()
     call s:SynstackSetup()
     return 1
   endif
   return 0
 endfunc
 
-function s:SynStack()
+function s:SynFo()
   if empty(popup_getpos(get(w:, 'mayhem_synstack_popid', 0)))
     let w:mayhem_synstack_popid = popup_create('', #{
           \ pos: 'topleft',
@@ -411,7 +411,7 @@ function s:SynStack()
           \ borderhighlight: ['HlPop01T','HlPop01R','HlPop01B','HlPop01L'],
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'],
           \ moved: 'any',
-          \ filter: 's:SynStackPopupFilter',
+          \ filter: 's:SynFoPopupFilter',
           \ filtermode: 'n',
           \ title: ' ★ '
           \ })
@@ -427,49 +427,66 @@ function s:SynStack()
           \ })
   endif
 
-  call s:UpdateSynStackBuffer(w:mayhem_synstack_popid)
+  call s:UpdateSynFoBuffer(w:mayhem_synstack_popid)
 endfunc
 
-command! -bar SynStack call <SID>SynStack()
+command! -bar SynFo call <SID>SynFo()
 
-command! SynStackBuf vsp|enew|call <SID>UpdateSynStackBuffer(winnr())
+command! SynFoBuf vsp|enew|call <SID>UpdateSynFoBuffer(winnr())
 
-function! s:SynStackClose(winid = win_getid()) abort
+function! s:SynFoClose(winid = win_getid()) abort
   let popid = getwinvar(winnr(a:winid), 'mayhem_synstack_popid', 0)
   if popid > 0 && !empty(popup_getpos(popid))
     call popup_close(popid)
   endif
 endfunc
 
-function! s:SynStackSetup() abort
-  augroup MayhemSynStack
+function! s:SynFoSetup() abort
+  augroup MayhemSynFo
     autocmd!
-    if exists(w:mayhem_synstack_enabled)
-      autocmd CursorHold * if w:mayhem_synstack_enabled == 1 | call s:SynStack() | else |call s:SynStackClose() | endif
+    if exists(w:mayhem_synfo_enabled)
+      autocmd CursorHold * if w:mayhem_synfo_enabled == 1 | call s:SynFo() | else |call s:SynFoClose() | endif
     endif
   augroup END
 endfunc
 
-function! s:SynStackDisable(winid = win_getid()) abort
-  call setwinvar(winnr(a:winid), 'mayhem_synstack_enabled', 0)
-  call s:SynStackSetup()
+function! s:SynFoDisableInWindow(winid = win_getid()) abort
+  call setwinvar(winnr(a:winid), 'mayhem_synfo_enabled', 0)
+  call s:SynFoSetup()
 endfunc
 
-function! s:SynStackEnable(winid = win_getid()) abort
-  call setwinvar(winnr(a:winid), 'mayhem_synstack_enabled', 1)
-  call s:SynStackSetup()
+function! s:SynFoDisableInAll() abort
+  for 
+    call setwinvar(winnr(a:winid), 'mayhem_synfo_enabled', 1)
+  call s:SynFoSetup()
 endfunc
 
-function! s:SynStackToggle(winid = win_getid()) abort
-  call setwinvar(winnr(a:winid), 'mayhem_synstack_enabled', !getwinvar(winnr(a:winid), 'mayhem_synstack_enabled', 0))
-  call s:SynStackSetup()
+function! s:SynFoEnableInWindow(winid = win_getid()) abort
+  call setwinvar(winnr(a:winid), 'mayhem_synfo_enabled', 0)
+  call s:SynFoSetup()
 endfunc
 
-command! SynStackStatus echo get(s:, 'mayhem_synstack_enabled', 0)
+function! s:SynFoToggleInWindow(winid = win_getid()) abort
+  call setwinvar(winnr(a:winid), 'mayhem_synfo_enabled',
+        \ !getwinvar(winnr(a:winid), 'mayhem_synfo_enabled', 0))
+  call s:SynFoSetup()
+endfunc
 
-command! -nargs=? SynStackAuto call <SID>SynStackEnable(<f-args>)
+function! s:SynFoToggleInWindow(winid = win_getid()) abort
+  return getwinvar(winnr(a:winid), 'mayhem_synfo_enabled', 0)
+endfunc
 
-command! -nargs=? SynStackToggle call <SID>SynStackToggle(<f-args>)
+command! -nargs=? SynFoStatus call <SID> SynFoStatus(<f-args>
+
+command! -nargs=? SynFoAuto call <SID>SynFoEnable(<f-args>)
+
+command! -nargs=? SynFoWindowOn call <SID>SynFoEnableInWindow(<f-args>)
+
+command! -nargs=? SynFoWindowOff call <SID>SynFoDisableInWindow(<f-args>)
+
+command! SynFoAllOff call <SID>SynFoDisableInAll()
+
+command! -nargs=? SynFoWindowToggle call <SID>SynFoToggle(<f-args>)
 
 command! HighlightThis hi <c-r><c-w>
 

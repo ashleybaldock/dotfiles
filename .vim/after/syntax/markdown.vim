@@ -5,6 +5,8 @@
 "
 " See Also: 
 "  $VIMRUNTIME/syntax/markdown.vim
+" Test Doc:
+"          ../../demo/markdown.md
 "
 
 

@@ -9,6 +9,19 @@ let g:mayhem_loaded_messages = 1
 "  Scriptnames: ../syntax/vimscriptnames.vim
 "
 
+function s:GetRuntimeList() abort
+  return split(&rtp, ',')[1:-1]
+endfunc
+
+function s:SplitWithRuntime() abort
+  :8new
+  let s:mayhem_runtime_winid = win_getid(winnr())
+  call append('$', s:GetRuntimeList())
+  setlocal filetype=vimscriptnames nomodified nomodifiable
+endfunc
+
+command! Runtime call s:SplitWithRuntime()
+
 function s:GetScriptnames() abort
   return execute('silent scriptnames')->split("\n")[1:-1]
 endfunc
@@ -47,7 +60,6 @@ function s:OnVimEnter(when) abort
 endfunc
 
 if v:vim_did_enter
-  echom 'messages did enter direct'
   call s:OnVimEnter('direct')
 else
   echom 'messages did enter auto'

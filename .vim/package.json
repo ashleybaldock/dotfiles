@@ -1,8 +1,9 @@
 {
-	"dependencies": {
-		"csso": "^5.0.5",
-		"csso-cli": "^4.0.2",
-		"prettier": "^3.1.1",
-		"svgo": "^3.3.2"
-	}
+  "type": "module",
+  "dependencies": {
+    "csso": "^5.0.5",
+    "csso-cli": "^4.0.2",
+    "prettier": "^3.1.1",
+    "svgo": "^3.3.2"
+  }
 }

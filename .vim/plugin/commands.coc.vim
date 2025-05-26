@@ -166,7 +166,8 @@ endfunc
 function s:OnCocOpenFloat() abort
   " w:preview_window = 1
   let cocbufnr = get(get(getwininfo(g:coc_last_float_win), 0, {}), 'bufnr', -1)
-  let name = get(get(getbufinfo(get(get(getwininfo(g:coc_last_float_win), 0, {}), 'bufnr', -1)), 0, {}), 'name', 'unknown')
+  " let name = get(get(getbufinfo(get(get(getwininfo(g:coc_last_float_win), 0, {}), 'bufnr', -1)), 0, {}), 'name', 'unknown')
+  let name = getwininfo(g:coc_last_float_win)->get(0, {})->get('bufnr', -1)->getbufinfo()->get(0, {})->get('name', 'unknown')
 
   let popOpts = popup_getoptions(g:coc_last_float_win)
   let highlight = get(popOpts, 'highlight', 'unknown')
@@ -174,6 +175,7 @@ function s:OnCocOpenFloat() abort
   if highlight == 'HlCocPuHovrBg'
     " Coc hover float
     call popup_setoptions(g:coc_last_float_win, #{
+          \ line: "cursor+1",
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
           \ padding: [0,1,0,1], 
           \ border: [1,1,1,1],
@@ -221,7 +223,7 @@ let s:modechangemap = [
       \ ['silent DoUserAutocmd MayhemDiagnosticsUpdated',  'CocDiagnosticChange'],
       \ ['silent call CocActionAsync("showSignatureHelp")', 'CocJumpPlaceholder'],
       \ ['silent call s:OnCocOpenFloat()',                        'CocOpenFloat'],
-      \ ['echom "---CocNvimInit---"',                              'CocNvimInit'],
+      \ ['silent echom "---CocNvimInit---"',                              'CocNvimInit'],
       \ ['silent call s:OnCocLocationsChange()',            'CocLocationsChange'],
       \]
 

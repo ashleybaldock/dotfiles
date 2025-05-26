@@ -6,7 +6,7 @@ import fs from 'fs';
 
 const readStdin = () => fs.readFileSync(0, 'utf-8');
 
-console.debug(
+console.log(
   optimize(
     process.argv.length > 2 ? process.argv.slice(2).join(' ') : readStdin(),
     options,

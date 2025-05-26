@@ -1,4 +1,13 @@
+"
+" TypeScript Syntax Extensions
+"
+" au BufWritePost <buffer> syn on
+"
+" See Also:
+"       $VIMRUNTIME/syntax/typescript.vim
 
+
+source <script>:p:h/common.vim
 
 syn match tsTypeOpenBracket +<+ conceal cchar=❮
       \ contained

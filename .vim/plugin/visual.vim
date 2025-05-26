@@ -106,6 +106,15 @@ function s:VisualBlockOutline() abort
 
   exec 'setlocal colorcolumn='..x1..','..x2
 
+  let aSign = sign_define('linevistop', #{
+        \ linehl: 'SignVisTop',
+        \ culhl: 'SignVisTop',
+        \})
+  let aSign = sign_define('linevisbot', #{
+        \ linehl: 'SignVisTop',
+        \ culhl: 'SignVisTop',
+        \})
+
   if predicates#addingSignWillShiftSignColumn()
     return
   endif
@@ -118,36 +127,67 @@ function s:VisualBlockOutline() abort
         \ text: '􀆓',
         \ linehl: 'ColorColNormal',
         \})
-  let aSign = sign_define('signvisualtop', #{
-        \ text: '􀆐',
-        \ linehl: 'ColorColNormal',
-        \ numhl: 'ColorColNormal',
-        \ texthl: 'ColorColNormal',
-        \ culhl: 'ColorColNormal',
+        " \ text: '􀆐',
+        " 􂨧  􂨨  􂪏  􂪑    􀄿􀅀􀄨􀄩
+        \ text: '＿',
+        " \ text: '⌃^vᵛᵥⅴⅴⅤＶｖ𝗏𝗏＾ˇ ̬ᘁ∧∨',
+  let aSign = sign_define('signvistop1', #{
+        \ text: ' ',
+        \ linehl: 'SignVisTop',
+        \ numhl: 'SignVisTop',
+        \ texthl: 'SignVisTop',
+        \ culhl: 'SignVisTop',
         \})
-  let aSign = sign_define('signvisualbot', #{
-        \ text: '􀆑',
-        \ linehl: 'ColorColNormal',
-        \ numhl: 'ColorColNormal',
-        \ texthl: 'ColorColNormal',
-        \ culhl: 'ColorColNormal',
+  let aSign = sign_define('signvistop', #{
+        \ text: '𐰯',
+        \ linehl: 'SignVisBody',
+        \ numhl: 'SignVisBody',
+        \ texthl: 'SignVisBody',
+        \ culhl: 'SignVisBody',
         \})
-  let aSign = sign_define('signvisualsame', #{
-        \ text: '􂦫',
-        \ linehl: 'ColorColNormal',
-        \ numhl: 'ColorColNormal',
-        \ texthl: 'ColorColNormal',
-        \ culhl: 'ColorColNormal',
+  let aSign = sign_define('signvisabove', #{
+        \ text: '︾',
+        \ linehl: 'SignVisBody',
+        \ numhl: 'SignVisBody',
+        \ texthl: 'SignVisBody',
+        \ culhl: 'SignVisBody',
+        \})
+  let aSign = sign_define('signvisbelow', #{
+        \ text: '︽',
+        \ linehl: 'SignVisTop',
+        \ numhl: 'SignVisTop',
+        \ texthl: 'SignVisTop',
+        \ culhl: 'SignVisTop',
+        \})
+  let aSign = sign_define('signvisbot', #{
+        \ text: '𐰞',
+        \ linehl: 'SignVisTop',
+        \ numhl: 'SignVisTop',
+        \ texthl: 'SignVisTTop',
+        \ culhl: 'SignVisTop',
+        \})
+  let aSign = sign_define('signvissame', #{
+        \ text: ' ',
+        \ linehl: 'SignVisTop',
+        \ numhl: 'SignVisTop',
+        \ texthl: 'SignVisTop',
+        \ culhl: 'SignVisTop',
         \})
   call sign_unplace('visualextentsigns')
  
+  let linebefore = min([y1,y2]) - 1
+  if linebefore > 0
+  call sign_place(0, 'visualextentsigns', 'signvistop1',
+        \ bufnr(), { 'lnum': min([y1,y2]) - 1, 'priority': 11 })
+  endif
+
   if y1 == y2
-    call sign_place(0, 'visualextentsigns', 'signvisualsame',
+    call sign_place(0, 'visualextentsigns', 'signvissame',
           \ bufnr(), { 'lnum': y1, 'priority': 11 })
   else
-    call sign_place(0, 'visualextentsigns', 'signvisualtop',
+    call sign_place(0, 'visualextentsigns', 'signvistop',
           \ bufnr(), { 'lnum': min([y1,y2]), 'priority': 11 })
-    call sign_place(0, 'visualextentsigns', 'signvisualbot',
+    call sign_place(0, 'visualextentsigns', 'signvisbot',
           \ bufnr(), { 'lnum': max([y1,y2]), 'priority': 101 })
   endif
 endfunc

@@ -1,7 +1,7 @@
 :root {
   --𝞅: 1.618;
   --𝟭∕𝞅: calc(1 / var(--𝞅));
-  --𝞅∕𝟮: var(--𝞅) / 2;
+  --𝞅∕𝟮: calc(var(--𝞅) / 2);
   --icon-fg-color: #ffffff;
   --icon-bg-color: #000000;
   --icon-border: 1;

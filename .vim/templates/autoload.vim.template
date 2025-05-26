@@ -1,0 +1,8 @@
+if exists("g:mayhem_autoloaded_%FILE:LC%") || &cp
+  finish
+endif
+let g:mayhem_autoloaded_%FILE:LC% = 1
+
+function! %FILE:LC%#myNewFunction(...) abort
+
+endfunction

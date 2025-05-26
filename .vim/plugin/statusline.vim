@@ -287,7 +287,7 @@ function s:Update_Git()
   let head = FugitiveHead()
   if empty(head)
     let b:mayhem.sl_cache_git =  [
-          \ '%#SlNotGitC#'..GetSymbol('git.notgit')..'%r',
+          \ '%#SlNotGitC#'..GetSymbol('git.notgit')..'%*',
           \ '%#SlNotGitN#'..GetSymbol('git.notgit')..'%*']
     return
   else
@@ -365,38 +365,6 @@ function ChFInfo()
         \ ['',''])[NC()]
 endfunc
 
-
-" show hint for files in these folders
-" most specific is used
-if !exists('g:mayhem_path_hints')
-  let g:mayhem_path_hints = {}
-endif
-if !exists('g:mayhem_type_ext_map')
-  let g:mayhem_type_ext_map = {}
-endif
-
-function s:GetPathHint(path)
-  return get(g:mayhem_path_hints, fnamemodify(expand(a:path), ':p:h'), {})->get('hint', '')
-endfunc
-function s:GetPathSubtype(path)
-  return get(g:mayhem_path_hints, fnamemodify(expand(a:path), ':p:h'), {})->get('subtype', '')
-endfunc
-
-function s:PathDifference(path1, path2)
-  echo fnamemodify(expand(a), ':p:h')
-endfunc
-
-function s:TypeMatchesFilename(type, filename)
-  let ext = fnamemodify(a:filename, ':e')
-  let name = fnamemodify(a:filename, ':r')
-  let tail = fnamemodify(a:filename, ':t')
-  let typemapping = get(g:mayhem_type_ext_map, a:type, [])
-
-  return a:type != '' && a:type == ext
-        \ || index(typemapping, ext) >= 0
-        \ || name == tail && index(typemapping, name) >= 0
-endfunc
-
 function s:Update_FileInfo()
   call s:SetStatusVars()
   let ext = expand('%:e')
@@ -404,8 +372,8 @@ function s:Update_FileInfo()
   let diffname = getbufvar(bufnr(), 'mayhem_diff_saved', '')
   let tail = expand('%:t')
   let type = getbufvar(bufnr(), '&filetype')
-  let hint = s:GetPathHint('%')
-  let subtype = s:GetPathSubtype('%')
+  let hint = mayhem#getHintForPath('%')
+  let subtype = mayhem#getSubtypeForPath('%')
 
   if name == ''
     if &diff && diffname != ''
@@ -420,7 +388,7 @@ function s:Update_FileInfo()
         \]
     endif
   else
-    if s:TypeMatchesFilename(type, expand('%'))
+    if mayhem#fileTypeMatchesExt(type, expand('%'))
       let b:mayhem.sl_cached_filename = [
         \['%{%RO()%}%#SlFNameC#', name, '.%#SlFTypExtC#',
         \ ext, '%* ', '%{%Modified()%}', '%#SlFPathC#', hint, '%*']->join(''),
@@ -442,8 +410,8 @@ function s:Update_FileInfo()
       \ '']
   else
     let b:mayhem.sl_cached_fileinfo = [
-      \['%#SlFTyp2C#', type, ':', subtype, '%*']->join(''),
-      \['%#SlFTyp2N#', type, ':', subtype, '%*']->join('')
+      \['%#SlFTyp2C#', type, subtype == '' ? '' : ':' .. subtype, '%*']->join(''),
+      \['%#SlFTyp2N#', type,  subtype == '' ? '' : ':' .. subtype, '%*']->join('')
       \]
   endif
 endfunc
@@ -477,10 +445,6 @@ function s:UpdateStatuslines() abort
   call s:Update_Git()
   call s:Update_Diag()
 
-  " let obsessionStatus = exists("*ObsessionStatus")
-  "       \ ? '%{ObsessionStatus("𐱃","𐠂")}' : '𑀠'
-  "
-
   "     Size:  left╺╮  ╭╸zeros
   "               %{-}{0}{minwid}.{maxwid}
   " Truncate: %< ║ %-f %< %f ┃ abcdefghi.vim < efghi.vim ┃
@@ -500,6 +464,7 @@ function s:UpdateStatuslines() abort
         \ '%#SlSepN#%=%*%<',
         \ '%{%Diffing()%}',
         \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%*%)',
+        \ '%( %#SlHintN#%{%Conceal()%}%*%)',
         \ ' %{%ChFInfo()%}',
         \ ' %{%ScrollHint()%}',
         \ ' %{%ChDiag()%}']->join('')
@@ -512,12 +477,13 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_prev'] = [
     \ '%#SlInfoC#􀬸 %-f%*%<%=%(%n %l,%c%V%) ',
     \ '%#SlInfoN#􀬸 %-f%*%<%=%(%n %l,%c%V%) ']
+
   " let g:mayhem['sl_help'] = [
   "       \ '%#SlInfoC#𝓲⃝  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
   "       \ '%#SlInfoN#𝓲⃝  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
   let g:mayhem['sl_help'] = [
-        \ '%#SlInfoC#􀉚  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(%#SlHintC# help %#SlFPathC#[️%#SlInfoC#%l%#SlFPathC#of%#SlInfoC#%L%#SlFPathC#]️%*%) ',
-        \ '%#SlInfoN#􀉚  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l of %L %*%) ']
+        \ '%#SlInfoC#􀉚  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(%#SlHintC# help %#SlFPathC#[️%#SlInfoC#%l%#SlFPathC#/️%#SlInfoC#%L%#SlFPathC#]️%*%) ',
+        \ '%#SlInfoN#􀉚  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(%#SlHintN# help %#SlFPathN#[️%#SlInfoN#%l%#SlFPathN#/️%#SlInfoN#%L%#SlFPathN#]️%*%) ']
 
   let g:mayhem['sl_term'] = [
     \ '􀩼%#SlTermC# %-f %F %t%*%<%=%(%n %l,%c%V %P%) ',
@@ -526,23 +492,35 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_messages'] = [
         \['%#SlMessIC#􀤏%* %#SlMessC#Messages%*%=',
         \ ' %{%ScrollHint()%}',
-        \ ' %#SlMessIC#􀤏%*']->join(''),
+        \ ' %#SlMessIC# %*']->join(''),
         \['%#SlMessIN#􀤏%* %#SlMessN#Messages%*%=',
         \ ' %{%ScrollHint()%}',
-        \ ' %#SlMessIN#􀤏%*']->join(''),
+        \ ' %#SlMessIN# %*']->join(''),
         \]
 
   let g:mayhem['sl_scriptnames'] = [
-        \ ['%#SlHomeLC#SF Symbols%*','%<','%=']->join(''),
-        \ ['%#SlHomeLN#SF Symbols%*','%<','%=']->join(''),
+        \['%#SlMessIC#􀤏%* %#SlMessC#Scriptnames%*%=',
+        \ ' %{%ScrollHint()%}',
+        \ ' %#SlMessIC# %*']->join(''),
+        \['%#SlMessIN#􀤏%* %#SlMessN#Scriptnames%*%=',
+        \ ' %{%ScrollHint()%}',
+        \ ' %#SlMessIN# %*']->join(''),
         \]
 
+  let g:mayhem['sl_runtime'] = [
+        \['%#SlMessIC#􀤏%* %#SlMessC#Runtime%*%=',
+        \ ' %{%ScrollHint()%}',
+        \ ' %#SlMessIC# %*']->join(''),
+        \['%#SlMessIN#􀤏%* %#SlMessN#Runtime%*%=',
+        \ ' %{%ScrollHint()%}',
+        \ ' %#SlMessIN# %*']->join(''),
+        \]
 
-  " ' ℺⃞ 🅀 𝒬⃞  ⍰ \ %%*'
   " Quickfix:
   let g:mayhem['sl_qfix'] = [
         \ '%#SlQfixC#􀩳 %*',
         \ '%#SlQfixN#􀩳 %*']
+
   " Netrw:
   let g:mayhem['sl_dir'] = [
         \ '%#SlDirC#􀈕 %-F%*%<%=%#SlDirInvC#netrw%*',
@@ -596,6 +574,11 @@ endfunc
 
 
 call autocmd_add([
+      \#{
+      \ event: ['WinResized'],
+      \ pattern: '*', cmd: 'call s:UpdateStatuslines()',
+      \ group: 'mayhem_statusline', replace: v:true,
+      \},
       \#{
       \ event: ['CursorHold','BufWinEnter','BufFilePost','EncodingChanged'],
       \ pattern: '*', cmd: 'call s:UpdateStatuslines()',

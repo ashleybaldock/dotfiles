@@ -99,9 +99,17 @@ do
         dataurl="$(echo "$optimised" | $ENCODESVG)"
         usedencoding="svgmin"
       fi
+
+    ## input type: TTF
+    elif [ "${file: -4}" == ".ttf" ]
+    then
+      detectedtype=ttf
+      base64="$(base64 -i "$arg" -o -)"
+      dataurl="url('data:font/truetype;charset=utf-8;base64,$base64')"
+      usedencoding="b64"
     fi
 
-    cssvar="--data-${name//_/-}: $dataurl;"
+    cssvar="--fontdata-${name//_/-}: $dataurl;"
 
     if [ "$detectedtype" == "unknown" ]
     then

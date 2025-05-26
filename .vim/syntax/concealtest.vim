@@ -5,6 +5,8 @@ endif
 "
 " au BufWritePost <buffer> syn on
 "
+" See Demo: ../notes/demo.concealtest
+"
 
 let s:cpo_save = &cpo
 set cpo&vim

@@ -1,11 +1,10 @@
-
 .t1 {
   --color-fg-section-header: #eee;
   --sheader-base-height: 1em;
 
   position: relative;
   color: var(--color-tab-active);
-  
+
   font-size: 16px;
   height: calc(var(--sheader-base-height) * 1.5);
   line-height: calc(var(--sheader-base-height) * 1.75);
@@ -61,18 +60,17 @@
   height: 100%;
 }
 
-
 .curve {
   content: '';
   position: absolute;
-  top: 0;
+  inset: 0;
   right: 0;
   bottom: 0;
   left: 0;
 }
 
 .container:hover {
-  border: 1px solid #f0fc;
+  /* outline: 1px solid #f0fc; */
 }
 .type-1 {
   font-variant-caps: small-caps;
@@ -85,7 +83,8 @@
   color: var(--color-fg);
   font-size: 16px;
   --color-fg: #ccc;
-  --transition-properties: color, border-color, transform, background-color, fill, stroke;
+  --transition-properties:
+    color, border-color, transform, background-color, fill, stroke;
   background-color: var(--color-bg);
   --color-bg: #1d1d1d;
   fill: var(--color-fg);

@@ -127,6 +127,9 @@ hi WarningMsg     guifg=#ff7c00 guibg=#550000
 " Hit-Enter prompt & yes/no questions
 hi Question none | hi link Question MoreMsg
 
+hi EchoText       guifg=#dddddd
+hi EchoStrong     guifg=#ffffff gui=bold
+
 hi Title          guifg=#dd22dd                       
 
 hi WildMenu       guifg=#000000 guibg=#767fff gui=bold
@@ -279,6 +282,9 @@ hi ColorColNormal guifg=NONE    guibg=#171031 gui=none
 hi ColorColBright guifg=NONE    guibg=#292243 gui=none  
 
 hi ColorColumn none | hi link ColorColumn ColorColNormal
+
+hi SignVisTop     guifg=NONE    guibg=ysignsb gui=underdotted guisp=#8888ff
+hi SignVisBody    guifg=NONE    guibg=ysignsb gui=none
 
 "
 "════════════════════════════════════════════════════════╡ Diffs

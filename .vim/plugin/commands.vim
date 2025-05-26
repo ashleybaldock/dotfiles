@@ -121,7 +121,7 @@ augroup misc_commands
 augroup END
 
 
-
+command! WinSizeInfo echo win_execute(1077, 'echo ''window with id '' .. win_getid() .. '' has '' .. (line(''w$'') - line(''w0'') + 1) .. '' of '' .. line(''$'') .. '' lines visible, cursor is on line '' .. line(''.'') .. '', w0='' .. line(''w0'') .. '' ▬▶︎ w$='' .. line(''w$'')')
 
 
 " Create a split if current buffer has modifications

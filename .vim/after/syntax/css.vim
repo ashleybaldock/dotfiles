@@ -5,6 +5,7 @@
 " au BufWritePost <buffer> syn on
 "
 " See Also:
+"       $VIMRUNTIME/syntax/css.vim
 "   ../../demo/css-regex-tests.css
 
 " TODO

@@ -17,7 +17,8 @@ let g:mayhem_dir_template = $VIMHOME..'/templates'
 
 "
 " Set up folders which have special behaviour
-" See: ./plugin/statusline.vim
+" See: ./autoload/mayhem.vim
+"      ./plugin/statusline.vim
 "      ./plugin/templates.vim
 "
 " (path)hint: displayed next to file name in statusline
@@ -26,21 +27,22 @@ let g:mayhem_dir_template = $VIMHOME..'/templates'
 "             - selecting a more specific template
 "
 let g:mayhem_path_hints = {
-      \ $VIMHOME..'/ftplugin':       #{ hint: '(️v/️f)️'},
       \ $VIMHOME..'/after/ftplugin': #{ hint: '(️v/️a/️f)️'},
-      \ $VIMHOME..'/plugin':         #{ hint: '(️v/️p)️'},
       \ $VIMHOME..'/after/plugin':   #{ hint: '(️v/️a/️p)️'},
-      \ $VIMHOME..'/syntax':         #{ hint: '(️v/️s)️', subtype: 'syntax'},
       \ $VIMHOME..'/after/syntax':   #{ hint: '(️v/️a/️s)️', subtype: 'syntax'},
       \ $VIMHOME..'/autoload':       #{ hint: '(️v/️au)️', subtype: 'autoload'},
       \ $VIMHOME..'/colors':         #{ hint: '(️v/️cl)️', subtype: 'colors'},
+      \ $VIMHOME..'/ftplugin':       #{ hint: '(️v/️f)️'},
+      \ $VIMHOME..'/plugin':         #{ hint: '(️v/️p)️'},
+      \ $VIMHOME..'/syntax':         #{ hint: '(️v/️s)️', subtype: 'syntax'},
       \ $VIMHOME..'/templates':      #{ hint: '(️v/️tp)️', subtype: 'template'},
       \ $VIMRUNTIME..'/syntax':      #{ hint: '[️$️VR/️s]️', subtype: 'syntax'},
       \ '**/node_modules':           #{ hint: '[️/️️nm/️]️'},
       \ }
 "
 " Set up file extension to filetype mappings
-" See: ./plugin/statusline.vim
+" See: ./autoload/mayhem.vim
+"      ./plugin/statusline.vim
 "
 let g:mayhem_type_ext_map = #{
       \ javascriptreact: ['jsx'],

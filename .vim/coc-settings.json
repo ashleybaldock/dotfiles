@@ -15,7 +15,7 @@
   "workspace.ignoredFiletypes": [".DS_Store", ".swo", ".swp", ".swn"],
 
   "list.signOffset": 1,
-  "list.floatPreview": true,
+  "list.floatPreview": false,
   "list.height": 10,
   "list.maxPreviewHeight": 10,
   "list.indicator": ">",
@@ -56,9 +56,9 @@
   "suggest.removeCurrentWord": false,
   "suggest.asciiCharactersOnly": false,
   "suggest.maxCompleteItemCount": 256,
-  "suggest.removeDuplicateItems": false,
+  "suggest.removeDuplicateItems": true,
   "suggest.minTriggerInputLength": 1,
-  "suggest.reversePumAboveCursor": false,
+  "suggest.reversePumAboveCursor": true,
   "suggest.triggerCompletionWait": 0,
   "suggest.languageSourcePriority": 99,
   "suggest.lowPrioritySourceLimit": 2,
@@ -96,18 +96,6 @@
     "enum": "􁂷",
     "enumMember": "􀔪",
     "struct": "􁉼"
-
-    /*
-    "Namespace":     "",
-    "Package":       "",
-
-    "Key":           "",
-    "Null":          "",
-    "Boolean":       "",
-    "Number":        "",
-    "String":        "",
-    "Array":         ""
-*/
   },
   "suggest.acceptSuggestionOnCommitCharacter": false,
   "suggest.preferCompleteThanJumpPlaceholder": false,
@@ -128,12 +116,6 @@
   "diagnostic.warningSign": "􀁞",
   "diagnostic.infoSign": "􁌴",
   "diagnostic.hintSign": "􀯌",
-  /* TODO - switch automatically
-  "diagnostic.errorSign": "✘",
-  "diagnostic.warningSign": "‼︎",
-  "diagnostic.infoSign": "𝓲",
-  "diagnostic.hintSign": "⌁",
-  */
   "diagnostic.floatConfig": {
     "border": true,
     "rounded": false,

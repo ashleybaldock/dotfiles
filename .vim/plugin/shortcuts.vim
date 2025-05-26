@@ -11,34 +11,42 @@ let g:mayhem_loaded_shortcuts = 1
 "
 " (commands/functions are defined elsewhere)
 "
-"  Option: ⌥️   (<M-x> or <A-x>)
+"  Option: 􀆕 ⌥️   (<M-x> or <A-x>)
 "  ‣ bound as resulting unicode character
 "   e.g.
-"  (option + 5)            ⌥️ 5  ──▷  ∞    :map ∞ <Nop>
-"  (option + shift + 5)  ⌥️ ⇧️ 5  ──▷  ﬁ    :map ﬁ <Nop>
+"  (option + 5)            􀆕 5  ──▷  ∞    :map ∞ <Nop>
+"  (option + shift + 5)  􀆕 ⇧️ 5  ──▷  ﬁ    :map ﬁ <Nop>
 "
-" Command: ⌘️   (<D-x>)
+" Command: 􀆔 ⌘️   (<D-x>)
 "  ‣ case-sensitive in mapping definition e.g. <D-e> != <D-E> 
 "  ‣ must be un-mapped in ../gvimrc before being redefined
 "
+"  Shift: 􀆝 ⇧️
+"
+"  Ctrl: 􀆍 ^
+"
+"  Backspace: 􀆛 ⌫
+"
+"  Space: 􁁺  ␣
+"
  
-" ▌️ ⌘️ E ▐️────▷ LH Enter
+" ▌️ 􀆔 E ▐️────▷ LH Enter
 cnoremap <D-e> <CR>
 nnoremap <D-e> <CR>
 inoremap <D-e> <CR>
 xnoremap <D-e> <CR>
 
-" ▌️ ⌥️ 1 ▐️────▷ Start a command 
+" ▌️ 􀆕 1 ▐️────▷ Start a command 
 nnoremap ¡ :
 
-" ▌️⌥️ ⇧️ 1▐️────▷ Start a shell command 
+" ▌️􀆝􀆕 1▐️────▷ Start a shell command 
 nnoremap ⁄ :!
 
-" ▌️ ⌥️ A️ ▐️────▷ Jump forward (^O)
+" ▌️ 􀆕 A️ ▐️────▷ Jump forward (^O)
 nnoremap å           <C-o>
 nnoremap <leader>o   <C-o>
 
-" ▌️ ⌥️ S️ ▐️────▷ Jump backward (^I/<Tab>)
+" ▌️ 􀆕 S️ ▐️────▷ Jump backward (^I/<Tab>)
 nnoremap ß           <C-i>
 nnoremap <leader>i   <C-i>
 
@@ -57,71 +65,71 @@ nnoremap §u\ "=GetCharCode()Pl
 
 "
 " Add Combining: 
-" ▌️ ⌥️ 0 ▐️────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝  + Re̲p̲e̲a̲t̲M̲o̲ve
+" ▌️ 􀆕 0 ▐️────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝  + Re̲p̲e̲a̲t̲M̲o̲ve
 nnoremap º a⃝ <Esc>h<Cmd>RepeatMove<CR>
 xnoremap º <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR> 
 "
-" ▌️⌥️ ⇧️ 0▐️────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞  + RepeatMove
+" ▌️􀆝􀆕 0▐️────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞  + RepeatMove
 nnoremap ‚ a⃞ <Esc>h<Cmd>RepeatMove<CR>
 xnoremap ‚ <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<CR> 
 "
-" ▌️ ⌥️ - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ + RepeatMove
+" ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ + RepeatMove
 nnoremap – a̲<Esc>h<Cmd>RepeatMove<CR>
-" ▌️ ⌥️ - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲h̲i̲t̲e̲s̲p̲a̲c̲e̲
+" ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲h̲i̲t̲e̲s̲p̲a̲c̲e̲
 xnoremap – <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
 "
-" ▌️⌥️ ⇧️ -▐️──▷ O̅v̅e̅r̅l̅i̅n̅e̅ + RepeatMove
+" ▌️􀆝􀆕 -▐️──▷ O̅v̅e̅r̅l̅i̅n̅e̅ + RepeatMove
 nnoremap — a̅<Esc>h<Cmd>RepeatMove<CR>
-" ▌️⌥️ ⇧️ -▐️──▷ Overline visual selection, skip leading/trailing whitespace
+" ▌️􀆝􀆕 -▐️──▷ Overline visual selection, skip leading/trailing whitespace
 xnoremap — <Cmd>s/\%V\%(^"\s*\)\?\S\{-}\zs.\ze\S\{-}\%(\s*)\?$/\0̅/g<CR><Cmd>nohlsearch<CR> 
 " nnoremap <plug> a꛱<Esc><Cmd>RepeatMove<CR>
 " nnoremap <plug> a꛰<Esc><Cmd>RepeatMove<CR>
 "
 " Add Variation Selector:
-" ▌️ ⌥️  =︎ ▐️──▷ ────▷ V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️ + RepeatMove
+" ▌️􀆕 =︎▐️──▷ ────▷ V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️ + RepeatMove
 nnoremap ≠ a️<Esc>h<Cmd>RepeatMove<CR>
-" ▌️ ⌥️  =︎ ▐️──▷ Add V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️  to all non-whitespace in visual area
+" ▌️􀆕 =︎▐️──▷ Add V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️  to all non-whitespace in visual area
 xnoremap ≠ <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
-" ▌️⌥️ ⇧️ =︎ ▐️──▷ V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ + RepeatMove
+" ▌️􀆝􀆕 =︎▐️──▷ V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ + RepeatMove
 nnoremap ± a︎<Esc>h<Cmd>RepeatMove<CR>
-" ▌️⌥️ ⇧️ =︎ ▐️──▷ Add V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ to all non-whitespace in visual area
+" ▌️􀆝􀆕 =︎▐️──▷ Add V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ to all non-whitespace in visual area
 xnoremap ± <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0︎/g<CR><Cmd>nohlsearch<CR> 
 
 " Remove Combining:                                                       TODO
-" ▌️ ⌥️ ⌫️  ▐️──▷ Remove first combining (as apposed to last, like x) + RepeatMove
+" ▌️􀆕 􀆛▐️──▷ Remove first combining (as apposed to last, like x) + RepeatMove
 nnoremap <M-BS> <Nop>
-" ▌️ ⌥️ ⌫️  ▐️──▷ Remove first combining from all chars in visual area
+" ▌️􀆕 􀆛▐️──▷ Remove first combining from all chars in visual area
 xnoremap <M-BS> <Nop>
-" ▌️⌥️ ⇧️ ⌫️ ▐️──▷ Remove all combining chars + RepeatMove
+" ▌️􀆝􀆕 􀆛▐️──▷ Remove all combining chars + RepeatMove
 nnoremap <M-BS> <Nop>
-" ▌️⌥️ ⇧️ ⌫️ ▐️──▷ Remove all combining chars from visual area+ RepeatMove
+" ▌️􀆝􀆕 􀆛▐️──▷ Remove all combining chars from visual area+ RepeatMove
 xnoremap <M-S-BS> <Nop>
 
 " Expand Spaces:
-" ▌️𝙣=️𝟣❙ ⌥️ ␣️  ▐️──▷ Add count 𝙣 space(s) + RepeatMove
+" ▌️𝙣=️𝟣❙   􀆕 􁁺 ▐️──▷ Add count 𝙣 space(s) + RepeatMove
 nnoremap   <Esc>h<Cmd>RepeatMove<CR>
-" ▌️𝙣=️𝟣❙⌥️ ⇧️ ␣️ ▐️──▷ Remove (up to) 𝙣 space(s) + RepeatMove
+" ▌️𝙣=️𝟣❙ 􀆝􀆕 􁁺 ▐️──▷ Remove (up to) 𝙣 space(s) + RepeatMove
 nnoremap   <Esc>h<Cmd>RepeatMove<CR>
-" ▌️𝙣=️𝟣❙ ⌥️ ␣️  ▐️──▷ Add 𝙣 space(s) after each group of \W in visual area TODO
+" ▌️𝙣=️𝟣❙   􀆕 􁁺 ▐️──▷ Add 𝙣 space(s) after each group of \W in visual area TODO
 xnoremap   <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
-" ▌️𝙣=️𝟣❙⌥️ ⇧️ ␣️ ▐️──▷ Remove (up to) 𝙣 space(s) from each \W group in visual area TODO
+" ▌️𝙣=️𝟣❙ 􀆝􀆕 􁁺 ▐️──▷ Remove (up to) 𝙣 space(s) from each \W group in visual area TODO
 xnoremap   <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
 
-" ▌️  ⌥️ E▐️──▷ Replace word with last yanked (e.g. via yiw)
+" ▌️ 􀆕 E ▐️──▷ Replace word with last yanked (e.g. via yiw)
 " nnoremap ´ ciw<c-r>0<Esc><Cmd>undojoin | yanked<CR>
 " xnoremap ´ <Cmd>exec 'normal viw"0p<CR>' | undojoin | RepeatMove
 " nnoremap ´ viw1"0gp
 nnoremap §rp caw<c-r><c-r>0 <esc>w
 " <bar> RepeatMove<CR>
-" ▌️⇧️ ⌥️ E▐️──▷ Replace character with last yanked
+" ▌️􀆝􀆕 E▐️──▷ Replace character with last yanked
 nnoremap ‰ s<c-r>0<Esc><Cmd>RepeatMove<CR>
 "
 xnoremap <expr> ∑  mode() ==# "\x16" ? "<Cmd>MoveBlockUp<CR>" : "<Cmd>move -2<CR>"
 
 " Move: Next Non-Whitespace
-" ▌️  ⌥️ L▐️────▷ Move to next non-whitespace character
+" ▌️ 􀆕 L ▐️────▷ Move to next non-whitespace character
 nnoremap ¬ <Cmd>call search('\S', 'W', line('.'))<CR>
-" ▌️  ⌥️ H▐️────▷ Move to previous non-whitespace character
+" ▌️ 􀆕 H ▐️────▷ Move to previous non-whitespace character
 nnoremap ˙ <Cmd>call search('\S', 'bW', line('.'))<CR>
 
 
@@ -251,13 +259,36 @@ nnoremap <leader>p   :CtrlP<CR>
 "
 nnoremap §se <Cmd>SessionInfo<CR>
 nnoremap <expr> §sc ':SessionCreate '..expand('%:p:h')
-nnoremap §ss <Cmd>SessionLoad 
+nnoremap §ss :SessionLoad 
 " nnoremap §s  :SessionPause<CR>
 " nnoremap §s  :SessionResume<CR>
 " nnoremap §s  :SessionDelete<CR>
 
 "
 " Window: §w - Windows & Splits
+"
+" §§w - open hint popup      􀏇
+
+" §w1 - layout 1 (columns)   􀧈
+" §w2 - layout 2 (rows)      􀧊
+" §w3 - layout 3 (bitofboth) 􀏝
+" §w4 - layout 4 (sideof)    􀱤 􀱥
+" §w5 - layout 5 (some)      􀧌
+" §w6 - layout 6 None        􀇴
+"
+" §ww - sWap with window     􁁀
+" §wq - close window         􀣤
+"
+" §wx - eXpand window        􀠹
+" §wf - Fix window size      􀢈
+"
+" layout 1,3,4
+"     - promote window (rhs) 􀥟
+"     - promote window (lhs) 􀥞
+"     layout 3
+"     - promote window (top) 􀣾
+" layout 4
+"  - promote window to main  􀥝
 " 
 nnoremap §ws <Cmd>sp<CR>
 nnoremap §wv <Cmd>vsp<CR>
@@ -343,13 +374,13 @@ xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
 " Move Lines:
 "  Normal:
 " 
-" ▌️⌥️ 􁾲  ▐️────▷ Move line up
+" ▌️􀆕 􁾲  ▐️────▷ Move line up
 nnoremap <M-Up> <Cmd>move -2<CR>
-" ▌️⌥️ 􁾳  ▐️────▷ Move line down
+" ▌️􀆕 􁾳  ▐️────▷ Move line down
 nnoremap <M-Down> <Cmd>move +1<CR>
-" ▌️ ⌥️ w ▐️──▷ Move line up
+" ▌️ 􀆕 w ▐️──▷ Move line up
 nnoremap ∑ <Cmd>move -2<CR>
-" ▌️⇧️ ⌥️ w▐️──▷ Move line down
+" ▌️⇧️ 􀆕 w▐️──▷ Move line down
 nnoremap „ <Cmd>move +1<CR>
 "
 "  Visual: (v/V)
@@ -367,10 +398,10 @@ command! -range MoveBlockDown <Nop>                   "  TODO
 "        ├╴S⃝  ──▷ Down  │  y  │  y  │
 "        ├╴A⃝  ──▷ Left  │     │  y  │
 " ╭▷  ⌥⃝ 𝄐┴╴D⃝  ──▷ Right │     │  y  │
-" ▌️⌥️ 􁾲  ▐️────▷ Move selection  up
+" ▌️􀆕 􁾲  ▐️────▷ Move selection  up
 xnoremap <expr> <D-Up> mode() ==# "\x16" ? "<Cmd>MoveBlockUp<CR>" : "<Cmd>move -2<CR>"
 xnoremap <expr> ∑  mode() ==# "\x16" ? "<Cmd>MoveBlockUp<CR>" : "<Cmd>move -2<CR>"
-" ▌️⌥️ 􁾳  ▐️────▷ Move selection down
+" ▌️􀆕 􁾳  ▐️────▷ Move selection down
 xnoremap <expr> <D-Down> mode() ==# "\x16" ? "<Cmd>MoveBlockDown<CR>" : "<Cmd>move +1<CR>"
 xnoremap <expr> „  mode() ==# "\x16" ? "<Cmd>MoveBlockDown<CR>" : "<Cmd>move +1<CR>"
 " xnoremap <expr> å  mode() ==# "\x16" ? ":MoveBlockLeft" : ":echo Try with ^V"
@@ -410,6 +441,10 @@ nnoremap §re :so<CR>
 " TODO skip any comment character at the start of the line
 "
 vmap §rr "xy:@x<CR>
+"
+" Exec Line:
+" :command! -bar -range Exe execute join(getline(<line1>,<line2>),"\n")
+"
 "
 " Source Current Line:
 " TODO prompt for confirmation if not in a vim file, or not in ~/.vim/
@@ -589,9 +624,9 @@ nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hl
 "       ./projectRoot.vim
 "
 " Normal:
-" ▌️ ⌥️ 3 ▐️────▷ Seach for word under cursor
+" ▌️ 􀆕 3 ▐️────▷ Seach for word under cursor
 nnoremap # :CdProjectRoot <bar> AckCurrentWord<CR>
-" ▌️ ⌥️ 8 ▐️────▷ Seach for word under cursor
+" ▌️ 􀆕 8 ▐️────▷ Seach for word under cursor
 nnoremap • :CdProjectRoot <bar> AckCurrentWord<CR>
 " ▌️ \'  ▐️────▷ Seach for word under cursor
 nnoremap <Leader>' :CdProjectRoot <bar> AckCurrentWord<CR>
@@ -599,9 +634,9 @@ nnoremap <Leader>' :CdProjectRoot <bar> AckCurrentWord<CR>
 nnoremap <Leader>" :CdProjectRoot <bar> AckLastSearch<CR>
 "
 " Visual:
-" ▌️ ⌥️ 3 ▐️────▷ Seach for visual selection
+" ▌️ 􀆕 3 ▐️────▷ Seach for visual selection
 xnoremap # y<ESC>:CdProjectRoot <bar> AckClipboard<CR>
-" ▌️ ⌥️ 8 ▐️────▷ Seach for visual selection
+" ▌️ 􀆕 8 ▐️────▷ Seach for visual selection
 xnoremap • y<ESC>:CdProjectRoot <bar> AckClipboard<CR>
 "
 "
@@ -617,13 +652,13 @@ xnoremap • y<ESC>:CdProjectRoot <bar> AckClipboard<CR>
 " xnoremap §r y<ESC>:%s/<c-r>"//g<Left><Left>
 " vnoremap §s "xy:%s//
 
-" ▌️ ⌥️ 2 ▐️────▷ Left-hand /
+" ▌️ 􀆕 2 ▐️────▷ Left-hand /
 nnoremap € /
 xnoremap € <ESC>/
 
-" ▌️⌥️ ⇧️ 2▐️────▷ Start new :substitute (whole buffer)
+" ▌️􀆕 ⇧️ 2▐️────▷ Start new :substitute (whole buffer)
 nnoremap ™ :%s///g<Left><Left>
-" ▌️⌥️ ⇧️ 2▐️────▷ Start new :substitute (visual area)
+" ▌️􀆕 ⇧️ 2▐️────▷ Start new :substitute (visual area)
 xnoremap ™ :s///g<Left><Left>
 
 " Or this, which uses register '/'

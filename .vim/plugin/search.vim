@@ -6,6 +6,14 @@ let g:mayhem_loaded_search = 1
 " === Ack / Search ===
 
 
+" For multi-line searches, make leading/trailing whitespace not matter
+" TODO
+"
+" Prepend  Append
+"  ^\_s*    \_s*$\_s*
+" function! s:FuzzWhitespace(search) abort
+" endfunc
+
 
 " Not: 0 1 2 3 4 5 6 7 8 9 \ " |
 "      A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 

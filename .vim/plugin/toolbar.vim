@@ -58,13 +58,20 @@ let g:mayhem_warn_sync_seconds = 1800
 " exec 'an' '<silent>' SfIcon('􀺧') s:MenuNextItem()
 "       \ 'ToolBar.RestartCoc' '<Cmd>CocRestart<CR>'
 " exec 'tmenu' 'ToolBar.RestartCoc' '􀺧' 'Restart Coc'
+"
+" name: 
+" type: 
+"
+"
+"
 let g:mayhem_toolbarToggles = [
     \ #{ name: 'Restart\ Coc',
       \ type: 'exec',
       \ states: #{
         \ _default: #{
           \ icon: '􀺧',
-          \ cmd: '<Cmd>CocRestart<CR>'
+          \ cmd: '<Cmd>CocRestart<CR>',
+          \ silent: v:true,
         \ },
       \ }
     \ },
@@ -73,11 +80,12 @@ let g:mayhem_toolbarToggles = [
       \ states: #{
         \ _default: #{
           \ icon: ['􀝥', 'monochrome', 1.0],
-          \ cmd: '<Cmd>colorscheme vividmayhem<CR>'
+          \ cmd: '<Cmd>colorscheme vividmayhem<CR>',
+          \ silent: v:true,
         \ },
       \ }
     \ },
-    \ #{ name: 'virtualedit',
+    \ #{ name: 'Virtual\ Edit',
       \ priority: '1.560',
       \ type: 'set',
       \ listen: ['OptionSet', 'virtualedit'],
@@ -101,9 +109,10 @@ let g:mayhem_toolbarToggles = [
       \ }
     \ },
     \ #{
-      \ name: 'delcombine',
+      \ name: 'Delcombine',
       \ priority: '1.570',
       \ type: 'set',
+      \ listen: ['OptionSet', 'delcombine'],
       \ states: #{
         \ 0: #{
           \ next: 1,
@@ -251,20 +260,11 @@ function s:AddToggles()
 
   call autocmd_add([
         \#{
-        \ event: 'User', pattern: 'GitStatusChange',
-        \ cmd: 'call s:UpdateStatus_Git(s:Status_GitId) | redraw!',
-        \ group: 'mayhem_toolbar_events', replace: v:true,
-        \},
-        \#{
-        \ event: 'SessionLoadPost', pattern: '*',
-        \ cmd: 'call s:UpdateStatus_Git(s:Status_GitId) | redraw!',
-        \ group: 'mayhem_toolbar_events', replace: v:true,
+        \ event: 'User', pattern: 'OptionSet',
+        \ cmd: 'exec s:toggles[expand(''<amatch>'')]->update()',
+        \ group: 'mayhem_toolbar_options', replace: v:true,
         \},
         \])
-    augroup DynamicToolBar
-      exec 'autocmd OptionSet ' .. name..
-            \ ' exec s:toggles[expand(''<amatch>'')]->update()'
-    augroup END
   endfor
 
   " echom DictToJson(s:toggles)
@@ -476,25 +476,24 @@ function! s:AddDynamicToolBar()
   "       \ <Nop>
   " tmenu ToolBar.Reload\ Pane Reload current pane
 
-  " CocRestart:   􀺧  􀺨  􁔘 􁕒
+  " CocRestart: 􀺧  􀺨  􁔘 􁕒
   exec 'an' '<silent>' SfIcon('􀺧') s:MenuNextItem()
         \ 'ToolBar.RestartCoc' '<Cmd>CocRestart<CR>'
   exec 'tmenu' 'ToolBar.RestartCoc' '􀺧' 'Restart Coc'
 
   " PopupClear: 􀠳 􀠴 􀭲 􀭱 􀑧 􀑨
   exec 'an' '<silent>' SfIcon('􀭲') s:MenuNextItem()
-          \ 'ToolBar.PopupClear' 'call popup_clear()'
+          \ 'ToolBar.PopupClear' '<Cmd>call popup_clear()<CR>'
   exec 'tmenu' 'ToolBar.PopupClear' '􀭲' 'Clear Floating Windows'
 
-  " Unused: 􀖇􀖈􀖉􁇛􁇜
+  " Unused: 􀖇􀖈􀖉􁇛 􁇜
   " exec 'an' '<silent>' SfIcon('􁇛') s:MenuNextItem()
   "         \ 'ToolBar.Unused1' '<Nop>'
 
   " Unused:
-  " 􀌬 􀌭 􁃒 􁃓 
-  " 􀣋 􀣌􀥎 􀥏 􀺼 􁐂
-  " 􁐑 􁐑️⃞  􁐑️⃝ 
-  exec 'an' SfIcon('􀣋') s:MenuNextItem() 'ToolBar.ReloadConfig' '<Nop>'
+  " 􀌬 􀌭 􁃒 􁃓  􀣋 􀣌 􀥎 􀥏 􀺼 􁐂  􁐑 􁐑️⃞ 􁐑️⃝ 
+  exec 'an' SfIcon('􀣋') s:MenuNextItem()
+        \ 'ToolBar.ReloadConfig' '<Nop>'
   exec 'tmenu' 'ToolBar.ReloadConfig' '􀣋' 'Reload config'
 
   " 􀝥 􀝦 􀎑 􀎒 􀣶 􀣷 􁙧 􁙨
@@ -505,13 +504,14 @@ function! s:AddDynamicToolBar()
 
   " 􀩼 􀪏 􁹛  􁹜 
   exec 'an' '<silent>' SfIcon('􀩼') s:MenuNextItem()
-        \ ' 1.380 ToolBar.Terminal :terminal<CR>'
+        \ 'ToolBar.Terminal'
+        \ '<Cmd>terminal<CR>'
   exec 'tmenu' 'ToolBar.Terminal' '􀩼' 'Open Terminal window in split'
 
   " 􀈕 􀈖 􀬔
   exec 'nnoremenu' SfIcon('􀈕') s:MenuNextItem()
         \ 'ToolBar.ShowInFinder'
-        \ ':silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
+        \ '<Cmd>silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
   exec 'inoremenu' SfIcon('􀬔') s:MenuNextItem()
         \ 'ToolBar.ShowInFinder'
         \ 'silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'

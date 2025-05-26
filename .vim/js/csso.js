@@ -18,10 +18,11 @@ const options /*: MinifyOptions & CompressOptions*/ = {
   clone: false,
   comments: false /* 'exclamation' | 'first-exclamation' */,
   usage: {},
-  logger: console.debug,
+  logger: console.error,
 };
 
-console.debug(
+// console.error(process.argv.slice(2).join(' '));
+console.log(
   minify(
     process.argv.length > 2 ? process.argv.slice(2).join(' ') : readStdin(),
     options,

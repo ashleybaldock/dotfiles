@@ -217,15 +217,11 @@ function s:OnVimEnter() abort
     endif
   endif
 
-  call autocmd_delete([
-      \#{
-      \ event: '*', group: 'mayhem_home',
-      \},
-      \])
+  call autocmd_delete([#{ event: '*', group: 'mayhem_home'}])
   
 endfunc
 
-function s:ShowHome()
+function s:ShowHome() abort
   " Handle vim -y, vim -M, unsaved buffer
   if (&insertmode || !&modifiable) || (!&hidden && &modified)
     return
@@ -248,7 +244,8 @@ function s:ShowHome()
         \ norelativenumber
         \ nospell
         \ noswapfile
-        \ signcolumn=no
+        \ nowrap
+        \ signcolumn=yes
         \ synmaxcol&
 
   if empty(&statusline)

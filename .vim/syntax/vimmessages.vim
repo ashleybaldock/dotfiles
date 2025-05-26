@@ -69,11 +69,17 @@ syn match vimmsgLineNr '^line\s\+\d\+.*$'
 
 syn match vimmsgWrite '^.*written$'
 
+syn region vimmsgCompile
+      \ start='^\zeFunction '
+      \ end='compiling$' contains=vimmsgCompileFn
+
+syn match vimmsgCompileFn '\%(^Function \)\@12<=\S\+' contained
 syn match vimmsgTitle '-- \w\+ Messages --' fold
 
 syn match vimmsgTitle '⁓ Fin ⁓'
 
 
+hi def vimmsgOk       guifg=#066606
 hi def vimmsgLineNr   guifg=#dddd00
 hi def vimmsgError    guifg=#dd2222
 hi def vimmsgErrNum   guifg=#000000 guibg=#ff0000 gui=bold
@@ -85,6 +91,8 @@ hi def vimmsgFnSNR    guifg=#339933
 hi def vimmsgFnSep    guifg=#393939
 hi def link vimmsgFnLn vimmsgFnSNR
 hi def link vimmsgFnName Function
+hi def link vimmsgCompileFn vimmsgFunc
+hi def link vimmsgCompile vimmsgOk
 hi def link vimmsgLastFn Function
 hi def link vimmsgTitle Comment
 

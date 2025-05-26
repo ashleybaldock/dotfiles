@@ -19,6 +19,6 @@ let g:mayhem_loaded_csso = 1
 " CSSO
 "
 " 
-command! -bar -range=% -nargs=0 CssOptimise <line1>,<line2> <Nop>
-
+command! -bar -range -nargs=? CssOptimise
+      \ :'<,'>!node '.vim/js/csso.js' 2>~/log/csso-vim.log
 

@@ -152,25 +152,36 @@ nmap <D-M-/> gcgc
 
 
 "
+" Add items to File menu
+"
+
+an <silent> 10.327.100 &File.Open\ Related.Runtime\ Syntax	    <Nop>
+an <silent> 10.327.110 &File.Open\ Related.Runtime\ FT\ Plugin	    <Nop>
+an <silent> 10.327.120 &File.Open\ Related.Runtime\ Plugin	    <Nop>
+an <silent> 10.327.130 &File.Open\ Related.Runtime\ Autoload	    <Nop>
+
+
+
+"
 " Extra Tools Menu:
 "
 "􀥖􀩉􀥗􀩊􀥘
 " aunmenu Tools2
-an 100.310.100 Tools2.Columns.Transpose		<Cmd>TransposeRowCol<CR>
-an 100.310.200 Tools2.Columns.-sep1-	<Nop>
-an icon=align.horizontal.right 100.310.210 Tools2.Columns.Align\ Right		<Cmd>ColAlignRight<CR>
-an icon=arrow.right.to.line.compact 100.310.214 Tools2.Columns.Align\ Right\ To\ Col		<Cmd>AlignRightToColorColumn<CR>
-an 100.310.216 Tools2.Columns.Align\ Right\ To\ Cursor	<Cmd>AlignRightToCursor<CR>
-an 100.310.218 Tools2.Columns.Align\ Right\ To\		<Cmd>AlignRightToCursor<CR>
-vunmenu Tools2.Columns.Align\ Right
-vnoremenu <silent> Tools2.Columns.Align\ Right	<Cmd>ColAlignRight<CR>
-an 100.310.300 Tools2.Columns.-sep2-	<Nop>
-an icon=align.horizontal.left 100.310.320 Tools2.Columns.Align\ Left		<Cmd>ColAlignLeft<CR>
-an icon=arrow.left.to.line.compact 100.310.324 Tools2.Columns.Align\ Left\ To\ Col	<Cmd>AlignLeftToColorColumn<CR>
-an 100.310.326 Tools2.Columns.Align\ Left\ To\ Cursor	<Cmd>AlignLeftToCursor<CR>
-an 100.310.328 Tools2.Columns.Align\ Left\ To		<Cmd>AlignLeftToCursor<CR>
-an 100.310.400 Tools2.Columns.-sep3-	<Nop>
-an icon=align.horizontal.center 100.310.430 Tools2.Columns.Align\ Center		<Cmd>ColAlignCenter<CR>
+an 100.310.100 Tools2.􀽴\ \ Columns.Transpose		<Cmd>TransposeRowCol<CR>
+an 100.310.200 Tools2.􀽴\ \ Columns.-sep1-	<Nop>
+an icon=align.horizontal.right 100.310.210 Tools2.􀽴\ \ Columns.Align\ Right		<Cmd>ColAlignRight<CR>
+an icon=arrow.right.to.line.compact 100.310.214 Tools2.􀽴\ \ Columns.Align\ Right\ To\ Col		<Cmd>AlignRightToColorColumn<CR>
+an 100.310.216 Tools2.􀽴\ \ Columns.Align\ Right\ To\ Cursor	<Cmd>AlignRightToCursor<CR>
+an 100.310.218 Tools2.􀽴\ \ Columns.Align\ Right\ To\		<Cmd>AlignRightToCursor<CR>
+vunmenu Tools2.􀽴\ \ Columns.Align\ Right
+vnoremenu <silent> Tools2.􀽴\ \ Columns.Align\ Right	<Cmd>ColAlignRight<CR>
+an 100.310.300 Tools2.􀽴\ \ Columns.-sep2-	<Nop>
+an icon=align.horizontal.left 100.310.320 Tools2.􀽴\ \ Columns.Align\ Left		<Cmd>ColAlignLeft<CR>
+an icon=arrow.left.to.line.compact 100.310.324 Tools2.􀽴\ \ Columns.Align\ Left\ To\ Col	<Cmd>AlignLeftToColorColumn<CR>
+an 100.310.326 Tools2.􀽴\ \ Columns.Align\ Left\ To\ Cursor	<Cmd>AlignLeftToCursor<CR>
+an 100.310.328 Tools2.􀽴\ \ Columns.Align\ Left\ To		<Cmd>AlignLeftToCursor<CR>
+an 100.310.400 Tools2.􀽴\ \ Columns.-sep3-	<Nop>
+an icon=align.horizontal.center 100.310.430 Tools2.􀽴\ \ Columns.Align\ Center		<Cmd>ColAlignCenter<CR>
 
 an 100.400 Tools2.-sep1-	<Nop>
 
@@ -179,7 +190,7 @@ an 100.400.220 Tools2.Sort.Lines	<Cmd>SortLines<CR>
 
 an 100.500 Tools2.-sep2-	<Nop>
 
-an 100.520.130 Tools2.Hi\ Hi	<Cmd>HiHi<CR>
+an icon=swatchpalette 100.520.130 Tools2.Hi\ Hi	<Cmd>HiHi<CR>
 an 100.530.130 Tools2.Enable\ Syntax\ Reload\ On\ Write
       \ <Cmd>au BufWritePost <buffer> syn on<CR>
 
@@ -202,15 +213,16 @@ an 100.650.100 Tools2.Auto\ Format	<Cmd>call FormatBuffer()<CR>
 " 􂠹  􂠷    􁘂 􁘄 􁘆  􁘈 􁘊 􁘌     􀠉 􀠊
 "
 " 􀰗  􀐗  􁐄
-" 􀐓  􀐑  􀐔  􀐒    􀎮 􀎰 􀎱 􀎯
+" 􀐓  􀐑  􀐔  􀐒    􀎮 􀎰 􀎱 􀎯  􀽴􀽵
 " 􀺉  􀺇  􀺊  􀺈  
-" 􀯮  􀯭  􀯯  􁸼   􂁟 􁺟 􁺠 􀩢􀫴􀮟􀮋􀮞􀮌􁓓􀓗􀩷 􀇷􀇵 
+" 􀯮  􀯭  􀯯  􁸼   􂁟 􁺟 􁺠 􀩢􀫴􀮋􀮞􀮟􀮌􁓓􀓗􀩷 􀇷􀇵 
 " 
 " 􀟲  􀫸 􀆿  􀩲 􀐕 􀐖    􀐷 􀐸 􂮨 
 "
 " 􀏭 􀏯 􂂼  􀲳 􀢱  􀡜   
 " 􀏮 􀏰 􂂽  􀲴 􀢲  􀡝
 "           
+"           􁕜􀼏􀹲􁕍􁕝􀼐􀺿􀹳
 "
 " 􀧸 􀧹 􀩄 􀩅 􀩆 􀩇 􀞾 􀞿  􀟗  􀇸􀇹 􀙢􀙣 􀬎􀬏
 "                                                       
@@ -225,31 +237,43 @@ an 100.650.100 Tools2.Auto\ Format	<Cmd>call FormatBuffer()<CR>
 " 􀂒 􀣦  􀪛 􀚔 􀪚 􀚓  􀏠 􀕰 􀕮 􀕲 􀡗
 
 "                                   
-" 􀛤 􀚕 􀚖 􁀸 􁀹 􀛣 􀾙 􀇿􀇾  􀥰 􀥱  􁀰 􁕣 􁕤 􁕥
-" 􀟉 􁀃 􁀄 􁀅 􁀆 􀟈 􀾗       􀋀 􀋁
+" 􀛤 􀚕 􀚖 􁀸 􁀹 􀛣    􀾙 􁀰 􁕣 􀇿􀇾  􀥰 􀥱  
+" 􀟉 􁀃 􁀄 􁀅 􁀆 􀟈 􀾗 􁕤 􁕥         􀋀 􀋁
+"
+"
+" 􀟊􀟋􁀇􁀈􁀼􁀽
+" 
+" 􀝝􀝞􁀉􁀊􁀾􁀿
+"
+" 􀶺􀶻􁀋􁀌􁀺􁀻
+"
+" 􀟆􀟇􀇺􀇻􀇼􀇽
+"
 "
 " 􀂓 􀣧  􁒠 􁒣 􁒡 􁒢  􀘜 􀕱 􀕯 􀕳 􀡘 
 "                                   
-" 􁙠 􀷾 􁙕 􀭞 􀋲 􀋱 􀢽 􀋳 􀋴 􀣩 􀋵 􀋶 􀵬 􁖭 􀲱 􀲲
+"             􀋲 􀋱 􀢽 􀣩 􀋴 􀋳 􀑬
+" 􁙠 􀷾 􁙕 􀭞 􀋲 􀋱 􀢽 􀣩 􀋴 􀋳 􀋵 􀋶 􀵬 􁖭 􀲱 􀲲
 "                                                       
 " 􀝿 􀞀 􁖖 􀋷 􀋸 􀋹 􀋺 􀋻 􀋼 􀋽 􀋾 􁘿 􁙀 􀋿
 " 
-" 􀌀 􀌁 􀌂 􀌃 􀌄 􀌅 􁉀 􁉁 􂬁  􀧎 􀵫 􀌇 􀜓
+" 􀌀 􀌁 􀌂 􀌃 􀌄 􀌅 􁉀 􁉁 􂬁  􀧎 􀵫 􀌇 􀜓 􀋺
 " 
 " 􀅫 􀅓 􀅔 􀅕 􀅖 􀨡 􀅏 􀵷 􀵿 􀅐 􀅒 􀅑 􀓢 􀓡
 "
+" 􀥊  􂐦   􀅯  􀅰  􂐭     􀎗 􀎘 􀎙  􀍱 􀍲 􀜍 􀜎
+"
 " 􀊫 􀬸 􀒒 􀒓 􀊬 􀊭 􂈂  􀊮 􀥩 􀭥 􁇥 􁈟
 "
-" 􀥊  􂐦   􀅯  􀅰  􂐭     􀎗 􀎘 􀎙  􀍱 􀍲 􀜍 􀜎
 "                                 
 " 􀙚  􀸏 􀡅 􁇵 􀅮   􀆄 􀆅 􀸓 􀆃                         
 "                                          
 " 􀫕 􀤏 􀙊 􀍠 􀍡 􀠩 􀟂 􀟀 􀉈  􀍳 􀍴    
 " 􀫖 􀤐 􀙋       􀠪 􀟃             
 "                                              
-" 􀍺􁎴􀪐 􀍻􁎵􀪑  􀎐  􀣶􀣷   􀰬 􂀙       
+" 􀍺􁎴􀪐 􀍻􁎵􀪑  􀎐  􀣶􀣷   􀰬 􂀙   􀐩 􂇏  􀐪 􀐫 􀐬    
 "
-   "       􀏛 􀏚     􂆅  􁚬  􀬸
+   "       􀏛 􀏚     􂆅  􁚬  􀬸 􀅶 􀩳 􀹆
 "    􀏗 􀏡 􀱥 􀱤 􀏝
 "    􀏗 􂬏  􂬗  􂧮  􂧯  􀤳 􂬑  􂧭  􂧰  􀚅
 " 􀏃 􀣤 􀿯 􀤷 􀤶 􀿰 􁎽 􀧈 􀧊 􀧌 􀇴
@@ -266,7 +290,10 @@ an 100.650.100 Tools2.Auto\ Format	<Cmd>call FormatBuffer()<CR>
 
 " 􀎠 􀎢 􀎤 􀟕 􂅦   􀙇 􀙈 􀙥 􀖀 􁅒 
 " 􀎡 􀎣 􀎥 􀟖 􂅧 
-" 􀋺􀅶
+" 
+" 􀑂 􀘞 􀜟 􀑃 􀙫 􁆬 􁅥  􀭭 􀭮 􁑡
+"
+" 􁙪 􁙫 􀥁 􁅊 􀏞 􀣾 􀣿 􀦍 􀣰 􀤀 􀤁 􁽸 􁽺 􁽼􁽾 􁂷 􁂸 􀏇 􀏉 􀏍 􀏋 
 
 
 "
@@ -310,7 +337,7 @@ if has("gui_macvim")
 
   noremap   <D-Down>   <C-End>
   inoremap  <D-Down>   <C-End>
-  "⬛︎▌️⬛︎ ⌘️ 􁾳  ▐️ Jump to end of PUM
+  " ▌️⌘️ 􁾳  ▐️ Jump to end of PUM
   inoremap <expr> <D-Down>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
 
   noremap   <D-Left>   <Home>
@@ -322,9 +349,9 @@ if has("gui_macvim")
   inoremap  <D-BS> <C-u>
 
 "
-" ▌️⌥️ 􀆕 􁾱  ▐️ Move (around) things in steps
+" ▌️􀆕 􁾱  ▐️ Move (around) things in steps
 
-" ▌️⌥️ 􁾱  ▐️ Move in steps
+" ▌️􀆕 􁾱  ▐️ Move in steps
   " noremap <M-Up> {
   inoremap <M-Up> <C-o>{
 
@@ -339,13 +366,13 @@ if has("gui_macvim")
 
   inoremap <M-BS> <C-w>
 
-" ▌️⌥️ 􁾲  ▐️────▷ Jump up a page in PUM listing
+" ▌️􀆕 􁾲  ▐️────▷ Jump up a page in PUM listing
   inoremap <expr> <M-Up> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>{"
-" ▌️⌥️ 􁾵  ▐️────▷ Select part of path in PUM + prompt for next part
+" ▌️􀆕 􁾵  ▐️────▷ Select part of path in PUM + prompt for next part
   inoremap <expr> <M-Right> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-Home>"
-" ▌️⌥️ 􁾳  ▐️────▷ Jump down a page in PUM listing
+" ▌️􀆕 􁾳  ▐️────▷ Jump down a page in PUM listing
   inoremap <expr> <M-Down> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
-" ▌️⌥️ 􁾴  ▐️────▷ Jump up a level in path, and reselect
+" ▌️􀆕 􁾴  ▐️────▷ Jump up a level in path, and reselect
   inoremap <expr> <M-Left> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>}"
 endif
 

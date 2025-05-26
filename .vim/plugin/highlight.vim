@@ -20,18 +20,28 @@ let s:symbol_linksto = get(g:, 'mayhem_symbol_hihi_linksto', '⫘⃗ ')
 "
 " TODO convert this to vim9script for speed
 function! s:HighlightHighlight()
-  augroup HiHi
-    autocmd!
-    autocmd ColorScheme vividmayhem call s:HighlightHighlight()
-  augroup END
+  call autocmd_add([#{
+        \ event: 'ColorScheme', pattern: 'vividmayhem',
+        \ cmd: 'call s:HighlightHighlight()',
+        \ group: 'mayhem_hihi_colorscheme_event', replace: v:true,
+        \}])
 
   let hlgroups = hlget()
 
   for hlgroup in hlgroups
-    echo hlgroup['name']
-    exec ['syn match ', hlgroup['name'], ' /\<', hlgroup['name'], '\>/',
-          \ ' contained contains=NONE containedin=VimGroupName,VimHiGroup,VimGroup']->join('')
+    " echo hlgroup['name']
+    exec 'syn match' hlgroup['name'] '/\<' .. hlgroup['name'] .. '\>/'
+          \ ' contained contains=NONE containedin=VimGroupName,VimHiGroup,VimGroup'
   endfor
+endfunc
+
+function! s:NoHighlightHighlight()
+  call autocmd_delete([#{
+        \ event: 'ColorScheme', pattern: 'vividmayhem',
+        \ group: 'mayhem_hihi_colorscheme_event',
+        \}])
+
+  syn enable
 endfunc
 
 
@@ -61,8 +71,8 @@ function! s:GetCharacterInfo()
   let char = char2nr(getline('.')[col('.')-1:-1])->nr2char()
   let output = 'No Char Info'
 
-  if IsSfSymbol(char)
-    let info = GetSfSymbolInfo(char)
+  let info = GetSfSymbolInfo(char)
+  if info.IsValid()
     let output = ''..info['symbol']..
           \ ' '..info['code']..
           \ ' '..info['name']..' (SFSymbol)'
@@ -309,16 +319,8 @@ function! s:UpdateSynFoBuffer(winid)
     " Stack:
     for val in reverse(stack)
       let res = ""
-      if (get(val, 'cleared'))
-        let res = 'ᴄ' .. res
-      else
-        let res = ' ' .. res
-      endif
-      if (get(val, 'default'))
-        let res = 'ᴅ' .. res
-      else
-        let res = ' ' .. res
-      endif
+      let res = (get(val, 'cleared') ? 'ᴄ' : ' ') .. res
+      let res = (get(val, 'default') ? 'ᴅ' : ' ') .. res
     " Id:
       let res = res .. printf('%5S: ', val.id)
     " Hide intermediate links in chain to save space?       TODO
@@ -326,9 +328,9 @@ function! s:UpdateSynFoBuffer(winid)
         let chain = s:GetLinkChain(val.name)
         let matchids = mapnew(chain,
               \ {i, link -> 
-              \  win_execute(a:winid,
-              \   'call matchadd('''..link..''', ''\<'..link..'\>'')'  )})
-        let res = res .. join(chain, ' '..s:symbol_linksto..' ')
+              \  win_execute(a:winid, 'call matchadd('''
+              \  .. link .. ''', ''\<' .. link .. '\>'')'  )})
+        let res = res .. join(chain, ' ' .. s:symbol_linksto ..' ')
       else
         let res = res .. val.name
       endif
@@ -385,9 +387,8 @@ function s:SynFoPopupFilter(winid, key)
   "   :vsp|enew|call map(contents, {_, val -> appendbufline(bufnr(), 1, val) })|setlocal nomodified nomodifiable
   "   return 0
   " endif
-  if a:key == '︎'
-    return 0
-  endif
+    " return 0
+  " endif
   if a:key == 'x'
     call s:SynFoDisable()
     call s:SynstackSetup()
@@ -397,8 +398,8 @@ function s:SynFoPopupFilter(winid, key)
 endfunc
 
 function s:SynFo()
-  if empty(popup_getpos(get(w:, 'mayhem_synstack_popid', 0)))
-    let w:mayhem_synstack_popid = popup_create('', #{
+  if empty(popup_getpos(get(w:, 'mayhem_winid_synfo', 0)))
+    let w:mayhem_winid_synfo = popup_create('', #{
           \ pos: 'topleft',
           \ line: 'cursor+2',
           \ col: 'cursor',
@@ -416,7 +417,7 @@ function s:SynFo()
           \ title: ' ★ '
           \ })
   else
-    call popup_move(w:mayhem_synstack_popid, #{
+    call popup_move(w:mayhem_winid_synfo, #{
           \ pos: 'topleft',
           \ line: 'cursor+2',
           \ col: 'cursor',
@@ -427,7 +428,7 @@ function s:SynFo()
           \ })
   endif
 
-  call s:UpdateSynFoBuffer(w:mayhem_synstack_popid)
+  call s:UpdateSynFoBuffer(w:mayhem_winid_synfo)
 endfunc
 
 command! -bar SynFo call <SID>SynFo()
@@ -435,19 +436,20 @@ command! -bar SynFo call <SID>SynFo()
 command! SynFoBuf vsp|enew|call <SID>UpdateSynFoBuffer(winnr())
 
 function! s:SynFoClose(winid = win_getid()) abort
-  let popid = getwinvar(winnr(a:winid), 'mayhem_synstack_popid', 0)
+  let popid = getwinvar(winnr(a:winid), 'mayhem_winid_synfo', 0)
   if popid > 0 && !empty(popup_getpos(popid))
     call popup_close(popid)
   endif
 endfunc
 
 function! s:SynFoSetup() abort
-  augroup MayhemSynFo
-    autocmd!
-    if exists(w:mayhem_synfo_enabled)
-      autocmd CursorHold * if w:mayhem_synfo_enabled == 1 | call s:SynFo() | else |call s:SynFoClose() | endif
-    endif
-  augroup END
+  if exists(w:mayhem_synfo_enabled)
+  call autocmd_add([#{
+        \ event: 'CursorHold', pattern: '*',
+        \ cmd: 'if w:mayhem_synfo_enabled == 1 | call s:SynFo() | else | call s:SynFoClose() | endif',
+        \ group: 'mayhem_synfo', replace: v:true,
+        \}])
+  endif
 endfunc
 
 function! s:SynFoDisableInWindow(winid = win_getid()) abort
@@ -456,8 +458,9 @@ function! s:SynFoDisableInWindow(winid = win_getid()) abort
 endfunc
 
 function! s:SynFoDisableInAll() abort
-  for 
-    call setwinvar(winnr(a:winid), 'mayhem_synfo_enabled', 1)
+  for wn in range(1, winnr('$'))
+    call setwinvar(wn, 'mayhem_synfo_enabled', 0)
+  endfor
   call s:SynFoSetup()
 endfunc
 
@@ -476,7 +479,7 @@ function! s:SynFoToggleInWindow(winid = win_getid()) abort
   return getwinvar(winnr(a:winid), 'mayhem_synfo_enabled', 0)
 endfunc
 
-command! -nargs=? SynFoStatus call <SID> SynFoStatus(<f-args>
+command! -nargs=? SynFoStatus call <SID> SynFoStatus(<f-args>)
 
 command! -nargs=? SynFoAuto call <SID>SynFoEnable(<f-args>)
 
@@ -488,18 +491,31 @@ command! SynFoAllOff call <SID>SynFoDisableInAll()
 
 command! -nargs=? SynFoWindowToggle call <SID>SynFoToggle(<f-args>)
 
+" Synfo status
+" Synfo win
+" Synfo nowin
+" Synfo no
+
+function! s:SynfoComplete(A,L,P)
+  echom A '||' L '||' P
+  return [A]
+endfunc
+command! -nargs=? -complete=customlist,s:SynfoComplete Synfo echo <args>
+
+
+
 command! HighlightThis hi <c-r><c-w>
 
 
-" Insert a highlight entry for the current word
-command! ExpandHlGroup call ExecAndPut('hi '..expand("<cword>"))
+" Insert the highlight entry for the current word
+command! ExpandHlGroup call ExecAndPut('hi ' .. expand("<cword>"))
 
 
-function! JumpToHighlightDefinition(hlname = expand("cword"))
+function! JumpToHighlightDefinition(hlname = expand("<cword>"))
   let file = ''
   let lnum = 0
   redir => output
-  silent exec 'verbose hi '..a:hlname
+  silent exec 'verbose hi ' .. a:hlname
   redir END
 endfunc
 

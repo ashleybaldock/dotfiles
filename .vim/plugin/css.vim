@@ -214,7 +214,7 @@ command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\
 "
 "
 " Extract Variable:
-"
+" TODO
 " color: #556677;
 "   ▼▼
 " color: var(--color001);
@@ -222,6 +222,7 @@ command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\
 "
 "
 " Extract Component Variables:
+" TODO
 "
 " box-shadow: 1px 2px 0.1px 0 #449988 inset;
 "   ▼
@@ -256,6 +257,7 @@ command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\
 " /url(\("\|'\|\)data:\([A-Za-z/]\+\);\(base64\)\?,\([A-Za-z0-9/+=]\+\)\1)/
 "
 " Split: across multiple lines                              TODO
+" TODO
 "
 " If base64, wrap @ fixed length after preamble
 " If svg, break up by:
@@ -305,6 +307,7 @@ command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\
 "      L237.3 256 342.6 150.6z\
 "      "></path></svg>');
 " Convert:
+" TODO
 "   s => c   (find previous curve endpoint and prepend)
 "   t => q   (find previous curve endpoint and prepend)
 "
@@ -482,6 +485,12 @@ command! CssHslToRgb <Nop>
 "
 command! CssColorComplement <Nop>
 
+" Get inverse of a colour
+"                                                           TODO
+" Returns result in same format as supplied, hex->hex, rgb->rgb, hsl->hsl
+"
+command! CssColorInverse <Nop>
+
 
 " Edge cases and formats etc.
 "           #xyz[f] | #xxyyzz[ff]  ▬▶︎  rgb(r g b)
@@ -551,6 +560,8 @@ let s:dS_00_10 = '\([01]\(\.0*\)\|0\.\d*\)'
 "
 " Conical Gradient:
 "
+"
+" Box Shadow With Variables:
 "
 "
 " Text Shadow Outline:

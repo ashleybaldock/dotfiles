@@ -27,9 +27,13 @@ function s:WindowsResized(windows)
     " let winea = getwinvar(winnr(wid), '&equalalways')
     " let wineaoff = getwinvar(winnr(wid), 'equalalways')
     if winheight(wid) == 0
-      call setwinvar(wid, '&equalalways', 0)
+      " call setwinvar(wid, '&equalalways', 0)
+      call setwinvar(wid, '&winfixheight', 1)
+      " call setwinvar(wid, '&winfixwidth', 0)
+      " call setwinvar(wid, '&eadirection', 0)
     else
-      call setwinvar(wid, '&equalalways', 1)
+      " call setwinvar(wid, '&equalalways', 1)
+      call setwinvar(wid, '&winfixheight', 0)
     endif
   endfor
 endfunc

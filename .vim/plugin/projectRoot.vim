@@ -17,11 +17,11 @@ let g:mayhem_loaded_project_root = 1
 " 
 function! ProjectRoot()
   let l:root_dirs = ['.git']
-  let l:root_files = ['.root', '.gitignore']
+  let l:root_files = ['.vim/vimrc', '.root', '.gitignore']
   for l:item in l:root_dirs
     let l:dirs = finddir(l:item, '.;~', -1)
     if !empty(l:dirs)
-      return {'isProject': v:true, 'path': fnameescape(fnamemodify(l:dirs[-1].'/../', ':p:h'))}
+      return {'isProject': v:true, 'path': fnameescape(fnamemodify(l:dirs[0].'/../', ':p:h'))}
     endif
   endfor
   for l:item in l:root_files
@@ -35,5 +35,5 @@ endfunc
 
 command! -bar HasProjectRoot echo get(ProjectRoot(), 'isProject')
 command! -bar ProjectRoot echo get(ProjectRoot(), 'path')
-command! -bar CdProjectRoot exec 'cd'..get(ProjectRoot(), 'path')
+command! -bar CdProjectRoot exec 'cd' get(ProjectRoot(), 'path')
 

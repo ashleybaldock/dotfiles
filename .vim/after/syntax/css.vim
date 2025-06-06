@@ -1,4 +1,3 @@
-
 "
 " CSS Syntax Extensions
 "
@@ -66,10 +65,24 @@
 "               :has( , )
 " forgiving ⎧    :is( , )
 "           ⎩ :where( , )
+" descendant          ␣️     ancestor            :has(  )
 " child               >     parent              :has(> )
 " next sibling        +     previous sibling    :has(+ )
 " subsequent sibling  ~     preceeding sibling  :has(~ )
 "
+" A B⃝       A⃝ :has(B)
+"
+"
+" A > B⃝     A⃝ 
+"
+" A + B⃝     A⃝ :has(+ B)     A + B + C⃝    A + B⃝ :has(+ C)  A⃝ :has(+ B + C)
+"
+" BBAB̲BBAA  BBA̲BBBAA        ABBCCAABC̲C   ABBCCAAB̲CC       ABBCCAA̲BCC
+"
+"
+" A ~ B⃝     A⃝ :has(~ B)     A ~ B ~ C⃝    A ~ B⃝ :has(~ C)  A⃝ :has(~ B ~ C)
+"
+" BBAB̲B̲B̲AA  BBA̲BBBAA        BBBCCAABC̲C̲   BBBCCAABC̲C̲       ABBCCAA̲BCC
 
 
 " exec 'source '..expand("<script>:h")..'"/common.vim"'

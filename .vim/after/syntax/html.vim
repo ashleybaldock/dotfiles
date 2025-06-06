@@ -13,7 +13,6 @@
 " TODO
 "
 
-syn match xmlnsXhtmlConceal +xmlns="\zshttp://www.w3.org/1999/\zexhtml"+ contained containedin=@htmlTag
-
-syn match xmlnsSvgConceal +xmlns="\zshttp://www.w3.org/2000/\zesvg"+ contained containedin=@htmlTag
+syn match xmlnsConceal +xmlns="http://www.w3.org/1999/xhtml"+ contains=NONE contained containedin=htmlTag conceal cchar=􀇺
+syn match xmlnsConceal +xmlns="http://www.w3.org/2000/svg"+ contains=NONE contained containedin=htmlTag conceal cchar=􀇺
 

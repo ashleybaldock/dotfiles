@@ -623,6 +623,12 @@ nnoremap <silent> <Leader>\ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hl
 "  See: ./search.vim
 "       ./projectRoot.vim
 "
+"  TODO:
+"    - way to expand search to next root level up
+"    - search without root scoping
+"    - include hidden .folders
+"    - fuzzy search
+"
 " Normal:
 " ▌️ 􀆕 3 ▐️────▷ Seach for word under cursor
 nnoremap # :CdProjectRoot <bar> AckCurrentWord<CR>

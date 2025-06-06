@@ -108,20 +108,36 @@ endfunc
 
 " Information & Debug
 "
-augroup misc_commands
-  autocmd!
+call autocmd_add([
+      \#{
+      \ event: 'BufRead', pattern: '~/noita/data*',
+      \ cmd: 'set readonly nomodifiable',
+      \ group: 'mayhem_misc_bufreadonly', replace: v:true,
+      \},
+      \#{
+      \ event: 'BufEnter', pattern: '*',
+      \ cmd: 'silent! lcd %:p:h',
+      \ group: 'mayhem_misc_setworkdir', replace: v:true,
+      \},
+      \#{
+      \ event: 'BufWinEnter', pattern: '*',
+      \ cmd: 'if (get(b:, ''linecount'', 0) < get(g:, ''mayhem_sync_start_max_lines'', 0)) | syn sync fromstart | endif',
+      \ group: 'mayhem_misc_synsyncifshort', replace: v:true,
+      \},
+      \])
+" augroup misc_commands
+  " autocmd!
   " Set readonly for specific directories
-  au BufRead ~/noita/data* set readonly
+  " au BufRead ~/noita/data* set readonly
 
   " Set working directory to current file
-  au BufEnter * silent! lcd %:p:h
+  " au BufEnter * silent! lcd %:p:h
 
   " Set syntax sync if file short enough
-  au BufWinEnter * if (get(b:, 'linecount', 0) < get(g:, 'mayhem_sync_start_max_lines', 0)) | syn sync fromstart | endif
-augroup END
+  " au BufWinEnter * if (get(b:, 'linecount', 0) < get(g:, 'mayhem_sync_start_max_lines', 0)) | syn sync fromstart | endif
+" augroup END
 
 
-command! WinSizeInfo echo win_execute(1077, 'echo ''window with id '' .. win_getid() .. '' has '' .. (line(''w$'') - line(''w0'') + 1) .. '' of '' .. line(''$'') .. '' lines visible, cursor is on line '' .. line(''.'') .. '', w0='' .. line(''w0'') .. '' ▬▶︎ w$='' .. line(''w$'')')
 
 
 " Create a split if current buffer has modifications

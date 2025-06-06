@@ -23,9 +23,9 @@ function! s:UnsetAndReload(pluginfile = expand('%')) abort
   endfor
 
   let msg = 'Reloading ''' .. a:pluginfile
-  if exists(s:loadedflagname)
+  if exists('s:loadedflagname')
     exec 'unlet ' .. s:loadedflagname
-    let msg = msg .. ''' (found & reset loaded flag '''..s:loadedflagname..''')' 
+    let msg = msg .. ''' (found & reset loaded flag ''' .. s:loadedflagname .. ''')' 
   endif
 
   echom msg

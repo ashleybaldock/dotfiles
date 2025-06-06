@@ -12,6 +12,9 @@ let g:mayhem.sl = get(g:mayhem, 'sl', {})
 
 let g:mayhem.signs = get(g:mayhem, 'signs', {})
 
+" let sp = #{ s:' ⎛', m:' ⎢', e:' ⎝', t: '' }
+" let sp = #{ s:' ╭', m:' │', e:' ╰', t: '' }
+
 "            \ {
 "            \  'n[ame]':     'mysign',
 "          ⎧ \  's[igntext]': '⌖⃝ ',
@@ -67,14 +70,14 @@ function! s:PlaceSign()
         \ 'linehl': 'TestHint5', 
         \ 'numhl': '', 
         \ 'texthl': '',
-        \ 'culhl': '',
-        \})
+        \ 'culhl': '', 
+        \})            
   let signid = sign_place(0, s:group, s:prefix..'testsign', bufnr(), { 'lnum': line('.') }) 
-  return signid
-endfunc
-
+  return signid        
+endfunc                
+                       
 command! TestSign echo <SID>PlaceSign()
-
+                       
 "
 " Place:
 "
@@ -88,27 +91,75 @@ command! TestSign echo <SID>PlaceSign()
 "┃ let a = () => 'hello world' 
 "┃ console.log(a())            
 "╹────────────────────────────────
-function! CodeBlockBackground()
-  let multisign = { 's':' ⎛', 'm':' ⎢', 'e':' ⎝', 't': '' }
-  let aSign = sign_define(s:prefix..'codeblockstart', { 
-        \ 'text': ' ╭',
-        \ 'linehl': 'markdownHighlight_sh', 
-        \ 'culhl': 'markdownHighlight_sh',
-        \})
-  let aSign = sign_define(s:prefix..'codeblockmid', { 
-        \ 'text': ' │',
-        \ 'linehl': 'markdownHighlight_sh', 
-        \})
-  let aSign = sign_define(s:prefix..'codeblockend', { 
-        \ 'text': ' ╰',
-        \ 'linehl': 'markdownHighlight_sh', 
-        \})
-  let signid1 = sign_place(0, s:group, s:prefix..'codeblockstart', bufnr(), { 'lnum': line('.') }) 
-  let signid2 = sign_place(0, s:group, s:prefix..'codeblockmid', bufnr(), { 'lnum': line('.') + 1 }) 
-  let signid3 = sign_place(0, s:group, s:prefix..'codeblockmid', bufnr(), { 'lnum': line('.') + 2 }) 
-  let signid4 = sign_place(0, s:group, s:prefix..'codeblockend', bufnr(), { 'lnum': line('.') + 3 }) 
-  return signid1
+let s:styles = #{
+      \ curl: #{s:' ⎧', m:' ⎪', e:' ⎩', se: ' {' },
+      \ round: #{s:' ╭', m:' │', e:' ╰', se: ' (️' },
+      \ squares: #{s:' ⌈', m:' |', e:' ⌊', se: ' [' },
+      \ square: #{s:' ⎡', m:' ⎜', e:' ⎣', se: ' [️' },
+      \ bracket: #{s:' ⎛', m:' ⎢', e:' ⎝', se: ' (' },
+      \ solidus: #{s:' /', m:' ⎢', e:' \', se: ' ❮' },
+      \
+      \ short: #{s:' ┌', m:' │', e:' └', se: ' ⌶' },
+      \ xshort: #{s:' _', m:' │', e:' ‾', se: ' |̲̅' },
+      \
+      \ xlong: #{s:' │̅', m:' │', e:' │̲', se: ' │̲̅' },
+      \ xlongh: #{s:' ┃̅', m:' ┃', e:' ┃̲', se: ' ┃̲̅' },
+      \ xlongdb: #{s:' ║̅', m:' ║', e:' ║̲', se: ' ║̲̅' },
+      \
+      \ dash2s: #{s:' ¦', m:' ¦', e:' ¦', se:' ¦' },
+      \ dash2l: #{s:' ╷', m:' ╎', e:' ╵', se: ' ¦' },
+      \ dash3l: #{s:' ╷', m:' ┆', e:' ╵', se:  ' ┆' },
+      \ dash4l: #{s:' ╷', m:' ┊', e:' ╵', se:   ' ┊' },
+      \
+      \ dash2h: #{s:' ╻', m:' ╏', e:' ╹', se: ' ╏' },
+      \ dash3h: #{s:' ╻', m:' ┇', e:' ╹', se:  ' ┇' },
+      \ dash4h: #{s:' ╻', m:' ┋', e:' ╹', se:   ' ┋' },
+      \}
+function! s:CodeBlockBackground(from, to, style = 'xshort')
+  let group = s:prefix .. 'codeblock1_'
+  let sp = get(s:styles, a:style, #{s: '?s', m: '?m', e: '?e', se: '?S'})
+  let signDefs = [
+        \ sign_define(group .. 's', #{
+        \ text: sp.s,
+        \ linehl: 'markdownHighlight_sh', 
+        \ culhl: 'markdownHighlight_sh',
+        \}),
+        \ sign_define(group .. 'm', #{
+        \ text: sp.m,
+        \ linehl: 'markdownHighlight_sh', 
+        \}),
+        \ sign_define(group .. 'e', #{
+        \ text: sp.e,
+        \ linehl: 'markdownHighlight_sh', 
+        \}),
+        \ sign_define(group .. 'se', #{
+        \ text: sp.se,
+        \ linehl: 'markdownHighlight_sh', 
+        \}),
+        \]
+
+  let startLine = a:from
+  let endLine = a:to
+
+  if startLine == endLine
+    let signs = [ sign_place(0, s:group, group..'se', bufnr(), #{ lnum: startLine }) ]
+  else
+    let midStart = startLine + 1
+    let midEnd = endLine - 1
+
+    let signs = 
+          \ [ sign_place(0, s:group, group..'s', bufnr(), #{ lnum: startLine }) ] +
+          \ range(midStart, midEnd, 1)->map({_, val -> sign_place(0, s:group, group..'m', bufnr(), #{ lnum: val }) }) +
+          \ [ sign_place(0, s:group, group..'e',  bufnr(), #{ lnum: endLine }) ]
+  endif
+  return signs
 endfunc
+
+function! s:SignBracketComplete(ArgLead, CmdLine, CursorPos)
+  return keys(s:styles)->join("\n")
+endfunc
+
+command! -range -nargs=? -complete=custom,<SID>SignBracketComplete SignBracket call <SID>CodeBlockBackground(<line1>, <line2>, <q-args>)
 
 command! CodeLine echo <SID>CodeBlockLine()
 

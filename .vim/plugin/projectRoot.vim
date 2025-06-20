@@ -15,7 +15,7 @@ let g:mayhem_loaded_project_root = 1
 " - folder patterns
 " Falls back to cwd()
 " 
-function! ProjectRoot()
+function! ProjectRoot() abort
   let l:root_dirs = ['.git']
   let l:root_files = ['.vim/vimrc', '.root', '.gitignore']
   for l:item in l:root_dirs

@@ -191,7 +191,7 @@ let m=[] | %s//\=add(m,[submatch(1, 1), submatch(3, 1), submatch(5, 1), submatch
 \2: content
 ```
 
-```vim
+```reg
 ^\s*\zs!\s*\([^|!]|\)\{-}\s*\(.\{-}\)\ze\s*\(!!\|$\)
 ```
 
@@ -221,7 +221,7 @@ multibyte characters).
 
 ### pass 1, same value in first two cells
 
-```vim
+```reg
 %s/^|
 \([^|]*\)||
 \1||
@@ -238,7 +238,7 @@ multibyte characters).
 
 ### pass 2, the rest
 
-```vim
+```reg
 %s/^|
 \([^|]*\)||
 \([^|]*\)||
@@ -254,7 +254,7 @@ multibyte characters).
 
 ## Template from each Table Row
 
-```vim
+```reg
 %s/|\ {{\w\+|\(\w\+\)}}.*\n|\s\?\([^|]*\)\n|\s\?\([^|]*\)\n|\s\?\([^|]*\)\n|\s\?\([^|]*\)\n\%(|-\||}\)
 ```
 
@@ -264,7 +264,7 @@ multibyte characters).
                            One table cell
 ```
 
-```re
+```reg
 %s|test|
 %s/|\ {{\w\+|\(\w\+\)}}.*\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n\%(|-\||}\)/
 
@@ -278,3 +278,19 @@ Including whitespace before/after
 ```reg
 %s/\(\_s*\/\*.\{-}\*\/\_s*\)\+//
 ```
+
+## CSS
+
+Selector list
+
+```reg
+%s/\%(\%^\|}\)\_s*\zs\%(\s*\_[^} ]\)*\ze\s*{/
+```
+
+##Selector
+
+```reg
+\%(\%^\|[},]\)\_s*\zs\%(\s*\_[^}, ]\)*\ze\s*[,{]
+```
+
+Selector & trailing comma

@@ -14,9 +14,7 @@
 "   - Different HL group for HTML comments containing only whitespace and newlines
 "   - Warning for missing | in template param
 
-"
-" Keyword Lists:
-"
+" Keyword Lists: {{{1 
 syn keyword htmlTagN contained b big blockquote br
 syn keyword htmlTagN contained caption center cite code
 syn keyword htmlTagN contained dd del div dl dt em font
@@ -32,13 +30,31 @@ syn keyword htmlArg contained cellspacing cellpadding valign char charoff
 syn keyword htmlArg contained colgroup col span abbr axis headers scope rowspan
 syn keyword htmlArg contained colspan id class name style title
 
+syn keyword mwTagN contained math nowiki references source syntaxhighlight
+syn keyword mwTagN contained includeonly onlyinclude noinclude
+syn keyword mwTagN contained ref poem
 
-"
-" Clusters:
-"
+syn keyword mwPiTagN contained infobox title default format panel 
+syn keyword mwPiTagN contained section label data image caption alt navigation 
+
+syn keyword mwPiAttrs contained class show collapse name layout type source span 
+syn match mwPiAttrs /row-items/ contained
+syn match mwPiAttrs /theme/ contained
+syn match mwPiAttrs /theme-source/ contained
+syn match mwPiAttrs /accent-color-source/ contained
+syn match mwPiAttrs /accent-color-default/ contained
+syn match mwPiAttrs /accent-color-text-source/ contained
+syn match mwPiAttrs /accent-color-text-default/ contained
+syn match mwPiAttrs /data\%(-\w*\)*/ contained
+
+
+" Clusters: {{{1
+syn cluster mwComment contains=mwHtmlNLComment,htmlComment
+
 syn cluster htmlTop contains=@Spell,
       \htmlTag,htmlEndTag,htmlSpecialChar,
-      \htmlPreProc,htmlComment,htmlLink,@htmlPreproc
+      \htmlPreProc,@mwComment,
+      \htmlLink,@htmlPreproc
 
 syn cluster mwText contains=mwLink,mwTl,mwParam,mwParFunc,
       \mwNowiki,mwNowikiEndTag,
@@ -53,9 +69,8 @@ syn cluster mwTableFormat contains=mwTl,
 syn cluster mwMagic add=mwMagicVar,mwMagicChar,mwMagicWord
 
 
-"
+
 " Infobox Ext Tags: <infobox></infobox> {{{1
-"
 
 " accent-color(-text|)-(source|default)
 "       
@@ -125,19 +140,6 @@ syn cluster mwMagic add=mwMagicVar,mwMagicChar,mwMagicWord
 
 
 
-syn keyword mwPiTagN contained infobox title default format panel 
-syn keyword mwPiTagN contained section label data image caption alt navigation 
-
-syn keyword mwPiAttrs contained class show collapse name layout type source span 
-syn match mwPiAttrs /row-items/ contained
-syn match mwPiAttrs /theme/ contained
-syn match mwPiAttrs /theme-source/ contained
-syn match mwPiAttrs /accent-color-source/ contained
-syn match mwPiAttrs /accent-color-default/ contained
-syn match mwPiAttrs /accent-color-text-source/ contained
-syn match mwPiAttrs /accent-color-text-default/ contained
-syn match mwPiAttrs /data\%(-\w*\)*/ contained
-
 
 syn region mwPiValue contained contains=NONE
       \ matchgroup=mwPiParens start=+=\s*\z(['"]\)+ end=+\z1+
@@ -157,7 +159,7 @@ syn region mwPiDefault contained
       \ end=+\%(<\/default>\)\@10<=+
       \ contains=
       \mwPiTag,mwPiEndTag,@mwText,
-      \@htmlTop,htmlEndTag,htmlComment
+      \@htmlTop,htmlEndTag,@mwComment
 
 syn region mwPiFormat contained
       \ start=+\ze<format\>[^>]*>+
@@ -165,7 +167,7 @@ syn region mwPiFormat contained
       \ contains=
       \mwPiTag,mwPiEndTag,
       \@mwText,mwTl,mwParFunc,
-      \mwParam,htmlTag,htmlEndTag,htmlComment
+      \mwParam,htmlTag,htmlEndTag,@mwComment
 
 syn region mwPiLabel contained
       \ start=+\ze<label\>[^>]*>+
@@ -173,7 +175,7 @@ syn region mwPiLabel contained
       \ contains=
       \mwPiTag,mwPiEndTag,
       \@mwText,mwTl,mwParFunc,mwLink,mwParam,
-      \htmlTag,htmlEndTag,htmlComment
+      \htmlTag,htmlEndTag,@mwComment
 
 syn region mwPiPanel contained
       \ start=+\ze<panel\>[^>]*>+
@@ -200,7 +202,7 @@ syn region mwPiSection contained
       \ contains=mwPiGroup,mwPiNavigation,
       \mwPiEndTag,
       \@mwText,mwTl,mwParFunc,mwLink,mwParam,
-      \htmlTag,htmlEndTag,htmlComment
+      \htmlTag,htmlEndTag,@mwComment
 
 syn region mwPiNavigation contained
       \ start=+<navigation\>[^>]*>+
@@ -209,7 +211,7 @@ syn region mwPiNavigation contained
       \ contains=
       \mwPiEndTag,
       \@mwText,mwTl,mwParFunc,mwLink,mwParam,
-      \htmlTag,htmlEndTag,htmlComment
+      \htmlTag,htmlEndTag,@mwComment
 
 syn region mwPiTitle contained
       \ start=+<title\>[^>]*>+
@@ -227,7 +229,7 @@ syn region mwPi
       \ contains=mwPiTitle,mwPiImage,mwPiHeader,mwPiNavigation,
       \mwPiData,mwPiGroup,mwPiPanel,
       \mwPiEndTag,
-      \htmlComment
+      \@mwComment
 
 hi def mwPiTagParen guifg=#339449
 hi def mwPiTagN guifg=#aaaa33
@@ -235,14 +237,8 @@ hi def mwPiAttrs guifg=#aa5920
 hi def mwPiValue guifg=#99bb33
 hi def mwPiParens guifg=#666666
 
-"
+
 " Wiki Tags: <nowiki></nowiki>  {{{1
-"
-
-syn keyword mwTagN contained math nowiki references source syntaxhighlight
-syn keyword mwTagN contained includeonly onlyinclude noinclude
-syn keyword mwTagN contained ref poem
-
 syn region mwTag contained
       \ start=+<[^/]+
       \ end=+\%(\s*/\)\?>+
@@ -264,50 +260,74 @@ syn region mwTagVal contained skipwhite skipempty
 
 syn match mwNowikiTag +<nowiki\%(\s*/\)\?>+ contained contains=mwTag
 syn match mwNowikiEndTag +</nowiki>+ contains=mwEndTag
-syn match mwSourceTag /<source\s\+[^>]\+>/ contains=mwTag
-syn match mwSourceEndTag +</source>+ contains=mwEndTag
 syn region mwNowiki
       \ start=+<\z(nowiki\)>+
       \ end=+\%(</\z1>\)\@9<=+
       \ contains=mwNowikiTag,mwNowikiEndTag
 syn match mwNowiki +<nowiki\s*/>+ contains=mwNowikiTag
+
+syn match mwSourceTag /<source\s\+[^>]\+>/ contains=mwTag
+syn match mwSourceEndTag +</source>+ contains=mwEndTag
 syn region mwSource
       \ start="<\z(source\)\s\+[^>]\+>"
       \ end=+\%(</\z1>\)\@9<=+
       \ contains=mwSourceTag,mwSourceEndTag
+
 syn region mwSyntaxHL
       \ start=+<\z(syntaxhighlight\)\s*[^>]*>+
       \ end=+\%(</\z1>\)\@18<=+
       \ contains=mwTag,mwEndTag
+
 syn region mwRef
       \ matchgroup=mwTag
       \ start="\ze<ref>"
       \ end="<\/ref>"
       \ contains=mwRefTag,mwRefEndTag
 
-hi def mwTag guifg=#aa1100 
+syn match mwOnlyInc /<onlyinclude>/ contains=mwTag
+syn match mwOnlyIncEndTag +</onlyinclude>+ contains=mwEndTag nextgroup=mwWhitespaceErr
+syn match mwNoInc /<noinclude>/ contains=mwTag
+syn match mwNoIncEndTag +</noinclude>+ contains=mwEndTag nextgroup=mwWhitespaceErr
+syn match mwIncOnly /<includeonly>/ contains=mwTag
+syn match mwIncOnlyEndTag +</includeonly>+ contains=mwEndTag nextgroup=mwWhitespaceErr
+" syn region mwIncOnly
+"       \ start="<\z(includeonly\)>"
+"       \ end=+\%(</\z1>\)\@11<=+
+"       \ contains=mwIncOnlyTag,mwIncOnlyEndTag
+syn match mwWhitespaceErr contained
+      \ ".\+\ze\%(<\%(noinclude\|includeonly\|onlyinclude\)>\|\%$\)"
+syn match mwWhitespaceErr "\%^\zs.\+\ze<\%(noinclude\|includeonly\|onlyinclude\)>"
+" syn match mwWhitespaceWarn contained ""
+
+hi def mwWhitespaceErr guibg=#551100 guisp=#ff0000 gui=undercurl
+
+hi def mwTag guifg=#ff4400 
 hi def link mwEndTag mwTag
-hi def mwTagN guifg=#ff3322 
+hi def mwTagN guifg=#ffaa44 
 hi def mwTagArg guifg=#ff7777
 hi def link mwTagSep mwTag
 hi def link mwTagVal String
 hi def link mwTagValDelim Special
 
-"
+" Comments: {{{1
+
+syn match mwHtmlNLComment "<!--\s*\n\+\s*-->"
+
+hi def mwHtmlNLComment guifg=#222222 guibg=NONE
+
 " Templates: {{Flex/Row}}  {{{1
-"
 
 syn region mwTl
       \ matchgroup=mwTlParens start="{{"
       \ end="}}" 
       \ contains=mwTlName,mwTlPVal,mwTlPDelim,
       \mwParFunc,mwTl,mwParam,
-      \htmlComment
+      \@mwComment
       \ containedin=wikiTable
 
 syn match mwTlName /[^{|]\+\ze\%($\||\|}}\)/ 
       \ contained skipwhite skipempty
-      \ contains=mwTl,mwParFunc,mwParam,mwTlPathSep,htmlComment
+      \ contains=mwTl,mwParFunc,mwParam,mwTlPathSep,@mwComment
       \ nextgroup=mwTlPDelim
 syn match mwTlPathSep +/+ contained contains=NONE
 
@@ -315,14 +335,14 @@ syn region mwTlPVal contained skipwhite skipempty
       \ start="\%(=\)\@1<="
       \ end="\ze\%(|\|}}\)"
       \ skip="\%({{[!=]\)\@3<=}}"
-      \ contains=@htmlTop,@mwText,@mwMagic,htmlComment
+      \ contains=@htmlTop,@mwText,@mwMagic,@mwComment
       \ nextgroup=mwTlPDelim
 
 syn region mwTlPStyleVal contained skipwhite skipempty
       \ start="\%(style\)\@5<="
       \ end="\ze\%(|\|}}\)"
       \ skip="\%({{[!=]\)\@3<=}}"
-      \ contains=@htmlTop,@mwText,@mwMagic,htmlComment
+      \ contains=@htmlTop,@mwText,@mwMagic,@mwComment
       \ nextgroup=mwTlPDelim
 
 " syn match mwTlAnonPVal /\%(|\)\@1<=\zs[^=|]\+\ze\%(|\|}}\)/
@@ -333,7 +353,7 @@ syn match mwTlAnonPVal /[^=|}]\+\ze\s*[|}]/
 
 syn match mwTlPName "\%(|\)\@1<=\s*\zs[^=|}]\{-1,}\ze\s*="
       \ contained skipwhite skipempty
-      \ contains=htmlComment
+      \ contains=@mwComment
       \ nextgroup=mwTlPSep
 
 " syn match mwTlPStyle "\%(|\)\@1<=\s*\zsstyle\ze\s*="
@@ -343,7 +363,7 @@ syn match mwTlPName "\%(|\)\@1<=\s*\zs[^=|}]\{-1,}\ze\s*="
 " syn match mwTlPNum "\%(|\)\@1<=\s*\zs\d\+\ze\s*="
 syn match mwTlPNum "\d\+\ze\s*="
       \ contained skipwhite skipempty
-      \ contains=htmlComment
+      \ contains=@mwComment
       \ nextgroup=mwTlPSep
 
 syn match mwTlPSep +=+ contained skipwhite skipempty
@@ -371,8 +391,7 @@ syn region mwParFunc
       \ matchgroup=mwParFuncParens start=+{{#+
       \ end="}}"me=s+2
       \ contains=mwParFuncName,mwParFuncDelim,
-      \@mwText,@htmlTop,
-      \htmlComment
+      \@mwText,@htmlTop,@mwComment
 
 syn match mwParFuncName +#\@1<=[^:{|}]\+\ze:+ 
       \ contained skipwhite skipempty contains=NONE
@@ -385,7 +404,7 @@ syn match mwParFuncName +#\@1<=[^:{|}]\+\ze:+
 syn match mwParFuncParam /\(\_[^|}]\|\s\)*\s*/
       \ contained
       \ nextgroup=mwParFuncDelim
-      \ contains=@htmlTop,@mwText,@mwMagic,htmlComment
+      \ contains=@htmlTop,@mwText,@mwMagic,@mwComment
 syn match mwParFuncDelim /:\||/
       \ contained
       \ contains=NONE
@@ -578,14 +597,14 @@ hi def mwMagicWord guibg=#440022 guifg=#ee0099
 
 "
 " Template Parameters: ❴❴❴param❵❵❵  {{{1
-"
+
 
 syn region mwParam
       \ matchgroup=mwParamParens start="{\{3}"
       \ end="}\{3}" 
       \ nextgroup=mwParamName
       \ contains=mwParamName,mwParamDefault,mwParamDelim,
-      \@mwText,htmlComment,mwMagicVar
+      \@mwText,@mwComment,mwMagicVar
 
 syn match mwParamName +\%({\{3}\)\@3<=[^{|}]\++ contained
 syn match mwParamDefault /\%(|\)\@1<=[^{|}]\+/ contained

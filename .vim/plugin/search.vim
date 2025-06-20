@@ -41,9 +41,9 @@ function s:AckCurrentWord() abort
   call s:AckEscaped(expand("<cword>"))
 endfunc
 
-function s:AckLastSearch() abort
-  call s:AckEscaped(@/)
-endfunc
+" function s:AckLastSearch() abort
+"   call s:AckEscaped(@/)
+" endfunc
 
 function! s:AckInput() abort
   call inputsave()
@@ -63,7 +63,7 @@ endfunc
 command! AckInput exec <SID>AckInput()
 command! AckClipboard exec <SID>AckClipboard()
 command! AckCurrentWord exec <SID>AckCurrentWord()
-command! AckLastSearch exec <SID>AckLastSearch()
+command! AckLastSearch AckFromSearch
 
 command! AckVisual exec <SID>AckVisual()
 command! -nargs=1 AckArgs exec <SID>AckArgs(<q-args>)

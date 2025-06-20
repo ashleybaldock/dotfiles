@@ -10,7 +10,6 @@
 .vim/swap/*
 .vim/undo/*
 .vim/backup/*
-.vim/autoload/*
 .vim/bundle/*
 .vim/*.session
 .vim/*.Session
@@ -21,6 +20,7 @@
 *.Session.vim*
 .vim/pack/default/start/tags*
 .vim/pack/default/opt/tags*
+.vim/node_modules/*
 
 bin/test/*
 bin/HandBrakeCLI
@@ -30,7 +30,6 @@ res/_old/*
 res/data/*
 res/icons/osx/*.svg
 
-.vim/node_modules/*
 
 .config/*
 .config/coc/extensions/node_modules/*

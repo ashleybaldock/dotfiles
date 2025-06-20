@@ -306,6 +306,7 @@ let g:mayhem.symbols_S.status = {
       \ 'fencnot8': '∪⃞⃥ ',
       \ 'ffnotnix': '␌⃞ ',
       \ 'diffing' : '􀄐􀕹',
+      \ 'multx'   : '×',
       \ }
 let g:mayhem.symbols_8.status = {
       \ 'readonly': 'ᴿ',
@@ -314,6 +315,7 @@ let g:mayhem.symbols_8.status = {
       \ 'fencnot8': '∪⃞⃥ ',
       \ 'ffnotnix': '␌⃞ ',
       \ 'diffing' : 'DIFF',
+      \ 'multx'   : '×',
       \ }
 let g:mayhem.symbols_A.status = {
       \ 'readonly': 'R',
@@ -322,29 +324,30 @@ let g:mayhem.symbols_A.status = {
       \ 'fencnot8': '!8',
       \ 'ffnotnix': '!F',
       \ 'diffing' : 'DIFF',
+      \ 'multx'   : 'x',
       \ }
 
-function RO()
+function RO() abort
   return &readonly ? GetSymbol('status.readonly') : ""
 endfunc
-function Modified()
+function Modified() abort
   return ['%{&modifiable?&modified?"',
         \ GetSymbol('status.modified') .. ' ',
         \ '":"":"',
         \ GetSymbol('status.nomodifiable') .. ' ',
         \ '"}']->join('')
 endfunc
-function CheckUtf8()
+function CheckUtf8() abort
   return &fenc !~ "^$\\|utf-8" || &bomb ? GetSymbol('status.fencnot8') : ""
 endfunc
-function CheckUnix()
+function CheckUnix() abort
   return &fileformat == "unix" ? "" : GetSymbol('status.ffnotnix')
 endfunc
-function Diffing()
+function Diffing() abort
   return &diff ? GetSymbol('status.diffing') : ""
 endfunc
 " 0/anything and 2/n are usual
-function Conceal()
+function Conceal() abort
   return (&conceallevel == 0 || (&conceallevel == 2 && &concealcursor !~ "[vic]")) ? ""
         \ : (["", "➊", "➁", "➌"][&conceallevel] .. (&concealcursor =~ "[vic]" ? "!" : ""))
 endfunc
@@ -354,18 +357,36 @@ endfunc
 "       - syntax refresh on save
 
 " Get cached filename for statusline
-function ChFName()
+function ChFName() abort
   return get(get(b:, 'mayhem', {}), 'sl_cached_filename',
         \ [expand('%'),expand('%')])[NC()]
 endfunc
 
 " Get cached filename info for statusline
-function ChFInfo()
+function ChFInfo() abort
   return get(get(b:, 'mayhem', {}), 'sl_cached_fileinfo',
         \ ['',''])[NC()]
 endfunc
 
-function s:Update_FileInfo()
+function s:Update_WinSize() abort
+  call s:SetStatusVars()
+
+  if mayhem#Toggled('g:mayhem_sl_show_winsize')
+    let b:mayhem.sl_cached_winsize = [
+        \['%#SlDebugC#', '%{%winwidth(0)%}', GetSymbol('status.multx'), '%{%winheight(0)%}','%*']->join(''),
+        \['%#SlDebugN#', '%{%winwidth(0)%}', GetSymbol('status.multx'), '%{%winheight(0)%}','%*']->join(''),
+        \]
+  else
+    let b:mayhem.sl_cached_winsize = ['','']
+  endif
+endfunc
+function ChWinSz() abort
+  return get(get(b:, 'mayhem', {}), 'sl_cached_winsize',
+        \ ['',''])[NC()]
+  return winwidth(0) .. GetSymbol('status.multx') .. winheight(0)
+endfunc
+
+function s:Update_FileInfo() abort
   call s:SetStatusVars()
   let ext = expand('%:e')
   let name = expand('%:r')
@@ -417,17 +438,17 @@ function s:Update_FileInfo()
 endfunc
 
 
-function s:SetStatusVars()
+function s:SetStatusVars() abort
   let b:mayhem = get(b:, 'mayhem', {})
   let b:mayhem.sl_normC = get(b:mayhem, 'sl_normC', '')
   let b:mayhem.sl_normN = get(b:mayhem, 'sl_normN', '')
 
   let b:mayhem.f_projroot = get(ProjectRoot(), 'path')
+  let b:mayhem.projname = fnamemodify(b:mayhem.f_projroot,':p:h:t')
   " let b:mayhem.f_full = expand('%')
   let b:mayhem.f_tail = expand('%:t')
   let b:mayhem.f_head = expand('%:p:h')
   let b:mayhem.f_ext = expand('%:e')
-  let b:mayhem.projname = fnamemodify(b:mayhem.f_projroot,':p:h:t')
   let b:mayhem.f_name = expand('%:p:h')
   let b:mayhem.f_type = getbufvar(bufnr(), '&filetype')
 endfunc
@@ -435,6 +456,7 @@ endfunc
 
   " TODO - change this so that the C/NC distinction doesn't need two
   "         identical strings
+  "   - preprocessing step which looks for a marker and replaces with N or C
   " TODO - it would be better to provide a plugin interface
   "       for custom statusbar, winbar, etc. things 
   " TODO - convert to vim9script
@@ -444,6 +466,7 @@ function s:UpdateStatuslines() abort
   call s:Update_FileInfo()
   call s:Update_Git()
   call s:Update_Diag()
+  call s:Update_WinSize()
 
   "     Size:  left╺╮  ╭╸zeros
   "               %{-}{0}{minwid}.{maxwid}
@@ -451,7 +474,7 @@ function s:UpdateStatuslines() abort
   " Separate: %= ║ L%=Mid%=R ┃ L          Mid          R ┃
 
   let g:mayhem['sl_norm'] = [
-        \ ['%{%ChGit()%} %{%ChFName()%} ',
+        \ ['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
         \ '%#SlSepC#%=%*%<',
         \ '%{%Diffing()%}',
         \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckUnix()%}%*%)',
@@ -460,7 +483,7 @@ function s:UpdateStatuslines() abort
         \ ' %{%ScrollHint()%}',
         \ ' %{%ChDiag()%}']->join(''),
         \
-        \ ['%{%ChGit()%} %{%ChFName()%} ',
+        \ ['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
         \ '%#SlSepN#%=%*%<',
         \ '%{%Diffing()%}',
         \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%*%)',
@@ -490,10 +513,10 @@ function s:UpdateStatuslines() abort
     \ '􀩼%#SlTermN# %-f%*%<%=%(%n %l,%c%V %P%) ']
 
   let g:mayhem['sl_messages'] = [
-        \['%#SlMessIC#􀤏%* %#SlMessC#Messages%*%=',
+        \['%{%ChWinSz()%}%#SlMessIC#􀤏%* %#SlMessC#Messages%*%=',
         \ ' %{%ScrollHint()%}',
         \ ' %#SlMessIC# %*']->join(''),
-        \['%#SlMessIN#􀤏%* %#SlMessN#Messages%*%=',
+        \['%{%ChWinSz()%}%#SlMessIN#􀤏%* %#SlMessN#Messages%*%=',
         \ ' %{%ScrollHint()%}',
         \ ' %#SlMessIN# %*']->join(''),
         \]
@@ -533,9 +556,9 @@ function s:UpdateStatuslines() abort
   "       \ '%#SlHomeN#HOME Vim Mayhem%*%<%=%#SlHmRtN#%*']
   " Home:
   let g:mayhem['sl_home'] = [
-        \ ['%#SlHomeLC#􁘲  Vim Mayhem%*',
+        \ ['%{%ChWinSz()%}%#SlHomeLC#􁘲  Vim Mayhem%*',
         \ '%<','%=','%#SlHomeMC# %*','%=','%#SlHomeRC# %*']->join(''),
-        \ ['%#SlHomeLN#􁘱  Vim Mayhem%*',
+        \ ['%{%ChWinSz()%}%#SlHomeLN#􁘱  Vim Mayhem%*',
         \ '%<','%=','%#SlHomeMN# %*','%=','%#SlHomeRN# %*']->join(''),
         \]
 
@@ -576,8 +599,13 @@ endfunc
 call autocmd_add([
       \#{
       \ event: ['WinResized'],
-      \ pattern: '*', cmd: 'call s:UpdateStatuslines()',
-      \ group: 'mayhem_statusline', replace: v:true,
+      \ pattern: '*', cmd: 'call s:Update_WinSize()',
+      \ group: 'mayhem_sl_winsize', replace: v:true,
+      \},
+      \#{
+      \ event: 'User', pattern: 'Toggle_g:mayhem_sl_show_winsize',
+      \ cmd: 'call s:Update_WinSize()',
+      \ group: 'mayhem_sl_winsize', replace: v:true,
       \},
       \#{
       \ event: ['CursorHold','BufWinEnter','BufFilePost','EncodingChanged'],

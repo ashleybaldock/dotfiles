@@ -284,7 +284,7 @@ set isfname-=,
 
 
 if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
+  let g:ackprg = 'ag --hidden --vimgrep'
 endif
 
 " Syntax highlighting for code blocks inside markdown docs

@@ -570,6 +570,56 @@ command! DynamicToolBar call <SID>InitDynamicToolBar()
 
 
 
+function s:AddToggledMenuItem(iconOn, iconOff, id, name, actionOn, actionOff, toggle)
+  exec 'an icon=' .. a:iconOff a:id a:name a:actionOff
+
+  function s:ToggleMenuItem(name)
+    if mayhem#Toggled(a:name)
+      exec 'aunmenu' a:name
+      exec 'an icon=' .. a:iconOff a:id a:name a:actionOff
+    else
+    endif
+  endfunc
+
+  call autocmd_add([
+        \#{
+        \ event: 'User', pattern: 'Toggle_' .. toggle,
+        \ cmd: 'call s:ToggleMenuItem(' .. name .. ')',
+        \ group: 'mayhem_menutoggle_' .. toggle, replace: v:true,
+        \},
+        \])
+endfunc
+
+"
+" MenuToggleGroup name id toggle {state0} {state1} .. {stateN}
+"
+"  􁑢 Virtual Edit ❯│􀆅none
+"                   │  insert
+"                   │  block
+"
+"  ⋿⦁⦂⦇⦈⦉⦊⨟⨠⨡⨾⩤⩥
+"
+"  › » > ⟩ ⟫ ❯ ❭ ⦒  􀆊  ▷▻▹ ≻⩺⋗⋙ ⨠ ⪥ ⪼ ⦊
+"  ›️ »️ >️ ⟩️ ⟫️ ❯️ ❭️ ⦒️  􀆊️⃝  
+"
+" MenuToggle name id toggle {state0} {state1} .. {stateN}
+"
+" {state0}: default/initial state
+" {stateN}: last state links back to {state0}
+"
+" e.g. 
+"   MenuToggle View.VirtualEdit 120.150 &virtualedit none:blank block:iconA insert:iconB
+"
+"   MenuToggle View.Debug.WinSize 120.300.150 g:mayhem_sl_show_winsize on=checkmark
+"
+" MenuToggle name id toggle [on=icon[,cmd]] [off=icon[,cmd]]
+" - on icon defaults to checkmark
+" - off icon defaults to blank
+" e.g.
+"   MenuToggle View.Debug.WinSize 120.300.150 g:mayhem_sl_show_winsize on=checkmark
+" off=blank 
+"
+command! -nargs=+ MenuToggle mayhem#AddMenuToggle(<f-args>)
 
 
 " function! s:UpdateToggle(name)

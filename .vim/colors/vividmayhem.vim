@@ -601,6 +601,8 @@ hi link SlFTyp2N  SlHintN
 " file & buffer warning flags
 hi SlFlagC        guifg=#ff1111 guibg=yslcccb gui=none
 hi SlFlagN        guifg=#ee0000 guibg=yslnnnb gui=none
+hi SlDebugC       guifg=#bbff00 guibg=yslcccb gui=none
+hi SlDebugN       guifg=#88dd00 guibg=yslcccb gui=none
 " diagnostics
 hi SlSynErrC      guifg=#fc0000 guibg=#000000 gui=none
 hi SlSynErrN      guifg=#cc0000 guibg=#000000 gui=none

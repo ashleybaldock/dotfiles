@@ -3,6 +3,8 @@ if exists("g:mayhem_loaded_commands")
 endif
 let g:mayhem_loaded_commands = 1
 
+command! -nargs=1 Toggle call mayhem#Toggle(<f-args>)
+
  "" yank all matching lines to register
  " :let @a=""
  " :g/<pattern>/y A

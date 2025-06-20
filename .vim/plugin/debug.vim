@@ -7,11 +7,34 @@ let g:mayhem_loaded_debug = 1
 "
 " Turn a Vim dict into a JSON, taking care of any pesky Funcrefs
 "
-function! DictToJson(someDict)
-  echom a:someDict->deepcopy()->map(
-        \ {key, val -> (type(val) == v:t_func)
-        \  ? '[FuncRef:'..string(val)..']'
-        \  : val})->json_encode()
+let s:replace = {_, v -> '['..typename(v)..']'}
+let s:identity = {_, v -> v}
+function s:Lookup(key, val)
+  return get(s:typemap, string(type(a:val)), s:replace)(a:key, a:val)
+endfunc
+let s:lookup = function('s:Lookup')
+let s:typemap = {
+      \  string(v:t_number): s:identity
+      \, string(v:t_string): {_, v -> substitute(v, '\n', '\\n', 'g')}
+      \, string(v:t_func): s:replace
+      \, string(v:t_list): {_, v -> v->map(s:lookup)}
+      \, string(v:t_dict): {_, v -> v->map(s:lookup)}
+      \, string(v:t_float): s:identity
+      \, string(v:t_bool): s:identity
+      \, string(v:t_none): {_, v -> 'null'}
+      \, string(v:t_job): s:replace
+      \, string(v:t_channel): s:replace
+      \, string(v:t_blob): s:replace
+      \, string(v:t_class): s:replace
+      \, string(v:t_object): s:replace
+      \, string(v:t_typealias): s:replace
+      \, string(v:t_enum): s:replace
+      \, string(v:t_enumvalue): s:replace
+      \ }
+function s:DictToJson(someDict)
+  let json = deepcopy(a:someDict)->map(s:lookup)
+  echom json
+  return json_encode(json)
 endfunc
 
 " Window & Buffer debug info
@@ -31,7 +54,6 @@ function s:WindowInfo(winid = win_getid())
   let wInfo = getwininfo(a:winid)[0]
   let float = get(get(wInfo, 'variables', {}), 'float', 0)
   let isFloat = float ? 'Yes' : 'No'
-  let popOpts = float ? popup_getoptions(a:winid) : ''
   let bufnr = get(wInfo, 'bufnr', 0)
   let winType = win_gettype(a:winid)
   if winType == ''
@@ -43,59 +65,32 @@ function s:WindowInfo(winid = win_getid())
   endif
   let tabnr = win_id2tabwin(a:winid)[0]
   let winnr = win_id2tabwin(a:winid)[1]
-  let winInfo = [
-        \ '/*═*/ { /*═══════════════════════╱ Window ╱═════*/',
-        \]
-  let winInfo = winInfo + [
-        \ '/**/ "winid": "' .. a:winid .. '", /**/'
-        \ .. ' "floating": ' .. isFloat .. ',/**/',
-        \ '/**/  "type": "' .. winType .. '",/**/'
-        \ .. ' "bufnr": ' .. bufnr .. ',/**/'
-        \ .. ' "tabnr": ' .. tabnr .. ',/**/'
-        \ .. ' "winnr": ' .. winnr .. ',/**/',
-        \]
-  let winInfo = winInfo + [
-        \ '/*─────────────────────────────*/ "getwininfo":',
-        \ wInfo->items()->DictToJson() .. ',',
-        \ '/*─────────────────────────────────────*/ "w:":',
-        \ items(w:)->DictToJson() .. ',',
-        \ '/*─────────────────────────────*/ "getwinvar&":',
-        \ getwinvar(winnr, '&')-DictToJson() .. ',',
-        \]
-  let popInfo = []
-  if float
-    let popInfo = popInfo + [
-        \ '/*───────────────────╱ popup_getoptions() ╱───*/',
-        \ '"popup_info": ',
-        \ popOpts->DictToJson() .. ',',
-        \]
-  endif
- 
-  let bufInfo = [
-        \ '/*════════════════════════════════╱ Buffer ╱═══*/',
-        \]
-  let bufInfo = bufInfo + [
-        \ '/**/ { "bufnr": "' .. bufnr .. '", /**/'
-        \ .. ' "buftype": "' .. bufType .. '",/**/',
-        \ '"windows": ' .. win_findbuf(bufnr)->DictToJson() .. ',',
-        \]
-  let bufInfo = bufInfo + [
-        \ '/*─*/ ,"getbufinfo": /*─────────────────────────*/',
-        \ getbufinfo(bufnr)[0]->DictToJson() .. ',',
-        \ '/*'
-        \]
-  let bufInfo = bufInfo + [
-        \ '/*─*/ ,"getbufvar&": /*─────────────────────────*/',
-        \ getbufvar(bufnr, '&')->DictToJson() .. ',',
-        \]
-  let bufInfo = bufInfo + [
-        \ '/*─*/ } /*────╱  fin  ╱───────────────────*/'
-        \]
+  let w = {'╺╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╱╱ Winfo ╱╱╍╍╍╍╍╸':
+        \{ '╶───╴╱ window ╱╶──────────────────────────────────╴':
+        \{ 'winid': a:winid
+        \, 'popup': isFloat
+        \, 'type': winType
+        \, 'bufnr': bufnr
+        \, 'tabnr': tabnr
+        \, 'winnr': winnr
+        \, 'getwininfo': wInfo->items()
+        \, 'w:': items(w:)
+        \, 'getwinvar&': getwinvar(winnr, '&')
+        \ }
+        \,'╶───╴╱ popup ╱╶───────────────────────────────────╴':
+        \ float ? { 'popup_getoptions()': popup_getoptions(a:winid) } : {},
+        \ '╶───╴╱ buffer ╱╶──────────────────────────────────╴':
+        \{ ' bufnr': bufnr
+        \, ' buftype': bufType
+        \, ' windows': win_findbuf(bufnr)
+        \, ' getbufinfo': getbufinfo(bufnr)[0]
+        \, ' getbufvar&': getbufvar(bufnr, '&')
+        \}
+        \, '╺╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╱  fin  ╱╍╍╍╍╍╍╍╸': ""
+        \}}
   vsp
   enew
-  call append('$', FormatJSON(winInfo))
-  call append('$', FormatJSON(popInfo))
-  call append('$', FormatJSON(bufInfo))
+  call append('$', FormatJSON(s:DictToJson(w)))
   setlocal filetype=json
   setlocal nomodifiable nomodified 
 endfunc

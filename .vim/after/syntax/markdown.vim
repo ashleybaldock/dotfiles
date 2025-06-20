@@ -163,11 +163,22 @@ syn match markdownCodeDelimiter /`\ze[^`]/ contained
 " syn region markdownCodeBlock keepend
 "       \ start=+^\s*\z(\~\{3,\}\).*$+
 "       \ end=+^\s*\z1\ze\s*$+
-" syn region markdownCodeBlock keepend
-"       \ start=+^\s*\z(`\{3,\}\).*$+
-"       \ end=+^\s*\z1\ze\s*$+
+" syn region mdCodeBlock 
+"       \ start=+^\s*\ze\z(`\{3,\}\).*$+
+"       \ end=+^\s\(\z1\)\@3<=\ze\s*$+
+"       \ contains=arkdown
 
-" syn match mdCodeBlockType /\%(```\)\@3<=.*$/ contained containedin=markdownHighlight_markdownCodeBlock,markdownCodeDelimiter contains=NONE
+" syn match mdCodeDelim '`\ze``'
+"       \ contained containedin=mdCodeBlock
+"       \ contains=NONE conceal cchar=╺
+" syn match mdCodeDelim '`\@1<=`\ze`'
+"       \ contained containedin=mdCodeBlock
+"       \ contains=NONE conceal cchar=━
+" syn match mdCodeDelim '\%(``\)\@2<=`'
+"       \ contained containedin=mdCodeBlock
+"       \ contains=NONE conceal cchar=╸
+
+syn match mdCodeBlockType /\%(```\)\@3<=.*$/ contained containedin=markdownHighlight_markdownCodeBlock,markdownCodeDelimiter contains=NONE
 
 
 " echo matchadd('HlMkDnCode', '\\_\\_\zsBold\ze\\_\\_')
@@ -206,9 +217,15 @@ call prop_add(21, 0, #{
       \ text_align: 'after',
       \ text_padding_left: 0,
       \ })
-call prop_add(21, 0, #{
+call prop_add(5, 0, #{
       \ type: 'p',
-      \ text: '¶',
+      \ text: '╺━━━━━━━━━━━━━━━━━━━━━━━╸',
+      \ text_align: 'after',
+      \ text_padding_left: 0,
+      \ })
+call prop_add(17, 0, #{
+      \ type: 'p',
+      \ text: '╺━━━━━━━━━━━━━━━━━━━━━━━╸',
       \ text_align: 'after',
       \ text_padding_left: 0,
       \ })

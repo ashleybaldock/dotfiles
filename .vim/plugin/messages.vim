@@ -196,3 +196,15 @@ command! MessagesRefresh call s:RefreshMessages()
 "
 " :Mess(ages) [show/hide/toggle] reload [auto/no]
 command! Messages call s:SplitWithMessages()
+
+"
+" Formatted echo commands
+"
+" e.g. :EcN 'normal' | EcB 'bold' | EcI 'italic' | EcN 'back to normal'
+"
+" (set it back to normal at the end)
+"
+command! -nargs=1 EcN echoh EchoText | echon <args> | echoh None
+command! -nargs=1 EcB echoh EchoBold | echon <args> | echoh None
+command! -nargs=1 EcI echoh EchoItalic | echon <args> | echoh None
+

@@ -21,14 +21,9 @@ command! -nargs=1 Toggle call mayhem#Toggle(<f-args>)
 " highlight current cursor position by horizontal and vertical cursor
 " command! PingCursor <Nop>
 
-
-
 " 
 " Predicate: Cursor Is On A Comment
-function CursorOnComment()
-  return join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')) =~? 'comment'
-endfunc
-command! CursorOnComment echo CursorOnComment()
+command! CursorOnComment echo predicates#cursorIsOnComment()
 
 
 " Set number column width based on length of file
@@ -40,7 +35,7 @@ command! CursorOnComment echo CursorOnComment()
 " Util: Format numbers with SI prefixes in a
 "       way that is pleasing to humans
 "
-function PrefixDecimal(n)
+function PrefixDecimal(n) abort
   let prefixes = ['', 'k', 'M', 'G', 'T']
   let cur = a:n
   let i = 0
@@ -53,14 +48,14 @@ function PrefixDecimal(n)
 endfunc
 
 
-function FormatJSON(jsonString)
+function FormatJSON(jsonString) abort
   return systemlist('npx prettier --stdin-filepath nameless.json', a:jsonString)
 endfunc
 "
 " Apply code beautification to current
 " contents of buffer (or part thereof)
 "
-function FormatBuffer(bufnr = bufnr()) range
+function FormatBuffer(bufnr = bufnr()) range abort
   let l:filetype = &filetype
   let l:filename = expand('%')
   if ( l:filename != '' )
@@ -95,7 +90,7 @@ command! -nargs=? -range TransposeRowCol <line1>,<line2>call <SID>TransposeRowCo
 " If used in an existing continuation block, reformats it   TODO
 " to the new width
 "
-function Continuation(column) range
+function Continuation() range
 endfunc
 
 "
@@ -106,6 +101,9 @@ endfunc
 "
 function Discontinuation() range
 endfunc
+
+xnoremap <unique> <script> <Plug>MayhemContinuationInsert <ScriptCmd>call Continuation()<CR>
+xnoremap <unique> <script> <Plug>MayhemContinuationRemove <ScriptCmd>call Discontinuation()<CR>
 
 
 " Information & Debug
@@ -127,20 +125,6 @@ call autocmd_add([
       \ group: 'mayhem_misc_synsyncifshort', replace: v:true,
       \},
       \])
-" augroup misc_commands
-  " autocmd!
-  " Set readonly for specific directories
-  " au BufRead ~/noita/data* set readonly
-
-  " Set working directory to current file
-  " au BufEnter * silent! lcd %:p:h
-
-  " Set syntax sync if file short enough
-  " au BufWinEnter * if (get(b:, 'linecount', 0) < get(g:, 'mayhem_sync_start_max_lines', 0)) | syn sync fromstart | endif
-" augroup END
-
-
-
 
 " Create a split if current buffer has modifications
 " Useful to run before a command that may open a new buffer

@@ -20,8 +20,6 @@ ENCODESVG="$HOME/dotfiles/bin/encodeSVG.js"
 PNGOUT="/opt/homebrew/bin/pngout"
 SVGO="$HOME/.nvm/versions/node/v18.19.0/bin/svgo"
 
-# TODO multiple inputs: accumulate and copy together
-# TODO input directories too
 # TODO configurable option for optimise/copy etc.
 
 optimise=1
@@ -30,13 +28,15 @@ copy=1
 
 if [ $# -gt 1 ]
 then
-  echo "Multiple inputs, will skip copy" >&2
+  echo "info: multiple inputs, will skip copying" >&2
   copy=0
+
+  # TODO multiple inputs: accumulate and copy together
 fi
 
 for arg in "${args[@]}"
 do
-  detectedtype=unknown
+  detectedtype=none
   # the output encoding used within the data url
   # 'auto' - base64 (with exceptions: svg uses minimal encoding)
   # 'b64' - base64
@@ -48,8 +48,13 @@ do
   # resulting dataurl
   dataurl=
 
-  if [ -f "$arg" ]
+  if [ ! -f "$arg" ]
   then
+    detectedtype="notfile"
+    echo "warn: '$arg' is not a file, skipping..." >&2
+
+    # TODO handle input directories
+  else
     file=$( tr '[:upper:]' '[:lower:]' <<<"$arg" )
     filename=$(basename "$file")
 
@@ -66,6 +71,8 @@ do
       dataurl="url('data:image/png;base64,$base64')"
       usedencoding="b64"
 
+      cssvar="--img-${name//[ _]/-}: $dataurl;"
+
     ## input type: GIF
     elif [ "${file: -4}" == ".gif" ]
     then
@@ -75,6 +82,8 @@ do
       dataurl="url('data:image/gif;base64,$base64')"
       usedencoding="b64"
 
+      cssvar="--img-${name//[ _]/-}: $dataurl;"
+
     elif [ "${file: -4}" == ".jpg" -o "${file: -5}" == ".jpeg" ]
     then
       detectedtype=jpeg
@@ -82,6 +91,8 @@ do
       base64="$(base64 -i "$arg" -o -)"
       dataurl="url('data:image/jpeg;base64,$base64')"
       usedencoding="b64"
+
+      cssvar="--img-${name//[ _]/-}: $dataurl;"
 
     ## input type: SVG
     elif [ "${file: -4}" == ".svg" ]
@@ -100,6 +111,8 @@ do
         usedencoding="svgmin"
       fi
 
+      cssvar="--img-${name//[ _]/-}: $dataurl;"
+
     ## input type: TTF
     elif [ "${file: -4}" == ".ttf" ]
     then
@@ -107,13 +120,13 @@ do
       base64="$(base64 -i "$arg" -o -)"
       dataurl="url('data:font/truetype;charset=utf-8;base64,$base64')"
       usedencoding="b64"
+
+      cssvar="--font-${name//[ _]/-}: $dataurl;"
     fi
 
-    cssvar="--fontdata-${name//_/-}: $dataurl;"
-
-    if [ "$detectedtype" == "unknown" ]
+    if [ "$detectedtype" == "none" ]
     then
-      echo "Unknown file type for input "$arg"" >&2
+      echo "warn: '$arg' could not be identified as a supported file type, skipping..." >&2
     else
       optcopy=""
       if [ $copy -eq 0 ]
@@ -137,10 +150,6 @@ do
       cssvar=",cssvar"
       echo "in:$detectedtype options:$optencoding$optoptimise$cssvar out:$detectedtype,stdout$optcopy" >&2
     fi
-
-  else
-    detectedtype="not a file"
-    echo "Not a file, skipping" >&2
   fi
 done
 

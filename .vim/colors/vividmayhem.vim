@@ -1,5 +1,10 @@
+"                             
 "
-"                    Vivid Mayhem
+"                 ╱ Vivid ╱        
+"                        ╱ Mayhem ╱
+"
+"
+" au BufWritePost <buffer> syn on
 "
 "   Related:
 "   ./termayhem.vim          - Terminal colorscheme
@@ -33,6 +38,7 @@ call extend(v:colornames, {
       \ 'ysignsb': '#10101f',
       \ 'yslcccb': '#202020',
       \ 'yslnnnb': '#151515',
+      \                       'ycsealf': '#33aadd',
       \ }, 'force')
 
 "════════════════════════════════════════════════════════╡ Window
@@ -127,9 +133,6 @@ hi WarningMsg     guifg=#ff7c00 guibg=#550000
 " Hit-Enter prompt & yes/no questions
 hi Question none | hi link Question MoreMsg
 
-hi EchoText       guifg=#dddddd
-hi EchoStrong     guifg=#ffffff gui=bold
-
 hi Title          guifg=#dd22dd                       
 
 hi WildMenu       guifg=#000000 guibg=#767fff gui=bold
@@ -138,9 +141,9 @@ hi WildMenu       guifg=#000000 guibg=#767fff gui=bold
 "════════════════════════════════════════════════════════╡ Invisible(ish)
 "
 " Replacements for concealed text
-hi Conceal        guifg=#7777a2 guibg=NONE            
-hi Conceal        guifg=#33aadd
+hi Conceal        guifg=ycsealf guibg=NONE
 hi link vimSynMtchCchar Conceal
+hi link vimSynCcharValue Conceal
 hi link cssUnitDecorators Conceal
 hi Ignore         guifg=#8888aa guibg=#222244         
 "
@@ -396,10 +399,10 @@ hi TestHint5      guifg=NONE gui=underline guisp=#ff5522
 
 "════════════════════════════════════════════════════════╡ Code Sections
 
-hi Constant       guifg=#339999 guibg=NONE    gui=none
+hi Constant       guifg=#55cc88 guibg=NONE    gui=none
 hi String         guifg=#66fa00 guibg=NONE    gui=none
 hi link Character Constant
-hi Number         guifg=#44aaaa guibg=NONE    gui=none
+hi Number         guifg=#44bbbb guibg=NONE    gui=none
 hi link Boolean Constant
 hi link Float Constant
 
@@ -440,11 +443,25 @@ hi Regexp         guifg=#44b4cc guibg=NONE    gui=none
 
 "════════════════════════════════════════════════════════╡ Comments
 "
-hi Comment        guifg=#cc22dd guibg=NONE    gui=none
-hi CommentBright  guifg=#33eeff guibg=NONE    gui=none
+hi Comment        guifg=#cf28df guibg=NONE    gui=none
+hi CommentBright  guifg=#dd44ff guibg=NONE    gui=none
+hi CommentTitle   guifg=#33eeff guibg=bg      gui=underline,italic guisp=#7744ff
+hi CommentLink    guifg=#22aadd guibg=NONE    gui=underdashed
+
+hi link vimLineComment Comment
+hi link vim9LineComment Comment
+hi link vimCommentTitle CommentTitle
+hi link vim9CommentTitle CommentTitle
+hi link vimCommentError Error
+hi link vim9CommentError Error
+hi link vimComment Comment
+hi link vim9Comment Comment
+hi link vimKeymapLineComment Comment
+hi link vim9KeymapLineComment Comment
 
 "════════════════════════════════════════════════════════╡ Format Aliases
 "
+" Used by formatted :echo (:EcX) See: ../plugin/messages.vim
 hi HlBold         gui=bold
 hi HlBoldItalic   gui=bold,italic
 hi HlItalic       gui=italic
@@ -637,6 +654,12 @@ hi link jsonNoQuotesError       ErrorHint
 hi link jsonMissingCommaError   ErrorHint
 
 
+"
+" See: ../after/syntax/css.vim
+"   $VIMRUNTIME/syntax/css.vim
+"   ../pack/default/start/vim-css3-syntax/after/syntax/css/
+"
+"
 hi cssIdHash         guifg=#ffaa00
 hi cssSelectorOp     guifg=#22ffaa gui=bold
 hi cssSelectorOp2    guifg=#0800ff gui=bold
@@ -710,20 +733,28 @@ hi link cssTransformProp cssBehaveProp
 hi link cssUIProp cssBehaveProp
 hi link cssInteractProp cssBehaveProp
 " Layout & structure
-hi cssLayoutProp guifg=#2288dd guibg=NONE    gui=none
+hi cssLayoutProp   guifg=#2288dd guibg=NONE  gui=none
+hi cssFlexAttrProp guifg=#6688dd guibg=NONE  gui=none
+hi cssGridAttrProp guifg=#8888dd guibg=NONE  gui=none
+
 hi link cssBoxProp cssLayoutProp
 hi link cssBoxAttr cssAttr
+
 hi link cssPositioningProp cssLayoutProp
 hi link cssPositioningAttr cssAttr
+
 hi link cssDimensionProp cssLayoutProp
 hi link cssDimensionAttr cssAttr
-hi link cssFlexibleBoxProp cssLayoutProp
-hi link cssFlexibleBoxAttr cssAttr
-hi link cssGridProp cssLayoutProp
+
+hi link cssFlexibleBoxProp cssFlexAttrProp
+hi link cssFlexibleBoxAttr cssFlexAttrProp
+
+hi link cssGridProp cssGridAttrProp
 hi link cssMultiColumnProp cssLayoutProp
 hi link cssTableProp cssLayoutProp
 " Misc
-hi cssImportant guifg=#dddd11 guibg=#005400  gui=none
+hi cssImportant guifg=#ff22cc guibg=NONE gui=bold,italic
+
 
 " hi link CocSymbolDefault  hl-MoreMsg
 " hi link CocSymbolFile

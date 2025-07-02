@@ -7,6 +7,7 @@ g:mayhem_loaded_sfsymbols = 1
 #
 # See Also:
 #   ../autoload/sfsymbols.vim
+#   ../notes/sf-symbols.createlist.md
 #   ../demo/
 #
 #
@@ -233,7 +234,7 @@ def g:SfIcon(arg: string, suffix: string = 'monochrome', variable: float = 1.0):
   return SfSymbol.newFromString(arg).SetSuffix(suffix).SetVariable(variable).GetIcon()
 enddef
 
-command! -bar -nargs=1 SfSymbol echo g:EchoSymbolInfo(<args>)
+command! -bar -nargs=? SfSymbol echo g:EchoSymbolInfo(<args>)
 
 
 defcompile

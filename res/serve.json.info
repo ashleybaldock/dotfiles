@@ -1,0 +1,57 @@
+[
+  "public": ".",
+
+  "cleanUrls": true | false | [
+    "/app/**",
+    "/!components/**"
+  ],
+
+  "rewrites": [
+    { "source": "app/**", "destination": "/index.html" },
+    { "source": "projects/*/edit", "destination": "/edit-project.html" }
+    { "source": "/projects/:id/edit", "destination": "/edit-project-:id.html" },
+  ],
+
+  "redirects": [
+    { "source": "/from", "destination": "/to" },
+    { "source": "/old-pages/**", "destination": "/home" },
+
+    { "source": "/old-docs/:id", "destination": "/new-docs/:id" },
+    { "source": "/old", "destination": "/new", "type": 302 }
+  ],
+  
+  "headers": [
+    {
+      "source" : "**/*.@(jpg|jpeg|gif|png)",
+      "headers" : [{
+        "key" : "Cache-Control",
+        "value" : "max-age=7200"
+      }]
+    }, {
+      "source" : "404.html",
+      "headers" : [{
+        "key" : "Cache-Control",
+        "value" : "max-age=300"
+      }]
+    }
+  ],
+
+  "directoryListing": true | false | [
+    "/assets/**",
+    "/!assets/private"
+  ],
+
+  "unlisted": [
+    ".DS_Store",
+    ".git"
+  ],
+
+  "trailingSlash ": true | false,
+
+  "renderSingle": true | false,  
+
+  "symlinks ": true | false,
+
+  "etag ": true | false
+  }
+]

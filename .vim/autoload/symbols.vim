@@ -1,7 +1,7 @@
-if exists("g:mayhem_loaded_symbols")
+if exists("g:mayhem_autoloaded_symbols") || &cp
   finish
 endif
-let g:mayhem_loaded_symbols = 1
+let g:mayhem_autoloaded_symbols = 1
 
 
 

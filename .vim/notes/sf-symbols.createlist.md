@@ -8,7 +8,7 @@ name[.(square|.circle)][.on.<X>]
 
 4 columns (group twice)
 
-```
+```pre
   􀛶 􀜪 􀛷 􀜫  stop (.circle) (.fill (.circle))
 ```
 
@@ -28,7 +28,7 @@ name[.(square|.circle)][.on.<X>]
 %s/
 ````
 
-````pre
+```pre
 ⧕⃞ _______1̲________
 \(\%([^a-z0-9]\)\s\)\+
   ____________2̲____________
@@ -43,10 +43,11 @@ name[.(square|.circle)][.on.<X>]
 \(\.\<circle\>\|\.\<square\>\|\.\<fill\>\|\.\<dotted\>\|\.\<inverse\>\)\+
 
 /\1\4\2 (\3\5)/
+```
 
 ```pre
  􀓅 􀄧 􀁬 􀁭 􀃼 􀃽  arrowtriangle.right .fill .circle .circle.fill .square .square.fill
-````
+```
 
 square.2.layers.3d
 square.3.layers.3d.down.right

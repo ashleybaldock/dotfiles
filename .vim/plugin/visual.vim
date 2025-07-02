@@ -9,7 +9,10 @@ let g:mayhem_loaded_visual = 1
 " TODO replace with <plug> and move keybind to shortcuts
 "
 " vmap §v <ScriptCmd>echom GetVisualSelection()<CR>
-vnoremap <unique> <script> <Plug>MayhemGetvisualselection <ScriptCmd>echom GetVisualSelection()<CR>
+if !hasmapto('<ScriptCmd>echom GetVisualSelection()<CR>')
+  xunmap <Plug>MayhemGetvisualselection
+  xnoremap <unique> <script> <Plug>MayhemGetvisualselection <ScriptCmd>echom GetVisualSelection()<CR>
+endif
 
 function! GetVisualSelection() abort
   let [_, fromrow, vcol, voff] = getpos('v')
@@ -75,8 +78,9 @@ endfunc
 " Horizontal (Sign w/ line highlight) for top and bottom row
 " TODO replace with <plug> and move keybind to shortcuts
 "
-if !hasmapto('<Plug>MayhemVisualOutline;')
-  vnoremap <unique> <script> <Plug>MayhemVisualOutline <ScriptCmd>echom VisualOutline()<CR>
+if !hasmapto('<ScriptCmd>echom VisualOutline()<CR>')
+  xunmap <Plug>MayhemVisualOutline
+  xnoremap <unique> <script> <Plug>MayhemVisualOutline <ScriptCmd>echom VisualOutline()<CR>
 endif
 
 function! s:VisualOutline() abort
@@ -95,16 +99,37 @@ function s:VisualBlockOutline() abort
   if mode() != ''
     return
   endif
-  let [_, y1, vcol, voff] = getpos('v')
-  let x1 = vcol + voff
-  let [_, y2, ccol, coff, _] = getcurpos()
-  let x2 = ccol + coff
-  let dx = abs(x1 - x2)
+
+  " Screen position (including sign column etc.)
+  let x_win = wincol()
+
+  " Byte positions
+  let [_, y1, vcol_byte, voff_byte] = getpos('v')
+  let x1_byte = vcol_byte + voff_byte
+  let [_, y2, ccol_byte, coff_byte, _] = getcurpos()
+  let x2_byte = ccol_byte + coff_byte
+  let dx_byte = abs(x1_byte - x2_byte)
+
+  " Char positions
+  let [_, _, vcol_char, voff_char] = getcharpos('v')
+  let x1_char = vcol_char + voff_char
+  let [_, _, ccol_char, coff_char, _] = getcursorcharpos()
+  let x2_char = ccol_char + coff_char
+  let dx_char = abs(x1_char - x2_char)
+
+  " Virtual positions (apparent screen columns)
+  let x1_virt = virtcol('v')
+  let x2_virt = virtcol('.')
+  let dx_virt = abs(x1_virt - x2_virt)
+
   let dy = abs(y1 - y2)
 
-  echom 'visual area: ('..x1..','..y1..')->('..x2..','..y2..')'
+  echom 'wincol: ('..x_win..')'..
+        \' ╱ virt:'..dx_virt..' ('..x1_virt..','..y1..')->('..x2_virt..','..y2..')'..
+        \' ╱ char:'..dx_char..' ('..x1_char..','..y1..')->('..x2_char..','..y2..')'..
+        \' ╱ byte:'..dx_byte..' ('..x1_byte..','..y1..')->('..x2_byte..','..y2..')'
 
-  exec 'setlocal colorcolumn='..x1..','..x2
+  exec 'setlocal colorcolumn='..x1_virt..','..x2_virt
 
   let aSign = sign_define('linevistop', #{
         \ linehl: 'SignVisTop',

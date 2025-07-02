@@ -8,9 +8,8 @@ let g:mayhem_loaded_reload = 1
 "
 " (This doesn't work on itself)
 "
-" Works if the 'if exists(name) finish endif' is
-" the first non-commented thing in the file
-"
+" Looks for 'if exists(name)', in the first 10 lines of the file
+" 
 function! s:SetReloadName(name)
   let s:loadedflagname = a:name
   return a:name
@@ -18,12 +17,12 @@ endfunc
 function! s:UnsetAndReload(pluginfile = expand('%')) abort
   for line in readfile(fnameescape(a:pluginfile), '', 10)
     let result = substitute(line,
-          \ '\_^\s*if\s\+exists(\s*\([''"]\)\zs\([bwtgls]:\h\w*\ze\)\1)',
+          \ '\_^\s*if\s\+exists(\s*\([''"]\)\zs\([bwtgls]:\h\w*\ze\)\1\s*)',
           \ { m -> s:SetReloadName(m[0]) }, '')
   endfor
 
   let msg = 'Reloading ''' .. a:pluginfile
-  if exists('s:loadedflagname')
+  if exists(s:loadedflagname)
     exec 'unlet ' .. s:loadedflagname
     let msg = msg .. ''' (found & reset loaded flag ''' .. s:loadedflagname .. ''')' 
   endif

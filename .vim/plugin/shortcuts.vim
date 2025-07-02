@@ -76,14 +76,20 @@ xnoremap ‚ <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsear
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ + RepeatMove
 nnoremap – a̲<Esc>h<Cmd>RepeatMove<CR>
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲h̲i̲t̲e̲s̲p̲a̲c̲e̲
-xnoremap – <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
+xnoremap – <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze/\0̲/g<CR><Cmd>nohlsearch<CR> 
 "
 " ▌️􀆝􀆕 -▐️──▷ O̅v̅e̅r̅l̅i̅n̅e̅ + RepeatMove
 nnoremap — a̅<Esc>h<Cmd>RepeatMove<CR>
 " ▌️􀆝􀆕 -▐️──▷ Overline visual selection, skip leading/trailing whitespace
-xnoremap — <Cmd>s/\%V\%(^"\s*\)\?\S\{-}\zs.\ze\S\{-}\%(\s*)\?$/\0̅/g<CR><Cmd>nohlsearch<CR> 
-" nnoremap <plug> a꛱<Esc><Cmd>RepeatMove<CR>
-" nnoremap <plug> a꛰<Esc><Cmd>RepeatMove<CR>
+xnoremap — <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze/\0̅/g<CR>
+"<Cmd>nohlsearch<CR> 
+" n̲noremap <p̅lug> a꛱<Esc><Cmd>RepeatMove<CR>
+" n̅noremap <p̲̅lug> a꛰<Esc><Cmd>R̲̅̅epeatMove<CR>
+"
+"
+" test
+" 1 2 5
+"
 "
 " Add Variation Selector:
 " ▌️􀆕 =︎▐️──▷ ────▷ V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️ + RepeatMove
@@ -426,36 +432,46 @@ nnoremap <expr> O v:count > 0 ? 'm`:<C-u>exe "norm! ' .. v:count .. 'O"<CR>``' :
 "
 " Source Saved Version:
 "
-nnoremap §rf :UnsetAndReload<CR>
+nnoremap <expr> §rf  &ft == 'vim' ? "<Cmd>UnsetAndReload<CR>" : "<Cmd>echo Not a vim file (override with §rF)<CR>"
+nnoremap §rF <Cmd>UnsetAndReload<CR>
 "
 " Save Then Source:
 "
-nnoremap §rs :w :so %<CR>
+nnoremap <expr> §rs  &ft == 'vim' ? "<Cmd>w :so %<CR>" : "<Cmd>echo Not a vim file (override with §rS)<CR>"
+nnoremap §rS <Cmd>w :so %<CR>
 "
 " Source Buffer: (doesn't refresh everything)
 "
-nnoremap §re :so<CR>
+nnoremap <expr> §re  &ft == 'vim' ? "<Cmd>so<CR>" : "<Cmd>echo Not a vim file (override with §rE)<CR>"
+nnoremap §rE <Cmd>so<CR>
 "
 " Execute Visual Selection:
 " TODO prompt for confirmation if not in a vim file, or not in ~/.vim/
 " TODO skip any comment character at the start of the line
 "
-vmap §rr "xy:@x<CR>
+" substitute(@", '^[#"]\s*', '', '')
+"
+xnoremap <expr> §rr  &ft == 'vim' ? '"xy:@x<CR>' : "<Cmd>echo Not a vim file (override with §rR)<CR>"
+xmap §rR "xy:@x<CR>
 "
 " Exec Line:
 " :command! -bar -range Exe execute join(getline(<line1>,<line2>),"\n")
+" TODO
 "
+" Exec Contents Of Markdown Code Block:
+" TODO if type is vim, source, type is bash, run script etc.
 "
 " Source Current Line:
 " TODO prompt for confirmation if not in a vim file, or not in ~/.vim/
 " TODO skip any comment character at the start of the line
 " TODO make this work with multi-line commands with line continuation
 "
-nnoremap §rr :.,.so<CR>
+nnoremap <expr> §rr  &ft == 'vim' ? "<Cmd>.,.so<CR>" : "<Cmd>echo Not a vim file (override with §rR)<CR>"
+nnoremap §rR <Cmd>.,.so<CR>
 "
 " Source Vimrc:
 "
-nnoremap §rv :so expand('$VIMHOME/vimrc')<CR>
+nnoremap §rv <Cmd>so expand('$VIMHOME/vimrc')<CR>
 
 
 " nnoremap §rr :^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$

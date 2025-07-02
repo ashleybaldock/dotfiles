@@ -30,12 +30,25 @@ function! ExecAndReturnList(command, splitpattern = '\n') abort
 endfunc
 
 "
+" Execute a command and display result in quickfix
+"
+function! ExecAndList(command) abort
+    call setqflist([], ' ', #{
+          \ nr: '$',
+          \ title : '╱ ExecAndList ╱ :' .. a:command .. ' ╱',
+          \ context : a:command,
+          \ lines: ExecAndReturnList(a:command, '\n')})
+    copen
+endfunc
+
+command! -complete=command -nargs=1 ExecAndList silent call ExecAndList(<q-args>)
+
+"
 " Execute a command and paste the result into
 " the current buffer at the cursor position
 "
 function! ExecAndPut(command) abort
-  let @o = ExecAndReturn(a:command)
-  silent exec 'norm "ogp'
+  exec "normal! a" .. ExecAndReturn(a:command) .. "\<Esc>"
 endfunc
 
 command! -complete=command -nargs=1 
@@ -57,7 +70,7 @@ endfunc
 "
 " Execute a command and put the result into a register
 "
-function! ExecAndSetRegister(command, register = '"') abort
+function! ExecToRegister(command, register = '"') abort
   exec 'let @'..a:register..' = ExecAndReturn(a:command)'
 endfunc
 
@@ -65,12 +78,15 @@ endfunc
 " Execute a command and put the result into a register
 "
 command! -complete=command -nargs=1 -register 
-      \ ExecAndSetRegister silent call ExecAndSetRegister(<q-args>, <reg>)
+      \ ExecToRegister silent call ExecToRegister(<q-args>, <reg>)
 
 " Execute a command and put the result into unnamed register
 "
 command! -complete=command -nargs=1 
-      \ ExecAndYank silent call ExecAndSetRegister(<q-args>, '"')
+      \ ExecAndYank silent call ExecToRegister(<q-args>, '"')
+
+command! -complete=command -nargs=1 
+      \ ExecAndCopy silent call ExecToRegister(<q-args>, '+')
 
 command! -complete=command -nargs=1
       \ ExecAndSplit silent call ExecAndSplit(<q-args>)

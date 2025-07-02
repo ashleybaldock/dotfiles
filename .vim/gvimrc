@@ -241,13 +241,13 @@ an 100.650.100 Tools2.Auto\ Format	<Cmd>call FormatBuffer()<CR>
 " 􀟉 􁀃 􁀄 􁀅 􁀆 􀟈 􀾗 􁕤 􁕥         􀋀 􀋁
 "
 "
-" 􀟊􀟋􁀇􁀈􁀼􁀽
+" 􀟊 􀟋 􁀇 􁀈 􁀼 􁀽
 " 
-" 􀝝􀝞􁀉􁀊􁀾􁀿
+" 􀝝 􀝞 􁀉 􁀊 􁀾 􁀿
 "
-" 􀶺􀶻􁀋􁀌􁀺􁀻
+" 􀶺 􀶻 􁀋 􁀌 􁀺 􁀻
 "
-" 􀟆􀟇􀇺􀇻􀇼􀇽
+" 􀟆 􀟇 􀇺 􀇻 􀇼 􀇽
 "
 "
 " 􀂓 􀣧  􁒠 􁒣 􁒡 􁒢  􀘜 􀕱 􀕯 􀕳 􀡘 
@@ -282,7 +282,7 @@ an 100.650.100 Tools2.Auto\ Format	<Cmd>call FormatBuffer()<CR>
 " 􀢉    􀴊 􀨩 􀨱 􀨨       􀓛 􀛦 􂫑  􀇶
 "       􀭳 􀭴 􀭶 􀭵 
 "       􁼁  􁼅  􁼉  􁻽  􂂟  􂂣  􂬜  􀢿 􀠹 􁁀
-" 􀠳 􀠴 􀑧 􀑨 􀭱 􀭲 􀫹 􀫺 􀫻 􀫼 
+" 􀠳 􀠴 􀑧 􀑨 􀭱 􀭲 􀫹􁽾 􁽺 􀫺 􀫻 􁽼 􁽸 􀫼 
 " 
 " 􀏧 􀥀 􀏩 􀾬 􀢳 􂠗  􀏫 􀑯 􀣵   􀣂  
 " 􀏨 􀤿 􀏪    􀢴    􀏬 􀑰 􂣳                               
@@ -307,6 +307,13 @@ an 120.200.250 View.Chars.Minimal	<Cmd>CharsMinimal<CR>
 an 120.200.260 View.Chars.Diagnostic	<Cmd>CharsDiagnostic<CR>
 an 120.300 View.-sep1-		<Nop>
 an icon=pin 120.330 View.Marks	<Cmd>marks<CR>
+
+
+an icon=xmark 120.300.150 View.Debug.WinSize	<Cmd>Toggle g:mayhem_sl_show_winsize<CR>
+aunmenu View.Debug.WinSize
+an icon=checkmark 120.300.150 View.Debug.WinSize	<Cmd>Toggle g:mayhem_sl_show_winsize<CR>
+aunmenu View.Debug.WinSize
+an icon=$VIMHOME/bitmaps/blank24.png 120.300.186 View.Debug.WinSize	<Cmd>Toggle g:mayhem_sl_show_winsize<CR>
 
 
 an 10.404 &File.Diff\ With\ Saved<Tab>§df	<Cmd>DiffWithSaved<CR>

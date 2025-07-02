@@ -198,13 +198,28 @@ command! MessagesRefresh call s:RefreshMessages()
 command! Messages call s:SplitWithMessages()
 
 "
-" Formatted echo commands
+" (Crudely) Formatted echo commands
 "
-" e.g. :EcN 'normal' | EcB 'bold' | EcI 'italic' | EcN 'back to normal'
+" e.g. :EcN 'normal ' | EcB 'bold ' | EcI 'italic ' | EcN 'back to normal'
 "
-" (set it back to normal at the end)
+" - Resets hl group at the end of each command
+" - Formatting isn't additive, one hl group at a time
+" - Spaces at the end of each command aren't preserved
 "
-command! -nargs=1 EcN echoh EchoText | echon <args> | echoh None
-command! -nargs=1 EcB echoh EchoBold | echon <args> | echoh None
-command! -nargs=1 EcI echoh EchoItalic | echon <args> | echoh None
+"   EcN hello | EcN world!     ->  helloworld! 
+"   EcN hello ' ' | EcN world!  ->  hello world!
+"
+" command! -nargs=1 EcN echoh EchoText | echon <q-args> | echoh None
+" command! -nargs=1 EcI echoh EchoItalic | echon <q-args> | echoh None
+command! -bar -nargs=1 EcN exec 'echoh EchoText | echon ''' .. <q-args> .. ''' | echoh None'
+command! -bar -nargs=1 EcB exec 'echoh HlBold | echon ''' .. <q-args> .. ''' | echoh None'
+command! -bar -nargs=1 EcI exec 'echoh HlItalic | echon ''' .. <q-args> .. ''' | echoh None'
+command! -bar -nargs=1 EcBI exec 'echoh HlBoldItalic | echon ''' .. <q-args> .. ''' | echoh None'
+
+"
+" Echo a highlight group name in its own highlighting
+"
+" e.g. :EcN See hl group | EcH Constant | EcN for info
+"
+command! -bar -nargs=1 EcH exec 'echoh ' .. <q-args> .. ' | echon ''' .. <q-args> .. ''' | echoh None'
 

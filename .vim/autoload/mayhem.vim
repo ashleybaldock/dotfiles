@@ -72,3 +72,13 @@ endfunc
 "   echo fnamemodify(expand(a), ':p:h')
 " endfunc
 
+
+
+" function mayhem#visualChars() abort
+"   let [_, y1, vcol_char, voff_char] = getcharpos('v')
+"   let x1_char = vcol_char + voff_char
+"   let [_, y2, ccol_char, coff_char, _] = getcursorcharpos()
+"   let x2_char = ccol_char + coff_char
+"   let dx_char = abs(x1_char - x2_char)
+"   return #{from: min(x1_char, x2_char), to: max(x1_char, x2_char), count: dx_char}
+" endfunc

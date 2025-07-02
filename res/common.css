@@ -1,9 +1,32 @@
+/*!{{{1 Global fallbacks */
 :root {
-  --𝞅: 1.618;
-  --𝟭∕𝞅: calc(1 / var(--𝞅));
-  --𝞅∕𝟮: calc(var(--𝞅) / 2);
-  --icon-fg-color: #ffffff;
-  --icon-bg-color: #000000;
+  --𝞅: calc((1 + sqrt(5)) / 2);
+  --𝟭∕𝞅: 1 / var(--𝞅);
+  --𝞅∕𝟮: var(--𝞅) / 2;
+  --𝝷: atan(var(--𝞅));
+}
+/*!{{{1 @property */
+@property --𝞅 {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1.618;
+}
+@property --𝟭∕𝞅 {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1 / var(--𝞅);
+}
+@property --𝞅∕𝟮 {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: var(--𝞅) / 2;
+}
+@property --𝝷 {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: atan(var(--𝞅));
+}
+:root {
   --icon-border: 1;
   --icon-padding: 20;
   --icon-radius: 60;
@@ -94,6 +117,7 @@ svg {
   flex: 1 1;
   align-content: center;
   justify-content: center;
+  border: 0px solid #0000;
 }
 
 .vertical {

@@ -4,29 +4,55 @@ endif
 let g:mayhem_loaded_search = 1
 
 " === Ack / Search ===
+"
+" See: ../../../.agignore
+"         ../../.ignore
+"         ../../.gitignore
+"
 
 
 " For multi-line searches, make leading/trailing whitespace not matter
 " TODO
 "
-" Prepend  Append
-"  ^\_s*    \_s*$\_s*
-" function! s:FuzzWhitespace(search) abort
-" endfunc
-
-
-" Not: 0 1 2 3 4 5 6 7 8 9 \ " |
-"      A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 
-"      a b c d e f g h i j k l m n o p q r s t u v w x y z
-" Or: # 
-" (in vim9script)
+" Prepend: ^\_s*
+" Append: \_s*$
+" Replace: \s*\n\+\s* \_s*\_$\_s*
 "
-let s:separatorCandidates = split(
-      \ "/ _ ! ? $ & @ + ^ ~ - , . : ; < = ` ' ( ) [ ] { }")
+" '<,'>s/\s*\n\+\s*/\\\_s*\\\_\$\\\_s\*/
+function! s:FuzzWhitespace(text)
+  if stridx(a:pattern, '\n') < 0
+    return '^\_s*' .. text .. '\_s*\_$'   
+  else
+    return '^\_s*' .. text .. '\_s*$\_s*'
+  endif
+endfunc
+
+
+" Not: [0-9A-Za-z\"|#] (# only in vim9script)
+"
+let s:separatorCandidates = split("/+!?$&@^~_-,.:;<=`'()[]{}", '.\zs')
 
 " Find best separator that isn't in either pattern or replacement
 function! s:FindPatternSeperator(pattern, replacement)
+  for c in s:separatorCandidates
+    if stridx(a:pattern, c) < 0 && stridx(a:replacement, c) < 0
+      return c
+    endif
+  endfor
 endfunc
+
+function MakeSubstitute(text, replacement, options = {})
+  let trim = get(a:options, 'trim', v:true)
+  let fuzzws = get(a:options, 'fuzzws', v:true)
+  let flags = get(a:options, 'flags', 'cg')
+  let pat = a:text
+  let rep = a:replacement
+  let opt = a:options
+  let sep = s:FindPatternSeperator(pattern, replacement)
+
+  return 's'..sep..pat..sep..rep..sep..opt
+endfunc
+
 
 function s:AckEscaped(search) abort
   " The ! avoids jumping to first result automatically

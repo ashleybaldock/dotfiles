@@ -19,7 +19,7 @@ let s:symbol_linksto = get(g:, 'mayhem_symbol_hihi_linksto', '⫘⃗ ')
 
 "
 " TODO convert this to vim9script for speed
-function! s:HighlightHighlight()
+function! s:HighlightHighlight() abort
   call autocmd_add([#{
         \ event: 'ColorScheme', pattern: 'vividmayhem',
         \ cmd: 'call s:HighlightHighlight()',
@@ -67,15 +67,15 @@ command! -bar HiHi call <SID>HighlightHighlight()
 "
 " See: ./sfsymbols.vim
 "
-function! s:GetCharacterInfo()
-  let char = char2nr(getline('.')[col('.')-1:-1])->nr2char()
+function! s:GetFormattedCharacterInfo() abort
+  let char = char2nr(getline('.')[col('.') - 1 : -1])->nr2char()
+  let composedchar = strpart(getline('.'), col('.') - 1, 1, v:true)
   let output = 'No Char Info'
 
+  " SFSymbols doesn't define composing characters itself
   let info = GetSfSymbolInfo(char)
   if info.IsValid()
-    let output = ''..info['symbol']..
-          \ ' '..info['code']..
-          \ ' '..info['name']..' (SFSymbol)'
+    let output = '⟨' .. composedchar .. '⟩' .. string(info) .. ' (SFSymbol)'
   else
     " TODO implement similar in ./unicode.vim and remove dep.
     if !exists('g:autoloaded_characterize')
@@ -84,13 +84,13 @@ function! s:GetCharacterInfo()
     endif
     let v:errmsg = ''
     redir => output
-      silent exec 'Characterize '..char
+      silent exec 'Characterize ' .. char
     redir END
     if v:errmsg != ''
-      echom 'Error running Characterize: '..v:errmsg
+      echom 'Error running Characterize: ' .. v:errmsg
       let output = 'Char Info Err'
     else
-      let output = trim(output)->split(', ')[1]
+      let output = trim(output)->split(', ')->join(' ╱ ')
     endif
   endif
   return [output]
@@ -116,35 +116,110 @@ function s:GetLinkChain(name)
   return chain
 endfunc
 
+function s:GetFormattedPositionInfo(maxlines = 20) abort
+  let cc = charcol('.')
+  let vc = virtcol('.')
+  let bc = col('.')
+  let col = printf('𝖢𝗈𝗅%s', cc)
+  let vcol = printf('𝖵%s', vc)
+  let byte = printf('𝖡%s', bc)
+  let numbers = printf('𝖱𝗈𝗐 %s %s%s%s',
+        \ line('.'),
+        \ col,
+        \ cc == vc ? '' : printf('(%s)', vcol),
+        \ cc == bc ? '' : printf('(%s)', byte))
+  return printf('%'..a:maxlines..'S', numbers)
+endfunc
+
 "₁️₂️₃️
 "₁⃞ ₂⃞ ₃⃞  ¹⃞ ²⃞ ³⃞ ⁴⃞    ¹️²️³️⁴️⁵️⁶️⁷️⁸️⁹️₁️₂️₃️₄️₅️₆️₇️₈️₉️¹̲►️²̲️³̲️⁴̲️⁵̲️⁶̲️⁷̲️⁸̲️⁹̲️►️₁️₂️₃️₄️₅️₆️₇️►️₈️₉️²³⁴►️⁵⁶⁷⁸⁹₁꛱₂꛱₃꛱₄꛱₅꛱₆꛱₇꛱₈꛱₉꛱
 "₁⃞️ ₂⃞️ ₃⃞️  ¹⃞ ²⃞ ³⃞ ⁴⃞ ⁵⃞ ⁶⃞ ⁷⃞ ⁸⃞ ⁹⃞  0︎⃣ 1︎⃣ 2︎⃣ 3︎⃣ 4︎⃣ 5︎⃣ 6︎⃣ 7︎⃣ 8︎⃣ 9︎⃣  
 "
-" ⎛             ᐅᐳ         ◁️[ ₁️1︎⃣ ⮕  ◁️]  ᐅᐳ  ▷️ᐳ  ▷️ᐳ⮕ᐳ               ⎞
+" ⎛             ᐅᐳ         ◁️[ ₁️1︎⃣ 1 ▷️⮕ᐳ  ◁️]  ᐅᐳ  ▷️ᐳ  ▷️ᐳ⮕ᐳ               ⎞
 " join(chain, '▶︎▬ᷞ▬ͥ▬ᷠ▬ᷜ▶︎') join(chain, ' ▬▶︎ ') join(chain, ' -> ') join(chain, ' ʟɪɴ͢ᴋ ')
 "
 "  􀯭 􀯮 􀯯 􁉽 􁋼 􁉼 􁋽 􁋛 􁋜 􀯰 􁌅 􀯱 􀯲 􀯳 􁊕
-"􀅓􀅔 􀅕 􀅖 􀨡 
+"  􀅓️⃞ 􀅔️⃞ 􀅕️ 􀅖️⃞  􀨡️⃞  
 
 " 􀑋 􀑍 􀯴 􀮵 􀺾 􀿨 􀑏 􁂠 􂡆  􀿫 􂞹 􂞺  􀿪􁰏 
 " 􀑌 􀑎 􀯵 􀮶 􀻀 􀿩 􀑐 􁂡 􂡇  􀭨 
 " 
-" 􀭅 􀆗􀆛􀆙
-" 􁚀 􀆘􀆜􀆚
-" 􀃬􀃮􀃜􀃞
-" 􀣤 􀏃 􀣦􀂒􀃰􀃲 
-" 􀣥 􀏄 􀣧􀂓􀃱􀃳
-" 􁄻 transparent
+" 􀭅 􀆗􀆛􀆙               ◲⃞ ▬ ◱⃞     ◶⃞   ◵⃞    
+" 􁚀 􀆘􀆜􀆚               ❚    ❚             
+" 􀃬􀃮􀃜􀃞                ◳⃞   ◰⃞    ◷⃞   ◴⃞   
+" 􀣤 􀏃 􀣦􀂒􀃰􀃲                           
+" 􀣥 􀏄 􀣧􀂓􀃱􀃳                           
+" 􁄻 transparent                           
 
-" ⎛  ★   fg:􀏄 bg:􀏄 sp:􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾             ⎞
-" ⎢ ᴅ  1234: cssUrlFunction  S️tatement               ⎥
+" ⎛  ★   fg􀏄 bg􀏄 sp􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾               ⎞
+" ⎢                                                  ⎥
+" ⎢ ᴅ  1234: cssUrlFunction S️tatement               ⎥
 " ⎢  ᴄ  567: cssAttrRegion                           ⎥
 " ⎢  ᴄ   89: cssDefinition                           ⎥
-" ⎝                        Synstack @ Row 62 Col 39  ⎠
+" ⎝                                 @ Row 62 Col 39  ⎠
+" 
+" ∙ • ・◦ ● ○ ◎ ◉ ⦿  ‣ ▵ ▴ ➤ ➢ ➣  ✢ ✣ ✤ ✧ ★ ☆    ✻ ✲ ✱ 
+" ∙⃞ •⃞ ・⃞◦⃞ ●⃞ ○⃞ ◎⃞ ◉⃞ ⦿⃞  ‣⃞ ▵⃞ ▴⃞ ➤⃞ ➢⃞ ➣⃞  ✢⃞ ✣⃞ ✤⃞ ✧⃞ ★⃞ ☆⃞    ✻⃞ ✲⃞ ✱⃞ 
 "
-" ⎛  ★         􀅓️⃝ 􀅔️⃝ 􀅕️⃝ 􀅖️⃝ 􀨡️⃝     􂏾️⃝                  ⎞
+" ※ ※⃞️ ※⃞  ▪▪︎⃞ ▪⃞︎  ▫▫︎⃞ ▫⃞︎    ❘️❘⃞ ❘❘⃞︎ ❙️❙⃞ ❙❙⃞︎ 
+"                                                                            
+" ∙️ •️ ・️◦️ ●️ ○️ ◎️ ◉◉️ ◉️⃝ ⦿⃝ ⦿⦿⃝︎    ◎⃝︎  ◎⃝◎⃝️      ⦿️   ‣️ ▵️ ▴️ ➤️ ➢️ ➣️  ✢️ ✣️ ✤️ ✧️ ★️ ☆️    ✻️ ✲️ ✱️ 
 "
-" ⎛  ★   fg:􀂓 bg:􀂓 sp:􀂓  􀅓 􀅔 􀅕 􀅖 􀨡    􂏾    ⎞
+" ✗ ✗⃞︎ ✗️ ✗⃞️  ✘ ✘⃞︎ ✘️ ✘⃞      ✓✔︎✓️✔︎︎️ ✓⃞ ✔︎⃞   ✕ ✕⃞︎  ✕️ ✕⃞   ✖︎ ✖⃞︎  ✖︎⃞   
+"・∙️∙•●️•️● ○ ◎ ◉ ⦿ 
+"
+"  ↵ ↲ ↳ ↰ ↱ ↴  ⤶ ⤴︎ ⤵︎ ⤷  ⤥ ⤤ ⤹ ⤸ ↩︎ ↪︎ ⤾ ⤿ ⤺ ⤻
+"  ↵︎ ↲︎ ↳︎ ↰︎ ↱︎ ↴︎  ⤶︎ ⤴︎︎ ⤵︎︎ ⤷︎  ⤥︎ ⤤︎ ⤹︎ ⤸︎ ↩︎︎ ↪︎︎ ⤾︎ ⤿︎ ⤺︎ ⤻︎
+"  ↵️ ↲️ ↳️ ↰️ ↱️ ↴️  ⤶️ ⤴︎️ ⤵︎️ ⤷️  ⤥️ ⤤️ ⤹️ ⤸️ ↩︎️ ↪︎️ ⤾️ ⤿️ ⤺️ ⤻️
+"  ↵️︎ ↲️️ ↳️ ↰️ ↱️ ↴️  ⤶️ ⤴︎️ ⤵︎️ ⤷️  ⤥️ ⤤️ ⤹️ ⤸️ ↩︎️ ↪︎️ ⤾️ ⤿️ ⤺️ ⤻️
+"
+"  ◦️ ◦   ○️ ◎️ ◉️ ⦿️  ‣️ ▵️ ▴️ ➤️ ➢️ ➣️  ✢️ ✣️ ✤️ ✧️ 
+"
+"  ★ ☆ ★⃝︎  ☆⃝︎  ★⃝  ☆⃝  ★️ ☆️  ★⃞ ☆⃞  ★⃞︎ ☆⃞︎   ✻️ ✲️ ✱️  ✓️ ✔︎️  ✕️ ✖︎️  ✗️ ✘️  ※️      ❘️ ❙️
+"
+" ⎛  ★                     fg bg sp  􀅓􀅔􀅕􀅖􀨡 􂏾   ⎞
+" ⎢  ★      cssUrlFunction 􀏄 􀏄 􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾   ⎥
+" ⎢                                                  ⎥
+" ⎢                                                  ⎥
+" ⎛★   cssUrlFunction ꜰ􀂒ʙ􀣦ꜱ􀂓  􀅓􀅔􀅕􀅖􀨡 􂏾   ⎞
+"
+" ⎛★                                                  ⎞
+" ⎢   𝟧𝟤𝟥𝟦⁝cssUrlFunction ꜰ􀂒ʙ􀣦ꜱ􀂓  􀅓􀅔􀅕􀅖􀨡 􂏾         ⎥
+" ⎢                                                   ⎥
+" ⎢        𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫  𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵                     ⎥
+" ⎢      ₅️₆️₇️₈️₉️                                        ⎥
+" ⎢                                                   ⎥
+
+let s:subranges = #{
+      \ norm:  '0123456789',
+      \ vs16:  '0️1️2️3️4️5️6️7️8️9️',
+      \ sans:  '𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫',
+      \ sansb: '𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵',
+      \ sup:   '⁰¹²³⁴⁵⁶⁷⁸⁹',
+      \ sub:   '₀₁₂₃₄₅₆₇₈₉',
+      \ sub16: '₀️₁️₂️₃️₄️₅️₆️₇️₈️₉️',
+      \ mono:  '𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿',
+      \ fullw: '０１２３４５６７８９'
+      \}
+"
+" Replace range(s) of codepoints in input string
+function SwapNumbers(str, subrange = 'sans')
+  let range = split(a:subrange, '\zs')
+  return substitute(a:str, '[0-9]',
+        \ '\=strgetchar(l:range, str2nr(submatch(0)))',
+        \ '\=get(l:range, str2nr(submatch(0)), submatch(0))',
+        \ 'g')
+endfunc
+" ⎛  ★ cssUrlFunction:1234 ꜰ􀏄 ʙ􀏄 ꜱ􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾 ⎞
+" ⎢ ᴅ   ↳️ S️tatement:667  Error:554                    ⎥
+" ⎢                                                   ⎥
+" ⎢  ᴄ  567: cssAttrRegion                            ⎥
+" ⎢  ᴄ   89: cssDefinition                            ⎥
+" ⎝                        Synstack @ Row 62 Col 39   ⎠
+"
+" ⎛  ★️         􀅓️⃝ 􀅔️⃝ 􀅕️⃝ 􀅖️⃝ 􀨡️⃝     􂏾️⃝                 ⎞
+"
+" ⎛  ★   fg:􀂓 bg:􀂓 sp:􀂓  􀅓 􀅔 􀅕 􀅖 􀨡    􂏾     ⎞
 " ⎢ ᴅ  1234: cssUrlFunction  S️tatement               ⎥
 " ⎢  ᴄ  567: cssAttrRegion                           ⎥
 " ⎢  ᴄ   89: cssDefinition                           ⎥
@@ -222,7 +297,7 @@ endfunc
 "                                           
 function! s:ForColor(color)
   if a:color == 'NONE'
-    return ['􀣤', '#333333']
+    return ['􀣦', '#333333']
   endif
   if a:color == 'fg' || a:color == 'foreground'
     return ['􀯮', '#333333']
@@ -231,13 +306,15 @@ function! s:ForColor(color)
     return ['􀯯', '#333333']
   endif
   if v:colornames->has_key(a:color)
-    return ['􀏄', v:colornames[a:color]]
+    return ['􀂓', v:colornames[a:color]]
   endif
   if a:color =~ '^#'
-    return ['􀏄', a:color]
+    return ['􀂓', a:color]
   endif
-  return ['􀏃', '#333333']
+  return ['􀂒', '#333333']
 endfunc
+
+let s:sectionBreak = ''
 
 function! s:UpdateSynFoBuffer(winid)     
   let bufnr = winbufnr(a:winid)
@@ -257,16 +334,17 @@ function! s:UpdateSynFoBuffer(winid)
     let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
     let [spsymbol, spcolor] = s:ForColor(get(val, 'guisp', ''))
 
-    let colors = printf('fg:%s bg:%s sp:%s', fgsymbol, bgsymbol, spsymbol)
+    let colors = printf('ꜰ%sʙ%sꜱ%s', fgsymbol, bgsymbol, spsymbol)
 
     call hlset([{'name': 'HlSynfoFG', 'guifg': fgcolor}])
     call hlset([{'name': 'HlSynfoBG', 'guifg': bgcolor}])
     call hlset([{'name': 'HlSynfoSP', 'guifg': spcolor}])
 
+" ⎛★   cssUrlFunction \%(􀂒\|􀣦\|􀂓\)  􀅓􀅔􀅕􀅖􀨡 􂏾   ⎞
     call clearmatches(a:winid)
-    call matchadd('HlSynfoFG', 'fg:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
-    call matchadd('HlSynfoBG', 'bg:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
-    call matchadd('HlSynfoSP', 'sp:\zs􀏄\ze\s', 10, -1, {'window': a:winid})
+    call matchadd('HlSynfoFG', 'ꜰ\zs\%(􀂒\|􀣦\|􀂓\)\ze', 10, -1, {'window': a:winid})
+    call matchadd('HlSynfoBG', 'ʙ\zs\%(􀂒\|􀣦\|􀂓\)\ze', 10, -1, {'window': a:winid})
+    call matchadd('HlSynfoSP', 'ꜱ\zs\%(􀂒\|􀣦\|􀂓\)\ze', 10, -1, {'window': a:winid})
 
 " 􀣤 􀏃 􀣦􀂒􀃰􀃲 
 " ⎛  ★   fg:􀏄 bg:􀏄 sp:􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾             ⎞
@@ -340,6 +418,8 @@ function! s:UpdateSynFoBuffer(winid)
     endfor
   end
 
+  call add(lines, s:sectionBreak)
+
   "
   " TODO Text Object Info:
   "
@@ -352,27 +432,17 @@ function! s:UpdateSynFoBuffer(winid)
   " Character Info:
   "
   " let charinfo = printf('%'..longest..'S', ExecAndReturn('Characterize'))
-  let [charinfo] = s:GetCharacterInfo()
+  let [charinfo] = s:GetFormattedCharacterInfo()
   call add(lines, charinfo)
+
+  call add(lines, s:sectionBreak)
 
   "
   " Position Info:
   "
-  let cc = charcol('.')
-  let vc = virtcol('.')
-  let bc = col('.')
-  let col = printf('𝖢𝗈𝗅%s', cc)
-  let vcol = printf('𝖵%s', vc)
-  let byte = printf('𝖡%s', bc)
-  let numbers = printf('𝖱𝗈𝗐 %s %s%s%s',
-        \ line('.'),
-        \ col,
-        \ cc == vc ? '' : printf('(%s)', vcol),
-        \ cc == bc ? '' : printf('(%s)', byte))
-  let title = printf('%'..max(lines)..'S', numbers)
   " let title = printf('%'..longest..'S', printf(' SynStack @ Row %s Col %s (V %s H %s)', line('.'), col('.'), virtcol('.'), charcol('.')))
   " call setbufline(bufnr, max([4, i + 1]), title)
-  call add(lines, title)
+  call add(lines, s:GetFormattedPositionInfo(max(lines)))
 
   silent call deletebufline(bufnr, 1, '$')
 
@@ -507,19 +577,37 @@ command! -nargs=? -complete=customlist,s:SynfoComplete Synfo echo <args>
 command! HighlightThis hi <c-r><c-w>
 
 
-" Insert the highlight entry for the current word
-command! ExpandHlGroup call ExecAndPut('hi ' .. expand("<cword>"))
+" 
+" Get expanded hl definition for word under cursor
+" e.g.
+" Constant   ->   Constant
+function! s:ExpandHiGroup(name = expand("<cword>")) abort
+  let hinfo = ExecAndReturn('hi ' .. a:name)
+  return a:name .. ' ' .. substitute(hinfo, '^\S\+\s\+\S\+\s\+', '', '') 
+endfunc
+command! ExpandHiGroup call <SID>ExpandHiGroup(expand("<cword>"))
 
-
-function! JumpToHighlightDefinition(hlname = expand("<cword>"))
+"
+" Open location where hl group was last set
+"
+" By default, uses the word under the cursor
+"
+function! HiDefinition(hlname = expand("<cword>"))
   let file = ''
   let lnum = 0
-  redir => output
-  silent exec 'verbose hi ' .. a:hlname
-  redir END
+  try
+    let [path, line] = matchlist(ExecAndReturn('verbose hi ' .. a:hlname), 'Last set from \(.\+\) line \(\d\+\)')[1:2]
+  catch
+    echo 'Highlight group ''' .. a:hlname .. ''' does not exist'
+    return
+  endtry
+
+  echo 'Highlight group ''' .. a:hlname .. ''' last defined: ''' .. path .. ':' .. line ..''''
+  return path .. ':' .. line
+  
 endfunc
 
-command! -nargs=? JumpToHighlightDefinition call JumpToHighlightDefinition(<f-args>)
+command! -bar -nargs=1 HiDefinition exec ':norm f HiDefinition(<f-args>)
 
 
 " Capture name of highlight

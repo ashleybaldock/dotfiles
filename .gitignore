@@ -4,6 +4,7 @@
 *.swm
 *.swl
 *.swk
+*.s@([a-v][a-z]|w[a-p])
 *.tern-project
 .DS_Store
 

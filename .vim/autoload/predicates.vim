@@ -29,3 +29,6 @@ function! predicates#addingSignWillShiftSignColumn(winid = win_getid(winnr())) a
   \ || ('number' == signcolumn && 0 == number && 0 == signcount)
 endfunction
 
+function predicates#cursorIsOnComment() abort
+  return join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')) =~? 'comment'
+endfunc

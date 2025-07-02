@@ -2,7 +2,7 @@
 
 \# A first-level heading
 
-# ═ A first-level heading ═══════════════════════
+# A first-level heading
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
@@ -33,6 +33,18 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 ###### A Sixth level heading
 
 ## Text formatting
+
+```pre
+|      Example      |         Syntax         |    Alternate Syntax    |
+| :---------------: | :--------------------: | :--------------------: |
+|       **Bold**        |        \*\*Bold\*\*        |      \_\_Bold\_\_      |
+|                   |       \\*\\*Bold\\_\\_     |                        |
+|      *Italic*       |        \*Italic\*        |       \_Italic\_       |
+|                   |                        |                        |
+|     **_BoldItalic_**    |    \*\*\*BoldItalic\*\*\*    | \_\_\_BoldItalic\_\_\_ |
+|                   |                        |                        |
+|   ~~Strikethrough~~   |  \~\~Strikethrough\~\~ |                        |
+```
 
 |      Example      |         Syntax         |    Alternate Syntax    |
 | :---------------: | :--------------------: | :--------------------: |
@@ -334,6 +346,7 @@ Here is a simple footnote[^1].
 A footnote can also have multiple lines[^2].
 
 [^1]: My reference.
+
 [^2]:
     To add line breaks within a footnote, prefix new lines with 2 spaces.
     This is a second line.

@@ -1,6 +1,8 @@
 "
 " Formatting for custom qf display
 "
+" ! Replaces runtime syntax file
+"
 " au BufWritePost <buffer> syn on
 "
 " See Also: $VIMRUNTIME/syntax/qf.vim

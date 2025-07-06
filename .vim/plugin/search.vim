@@ -29,7 +29,7 @@ endfunc
 
 
 " Not: [0-9A-Za-z\"|#] (# only in vim9script)
-"
+" Used by preference in order specified
 let s:separatorCandidates = split("/+!?$&@^~_-,.:;<=`'()[]{}", '.\zs')
 
 " Find best separator that isn't in either pattern or replacement
@@ -78,7 +78,7 @@ function! s:AckInput() abort
   call s:AckEscaped(search)
 endfunc
 
-function s:AckVisual() abort
+function s:AckVisual() range abort
   " TODO
 endfunc
 
@@ -91,5 +91,5 @@ command! AckClipboard exec <SID>AckClipboard()
 command! AckCurrentWord exec <SID>AckCurrentWord()
 command! AckLastSearch AckFromSearch
 
-command! AckVisual exec <SID>AckVisual()
+command! -range AckVisual <line1>,<line2>call <SID>AckVisual()
 command! -nargs=1 AckArgs exec <SID>AckArgs(<q-args>)

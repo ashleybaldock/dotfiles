@@ -19,12 +19,11 @@ command! GlobalScopedCommand2 echo GlobalScopedStuff()
 ## Command
 
 ```vim
-
--bang       : can use ! modifier
--bar        : can be followed by | + another command
--register   : first arg can be register name
--buffer     : buffer local command
--keepscript : use location of invocation for verbose logging
+-bang       ": can use ! modifier
+-bar        ": can be followed by | + another command
+-register   ": first arg can be register name
+-buffer     ": buffer local command
+-keepscript " use location of invocation for verbose logging
 
 -range[=default]  =% : whole file, =N : N lines, default : current line
 -count[=default]  =N : N lines, default: 0

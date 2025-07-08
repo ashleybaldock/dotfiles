@@ -13,22 +13,22 @@
 if !exists('g:md_fenced_languages')
   let g:md_fenced_languages = []
 endif
-let s:done_include = {}
+let s:included = {}
 for s:type in mapnew(g:md_fenced_languages, 'matchstr(v:val,"[^=]*$")')
-  if has_key(s:done_include, matchstr(s:type,'[^.]*'))
+  if has_key(s:included, matchstr(s:type,'[^.]*'))
     continue
   endif
   if s:type =~ '\.'
     let b:{matchstr(s:type,'[^.]*')}_subtype = matchstr(s:type,'\.\zs.*')
   endif
   syn case match
-  exe 'syn include @markdownHighlight_' .. tr(s:type,'.','_') ..
+  exe 'syn include @mdHighlight_' .. tr(s:type,'.','_') ..
         \ ' syntax/' .. matchstr(s:type,'[^.]*') ..'.vim'
   unlet! b:current_syntax
-  let s:done_include[matchstr(s:type,'[^.]*')] = 1
+  let s:included[matchstr(s:type,'[^.]*')] = 1
 endfor
 unlet! s:type
-unlet! s:done_include
+unlet! s:included
 
 " syn match markdownEscape "\\\~"
 
@@ -170,12 +170,10 @@ hi def mdAlertTitleCaution guifg=#eeee44
 " call matchadd('Conceal', '\zs\\\ze[`]')
 " call matchadd('Conceal', '`')
 
-syn match mdCodeStart /\\\@1<!`/ conceal cchar=⸢ contains=NONE contained
-syn match mdCodeEnd /\\\@1<!`/ conceal cchar=⸥ contains=NONE contained
 syn match mdCodeStart /\\\@1<!`/ conceal cchar=⎥ contains=NONE contained
 syn match mdCodeEnd /\\\@1<!`/ conceal   cchar=⎢ contains=NONE contained
-syn match mdCode2Start /\\\@1<!``/ conceal cchar=⸢ contains=NONE contained
-syn match mdCode2End /\\\@1<!``/ conceal cchar=⸥ contains=NONE contained
+syn match mdCode2Start /\\\@1<!``/ conceal cchar=⎥ contains=NONE contained
+syn match mdCode2End /\\\@1<!``/ conceal cchar=⎢ contains=NONE contained
 
 syn region mdCode oneline keepend
       \ start="`"
@@ -220,13 +218,13 @@ for s:type in g:md_fenced_languages
   endif
   exe 'syn region mdHighlight_' ..
         \ substitute(matchstr(s:type,'[^=]*$'),'\..*','','') ..
-        \ ' matchgroup=mdCodeDelimiter start="^\s*\z(`\{3,\}\)\s*\%({.\{-}\.\)\=' ..
+        \ ' matchgroup=mdCodeDelim start="^\s*\z(`\{3,\}\)\s*\%({.\{-}\.\)\=' ..
         \ matchstr(s:type,'[^=]*') ..
         \ '}\=\S\@!.*$" end="^\s*\z1\ze\s*$" keepend contains=@mdHighlight_' ..
         \ tr(matchstr(s:type,'[^=]*$'),'.','_')
   exe 'syn region mdHighlight_' ..
         \ substitute(matchstr(s:type,'[^=]*$'),'\..*','','') ..
-        \ ' matchgroup=mdCodeDelimiter start="^\s*\z(\~\{3,\}\)\s*\%({.\{-}\.\)\=' ..
+        \ ' matchgroup=mdCodeDelim start="^\s*\z(\~\{3,\}\)\s*\%({.\{-}\.\)\=' ..
         \ matchstr(s:type,'[^=]*') ..
         \ '}\=\S\@!.*$" end="^\s*\z1\ze\s*$" keepend contains=@mdHighlight_' ..
         \ tr(matchstr(s:type,'[^=]*$'),'.','_')

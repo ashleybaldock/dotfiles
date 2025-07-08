@@ -289,10 +289,10 @@ endif
 
 " Syntax highlighting for code blocks inside markdown docs
 let g:md_fenced_languages = [
-      \'javascript', 'typescript', 'css', 'json',
-      \'python', 'ps1', 'lua',
-      \'vim', 'sh', 'bash',
-      \'pre', 'reg', 'ansi']
+      \ 'javascript', 'typescript', 'css', 'json',
+      \ 'python', 'ps1', 'lua',
+      \ 'vim', 'sh', 'bash',
+      \ 'pre', 'reg', 'ansi']
 
 
 " 2html script options

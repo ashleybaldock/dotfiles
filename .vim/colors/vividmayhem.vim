@@ -1,7 +1,8 @@
 "                             
-"
+"                  ╱
 "                 ╱ Vivid ╱        
 "                        ╱ Mayhem ╱
+"                                ╱
 "
 "
 " au BufWritePost <buffer> syn on

@@ -1,0 +1,76 @@
+<svg viewBox="0 0 200 200" clipPathUnits="objectBoundingBox" width="20" height="20">
+  
+    <filter id="outline" clipPathUnits="objectBoundingBox">
+        <feMorphology in="SourceAlpha" result="DILATED" operator="dilate" radius="1.6"></feMorphology>
+        
+        
+        <feFlood flood-opacity="1" result="SOURCE-COLOR" flood-color="#006cbf"></feFlood><feComposite operator="in" result="SOURCE-RECOLOR" in="SOURCE-COLOR" in2="SourceAlpha"></feComposite><feFlood flood-opacity="1" result="OUTLINE-COLOR" flood-color="#000000"></feFlood><feComposite in2="DILATED" operator="in" result="OUTLINE" in="OUTLINE-COLOR"></feComposite>
+
+        <feMerge>
+            <feMergeNode in="OUTLINE"></feMergeNode><feMergeNode in="SOURCE-RECOLOR"></feMergeNode>
+            
+        </feMerge>
+    </filter>
+</svg>
+
+
+
+
+
+<svg viewBox="0 0 200 200" clipPathUnits="objectBoundingBox" width="20" height="20">
+  
+    <filter id="outline" clipPathUnits="objectBoundingBox">
+        <feMorphology in="SourceAlpha" result="DILATED" operator="dilate" radius="1"></feMorphology>
+        
+        
+        <feFlood flood-opacity="1" result="SOURCE-COLOR" flood-color="#006cbf"></feFlood><feComposite result="SOURCE-RECOLOR" in="SOURCE-COLOR" in2="SourceAlpha" operator="out"></feComposite><feFlood flood-opacity="1" result="OUTLINE-COLOR" flood-color="#000000"></feFlood><feComposite in2="DILATED" result="OUTLINE" in="OUTLINE-COLOR" operator="out"></feComposite>
+          <feComposite operator="out" in="DILATED" in2="SourceGraphic" out="OUTLINE-ONLY"></feComposite>
+
+        <feMerge>
+            <feMergeNode in="OUTLINE-ONLY"></feMergeNode><feMergeNode in="OUTLINE-ONLY"></feMergeNode>
+            
+        </feMerge>
+    </filter>
+</svg>
+
+
+
+
+
+
+
+
+<svg viewBox="0 0 200 200" clipPathUnits="objectBoundingBox" width="20" height="20">
+  
+    <filter id="outline" clipPathUnits="objectBoundingBox">
+        <feMorphology in="SourceAlpha" result="DILATED" operator="dilate" radius="1"></feMorphology>
+        
+        
+        <feFlood flood-opacity="1" result="SOURCE-COLOR" flood-color="#006cbf"></feFlood><feComposite result="SOURCE-RECOLOR" in="SOURCE-COLOR" in2="SourceAlpha" operator="in"></feComposite><feComposite in="SOURCE-COLOR" in2="SourceAlpha" operator="out" result="SOURCE-RECOLOR-OUT"></feComposite><feFlood flood-opacity="1" result="OUTLINE-COLOR" flood-color="#000000"></feFlood><feComposite in2="DILATED" result="OUTLINE" in="OUTLINE-COLOR" operator="out"></feComposite>
+          <feComposite operator="out" in="DILATED" in2="SourceGraphic" out="OUTLINE-ONLY"></feComposite>
+    <feGaussianBlur out="OUTLINE-ONLY-BLUR" in="OUTLINE-ONLY" stdDeviation="0.8"></feGaussianBlur>
+        <feMerge>
+            <feMergeNode in="OUTLINE-ONLY_"></feMergeNode><feMergeNode style="" in="SOURCE-RECOLOR-OUT_"></feMergeNode><feMergeNode in="OUTLINE-ONLY-BLUR"></feMergeNode><feMergeNode in="OUTLINE-ONLY-BLUR"></feMergeNode>
+            
+        <feMergeNode in="SOURCE-RECOLOR"></feMergeNode></feMerge>
+    </filter>
+</svg>
+
+
+<svg clipPathUnits="objectBoundingBox" width="200" style="position: fixed;bottom: 0;left: 0;z-index: 10;" height="200" viewBox="-2 -2 24 24">
+  <defs>
+    <path id="star" d="M 9.5 14.3 L 3.9 17.2 L 5 11 L 0.5 6.6 L 6.7 5.7 L 9.5 0 L 12.3 5.7 L 18.5 6.6 L 14 11 L 15.1 17.2 Z"></path>
+
+    <mask id="star-outline">
+      <use id="thickness" href="#star" stroke="white" fill="white" stroke-width="8"></use>
+      <use id="padding" href="#star" stroke="black" fill="black" stroke-width="6"></use>
+    </mask>
+
+  </defs>
+
+  <g>
+    <rect id="mask" mask="url(#star-outline)" fill="#232E3D" style="" width="22" height="22" x="-2" y="-2"></rect>
+    <use id="rendered-star" href="#star" stroke="#DA3D40" fill="none" stroke-width="2"></use>
+  </g>
+</svg>
+

@@ -15,11 +15,11 @@ let g:mayhem.symbols_A = get(g:mayhem, 'symbols_A', {})
 
 let g:mayhem.symbols_8.scrollL = {
       \ 'steps': ['꜒','꜍','꜓','꜎','꜔','꜐','꜕','꜑','꜖'],
-      \ 'top':'꜒̅', 'full':'ǁ', 'bot':'꜖̲', 'none': '𑀩',
+      \ 'top':'꜒̅', 'full':'▫̲̅', 'bot':'꜖̲', 'none': '▫',
       \ }
 let g:mayhem.symbols_8.scrollR = {
       \ 'steps': ['˥','꜈','˦','꜉','˧','꜋','˨','꜌','˩'],
-      \ 'top':'˥̅', 'full':'ǁ', 'bot':'˩̲', 'none': '𑀩',
+      \ 'top':'˥̅', 'full':'▫̲̅', 'bot':'˩̲', 'none': '▫',
       \ }
 let g:mayhem.symbols_S.scroll = g:mayhem.symbols_8.scrollR
 let g:mayhem.symbols_8.scroll = g:mayhem.symbols_8.scrollR

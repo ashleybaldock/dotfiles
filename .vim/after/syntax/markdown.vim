@@ -10,6 +10,26 @@
 "
 
 
+if !exists('g:md_fenced_languages')
+  let g:md_fenced_languages = []
+endif
+let s:done_include = {}
+for s:type in mapnew(g:md_fenced_languages, 'matchstr(v:val,"[^=]*$")')
+  if has_key(s:done_include, matchstr(s:type,'[^.]*'))
+    continue
+  endif
+  if s:type =~ '\.'
+    let b:{matchstr(s:type,'[^.]*')}_subtype = matchstr(s:type,'\.\zs.*')
+  endif
+  syn case match
+  exe 'syn include @markdownHighlight_' .. tr(s:type,'.','_') ..
+        \ ' syntax/' .. matchstr(s:type,'[^.]*') ..'.vim'
+  unlet! b:current_syntax
+  let s:done_include[matchstr(s:type,'[^.]*')] = 1
+endfor
+unlet! s:type
+unlet! s:done_include
+
 " syn match markdownEscape "\\\~"
 
 syn match markdownLineBreak " \{2,\}$" conceal cchar=⏎️
@@ -150,36 +170,70 @@ hi def mdAlertTitleCaution guifg=#eeee44
 " call matchadd('Conceal', '\zs\\\ze[`]')
 " call matchadd('Conceal', '`')
 
-syn match markdownCodeDelimiter /`\ze[^`]/ contained
-      \ containedin=markdownCode conceal
-" syn region markdownCode keepend concealends
-"       \ matchgroup=markdownCodeDelimiter start=+` \?+
-"       \ end=+ \?`+
-"       \ contains=markdownLineStart
-" syn region markdownCode keepend concealends
-"       \ matchgroup=markdownCodeDelimiter start=+`` \?+
-"       \ end=+ \?``+
-"       \ contains=markdownLineStart
-" syn region markdownCodeBlock keepend
-"       \ start=+^\s*\z(\~\{3,\}\).*$+
-"       \ end=+^\s*\z1\ze\s*$+
-" syn region mdCodeBlock 
-"       \ start=+^\s*\ze\z(`\{3,\}\).*$+
-"       \ end=+^\s\(\z1\)\@3<=\ze\s*$+
-"       \ contains=arkdown
+syn match mdCodeStart /\\\@1<!`/ conceal cchar=⸢ contains=NONE contained
+syn match mdCodeEnd /\\\@1<!`/ conceal cchar=⸥ contains=NONE contained
+syn match mdCodeStart /\\\@1<!`/ conceal cchar=⎥ contains=NONE contained
+syn match mdCodeEnd /\\\@1<!`/ conceal   cchar=⎢ contains=NONE contained
+syn match mdCode2Start /\\\@1<!``/ conceal cchar=⸢ contains=NONE contained
+syn match mdCode2End /\\\@1<!``/ conceal cchar=⸥ contains=NONE contained
 
-" syn match mdCodeDelim '`\ze``'
-"       \ contained containedin=mdCodeBlock
-"       \ contains=NONE conceal cchar=╺
-" syn match mdCodeDelim '`\@1<=`\ze`'
-"       \ contained containedin=mdCodeBlock
-"       \ contains=NONE conceal cchar=━
-" syn match mdCodeDelim '\%(``\)\@2<=`'
-"       \ contained containedin=mdCodeBlock
-"       \ contains=NONE conceal cchar=╸
+syn region mdCode oneline keepend
+      \ start="`"
+      \ skip="\\`"
+      \ end="\ze`" end="\_$"
+      \ contains=mdCodeStart
+      \ nextgroup=mdCodeEnd
+syn region mdCode oneline keepend
+      \ start="``"
+      \ end="\ze``" end="\_$"
+      \ contains=mdCode2Start
+      \ nextgroup=mdCode2End
 
-syn match mdCodeBlockType /\%(```\)\@3<=.*$/ contained containedin=markdownHighlight_markdownCodeBlock,markdownCodeDelimiter contains=NONE
+syn region mdCodeBlock
+      \ start=+^\s*\z(\~\{3,\}\).*$+
+      \ end=+^\s*\z1\ze\s*$+
+syn region mdCodeBlock 
+      \ start=+^\s*\ze\z(`\{3,\}\).*$+
+      \ end=+^\s\(\z1\)\@3<=\ze\s*$+
+syn region mdCodeBlock keepend
+      \ matchgroup=mdCodeBlockDelim start="^\s*\z(`\{3,\}\)\ze[^`]*$"
+      \ end="^\s*\z1\ze\s*$"
+      \ contains=mdCodeBlockType
+syn region mdCodeBlock keepend
+      \ matchgroup=mdCodeBlockDelim start="^\s*\z(\~\{3,\}\)\ze[^~]*$"
+      \ end="^\s*\z1\ze\s*$"
+      \ contains=mdCodeBlockType
 
+syn match mdCodeBlockType /\%(```\)\@3<=[^`]\+$/ contained contains=NONE
+" syn match mdCodeBlockDelim /^````\?\ze[^`]/ contained conceal
+"       \ containedin=mdCodeBlock contains=mdCodeBlockType 
+
+
+
+syn match mdFootnote "\[^[^\]]\+\]"
+syn match mdFootnoteDefinition "^\[^[^\]]\+\]:"
+
+let s:included = {}
+for s:type in g:md_fenced_languages
+  if has_key(s:included, matchstr(s:type,'[^.]*'))
+    continue
+  endif
+  exe 'syn region mdHighlight_' ..
+        \ substitute(matchstr(s:type,'[^=]*$'),'\..*','','') ..
+        \ ' matchgroup=mdCodeDelimiter start="^\s*\z(`\{3,\}\)\s*\%({.\{-}\.\)\=' ..
+        \ matchstr(s:type,'[^=]*') ..
+        \ '}\=\S\@!.*$" end="^\s*\z1\ze\s*$" keepend contains=@mdHighlight_' ..
+        \ tr(matchstr(s:type,'[^=]*$'),'.','_')
+  exe 'syn region mdHighlight_' ..
+        \ substitute(matchstr(s:type,'[^=]*$'),'\..*','','') ..
+        \ ' matchgroup=mdCodeDelimiter start="^\s*\z(\~\{3,\}\)\s*\%({.\{-}\.\)\=' ..
+        \ matchstr(s:type,'[^=]*') ..
+        \ '}\=\S\@!.*$" end="^\s*\z1\ze\s*$" keepend contains=@mdHighlight_' ..
+        \ tr(matchstr(s:type,'[^=]*$'),'.','_')
+  let s:included[matchstr(s:type,'[^.]*')] = 1
+endfor
+unlet! s:type
+unlet! s:included
 
 " echo matchadd('HlMkDnCode', '\\_\\_\zsBold\ze\\_\\_')
 " echo matchadd('HlMkDnCode', '\\\zs_\ze')
@@ -189,8 +243,10 @@ syn match mdCodeBlockType /\%(```\)\@3<=.*$/ contained containedin=markdownHighl
 " Highlight Definitions:
 "
 hi def mdEscapedCode guifg=#aaaa00 guibg=#222222
-hi markdownCode guifg=#bb77bb guibg=#120022 gui=bold
-hi markdownCodeBlock guifg=#cc6688 guibg=#222222
+hi mdCode guifg=#cc88dd guibg=#391044
+hi mdCodeStart guibg=#391044
+hi def link mdCode2 mdCode
+hi mdCodeBlock guifg=#cc6688 guibg=#222222
 hi def mdCodeBlockType guifg=#99ff99
 hi def mdEscapedItalic gui=italic
 hi def mdEscapedItalicDelimiter guibg=#440022 gui=italic,underdotted
@@ -199,6 +255,7 @@ hi def mdEscapedBoldDelimiter guibg=#220044 gui=bold,underdotted
 hi def mdEscapedBoldItalic gui=bold,italic
 hi def mdEscapedBoldItalicDelimiter guibg=#442200 gui=bold,italic,underdotted
 
+hi def link mdCodeDelim Delimiter
 
 
 silent call prop_type_delete('p')

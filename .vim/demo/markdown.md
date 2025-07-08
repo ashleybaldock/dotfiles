@@ -186,14 +186,22 @@ escaped: \\**_ or \\_\\** or \\\__\\_ or \\_\\_\\\_
 |                            |                                  |                              |
 | :------------------------: | :------------------------------: | :--------------------------: |
 |  `let a = 'hello world';`  |    \`let a = 'hello world';\`    | \\`let a = 'hello world';\\` |
+| `let a = \`hello world\`;` |  \`\`let a = \`hello world\`;\`  | \\`let a = 'hello world';\\` |
 | ``let a = `hello world`;`` | \`\`let a = \`hello world\`;\`\` |
 
-Some inline code `let a = 'hello world';`, followed by some
+Some inline code `let a = 'hello world';`, followed by something.
 inline code containing backticks ``let a = `${foo} ${bar}`;``.
 
 Leading and trailing spaces `  a.?b.?c ?? 42    ` ditto `   foo && bar   `
 
-- backticks: let a = `hello world`;╱
+- backticks: `let a = hello world;`
+
+EoL: \``code ended by EoL\`
+EoL: `code ended by EoL
+EoL: \```code ended by EoL
+EoL: ``code ended by EoL`
+EoL: ``code ended by EoL
+next line isn't code
 
 ### Multi-line blocks
 

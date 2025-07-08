@@ -288,7 +288,11 @@ if executable('ag')
 endif
 
 " Syntax highlighting for code blocks inside markdown docs
-let g:markdown_fenced_languages = ['javascript', 'typescript', 'css', 'json', 'python', 'lua', 'vim', 'sh', 'bash', 'pre', 'reg', 'ansi', 'ps1']
+let g:md_fenced_languages = [
+      \'javascript', 'typescript', 'css', 'json',
+      \'python', 'ps1', 'lua',
+      \'vim', 'sh', 'bash',
+      \'pre', 'reg', 'ansi']
 
 
 " 2html script options

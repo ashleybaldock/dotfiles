@@ -206,6 +206,26 @@ syn match mdCodeBlockType /\%(```\)\@3<=[^`]\+$/ contained contains=NONE
 " syn match mdCodeBlockDelim /^````\?\ze[^`]/ contained conceal
 "       \ containedin=mdCodeBlock contains=mdCodeBlockType 
 
+syn region mdEscapedCode oneline keepend
+      \ start="\\`\S\@="
+      \ end="\%(\S\\`\)\@3<=\ze\|^$" end="\_$"
+      \ skip="\\\\`"
+      \ contains=mdEscapedCodeDelimiter,markdownLineStart,@Spell
+syn match mdEscapedCodeDelimiter
+      \ "\\`\S\@=\|\S\@1<=\\`"
+      \ contained
+      \ contains=mdConcealedEscape
+
+
+syn region mdEscapedCode oneline keepend
+      \ start="\\`\\`\S\@="
+      \ end="\%(\S\\`\\`\)\@5<=\ze\|^$" end="\_$"
+      \ skip="\\\\`"
+      \ contains=mdEscapedCodeDelimiter,markdownLineStart,@Spell
+syn match mdEscapedCodeDelimiter
+      \ "\\`\\`\S\@=\|\S\@1<=\\`\\`"
+      \ contained
+      \ contains=mdConcealedEscape
 
 
 syn match mdFootnote "\[^[^\]]\+\]"

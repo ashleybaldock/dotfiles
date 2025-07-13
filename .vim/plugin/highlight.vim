@@ -6,16 +6,15 @@ let g:mayhem_loaded_highlight = 1
 
 " TODO - add to symbols repository when implemented
 let s:symbol_linksto = get(g:, 'mayhem_symbol_hihi_linksto', '⫘⃗ ')
+let s:symbols_synfo = #{
+      \ fg: '􀯮',
+      \ bg: '􀯯',
+      \ color: '􀂓',
+      \ none: '􀂒',
+      \}
 
+let s:colorHidden = '#441122'
 
-"
-" Has two implementations, this one uses `syn match`
-"
-" function! s:AddSynMatch(name) abort
-"   exec 'syn match ' .. a:name .. ' /\<' .. a:name .. '\>/'
-"     \ .. ' contained contains=NONE containedin=VimHiGroup'
-"   return a:name
-" endfunc
 
 "
 " TODO convert this to vim9script for speed
@@ -29,7 +28,6 @@ function! s:HighlightHighlight() abort
   let hlgroups = hlget()
 
   for hlgroup in hlgroups
-    " echo hlgroup['name']
     exec 'syn match' hlgroup['name'] '/\<' .. hlgroup['name'] .. '\>/'
           \ ' contained contains=NONE containedin=VimGroupName,VimHiGroup,VimGroup'
   endfor
@@ -43,23 +41,6 @@ function! s:NoHighlightHighlight()
 
   syn enable
 endfunc
-
-
-  " e.g.:
-  " syn match HlMkDnCdDelim /\<HlMkDnCdDelim\>/ contained contains=NONE containedin=VimHiGroup
-  "
-  " TODO - match hi commands after |
-  "      - parse output of :hi to get all groups
-  "      - use functions instead of commands + make vim9script
-  "
-  " let w:synmatches = []
-  " %s/^:\?hi\w*\s\+\%(clear\)\@!\%(def\w*\s*\)\?\%(link\s*\)\?\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/ne
-  " %s/^:\?syn\w*\s\+\%(match\|region\|keyword\)\s\+\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/ne
-  " for synmatch in w:synmatches
-  "   silent exec 'syn match ' .. synmatch .. ' /\<' .. synmatch .. '\>/'
-  "     \ .. ' contained contains=NONE containedin=VimGroupName,VimHiGroup,VimGroup'
-  " endfor
-" endfunc
 
 command! -bar HiHi call <SID>HighlightHighlight()
 
@@ -102,9 +83,8 @@ function s:GetLinkChain(name)
   let chain = []
   let lastName = a:name
   while lastName != ''
-    " if name seen already, must be in a loop
-    " this isn't a very efficient lookup
-    " but highlighting chains are very short
+    " if name seen already, must be in a loop. This isn't a very efficient
+    "lookup, but highlighting chains are usually very short
     if (len(hlget(lastName)) > 0)
       call add(chain, lastName)
       let hl = hlget(lastName)[0]
@@ -128,65 +108,16 @@ function s:GetFormattedPositionInfo(maxlines = 20) abort
         \ col,
         \ cc == vc ? '' : printf('(%s)', vcol),
         \ cc == bc ? '' : printf('(%s)', byte))
-  return printf('%'..a:maxlines..'S', numbers)
+  return #{text: printf('%'..a:maxlines..'S', numbers), props: []}
 endfunc
 
-"₁️₂️₃️
-"₁⃞ ₂⃞ ₃⃞  ¹⃞ ²⃞ ³⃞ ⁴⃞    ¹️²️³️⁴️⁵️⁶️⁷️⁸️⁹️₁️₂️₃️₄️₅️₆️₇️₈️₉️¹̲►️²̲️³̲️⁴̲️⁵̲️⁶̲️⁷̲️⁸̲️⁹̲️►️₁️₂️₃️₄️₅️₆️₇️►️₈️₉️²³⁴►️⁵⁶⁷⁸⁹₁꛱₂꛱₃꛱₄꛱₅꛱₆꛱₇꛱₈꛱₉꛱
-"₁⃞️ ₂⃞️ ₃⃞️  ¹⃞ ²⃞ ³⃞ ⁴⃞ ⁵⃞ ⁶⃞ ⁷⃞ ⁸⃞ ⁹⃞  0︎⃣ 1︎⃣ 2︎⃣ 3︎⃣ 4︎⃣ 5︎⃣ 6︎⃣ 7︎⃣ 8︎⃣ 9︎⃣  
-"
-" ⎛             ᐅᐳ         ◁️[ ₁️1︎⃣ 1 ▷️⮕ᐳ  ◁️]  ᐅᐳ  ▷️ᐳ  ▷️ᐳ⮕ᐳ               ⎞
-" join(chain, '▶︎▬ᷞ▬ͥ▬ᷠ▬ᷜ▶︎') join(chain, ' ▬▶︎ ') join(chain, ' -> ') join(chain, ' ʟɪɴ͢ᴋ ')
-"
-"  􀯭 􀯮 􀯯 􁉽 􁋼 􁉼 􁋽 􁋛 􁋜 􀯰 􁌅 􀯱 􀯲 􀯳 􁊕
-"  􀅓️⃞ 􀅔️⃞ 􀅕️ 􀅖️⃞  􀨡️⃞  
-
-" 􀑋 􀑍 􀯴 􀮵 􀺾 􀿨 􀑏 􁂠 􂡆  􀿫 􂞹 􂞺  􀿪􁰏 
-" 􀑌 􀑎 􀯵 􀮶 􀻀 􀿩 􀑐 􁂡 􂡇  􀭨 
-" 
-" 􀭅 􀆗􀆛􀆙               ◲⃞ ▬ ◱⃞     ◶⃞   ◵⃞    
-" 􁚀 􀆘􀆜􀆚               ❚    ❚             
-" 􀃬􀃮􀃜􀃞                ◳⃞   ◰⃞    ◷⃞   ◴⃞   
-" 􀣤 􀏃 􀣦􀂒􀃰􀃲                           
-" 􀣥 􀏄 􀣧􀂓􀃱􀃳                           
-" 􁄻 transparent                           
-
-" ⎛  ★   fg􀏄 bg􀏄 sp􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾               ⎞
-" ⎢                                                  ⎥
-" ⎢ ᴅ  1234: cssUrlFunction S️tatement               ⎥
-" ⎢  ᴄ  567: cssAttrRegion                           ⎥
-" ⎢  ᴄ   89: cssDefinition                           ⎥
-" ⎝                                 @ Row 62 Col 39  ⎠
-" 
-" ∙ • ・◦ ● ○ ◎ ◉ ⦿  ‣ ▵ ▴ ➤ ➢ ➣  ✢ ✣ ✤ ✧ ★ ☆    ✻ ✲ ✱ 
-" ∙⃞ •⃞ ・⃞◦⃞ ●⃞ ○⃞ ◎⃞ ◉⃞ ⦿⃞  ‣⃞ ▵⃞ ▴⃞ ➤⃞ ➢⃞ ➣⃞  ✢⃞ ✣⃞ ✤⃞ ✧⃞ ★⃞ ☆⃞    ✻⃞ ✲⃞ ✱⃞ 
-"
-" ※ ※⃞️ ※⃞  ▪▪︎⃞ ▪⃞︎  ▫▫︎⃞ ▫⃞︎    ❘️❘⃞ ❘❘⃞︎ ❙️❙⃞ ❙❙⃞︎ 
-"                                                                            
-" ∙️ •️ ・️◦️ ●️ ○️ ◎️ ◉◉️ ◉️⃝ ⦿⃝ ⦿⦿⃝︎    ◎⃝︎  ◎⃝◎⃝️      ⦿️   ‣️ ▵️ ▴️ ➤️ ➢️ ➣️  ✢️ ✣️ ✤️ ✧️ ★️ ☆️    ✻️ ✲️ ✱️ 
-"
-" ✗ ✗⃞︎ ✗️ ✗⃞️  ✘ ✘⃞︎ ✘️ ✘⃞      ✓✔︎✓️✔︎︎️ ✓⃞ ✔︎⃞   ✕ ✕⃞︎  ✕️ ✕⃞   ✖︎ ✖⃞︎  ✖︎⃞   
-"・∙️∙•●️•️● ○ ◎ ◉ ⦿ 
-"
-"  ↵ ↲ ↳ ↰ ↱ ↴  ⤶ ⤴︎ ⤵︎ ⤷  ⤥ ⤤ ⤹ ⤸ ↩︎ ↪︎ ⤾ ⤿ ⤺ ⤻
-"  ↵︎ ↲︎ ↳︎ ↰︎ ↱︎ ↴︎  ⤶︎ ⤴︎︎ ⤵︎︎ ⤷︎  ⤥︎ ⤤︎ ⤹︎ ⤸︎ ↩︎︎ ↪︎︎ ⤾︎ ⤿︎ ⤺︎ ⤻︎
-"  ↵️ ↲️ ↳️ ↰️ ↱️ ↴️  ⤶️ ⤴︎️ ⤵︎️ ⤷️  ⤥️ ⤤️ ⤹️ ⤸️ ↩︎️ ↪︎️ ⤾️ ⤿️ ⤺️ ⤻️
-"  ↵️︎ ↲️️ ↳️ ↰️ ↱️ ↴️  ⤶️ ⤴︎️ ⤵︎️ ⤷️  ⤥️ ⤤️ ⤹️ ⤸️ ↩︎️ ↪︎️ ⤾️ ⤿️ ⤺️ ⤻️
-"
-"  ◦️ ◦   ○️ ◎️ ◉️ ⦿️  ‣️ ▵️ ▴️ ➤️ ➢️ ➣️  ✢️ ✣️ ✤️ ✧️ 
-"
-"  ★ ☆ ★⃝︎  ☆⃝︎  ★⃝  ☆⃝  ★️ ☆️  ★⃞ ☆⃞  ★⃞︎ ☆⃞︎   ✻️ ✲️ ✱️  ✓️ ✔︎️  ✕️ ✖︎️  ✗️ ✘️  ※️      ❘️ ❙️
-"
-" ⎛  ★                     fg bg sp  􀅓􀅔􀅕􀅖􀨡 􂏾   ⎞
-" ⎢  ★      cssUrlFunction 􀏄 􀏄 􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾   ⎥
-" ⎢                                                  ⎥
-" ⎢                                                  ⎥
-" ⎛★   cssUrlFunction ꜰ􀂒ʙ􀣦ꜱ􀂓  􀅓􀅔􀅕􀅖􀨡 􂏾   ⎞
 "
 " ⎛★                                                  ⎞
-" ⎢   𝟧𝟤𝟥𝟦⁝cssUrlFunction ꜰ􀂒ʙ􀣦ꜱ􀂓  􀅓􀅔􀅕􀅖􀨡 􂏾         ⎥
+" ⎢   𝟧𝟤𝟥𝟦⁝cssUrlFunction ꜰ􀂒ʙ􀣦ꜱ􀂓  􀅓􀅔􀅕􀅖􀨡 􂏾     ⎥
 " ⎢                                                   ⎥
-" ⎢        𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫  𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵                     ⎥
+" ⎢        𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴⦉𝟵𝟭⦊                     ⎥
+" ⎢        𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴⦇𝟵𝟭⦈                     ⎥
+" ⎢        𝟢𝟤𝟥𝟦𝟧𝟨𝟩𝟪»𝟫𝟣  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴❨𝟵𝟭❩                     ⎥
 " ⎢      ₅️₆️₇️₈️₉️                                        ⎥
 " ⎢                                                   ⎥
 
@@ -201,126 +132,79 @@ let s:subranges = #{
       \ mono:  '𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿',
       \ fullw: '０１２３４５６７８９'
       \}
+  " let range = split(a:subrange, '\zs')
+  "       \ '\=get(l:range, str2nr(submatch(0)), submatch(0))',
 "
 " Replace range(s) of codepoints in input string
 function SwapNumbers(str, subrange = 'sans')
-  let range = split(a:subrange, '\zs')
   return substitute(a:str, '[0-9]',
-        \ '\=strgetchar(l:range, str2nr(submatch(0)))',
-        \ '\=get(l:range, str2nr(submatch(0)), submatch(0))',
+        \ '\=nr2char(strgetchar(s:subranges[a:subrange], str2nr(submatch(0))))',
         \ 'g')
 endfunc
-" ⎛  ★ cssUrlFunction:1234 ꜰ􀏄 ʙ􀏄 ꜱ􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾 ⎞
-" ⎢ ᴅ   ↳️ S️tatement:667  Error:554                    ⎥
-" ⎢                                                   ⎥
-" ⎢  ᴄ  567: cssAttrRegion                            ⎥
-" ⎢  ᴄ   89: cssDefinition                            ⎥
-" ⎝                        Synstack @ Row 62 Col 39   ⎠
-"
-" ⎛  ★️         􀅓️⃝ 􀅔️⃝ 􀅕️⃝ 􀅖️⃝ 􀨡️⃝     􂏾️⃝                 ⎞
-"
-" ⎛  ★   fg:􀂓 bg:􀂓 sp:􀂓  􀅓 􀅔 􀅕 􀅖 􀨡    􂏾     ⎞
-" ⎢ ᴅ  1234: cssUrlFunction  S️tatement               ⎥
-" ⎢  ᴄ  567: cssAttrRegion                           ⎥
-" ⎢  ᴄ   89: cssDefinition                           ⎥
-" ⎝                        Synstack @ Row 62 Col 39  ⎠
-"
-" ⎛ Synstack   fg:#aabbcc bg:#227788 sp: #445566           ⎞
-" ⎢    1234: cssUrlFunction ───►️ Statement #aabbcc #227788 ⎥
-" ⎢ ᴅ  1234: cssUrlFunction ─2︎⃣╶►️ Statement                 ⎥
-" ⎢  ᴄ  567: cssAttrRegion                  ⎥
-" ⎢  ᴄ   89: cssDefinition 
-"
-" ⎢      R̲̅9️5️ C̩̍ᵒ̩̍5️6️ Vᶜ5️6️  ᵇʸᵗᵉ9️2️
-"
-" ⎢      ʀᐧ9️5️ ⎟C⎜5️6️ ᵛᶜᵒˡ5️6️  ᵇʸᵗᵉ⎡⎟9️2️⎟
-" ⎢     
-" 
-" fg=􀏄 bg=􀏄 sp=􀏄
-" fg=􀏄 bg=􀣤 sp=􀏃
-"
-" edit colour, rgb + hsl
-"
-"   ╭ #rrggbb ╮ ⎧ #rrggbb ⎫ ⎧ #rrggbb ⎫
-"   ⎨ h  s  l ⎬ ⎧ h  s  l ⎫ ⎧ h  s  l ⎫
-"   ⎩1️8️0️ 9️0️ 6️0️⎭ ⎩ 0  0  0 ⎭ ⎩360 1  1 ⎭
-" 
-"   ╭ #rrggbb ╮
-"   ⎨- h 180°+⎬
-"   ⎪  s .97  ⎪
-"   ⎩  l .60  ⎭
-" 
-"   ⎬ #rrggbb ⎨
-"   ⎪h1️8️0️°⎪
-"   ⎪s.️9️7️ ⎪
-"   ⎩l.️6️0️ ⎭
-" 
-"       
-"   R 100  H 180
-"   G  98  S  97
-"   B   7  L  60
-"
-"   R 100%  H 180°
-"   G  98%  S  97%
-"   B   7%  L  60%
-"                       
-"                  ╭#RF1056┬􀏄
-"                 􀏄╭ʜ𝟥𝟢𝟢
-"                  ╰┼ꜱ.𝟫𝟫
-"                   ╰ʟ.𝟢𝟩
-" 100 100 100
-"
-"                  ╭╴ʀ‑︎ɢ‑︎ʙ
-" R 100% G _98% B __7%
-"        ⎵ 
-"      ᴿ⃞︎]          ̲̅3̲̅3̲̅2̲̅     𝟸̲̅𝟺̲̅𝟹̲̅  𝟮̲̅𝟰̲̅𝟯̲̅ 𝟣̲̅𝟥̲̅𝟧̲̅ 𝟑̲̅𝟔̲̅𝟎̲̅
-"
-          "\ ' SynFo @️ ʀ̲̅%s |ᴄ|%s ʙ𝗒%s',
-"        𝘤𝘰𝘭 𝘳𝘰𝘸   
-"
-" ╷   ╷   ╷ 80╷
-" ⎝            Synstack @   Rʷ̲ 62 Cˡ 39  ⎠      ╵Vr╴╵Ch╴╵Col╵
-"
-" ⎝       Synstack @ row _6̲2̲_ │ ͦͨͮͮ ͦ︎ ͦͨʰʰ️ʰ︎ˡ39│ᵛᵛ️ᵛ︎ ͨͮ35│ ͪͨ29│️ 39 [v 35|c 35]   ⎠
-"     3̲̅9̲̅   ⏐62⏐
-" 
-" ᴿᴼᵂᴿ️ᴼ️ᵂ️ᴿ⃞︎ ᴼ⃞︎ ᵂ⃞︎ ʳᵒʷʳ️ᵒ️ʷ️ʳ⃞︎ ᵒ⃞︎ ʷ⃞︎   ⁿⁿⁿʲʲʲʰʰʰˡˡˡʷʷʷ   ┐├▻ ◁┤ ├─▸ ◄─┤ ◂─┤ ◀︎─┤ 
-" ᴸᴼᴬᴰᴸ️ᴼ️ᴬ️ᴰ️ᴸ︎ᴼ︎ᴬ︎ᴰ︎  ᴏ                             ''
-"   ʳᵒʷ ᶜᵒˡ ᵛᐧᶜᵒˡ ᶜʰᐧᶜᵒˡ ᵇʸᵗᵉᐧ                ''
-"   ᴿᵒʷ ᶜᵒˡ ᵛꜞʳᵗᐧᶜᵒˡ ᶜʰᐧᶜᵒˡ          V
-"   Rᵒʷ ᴄᵒˡ vᶜᵒˡ chᶜᵒˡ  R C V H ᴠ Vˡͦͨ ᶜᵒˡCᴏʟ |️ᴄ|️ ʜᶜᵒˡCᴏʟͦ  ᴠɪᴛCᴏʟ ʜᴀCᴏ   ▕️  ʀ̲̅
-"
-" ᵛᵥᵛ️ᵥ️ᵛ︎ᵥ︎ ˯˰˱͔˲͕ ˱͕˲͔ ˱͐˲͐ ˖̝˖˖️̝˗˗️ ˳̣˳̣️.̣.̣️ ˌ̩˯̩ ::️˸˸ ᵣᵣ️ᵣ︎ ᶜᵒᶫˣʼ̊ᶜ️ᵒ️ᶫ️ˣ️ʼ̊️ᶜ︎ᵒ︎ᶫ︎ˣ︎ʼ̊︎ ˤʕʖʔ ⎥  ͖ ˪˫ . |̴̰ ‖̻⸋⸋️⸋︎⸋̻︎‖̪ ‖̝
-"
-"   ˹˺˻˼˽˾ꜚ˿ ̚  ˺͐ ‿ˌ  ˲͕͐ ˱͔ 
-          
 "                                           
 function! s:ForColor(color)
-  if a:color == 'NONE'
-    return ['􀣦', '#333333']
-  endif
+  " if a:color == 'NONE'
+  "   return ['􀣦', '#333333']
+  " endif
   if a:color == 'fg' || a:color == 'foreground'
-    return ['􀯮', '#333333']
+    return [s:symbols_synfo['fg'], '#333333']
   endif
   if a:color == 'bg' || a:color == 'background'
-    return ['􀯯', '#333333']
+    return [s:symbols_synfo['bg'], '#333333']
   endif
   if v:colornames->has_key(a:color)
-    return ['􀂓', v:colornames[a:color]]
+    return [s:symbols_synfo['color'], v:colornames[a:color]]
   endif
   if a:color =~ '^#'
-    return ['􀂓', a:color]
+    return [s:symbols_synfo['color'], a:color]
   endif
-  return ['􀂒', '#333333']
+  return [s:symbols_synfo['none'], '#333333']
 endfunc
 
-let s:sectionBreak = ''
+let s:sectionBreak = #{text: '', props: []}
 
-function! s:UpdateSynFoBuffer(winid)     
+function! s:FormatColors()
+  let [fgsymbol, fgcolor] = s:ForColor(get(val, 'guifg', ''))
+  let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
+  let [spsymbol, spcolor] = s:ForColor(get(val, 'guisp', ''))
+
+  let colors = printf('ꜰ%sʙ%sꜱ%s', fgsymbol, bgsymbol, spsymbol)
+endfunc
+
+"
+" Turns an array of text fragments with formatting instructions
+" into a line of text with text properties
+"
+" TODO - this could be more efficient by adding a lookup dict
+" for the auto-generated highlighting groups to avoid duplication
+" - parts with identical formatting could share the same prop
+function! s:GenProps(parts, bufnr)
+  let line = ''
+  let props = []
+
+  for part in a:parts
+    let text = get(part, 't', '')
+    let fg = get(part, 'fg', v:none)
+    if fg != v:none
+      let s:hlid = s:hlid + 1
+      let id = 'hif' .. s:hlid
+
+      call hlset([#{name: id, guifg: fg}])
+      call prop_type_add(id, #{ bufnr: a:bufnr, highlight: id})
+      let props += [#{col: strlen(line) + 1, length: strlen(text), id: id, type: id}]
+    endif
+    let line = line .. text
+  endfor
+  return #{text: line, props: props}
+endfunc
+
+function! s:UpdateSynFoBuffer(winid)
   let bufnr = winbufnr(a:winid)
 
   " Replacement buffer contents
   let lines = []
+  " Reset index for generating text property ids
+  let s:hlid = 1000
 
   "
   " Top Level Highlight Info:
@@ -329,56 +213,86 @@ function! s:UpdateSynFoBuffer(winid)
 
   " ⎢ ᴅ  9999: SomeGroup fg:􀏄 bg:􀏄 sp:􀏄 gui: 􀅓􀅔􀅕􀅖􀨡􂏾   ⎥
 
+  " val:    
+  "   ᴄ cleared ᴅ default : <bool>
+  "   gui : <attributes> | guibg guifg guisp : <color>
+  "   id : <number>
+  "   linksto : <string>
+  "   name : <string>
+  "
+  "   cterm : <attributes> | ctermbg ctermfg ctermul : <color-nr>
+  "   term: <attributes>
+  "   start stop font
+  "
+  " <color>: 􀂓#RRGGBB 􀯯bg,background 􀯮fg,foreground 􀂒NONE
+  " <attributes>:
+  "   - 􀅓bold 􀅔italic 􀨡[re/in]verse 􂏾 standout 􀅖strikethrough¹
+	"   - 􀅕under[line/curl¹/double¹/dotted¹/dashed¹]
+  "   - nocombine² NONE³
+
   for val in results
+    let line = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. SwapNumbers(val.id, 'sansb')}]
+
     let [fgsymbol, fgcolor] = s:ForColor(get(val, 'guifg', ''))
     let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
     let [spsymbol, spcolor] = s:ForColor(get(val, 'guisp', ''))
 
-    let colors = printf('ꜰ%sʙ%sꜱ%s', fgsymbol, bgsymbol, spsymbol)
-
-    call hlset([{'name': 'HlSynfoFG', 'guifg': fgcolor}])
-    call hlset([{'name': 'HlSynfoBG', 'guifg': bgcolor}])
-    call hlset([{'name': 'HlSynfoSP', 'guifg': spcolor}])
-
-" ⎛★   cssUrlFunction \%(􀂒\|􀣦\|􀂓\)  􀅓􀅔􀅕􀅖􀨡 􂏾   ⎞
-    call clearmatches(a:winid)
-    call matchadd('HlSynfoFG', 'ꜰ\zs\%(􀂒\|􀣦\|􀂓\)\ze', 10, -1, {'window': a:winid})
-    call matchadd('HlSynfoBG', 'ʙ\zs\%(􀂒\|􀣦\|􀂓\)\ze', 10, -1, {'window': a:winid})
-    call matchadd('HlSynfoSP', 'ꜱ\zs\%(􀂒\|􀣦\|􀂓\)\ze', 10, -1, {'window': a:winid})
+    let line += [#{t: 'ꜰ'}, #{t: fgsymbol, fg: fgcolor}]
+    let line += [#{t: 'ʙ'}, #{t: bgsymbol, fg: bgcolor}]
+    let line += [#{t: 'ꜱ'}, #{t: spsymbol, fg: spcolor}]
 
 " 􀣤 􀏃 􀣦􀂒􀃰􀃲 
-" ⎛  ★   fg:􀏄 bg:􀏄 sp:􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾             ⎞
-"
-" ⎛  ★                                               ⎞
-" ⎢   fg:􀏄 bg:􀏄 sp:􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾             ⎥
-" ⎢ ᴅ  1234: cssUrlFunction  S️tatement               ⎥
-" 
+" ⎛  ★   ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )              ⎞
+
+" ⎛  ★                                                   ⎞
+" ⎢ ᴅ 1234:╺┳╸cssUrlFunction   ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )  ⎥
+" ⎢    134: ┃ ⫘⃗  Statement                               ⎥
+" ⎢     34: ┃  ⫘⃗  Constant                               ⎥
+" ⎢ ᴅ  424: ┠╴cssUrl           ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )  ⎥
+" ⎢  ᴄ 111: ┠╴cssParam         ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )  ⎥
+
+" ⎛  ★                                                   ⎞
+" ⎢ ┣╸cssUrlFunction❪𝟮𝟯𝟰𝟱❫ ᴅ  ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )   ⎥
+" ⎢ ┊ └╴Statement❪𝟰𝟰❫                                    ⎥
+" ⎢ ┊   └╴Constant❪𝟯𝟯𝟯❫                                  ⎥
+" ⎢ ┠─╴cssUrl               ᴄ ꜰ􀣦ʙ􀣦ꜱ􀣦 (􀅓􀅔􀅕􀅖􀨡􂏾 )   ⎥
+" ⎢  ┴╴cssParam             ᴅ  ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )  ⎥
+
     " Gui: (bold/underline etc.)
     let gui = get(val, 'gui', {})
 
+    let line += [
+          \ #{t: ' ɢᴜɪ:'},
+          \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colorHidden},
+          \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colorHidden},
+          \ #{t: '􀅕', fg: (get(gui, 'underline', v:false)
+          \ || get(gui, 'undercurl', v:false)
+          \ || get(gui, 'underdotted', v:false)
+          \ || get(gui, 'underdashed', v:false)
+          \ || get(gui, 'underdouble', v:false)) ? v:none : s:colorHidden},
+          \ #{t: '􀅖', fg: get(gui, 'strikethrough', v:false) ? v:none : s:colorHidden},
+          \ #{t: '􀨡', fg: get(gui, 'standout', v:false) ? v:none : s:colorHidden},
+          \ #{t: '􂏾️ ', fg: (get(gui, 'inverse', v:false)
+          \ || get(gui, 'reverse', v:false)) ? v:none : s:colorHidden},
+          \]
 
-    let flags = [
-          \ 'gui:',
-          \ get(gui, 'bold', v:false) ? '􀅓' : '  ',
-          \ get(gui, 'italic', v:false) ? '􀅔' : '  ',
-          \ get(gui, 'underline', v:false) ? '􀅕' : '  ',
-          \ get(gui, 'strikethrough', v:false) ? '􀅖' : '  ',
-          \ get(gui, 'undercurl', v:false) ? 'uc ' : '   ',
-          \ get(gui, 'underdotted', v:false) ? 'ud ' : '   ',
-          \ get(gui, 'underdashed', v:false) ? 'us ' : '   ',
-          \ get(gui, 'underdouble', v:false) ? 'u2 ' : '   ',
-          \ (get(gui, 'inverse', v:false)
-          \ || get(gui, 'reverse', v:false)) ? '􂏾️⃝  ' : '   ',
-          \ get(gui, 'standout', v:false) ? '􀢒️⃝ ' : '   ',
-          \]->join(' ')
+"          underline    U U̲ U̳ U ＿⎯ ￣〰 ⋯⋯ ══ ﹍＿﹏﹋
+"          undercurl    〰﹏⌇
+"          underdotted  ᠃᠃ ＿ …︙⠉⠉⡇⡈⡑⠈⠉⧙⦙⫶
+"          underdashed  ﹉﹍
+"          underdouble  ══ ║॥ 
 
-    let res = '  ' .. printf('%5S: ', val.id) .. 
-          \ colors .. ' ' .. flags
-
-    call add(lines, res)
+    call add(lines, s:GenProps(line, bufnr))
   endfor
+
   if len(lines) == 0
-    call add(lines, 'No highlighting here')
+    call add(lines, #{text: 'No highlighting here', props: []})
+  endif
+
+  if &l:wincolor != '' 
+    call add(lines, #{text: 'base(wincolor): ' .. &l:wincolor, props: []})
+  else
+    call add(lines, #{text: 'base: ' .. get(hlget('Normal'), 'guifg', ''), props: []})
   endif
 
   "
@@ -389,7 +303,7 @@ function! s:UpdateSynFoBuffer(winid)
   " Synstack:
   "
   if !exists("*synstack")
-    call add(lines, 'Synstack Unavailable')
+    call add(lines, #{text: 'Synstack Unavailable', props: []})
   else
     let stack = synstack(line('.'), col('.'))->map(
           \{_,v -> synIDattr(v, 'name')->hlget()[0]})
@@ -400,7 +314,6 @@ function! s:UpdateSynFoBuffer(winid)
       let res = (get(val, 'cleared') ? 'ᴄ' : ' ') .. res
       let res = (get(val, 'default') ? 'ᴅ' : ' ') .. res
     " Id:
-      let res = res .. printf('%5S: ', val.id)
     " Hide intermediate links in chain to save space?       TODO
       if (get(val, 'linksto', "") != "")
         let chain = s:GetLinkChain(val.name)
@@ -408,13 +321,15 @@ function! s:UpdateSynFoBuffer(winid)
               \ {i, link -> 
               \  win_execute(a:winid, 'call matchadd('''
               \  .. link .. ''', ''\<' .. link .. '\>'')'  )})
-        let res = res .. join(chain, ' ' .. s:symbol_linksto ..' ')
+        let res = res .. join(mapnew(chain,
+              \ {i, link -> link .. '»' .. SwapNumbers((hlget(link)[0]->get('id')), 'sansb')}
+              \ ), ' ' .. s:symbol_linksto .. ' ')
       else
-        let res = res .. val.name
+        let res = res .. val.name .. '»' .. SwapNumbers(val.id, 'sansb')
       endif
       let res = res .. ''
 
-      call add(lines, res)
+      call add(lines, #{text: res, props: []})
     endfor
   end
 
@@ -433,21 +348,16 @@ function! s:UpdateSynFoBuffer(winid)
   "
   " let charinfo = printf('%'..longest..'S', ExecAndReturn('Characterize'))
   let [charinfo] = s:GetFormattedCharacterInfo()
-  call add(lines, charinfo)
+  call add(lines, #{text: charinfo, props: []})
 
   call add(lines, s:sectionBreak)
 
   "
   " Position Info:
   "
-  " let title = printf('%'..longest..'S', printf(' SynStack @ Row %s Col %s (V %s H %s)', line('.'), col('.'), virtcol('.'), charcol('.')))
-  " call setbufline(bufnr, max([4, i + 1]), title)
-  call add(lines, s:GetFormattedPositionInfo(max(lines)))
+  call add(lines, s:GetFormattedPositionInfo(max(mapnew(lines, {_, line -> line['text']}))))
 
-  silent call deletebufline(bufnr, 1, '$')
-
-  call appendbufline(bufnr, 0, lines)
-
+  call popup_settext(a:winid, lines)
 endfunc
 
 function s:SynFoPopupFilter(winid, key)
@@ -609,6 +519,138 @@ endfunc
 
 command! -bar -nargs=1 HiDefinition exec ':norm f HiDefinition(<f-args>)
 
+"₁️₂️₃️
+"₁⃞ ₂⃞ ₃⃞  ¹⃞ ²⃞ ³⃞ ⁴⃞    ¹️²️³️⁴️⁵️⁶️⁷️⁸️⁹️₁️₂️₃️₄️₅️₆️₇️₈️₉️¹̲►️²̲️³̲️⁴̲️⁵̲️⁶̲️⁷̲️⁸̲️⁹̲️►️₁️₂️₃️₄️₅️₆️₇️►️₈️₉️²³⁴►️⁵⁶⁷⁸⁹₁꛱₂꛱₃꛱₄꛱₅꛱₆꛱₇꛱₈꛱₉꛱
+"₁⃞️ ₂⃞️ ₃⃞️  ¹⃞ ²⃞ ³⃞ ⁴⃞ ⁵⃞ ⁶⃞ ⁷⃞ ⁸⃞ ⁹⃞  0︎⃣ 1︎⃣ 2︎⃣ 3︎⃣ 4︎⃣ 5︎⃣ 6︎⃣ 7︎⃣ 8︎⃣ 9︎⃣  
+"
+" ⎛             ᐅᐳ         ◁️[ ₁️1︎⃣ 1 ▷️⮕ᐳ  ◁️]  ᐅᐳ  ▷️ᐳ  ▷️ᐳ⮕ᐳ               ⎞
+" join(chain, '▶︎▬ᷞ▬ͥ▬ᷠ▬ᷜ▶︎') join(chain, ' ▬▶︎ ') join(chain, ' -> ') join(chain, ' ʟɪɴ͢ᴋ ')
+"
+"  􀯭 􀯮 􀯯 􁉽 􁋼 􁉼 􁋽 􁋛 􁋜 􀯰 􁌅 􀯱 􀯲 􀯳 􁊕
+"  􀅓️⃞ 􀅔️⃞ 􀅕️ 􀅖️⃞  􀨡️⃞  
+
+" 􀑋 􀑍 􀯴 􀮵 􀺾 􀿨 􀑏 􁂠 􂡆  􀿫 􂞹 􂞺  􀿪􁰏 
+" 􀑌 􀑎 􀯵 􀮶 􀻀 􀿩 􀑐 􁂡 􂡇  􀭨 
+" 
+" 􀭅 􀆗􀆛􀆙               ◲⃞ ▬ ◱⃞     ◶⃞   ◵⃞    
+" 􁚀 􀆘􀆜􀆚               ❚    ❚             
+" 􀃬􀃮􀃜􀃞                ◳⃞   ◰⃞    ◷⃞   ◴⃞   
+" 􀣤 􀏃 􀣦􀂒􀃰􀃲                           
+" 􀣥 􀏄 􀣧􀂓􀃱􀃳                           
+" 􁄻 transparent                           
+
+" ⎛  ★   fg􀏄 bg􀏄 sp􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾                ⎞
+" ⎢                                                  ⎥
+" ⎢ ᴅ  1234: cssUrlFunction S️tatement                ⎥
+" ⎢  ᴄ  567: cssAttrRegion                           ⎥
+" ⎢  ᴄ   89: cssDefinition                           ⎥
+" ⎝                                 @ Row 62 Col 39  ⎠
+" 
+" ∙ • ・◦ ● ○ ◎ ◉ ⦿  ‣ ▵ ▴ ➤ ➢ ➣  ✢ ✣ ✤ ✧ ★ ☆    ✻ ✲ ✱ 
+" ∙⃞ •⃞ ・⃞◦⃞ ●⃞ ○⃞ ◎⃞ ◉⃞ ⦿⃞  ‣⃞ ▵⃞ ▴⃞ ➤⃞ ➢⃞ ➣⃞  ✢⃞ ✣⃞ ✤⃞ ✧⃞ ★⃞ ☆⃞    ✻⃞ ✲⃞ ✱⃞ 
+"
+" ※ ※⃞️ ※⃞  ▪▪︎⃞ ▪⃞︎  ▫▫︎⃞ ▫⃞︎    ❘️❘⃞ ❘❘⃞︎ ❙️❙⃞ ❙❙⃞︎ 
+"                                                                            
+" ∙️ •️ ・️◦️ ●️ ○️ ◎️ ◉◉️ ◉️⃝ ⦿⃝ ⦿⦿⃝︎    ◎⃝︎  ◎⃝◎⃝️      ⦿️   ‣️ ▵️ ▴️ ➤️ ➢️ ➣️  ✢️ ✣️ ✤️ ✧️ ★️ ☆️    ✻️ ✲️ ✱️ 
+"
+" ✗ ✗⃞︎ ✗️ ✗⃞️  ✘ ✘⃞︎ ✘️ ✘⃞      ✓✔︎✓️✔︎︎️ ✓⃞ ✔︎⃞   ✕ ✕⃞︎  ✕️ ✕⃞   ✖︎ ✖⃞︎  ✖︎⃞   
+"・∙️∙•●️•️● ○ ◎ ◉ ⦿ 
+"
+"  ↵ ↲ ↳ ↰ ↱ ↴  ⤶ ⤴︎ ⤵︎ ⤷  ⤥ ⤤ ⤹ ⤸ ↩︎ ↪︎ ⤾ ⤿ ⤺ ⤻
+"  ↵︎ ↲︎ ↳︎ ↰︎ ↱︎ ↴︎  ⤶︎ ⤴︎︎ ⤵︎︎ ⤷︎  ⤥︎ ⤤︎ ⤹︎ ⤸︎ ↩︎︎ ↪︎︎ ⤾︎ ⤿︎ ⤺︎ ⤻︎
+"  ↵️ ↲️ ↳️ ↰️ ↱️ ↴️  ⤶️ ⤴︎️ ⤵︎️ ⤷️  ⤥️ ⤤️ ⤹️ ⤸️ ↩︎️ ↪︎️ ⤾️ ⤿️ ⤺️ ⤻️
+"  ↵️︎ ↲️️ ↳️ ↰️ ↱️ ↴️  ⤶️ ⤴︎️ ⤵︎️ ⤷️  ⤥️ ⤤️ ⤹️ ⤸️ ↩︎️ ↪︎️ ⤾️ ⤿️ ⤺️ ⤻️
+"
+"  ◦️ ◦   ○️ ◎️ ◉️ ⦿️  ‣️ ▵️ ▴️ ➤️ ➢️ ➣️  ✢️ ✣️ ✤️ ✧️ 
+"
+"  ★ ☆ ★⃝︎  ☆⃝︎  ★⃝  ☆⃝  ★️ ☆️  ★⃞ ☆⃞  ★⃞︎ ☆⃞︎   ✻️ ✲️ ✱️  ✓️ ✔︎️  ✕️ ✖︎️  ✗️ ✘️  ※️      ❘️ ❙️
+"
+" ⎢                                                  ⎥
+" ⎢                                                  ⎥
+" ⎛  ★ cssUrlFunction:1234 ꜰ􀏄 ʙ􀏄 ꜱ􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾 ⎞
+" ⎢ ᴅ   ↳️ S️tatement:667  Error:554                    ⎥
+" ⎢                                                   ⎥
+" ⎢  ᴄ  567: cssAttrRegion                            ⎥
+" ⎢  ᴄ   89: cssDefinition                            ⎥
+" ⎝                        Synstack @ Row 62 Col 39   ⎠
+"
+" ⎛  ★️         􀅓️⃝ 􀅔️⃝ 􀅕️⃝ 􀅖️⃝ 􀨡️⃝     􂏾️⃝                 ⎞
+"
+" ⎛  ★   fg:􀂓 bg:􀂓 sp:􀂓  􀅓 􀅔 􀅕 􀅖 􀨡    􂏾     ⎞
+" ⎢ɴ ᴅ  1234: cssUrlFunction  S️tatement               ⎥
+" ⎢  ᴄ  567: cssAttrRegion                           ⎥
+" ⎢  ᴄ   89: cssDefinition                           ⎥
+" ⎝                        Synstack @ Row 62 Col 39  ⎠
+"
+" ⎛ Synstack   fg:#aabbcc bg:#227788 sp: #445566           ⎞
+" ⎢    1234: cssUrlFunction ───►️ Statement #aabbcc #227788 ⎥
+" ⎢ ᴅ  1234: cssUrlFunction ─2︎⃣╶►️ Statement                 ⎥
+" ⎢  ᴄ  567: cssAttrRegion                  ⎥
+" ⎢  ᴄ   89: cssDefinition 
+"
+" ⎢      R̲̅9️5️ C̩̍ᵒ̩̍5️6️ Vᶜ5️6️  ᵇʸᵗᵉ9️2️
+"
+" ⎢      ʀᐧ9️5️ ⎟C⎜5️6️ ᵛᶜᵒˡ5️6️  ᵇʸᵗᵉ⎡⎟9️2️⎟
+" ⎢     
+" 
+" fg=􀏄 bg=􀏄 sp=􀏄
+" fg=􀏄 bg=􀣤 sp=􀏃
+"
+" edit colour, rgb + hsl
+"
+"   ╭ #rrggbb ╮ ⎧ #rrggbb ⎫ ⎧ #rrggbb ⎫
+"   ⎨ h  s  l ⎬ ⎧ h  s  l ⎫ ⎧ h  s  l ⎫
+"   ⎩1️8️0️ 9️0️ 6️0️⎭ ⎩ 0  0  0 ⎭ ⎩360 1  1 ⎭
+" 
+"   ╭ #rrggbb ╮
+"   ⎨- h 180°+⎬
+"   ⎪  s .97  ⎪
+"   ⎩  l .60  ⎭
+" 
+"   ⎬ #rrggbb ⎨
+"   ⎪h1️8️0️°⎪
+"   ⎪s.️9️7️ ⎪
+"   ⎩l.️6️0️ ⎭
+" 
+"       
+"   R 100  H 180
+"   G  98  S  97
+"   B   7  L  60
+"
+"   R 100%  H 180°
+"   G  98%  S  97%
+"   B   7%  L  60%
+"                       
+"                  ╭#RF1056┬􀏄
+"                 􀏄╭ʜ𝟥𝟢𝟢
+"                  ╰┼ꜱ.𝟫𝟫
+"                   ╰ʟ.𝟢𝟩
+" 100 100 100
+"
+"                  ╭╴ʀ‑︎ɢ‑︎ʙ
+" R 100% G _98% B __7%
+"        ⎵ 
+"      ᴿ⃞︎]          ̲̅3̲̅3̲̅2̲̅     𝟸̲̅𝟺̲̅𝟹̲̅  𝟮̲̅𝟰̲̅𝟯̲̅ 𝟣̲̅𝟥̲̅𝟧̲̅ 𝟑̲̅𝟔̲̅𝟎̲̅
+"
+          "\ ' SynFo @️ ʀ̲̅%s |ᴄ|%s ʙ𝗒%s',
+"        𝘤𝘰𝘭 𝘳𝘰𝘸   
+"
+" ╷   ╷   ╷ 80╷
+" ⎝            Synstack @   Rʷ̲ 62 Cˡ 39  ⎠      ╵Vr╴╵Ch╴╵Col╵
+"
+" ⎝       Synstack @ row _6̲2̲_ │ ͦͨͮͮ ͦ︎ ͦͨʰʰ️ʰ︎ˡ39│ᵛᵛ️ᵛ︎ ͨͮ35│ ͪͨ29│️ 39 [v 35|c 35]   ⎠
+"     3̲̅9̲̅   ⏐62⏐
+" 
+" ᴿᴼᵂᴿ️ᴼ️ᵂ️ᴿ⃞︎ ᴼ⃞︎ ᵂ⃞︎ ʳᵒʷʳ️ᵒ️ʷ️ʳ⃞︎ ᵒ⃞︎ ʷ⃞︎   ⁿⁿⁿʲʲʲʰʰʰˡˡˡʷʷʷ   ┐├▻ ◁┤ ├─▸ ◄─┤ ◂─┤ ◀︎─┤ 
+" ᴸᴼᴬᴰᴸ️ᴼ️ᴬ️ᴰ️ᴸ︎ᴼ︎ᴬ︎ᴰ︎  ᴏ                             ''
+"   ʳᵒʷ ᶜᵒˡ ᵛᐧᶜᵒˡ ᶜʰᐧᶜᵒˡ ᵇʸᵗᵉᐧ                ''
+"   ᴿᵒʷ ᶜᵒˡ ᵛꜞʳᵗᐧᶜᵒˡ ᶜʰᐧᶜᵒˡ          V
+"   Rᵒʷ ᴄᵒˡ vᶜᵒˡ chᶜᵒˡ  R C V H ᴠ Vˡͦͨ ᶜᵒˡCᴏʟ |️ᴄ|️ ʜᶜᵒˡCᴏʟͦ  ᴠɪᴛCᴏʟ ʜᴀCᴏ   ▕️  ʀ̲̅
+"
+" ᵛᵥᵛ️ᵥ️ᵛ︎ᵥ︎ ˯˰˱͔˲͕ ˱͕˲͔ ˱͐˲͐ ˖̝˖˖️̝˗˗️ ˳̣˳̣️.̣.̣️ ˌ̩˯̩ ::️˸˸ ᵣᵣ️ᵣ︎ ᶜᵒᶫˣʼ̊ᶜ️ᵒ️ᶫ️ˣ️ʼ̊️ᶜ︎ᵒ︎ᶫ︎ˣ︎ʼ̊︎ ˤʕʖʔ ⎥  ͖ ˪˫ . |̴̰ ‖̻⸋⸋️⸋︎⸋̻︎‖̪ ‖̝
+"
+"   ˹˺˻˼˽˾ꜚ˿ ̚  ˺͐ ‿ˌ  ˲͕͐ ˱͔ 
+"
 
 " Capture name of highlight
 " '^:\?hi\w*\s\(link\|clear\)\@!\s*\zs\(\w\+\)\ze\s\+'
@@ -660,3 +702,25 @@ command! -bar -nargs=1 HiDefinition exec ':norm f HiDefinition(<f-args>)
 " endfunc
 
 " command! HiHiMatch call <SID>ToggleHighlightHighlight()
+"
+
+  " e.g.:
+  " syn match HlMkDnCdDelim /\<HlMkDnCdDelim\>/ contained contains=NONE containedin=VimHiGroup
+  "
+  " let w:synmatches = []
+  " %s/^:\?hi\w*\s\+\%(clear\)\@!\%(def\w*\s*\)\?\%(link\s*\)\?\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/ne
+  " %s/^:\?syn\w*\s\+\%(match\|region\|keyword\)\s\+\<\zs\(\w\+\)\ze\>/\=w:synmatches->add(submatch(0))/ne
+  " for synmatch in w:synmatches
+  "   silent exec 'syn match ' .. synmatch .. ' /\<' .. synmatch .. '\>/'
+  "     \ .. ' contained contains=NONE containedin=VimGroupName,VimHiGroup,VimGroup'
+  " endfor
+" endfunc
+
+" Has two implementations, this one uses `syn match`
+"
+" function! s:AddSynMatch(name) abort
+"   exec 'syn match ' .. a:name .. ' /\<' .. a:name .. '\>/'
+"     \ .. ' contained contains=NONE containedin=VimHiGroup'
+"   return a:name
+" endfunc
+

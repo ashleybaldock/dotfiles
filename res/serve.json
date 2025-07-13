@@ -2,7 +2,7 @@
   "public": ".",
   "cleanUrls": false,
   "directoryListing": true,
-  "unlisted": ["*.s@([a-v][a-z]|w[a-p])", ".DS_Store"],
+  "unlisted": ["*.s@([a-t][a-z]|v[a-f]|v[h-z]|w[a-p])", ".DS_Store"],
   "trailingSlash": true,
   "renderSingle": false,
   "symlinks": false

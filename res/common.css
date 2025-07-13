@@ -83,7 +83,7 @@ body::before {
 
 body {
   font-size: 14px;
-  line-height: 14px;
+  line-height: normal;
   display: flex;
   flex-direction: column;
   margin: 0.6em;
@@ -117,7 +117,7 @@ svg {
   flex: 1 1;
   align-content: center;
   justify-content: center;
-  border: 0px solid #0000;
+  border: 0 solid #0000;
 }
 
 .vertical {

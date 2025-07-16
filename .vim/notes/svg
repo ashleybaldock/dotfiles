@@ -1,0 +1,25 @@
+
+filter
+- primitiveUnits: userSpaceOnUse|objectBoundingBox
+- clipPathUnits: userSpaceOnUse|objectBoundingBox
+
+feMorphology
+- in: <ident>|SourceGraphic|SourceAlpha|BackgroundAlpha|FillPaint|StrokePaint
+- operator: erode|dilate
+- radius: x[ y]
+- result: <ident>
+
+feComposite
+- in: <ident>|SourceGraphic|SourceAlpha|BackgroundAlpha|FillPaint|StrokePaint
+- in2: <ident>|SourceGraphic|SourceAlpha|BackgroundAlpha|FillPaint|StrokePaint
+- operator: over|in|out|atop|xor|lighter|arithmetic 
+- result: <ident>
+
+feFlood
+- flood-opacity: 0.0-1.0
+- flood-color: <color>
+- x
+- y
+- height
+- width
+- result: <ident>

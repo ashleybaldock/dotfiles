@@ -42,6 +42,9 @@ syn region markdownH3 matchgroup=markdownH3Delimiter start=" \{,3}###\s"    end=
 syn region markdownH4 matchgroup=markdownH4Delimiter start=" \{,3}####\s"   end="#*\s*$" keepend oneline contains=@markdownInline,markdownAutomaticLink contained concealends
 syn region markdownH5 matchgroup=markdownH5Delimiter start=" \{,3}#####\s"  end="#*\s*$" keepend oneline contains=@markdownInline,markdownAutomaticLink contained concealends
 syn region markdownH6 matchgroup=markdownH6Delimiter start=" \{,3}######\s" end="#*\s*$" keepend oneline contains=@markdownInline,markdownAutomaticLink contained concealends
+" Escaped H1-H6
+syn match mdEscapedChar /\\#\%(\\\?#\)\{,5}/ contains=NONE
+
 
 syn region mdEscapedItalic
       \ start="\\\*\S\@="
@@ -99,19 +102,6 @@ syn region mdHtmlComment concealends
 
 hi def mdHtmlComment guifg=#999999 gui=italic
 
-
-syn match mdConcealedEscapedChar "\\\ze[*_~#>`-]" contains=NONE contained conceal
-
-syn match mdEscapedChar "\\[*_~#>`-]" contains=NONE contained
-
-" We heard you like escapes so we put escapes in your escapes
-syn match mdConcealedEscape +\\+ contains=NONE contained conceal
-
-syn match mdEscapedEscape +\\\ze\\+ contains=mdConcealedEscape contained
-syn match mdDblEscapedChar "\\\\[*_~#>`-]" contains=mdEscapedEscape
-
-" Escaped H1-H6
-syn match mdEscapedChar /\\#\%(\\\?#\)\{,5}/ contains=NONE
 
 syn match mdHozRule /^\%(---\|\*\*\*\|___\)$/ contains=NONE conceal cchar=⸻
 " Escaped hozRule
@@ -227,10 +217,28 @@ syn match mdEscapedCodeDelimiter
       \ contained
       \ contains=mdConcealedEscape
 
-
+" Footnotes:
 syn match mdFootnote "\[^[^\]]\+\]"
 syn match mdFootnoteDefinition "^\[^[^\]]\+\]:"
 
+"
+" Escapes And Concealed:
+"
+syn match mdConcealedEscapedChar "\\\ze[*_~#>`-]" contains=NONE contained conceal
+
+syn match mdEscapedChar "\\[*_~#>`-]" contains=NONE contained
+
+" We heard you like escapes so we put escapes in your escapes
+syn match mdConcealedEscape +\\+ contains=NONE contained conceal
+
+syn match mdEscapedEscape +\\\ze\\+ contains=mdConcealedEscape contained
+syn match mdDblEscapedChar "\\\\[*_~#>`-]" contains=mdEscapedEscape
+
+"
+" Code Block Syntax:
+" Define languages to include automatically using:
+"   let g:md_fenced_languages = ['js', 'bash']
+"
 let s:included = {}
 for s:type in g:md_fenced_languages
   if has_key(s:included, matchstr(s:type,'[^.]*'))

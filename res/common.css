@@ -78,7 +78,7 @@ body::before {
   counter-reset:
     screenw var(--w),
     screenh var(--h);
-  content: counter(screenw) x counter(screenh);
+  content: counter(screenw) '×' counter(screenh);
 }
 
 body {

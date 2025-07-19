@@ -1,7 +1,7 @@
 (() => {
   const parseTag = (raw, ...substitutions) =>
     String.raw({ raw }, ...substitutions) ?? '';
-  const css = (...args) => parseTag(...args);
+  const css = (...args) => parseTag(...args).replace('\n', '');
 
   const cap = css`
     font-size: 16px;
@@ -39,14 +39,20 @@
     color: #111;
     margin-left: -0.8ch;
   `;
-  const big = css`
-    font-family: SF mono;
-    font-size: 20px;
-    line-height: 18px;
-  `;
   const std = css`
     font-size: 10px;
     line-height: 18px;
+  `;
+  const big = css`
+    font-size: 20px;
+    line-height: 18px;
+  `;
+  const mono = css`
+    font-family: SF mono;
+  `;
+  const key = css`
+    ${mono}
+    ${big}
   `;
   const sqr = css`
     ${std};
@@ -57,7 +63,7 @@
     text-align: center;
   `;
   const sqb = css`
-    ${big};
+    ${key};
   `;
   const sqrb = css`
     ${sqr};
@@ -67,7 +73,7 @@
   `;
   const sqbb = css`
     ${cap};
-    ${big};
+    ${key};
     border: 1px solid #eee;
     border-left: none;
     border-radius: 0 4px 4px 0;
@@ -75,87 +81,19 @@
     margin: 0 0.5ch 0 0;
     text-align: center;
   `;
-  console.log(
-    '%c shift %c⇧%c ctrl %c⌃%c option %c⌥%c command %c⌘%c',
-    std,
-    big,
-    std,
-    big,
-    std,
-    big,
-    std,
-    big,
-    std,
-  );
-  console.log(
-    '%c shift %c⇧%c ctrl %c⌃%c option %c⌥%c command %c⌘%c',
-    sqr,
-    sqb,
-    sqr,
-    sqb,
-    sqr,
-    sqb,
-    sqr,
-    sqb,
-    std,
-  );
-  console.log(
-    '%c shift %c⇧%c ctrl %c⌃%c option %c⌥%c command %c⌘%c',
-    sqrb,
-    sqbb,
-    sqrb,
-    sqbb,
-    sqrb,
-    sqbb,
-    sqrb,
-    sqbb,
-    std,
-  );
-  console.log(
-    '%c⇧️%c%c⌃︎%c%c⌥%c%c⌘️%c  %c⇧️%c%c⌃︎%c%c⌥%c%c⌘️%c ',
-    cap,
-    std,
-    cap,
-    std,
-    cap,
-    std,
-    cap,
-    std,
-    capp,
-    std,
-    capp,
-    std,
-    capp,
-    std,
-    capp,
-    std,
-  );
-  console.log(
-    '%c⇧️%cr%c%c⌃︎%cc%c%c⌥%cp%c%c⌘️%cs%c  %c⇧️%cr%c%c⌃︎%cc%c%c⌥%cp%c%c⇧️%c⌘️%cs%c ',
-    cap,
-    capn,
-    std,
-    cap,
-    capn,
-    std,
-    cap,
-    capn,
-    std,
-    cap,
-    capn,
-    std,
-    capp,
-    capn,
-    std,
-    capp,
-    capn,
-    std,
-    capp,
-    capn,
-    std,
-    capp,
-    cappn,
-    capn,
-    std,
-  );
+
+  const logf = (raw, ...substitutions) =>
+    console.log(raw.join('%c'), ...substitutions);
+
+  logf`${std} shift ${key}⇧${std} ctrl ${key}⌃${std} option ${key}⌥${std} command ${key}⌘${std}`;
+
+  logf`${sqr} shift ${sqb}⇧${sqr} ctrl ${sqb}⌃${sqr} option ${sqb}⌥${sqr} command ${sqb}⌘${std}`;
+
+  logf`${sqrb} shift ${sqbb}⇧${sqrb} ctrl ${sqbb}⌃${sqrb} option ${sqbb}⌥${sqrb} command ${sqbb}⌘${std}`;
+
+  logf`${cap}⇧️${std}${cap}⌃︎${std}${cap}⌥${std}${cap}⌘️${std}  ${capp}⇧️${std}${capp}⌃︎${std}${capp}⌥${std}${capp}⌘️${std}`;
+
+  logf`${cap}⇧️${capn}r${std}${cap}⌃︎${capn}c${std}${cap}⌥${capn}p${std}${cap}⌘️${capn}s${std}`;
+
+  logf`${capp}⇧️${capn}r${std}${capp}⌃︎${capn}c${std}${capp}⌥${capn}p${std}${capp}⇧️${cappn}⌘️${capn}s${std}`;
 })();

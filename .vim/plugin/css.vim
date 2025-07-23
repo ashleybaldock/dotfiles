@@ -188,7 +188,10 @@ command! -bar -range=% CssZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?
 command! -bar -range=% CssAddTrailingSemi <line1>,<line2> s/[^;{}]\zs\ze$\n\s*}/;/
 
 "
-" Remove devtool comments
+" Important Comments:
+"
+" e.g.
+" /*! comment */
 "
 command! -bar -range=% CssNoDevToolComments <line1>,<line2> s/\*\s\?\%(Inline\s#\d\+\|Element\)\s\?|.*$//
 
@@ -204,7 +207,7 @@ command! -bar -range=% CssNoDevToolComments <line1>,<line2> s/\*\s\?\%(Inline\s#
 " [║data-attr⏐$=⏐'⏐value⏐'⏐ i⏐]
 "
 " [data-attr$='value' i]
-" ◥⎻⎻⎻⎻¹⎻⎻⎻⎻₂꛰︎₂꛰︎³꛰︎⎻⎻⁴⎻⎻⁵꛰︎₆͞︎₆̄◤
+" ◥⎻⎻⎻⎻¹⎻⎻⎻⎻₂꛰︎₂꛰︎³꛰︎⎻⎻⁴⎻⎻⁵꛰︎₆͞︎₆͞︎⎻◤
 "
 command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\)\([|~$^*]\?=\)\("\)\([^"']*\)\(\3\)\%(\s\([iIsS]\)\)\?\ze]/\1\2'\4'\6/cg
 
@@ -213,16 +216,14 @@ command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\
 " CSS Variables:
 "
 "
-" Extract Variable:
-" TODO
+" Extract Variable:                                                            TODO
 " color: #556677;
 "   ▼▼
 " color: var(--color001);
 " --color001: #556677;
 "
 "
-" Extract Component Variables:
-" TODO
+" Extract Component Variables:                       TODO
 "
 " box-shadow: 1px 2px 0.1px 0 #449988 inset;
 "   ▼
@@ -322,7 +323,7 @@ command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\
 " line break + continuation before base64
 "     repeat to remove exisiting line continuation
 " :%s/\%(\\$\n\s*\)base64,\%([^\\]*\zs\\$\n\s*\)//g
-:
+"
 "     split base64, onto own line + define match area
 "     \1 indentation    \2 
 " %s/^\(\s\+\)[^;]\+;\zs\(base64,[a-zA-Z0-9/+ \\]\+\)\ze['");]/\\\1  \2/

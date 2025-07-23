@@ -1,13 +1,30 @@
 "
-" Additions to markdown formatting
+" Markdown syntax++
 "
 " au BufWritePost <buffer> syn on
 "
 " See Also: 
 "  $VIMRUNTIME/syntax/markdown.vim
 " Test Doc:
-"          ../../demo/markdown.md
+"          ../demo/markdown.md
 "
+
+if exists("b:current_syntax")
+  finish
+endif
+
+if !exists('main_syntax')
+  let main_syntax = 'markdown'
+endif
+
+if has('folding')
+  let s:foldmethod = &l:foldmethod
+  let s:foldtext = &l:foldtext
+endif
+let s:iskeyword = &l:iskeyword
+
+runtime! syntax/html.vim
+unlet! b:current_syntax
 
 
 if !exists('g:md_fenced_languages')
@@ -23,33 +40,67 @@ for s:type in mapnew(g:md_fenced_languages, 'matchstr(v:val,"[^=]*$")')
   endif
   syn case match
   exe 'syn include @mdHighlight_' .. tr(s:type,'.','_') ..
-        \ ' syntax/' .. matchstr(s:type,'[^.]*') ..'.vim'
+        \ ' syntax/' .. matchstr(s:type,'[^.]*') .. '.vim'
   unlet! b:current_syntax
   let s:included[matchstr(s:type,'[^.]*')] = 1
 endfor
 unlet! s:type
 unlet! s:included
 
-" syn match markdownEscape "\\\~"
+syn spell toplevel
+if exists('s:foldmethod') && s:foldmethod !=# &l:foldmethod
+  let &l:foldmethod = s:foldmethod
+  unlet s:foldmethod
+endif
+if exists('s:foldtext') && s:foldtext !=# &l:foldtext
+  let &l:foldtext = s:foldtext
+  unlet s:foldtext
+endif
+if s:iskeyword !=# &l:iskeyword
+  let &l:iskeyword = s:iskeyword
+endif
+unlet s:iskeyword
 
-syn match markdownLineBreak " \{2,\}$" conceal cchar=⏎️
+if !exists('g:md_minlines')
+  let g:md_minlines = 50
+endif
+exec 'syn sync minlines=' .. g:md_minlines
+syn sync linebreaks=1
+syn case ignore
 
-syn match mdNewPara "$"
+syn match mdValid '[<>]\c[a-z/$!]\@!' transparent contains=NONE
+syn match mdValid '&\%(#\=\w*;\)\@!' transparent contains=NONE
 
-syn region markdownH1 matchgroup=markdownH1Delimiter start=" \{,3}#\s"      end="#*\s*$" keepend oneline contains=@markdownInline,markdownAutomaticLink contained concealends
-syn region markdownH2 matchgroup=markdownH2Delimiter start=" \{,3}##\s"     end="#*\s*$" keepend oneline contains=@markdownInline,markdownAutomaticLink contained concealends
-syn region markdownH3 matchgroup=markdownH3Delimiter start=" \{,3}###\s"    end="#*\s*$" keepend oneline contains=@markdownInline,markdownAutomaticLink contained concealends
-syn region markdownH4 matchgroup=markdownH4Delimiter start=" \{,3}####\s"   end="#*\s*$" keepend oneline contains=@markdownInline,markdownAutomaticLink contained concealends
-syn region markdownH5 matchgroup=markdownH5Delimiter start=" \{,3}#####\s"  end="#*\s*$" keepend oneline contains=@markdownInline,markdownAutomaticLink contained concealends
-syn region markdownH6 matchgroup=markdownH6Delimiter start=" \{,3}######\s" end="#*\s*$" keepend oneline contains=@markdownInline,markdownAutomaticLink contained concealends
+syn match mdLineStart "^[<@]\@!" nextgroup=@mdBlock,htmlSpecialChar
+
+syn cluster mdBlock contains=mdH1,mdH2,mdH3,mdH4,mdH5,mdH6,mdBlockQuote,mdListMarker,mdOrderedListMarker,mdCodeBlock,mdRule
+syn cluster mdInline contains=mdLineBreak,mdLinkText,mdItalic,mdBold,mdCode,mdEscape,@htmlTop,mdError,mdValid
+
+syn match mdH1 "^.\+\n=\+$" contained contains=@mdInline,mdHeadingRule,mdAutoLink
+syn match mdH2 "^.\+\n-\+$" contained contains=@mdInline,mdHeadingRule,mdAutoLink
+
+syn match mdHeadingRule "^[=-]\+$" contained
+
+syn region mdH1 matchgroup=mdH1Delimiter start=" \{,3}#\s"      end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH2 matchgroup=mdH2Delimiter start=" \{,3}##\s"     end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH3 matchgroup=mdH3Delimiter start=" \{,3}###\s"    end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH4 matchgroup=mdH4Delimiter start=" \{,3}####\s"   end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH5 matchgroup=mdH5Delimiter start=" \{,3}#####\s"  end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH6 matchgroup=mdH6Delimiter start=" \{,3}######\s" end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
 " Escaped H1-H6
 syn match mdEscapedChar /\\#\%(\\\?#\)\{,5}/ contains=NONE
 
 
+" syn match mdEscape "\\\~"
+
+syn match mdLineBreak " \{2,\}$" conceal cchar=⏎️
+
+syn match mdNewPara "$"
+
 syn region mdEscapedItalic
       \ start="\\\*\S\@="
       \ end="\%(\S\\\*\)\@3<=\ze\|^$"
-      \ contains=mdEscapedItalicDelimiter,markdownLineStart,@Spell,mdEscapedBoldItalic,markdownBoldItalic
+      \ contains=mdEscapedItalicDelimiter,mdLineStart,@Spell,mdEscapedBoldItalic,markdownBoldItalic
       " \ skip="\\\\\*"
 
 syn match mdEscapedItalicDelimiter
@@ -62,7 +113,7 @@ syn region mdEscapedBold
       \ start="\\\*\\\*\S\@="
       \ end="\%(\S\\\*\\\*\)\@5<=\ze\|^$"
       \ skip="\*\|\\\\\*"
-      \ contains=mdEscapedBoldDelimiter,markdownLineStart,@Spell,mdEscapedBoldItalic,markdownBoldItalic
+      \ contains=mdEscapedBoldDelimiter,mdLineStart,@Spell,mdEscapedBoldItalic,markdownBoldItalic
 
 syn match mdEscapedBoldDelimiter
       \ "\\\*\\\*\S\@=\|\S\@1<=\\\*\\\*"
@@ -72,7 +123,7 @@ syn match mdEscapedBoldDelimiter
 syn region mdEscapedBoldItalic
       \ start="\\\*\\\*\\\*\S\@="
       \ end="\%(\S\\\*\\\*\\\*\)\@7<=\|^$"
-      \ contains=mdEscapedBoldItalicDelimiter,markdownLineStart,@Spell
+      \ contains=mdEscapedBoldItalicDelimiter,mdLineStart,@Spell
 
 syn match mdEscapedBoldItalicDelimiter
       \ "\\\*\\\*\\\*\S\@=\|\S\@1<=\\\*\\\*\\\*"
@@ -98,9 +149,13 @@ syn match mdAlertConceal +\]+ contained contains=NONE conceal cchar=◢
 syn region mdHtmlComment concealends
       \ matchgroup=Conceal start=+<!--\s\?+
       \ matchgroup=Conceal end=+\s\?-->+
-      \ containedin=markdownBold,markdownItalic,markdownBoldItalic,mdEscaped
+      \ containedin=mdBold,mdItalic,markdownBoldItalic,mdEscaped
 
 hi def mdHtmlComment guifg=#999999 gui=italic
+
+
+syn match mdListMarker "\%(\t\| \{0,4\}\)[-*+]\%(\s\+\S\)\@=" contained
+syn match mdOrderedListMarker "\%(\t\| \{0,4}\)\<\d\+\.\%(\s\+\S\)\@=" contained
 
 
 syn match mdHozRule /^\%(---\|\*\*\*\|___\)$/ contains=NONE conceal cchar=⸻
@@ -160,10 +215,10 @@ hi def mdAlertTitleCaution guifg=#eeee44
 " call matchadd('Conceal', '\zs\\\ze[`]')
 " call matchadd('Conceal', '`')
 
-syn match mdCodeStart /\\\@1<!`/ conceal cchar=⎥ contains=NONE contained
-syn match mdCodeEnd /\\\@1<!`/ conceal   cchar=⎢ contains=NONE contained
+syn match mdCodeStart  /\\\@1<!`/  conceal cchar=⎥ contains=NONE contained
+syn match mdCodeEnd    /\\\@1<!`/  conceal cchar=⎢ contains=NONE contained
 syn match mdCode2Start /\\\@1<!``/ conceal cchar=⎥ contains=NONE contained
-syn match mdCode2End /\\\@1<!``/ conceal cchar=⎢ contains=NONE contained
+syn match mdCode2End   /\\\@1<!``/ conceal cchar=⎢ contains=NONE contained
 
 syn region mdCode oneline keepend
       \ start="`"
@@ -200,7 +255,7 @@ syn region mdEscapedCode oneline keepend
       \ start="\\`\S\@="
       \ end="\%(\S\\`\)\@3<=\ze\|^$" end="\_$"
       \ skip="\\\\`"
-      \ contains=mdEscapedCodeDelimiter,markdownLineStart,@Spell
+      \ contains=mdEscapedCodeDelimiter,mdLineStart,@Spell
 syn match mdEscapedCodeDelimiter
       \ "\\`\S\@=\|\S\@1<=\\`"
       \ contained
@@ -211,11 +266,26 @@ syn region mdEscapedCode oneline keepend
       \ start="\\`\\`\S\@="
       \ end="\%(\S\\`\\`\)\@5<=\ze\|^$" end="\_$"
       \ skip="\\\\`"
-      \ contains=mdEscapedCodeDelimiter,markdownLineStart,@Spell
+      \ contains=mdEscapedCodeDelimiter,mdLineStart,@Spell
 syn match mdEscapedCodeDelimiter
       \ "\\`\\`\S\@=\|\S\@1<=\\`\\`"
       \ contained
       \ contains=mdConcealedEscape
+
+syn region mdIdDeclaration matchgroup=mdLinkDelimiter start="^ \{0,3\}!\=\[" end="\]:" oneline keepend nextgroup=mdUrl skipwhite
+syn match mdUrl "\S\+" nextgroup=mdUrlTitle skipwhite contained
+syn region mdUrl matchgroup=mdUrlDelim start="<" end=">" oneline keepend nextgroup=mdUrlTitle skipwhite contained
+syn region mdUrlTitle matchgroup=mdUrlTitleDelimiter start=+"+ end=+"+ keepend contained
+syn region mdUrlTitle matchgroup=mdUrlTitleDelimiter start=+'+ end=+'+ keepend contained
+syn region mdUrlTitle matchgroup=mdUrlTitleDelimiter start=+(+ end=+)+ keepend contained
+
+syn region mdLinkText matchgroup=mdLinkTextDelimiter start="!\=\[\%(\_[^][]*\%(\[\_[^][]*\]\_[^][]*\)*]\%( \=[[(]\)\)\@=" end="\]\%( \=[[(]\)\@=" nextgroup=mdLink,mdId skipwhite contains=@mdInline,mdLineStart
+syn region mdLink matchgroup=mdLinkDelimiter start="(" end=")" contains=mdUrl keepend contained
+syn region mdId matchgroup=mdIdDelim start="\[" end="\]" keepend contained
+syn region mdAutoLink matchgroup=mdUrlDelim start="<\%(\w\+:\|[[:alnum:]_+-]\+@\)\@=" end=">" keepend oneline
+
+
+
 
 " Footnotes:
 syn match mdFootnote "\[^[^\]]\+\]"
@@ -261,6 +331,9 @@ endfor
 unlet! s:type
 unlet! s:included
 
+syn match mdEscape "\\[][\\`*_{}()<>#+.!-]"
+syn match mdError "\w\@<=_\w\@="
+
 " echo matchadd('HlMkDnCode', '\\_\\_\zsBold\ze\\_\\_')
 " echo matchadd('HlMkDnCode', '\\\zs_\ze')
 " echo matchadd('Conceal', '\zs\\\ze_')
@@ -268,6 +341,51 @@ unlet! s:included
 "
 " Highlight Definitions:
 "
+hi def link mdH1                          htmlH1
+hi def link mdH2                          htmlH2
+hi def link mdH3                          htmlH3
+hi def link mdH4                          htmlH4
+hi def link mdH5                          htmlH5
+hi def link mdH6                          htmlH6
+hi def link mdHeadingRule                 mdRule
+hi def link mdH1Delimiter                 mdHeadingDelimiter
+hi def link mdH2Delimiter                 mdHeadingDelimiter
+hi def link mdH3Delimiter                 mdHeadingDelimiter
+hi def link mdH4Delimiter                 mdHeadingDelimiter
+hi def link mdH5Delimiter                 mdHeadingDelimiter
+hi def link mdH6Delimiter                 mdHeadingDelimiter
+hi def link mdHeadingDelimiter            Delimiter
+hi def link mdOrderedListMarker     mdListMarker
+hi def link mdListMarker            htmlTagName
+hi def link mdBlockQuote            Comment
+hi def link mdRule                        PreProc
+
+hi def link markdownFootnote              Typedef
+hi def link markdownFootnoteDefinition    Typedef
+
+hi def link mdLinkText                    htmlLink
+hi def link mdIdDeclaration         Typedef
+hi def link markdownId                    Type
+hi def link mdAutoLink                    mdUrl
+hi def link mdUrl                   Float
+hi def link mdUrlTitle              String
+hi def link mdIdDelim           mdLinkDelimiter
+hi def link mdUrlDelim          htmlTag
+hi def link mdUrlTitleDelimiter     Delimiter
+
+hi def link mdItalic                htmlItalic
+hi def link markdownItalicDelimiter       mdItalic
+hi def link mdBold                  htmlBold
+hi def link markdownBoldDelimiter         mdBold
+hi def link markdownBoldItalic            htmlBoldItalic
+hi def link markdownBoldItalicDelimiter   markdownBoldItalic
+hi def link markdownStrike                htmlStrike
+hi def link markdownStrikeDelimiter       markdownStrike
+hi def link markdownCodeDelimiter         Delimiter
+
+hi def link mdEscape                Special
+hi def link mdError                 Error
+
 hi def mdEscapedCode guifg=#aaaa00 guibg=#222222
 hi mdCode guifg=#cc88dd guibg=#391044
 hi mdCodeStart guibg=#391044
@@ -320,3 +438,9 @@ function! s:OnBufferChanged(bufnr, start, end, added, s)
 endfunc
 
 call listener_add('s:OnBufferChanged', bufnr())
+
+
+let b:current_syntax = "markdown"
+if main_syntax ==# 'markdown'
+  unlet main_syntax
+endif

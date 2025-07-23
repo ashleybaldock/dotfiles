@@ -76,19 +76,21 @@ xnoremap ‚ <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsear
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ + RepeatMove
 nnoremap – a̲<Esc>h<Cmd>RepeatMove<CR>
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲h̲i̲t̲e̲s̲p̲a̲c̲e̲
-xnoremap – <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze/\0̲/g<CR><Cmd>nohlsearch<CR> 
+xnoremap – :s/\(\_^\s*"\)\?\s*\%V\S/\0̲/g<CR>
 "
 " ▌️􀆝􀆕 -▐️──▷ O̅v̅e̅r̅l̅i̅n̅e̅ + RepeatMove
 nnoremap — a̅<Esc>h<Cmd>RepeatMove<CR>
 " ▌️􀆝􀆕 -▐️──▷ Overline visual selection, skip leading/trailing whitespace
-xnoremap — <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze/\0̅/g<CR>
+" xnoremap — <Cmd>'<,'>s/\_^"\?.*\zs\%V\S\%V\ze/\0̅/g<CR>
+" xnoremap — :s/\(\_^\s*"\)\?\s*\%V\S/\0̅/g<CR><Cmd>nohlsearch<CR>
+xnoremap — :s/\(\_^\s*"\)\?\s*\%V\S/\0̅/g<CR>
 "<Cmd>nohlsearch<CR> 
-" n̲noremap <p̅lug> a꛱<Esc><Cmd>RepeatMove<CR>
-" n̅noremap <p̲̅lug> a꛰<Esc><Cmd>R̲̅̅epeatMove<CR>
+" nno̅r̅e̅m̅a̅p <p̅l̅u̅g̅> a꛱<Esc><Cmd>RepeatMove<CR>
+" nno̅r̅e̅m̅ap <plug> a꛰<Esc><Cmd>R̲̅̅epeatMove<CR>
 "
 "
 " test
-" 1 2 5
+" 1̅3̅ 2̅5̅5̅ 5̅ 9̅
 "
 "
 " Add Variation Selector:

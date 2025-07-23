@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/common.css"/>
     <link rel="stylesheet" href="icons.css"/>
     <link rel="stylesheet" href="sliders.css"/>
-    <link rel="stylesheet" href="tooltips.css"/>
+    <!-- <link rel="stylesheet" href="tooltips.css"/> -->
 
     <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
     <script type="application/javascript" src="entanglement.js"></script>
@@ -20,6 +20,12 @@
 
 
     <script>
+
+  const parseTag = (raw, ...substitutions) =>
+    String.raw({ raw }, ...substitutions) ?? '';
+  const html = (...args) => parseTag(...args);
+  
+
   /**
    * Inject a style attribute into an SVG
    *
@@ -94,7 +100,7 @@ const dataurlSVG = (svg) => `url('${encodeSVG(svg)}')`;
 
       const div = document.createElement('div');
       div.className = 'iconRow';
-      div.insertAdjacentHTML('afterbegin', `
+      div.insertAdjacentHTML('afterbegin', html`
         <div class="outer">
           <div class="inner">
             <div class="copyAs"

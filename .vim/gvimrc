@@ -7,7 +7,7 @@ endif
 set printexpr=macvim#PreviewConvertPostScript()
 
 " askpass
-let $SSH_ASKPASS = simplify($VIM . '/../../Resources') . '/macvim-askpass'
+let $SSH_ASKPASS = simplify($VIM .. '/../../Resources') .. '/macvim-askpass'
 let $SUDO_ASKPASS = $SSH_ASKPASS
 
 
@@ -21,6 +21,7 @@ DynamicToolBar
 " (Commented entries are unaltered from menu.vim)
 "
 " See: $VIMRUNTIME/menu.vim
+"      $VIMRUNTIME/../../Actions.plist
 
 "  <D-n>
 " macm File.New\ Window                             key=<Nop>
@@ -159,7 +160,6 @@ an <silent> 10.327.100 &File.Open\ Related.Runtime\ Syntax	    <Nop>
 an <silent> 10.327.110 &File.Open\ Related.Runtime\ FT\ Plugin	    <Nop>
 an <silent> 10.327.120 &File.Open\ Related.Runtime\ Plugin	    <Nop>
 an <silent> 10.327.130 &File.Open\ Related.Runtime\ Autoload	    <Nop>
-
 
 
 "

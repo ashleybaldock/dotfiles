@@ -194,7 +194,7 @@ inline code containing backticks ``let a = `${foo} ${bar}`;``.
 
 Leading and trailing spaces `  a.?b.?c ?? 42    ` ditto `   foo && bar   `
 
-- backticks: `let a = hello world;`
+- backticks: let a = `hello world`;
 
 EoL: \``code ended by EoL\`
 EoL: `code ended by EoL
@@ -220,7 +220,11 @@ bash -command "quoted argument"
 bash -command "quoted argument"
 ```
 
+▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▏bash▕▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅▔̅
+bash -command "quoted argument"
 ▄▄▟ bash ▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+
+▄▄▟̅ bash ▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 bash -command "quoted argument"
 ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 

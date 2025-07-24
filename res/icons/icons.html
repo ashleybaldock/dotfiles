@@ -13,9 +13,7 @@
     <script type="application/javascript" src="entanglement.js"></script>
   
     <script>
-      entanglement().then((untangle) => {
-        console.log(untangle);
-      });
+      entanglement().then((untangle) => console.log(untangle));
     </script>
 
 
@@ -24,6 +22,7 @@
   const parseTag = (raw, ...substitutions) =>
     String.raw({ raw }, ...substitutions) ?? '';
   const html = (...args) => parseTag(...args);
+  const css = (...args) => parseTag(...args);
   
 
   /**
@@ -36,111 +35,124 @@
       (stroke && `stroke: ${stroke}`) ?? ''}${
       (stroke_width && `stroke_width: ${stroke_width}`) ?? ''}"`);
 
-/**
-* Minimally transform SVG for use in a dataurl
-*/
-const encodeSVG = (svg) => `data:image/svg+xml,${svg
-  .replace(/>\s{1,}</g, `><`) /* strip spaces between tags */
-  .replace(/\s{2,}/g, ` `)    /* remove multiple spaces */
-  .replace(/[\r\n%#()"'<>?[\\\]^`{|}]/g, encodeURIComponent)}`;
+  /**
+  * Minimally transform SVG for use in a dataurl
+  */
+  const encodeSVG = (svg, base64 = false) => base64
+    ? `data:image/svg+xml;base64,${btoa(svg)}`
+    : `data:image/svg+xml,${svg
+      .replace(/>\s{1,}</g, `><`) /* strip spaces between tags */
+      .replace(/\s{2,}/g, ` `)    /* remove multiple spaces */
+      .replace(/[\r\n%#()"'<>?[\\\]^`{|}]/g, encodeURIComponent)}`;
 
-/**
- * Encode SVG into a dataurl
- *
- * Note: output does not include trailing ';'
- */
-const dataurlSVG = (svg) => `url('${encodeSVG(svg)}')`;
+  /**
+   * Encode SVG into a dataurl
+   *
+   * Note: output does not include trailing ';'
+   */
+  const dataurlSVG = (svg, base64 = false) => `url('${encodeSVG(svg, base64)}')`;
 
-
-  const defaultBackground = `
+  /* Boilerplate CSS for background image */
+  const defaultBackground = css`
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
   `;
 
-  const svgToCSSBackground = (svg) =>
-    `background-image: ${dataurlSVG(svg)};${defaultBackground}`;
+  /* Boilerplate CSS for mask image */
+  const defaultMask = css`
+    mask-repeat: no-repeat;
+    mask-position: center;
+  `;
 
-  const svgToCSSContent = (svg) =>
-    `content: ${dataurlSVG(svg)};`;
+  /* Boilerplate CSS for image as content */
+  const defaultContent = css``;
 
   const svgToCSSvar = (svg, varName) =>
-    `--icon-${varName}: ${dataurlSVG(svg)};`;
-
-  const svgToURL = (svg) => `${dataurlSVG(svg)};`;
-
+    css`--icon-${varName}: ${dataurlSVG(svg)};`;
 
   const copyTextToClipboard = async (text) =>
     ('clipboard' in navigator) 
       ? await navigator.clipboard.writeText(text) 
       : document.execCommand('copy', true, text);
 
-  const copy = (e) => {
-    const toCopy = e.target?.querySelector?.('textarea')?.value;
-    if (toCopy !== null && toCopy !== undefined) {
-      copyTextToClipboard(toCopy)
-        .then(() => {
-          e.target?.classList?.add('copied');
-          setTimeout(() => e.target?.classList?.remove('copied'), 2000);
-        })
-        .catch((err) => {
-          e.target?.classList?.add('copyfail');
-          setTimeout(() => e.target?.classList?.remove('copyfail'), 4000);
-        });
+  const copyAsMapping = new Map([
+    ['svg', (svg) => svg],
+    ['svg64', (svg) => btoa(svg)],
+    ['url', (svg) => ${`url('${dataurlSVG(svg)}')`}],
+    ['url64', (svg) => ${`url('${dataurlSVG(svg, true)}')`}],
+    ['content', (svg) => css`content: ${dataurlSVG(svg)};${defaultContent}`],
+    ['mask', (svg) => css`mask-image: ${dataurlSVG(svg)};${defaultMask}`],
+    ['maskImage', (svg) => css`mask-image: ${dataurlSVG(svg)};`],
+    ['bg', (svg) => css`background-image: ${dataurlSVG(svg)};${defaultBackground}`],
+    ['bgImage', (svg) => css`background-image: ${dataurlSVG(svg)}`],
+  ]);
+
+  const copy = (e, copyAs) => {
+    const notifyCopied = (target) => target && (target.classList.add('copied') || setTimeout(() => target.classList.remove('copied'), 3000));
+    const notifyFail = (target, message) => target && (target.classList.add('copyfail') || setTimeout(() => target.classList.remove('copyfail'), 4000)) || message && console.warn(message);
+    
+    const svgData = e.target?.closest?.(':has(> .asSVG)')?.querySelector?.('.asSVG')?.outerHTML;
+
+    if (svgData === null) {
+      notifyFail(e.target, 'SVG missing');
+      return;
     }
+    if (!copyAsMapping.has(copyAs)) {
+      notifyFail(e.target, 'Invalid copyAs method');
+      return;
+    }
+
+    copyTextToClipboard(copyAsMapping.get(copyAs)(svgData))
+      .then(() => {
+        notifyCopied(e.target)
+      })
+      .catch((err) => {
+        notifyFail(e.target, `Copy failed, err: ${err}`);
+      });
   }
 
   window.addEventListener('load', (event) => {
 
-    const styles = [':root {'];
+    /*const styles = [':root {'];*/
     document.querySelectorAll('.autoWrap svg').forEach((svg) => {
       const name = svg.getAttribute('data-name');
-      const cssvar = (name !== null && name?.length > 0) ? svgToCSSvar(svg.outerHTML, name) : null;
-      cssvar && styles.push(`  ${svgToCSSvar(svg.outerHTML, name)}`);
+      /*const cssvar = (name !== null && name?.length > 0) ? svgToCSSvar(svg.outerHTML, name) : null;
+      cssvar && styles.push(`  ${svgToCSSvar(svg.outerHTML, name)}`);*/
 
       const div = document.createElement('div');
       div.className = 'iconRow';
       div.insertAdjacentHTML('afterbegin', html`
         <div class="outer">
           <div class="inner">
-            <div class="copyAs"
-              <label class="download downSVG" onClick="">
-                <textarea></textarea>
-              </label>
-              <label class="copy copySVG" onClick="copy(event)">
-                <textarea></textarea>&lt;SVG&gt;
-              </label>
-              <label class="copy copyURL" onClick="copy(event)">
-                <textarea></textarea>url()
-              </label>
-              <label class="copy copyCSSbackground" onClick="copy(event)">
-                <textarea></textarea>background
-              </label>
-              <label class="copy copyCSScontent" onClick="copy(event)">
-                <textarea></textarea>content
-              </label>
-              ${cssvar === null ? '' : `<label class="copy copyCSSvar" onClick="copy(event)">
-                <<textarea></textarea>var()
-              </label>`}
+            <div class="svgActions"
+              <textarea></textarea>
+              <label class="down" onClick="download(event, 'svg')">svg</label>
+              <label class="copy" onClick="copy(event, 'svg')">svg</label>
+              <label class="copy" onClick="copy(event, 'svg64')">svg(b64)</label>
+              <label class="copy" onClick="copy(event, 'svgSymbol')">symbol(svg)</label>
+              <label class="copy" onClick="copy(event, 'url')">url(svg)</label>
+              <label class="copy" onClick="copy(event, 'url64')">url(b64)</label>
+              <label class="copy" onClick="copy(event, 'content')">content</label>
+              <label class="copy" onClick="copy(event, 'mask')">mask</label>
+              <label class="copy" onClick="copy(event, 'maskImage')">mask-image</label>
+              <label class="copy" onClick="copy(event, 'bg')">background</label>
+              <label class="copy" onClick="copy(event, 'bgImage')">background-image</label>
             </div>
-            <div class="asSVG">${svg.outerHTML}</div>
+            <div class="wrappedSVG">${svg.outerHTML}</div>
           </div>
         </div>
       `);
-      div.querySelector('.copySVG textarea').value = svg.outerHTML;
-      div.querySelector('.copyURL textarea').value = svgToURL(svg.outerHTML);
-      div.querySelector('.copyCSSbackground textarea').value = svgToCSSBackground(svg.outerHTML);
-      div.querySelector('.copyCSScontent textarea').value = svgToCSSContent(svg.outerHTML);
       svg.replaceWith(div);
     });
 
-    styles.push('}');
+    /*styles.push('}');
     const styleString = styles.join('\n');
     console.log(styleString);
 
     const styleNode = document.createElement('style');
     styleNode.innerText = styleString;
-    document.head.appendChild(styleNode);
+    document.head.appendChild(styleNode);*/
   });
     </script>
 

@@ -106,10 +106,13 @@ Multiple data sources can be defined for an element. For each source:
             (In future, 
 
  */
-const entanglement = ((window) => {
+const entanglement = (({
+  window,
+  window: { document },
+  qsAll = document.querySelectorAll.bind(document),
+}) => {
   console.log('entanglement()');
-  const { document } = window;
-  const qs = document.querySelectorAll.bind(document);
+  // const qs = document.querySelectorAll.bind(document);
 
   const nameFor = (element) => element.getAttribute('name');
   const typeFor = (element) =>
@@ -181,7 +184,7 @@ const entanglement = ((window) => {
     const getCurrentValue = (() => {
       const getRadioGroupValue = ({ element, name }) =>
         element.form?.elements?.namedItem?.(name)?.value ??
-        [...qs(`input[type='radio'][name=${name}]:checked`)][0]?.value ??
+        [...qsAll(`input[type='radio'][name=${name}]:checked`)][0]?.value ??
         null;
 
       const getChecked = ({ checked }) => checked;
@@ -210,9 +213,9 @@ const entanglement = ((window) => {
     const getOrAssignIdFor = (
       ({ nextId, options }) =>
       (element) =>
-        element.getAttribute('data-source') ??
+        (element.getAttribute('data-source') ??
         element.getAttribute('id') ??
-        options.autoId
+        options.autoId)
           ? ((id) =>
               element.setAttribute(
                 'data-source',
@@ -231,12 +234,10 @@ const entanglement = ((window) => {
     const validateEvent = (eventName) =>
       validEventNames.has(eventName) ? [eventName] : [];
 
-    const defaultEventsFor = (
-      (sourceTypeMap, defaultEvents) => (sourceType) =>
-        sourceTypeMap.has(sourceType)
-          ? sourceTypeMap.get(sourceType)
-          : defaultEvents
-    )(
+    const defaultEventsFor = ((sourceTypeMap, defaultEvents) => (sourceType) =>
+      sourceTypeMap.has(sourceType)
+        ? sourceTypeMap.get(sourceType)
+        : defaultEvents)(
       new Map([
         ['input:checkbox', ['input', 'change']],
         ['input:radio', ['input', 'change']],
@@ -260,18 +261,18 @@ const entanglement = ((window) => {
 
         // TODO memoise and update via mutationobserver
         /* Update associated labels & outputs */
-        qs(`:is(label,output)[for=${dataSourceId}]`).forEach((sink) => {
+        qsAll(`:is(label,output)[for=${dataSourceId}]`).forEach((sink) => {
           pending.enqueue({ source, sink, newValue });
         });
 
         /* Update listeners */
-        qs(`[data-sink~=${dataSourceId}]`).forEach((sink) => {
+        qsAll(`[data-sink~=${dataSourceId}]`).forEach((sink) => {
           pending.enqueue({ source, sink, newValue });
         });
 
         if (source.type === 'input:radio' && eventName === 'change') {
           if (source.name) {
-            qs(
+            qsAll(
               `[data-sink~=name%${source.name}], [name=${source.name}]`,
             ).forEach((sink) =>
               pending.enqueue({
@@ -309,7 +310,7 @@ const entanglement = ((window) => {
     /* Auto: uses id as data source name */
     // TODO memoise
     const potentialSourceElements = [
-      ...qs(sourceDefinitions.map((d) => d.query)),
+      ...qsAll(sourceDefinitions.map((d) => d.query)),
     ];
 
     const { signal, abort } = new AbortController();
@@ -347,7 +348,7 @@ const entanglement = ((window) => {
     });
     return promise;
   };
-})(window);
+})({ window });
 
 /* Update nearest parent sink */
 // const closestParentSink = e.target.closest(`[data-sink-for~=${name}]`);

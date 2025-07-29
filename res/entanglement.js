@@ -114,12 +114,6 @@ const entanglement = (({
   console.log('entanglement()');
   // const qs = document.querySelectorAll.bind(document);
 
-  const nameFor = (element) => element.getAttribute('name');
-  const typeFor = (element) =>
-    `${element.localName}:${
-      (element.hasAttribute('type') && element.getAttribute('type')) || ''
-    }`;
-
   /**
    *
    */
@@ -200,30 +194,6 @@ const entanglement = (({
         inputTypeValueMap.get(source.type)?.(source) ?? getValue(source);
     })();
 
-    const sourceDefinitions = [
-      { query: `[data-source]`, events: [``] },
-      { query: `input[type=radio]`, events: [``] },
-      { query: `input[type=checkbox]`, events: [``] },
-    ];
-
-    /**
-     *  Get an ID to use to refer to a Data Source
-     *
-     */
-    const getOrAssignIdFor = (
-      ({ nextId, options }) =>
-      (element) =>
-        (element.getAttribute('data-source') ??
-        element.getAttribute('id') ??
-        options.autoId)
-          ? ((id) =>
-              element.setAttribute(
-                'data-source',
-                `${prefix}${id.toString(16).padStart(6, '0')}`,
-              ) ?? id)(nextId())
-          : null
-    )({ nextId, options });
-
     const validEventNames = new Map([
       ['input', ['input:radio', 'input:checkbox', 'input']],
       ['change', ['input:radio', 'input:checkbox', 'input']],
@@ -233,6 +203,13 @@ const entanglement = (({
     ]);
     const validateEvent = (eventName) =>
       validEventNames.has(eventName) ? [eventName] : [];
+
+    /* Defines automatically entangled event sources, and the events they produce */
+    const autoEventSources = new Map([
+      { query: `[data-source]`, events: [``] },
+      { query: `input[type=radio]`, events: [``] },
+      { query: `input[type=checkbox]`, events: [``] },
+    ]);
 
     const defaultEventsFor = ((sourceTypeMap, defaultEvents) => (sourceType) =>
       sourceTypeMap.has(sourceType)
@@ -310,18 +287,37 @@ const entanglement = (({
     /* Auto: uses id as data source name */
     // TODO memoise
     const potentialSourceElements = [
-      ...qsAll(sourceDefinitions.map((d) => d.query)),
+      ...qsAll(autoEventSources.map((d) => d.query)),
     ];
 
     const { signal, abort } = new AbortController();
 
-    const sources = potentialSourceElements.flatMap((element) => {
+    /**
+     *  Get an ID to use to refer to a Data Source
+     */
+    const getOrAssignIdFor = (
+      ({ nextId, options }) =>
+      (el) =>
+        (el.getAttribute('data-source') ??
+        el.getAttribute('id') ??
+        options.autoId)
+          ? ((id) =>
+              el.setAttribute(
+                'data-source',
+                `${prefix}${id.toString(16).padStart(6, '0')}`,
+              ) ?? id)(nextId())
+          : null
+    )({ nextId, options });
+    const sources = potentialSourceElements.flatMap((el) => {
       const source = {
-        element,
-        id: getOrAssignIdFor(element),
-        type: typeFor(element),
-        name: nameFor(element),
-        events: eventsFor(element),
+        element: el,
+        id: getOrAssignIdFor(el),
+        type: (el) =>
+          `${el.localName}${
+            el.hasAttribute('type') ? `:${el.getAttribute('type')}` : ''
+          }`,
+        name: (el) => el.getAttribute('name'),
+        events: eventsFor(el),
       };
 
       if (source.id === null) {

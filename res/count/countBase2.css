@@ -1,3 +1,110 @@
+/* :has(> :nth-child(2n + 1)) { */
+/*   --c0: 0; */
+/* } */
+/* :has(> :nth-child(4n + 2)) { */
+/*   --c1: 1; */
+/* } */
+/* :has(> :nth-child(8n + 4)) { */
+/*   --c2: 1; */
+/* } */
+/* :has(> :nth-child(16n + 8)) { */
+/*   --c3: 1; */
+/* } */
+/* :has(> :nth-child(32n + 16)) { */
+/*   --c4: 1; */
+/* } */
+/* :has(> :nth-child(64n + 32)) { */
+/*   --c5: 1; */
+/* } */
+/* :has(> :nth-child(128n + 64)) { */
+/*   --c6: 1; */
+/* } */
+/* :has(> :nth-child(256n + 128)) { */
+/*   --c7: 1; */
+/* } */
+/* :has(> :nth-child(512n + 256)) { */
+/*   --c8: 1; */
+/* } */
+/* :has(> :nth-child(1024n + 512)) { */
+/*   --c9: 1; */
+/* } */
+/* :has(> :nth-child(2048n + 1024)) { */
+/*   --cA: 1; */
+/* } */
+/* :has(> :nth-child(4096n + 2048)) { */
+/*   --cB: 1; */
+/* } */
+/* :has(> :nth-child(8192n + 4096)) { */
+/*   --cC: 1; */
+/* } */
+/* :has(> :nth-child(16348n + 8192)) { */
+/*   --cD: 1; */
+/* } */
+/* :has(> :nth-child(32768n + 16348)) { */
+/*   --cE: 1; */
+/* } */
+/* :has(> :nth-child(65536n + 32768)) { */
+/*   --cF: 1; */
+/* } */
+
+/* :has(> :nth-child(2n + 1)) { */
+/*   --c1: 0; */
+/* } */
+/* :has(> :nth-child(4n + 2)) { */
+/*   --c1: 1; */
+/* } */
+/* :has(> :nth-child(8n + 4)) { */
+/*   --c2: 1; */
+/* } */
+/* :has(> :nth-child(16n + 8)) { */
+/*   --c3: 1; */
+/* } */
+/* :has(> :nth-child(32n + 16)) { */
+/*   --c4: 1; */
+/* } */
+/* :has(> :nth-child(64n + 32)) { */
+/*   --c5: 1; */
+/* } */
+/* :has(> :nth-child(128n + 64)) { */
+/*   --c6: 1; */
+/* } */
+/* :has(> :nth-child(256n + 128)) { */
+/*   --c7: 1; */
+/* } */
+/* :has(> :nth-child(512n + 256)) { */
+/*   --c8: 1; */
+/* } */
+/* :has(> :nth-child(1024n + 512)) { */
+/*   --c9: 1; */
+/* } */
+/* :has(> :nth-child(2048n + 1024)) { */
+/*   --cA: 1; */
+/* } */
+/* :has(> :nth-child(4096n + 2048)) { */
+/*   --cB: 1; */
+/* } */
+/* :has(> :nth-child(8192n + 4096)) { */
+/*   --cC: 1; */
+/* } */
+/* :has(> :nth-child(16348n + 8192)) { */
+/*   --cD: 2; */
+/* } */
+/* :has(> :nth-child(32768n + 16348)) { */
+/*   --cE: 3; */
+/* } */
+/* :has(> :nth-child(65536n + 32768)) { */
+/*   --cF: 4; */
+/* } */
+/*   --c0: inherit; --c1: inherit; --c2: inherit; --c3: inherit; --c4: inherit; --c5: inherit; --c6: inherit; --c7: inherit; --c8: inherit; --c9: inherit; --cA: inherit; --cB: inherit; --cC: inherit; --cD: inherit; --cE: inherit; --cF: inherit; */
+/*! --children: calc(
+    var(--c0) * pow(2, 0) + var(--c1) * pow(2, 1) + var(--c2) * pow(2, 2) +
+      var(--c3) * pow(2, 3) + var(--c4) * pow(2, 4) + var(--c5) * pow(2, 5) +
+      var(--c6) * pow(2, 6) + var(--c7) * pow(2, 7) + var(--c8) * pow(2, 8) +
+      var(--c9) * pow(2, 9) + var(--cA) * pow(2, 10) + var(--cB) * pow(2, 11) +
+      var(--cC) * pow(2, 12) + var(--cD) * pow(2, 13) + var(--cE) * pow(2, 14) +
+      var(--cF) * pow(2, 15)
+  ); */
+
 /*{{{*/
 @property --c0 {
   syntax: '<number>';
@@ -82,31 +189,6 @@
 /*}}}*/
 
 :has(> :nth-child(2))::before {
-  /*   --c0: inherit;
-  --c1: inherit;
-  --c2: inherit;
-  --c3: inherit;
-  --c4: inherit;
-  --c5: inherit;
-  --c6: inherit;
-  --c7: inherit;
-  --c8: inherit;
-  --c9: inherit;
-  --cA: inherit;
-  --cB: inherit;
-  --cC: inherit;
-  --cD: inherit;
-  --cE: inherit;
-  --cF: inherit; */
-  /*! --children: calc(
-    var(--c0) * pow(2, 0) + var(--c1) * pow(2, 1) + var(--c2) * pow(2, 2) +
-      var(--c3) * pow(2, 3) + var(--c4) * pow(2, 4) + var(--c5) * pow(2, 5) +
-      var(--c6) * pow(2, 6) + var(--c7) * pow(2, 7) + var(--c8) * pow(2, 8) +
-      var(--c9) * pow(2, 9) + var(--cA) * pow(2, 10) + var(--cB) * pow(2, 11) +
-      var(--cC) * pow(2, 12) + var(--cD) * pow(2, 13) + var(--cE) * pow(2, 14) +
-      var(--cF) * pow(2, 15)
-  ); */
-
   counter-reset: out var(--children);
   content: counter(out);
   opacity: 0.6;
@@ -173,164 +255,39 @@
 
 
  */
-/* has a multiple of 1 (2^0) that isn't a multiple of 2 (2^1) */
-:has(> :nth-child(2n + 1)) {
-  --c1: 0;
-}
-/* has a multiple of 2 (2^1) that isn't also a multiple of 4 (2^2) */
-:has(> :nth-child(4n + 2)) {
-  --c1: 1;
-}
-/* has a multiple of 4 (2^2) that isn't also a multiple of 8 (2^3) */
-:has(> :nth-child(8n + 4)) {
-  --c2: 1;
-}
-/* has a multiple of 8 (2^3) that isn't also a multiple of 16 (2^4) */
-:has(> :nth-child(16n + 8)) {
-  --c3: 1;
-}
-/* has a multiple of 16 (2^4) that isn't also a multiple of 32 (2^5) */
-:has(> :nth-child(32n + 16)) {
-  --c4: 1;
-}
-/* has a multiple of 32 (2^5) that isn't also a multiple of 64 (2^6) */
-:has(> :nth-child(64n + 32)) {
-  --c5: 1;
-}
-/* has a multiple of 64 (2^6) that isn't also a multiple of 128 (2^7) */
-:has(> :nth-child(128n + 64)) {
-  --c6: 1;
-}
-/* has a multiple of 128 (2^7) that isn't also a multiple of 256 (2^8) */
-:has(> :nth-child(256n + 128)) {
-  --c7: 1;
-}
-/* has a multiple of 256 (2^8) that isn't also a multiple of 512 (2^9) */
-:has(> :nth-child(512n + 256)) {
-  --c8: 1;
-}
-:has(> :nth-child(1024n + 512)) {
-  --c9: 1;
-}
-:has(> :nth-child(2048n + 1024)) {
-  --cA: 1;
-}
-:has(> :nth-child(4096n + 2048)) {
-  --cB: 1;
-}
-:has(> :nth-child(8192n + 4096)) {
-  --cC: 1;
-}
-:has(> :nth-child(16348n + 8192)) {
-  --cD: 2;
-}
-:has(> :nth-child(32768n + 16348)) {
-  --cE: 3;
-}
-:has(> :nth-child(65536n + 32768)) {
-  --cF: 4;
-}
-@property --c0 {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --c1 {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --c2 {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --c3 {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --c4 {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --c5 {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --c6 {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --c7 {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --c8 {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --c9 {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --cA {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --cB {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --cC {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --cD {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --cE {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --cF {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
+
+/* prettier-ignore */
 :has(> :nth-child(2)) {
   --children: calc(
-    (var(--c0, 0) * pow(2, 0)) + (var(--c1, 0) * pow(2, 1)) +
-      (var(--c2, 0) * pow(2, 2)) + (var(--c3, 0) * pow(2, 3)) +
-      (var(--c4, 0) * pow(2, 4)) + var(--c5, 0) * pow(2, 5) + var(--c6, 0) *
-      pow(2, 6) + var(--c7, 0) * pow(2, 7) + var(--c8, 0) * pow(2, 8) +
-      var(--c9, 0) * pow(2, 9) + var(--cA, 0) * pow(2, 10) + var(--cB, 0) *
-      pow(2, 11) + var(--cC, 0) * pow(2, 12) + var(--cD, 0) * pow(2, 13) +
-      var(--cE, 0) * pow(2, 14) + var(--cF, 0) * pow(2, 15)
+      (var(--c0, 0) * pow(2, 0))
+    + (var(--c1, 0) * pow(2, 1))
+    + (var(--c2, 0) * pow(2, 2))
+    + (var(--c3, 0) * pow(2, 3))
+    + (var(--c4, 0) * pow(2, 4))
+    + (var(--c5, 0) * pow(2, 5))
+    + (var(--c6, 0) * pow(2, 6))
+    + (var(--c7, 0) * pow(2, 7))
+    + (var(--c8, 0) * pow(2, 8))
+    + (var(--c9, 0) * pow(2, 9))
+    + (var(--cA, 0) * pow(2, 10))
+    + (var(--cB, 0) * pow(2, 11))
+    + (var(--cC, 0) * pow(2, 12))
+    + (var(--cD, 0) * pow(2, 13))
+    + (var(--cE, 0) * pow(2, 14))
+    + (var(--cF, 0) * pow(2, 15))
   );
 
   counter-reset: out var(--children);
 }
-:has(> :nth-child(2))::before {
-  counter-reset: out var(--children);
-  content: counter(out);
+section > div:has(> :nth-child(2))::before {
+  /* counter-reset: out var(--children); */
+  /* content: counter(out); */
+  counter-reset: out var(--children) out2 var(--actual);
+  content: counter(out) ' (' counter(out2) ')';
   font-size: 0.7rem;
   background: none;
-  background-color: #a22;
+  /* background-color: #a22; */
   border: 2px solid #f44;
-  border-radius: 0.5em / 1em;
   white-space: nowrap;
   width: fit-content;
   height: fit-content;
@@ -351,9 +308,126 @@
   font-style: normal;
   text-transform: none;
   line-height: normal;
-  opacity: 0.6;
   padding: 0 0.3em;
   box-sizing: border-box;
+  align-self: start;
+  --match: calc(
+    max(var(--actual) - var(--children), var(--children) - var(--actual))
+  );
+  background-color: rgba(
+    calc(var(--match) * 255) calc(255 - var(--match) * 255) 0 / 1
+  );
+  position: absolute;
+  transform: translate(-0.3lh, -0.3lh) scale(0.8);
+  border-radius: 0.5em 0;
+  transform-origin: top left;
+  transition: none 140ms ease;
+  transition-property: transform, border-radius, border;
+  opacity: 1;
+}
+
+section > div:has(> :nth-child(2)):has(> :not(:hover)):hover {
+  outline: 1px dashed #f44;
+}
+section > div:has(> :nth-child(2)):has(> :not(:hover)):hover::before {
+  opacity: 1;
+}
+
+section > div:has(> :nth-child(65535))::before {
+  content: '>2¹⁶';
+}
+
+:has(> :nth-child(2)) {
+  --children: calc(
+    (var(--c0, 0) * pow(2, 0)) + (var(--c1, 0) * pow(2, 1)) +
+      (var(--c2, 0) * pow(2, 2)) + (var(--c3, 0) * pow(2, 3)) +
+      (var(--c4, 0) * pow(2, 4)) + (var(--c5, 0) * pow(2, 5)) +
+      (var(--c6, 0) * pow(2, 6)) + (var(--c7, 0) * pow(2, 7)) +
+      (var(--c8, 0) * pow(2, 8)) + (var(--c9, 0) * pow(2, 9)) +
+      (var(--cA, 0) * pow(2, 10)) + (var(--cB, 0) * pow(2, 11)) +
+      (var(--cC, 0) * pow(2, 12)) + (var(--cD, 0) * pow(2, 13)) +
+      (var(--cE, 0) * pow(2, 14)) + (var(--cF, 0) * pow(2, 15))
+  );
+
+  counter-reset: out var(--children);
+}
+:has(> :nth-child(2))::after {
+  content: var(--powers);
+  position: absolute;
+  letter-spacing: -0.1ch;
+  font-family: Menlo;
+  white-space: pre;
+  width: fit-content;
+  font-size: 5px;
+  text-align: left;
+  /*   text-shadow: none; */
+  bottom: 0;
+  left: 0;
+  gap: 0;
+  background-color: #222;
+  transform: translate(-5px, 20px);
+  padding: 0 2px;
+  border: 1px solid #a00;
+  border-radius: 3px;
+}
+:has(> :nth-child(2)) {
+  counter-reset: out var(--children) out2 var(--actual) c0 var(--c0) c1
+    var(--c1) c2 var(--c2) c3 var(--c3) c4 var(--c4) c5 var(--c5) c6 var(--c6)
+    c7 var(--c7);
+  /* --powers: '1  2  4  8 16 32 64 128\0a' counter(c0) '  ' counter(c1) '  ' */
+  /*   counter(c2) '  ' counter(c3) '  ' counter(c4) '  ' counter(c5) '  ' */
+  /*   counter(c6) '  ' counter(c7); */
+  /* --powers: '1  2  4  8 16 32 64 128\0a 2⁰ 2¹ 2² 2³ 2⁴ 2⁵ 2⁶ 2⁷ 2⁸ 2⁹ 2ᴬ 2ᴮ 2  2ᴰ 2ᴱ 2 \0a' */
+  /*   counter(c0) '  ' counter(c1) '  ' counter(c2) '  ' counter(c3) '  ' */
+  /*   counter(c4) '  ' counter(c5) '  ' counter(c6) '  ' counter(c7); */
+  /* --powers: '1  2  4  8 16 32 64 128\0a 2⁰ 2¹ 2² 2³ 2⁴ 2⁵ 2⁶ 2⁷ 2⁸ 2⁹ 2¹⁰ᴬ 2¹¹ᴮ 2¹² 2¹³ᴰ 2¹⁴ᴱ 2¹⁵\0a' */
+  /*   counter(c0) '  ' counter(c1) '  ' counter(c2) '  ' counter(c3) '  ' */
+  /*   counter(c4) '  ' counter(c5) '  ' counter(c6) '  ' counter(c7); */
+  --powers: '1  2  4  8 16 32 64 128\0a' counter(c0) '  ' counter(c1) '  '
+    counter(c2) '  ' counter(c3) '  ' counter(c4) '  ' counter(c5) '  '
+    counter(c6) '  ' counter(c7) '\0a 2⁰ 2¹ 2² 2³ 2⁴ 2⁵ 2⁶ 2⁷';
+  --total: counter(out) ' (' counter(out2) ')';
+}
+:has(> :nth-child(2))::before {
+  content: var(--total);
+  background: none;
+  white-space: nowrap;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  text-shadow:
+    1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000,
+    -1px 1px 0 #000,
+    0 1px 0 #000,
+    1px 0 0 #000,
+    0 -1px 0 #000,
+    -1px 0 0 #000;
+  min-width: 1lh;
+  text-align: center;
+  justify-content: center;
+  font-style: normal;
+  text-transform: none;
+  line-height: normal;
+  padding: 0 0.3em;
+  box-sizing: border-box;
+  align-self: start;
+  /*! --match: calc(
+    max(var(--actual) - var(--children), var(--children) - var(--actual))
+  ); */
+  color: rgba(calc(var(--match) * 255) calc(255 - var(--match) * 255) 0 / 1);
+  transform: translate(5px, 7px);
+  border-radius: 0.5em 0;
+  transform-origin: top left;
+  transition: none 140ms ease;
+  transition-property: transform, border-radius, border;
+  opacity: 1;
+  border: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  gap: 0;
 }
 
 :has(> :nth-child(2)):has(> :not(:hover)):hover {
@@ -362,10 +436,6 @@
 :has(> :nth-child(2)):has(> :not(:hover)):hover::before {
   opacity: 1;
 }
-
-/* :has(> :nth-child(65535))::before {
-  content: '>2¹⁶';
-} */
 
 /*
 
@@ -391,102 +461,70 @@
 
  */
 /* has a multiple of 1 (2^0) that isn't a multiple of 2 (2^1) */
-/* :has(> :nth-child(2n + 1)) { */
-/*   --c1: 0; */
-/* } */
-/* has a multiple of 2 (2^1) that isn't also a multiple of 4 (2^2) */
-/* :has(> :nth-child(4n + 2)) { */
-/*   --c1: 1; */
-/* } */
-/* has a multiple of 4 (2^2) that isn't also a multiple of 8 (2^3) */
-/* :has(> :nth-child(8n + 4)) { */
-/*   --c2: 1; */
-/* } */
-/* has a multiple of 8 (2^3) that isn't also a multiple of 16 (2^4) */
-/* :has(> :nth-child(16n + 8)) { */
-/*   --c3: 1; */
-/* } */
-/* has a multiple of 16 (2^4) that isn't also a multiple of 32 (2^5) */
-:has(> :nth-child(32n + 16)) {
-  --c4: 1;
-}
-/* has a multiple of 32 (2^5) that isn't also a multiple of 64 (2^6) */
-:has(> :nth-child(64n + 32)) {
-  --c5: 1;
-}
-/* has a multiple of 64 (2^6) that isn't also a multiple of 128 (2^7) */
-:has(> :nth-child(128n + 64)) {
-  --c6: 1;
-}
-/* has a multiple of 128 (2^7) that isn't also a multiple of 256 (2^8) */
-:has(> :nth-child(256n + 128)) {
-  --c7: 1;
-}
-/* has a multiple of 256 (2^8) that isn't also a multiple of 512 (2^9) */
-:has(> :nth-child(512n + 256)) {
-  --c8: 1;
-}
-:has(> :nth-child(1024n + 512)) {
-  --c9: 1;
-}
-:has(> :nth-child(2048n + 1024)) {
-  --cA: 1;
-}
-:has(> :nth-child(4096n + 2048)) {
-  --cB: 1;
-}
-:has(> :nth-child(8192n + 4096)) {
-  --cC: 1;
-}
-:has(> :nth-child(16348n + 8192)) {
-  --cD: 1;
-}
-:has(> :nth-child(32768n + 16348)) {
-  --cE: 1;
-}
-:has(> :nth-child(65536n + 32768)) {
-  --cF: 1;
-}
-
 :has(> :nth-child(2n):nth-last-child(-n + 2) ~ :nth-child(2n + 1)) {
-  /* background-color: green; */
   --c0: 1;
 }
 /* +2 */
+/* has a multiple of 2 (2^1) that isn't also a multiple of 4 (2^2) */
 :has(> :nth-child(4n):nth-last-child(-n + 4) ~ :nth-child(4n + 2)) {
-  /* background-color: orangered; */
   --c1: 1;
 }
 /* +4 */
+/* has a multiple of 4 (2^2) that isn't also a multiple of 8 (2^3) */
 :has(> :nth-child(8n):nth-last-child(-n + 8) ~ :nth-child(8n + 4)) {
-  /* background-color: orange; */
   --c2: 1;
 }
+/* has a multiple of 8 (2^3) that isn't also a multiple of 16 (2^4) */
 :has(> :nth-child(16n):nth-last-child(-n + 16) ~ :nth-child(16n + 8)) {
-  /* background-color: yellow; */
   --c3: 1;
 }
+/* has a multiple of 16 (2^4) that isn't also a multiple of 32 (2^5) */
 :has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
   --c4: 1;
 }
-:has(> :nth-child(64n):nth-last-child(-n + 64) ~ :nth-child(64n + 16)) {
-  --c4: 1;
+/* has a multiple of 32 (2^5) that isn't also a multiple of 64 (2^6) */
+:has(> :nth-child(64n):nth-last-child(-n + 64) ~ :nth-child(64n + 32)) {
+  --c5: 1;
 }
-:has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
-  --c4: 1;
+/* has a multiple of 64 (2^6) that isn't also a multiple of 128 (2^7) */
+:has(> :nth-child(128n):nth-last-child(-n + 128) ~ :nth-child(128n + 64)) {
+  --c6: 1;
 }
-:has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
-  --c4: 1;
+/* has a multiple of 128 (2^7) that isn't also a multiple of 256 (2^8) */
+:has(> :nth-child(256n):nth-last-child(-n + 256) ~ :nth-child(256n + 128)) {
+  --c7: 1;
 }
-:has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
-  --c4: 1;
+/* has a multiple of 256 (2^8) that isn't also a multiple of 512 (2^9) */
+:has(> :nth-child(512n):nth-last-child(-n + 512) ~ :nth-child(512n + 256)) {
+  --c8: 1;
 }
-:has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
-  --c4: 1;
-}
-:has(> :nth-child(32n):nth-last-child(-n + 32) ~ :nth-child(32n + 16)) {
-  --c4: 1;
-}
+/* :has(> :nth-child(1024n):nth-last-child(-n + 1024) ~ :nth-child(1024n + 512)) { */
+/*   --c9: 1; */
+/* } */
+/* :has(> :nth-child(2048n):nth-last-child(-n + 2048) ~ :nth-child(2048n + 1024)) { */
+/*   --cA: 1; */
+/* } */
+/* :has(> :nth-child(4096n):nth-last-child(-n + 4096) ~ :nth-child(4096n + 2048)) { */
+/*   --cB: 1; */
+/* } */
+/* :has(> :nth-child(8192n):nth-last-child(-n + 8192) ~ :nth-child(8192n + 4096)) { */
+/*   --cC: 1; */
+/* } */
+/* :has( */
+/*   > :nth-child(16348n):nth-last-child(-n + 16348) ~ :nth-child(16348n + 8192) */
+/* ) { */
+/*   --cD: 1; */
+/* } */
+/* :has( */
+/*   > :nth-child(32768n):nth-last-child(-n + 32768) ~ :nth-child(32768n + 16348) */
+/* ) { */
+/*   --cE: 1; */
+/* } */
+/* :has( */
+/*   > :nth-child(65536n):nth-last-child(-n + 65536) ~ :nth-child(65536n + 32768) */
+/* ) { */
+/*   --cF: 1; */
+/* } */
 
 /* :not(:has(> :nth-child(16n):nth-last-child(-n+16) ~ :nth-child(16n + 8))) {
    --c3: 0;
@@ -495,30 +533,398 @@
   --c2: 0;
 }*/
 
-:nth-child(2n) {
-  border: 2px solid blue;
+section {
+  flex-direction: row;
+  gap: calc(100% / 11 / 9);
 }
-:nth-child(2n):nth-last-child(-n + 2),
-:nth-child(4n):nth-last-child(-n + 4),
-:nth-child(8n):nth-last-child(-n + 8),
-:nth-child(16n):nth-last-child(-n + 16) {
-  border-color: cyan;
+
+section > div {
+  display: inline-flex;
+  gap: 1px;
+  outline: 1px solid #a00;
+  flex-wrap: wrap;
+  width: calc(100% / 11);
+  min-height: 1lh;
+  outline-offset: 2px;
+  font-size: 9px;
+  align-items: baseline;
+  row-gap: 1px;
+  align-content: start;
+  --match: calc(
+    max(var(--actual) - var(--children), var(--children) - var(--actual))
+  );
 }
-:nth-child(4n) {
-  border: 4px solid blue;
+
+section > div > span {
+  width: 4px;
+  height: 4px;
+  display: inline-block;
+  outline: none;
+  background-color: #f00;
+  border: 1px solid #fcc;
+  background-color: #b99;
+  --last－: #00f;
+  --last＋: #08f;
+  --nth－: #f00;
+  --nth＋: #a00;
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
 }
-:nth-child(8n) {
-  border: 8px solid blue;
+
+:has(> :nth-child(2)):has(> :not(:hover)):hover {
+  /* outline: 1px dashed #f44; */
+  outline: unset;
 }
-:nth-child(16n) {
-  border: 16px solid blue;
+:has(> :nth-child(2)):has(> :not(:hover)):hover::before {
+  transform: translate(-0.3lh, -0.3lh) scale(1);
+  border-radius: 0.5em 0;
+  border: 1.5px solid #f44;
+  background-color: #a22;
 }
-:nth-child(2n):nth-last-child(-n + 2) ~ :nth-child(2n + 1),
-:nth-child(4n):nth-last-child(-n + 4) ~ :nth-child(4n + 2),
-:nth-child(8n):nth-last-child(-n + 8) ~ :nth-child(8n + 4),
-:nth-child(16n):nth-last-child(-n + 16) ~ :nth-child(16n + 8) {
-  outline: 10px dashed limegreen;
-  border: 10px solid magenta;
-  outline-offset: -10px;
-  /*   filter: hue-rotate(-180deg); */
+
+:has(> :nth-child(2)):not(:has(> :hover)):hover {
+  outline: 1.5px dashed #f44;
+  box-shadow: 0 0 0 2px #a22;
+  outline-offset: 1px;
+}
+
+:has(> :nth-child(2))::before {
+  transform: translate(-10px, -10px) scale(0.6);
+}
+
+section > div > span::after {
+  grid-row: 1;
+  grid-column: 1;
+  place-items: center center;
+  place-content: center center;
+  line-height: 0;
+  font-size: 5px;
+  text-align: center;
+  text-shadow: var(--text-outline-base);
+}
+
+section > div > :nth-last-child(4n) {
+  background-color: var(--last＋);
+  border-right-color: var(--last＋);
+}
+section > div > :nth-last-child(-4n + 4) {
+  background-color: var(--last－);
+  border-right-color: var(--last－);
+}
+
+section > div > :nth-child(4n) {
+  background-color: var(--nth＋);
+  border-left-color: var(--nth＋);
+}
+section > div > :nth-child(-4n + 4) {
+  background-color: var(--nth－);
+  border-left-color: var(--nth－);
+}
+
+section > div > :nth-last-child(4n):nth-child(4n) {
+  background-image: linear-gradient(90deg, var(--nth＋) 50%, var(--last＋) 50%);
+}
+section > div > :nth-child(4n):nth-last-child(-4n + 4) {
+  background-image: linear-gradient(90deg, var(--nth＋) 50%, var(--last－) 50%);
+}
+section > div > :nth-child(-4n + 4):nth-last-child(4n) {
+  background-image: linear-gradient(90deg, var(--nth－) 50%, var(--last＋) 50%);
+}
+
+section > div > :nth-last-child(4n):nth-child(4n) {
+  background-image: linear-gradient(90deg, var(--nth＋) 50%, var(--last＋) 50%);
+}
+section > div > :nth-child(4n):nth-last-child(-4n + 4) {
+  background-image: linear-gradient(90deg, var(--nth＋) 50%, var(--last－) 50%);
+}
+section > div > :nth-child(-4n + 4):nth-last-child(4n) {
+  background-image: linear-gradient(90deg, var(--nth－) 50%, var(--last＋) 50%);
+}
+
+section > div > :first-child {
+  box-shadow: -5px 0 0 -2px var(--nth－);
+  border-left-color: var(--nth－);
+  border-width: 4px;
+  border-right-width: 4px;
+  /*   margin-left: -2px; */
+}
+section > div:has(> :nth-child(2)) > span:has(~ span:hover):first-child {
+  box-shadow:
+    -5px 0 0 -2px var(--nth－),
+    0 0 0 0.5px #ff0;
+}
+
+section > div > :last-child {
+  box-shadow: 5px 0 0 -2px var(--last＋);
+  border-right-color: var(--last＋);
+  border-width: 4px;
+  border-right-width: 4px;
+}
+section > div:has(> :nth-child(2)) > span:hover:last-child {
+  box-shadow:
+    0 0 0 0.5px #ff0,
+    5px 0 0 -2px var(--last＋);
+}
+
+section > div:hover {
+  transform: scale(2);
+  background-color: #222;
+  transform-origin: center center;
+  transition: transform 120ms ease;
+  box-shadow: 0 0 0 1ch #222;
+}
+
+section > div > span {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  box-sizing: border-box;
+}
+section > div > span:last-of-type {
+  margin-right: auto;
+}
+section > div > span::after {
+  grid-row: 1;
+  grid-column: 1;
+  place-items: center center;
+  place-content: center center;
+  line-height: 0;
+  font-size: 5px;
+  text-align: center;
+  text-shadow: none;
+  letter-spacing: -0.1ch;
+}
+section > div > :nth-child(2n + 1)::after {
+  content: '1';
+  color: #000;
+  font-weight: bold;
+  font-size: 3px;
+  text-shadow: 0 0 0.3px #fff8;
+}
+section > div > :nth-child(2n)::after {
+  content: '2';
+  font-size: 4px;
+  text-shadow:
+    0 0 0.3px #0008,
+    0 0 0.3px #0008,
+    0 0 0.3px #0008;
+}
+section > div > :nth-child(4n)::after {
+  content: '4';
+  color: #fff;
+}
+section > div > :nth-child(8n)::after {
+  content: '8';
+  color: #fff;
+  font-size: 4.5px;
+}
+section > div > :nth-child(16n)::after {
+  content: '16';
+  color: #fff;
+  font-weight: bold;
+}
+section > div > :nth-child(32n)::after {
+  content: '32';
+  color: gold;
+}
+section > div > :nth-child(64n)::after {
+  content: '64';
+  color: yellow;
+}
+
+/* Element that has at least one non-:hover direct descendent */
+:has(> :not(:hover)),
+:has(> :not(:hover)):hover {
+}
+/* Element that has at least one non-:hover descendent */
+:has(:not(:hover)),
+:has(:not(:hover)):hover {
+}
+
+/* Element that has no :hover-ed direct descendents */
+:not(:has(> :hover)) {
+}
+/* :hover-ed element that has no :hover-ed direct descendents */
+:not(:has(> :hover)):hover {
+}
+/* Element that has no :hover-ed descendents */
+:not(:has(:hover)) {
+}
+/* :hover-ed element that has no :hover-ed descendents */
+:not(:has(:hover)):hover {
+}
+
+:not(:has(:hover)):hover + :not(:hover) {
+  outline: 1px solid cyan;
+}
+
+body {
+  margin: 4px;
+  container: body / inline-size;
+  contain: inline-size;
+}
+section > div:nth-of-type(10n) {
+  transform-origin: right center;
+}
+section > div:nth-of-type(10n + 1) {
+  transform-origin: left center;
+}
+section {
+  flex-direction: row;
+  column-gap: calc(100cqw / 11 / 12);
+  justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 1em;
+  position: relative;
+}
+section > :is(h1, h2, h3, h4, h5, h6) {
+  flex: 1 100%;
+  margin: 0.5em 0 0 0;
+}
+
+section > div {
+  contain: inline-size;
+  container: boxw / inline-size;
+  transition: none;
+  min-height: 1lh;
+  height: fit-content;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  display: inline-flex;
+  column-gap: 1px;
+  flex-wrap: wrap;
+  font-size: 9px;
+  row-gap: 1px;
+  align-content: start;
+  --match: calc(
+    max(var(--actual) - var(--children), var(--children) - var(--actual))
+  );
+  width: calc(100cqw / 11);
+}
+section > h2::after {
+  display: none;
+}
+section > div::after {
+  display: none;
+}
+section > div::after:hover {
+  display: unset;
+}
+section > div:hover {
+  transform: scale(3);
+  background-color: #222;
+  transform-origin: center center;
+  z-index: 1;
+  box-shadow: 0 0 0 1ch #222;
+  transition: none;
+}
+section > div:has(> :nth-child(2)) {
+  counter-reset: out var(--children) out2 var(--actual) c0 var(--c0) c1
+    var(--c1) c2 var(--c2) c3 var(--c3) c4 var(--c4) c5 var(--c5) c6 var(--c6)
+    c7 var(--c7);
+  --powers: '1 2 4 8 16 32 64 128\0a' counter(c0) ' ' counter(c1) ' ';
+  --powers: '1 2 4 8 16 32 64 128\0a 2⁰ 2¹ 2² 2³ 2⁴ 2⁵ 2⁶ 2⁷ 2⁸ 2⁹ 2ᴬ 2ᴮ 2 2ᴰ 2ᴱ 2 \0a';
+  --powers: '1 2 4 8 16 32 64 128\0a 2⁰ 2¹ 2² 2³ 2⁴ 2⁵ 2⁶ 2⁷ 2⁸ 2⁹ 2¹⁰ᴬ 2¹¹ᴮ 2¹² 2¹³ᴰ 2¹⁴ᴱ 2¹⁵\0a';
+  --powers: '1 2 4 8 16 32 64 128\0a' counter(c0) ' ' counter(c1) ' '
+    counter(c2) ' ' counter(c3) ' ' counter(c4) ' ' counter(c5) ' ' counter(c6)
+    ' ' counter(c7) '\0a 2⁰ 2¹ 2² 2³ 2⁴ 2⁵ 2⁶ 2⁷';
+  --total: counter(out) ' (' counter(out2) ')';
+  --children: calc(
+    (var(--c0, 0) * pow(2, 0)) + (var(--c1, 0) * pow(2, 1)) +
+      (var(--c2, 0) * pow(2, 2)) + (var(--c3, 0) * pow(2, 3)) +
+      (var(--c4, 0) * pow(2, 4)) + (var(--c5, 0) * pow(2, 5)) +
+      (var(--c6, 0) * pow(2, 6)) + (var(--c7, 0) * pow(2, 7)) +
+      (var(--c8, 0) * pow(2, 8)) + (var(--c9, 0) * pow(2, 9)) +
+      (var(--cA, 0) * pow(2, 10)) + (var(--cB, 0) * pow(2, 11)) +
+      (var(--cC, 0) * pow(2, 12)) + (var(--cD, 0) * pow(2, 13)) +
+      (var(--cE, 0) * pow(2, 14)) + (var(--cF, 0) * pow(2, 15))
+  );
+  counter-reset: out var(--children);
+}
+section > div > span {
+  /*! min-width: 0; */
+  height: auto;
+  aspect-ratio: 1;
+  width: var(--width);
+  /*! box-sizing: border-box; */
+  /*! border-width: calc(var(--boxw) * 0.5); */
+  --width: calc(100cqw / 10);
+}
+
+section > div > span:first-child,
+section > div > span:last-child {
+  /*! border-width: calc(var(--boxw) * 0.2); */
+}
+section > div > span:first-child::before,
+section > div > span:last-child::before {
+  content: '';
+  display: none;
+  width: 0;
+  height: 0;
+  border: 0.5px solid #0000;
+  grid-column: 1;
+  grid-row: 1;
+  border-width: calc(var(--width) * 0.5);
+}
+section > div:hover > span:first-child::before,
+section > div:hover > span:last-child::before {
+  display: block;
+}
+section > div:hover > span:first-child::before {
+  box-shadow: calc(var(--width) * -0.6) 0 0 calc(var(--width) * -0.2)
+    var(--nth－);
+  border-left-color: var(--nth－);
+  transform: translate(calc(var(--width) * -0.14));
+  filter: drop-shadow(
+    calc(var(--width) * 0.05) calc(var(--width) * 0.05)
+      calc(var(--width) * 0.05) #222
+  );
+}
+
+section > div:hover > span:last-child::before {
+  box-shadow: 5px 0 0 -2px var(--last＋);
+  border-right-color: var(--last＋);
+}
+section > div > span::after {
+  width: 1cqw;
+  height: auto;
+  aspect-ratio: 1;
+  background-color: #2284;
+  display: block;
+  box-sizing: content-box;
+  /*   outline: 1px dashed pink; */
+}
+
+section > div {
+  contain: inline-size;
+  container: boxw / inline-size;
+
+  transition: none;
+  min-height: 1lh;
+  height: fit-content;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  display: inline-flex;
+  column-gap: 1px;
+  flex-wrap: wrap;
+  font-size: 9px;
+  row-gap: 1px;
+  align-content: start;
+  --match: calc(
+    max(var(--actual) - var(--children), var(--children) - var(--actual))
+  );
+  width: calc(100cqw / 11);
+}
+section > div > span::before {
+  width: 1cqw;
+}
+
+section > div:has(> :nth-child(2)):has(> :not(:hover)):hover::before {
+  opacity: 1;
+  background-color: #a22;
+  border-color: #222;
 }

@@ -13,7 +13,7 @@
     <script type="application/javascript" src="entanglement.js"></script>
   
     <script>
-      entanglement().then((untangle) => console.log(untangle));
+      <!-- entanglement().then((untangle) => console.log(untangle)); -->
     </script>
 
 
@@ -79,8 +79,8 @@
   const copyAsMapping = new Map([
     ['svg', (svg) => svg],
     ['svg64', (svg) => btoa(svg)],
-    ['url', (svg) => ${`url('${dataurlSVG(svg)}')`}],
-    ['url64', (svg) => ${`url('${dataurlSVG(svg, true)}')`}],
+    ['url', (svg) => `url('${dataurlSVG(svg)}')`],
+    ['url64', (svg) => `url('${dataurlSVG(svg, true)}')`],
     ['content', (svg) => css`content: ${dataurlSVG(svg)};${defaultContent}`],
     ['mask', (svg) => css`mask-image: ${dataurlSVG(svg)};${defaultMask}`],
     ['maskImage', (svg) => css`mask-image: ${dataurlSVG(svg)};`],
@@ -92,7 +92,7 @@
     const notifyCopied = (target) => target && (target.classList.add('copied') || setTimeout(() => target.classList.remove('copied'), 3000));
     const notifyFail = (target, message) => target && (target.classList.add('copyfail') || setTimeout(() => target.classList.remove('copyfail'), 4000)) || message && console.warn(message);
     
-    const svgData = e.target?.closest?.(':has(> .asSVG)')?.querySelector?.('.asSVG')?.outerHTML;
+    const svgData = e.target?.closest?.(':has(> .wrappedSVG)')?.querySelector?.('.wrappedSVG')?.outerHTML;
 
     if (svgData === null) {
       notifyFail(e.target, 'SVG missing');

@@ -1,30 +1,49 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Child Count</title>
+    <title>Counting Child Elements</title>
     <!--{{{-->
     <meta charset="utf-8" http-equiv="Content-type" />
     <meta name="theme-color" content="#000000" />
 
     <link rel="stylesheet" href="/common.css" />
-    <link rel="stylesheet" href="./child-count.css" />
+    <link rel="stylesheet" href="./countBase2.css" />
+    <!-- <link rel="stylesheet" href="./countBase10.css" /> -->
 
+    <script>
+      ((options = {}) => {
+        const promise = new Promise((resolve, reject) => {
+          const waitForComplete = () =>
+            document.readyState === 'complete'
+              ? resolve()
+              : document.addEventListener('readystatechange', waitForComplete);
+          waitForComplete();
+        });
+        return promise;
+      })().then(() => {
+        const section = document.querySelector('[data-base="2"]');
+        for (let n = 1; n <= 100; n++) {
+          const group = document.createElement('div');
+          for (let i = 1; i <= n; i++) {
+            group.appendChild(document.createElement('span'));
+          }
+          group.style.setProperty('--actual', n);
+          group.style.setProperty('--s-actual', `'${n}'`);
+          section.appendChild(group);
+        }
+      });
+    </script>
     <!--}}}-->
   </head>
   <body>
     <h1>Child Count</h1>
 
-    <section class="">
-      <div> <p>1</p> </div>
-      <div> <p>1</p> <p>2</p> </div>
-      <div> <p>1</p> <p>2</p> <p>3</p> </div>
-      <div> <p>1</p> <p>2</p> <p>3</p> <p>4</p> <div>
-      <div> <p>1</p> <p>2</p> <p>3</p> <p>4</p> <p>5</p> <div>
-      <div> <p>1</p> <p>2</p> <p>3</p> <p>4</p> <p>5</p> <p>6</p> <div>
-      <div> <p>1</p> <p>2</p> <p>3</p> <p>4</p> <p>5</p> <p>6</p> <p>7</p> <div>
-      <div> <p>1</p> <p>2</p> <p>3</p> <p>4</p> <p>5</p> <p>6</p> <p>7</p> <p>8</p> <div>
-      <div> <p>1</p> <p>2</p> <p>3</p> <p>4</p> <p>5</p> <p>6</p> <p>7</p> <p>8</p> <p>9</p> <div>
-      <div> <p>1</p> <p>2</p> <p>3</p> <p>4</p> <p>5</p> <p>6</p> <p>7</p> <p>8</p> <p>9</p> <p>10</p></div>
+    <section data-base="2">
+      <h2>Base 2</h2>
+    </section>
+
+    <section data-base="10">
+      <h2>Base 10</h2>
     </section>
   </body>
 </html>

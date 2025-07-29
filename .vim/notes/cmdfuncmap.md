@@ -51,3 +51,18 @@ unsilent, verbose, vertical ]
 
     :Mycmd arg1 arg2   ⮕   :call Myfunc("arg1","arg2")
 ```
+
+## Mappings
+
+### Using <plug> to export mappings
+
+```vim
+" Define
+"
+" <plug> can be followed by most anything, terminated with <space>
+nnoremap <silent> <plug>(PluginCommand) :SomeCommand
+nnoremap <silent> <plug>Plugin#Command :SomeCommand
+
+" Use
+nmap gc <plug>(PluginCommand)
+```

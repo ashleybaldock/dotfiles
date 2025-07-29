@@ -56,7 +56,11 @@ function s:ToggleUnicodeWhitespaceHints() abort
     call matchdelete(w:mayhem_match_u8only_wsp)
     unlet w:mayhem_match_u8only_wsp
   else
-    let w:mayhem_match_u8only_wsp = matchadd('U8Whitespace', '[\x0b\x0c\u00a0\u00ad\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u2800\u3000\u303f\uff00\uffa0\ufeff\ufff0-\uffff\U000e0020]')
+    let w:mayhem_match_u8only_wsp = matchadd('U8Whitespace', '[' ..
+          \ '\x0b\x0c\u00a0\u00ad\u1680\u180e' ..
+          \ '\u2000-\u200a\u2028\u2029\u202f\u205f\u2800' ..
+          \ '\u3000\u303f\uff00\uffa0\ufeff\ufff0-\uffff' ..
+          \ '\U000e0020]')
   endif
 endfunc
 

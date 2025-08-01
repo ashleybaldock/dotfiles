@@ -4,6 +4,9 @@ section {
   grid-template-rows: auto;
   gap: 2vw;
 }
+section > h2 {
+  grid-column: 1 / -1;
+}
 section > div {
   position: relative;
   width: auto;
@@ -20,6 +23,14 @@ section > div:hover {
   border: 1px solid #777;
 }
 section > div > div {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-items: center;
+  grid-column: 1;
+  grid-row: 1;
   border: 1px solid #aaa;
   width: 50%;
   height: auto;
@@ -28,4 +39,37 @@ section > div > div {
 section > div > div:hover {
   border: 1px solid #bbb;
   background-color: #333;
+}
+section > div > div::before {
+  grid-column: 1;
+  grid-row: 1;
+  display: block;
+}
+section > div:hover > div::before {
+  opacity: 0.4;
+}
+section > div:hover > div:hover::before {
+  opacity: 0;
+}
+section > .cursor-pointer-default > div::before {
+  content: var(--cursor-pointer-default);
+}
+section > .cursor-pointer-small > div::before {
+  content: var(--cursor-pointer-small);
+}
+section > .cursor-pointer-medium > div::before {
+  content: var(--cursor-pointer-medium);
+}
+section > .cursor-pointer-big > div::before {
+  content: var(--cursor-pointer-big);
+}
+section > .cursor-pointer-giant > div::before {
+  content: var(--cursor-pointer-giant);
+}
+
+section > .cursor-media-play > div::before {
+  content: var(--cursor-media-play);
+}
+section > .cursor-media-pause > div::before {
+  content: var(--cursor-media-pause);
 }

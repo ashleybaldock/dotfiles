@@ -1,0 +1,31 @@
+section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 2vw;
+}
+section > div {
+  position: relative;
+  width: auto;
+  height: auto;
+  aspect-ratio: 1;
+  border: 1px dashed #666;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-items: center;
+}
+section > div:hover {
+  border: 1px solid #777;
+}
+section > div > div {
+  border: 1px solid #aaa;
+  width: 50%;
+  height: auto;
+  aspect-ratio: 1;
+}
+section > div > div:hover {
+  border: 1px solid #bbb;
+  background-color: #333;
+}

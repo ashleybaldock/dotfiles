@@ -1,0 +1,27 @@
+:root {
+  --cursor-pointer-small: url('data:image/svg+xml,%3Csvg width=%2218%22 height=%2218%22 xmlns=%22http://www.w3.org/2000/svg%22 stroke=%22%23ffffff%22 stroke-width=%2214%22 viewBox=%220 0 320 512%22%3E%3Cpath d=%22M0 55.2V426c0 12.2 9.9 22 22 22 6.3 0 12.4-2.7 16.6-7.5l82.6-94.5 58.1 116.3c7.9 15.8 27.1 22.2 42.9 14.3s22.2-27.1 14.3-42.9L179.8 320h118.1c12.2 0 22.1-9.9 22.1-22.1 0-6.3-2.7-12.3-7.4-16.5L38.6 37.9c-4.3-3.8-9.7-5.9-15.4-5.9C10.4 32 0 42.4 0 55.2%22/%3E%3C/svg%3E');
+  --cursor-pointer-medium: url('data:image/svg+xml,%3Csvg width=%2224%22 height=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22 stroke=%22%23ffffff%22 stroke-width=%2214%22 viewBox=%220 0 320 512%22%3E%3Cpath d=%22M0 55.2V426c0 12.2 9.9 22 22 22 6.3 0 12.4-2.7 16.6-7.5l82.6-94.5 58.1 116.3c7.9 15.8 27.1 22.2 42.9 14.3s22.2-27.1 14.3-42.9L179.8 320h118.1c12.2 0 22.1-9.9 22.1-22.1 0-6.3-2.7-12.3-7.4-16.5L38.6 37.9c-4.3-3.8-9.7-5.9-15.4-5.9C10.4 32 0 42.4 0 55.2%22/%3E%3C/svg%3E');
+  --cursor-pointer-big: url('data:image/svg+xml,%3Csvg width=%2248%22 height=%2248%22 xmlns=%22http://www.w3.org/2000/svg%22 stroke=%22%23ffffff%22 stroke-width=%228%22 viewBox=%220 0 320 512%22%3E%3Cpath d=%22M0 55.2V426c0 12.2 9.9 22 22 22 6.3 0 12.4-2.7 16.6-7.5l82.6-94.5 58.1 116.3c7.9 15.8 27.1 22.2 42.9 14.3s22.2-27.1 14.3-42.9L179.8 320h118.1c12.2 0 22.1-9.9 22.1-22.1 0-6.3-2.7-12.3-7.4-16.5L38.6 37.9c-4.3-3.8-9.7-5.9-15.4-5.9C10.4 32 0 42.4 0 55.2%22/%3E%3C/svg%3E');
+  --cursor-pointer-giant: url('data:image/svg+xml,%3Csvg width=%2264%22 height=%2264%22 xmlns=%22http://www.w3.org/2000/svg%22 stroke=%22%23ffffff%22 stroke-width=%2210%22 viewBox=%220 0 320 512%22%3E%3Cpath d=%22M0 55.2V426c0 12.2 9.9 22 22 22 6.3 0 12.4-2.7 16.6-7.5l82.6-94.5 58.1 116.3c7.9 15.8 27.1 22.2 42.9 14.3s22.2-27.1 14.3-42.9L179.8 320h118.1c12.2 0 22.1-9.9 22.1-22.1 0-6.3-2.7-12.3-7.4-16.5L38.6 37.9c-4.3-3.8-9.7-5.9-15.4-5.9C10.4 32 0 42.4 0 55.2%22/%3E%3C/svg%3E');
+}
+
+.cursor-pointer-small {
+  cursor:
+    var(--cursor-pointer-small) 4 0,
+    pointer;
+}
+.cursor-pointer-medium {
+  cursor:
+    var(--cursor-pointer-medium) 4 0,
+    pointer;
+}
+.cursor-pointer-big {
+  cursor:
+    var(--cursor-pointer-big) 8 1,
+    pointer;
+}
+.cursor-pointer-giant {
+  cursor:
+    var(--cursor-pointer-giant) 16 1,
+    pointer;
+}

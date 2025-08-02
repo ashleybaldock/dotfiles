@@ -5,6 +5,11 @@ let g:mayhem_loaded_commands = 1
 
 command! -nargs=1 Toggle call mayhem#Toggle(<f-args>)
 
+
+" Highlight entire tab that cursor is in
+"echo matchadd('Error', '\%#	', 2)
+
+
  "" yank all matching lines to register
  " :let @a=""
  " :g/<pattern>/y A

@@ -314,6 +314,25 @@ command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\
 "
 "   abs => rel
 "
+" SVG Path Modification:
+"
+" Scale:
+"
+" TODO needs special cast for A/a to avoid scaling flags/angle
+"
+" path: contents of a d="" attribute
+" factor: scaling factor to multiply by
+function! ScaleSVGPath(path, factor)
+  let lookup = #{
+        \ default: {s -> substitute(s, '\s*\zs\(-\?\d*\(\d\|\.\d\)\d*\)',
+        \     {n -> printf("%.3f", str2float(n[1]) * a:factor)->substitute(
+        \ '^\(-\?\)0*\([1-9]\d*\|0\)\%(\(\.\d*[1-9]\)\|\.\?\)0*$', '\1\2\3', 'g')
+        \ }, 'g' )},
+        \}
+  return substitute(a:path, '\([MLVCSQTAZmlhvcsqtaz]\)\([0-9. -]*\)', 
+        \ {m -> m[1] .. (get(lookup, m[1], get(lookup, 'default')))(m[2])}, 'g')
+endfunc
+"
 " list of matches
 " let list = []
 " :%s/\<foo\(\a*\)\>/\=add(list, submatch(1))/gn

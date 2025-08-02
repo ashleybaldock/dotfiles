@@ -202,3 +202,13 @@ section.osx > div::before {
 }
 [data-file='resizewesteast.svg'] {
 }
+section > div {
+  max-width: 160px;
+}
+h2,
+h3 {
+  grid-column: 1/-1;
+  line-height: normal;
+  margin: 0;
+  padding: 0;
+}

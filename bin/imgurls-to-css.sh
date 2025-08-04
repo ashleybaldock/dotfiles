@@ -3,9 +3,9 @@
 DIR="$(dirname ${BASH_SOURCE[0]})"
 . "$DIR/createFile.sh"
 
-echo ""
-echo ""
-echo "imgurls-to-css start"
+echo "" >&2
+echo "" >&2
+echo "imgurls-to-css start" >&2
 
 args=("$PWD")
 out="progress.css"
@@ -16,8 +16,8 @@ for file in *.svg
 do
   if [ -d "$file" ]
   then
-    echo ""
-    echo "Skipping subdirectory '$file'"
+    echo "" >&2
+    echo "Skipping subdirectory '$file'" >&2
   else
     if [ -f "$file" -a "${file: -4}" == ".svg" ]
     then

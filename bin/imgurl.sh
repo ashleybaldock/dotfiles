@@ -12,9 +12,9 @@ if [ -z "$NVM_DIR" ]; then
   export NVM_DIR="$HOME/.nvm"
 fi
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
-echo "NVM_DIR: $NVM_DIR"
-echo "NVM_BIN: $NVM_BIN"
-echo "PATH: $PATH"
+# echo "NVM_DIR: $NVM_DIR" >&2
+# echo "NVM_BIN: $NVM_BIN" >&2
+# echo "PATH: $PATH" >&2
 
 ENCODESVG="$HOME/dotfiles/bin/encodeSVG.js"
 PNGOUT="/opt/homebrew/bin/pngout"

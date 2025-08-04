@@ -183,7 +183,7 @@
 }
 .cursor-osx-default-giant {
   cursor: /* 72x72 */
-    var(--cursor-osx-default-giant) 22 18,
+    var(--cursor-osx-default-giant) 21 17,
     pointer;
 }
 .cursor-pointer-small {

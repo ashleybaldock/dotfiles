@@ -1,3 +1,12 @@
+@keyframes ab {
+  to {
+    cursor: initial;
+  }
+}
+:root:has(#display #animate-ab:checked) section > div {
+  animation: 800ms linear 0s infinite alternate ab;
+}
+
 h2,
 h3 {
   grid-column: 1/-1;

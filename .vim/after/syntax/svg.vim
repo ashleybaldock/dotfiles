@@ -15,18 +15,27 @@
 "─────────────┼────────────────────────┼──────────────────────────────┼
 "  ClosePath: │ Z   ┊ Z                │ z   ┊ z                      │
 "─────────────┼────────────────────────┼──────────────────────────────┼
+"  Hh:                  [x]…️
+"  Vv:                  [y]…️
+"  Mm Ll Qq Tt Cc Ss: [x y]…️
+"  Aa:      [x y →️ →️ →️ x y]…️
  
 "rx ry angle large-arc-flag sweep-flag x y
 
 
 " m6.148 18.473 1.863-1.003 1.615-.839-2.568-4.816h4.332l-11.379-11.408v16.015l3.316-3.221z
 
-" multiply
-
+"
+" Scale: (×x ×y)
+"
 " 1. split on [mMlLhvVcCsSqQtTaAzZ]
 " 2. split those on [ -]
-" 3. parse as number
-" 4. multiply by constant
+" 3. parse each value as float
+" 4. multiply by x or y
+"  Hh:                  [x]…️
+"  Vv:                  [y]…️
+"  Mm Ll Qq Tt Cc Ss: [x y]…️
+"  Aa:      [x y →️ →️ →️ x y]…️
 " 5. fix precision
 " 6. format as string + join back together
 
@@ -43,4 +52,17 @@
 " v          16.015
 " l   3.316  -3.221
 " z
+
+
+"
+" Translate: (±x ±y)
+"
+" Only absolute coordinates need to be changed
+"
+"  H:                  [x]…️  1
+"  V:                  [y]…️  1
+"  M L Q T C S:      [x y]…️  2
+"  A:      [x y →️ →️ →️ x y]…️  7
+"  h v m l q t c s a:  [→️]…️  1
+
 

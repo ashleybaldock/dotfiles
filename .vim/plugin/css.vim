@@ -322,15 +322,41 @@ command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\
 "
 " path: contents of a d="" attribute
 " factor: scaling factor to multiply by
-function! ScaleSVGPath(path, factor)
+function! ScaleSVGPath(path, x = 1, y = x)
   let lookup = #{
         \ default: {s -> substitute(s, '\s*\zs\(-\?\d*\(\d\|\.\d\)\d*\)',
-        \     {n -> printf("%.3f", str2float(n[1]) * a:factor)->substitute(
+        \     {n -> printf("%.3f", str2float(n[1]) * a:x)->substitute(
         \ '^\(-\?\)0*\([1-9]\d*\|0\)\%(\(\.\d*[1-9]\)\|\.\?\)0*$', '\1\2\3', 'g')
         \ }, 'g' )},
         \}
   return substitute(a:path, '\([MLVCSQTAZmlhvcsqtaz]\)\([0-9. -]*\)', 
         \ {m -> m[1] .. (get(lookup, m[1], get(lookup, 'default')))(m[2])}, 'g')
+endfunc
+
+function! s:formatSVGcoord(n)
+  return printf("%.3f", a:n)->substitute(
+        \ '^\(-\?\)0*\([1-9]\d*\|0\)\%(\(\.\d*[1-9]\)\|\.\?\)0*$', '\1\2\3', 'g')
+endfunc
+"
+" Translate:
+"
+let every1 = '\s*\zs\(-\?\d*\(\d\|\.\d\)\d*\)'
+let every2 = every1 .. every1
+function! TranslateSVGPath(path, x = 0, y = 0)
+  let lookup = #{
+        \ default: {v -> v},
+        \ H: {s -> substitute(s, every1,
+        \     {n -> s:formatSVGcoord(str2float(n[1]) + a:x)}, 'g' )},
+        \ V: {s -> substitute(s, every1,
+        \     {n -> s:formatSVGcoord(str2float(n[1]) + a:x) .. s:formatSVGcoord(str2float(n[2]) + a:y)}, 'g' )},
+        \ M: {v -> substitute(v, '\s*\zs\(-\?\d*\(\d\|\.\d\)\d*\)\s*\zs\(-\?\d*\(\d\|\.\d\)\d*\)',
+        ),},
+        \ L: ,
+        \ Q: ,
+        \ T: ,
+        \ C: ,
+        \ S: ,
+        \}
 endfunc
 "
 " list of matches

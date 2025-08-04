@@ -26,11 +26,15 @@
   inherits: true;
   initial-value: atan(var(--𝞅));
 }
-:root {
-  --icon-border: 1;
-  --icon-padding: 20;
-  --icon-radius: 60;
-  --icon-border-style: dashed;
+@property --_100vw {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vw;
+}
+@property --_100vh {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vh;
 }
 :root {
   /* Unitless */
@@ -57,21 +61,16 @@
 
   /* Null placeholders */
   --Ø‥text-shadow: 0 0 #0000;
-}
-@property --_100vw {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 100vw;
-}
-@property --_100vh {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 100vh;
-}
-:root {
+
+  /* Metrics */
   --w: tan(atan2(var(--_100vw), 1px)); /* screen width */
   --h: tan(atan2(var(--_100vh), 1px)); /* screen height*/
   /* The result is an integer without unit  */
+
+  --icon-border: 1;
+  --icon-padding: 20;
+  --icon-radius: 60;
+  --icon-border-style: dashed;
 }
 
 body::before {

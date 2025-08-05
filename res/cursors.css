@@ -29,7 +29,7 @@
   inherits: true;
   initial-value: default;
 }
-[cursor] {
+[data-cursor] {
   cursor:
     var(--cursor-image) var(--cursor-hotspot-x) var(--cursor-hotspot-y),
     var(--cursor-fallback);
@@ -78,7 +78,7 @@
   --cursor-osx-zoomout: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cpath fill=%22%23fff%22 d=%22M19.5 14a5.5 5.5 0 1 1-11 0 5.5 5.5 0 1 1 11 0%22/%3E%3Cpath fill=%22%23000%22 d=%22M24 22.586 22.586 24l-5.11-5.11A6 6 0 0 1 8 14c.001-3.314 2.687-6 6.001-6a6 6 0 0 1 4.89 9.477zM14 9a5 5 0 1 1 0 10 5 5 0 1 1 0-10m3 4h-6v1.98h6z%22/%3E%3C/g%3E%3C/svg%3E%0A');
 }
 
-[cursor='osx-default-small'] {
+[data-cursor='osx-default-small'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
         width=%2218%22 height=%2218%22 xmlns=%22http://www.w3.org/2000/svg%22\
         stroke=%22%23ffffff%22\
@@ -96,7 +96,7 @@
   --cursor-hotspot-x: 5;
   --cursor-hotspot-y: 4;
 }
-[cursor='osx-default-medium'] {
+[data-cursor='osx-default-medium'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
         width=%2232%22 height=%2232%22 xmlns=%22http://www.w3.org/2000/svg%22\
         viewBox=%220 0 32 32%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E\
@@ -113,7 +113,7 @@
   --cursor-hotspot-x: 10;
   --cursor-hotspot-y: 8;
 }
-[cursor='osx-default-big'] {
+[data-cursor='osx-default-big'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
         width=%2248%22 height=%2248%22 xmlns=%22http://www.w3.org/2000/svg%22\
         viewBox=%220 0 32 32%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E\
@@ -130,7 +130,7 @@
   --cursor-hotspot-x: 15;
   --cursor-hotspot-y: 12;
 }
-[cursor='osx-default-giant'] {
+[data-cursor='osx-default-giant'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
         width=%2272%22 height=%2272%22 xmlns=%22http://www.w3.org/2000/svg%22\
         viewBox=%220 0 32 32%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E\
@@ -147,7 +147,7 @@
   --cursor-hotspot-x: 21;
   --cursor-hotspot-y: 17;
 }
-[cursor='pointer-small'] {
+[data-cursor='pointer-small'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
         width=%2218%22 height=%2218%22 xmlns=%22http://www.w3.org/2000/svg%22\
         stroke=%22%23ffffff%22 stroke-width=%2214%22\
@@ -165,7 +165,7 @@
   --cursor-hotspot-x: 4;
   --cursor-hotspot-y: 0;
 }
-[cursor='pointer-medium'] {
+[data-cursor='pointer-medium'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
         width=%2224%22 height=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22\
         stroke=%22%23ffffff%22 stroke-width=%2214%22\
@@ -183,7 +183,7 @@
   --cursor-hotspot-x: 4;
   --cursor-hotspot-y: 0;
 }
-[cursor='pointer-big'] {
+[data-cursor='pointer-big'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
         width=%2240%22 height=%2240%22 xmlns=%22http://www.w3.org/2000/svg%22\
         stroke=%22%23ffffff%22 stroke-width=%228%22\
@@ -201,7 +201,7 @@
   --cursor-hotspot-x: 8;
   --cursor-hotspot-y: 1;
 }
-[cursor='pointer-giant'] {
+[data-cursor='pointer-giant'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
         width=%2264%22 height=%2264%22 xmlns=%22http://www.w3.org/2000/svg%22\
         stroke=%22%23ffffff%22 stroke-width=%2210%22\
@@ -219,7 +219,7 @@
   --cursor-hotspot-x: 16;
   --cursor-hotspot-y: 1;
 }
-[cursor='media-play'] {
+[data-cursor='media-play'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
         width=%2218%22 height=%2218%22 xmlns=%22http://www.w3.org/2000/svg%22\
         style=%22fill: %23ffffff;%22\
@@ -237,7 +237,7 @@
   --cursor-hotspot-x: 0;
   --cursor-hotspot-y: 0;
 }
-[cursor='media-pause'] {
+[data-cursor='media-pause'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
         width=%2218%22 height=%2218%22 xmlns=%22http://www.w3.org/2000/svg%22\
         style=%22fill: %23ffffff;%22\
@@ -255,7 +255,7 @@
   --cursor-hotspot-y: 0;
 }
 
-/* [cursor="osx-default-big"] { */
+/* [data-cursor="osx-default-big"] { */
 /*   --cursor-image: url('data:image/svg+xml,%3Csvg\ */
 /*         width=%2248%22 height=%2248%22 xmlns=%22http://www.w3.org/2000/svg%22\ */
 /*         viewBox=%220 0 32 32%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E\ */

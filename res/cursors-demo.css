@@ -89,8 +89,8 @@ section > div > div::after {
   background-color: #f00;
   display: block;
   position: absolute;
-  left: calc(var(--hotspot-x) * 1px);
-  top: calc(var(--hotspot-y) * 1px);
+  left: calc((100% / var(--cursor-width)) * var(--cursor-hotspot-x));
+  top: calc((100% / var(--cursor-height)) * var(--cursor-hotspot-y));
   border-radius: 3px;
   outline: 0.5px solid #f00;
   outline-offset: 3px;
@@ -163,7 +163,7 @@ section > div:hover > div:hover > svg {
   cursor: w-resize;
 }
 [data-file='resizeleftright.svg'] {
-  cursor: ew-resize;
+  cursor ew-resize;
   cursor: col-resize;
 }
 [data-file='resizenortheast.svg'] {

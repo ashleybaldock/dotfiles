@@ -316,6 +316,41 @@ command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\
 "
 " SVG Path Modification:
 "
+function! s:formatSVGcoord(n)
+  return printf("%.3f", a:n)->substitute(
+        \ '^\(-\?\)0*\([1-9]\d*\|0\)\%(\(\.\d*[1-9]\)\|\.\?\)0*$', '\1\2\3', 'g')
+endfunc
+
+let every1 = '\s*\(-\?\d*\(\d\|\.\d\)\d*\)'
+let every2 = every1 .. every1
+let every7 = every2 .. every1 .. '\s*\(0\|1\)\s*\(\0\|\1\)' .. every2
+
+function! s:add(i, j)
+  return a:i + a:j
+endfunc
+function! s:mul(i, j)
+  return a:i * a:j
+endfunc
+
+function! s:do1(s, f)
+  return substitute(a:s, every1,
+        \     {n -> s:formatSVGcoord(a:f(str2float(n[1])))}, 'g' )
+endfunc
+function! s:do2(s, f)
+  return substitute(a:s, every2,
+        \     {n -> s:formatSVGcoord(a:f(str2float(n[1]) + a:x)) ..
+        \           s:formatSVGcoord(a:f(str2float(n[2]) + a:y))}, 'g' )
+endfunc
+function! s:do7(s, f)
+  return substitute(a:s, every2,
+        \     {n -> s:formatSVGcoord(a:f(str2float(n[1]), a:x)) ..
+        \           s:formatSVGcoord(a:f(str2float(n[2]), a:y)) ..
+        \           s:formatSVGcoord(a:f(str2float(n[3]))) ..
+        \           s:formatSVGcoord(a:f(str2float(n[4]) + a:y)) ..
+        \           s:formatSVGcoord(a:f(str2float(n[5]) + a:y)) ..
+        \           s:formatSVGcoord(a:f(str2float(n[6]) + a:y)) ..
+        \           s:formatSVGcoord(a:f(str2float(n[7]) + a:y))}, 'g' )
+endfunc
 " Scale:
 "
 " TODO needs special cast for A/a to avoid scaling flags/angle
@@ -333,49 +368,21 @@ function! ScaleSVGPath(path, x = 1, y = x)
         \ {m -> m[1] .. (get(lookup, m[1], get(lookup, 'default')))(m[2])}, 'g')
 endfunc
 
-function! s:formatSVGcoord(n)
-  return printf("%.3f", a:n)->substitute(
-        \ '^\(-\?\)0*\([1-9]\d*\|0\)\%(\(\.\d*[1-9]\)\|\.\?\)0*$', '\1\2\3', 'g')
-endfunc
 "
 " Translate:
 "
-let every1 = '\s*\zs\(-\?\d*\(\d\|\.\d\)\d*\)'
-let every2 = every1 .. every1
-
-function! s:add(i, j)
-  return a:i + a:j
-endfunc
-function! s:mul(i, j)
-  return a:i * a:j
-endfunc
-function! s:process1(s, f)
-  return substitute(a:s, every1,
-        \     {n -> s:formatSVGcoord(a:f(str2float(n[1])))}, 'g' )
-endfunc
-function! s:process2(s, f)
-  return substitute(a:s, every2,
-        \     {n -> s:formatSVGcoord(a:f(str2float(n[1]) + a:x) ..
-        \           s:formatSVGcoord(a:f(str2float(n[2]) + a:y)}, 'g' )
-endfunc
 function! TranslateSVGPath(path, x = 0, y = 0)
   let lookup = #{
         \ default: {v -> v},
-        \ H: {n -> s:process1(x, s:add)},
-        \ V: {n -> s:process1(y, s:add)},substitute(s, every1,
-        \     {n -> s:formatSVGcoord(str2float(n[1]) + a:y)}, 'g' )},
-        \ M: {v -> substitute(v, every2,
-        \     {n -> s:formatSVGcoord(str2float(n[1]) + a:x) ..
-        \           s:formatSVGcoord(str2float(n[2]) + a:y)}, 'g' )},
-        \ L: {v -> substitute(v, every2,
-        \     {n -> s:formatSVGcoord(str2float(n[1]) + a:x) ..
-        \           s:formatSVGcoord(str2float(n[2]) + a:y)}, 'g' )},
-        ),},
-        \ L: ,
-        \ Q: ,
-        \ T: ,
-        \ C: ,
-        \ S: ,
+        \ H: {n -> s:do1(n, x, s:add)},
+        \ V: {n -> s:do1(n, y, s:add)},
+        \ M: {n -> s:do2(n, [x,y], s:add)},
+        \ L: {n -> s:do2(n, [x,y], s:add)},
+        \ Q: {n -> s:do2(n, [x,y], s:add)},
+        \ T: {n -> s:do2(n, [x,y], s:add)},
+        \ C: {n -> s:do2(n, [x,y], s:add)},
+        \ S: {n -> s:do2(n, [x,y], s:add)},
+        \ A: {n -> s:do7(n, [x,y,0,0,0,x,y], s:add)},
         \}
 endfunc
 "

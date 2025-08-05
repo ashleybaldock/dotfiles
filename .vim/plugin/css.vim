@@ -342,14 +342,34 @@ endfunc
 "
 let every1 = '\s*\zs\(-\?\d*\(\d\|\.\d\)\d*\)'
 let every2 = every1 .. every1
+
+function! s:add(i, j)
+  return a:i + a:j
+endfunc
+function! s:mul(i, j)
+  return a:i * a:j
+endfunc
+function! s:process1(s, f)
+  return substitute(a:s, every1,
+        \     {n -> s:formatSVGcoord(a:f(str2float(n[1])))}, 'g' )
+endfunc
+function! s:process2(s, f)
+  return substitute(a:s, every2,
+        \     {n -> s:formatSVGcoord(a:f(str2float(n[1]) + a:x) ..
+        \           s:formatSVGcoord(a:f(str2float(n[2]) + a:y)}, 'g' )
+endfunc
 function! TranslateSVGPath(path, x = 0, y = 0)
   let lookup = #{
         \ default: {v -> v},
-        \ H: {s -> substitute(s, every1,
-        \     {n -> s:formatSVGcoord(str2float(n[1]) + a:x)}, 'g' )},
-        \ V: {s -> substitute(s, every1,
-        \     {n -> s:formatSVGcoord(str2float(n[1]) + a:x) .. s:formatSVGcoord(str2float(n[2]) + a:y)}, 'g' )},
-        \ M: {v -> substitute(v, '\s*\zs\(-\?\d*\(\d\|\.\d\)\d*\)\s*\zs\(-\?\d*\(\d\|\.\d\)\d*\)',
+        \ H: {n -> s:process1(x, s:add)},
+        \ V: {n -> s:process1(y, s:add)},substitute(s, every1,
+        \     {n -> s:formatSVGcoord(str2float(n[1]) + a:y)}, 'g' )},
+        \ M: {v -> substitute(v, every2,
+        \     {n -> s:formatSVGcoord(str2float(n[1]) + a:x) ..
+        \           s:formatSVGcoord(str2float(n[2]) + a:y)}, 'g' )},
+        \ L: {v -> substitute(v, every2,
+        \     {n -> s:formatSVGcoord(str2float(n[1]) + a:x) ..
+        \           s:formatSVGcoord(str2float(n[2]) + a:y)}, 'g' )},
         ),},
         \ L: ,
         \ Q: ,

@@ -1,0 +1,48 @@
+.toggle label,
+.toggle input {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  cursor: pointer;
+}
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+.toggle label {
+  padding: 0.1rem 0 0.1rem 0.3rem;
+  border-radius: 0.3rem 1rem 1rem 0.3rem;
+  background-color: #222a;
+  border: 1px solid #777a;
+}
+.toggle input[type='checkbox'] {
+  display: none;
+}
+.toggle label:has(> [type='checkbox'])::after {
+  padding: 1px 0.4rem 1px 0;
+  margin-left: 0.5ch;
+  width: auto;
+  height: 1lh;
+  aspect-ratio: 1;
+  box-sizing: content-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: normal;
+  content: '◯';
+  content: '';
+}
+.toggle label:has(> [type='checkbox']:checked)::after {
+  content: '◉';
+  content: '';
+}
+.toggle label:has(> [type='checkbox']:disabled) {
+  color: #999;
+  cursor: not-allowed;
+}
+.toggle label:has(> [type='checkbox']:disabled)::after {
+  content: '◌';
+  content: '';
+}

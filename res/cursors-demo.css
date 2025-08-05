@@ -47,6 +47,23 @@ section > div {
 section > div:hover {
   border: 1px solid #777;
 }
+section > div::before,
+section > div::after {
+  display: block;
+  position: absolute;
+  font-size: 10px;
+  font-family: monospace;
+}
+section > div::before {
+  content: attr(data-name);
+  top: 0;
+  left: 0;
+}
+section > div::after {
+  content: attr(data-file);
+  bottom: 0;
+  right: 0;
+}
 section > div > div {
   position: relative;
   display: grid;
@@ -65,11 +82,28 @@ section > div > div:hover {
   border: 1px solid #bbb;
   background-color: #333;
 }
+section > div > div::after {
+  content: '';
+  width: 2px;
+  height: 2px;
+  background-color: #f00;
+  display: block;
+  position: absolute;
+  left: calc(var(--hotspot-x) * 1px);
+  top: calc(var(--hotspot-y) * 1px);
+  border-radius: 3px;
+  outline: 0.5px solid #f00;
+  outline-offset: 3px;
+}
+section > div > div::before {
+  content: var(--cursor-image);
+}
 section > div > div::before,
 section > div > div > svg {
   grid-column: 1;
   grid-row: 1;
   display: block;
+  outline: 1px dotted #a00;
 }
 section > div:hover > div::before,
 section > div:hover > div > svg {
@@ -79,55 +113,7 @@ section > div:hover > div:hover::before,
 section > div:hover > div:hover > svg {
   opacity: 0;
 }
-.cursor-osx-default-small > div::before {
-  content: var(--cursor-osx-default-small);
-}
-.cursor-osx-default-medium > div::before {
-  content: var(--cursor-osx-default-medium);
-}
-.cursor-osx-default-big > div::before {
-  content: var(--cursor-osx-default-big);
-}
-.cursor-osx-default-giant > div::before {
-  content: var(--cursor-osx-default-giant);
-}
-.cursor-pointer-small > div::before {
-  content: var(--cursor-pointer-small);
-}
-.cursor-pointer-medium > div::before {
-  content: var(--cursor-pointer-medium);
-}
-.cursor-pointer-big > div::before {
-  content: var(--cursor-pointer-big);
-}
-.cursor-pointer-giant > div::before {
-  content: var(--cursor-pointer-giant);
-}
 
-section > .cursor-media-play > div::before {
-  content: var(--cursor-media-play);
-}
-section > .cursor-media-pause > div::before {
-  content: var(--cursor-media-pause);
-}
-
-section > div::before,
-section > div::after {
-  display: block;
-  position: absolute;
-  font-size: 10px;
-  font-family: monospace;
-}
-section > div::before {
-  content: attr(data-name);
-  top: 0;
-  left: 0;
-}
-section > div::after {
-  content: attr(data-file);
-  bottom: 0;
-  right: 0;
-}
 [data-file='busy.svg'] {
   cursor: wait;
   cursor: progress;

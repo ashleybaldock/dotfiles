@@ -64,7 +64,14 @@ function print_run {
     for (( i = "$1"; i < "$1" + "$2" && i < printable_colours; i++ )) do
         print_colour "$i"
     done
-    printf "  "
+    printf ""
+}
+function print_reverse_run {
+    local i
+    for (( i = "$2" + "$1" - 1; i >= "$1" && i > 0; i-- )) do
+        print_colour "$i"
+    done
+    printf ""
 }
 
 # Print blocks of colours
@@ -80,18 +87,33 @@ function print_blocks {
     for (( i = start; i <= end; i += (blocks_per_line-1) * block_length )) do
         printf "\n" # Space before each set of blocks
         # For each block row
+        if ((row % 2)); then
         for (( row = 0; row < block_rows; row++ )) do
             # Print block columns for all blocks on the line
-            for (( block = 0; block < blocks_per_line; block++ )) do
-                print_run $(( i + (block * block_length) )) "$block_cols"
-            done
+              for (( block = 0; block < blocks_per_line; block++ )) do
+                if ((block % 2)); then
+                  print_reverse_run $(( i + (block * block_length) )) "$block_cols"
+                else
+                  print_run $(( i + (block * block_length) )) "$block_cols"
+                fi
+              done
+            else
+              for (( block = blocks_per_line - 1; block >= 0; block-- )) do
+                if ((block % 2)); then
+                  print_reverse_run $(( i + (block * block_length) )) "$block_cols"
+                else
+                  print_run $(( i + (block * block_length) )) "$block_cols"
+                fi
+              done
+            fi
             (( i += block_cols )) # Prepare to print the next row
             printf "\n"
         done
     done
+
 }
 
 print_run 0 16 # The first 16 colours are spread over the whole spectrum
 printf "\n"
-print_blocks 16 231 6 6 3 # 6x6x6 colour cube between 16 and 231 inclusive
+print_blocks 16 231 6 6 2 # 6x6x6 colour cube between 16 and 231 inclusive
 print_blocks 232 255 12 2 1 # Not 50, but 24 Shades of Grey

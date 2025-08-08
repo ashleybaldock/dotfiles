@@ -1,0 +1,25 @@
+trim-mp4.sh
+
+ffplay
+
+ffmpeg -i SPOILER_noita-20230925-194207-61507564-01216075.mp4 -vf reverse reversed.mp4
+
+crop=OUTW:OUTH:LEFT:TOP
+
+-i sniper.mp4 -vf "crop=in_w/2:in_h/2:100:100" -s 960x540 -sws_flags neighbor
+
+
+
+
+b64decode.sh
+b
+
+
+
+
+# function f() {
+#     local args=("$@")             # values in parentheses
+#     for arg in "${args[@]}"; do   # array expansion syntax
+#         echo "$arg"
+#     done
+# }

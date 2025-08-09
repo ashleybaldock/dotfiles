@@ -61,7 +61,6 @@ nnoremap <plug>(CC#CursorPrev) <ScriptCmd>CursorPrevCC()<CR>
 "⎟ ⁃‐Text   ░‐‐Text‐‐‐░     ⎪center
 "⎟          ░         ░
 "
-function! PadNextCC
 function! s:PadOnColumn(from = getcursorcharpos()[2], to = s:NextCC(from))
   " let from = get(a:, 1, getcursorcharpos()[2])
   " let to = get(a:, 2, s:NextCC(from))

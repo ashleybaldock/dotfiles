@@ -211,7 +211,7 @@ function s:AddToggles()
 
     let name = get(toggle, 'name', v:null)
     if name is v:null
-      echom 'AddToggles: Found toggle config entry without a name'
+      echom 'AddToggles: Found toggle config entry without a name - skipping'
       continue
     endif
 
@@ -387,7 +387,6 @@ function s:AddStatus_Git()
 endfunc
 
 function s:RemoveDefaultToolBar()
-  echom 'removing default toolbar...'
   silent! aunmenu ToolBar.Open
   silent! aunmenu ToolBar.Save
   silent! aunmenu ToolBar.SaveAll
@@ -451,7 +450,6 @@ endfunc
 
 "
 function! s:AddDynamicToolBar()
-  echom 'adding dynamic toolbar'
   call s:MenuBegin('ToolBar')
   " ---- Status Indicators ------ 100
 

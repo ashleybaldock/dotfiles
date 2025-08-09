@@ -39,6 +39,7 @@ syn match vimmsgErrNum 'E\d\+:' contained
 syn region vimmsgPath contained
       \ start=+\%( \)\@2<=\/+
       \ end=+\ze\.\.+
+      \ end=+\ze:+
 
 " function {function-name}[{lnum}]  function line
 "       script {file-name}[{lnum}]  script line
@@ -82,7 +83,7 @@ syn match vimmsgTitle '⁓ Fin ⁓'
 hi def vimmsgOk       guifg=#066606
 hi def vimmsgLineNr   guifg=#dddd00
 hi def vimmsgError    guifg=#dd2222
-hi def vimmsgErrNum   guifg=#000000 guibg=#ff0000 gui=bold
+hi def vimmsgErrNum   guifg=#ff0000 guibg=#880000 
 hi def vimmsgWrite    guifg=#00bb33
 hi def vimmsgPath     guifg=#55dddd
 hi def vimmsgFunc     guifg=#339933

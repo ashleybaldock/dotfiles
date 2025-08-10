@@ -6,11 +6,11 @@ let g:mayhem_loaded_visual = 1
 
 
 
-" TODO replace with <plug> and move keybind to shortcuts
-"
-" vmap §v <ScriptCmd>echom GetVisualSelection()<CR>
+" xnoremap §v <Plug>Mayhem_GetVisualSelection
 if !hasmapto('<ScriptCmd>echom GetVisualSelection()<CR>')
-  silent xunmap <Plug>Mayhem_GetVisualSelection
+  if !maparg('<Plug>Mayhem_GetVisualSelection', 'x') == ''
+    xunmap <Plug>Mayhem_GetVisualSelection
+  endif
   xnoremap <unique> <script> <Plug>Mayhem_GetVisualSelection <ScriptCmd>echom GetVisualSelection()<CR>
 endif
 
@@ -79,7 +79,9 @@ endfunc
 " TODO replace with <plug> and move keybind to shortcuts
 "
 if !hasmapto('<ScriptCmd>echom VisualOutline()<CR>')
-  xunmap <Plug>Mayhem_VisualOutline
+  if !maparg('<Plug>Mayhem_VisualOutline', 'x') == ''
+    xunmap <Plug>Mayhem_VisualOutline
+  endif
   xnoremap <unique> <script> <Plug>Mayhem_VisualOutline <ScriptCmd>echom VisualOutline()<CR>
 endif
 

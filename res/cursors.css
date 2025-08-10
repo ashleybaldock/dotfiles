@@ -274,3 +274,28 @@
 /*   --cursor-hotspot-x: 15; */
 /*   --cursor-hotspot-y: 12; */
 /* } */
+
+[data-cursor='noita-mouse-system-big'] {
+  --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2251%22 height=%2251%22%3E%3Cg fill-rule=%22evenodd%22%3E%3Cpath fill=%22%23fff%22 d=%22M22 21h7V0h-7Zm0 30h7V30h-7Zm8-22h21v-7H30ZM0 29h21v-7H0Z%22/%3E%3Cpath d=%22M29 21h-7V0h7zM23 1v19h5V1zm-2 28H0v-7h21zm30 0H30v-7h21zM1 23v5h19v-5zm30 0v5h19v-5zm-2 28h-7V30h7zm-6-20v19h5V31z%22/%3E%3C/g%3E%3C/svg%3E%0A');
+  --cursor-fallback: crosshair;
+  --cursor-width: 51;
+  --cursor-height: 51;
+  --cursor-hotspot-x: 26;
+  --cursor-hotspot-y: 26;
+}
+[data-cursor='noita-mouse'] {
+  --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2213%22 height=%2213%22%3E%3Cg fill-rule=%22evenodd%22%3E%3Cpath fill=%22%23fff%22 stroke=%22%23000%22 stroke-linecap=%22round%22 d=%22M7 6v1H6V6z%22/%3E%3Cpath fill=%22%23fff%22 d=%22M5 13h3V8h5V5H8V0H5v5H0v3h5z%22/%3E%3Cpath d=%22M8 13H5V8H0V5h5V0h3v5h5v3H8zm-1-1H6V8a1 1 0 0 0-1-1H1V6h4a1 1 0 0 0 1-1V1h1v4a1 1 0 0 0 1 1h4v1H8a1 1 0 0 0-1 1z%22/%3E%3C/g%3E%3C/svg%3E%0A');
+  --cursor-fallback: crosshair;
+  --cursor-width: 13;
+  --cursor-height: 13;
+  --cursor-hotspot-x: 6;
+  --cursor-hotspot-y: 6;
+}
+[data-cursor='noita-mouse-big'] {
+  --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2235%22 height=%2235%22%3E%3Cg fill-rule=%22evenodd%22%3E%3Cpath fill=%22%23fff%22 d=%22M15 14h5V0h-5ZM0 20h14v-5H0Zm21 0h14v-5H21Zm-6 15h5V21h-5Z%22/%3E%3Cpath d=%22M20 14h-5V0h5zM16 1v12h3V1zm-2 19H0v-5h14zm21 0H21v-5h14zM1 16v3h12v-3zm21 0v3h12v-3zm-2 19h-5V21h5zm-4-13v12h3V22z%22/%3E%3C/g%3E%3C/svg%3E%0A');
+  --cursor-fallback: crosshair;
+  --cursor-width: 35;
+  --cursor-height: 35;
+  --cursor-hotspot-x: 18;
+  --cursor-hotspot-y: 18;
+}

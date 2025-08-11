@@ -4,7 +4,10 @@
   --icon-border: 1;
   --icon-padding: 20;
   --icon-radius: 4px;
+  --icon-inset: 0.8em;
   --icon-border-style: dashed;
+  --icon-border-color: #7c7c7c;
+  --icon-border-width: 0.6px;
 
   --section-border-width: 0.44em;
   --section-border: var(--section-border-width) solid #262626;
@@ -12,11 +15,12 @@
   --section-padding: 0.6em;
 
   --icon-doc: url('data:image/svg+xml,<svg fill="hsl(0 99 99)" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM112 256H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z"></path></svg>');
-  --icon-download: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 style=%22fill: %23ffffff;%22  viewBox=%220 0 512 512%22%3E%3Cpath d=%22M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z%22%3E%3C/path%3E%3C/svg%3E');
+  --icon-down: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 style=%22fill: %23ffffff;%22  viewBox=%220 0 512 512%22%3E%3Cpath d=%22M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z%22%3E%3C/path%3E%3C/svg%3E');
   --icon-fill: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M86.6 9.4C74.1-3.1 53.9-3.1 41.4 9.4s-12.5 32.8 0 45.3L122.7 136 30.6 228.1c-37.5 37.5-37.5 98.3 0 135.8L148.1 481.4c37.5 37.5 98.3 37.5 135.8 0L474.3 290.9c28.1-28.1 28.1-73.7 0-101.8L322.9 37.7c-28.1-28.1-73.7-28.1-101.8 0L168 90.7 86.6 9.4zM168 181.3l49.4 49.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L213.3 136l53.1-53.1c3.1-3.1 8.2-3.1 11.3 0L429.1 234.3c3.1 3.1 3.1 8.2 0 11.3L386.7 288H67.5c1.4-5.4 4.2-10.4 8.4-14.6L168 181.3z%22%3E%3C/path%3E%3C/svg%3E');
   --icon-line: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M418.4 157.9c35.3-8.3 61.6-40 61.6-77.9c0-44.2-35.8-80-80-80c-43.4 0-78.7 34.5-80 77.5L136.2 151.1C121.7 136.8 101.9 128 80 128c-44.2 0-80 35.8-80 80s35.8 80 80 80c12.2 0 23.8-2.7 34.1-7.6L259.7 407.8c-2.4 7.6-3.7 15.8-3.7 24.2c0 44.2 35.8 80 80 80s80-35.8 80-80c0-27.7-14-52.1-35.4-66.4l37.8-207.7zM156.3 232.2c2.2-6.9 3.5-14.2 3.7-21.7l183.8-73.5c3.6 3.5 7.4 6.7 11.6 9.5L317.6 354.1c-5.5 1.3-10.8 3.1-15.8 5.5L156.3 232.2z%22%3E%3C/path%3E%3C/svg%3E');
-  --icon-tick: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %2300aa00;stroke: %23000; stroke-width: 10;%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E%3C/path%3E%3C/svg%3E');
   --icon-copy: url('data:image/svg+xml,%3Csvg data-name=%22copy%22 xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23eeeeee;%22 height=%221em%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z%22%3E%3C/path%3E%3C/svg%3E');
+  /* --icon-tick: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E%3C/path%3E%3C/svg%3E'); */
+  --icon-tick: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %2300aa00;stroke: %23000; stroke-width: 10;%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E%3C/path%3E%3C/svg%3E');
   --item-size: 3rem;
   --item-gap: calc(var(--item-size) * 0.22);
 
@@ -42,18 +46,6 @@ div {
   display: flex;
 }
 
-.iconRow {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6em;
-  stroke-width: var(--bound-val-stroke-width);
-  stroke: red;
-}
-.wrappedSVG {
-  font-size: var(--item-size);
-}
-
 /*╶───────────────────────────────────╴ section ╶───────╴*/
 
 section {
@@ -72,65 +64,6 @@ section {
   --item: calc(var(--sqi-gap) + var(--sqi-size));
   --mod: mod(var(--available), var(--item));
   --section-item-count: calc(100sqi);
-}
-
-section label {
-  position: relative;
-  display: flex;
-  flex-direction: row-reverse;
-  cursor: pointer;
-  background-position: right top;
-  background-repeat: no-repeat;
-  padding: 0 1.2em 0 0;
-  line-height: 1.2em;
-  background-image: var(--icon-copy);
-  background-size: 0;
-  transition-property: background, text-decoration;
-  transition: 100ms ease;
-}
-section label:hover {
-  text-decoration: underline;
-  background-size: 0.8em;
-  transition: 60ms ease;
-  transition-property: background, text-decoration;
-}
-section label::before {
-  content: unset;
-  display: none;
-  position: absolute;
-  top: -1.4em;
-  background-color: white;
-  padding: 0 0.4em;
-  width: max-content;
-  border-radius: 1em;
-  left: 50%;
-  transform: translate(-50%);
-}
-section label.copied::before {
-  content: 'copied';
-  display: block;
-  color: green;
-  text-align: left;
-  background-color: #111111f8;
-  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E%3C/path%3E%3C/svg%3E');
-  background-repeat: no-repeat;
-  background-position: center right;
-  background-size: contain;
-
-  padding: 0.6em 2em 0.6em 5.6em;
-  border-radius: 1.7em;
-  border: 0.6px dashed #7c7c7c;
-  box-shadow: 1px 1px 4px 1px #000;
-}
-section label.copyfail::before {
-  content: 'copy failed';
-  display: block;
-  color: #f00;
-  background-color: #111111f8;
-  padding: 0.6em 2em 0.6em 5.6em;
-  border-radius: 1.7em;
-  border: 0.6px dashed #7c7c7c;
-  box-shadow: 1px 1px 4px 1px #f00;
 }
 
 /**** fieldset ****/
@@ -285,28 +218,6 @@ h1 {
   line-height: 1.23em;
 }
 
-.iconRow input {
-  height: 1px;
-  font-size: 1px;
-  width: 0;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: var(--icon-bg-color);
-  opacity: 0;
-}
-.iconRow:hover input {
-  opacity: 0.9;
-}
-
-.iconRow .svgActions textarea {
-  width: 1px;
-  height: 1px;
-  visibility: collapse;
-}
-
 /*╶────────────────────────────────────────────────────────╴ section ╶───────╴*/
 
 /**** svg ****/
@@ -344,15 +255,6 @@ svg {
   border-style: var(--icon-border-style, solid);
   border-width: 0;
   border-color: transparent;
-  box-shadow:
-    1px 1px 0 0.6px #fff3,
-    0 1px 0 0.6px #96009633,
-    -1px 1px 0 0.6px #2c00ff33,
-    -1px 0 0 0.6px #f0f3,
-    -1px -1px 0 0.6px #2d274933,
-    0 -1px 0 0.6px #f0f3,
-    1px -1px 0 0.6px #1b009c33,
-    1px 0 0 0.6px #a32ba333;
 }
 
 .pathColors svg path {
@@ -384,6 +286,13 @@ svg {
 }
 
 /*╶────────────────────────────────────────────────────────╴ section ╶───────╴*/
+
+section {
+  container-type: inline-size;
+}
+section:hover {
+  z-index: 1;
+}
 section label {
   background-position: left center;
   padding: 0 0 0 1.2em;
@@ -391,121 +300,9 @@ section label {
   align-content: start;
 }
 
-.iconRow {
-  position: relative;
-  overflow: visible;
-  width: fit-content;
-  height: fit-content;
-}
-.iconRow > .inner {
-  display: inline-flex;
-  visibility: hidden;
-  transition-property: visibility;
-  transition-delay: 0ms;
-  transition-duration: 80ms;
-  transition-timing-function: ease;
-}
-.iconRow:hover > .inner {
-  display: flex;
-  visibility: visible;
-  z-index: 10;
-  transition-property: visibility, opacity;
-  transition-delay: 250ms, 250ms;
-  transition-duration: 0ms, 80ms;
-  transition-timing-function: ease;
-}
-
-.svgActions {
-  display: flex;
-  gap: 0.2em;
-  flex-direction: column;
-  width: fit-content;
-  font-family: Menlo, fixed-width;
-  align-items: first baseline;
-  position: absolute;
-  top: -50%;
-  left: -0.6em;
-  height: fit-content;
-  z-index: -1;
-  background-color: #111111f8;
-  padding: 0.6em 2em 0.6em 5.6em;
-  border-radius: 1.7em;
-  border: 0.6px dashed #7c7c7c;
-  box-shadow: 1px 1px 4px 1px #000;
-  opacity: 0;
-  transition-property: opacity;
-  transition-delay: 0ms;
-  transition-duration: 80ms;
-  transition-timing-function: ease;
-}
-.iconRow:hover .inner .svgActions,
-.svgActions:hover {
-  z-index: 1;
-  opacity: 1;
-  transition-property: opacity;
-  transition-delay: 250ms;
-  transition-duration: 80ms;
-  transition-timing-function: ease;
-  pointer-events: all;
-}
-.iconRow:hover .inner .svgActions + .wrappedSVG,
-.wrappedSVG:hover {
-  z-index: 2;
-}
-.iconRow:hover .wrappedSVG > svg {
-  filter: brightness(1.6) drop-shadow(0 0 2px #fff);
-  /*! box-shadow: 0 0 3px 0 #fff; */
-  background-size:
-    auto,
-    300% 300%;
-  box-shadow:
-    1px 1px 0 0.6px #2c00ffab,
-    0 1px 0 0.6px #f0fa,
-    -1px 1px 0 0.6px #2c00ffab,
-    -1px 0 0 0.6px #f0fa,
-    -1px -1px 0 0.6px #2c00ffab,
-    0 -1px 0 0.6px #f0fa,
-    1px -1px 0 0.6px #2c00ffab,
-    1px 0 0 0.6px #f0fa;
-}
-
-.wrappedSVG {
-  visibility: visible;
-  cursor: crosshair;
-}
-
-.copySVG,
-.copyURL,
-.copyCSSbackground,
-.copyCSScontent {
-  cursor: pointer;
-}
-
-/* 
-body > section:nth-child(5) > div:nth-child(45) > div:nth-child(2) {
-  width: 200px;
-  height: 100px;
-  background: #111d;
-  position: absolute;
-  top: -0.4em;
-  left: -0.4em;
-  z-index: 1;
-  border-bottom: ;
-  border-radius: calc(0.005em * var(--icon-radius, 3));
-}
- */
-
+/*{{{1 SVG */
 svg {
-  box-shadow:
-    1px 1px 0 0.6px #0003,
-    0 1px 0 0.6px #96009633,
-    -1px 1px 0 0.6px #2c00ff33,
-    -1px 0 0 0.6px #f0f3,
-    -1px -1px 0 0.6px #2d274933,
-    0 -1px 0 0.6px #f0f3,
-    1px -1px 0 0.6px #1b009c33,
-    1px 0 0 0.6px #a32ba333;
-  border-width: 0px;
+  border-width: 0;
   background-clip: padding-box, border-box;
   border-color: transparent;
   background-repeat: no-repeat;
@@ -520,57 +317,9 @@ svg {
 svg path:only-of-type {
   fill: #ccc;
 }
-.iconRow:hover .wrappedSVG > svg {
-  filter: brightness(1.6) drop-shadow(0 0 1px #fff);
-  background-size:
-    auto,
-    300% 300%;
-  box-shadow:
-    1px 1px 0 0.6px #fff3,
-    1px 1px 0 0.6px #2c00ffab,
-    0 1px 0 0.6px #f0fa,
-    -1px 1px 0 0.6px #2c00ffab,
-    -1px 0 0 0.6px #f0fa,
-    -1px -1px 0 0.6px #2c00ffab,
-    0 -1px 0 0.6px #f0fa,
-    1px -1px 0 0.6px #2c00ffab,
-    1px 0 0 0.6px #f0fa;
-}
+/*{{{*/
 
-.wrappedSVG {
-  cursor: crosshair;
-}
-.unused {
-  box-shadow:
-    1px 1px 0 0.6px #fff3,
-    0 1px 0 0.6px #96009633,
-    -1px 1px 0 0.6px #2c00ff33,
-    -1px 0 0 0.6px #f0f3,
-    -1px -1px 0 0.6px #2d274933,
-    0 -1px 0 0.6px #f0f3,
-    1px -1px 0 0.6px #1b009c33,
-    1px 0 0 0.6px #a32ba333;
-  border-width: 0;
-  background-image:
-    radial-gradient(circle at center, #000000d1, #000),
-    repeating-conic-gradient(#5c5c5c, #fff 9deg, #c00000 9deg, #f00 18deg);
-  background-clip: padding-box, border-box;
-  border-color: transparent;
-  background-repeat: no-repeat;
-  background-size:
-    auto,
-    150% 150%;
-  background-position:
-    center,
-    80% 30%;
-}
-
-section {
-  container-type: inline-size;
-}
-section:hover {
-  z-index: 1;
-}
+/* {{{1Drop target */
 #droptarget {
   min-height: 20vh;
   width: 30%;
@@ -601,7 +350,9 @@ section:hover {
     -1px -1px 6px 1px #021685 inset,
     0 0 12px -2px #000;
 }
+/* {{{ */
 
+/*{{{1 SVG Combiner Controls */
 .svgCombiner svg {
   font-size: 8em;
   border: none;
@@ -839,6 +590,7 @@ section:hover {
 .controlgroup > .title {
   margin: auto 0.4em;
 }
+/*{{{ /SVG Combiner Controls */
 
 /*{{{1 SVGs*/
 #droptarget {
@@ -879,9 +631,23 @@ section:hover {
 }
 
 .iconRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6em;
+  stroke-width: var(--bound-val-stroke-width);
+  stroke: red;
+  position: relative;
+  overflow: visible;
+  width: fit-content;
+  height: fit-content;
   outline: none;
 }
+
 .iconRow .wrappedSVG {
+  visibility: visible;
+  cursor: crosshair;
+  font-size: var(--item-size);
   align-self: start;
   justify-self: start;
   border-radius: var(--icon-radius);
@@ -889,18 +655,10 @@ section:hover {
   background-color: var(--icon-bg-color, #000000);
   box-shadow: unset;
 }
+
 .iconRow:hover .wrappedSVG {
   filter: unset;
   background-size: unset;
-  box-shadow:
-    1px 1px 0 0.6px #2c00ffab,
-    0 1px 0 0.6px #f0fa,
-    -1px 1px 0 0.6px #2c00ffab,
-    -1px 0 0 0.6px #f0fa,
-    -1px -1px 0 0.6px #2c00ffab,
-    0 -1px 0 0.6px #f0fa,
-    1px -1px 0 0.6px #2c00ffab,
-    1px 0 0 0.6px #f0fa;
 }
 .iconRow:hover .wrappedSVG > svg {
   background-size: unset;
@@ -927,10 +685,45 @@ section:hover {
 }
 
 .inner::before {
-  width: unset;
+  content: '';
+  width: calc(100% + var(--icon-inset) * 2.4);
+  height: calc(100% + var(--icon-inset) * 2.4);
+  display: block;
+  position: absolute;
+  top: calc(var(--icon-inset) * -1.2);
+  left: calc(var(--icon-inset) * -1.2);
+  background-color: #111111f8;
+  border: var(--icon-border-width) var(--icon-border-style)
+    var(--icon-border-color);
+  border-radius: calc(var(--icon-radius) + var(--icon-inset));
+  box-shadow: 1px 1px 4px 1px #000;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+.inner:hover::before {
+  visibility: visible;
 }
 
+/*{{{1 Copy SVG menu */
 .svgActions {
+  display: flex;
+  flex-direction: column;
+  font-family: Menlo, fixed-width;
+  align-items: first baseline;
+  top: -50%;
+  left: -0.6em;
+  height: fit-content;
+  z-index: -1;
+  background-color: #111111f8;
+  border: var(--icon-border-width) var(--icon-border-style)
+    var(--icon-border-color);
+  box-shadow: 1px 1px 4px 1px #000;
+  opacity: 0;
+  transition-property: opacity;
+  transition-delay: 0ms;
+  transition-duration: 80ms;
+  transition-timing-function: ease;
   position: absolute;
   top: unset;
   right: unset;
@@ -939,13 +732,37 @@ section:hover {
   gap: unset;
   row-gap: unset;
   --icon-inset: 0.8em;
-  padding: var(--icon-inset) var(--icon-inset) var(--icon-inset)
-    calc(var(--item-size) + (var(--icon-inset) * 1.5));
   margin: calc(var(--icon-inset) * -1);
   border-radius: calc(var(--icon-radius) + var(--icon-inset));
   width: calc((var(--item-size) * 3) + (var(--item-gap) * 2));
   box-sizing: content-box;
+  padding: calc(var(--icon-inset) * 3) var(--icon-inset)
+    calc(var(--icon-inset) * 1.5) var(--icon-inset);
+  top: calc(var(--item-size) + var(--item-gap));
+  pointer-events: none;
 }
+.iconRow:hover .inner .svgActions,
+.svgActions:hover {
+  z-index: 1;
+  opacity: 1;
+  transition-property: opacity;
+  transition-delay: 0ms;
+  transition-duration: 80ms;
+  transition-timing-function: ease;
+  pointer-events: all;
+}
+.iconRow:hover .inner .svgActions + .wrappedSVG,
+.wrappedSVG:hover {
+  z-index: 2;
+}
+
+.iconRow:hover .wrappedSVG > svg {
+  filter: brightness(1.6);
+  background-size:
+    auto,
+    300% 300%;
+}
+
 .iconRow:hover .svgActions,
 .svgActions:hover {
   transition-delay: 0ms;
@@ -958,7 +775,7 @@ section:hover {
 
   transition-property: background, text-decoration;
 
-  border: 0.6px dashed transparent;
+  border: var(--icon-border-width) var(--icon-border-style) #0000;
   margin-bottom: -0.3em;
 
   background-image: var(--icon), var(--icon-tick);
@@ -989,25 +806,23 @@ section:hover {
 
   box-shadow: 1px 1px 4px 1px #000;
   background-position:
-    center right 1.6em,
-    center right 0.3em;
+    center left 1.4em,
+    center left 1.2em;
 }
 
 .svgActions > :where(.down, .copy):hover:active {
   transition: 30ms ease;
-  background-size: 0.9em;
 }
 
 .svgActions > :where(.down, .copy):active {
   transition: 40ms ease;
-  background-size: 0.9em;
 }
 
 .svgActions > .down {
-  --icon: url('data:image/svg+xml,%3Cdiv class=%22wrappedSVG%22%3E%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z%22%3E%3C/path%3E%3C/svg%3E%3C/div%3E');
+  --icon: var(--icon-down);
 }
 .svgActions > .copy {
-  --icon: url('data:image/svg+xml,%3Csvg data-name=%22copy%22 xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23eeeeee;%22 height=%221em%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z%22%3E%3C/path%3E%3C/svg%3E');
+  --icon: var(--icon-copy);
 }
 .svgActions > :where(.down, .copy).copied,
 .svgActions > :where(.down, .copy).copied:hover {
@@ -1022,5 +837,32 @@ section:hover {
 .svgActions > :where(.down, .copy).copied::before {
   display: none;
 }
+/*{{{*/
 
-/* vim: set signcolumn=auto foldmethod=marker nolist nowrap conceallevel=2: */
+/*{{{1 Unused */
+.unused {
+  box-shadow:
+    1px 1px 0 0.6px #fff3,
+    0 1px 0 0.6px #96009633,
+    -1px 1px 0 0.6px #2c00ff33,
+    -1px 0 0 0.6px #f0f3,
+    -1px -1px 0 0.6px #2d274933,
+    0 -1px 0 0.6px #f0f3,
+    1px -1px 0 0.6px #1b009c33,
+    1px 0 0 0.6px #a32ba333;
+  border-width: 0;
+  background-image:
+    radial-gradient(circle at center, #000000d1, #000),
+    repeating-conic-gradient(#5c5c5c, #fff 9deg, #c00000 9deg, #f00 18deg);
+  background-clip: padding-box, border-box;
+  border-color: transparent;
+  background-repeat: no-repeat;
+  background-size:
+    auto,
+    150% 150%;
+  background-position:
+    center,
+    80% 30%;
+}
+/*{{{*/
+/* vim: set signcolumn=auto foldmethod=marker foldlevel=1 nolist nowrap conceallevel=2: */

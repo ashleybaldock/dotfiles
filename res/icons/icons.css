@@ -323,6 +323,7 @@ svg {
   margin: 0;
   display: flex;
   width: auto;
+  margin-right: calc((var(--item-size) * 3) + (var(--item-gap) * 1));
 }
 .svgListing svg {
   /*! background-image:
@@ -480,65 +481,6 @@ section label {
   cursor: pointer;
 }
 
-.svgActions label {
-  cursor: pointer;
-  flex: auto;
-  align-self: stretch;
-  text-align: left;
-  justify-content: right;
-}
-section label:hover:active {
-  background-size: 0.9em;
-  transition: 30ms ease;
-}
-section label:active {
-  transition: 40ms ease;
-  background-size: 0.9em;
-}
-
-.svgActions {
-  padding: 0.4em 1em 0.4em 4.2em;
-  row-gap: 0;
-}
-.svgActions > .copy {
-  --icon-copy: url('data:image/svg+xml,%3Csvg data-name=%22copy%22 xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23eeeeee;%22 height=%221em%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z%22%3E%3C/path%3E%3C/svg%3E');
-  border: 0.6px dashed transparent;
-  margin-bottom: -0.3em;
-
-  padding: 0.2em 3em 0.2em 0.8em;
-  transition:
-    background-size 200ms ease,
-    background-position 200ms ease;
-  background-image: var(--icon-copy), var(--icon-tick);
-  background-position:
-    center right 1.7em,
-    center right 0.3em;
-  background-size: 0.8em, 0;
-  margin: 0;
-  background-repeat: no-repeat;
-  border-radius: 0;
-}
-.svgActions > .copy:hover {
-  box-shadow: 1px 1px 4px 1px #000;
-  background-position:
-    center right 1.6em,
-    center right 0.3em;
-  background-size: 1em, 0;
-}
-.svgActions > .copy.copied,
-.svgActions > .copy.copied:hover {
-  background-position:
-    center right 1.7em,
-    center right 0.3em;
-  background-size: 0.8em, 1.1em;
-  transition:
-    background-size 200ms ease,
-    background-position 200ms ease;
-}
-section label.copied::before {
-  display: none;
-}
-
 /* 
 body > section:nth-child(5) > div:nth-child(45) > div:nth-child(2) {
   width: 200px;
@@ -598,41 +540,6 @@ svg path:only-of-type {
 .wrappedSVG {
   cursor: crosshair;
 }
-
-section label {
-  background-size: 0;
-  transition-property: background, text-decoration;
-  transition: 100ms ease;
-}
-
-section label::before {
-  background-color: white;
-}
-
-section label:hover {
-  background-size: 0.8em;
-  transition: 60ms ease;
-  transition-property: background, text-decoration;
-}
-
-.svgActions label {
-  cursor: pointer;
-  flex: auto;
-  align-self: stretch;
-  text-align: left;
-  justify-content: right;
-}
-
-section label:hover:active {
-  transition: 30ms ease;
-  background-size: 0.9em;
-}
-
-section label:active {
-  transition: 40ms ease;
-  background-size: 0.9em;
-}
-
 .unused {
   box-shadow:
     1px 1px 0 0.6px #fff3,
@@ -1023,7 +930,7 @@ section:hover {
   width: unset;
 }
 
-.inner .svgActions {
+.svgActions {
   position: absolute;
   top: unset;
   right: unset;
@@ -1036,8 +943,28 @@ section:hover {
     calc(var(--item-size) + (var(--icon-inset) * 1.5));
   margin: calc(var(--icon-inset) * -1);
   border-radius: calc(var(--icon-radius) + var(--icon-inset));
+  width: calc((var(--item-size) * 3) + (var(--item-gap) * 2));
+  box-sizing: content-box;
 }
-.inner .svgActions > .copy {
+.iconRow:hover .svgActions,
+.svgActions:hover {
+  transition-delay: 0ms;
+}
+.svgActions > :where(.down, .copy) {
+  cursor: pointer;
+  flex: auto;
+  align-self: stretch;
+  text-align: left;
+
+  transition-property: background, text-decoration;
+
+  border: 0.6px dashed transparent;
+  margin-bottom: -0.3em;
+
+  background-image: var(--icon), var(--icon-tick);
+  margin: 0;
+  background-repeat: no-repeat;
+  border-radius: 0;
   padding: 0.2em 0.8em 0.2em 3em;
   transition:
     background-size 100ms ease-out,
@@ -1050,8 +977,40 @@ section:hover {
   justify-content: start;
   font-size: 0.9em;
 }
-.inner .svgActions > .copy.copied,
-.inner .svgActions > .copy.copied:hover {
+
+.svgActions > :where(.down, .copy)::before {
+  background-color: white;
+}
+
+.svgActions > :where(.down, .copy):hover {
+  background-size: 1em, 0;
+  transition: 60ms ease;
+  transition-property: background, text-decoration;
+
+  box-shadow: 1px 1px 4px 1px #000;
+  background-position:
+    center right 1.6em,
+    center right 0.3em;
+}
+
+.svgActions > :where(.down, .copy):hover:active {
+  transition: 30ms ease;
+  background-size: 0.9em;
+}
+
+.svgActions > :where(.down, .copy):active {
+  transition: 40ms ease;
+  background-size: 0.9em;
+}
+
+.svgActions > .down {
+  --icon: url('data:image/svg+xml,%3Cdiv class=%22wrappedSVG%22%3E%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z%22%3E%3C/path%3E%3C/svg%3E%3C/div%3E');
+}
+.svgActions > .copy {
+  --icon: url('data:image/svg+xml,%3Csvg data-name=%22copy%22 xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23eeeeee;%22 height=%221em%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z%22%3E%3C/path%3E%3C/svg%3E');
+}
+.svgActions > :where(.down, .copy).copied,
+.svgActions > :where(.down, .copy).copied:hover {
   background-position:
     center left 1.4em,
     center left 1.2em;
@@ -1060,9 +1019,8 @@ section:hover {
     background-size 200ms cubic-bezier(0.23, 1.15, 0.89, 1.44),
     background-position 200ms ease;
 }
-.iconRow:hover .inner .svgActions,
-.inner .svgActions:hover {
-  transition-delay: 0ms;
+.svgActions > :where(.down, .copy).copied::before {
+  display: none;
 }
 
 /* vim: set signcolumn=auto foldmethod=marker nolist nowrap conceallevel=2: */

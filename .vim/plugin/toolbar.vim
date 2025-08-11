@@ -295,17 +295,17 @@ function s:UpdateStatus_Session(toolbarId) abort
               \'􁅦  Obsessing, click to pause. Session:' ..
               \ v:this_session .. ')'
      else
-        exec 'an' SfIcon('􁅨','multicolor') id name ':SessionResume<CR>'
+        exec 'an' SfIcon('􁅨','hierarchical') id name ':SessionResume<CR>'
         exec 'tmenu' name
               \'􁅨  Obsession paused, click to resume  (' ..
               \ v:this_session .. ')'
       endif
     else
-      exec 'an' SfIcon('􁅧', 'multicolor') id name ':SessionCreate<space>'
+      exec 'an' SfIcon('􁅧', 'hierarchical') id name ':SessionCreate<space>'
       exec 'tmenu' name '􁅧  No Session, click to create one'
     endif
   else
-    exec 'an' SfIcon('􀍟') id name '<Nop>'
+    exec 'an' SfIcon('􀍟', 'hierarchical') id name '<Nop>'
     exec 'amenu disable' name
     exec 'tmenu' name '􀍟  Obsession not loaded.'
   endif

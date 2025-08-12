@@ -55,7 +55,7 @@ section > div::after {
   font-family: monospace;
 }
 section > div::before {
-  content: attr(data-name);
+  content: 'data-cursor="' attr(data-cursor) '"';
   top: 0;
   left: 0;
 }

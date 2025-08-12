@@ -234,8 +234,8 @@
   --cursor-fallback: pointer;
   --cursor-width: 18;
   --cursor-height: 18;
-  --cursor-hotspot-x: 0;
-  --cursor-hotspot-y: 0;
+  --cursor-hotspot-x: 9;
+  --cursor-hotspot-y: 9;
 }
 [data-cursor='media-pause'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
@@ -251,8 +251,32 @@
   --cursor-fallback: pointer;
   --cursor-width: 18;
   --cursor-height: 18;
-  --cursor-hotspot-x: 0;
-  --cursor-hotspot-y: 0;
+  --cursor-hotspot-x: 9;
+  --cursor-hotspot-y: 9;
+}
+[data-cursor='media-default-pause'] {
+  --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E%3Cpath fill=%22%23fff%22 d=%22M146 368a128 128 0 1 1 256 0 128 128 0 1 1-256 0m94.15-54.45c-3.8 2.1-6.15 6.15-6.15 10.45v88c0 4.35 2.35 8.35 6.15 10.45s8.4 2.05 12.15-.25l72-44c3.55-2.2 5.75-6.05 5.75-10.25s-2.2-8.05-5.75-10.25l-72-44a12.13 12.13 0 0 0-12.15-.25zM116 269.752V13.512l185.456 185.904H188.8l-2.416.984z%22/%3E%3Cpath d=%22M132 52.024v179.008l47.504-45.856.56-2.224h80.576z%22/%3E%3C/svg%3E%0A');
+  --cursor-fallback: pointer;
+  --cursor-width: 32;
+  --cursor-height: 32;
+  --cursor-hotspot-x: 8;
+  --cursor-hotspot-y: 2;
+}
+[data-cursor='media-default-play'] {
+  --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E%3Cpath fill=%22%23fff%22 d=%22M274 496a128 128 0 1 0 0-256 128 128 0 1 0 0 256m-16-160v64c0 8.85-7.15 16-16 16s-16-7.15-16-16v-64c0-8.85 7.15-16 16-16s16 7.15 16 16m64 0v64c0 8.85-7.15 16-16 16s-16-7.15-16-16v-64c0-8.85 7.15-16 16-16s16 7.15 16 16%22/%3E%3Cg fill=%22none%22%3E%3Cpath fill=%22%23fff%22 d=%22M116 269.752V13.512l185.456 185.904H188.8l-2.416.984z%22/%3E%3Cpath fill=%22%23000%22 d=%22M132 52.024v179.008l47.504-45.856.56-2.224h80.576z%22/%3E%3C/g%3E%3C/svg%3E%0A');
+  --cursor-fallback: pointer;
+  --cursor-width: 32;
+  --cursor-height: 32;
+  --cursor-hotspot-x: 8;
+  --cursor-hotspot-y: 2;
+}
+[data-cursor='media-default'] {
+  --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cpath fill=%22%23fff%22 d=%22M10 23.422V7.407l11.591 11.619H14.55l-.151.124z%22/%3E%3Cpath fill=%22%23000%22 d=%22M11 9.814v11.188l2.969-2.866.16-.139h5.036z%22/%3E%3C/g%3E%3C/svg%3E%0A');
+  --cursor-fallback: pointer;
+  --cursor-width: 32;
+  --cursor-height: 32;
+  --cursor-hotspot-x: 10;
+  --cursor-hotspot-y: 8;
 }
 
 [data-cursor='noita-mouse-system-big'] {

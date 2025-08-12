@@ -572,7 +572,7 @@ syn region cssUrlSvgPath contained keepend
       \ pathCubi2Abs,pathCubi2Rel,
       \ pathQuadAbs,pathQuadRel,
       \ pathQuad2Abs,pathQuad2Rel,
-      \ pathEllipAbs,pathEllipRel,
+      \ pathEllipA,pathEllipR,
       \ cssUrlSeps,cssPer22,cssLineCont,cssPer
 
 syn region cssUrlSvgXmlns contained keepend
@@ -589,32 +589,43 @@ syn case match
 
 syn match pathClose +[zZ]+ contained
 
-syn region pathMoveAbs  start=+M+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
-syn region pathMoveRel  start=+m+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
+syn region pathMoveAbs  start=+M+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
+syn region pathMoveRel  start=+m+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
 
-syn region pathLineAbs  start=+L+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
-syn region pathLineRel  start=+l+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
+syn region pathLineAbs  start=+L+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
+syn region pathLineRel  start=+l+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
 
-syn region pathHLineAbs start=+H+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
-syn region pathHLineRel start=+h+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
+syn region pathHLineAbs start=+H+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
+syn region pathHLineRel start=+h+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
 
-syn region pathVLineAbs start=+V+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
-syn region pathVLineRel start=+v+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
+syn region pathVLineAbs start=+V+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
+syn region pathVLineRel start=+v+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
 
-syn region pathCubicAbs start=+C+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
-syn region pathCubicRel start=+c+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
-syn region pathCubi2Abs start=+S+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
-syn region pathCubi2Rel start=+s+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
+syn region pathCubicAbs start=+C+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
+syn region pathCubicRel start=+c+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
+syn region pathCubi2Abs start=+S+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
+syn region pathCubi2Rel start=+s+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
 
-syn region pathQuadAbs  start=+Q+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
-syn region pathQuadRel  start=+q+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
-syn region pathQuad2Abs start=+T+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
-syn region pathQuad2Rel start=+t+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
+syn region pathQuadAbs  start=+Q+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
+syn region pathQuadRel  start=+q+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
+syn region pathQuad2Abs start=+T+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
+syn region pathQuad2Rel start=+t+ end=+\ze[^0-9. \\-]+ contained contains=svgPathParam,cssLineCont
 
-syn region pathEllipAbs start=+A+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
-syn region pathEllipRel start=+a+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
+" syn region pathEllipAbs start=+A+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
+syn region pathEllipR start=+a+
+      \ end=+\ze[^0-9. \\-]+
+      \ contained contains=svgPathParam,pathEllipRL,cssLineCont
+syn match pathEllipRL /a/
+
+syn region pathEllipA start=+A+
+      \ end=+\ze[^0-9. \\-]+
+      \ contained contains=svgPathParam,pathEllipAL,cssLineCont
+syn match pathEllipAL /A/
 
 syn match svgPathParam +[0-9. -]\{1,}+ transparent contained contains=NONE
+
+syn match svgPathCmdLetter /[MZVHLCSQTAmzvhlcsqta]/ contained contains=NONE
+
 
 syn case ignore
 
@@ -748,10 +759,13 @@ hi def pathQuadAbs  guifg=#664488 gui=bold guisp=#eeeeee
 hi def pathQuadRel  guifg=#664488
 hi def pathQuad2Abs guifg=#665588 gui=bold guisp=#eeeeee
 hi def pathQuad2Rel guifg=#665588
-hi def pathEllipAbs guifg=#aa6666 gui=bold guisp=#eeeeee
-hi def pathEllipRel guifg=#aa6666
+hi def pathEllipA    guifg=#aa6666 guisp=#559999 gui=underdashed
+hi def pathEllipAL   guifg=#559999 gui=bold,underline
+hi def pathEllipR    guifg=#aa6666 guisp=#559999 gui=underdotted
+hi def pathEllipRL   guifg=#559999 gui=underline
 hi def svgPathParam guifg=NONE
 
+hi def svgPathCmdLetter guisp=#ff0000 gui=underline,nocombine
 
 hi def link cssLineCont Conceal
 hi def link cssPer0A cssPerEnc
@@ -761,5 +775,27 @@ hi def link cssPerTag cssPerEnc
 hi def link cssPerEnc Conceal
 
 "}}}1
+
+
+" silent call prop_type_delete('cssSvgPathDelim')
+" silent call prop_type_add('cssSvgPathDelim', #{
+"       \ highlight: 'Delimiter',
+"       \ combine: v:true,
+"       \ })
+" call prop_add(21, 0, #{
+"       \ type: 'p',
+"       \ text: '¶',
+"       \ text_align: 'after',
+"       \ text_padding_left: 0,
+"       \ })
+
+" function! s:OnBufferChanged(bufnr, start, end, added, s)
+"   call prop_remove(#{types: ['cssSvgPathDelim']}, a:start, a:end)
+
+"   " call prop_add_list()
+" endfunc
+
+" call listener_add('s:OnBufferChanged', bufnr())
+
 " vim: nowrap sw=2 sts=2 ts=8 et fdm=marker:
 

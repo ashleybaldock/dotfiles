@@ -82,28 +82,46 @@ section > div > div:hover {
   border: 1px solid #bbb;
   background-color: #333;
 }
-section > div > div::after {
+.hotspot {
+  left: 0;
+  right: 0;
+  grid-column: 1;
+  grid-row: 1;
+  display: block;
+  outline: 1px dotted #a00;
+  width: calc(var(--cursor-width) * 1px);
+  height: calc(var(--cursor-height) * 1px);
+  position: relative;
+  visibility: hidden;
+}
+:root:has(#display #hotspots:checked) .hotspot {
+  visibility: visible;
+}
+
+.hotspot::after {
   content: '';
-  width: 2px;
-  height: 2px;
   background-color: #f00;
   display: block;
   position: absolute;
-  left: calc((100% / var(--cursor-width)) * var(--cursor-hotspot-x));
-  top: calc((100% / var(--cursor-height)) * var(--cursor-hotspot-y));
-  border-radius: 3px;
-  outline: 0.5px solid #f00;
-  outline-offset: 3px;
+  outline: var(--outline-width) dashed #f00;
+  width: calc(var(--hotspot-radius) * 2);
+  height: calc(var(--hotspot-radius) * 2);
+  outline-offset: calc((var(--hotspot-radius) * 4));
+  --hotspot-radius: 1px;
+  left: calc((var(--cursor-hotspot-x) * 1px) - var(--hotspot-radius));
+  --outline-width: 2px;
+  top: calc((var(--cursor-hotspot-y) * 1px) - var(--hotspot-radius));
+  border-radius: 0;
 }
 section > div > div::before {
   content: var(--cursor-image);
+  width: calc(var(--cursor-width) * 1px);
+  height: calc(var(--cursor-height) * 1px);
 }
 section > div > div::before,
 section > div > div > svg {
   grid-column: 1;
   grid-row: 1;
-  display: block;
-  outline: 1px dotted #a00;
 }
 section > div:hover > div::before,
 section > div:hover > div > svg {
@@ -247,3 +265,5 @@ section > div:hover > div:hover > svg {
 .attrib:hover {
   text-decoration: 0.5px solid underline;
 }
+
+

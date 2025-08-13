@@ -190,11 +190,15 @@ an 100.400.220 Tools2.Sort.Lines	<Cmd>SortLines<CR>
 
 an 100.500 Tools2.-sep2-	<Nop>
 
+exec 'an' SfIcon('􁂸') '100.510.100' 'Tools2.􀆃\ \ Colour\ Highlighting.Off'
+      \ '<Cmd>call ColourHighlightOff()<CR>'
 exec 'an' SfIcon('􁂸') '100.510.140' 'Tools2.􀆃\ \ Colour\ Highlighting.Text\ Contrast'
       \ '<Cmd>call ColourHighlightTextContrast()<CR>'
-exec 'an' SfIcon('􀏄') '100.510.150' 'Tools2.􀆃\ \ Colour\ Highlighting.Text\ Hidden'
+exec 'an' SfIcon('􀏄') '100.510.160' 'Tools2.􀆃\ \ Colour\ Highlighting.Text\ Hidden'
       \ '<Cmd>call ColourHighlightTextHidden()<CR>'
-exec 'an' SfIcon('􁂷') '100.510.150' 'Tools2.􀆃\ \ Colour\ Highlighting.Text\ Only'
+exec 'an' SfIcon('􁂷') '100.510.180' 'Tools2.􀆃\ \ Colour\ Highlighting.Text\ Only'
+      \ '<Cmd>call ColourHighlightTextOnly()<CR>'
+exec 'an' SfIcon('􁂷') '100.510.200' 'Tools2.􀆃\ \ Colour\ Highlighting.'
       \ '<Cmd>call ColourHighlightTextOnly()<CR>'
   
 an icon=swatchpalette 100.520.130 Tools2.Hi\ Hi	<Cmd>HiHi<CR>
@@ -338,9 +342,9 @@ if has("gui_macvim")
   "
   " ▌️⌘️ 􁾱  ▐️ ️Move to the ends of things
 
-  " ▌️⌘️ 􁾲  ▐️────▷ Jump to top of PUM
+  " ▌️􀆔 􁾲  ▐️────▷ Jump to top of PUM
   noremap <D-Up> <C-Home>
-  " ▌️⌘️ 􁾲  ▐️────▷ Jump to top of PUM
+  " ▌️􀆔 􁾲  ▐️────▷ Jump to top of PUM
   inoremap <expr> <D-Up>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
 
   "􀆔􁾵 
@@ -351,21 +355,21 @@ if has("gui_macvim")
 
   noremap   <D-Down>   <C-End>
   inoremap  <D-Down>   <C-End>
-  " ▌️⌘️ 􁾳  ▐️ Jump to end of PUM
+  " ▌️􀆔 􁾳  ▐️ Jump to end of PUM
   inoremap <expr> <D-Down>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
 
   noremap   <D-Left>   <Home>
   noremap!  <D-Left>   <Home>
-  " ▌️⌘️ 􁾴  ▐️ Cancel out of PUM
+  " ▌️􀆔 􁾴  ▐️ Cancel out of PUM
   inoremap <expr> <D-Left>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
 
-  " ▌️⌘️  􀆛▐️ ️
+  " ▌️􀆔 􀆛 ▐️ ️
   inoremap  <D-BS> <C-u>
 
-"
-" ▌️􀆕 􁾱  ▐️ Move (around) things in steps
+  "
+  " ▌️􀆕 􁾱  ▐️ Move (around) things in steps
 
-" ▌️􀆕 􁾱  ▐️ Move in steps
+  " ▌️􀆕 􁾱  ▐️ Move in steps
   " noremap <M-Up> {
   inoremap <M-Up> <C-o>{
 

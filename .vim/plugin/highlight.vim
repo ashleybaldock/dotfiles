@@ -3,6 +3,10 @@ if exists("g:mayhem_loaded_highlight")
 endif
 let g:mayhem_loaded_highlight = 1
 
+"
+" Make foreground of color highlighting blocks match the background
+"
+" call hlget()->filter({_, x -> x.name =~ '^BG.*'})->map({_, x -> #{name: x.name, guifg: x.guibg}})->hlset()
 
 " TODO - add to symbols repository when implemented
 let s:symbol_linksto = get(g:, 'mayhem_symbol_hihi_linksto', '⫘⃗ ')

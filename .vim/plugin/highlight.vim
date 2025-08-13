@@ -3,8 +3,11 @@ if exists("g:mayhem_loaded_highlight")
 endif
 let g:mayhem_loaded_highlight = 1
 
-" Make foreground of color highlighting blocks match the background
-function HighlightBackgroundBlock() abort
+function ColourHighlightTextContrast() abort
+endfunc
+
+" Make foreground (text) of color highlighting blocks match the background
+function ColourHighlightTextHidden() abort
   call hlget()->filter(
         \ {_, x -> x.name =~ '^BG.*'}
         \ )->map(
@@ -13,7 +16,7 @@ function HighlightBackgroundBlock() abort
 endfunc
 
 " Make background of color highlighting blocks match the foreground
-function HighlightForegroundText() abort
+function ColourHighlightTextOnly() abort
   call hlget()->filter(
         \ {_, x -> x.name =~ '^BG.*'}
         \ )->map(

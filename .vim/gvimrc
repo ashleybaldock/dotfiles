@@ -190,14 +190,13 @@ an 100.400.220 Tools2.Sort.Lines	<Cmd>SortLines<CR>
 
 an 100.500 Tools2.-sep2-	<Nop>
 
-an icon=swatchpalette 100.510.130 Tools2.Colour\ Highlighting	<Cmd>HiHi<CR>
-an 100.510.140 Tools2.Colour\ Highlighting.Text\ Contrast
-      \ <Cmd>call ColourHighlightTextContrast()<CR>
-an 100.510.150 Tools2.Colour\ Highlighting.Text\ Hidden
-      \ <Cmd>call ColourHighlightTextHidden()<CR>
-an 100.510.150 Tools2.Colour\ Highlighting.Text\ Only
-      \ <Cmd>call ColourHighlightTextOnly()<CR>
-
+exec 'an' SfIcon('􁂸') '100.510.140' 'Tools2.􀆃\ \ Colour\ Highlighting.Text\ Contrast'
+      \ '<Cmd>call ColourHighlightTextContrast()<CR>'
+exec 'an' SfIcon('􀏄') '100.510.150' 'Tools2.􀆃\ \ Colour\ Highlighting.Text\ Hidden'
+      \ '<Cmd>call ColourHighlightTextHidden()<CR>'
+exec 'an' SfIcon('􁂷') '100.510.150' 'Tools2.􀆃\ \ Colour\ Highlighting.Text\ Only'
+      \ '<Cmd>call ColourHighlightTextOnly()<CR>'
+  
 an icon=swatchpalette 100.520.130 Tools2.Hi\ Hi	<Cmd>HiHi<CR>
 an 100.530.130 Tools2.Enable\ Syntax\ Reload\ On\ Write
       \ <Cmd>au BufWritePost <buffer> syn on<CR>

@@ -312,10 +312,11 @@ an 100.650.100 Tools2.Auto\ Format	<Cmd>call FormatBuffer()<CR>
 "
 " aunmenu View
 " an icon=text.badge.checkmark:hierarchical 120.200.100 View.Chars <Nop>
-an icon=checkmark 120.200.200 View.Chars.Default	<Cmd>CharsDefault<CR>
-an icon=poweron 120.200.230 View.Chars.None	<Cmd>CharsNone<CR>
-an 120.200.250 View.Chars.Minimal	<Cmd>CharsMinimal<CR>
-an 120.200.260 View.Chars.Diagnostic	<Cmd>CharsDiagnostic<CR>
+exec 'an' SfIcon('􀆅') '120.200.200' 'View.Chars.Default' '<Cmd>CharsDefault<CR>'
+exec 'an' SfIcon() '120.200.230' 'View.Chars.None' '<Cmd>CharsNone<CR>'
+exec 'an' SfIcon() '120.200.250' 'View.Chars.Minimal' '<Cmd>CharsMinimal<CR>'
+exec 'an' SfIcon() '120.200.260' 'View.Chars.Diagnostic' '<Cmd>CharsDiagnostic<CR>'
+
 an 120.300 View.-sep1-		<Nop>
 an icon=pin 120.330 View.Marks	<Cmd>marks<CR>
 
@@ -334,8 +335,14 @@ exec 'an' SfIcon() '120.300.150' 'View.􂟦\ \ Debug.WinSize'
       \ '<Cmd>Toggle g:mayhem_sl_show_winsize<CR>'
 
 
+"
+" File Menu:
+"
 an 10.404 &File.Diff\ With\ Saved<Tab>§df	<Cmd>DiffWithSaved<CR>
 
+"
+" Edit Menu:
+"
 noremenu  20.402 &Edit.&ReSelect\ Paste<Tab>gp	gp
 noremenu  20.403 &Edit.&ReSelect\ Visual<Tab>gv	gv
 

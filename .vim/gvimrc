@@ -198,7 +198,7 @@ exec 'an' SfIcon('􀏄') '100.510.160' 'Tools2.􀆃\ \ Colour\ Highlighting.Text
       \ '<Cmd>call ColourHighlightTextHidden()<CR>'
 exec 'an' SfIcon('􁂷') '100.510.180' 'Tools2.􀆃\ \ Colour\ Highlighting.Text\ Only'
       \ '<Cmd>call ColourHighlightTextOnly()<CR>'
-exec 'an' SfIcon('􁂷') '100.510.200' 'Tools2.􀆃\ \ Colour\ Highlighting.'
+exec 'an' SfIcon('􀃪') '100.510.200' 'Tools2.􀆃\ \ Colour\ Highlighting.Virtual\ Text'
       \ '<Cmd>call ColourHighlightTextOnly()<CR>'
   
 an icon=swatchpalette 100.520.130 Tools2.Hi\ Hi	<Cmd>HiHi<CR>
@@ -320,11 +320,13 @@ exec 'an' SfIcon() '120.200.260' 'View.Chars.Diagnostic' '<Cmd>CharsDiagnostic<C
 an 120.300 View.-sep1-		<Nop>
 an icon=pin 120.330 View.Marks	<Cmd>marks<CR>
 
-an 120.400 View.-sep1-		<Nop>
+" Visual Outline:
+an 120.400 View.-sep2-		<Nop>
 exec 'an' SfIcon() '120.400.200' 'View.􀓔\ \ Visual.Show\ Outline'
       \ '<Cmd>Toggle g:mayhem_show_visual_outline<CR>'
 
 
+"! Debug / WinSize:
 exec 'an' SfIcon('􀆄') '120.300.150' 'View.􂟦\ \ Debug.WinSize'
       \ '<Cmd>Toggle g:mayhem_sl_show_winsize<CR>'
 exec 'aunmenu' 'View.􂟦\ \ Debug.WinSize'

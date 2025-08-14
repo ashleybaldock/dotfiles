@@ -6439,4 +6439,4 @@ let s:symbols = {
       \ '􀣺': 'apple.logo'
    \}
 
-let s:reversed_symbols = map(s:symbols, {k, v -> {[v]: k}})->reduce({acc, e -> extend(acc, e)})
+let s:reversed_symbols = mapnew(s:symbols, {k, v -> {[v]: k}})->reduce({acc, e -> extend(acc, e)})

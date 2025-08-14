@@ -100,7 +100,7 @@ syn match mdNewPara "$"
 syn region mdEscapedItalic
       \ start="\\\*\S\@="
       \ end="\%(\S\\\*\)\@3<=\ze\|^$"
-      \ contains=mdEscapedItalicDelimiter,mdLineStart,@Spell,mdEscapedBoldItalic,markdownBoldItalic
+      \ contains=mdEscapedItalicDelimiter,mdLineStart,@Spell,mdEscapedBoldItalic,mdBoldItalic
       " \ skip="\\\\\*"
 
 syn match mdEscapedItalicDelimiter
@@ -113,7 +113,7 @@ syn region mdEscapedBold
       \ start="\\\*\\\*\S\@="
       \ end="\%(\S\\\*\\\*\)\@5<=\ze\|^$"
       \ skip="\*\|\\\\\*"
-      \ contains=mdEscapedBoldDelimiter,mdLineStart,@Spell,mdEscapedBoldItalic,markdownBoldItalic
+      \ contains=mdEscapedBoldDelimiter,mdLineStart,@Spell,mdEscapedBoldItalic,mdBoldItalic
 
 syn match mdEscapedBoldDelimiter
       \ "\\\*\\\*\S\@=\|\S\@1<=\\\*\\\*"
@@ -149,7 +149,7 @@ syn match mdAlertConceal +\]+ contained contains=NONE conceal cchar=◢
 syn region mdHtmlComment concealends
       \ matchgroup=Conceal start=+<!--\s\?+
       \ matchgroup=Conceal end=+\s\?-->+
-      \ containedin=mdBold,mdItalic,markdownBoldItalic,mdEscaped
+      \ containedin=mdBold,mdItalic,mdBoldItalic,mdEscaped
 
 hi def mdHtmlComment guifg=#999999 gui=italic
 
@@ -192,7 +192,8 @@ syn region mdAlertCaution
 syn region mdAlertTitle contained keepend
       \ start=+\[\!+ 
       \ end=+\]+
-      \ contains=mdAlertConceal,mdAlertTitleNote,mdAlertTitleTip,mdAlertTitleImp,mdAlertTitleWarn,mdAlertTitleCaution
+      \ contains=mdAlertConceal,mdAlertTitleNote,mdAlertTitleTip,
+      \mdAlertTitleImp,mdAlertTitleWarn,mdAlertTitleCaution
 
 syn keyword mdAlertTitleNote NOTE contained
 syn keyword mdAlertTitleTip TIP contained
@@ -360,12 +361,12 @@ hi def link mdListMarker            htmlTagName
 hi def link mdBlockQuote            Comment
 hi def link mdRule                        PreProc
 
-hi def link markdownFootnote              Typedef
-hi def link markdownFootnoteDefinition    Typedef
+hi def link mdFootnote              Typedef
+hi def link mdFootnoteDefinition    Typedef
 
 hi def link mdLinkText                    htmlLink
 hi def link mdIdDeclaration         Typedef
-hi def link markdownId                    Type
+hi def link mdId                    Type
 hi def link mdAutoLink                    mdUrl
 hi def link mdUrl                   Float
 hi def link mdUrlTitle              String
@@ -374,14 +375,14 @@ hi def link mdUrlDelim          htmlTag
 hi def link mdUrlTitleDelimiter     Delimiter
 
 hi def link mdItalic                htmlItalic
-hi def link markdownItalicDelimiter       mdItalic
+hi def link mdItalicDelimiter       mdItalic
 hi def link mdBold                  htmlBold
-hi def link markdownBoldDelimiter         mdBold
-hi def link markdownBoldItalic            htmlBoldItalic
-hi def link markdownBoldItalicDelimiter   markdownBoldItalic
-hi def link markdownStrike                htmlStrike
-hi def link markdownStrikeDelimiter       markdownStrike
-hi def link markdownCodeDelimiter         Delimiter
+hi def link mdBoldDelimiter         mdBold
+hi def link mdBoldItalic            htmlBoldItalic
+hi def link mdBoldItalicDelimiter   mdBoldItalic
+hi def link mdStrike                htmlStrike
+hi def link mdStrikeDelimiter       mdStrike
+hi def link mdCodeDelimiter         Delimiter
 
 hi def link mdEscape                Special
 hi def link mdError                 Error

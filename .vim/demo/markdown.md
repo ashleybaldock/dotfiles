@@ -138,7 +138,7 @@ And a third one.⏎
 **Bold <!-- comment inside bold --> Bold**
 _Italic <!-- comment inside Italic --> Italic_
 **Bold <!-- comment inside Bold --> Bold**
-**_BoldItalic <!-- comment inside BoldItalic --> BoldItalic_**
+**_BoldItalic <!-- comment inside  --> BoldItalic_**
 
 <!--
   Block comment

@@ -6,8 +6,30 @@ let g:autoloaded_sfsymbols = 1
 
 scriptencoding utf-8
 
+"
+" With:
+"   0 args: return list of all symbols
+" 1-2 args: return id (name) for symbol provided in first arg, or
+"   if no match is found:
+"      1 arg: return 'unknown'
+"     2 args: return value of 2nd arg 
+"
 function! sfsymbols#getSymbolName(...) abort
-  return a:0 ? get(s:symbols, a:1, 'unknown') : s:symbols
+  return a:0 ? get(s:symbols, a:1, a:0 > 1 ? a:2 : 'unknown') : s:symbols
+endfunction
+
+"
+" Return a symbol matching full exact symbol name
+"
+function! sfsymbols#getSymbol(name) abort
+  return get(s:reversed_symbols, a:name, '')
+endfunction
+
+"
+" Return list of best matches for partial symbol name
+"
+function! sfsymbols#fuzzyMatchSymbol(name) abort
+  return [#{name: a:name, symbol: get(s:reversed_symbols, a:name, '􂞷')}]
 endfunction
 
 let s:symbols = {
@@ -6416,3 +6438,5 @@ let s:symbols = {
       \ '􀛢': '50.square.fill',
       \ '􀣺': 'apple.logo'
    \}
+
+let s:reversed_symbols = map(s:symbols, {k, v -> {[v]: k}})->reduce({acc, e -> extend(acc, e)})

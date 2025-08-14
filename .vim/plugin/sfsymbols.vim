@@ -107,7 +107,7 @@ enddef
 # :monochrome|:hierarchical|:palette|:multicolor
 # and optionally:
 # :variable-0|variable-0.1|variable .. -1]
-class SfSymbol
+export class SfSymbol
   # constants
   static const range_start: number = 0x100000
   static const range_end: number   = 0x103fff
@@ -131,6 +131,10 @@ class SfSymbol
 
   def newFromCodepoint(codepoint: number)
     this.codepoint = codepoint
+  enddef
+
+  def newFromSymbolName(name: string)
+    this.codepoint = char2nr(sfsymbols#fuzzyMatchSymbol(name).symbol)
   enddef
 
   # static methods
@@ -230,8 +234,8 @@ enddef
 # Return icon id formatted for use with a(nore)menu
 # e.g. 'icon=hourglass:variable-0.4:monochrome'
 #
-def g:SfIcon(arg: string, suffix: string = 'monochrome', variable: float = 1.0): string
-  return SfSymbol.newFromString(arg).SetSuffix(suffix).SetVariable(variable).GetIcon()
+def g:SfIcon(symbol: string = '', suffix: string = 'monochrome', variable: float = 1.0): string
+  return symbol == '' ? 'icon=$VIMHOME/bitmaps/blank24.png' : SfSymbol.newFromString(symbol).SetSuffix(suffix).SetVariable(variable).GetIcon()
 enddef
 
 command! -bar -nargs=? SfSymbol echo g:EchoSymbolInfo(<args>)

@@ -320,7 +320,6 @@ an 120.300 View.-sep1-		<Nop>
 an icon=pin 120.330 View.Marks	<Cmd>marks<CR>
 
 an 120.400 View.-sep1-		<Nop>
-" exec 'an' SfIcon() '120.400' 'View.􀓔Visual' '<Nop>'
 exec 'an' SfIcon() '120.400.200' 'View.􀓔\ \ Visual.Show\ Outline'
       \ '<Cmd>Toggle g:mayhem_show_visual_outline<CR>'
 

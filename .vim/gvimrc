@@ -167,21 +167,32 @@ an <silent> 10.327.130 &File.Open\ Related.Runtime\ Autoload	    <Nop>
 "
 "􀥖􀩉􀥗􀩊􀥘
 " aunmenu Tools2
-an 100.310.100 Tools2.􀽴\ \ Columns.Transpose		<Cmd>TransposeRowCol<CR>
+exec 'an' SfIcon('􀅌') '100.310.100' 'Tools2.􀽴\ \ Columns.Transpose'
+      \ '<Cmd>TransposeRowCol<CR>'
 an 100.310.200 Tools2.􀽴\ \ Columns.-sep1-	<Nop>
-an icon=align.horizontal.right 100.310.210 Tools2.􀽴\ \ Columns.Align\ Right		<Cmd>ColAlignRight<CR>
-an icon=arrow.right.to.line.compact 100.310.214 Tools2.􀽴\ \ Columns.Align\ Right\ To\ Col		<Cmd>AlignRightToColorColumn<CR>
-an 100.310.216 Tools2.􀽴\ \ Columns.Align\ Right\ To\ Cursor	<Cmd>AlignRightToCursor<CR>
-an 100.310.218 Tools2.􀽴\ \ Columns.Align\ Right\ To\		<Cmd>AlignRightToCursor<CR>
-vunmenu Tools2.􀽴\ \ Columns.Align\ Right
-vnoremenu <silent> Tools2.􀽴\ \ Columns.Align\ Right	<Cmd>ColAlignRight<CR>
+exec 'an' SfIcon('􀩊') '100.310.210' 'Tools2.􀽴\ \ Columns.Align\ Right'
+      \ '<Cmd>ColAlignRight<CR>'
+exec 'an' SfIcon('􀅆') '100.310.214' 'Tools2.􀽴\ \ Columns.Align\ Right\ To\ Col'
+      \ '<Cmd>AlignRightToColorColumn<CR>'
+exec 'an' '100.310.216' 'Tools2.􀽴\ \ Columns.Align\ Right\ To\ Cursor'
+      \ '<Cmd>AlignRightToCursor<CR>'
+exec 'an' '100.310.218' 'Tools2.􀽴\ \ Columns.Align\ Right'
+      \ '<Cmd>ColAlignRight<CR>'
+exec 'vunmenu' 'Tools2.􀽴\ \ Columns.Align\ Right'
+exec 'vnoremenu <silent>' 'Tools2.􀽴\ \ Columns.Align\ Right'
+      \ '<Cmd>ColAlignRight<CR>'
 an 100.310.300 Tools2.􀽴\ \ Columns.-sep2-	<Nop>
-an icon=align.horizontal.left 100.310.320 Tools2.􀽴\ \ Columns.Align\ Left		<Cmd>ColAlignLeft<CR>
-an icon=arrow.left.to.line.compact 100.310.324 Tools2.􀽴\ \ Columns.Align\ Left\ To\ Col	<Cmd>AlignLeftToColorColumn<CR>
-an 100.310.326 Tools2.􀽴\ \ Columns.Align\ Left\ To\ Cursor	<Cmd>AlignLeftToCursor<CR>
-an 100.310.328 Tools2.􀽴\ \ Columns.Align\ Left\ To		<Cmd>AlignLeftToCursor<CR>
+exec 'an' SfIcon('􀩈') '100.310.320' 'Tools2.􀽴\ \ Columns.Align\ Left'
+      \ '<Cmd>ColAlignLeft<CR>'
+exec 'an' SfIcon('􀅅') '100.310.324' 'Tools2.􀽴\ \ Columns.Align\ Left\ To\ Col'
+      \ '<Cmd>AlignLeftToColorColumn<CR>'
+exec 'an' '100.310.326' 'Tools2.􀽴\ \ Columns.Align\ Left\ To\ Cursor'
+      \ '<Cmd>AlignLeftToCursor<CR>'
+exec 'an' '100.310.328' 'Tools2.􀽴\ \ Columns.Align\ Left\ To'
+      \ '<Cmd>AlignLeftToCursor<CR>'
 an 100.310.400 Tools2.􀽴\ \ Columns.-sep3-	<Nop>
-an icon=align.horizontal.center 100.310.430 Tools2.􀽴\ \ Columns.Align\ Center		<Cmd>ColAlignCenter<CR>
+exec 'an' SfIcon('􀩉') '100.310.430' 'Tools2.􀽴\ \ Columns.Align\ Center'
+      \ '<Cmd>ColAlignCenter<CR>'
 
 an 100.400 Tools2.-sep1-	<Nop>
 
@@ -201,12 +212,14 @@ exec 'an' SfIcon('􁂷') '100.510.180' 'Tools2.􀆃\ \ Colour\ Highlighting.Text
 exec 'an' SfIcon('􀃪') '100.510.200' 'Tools2.􀆃\ \ Colour\ Highlighting.Virtual\ Text'
       \ '<Cmd>call ColourHighlightTextOnly()<CR>'
   
-an icon=swatchpalette 100.520.130 Tools2.Hi\ Hi	<Cmd>HiHi<CR>
-an 100.530.130 Tools2.Enable\ Syntax\ Reload\ On\ Write
-      \ <Cmd>au BufWritePost <buffer> syn on<CR>
+exec 'an' SfIcon=('􁙧') '100.520.130' 'Tools2.Hi\ Hi'
+      \ '<Cmd>HiHi<CR>'
+exec 'an' '100.530.130' 'Tools2.Enable\ Syntax\ Reload\ On\ Write'
+      \ '<Cmd>au BufWritePost <buffer> syn on<CR>'
 
 an 100.600 Tools2.-sep3-	<Nop>
-an icon=sparkles.rectangle.stack 100.630.130 Tools2.SynFo.Toggle\ In\ Current\ Window	<Cmd>SynFoWindowToggle<CR>
+exec 'an' SfIcon('􀲳') '100.630.130' 'Tools2.SynFo.Toggle\ In\ Current\ Window'
+      \ '<Cmd>SynFoWindowToggle<CR>'
 macm Tools2.SynFo.Toggle\ In\ Current\ Window key=<D-I>
 " an 100.530.150 Tools2.SynFo.Enable\ In\ Current\ Window <Cmd>SynFoWindowOn<CR>
 " an 100.530.150 Tools2.SynFo.Disable\ In\ Current\ Window <Cmd>SynFoWindowOff<CR>

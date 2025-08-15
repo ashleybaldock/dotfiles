@@ -34,6 +34,8 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 
 ## Text formatting
 
+_Italic_ **Bold** _Italic_ **Bold**
+
 ```pre
 |      Example      |         Syntax         |    Alternate Syntax    |
 | :---------------: | :--------------------: | :--------------------: |
@@ -349,7 +351,7 @@ Nested
 ```
 
 Col1 | Col2 | Col3 start/end pipes optional, column width can vary
---- | --- | --- at least three hyphens in each column of the header row
+--- | --- | --- three hyphens in each column of the header row
 
 ## Footnotes
 

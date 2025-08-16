@@ -81,14 +81,12 @@ syn match mdH2 "^.\+\n-\+$" contained contains=@mdInline,mdHeadingRule,mdAutoLin
 
 syn match mdHeadingRule "^[=-]\+$" contained
 
-syn region mdH1 matchgroup=mdH1Delimiter start=" \{,3}#\s"      end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH2 matchgroup=mdH2Delimiter start=" \{,3}##\s"     end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH3 matchgroup=mdH3Delimiter start=" \{,3}###\s"    end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH4 matchgroup=mdH4Delimiter start=" \{,3}####\s"   end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH5 matchgroup=mdH5Delimiter start=" \{,3}#####\s"  end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH6 matchgroup=mdH6Delimiter start=" \{,3}######\s" end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-" Escaped H1-H6
-syn match mdEscapedChar /\\#\%(\\\?#\)\{,5}/ contains=NONE
+syn region mdH1 matchgroup=mdH1Delim start="^\s*#\s"      end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH2 matchgroup=mdH2Delim start="^\s*##\s"     end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH3 matchgroup=mdH3Delim start="^\s*###\s"    end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH4 matchgroup=mdH4Delim start="^\s*####\s"   end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH5 matchgroup=mdH5Delim start="^\s*#####\s"  end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH6 matchgroup=mdH6Delim start="^\s*######\s" end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
 
 
 " syn match mdEscape "\\\~"
@@ -98,16 +96,22 @@ syn match mdLineBreak " \{2,\}$" conceal cchar=⏎️
 syn match mdNewPara "$"
 
 syn region mdEscapedItalic
-      \ start="\\\*\S\@="
+      \ start="\\\*\ze\S"
       \ end="\%(\S\\\*\)\@3<=\ze\|^$"
-      \ contains=mdEscapedItalicDelimiter,mdLineStart,@Spell,mdEscapedBoldItalic,mdBoldItalic
+      \ contains=mdEscapedItalicDelim,mdLineStart,@Spell,
+      \mdItalic,mdEscapedBoldItalic,mdBoldItalic
       " \ skip="\\\\\*"
 
-syn match mdEscapedItalicDelimiter
+syn match mdEscapedItalicDelim
       \ "\\\*\S\@=\|\S\@1<=\\\*"
       \ contained
       \ contains=mdConcealedEscape
 
+syn region mdItalic
+      \ start="\*"
+      \ end="\*"
+      \ contained
+      \ contains=mdConcealedEscape
 
 syn region mdEscapedBold
       \ start="\\\*\\\*\S\@="
@@ -335,6 +339,9 @@ unlet! s:included
 syn match mdEscape "\\[][\\`*_{}()<>#+.!-]"
 syn match mdError "\w\@<=_\w\@="
 
+" Escaped H1-H6
+syn match mdEscape /\\#\%(\\\?#\)\{,5}/ contains=NONE
+
 " echo matchadd('HlMkDnCode', '\\_\\_\zsBold\ze\\_\\_')
 " echo matchadd('HlMkDnCode', '\\\zs_\ze')
 " echo matchadd('Conceal', '\zs\\\ze_')
@@ -342,36 +349,36 @@ syn match mdError "\w\@<=_\w\@="
 "
 " Highlight Definitions:
 "
-hi def link mdH1                          htmlH1
-hi def link mdH2                          htmlH2
-hi def link mdH3                          htmlH3
-hi def link mdH4                          htmlH4
-hi def link mdH5                          htmlH5
-hi def link mdH6                          htmlH6
-hi def link mdHeadingRule                 mdRule
-hi def link mdH1Delimiter                 mdHeadingDelimiter
-hi def link mdH2Delimiter                 mdHeadingDelimiter
-hi def link mdH3Delimiter                 mdHeadingDelimiter
-hi def link mdH4Delimiter                 mdHeadingDelimiter
-hi def link mdH5Delimiter                 mdHeadingDelimiter
-hi def link mdH6Delimiter                 mdHeadingDelimiter
-hi def link mdHeadingDelimiter            Delimiter
+hi def link mdH1                    htmlH1
+hi def link mdH2                    htmlH2
+hi def link mdH3                    htmlH3
+hi def link mdH4                    htmlH4
+hi def link mdH5                    htmlH5
+hi def link mdH6                    htmlH6
+hi def link mdHeadingRule           mdRule
+hi def link mdH1Delim               mdHeadDelim
+hi def link mdH2Delim               mdHeadDelim
+hi def link mdH3Delim               mdHeadDelim
+hi def link mdH4Delim               mdHeadDelim
+hi def link mdH5Delim               mdHeadDelim
+hi def link mdH6Delim               mdHeadDelim
+hi def link mdHeadDelim             Delimiter
 hi def link mdOrderedListMarker     mdListMarker
 hi def link mdListMarker            htmlTagName
 hi def link mdBlockQuote            Comment
-hi def link mdRule                        PreProc
+hi def link mdRule                  PreProc
 
 hi def link mdFootnote              Typedef
 hi def link mdFootnoteDefinition    Typedef
 
-hi def link mdLinkText                    htmlLink
+hi def link mdLinkText              htmlLink
 hi def link mdIdDeclaration         Typedef
 hi def link mdId                    Type
-hi def link mdAutoLink                    mdUrl
+hi def link mdAutoLink              mdUrl
 hi def link mdUrl                   Float
 hi def link mdUrlTitle              String
-hi def link mdIdDelim           mdLinkDelimiter
-hi def link mdUrlDelim          htmlTag
+hi def link mdIdDelim               mdLinkDelimiter
+hi def link mdUrlDelim              htmlTag
 hi def link mdUrlTitleDelimiter     Delimiter
 
 hi def link mdItalic                htmlItalic
@@ -394,7 +401,7 @@ hi def link mdCode2 mdCode
 hi mdCodeBlock guifg=#cc6688 guibg=#222222
 hi def mdCodeBlockType guifg=#99ff99
 hi def mdEscapedItalic gui=italic
-hi def mdEscapedItalicDelimiter guibg=#440022 gui=italic,underdotted
+hi def mdEscapedItalicDelim guibg=#440022 gui=italic,underdotted
 hi def mdEscapedBold gui=bold
 hi def mdEscapedBoldDelimiter guibg=#220044 gui=bold,underdotted
 hi def mdEscapedBoldItalic gui=bold,italic

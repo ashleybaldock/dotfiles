@@ -13,6 +13,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 \### A third-level heading
+\#\#\# A third-level heading
 
 ### ── A third-level heading ──────────────────────
 
@@ -29,6 +30,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 ##### A Fifth level heading
 
 \###### A Sixth level heading
+\#\#\#\#\#\# A Sixth level heading
 
 ###### A Sixth level heading
 
@@ -39,13 +41,13 @@ _Italic_ **Bold** _Italic_ **Bold**
 ```pre
 |      Example      |         Syntax         |    Alternate Syntax    |
 | :---------------: | :--------------------: | :--------------------: |
-|       **Bold**        |        \*\*Bold\*\*        |      \_\_Bold\_\_      |
-|                   |       \\*\\*Bold\\_\\_     |                        |
-|      *Italic*       |        \*Italic\*        |       \_Italic\_       |
+|      **Bold**     |      \*\*Bold\*\*      |      \_\_Bold\_\_      |
+|                   |    \\*\\*Bold\\_\\_    |                        |
+|      *Italic*     |       \*Italic\*       |       \_Italic\_       |
 |                   |                        |                        |
-|     **_BoldItalic_**    |    \*\*\*BoldItalic\*\*\*    | \_\_\_BoldItalic\_\_\_ |
+|  **_BoldItalic_** | \*\*\*BoldItalic\*\*\* | \_\_\_BoldItalic\_\_\_ |
 |                   |                        |                        |
-|   ~~Strikethrough~~   |  \~\~Strikethrough\~\~ |                        |
+| ~~Strikethrough~~ | \~\~Strikethrough\~\~  |                        |
 ```
 
 |      Example      |         Syntax         |    Alternate Syntax    |

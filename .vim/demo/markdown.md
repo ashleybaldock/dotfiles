@@ -36,7 +36,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 
 ## Text formatting
 
-_Italic_ **Bold** _Italic_ **Bold**
+*Italic* **Bold** _Italic_ **Bold**
 
 ```pre
 |      Example      |         Syntax         |    Alternate Syntax    |

@@ -172,8 +172,6 @@
   "yank.list.maxsize": 300,
   "yank.priority": 90,
 
-  "eslint.autoFixOnSave": true,
-
   "json.format.enable": true,
 
   "javascript.format.enable": false,
@@ -188,7 +186,7 @@
   "html.format.contentUnformatted": "pre,code,textarea",
   "html.completion.attributeDefaultValue": "doublequotes",
 
-  "coc.preferences.enableMarkdown": false,
+  "coc.preferences.enableMarkdown": true,
 
   "prettier.requireConfig": true,
   "prettier.formatterPriority": 1,
@@ -201,7 +199,9 @@
   "typescript.preferences.useAliasesForRenames": false,
   "typescript.preferGoToSourceDefinition": true,
   "typescript.preferences.preferTypeOnlyAutoImports": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
+
+  "eslint.autoFixOnSave": true,
+  "eslint.codeActionsOnSave.mode": "all",
+  "eslint.codeActionsOnSave.rules": null,
+  "eslint.rules.customizations": []
 }

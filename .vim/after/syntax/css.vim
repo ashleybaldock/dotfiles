@@ -9,6 +9,7 @@
 
 " TODO
 "
+" make :hover etc. stand out more
 " highlight invalid base64 characters
 " distinctive colour for counter-set etc.
 " @property highlighting

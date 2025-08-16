@@ -1,6 +1,6 @@
 @keyframes ab {
   to {
-    cursor: initial;
+    cursor: var(--cursor-fallback);
   }
 }
 :root:has(#display #animate-ab:checked) section > div {
@@ -34,15 +34,18 @@ section > h2 {
 section > div {
   position: relative;
   width: auto;
-  height: auto;
   aspect-ratio: 1;
   border: 1px dashed #666;
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
   align-items: center;
   justify-items: center;
-  max-width: 160px;
+  height: auto;
+  grid-template-columns: auto;
+  grid-template-rows: auto var(--x) auto;
+  max-width: unset;
+  --x: 20vmax;
+  place-self: center stretch;
+  transition: opacity 80ms ease;
 }
 section > div:hover {
   border: 1px solid #777;
@@ -53,16 +56,33 @@ section > div::after {
   position: absolute;
   font-size: 10px;
   font-family: monospace;
+  white-space: nowrap;
 }
 section > div::before {
   content: 'data-cursor="' attr(data-cursor) '"';
-  top: 0;
   left: 0;
+  user-select: all;
+  pointer-events: all;
+  grid-row: 1;
+  position: absolute;
+  top: calc(var(--bw) * -1);
+  background-color: #444;
+  border: var(--bw) solid #666;
+  padding: 0.1em 0.5ch;
+  --bw: 1px;
+  opacity: 0;
+}
+section > div:hover::before {
+  opacity: 1;
+  transition: opacity 120ms ease;
 }
 section > div::after {
   content: attr(data-file);
   bottom: 0;
   right: 0;
+  grid-row: 3;
+  place-self: end end;
+  text-align: right;
 }
 section > div > div {
   position: relative;
@@ -72,16 +92,17 @@ section > div > div {
   align-items: center;
   justify-items: center;
   grid-column: 1;
-  grid-row: 1;
   border: 1px solid #aaa;
   width: 50%;
   height: auto;
   aspect-ratio: 1;
+  grid-row: 2;
 }
 section > div > div:hover {
   border: 1px solid #bbb;
   background-color: #333;
 }
+
 .hotspot {
   left: 0;
   right: 0;
@@ -132,118 +153,118 @@ section > div:hover > div:hover > svg {
   opacity: 0;
 }
 
-[data-file='busy.svg'] {
-  cursor: wait;
-  cursor: progress;
-}
-[data-file='cell.svg'] {
-  cursor: cell;
-}
-[data-file='contextualmenu.svg'] {
-  cursor: context-menu;
-}
-[data-file='copy.svg'] {
-  cursor: copy;
-}
-[data-file='cross.svg'] {
-  cursor: crosshair;
-}
-[data-file='default.svg'] {
-  cursor: default;
-}
-[data-file='handgrabbing.svg'] {
-  cursor: grabbing;
-}
-[data-file='handopen.svg'] {
-  cursor: all-scroll;
-  cursor: grab;
-}
-[data-file='handpointing.svg'] {
-  cursor: pointer;
-}
-[data-file='help.svg'] {
-  cursor: help;
-}
-[data-file='makealias.svg'] {
-  cursor: alias;
-}
-[data-file='move.svg'] {
-  cursor: move;
-}
-[data-file='notallowed.svg'] {
-  cursor: not-allowed;
-  cursor: no-drop;
-}
-[data-file='resizedown.svg'] {
-  cursor: s-resize;
-}
-[data-file='resizeleft.svg'] {
-  cursor: w-resize;
-}
-[data-file='resizeleftright.svg'] {
-  cursor ew-resize;
-  cursor: col-resize;
-}
-[data-file='resizenortheast.svg'] {
-  cursor: ne-resize;
-}
-[data-file='resizenortheastsouthwest.svg'] {
-  cursor: nesw-resize;
-}
-[data-file='resizenorthwest.svg'] {
-  cursor: nw-resize;
-}
-[data-file='resizenorthwestsoutheast.svg'] {
-  cursor: nwse-resize;
-}
-[data-file='resizeright.svg'] {
-  cursor: e-resize;
-}
-[data-file='resizesoutheast.svg'] {
-  cursor: se-resize;
-}
-[data-file='resizesouthwest.svg'] {
-  cursor: sw-resize;
-}
-[data-file='resizeup.svg'] {
-  cursor: n-resize;
-}
-[data-file='resizeupdown.svg'] {
-  cursor: ns-resize;
-  cursor: row-resize;
-}
-[data-file='textcursor.svg'] {
-  cursor: text;
-}
-[data-file='textcursorvertical.svg'] {
-  cursor: vertical-text;
-}
-[data-file='zoomin.svg'] {
-  cursor: zoom-in;
-}
-[data-file='zoomout.svg'] {
-  cursor: zoom-out;
-}
-[data-file='beachball.svg'] {
-}
-[data-file='screenshotselection.svg'] {
-}
-[data-file='screenshotwindow.svg'] {
-}
-[data-file='poof.svg'] {
-}
-[data-file='resizeeast.svg'] {
-}
-[data-file='resizenorth.svg'] {
-}
-[data-file='resizenorthsouth.svg'] {
-}
-[data-file='resizesouth.svg'] {
-}
-[data-file='resizewest.svg'] {
-}
-[data-file='resizewesteast.svg'] {
-}
+/* [data-file='busy.svg'] { */
+/*   cursor: wait; */
+/*   cursor: progress; */
+/* } */
+/* [data-file='cell.svg'] { */
+/*   cursor: cell; */
+/* } */
+/* [data-file='contextualmenu.svg'] { */
+/*   cursor: context-menu; */
+/* } */
+/* [data-file='copy.svg'] { */
+/*   cursor: copy; */
+/* } */
+/* [data-file='cross.svg'] { */
+/*   cursor: crosshair; */
+/* } */
+/* [data-file='default.svg'] { */
+/*   cursor: default; */
+/* } */
+/* [data-file='handgrabbing.svg'] { */
+/*   cursor: grabbing; */
+/* } */
+/* [data-file='handopen.svg'] { */
+/*   cursor: all-scroll; */
+/*   cursor: grab; */
+/* } */
+/* [data-file='handpointing.svg'] { */
+/*   cursor: pointer; */
+/* } */
+/* [data-file='help.svg'] { */
+/*   cursor: help; */
+/* } */
+/* [data-file='makealias.svg'] { */
+/*   cursor: alias; */
+/* } */
+/* [data-file='move.svg'] { */
+/*   cursor: move; */
+/* } */
+/* [data-file='notallowed.svg'] { */
+/*   cursor: not-allowed; */
+/*   cursor: no-drop; */
+/* } */
+/* [data-file='resizedown.svg'] { */
+/*   cursor: s-resize; */
+/* } */
+/* [data-file='resizeleft.svg'] { */
+/*   cursor: w-resize; */
+/* } */
+/* [data-file='resizeleftright.svg'] { */
+/*   cursor ew-resize; */
+/*   cursor: col-resize; */
+/* } */
+/* [data-file='resizenortheast.svg'] { */
+/*   cursor: ne-resize; */
+/* } */
+/* [data-file='resizenortheastsouthwest.svg'] { */
+/*   cursor: nesw-resize; */
+/* } */
+/* [data-file='resizenorthwest.svg'] { */
+/*   cursor: nw-resize; */
+/* } */
+/* [data-file='resizenorthwestsoutheast.svg'] { */
+/*   cursor: nwse-resize; */
+/* } */
+/* [data-file='resizeright.svg'] { */
+/*   cursor: e-resize; */
+/* } */
+/* [data-file='resizesoutheast.svg'] { */
+/*   cursor: se-resize; */
+/* } */
+/* [data-file='resizesouthwest.svg'] { */
+/*   cursor: sw-resize; */
+/* } */
+/* [data-file='resizeup.svg'] { */
+/*   cursor: n-resize; */
+/* } */
+/* [data-file='resizeupdown.svg'] { */
+/*   cursor: ns-resize; */
+/*   cursor: row-resize; */
+/* } */
+/* [data-file='textcursor.svg'] { */
+/*   cursor: text; */
+/* } */
+/* [data-file='textcursorvertical.svg'] { */
+/*   cursor: vertical-text; */
+/* } */
+/* [data-file='zoomin.svg'] { */
+/*   cursor: zoom-in; */
+/* } */
+/* [data-file='zoomout.svg'] { */
+/*   cursor: zoom-out; */
+/* } */
+/* [data-file='beachball.svg'] { */
+/* } */
+/* [data-file='screenshotselection.svg'] { */
+/* } */
+/* [data-file='screenshotwindow.svg'] { */
+/* } */
+/* [data-file='poof.svg'] { */
+/* } */
+/* [data-file='resizeeast.svg'] { */
+/* } */
+/* [data-file='resizenorth.svg'] { */
+/* } */
+/* [data-file='resizenorthsouth.svg'] { */
+/* } */
+/* [data-file='resizesouth.svg'] { */
+/* } */
+/* [data-file='resizewest.svg'] { */
+/* } */
+/* [data-file='resizewesteast.svg'] { */
+/* } */
 
 .attrib {
   font-size: 0.7rem;
@@ -265,5 +286,3 @@ section > div:hover > div:hover > svg {
 .attrib:hover {
   text-decoration: 0.5px solid underline;
 }
-
-

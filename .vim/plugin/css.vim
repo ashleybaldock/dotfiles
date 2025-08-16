@@ -134,6 +134,12 @@ command! -bar CssPrefixesReveal
 command! -bar -range=% -nargs=1 CssUnprefix <line1>,<line2> <Nop>
 
 
+"                                       TODO
+" Paste Into Existing Rules:
+"
+" Find matching selectors and add rules to those if possible
+"
+
 "
 " Remove units from zero values where they are not needed
 "  - Most properties don't need them, e.g. 0px, 0em, 0cqi all become 0

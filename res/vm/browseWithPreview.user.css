@@ -509,7 +509,6 @@ body > table > tbody > tr::before {
   --a: 20%;
   display: table-cell;
   white-space: preserve-spaces;
-  height: auto;
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
   mask-origin: padding-box;
   box-sizing: border-box;
@@ -522,28 +521,11 @@ body > table > tbody > tr::before {
   background-repeat: no-repeat;
   background-position: center;
   line-height: 1.1rem;
-  width: 2.4rem;
   mask-size: contain;
   text-align: center;
   mask-clip: no-clip;
   width: 2.2rem;
   height: 2.2rem;
-}
-body > table > tbody > :where(.paused, .playing) {
-  --s✕: 0.4;
-  --a: 100%;
-}
-body > table > tbody > :where(.paused, .playing) > td:first-child {
-  position: relative;
-}
-
-body > table > tbody > tr.paused::before {
-  mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
-  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E%3C/path%3E%3C/svg%3E');
-}
-body > table > tbody > tr.playing::before {
-  mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z%22%3E%3C/path%3E%3C/svg%3E');
-  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E%3C/path%3E%3C/svg%3E');
 }
 body > table > thead > tr::before {
   content: 'Playback';
@@ -558,14 +540,11 @@ table.ellipsis > tbody > tr > td {
 td:first-child > a {
   color: #fff;
   margin: 0;
-  height: 100%;
   width: 100%;
   display: block;
   font-family: Menlo, monospace;
   letter-spacing: 0.02ch;
-  padding: 0 2px;
   font-size: 1.1rem;
-  line-height: 1.1;
   border-width: 0;
   height: 1.4rem;
   padding: 0.4rem 0.5ch;
@@ -589,29 +568,33 @@ body > table > tbody > tr:hover {
     inset 0 -1px 5px -1px #333;
 }
 
-body > table > tbody > tr.playing::before,
-body > table > tbody > tr.paused::before {
+body > table > tbody > :where(.paused, .playing) {
+  --s✕: 0.4;
+  --a: 100%;
+}
+body > table > tbody > :where(.playing, .paused)::before {
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
   background-size: contain, contain;
   mask-size: 60%;
   overflow: visible;
-  background-repeat: no-repeat, repeat-y;
-  border-bottom: 2px solid #f0f6;
-  border-top: 2px solid #05fc;
-  border-left: 2px solid #0000;
-  border-right: 2px solid #0000;
   background-origin: content-box, border-box, border-box;
 }
-body > table > tbody > tr.paused::before {
+body > table > tbody > .paused::before {
+  mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
   background-image:
     url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E%3C/path%3E%3C/svg%3E'),
     linear-gradient(-45deg, #fff2, #0002), linear-gradient(45deg, #f00, #00f);
 }
-body > table > tbody > tr.playing::before {
+body > table > tbody > .playing::before {
+  mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z%22%3E%3C/path%3E%3C/svg%3E');
   background-image:
     url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E%3C/path%3E%3C/svg%3E')
       linear-gradient(-45deg, #fff2, #0002),
     linear-gradient(45deg, #f00, #00f);
+}
+
+body > table > tbody > :where(.paused, .playing) > td:first-child {
+  position: relative;
 }
 
 .file::before {

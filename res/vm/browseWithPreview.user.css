@@ -460,9 +460,10 @@ body > table > tbody > tr {
   --h: 90deg;
   --s: 40;
   --l: 10;
+  --a: 0;
   background-color: hsl(
     calc(var(--h) + var(--h±, 0deg)) calc(var(--s) * var(--s✕, 1))
-      calc(var(--l) * var(--l✕, 1))
+      calc(var(--l) * var(--l✕, 1) / calc(var(--a) * var(--a✕, 1)))
   );
 }
 body > table > tbody > tr:hover {
@@ -478,7 +479,7 @@ body > table > tbody > tr::before {
   --h: 90deg;
   --s: 60;
   --l: 30;
-  --a: 0;
+  --a: 0.2;
   background-color: hsl(
     calc(var(--h) + var(--h±, 0deg)) calc(var(--s) * var(--s✕, 1))
       calc(var(--l) * var(--l✕, 1) / calc(var(--a) * var(--a✕, 1)))
@@ -510,6 +511,7 @@ body > table > tbody > tr.playing::before {
 }
 body > table > tbody > tr.paused {
   --s✕: 0.4;
+  --a: 1;
 }
 body > table > tbody > tr.paused > td:first-child {
   position: relative;
@@ -575,19 +577,13 @@ a:has([src="moz-icon://.mp4?size=16"])::before
   margin: 0 0.4ch 0 0.2ch;
 }
 
-td:first-child > a:hover {
+a:hover {
   text-decoration: none;
-  box-shadow:
-    inset 0px 1.5px 3px -1px #fff,
-    inset 0 -1px 5px -1px #000;
 }
 
-td:first-child > a:hover {
-  text-decoration: none;
-  text-decoration:;
+body > table > tbody > tr:hover {
   box-shadow:
     inset 0px 1.5px 3px -1px #fffa,
     inset 0 -1px 5px -1px #000;
-  text-decoration:;
   overflow: visible;
 }

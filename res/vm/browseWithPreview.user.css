@@ -191,19 +191,6 @@ body > table {
 {
   display: none;
 }
-a:has([src="moz-icon://.mp4?size=16"])::before
-{
-  content: 'mp4';
-  margin-left: 0;
-  font-size: 1rem;
-  margin: 0 0.4rem 0 0.2rem;
-  background: #eee;
-  color: #000;
-  font-weight: bold;
-  padding: 0 2px 0.5px 2px;
-  font-family: monospace;
-  border-radius: 1px / 8px;
-}
 .file:has(> img) {
   margin-inline-start: 0;
   margin: 0;
@@ -547,35 +534,15 @@ body > table > tbody > tr > td {
   padding: 0;
 }
 
-a:has([src="moz-icon://.mp4?size=16"])::before
-{
-  content: 'mp4';
-  margin-left: 0;
-  background: #eee;
-  color: #000;
-  font-weight: bold;
-  padding: 0;
-  font-family: Menlo, monospace;
-  border-radius: 6px / 40px;
-  letter-spacing: 0;
-  max-width: 4.4ch;
-  display: inline-block;
-  width: 3.5ch;
-  text-align: center;
-  font-size: 1em;
-  margin: 0 0.4ch 0 0.2ch;
-  font-variant: all-small-caps;
-}
-
 a:hover {
   text-decoration: none;
 }
 
 body > table > tbody > tr:hover {
+  overflow: visible;
   box-shadow:
     inset 0px 1.5px 3px -1px #fffa,
-    inset 0 -1px 5px -1px #000;
-  overflow: visible;
+    inset 0 -1px 5px -1px #333;
 }
 
 body > table > tbody > tr.paused::before {
@@ -592,4 +559,64 @@ body > table > tbody > tr.paused::before {
   border-left: 2px solid #0000;
   border-right: 2px solid #0000;
   background-origin: content-box, border-box, border-box;
+}
+
+.file::before {
+  content: '';
+  margin-left: 0;
+  background: #eee;
+  color: #000;
+  font-weight: bold;
+  padding: 0.16em 0 0.1em 0.1ch;
+  font-family: Menlo, monospace;
+  border-radius: 6px / 40px;
+  letter-spacing: 0;
+  max-width: 3.5ch;
+  display: inline-block;
+  width: 3.5ch;
+  text-align: center;
+  font-size: 0.86em;
+  margin: 0 0.5ch 0 0ch;
+  text-transform: uppercase;
+  line-height: 1em;
+}
+td:nth-child(n + 2) {
+  font-size: 0.7em;
+}
+
+.file:has(> [src="moz-icon://.mp4?size=16"])::before
+{
+  content: 'mp4';
+}
+.file:has(> [src="moz-icon://.png?size=16"])::before
+{
+  content: 'png';
+}
+.file:has(> [src="moz-icon://.jpg?size=16"])::before
+{
+  content: 'jpg';
+}
+.file:has(> [src="moz-icon://.jpeg?size=16"])::before
+{
+  content: 'jpg';
+}
+.file:has(> [src="moz-icon://.gif?size=16"])::before
+{
+  content: 'gif';
+}
+.file:has(> [src="moz-icon://.html?size=16"])::before
+{
+  content: 'html';
+}
+.file:has(> [src="moz-icon://.css?size=16"])::before
+{
+  content: 'css';
+}
+.file:has(> [src="moz-icon://.js?size=16"])::before
+{
+  content: 'js';
+}
+.file:has(> [src="moz-icon://.ts?size=16"])::before
+{
+  content: 'ts';
 }

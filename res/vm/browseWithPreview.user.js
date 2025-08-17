@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.83
+// @version     1.0.86
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -65,11 +65,12 @@ const addWrappedVideo = (
         )
         .forEach((tr) => {
           tr.classList.remove('paused');
-          tr.classList.add('playing', `i${options.class}`);
+          tr.classList.add('playing');
+          tr.dataset.playerid = options.class;
           video.addEventListener(
             'ended',
             () => {
-              tr.classList.remove(`i${options.class}`);
+              tr.dataset.playerid = '';
             },
             { once: true },
           );
@@ -89,7 +90,8 @@ const addWrappedVideo = (
         )
         .forEach((tr) => {
           tr.classList.remove('playing');
-          tr.classList.add('paused', `i${options.class}`);
+          tr.classList.add('paused');
+          tr.dataset.playerid = options.class;
         });
     },
     {},

@@ -1,0 +1,66 @@
+body::before {
+  --s-focus: 'focus';
+  content: '\a0' var(--s-focus, '') var(--s-state, '') !important;
+  visibility: visible !important;
+  display: block !important;
+  position: fixed !important;
+  z-index: 10000000 !important;
+  top: 4px !important;
+  left: 4px !important;
+  border: 1px solid #f00 !important;
+  border-radius: 50% !important;
+  box-shadow:
+    rgb(112, 0, 0) 0 0 1px 1px inset,
+    rgb(112, 0, 0) 0 0 1px 1px;
+  background-color: transparent;
+  opacity: 0.4;
+  width: 1ch !important;
+  height: 1ch !important;
+  line-height: 1;
+  text-align: center;
+  font-family: monospace;
+  margin: 0 0 0 -2px;
+  font-size: 10px;
+  background-image: radial-gradient(
+    circle at center,
+    #f00 0% 20%,
+    #f000 26% 40%,
+    #f00 50% 100%
+  );
+}
+body:hover::before {
+  opacity: 1;
+}
+
+body:is(:focus, :focus-within, :focus-visible) {
+  --focus: ;
+  --￢focus: initial;
+}
+body.focused::before,
+body:is(:focus, :focus-within, :focus-visible)::before {
+  --s-focus: 'focused';
+  background-color: #f00 !important;
+  opacity: 0.9;
+  transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow:
+    rgb(255, 242, 242) 0 0 0 1.3px inset,
+    rgb(112, 0, 0) 0 0 1px 1px;
+}
+
+#focusStatus {
+  position: fixed;
+  background-color: #f00;
+  width: 100vw;
+  height: 0;
+  z-index: 1000;
+}
+
+.focused #focusStatus {
+  height: 1px;
+}
+
+/* --＃＄％＆（）＊＋－／０１２３４５６７８９: ''; */
+/* --＜＝＞？＠［＼］＿｛｜｝～￠￡￢￣￤█████████████: ''; */
+/* --ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ: ''; */
+/* --ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ: ''; */
+/* --🄀-⒈-⒉-⒊-⒋-⒌-⒍-⒎-⒏-⒐-⒑-⒒-⒓-⒔-⒕-⒖-⒗-⒘-⒙-⒚-⒛-: ''; */

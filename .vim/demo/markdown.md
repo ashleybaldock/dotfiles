@@ -52,9 +52,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 
 |      Example      |         Syntax         |    Alternate Syntax    |
 | :---------------: | :--------------------: | :--------------------: |
-|       **Bold**    |      \*\*Bold\*\*      |      \_\_Bold\_\_      |
+|     **Bold**      |      \*\*Bold\*\*      |      \_\_Bold\_\_      |
 |                   |    \\*\\*Bold\\_\\_    |                        |
-|      *Italic*     |       \*Italic\*       |       \_Italic\_       |
+|     *Italic*      |       \*Italic\*       |       \_Italic\_       |
 |                   |                        |                        |
 | **_BoldItalic_**  | \*\*\*BoldItalic\*\*\* | \_\_\_BoldItalic\_\_\_ |
 |                   |                        |                        |
@@ -82,14 +82,18 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 
 ## Paragraphs
 
-```
-Paragraph the first.⏎
-⏎
-Paragraph the second.⏎
-Second continued...⏎
-Two newlines start a paragraph⏎¶
-⏎
-And a third one.⏎
+```pre
+╶────────▶
+
+->----->
+<----
+Paragraph the first.⏎️
+⏎️
+Paragraph the second.⏎️
+Second continued...⏎️
+Two newlines start a paragraph⏎️¶
+⏎️
+And a third one.⏎️
 ```
 
 ## Quotes

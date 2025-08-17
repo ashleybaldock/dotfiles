@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.65
+// @version     1.0.66
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -212,15 +212,6 @@ const initBrowsePreview = ({ document }) => {
       },
     });
 
-    const onMaxPlayerCountChange = (newMax) => {
-      const newPlayerCount = min(filelist.length, newMax);
-      if (mediaPlayers.length > newPlayerCount) {
-        mediaPlayers.slice(newPlayerCount).forEach((mediaPlayer) => {
-          mediaPlayer.classList.add('off');
-        });
-      }
-    };
-
     const playNext = (video) => {
       video.src = filelist?.next().value;
       video.volume = 0;
@@ -228,6 +219,30 @@ const initBrowsePreview = ({ document }) => {
       video.play();
     };
     const onEndedPlayNext = ({ target }) => playNext(target);
+
+    const updateMediaPlayerCount = (count) => {
+      const newPlayerCount = min(filelist.length, newMax);
+      if (mediaPlayers.length > newPlayerCount) {
+        mediaPlayers.slice(newPlayerCount).forEach((mediaPlayer) => {
+          mediaPlayer.classList.add('off');
+        });
+      } else if (mediaPlayers.length < newPlayerCount) {
+        for (const i = mediaPlayers.length - 1; i < newPlayerCount; i++) {
+          mediaPlayers.push(addWrappedVideo(container, { class: `i${i}` }));
+        }
+      }
+      mediaPlayers.forEach((mediaPlayer, i) => {
+        if (i < newPlayerCount) {
+          mediaPlayer.classList.remove('off');
+          if (!mediaPlayer.playing) {
+            playNext(mediaPlayer);
+          }
+        }
+      });
+      for (const x = 0; x < newPlayerCount; x++) {}
+    };
+
+    const unsub = config.subscribe_maxInterleaved(updateMediaPlayerCount);
 
     const resetHandlers = [];
     const reset = () => {

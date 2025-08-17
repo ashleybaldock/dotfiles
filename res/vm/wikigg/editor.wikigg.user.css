@@ -1,0 +1,1301 @@
+/*
+ * Changes to the wiki editor UI
+ *
+ * See also: 
+ *   ./codemirror.wikigg.user.css (changes specific to CodeMirror)
+ *   ./ace.wikigg.user.css        (changes specific to ACE)
+ */
+
+.tdg-editscreen-main {
+  flex-direction: column;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+}
+
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled > .oo-ui-buttonElement-button {
+  min-height: 26px;
+  padding: 0 0.7em;
+  line-height: 1.6;
+  background-color: #eba826;
+  color: #000;
+  border-color: #ebbd49 #a7740b #a7740b #ebbd49;
+  border-width: 0.08em 0.14em 0.08em 0.14em;
+  border-radius: 0.1em 0.6em;
+}
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled
+  > .oo-ui-buttonElement-button:hover {
+  background-color: #eba826;
+  border-color: #ebbd49 #a7740b #a7740b #ebbd49;
+}
+
+.oo-ui-dropdownWidget-handle:hover,
+.oo-ui-dropdownWidget.oo-ui-widget-enabled:hover .oo-ui-dropdownWidget-handle,
+.oo-ui-dropdownInputWidget.oo-ui-widget-enabled:hover select,
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled
+  > .oo-ui-buttonElement-button:hover {
+  border-width: 0.08em 0.14em 0.08em 0.14em;
+  border-radius: 0.1em 0.6em;
+}
+
+.tdg-editscreen-edit-notice.oo-ui-widget.oo-ui-widget-enabled.oo-ui-iconElement.oo-ui-messageWidget-block.oo-ui-messageWidget.oo-ui-labelElement.oo-ui-flaggedElement-warning {
+  background-color: #000;
+  color: #da9d00;
+  border-radius: 0.1em 0.5em;
+  box-shadow: 0 0 2px 1px #000a;
+  text-shadow: 0.1em 0.1em 0.2em #a50a;
+  padding: 2.2em 1em 0.2em 0.6em;
+  display: flex;
+  border: 0.5px solid #ac6600;
+  border-width: 0 0 0.6px 3px;
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+  z-index: -1;
+  margin-top: 0;
+}
+
+.tdg-editscreen-edit-notice.oo-ui-messageWidget.oo-ui-messageWidget-block
+  > .oo-ui-iconElement-icon {
+  background-position: bottom center;
+  min-height: unset;
+  width: 1.2em;
+  height: auto;
+  aspect-ratio: 1;
+  position: unset;
+  margin-left: 0.6em;
+}
+.tdg-editscreen-edit-notice.oo-ui-messageWidget.oo-ui-messageWidget-block
+  > .oo-ui-labelElement-label {
+  margin-left: 0.6em;
+}
+.mw-message-box-warning {
+  background-color: #050505;
+  color: #e0a100;
+  border-radius: 0.1em 1em;
+  box-shadow: 0 0 2px 1px #000a;
+  text-shadow: 0.1em 0.1em 0.2em #a50a;
+  padding: 0.2em 1em 0.3em 0.6em;
+  display: flex;
+  border: 0.5px solid #ac6600;
+  border-width: 0 0 0.6px 3px;
+}
+
+.mw-logline-protect {
+  color: #dac58e;
+}
+.cdx-message--warning ul {
+  display: flex;
+  margin: 0;
+  list-style: none;
+}
+.mw-logevent-loglines ul li {
+  display: block;
+  list-style-image: none;
+}
+
+.tdg-editscreen-main-helplink {
+  margin: 0;
+  font-size: 0.9em;
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.tdg-editscreen-main > .oo-ui-buttonElement {
+  grid-column: 1;
+  grid-row: 1;
+  padding: 0 0.6em 0;
+}
+
+#mw-usercssyoucanpreview,
+.mw-userconfigpublic {
+  display: none;
+}
+
+/**/
+
+/*
+ *
+ *
+ */
+/*** Top Editing toolbar ***/
+.wikiEditor-ui .wikiEditor-ui-top {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+/* Realtime preview button (topright of menu) */
+#wikiEditor-section-secondary,
+.wikiEditor-ui-toolbar .group {
+  min-height: 1em;
+}
+/* edit bar buttons */
+.oo-ui-buttonElement-frameless.oo-ui-iconElement > .oo-ui-buttonElement-button {
+  padding: 0.2em 1em;
+}
+
+/*
+ *
+ *
+ */
+/*** Edit options bottom bar save/preview etc. ***/
+.editOptions {
+  background-color: var(--content-background);
+  z-index: 100;
+  position: sticky;
+  bottom: 0;
+  margin-bottom: 0;
+  display: grid;
+  grid-row-gap: 0.1em;
+  width: 100%;
+
+  row-gap: 0;
+  column-gap: 0;
+  --button-space: 0.16rem;
+  --outer-radius: 0.6rem;
+  --button-radius: 0.1rem;
+  padding: 0 0 1.4rem 0;
+  grid-template-columns:
+    [left
+    summary-start prevpage-start] 2fr 3fr 2fr [prevpage-end] 1em [
+    minor-start] auto [minor-end
+    watch-start] auto [watch-end summary-end
+    buttons-start] 1fr 1fr 1fr [buttons-end right];
+  grid-template-rows: [top] 142fr 100fr auto [bottom];
+  box-shadow: 0 -2px 6px 0 #000;
+  background-clip: padding-box;
+  border-width: 0;
+  border-top-width: 0.8em;
+  border-top-color: transparent;
+}
+
+/* Preview of summary message */
+.mw-summary-preview {
+  grid-column: 1/-1;
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8em;
+}
+.mw-summary-preview > span {
+  font-size: 1.1em;
+}
+
+/* ----------------------------------------------- Checkboxes */
+.editCheckboxes .oo-ui-horizontalLayout,
+#wpSummaryLabel .oo-ui-fieldLayout-header {
+  position: absolute;
+  z-index: 100;
+  background-color: #000;
+  border: 1px solid var(--bd-darker);
+  border-radius: 10px;
+  padding: 0 1em;
+  box-shadow: 0 1px 2px 1px #000;
+  top: 1px;
+  line-height: 0.8;
+}
+.editCheckboxes .oo-ui-horizontalLayout {
+  font-size: 0.78em;
+  right: 0;
+}
+
+.editCheckboxes .oo-ui-horizontalLayout,
+#wpSummaryLabel .oo-ui-fieldLayout-header {
+  white-space: nowrap;
+  right: unset;
+  left: unset;
+}
+
+/* Default */
+.oo-ui-checkboxInputWidget [type='checkbox'] + span {
+  background-size: 16px;
+  background-color: #444;
+  border-color: #a7740b;
+}
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled
+  [type='checkbox']:checked
+  + span,
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled
+  [type='checkbox']:indeterminate
+  + span {
+  background-color: #ffac00;
+  border-color: #ffac00;
+  background-size: 14px;
+}
+
+/* Hover */
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled [type='checkbox']:hover + span {
+  border-color: #a7740b;
+}
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled
+  [type='checkbox']:checked:hover
+  + span,
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled
+  [type='checkbox']:indeterminate:hover
+  + span {
+  background-color: #ffac00;
+  border-color: #ffac00;
+}
+
+/* Active */
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled
+  [type='checkbox']:active
+  + span {
+  background-color: #ffac00;
+  border-color: #cbaf76;
+  box-shadow: inset 0 0 0 1px #523a0a;
+}
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled
+  :where(
+    [type='checkbox']:checked:active,
+    [type='checkbox']:indeterminate:active
+  )
+  + span {
+  background-color: #c98700;
+  border-color: #be8000;
+  box-shadow: inset 0 0 0 1px #cf8c00;
+}
+
+:root {
+  --bgc-primary-button: #ffac00;
+  --bdc-primary-button: #ffab00;
+
+  --hlc-primary-button: #fff;
+
+  --bgc-active-button: #c98700;
+  --bdc-active-button: #be8000;
+  --bsc-active-button: #cf8c00;
+}
+
+/* Focus */
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled [type='checkbox']:focus + span {
+  background-color: var(--bgc-primary-button, #ffac00);
+  border-color: var(--bdc-primary-button, #ffab00);
+  box-shadow: inset 0 0 0 1px var(--bgc-primary-button, #ffac00);
+}
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled
+  :where([type='checkbox']:checked:focus, [type='checkbox']:indeterminate:focus)
+  + span {
+  background-color: var(--bgc-primary-button, #ffac00);
+  border-color: var(--bdc-primary-button, #ffab00);
+  box-shadow: inset 0 0 0 1px var(--bgc-primary-button, #ffac00),
+    0 0 3px -1px var(--hlc-primary-button, #fff);
+}
+
+#wpSummaryLabel .oo-ui-fieldLayout-header {
+  font-size: 0.84em;
+  left: 6em;
+}
+#wpSummary {
+  width: 100%;
+  max-width: unset;
+  min-width: unset;
+}
+#editpage-copywarn {
+  display: none;
+}
+.oo-ui-checkboxInputWidget [type='checkbox'] + span {
+  width: 1.1em;
+  height: 1.1em;
+  min-width: 0;
+  min-height: 0;
+  margin-top: 2px;
+}
+
+#wpTemplateSandboxPreview,
+#wpSave,
+#wpDiff,
+#wpPreview,
+.cancelLink {
+  width: fit-content;
+  border: none;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0.2em 0.6em;
+  white-space: break-spaces;
+  height: 1.2em;
+  background-color: transparent;
+  color: #ffdb91;
+  letter-spacing: 0.04em;
+  font-weight: normal;
+}
+#mw-editform-cancel .oo-ui-buttonElement-button,
+#mw-editform-cancel .oo-ui-buttonElement-button:visited {
+  color: #ffdb91;
+  letter-spacing: 0.04em;
+  font-weight: normal;
+}
+
+#wpTemplateSandboxPreview > .oo-ui-inputWidget-input {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  grid-column: 4;
+  color: #ffdb91;
+  letter-spacing: 0.04em;
+  font-weight: normal;
+}
+
+#wpTemplateSandboxPreview,
+#wpSave,
+#wpPreview,
+#wpDiff {
+  padding: 0.2em 0.4em 0.2em 0.4em;
+  line-height: 1;
+  min-height: unset;
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  height: 100%;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+#wpSummaryLabel {
+  flex: 1 0 auto;
+  display: contents;
+}
+.editButtons {
+  flex: 1 1 auto;
+  display: contents;
+}
+.editButtons > * {
+  display: flex;
+  flex: 0 0 4em;
+}
+
+#wpDiffWidget {
+  order: 7;
+}
+#wpPreviewWidget {
+  grid-row: 2;
+}
+.cancelLink {
+  order: 3;
+}
+#wpSaveWidget,
+#mw-editform-cancel,
+#wpDiffWidget,
+#wpPreviewWidget {
+  min-height: unset;
+  font-size: 0.8em;
+  background-color: #a7740b11;
+  border: 1px outset #a7740b;
+  padding: 0;
+  margin: 0;
+  color: #ffdb91;
+  letter-spacing: 0.04em;
+  font-weight: normal;
+  border-radius: 0 0 12px 0;
+  height: 100%;
+  margin-left: 1px;
+}
+
+#editform {
+  height: fit-content;
+}
+
+.editCheckboxes,
+#wpSummaryLabel :where(.oo-ui-fieldLayout-body, .oo-ui-fieldLayout-field),
+#wpTemplateSandboxPreview,
+#templatesandbox-editform,
+#templatesandbox-editform
+  :where(.oo-ui-fieldsetLayout-header, .oo-ui-actionFieldLayout),
+.oo-ui-fieldsetLayout-header,
+.oo-ui-fieldsetLayout-group,
+.oo-ui-fieldLayout-align-top.oo-ui-actionFieldLayout,
+.oo-ui-fieldLayout-body,
+.oo-ui-actionFieldLayout-button,
+.oo-ui-fieldLayout-field,
+.oo-ui-actionFieldLayout-input,
+#wpTemplateSandboxPage,
+.oo-ui-buttonElement.cancelLink,
+.mw-editform .cancelLink,
+.mw-editform .editHelp,
+#mw-editform-cancel,
+#wpSaveWidget,
+#wpPreviewWidget,
+#wpDiffWidget {
+  display: contents;
+}
+
+/* Summary Input */
+#wpSummaryWidget::before,
+#wpSummaryWidget:active::before,
+#wpSummaryWidget:focus-within::before,
+#wpSummaryWidget:focus::before {
+  position: absolute;
+  left: 1em;
+  font-family: monospace;
+  letter-spacing: 0.08em;
+  cursor: text;
+  pointer-events: none;
+  top: -1em;
+  border-inline-color: transparent;
+  opacity: 1;
+  content: 'Summary of changes';
+  background-color: #000;
+  border: 1px solid var(--bd-darker);
+  border-radius: 10px;
+  padding: 0.2em 1em;
+  box-shadow: 0 1px 2px 1px #000;
+  line-height: 0.8;
+  top: -1.1em;
+  font-size: 0.8em;
+}
+
+.mw-editform #wpSummaryWidget {
+  order: 2;
+  margin-bottom: 0;
+  flex: 1 1 100%;
+  position: relative;
+  grid-row: 1;
+  grid-column: 1 / -4;
+}
+:not(:has(#wpPreview)) .mw-editform #wpSummaryWidget {
+  grid-column: 1 / -3;
+}
+
+/* Summary: */
+#wpSummaryLabel .oo-ui-fieldLayout-header {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: baseline;
+  justify-self: end;
+  display: none;
+}
+
+#wpTemplateSandboxPage::before {
+  top: -1em;
+  font-size: 0.6em;
+  line-height: 1;
+  padding: 0.2em 0.6em;
+  border: 1px solid #443d2f;
+  border-inline-color: transparent;
+  background-color: #000;
+  border-radius: 1em;
+  opacity: 1;
+  content: 'Preview page';
+}
+/* Page title */
+#wpTemplateSandboxPage {
+  grid-row: 2;
+  grid-column: 2 / span 2;
+}
+/* Preview page with this template */
+#templatesandbox-editform .oo-ui-labelElement-label {
+  display: none;
+  grid-row: 2;
+  grid-column: 1;
+  margin-bottom: 0;
+  padding: 0.3em 1em;
+  font-weight: normal;
+  justify-self: end;
+  text-align: end;
+}
+
+input#wpSummary:user-valid::placeholder,
+input#wpSummary:user-invalid::placeholder {
+  content: '';
+}
+
+#mw-editform-cancel {
+  grid-column: 8;
+  order: 8;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#wpTemplateSandboxPage::before {
+  top: -1.1em;
+  font-size: 0.8em;
+}
+
+#wpTemplateSandboxPage::before {
+  content: 'Preview on page:';
+  z-index: 1;
+  grid-column: 1;
+  grid-row: 2;
+  text-align: center;
+  border: none;
+  border-radius: 0;
+  place-self: center stretch;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+#wpTemplateSandboxPage > .oo-ui-inputWidget-input {
+  margin-left: 0;
+  grid-row: 2;
+  grid-column: 2;
+  font-size: 0.9em;
+  line-height: 1;
+  height: 1.8em;
+}
+#wpTemplateSandboxPreview > .oo-ui-inputWidget-input {
+  grid-column: 3;
+  grid-row: 2;
+  min-height: unset;
+  font-size: 0.8em;
+  background-color: #a7740b11;
+  border: 1px outset #a7740b;
+  padding: 0;
+  margin: 0;
+  color: #ffdb91;
+  letter-spacing: 0.04em;
+  font-weight: normal;
+  border-radius: 0 0 12px 0;
+  height: 100%;
+  margin-left: 1px;
+}
+#wpTemplateSandboxPage::after {
+  grid-column: 1/4;
+  grid-row: 2;
+  content: '';
+  width: 100%;
+  height: 100%;
+  border: 1px solid white;
+}
+#wpTemplateSandboxPage::after {
+  grid-column: 1/4;
+  grid-row: 1/3;
+  content: '';
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--bd-darker);
+  border-radius: 0 0 1em 1em;
+  border-top: 0;
+}
+
+#mw-editform-cancel .oo-ui-buttonElement-button {
+  align-content: center;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#mw-editform-cancel .oo-ui-buttonElement-button > span {
+  line-height: unset;
+}
+
+.oo-ui-buttonElement-frameless.oo-ui-labelElement:first-child {
+  padding: 0;
+}
+
+.editCheckboxes .oo-ui-horizontalLayout {
+  right: 1em;
+}
+
+.editCheckboxes .oo-ui-horizontalLayout,
+#wpSummaryLabel .oo-ui-fieldLayout-header {
+  top: unset;
+  bottom: unset;
+  line-height: 0.8;
+  grid-column: 5 / span 3;
+  grid-row: 2;
+  align-self: center;
+  justify-self: start;
+  white-space: nowrap;
+  right: unset;
+  left: unset;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+#wpDiff,
+#wpPreview,
+#wpSave,
+#mw-editform-cancel .oo-ui-buttonElement-button {
+  min-height: unset;
+  font-size: 0.8em;
+  background-color: #a7740b11;
+  border: 1px outset #a7740b;
+  padding: 0;
+  margin: 0;
+  color: #ffdb91;
+  letter-spacing: 0.04em;
+  font-weight: normal;
+  height: 100%;
+  margin-left: 1px;
+  width: 100%;
+}
+#mw-editform-cancel .oo-ui-buttonElement-button {
+  border-radius: 0 12px 0 0;
+  grid-column: -2;
+  order: 8;
+  grid-row: 1;
+  white-space: wrap;
+}
+
+#wpSave {
+  border-radius: 0 0 12px 0;
+  grid-column: -4/-1;
+  order: 9;
+  grid-row: 2;
+  color: #f00f;
+  /*   font-weight: bold; */
+  font-size: 1em;
+  /*   text-shadow: 0.03em 0.01em 0 #944, -0.03em -0.01em 0 #499, -0.03em 0.01em 0 #499, 0.03em -0.01em 0 #949; */
+}
+
+#wpPreview {
+  border-radius: 0 0 0 0;
+  grid-row: 1;
+  grid-column: -4;
+  order: 6;
+  white-space: break-spaces;
+}
+
+#wpDiff {
+  border-radius: 0 0 0 0;
+  grid-row: 1;
+  grid-column: -3;
+  order: 7;
+  white-space: break-spaces;
+}
+
+:is(
+    #wpDiff,
+    #wpPreview,
+    #wpSave,
+    #mw-editform-cancel .oo-ui-buttonElement-button
+  ):hover {
+  background-color: #453108;
+}
+:is(
+    #wpDiff,
+    #wpPreview,
+    #wpSave,
+    #mw-editform-cancel .oo-ui-buttonElement-button
+  ):hover:active {
+  background-color: #453109;
+  border: 1px inset #a7740b;
+  box-shadow: inset 1px 1px 2px #002;
+  color: #ccc;
+}
+
+.oo-ui-tagMultiselectWidget,
+.oo-ui-tagMultiselectWidget.oo-ui-widget-enabled,
+.oo-ui-tagMultiselectWidget .oo-ui-tagMultiselectWidget-handle,
+.oo-ui-tagMultiselectWidget.oo-ui-widget-enabled
+  .oo-ui-tagMultiselectWidget-handle,
+.oo-ui-textInputWidget .oo-ui-inputWidget-input {
+  background-color: #070707;
+  border-radius: 0.1em 0.6em;
+}
+
+#wpTemplateSandboxPage::after {
+  margin-top: 0;
+}
+
+#templatesandbox-editform .oo-ui-fieldLayout::before,
+#templatesandbox-editform .oo-ui-fieldLayout::after {
+  display: none;
+}
+
+#wpSummaryLabel .oo-ui-fieldLayout-header {
+  display: none;
+}
+
+/* {{{2 Checkboxes */
+.editCheckboxes .oo-ui-horizontalLayout {
+  display: contents;
+}
+.editCheckboxes::before {
+  content: '';
+  grid-column: 5 / span 5;
+  grid-row: 1 / span 2;
+  border: 1px solid #78694d;
+  border-radius: 0 var(--outer-radius) var(--outer-radius) var(--outer-radius);
+  background-color: #0000;
+}
+
+.oo-ui-checkboxInputWidget [type='checkbox'] + span {
+  background-image: none;
+}
+
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled [type='checkbox']:focus + span {
+  background-color: #444;
+  border-color: #36c;
+  box-shadow: inset 0 0 0 0.4px #fff, 0 0 1px 1.4px #1db4ef;
+}
+
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled
+  [type='checkbox']:checked
+  + span,
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled
+  [type='checkbox']:indeterminate
+  + span {
+  background-position: center;
+  transform: inherit;
+  background-size: cover;
+}
+
+.oo-ui-checkboxInputWidget
+  [type='checkbox']:checked:not(:indeterminate)
+  + span {
+  background-image: url('data:image/svg+xml,\
+  %3Csvg xmlns=%22http://www.w3.org/2000/svg%22\
+  style=%22stroke-width: 40;stroke: %23000000%22\
+  viewBox=%220 0 448 512%22%3E\
+  %3Cpath d=%22\
+  M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256\
+  c-12.5 12.5-32.8 12.5-45.3 0l-128-128\
+  c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0\
+  L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z\
+  %22%3E%3C/path%3E%3C/svg%3E');
+}
+
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled
+  [type='checkbox']:checked:focus
+  + span,
+.oo-ui-checkboxInputWidget.oo-ui-widget-enabled
+  [type='checkbox']:indeterminate:focus
+  + span {
+  background-color: #ffab00;
+  border-color: #36c;
+  box-shadow: inset 0 0 0 0.4px #fff, 0 0 1px 1.4px #1db4ef;
+}
+
+/* {{{2 Editor buttons */
+#wpSummary {
+  border-radius: var(--button-radius) 0 0 var(--outer-radius);
+  border-right-width: 0;
+}
+
+#wpDiff,
+#wpPreview,
+#wpSave,
+#mw-editform-cancel .oo-ui-buttonElement-button {
+  margin-left: 0;
+  padding: 0 0.2em;
+  border-radius: 0.1rem;
+  text-decoration: 1px solid #ff00 underline;
+  margin: calc(var(--button-space) * 1);
+  box-sizing: content-box;
+  height: auto;
+  width: auto;
+  align-self: stretch;
+}
+#wpPreview {
+  border-radius: 0.1rem;
+  padding: 0 0.2em;
+  margin-right: calc(var(--button-space) * 0.5);
+  margin-bottom: calc(var(--button-space) * 0.5);
+}
+#wpDiff {
+  border-radius: var(--button-radius);
+  margin-left: calc(var(--button-space) * 0.5);
+  margin-right: calc(var(--button-space) * 0.5);
+  margin-bottom: calc(var(--button-space) * 0.5);
+}
+#mw-editform-cancel .oo-ui-buttonElement-button {
+  border-radius: var(--button-radius)
+    calc(var(--outer-radius) - var(--button-space)) var(--button-radius)
+    var(--button-radius);
+  margin-left: calc(var(--button-space) * 0.5);
+  margin-bottom: calc(var(--button-space) * 0.5);
+}
+#wpSave {
+  border-radius: var(--button-radius) var(--button-radius)
+    calc(var(--outer-radius) - var(--button-space)) var(--button-radius);
+  margin-top: calc(var(--button-space) * 0.5);
+}
+
+/* {{{2 Edit page checkbox options */
+#mw-editpage-minoredit {
+  display: flex;
+  gap: 1em;
+  grid-column: minor;
+  grid-row: 2;
+  padding: 1px 0 1px 0.8em;
+  align-self: center;
+}
+#mw-editpage-minoredit > .oo-ui-fieldLayout-body {
+  display: contents;
+}
+#mw-editpage-watch::before,
+#mw-editpage-watch::after,
+#mw-editpage-minoredit::before,
+#mw-editpage-minoredit::after {
+  display: none;
+}
+#mw-editpage-watch {
+  display: flex;
+  gap: 1em;
+  grid-column: watch;
+  grid-row: 2;
+  padding: 1px 0.4em 1px 0;
+  align-self: center;
+}
+#mw-editpage-watch > .oo-ui-fieldLayout-body {
+  display: contents;
+}
+
+.oo-ui-textInputWidget .oo-ui-inputWidget-input {
+  color: #eee;
+  border: 1px solid #78694d;
+}
+
+/* {{{1  Resizing drag handle */
+.ext-WikiEditor-ResizingDragBar {
+  background-color: #111;
+  border-block: 1px solid var(--pi-secondary-background);
+}
+.ext-WikiEditor-ResizingDragBar span {
+  background-color: var(--bd-darker);
+  width: 10%;
+  border: 2px solid #000;
+  height: 1px;
+  border-inline-width: 0;
+  border-radius: 1px;
+  outline: 1.5px solid var(--bd-darker);
+  transition-property: background, outline;
+  transition-duration: 80ms;
+  transition-timing-function: ease;
+}
+.ext-WikiEditor-ResizingDragBar:hover span {
+  background-color: #a07f3e;
+  outline: 1.5px solid #a07f3e;
+  transition-property: background, outline;
+  transition-duration: 80ms;
+  transition-timing-function: ease;
+}
+
+/* Edit box */
+
+.mw-message-box-warning {
+  color: #9a0000;
+}
+
+.codeEditor-status {
+  padding: 4px 0;
+}
+#wikiEditor-section-main {
+  display: flex;
+  gap: 2px;
+}
+
+.codeEditor-status-message,
+.codeEditor-status-line {
+  color: white;
+}
+.codeEditor-status-message,
+.codeEditor-status-line {
+  color: #f0f0f0;
+}
+
+.codeEditor-status {
+  border-top: 1px solid #222222;
+}
+.codeEditor-status-message {
+  border-left: 1px solid #555555;
+  border-right: 1px solid #555555;
+  width: auto;
+  display: flex;
+}
+
+.mw-message-box-error {
+  background-color: #000;
+  border-radius: 6px / 20px;
+}
+.mw-message-box-error.cdx-message--error {
+  padding: 0em 0.5em;
+  border: 1px dashed #c11;
+  font-size: 0.9em;
+  letter-spacing: 0.02em;
+  color: #eee;
+}
+
+.codeEditor-status {
+  background-color: #000;
+  color: white;
+}
+
+#wpSummary {
+  line-height: 1;
+}
+
+#mw-editform-cancel .oo-ui-buttonElement-button {
+  grid-column: cancel;
+}
+
+.wikiEditor-ui {
+  margin-bottom: 0;
+}
+
+.codeEditor-status-message {
+  order: 1;
+  border-left: none;
+}
+
+.codeEditor-status-line {
+  order: 3;
+  border-left: 1px solid #555;
+}
+
+.codeEditor-status-worker {
+  order: 2;
+  padding-left: 0.5em;
+}
+
+#wpDiff {
+  grid-column: diff;
+}
+
+.editOptions {
+  grid-template-columns: [left summary-start prevpage-start]2fr 3fr 2fr[prevpage-end]1em[minor-start]auto[minor-end watch-start]auto[watch-end summary-end buttons-start diff-start]1fr[diff-end cancel-start]1fr[cancel-end buttons-end right];
+  padding: 0 0 0.4rem;
+}
+
+#wpSave {
+  grid-column: buttons-start/span buttons-end;
+}
+
+.codeEditor-status {
+  position: sticky;
+  bottom: 5.4em;
+  top: 2em;
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  justify-content: end;
+  line-height: 1.3;
+  padding: 0;
+}
+
+.editor {
+  position: relative !important;
+}
+
+.mw-editform .editOptions {
+  background-color: #000;
+}
+
+.wikiEditor-ui {
+  margin-bottom: 10px;
+}
+.wikiEditor-ui .wikiEditor-ui-top {
+  border-bottom: 1px solid #222222;
+}
+.wikiEditor-ui-toolbar {
+  background: #060606;
+  box-shadow: none;
+  padding: 2px;
+  /*! display: flex; */
+}
+
+/* 
+.oo-ui-icon-indent,
+.oo-ui-icon-outdent,
+.oo-ui-icon-pilcrow,
+.oo-ui-icon-wrapping,
+.oo-ui-icon-gotoLine,
+.oo-ui-icon-articleSearch */
+:is(.group-codeeditor-main, .group-codeeditor-format, .group-codeeditor-style)
+  .oo-ui-buttonElement-frameless.oo-ui-widget-enabled.oo-ui-iconElement
+  .oo-ui-buttonElement-button {
+  background-color: #0a0365;
+  color: #f1f1f1;
+  border-radius: 2px;
+  box-shadow: inset 0 0 3px 0 #006644;
+}
+:is(.group-codeeditor-main, .group-codeeditor-format, .group-codeeditor-style)
+  .oo-ui-buttonElement-frameless.oo-ui-widget-enabled.oo-ui-iconElement
+  .oo-ui-buttonElement-button:hover {
+  box-shadow: inset 0 0 3px 0 #88aa88;
+  background-color: #0d0385;
+}
+.oo-ui-icon-indent {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23aaaaff;%22 width=%2220%22 height=%2220%22 viewBox=%220 0 20 20%22%3E%3Ctitle%3E indent %3C/title%3E%3Cpath d=%22M1 16h18v2H1zm8-9h10v2H9zm0 4h10v2H9zM1 2h18v2H1zm5 8-5 4V6z%22/%3E%3C/svg%3E');
+}
+.oo-ui-icon-outdent {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23aaaaff;%22 width=%2220%22 height=%2220%22 viewBox=%220 0 20 20%22%3E%3Ctitle%3E outdent %3C/title%3E%3Cpath d=%22M1 16h18v2H1zm8-9h10v2H9zm0 4h10v2H9zM1 2h18v2H1zm0 8 5 4V6z%22/%3E%3C/svg%3E');
+}
+
+.oo-ui-icon-pilcrow {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23aaaaff;%22 width=%2220%22 height=%2220%22 viewBox=%220 0 20 20%22%3E %3Ctitle%3E pilcrow %3C/title%3E %3Cpath d=%22m 7.388022%2C2 h 9.278109 v 2 h -2 V 18 H 12.666277 V 4.0001848 H 9.333065 V 18 H 7.333138 V 9.990386 C 5.7072798%2C9.883573 4.2194862%2C9.482099 3.3271547%2C8.787866 2.4423848%2C8.087294 2%2C7.156403 2%2C5.9949814 2%2C4.7959481 2.4915387%2C3.8302979 3.4746161%2C3.0981365 4.4576935%2C2.365975 5.7621616%2C2 7.388022%2C2 Z%22 /%3E %3C/svg%3E');
+}
+
+.oo-ui-icon-wrapping {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23aaaaff;%22 width=%2220%22 height=%2220%22 viewBox=%220 0 20 20%22%3E %3Ctitle%3E wrapping %3C/title%3E %3Cpath d=%22m 1%2C5 v 2 h 14 c 1.125297%2C0 2%2C0.8747028 2%2C2 0%2C1.125297 -0.874703%2C2 -2%2C2 H 14 V 9 l -3%2C3 3%2C3 v -2 h 1 c 2.198703%2C0 4%2C-1.801297 4%2C-4 0%2C-2.1987028 -1.801297%2C-4 -4%2C-4 z%22 /%3E %3Cpath d=%22m 1%2C13 h 8 v 2 H 1 Z%22 /%3E %3Cpath d=%22m 1%2C9 h 8 v 2 H 1 Z%22 /%3E %3C/svg%3E');
+}
+.oo-ui-icon-gotoLine {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23aaaaff;%22 width=%2220%22 height=%2220%22 viewBox=%220 0 20 20%22%3E %3Ctitle%3E go to line %3C/title%3E %3Cpath d=%22M 2%2C6 H 3 V 1 H 1 v 1 h 1 z m -1%2C9 h 2 v 1 H 2 v 1 h 1 v 1 H 1 v 1 H 4 V 14 H 1 Z M 3.5%2C8 H 1 v 1 h 2 v 1 H 1.5 C 1.2238576%2C10 1%2C10.223858 1%2C10.5 V 13 H 4 V 12 H 2 V 11 H 3.5 C 3.7761424%2C11 4%2C10.776142 4%2C10.5 v -2 C 4%2C8.2238576 3.7761424%2C8 3.5%2C8 Z%22 /%3E %3Cpath d=%22M 10%2C7.5 6%2C10 10%2C12.5 V 11 h 9 V 9 h -9 z%22 /%3E %3C/svg%3E');
+}
+.oo-ui-icon-articleSearch {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23aaaaff;%22 width=%2220%22 height=%2220%22 viewBox=%220 0 20 20%22%3E%3Ctitle%3E article search %3C/title%3E%3Cpath d=%22M12.43 14.34A5 5 0 0 1 10 15a5 5 0 1 1 3.95-2L17 16.09V3a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 1.45-.63z%22/%3E%3Ccircle cx=%2210%22 cy=%2210%22 r=%223%22/%3E%3C/svg%3E');
+}
+
+.editOptions {
+  grid-template-columns: [left summary-start prevpage-start]10fr 30fr 14fr[prevpage-end]1em[minor-start]auto[minor-end watch-start]auto[watch-end summary-end buttons-start diff-start]10fr[diff-end cancel-start]10fr[cancel-end buttons-end right];
+  padding: 0 0 0.4rem;
+  --outer-radius: 1rem;
+  --inset-margin: calc(var(--button-space) * 1);
+  --inset-radius: calc(var(--outer-radius) - var(--inset-margin));
+}
+
+#wpTemplateSandboxPage::after {
+  border-radius: 0 0 1em var(--outer-radius);
+  margin-bottom: 0;
+}
+
+.editCheckboxes::before {
+  grid-column: 1/-1;
+  border-radius: var(--outer-radius);
+  padding: 0;
+  height: 100%;
+  border-style: outset;
+  display: block;
+}
+
+#wpSave {
+  border-radius: var(--button-radius) var(--button-radius) var(--inset-radius)
+    var(--button-radius);
+  line-height: 1;
+  border-color: #a7300b;
+  padding: 0 0.2em;
+  text-decoration: none;
+  color: #b30000;
+  background-color: #f002;
+  text-shadow: var(--text-outline-1px-white);
+}
+
+#mw-editform-cancel .oo-ui-buttonElement-button {
+  border-radius: var(--button-radius) var(--inset-radius) var(--button-radius)
+    var(--button-radius);
+}
+
+#mw-editform-cancel .oo-ui-buttonElement-button,
+#wpDiff,
+#wpPreview,
+#wpSave {
+  margin: var(--inset-margin);
+  height: calc(100% - (var(--button-space) * 2));
+}
+
+:is(
+    #wpDiff,
+    #wpPreview,
+    #wpSave,
+    #mw-editform-cancel .oo-ui-buttonElement-button
+  ):hover {
+  color: red;
+  box-shadow: inset 0 0 4px #c00;
+  text-decoration: none;
+}
+
+#ooui-php-1 {
+  border-radius: 0 0 0 12px;
+}
+
+.oo-ui-textInputWidget.oo-ui-widget-enabled
+  .oo-ui-inputWidget-input::placeholder {
+  opacity: 0;
+}
+
+#wpSummaryWidget::before,
+#wpSummaryWidget:active::before,
+#wpSummaryWidget:focus-within::before,
+#wpSummaryWidget:focus::before {
+  content: "What's \a changed:";
+  background-color: #0000;
+  border-radius: 0 0 10px 0;
+  padding: 0.2em;
+  box-shadow: 0 1px 2px 1px #0000;
+  line-height: 1.1;
+  top: 3px;
+  font-size: 0.7em;
+  text-align: right;
+  left: 6px;
+  border-width: 0;
+  white-space: pre-wrap;
+  color: #ddd;
+}
+
+#wpTemplateSandboxPage::before {
+  padding: 0 0 0 7px;
+  font-family: monospace;
+  letter-spacing: 0.08em;
+  font-size: 0.7em;
+  color: #eee;
+  width: min-content;
+  white-space: nowrap;
+}
+
+#wpTemplateSandboxPage::after {
+  border-color: #0000 var(--bd-darker) var(--bd-darker) #0000;
+}
+
+#wpTemplateSandboxPage > .oo-ui-inputWidget-input {
+  grid-column: 1 / span 2;
+}
+
+#wpTemplateSandboxPreview > .oo-ui-inputWidget-input {
+  font-size: 0.7em;
+  height: auto;
+  margin-right: 0;
+}
+
+#wpSummary {
+  padding: 6px 0.3em 6px 4.4em;
+  margin: 2px 0 2px 2px;
+  height: auto;
+  list-style: 1;
+  border-radius: var(--inset-radius) 0 0 0;
+}
+
+#wpTemplateSandboxPage::before {
+  content: 'Preview on page:';
+  grid-column: 1;
+}
+
+#ooui-php-1 {
+  margin: 0 0 0 2px !important;
+  border-radius: var(--button-radius) var(--button-radius) var(--button-radius)
+    var(--inset-radius);
+  border-right-color: #000;
+  border-right-width: 6px;
+}
+
+[name='wpTemplateSandboxPreview'] {
+  margin-bottom: 1px !important;
+}
+
+/*
+ * Scribunto Debug Console
+ */
+.mw-scribunto-console-fieldset {
+  background: #1b0a0a;
+  color: #eee;
+  border-color: var(--bd-darker);
+  border-radius: 0.2rem 0.8rem;
+}
+#mw-scribunto-console legend {
+  background: #222;
+  font-weight: normal;
+  font-size: 0.9em;
+  padding: 0 1em;
+  border: 1px solid var(--bd-darker);
+  color: var(--content-hover-border-color);
+  text-transform: capitalize;
+  letter-spacing: 0.06em;
+  border-radius: 0.6rem;
+}
+#mw-scribunto-input {
+  background: #111;
+  color: #2e2;
+  letter-spacing: 0.02em;
+  font-family: monospace;
+  line-height: 1.3;
+  padding: 0.6em 1em;
+  box-shadow: inset -0.5px -1px 3px -2px currentColor;
+  border: 0.4px solid var(--bd-darker);
+  border-style: inset;
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  text-shadow: 0.4px 0.4px 0.1px #000, 0.6px 0.6px 0.6px #080;
+  filter: blur(0.1px);
+  height: 12lh;
+  border-top-width: 0;
+  border-radius: 0.3rem;
+  padding-top: 5em;
+  margin-top: -5em;
+  /*! background-color: #0000; */
+}
+
+.mw-scribunto-console-fieldset {
+  background: #1b0a0a;
+  color: #eee;
+  border-color: var(--bd-darker);
+  border-radius: 0.2rem 0.8rem;
+  resize: vertical;
+}
+#mw-scribunto-console legend {
+  background: #222;
+  font-weight: normal;
+  font-size: 0.9em;
+  padding: 0 1em;
+  border: 1px solid var(--bd-darker);
+  color: var(--content-hover-border-color);
+  text-transform: capitalize;
+  letter-spacing: 0.06em;
+  border-radius: 0.6rem;
+}
+#mw-scribunto-output {
+  padding: 0.8em 1em;
+  box-shadow: inset 5px 6px 6px -5px #000;
+  border: 0.4px solid var(--bd-darker);
+  border-style: inset;
+  margin-top: 0.5em;
+  border-bottom-width: 0;
+  border-radius: 0.3rem 0.3rem 0 0;
+  background: #111;
+}
+#mw-scribunto-input {
+  background: #111;
+  color: #2e2;
+  letter-spacing: 0.02em;
+  font-family: monospace;
+  line-height: 1.3;
+  padding: 0.6em 1em;
+  box-shadow: inset -0.5px -1px 3px -2px currentColor;
+  border: 0.4px solid var(--bd-darker);
+  border-style: inset;
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  text-shadow: 0.4px 0.4px 0.1px #000, 0.6px 0.6px 0.6px #080;
+  filter: blur(0.1px);
+  min-height: 12lh;
+  border-top-width: 0;
+  border-radius: 0.3rem;
+  padding-top: 5em;
+  margin-top: -5em;
+  /*! background-color: #0000; */
+  height: 100%;
+  overflow-y: scroll;
+  max-height: 60vh;
+}
+
+.mw-scribunto-message,
+.mw-scribunto-print,
+.mw-scribunto-input,
+.mw-scribunto-error,
+.mw-scribunto-error > p {
+  background: #111;
+  color: #2e2;
+  letter-spacing: 0.02em;
+  font-family: monospace;
+  line-height: 1.4;
+  text-shadow: 0.4px 0.4px 0.1px #000, 0.6px 0.6px 0.6px #080;
+  filter: blur(0.1px);
+  font-size: 0.8rem;
+  margin: 0;
+}
+.mw-scribunto-input::before {
+  content: 'ᐳ';
+  font-weight: normal;
+  font-size: 0.8em;
+  vertical-align: 1px;
+  width: 1ch;
+  margin-right: 1rch;
+}
+.mw-scribunto-message::before {
+  content: '  Lua Debug Console';
+  display: block;
+  margin-bottom: 1lh;
+}
+.mw-scribunto-print::before {
+  content: '  ';
+}
+.mw-scribunto-error > p::before {
+  content: '‼︎ ';
+  color: #111;
+  background-color: #2e2;
+}

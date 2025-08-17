@@ -1,0 +1,1279 @@
+#mw-history-compare {
+  --offset-top: 10%;
+  --offset-bottom: 4%;
+  --bottom-sticky-height: 4em;
+  --bottom-compare-height: 2em;
+  --top-sticky-height: 4em;
+  --top-compare-height: 2.4em;
+}
+
+.mw-history-compareselectedversions {
+  padding: 0.4em;
+  box-sizing: border-box;
+  height: var(--top-compare-height);
+
+  color: #ccc;
+  outline: 0;
+  border: 1px solid var(--content-border-color);
+  border-bottom-style: dotted;
+  position: sticky;
+  top: calc(var(--offset-top) - var(--top-compare-height));
+  background-color: #000;
+  border-radius: 6px 6px 0 0;
+  z-index: 200;
+  display: flex;
+}
+
+#pagehistory .mw-history-compareselectedversions {
+  border-radius: 0 0 6px 6px;
+  position: sticky;
+  bottom: 0;
+  /*calc(var(--offset-bottom) - var(--bottom-compare-height));*/
+}
+
+.mw-history-compareselectedversions .cdx-button,
+.mw-history-compareselectedversions input.cdx-button:enabled {
+  padding: 0.1em 1em;
+  line-height: 1;
+  font-size: 1em;
+  min-height: 20px;
+  margin: 0 auto;
+  color: #1f1603;
+  background-color: #e99b00;
+  border-color: #ffaf26 #b17d21 #6d4c13 #a06600;
+  border-width: 0.1em 0.14em 0.14em 0.1em;
+  border-radius: 0.12em 0.4em;
+  transition: all 180ms ease;
+  filter: hue-rotate(0deg);
+  box-shadow: 0 0 2px 0 #d18b00;
+}
+.mw-history-compareselectedversions::before {
+  content: '';
+  color: #fff;
+  position: absolute;
+  background-color: #000;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 10em;
+  align-content: center;
+  justify-content: center;
+}
+
+#pagehistory {
+  display: contents;
+  overflow: visible;
+  counter-set: edits behind groups groupedits;
+}
+#pagehistory h4 {
+  counter-increment: groups;
+  counter-reset: groupedits;
+}
+#pagehistory .mw-contributions-list {
+  background-color: #00000022;
+  overflow: visible;
+  margin-left: 0;
+}
+#pagehistory li {
+  counter-increment: edits groupedits;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0.1em 0.4em;
+  column-gap: 0.2em;
+  min-height: 2em;
+  max-height: 4em;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+#pagehistory ul:nth-of-type(2n-1) > li:not(.selected) {
+  background-color: #03030388;
+}
+#pagehistory li.between {
+  border-block: 0 solid #222;
+  border-inline: 2px solid #333;
+  margin: 0 0.2em;
+  padding: 0 0.2em;
+  column-gap: 0.2em;
+  min-height: 2em;
+  max-height: 4em;
+}
+#pagehistory li.selected {
+  background-color: #0f0e0d;
+  color: #ccc;
+  outline: 0;
+  border: 1px solid var(--content-border-color);
+  border-radius: 6px 6px 0 0;
+  border-bottom-style: dotted;
+  margin: 0.1em 0;
+  padding: 0 0.4em;
+  min-height: 4em;
+  max-height: 4em;
+  overflow: hidden;
+}
+/* bottom */
+#pagehistory li.selected.after {
+  border-radius: 0 0 6px 6px;
+  border-bottom-style: solid;
+  border-top-style: dotted;
+  border-top-color: #6d4901;
+}
+
+#pagehistory li.after {
+  counter-increment: edits groupedits;
+}
+.mw-contributions-list > .after.selected {
+  background-color: #000;
+  color: #ccc;
+  z-index: 100;
+  position: sticky;
+  top: calc(var(--top-sticky-height) + var(--offset-top));
+  bottom: var(--offset-bottom);
+}
+
+/* top */
+#pagehistory .selected.before {
+  counter-increment: edits behind groupedits;
+}
+#pagehistory .selected.before {
+  border-radius: 6px 6px 0 0;
+  border-top-style: solid;
+  border-bottom-color: #6d4901;
+}
+#pagehistory .selected.before:has(+ :not(ul) + ul .selected.after) {
+  border-bottom-color: transparent;
+}
+
+#pagehistory
+  ul:has(> .selected.before)
+  + :not(ul)
+  + :has(> .selected.after)
+  > .selected.after {
+  border-top-color: transparent;
+}
+#pagehistory
+  ul:has(> .selected.before):has(+ not(ul))
+  + :has(> .selected.after)
+  > .selected.after {
+  border-top-color: transparent;
+}
+#pagehistory li.before::after {
+  content: 'group ' counter(groups) ' (' counter(groupedits) ' edits), '
+    counter(edits) ' edits total';
+  height: 1.2em;
+  font-size: 0.9em;
+  line-height: 1;
+}
+#pagehistory li.between::after {
+  content: 'group ' counter(groups) ' (' counter(groupedits) ' edits), '
+    counter(edits) ' edits total';
+  height: 1.2em;
+  font-size: 0.9em;
+  line-height: 1;
+}
+#pagehistory li.after::after {
+  content: 'group ' counter(groups) ' (' counter(groupedits) ' edits), '
+    counter(edits) ' edits total';
+  height: 1.2em;
+  font-size: 0.9em;
+  line-height: 1;
+}
+#pagehistory .mw-contributions-list:has(li.selected.before)::after {
+  content: 'group ' counter(groups) ' (' counter(groupedits) ' edits), '
+    counter(edits) ' edits total';
+  min-height: 20%;
+  width: 100%;
+  top: 0;
+  height: 1.2em;
+  font-size: 0.9em;
+  line-height: 1;
+  position: sticky;
+  background-color: #555;
+  display: block;
+  visibility: visible;
+  border-radius: 0 0 1em 1em;
+  /*    display: none; */
+}
+#pagehistory .mw-contributions-list > .before {
+  position: sticky;
+  bottom: var(--offset-bottom);
+}
+#pagehistory .mw-contributions-list:has(> .before.selected) {
+  display: contents;
+  visibility: collapse;
+}
+#pagehistory .mw-contributions-list > .before.selected {
+  z-index: 100;
+  position: sticky;
+  top: var(--offset-top);
+  bottom: calc(var(--bottom-sticky-height) + var(--offset-bottom));
+  outline: 0;
+}
+#pagehistory .mw-contributions-list:has(> .before.selected) > * {
+  visibility: visible;
+}
+#pagehistory .mw-contributions-list:has(.before.selected)::before {
+  content: '';
+  min-height: 20%;
+  width: 100%;
+  top: 0;
+  height: 0;
+  position: sticky;
+  background-color: #555;
+  display: block;
+  visibility: visible;
+  border-radius: 1em 1em 0 0;
+}
+#pagehistory .mw-contributions-list:has(> .before, > .between, > li.after) {
+  display: contents;
+  visibility: collapse;
+}
+#pagehistory .mw-contributions-list:has(> .before, > .between, > li.after) > * {
+  visibility: visible;
+}
+
+#pagehistory .mw-contributions-list > li.between {
+  position: sticky;
+  top: var(--offset-top);
+  bottom: var(--offset-bottom);
+}
+
+/* Formating for each row */
+#pagehistory .selected {
+  background-color: #0007;
+  color: #ccc;
+}
+#pagehistory .mw-history-histlinks,
+.mw-changeslist-links.mw-pager-tools,
+.mw-plusminus-pos.mw-diff-bytes,
+.history-size.mw-diff-bytes,
+.history-user {
+  white-space: nowrap;
+}
+
+.mw-changeslist-separator:empty::before {
+  /* content: ': \00a0'; */
+  /* content: '- \00a0'; */
+  /* content: '↺\00a0'; */
+  /* content: '⟲\00a0'; */
+  /* content: '⁃ \00a0'; */
+  content: '\00a0∾\00a0\2009';
+  /*   content: '\00a0\00a0\00a0'; */
+}
+
+#pagehistory .comment,
+#pagehistory .comment--without-parentheses {
+  order: 1;
+  flex: 0 1 auto;
+  font-family: monospace;
+  font-size: 0.9em;
+  background-color: #0003;
+  border: 1px solid #222;
+  border-color: #222 #111 #222 #111;
+  padding-right: 0.2em;
+  width: fit-content;
+  display: inline-flex;
+  /*! align-items: end; */
+  flex-direction: row;
+  justify-content: flex-start;
+  position: relative;
+  margin-left: auto;
+}
+.comment--without-parentheses::before,
+.comment--without-parentheses::after {
+  font-family: monospace;
+  font-size: 2.2em;
+  line-height: 1;
+  opacity: 0.4;
+  color: rgb(95, 88, 75);
+  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+  display: inline-block;
+  position: relative;
+  align-self: start;
+}
+
+.comment--without-parentheses::before {
+  content: '❝';
+  margin-right: 0.12em;
+  margin-left: -0.2em;
+  left: 0;
+}
+.comment--without-parentheses::after {
+  content: '❞';
+  margin-left: -0.14em;
+  margin-right: -0.1em;
+  right: 0;
+  bottom: -0.5em;
+  align-self: end;
+}
+
+#pagehistory .comment,
+#pagehistory .comment--without-parentheses {
+  text-align: right;
+  align-items: flex-start;
+  justify-content: end;
+  flex: 0 1 auto;
+  z-index: 2000;
+  background-color: #111;
+  min-height: 1lh;
+  line-height: 2.2;
+  margin-left: auto;
+  height: 1lh;
+}
+
+.comment.comment--without-parentheses {
+  /*   text-wrap: nowrap; */
+  text-overflow: ellipsis;
+  align-items: start;
+  text-align: start;
+  display: block;
+  overflow: hidden;
+  height: 1lh;
+  container: comment inline-size;
+}
+.comment.comment--without-parentheses:hover {
+  height: auto;
+  top: 0;
+}
+
+.mw-history-histlinks::before {
+  content: '↟\a0';
+}
+.mw-history-histlinks > span:not(:first-child)::before {
+  content: '\a0\a0-\a0\a0';
+}
+.mw-history-histlinks::after {
+  content: '\a0⤸';
+  font-size: 0.86em;
+  line-height: 1;
+  vertical-align: 0.1em;
+}
+
+.mw-usertoollinks::before {
+  content: '\a0❪\a0';
+  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+}
+.mw-usertoollinks > span:not(:first-child)::before {
+  content: '-\a0';
+  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+}
+.mw-usertoollinks::after {
+  content: '❫';
+  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+}
+
+.mw-thanks-thank-link::before {
+  content: '\a0❤︎';
+}
+.mw-pager-tools::before {
+  content: '\a0';
+}
+
+.mw-pager-tools > span:not(:first-child)::before {
+  content: '\00a0-\00a0';
+}
+.mw-pager-tools .mw-history-undo::before {
+  content: '⟲\00a0';
+  font-size: 0.86em;
+  line-height: 1;
+  vertical-align: 0.1em;
+}
+.mw-pager-tools::after {
+  font-size: 0.86em;
+  line-height: 1;
+}
+
+.history-size::before {
+  content: '⤮\00a0';
+  font-size: 0.8em;
+  line-height: 1;
+  vertical-align: 0.12em;
+}
+.mw-diff-bytes::after {
+  content: '';
+}
+.mw-plusminus-null::before {
+  content: '❲\200a±\00a0';
+  font-size: 1.3em;
+  line-height: 1;
+  vertical-align: -0.08em;
+}
+.mw-plusminus-null::after {
+  content: '\200a❳';
+  font-size: 1.3em;
+  line-height: 1;
+  vertical-align: -0.08em;
+}
+.mw-plusminus-neg::before {
+  content: '❲\200a';
+  font-size: 1.3em;
+  line-height: 1;
+  vertical-align: -0.08em;
+}
+.mw-plusminus-neg::after {
+  content: '\200a❳';
+  font-size: 1.3em;
+  line-height: 1;
+  vertical-align: -0.08em;
+}
+.mw-plusminus-pos::before {
+  content: '❲\200a';
+  font-size: 1.3em;
+  line-height: 1;
+  vertical-align: -0.08em;
+}
+.mw-plusminus-pos::after {
+  content: '\200a❳';
+  font-size: 1.3em;
+  line-height: 1;
+  vertical-align: -0.08em;
+}
+
+.mw-tag-markers::before {
+  content: '⋖\00a0';
+}
+.mw-tag-markers > span:not(:first-child)::before {
+  content: '\00a0⪤\00a0';
+}
+.mw-tag-markers::after {
+  content: '\00a0⋗';
+}
+
+.mw-uctop::before {
+  content: '⋖\00a0';
+}
+.mw-uctop > span:not(:first-child)::before {
+  content: '\00a0⪤\00a0';
+}
+.mw-uctop::after {
+  content: '\00a0⋗';
+}
+
+#pagehistory li {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+load.php span.comment {
+  word-break: break-word;
+}
+.mw-index-pager-list-header {
+  overflow: visible;
+}
+.mw-changeslist-links,
+.mw-history-histlinks.mw-changeslist-links {
+  white-space: nowrap;
+}
+#pagehistory .comment,
+#pagehistory .comment--without-parentheses {
+  text-align: right;
+  align-items: flex-start;
+  flex: 0 1 auto;
+  justify-content: flex-end;
+  margin-left: auto;
+  background-color: #111;
+}
+#pagehistory .comment:hover,
+#pagehistory .comment--without-parentheses:hover {
+  height: fit-content;
+  bottom: -100%;
+  position: relative;
+  z-index: 100;
+  left: 0;
+  overflow: visible;
+}
+.before:hover,
+.between:hover,
+.after:hover {
+  z-index: 90;
+}
+
+/* On the recentchanges page */
+
+.mw-usertoollinks-talk {
+  font-size: 0.9em;
+}
+
+.mw-thanks-thank-link::before {
+  /* text-shadow: 0 0.8px 0 goldenrod, 0 -0.6px 0 goldenrod, -0.4px 0 0 goldenrod, 0.6px 0.1px 0 goldenrod; */
+  background-image: url('data:image/png;base64,\
+    iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5\
+    XAAAAmklEQVQ4T2NkoBJghJlzlJf3P7KZ1p8/w+WQxX\
+    Gpo55BMBu+/UdxEAMXI8SOK//+gWkdJiYwjUsdI9UM2\
+    s3Dg+oUMgOfkWoGzeTmBrtICRompDroHjRsGalmEMwF\
+    pBoIc0n616/g6IWnI6oZRKzL0F0C04eRDQi5jGiDcLk\
+    MlwE4XUR1g9ANhMUOrnSGtahAVgwLM4oNIjalAwAi3m\
+    TP/0+8pwAAAABJRU5ErkJggg==');
+  background-repeat: no-repeat;
+  background-size: 76%;
+  image-rendering: pixelated;
+  filter: drop-shadow(2px 1px 0 #000);
+  background-position: center;
+  color: transparent;
+}
+
+.mw-changeslist-line-inner-userTalkLink {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: 0.5em;
+  padding: 0 0.2em;
+}
+.mw-changeslist-line-inner-userTalkLink span,
+.mw-usertoollinks.mw-changeslist-links {
+  display: contents;
+  flex-direction: column;
+}
+.mw-changeslist-line-inner-userTalkLink ::after,
+.mw-changeslist-line-inner-userTalkLink ::before {
+  display: none;
+}
+.mw-changeslist-line-inner-userTalkLink :is(:not(a)) {
+  visibility: collapse;
+}
+
+.mw-changeslist-line-inner-userTalkLink a {
+  display: block;
+  line-height: 0.8;
+  visibility: visible;
+}
+
+.mw-changeslist-line-inner-userTalkLink span:has(> .mw-usertoollinks-block),
+.mw-changeslist-line-inner-userTalkLink .mw-usertoollinks-block {
+  display: none;
+}
+
+.mw-usertoollinks-contribs {
+  font-size: 0.6em;
+}
+.mw-usertoollinks-talk {
+  font-size: 0.76em;
+  border-bottom: 1px solid grey;
+}
+
+.mw-usertoollinks-talk {
+  font-size: 0.9em;
+}
+.mw-thanks-thank-link {
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+.mw-changeslist-line-inner-historyLink,
+.mw-changeslist-line-inner-userTalkLink {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: 0.5em;
+  padding: 0 0.2em;
+}
+.mw-changeslist-line-inner-historyLink span,
+.mw-changeslist-line-inner-historyLink .mw-changeslist-links,
+.mw-changeslist-line-inner-userTalkLink span,
+.mw-usertoollinks.mw-changeslist-links {
+  display: contents;
+  flex-direction: column;
+}
+.mw-changeslist-line-inner-historyLink ::after,
+.mw-changeslist-line-inner-historyLink ::before,
+.mw-changeslist-line-inner-userTalkLink ::after,
+.mw-changeslist-line-inner-userTalkLink ::before {
+  display: none;
+}
+.mw-changeslist-line-inner-historyLink :is(:not(a)),
+.mw-changeslist-line-inner-userTalkLink :is(:not(a)) {
+  visibility: collapse;
+}
+
+.mw-changeslist-line-inner-historyLink a,
+.mw-changeslist-line-inner-userTalkLink a {
+  display: block;
+  line-height: 0.8;
+  /*   font-size: 0.6em; */
+  visibility: visible;
+}
+
+.mw-changeslist-line-inner-userTalkLink span:has(> .mw-usertoollinks-block),
+.mw-changeslist-line-inner-userTalkLink .mw-usertoollinks-block {
+  display: none;
+}
+
+.mw-changeslist-diff,
+.mw-usertoollinks-talk {
+  font-size: 0.76em;
+  border-bottom: 1px solid grey;
+}
+.mw-changeslist-diff,
+.mw-changeslist-history,
+.mw-usertoollinks-contribs {
+  font-size: 0.6em;
+}
+
+.mw-changeslist-line-inner-rollback::after,
+.mw-changeslist-line-inner-rollback::before {
+  content: '';
+  display: none;
+}
+
+/* .mw-changeslist-line-inner-comment::before {
+  content: '❛';
+}
+.mw-changeslist-line-inner-comment::after {
+  content: '❜';
+} */
+.mw-changeslist-line-inner-characterDiff:has(> .mw-plusminus-neg)::before,
+.mw-changeslist-line-inner-characterDiff:has(> .mw-plusminus-pos)::before,
+.mw-changeslist-line-inner-characterDiff:has(> .mw-plusminus-null)::before {
+  content: '❲\202f';
+}
+.mw-changeslist-line-inner-characterDiff:has(> .mw-plusminus-neg)::after,
+.mw-changeslist-line-inner-characterDiff:has(> .mw-plusminus-pos)::after,
+.mw-changeslist-line-inner-characterDiff:has(> .mw-plusminus-null)::after {
+  content: '\202f❳';
+}
+
+.mw-changeslist-line-inner-characterDiff:has(> .mw-plusminus-neg)::before {
+  content: '❲\202f';
+}
+.mw-changeslist-line-inner-characterDiff:has(> .mw-plusminus-neg)::after {
+  content: '\202f❳';
+}
+.mw-plusminus-null::before {
+  content: '';
+}
+.mw-changeslist-line-inner-characterDiff:has(> .mw-plusminus-null)::before {
+  content: '❲\202f';
+}
+.mw-changeslist-line-inner-characterDiff:has(> .mw-plusminus-null)::after {
+  content: '\202f❳';
+}
+
+.mw-changeslist-line-inner-articleLink::before {
+  content: '';
+}
+.mw-changeslist-line-inner-articleLink::after {
+  content: '';
+}
+
+/* recent changes */
+.mw-thanks-thank-link::before {
+  content: ' ❤︎ ';
+}
+
+.mw-tag-markers::before {
+  line-height: -1em;
+  background-image: var(--svg-icon-tag);
+  content: '';
+  height: 0.72em;
+  background-size: 1.1em;
+  background-repeat: no-repeat;
+  background-position: -70% 14%;
+}
+
+.mw-tag-markers > span:not(:first-child)::before {
+  content: '';
+}
+
+.mw-rcfilters-ui-highlights-enhanced-nested > td.mw-enhanced-rc {
+  display: none;
+}
+
+strong.mw-plusminus-pos.mw-diff-bytes {
+  color: #38e238;
+  background-color: #063206;
+  font-weight: 400;
+  text-shadow: var(--text-outline-thin);
+}
+
+a.new {
+  background-color: #0003;
+  text-shadow: var(--text-outline-xx-thin);
+}
+
+.mw-changeslist-links {
+  font-size: 0.5;
+}
+
+.mw-pager-tools.mw-changeslist-links::after {
+  content: '';
+}
+
+.comment--without-parentheses::after,
+.comment--without-parentheses::before,
+.mw-changeslist-links::after,
+.mw-changeslist-links::before,
+.mw-diff-bytes::after,
+.mw-diff-bytes::before,
+.mw-tag-markers::after,
+.mw-tag-markers::before,
+.mw-uctop::after,
+.mw-uctop::before {
+  color: #777;
+}
+
+.mw-plusminus-null::before {
+  content: '❲ ';
+}
+
+.mw-plusminus-null {
+  background-color: #121911;
+  font-weight: 400;
+}
+
+.changedby .mw-userlink {
+  margin: 0 0.2em;
+}
+
+.mw-plusminus-neg.mw-diff-bytes {
+  color: #cd0000;
+  background-color: #240000;
+}
+
+.mw-plusminus-pos.mw-diff-bytes {
+  color: #00c000;
+  background-color: #002400;
+}
+
+.mv-changeslist-links .mw-changeslist-history {
+  font-size: 0.9em;
+}
+
+.mw-changeslist-groupdiff,
+.mw-changeslist-history {
+  font-size: 0.8em;
+}
+
+.mw-thanks-thank-link::before {
+  text-shadow: 0 0.8px 0#daa520, 0-0.6px 0#daa520, -0.4px 0 0#daa520,
+    0.6px 0.1px 0#daa520;
+  filter: url(#outline);
+}
+v #pagehistory .comment,
+#pagehistory .comment--without-parentheses {
+  z-index: unset;
+}
+
+#pagehistory li {
+  /* overflow-x: clip; */
+  /* overflow-y: visible; */
+  border: 0 solid transparent;
+  /*! box-sizing: content-box; */
+}
+
+#pagehistory li.after {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#pagehistory .mw-contributions-list > .before {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 0.2em;
+  margin: 0 0.4em;
+}
+
+#pagehistory .mw-contributions-list > .before.selected {
+  margin-top: -2px;
+  margin-bottom: -2px;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0 0.6em;
+}
+
+#pagehistory .mw-contributions-list:has(li.selected.before)::after {
+  display: none;
+}
+
+#pagehistory .comment,
+#pagehistory .comment--without-parentheses {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+#pagehistory .selected.before {
+  box-shadow: 0 1px 3px 0 var(--shadow), inset 0 1px 3px 0 var(--hint);
+}
+
+/* load.php | https://noita.wiki.gg/load.php?lang=en&modules=codex-search-styles%7Cext.echo.styles.badge%7Cext.embedVideo.styles%7Cext.subscription.styles%7Cext.visualEditor.desktopArticleTarget.noscript%7Cjquery.makeCollapsible.styles%7Cmediawiki.action.history.styles%7Cmediawiki.feedlink%2Chelplink%7Cmediawiki.htmlform.ooui.styles%7Cmediawiki.htmlform.styles%7Cmediawiki.interface.helpers.styles%7Cmediawiki.pager.styles%7Cmediawiki.special.changeslist%7Cmediawiki.widgets.DateInputWidget.styles%7Cmediawiki.widgets.styles%7Coojs-ui-core.icons%2Cstyles%7Coojs-ui.styles.icons-alerts%2Cindicators%7Cskins.vector.styles.legacy&only=styles&skin=vector */
+
+#pagehistory li {
+  padding: 0;
+}
+
+/* Inline #18 | https://noita.wiki.gg/wiki/Expert_Guide:_Long_Distance_Travel?action=history */
+
+#pagehistory .mw-contributions-list > .before.selected {
+  /* padding: 0 0.4em; */
+  margin-top: -2px;
+  margin-bottom: -2px;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0 0.6em;
+}
+
+#pagehistory .mw-contributions-list > .before {
+  margin: 0 0.4em;
+}
+
+#pagehistory h4 {
+  counter-reset: groupedits 0;
+}
+
+#pagehistory ul:nth-of-type(2n-2) > li:not(.selected) {
+  box-shadow: inset 3px 0 0 2px red;
+}
+
+#pagehistory ul > li:nth-last-of-type(n + 1):not(.selected) {
+  box-shadow: inset 1px 1px 1px 0;
+}
+
+#pagehistory ul > li:first-of-type:not(.selected) {
+  box-shadow: inset 2px 2px 2px 0 green;
+}
+
+/* #pagehistory ul > li:nth-last-of-type(n+1):not(.selected) { */
+#pagehistory ul > li:last-of-type:not(.selected) {
+  /* box-shadow: inset 1px 1px 1px 0px; */
+  box-shadow: inset 4px 0 2px -1px blue;
+}
+
+#pagehistory ul > li:nth-of-type(n + 2):nth-last-of-type(n + 2):not(.selected) {
+  box-shadow: inset 3px 0 2px -1px yellow;
+}
+#pagehistory ul:nth-of-type(2n-2) > li:not(.selected) {
+  box-shadow: inset 3px 0 0 2px red;
+}
+#pagehistory ul > li:last-of-type:not(.selected) {
+  box-shadow: inset 4px 0 2px -1px blue;
+  box-shadow: -10px -5px 0 -5px maroon;
+}
+#pagehistory ul > li:first-of-type:not(.selected) {
+  box-shadow: inset 4px 0 2px -2px green;
+  box-shadow: -5px 0 0 0 maroon;
+}
+#pagehistory ul > li:nth-of-type(n + 2):nth-last-of-type(n + 2):not(.selected) {
+  box-shadow: inset 3px 0 2px -1px yellow;
+  box-shadow: -5px 0 0 0 maroon;
+}
+
+#mw-history-compare {
+  display: grid;
+  grid-auto-columns: auto;
+  grid-template-columns: [left] auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto [right];
+}
+
+#pagehistory .mw-tag-visualeditor,
+#pagehistory .mw-tag-wikieditor {
+  grid-column: 1 / span 25;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-auto-flow: row dense;
+  white-space: break-spaces;
+}
+
+.mw-history-histlinks.mw-changeslist-links [type='radio']:nth-of-type(1) {
+  grid-column: 3;
+}
+
+[type='radio']:nth-of-type(2) {
+  grid-column: 4;
+}
+
+[type='radio']:nth-of-type(1) {
+  grid-column: 5;
+}
+
+#pagehistory h4 {
+  grid-column: 1/-1;
+}
+
+.mw-tag-wikieditor > :where(span, input, a) {
+  display: block;
+}
+
+#pagehistory ul > li:first-of-type:last-of-type:not(.selected) {
+  box-shadow: -10px -5px 0 -5px maroon;
+}
+
+#pagehistory ul > li:first-of-type:not(.selected) {
+  box-shadow: -5px 0 0 0 maroon;
+}
+
+#pagehistory ul > li:last-of-type:not(.selected) {
+  box-shadow: -10px -5px 0 -5px maroon;
+}
+
+#pagehistory ul > li:nth-of-type(n + 2):nth-last-of-type(n + 2):not(.selected) {
+  box-shadow: -5px 0 0 0 maroon;
+}
+.history-user {
+  grid-column: 7;
+}
+.mw-userlink {
+  white-space: nowrap;
+}
+
+.mw-history-compareselectedversions {
+  grid-column: 1/26;
+  width: auto;
+}
+
+.mw-history-histlinks.mw-changeslist-links {
+  grid-column: 2;
+}
+[type='radio']:nth-of-type(1) {
+  grid-column: 4;
+}
+[type='radio']:nth-of-type(2) {
+  grid-column: 6;
+}
+.mw-changeslist-date {
+  grid-column: 8;
+}
+.history-user {
+  grid-column: 10;
+}
+.minoredit {
+  grid-column: 12;
+}
+.mw-changeslist-separator {
+  grid-column: 14;
+}
+#pagehistory .history-size.mw-diff-bytes {
+  grid-column: 16;
+  justify-self: right;
+  text-align: right;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+.mw-plusminus-null.mw-diff-bytes,
+.mw-plusminus-pos.mw-diff-bytes,
+.mw-plusminus-neg.mw-diff-bytes {
+  grid-column: 18;
+}
+.mw-changeslist-separator ~ .mw-changeslist-separator {
+  grid-column: 20;
+}
+.mw-changeslist-links.mw-pager-tools {
+  grid-column: 22;
+}
+.mw-tag-markers {
+  grid-column: 24;
+}
+
+.comment {
+  grid-column: 1/25;
+  order: 1;
+}
+
+#pagehistory ul > li:first-of-type:last-of-type:not(.selected) {
+  box-shadow: -10px -5px 0 -5px maroon;
+}
+#pagehistory ul:nth-of-type(2n) > li:not(.selected) {
+  background-color: #000;
+}
+.mw-changeslist-separator {
+  display: none;
+}
+
+#mw-history-compare {
+  grid-auto-columns: auto;
+  grid-template-columns: [left] auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto [right];
+}
+
+#pagehistory li.before::after,
+#pagehistory li.between::after,
+#pagehistory li.after::after {
+  content: none;
+}
+
+#pagehistory li.before::before,
+#pagehistory li.between::before,
+#pagehistory li.after::before {
+  line-height: 1;
+  content: counter(groups) '.' counter(groupedits);
+  grid-column: 1;
+}
+
+#pagehistory .mw-usertoollinks::before,
+#pagehistory .mw-usertoollinks::after {
+  content: none;
+}
+#pagehistory .mw-usertoollinks {
+  font-size: 0.8em;
+}
+#pagehistory .history-user {
+  white-space: nowrap;
+}
+.client-js .mw-changeslist ul,
+.client-js .mw-changeslist table.mw-enhanced-rc {
+  margin-left: 1em;
+}
+
+.mw-tag-markers > span:not(:first-child)::before {
+  content: '';
+}
+.mw-tag-markers a {
+  font-size: 1em;
+}
+.mw-tag-markers {
+  background-image: var(--svg-icon-tag);
+  background-repeat: no-repeat;
+  background-size: 1.1em;
+  background-position: left 0;
+  padding-left: 1.3em;
+}
+
+#pagehistory .mw-usertoollinks::before,
+#pagehistory .mw-usertoollinks::after,
+.mw-tag-markers::before,
+.mw-tag-markers::after,
+.mw-thanks-thank-link::before,
+.mw-pager-tools .mw-history-undo::before,
+.mw-pager-tools .mw-history-undo::before,
+.mw-thanks-thank-link::before,
+.mw-pager-tools.mw-changeslist-links::after,
+.mw-pager-tools.mw-changeslist-links::after,
+.mw-thanks-thank-link::before,
+.mw-changeslist-links.mw-pager-tools a::before,
+.mw-pager-tools .mw-history-undo > a::before,
+.comment--without-parentheses::after,
+.mw-changeslist-links::before,
+.mw-changeslist-links::after,
+.mw-diff-bytes::before,
+.mw-diff-bytes::after,
+.mw-tag-markers::after,
+.mw-uctop::after {
+  display: none;
+  content: none;
+}
+.client-js .mw-changeslist ul,
+.client-js .mw-changeslist table.mw-enhanced-rc {
+  margin-left: 0;
+}
+
+.mw-changeslist-log-contentmodel {
+  outline: 3px double #300;
+  outline-offset: -3px;
+  border: 3px dashed #f008 !important;
+  border-radius: 4px / 20px;
+}
+h4:has(+ div > .mw-changeslist-line) {
+  white-space: nowrap;
+  font-family: monospace, monospace;
+  font-weight: normal;
+  letter-spacing: 0.02ch;
+  background-image: linear-gradient(
+    90deg,
+    #0000,
+    #0008 2ch max(20ch, 20vw),
+    #0002 calc(100% - max(80px, 10vw)) calc(100% - 2ch),
+    #0000
+  );
+  padding: 2px 6ch;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin: 8px -1ch 4px 0;
+}
+
+.mw-changeslist-legend.mw-collapsible.mw-made-collapsible {
+  width: auto;
+}
+.newpage,
+.minoredit,
+.unpatrolled {
+  font-family: monospace;
+  padding-bottom: 3px;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 61px;
+  font-weight: normal;
+  color: #fff;
+  line-height: 0;
+  vertical-align: baseline;
+  border: 1px solid #fff8 !important;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  height: 0.7em;
+  margin-left: -1ch;
+  box-sizing: border-box;
+  border-color: #fff4 #fff8 #fffa #fff8 !important;
+  background-color: #222;
+  width: 2ch;
+}
+.unpatrolled {
+  color: #f00;
+  border-color: #f006 #f00a #f00c #f00a !important;
+  background-color: #2220;
+  height: 0.6em;
+}
+.newpage {
+  margin-left: -0.6ch;
+}
+
+.mw-changeslist {
+  grid-template-columns: [left] auto [right];
+  display: grid;
+}
+.mw-changeslist > div:has(> .mw-changeslist-line) {
+  display: contents;
+}
+.mw-changeslist > :is(.mw-changeslist-legend, h4) {
+  grid-column-end: span right;
+  grid-column-start: left;
+}
+.mw-changeslist-line {
+  display: grid;
+}
+.mw-changeslist-line > tbody,
+.mw-changeslist-line > tbody > tr,
+.mw-changeslist-line > tbody > tr > td {
+  display: contents;
+}
+.mw-changeslist .mw-changeslist-line {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-template-columns: [left uihl-start] 10px [uihl-end minor-start] 10px [minor-end arrow-start] 10px [arrow-end unpat-start] 10px [unpat-end] 10px 10px [time-start] min-content [time-end article-start] auto [article-end] auto [history-start] auto [history-end diff-start] auto [diff-end user-start] auto [user-end talk-start] auto [talk-end comment-start] 1fr [comment-end rollback-start] auto [rollback-end tags-start] auto [tags-end watching-start] auto [watching-end right];
+  grid-column: left / right;
+  overflow-y: visible;
+  height: auto;
+}
+
+.mw-changeslist-legend {
+  grid-column: 1;
+}
+.mw-changeslist .mw-rcfilters-ui-highlights {
+  grid-column: uihl;
+}
+.mw-changeslist .mw-changeslist-line-prefix::before {
+  grid-column: minor;
+}
+.mw-changeslist .mw-enhancedchanges-arrow-space {
+  grid-column: arrow;
+}
+.mw-changeslist .mw-changeslist-line-prefix::after {
+  grid-column: unpat;
+}
+.mw-changeslist .mw-changeslist-line-prefix {
+  display: contents;
+  grid-column: 5;
+}
+.mw-changeslist .mw-changeslist-line .mw-changeslist-line-prefix::before,
+.mw-changeslist .mw-changeslist-line .mw-changeslist-line-prefix::after {
+  content: '';
+  font-family: monospace;
+  font-size: 0.9em;
+  background-color: #000;
+  text-align: center;
+  color: #ddd;
+  letter-spacing: 0ch;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  box-sizing: border-box;
+  width: auto;
+  height: 0.9lh;
+  display: inline-block;
+  opacity: 0;
+  top: 0;
+}
+.mw-changeslist
+  .mw-changeslist-line:has(> tbody > tr > td[colspan='2'] > .minoredit)
+  .mw-changeslist-line-prefix::before {
+  content: 'ｍ';
+  opacity: 1;
+}
+.mw-changeslist
+  .mw-changeslist-line:has(> tbody > tr > td[colspan='2'] > .unpatrolled)
+  .mw-changeslist-line-prefix::after {
+  content: '❗️';
+  opacity: 1;
+}
+.mw-changeslist .mw-changeslist-line > tbody > tr > td[colspan='2'] {
+  grid-column: time;
+  white-space-collapse: collapse;
+  overflow: clip;
+  text-align: left;
+  width: 10ch;
+  margin-right: 1ch;
+  display: flex;
+  justify-content: end;
+  flex-direction: row-reverse;
+  font-family: monospace;
+  font-size: 0.9em;
+  align-items: baseline;
+  color: #ccc;
+  border-right: 2px solid #000;
+}
+
+.mw-changeslist .mw-changeslist-line-inner-articleLink {
+  grid-column: article;
+}
+.mw-changeslist .mw-changeslist-line-inner-historyLink {
+  grid-column: history;
+}
+.mw-changeslist .mw-changeslist-line-inner-separatorAfterLinks {
+  display: none;
+}
+.mw-changeslist .mw-changeslist-line-inner-characterDiff {
+  grid-column: diff;
+}
+.mw-changeslist .mw-changeslist-line-inner-separatorAftercharacterDiff {
+  display: none;
+}
+
+.mw-changeslist .mw-changeslist-line-inner-userLink {
+  grid-column: user;
+}
+.mw-changeslist .mw-changeslist-line-inner-userTalkLink {
+  grid-column: talk;
+}
+
+.mw-changeslist .mw-changeslist-line-inner-comment {
+  grid-column: comment;
+}
+.mw-changeslist .mw-changeslist-line-inner-rollback {
+  grid-column: rollback;
+}
+.mw-changeslist .mw-changeslist-line-inner-tags {
+  grid-column: tags;
+}
+.mw-changeslist .mw-changeslist-line-inner-watchingUsers {
+  grid-column: span right;
+}
+
+.mw-changeslist-line-inner-rollback,
+.mw-changeslist-links.mw-pager-tools > span {
+  display: contents;
+}
+.mw-changeslist-links.mw-pager-tools > span::before {
+  content: unset;
+}
+
+.mw-changeslist .mw-changeslist-line {
+  grid-template-columns: subgrid;
+}
+
+.mw-changeslist {
+  grid-template-columns: [left uihl-start] 10px [uihl-end minor-start] 10px [minor-end arrow-start] 10px [arrow-end unpat-start] 10px [unpat-end] 10px 10px [time-start] min-content [time-end article-start] 60fr [article-end history-start changed-start] 4fr [changed-end] 4fr [history-end diff-start] 4fr [diff-end user-start] 10fr [user-end talk-start] 4fr [ contrib-start] 4fr [talk-end contrib-end comment-start] 100fr [comment-end rollback-start] 10fr [rollback-end tags-start] 10fr [tags-end watching-start] 10fr [watching-end right];
+  grid-auto-rows: auto;
+}
+
+.mw-changeslist-legend dl {
+  grid-template-columns: [left dt-start] auto [dt-end dd-start] auto [dd-end right];
+}
+
+div.mw-collapsible-content:nth-child(3) {
+  display: contents;
+}
+
+.mw-changeslist-legend {
+  width: unset;
+  grid-column: 1/-1;
+}
+
+.mw-changeslist-line-inner-logEntry {
+  grid-column-end: -2;
+  grid-column-start: 9;
+}
+.changedby {
+  grid-column: 12 / -2;
+}

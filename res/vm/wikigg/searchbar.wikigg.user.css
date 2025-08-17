@@ -1,0 +1,234 @@
+/***************************************/
+/*          Search menu                */
+/***************************************/
+
+/* Search Suggestions -- All screen sizes */
+@media screen {
+  .suggestions {
+    position: absolute !important;
+    width: 90vw !important;
+    height: fit-content;
+    top: calc(
+      var(--wikigg-header-height) + var(--search-offset) + 5px
+    ) !important;
+    inset-inline: 5vw !important;
+    background-color: #222d;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 6px 6px 3px #0009;
+  }
+  .suggestions-results {
+    border-width: 2px;
+    border-radius: 0;
+    box-shadow: 0 0 4px -1px #fff2 inset;
+    border-color: transparent;
+    background-color: transparent;
+  }
+  .suggestions > .mw-searchSuggest-link {
+    border-radius: 0 0 8px 8px;
+    border-width: 0 2px 2px 2px;
+    border-color: #3332;
+    border-style: solid;
+    display: block;
+  }
+  .suggestions > .mw-searchSuggest-link > div {
+    border-radius: 0 0 6px 6px;
+  }
+  .suggestions > .mw-searchSuggest-link > .suggestions-result-current {
+    border-radius: 4px 4px 4px 4px;
+  }
+
+  .suggestions-result {
+    letter-spacing: 0.02em;
+    color: var(--text-color);
+    padding: 0.3em 0.8em;
+    background-color: var(--content-background);
+    box-shadow: 0 0 3px -1px #fff6 inset;
+  }
+  .highlight {
+    letter-spacing: 0.06em;
+    color: var(--fpheader-color);
+  }
+
+  .suggestions-special {
+    letter-spacing: 0.02em;
+    color: var(--text-color);
+    padding: 0.3em 0.8em;
+    background-color: var(--content-background);
+    box-shadow: 0 0 2px -1px #fff6 inset;
+    border: none;
+    border-radius: 0 0 8px 8px;
+    background-image: url('data:image/png;base64,\
+      iVBORw0KGgoAAAANSUhEUgAAABgAAAAYAQMAAADaua+\
+      7AAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZg\
+      AAACNJREFUeF5dirENAAAMgvzA/7/0hE4mFhImUIm/V\
+      lYO7MzlAL0JE+2CUGbIAAAAAElFTkSuQmCC');
+    background-repeat: no-repeat;
+    background-position: left 14px center;
+    background-size: 1em;
+    image-rendering: pixelated;
+    margin-top: 0;
+  }
+  .suggestions-special .special-label {
+    color: var(--text-color);
+    font-size: 0.8em;
+    padding: 0 2.2em;
+  }
+  .suggestions-special .special-label::after {
+    content: ':';
+  }
+  .suggestions-special .special-query {
+    letter-spacing: 0.06em;
+    color: var(--fpheader-color);
+    padding: 0 2em;
+  }
+  .suggestions-special .special-query::before,
+  .suggestions-special .special-query::after {
+    color: var(--text-color);
+    opacity: 0.6;
+  }
+  .suggestions-special .special-query::before {
+    content: '“';
+  }
+  .suggestions-special .special-query::after {
+    content: '”';
+  }
+
+  .suggestions-special.suggestions-result-current,
+  .suggestions-result-current {
+    outline: 0.1px solid var(--bd-darker);
+    box-shadow: 0 0 6px -1px var(--fpheader-color) inset;
+    border-radius: 4px;
+  }
+  .suggestions-special.suggestions-result-current > div {
+    border-radius: 8px;
+  }
+}
+
+/* Search Box -- All screen sizes */
+@media screen {
+  :root {
+    --search-border-width: 2px;
+    --search-font-size: 1rem;
+    --search-box-height: 2rem;
+    --search-offset: calc(
+      var(--search-box-height) + (var(--search-border-width) * 2)
+    );
+  }
+
+  #simpleSearch:focus-within #searchInput,
+  #simpleSearch:focus #searchInput {
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+
+  .suggestions {
+    position: absolute !important;
+    width: 60vw !important;
+    max-width: 500px !important;
+    left: unset !important;
+    inset-inline: unset !important;
+    right: 12px !important;
+  }
+
+  #right-navigation #simpleSearch {
+    border-bottom: 0;
+    border-radius: 2px 8px;
+    box-shadow: 0 0 3px 1px #0004;
+    transition-duration: 180ms;
+    transition-property: min-width, opacity;
+    transition-timing-function: ease-out, ease;
+    opacity: 1;
+  }
+  #searchInput {
+    font-size: 0.8em;
+  }
+
+  #simpleSearch:focus-within,
+  #simpleSearch:focus {
+    min-width: 90vw;
+    border-radius: 2px 8px 0 0;
+    transition-property: min-width, opacity;
+    transition-duration: 80ms;
+    transition-timing-function: ease, ease;
+  }
+  #searchInput {
+    font-size: 0.8em;
+    box-sizing: border-box;
+    height: 2rem;
+    padding-left: 1em;
+    line-height: 1em;
+    background-color: #aaa2;
+    border-color: #3336;
+    border-width: var(--search-border-width, 2px);
+    border-radius: 2px 8px;
+    box-shadow: 0 0 4px -1px #fff2 inset;
+    color: #eee;
+
+    transition-property: height, line-height, background-color, color,
+      box-shadow, font-size, border-radius;
+    transition-delay: 0ms;
+    transition-duration: 120ms;
+    transition-timing-function: ease-out;
+  }
+  #searchInput::placeholder {
+    color: #eee8;
+  }
+  #simpleSearch:focus-within #searchInput,
+  #simpleSearch:focus #searchInput {
+    background-color: #aaa5;
+    box-shadow: 0 0 4px -1px #fff6 inset;
+    border-radius: 2px 8px 0 0;
+    transition-duration: 80ms;
+    transition-timing-function: ease;
+  }
+  #searchInput:focus::placeholder {
+    color: #eee3;
+  }
+}
+
+/* Search Box -- Desktop Only */
+@media screen and (min-width: 720px) {
+  #simpleSearch:focus-within,
+  #simpleSearch:focus {
+    min-width: unset;
+  }
+  #right-navigation #p-search {
+    margin-right: 12px;
+  }
+}
+
+/* Search Box -- Mobile Only */
+@media screen and (max-width: 720px) {
+  #right-navigation #p-search {
+    top: 0;
+    margin: 0;
+    right: 5vw;
+  }
+  #searchInput {
+    font-size: 0.8em;
+  }
+  #simpleSearch:focus-within #searchInput,
+  #simpleSearch:focus #searchInput {
+    height: var(--search-box-height, 2rem);
+    line-height: 1rem;
+    font-size: var(--search-font-size, 1rem);
+  }
+}
+
+/* Mobile Only */
+@media screen and (max-width: 720px) {
+  #mw-head {
+    top: calc(var(--wikigg-header-height) + 0em);
+  }
+  #content {
+    padding-top: 1rem;
+  }
+  #mw-head-base {
+    background-color: #0006;
+    margin-top: 0;
+    height: 0;
+  }
+  #mw-page-base {
+    height: calc(var(--wikigg-header-height) + 5.6em);
+  }
+}

@@ -1,0 +1,1641 @@
+/*
+ * Changes to CodeMirror & syntax highlighting
+ *  (Used for editing Wikitext)
+ *
+ * See also: 
+ *   ./editor.wikigg.user.css  (changes common to the edit box)
+ *   ./ace.wikigg.user.css     (changes specific to ACE)
+ */
+
+/* {{{1 codemirror setup */
+
+.wikiEditor-ui-text,
+.CodeMirror.cm-s-default.CodeMirror-wrap {
+  height: fit-content !important;
+}
+
+.CodeMirror-code {
+  background-color: rgb(0 0 0 / 0.6);
+}
+
+div.CodeMirror-cursors {
+  z-index: 30000;
+}
+
+/* {{{2 Line Numbers, Gutters, Lines */
+.CodeMirror {
+  background-color: var(--pi-secondary-background);
+  padding: 14px;
+  letter-spacing: 0;
+  position: relative;
+  background: #000;
+  overflow: visible;
+
+  --font-scale: 1;
+
+  --c-parser-a: #ff0000;
+  --c-parser-b: #f5408f;
+  --c-parser-c: #270009;
+  --c-parser-t: #ffcece;
+}
+.CodeMirror-vscrollbar {
+  scrollbar-color: transparent transparent;
+  background-color: transparent;
+}
+.CodeMirror-line {
+  border: none !important;
+}
+
+.CodeMirror-gutters {
+  background-color: var(--pi-secondary-background);
+  border-right: 1px solid var(--pi-border-color);
+}
+.CodeMirror-lines {
+  caret-color: #fff;
+}
+
+.wikiEditor-ui .CodeMirror .CodeMirror-lines > div {
+  padding: 0 0;
+  border-inline: 2px solid black;
+}
+.CodeMirror {
+  background: #222;
+  --cbg-comment: #121218;
+  --cbg-lines: #1f1f1f;
+  --cbg-lines-hover: #000000;
+  --bxs-lines: unset;
+  --bxs-lines-hover: 0 0 4px 0 inset #3535a3;
+  --filter-line: saturate(0.8);
+}
+.CodeMirror-focused {
+  --cbg-comment: #181820;
+  --cbg-lines: #000000;
+  --cbg-lines-hover: #000000;
+  --bxs-lines: unset;
+  --bxs-lines-hover: 0 0 4px 0 inset #3535a3;
+  --filter-line: saturate(1);
+}
+
+.CodeMirror-lines {
+  background-color: var(--cbg-lines);
+  box-shadow: var(--bxs-lines);
+}
+.CodeMirror-lines:hover {
+  background-color: var(--cbg-lines-hover);
+  box-shadow: var(--bxs-lines-hover);
+}
+
+.CodeMirror-line {
+  filter: var(--filter-line);
+}
+.CodeMirror-line:hover {
+  box-shadow: 0 0 2px 0 #fff8 inset;
+  background-image: linear-gradient(
+    #eee2 1px,
+    #000 1px,
+    #000 calc(100% - 1px),
+    #fff2 100%
+  );
+}
+
+.CodeMirror-focused .CodeMirror-gutters {
+  background-color: #000;
+  border-right: 1px solid #250d7a;
+  box-shadow: 4px 0 10px -4px inset #3535a3;
+}
+.CodeMirror-linenumber {
+  color: #555;
+  text-shadow: 0 0 0 #fff6;
+}
+.CodeMirror-code > div:has(.CodeMirror-line):hover .CodeMirror-linenumber {
+  color: #8ff;
+  text-shadow: 0 0 0 #fff6;
+  background-color: #6dd3;
+  box-shadow: 0 0 2px 1px #6dd4 inset;
+}
+
+/* {{{1 <ref> tags */
+.cm-mw-tag-ref {
+  color: #edd385;
+  font-size: 0.9em;
+  letter-spacing: 0.067em;
+  line-height: 1;
+  font-style: italic;
+  vertical-align: text-top;
+}
+
+.cm-mw-exttag-name.cm-mw-ext-ref,
+.cm-mw-ext-ref {
+  font-variant: super;
+}
+
+.cm-mw-tag-ref.cm-mw-link-bracket {
+  color: #2936ff;
+  vertical-align: text-top;
+}
+
+/*{{{2 Inline error */
+.cm-error {
+  color: #fcc;
+  text-decoration-color: #f00;
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-thickness: 0.06em;
+  text-decoration-skip-ink: none;
+}
+
+/*{{{1 mnemonics e.g. &nbsp; */
+.cm-mw-mnemonic {
+  background-color: #14866d;
+  color: #aaffff;
+  /*   outline: 1px solid #0000ff; */
+  box-shadow: 0 0 1px 0.2px #00aaff inset;
+  border-radius: 1px;
+}
+.cm-mw-ext-ground .cm-mw-mnemonic,
+.cm-mw-template-ext-ground .cm-mw-mnemonic {
+  box-shadow: 0 0 1px 0.2px #00aaff inset;
+}
+.cm-mw-ext2-ground .cm-mw-mnemonic,
+.cm-mw-template-ext2-ground .cm-mw-mnemonic {
+  box-shadow: 0 0 2px 1.2px #00aaff inset;
+}
+.cm-mw-ext3-ground .cm-mw-mnemonic,
+.cm-mw-template-ext3-ground .cm-mw-mnemonic {
+  box-shadow: 0 0 3px 2.2px #00aaff inset;
+}
+
+/*{{{1 -- Comments <!--..--> */
+
+/**
+ * Monospace Font size alignment
+ *
+ * Align char columns (only works for monospace fonts)
+ * Change font size by setting --font-scale variable,
+ * e.g. for 0.8em, set: --font-scale: 0.8;
+ */
+/* .CodeMirror-code, */
+/* .CodeMirror-line > [role='presentation'] > span, */
+.cm-mw-comment:only-child {
+  --spacing: calc((1ch * (1 / var(--font-scale))) - 1ch);
+  --fsize: calc(1em * var(--font-scale));
+  background-image: repeating-linear-gradient(
+    to right,
+    #0000,
+    #3330 1ch,
+    #3339 1ch,
+    #3338 calc((1ch + var(--spacing)) * var(--grid, 0))
+  );
+  background-size: calc(1ch + var(--spacing));
+  letter-spacing: var(--spacing);
+  font-size: var(--fsize);
+  /*   background-size: calc(1ch - (1ch * var(--font-scale))); */
+  /*   font-size: calc(1em * var(--font-scale)); */
+}
+
+.cm-mw-comment {
+  background-color: var(--cbg-comment);
+  color: #aaa;
+  border-block: 1px solid #fff1;
+  font-style: italic;
+}
+
+/* {{{2 Comments that take up entire line(s) */
+.cm-mw-comment:only-child {
+  background-color: #0000;
+  --grid: 0;
+  --font-scale: 0.84;
+}
+.CodeMirror-line:has(.cm-mw-comment:only-child) {
+  border-right: 1px solid #250d7a;
+  box-shadow: 0 0 2px inset #fff1;
+  background-color: var(--cbg-comment);
+}
+.CodeMirror-focused .CodeMirror-line:has(.cm-mw-comment:only-child) {
+  background-color: var(--cbg-comment);
+  border-right: 4px solid #250d7a;
+  box-shadow: 0 0 2px inset #fff1;
+}
+
+.cm-mw-comment:first-child:has(~ .cm-mw-comment:last-child),
+.cm-mw-comment:first-child ~ .cm-mw-comment:last-child {
+  background-color: #050505;
+  color: #444;
+  transition: 80ms ease;
+  transition-property: color, background-color;
+  font-style: normal;
+}
+
+.CodeMirror-line:hover
+  .cm-mw-comment:first-child:has(~ .cm-mw-comment:last-child),
+.CodeMirror-line:hover .cm-mw-comment:first-child ~ .cm-mw-comment:last-child {
+  color: #aaa;
+  transition: 40ms ease;
+  transition-property: color, background-color;
+  background-color: #333;
+}
+
+/* {{{1  Extra tags */
+.cm-mw-exttag-name {
+  color: #ffc001;
+  font-weight: normal;
+}
+.cm-mw-exttag-bracket {
+  color: #dc801f;
+  font-weight: bold;
+}
+.cm-mw-exttag-attribute {
+  color: #ffeaaa;
+  font-weight: normal;
+}
+
+/* <syntaxhighlight/> ext tag */
+div:has(> .CodeMirror-line > span > .cm-mw-ext-syntaxhighlight)
+  ~ div
+  > .CodeMirror-line.cm-mw-exttag
+  > span {
+  color: #ffeeba;
+}
+
+div:has(> .CodeMirror-line.cm-mw-exttag)
+  + div:not(:has(> .cm-mw-exttag))
+  > .CodeMirror-line
+  > span
+  > span.cm-mw-exttag {
+  color: #ffeeba;
+}
+
+div:has(> .CodeMirror-line):not(:has(> .cm-mw-exttag))
+  > .CodeMirror-line
+  > span
+  > .cm-mw-ext-syntaxhighlight
+  ~ .cm-mw-exttag {
+  color: #ffeeba;
+}
+
+/* {{{1  HTML tags */
+.cm-mw-htmltag-bracket {
+  color: #137214;
+  font-weight: bold;
+}
+.cm-mw-htmltag-name {
+  color: #28ed2b;
+  font-weight: normal;
+}
+.cm-mw-htmltag-attribute {
+  color: #c3ff7a;
+}
+
+/* {{{1 Internal links   [[..]] */
+.cm-mw-link-bracket {
+  position: relative;
+  color: #2936ff;
+}
+.cm-mw-link-delimiter,
+.cm-mw-link-bracket {
+  color: #2936ff;
+}
+.cm-mw-link-pagename ~ .cm-mw-link-bracket::before,
+.cm-mw-link-text ~ .cm-mw-link-bracket::before {
+  background-size: 0.86em;
+  background-image: url('data:image/svg+xml,\
+    %3Csvg xmlns=%22http://www.w3.org/2000/svg%22\
+    transform=%22rotate(-64) scale(1)%22\
+    style=%22stroke:%23000000;stroke-width:1;fill:%239198ff;%22\
+    viewBox=%220 0 20 20%22%3E %3Ctitle%3E link %3C/title%3E\
+    %3Cpath d=%22M4.83 15h2.91a4.88 4.88 0 0 1-1.55-2H5\
+     a3 3 0 1 1 0-6h3a3 3 0 0 1 2.82 4h2.1\
+     a4.82 4.82 0 0 0 .08-.83v-.34A4.83 4.83 0 0 0 8.17 5\
+     H4.83A4.83 4.83 0 0 0 0 9.83\
+     v.34A4.83 4.83 0 0 0 4.83 15z%22/%3E\
+    %3Cpath d=%22M15.17 5h-2.91a4.88 4.88 0 0 1 1.55 2\
+     H15a3 3 0 1 1 0 6h-3a3 3 0 0 1-2.82-4h-2.1\
+     a4.82 4.82 0 0 0-.08.83v.34A4.83 4.83 0 0 0 11.83 15\
+     h3.34A4.83 4.83 0 0 0 20 10.17v-.34\
+     A4.83 4.83 0 0 0 15.17 5z%22/%3E\
+    %3C/svg%3E');
+  color: #2936ff;
+  width: 1em;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.cm-mw-link-bracket:has(~ .cm-mw-link-pagename, ~ .cm-mw-link-text)::before {
+  background-size: 0.86em;
+  background-image: url('data:image/svg+xml,\
+    %3Csvg xmlns=%22http://www.w3.org/2000/svg%22\
+    transform=%22rotate(-64) scale(1)%22\
+    style=%22stroke:%23000000;stroke-width:1;fill:%232734fc;%22\
+    viewBox=%220 0 20 20%22%3E%3Ctitle%3E link %3C/title%3E\
+    %3Cpath d=%22M4.83 15h2.91a4.88 4.88 0 0 1-1.55-2H5\
+    a3 3 0 1 1 0-6h3a3 3 0 0 1 2.82 4h2.1a4.82 4.82 0 0 0 .08-.83\
+    v-.34A4.83 4.83 0 0 0 8.17 5H4.83A4.83 4.83 0 0 0 0 9.83v.34\
+    A4.83 4.83 0 0 0 4.83 15z%22/%3E\
+    %3Cpath d=%22M15.17 5h-2.91a4.88 4.88 0 0 1 1.55 2H15\
+    a3 3 0 1 1 0 6h-3a3 3 0 0 1-2.82-4h-2.1a4.82 4.82 0 0 0-.08.83\
+    v.34A4.83 4.83 0 0 0 11.83 15h3.34A4.83 4.83 0 0 0 20 10.17\
+    v-.34A4.83 4.83 0 0 0 15.17 5z%22/%3E%3C/svg%3E');
+  position: absolute;
+  top: -0.2px;
+  height: 100%;
+  width: 1em;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* {{{2 External links [.. ..] */
+.cm-mw-extlink-bracket,
+.cm-mw-link-bracket {
+  color: #2936ff;
+}
+.cm-mw-extlink-text ~ .cm-mw-extlink-bracket::before,
+.cm-mw-extlink ~ .cm-mw-extlink-bracket::before {
+  display: inline-flex;
+  vertical-align: baseline;
+  margin: 0 0.1em 0 0.3em;
+  width: 0.8em;
+  content: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22\
+   style=%22fill:%239198ff;%22\
+   viewBox=%220 0 512 512%22%3E\
+   %3Cpath d=%22M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7\
+   L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0\
+   L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32\
+   V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112\
+   v320c0 44.2 35.8 80 80 80h320c44.2 0 80-35.8 80-80\
+   V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v112\
+   c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112\
+   c0-8.8 7.2-16 16-16h112c17.7 0 32-14.3 32-32\
+   s-14.3-32-32-32H80z%22/%3E%3C/svg%3E');
+}
+.cm-mw-link-pagename {
+  color: #a4c5e2;
+  text-decoration: none;
+}
+.cm-mw-link-pagename:has(~ .cm-mw-link-delimiter) {
+  font-weight: normal;
+  font-style: normal;
+}
+.cm-mw-link-text {
+  color: #9198ff;
+  text-decoration: underline;
+}
+.cm-mw-link,
+.cm-mw-link-delimiter,
+.cm-mw-link-bracket {
+  color: #2936ff;
+}
+.cm-mw-link-text,
+.cm-mw-extlink-text,
+.cm-mw-link-pagename:has(+ .cm-mw-link-bracket) {
+  color: #9198ff;
+  text-decoration: underline 0.6px solid #9198ff;
+  text-underline-offset: 2px;
+}
+.cm-mw-link-pagename,
+.cm-mw-extlink,
+.cm-mw-extlink-protocol {
+  text-decoration: underline 0.6px solid #9198ff88;
+  text-underline-offset: 2px;
+}
+.cm-mw-extlink {
+  color: #a4c5e2;
+  font-weight: normal;
+}
+.cm-mw-extlink-protocol {
+  color: #a4c5e2;
+  font-weight: normal;
+}
+/* closing brackets */
+.cm-mw-link-pagename ~ .cm-mw-link-bracket,
+.cm-mw-link-text ~ .cm-mw-link-bracket {
+  display: inline-flex;
+  font-size: 1em;
+  vertical-align: bottom;
+}
+/* opening brackets */
+.cm-mw-link-bracket:has(
+    ~ .cm-mw-link-bracket,
+    ~ .cm-mw-link-pagename,
+    ~ .cm-mw-link-text
+  ) {
+  font-size: 1em;
+  display: inline-flex;
+}
+
+/*------------------------------------ Matching brackets */
+
+/* Bracket reset */
+.cm-mw-templatevariable-bracket,
+.cm-mw-parserfunction-bracket,
+.cm-mw-template-bracket {
+  font-weight: normal;
+  font-size: 1em;
+  letter-spacing: unset;
+  line-height: 1;
+  vertical-align: unset;
+}
+
+.cm-mw-matchingbracket {
+  --outline-color: #a00;
+  --color: #f00;
+  --bg-color: #400;
+
+  /* outline: 1px solid var(--matching-outline-color, --outline-color); */
+  outline: none;
+  color: var(--matching-color, var(--color));
+  background-color: var(--matching-bg-color, var(--bg-color));
+  /* box-shadow: 0 0 0 1px #a00202; */
+  border-radius: 1px;
+}
+
+.cm-mw-link-bracket {
+  --matching-bg-color: yellow;
+  --matching-color: #387cd3;
+}
+.cm-mw-template-bracket {
+  --matching-bg-color: #fab9c4;
+  --matching-color: purple;
+}
+
+.cm-mw-matchingbracket.cm-mw-template-bracket,
+.cm-mw-matchingbracket.cm-mw-template-bracket + .cm-mw-template-bracket,
+.cm-mw-template-bracket:has(+ .cm-mw-matchingbracket.cm-mw-template-bracket) {
+  --bg-color: #fab9c4;
+  --color: purple;
+}
+
+/*
+‹div "position: relative;"›
+ ‹div .CodeMirror-gutter-wrapper»
+  ‹div .CodeMirror-linenumber.CodeMirror-gutter-elt›
+ «div›
+ ‹pre .CodeMirror-line  role=presentation›
+  ‹span  role=presentation›
+   ‹span .cm-mw-htmltag-bracket›‹Ⳇspan›
+   ‹span .cm-mw-htmltag-name›‹Ⳇspan›
+   ‹span .cm-mw-htmltag-bracket›‹Ⳇspan›
+  ‹Ⳇspan›
+ ‹pre›
+‹ⳇdiv›
+*/
+
+/* {{{1 Tables */
+
+.cm-mw-table-definition {
+  color: #ff64c4;
+}
+.cm-mw-table-caption,
+.cm-mw-table-delimiter + .cm-strong {
+  color: #ffbde6;
+}
+
+div > .CodeMirror-line:has(> span > .cm-mw-table-delimiter + .cm-strong) {
+  box-shadow: inset 0 4px 2px -2px #dd0088, inset 0 -4px 2px -2px #dd0088;
+}
+
+.CodeMirror-line:has(
+    > [role='presentation'] > .cm-mw-table-bracket + .cm-mw-table-definition
+  ) {
+  border-top: 1.5px solid #d08c;
+  box-shadow: inset 0 4px 3px -2px #d08d;
+  padding-top: 2px;
+  margin-top: -2px;
+  border-radius: 1ch 1ch 0 0;
+}
+.CodeMirror-line:has(
+    > [role='presentation'] > .cm-mw-table-delimiter:only-child
+  )::after {
+  content: '';
+  height: 50%;
+  position: absolute;
+  width: calc(100% - 2.5ch);
+  display: flex;
+  top: 50%;
+  border-top: 1.5px solid #d08c;
+  margin: auto 0 auto 2.5ch;
+}
+
+/* {{{1 Lists */
+.CodeMirror-line .cm-mw-list {
+  color: #3331;
+  background-color: transparent;
+  letter-spacing: 0;
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 0.8;
+  transition: color 180ms ease;
+  position: relative;
+}
+.CodeMirror-line .cm-mw-list::after {
+  content: '•';
+  color: #fff;
+  font-size: 1.4ex;
+  position: absolute;
+  top: 0.7ex;
+  width: 0;
+  left: 0;
+  transition: color 180ms ease;
+}
+.CodeMirror-line:hover .cm-mw-list {
+  color: #aaa;
+  transition: color 80ms ease;
+  text-underline-offset: 2px;
+}
+
+.CodeMirror-line:hover .cm-mw-list::after {
+  color: #3330;
+  transition: color 80ms ease;
+}
+
+/* {{{1 '''Bold''' and ''Italic'' */
+span[role='presentation']:has(.cm-mw-section-header) {
+  text-decoration: underline 1px double #62deeb;
+  color: #e0fcff;
+  line-height: 1;
+  vertical-align: text-top;
+}
+span[role='presentation']:has(.cm-mw-section-header) > .cm-mw-section-header {
+  display: inline-block;
+  line-height: 0.3;
+  vertical-align: text-bottom;
+}
+
+.cm-mw-apostrophes-italic {
+  color: #ffc000;
+  display: inline-block;
+  position: relative;
+  vertical-align: baseline;
+  line-height: 1em;
+  font-style: italic;
+}
+.cm-mw-apostrophes-italic::after {
+  color: #ffc000;
+  content: 'i';
+  font-style: italic;
+  position: absolute;
+  font-size: 0.94em;
+  white-space: nowrap;
+  left: -1px;
+  width: 100%;
+  text-align: center;
+  bottom: 0;
+  line-height: 0.84;
+  font-family: sans;
+}
+.cm-mw-apostrophes-bold {
+  color: #ff0060;
+  display: inline-block;
+  position: relative;
+  font-weight: bold;
+}
+.cm-mw-apostrophes-bold::after {
+  content: 'B';
+  color: #ff0060;
+  font-weight: bold;
+  position: absolute;
+  font-size: 0.8em;
+  letter-spacing: 0;
+  white-space: nowrap;
+  left: 0;
+  right: 0;
+  text-align: center;
+  bottom: 0;
+  line-height: 1;
+}
+
+.CodeMirror-line:hover {
+  box-shadow: 0 1px 2px -1px #fff8 inset;
+}
+
+/* {{{1 Other basic formatting */
+.cm-strong {
+  font-weight: bold;
+}
+
+.cm-mw-indenting {
+  background-color: blue;
+  color: cyan;
+  background-image: repeating-linear-gradient(to right, blue 0, red, black 3ex);
+  /*! outline: 1px solid orange; */
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-size: 1ex;
+  letter-spacing: 2ex;
+}
+
+.cm-mw-doubleUnderscore,
+.cm-mw-signature,
+.cm-mw-hr {
+  color: #0076dd;
+  font-weight: bold;
+  background-color: #eee;
+}
+
+/* {{{1----------------------------------------------- Hover hints */
+.cm-mw-apostrophes-bold:hover::after,
+.cm-mw-apostrophes-italic:hover::after {
+  display: none;
+}
+
+.cm-mw-link-tosection,
+.cm-mw-link-text,
+.cm-mw-pagename.cm-mw-link-pagename,
+.cm-mw-pagename.cm-mw-template-name,
+.cm-mw-exttag-name,
+.cm-mw-apostrophes-bold,
+.cm-mw-apostrophes-italic {
+  position: relative;
+}
+.cm-mw-link-tosection:hover::before,
+.cm-mw-link-text:hover::before,
+.cm-mw-pagename.cm-mw-link-pagename:hover::before,
+.cm-mw-pagename.cm-mw-template-name:hover::before,
+.cm-mw-exttag-name:hover::before,
+.cm-mw-apostrophes-bold:hover::before,
+.cm-mw-apostrophes-italic:hover::before {
+  overflow-x: clip;
+  text-overflow: clip;
+  font-size: 0.9em;
+  line-height: 1;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #000;
+  border: 1px solid currentColor;
+  border-radius: 1em;
+  top: -1.4em;
+  padding: 0.1em 0.6em;
+  pointer-events: none;
+}
+/* .cm-mw-apostrophes-bold:hover::before { */
+/*   content: "'''Bold'''"; */
+/* } */
+/* .cm-mw-apostrophes-italic:hover::before { */
+/*   content: "''Italic''"; */
+/* } */
+/* .cm-mw-link-tosection:hover::before { */
+/*   content: 'Page\a0Section'; */
+/* } */
+/* .cm-mw-pagename.cm-mw-link-pagename:hover::before { */
+/*   content: 'Link\a0target'; */
+/* } */
+/* .cm-mw-link-text:hover::before { */
+/*   content: 'Link\a0text'; */
+/* } */
+/* .cm-mw-pagename.cm-mw-template-name:hover::before { */
+/*   content: 'Template'; */
+/* } */
+/* .cm-mw-exttag-name.cm-mw-ext-section:hover::before { */
+/*   content: 'Labeled Section for transclusion'; */
+/* } */
+
+.cm-mw-parserfunction-name:last-of-type::after {
+  color: #e00808;
+}
+
+.cm-mw-parserfunction-bracket + .cm-mw-parserfunction-name:last-of-type,
+.cm-mw-template-bracket + .cm-mw-template-name:last-of-type {
+  border-width: 1px 2px 1px 6px;
+  border-radius: 74px 60px 0 74px / 42px 30px 0 42px;
+  margin: 0 -10px;
+  border-color: #e00808aa #e00808aa #0000 #0000;
+}
+
+/* {{{1 skip-formatting & pre */
+
+[role='presentation']:has(> .cm-mw-skipformatting) {
+  display: inline-block;
+  background-color: #4028;
+  font-family: monospace;
+  font-size: 0.9em;
+  letter-spacing: 0.067em;
+  color: #fa8;
+  line-height: inherit;
+  min-width: 100%;
+  box-shadow: inset 1ch 0.3px 0 #603;
+}
+[role='presentation']:has(> .cm-mw-skipformatting)::before {
+  content: '␣';
+  position: absolute;
+  color: #f4d;
+  font-weight: bold;
+}
+.cm-mw-skipformatting {
+  background-color: transparent;
+}
+
+/* {{{1 <math> tags */
+.cm-mw-exttag-bracket.cm-mw-ext-math {
+  color: #a504ff;
+}
+.cm-mw-exttag-name.cm-mw-ext-math {
+  color: #c044f8;
+}
+.cm-mw-exttag-bracket.cm-mw-ext-math + .cm-mw-exttag {
+  color: #d3abfa;
+}
+
+/* {{{1 Nesting levels */
+.cm-mw-ext-link-ground {
+  border-block: 1px solid var(--c-nest1);
+}
+.cm-mw-ext-ground,
+.cm-mw-template-ext-ground {
+  border-block: 1px solid var(--c-nest1);
+}
+.cm-mw-ext2-ground,
+.cm-mw-template-ext2-ground {
+  background-color: var(--c-nest2);
+  border-block: 2px solid var(--c-nest2);
+}
+.cm-mw-ext3-ground,
+.cm-mw-template-ext3-ground {
+  border-block: 3px solid var(--c-nest3);
+}
+.cm-mw-ext4-ground {
+  border-top: 4px solid var(--c-nest4);
+}
+
+/* {{{1 Headings ==..== */
+.cm-mw-section-header {
+  position: relative;
+}
+.cm-mw-section-header::before {
+  font-size: 0.7rem;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: 0 auto;
+  text-shadow: 2px 1px 2px #000, -2px -1px 3px #000;
+  color: #ffb300;
+}
+
+/* {{{2 Heading level 6 */
+.cm-mw-section-6 > [role='presentation']:has(.cm-mw-section-header) {
+  text-decoration: underline 0.1em dashed #62deeb;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 0.3em;
+  line-height: 0.8;
+  font-size: 0.8em;
+  font-style: italic;
+}
+.cm-mw-section-6 > [role='presentation'] > .cm-mw-section-header {
+  line-height: 0.12;
+  font-size: 1em;
+}
+.cm-mw-section-6 > [role='presentation'] > .cm-mw-section-header::before {
+  content: 'H6';
+  line-height: 0.12;
+  font-size: 0.6rem;
+  position: absolute;
+  top: -0.6em;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: 0 auto;
+}
+
+/* {{{2 Heading level 5 */
+.cm-mw-section-5 > [role='presentation']:has(.cm-mw-section-header) {
+  text-decoration: underline 0.1em solid #62deeb;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 0.3em;
+  line-height: 0.8;
+  font-size: 0.8em;
+  font-style: italic;
+}
+.cm-mw-section-5 > [role='presentation'] > .cm-mw-section-header {
+  font-size: 1em;
+}
+.cm-mw-section-5 > [role='presentation'] > .cm-mw-section-header::before {
+  line-height: 0.12;
+}
+
+/* {{{2 Heading level 4 */
+.cm-mw-section-4 > [role='presentation']:has(.cm-mw-section-header) {
+  text-decoration: underline 0.1em solid #62deeb;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 0.3em;
+  line-height: 0.9;
+  font-size: 1em;
+}
+.cm-mw-section-4 > [role='presentation'] > .cm-mw-section-header {
+  font-size: 1em;
+}
+.cm-mw-section-4 > [role='presentation'] > .cm-mw-section-header::before {
+  line-height: 0.08;
+}
+
+/* {{{2 Heading level 3 */
+.cm-mw-section-3 > [role='presentation']:has(.cm-mw-section-header) {
+  text-decoration: underline 0.1em double #62deeb;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 0.1em;
+  line-height: 1;
+  font-size: 1.1em;
+}
+.cm-mw-section-3 > [role='presentation'] > .cm-mw-section-header {
+  line-height: 0.12;
+  font-size: 0.8em;
+}
+.cm-mw-section-3 > [role='presentation'] > .cm-mw-section-header::before {
+  content: 'H';
+  line-height: 1;
+  font-size: 0.7em;
+  bottom: -50%;
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+.cm-mw-section-3
+  > [role='presentation']
+  > .cm-mw-section-header
+  ~ .cm-mw-section-header::before {
+  content: '3';
+}
+.cm-mw-section-3 {
+  box-shadow: 0 4.5px 0 -2px #6bf1ff;
+}
+.cm-mw-section-3:hover {
+  box-shadow: 0 4.5px 0 -2px #4bc1cc;
+}
+
+/* {{{2 Heading level 2 */
+.cm-mw-section-2 > [role='presentation']:has(.cm-mw-section-header) {
+  text-decoration: underline 0.1em double #62deeb;
+  text-decoration-skip-ink: auto;
+  text-underline-offset: 0.1em;
+  line-height: 1;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+.cm-mw-section-2 > [role='presentation'] > .cm-mw-section-header {
+  line-height: 0.2;
+  font-size: 0.74em;
+}
+.cm-mw-section-2 > [role='presentation'] > .cm-mw-section-header::before {
+  content: 'H';
+  line-height: 0.12;
+  font-size: 1em;
+  margin: 0 auto;
+  position: absolute;
+}
+.cm-mw-section-2
+  > [role='presentation']
+  > .cm-mw-section-header
+  ~ .cm-mw-section-header::before {
+  content: '2';
+}
+
+.cm-mw-section-2 {
+  box-shadow: 0 4.5px 0 -2px #6bf1ff;
+}
+.cm-mw-section-2:hover {
+  box-shadow: 0 4.5px 0 -2px #4bc1cc;
+}
+
+/* {{{2 Heading level 1 */
+.cm-mw-section-1 > [role='presentation']:has(.cm-mw-section-header) {
+  text-decoration: underline 0.1em double #62deeb;
+  text-decoration-skip-ink: auto;
+  text-underline-offset: 0.1em;
+  line-height: 1;
+  font-size: 0.9em;
+  font-weight: normal;
+}
+.cm-mw-section-1 > [role='presentation'] > .cm-mw-section-header {
+  /*   line-height: 0.2; */
+  color: #f00;
+  font-size: 0.74em;
+}
+.cm-mw-section-1 > [role='presentation'] > .cm-mw-section-header::before {
+  content: 'H1';
+  font-size: 0.74em;
+}
+.cm-mw-section-1 > [role='presentation'] > .cm-mw-section-header::after {
+  content: '!|⤴︎';
+  color: #ffff00;
+  font-size: 0.8em;
+  line-height: 1;
+  position: absolute;
+  bottom: -0.4em;
+  left: -0.3em;
+  letter-spacing: -0.1em;
+  font-weight: normal;
+  background-color: #0005;
+  border-radius: 50%;
+  padding: 0.2em 0.2em;
+  display: block;
+  text-align: center;
+  white-space: nowrap;
+  transform: scale(-1, 1);
+}
+
+/* {{{1 newline hints */
+.CodeMirror-code
+  > div:has(
+    > .cm-mw-templatevariable-delimiter:last-child,
+    > .cm-mw-parserfunction-delimiter:last-child,
+    > .cm-mw-template-delimiter:last-child
+      > .CodeMirror-line
+      .cm-mw-htmltag-bracket:last-child
+  )
+  > .CodeMirror-line
+  > span::after {
+  border: 1px solid red;
+  content: '¶';
+  color: red;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  width: auto;
+  height: 1.4em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.3em;
+  position: absolute;
+}
+
+.CodeMirror-code
+  > div:has(
+    > .cm-mw-templatevariable-delimiter:last-child,
+    > .cm-mw-parserfunction-delimiter:last-child,
+    > .cm-mw-template-delimiter:last-child
+      > .CodeMirror-line
+      .cm-mw-htmltag-bracket:last-child
+  )
+  > .CodeMirror-line
+  > span:hover
+  > :last-child::before {
+  white-space: nowrap;
+  content: 'possible\anewline';
+  border-radius: 1em;
+  position: absolute;
+  border: 1px solid #f00;
+  background-color: #000e;
+  color: #f00;
+  text-align: center;
+  padding: 0.3em 0.6em;
+  left: calc(100% + 1em);
+  bottom: calc(100% + 0.4em);
+  transform: translate(-50%);
+  font-size: 0.8em;
+  font-weight: 400;
+  line-height: 1;
+  pointer-events: none;
+  box-shadow: 1px 1px 4px 0#000;
+}
+
+.CodeMirror-code
+  > div:has(
+    > .cm-mw-templatevariable-delimiter:last-child,
+    > .cm-mw-parserfunction-delimiter:last-child,
+    > .cm-mw-template-delimiter:last-child
+      > .CodeMirror-line
+      .cm-mw-htmltag-bracket:last-child
+  )
+  > .CodeMirror-line
+  > span
+  > :last-child {
+  position: relative;
+}
+
+.CodeMirror-code
+  > div:has(
+    > .cm-mw-templatevariable-delimiter:last-child,
+    > .cm-mw-parserfunction-delimiter:last-child,
+    > .cm-mw-template-delimiter:last-child
+      > .CodeMirror-line
+      .cm-mw-htmltag-bracket:last-child
+  )
+  > .CodeMirror-line
+  > span
+  > :last-child::after {
+  border: 1px solid #f00;
+  content: '¶';
+  color: #f00;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  width: auto;
+  height: 1.4em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.3em;
+  position: absolute;
+  background-color: #000;
+}
+
+/* {{{1 Template variables ❴❴❴…❵❵❵ */
+.cm-mw-templatevariable {
+  color: #ff9e13;
+  border-top: 1px solid #ebbf1599;
+  border-radius: 0;
+  padding-top: 0;
+}
+.cm-mw-templatevariable-name {
+  color: #ff9905;
+  font-weight: normal;
+}
+.cm-mw-templatevariable-bracket {
+  position: relative;
+}
+.cm-mw-templatevariable-name + .cm-mw-templatevariable-bracket::before {
+  color: #ffff00;
+  font-size: 0.8em;
+  line-height: 1;
+  position: absolute;
+  left: -0.3em;
+  letter-spacing: -0.1em;
+  font-weight: normal;
+  background-color: #0005;
+  border-radius: 50%;
+  padding: 0.2em 0.2em;
+  display: block;
+  text-align: center;
+  white-space: nowrap;
+  bottom: unset;
+  content: '⤺|!';
+  top: -0.8em;
+  transform: scale(1);
+  z-index: 10;
+}
+
+.cm-mw-templatevariable-bracket + .cm-mw-templatevariable-bracket::before {
+  content: '';
+}
+
+.cm-mw-templatevariable-name
+  + .cm-mw-templatevariable-delimiter
+  + .cm-mw-templatevariable-bracket::before {
+  content: '';
+}
+
+/* {{{1 Common to all curly braces ❴̲❴̲❴̲…❵̲❵̲❵̲ ❴̲❴̲…❵̲❵̲ ❴̲❴̲#…❵̲❵̲ */
+.cm-mw-templatevariable-bracket,
+.cm-mw-parserfunction-bracket,
+.cm-mw-template-bracket {
+  font-weight: normal;
+  font-size: 1em;
+  letter-spacing: unset;
+  line-height: 1;
+  vertical-align: unset;
+}
+
+/* ❴❴❴…|̲…❵❵❵  ❴❴#…|̲…❵❵  ❴❴…|̲…❵❵ */
+.cm-mw-templatevariable-delimiter,
+.cm-mw-parserfunction-delimiter,
+.cm-mw-template-delimiter {
+}
+
+/* {{{1 Parser Functions ❴❴#…❵❵ & Templates ❴❴…❵❵ */
+.cm-mw-parserfunction-bracket
+  + .cm-mw-parserfunction-name:has(+ .cm-mw-parserfunction-bracket),
+.cm-mw-template-bracket + .cm-mw-template-name:has(+ .cm-mw-template-bracket) {
+  font-weight: normal;
+  border-style: solid solid solid solid;
+  border-radius: 74px / 42px;
+  border-width: 1px 14px 1px 14px;
+  margin: 0 -22px 0 -22px;
+  padding: 0.4px 8px 0 8px;
+  text-decoration: none;
+}
+
+/* ❴❴#N̲A̲M̲E̲|❵❵ ❴❴N̲A̲M̲E̲|…❵❵ */
+.cm-mw-parserfunction-bracket
+  + .cm-mw-parserfunction-name:has(+ .cm-mw-parserfunction-delimiter),
+.cm-mw-template-bracket
+  + .cm-mw-template-name:has(+ .cm-mw-template-delimiter) {
+  font-weight: normal;
+  border-style: solid solid solid solid;
+  border-radius: 74px 0 0 74px / 42px 0 0 42px;
+  border-width: 1px 0 1px 14px;
+  margin: 0 0 0 -22px;
+  padding: 0.4px 0 0 8px;
+  text-decoration: none;
+}
+/* ❴❴#N̲A̲M̲E̲❵❵ ❴❴N̲A̲M̲E̲❵❵ */
+.cm-mw-parserfunction-bracket + .cm-mw-parserfunction-name:last-of-type,
+.cm-mw-template-bracket + .cm-mw-template-name:last-of-type {
+  margin-bottom: 0;
+  line-height: 0;
+  border-width: 1px 4px 0 14px;
+  border-color: #e00808aa #0000 #0000 #0000;
+  border-radius: 74px 0 0 74px / 42px 0 0 42px;
+}
+
+/*{{{2 Parser Functions & Templates  {{..}} */
+.cm-mw-parserfunction-bracket,
+.cm-mw-parserfunction-delimiter {
+  color: #e00808;
+}
+.cm-mw-parserfunction-name,
+.cm-mw-template-name {
+  text-decoration: none;
+  font-weight: 400;
+  border-style: solid solid solid solid;
+  border-radius: 74px / 42px;
+  border-width: 1px 6px 1px 6px;
+  margin: 0 -10px 0 -10px;
+  padding: 1.4px 4px 1.4px 4px;
+}
+.cm-mw-parserfunction-name {
+  color: #ff7d7d;
+  border-style: solid;
+  border-color: #e00808aa transparent;
+}
+.cm-mw-template-name {
+  color: #edadff;
+  border-color: #df00ffaa transparent;
+}
+.cm-mw-parserfunction-name:last-of-type::after,
+.cm-mw-template-name:last-of-type::after {
+  content: '↴';
+  margin-left: 0.2em;
+  color: #df00ff;
+  font-size: 1.2em;
+  line-height: 1em;
+}
+/* {{{1  Parser Functions ❴❴#…❵❵  */
+.cm-mw-parserfunction {
+  color: #ffcece;
+}
+
+.cm-mw-parserfunction-name {
+  color: var(--c-parser-b);
+  border-color: var(--c-parser-a) transparent;
+  background-clip: content-box, padding-box;
+  background-color: var(--c-parser-c);
+  background-image: var(--bgi-boxc-parser), var(--bgi-boxp-parser);
+  line-height: 1;
+}
+
+.cm-mw-parserfunction-bracket,
+.cm-mw-parserfunction-delimiter {
+  color: var(--c-parser-a);
+}
+
+/* ❴̲❴̲#NAME         opening bracket, followed by name */
+.cm-mw-parserfunction-bracket:has(~ .cm-mw-parserfunction-name) {
+  z-index: 1;
+  position: relative;
+}
+/*  ❴❴#̲N̲A̲M̲E̲…       name, followed by anything */
+.cm-mw-parserfunction-bracket ~ .cm-mw-parserfunction-name {
+  background-color: #38000e;
+}
+/*  ❴❴#̲N̲A̲M̲E̲|       name, followed by delimiter */
+.cm-mw-parserfunction-bracket
+  + .cm-mw-parserfunction-name:has(+ .cm-mw-parserfunction-delimiter) {
+  border-radius: 24px 0 0 24px / 42px 0 0 42px;
+  border-width: 1px 0 1px 16px;
+  margin: 0 0 0 -16px;
+  padding: 0 0 0 0;
+}
+/*  ❴❴#̲N̲A̲M̲E̲❵❵      name, followed by closing bracket */
+.cm-mw-parserfunction-bracket
+  + .cm-mw-parserfunction-name:has(+ .cm-mw-parserfunction-bracket) {
+  background-color: var(--c-parser-c);
+  border-radius: 24px / 42px;
+  border-width: 1px 16px;
+  margin: 0 -16px;
+  padding: 0.4px 2px 0 2px;
+}
+/*  ❴❴#NAME❵̲❵̲     closing bracket, following name */
+.cm-mw-parserfunction-bracket
+  + .cm-mw-parserfunction-name
+  + .cm-mw-parserfunction-bracket {
+  margin: 0;
+  padding: 0;
+}
+/* ❴❴#name:❴❴#first❵❵|❴❴#second❵❵|❵❵ */
+
+/*  ❴❴ #name : arg1❵̲❵̲             closing bracket, following 1st argument */
+/*  ❴❴ #name : arg1 | arg2 ❵̲❵̲     closing bracket, following 2nd argument */
+/*  ❴❴ #name : …argN ❵̲❵̲          closing bracket, following argument(s) */
+/*  ❴❴ #name : …argN | ❵̲❵̲        closing bracket, following argument(s), last empty */
+/* {{{1 -- Matching Brackets  **/
+
+/* {{{2  on different lines */
+
+.CodeMirror-code
+  :has(> .CodeMirror-line > span > .cm-mw-matchingbracket)
+  ~ div:has(> .CodeMirror-line > span > .cm-mw-matchingbracket) {
+  box-shadow: var(--match-hint);
+  border-radius: 0 0 1ch 0;
+}
+
+.CodeMirror-code {
+  --matching-multiline-hint-w: 0.8ch;
+  --matching-multiline-hint-c: #a0aa;
+  --match-hint: inset calc(var(--matching-multiline-hint-w) * -1) 0 0 0
+    var(--matching-multiline-hint-c);
+}
+
+.cm-mw-matchingbracket {
+  background-color: transparent;
+  box-shadow: none;
+  background-clip: content-box;
+  background-image: linear-gradient(
+    to right,
+    #0000 0 0.1em,
+    #2598ff44 0.1em calc(100% - 0.1em),
+    #0000 calc(100% - 0.1em) 100%
+  );
+  box-sizing: content-box;
+  color: #2598ff;
+  z-index: -1;
+}
+/* all lines before opening */
+.CodeMirror-code div:has(~ div .cm-mw-matchingbracket) {
+  box-shadow: none;
+  border-radius: unset;
+}
+
+/* line containing only opening */
+/* whole line */
+.CodeMirror-code
+  div:has(.cm-mw-matchingbracket):has(~ div .cm-mw-matchingbracket) {
+  background-color: #001100;
+  box-shadow: var(--match-hint);
+  border-radius: 0 1ch 0 0;
+}
+/* parts before opening */
+.CodeMirror-code
+  div:has(.cm-mw-matchingbracket):has(~ div .cm-mw-matchingbracket)
+  > .CodeMirror-line
+  > span:has(~ .cm-mw-matchingbracket) {
+  background-color: #220022;
+}
+/* opening bracket only */
+.CodeMirror-code
+  div:has(.cm-mw-matchingbracket):has(~ div .cm-mw-matchingbracket)
+  > .CodeMirror-line
+  > .cm-mw-matchingbracket {
+  background-color: #002200;
+}
+/* parts from bracket to end of line */
+.CodeMirror-code
+  div:has(.cm-mw-matchingbracket):has(~ div .cm-mw-matchingbracket)
+  > .CodeMirror-line
+  > .cm-mw-matchingbracket
+  ~ span {
+  background-color: #002222;
+}
+
+/* lines between opening and closing */
+.CodeMirror-code
+  div:has(.cm-mw-matchingbracket):has(~ div .cm-mw-matchingbracket)
+  ~ div:has(~ div .cm-mw-matchingbracket) {
+  background-color: #001111;
+  box-shadow: var(--match-hint);
+  border-radius: 0;
+}
+
+/* line containing only closing */
+.CodeMirror-code
+  div:has(.cm-mw-matchingbracket)
+  ~ div:has(.cm-mw-matchingbracket) {
+  background-color: #111100;
+  box-shadow: var(--match-hint);
+  border-radius: 0 0 1ch 0;
+}
+/* all lines after closing */
+.CodeMirror-code
+  div:has(.cm-mw-matchingbracket)
+  ~ div:has(.cm-mw-matchingbracket)
+  ~ div
+  > .CodeMirror-line {
+  box-shadow: none;
+  border-radius: unset;
+}
+
+/* {{{2 on same line */
+
+/* line; contains: ❴ AND } */
+.CodeMirror-code
+  :has(
+    > .CodeMirror-line > span > .cm-mw-matchingbracket ~ .cm-mw-matchingbracket
+  ) {
+  box-shadow: var(--match-hint);
+  border-radius: 0 1ch 1ch 0;
+}
+
+/* both same line; before;╶─┤  …̲❴…❵…  ├╴*/
+:not(.cm-mw-matchingbracket):has(~ .cm-mw-matchingbracket) {
+  background-color: #a004;
+}
+/* both same line; opening;╶┤  …❴…❵…  ├╴*/
+.cm-mw-matchingbracket:has(~ .cm-mw-matchingbracket) {
+}
+/* both same line; between;╶┤  …❴…̲❵…  ├╴*/
+.cm-mw-matchingbracket:has(~ .cm-mw-matchingbracket)
+  ~ :not(.cm-mw-matchingbracket) {
+  background-color: #aaa3;
+}
+/* both same line; closing;╶┤  …❴…❵̲…  ├╴*/
+.cm-mw-matchingbracket ~ .cm-mw-matchingbracket {
+}
+/* both same line; after;╶──┤  …❴…❵…̲  ├╴*/
+.cm-mw-matchingbracket:has(~ .cm-mw-matchingbracket)
+  ~ .cm-mw-matchingbracket
+  ~ :not(.cm-mw-matchingbracket) {
+  background-color: #0a04;
+}
+
+.CodeMirror-code:has(
+    ~ div > .CodeMirror-line > span > .cm-mw-matchingbracket
+  ):has(~ div > .CodeMirror-line > span > .cm-mw-matchingbracket) {
+  background-color: #220000;
+}
+
+/* Lines after both matching */
+.CodeMirror-code
+  :has(> .CodeMirror-line > span > .cm-mw-matchingbracket)
+  ~ :has(> .CodeMirror-line > span > .cm-mw-matchingbracket)
+  ~ :has(.CodeMirror-line)
+  > .CodeMirror-line {
+}
+
+/* sibling before first matching */
+/* .cm-mw-templatevariable-bracket:has( */
+/*     + .cm-mw-templatevariable-bracket.cm-mw-matchingbracket */
+/*       ~ .cm-mw-matchingbracket */
+/*   ) { */
+/*   box-shadow: 1px 0 0 2px lime; */
+/*   border-radius: 0.1em 0 0 0.1em; */
+/* } */
+/* first matching */
+/* .cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has( */
+/*     ~ .cm-mw-matchingbracket */
+/*   ) { */
+/*   box-shadow: 1px -1px 0 0 lime, 1px 1px 0 0 lime; */
+/*   border-radius: 0 0.1em 0.1em 0; */
+/* } */
+/* first matching, with sibling after */
+/* .cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has( */
+/*     ~ .cm-mw-matchingbracket */
+/*   ):has(+ .cm-mw-templatevariable-bracket) { */
+/*   box-shadow: 1px 0 0 2px lime; */
+/*   border-radius: 0 0 0 0; */
+/* } */
+/* first matching, sibling either side */
+/* .cm-mw-templatevariable-bracket */
+/*   + .cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has( */
+/*     ~ .cm-mw-matchingbracket */
+/*   ):has(+ .cm-mw-templatevariable-bracket) { */
+/*   border-radius: 0 0 0 0; */
+/*   box-shadow: 1px 0 0 2px lime, 3px 0 0 3px yellowgreen; */
+/* } */
+/* sibling after first matching */
+/* .cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has( */
+/*     ~ .cm-mw-matchingbracket */
+/*   ) */
+/*   + .cm-mw-templatevariable-bracket { */
+/*   box-shadow: 1px 0 0 2px lime; */
+/*   border-radius: 0 0.1em 0.1em 0; */
+/* } */
+
+.cm-mw-ext3-ground.cm-mw-templatevariable-bracket:focus,
+.cm-mw-ext3-ground.cm-mw-templatevariable-bracket:focus-visible,
+.cm-mw-ext3-ground.cm-mw-templatevariable-bracket:focus-within {
+  color: white;
+}
+
+.CodeMirror-code
+  :has(
+    > .CodeMirror-line > span > .cm-mw-matchingbracket ~ .cm-mw-matchingbracket
+  ) {
+  border-left-width: 0;
+  border-left-color: transparent;
+  border-left-style: solid;
+}
+
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-templatevariable-bracket)::after {
+  border: var(--bw) solid #00f3ff;
+  border-width: var(--bw) calc(var(--bw) / 3);
+  border-radius: var(--bw) / 0.7em;
+  top: calc(-1 * var(--bw));
+  bottom: calc(-1 * var(--bw));
+  border-color: #00f3ff transparent;
+}
+
+.CodeMirror-line::selection,
+.CodeMirror-line > span::selection,
+.CodeMirror-line > span > span::selection {
+  /* background: #d7d4f0; */
+}
+
+.cm-mw-template-bracket,
+.cm-mw-parserfunction-bracket,
+.cm-mw-templatevariable-bracket {
+  --top: 0 -3px 0 0 #0ff;
+  --bot: 0 3px 0 0 #0ff;
+  --lt: inset 2px 0 0 -2px #ff2;
+  --lb: inset 2px 0 0 -1px #0ff2;
+  --rt: inset -1px 0 0 -2px #ff2;
+  --rb: inset -1px 0 0 -1px #ff2;
+  /*   padding: 2px 0 2px 0;  */
+}
+
+.cm-mw-ext3-ground.cm-mw-templatevariable-bracket:focus,
+.cm-mw-ext3-ground.cm-mw-templatevariable-bracket:focus-visible,
+.cm-mw-ext3-ground.cm-mw-templatevariable-bracket:focus-within {
+  color: #000;
+}
+/* │❴│❴❴  ❵❵╱❵╱  */
+/* ❴│❴│❴ ❵╱❵╱❵  */
+/* ❴❴│❴│╱❵╱❵❵  */
+/* .cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has( */
+/*     ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket */
+/*   ):has(+ .cm-mw-templatevariable-bracket) { */
+/*   border-radius: 0.2em 0 0 0.2em; */
+/*   box-shadow: unset; */
+/* } */
+
+.cm-mw-parserfunction-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-parserfunction-bracket.cm-mw-matchingbracket::after, /* ❴︎❴̌#…❵̲̌❵︎ │︎ ❴̌❴︎#…❵❵̲̌ */
+.cm-mw-parserfunction-bracket
+  + .cm-mw-parserfunction-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-parserfunction-bracket.cm-mw-matchingbracket
+  )::after, /* ❴❴̲̌#…❵̌❵︎ */
+.cm-mw-parserfunction-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-parserfunction-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-parserfunction-bracket)::after, /* ❴̲̌❴#…❵❵̌ */
+.cm-mw-template-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-template-bracket.cm-mw-matchingbracket::after, /* ❴︎❴̌…❵̲̌❵︎ │︎ ❴̌❴…❵❵̲̌ */
+.cm-mw-template-bracket.cm-mw-matchingbracket:has(
+  ~ .cm-mw-template-bracket.cm-mw-matchingbracket):has(
+    + .cm-mw-template-bracket
+  )::after, /* ❴̲̌❴…❵❵̌ */
+.cm-mw-templatevariable-bracket
+  + .cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  )::after, /* ❴❴̲̌❴…❵︎❵̌❵︎ │︎ ❴❴︎❴̲̌…❵̌❵︎❵︎ */
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket::after, /* ❴̌❴︎❴︎…❵︎❵︎❵̲̌ │︎ ❴︎❴̌❴︎…❵︎❵̲̌❵︎ │︎ ❴︎❴︎❴̌…❵̲̌❵︎❵︎ */
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-templatevariable-bracket)::after /* ❴̲̌❴︎❴︎…❵❵❵̌ │︎ ❴❴̲̌❴︎…❵❵̌❵︎ */ {
+  --bw: 0.2em;
+  --pw: 0.1em;
+  content: '';
+  width: 2ch;
+  height: calc(100% + (var(--bw) * 2) + (var(--pw) * 2));
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: #00f3ff transparent;
+  border-width: var(--bw) calc(var(--bw) / 3);
+  border-radius: var(--bw) / 0.7em;
+  position: absolute;
+  left: -100%;
+  right: 100%;
+  bottom: -50%;
+  z-index: 1000;
+  line-height: 1;
+  box-shadow: unset;
+
+  top: 50%;
+  transform: translateY(-50%);
+}
+.cm-mw-templatevariable-bracket
+  + .cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  )::after, /* ❴❴̲̌❴…❵︎❵̌❵︎ │︎ ❴❴︎❴̲̌…❵̌❵︎❵︎ */
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket::after, /* ❴̌❴︎❴︎…❵︎❵︎❵̲̌ │︎ ❴︎❴̌❴︎…❵︎❵̲̌❵︎ │︎ ❴︎❴︎❴̌…❵̲̌❵︎❵︎ */
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-templatevariable-bracket)::after /* ❴̲̌❴︎❴︎…❵❵❵̌ │︎ ❴❴̲̌❴︎…❵❵̌❵︎ */ {
+  width: 3ch;
+}
+
+.cm-mw-ext3-ground.cm-mw-templatevariable-bracket:focus,
+.cm-mw-ext3-ground.cm-mw-templatevariable-bracket:focus-visible,
+.cm-mw-ext3-ground.cm-mw-templatevariable-bracket:focus-within {
+  color: white;
+}
+.CodeMirror-code
+  :has(
+    > .CodeMirror-line > span > .cm-mw-matchingbracket ~ .cm-mw-matchingbracket
+  ) {
+  border-left-width: 0;
+  border-left-color: transparent;
+  border-left-style: solid;
+}
+
+.cm-mw-parserfunction-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-parserfunction-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-parserfunction-bracket)::after, /* ❴̲̌❴︎#…❵̌❵︎ */
+.cm-mw-template-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-template-bracket.cm-mw-matchingbracket):has(
+      + .cm-mw-template-bracket)::after, /* ❴̲̌❴︎…❵❵̌ */
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-templatevariable-bracket)::after /* ❴̲̌❴︎❴︎…❵❵❵̌ │︎ ❴❴̲̌❴︎…❵❵̌❵︎ */ {
+  border: var(--bw) solid #00f3ff;
+  border-width: var(--bw) calc(var(--bw) / 3);
+  border-radius: var(--bw) / 0.7em;
+  top: calc(-1 * var(--bw));
+  bottom: calc(-1 * var(--bw));
+  border-color: #00f3ff transparent;
+}
+.cm-mw-parserfunction-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-parserfunction-bracket.cm-mw-matchingbracket::after, /* ❴̌❴︎#…❵❵̲̌ ❴︎❴̌#…❵̲̌❵︎ */
+.cm-mw-parserfunction-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-parserfunction-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-parserfunction-bracket)::after, /* ❴̲̌❴︎#…❵︎❵̌ */
+.cm-mw-template-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-template-bracket.cm-mw-matchingbracket::after, /* ❴̲̌❴…❵❵̌ */
+.cm-mw-template-bracket.cm-mw-matchingbracket:has(
+ ~ .cm-mw-template-bracket.cm-mw-matchingbracket):has(
+    + .cm-mw-template-bracket)::after, /* ❴̲̌❴…❵❵̌ */
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket::after, /* ❴̌❴︎❴︎…❵︎❵︎❵̲̌ │︎ ❴︎❴̌❴︎…❵︎❵̲̌❵︎ │︎ ❴︎❴︎❴̌…❵̲̌❵︎❵︎ */
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-templatevariable-bracket)::after /* ❴̲̌❴︎❴︎…❵❵❵̌ │︎ ❴❴̲̌❴︎…❵❵̌❵︎ */ {
+  content: ''; /*unused*/
+}
+/*   ❴❴ ❵̲❵̲   */
+.cm-mw-template-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-template-bracket.cm-mw-matchingbracket::after,
+.cm-mw-parserfunction-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-parserfunction-bracket.cm-mw-matchingbracket::after {
+  left: -100%;
+}
+/*  ❴❴❴ ❵̲❵̲❵̲  */
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket::after {
+  left: -200%;
+}
+/*  ❴❴❴ ❵̲❵̲❵ */ /*  ❴❴ ❵̲❵  */
+.cm-mw-template-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-template-bracket.cm-mw-matchingbracket:has(
+    + .cm-mw-template-bracket
+  )::after,
+.cm-mw-parserfunction-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-parserfunction-bracket.cm-mw-matchingbracket:has(
+    + .cm-mw-parserfunction-bracket
+  )::after,
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    + .cm-mw-templatevariable-bracket
+  )::after {
+  left: 0;
+}
+/*  ❴❴❴ ❵❵̲❵  */
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ~ .cm-mw-templatevariable-bracket
+  + .cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    + .cm-mw-templatevariable-bracket
+  )::after {
+  left: -100%;
+}
+
+/*  ❴̲❴̲❴ ❵❵❵   */ /*  ❴̲❴ ❵❵  */
+.cm-mw-template-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-template-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-template-bracket)::after,
+.cm-mw-parserfunction-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-parserfunction-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-parserfunction-bracket)::after,
+.cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-templatevariable-bracket)::after {
+  left: 0;
+  top: 50%;
+}
+/*  ❴̲❴ ❵❵  */
+.cm-mw-template-bracket
+  + .cm-mw-template-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-template-bracket.cm-mw-matchingbracket
+  )::after,
+.cm-mw-parserfunction-bracket
+  + .cm-mw-parserfunction-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-parserfunction-bracket.cm-mw-matchingbracket
+  )::after {
+  left: -100%;
+  top: 50%;
+}
+/*  ❴❴̲❴̲ ❵❵❵   */
+.cm-mw-templatevariable-bracket
+  + .cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  )::after {
+  left: -200%;
+  top: 50%;
+}
+/*  ❴❴̲❴ ❵❵❵   */
+.cm-mw-templatevariable-bracket
+  + .cm-mw-templatevariable-bracket.cm-mw-matchingbracket:has(
+    ~ .cm-mw-templatevariable-bracket.cm-mw-matchingbracket
+  ):has(+ .cm-mw-templatevariable-bracket)::after {
+  left: -100%;
+  top: 50%;
+}
+
+/** vim: set signcolumn=yes foldcolumn=2 foldmethod=marker nolist nowrap conceallevel=2: **/

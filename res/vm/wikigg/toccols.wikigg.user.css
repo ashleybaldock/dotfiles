@@ -1,0 +1,55 @@
+.toctitle > h2 {
+  margin-top: 0.2em;
+  break-after: always;
+  break-inside: avoid;
+}
+
+#toc {
+  margin: 1em 0.25em;
+  columns: 3 180px;
+  display: block;
+  column-rule: var(--content-border);
+  position: relative;
+  column-gap: 2em;
+  padding-left: 1em;
+  column-rule-style: solid;
+  column-rule-width: 2px;
+  max-width: 600px;
+  min-width: 200px;
+  box-shadow: 1px 1px 6px -2px #000;
+}
+
+.toc::before {
+  height: 1em;
+  background-color: #ff000024;
+}
+
+.toclevel-1 {
+  break-after: always;
+  break-inside: avoid-column;
+}
+
+.toc::before,
+.toctitle {
+  width: 100%;
+  column-span: all;
+}
+
+.toctitle {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 0.2em;
+  columns: 3 186px;
+  column-rule: 1px solid red;
+  column-fill: balance;
+  column-gap: 1em;
+}
+
+.toctitle > ul {
+  margin: 0;
+}
+
+.toc ul {
+  margin-top: 0;
+}

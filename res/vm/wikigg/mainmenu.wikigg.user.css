@@ -1,0 +1,265 @@
+/**** Left side navigation auto-hide ****/
+
+#content {
+  margin-top: 26px;
+}
+
+#mw-panel {
+  margin-left: 0%;
+  position: fixed;
+  transform: scale(0.3);
+  overflow-y: scroll;
+  scrollbar-color: transparent transparent;
+  margin: 0;
+
+  transform-origin: top left;
+  background-color: #0e0e0d;
+  height: 23.8vh;
+  transition: transform 120ms ease-out 500ms, height 120ms ease-out 500ms,
+    filter 120ms ease-out 500ms;
+  top: 0;
+  right: unset;
+  left: 0;
+  border-radius: 0 0 65px 0;
+  filter: drop-shadow(2px 3px 5px #7b0000) grayscale(1) opacity(0.6);
+}
+#mw-panel > * {
+  pointer-events: none;
+}
+#mw-panel:hover,
+#mw-panel:focus-within {
+  transform: scale(0.8);
+  pointer-events: initial;
+  transition: transform 200ms ease-in 100ms, height 200ms ease-in 100ms,
+    filter 200ms ease-in 100ms;
+  filter: drop-shadow(-3px 0 5px #7b0000) grayscale(0) opacity(1);
+  height: 118vh;
+}
+#mw-panel:hover > * {
+  display: revert-layer;
+  pointer-events: initial;
+}
+
+@media screen and (min-width: 982px) {
+  #right-navigation #p-search {
+    top: 1.5em;
+  }
+  #p-search {
+    right: 0;
+    top: 22px;
+  }
+}
+
+/**** Top navigation ****/
+#mw-navigation {
+  position: relative;
+  height: 0;
+}
+
+/* wiki page menu */
+
+@media screen {
+  .vector-search-box form {
+    margin: 0;
+  }
+  .vector-menu-tabs-legacy {
+    float: unset;
+    height: auto;
+    padding: 0;
+  }
+  .vector-menu-tabs-legacy ul {
+    float: unset;
+    display: flex;
+  }
+  .vector-menu-tabs-legacy li {
+    display: block;
+    float: unset;
+    flex-direction: row;
+    width: min-content;
+    line-height: 1em;
+    height: auto;
+    padding: 0;
+  }
+  .vector-menu-tabs-legacy li a {
+    white-space: nowrap;
+    float: unset;
+    box-sizing: unset;
+    padding: 0;
+    margin: 0;
+    position: unset;
+    height: auto;
+  }
+  .vector-menu-tabs .mw-watchlink.icon a::before {
+    left: -0.2em;
+    top: 0.2em;
+  }
+  .vector-menu-tabs .mw-watchlink.icon a {
+    padding: 0;
+    overflow: unset;
+    height: min-content;
+    width: min-content;
+  }
+  ul.vector-menu-content-list li a {
+    padding: 5px;
+  }
+  .vector-menu-dropdown {
+    float: unset;
+    line-height: 1em;
+    padding: 0 6px;
+  }
+  .vector-menu-dropdown .vector-menu-heading {
+    padding: 0;
+    margin: 0;
+  }
+  .vector-menu-dropdown .vector-menu-heading::after {
+    filter: invert(1);
+    height: 1.23076923em;
+  }
+  .vector-search-box-input {
+    padding: 2px 4px;
+    height: auto;
+  }
+  .ui-widget-content {
+    color: white;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  #right-navigation #simpleSearch {
+    border-bottom: none;
+  }
+  #right-navigation #p-search {
+    top: 1.5em;
+  }
+}
+
+/* Main menu hide */
+@media screen and (min-width: 982px) {
+  .mw-body,
+  #mw-head-base,
+  #left-navigation,
+  #mw-data-after-content,
+  .mw-footer {
+    margin-left: 0;
+  }
+}
+
+#content {
+  margin-left: 0;
+}
+
+@media screen {
+  body {
+    background: #000 url(https://noita.wiki.gg/images/8/87/Main-background.png)
+      fixed no-repeat center center/cover;
+  }
+  #searchform {
+    filter: unset;
+  }
+  #mw-head-base {
+    height: 35px;
+    margin-top: 0;
+  }
+  #mw-page-base {
+    height: 10px;
+  }
+  #mw-navigation {
+    top: 0;
+    z-index: 10;
+    position: sticky;
+    background: transparent;
+    height: 0.9em;
+  }
+
+  /* Avoid repositioned menu overlapping content */
+  #mw-head {
+    pointer-events: none;
+  }
+  #left-navigation,
+  #right-navigation {
+    pointer-events: auto;
+  }
+
+  #mw-head {
+    justify-content: end;
+    position: relative;
+    top: 0;
+    margin-top: 0;
+    background-color: transparent;
+    display: flex;
+    align-items: end;
+    left: 0;
+    z-index: 10;
+    right: 0;
+    width: 100%;
+  }
+
+  #left-navigation,
+  #right-navigation {
+    display: flex;
+    flex-direction: row;
+    background: rgb(24, 23, 21);
+    font-size: 1em;
+    line-height: 1em;
+    height: 1.8em;
+    align-items: center;
+    float: unset;
+    margin: 0;
+    padding: 0;
+  }
+  #left-navigation {
+    padding-left: 0.9em;
+    border-radius: 0.9em 0 0 0.9em;
+  }
+
+  .vector-menu-tabs .mw-watchlink.icon a::before {
+    position: relative;
+    background-size: 1em;
+    display: inline-block;
+    left: 0;
+    top: 0.4em;
+  }
+  .vector-menu-tabs-legacy li {
+    height: 100%;
+    align-items: baseline;
+  }
+  .vector-menu-dropdown {
+    line-height: unset;
+    height: auto;
+  }
+  ul.vector-menu-content-list li a,
+  .vector-menu-dropdown label.vector-menu-heading,
+  .vector-menu-tabs .mw-watchlink.icon a {
+    line-height: unset;
+  }
+  .vector-menu-tabs .mw-watchlink.icon a {
+    padding: unset;
+  }
+
+  #ca-unwatch span {
+    padding-left: 0.4em;
+  }
+
+  .vectorTabs li a,
+  .vector-menu-dropdown .mw-list-item a {
+    font-weight: unset;
+    line-height: unset;
+  }
+
+  .vectorTabs li a {
+    font-variant: none;
+  }
+
+  .vector-menu-dropdown .mw-list-item.selected a,
+  .vector-menu-dropdown .mw-list-item.selected a:visited {
+    color: #4d4f52;
+  }
+}
+
+#cargoQueryTable tr td:nth-of-type(2) > div,
+#cargoQueryTable tr td:nth-of-type(2) {
+  width: 100% !important;
+}
+.orderByRow > td > div.oo-ui-horizontalLayout > div:first-child {
+  width: calc(100% - 100px - 62px) !important;
+}

@@ -1,0 +1,186 @@
+/*
+ * Changes to ACE & syntax highlighting
+ *  (Used for editing CSS, Lua etc.)
+ *
+ * See also: 
+ *   ./editor.wikigg.user.css      (changes common to the edit box)
+ *   ./codemirror.wikigg.user.css  (changes specific to CodeMirror)
+ */
+
+.ace-tm {
+  background-color: #111;
+  color: #f9f9f9;
+}
+
+.ace-tm .ace_gutter {
+  background: #090909;
+  color: #cc22dd;
+}
+
+.ace-tm .ace_gutter-active-line {
+  background-color: #490049;
+  color: #eee;
+}
+.ace_gutter-cell {
+  color: #690069;
+  text-shadow: var(--text-outline-x-thin);
+}
+
+.ace_fold-widget:hover {
+  border: 0;
+  background-color: #690069;
+  box-shadow: inset 0 0 0.4px 1px #aa22aa;
+  background-size: 0.6em;
+}
+.ace_fold-widget {
+  box-sizing: border-box;
+  margin: 0 -12px 0 1px;
+  display: none;
+  width: 11px;
+  vertical-align: top;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23ffccff%22 height=%221em%22 viewBox=%220 0 320 512%22%3E%3Cpath d=%22M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z%22%3E%3C/path%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-size: 0.5em;
+  background-position: center;
+  border-radius: 1px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.ace_fold-widget.ace_closed {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23ff66ff%22 height=%221em%22 viewBox=%220 0 320 512%22%3E%3Cpath transform=%22rotate(-90, 160, 256)%22 d=%22M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z%22%3E%3C/path%3E%3C/svg%3E');
+  background-size: 0.6em;
+}
+
+.ace_warning,
+.ace_error,
+.ace_info {
+  color: #f0f0f0;
+}
+.ace_line .ace_fold {
+  image-rendering: pixelated;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 18px;
+  margin-top: -2px;
+  vertical-align: middle;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23ffaaff; stroke: %23ffffff; stroke-width: 10;%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M344 0H488c13.3 0 24 10.7 24 24V168c0 9.7-5.8 18.5-14.8 22.2s-19.3 1.7-26.2-5.2l-39-39-87 87c-9.4 9.4-24.6 9.4-33.9 0l-32-32c-9.4-9.4-9.4-24.6 0-33.9l87-87L327 41c-6.9-6.9-8.9-17.2-5.2-26.2S334.3 0 344 0zM168 512H24c-13.3 0-24-10.7-24-24V344c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2l39 39 87-87c9.4-9.4 24.6-9.4 33.9 0l32 32c9.4 9.4 9.4 24.6 0 33.9l-87 87 39 39c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8z%22%3E%3C/path%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: transparent;
+  border: 1px solid black;
+  border-radius: 2px;
+  cursor: pointer;
+  pointer-events: auto;
+  background-color: #890089;
+  box-shadow: inset 0 0 0.4px 1px #aa22aa;
+  background-size: 0.9em;
+  opacity: 0.6;
+}
+.ace_line .ace_fold:hover {
+  opacity: 1;
+  height: 20px;
+  background-size: 1em;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %23ffccff%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M344 0H488c13.3 0 24 10.7 24 24V168c0 9.7-5.8 18.5-14.8 22.2s-19.3 1.7-26.2-5.2l-39-39-87 87c-9.4 9.4-24.6 9.4-33.9 0l-32-32c-9.4-9.4-9.4-24.6 0-33.9l87-87L327 41c-6.9-6.9-8.9-17.2-5.2-26.2S334.3 0 344 0zM168 512H24c-13.3 0-24-10.7-24-24V344c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2l39 39 87-87c9.4-9.4 24.6-9.4 33.9 0l32 32c9.4 9.4 9.4 24.6 0 33.9l-87 87 39 39c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8z%22%3E%3C/path%3E%3C/svg%3E');
+}
+
+.ace-tm .ace_print-margin {
+  width: 0.6px;
+  background: #89008988;
+}
+
+.ace-tm .ace_storage,
+.ace-tm .ace_keyword {
+  color: #2244ff;
+}
+.ace-tm .ace_identifier {
+}
+.ace-tm .ace_keyword {
+  color: #ddcc99;
+}
+.ace-tm .ace_support {
+  color: #ffcc00;
+}
+.ace-tm .ace_storage.ace_type {
+  color: #aaaa77;
+}
+.ace-tm :is(.ace_entity.ace_name.ace_function, .ace_support.ace_function) {
+  color: #ffcc00;
+}
+.ace-tm .ace_string {
+  color: #66da00;
+}
+.ace-tm
+  :is(
+    .ace_keyword,
+    .ace_keyword.ace_operator,
+    .ace_operator,
+    .ace_punctuation.ace_operator .ace_paren,
+    .ace_paren.ace_rparen,
+    .ace_paren.ace_lparen
+  ) {
+  color: #ff5500;
+}
+.ace-tm .ace_constant.ace_numeric {
+  color: #339999;
+}
+.ace-tm .ace_constant {
+  color: #339999;
+}
+
+.ace-tm .ace_name {
+}
+.ace-tm .ace_function {
+}
+.ace-tm .ace_comment {
+  color: #cc22dd;
+}
+
+.ace-tm .ace_indent-guide {
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==')
+    right repeat-y;
+}
+
+.ace-tm .ace_cursor {
+  color: #fff;
+}
+
+.ace_active-line {
+  box-shadow: inset 0 0 2px 0 #006644;
+}
+
+.ace-tm .ace_marker-layer .ace_selection {
+  background: rgba(88, 159, 252, 0.1);
+}
+
+.ace-tm .ace_marker-layer .ace_bracket {
+  margin: -1px 0 0 -1px;
+  border: 1px solid #888888;
+}
+
+.ace_warning,
+.ace_error {
+  color: white;
+}
+.ace_gutter-cell.ace_error.ace_gutter-active-line {
+  background-color: #810000;
+}
+.ace_gutter-cell.ace_warning.ace_gutter-active-line {
+  background-color: #5d5542;
+}
+
+.mw-message-box-error.cdx-message--error {
+  position: sticky;
+  z-index: 100000;
+  margin: 0 3em;
+  padding: 0.2em 0.4em;
+  border: 1px solid #c11;
+  outline: 1px dashed #d00;
+  bottom: 83vh;
+  top: 6vh;
+}
+
+.wikiEditor-ui-top {
+  padding-left: 3em;
+  background-color: #090909;
+}

@@ -1,0 +1,31 @@
+li[data-mw-revid],
+.mw-contributions-current,
+.mw-tag-wikieditor {
+  display: grid;
+  grid-template-columns: subgrid;
+  width: 100%;
+  grid-column: 1/-1;
+  grid-auto-flow: row dense;
+}
+
+.mw-contributions-list {
+  display: contents;
+}
+.mw-contributions-list .mw-changeslist-date {
+  grid-column: auto;
+  white-space: nowrap;
+}
+
+.mw-contributions-title {
+  white-space: nowrap;
+}
+
+.comment {
+  grid-column: 1/-1;
+  order: 1;
+}
+
+.mw-pager-body {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto;
+}

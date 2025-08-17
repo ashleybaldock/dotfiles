@@ -1,0 +1,412 @@
+table.cargoTable:not(#i#m#p#o#r#t#a#n#t) {
+  overflow: visible;
+  overflow-x: visible;
+}
+
+table.cargoTable:not(#i#m#p#o#r#t#a#n#t)
+  :is(thead tr, tbody:only-child tr:first-child)
+  th {
+  position: sticky;
+  top: var(--wikigg-header-height, 35px);
+  outline: 1px solid var(--content-border-color);
+  outline-offset: -1px;
+  background-clip: border-box;
+  z-index: 10;
+}
+/****************************************/
+/* Cargo table show full field on hover */
+/****************************************/
+table.cargoTable {
+  padding-bottom: 1em;
+  scrollbar-gutter: stable;
+  scrollbar-width: none;
+}
+table.cargoTable td {
+  padding: 0.1rem 0.2rem;
+}
+.skin-vector :is(.mw-datatable, .cargoTable) tr td {
+  max-height: 1em;
+  position: relative;
+  min-width: 4em;
+}
+.skin-vector :is(.mw-datatable, .cargoTable) tr td > p {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 1em;
+  line-height: 1;
+}
+.skin-vector :is(.mw-datatable, .cargoTable) tr td:hover {
+  position: static;
+}
+.skin-vector :is(.mw-datatable, .cargoTable) tr td:hover > p {
+  overflow: visible;
+  z-index: 100;
+
+  white-space: break-spaces;
+  height: fit-content;
+  background-color: #000;
+  display: block;
+  border-color: rgb(177, 156, 114);
+  line-height: 1.6;
+  right: 2%;
+  left: 2%;
+  top: unset;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0.2em 1em;
+  transform: translate(0, -0.4em);
+  border-width: 2px;
+  border-style: solid;
+  box-shadow: 0 0 8px 1px #000;
+  border-radius: 0.3em / 1.6em;
+}
+/*** cargo ***/
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled
+  div.specialCargoQuery-extraPane {
+  border-color: #3b3b3b;
+}
+
+table.cargoTable td.field_tags__full,
+table.cargoTable td.field_tags {
+  white-space: normal;
+  text-align: center;
+}
+
+div.specialCargoQuery-extraPane {
+  background: #1f1f1f !important;
+}
+
+#cargoQueryTable
+  tr
+  .mw-label
+  .oo-ui-buttonElement-frameless.oo-ui-iconElement
+  .oo-ui-iconElement-icon,
+#cargoQueryTable
+  tr
+  .mw-label
+  .oo-ui-buttonElement-frameless.oo-ui-iconElement
+  > .oo-ui-buttonElement-button {
+  min-height: 1em;
+  min-width: 1em;
+  font-size: 12px;
+  line-height: 1em;
+  height: 1.2em;
+}
+table.cargoTable .oo-ui-inputWidget:last-child {
+  display: contents;
+}
+
+#cargoQueryTable,
+#cargoQueryTable tr {
+  display: flex;
+  flex-direction: column;
+}
+
+#cargoQueryTable {
+  row-gap: 0.2em;
+}
+
+#cargoQueryTable tbody {
+  display: contents;
+}
+
+#cargoQueryTable tr td:nth-of-type(2) {
+  display: flex;
+}
+
+#cargoQueryTable tr td:nth-of-type(2) .oo-ui-inputWidget-input {
+  font-family: monospace;
+}
+
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled:has(
+    + .specialCargoQuery-extraPane[style*='none']
+  )
+  .oo-ui-buttonElement-button
+  .oo-ui-indicatorElement-indicator.oo-ui-indicator-down {
+  rotate: -90deg;
+  transition: rotate 100ms ease;
+}
+.specialCargoQuery-extraPane-toggle,
+.specialCargoQuery-extraPane-toggle .oo-ui-indicatorElement-indicator {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.specialCargoQuery-extraPane[style='display: none;'] {
+  display: block !important;
+}
+
+.specialCargoQuery-extraPane .mw-label {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: start;
+  padding-right: 0.4em;
+}
+#cargoQueryTable tr .mw-label {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  quotes: start;
+  white-space: nowrap;
+}
+
+#cargoQueryTable tr .mw-label .oo-ui-popupWidget-popup {
+  white-space: normal;
+}
+
+#cargoQueryTable tr .mw-label > .oo-ui-popupButtonWidget {
+  right: 0;
+  font-size: 1em;
+  line-height: 2em;
+}
+.specialCargoQuery-extraPane {
+  background: linear-gradient(#f8f9fa00, rgba(0, 0, 0, 0.1) 0.5em);
+  border: 2px groove #78694d;
+  border-radius: 0 0 2px 12px;
+}
+.oo-ui-buttonElement-framed.oo-ui-widget-enabled:has(
+    + .specialCargoQuery-extraPane[style*='none']
+  )
+  .oo-ui-buttonElement-button {
+  border-color: #afa58f #9e741f #9c7f45 #a7a5a0;
+  background-color: #a98d55;
+  border-width: 1px;
+}
+div.specialCargoQuery-extraPane {
+  background: #111;
+}
+.specialCargoQuery-extraPane
+  .oo-ui-buttonElement-frameless.oo-ui-widget-enabled
+  > .oo-ui-buttonElement-button {
+  background-color: #111;
+}
+
+/* Inline #24 | https://noita.wiki.gg/index.php?title=Special%3ACargoQuery&tables=Spells&fields=_ID%2C+_pageID%2C+_pageNamespace%2C+_pageTitle%2C+_pageName%2C+id%2C+tags__full&where=&join_on=&group_by=&having=&order_by%5B0%5D=Spells._ID&order_by_options%5B0%5D=ASC&limit=500&offset=0&format=table#queryform */
+
+.field__pageNamespace {
+  max-width: 2em;
+  min-width: 1em;
+}
+
+.mw-spcontent:has(> .cargoTable) {
+  display: flex;
+  flex-direction: row;
+}
+
+.mw-spcontent:has(> .cargoTable) > p:first-child:has(> strong) {
+  width: 100%;
+}
+
+.mw-spcontent:has(> .cargoTable) {
+  flex-wrap: wrap;
+}
+
+.mw-spcontent:has(> .cargoTable) > p:empty {
+  display: none;
+}
+
+.mw-spcontent:has(> .cargoTable) > .mw-pager-navigation-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--bd-darker);
+  margin-left: 2em;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.mw-spcontent:has(> .cargoTable) > .mw-pager-navigation-bar > :is(a, span) {
+  margin: 0 0.3ch;
+}
+
+.mw-spcontent:has(> .cargoTable) > .mw-pager-navigation-bar {
+  background-color: var(--wikitable-header-background);
+  margin: 0 0 0 auto;
+  width: auto;
+}
+
+.mw-pager-navigation-bar ~ .cargoTable:not(#i#m#p#o#r#t#a#n#t) {
+  margin-top: 0;
+}
+
+.mw-spcontent:has(> .cargoTable) > .mw-pager-navigation-bar {
+  width: 50%;
+  padding: 0 0.5em 0 0.5em;
+  border-bottom: none;
+  flex: 0 1 fit-content;
+  top: calc(var(--wikigg-header-height, 35px) + 1em);
+  background-color: #000;
+  border-radius: 3px;
+}
+
+.mw-spcontent:has(> .cargoTable) > p:first-child:has(> strong) {
+  flex: 1 1 50%;
+  margin: 0 0 0 0;
+}
+table.cargoTable:not(#i#m#p#o#r#t#a#n#t)
+  :is(thead tr, tbody:only-child tr:first-child)
+  th {
+  /* top: var(--wikigg-header-height, 35px); */
+  /* background-clip: border-box; */
+  /* calc(var(--wikigg-header-height, 35px) + 1em): ; */
+  top: calc(var(--wikigg-header-height, 35px) + 2.4em);
+}
+
+th.field__pageNamespace {
+  word-break: inherit;
+}
+
+.field__pageNamespace {
+  max-width: 2em;
+  min-width: 1em;
+}
+.mw-spcontent:has(> .cargoTable) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.mw-spcontent:has(> .cargoTable)
+  > :is(.mw-pager-navigation-bar, p:first-child:has(> strong)) {
+  position: sticky;
+  z-index: 100;
+  display: flex;
+  padding: 0 0.5em 0 0.5em;
+  border-bottom: none;
+  background-color: #000;
+  border-radius: 3px;
+  flex: 0 1 fit-content;
+}
+.mw-spcontent:has(> .cargoTable)
+  > :is(.mw-pager-navigation-bar, p:first-child:has(> strong))
+  > :is(a, span, strong) {
+  margin: 0 0.3ch;
+}
+.mw-spcontent:has(> .cargoTable) > p:empty {
+  display: none;
+}
+.mw-spcontent:has(> .cargoTable) > .mw-pager-navigation-bar {
+  width: 50%;
+  top: calc(var(--wikigg-header-height, 35px) + 1em);
+}
+.mw-pager-navigation-bar ~ .cargoTable:not(#i#m#p#o#r#t#a#n#t) {
+  margin-top: 0;
+}
+
+.field__pageNamespace {
+  max-width: 2em;
+  min-width: 1em;
+}
+
+.mw-spcontent:has(> .cargoTable) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.mw-spcontent:has(> .cargoTable) > p:first-child:has(> strong) {
+  width: 100%;
+  flex: 1 1 50%;
+  margin: 0;
+}
+
+.mw-spcontent:has(> .cargoTable) > p:empty {
+  display: none;
+}
+
+.mw-spcontent:has(> .cargoTable) > .mw-pager-navigation-bar {
+  position: sticky;
+  z-index: 100;
+  justify-content: flex-end;
+  margin: 0 0 0 auto;
+  padding: 0 0.5em;
+  border-bottom: none;
+  flex: 0 1 fit-content;
+  background-color: #000;
+  border-radius: 3px;
+  width: 50%;
+  top: calc(var(--wikigg-header-height, 35px) + 1em);
+}
+
+.mw-spcontent:has(> .cargoTable) > .mw-pager-navigation-bar > :is(a, span),
+.mw-spcontent:has(> .cargoTable)
+  > :is(.mw-pager-navigation-bar, p:first-child:has(> strong))
+  > :is(a, span, strong) {
+  margin: 0 0.3ch;
+}
+
+.mw-pager-navigation-bar ~ .cargoTable:not(#i#m#p#o#r#t#a#n#t) {
+  margin-top: 0;
+}
+
+table.cargoTable:not(#i#m#p#o#r#t#a#n#t)
+  :is(thead tr, tbody:only-child tr:first-child)
+  th {
+  top: calc(var(--wikigg-header-height, 35px) + 2.4em);
+}
+
+th.field__pageNamespace {
+  word-break: inherit;
+}
+
+.mw-spcontent > .cargoTable td {
+  border-top-width: 0;
+  border-bottom-width: 0;
+}
+
+.skin-vector :is(.mw-datatable, .cargoTable) tr :is(td[class$='__full']) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 1em;
+  max-width: 10ch;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.skin-vector
+  :is(.mw-datatable, .cargoTable)
+  tr
+  :is(td[class$='__full'])
+  > .CargoDelimiter {
+  display: contents;
+}
+
+.mw-spcontent:has(> .cargoTable)
+  > :is(.mw-pager-navigation-bar, p:first-child:has(> strong)) {
+  position: sticky;
+  z-index: 100;
+  display: flex;
+  padding: 0 0.5em;
+  border-bottom: none;
+  background-color: #000;
+  border-radius: 3px;
+  flex: 0 1 fit-content;
+}
+
+.skin-vector :is(.mw-datatable, .cargoTable) tr :is(td[class$='__full']):hover {
+  max-width: unset;
+  text-align: right;
+  overflow: visible;
+  transform: translateX(calc(-100% + 10ch));
+  white-space: nowrap;
+  min-width: fit-content;
+  top: 0;
+  bottom: 0;
+  min-height: 100%;
+  padding: 0 0 0 0.6em;
+  border-width: 2px;
+  margin: 0 auto;
+  background-color: #11100f;
+  display: flex;
+  position: absolute;
+  transform-origin: right center;
+  box-sizing: border-box;
+}
+tr:has(> td[class$='__full']) {
+  position: relative;
+}
+/*** /cargo ***/

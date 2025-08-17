@@ -83,10 +83,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 ## Paragraphs
 
 ```pre
-╶────────▶
-
-->----->
-<----
 Paragraph the first.⏎️
 ⏎️
 Paragraph the second.⏎️
@@ -242,6 +238,8 @@ json / jsonc / [js|javascript|node] / [ts|typescript]
 `code`
 
 ## Pre
+
+See: ./pre.md
 
 ```pre
 ┌─∇─┬─────┬───────────────┐

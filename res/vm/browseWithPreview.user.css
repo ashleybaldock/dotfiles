@@ -458,9 +458,9 @@ section.playing {
 
 body > table > tbody > tr {
   --h: 90deg;
-  --s: 40;
-  --l: 10;
-  --a: 0;
+  --s: 40%;
+  --l: 10%;
+  --a: 0%;
   background-color: hsl(
     calc(var(--h) + var(--h±, 0deg)) calc(var(--s) * var(--s✕, 1))
       calc(var(--l) * var(--l✕, 1) / calc(var(--a) * var(--a✕, 1)))
@@ -468,8 +468,8 @@ body > table > tbody > tr {
 }
 body > table > tbody > tr:hover {
   outline: none;
-  --s: 60;
-  --l: 30;
+  --s: 60%;
+  --l: 30%;
 }
 body > table > tbody > tr.playing {
   --s✕: 1;
@@ -477,13 +477,9 @@ body > table > tbody > tr.playing {
 body > table > tbody > tr::before {
   content: attr(data-playerid, '');
   --h: 90deg;
-  --s: 60;
-  --l: 30;
-  --a: 0.2;
-  background-color: hsl(
-    calc(var(--h) + var(--h±, 0deg)) calc(var(--s) * var(--s✕, 1))
-      calc(var(--l) * var(--l✕, 1) / calc(var(--a) * var(--a✕, 1)))
-  );
+  --s: 60%;
+  --l: 50%;
+  --a: 20%;
   display: table-cell;
   white-space: preserve-spaces;
   height: auto;
@@ -499,7 +495,7 @@ body > table > tbody > tr::before {
   background-repeat: no-repeat;
   background-position: center;
   line-height: 1.1rem;
-  width: 1.4rem;
+  width: 2.4rem;
   mask-size: contain;
   text-align: center;
   mask-clip: no-clip;
@@ -511,7 +507,7 @@ body > table > tbody > tr.playing::before {
 }
 body > table > tbody > tr.paused {
   --s✕: 0.4;
-  --a: 1;
+  --a: 100%;
 }
 body > table > tbody > tr.paused > td:first-child {
   position: relative;
@@ -555,16 +551,9 @@ a:has([src="moz-icon://.mp4?size=16"])::before
 {
   content: 'mp4';
   margin-left: 0;
-  font-size: 1em;
-  margin: 0 0.4ch 0 0.2ch;
   background: #eee;
   color: #000;
   font-weight: bold;
-  padding: 0 0.2ch 0 0.2ch;
-  font-family: Menlo, monospace;
-  border-radius: 6px / 40px;
-  letter-spacing: 0.04ch;
-  max-width: 5ch;
   padding: 0;
   font-family: Menlo, monospace;
   border-radius: 6px / 40px;
@@ -575,6 +564,7 @@ a:has([src="moz-icon://.mp4?size=16"])::before
   text-align: center;
   font-size: 1em;
   margin: 0 0.4ch 0 0.2ch;
+  font-variant: all-small-caps;
 }
 
 a:hover {
@@ -586,4 +576,20 @@ body > table > tbody > tr:hover {
     inset 0px 1.5px 3px -1px #fffa,
     inset 0 -1px 5px -1px #000;
   overflow: visible;
+}
+
+body > table > tbody > tr.paused::before {
+  mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
+  background-image:
+    url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E%3C/path%3E%3C/svg%3E'),
+    linear-gradient(-45deg, #fff2, #0002), linear-gradient(45deg, #f00, #00f);
+  background-size: contain, contain;
+  mask-size: 60%;
+  overflow: visible;
+  background-repeat: no-repeat, repeat-y;
+  border-bottom: 2px solid #f0f6;
+  border-top: 2px solid #05fc;
+  border-left: 2px solid #0000;
+  border-right: 2px solid #0000;
+  background-origin: content-box, border-box, border-box;
 }

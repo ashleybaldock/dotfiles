@@ -657,7 +657,13 @@ body > table > tbody > .playing::before {
 body > table {
   border: 0;
   border-collapse: collapse;
+  padding: 3.4rem 2rem 1rem 1.4rem;
 }
+
+body > table > tbody > tr {
+  padding: 0 0.5ch;
+}
+
 body > table > tbody > tr:hover {
   box-shadow:
     inset 1px 1.3px 3px -1px #fffa,
@@ -691,17 +697,7 @@ body > table > tbody > :where(.playing, .paused)::before {
   padding: 0 0 0 3.8ch;
 }
 
-body > table > tbody > tr {
-  padding: 0 0.5ch;
-}
-body > table {
-  padding: 3.4rem 2rem 1rem 1.4rem;
-}
-
-body > table {
-  padding: 3.4rem 2rem 1rem 1.4rem;
-}
-
+/*{{{1 Size and Date columns */
 td:nth-child(n + 2) {
   transition: transform 200ms ease 0ms;
   transform: scale(0.8);
@@ -709,7 +705,6 @@ td:nth-child(n + 2) {
 }
 tr:hover > td:nth-child(n + 2) {
   transition: transform 120ms ease 0ms;
-  transform: scale(1.04);
 }
 td:nth-child(2) {
   text-align: end;

@@ -668,3 +668,17 @@ td:nth-child(n + 2) {
 {
   content: 'ts';
 }
+
+body > table > tbody > tr:hover {
+  box-shadow:
+    inset 1px 1.3px 3px -1px #fffa,
+    inset 0px -0.2px 5px -1.2px #000;
+  border-radius: 1em;
+  filter: drop-shadow(0.6px 0.8px 0.2px #fff4);
+}
+
+.file::before {
+  background: #eee9;
+  opacity: 0.6;
+  background-image: linear-gradient(66deg, #0008, #fff8, #0008);
+}

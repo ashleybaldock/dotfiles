@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.68
+// @version     1.0.70
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -45,7 +45,7 @@ const overrideFileListClicks = () => {
 const addWrappedVideo = (
   parent,
   options = {
-    class: 'current',
+    class: `i${[parent.querySelectorAll('.vidwrap')].length}`,
     autoplay: '',
     muted: '',
   },
@@ -57,6 +57,22 @@ const addWrappedVideo = (
     () => {
       video.classList.remove('paused');
       video.classList.add('playing');
+
+      document
+        .querySelectorAll(
+          `body > table > tbody > tr:has([href="${video.src}"])`,
+        )
+        .forEach((tr) => {
+          tr.classList.remove('paused');
+          tr.classList.add(`playing i${options.class}`);
+          video.addEventListener(
+            'ended',
+            () => {
+              tr.classList.remove(`i${options.class}`);
+            },
+            { once: true },
+          );
+        });
     },
     {},
   );
@@ -65,6 +81,15 @@ const addWrappedVideo = (
     () => {
       video.classList.remove('playing');
       video.classList.add('paused');
+
+      document
+        .querySelectorAll(
+          `body > table > tbody > tr:has([href="${video.src}"])`,
+        )
+        .forEach((tr) => {
+          tr.classList.remove('playing');
+          tr.classList.add(`paused i${options.class}`);
+        });
     },
     {},
   );

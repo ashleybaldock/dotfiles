@@ -1,0 +1,79 @@
+/**
+ * CSS debug utility classes for :hover
+ */
+
+[contenteditable='true'] {
+  /*! background-color: #00f1 !important; */
+  outline: 2px solid #0f0 !important;
+}
+[contenteditable='false'] {
+  outline: 2px dotted #0f0d !important;
+  outline-offset: -1px !important;
+  box-shadow: inset 0 0 0 1px #f00 !important;
+}
+
+[tabindex] {
+  /*   overflow: clip; */
+  overflow-clip-margin: 1px;
+  outline: 4px dashed #f00 !important;
+  outline-offset: -2px !important;
+  box-shadow: inset 0 0 3px 1px #000, inset 0 0 0 2px #f00, 0 0 3px 1px #000,
+    0 0 0 2px #f00 !important;
+}
+[tabindex='0'] {
+  outline: 1.5px dotted #0f4 !important;
+  outline-offset: -2px !important;
+  box-shadow: inset 0 0 0 3px #44f !important;
+}
+[tabindex^='-'] {
+}
+
+:focus-within:has(
+    :focus-within :focus-within :focus,
+    :focus-within :focus-within :focus-visible
+  ) {
+  background-color: #00f1 !important;
+  outline: 1px dotted #00f !important;
+  outline-offset: 2px;
+}
+:focus-within:has(
+    > :focus-within > :focus-within > :focus,
+    > :focus-within > :focus-within > :focus-visible
+  ) {
+  outline: 2px dashed #00f !important;
+  outline-offset: 3px;
+  z-index: 10001;
+}
+:focus-within
+  > :focus-within:has(
+    > :focus-within > :focus,
+    > :focus-within > :focus-visible
+  ) {
+  outline: 2px dashed #0af !important;
+  outline-offset: 2px;
+  z-index: 10002;
+}
+:focus-within > :focus-within > :focus-within:has(> :focus, > :focus-visible) {
+  outline: 2px dashed #0ff !important;
+  outline-offset: 1px;
+  z-index: 10003;
+}
+
+:focus {
+  /*! background-color: #f0f1 !important; */
+  outline: 2px dashed #d0d !important;
+  box-shadow: 0 0 0 1px #d0d !important;
+  outline-offset: -2px;
+  z-index: 10100;
+}
+:focus-visible {
+  /*! background-color: #ff01 !important; */
+  outline: 2px solid #ff0 !important;
+  z-index: 10101;
+}
+:focus-visible:focus {
+  box-shadow: inset 0 0 0 1px #d0d, 0 0 0 1px #d0d !important;
+  outline: 1.5px dashed #dddd00 !important;
+  outline-offset: -2px;
+  z-index: 10102;
+}

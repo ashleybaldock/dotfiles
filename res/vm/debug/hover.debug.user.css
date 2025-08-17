@@ -1,0 +1,101 @@
+/**
+ * CSS debug utility classes for :hover
+ */
+
+:has(> :hover > :hover > :hover > :hover > :hover > :hover) {
+  outline: 1px solid #007;
+  outline-offset: -1px;
+}
+:has(> :hover > :hover > :hover > :hover > :hover) {
+  outline: 1px solid #009;
+  outline-offset: -1px;
+}
+:has(> :hover > :hover > :hover > :hover) {
+  outline: 1px solid #00b;
+  outline-offset: -1px;
+}
+:has(> :hover > :hover > :hover) {
+  outline: 1px solid #00d;
+  outline-offset: -1px;
+}
+:has(> :hover > :hover) {
+  outline: 1px solid #00f;
+  outline-offset: -1px;
+}
+:has(> :hover) {
+  outline: 2px solid #00f;
+  outline-offset: -2px;
+}
+
+/* :has(~ :hover > :hover) {
+  outline: 1px solid plum;
+}
+:has(~ :hover > :not(:hover)) {
+  outline: 2px dashed plum;  outline-offset: -1px;
+} */
+
+/* :has(~ :hover > :not(:hover)) {
+  outline: 1px solid #f9f;
+}
+:has(+ :hover > :not(:hover)) {
+  outline: 2px solid #f0f;  outline-offset: -1px;
+} */
+
+:hover:has(> :hover > :hover) ~ * {
+  outline: 1px dashed violet;
+}
+:hover:has(> :hover > :hover) + * {
+  outline: 1px dashed violet;
+}
+:hover:has(> :hover) ~ * {
+}
+:hover:has(> :hover) + * {
+}
+/* All subsequent siblings */
+:hover ~ * {
+  outline: 1px solid #f9f;
+  outline-offset: -1px;
+}
+/* Immediately subsequent sibling */
+:hover + * {
+  outline: 2px solid #f0f;
+  outline-offset: -1px;
+}
+/* All previous siblings */
+/* :hover:not(:has(:hover)) ~ * {
+  outline: 1px solid #f9f;  outline-offset: -1px;
+} */
+/* All previous siblings */
+:not(:hover):has(~ :hover) {
+  outline: 1px solid #f9f;
+  outline-offset: -1px;
+}
+/* Immediately preceding sibling */
+:not(:hover):has(+ :hover) {
+  outline: 2px solid #f0f;
+  outline-offset: -1px;
+}
+
+/* :has(+ :hover > :not(:hover)) {
+  outline: 2px solid magenta;
+  outline-offset: -1px;
+}
+:not(:has(:hover)):hover + * {
+  outline: 1px solid magenta;
+} */
+/* * :not(:has(:hover)) {
+  outline: 1px solid #00ff00ff !important;
+} */
+:not(:has(:hover)):hover {
+  outline: 2px solid #ffff00ff !important;
+  outline-offset: -1px;
+}
+:hover:not(:has(:hover)) > * {
+  outline: 1px solid #ff6c00ff !important;
+}
+:hover:not(:has(:hover)) > * > * {
+  outline: 0.5px solid #ff6c00dd !important;
+}
+:hover:not(:has(:hover)) > * > * > * {
+  outline: 0.5px solid #ff6c00aa !important;
+}

@@ -202,5 +202,8 @@
 
   "eslint.autoFixOnSave": true,
   "eslint.codeActionsOnSave.mode": "all",
-  "eslint.rules.customizations": []
+  "eslint.rules.customizations": [],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }

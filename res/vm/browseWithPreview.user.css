@@ -484,26 +484,30 @@ body > table > tbody > tr::before {
   );
   display: table-cell;
   line-height: normal;
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: 0%;
-  text-align: center;
-  content: '  ' attr(data-playerid, '');
-  box-sizing: border-box;
-  width: 1lh;
-  mask-size:;
-  text-align: left;
-  mask-composite: add;
-  mask-position: center;
-  color: #fff;
   white-space: preserve-spaces;
-  aspect-ratio: 1;
   height: auto;
   background-size: 70% 60%;
   background-repeat: no-repeat;
   background-position: center;
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
   mask-origin: padding-box;
+  mask-clip: no-clip;
+  box-sizing: border-box;
+  width: 1.2lh;
+  mask-size: cover;
+  mask-repeat: no-repeat;
+  text-align: left;
+  mask-composite: add;
+  mask-position: center;
+  color: #fff;
+  aspect-ratio: 1;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  line-height: 1.1rem;
+  width: 1.4rem;
+  mask-size: contain;
+  text-align: center;
   mask-clip: no-clip;
 }
 body > table > tbody > tr.playing::before {
@@ -542,7 +546,8 @@ td:first-child > a {
   letter-spacing: 0.02ch;
   padding: 0 2px;
   font-size: 1.1rem;
-  line-height: 1;
+  line-height: 1.1;
+  border-width: 0;
 }
 
 body > table > tbody > tr > td {
@@ -550,3 +555,20 @@ body > table > tbody > tr > td {
   margin: 0;
   padding: 0;
 }
+
+
+
+
+a:has([src="moz-icon://.mp4?size=16"])::before {
+  content: 'mp4';
+  margin-left: 0;
+  font-size: 1em;
+  margin: 0 0.4ch 0 0.2ch;
+  background: #eee;
+  color: #000;
+  font-weight: bold;
+  padding: 0 0.2ch 0 0.2ch;
+  font-family: Menlo, monospace;
+  border-radius: 6px / 40px;
+  letter-spacing: 0.04ch;
+  max-width: 5ch;

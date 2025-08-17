@@ -23,24 +23,25 @@ syn match preShapes /[\u25a0-\u25ff]\+/ contains=NONE
 
 
 syn match preArrows /[\u2190-\u21ff\u2798-\u27af\u27b1-\u27be\u27f0-\u27ff\u2900-\u297f\u2b00-\u2b11\u2b30-\u2b4f\u2b5a-\u2b73\u2b80-\u2b94\u2b95]\+/ contains=NONE
-syn match preArrows /\?[─┈┄╌]\+[▸►▶▸️►️▶︎▸︎►︎▶︎▹▻▷▹️▻️▷️▹︎▻︎▷︎]/ contains=NONE
-syn match preArrows /\?[━┉┅╍]\+[▸►▶▸️►️▶︎▸︎►︎▶︎▹▻▷▹️▻️▷️▹︎▻︎▷︎]/ contains=NONE
-syn match preArrows /\?[═]\+/ contains=NONE
-let leftends = '[◀︎◀◂◂️◄◄️◀︎◀︎◂︎◁◃◅◁️◃️◅️◁︎◃︎◅︎]'
-let rightends = '[▸►▶▸️►️▶︎▸︎►︎▶︎▹▻▷▹️▻️▷️▹︎▻︎▷︎]'
-let starts = '[╾╼●○◯⦿◉◎■□▩◧◨◩◪◫◰◱◲◳▢▣◍▬▭◑◒◓◔◕◴◵◶◷●️○️◯️⦿️◉️◎️■️□️▩️◧️◨️◩️◪️◫️◰️◱️◲️◳️▢️▣️◍️▬️▭️◑️◒️◓️◔️◕️◴️◵️◶️◷️]'
-let thinmid = '[─┈┄╌]'
-let thin_s_r = '[╴┘┐┤┬┴┼╜╖╢╨╥╫┚┒┨┸┰╂╮╯]'
-let thin_s_l = '[╶└┌├┬┴┼┖┎┠┸┰╂╙╓╟╨╥╫╰╭]'
-let wide_m = '[━┉┅╍]'
-let wide_s_r = '[╸┛┓┫┻┳╋┑┙┥┷┯┿]'
-let wide_s_l = '[╺┗┏┣┻┳╋┕┍┝┯┷┿]'
-let dblmid = '[═]'
-let dblrightstarts = '[╝╗╣╩╦╬╛╕╡╧╤╪]'
-let dblleftstarts = '[╚╔╠╩╦╬╘╒╞╤╧╪]'
-exec 'syn match preArrows /[' .. leftends .. '][' .. thinmid .. ']\+[' .. thinrightstarts .. starts..  ']\?/ contains=NONE'
-syn match preArrows /[◀︎◀◂◂️◄◄️◀︎◀︎◂︎◁◃◅◁️◃️◅️◁︎◃︎◅︎]\+\%([╾╼]\|\)\?/ contains=NONE
-syn match preArrows /[◀︎◀◂◂️◄◄️◀︎◀︎◂︎◁◃◅◁️◃️◅️◁︎◃︎◅︎]\+\%([╾╼]\|\)\?/ contains=NONE
+
+let end_l = '◀︎◀◂◂️◄◄️◀︎◀︎◂︎◁◃◅◁️◃️◅️◁︎◃︎◅︎'
+let end_r = '▶︎▸►▶▸️►️▶︎▸︎►︎▶︎▹▻▷▹️▻️▷️▹︎▻︎▷︎'
+let any_s = '╾╼●○◯⦿◉◎■□▩◧◨◩◪◫◰◱◲◳▢▣◍▬▭◑◒◓◔◕◴◵◶◷●️○️◯️⦿️◉️◎️■️□️▩️◧️◨️◩️◪️◫️◰️◱️◲️◳️▢️▣️◍️▬️▭️◑️◒️◓️◔️◕️◴️◵️◶️◷️'
+let th_m = '─┈┄╌'
+let th_sr = '╴┘┐┤┬┴┼╜╖╢╨╥╫┚┒┨┸┰╂╮╯'
+let th_sl = '╶└┌├┬┴┼┖┎┠┸┰╂╙╓╟╨╥╫╰╭'
+let wd_m = '━┉┅╍'
+let wd_sr = '╸┛┓┫┻┳╋┑┙┥┷┯┿'
+let wd_sl = '╺┗┏┣┻┳╋┕┍┝┯┷┿'
+let db_m = '═'
+let db_sr = '╝╗╣╩╦╬╛╕╡╧╤╪'
+let db_sl = '╚╔╠╩╦╬╘╒╞╤╧╪'
+exec 'syn match preArrows /[' .. end_l .. '][' .. th_m .. ']\+[' .. th_sr .. any_s..  ']\?/ contains=NONE'
+exec 'syn match preArrows /[' .. end_l .. '][' .. wd_m .. ']\+[' .. wd_sr .. any_s..  ']\?/ contains=NONE'
+exec 'syn match preArrows /[' .. end_l .. '][' .. db_m .. ']\+[' .. db_sr .. any_s..  ']\?/ contains=NONE'
+exec 'syn match preArrows /[' .. th_sr .. any_s..  ']\?[' .. th_m .. ']\+[' .. end_r .. ']/ contains=NONE'
+exec 'syn match preArrows /[' .. wd_sr .. any_s..  ']\?[' .. wd_m .. ']\+[' .. end_r .. ']/ contains=NONE'
+exec 'syn match preArrows /[' .. db_sr .. any_s..  ']\?[' .. db_m .. ']\+[' .. end_r .. ']/ contains=NONE'
 syn match preArrows />\?-\+>/ contains=NONE
 syn match preArrows /<-\+<\?/ contains=NONE
 

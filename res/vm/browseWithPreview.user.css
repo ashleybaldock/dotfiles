@@ -526,6 +526,8 @@ body > table > tbody > tr::before {
   mask-size: contain;
   text-align: center;
   mask-clip: no-clip;
+  width: 2.2rem;
+  height: 2.2rem;
 }
 body > table > tbody > :where(.paused, .playing) {
   --s✕: 0.4;
@@ -565,6 +567,9 @@ td:first-child > a {
   font-size: 1.1rem;
   line-height: 1.1;
   border-width: 0;
+  height: 1.4rem;
+  padding: 0.4rem 0.5ch;
+  line-height: normal;
 }
 
 body > table > tbody > tr > td {
@@ -669,6 +674,10 @@ td:nth-child(n + 2) {
   content: 'ts';
 }
 
+body > table {
+  border: 0;
+  border-collapse: collapse;
+}
 body > table > tbody > tr:hover {
   box-shadow:
     inset 1px 1.3px 3px -1px #fffa,
@@ -679,6 +688,30 @@ body > table > tbody > tr:hover {
 
 .file::before {
   background: #eee9;
-  opacity: 0.6;
-  background-image: linear-gradient(66deg, #0008, #fff8, #0008);
+  opacity: 0.8;
+  background-image: linear-gradient(26deg, #0004 10%, #fff8 10% 70%, #0004 90%);
+  mix-blend-mode: plus-lighter;
+}
+
+:has(.file:hover) .file:not(:hover)::before {
+  mix-blend-mode: soft-light;
+}
+
+body > table > tbody > tr.playing::before,
+body > table > tbody > tr.paused::before {
+  mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
+  background-size: 35%, 100%, 100%;
+  mask-size: 84%;
+  overflow: visible;
+  background-repeat: no-repeat;
+  display: table-cell;
+  box-shadow:
+    -2px -1px 14px 1px #f0f,
+    2px 11px 4px 2px #06f;
+  mask-clip: no-clip;
+  padding: 0 0 0 3.8ch;
+}
+
+body > table > tbody > tr {
+  padding: 0 0.5ch;
 }

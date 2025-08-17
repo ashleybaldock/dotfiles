@@ -1,0 +1,173 @@
+html {
+  /* background: #222 !important; */
+  overscroll-behavior: none;
+}
+body {
+  /* background: #222 !important; */
+}
+@property --⍴100vw {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vw;
+}
+@property --⍴100vh {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vh;
+}
+@property --clientw-rem {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --clientw-rem {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --clientw {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --clienth {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --out {
+  syntax: '<string>';
+  inherits: false;
+  initial-value: '<out>';
+}
+:root {
+  /* The result is an integer without unit  */
+  --clientw: tan(atan2(var(--⍴100vw), 1px)); /* screen width */
+  --clienth: tan(atan2(var(--⍴100vh), 1px)); /* screen height*/
+  --clientw-rem: tan(atan2(var(--⍴100vw), 1em)); /* screen width in rem */
+  --clienth-rem: tan(atan2(var(--⍴100vh), 1em)); /* screen height in rem*/
+
+  counter-reset: clientw var(--clientw, 0) clienth var(--clienth, 0) clientw-rem
+    calc(var(--clientw-rem, 0) * 1000) clienth-rem var(--clienth-rem, 0);
+
+  /*
+
+a =   1.23
+b =   0.455
+c = 100.33
+d = -12.032
+ 
+  multiply by 10^s, round to nearest 1
+  (divide by 10^s) '.' (subtract 10^s)
+
+               1: ×10        2: ×100       3: ×1000
+a =   1.23      12.3    12    123.0   123    1230.0   1230
+b =   0.455      4.55    5     45.5    46     455.0    455
+c = 100.33    1003.3  1003  10033.0 10033  100330.0 100330
+d = -12.032   -120.32 -120  -1203.2 -1203  -12032.0 -12032
+
+round(to-zero, x, 1)
+  1
+  0
+  100
+  -12
+calc((x - round(to-zero, x, 1)) * pow(s, 10))
+  s = significant figures:  1      2      3
+                        *10^1  *10^2  *10^3
+    1.23  - 1   .23       2.3   23.0  230.0
+    0.455 - 0   .455      4.55  45.5  455.0
+  100.33  - 100 .33       3.30  33.0  330.0
+  -12.032 - 12  .032      0.32   3.2   32.0
+round(to-zero, x, 1) '.' round(nearest, (x - round(to-zero, x, 1)) * pow(s, 10), 1)
+  s = significant figures:  1       2       3
+    1.23  - 1   .23        1.2     1.23    1.230
+    0.455 - 0   .455       0.5     0.46    0.455
+  100.33  - 100 .33      100.3   100.33  100.330
+  -12.032 - 12  .032     -12.0   -12.03  -12.032
+  */
+}
+
+:root.__global_clientDims::before {
+  content: ' ' counter(clientw) ' × ' counter(clienth) ' ᵖˣ';
+  font-size: 0.7rem;
+  padding: 1px 4px 1px 2px;
+  letter-spacing: 0.04em;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  display: flex;
+  color: #f5f5f5bb;
+  border-bottom: 1px solid #111a;
+  border-bottom-width: 1px;
+  border-width: 0 0.1rem 0.1rem 0;
+  border-right-width: 0.1rem;
+  border-radius: 0 0 0.5rem 0;
+  border-right: 0.1rem solid #111a;
+  box-shadow: inset -0.2px -0.2px 0 0.2px #eee8;
+  text-shadow:
+    var(--l) var(--t) var(--u) var(--c),
+    var(--m) var(--t) var(--u) var(--c),
+    var(--r) var(--t) var(--u) var(--c),
+    var(--r) var(--m) var(--u) var(--c),
+    var(--r) var(--b) var(--u) var(--c),
+    var(--m) var(--b) var(--u) var(--c),
+    var(--l) var(--b) var(--u) var(--c),
+    var(--l) var(--m) var(--u) var(--c);
+  --u: 0px;
+  --c: #000;
+  --e: 0.6px;
+  --m: 0;
+  --r: var(--e);
+  --b: var(--e);
+  --l: calc(var(--e) * -1);
+  --t: calc(var(--e) * -1);
+}
+:root.__global_clientDims:hover::before {
+  content: ' ' counter(clientw) ' × ' counter(clienth) ' ᵖˣ\0a '
+    counter(clientw-rem) ' × ' counter(clienth-rem) ' ʳᵉᵐ';
+  color: #f5f5f5;
+}
+
+/* Make links fill their parent list
+:not(#not) ul:not(:has(li > a:not(:only-child))) {
+  row-gap: 0;
+}
+:not(#not) ul:not(:has(li > a:not(:only-child))) > li {
+  display: contents;
+}
+:not(#not) ul:not(:has(li > a:not(:only-child))) > li > a {
+  padding: 0.2em;
+}
+*/
+
+.debug {
+  background-color: #00ff0004;
+  outline: 1px dashed #fff4;
+  outline-offset: -1px;
+}
+
+.debug > div {
+  /*   background-color: #00ff0004; */
+  box-shadow: inset 0 0 6px #0f03;
+  outline: 1px dashed #fff4;
+  outline-offset: -2px;
+}
+
+/* Fancy/fluid sub/superscript
+ * https://css-tricks.com/fluid-superscripts-and-subscripts/
+ */
+@supports (font-size: calc(1em + 1px)) {
+  sup,
+  sub {
+    font-size: calc(0.5em + 4px);
+    vertical-align: baseline;
+    position: relative;
+    /* top: calc(-0.5 * 0.83 * 2 * (1em - 4px)); */
+    top: calc(-0.83em + 3.32px);
+  }
+  sub {
+    /* top: calc(0.25 * 0.83 * 2 * (1em - 4px)); */
+    top: calc(0.42em - 1.66px);
+  }
+}

@@ -1,0 +1,90 @@
+:root,
+html,
+body,
+img,
+div,
+.reset {
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: transparent;
+  position: relative;
+}
+:root,
+html {
+  height: 100vh;
+  width: 100vw;
+}
+body {
+  background-color: rgb(16, 16, 16);
+  line-height: 0;
+  display: grid;
+  grid-template-areas: 'image';
+  height: 100%;
+  width: 100%;
+}
+
+.config,
+.notify,
+.source,
+.title {
+  display: block;
+  color: #fff;
+  --outline-color: #000;
+  text-shadow:
+    1px 0 0 var(--outline-color),
+    -1px 0 2px var(--outline-color),
+    0 -1px 2px var(--outline-color),
+    0 1px 0 var(--outline-color);
+  line-height: normal;
+  position: fixed;
+  margin: 0 !important;
+  padding: 0 !important;
+  top: unset;
+  bottom: 2px;
+  z-index: 10;
+  font-size: 12px;
+  letter-spacing: 0.1ch;
+  word-spacing: -0.4ch;
+}
+
+.config::before {
+  content: 'fit: ' var(--fit);
+  right: 6px;
+  left: unset;
+}
+
+.notify {
+  font-weight: bold;
+  left: 4px;
+  right: unset;
+  height: auto;
+  width: auto;
+}
+
+:root > body > :first-child {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block;
+  border: none !important;
+  line-height: 0;
+  font-size: 0;
+  grid-area: image;
+  place-self: center;
+}
+
+:root[data-fit='auto'] > body > :first-child {
+  max-width: 100vw;
+  max-height: 100vh;
+}
+:root[data-fit='width'] > body > :first-child {
+  width: 100vw;
+  max-height: unset;
+}
+:root[data-fit='height'] > body > :first-child {
+  max-width: unset;
+  height: 100vh;
+}
+
+:not(#u#n#i#m#p#o#r#t#a#n#t) .grecaptcha-badge {
+  visibility: hidden;
+}

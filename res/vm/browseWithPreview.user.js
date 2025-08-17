@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.66
+// @version     1.0.68
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -194,11 +194,12 @@ const initBrowsePreview = ({ document }) => {
       class: 'interleave paused',
     });
 
-    const mediaPlayers = [];
+    const resetHandlers = [];
+    const reset = () => {
+      resetHandlers.forEach((f) => f());
+    };
 
-    const videos = ['i1', 'i2', 'i3', 'i4' /*, 'i5', 'i6'*/].map((cl) =>
-      addWrappedVideo(container, { class: cl }),
-    );
+    const mediaPlayers = [];
 
     const filelist = getFileList({
       loop: true,
@@ -220,16 +221,15 @@ const initBrowsePreview = ({ document }) => {
     };
     const onEndedPlayNext = ({ target }) => playNext(target);
 
-    const updateMediaPlayerCount = (count) => {
-      const newPlayerCount = min(filelist.length, newMax);
-      if (mediaPlayers.length > newPlayerCount) {
-        mediaPlayers.slice(newPlayerCount).forEach((mediaPlayer) => {
-          mediaPlayer.classList.add('off');
-        });
-      } else if (mediaPlayers.length < newPlayerCount) {
-        for (const i = mediaPlayers.length - 1; i < newPlayerCount; i++) {
-          mediaPlayers.push(addWrappedVideo(container, { class: `i${i}` }));
-        }
+    const updateMediaPlayerCount = (count = 6) => {
+      const newPlayerCount = min(filelist.length, count);
+      for (const i = mediaPlayers.length - 1; i < newPlayerCount; i++) {
+        const newMediaPlayer = addWrappedVideo(container, { class: `i${i}` });
+        newMediaPlayer.addEventListener('ended', onEndedPlayNext, {});
+        resetHandlers.push(() =>
+          newMediaPlayer.removeEventListener('ended', onEndedPlayNext, {}),
+        );
+        mediaPlayers.push(newMediaPlayer);
       }
       mediaPlayers.forEach((mediaPlayer, i) => {
         if (i < newPlayerCount) {
@@ -237,34 +237,32 @@ const initBrowsePreview = ({ document }) => {
           if (!mediaPlayer.playing) {
             playNext(mediaPlayer);
           }
+        } else {
+          mediaPlayer.pause();
+          mediaPlayer.classList.add('off');
         }
       });
-      for (const x = 0; x < newPlayerCount; x++) {}
     };
 
     const unsub = config.subscribe_maxInterleaved(updateMediaPlayerCount);
-
-    const resetHandlers = [];
-    const reset = () => {
-      resetHandlers.forEach((f) => f());
-    };
+    updateMediaPlayerCount(config.maxInterleaved);
 
     const play = () => {
       reset();
-      videos.forEach((video) => {
-        video.addEventListener('ended', onEndedPlayNext, {});
-        resetHandlers.push(() =>
-          video.removeEventListener('ended', onEndedPlayNext, {}),
-        );
-        playNext(video);
-      });
+      mediaPlayers
+        .filter((mediaPlayer) => !mediaPlayer.classList.contains('off'))
+        .forEach((mediaPlayer) => {
+          playNext(mediaPlayer);
+        });
       container.classList.add('playing');
       container.classList.remove('paused');
     };
     const pause = () => {
-      container.querySelectorAll('video:not(.off)').forEach((video) => {
-        video.pause();
-      });
+      mediaPlayers
+        .filter((mediaPlayer) => !mediaPlayer.classList.contains('off'))
+        .forEach((mediaPlayer) => {
+          mediaPlayer.pause();
+        });
       container.classList.add('paused');
       container.classList.remove('playing');
     };
@@ -343,11 +341,6 @@ const initBrowsePreview = ({ document }) => {
       return false;
     }),
   );
-
-  document.querySelector('video').addEventListener('ended', (e) => {});
-  document.querySelector('video').addEventListener('pause', (e) => {});
-  document.querySelector('video').addEventListener('play', (e) => {});
-  document.querySelector('video').addEventListener('ended', (e) => {});
 
   document.querySelector('body').dataset.playmode = 'interleave';
 

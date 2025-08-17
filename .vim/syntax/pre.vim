@@ -23,13 +23,24 @@ syn match preShapes /[\u25a0-\u25ff]\+/ contains=NONE
 
 
 syn match preArrows /[\u2190-\u21ff\u2798-\u27af\u27b1-\u27be\u27f0-\u27ff\u2900-\u297f\u2b00-\u2b11\u2b30-\u2b4f\u2b5a-\u2b73\u2b80-\u2b94\u2b95]\+/ contains=NONE
-syn match preArrows /[╶╺╾╼└┌├┬┴┼┖┎┠┸┰╂╙╓╟╨╥╫╰╭]\?[─┈┄╌]\+[▶︎▶▸▸️►►️]/ contains=NONE
-syn match preArrows /[╶╺╾╼┗┏┣┻┳╋┕┍┝┯┷┿]\?[━┉┅╍]\+[▶︎▶▸▸️►►️]/ contains=NONE
-syn match preArrows /[╶╺╾╼╚╔╠╩╦╬╘╒╞╤╧╪]\?[═]\+[▶︎▶▸▸️►►️]/ contains=NONE
-
-syn match preArrows /[◀︎◀◂◂️◄◄️◀︎◀︎◂︎◁◃◅◁️◃️◅️◁︎◃︎◅︎][─┈┄╌]\+[╴╸╾╼┘┐┤┬┴┼╜╖╢╨╥╫┚┒┨┸┰╂╮╯]\?/ contains=NONE
-syn match preArrows /[◀︎◀◂◂️◄◄️◀︎◀︎◂︎◁◃◅◁️◃️◅️◁︎◃︎◅︎][━┉┅╍]\+[╴╸╾╼┛┓┫┻┳╋┑┙┥┷┯┿]\?/ contains=NONE
-syn match preArrows /[◀︎◀◂◂️◄◄️◀︎◀︎◂︎◁◃◅◁️◃️◅️◁︎◃︎◅︎][═]\+[╴╸╾╼]\?/ contains=NONE
+syn match preArrows /\?[─┈┄╌]\+[▸►▶▸️►️▶︎▸︎►︎▶︎▹▻▷▹️▻️▷️▹︎▻︎▷︎]/ contains=NONE
+syn match preArrows /\?[━┉┅╍]\+[▸►▶▸️►️▶︎▸︎►︎▶︎▹▻▷▹️▻️▷️▹︎▻︎▷︎]/ contains=NONE
+syn match preArrows /\?[═]\+/ contains=NONE
+let leftends = '[◀︎◀◂◂️◄◄️◀︎◀︎◂︎◁◃◅◁️◃️◅️◁︎◃︎◅︎]'
+let rightends = '[▸►▶▸️►️▶︎▸︎►︎▶︎▹▻▷▹️▻️▷️▹︎▻︎▷︎]'
+let starts = '[╾╼●○◯⦿◉◎■□▩◧◨◩◪◫◰◱◲◳▢▣◍▬▭◑◒◓◔◕◴◵◶◷●️○️◯️⦿️◉️◎️■️□️▩️◧️◨️◩️◪️◫️◰️◱️◲️◳️▢️▣️◍️▬️▭️◑️◒️◓️◔️◕️◴️◵️◶️◷️]'
+let thinmid = '[─┈┄╌]'
+let thin_s_r = '[╴┘┐┤┬┴┼╜╖╢╨╥╫┚┒┨┸┰╂╮╯]'
+let thin_s_l = '[╶└┌├┬┴┼┖┎┠┸┰╂╙╓╟╨╥╫╰╭]'
+let wide_m = '[━┉┅╍]'
+let wide_s_r = '[╸┛┓┫┻┳╋┑┙┥┷┯┿]'
+let wide_s_l = '[╺┗┏┣┻┳╋┕┍┝┯┷┿]'
+let dblmid = '[═]'
+let dblrightstarts = '[╝╗╣╩╦╬╛╕╡╧╤╪]'
+let dblleftstarts = '[╚╔╠╩╦╬╘╒╞╤╧╪]'
+exec 'syn match preArrows /[' .. leftends .. '][' .. thinmid .. ']\+[' .. thinrightstarts .. starts..  ']\?/ contains=NONE'
+syn match preArrows /[◀︎◀◂◂️◄◄️◀︎◀︎◂︎◁◃◅◁️◃️◅️◁︎◃︎◅︎]\+\%([╾╼]\|\)\?/ contains=NONE
+syn match preArrows /[◀︎◀◂◂️◄◄️◀︎◀︎◂︎◁◃◅◁️◃️◅️◁︎◃︎◅︎]\+\%([╾╼]\|\)\?/ contains=NONE
 syn match preArrows />\?-\+>/ contains=NONE
 syn match preArrows /<-\+<\?/ contains=NONE
 

@@ -14,18 +14,22 @@ set cpo&vim
 syn match preYes +[✔︎✓☑︎☘︎☺︎]+
 syn match preMaybe +[¿‽⸮⁈⁉︎⁇†‡]+
 syn match preNo +[✘✖︎✗☒⚑☓☹︎‼︎]+
-syn match preBox /[\u2500-\u257f]\+/ contains=NONE
 syn match preBigSquare /[\u23a1-\u23a6]\+/ contains=NONE
 syn match preBigCurly /[\u23a7-\u23ad]\+/ contains=NONE
 syn match preBigParens /[\u239b-\u23a0]\+/ contains=NONE
 syn match preBlocks /[\u2580-\u259f]\+/ contains=NONE
 syn match preShapes /[\u25a0-\u25ff]\+/ contains=NONE
+syn match preBox /[\u2500-\u257f]\+/ contains=NONE
+
+
+syn match preEscaped /\%(\\\S[^)\u2500-\u257f \\]*\)\+/
+syn region preInSquare matchgroup=preSquare start=/\[/ end=/\]/ oneline contains=preInSquare,preYes,preNo,preMaybe
 
 
 syn match preArrows /[\u2190-\u21ff\u2798-\u27af\u27b1-\u27be\u27f0-\u27ff\u2900-\u297f\u2b00-\u2b11\u2b30-\u2b4f\u2b5a-\u2b73\u2b80-\u2b94\u2b95]\+/ contains=NONE
 
-let end_l = '◀︎◀◂◂️◄◄️◀︎◀︎◂︎◁◃◅◁️◃️◅️◁︎◃︎◅︎'
-let end_r = '▶︎▸►▶▸️►️▶︎▸︎►︎▶︎▹▻▷▹️▻️▷️▹︎▻︎▷︎'
+let end_l = '◀◀◂◁◃◅'
+let end_r = '▶▸►▹▻▷'
 let any_s = '╾╼●○◯⦿◉◎■□▩◧◨◩◪◫◰◱◲◳▢▣◍▬▭◑◒◓◔◕◴◵◶◷●️○️◯️⦿️◉️◎️■️□️▩️◧️◨️◩️◪️◫️◰️◱️◲️◳️▢️▣️◍️▬️▭️◑️◒️◓️◔️◕️◴️◵️◶️◷️'
 let th_m = '─┈┄╌'
 let th_sr = '╴┘┐┤┬┴┼╜╖╢╨╥╫┚┒┨┸┰╂╮╯'
@@ -36,17 +40,14 @@ let wd_sl = '╺┗┏┣┻┳╋┕┍┝┯┷┿'
 let db_m = '═'
 let db_sr = '╝╗╣╩╦╬╛╕╡╧╤╪'
 let db_sl = '╚╔╠╩╦╬╘╒╞╤╧╪'
-exec 'syn match preArrows /[' .. end_l .. '][' .. th_m .. ']\+[' .. th_sr .. any_s..  ']\?/ contains=NONE'
-exec 'syn match preArrows /[' .. end_l .. '][' .. wd_m .. ']\+[' .. wd_sr .. any_s..  ']\?/ contains=NONE'
-exec 'syn match preArrows /[' .. end_l .. '][' .. db_m .. ']\+[' .. db_sr .. any_s..  ']\?/ contains=NONE'
-exec 'syn match preArrows /[' .. th_sr .. any_s..  ']\?[' .. th_m .. ']\+[' .. end_r .. ']/ contains=NONE'
-exec 'syn match preArrows /[' .. wd_sr .. any_s..  ']\?[' .. wd_m .. ']\+[' .. end_r .. ']/ contains=NONE'
-exec 'syn match preArrows /[' .. db_sr .. any_s..  ']\?[' .. db_m .. ']\+[' .. end_r .. ']/ contains=NONE'
+exec 'syn match preArrows /[' .. end_l .. '][' .. th_m .. ']\+[' .. th_sr .. any_s..  ']\?\Z/ contains=NONE extend'
+exec 'syn match preArrows /[' .. end_l .. '][' .. wd_m .. ']\+[' .. wd_sr .. any_s..  ']\?\Z/ contains=NONE extend'
+exec 'syn match preArrows /[' .. end_l .. '][' .. db_m .. ']\+[' .. db_sr .. any_s..  ']\?\Z/ contains=NONE extend'
+exec 'syn match preArrows /[' .. th_sl .. any_s .. ']\?[' .. th_m .. ']\+[' .. end_r .. ']\Z/ contains=NONE extend'
+exec 'syn match preArrows /[' .. wd_sl .. any_s .. ']\?[' .. wd_m .. ']\+[' .. end_r .. ']\Z/ contains=NONE extend'
+exec 'syn match preArrows /[' .. db_sl .. any_s .. ']\?[' .. db_m .. ']\+[' .. end_r .. ']\Z/ contains=NONE extend'
 syn match preArrows />\?-\+>/ contains=NONE
 syn match preArrows /<-\+<\?/ contains=NONE
-
-syn match preEscaped /\%(\\\S[^)\u2500-\u257f \\]*\)\+/
-syn region preInSquare matchgroup=preSquare start=/\[/ end=/\]/ oneline contains=preInSquare,preYes,preNo,preMaybe
 
 syn match preNewline /[⏎⏎️]↩︎/ contains=NONE
 

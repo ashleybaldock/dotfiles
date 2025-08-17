@@ -391,7 +391,6 @@ section.paused {
   cursor: var(--cursor-play), pointer;
 }
 section.playing {
-  cursor: var(--cursor-play), pointer;
   cursor: var(--cursor-pause), pointer;
 }
 
@@ -541,7 +540,7 @@ a:hover {
 body > table > tbody > tr:hover {
   overflow: visible;
   box-shadow:
-    inset 0px 1.5px 3px -1px #fffa,
+    inset 0 1.5px 3px -1px #fffa,
     inset 0 -1px 5px -1px #333;
 }
 
@@ -567,16 +566,16 @@ body > table > tbody > tr.paused::before {
   background: #eee;
   color: #000;
   font-weight: bold;
-  padding: 0.16em 0 0.1em 0.1ch;
   font-family: Menlo, monospace;
   border-radius: 6px / 40px;
   letter-spacing: 0;
-  max-width: 3.5ch;
   display: inline-block;
   width: 3.5ch;
   text-align: center;
+  margin: 0 0.5ch 0 0;
+  padding: 0.16em 0 0.1em 0.1ch;
+  max-width: 3.5ch;
   font-size: 0.86em;
-  margin: 0 0.5ch 0 0ch;
   text-transform: uppercase;
   line-height: 1em;
 }

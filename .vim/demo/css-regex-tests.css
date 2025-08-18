@@ -1,3 +1,48 @@
+
+
+
+#ident,
+.class,
+span,
+div,
+*,
+[attr],
+[attr=""],
+[attr=''],
+[attr^="prefix"],
+[attr$="suffix"],
+[attr$="suffix"],
+#ident.class,
+.class#ident,
+div.class,
+div#ident,
+div#ident.class,
+someOtherTag {
+  color: green;
+}
+
+##badidentifier,
+..badClassName,
+unknownTag,
+**,
+[],
+[*],
+[=],
+[#],
+[attr=],
+[""],
+[''],
+#*,
+*#,
+*.,
+.*test,
+#.test,
+#.test,
+.#test {
+  color: red;
+}
+
+
 #modern-rgb-valid {
   --t0: rgb(0 0 0);
   --t1: rgb(0% 0% 0%);

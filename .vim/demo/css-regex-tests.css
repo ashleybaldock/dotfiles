@@ -7,11 +7,22 @@ span,
 div,
 *,
 [attr],
-[attr=""],
-[attr=''],
-[attr^="prefix"],
-[attr$="suffix"],
-[attr$="suffix"],
+[attr=''],[attr=""],
+[attr~=abc]  ,[attr~='abc'] ,[attr~="abc"]  ,
+[attr~=abc i],[attr~='abc'i],[attr~='abc' i],[attr~="abc"i],[attr~="abc" i],
+[attr~=abc s],[attr~='abc's],[attr~='abc' s],[attr~="abc"s],[attr~="abc" s],
+[attr^=pre],[attr^='pre'],[attr^="pre"],
+[attr^=pre i],[attr^='pre'i],[attr^='pre' i],[attr^="pre"i],[attr^="pre" i],
+[attr^=pre s],[attr^='pre's],[attr^='pre' s],[attr^="pre"s],[attr^="pre" s],
+[attr$=suf],[attr$='suf'],[attr$="suf"],
+[attr$=suf i],[attr$='suf'i],[attr$='suf' i],[attr$="suf"i],[attr$="suf" i],
+[attr$=suf s],[attr$='suf's],[attr$='suf' s],[attr$="suf"s],[attr$="suf" s],
+[attr|=abc],[attr|='abc'],[attr|="abc"],
+[attr|=abc i],[attr|='abc'i],[attr|='abc' i],[attr|="abc"i],[attr|="abc" i],
+[attr|=abc s],[attr|='abc's],[attr|='abc' s],[attr|="abc"s],[attr|="abc" s],
+[attr*=abc],[attr*='abc'],[attr*="abc"],
+[attr*=abc i],[attr*='abc'i],[attr*='abc' i],[attr*="abc"i],[attr*="abc" i],
+[attr*=abc s],[attr*='abc's],[attr*='abc' s],[attr*="abc"s],[attr*="abc" s],
 #ident.class,
 .class#ident,
 div.class,
@@ -19,6 +30,23 @@ div#ident,
 div#ident.class,
 someOtherTag {
   color: green;
+}
+
+.class:hover, .class:active, .class:visited, .class:checked {
+  color: green;
+}
+.class::before, .class::after,
+.class:hover::before, .class:hover::after,
+.class::before:hover, .class::after:hover {
+  color: green;
+}
+@media not print {
+  .class:hover, .class:active, .class:visited, .class:checked {
+    color: green;
+  }
+  .class::before, .class::after {
+    color: green;
+  }
 }
 
 ##badidentifier,

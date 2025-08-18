@@ -1,0 +1,77 @@
+:root {
+  background-color: #200;
+  margin: 0;
+  padding: 0;
+  max-width: 100vw;
+  width: 100vw;
+  height: 100vh;
+  overflow: clip;
+}
+body {
+  background-color: #400;
+}
+::before,
+::after {
+  display: block;
+  position: relative;
+  max-width: min-content;
+  height: 0;
+  white-space: nowrap;
+  border: 0 solid #0000;
+  border-width: 0 0.25ch 1lh 0.25ch;
+  padding: 0 0 0 0;
+  bottom: 0;
+  margin: 0 0 -1lh 0;
+  line-height: normal;
+  font-size: 10px;
+  letter-spacing: 0.06ch;
+  background-image:
+    linear-gradient(90deg, #222, #222),
+    repeating-linear-gradient(90deg, #f004 0 2px, #f000 2px 4px);
+  background-clip: padding-box, content-box, padding-box;
+  background-size:
+    100% 8px,
+    100% 12px,
+    100% 12px;
+  background-repeat: no-repeat;
+  background-position: center;
+  mask-image:
+    linear-gradient(0deg, #fff, #fff), linear-gradient(0deg, #fff, #fff);
+  mask-size:
+    100% 1lh,
+    100% 2px;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+  mask-origin: border-box, padding-box;
+  mask-clip: border-box, padding-box;
+  mask-composite: add;
+  opacity: 0.4;
+}
+::after {
+  margin: -1lh 0 0 0;
+}
+:hover::before,
+:hover::after {
+  border-color: #222;
+  opacity: 1;
+}
+
+:root::before {
+  content: ':root::before';
+  color: #f00;
+}
+
+:root body::before {
+  content: ':root body::before';
+  color: #f60;
+}
+
+:root::after {
+  content: ':root::after';
+  color: #f00;
+}
+
+:root body::after {
+  content: ':root body::after';
+  color: #f60;
+}

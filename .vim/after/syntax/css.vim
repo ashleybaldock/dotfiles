@@ -295,11 +295,11 @@ syn match cssMathFunctionName /linear-gradient\>/
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionRegion
 syn match cssMathFunctionName /conic-gradient\>/
-      \ contained conceal cchar=◔       
+      \ contained conceal cchar=◔
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionRegion
 syn match cssMathFunctionName /radial-gradient\>/
-      \ contained conceal cchar=⌾ 
+      \ contained conceal cchar=⌾
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionRegion
 syn match cssMathFunctionName /\<repeating-\ze\(linear\|conic\|radial\)-gradient/

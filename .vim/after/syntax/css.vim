@@ -99,25 +99,28 @@ syn match cssCustomPropDashes contained +--+
 syn region cssFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
       \ contains=
-      \cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssColor,
-      \cssError,cssFunctionComma,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
-
+      \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
+      \cssError,
+      \cssCustomPropRef,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 
 syn region cssSqrtRegion contained concealends
       \ matchgroup=Conceal start="(" end=")"
       \ contains=
-      \cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssColor,
-      \cssError,cssFunctionComma,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+      \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
+      \cssError,
+      \cssCustomPropRef,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 
 syn keyword cssFunctionNameVar contained conceal cchar=𐐏 var
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssFunctionRegion
 
-
 " Math operators are valid inside these (and nested children)
 syn region cssMathFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
-      \ contains=cssCalcKeyword,cssError,cssMathFunctionRegion,cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssFunctionComma,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+      \ contains=cssMathFunctionRegion,cssCalcKeyword,
+      \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
+      \cssError,
+      \cssCustomPropRef,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 " ⨠ ⎆ ⌾
 syn keyword cssMathFunctionName calc 
       \ contained conceal cchar=c
@@ -185,7 +188,7 @@ syn region cssPowSimpleRegion contained concealends
 syn match cssPowSimple contained +pow(\s*\(\d\+\)\s*,\s*\(-\?\d\+\)\s*)+
       \ contains=cssPowSimpleRegion
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
-
+"{{{3 Trig functions
 syn match cssMathFunctionName /\%(a\@1<=\|\<\)sin\>/
       \ contained conceal cchar=𝙎 
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
@@ -202,24 +205,12 @@ syn match cssMathFunctionName /\%(atan\)\@4<=2\>/
       \ contained conceal cchar=𝟮 
       \ containedin=NONE
       \ nextgroup=cssMathFunctionRegion
-syn match cssMathFunctionName /\%(a\@1<=\|\<\)tan\ze\%(2\>\|\>\)/
-      \ contained conceal cchar=𝙏 
+syn match cssMathFunctionName /\%(a\@1<=\|\<\)tan\ze2\?\>/
+      \ contained conceal cchar=𝙏
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionName,cssMathFunctionRegion
-syn match cssMathFunctionName /\<a\zesin\>/
+syn match cssMathFunctionName /\<a\ze\%(sin\|cos\|tan2\?\)\>/
       \ contained conceal cchar=𝙖
-      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
-      \ nextgroup=cssMathFunctionName
-syn match cssMathFunctionName /\<a\zecos\>/
-      \ contained conceal cchar=𝙖 
-      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
-      \ nextgroup=cssMathFunctionName
-syn match cssMathFunctionName /\<a\zetan\>/
-      \ contained conceal cchar=𝙖 
-      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
-      \ nextgroup=cssMathFunctionName
-syn match cssMathFunctionName /\<a\zetan2\>/
-      \ contained conceal cchar=𝙖 
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionName
 "􁢏􀥄􁇝􁁀 􀐩 􂇏' 􀐪􀓗

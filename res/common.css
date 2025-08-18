@@ -1,30 +1,30 @@
 /*!{{{1 Global fallbacks */
-:root {
-  --𝞅: calc((1 + sqrt(5)) / 2);
-  --𝟭∕𝞅: 1 / var(--𝞅);
-  --𝞅∕𝟮: var(--𝞅) / 2;
-  --𝝷: atan(var(--𝞅));
-}
+/* :root { */
+/*   --𝞅: calc((1 + sqrt(5)) / 2); */
+/*   --𝟭∕𝞅: 1 / var(--𝞅); */
+/*   --𝞅∕𝟮: var(--𝞅) / 2; */
+/*   --𝝷: atan(var(--𝞅)); */
+/* } */
 /*!{{{1 @property */
 @property --𝞅 {
   syntax: '<number>';
   inherits: true;
-  initial-value: 1.618;
+  initial-value: 1.618; /* (1 + √5) / 2 */
 }
 @property --𝟭∕𝞅 {
   syntax: '<number>';
   inherits: true;
-  initial-value: 1 / var(--𝞅);
+  initial-value: 0.618; /* 1 / (1 + √5) / 2 */
 }
 @property --𝞅∕𝟮 {
   syntax: '<number>';
   inherits: true;
-  initial-value: var(--𝞅) / 2;
+  initial-value: 0.809; /* (1 + √5) / 4 */
 }
 @property --𝝷 {
   syntax: '<angle>';
   inherits: true;
-  initial-value: atan(var(--𝞅));
+  initial-value: 72.828deg; /* atan((1 + √5) / 2) */
 }
 @property --_100vw {
   syntax: '<length>';
@@ -61,17 +61,28 @@
 
   /* Null placeholders */
   --Ø‥text-shadow: 0 0 #0000;
-
+}
+:root {
   /* Metrics */
+  /* Screen size */
   --w: tan(atan2(var(--_100vw), 1px)); /* screen width */
   --h: tan(atan2(var(--_100vh), 1px)); /* screen height*/
-  /* The result is an integer without unit  */
 
   --icon-border: 1;
   --icon-padding: 20;
   --icon-radius: 60;
   --icon-border-style: dashed;
 }
+
+/*{{{1 Reset */
+:where(body, h1, h2, h3, h4, p, figure, blockquote, dl, dd) {
+  margin-block-end: 0;
+}
+.screen {
+  min-height: 100vh;
+}
+
+/*{{{1 Metrics */
 
 body::before {
   counter-reset:
@@ -136,13 +147,6 @@ svg {
 .demo section > h2 {
   position: sticky;
   top: 0;
-}
-
-:where(body, h1, h2, h3, h4, p, figure, blockquote, dl, dd) {
-  margin-block-end: 0;
-}
-.screen {
-  min-height: 100vh;
 }
 
 .text-outline-thin {

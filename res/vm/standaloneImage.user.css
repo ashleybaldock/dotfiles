@@ -217,23 +217,27 @@
     background: #0000;
     outline: 1px dashed #888;
   }
-  :root:has(.tgl.sun :checked):has(.tgl.out :checked)
-    img.transparent {
+  :root:has(.tgl.sun :checked):has(.tgl.out :checked) img.transparent {
     outline: 1px dashed #aaa;
   }
 
   /* hatched box background */
   :root:has(.tgl.tch :checked) img.transparent {
-    background-image: repeating-conic-gradient( #383838 0 90deg, #484848 90deg 180deg );
+    background-image: repeating-conic-gradient(
+      #383838 0 90deg,
+      #484848 90deg 180deg
+    );
     background-size: var(--pixelw) var(--pixelw);
     background-repeat: repeat;
     background-position: 0 0;
     border: 0;
     padding: 0;
   }
-  :root:has(.tgl.sun :checked):has(.tgl.tch :checked)
-    img.transparent {
-    background-image: repeating-conic-gradient( #686868 0 90deg, #787878 90deg 180deg );
+  :root:has(.tgl.sun :checked):has(.tgl.tch :checked) img.transparent {
+    background-image: repeating-conic-gradient(
+      #686868 0 90deg,
+      #787878 90deg 180deg
+    );
     background-size: var(--pixelw) var(--pixelw);
     background-repeat: repeat;
     background-position: 0 0;
@@ -651,71 +655,97 @@
   }
   /*}}}1*/
 
+  .breadcrumbs output::after {
+    content: '';
+  }
+  .breadcrumbs {
+    visibility: visible;
+    font-size: 0.6rem;
+    pointer-events: all;
+    padding: 1px 10px 2px 10px;
+    right: 0;
+    top: 0;
+    border-radius: 0 0 0 10px;
+  }
+  .breadcrumbs > ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    user-select: all;
 
-.breadcrumbs output::after {
-  content: '';
-}
-.breadcrumbs {
-  visibility: visible;
-  font-size: 0.6rem;
-  pointer-events: all;
-  padding: 1px 10px 2px 10px;
-  right: 0;
-  top: 0;
-  border-radius: 0 0 0 10px;
-}
-.breadcrumbs > ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  display: flex;
-  align-items: center;
-  user-select: all;
-    
-  --＋: 0.5px;
-  --－: calc(var(--＋) * -1);
-  --＝: 0;
-  --🔸: 0px #000a;
-  --text-outline-thin:
-    var(--＋) var(--＝) var(--🔸),
-    var(--＋) var(--＋) var(--🔸), var(--＝) var(--＋) var(--🔸),
-    var(--－) var(--＋) var(--🔸), var(--－) var(--＝) var(--🔸),
-    var(--－) var(--－) var(--🔸), var(--＝) var(--－) var(--🔸),
-    var(--＋) var(--－) var(--🔸);
-}
-.breadcrumbs > ul > li {
-  text-shadow: var(--text-outline-thin);
-  color: #fff;
-  letter-spacing: 0.06ch
-}
-.breadcrumbs > ul > li > a {
-  text-decoration: 0.5px solid underline;
-  text-underline-offset: 2px;
-  color: #83e1fe;
-  cursor: pointer;
-  text-shadow: var(--text-outline-thin);
-}
-.breadcrumbs > ul > li > a:hover {
-  text-decoration: 1px solid underline;
-  text-underline-offset: 1.5px;
-}
-.breadcrumbs > ul > li > a:active {
-  text-decoration: 1px dashed underline;
-  text-decoration-color: #f00;
-}
-.breadcrumbs > ul > li > a:visited {
-  color: #83e1fe;
-}
-.sep {
-  padding: 0 0.1ch 0 0.2ch;
-  font-size: 0.7rem;
-  text-shadow: var(--text-outline-thin);
-}
-.proto {
-  text-shadow: var(--text-outline-thin);
-}
-.proto + .sep {
-  padding: 0 0.3ch 0 0;
-}
+    --＋: 0.5px;
+    --－: calc(var(--＋) * -1);
+    --＝: 0;
+    --🔸: 0px #000a;
+    --text-outline-thin:
+      var(--＋) var(--＝) var(--🔸), var(--＋) var(--＋) var(--🔸),
+      var(--＝) var(--＋) var(--🔸), var(--－) var(--＋) var(--🔸),
+      var(--－) var(--＝) var(--🔸), var(--－) var(--－) var(--🔸),
+      var(--＝) var(--－) var(--🔸), var(--＋) var(--－) var(--🔸);
+  }
+  .breadcrumbs > ul > li {
+    text-shadow: var(--text-outline-thin);
+    color: #fff;
+    letter-spacing: 0.06ch;
+  }
+  .breadcrumbs > ul > li > a {
+    text-decoration: 0.5px solid underline;
+    text-underline-offset: 2px;
+    color: #83e1fe;
+    cursor: pointer;
+    text-shadow: var(--text-outline-thin);
+  }
+  .breadcrumbs > ul > li > a:hover {
+    text-decoration: 1px solid underline;
+    text-underline-offset: 1.5px;
+  }
+  .breadcrumbs > ul > li > a:active {
+    text-decoration: 1px dashed underline;
+    text-decoration-color: #f00;
+  }
+  .breadcrumbs > ul > li > a:visited {
+    color: #83e1fe;
+  }
+  .sep {
+    padding: 0 0.1ch 0 0.2ch;
+    font-size: 0.7rem;
+    text-shadow: var(--text-outline-thin);
+  }
+  .proto {
+    text-shadow: var(--text-outline-thin);
+  }
+  .proto + .sep {
+    padding: 0 0.3ch 0 0;
+  }
 
+  body .toggles {
+    pointer-events: none;
+    z-index: 2;
+    position: fixed;
+  }
+  body:hover .toggles,
+  .toggles:hover {
+    pointer-events: all;
+  }
 
+  body .toggles::before {
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 120ms ease 200ms;
+    padding: 1ch 0 0 0.5ch;
+    width: auto;
+    height: auto;
+  }
+  body:hover .toggles::before,
+  .toggles:hover::before {
+    opacity: 0.6;
+    transition: opacity 2000ms ease 200ms;
+  }
+  .toggles:hover::before {
+    opacity: 1;
+    transition: opacity 120ms ease 0ms;
+  }
+}

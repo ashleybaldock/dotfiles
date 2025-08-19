@@ -1,14 +1,13 @@
 .huewheel {
   --c-border: #000;
   --w×-border: 0.2;
-  --size: 100px;
 
-  --num-colors: 6;
   --b-h: 0deg;
   --b-s: 50%;
   --b-l: 50%;
   --b-a: 100%;
-  --step: calc(360deg / var(--num-colors));
+  --step-count: 6;
+  --step: calc(360deg / var(--step-count));
   width: 100%;
   height: auto;
   aspect-ratio: 1;
@@ -17,39 +16,43 @@
   background-image:
     radial-gradient(
       circle at center,
-      #000 0 calc(var(--w×-border) * 100%),
-      #0000,
-      #000
+      #000 0 calc(100% * var(--w×-border)),
+      #0000 calc(100% * var(--w×-border)) calc(100% - 100% * var(--w×-border)),
+      #000 calc(100% - 100% * var(--w×-border)) 100%
     ),
-    conic-gradient(var(--steps));
+    conic-gradient(from calc(var(--step) * -0.5), var(--steps));
 
   --s1: hsl(
       calc(var(--b-h) + var(--step) * 0) var(--b-s) var(--b-l) / var(--b-a)
     )
-    calc(0 * var(--step));
+    calc(var(--step) * 0) /* calc(var(--step) * 1) */;
   --s2:
     var(--s1),
     hsl(calc(var(--b-h) + var(--step) * 1) var(--b-s) var(--b-l) / var(--b-a))
-      calc(1 * var(--step));
+      calc(var(--step) * 1) /* calc(var(--step) * 2) */;
   --s3:
     var(--s2),
     hsl(calc(var(--b-h) + var(--step) * 2) var(--b-s) var(--b-l) / var(--b-a))
-      calc(2 * var(--step));
+      calc(var(--step) * 2) /* calc(var(--step) * 3) */;
   --s4:
     var(--s3),
     hsl(calc(var(--b-h) + var(--step) * 3) var(--b-s) var(--b-l) / var(--b-a))
-      calc(3 * var(--step));
+      calc(var(--step) * 3) /* calc(var(--step) * 4) */;
   --s5:
     var(--s4),
     hsl(calc(var(--b-h) + var(--step) * 4) var(--b-s) var(--b-l) / var(--b-a))
-      calc(4 * var(--step));
+      calc(var(--step) * 4) /* calc(var(--step) * 5) */;
   --s6:
     var(--s5),
     hsl(calc(var(--b-h) + var(--step) * 5) var(--b-s) var(--b-l) / var(--b-a))
-      calc(5 * var(--step));
-  --steps: var(--s6);
+      calc(var(--step) * 5) /* calc(var(--step) * 6) */;
+  --s7:
+    var(--s6),
+    hsl(var(--b-h) var(--b-s) var(--b-l) / var(--b-a)) calc(var(--step) * 6)
+      /* calc(var(--step) * 6) */;
+  --steps: var(--s7);
 
-  rotate: calc(720deg / var(--num-colors));
+  rotate: calc(720deg / var(--step-count));
   transition-property: rotate 3s ease 0s;
 }
 

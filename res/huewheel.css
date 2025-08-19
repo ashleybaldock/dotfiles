@@ -116,10 +116,10 @@
 }
 .huewheel:where(.red,.green,.blue) {
   --hue-arc: 120deg;
-  --h-off: -120deg;
+  --h-off: -180deg;
   --step-count: 2;
   --step-hue: calc(var(--hue-arc) / var(--step-count));
-  --step-circ: calc(240deg / var(--step-count));
+  --step-circ: calc(360deg / var(--step-count));
   --s1: hsl(
       calc(var(--b-h) + var(--step-hue) * 0) var(--b-s) var(--b-l) / var(--b-a)
     )
@@ -133,7 +133,7 @@
     hsl(
       calc(var(--b-h) + var(--step-hue) * 2) var(--b-s) var(--b-l) / var(--b-a)
     )
-    calc(var(--step-circ) * 1) /* calc(var(--step) * 1) */;
+    calc(var(--step-circ) * 2) /* calc(var(--step) * 1) */;
   --s4:
     var(--s3),
     hsl(var(--b-h) var(--b-s) var(--b-l) / var(--b-a))

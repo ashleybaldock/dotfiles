@@ -1,5 +1,24 @@
 .container {
   position: relative;
 
-  width: 50vw;
+  width: 33vw;
+}
+
+section.six {
+  flex-direction: row;
+}
+section.six > .container {
+  width: 40vw;
+}
+section.arcs {
+  flex-direction: row;
+}
+section.arcs > .container {
+  width: 20vw;
+}
+section.three {
+  flex-direction: row;
+}
+section.three > .container {
+  width: 30vw;
 }

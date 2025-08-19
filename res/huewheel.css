@@ -92,7 +92,6 @@
     hsl(var(--b-h) var(--b-s) var(--b-l) / var(--b-a)) calc(var(--step) * 6)
       /* calc(var(--step) * 6) */;
   --steps: var(--s7);
-
 }
 .huewheel.three {
   --step: 120deg;
@@ -108,7 +107,39 @@
     var(--s2),
     hsl(calc(var(--b-h) + var(--step) * 2) var(--b-s) var(--b-l) / var(--b-a))
       calc(var(--step) * 2) /* calc(var(--step) * 3) */;
+  --s4:
+    var(--s3),
+    hsl(var(--b-h) var(--b-s) var(--b-l) / var(--b-a))
+      calc(var(--step) * 3) /* calc(var(--step) * 4) */;
+  --steps: var(--s4);
+}
+.huewheel:where(.red,.green,.blue) {
+  --hue-arc: 60deg;
+  --step-count: 1;
+  --step-hue: calc(var(--hue-arc) / var(--step-count));
+  --step-circ: calc(360deg / var(--step-count));
+  --s1: hsl(
+      calc(var(--b-h) + var(--step-hue) * 0) var(--b-s) var(--b-l) / var(--b-a)
+    )
+    calc(var(--step-circ) * 0) /* calc(var(--step) * 1) */;
+  --s2: hsl(
+      calc(var(--b-h) + var(--step-hue) * 1) var(--b-s) var(--b-l) / var(--b-a)
+    )
+    calc(var(--step-circ) * 1) /* calc(var(--step) * 1) */;
+  --s3:
+    var(--s2),
+    hsl(var(--b-h) var(--b-s) var(--b-l) / var(--b-a))
+      calc(var(--step-circ) * 2) /* calc(var(--step) * 4) */;
   --steps: var(--s3);
+}
+.huewheel.red {
+  --b-h: 0deg;
+}
+.huewheel.green {
+  --b-h: 120deg;
+}
+.huewheel.blue {
+  --b-h: 240deg;
 }
 .huewheel.split {
   --hue-offset-inner: var(--hue-offset, 0deg);

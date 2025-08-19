@@ -608,17 +608,23 @@ syn region pathQuad2Rel start=+t+ end=+\ze[^0-9. \\-]+ contained contains=svgPat
 " syn region pathEllipAbs start=+A+ end=+\ze[MZVHLCSQTAmzvhlcsqta\\]+ oneline contained contains=svgPathParam
 syn region pathEllipR start=+a+
       \ end=+\ze[^0-9. \\-]+
-      \ contained contains=pathEllipRP1,pathEllipRP2,cssLineCont
-syn match pathEllipRP1 /\%([^ -]\+\ze *[ -]\)\{7}/ contained
-      \ contains=pathEllipRL,svgPathParam nextgroup=pathEllipRP2
+      \ contained contains=pathEllipRL,cssLineCont
 syn match pathEllipRP2 /\%([^ -]\+\ze *[ -]\)\{7}/ contained
       \ contains=svgPathParam nextgroup=pathEllipRP1
+syn match pathEllipRP1 /\%([^ -]\+\ze *[ -]\)\{7}/ contained
+      \ contains=svgPathParam nextgroup=pathEllipRP2
 syn match pathEllipRL /a/ contained contains=NONE
+      \ nextgroup=pathEllipRP1
 
 syn region pathEllipA start=+A+
       \ end=+\ze[^0-9. \\-]+
-      \ contained contains=svgPathParam,pathEllipAL,cssLineCont
+      \ contained contains=pathEllipAL,cssLineCont
+syn match pathEllipAP2 /\%([^ -]\+\ze *[ -]\)\{7}/ contained
+      \ contains=svgPathParam nextgroup=pathEllipAP1
+syn match pathEllipAP1 /\%([^ -]\+\ze *[ -]\)\{7}/ contained
+      \ contains=svgPathParam nextgroup=pathEllipAP2
 syn match pathEllipAL /A/ contained contains=NONE
+      \ nextgroup=pathEllipAP1
 
 syn match svgPathParam +[0-9. -]\{1,}+ transparent contained contains=NONE
 
@@ -759,9 +765,10 @@ hi def pathQuad2Abs guifg=#665588 gui=bold guisp=#eeeeee
 hi def pathQuad2Rel guifg=#665588
 hi def pathEllipA    guifg=#aa6666 guisp=#559999 gui=underdashed
 hi def pathEllipAL   guifg=#559999 gui=bold,underline
-" hi def pathEllipR    guifg=#aa6666 guisp=#559999 gui=underdotted
+hi def pathEllipAP1  guifg=#aa6666 guisp=#559999 gui=underline
+hi def pathEllipAP2  guifg=#cc8888 guisp=#aa6666 gui=italic,underdashed
 hi def pathEllipRP1  guifg=#aa6666 guisp=#559999 gui=underline
-hi def pathEllipRP2  guifg=#aa6666 guisp=#aa6666 gui=underdashed
+hi def pathEllipRP2  guifg=#cc8888 guisp=#aa6666 gui=italic,underdashed
 hi def pathEllipRL   guifg=#559999 gui=underline
 hi def svgPathParam guifg=NONE
 

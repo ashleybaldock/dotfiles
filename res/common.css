@@ -62,11 +62,21 @@
   /* Null placeholders */
   --Ø‥text-shadow: 0 0 #0000;
 }
+@property --clientw {
+  syntax: '<Number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --clienth {
+  syntax: '<Number>';
+  inherits: true;
+  initial-value: 0;
+}
 :root {
   /* Metrics */
   /* Screen size */
-  --w: tan(atan2(var(--_100vw), 1px)); /* screen width */
-  --h: tan(atan2(var(--_100vh), 1px)); /* screen height*/
+  --clientw: tan(atan2(var(--_100vw), 1px)); /* screen width */
+  --clienth: tan(atan2(var(--_100vh), 1px)); /* screen height*/
 
   --icon-border: 1;
   --icon-padding: 20;
@@ -86,8 +96,8 @@
 
 body::before {
   counter-reset:
-    screenw var(--w),
-    screenh var(--h);
+    screenw var(--clientw),
+    screenh var(--clienth);
   content: counter(screenw) '×' counter(screenh);
 }
 

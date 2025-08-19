@@ -13,6 +13,7 @@
   --b-s: 50%;
   --b-l: 50%;
   --b-a: 100%;
+  --h-off: 0deg;
   --step-count: 6;
   --step: calc(360deg / var(--step-count));
 
@@ -59,7 +60,7 @@
       var(--wheel-part-rim) var(--wheel-part-outside)
     ),
     var(--wheel-colors-single);
-  --wheel-colors-single: linear-gradient(#0000), conic-gradient(from var(--hue-offset), var(--steps));
+  --wheel-colors-single: linear-gradient(#0000), conic-gradient(from calc(var(--h-off) + var(--hue-offset)), var(--steps));
 
   background-image: var(--wheel-parts);
 
@@ -115,13 +116,14 @@
 }
 .huewheel:where(.red,.green,.blue) {
   --hue-arc: 60deg;
-  --step-count: 1;
+  --h-off: -120deg;
+  --step-count: 2;
   --step-hue: calc(var(--hue-arc) / var(--step-count));
-  --step-circ: calc(360deg / var(--step-count));
+  --step-circ: calc(120deg / var(--step-count));
   --s1: hsl(
-      calc(var(--b-h) + var(--step-hue) * 0) var(--b-s) var(--b-l) / var(--b-a)
+      calc(var(--b-h) + var(--step-hue) * -1) var(--b-s) var(--b-l) / var(--b-a)
     )
-    calc(var(--step-circ) * 0) /* calc(var(--step) * 1) */;
+    0 /* calc(var(--step) * 1) */;
   --s2: hsl(
       calc(var(--b-h) + var(--step-hue) * 1) var(--b-s) var(--b-l) / var(--b-a)
     )
@@ -130,7 +132,8 @@
     var(--s2),
     hsl(var(--b-h) var(--b-s) var(--b-l) / var(--b-a))
       calc(var(--step-circ) * 2) /* calc(var(--step) * 4) */;
-  --steps: var(--s3);
+      --s4: var(--s3), #0000 calc(var(--step-circ) * 2);
+  --steps: var(--s4);
 }
 .huewheel.red {
   --b-h: 0deg;
@@ -163,7 +166,7 @@
       var(--wheel-part-outer) var(--wheel-part-rim) var(--wheel-part-outside)
     ), var(--wheel-colors-split);
   --wheel-colors-split:
-    conic-gradient(from var(--hue-offset-inner), var(--steps)),
-    conic-gradient(from var(--hue-offset-outer), var(--steps));
+    conic-gradient(from calc(var(--h-off) + var(--hue-offset-inner)), var(--steps)),
+    conic-gradient(from calc(var(--h-off) + var(--hue-offset-outer)), var(--steps));
 }
 

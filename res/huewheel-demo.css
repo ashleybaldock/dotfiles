@@ -8,13 +8,14 @@ section.six {
   flex-direction: row;
 }
 section.six > .container {
-  width: 40vw;
+  width: min(40vw, 33vh);
 }
 section.arcs {
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 }
 section.arcs > .container {
-  width: 20vw;
+  width: auto;
 }
 section.three {
   flex-direction: row;

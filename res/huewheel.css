@@ -1,8 +1,8 @@
 .huewheel {
   --c-bd-fill: #000;
   --c-bd-line: #888;
-  --w×-bd-rim: 0.14;
-  --w×-bd-mid: 0.14;
+  --w×-bd-rim: 0.1;
+  --w×-bd-mid: 0.1;
   --w×-bd-hub: 0.2;
   --bd-midpoint: calc(var(--r) * 0.5);
   --b-h: 0deg;
@@ -97,11 +97,11 @@
   --wheel-part-inner: ,rgb(from var(--c-bd-line) r g b / 0) var(--bdwh)
     calc(var(--r) - var(--bdwm));
   --wheel-part-midline: 
-    ,var(--c-bd-line) calc(var(--bd-midpoint) - var(--bdwm))
-      calc(var(--bd-midpoint) - var(--bdwm) + var(--bdo)),
-    var(--c-bd-fill) calc(var(--bd-midpoint) - var(--bdwm)) calc(var(--bd-midpoint) - var(--bdo)),
-    var(--c-bd-line) calc(var(--bd-midpoint) - var(--bdo)) var(--bd-midpoint);
-  --wheel-part-outer: ,rgb(from var(--c-bd-line) r g b / 0) var(--bdwm)
+    ,var(--c-bd-line) calc(var(--bd-midpoint) - var(--bdwm) * 0.5)
+      calc(var(--bd-midpoint) - var(--bdwm) * 0.5 + var(--bdo)),
+    var(--c-bd-fill) calc(var(--bd-midpoint) - var(--bdwm) * 0.5 + var(--bdo)) calc(var(--bd-midpoint) + var(--bdwm) * 0.5 - var(--bdo)),
+    var(--c-bd-line) calc(var(--bd-midpoint) + var(--bdwm) * 0.5 - var(--bdo)) calc(var(--bd-midpoint) + var(--bdwm) * 0.5);
+  --wheel-part-outer: ,rgb(from var(--c-bd-line) r g b / 0) calc(var(--bd-midpoint) + calc(var(--bdwm) * 0.5))
     calc(var(--r) - var(--bdwr));
   --wheel-parts: radial-gradient(
     circle at center,
@@ -110,55 +110,3 @@
     ), var(--wheel-colors-split);
 }
 
-/* .huewheel::after { */
-/*   content: ''; */
-/*   position: absolute; */
-/*   top: 70%; */
-/*   left: 50%; */
-/*   border-radius: 50%; */
-/*   background: #000; */
-/*   width: 3%; */
-/*   height: 3%; */
-/*   transform: translate(-90%, -30%); */
-
-/*   border: 10px solid black; */
-/*   border-width: calc(var(--size) * 0.3); */
-/* } */
-
-/* .huewheel:hover { */
-/*   rotate: calc(720deg / var(--num-colors)); */
-
-/*   transition-duration: 10s; */
-/*   transition-timing-function: cubic-bezier; */
-/*   transition-property: rotate; */
-/* } */
-/* .huewheel::before { */
-/*   content: ''; */
-/*   position: absolute; */
-/*   top: 50%; */
-/*   left: 50%; */
-/*   width: 70%; */
-/*   height: 70%; */
-/*   border-radius: 50%; */
-/*   transform: translate(-50%, -50%) rotate(calc(-270deg / var(--num-colors))); */
-/* } */
-/* border-image: conic-gradient( */
-/*   #f00 calc(0 * var(--step)), */
-/*   #ff0 calc(1 * var(--step)), */
-/*   #0f0 calc(2 * var(--step)), */
-/*   #0ff calc(3 * var(--step)), */
-/*   #00f calc(4 * var(--step)), */
-/*   #f0f calc(5 * var(--step)), */
-/*   #f00 calc(6 * var(--step)) */
-/* ); */
-/* border-image: conic-gradient( */
-/*   #f00 calc(0 * var(--step)), */
-/*   #ff0 calc(1 * var(--step)), */
-/*   #0f0 calc(2 * var(--step)), */
-/*   #0ff calc(3 * var(--step)), */
-/*   #00f calc(4 * var(--step)), */
-/*   #f0f calc(5 * var(--step)), */
-/*   #f00 calc(6 * var(--step)) */
-/* border-image-outset: 110px; */
-/* border-image-repeat: 2px; */
-/* ); */

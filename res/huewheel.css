@@ -27,7 +27,7 @@
   mask-position: center center;
   background-size: 100% 100%;
   background-origin: padding-box;
-  background-clip: padding-box, padding-box, content-box;
+  background-clip: padding-box, content-box, padding-box;
   background-repeat: no-repeat;
   background-position: center center;
   --r: 70.71%;
@@ -40,24 +40,25 @@
   --wheel-part-hub:
     var(--c-bd-fill) 0 calc(var(--bdwh) - var(--bdo)),
     var(--c-bd-line) calc(var(--bdwh) - var(--bdo)) var(--bdwh);
-  --wheel-part-outer: ,rgb(from var(--c-bd-fill) r g b / 0) var(--bdwh)
+  --wheel-part-single: ,rgb(from var(--c-bd-line) r g b / 0) var(--bdwh)
     calc(var(--r) - var(--bdwr));
-  --wheel-part-midline: ;
-  --wheel-part-inner: ;
   --wheel-part-rim:
     ,var(--c-bd-line) calc(var(--r) - var(--bdwr))
       calc(var(--r) - var(--bdwr) + var(--bdo)),
     var(--c-bd-fill) calc(var(--r) - var(--bdwr)) calc(var(--r) - var(--bdo)),
     var(--c-bd-line) calc(var(--r) - var(--bdo)) var(--r);
   --wheel-part-outside: ,rgb(from var(--c-bd-fill) r g b / 0) var(--r) 100%;
-  background-image:
-    radial-gradient(
-      circle at center,
-      var(--wheel-part-hub) var(--wheel-part-outer) var(--wheel-part-midline)
-        var(--wheel-part-inner) var(--wheel-part-rim) var(--wheel-part-outside)
+  --wheel-parts: radial-gradient(
+    circle at center,
+    var(--wheel-part-hub) var(--wheel-part-single)
+      var(--wheel-part-rim) var(--wheel-part-outside)
     ),
-    conic-gradient(from calc(var(--step) * -2.5), var(--steps)),
+    var(--wheel-colors-single);
+  --wheel-colors-single: linear-gradient(#0000), conic-gradient(from calc(var(--step) * -0.5), var(--steps));
+  --wheel-colors-split: conic-gradient(from calc(var(--step) * -2.5), var(--steps)),
     conic-gradient(from calc(var(--step) * -0.5), var(--steps));
+
+  background-image: var(--wheel-parts);
 
   --s1: hsl(
       calc(var(--b-h) + var(--step) * 0) var(--b-s) var(--b-l) / var(--b-a)
@@ -91,6 +92,22 @@
 
   rotate: calc(720deg / var(--step-count));
   transition-property: rotate 3s ease 0s;
+}
+.huewheel.split {
+  --wheel-part-inner: ,rgb(from var(--c-bd-line) r g b / 0) var(--bdwh)
+    calc(var(--r) - var(--bdwm));
+  --wheel-part-midline: 
+    ,var(--c-bd-line) calc(var(--bd-midpoint) - var(--bdwm))
+      calc(var(--bd-midpoint) - var(--bdwm) + var(--bdo)),
+    var(--c-bd-fill) calc(var(--bd-midpoint) - var(--bdwm)) calc(var(--bd-midpoint) - var(--bdo)),
+    var(--c-bd-line) calc(var(--bd-midpoint) - var(--bdo)) var(--bd-midpoint);
+  --wheel-part-outer: ,rgb(from var(--c-bd-line) r g b / 0) var(--bdwm)
+    calc(var(--r) - var(--bdwr));
+  --wheel-parts: radial-gradient(
+    circle at center,
+    var(--wheel-part-hub) var(--wheel-part-inner) var(--wheel-part-midline)
+      var(--wheel-part-outer) var(--wheel-part-rim) var(--wheel-part-outside)
+    ), var(--wheel-colors-split);
 }
 
 /* .huewheel::after { */

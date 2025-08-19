@@ -1,49 +1,62 @@
 .huewheel {
   --c-bd-fill: #000;
   --c-bd-line: #888;
-  --w×-border: 0.2;
-
+  --w×-bd-rim: 0.14;
+  --w×-bd-mid: 0.14;
+  --w×-bd-hub: 0.2;
+  --bd-midpoint: calc(var(--r) * 0.5);
   --b-h: 0deg;
   --b-s: 50%;
   --b-l: 50%;
   --b-a: 100%;
   --step-count: 6;
   --step: calc(360deg / var(--step-count));
+  box-sizing: border-box;
   width: 100%;
+  padding: 25%;
   height: auto;
   aspect-ratio: 1;
   border-radius: 50%;
+  mask-image:
+    radial-gradient(circle at center, #fff var(--r), #fff0 var(--r)),
+    radial-gradient(circle at center, #fff var(--r), #fff0 var(--r));
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-origin: padding-box, content-box;
+  mask-clip: padding-box, content-box;
+  mask-position: center center;
   background-size: 100% 100%;
-  background-origin: content-box;
+  background-origin: padding-box;
+  background-clip: padding-box, padding-box, content-box;
   background-repeat: no-repeat;
-  background-position: center;
-  --dbg1: 60%;
+  background-position: center center;
   --r: 70.71%;
-  --bdw: calc(var(--r) * var(--w×-border));
+  --bdwr: calc(var(--r) * var(--w×-bd-rim));
+  --bdwm: calc(var(--r) * var(--w×-bd-mid));
+  --bdwh: calc(var(--r) * var(--w×-bd-hub));
   --bdo: 2px;
   /* h2 = a2 + b2 */
+  /* --dbg1: 60%; */
+  --wheel-part-hub:
+    var(--c-bd-fill) 0 calc(var(--bdwh) - var(--bdo)),
+    var(--c-bd-line) calc(var(--bdwh) - var(--bdo)) var(--bdwh);
+  --wheel-part-outer: ,rgb(from var(--c-bd-fill) r g b / 0) var(--bdwh)
+    calc(var(--r) - var(--bdwr));
+  --wheel-part-midline: ;
+  --wheel-part-inner: ;
+  --wheel-part-rim:
+    ,var(--c-bd-line) calc(var(--r) - var(--bdwr))
+      calc(var(--r) - var(--bdwr) + var(--bdo)),
+    var(--c-bd-fill) calc(var(--r) - var(--bdwr)) calc(var(--r) - var(--bdo)),
+    var(--c-bd-line) calc(var(--r) - var(--bdo)) var(--r);
+  --wheel-part-outside: ,rgb(from var(--c-bd-fill) r g b / 0) var(--r) 100%;
   background-image:
-    /* radial-gradient( */ /*   circle at center, */
-    /*   #000 0 calc(100% * var(--w×-border)), */
-    /*   #0000 calc(100% * var(--w×-border)) calc(100% - (100% * var(--w×-border))), */
-    /*   #000 calc(100% - (100% * var(--w×-border))) 100% */ /* ); */
     radial-gradient(
       circle at center,
-      #0000 0 var(--dbg1),
-      #fff var(--dbg1) calc(var(--dbg1) - 1px),
-      #0000 calc(var(--dbg1) + 1px) 100%
+      var(--wheel-part-hub) var(--wheel-part-outer) var(--wheel-part-midline)
+        var(--wheel-part-inner) var(--wheel-part-rim) var(--wheel-part-outside)
     ),
-    radial-gradient(
-      circle at center,
-      var(--c-bd-fill) 0 var(--bdw),
-      rgb(from var(--c-bd-fill) r g b / 0) var(--bdw)
-        calc(var(--r) - var(--bdw)),
-      var(--c-bd-line) calc(var(--r) - var(--bdw))
-        calc(var(--r) - var(--bdw) + var(--bdo)),
-      var(--c-bd-fill) calc(var(--r) - var(--bdw)) calc(var(--r) - var(--bdo)),
-      var(--c-bd-line) calc(var(--r) - var(--bdo)) var(--r),
-      rgb(from var(--c-bd-fill) r g b / 0) var(--r) 100%
-    ),
+    conic-gradient(from calc(var(--step) * -2.5), var(--steps)),
     conic-gradient(from calc(var(--step) * -0.5), var(--steps));
 
   --s1: hsl(

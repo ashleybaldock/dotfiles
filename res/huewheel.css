@@ -94,6 +94,24 @@
       /* calc(var(--step) * 6) */;
   --steps: var(--s7);
 }
+.huewheel.lines {
+  --lw: 0.5deg;
+  --g0: #0000;
+  --l1:        #000f calc(var(--step) * 0 - var(--lw)) calc(var(--step) * 0 + var(--lw));
+  --g1: var(--l1), #0000 calc(var(--step) * 0 + var(--lw)) calc(var(--step) * 1 - var(--lw));
+  --l2: var(--g1), #000f calc(var(--step) * 1 - var(--lw)) calc(var(--step) * 1 + var(--lw));
+  --g2: var(--l2), #0000 calc(var(--step) * 1 + var(--lw)) calc(var(--step) * 2 - var(--lw));
+  --l3: var(--g2), #000f calc(var(--step) * 2 - var(--lw)) calc(var(--step) * 2 + var(--lw));
+  --g3: var(--l3), #0000 calc(var(--step) * 2 + var(--lw)) calc(var(--step) * 3 - var(--lw));
+  --l4: var(--g3), #000f calc(var(--step) * 3 - var(--lw)) calc(var(--step) * 3 + var(--lw));
+  --g4: var(--l4), #0000 calc(var(--step) * 3 + var(--lw)) calc(var(--step) * 4 - var(--lw));
+  --l5: var(--g4), #000f calc(var(--step) * 4 - var(--lw)) calc(var(--step) * 4 + var(--lw));
+  --g5: var(--l5), #0000 calc(var(--step) * 4 + var(--lw)) calc(var(--step) * 5 - var(--lw));
+  --l6: var(--g5), #000f calc(var(--step) * 5 - var(--lw)) calc(var(--step) * 5 + var(--lw));
+  --g6: var(--l6), #0000 calc(var(--step) * 5 + var(--lw)) calc(var(--step) * 6 - var(--lw));
+
+  --stepsl: var(--g6);
+}
 .huewheel.three {
   --step: 120deg;
   --s1: hsl(
@@ -119,22 +137,22 @@
   --step-hue: calc(var(--hue-arc) / 2);
   --step-circ: 180deg;
   --sc1: hsl(
-      calc(var(--b-h) + var(--step-hue) * 0) var(--b-s) var(--b-l) / var(--b-a)
+      calc(var(--bc-h) + var(--step-hue) * 0) var(--b-s) var(--b-l) / var(--b-a)
     )
     0 /* calc(var(--step) * 1) */;
   --sc2: var(--sc1),
     hsl(
-      calc(var(--b-h) + var(--step-hue) * 1) var(--b-s) var(--b-l) / var(--b-a)
+      calc(var(--bc-h) + var(--step-hue) * 1) var(--b-s) var(--b-l) / var(--b-a)
     )
     calc(var(--step-circ) * 1) /* calc(var(--step) * 1) */;
   --sc3: var(--sc2),
     hsl(
-      calc(var(--b-h) + var(--step-hue) * 2) var(--b-s) var(--b-l) / var(--b-a)
+      calc(var(--bc-h) + var(--step-hue) * 2) var(--b-s) var(--b-l) / var(--b-a)
     )
     calc(var(--step-circ) * 2) /* calc(var(--step) * 1) */;
   --sc4:
     var(--sc3),
-    hsl(var(--b-h) var(--b-s) var(--b-l) / var(--b-a))
+    hsl(var(--bc-h) var(--b-s) var(--b-l) / var(--b-a))
       calc(var(--step-circ) * 2) /* calc(var(--step) * 4) */;
   --sc5: var(--sc4), #0000 calc(var(--step-circ) * 2);
   --stepsc: var(--sc5);
@@ -149,22 +167,22 @@
  *  300 : magenta
  *  */
 .huewheel.red {
-  --b-h: 0deg;
+  --bc-h: 0deg;
 }
 .huewheel.yellow {
-  --b-h: 60deg;
+  --bc-h: 60deg;
 }
 .huewheel.green {
-  --b-h: 120deg;
+  --bc-h: 120deg;
 }
 .huewheel.cyan {
-  --b-h: 180deg;
+  --bc-h: 180deg;
 }
 .huewheel.blue {
-  --b-h: 240deg;
+  --bc-h: 240deg;
 }
 .huewheel.magenta {
-  --b-h: 300deg;
+  --bc-h: 300deg;
 }
 .huewheel.split {
   --hue-offset-inner: var(--hue-offset, 0deg);
@@ -194,6 +212,6 @@
 
 .huewheel.split:where(.red,.green,.blue,.yellow,.cyan,.magenta) {
   --wheel-colors-split:
-    conic-gradient(from calc(-180deg + var(--hue-offset-inner)), var(--steps)),
-    conic-gradient(from calc(-180deg + var(--hue-offset-outer)), var(--stepsc));
+    conic-gradient(from var(--hue-offset-inner), var(--steps)),
+    conic-gradient(from calc(240deg + var(--bc-h) + var(--hue-offset-outer)), var(--stepsc));
 }

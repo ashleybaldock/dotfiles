@@ -1,5 +1,6 @@
 .huewheel {
-  --c-border: #000;
+  --c-bd-fill: #000;
+  --c-bd-line: #888;
   --w×-border: 0.2;
 
   --b-h: 0deg;
@@ -11,14 +12,37 @@
   width: 100%;
   height: auto;
   aspect-ratio: 1;
-  border: calc(var(--size) * var(--w×-border)) solid var(--c-border);
   border-radius: 50%;
+  background-size: 100% 100%;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-position: center;
+  --dbg1: 60%;
+  --r: 70.71%;
+  --bdw: calc(var(--r) * var(--w×-border));
+  --bdo: 2px;
+  /* h2 = a2 + b2 */
   background-image:
+    /* radial-gradient( */ /*   circle at center, */
+    /*   #000 0 calc(100% * var(--w×-border)), */
+    /*   #0000 calc(100% * var(--w×-border)) calc(100% - (100% * var(--w×-border))), */
+    /*   #000 calc(100% - (100% * var(--w×-border))) 100% */ /* ); */
     radial-gradient(
       circle at center,
-      #000 0 calc(100% * var(--w×-border)),
-      #0000 calc(100% * var(--w×-border)) calc(100% - 100% * var(--w×-border)),
-      #000 calc(100% - 100% * var(--w×-border)) 100%
+      #0000 0 var(--dbg1),
+      #fff var(--dbg1) calc(var(--dbg1) - 1px),
+      #0000 calc(var(--dbg1) + 1px) 100%
+    ),
+    radial-gradient(
+      circle at center,
+      var(--c-bd-fill) 0 var(--bdw),
+      rgb(from var(--c-bd-fill) r g b / 0) var(--bdw)
+        calc(var(--r) - var(--bdw)),
+      var(--c-bd-line) calc(var(--r) - var(--bdw))
+        calc(var(--r) - var(--bdw) + var(--bdo)),
+      var(--c-bd-fill) calc(var(--r) - var(--bdw)) calc(var(--r) - var(--bdo)),
+      var(--c-bd-line) calc(var(--r) - var(--bdo)) var(--r),
+      rgb(from var(--c-bd-fill) r g b / 0) var(--r) 100%
     ),
     conic-gradient(from calc(var(--step) * -0.5), var(--steps));
 

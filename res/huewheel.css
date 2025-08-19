@@ -114,7 +114,7 @@
       calc(var(--step) * 3) /* calc(var(--step) * 4) */;
   --steps: var(--s4);
 }
-.huewheel:where(.red,.green,.blue) {
+.huewheel:where(.red,.green,.blue,.yellow,.cyan,.magenta) {
   --hue-arc: 120deg;
   --step-hue: calc(var(--hue-arc) / 2);
   --step-circ: 180deg;
@@ -140,14 +140,31 @@
   --stepsc: var(--sc5);
   --wheel-colors-single: linear-gradient(#0000), conic-gradient(from calc(-180deg + var(--hue-offset)), var(--stepsc));
 }
+/*
+ *    0 : red
+ *   60 : yellow
+ *  120 : green
+ *  180 : cyan
+ *  240 : blue
+ *  300 : magenta
+ *  */
 .huewheel.red {
-  --b-h: -60deg;
+  --b-h: 0deg;
 }
-.huewheel.green {
+.huewheel.yellow {
   --b-h: 60deg;
 }
-.huewheel.blue {
+.huewheel.green {
+  --b-h: 120deg;
+}
+.huewheel.cyan {
   --b-h: 180deg;
+}
+.huewheel.blue {
+  --b-h: 240deg;
+}
+.huewheel.magenta {
+  --b-h: 300deg;
 }
 .huewheel.split {
   --hue-offset-inner: var(--hue-offset, 0deg);
@@ -175,7 +192,7 @@
     conic-gradient(from var(--hue-offset-outer), var(--steps));
 }
 
-.huewheel.split:where(.red,.green,.blue) {
+.huewheel.split:where(.red,.green,.blue,.yellow,.cyan,.magenta) {
   --wheel-colors-split:
     conic-gradient(from calc(-180deg + var(--hue-offset-inner)), var(--steps)),
     conic-gradient(from calc(-180deg + var(--hue-offset-outer)), var(--stepsc));

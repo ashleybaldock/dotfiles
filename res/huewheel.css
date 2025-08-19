@@ -1,5 +1,8 @@
 .huewheel {
   --hue-offset: 0deg;
+  --saturation: 80%;
+  --lightness: 50%;
+
   --c-bd-fill: #000;
   --c-bd-line: #888;
   --w×-bd-rim: 0.04;
@@ -12,11 +15,11 @@
   --b-a: 100%;
   --step-count: 6;
   --step: calc(360deg / var(--step-count));
-  box-sizing: border-box;
+
   width: 100%;
-  padding: calc(var(--bd-midpoint) * 0.7071);
   height: auto;
   aspect-ratio: 1;
+  box-sizing: border-box;
   border-radius: 50%;
   mask-image:
     radial-gradient(circle at center, #fff var(--r), #fff0 var(--r)),
@@ -57,9 +60,6 @@
     ),
     var(--wheel-colors-single);
   --wheel-colors-single: linear-gradient(#0000), conic-gradient(from var(--hue-offset), var(--steps));
-  --wheel-colors-split:
-    conic-gradient(from var(--hue-offset-outer, var(--hue-offset)), var(--steps)),
-    conic-gradient(from var(--hue-offset-inner, 0deg), var(--steps));
 
   background-image: var(--wheel-parts);
 
@@ -93,12 +93,30 @@
       /* calc(var(--step) * 6) */;
   --steps: var(--s7);
 
-  rotate: calc(720deg / var(--step-count));
-  transition-property: rotate 3s ease 0s;
+}
+.huewheel.three {
+  --step: 120deg;
+  --s1: hsl(
+      calc(var(--b-h) + var(--step) * 0) var(--b-s) var(--b-l) / var(--b-a)
+    )
+    calc(var(--step) * 0) /* calc(var(--step) * 1) */;
+  --s2:
+    var(--s1),
+    hsl(calc(var(--b-h) + var(--step) * 1) var(--b-s) var(--b-l) / var(--b-a))
+      calc(var(--step) * 1) /* calc(var(--step) * 2) */;
+  --s3:
+    var(--s2),
+    hsl(calc(var(--b-h) + var(--step) * 2) var(--b-s) var(--b-l) / var(--b-a))
+      calc(var(--step) * 2) /* calc(var(--step) * 3) */;
+  --steps: var(--s3);
 }
 .huewheel.split {
-  --hue-offset-inner: 0deg;
-  --hue-offset-outer: 120deg;
+  --hue-offset-inner: var(--hue-offset, 0deg);
+  --hue-offset-outer: var(--hue-offset, 0deg);
+  --saturation-inner: var(--saturation, 80%);
+  --saturation-outer: var(--saturation, 80%);
+  --lightness-inner: var(--lightness, 50%);
+  --lightness-outer: var(--lightness, 50%);
 
   --w×-bd-hub: 0.3;
   --wheel-part-inner: ,rgb(from var(--c-bd-line) r g b / 0) var(--bdwh) calc(var(--bd-midpoint) - var(--bdwm) * 0.5);
@@ -113,5 +131,8 @@
     var(--wheel-part-hub) var(--wheel-part-inner) var(--wheel-part-midline)
       var(--wheel-part-outer) var(--wheel-part-rim) var(--wheel-part-outside)
     ), var(--wheel-colors-split);
+  --wheel-colors-split:
+    conic-gradient(from var(--hue-offset-inner), var(--steps)),
+    conic-gradient(from var(--hue-offset-outer), var(--steps));
 }
 

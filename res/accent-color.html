@@ -25,26 +25,57 @@
       <h2>Form Elements</h2>
       <form>
         <fieldset class="column">
-        <label>
-          <input type="checkbox">
-          <div>checkbox</div>
-        </label>
-        <label>
-          <input type="radio">
-          <div>radio</div>
-        </label>
-        <label>
-          <input type="range">
-          <div>range</div>
-        </label>
-        <label>
-          <progress>
-          <div>progress</div>
-        </label>
+          <div class="row">
+            <div>checkbox</div>
+            <label>
+              <input type="checkbox" />
+              <div>foo</div>
+            </label>
+            <label>
+              <input type="checkbox" checked />
+              <div>bar</div>
+            </label>
+          </div>
+          <div class="row">
+            <div>radio</div>
+            <label>
+              <input type="radio" name="r1" id="r1a" checked />
+              <div>a</div>
+            </label>
+            <label>
+              <input type="radio" name="r1" id="r1b" />
+              <div>b</div>
+            </label>
+            <label>
+              <input type="radio" name="r1" id="r1c" />
+              <div>c</div>
+            </label>
+          </div>
+          <label>
+            <input type="range" />
+            <div>range</div>
+          </label>
+          <div class="col">
+            <div>progress</div>
+            <label>
+              <progress></progress>
+              <div>indeterminate</div>
+            </label>
+            <label>
+              <progress max="100" value="0"></progress>
+              <div>determinate - 0%</div>
+            </label>
+            <label>
+              <progress max="100" value="60"></progress>
+              <div>determinate - 60%</div>
+            </label>
+            <label>
+              <progress max="100" value="100"></progress>
+              <div>determinate - 100%</div>
+            </label>
+          </div>
         </fieldset>
       </form>
-
     </section>
   </body>
 </html>
-

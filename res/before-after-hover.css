@@ -12,6 +12,7 @@ body {
 }
 ::before,
 ::after {
+  padding: 0;
   display: block;
   position: relative;
   max-width: min-content;
@@ -19,7 +20,6 @@ body {
   white-space: nowrap;
   border: 0 solid #0000;
   border-width: 0 0.25ch 1lh 0.25ch;
-  padding: 0 0 0 0;
   bottom: 0;
   margin: 0 0 -1lh 0;
   line-height: normal;
@@ -45,15 +45,27 @@ body {
   mask-origin: border-box, padding-box;
   mask-clip: border-box, padding-box;
   mask-composite: add;
-  opacity: 0.4;
+  opacity: 0;
+  border-radius: 15px;
+}
+::before {
+  content: ':hover::before';
 }
 ::after {
+  content: ':hover::after';
   margin: -1lh 0 0 0;
 }
-:hover::before,
+:hover::before {
+  content: ':hover::before';
+}
 :hover::after {
-  border-color: #222;
+  content: ':hover::after';
+}
+:not(:has(> :hover)):hover::before,
+:not(:has(> :hover)):hover::after {
+  border-color: #222a;
   opacity: 1;
+  z-index: 1;
 }
 
 :root::before {

@@ -591,6 +591,35 @@ body > table > tbody > .paused::before {
   background-clip: padding-box, padding-box, padding-box;
   background-size: auto, contain, contain, contain;
   padding: 1px;
+  background-image:
+    url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E%3C/path%3E%3C/svg%3E'),
+    radial-gradient(
+      circle at center,
+      #f00,
+      #a00 50% 53%,
+      #969090 58%,
+      #000 58%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 20% 10%,
+      #fdd8 30%,
+      #fff2 60% 70%,
+      #00000050 120%,
+      #0008 180%
+    ),
+    radial-gradient(
+      ellipse 115% 110% at 80% 70%,
+      #fff0 22%,
+      #fff8 50% 56%,
+      #fff4 58%
+    ),
+    radial-gradient(circle at center, #0001 55%, #0002 60%, #000 60%);
+  background-clip: content-box, content-box, content-box, content-box;
+  background-origin: content-box, content-box, content-box, content-box;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-blend-mode: hard-light, luminosity, normal;
+  background-blend-mode: normal, color-burn, normal;
 }
 body > table > tbody > .playing::before {
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z%22%3E%3C/path%3E%3C/svg%3E');
@@ -725,42 +754,4 @@ td:nth-child(3) {
 }
 tr:hover > td:nth-child(3) {
   transform: scale(1.04) translateX(-4%);
-}
-
-/* Inline | file:///Users/ashley/noita/wiki-demos/for%20wiki%20wand%20drawback%20demos */
-
-body > table > tbody > .paused::before {
-  /* background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E%3C/path%3E%3C/svg%3E'), radial-gradient( ellipse 60% 50% at 20% 10%, #fddc 30%, #fdd5 60%, #0007 120%, #000c 170% ), radial-gradient(circle at center, #f00, #a00 50% 55%, #ff0 57%); */
-  /* background-clip: padding-box, padding-box, padding-box; */
-  /* background-size: auto, contain, contain, contain; */
-  background-image:
-    url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E%3C/path%3E%3C/svg%3E'),
-    radial-gradient(
-      ellipse 60% 50% at 20% 10%,
-      #fdd8 30%,
-      #fff2 60% 70%,
-      #0006 120%,
-      #0009 140%,
-      #000 180%
-    ),
-    radial-gradient(
-      circle at center,
-      #f00,
-      #a00 50% 53%,
-      #969090 58%,
-      #000 58%
-    ),
-    radial-gradient(
-      ellipse 85% 90% at 30% 16%,
-      #fff0 46%,
-      #fff 50% 56%,
-      #fff0 65%
-    );
-  background-clip: content-box, content-box, content-box;
-  background-size: auto, contain, contain, auto;
-  background-origin: content-box, content-box, content-box;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-blend-mode: hard-light, luminosity, normal;
-  background-blend-mode: normal, multiply, color-burn;
 }

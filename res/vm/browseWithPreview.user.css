@@ -508,24 +508,24 @@ body > table > tbody > tr::before {
   --l: 50%;
   --a: 20%;
   display: table-cell;
-  white-space: preserve-spaces;
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
-  mask-origin: padding-box;
-  box-sizing: border-box;
   mask-repeat: no-repeat;
   mask-composite: add;
   mask-position: center;
-  color: #fff;
+  mask-size: contain;
+  mask-origin: content-box;
+  mask-clip: padding-box;
   aspect-ratio: 1;
-  background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;
   line-height: 1.1rem;
-  mask-size: contain;
   text-align: center;
-  mask-clip: no-clip;
+  white-space: preserve-spaces;
   width: 2.2rem;
   height: 2.2rem;
+  color: #fff0;
+  background-size: 40%;
+  padding: 0 2px;
 }
 body > table > thead > tr::before {
   content: 'Playback';
@@ -580,7 +580,17 @@ body > table > tbody > .paused::before {
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
   background-image:
     url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E%3C/path%3E%3C/svg%3E'),
-    linear-gradient(-45deg, #fff2, #0002), linear-gradient(45deg, #f00, #00f);
+    radial-gradient(
+      ellipse 60% 50% at 20% 10%,
+      #fddc 30%,
+      #fdd5 60%,
+      #0007 120%,
+      #000c 170%
+    ),
+    radial-gradient(circle at center, #f00, #a00 50% 55%, #ff0 57%);
+  background-clip: padding-box, padding-box, padding-box;
+  background-size: auto, contain, contain, contain;
+  padding: 1px;
 }
 body > table > tbody > .playing::before {
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z%22%3E%3C/path%3E%3C/svg%3E');
@@ -690,11 +700,7 @@ body > table > tbody > :where(.playing, .paused)::before {
   overflow: visible;
   background-repeat: no-repeat;
   display: table-cell;
-  box-shadow:
-    -2px -1px 14px 1px #f0f,
-    2px 11px 4px 2px #06f;
   mask-clip: no-clip;
-  padding: 0 0 0 3.8ch;
 }
 
 /*{{{1 Size and Date columns */

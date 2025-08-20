@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.94
+// @version     1.0.98
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -58,7 +58,7 @@ const addWrappedVideo = (
       video.classList.remove('paused');
       video.classList.add('playing');
 
-      console.log(video.src);
+      console.debug(`i${i} playing '${video.src}'`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -84,6 +84,7 @@ const addWrappedVideo = (
       video.classList.remove('playing');
       video.classList.add('paused');
 
+      console.debug(`i${i} paused`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -96,13 +97,19 @@ const addWrappedVideo = (
     },
     {},
   );
+  video.addEventListener('loadstart', ({ target }) => {
+    console.debug(`i${i} loadstart`);
+  });
+  video.addEventListener('error', ({ target }) => {
+    console.warn(`i${i} error loading '${target.src}'`);
+  });
   video.addEventListener('canplaythrough', ({ target }) => {
-    console.log('canplaythrough');
+    console.debug(`i${i} canplaythrough`);
     target.volume = 0;
     target.muted = true;
     target.play();
   });
-  return { wrapper, video };
+  return { wrapper, player: video };
 };
 
 const initBrowsePreview = ({ document }) => {
@@ -235,6 +242,8 @@ const initBrowsePreview = ({ document }) => {
 
     const mediaPlayers = [];
 
+    const playerErrors = new WeakMap();
+
     const filelist = getFileList({
       loop: true,
       shuffle: true,
@@ -251,20 +260,27 @@ const initBrowsePreview = ({ document }) => {
       video.src = filelist?.next().value ?? '';
     };
     const onEndedPlayNext = ({ target }) => playNext(target);
+    const onErrorPlayNext = ({ target }) => {
+      playerErrors.set(target, (playerErrors.get(target) ?? 0) + 1);
+      playNext(target);
+    };
 
     const updateMediaPlayerCount = (count = 4) => {
       const newPlayerCount = Math.min(filelist.length, count);
       for (let i = mediaPlayers.length; i < newPlayerCount; i++) {
-        const newMediaPlayer = addWrappedVideo(container, {
+        const { wrapper, player } = addWrappedVideo(container, {
           class: `i${i}`,
         });
-        newMediaPlayer.style.setProperty('--playerIdx', i);
-        newMediaPlayer.style.setProperty('--s-playerIdx', `"${i}"`);
-        newMediaPlayer.addEventListener('ended', onEndedPlayNext, {});
-        resetHandlers.push(() =>
-          newMediaPlayer.removeEventListener('ended', onEndedPlayNext, {}),
+        wrapper.style.setProperty('--playerIdx', i);
+        wrapper.style.setProperty('--s-playerIdx', `"${i}"`);
+
+        player.addEventListener('ended', onEndedPlayNext, {});
+        player.addEventListener('error', onErrorPlayNext, {});
+        resetHandlers.push(
+          () => player.removeEventListener('ended', onEndedPlayNext, {}),
+          player.removeEventListener('error', onErrorPlayNext, {}),
         );
-        mediaPlayers.push(newMediaPlayer);
+        mediaPlayers.push(player);
       }
       mediaPlayers.forEach((mediaPlayer, i) => {
         if (i < newPlayerCount) {

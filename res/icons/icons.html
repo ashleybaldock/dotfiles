@@ -152,16 +152,10 @@
     });
 
     document.body.addEventListener('click', ({target}) => 
-      target.dataset.copyas?.match?.({[Symbol.match]: (copyAs) => copy(target, copyAs)})
+      target.dataset.copyas?.match?.({
+        [Symbol.match]: (copyAs) => copy(target, copyAs)
+      })
     , {})
-
-    /*styles.push('}');
-    const styleString = styles.join('\n');
-    console.log(styleString);
-
-    const styleNode = document.createElement('style');
-    styleNode.innerText = styleString;
-    document.head.appendChild(styleNode);*/
   });
     </script>
 

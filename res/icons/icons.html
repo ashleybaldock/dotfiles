@@ -50,26 +50,20 @@
    *
    * Note: output does not include trailing ';'
    */
-  const dataurlSVG = (svg, base64 = false) => `url('${encodeSVG(svg, base64)}')`;
+  const dataUrl = (svg, base64 = false) => `url('${encodeSVG(svg, base64)}')`;
 
   /* Boilerplate CSS for background image */
-  const defaultBackground = css`
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
+  const defaultBackground = css`background-repeat: no-repeat;background-position: center;background-size: contain;
   `;
 
   /* Boilerplate CSS for mask image */
-  const defaultMask = css`
-    mask-repeat: no-repeat;
-    mask-position: center;
-  `;
+  const defaultMask = css`mask-repeat: no-repeat;mask-position: center;`;
 
   /* Boilerplate CSS for image as content */
   const defaultContent = css``;
 
   const svgToCSSvar = (svg, varName) =>
-    css`--icon-${varName}: ${dataurlSVG(svg)};`;
+    css`--icon-${varName}: ${dataUrl(svg)};`;
 
   const copyTextToClipboard = async (text) =>
     ('clipboard' in navigator) 
@@ -78,37 +72,37 @@
 
   const copyAsMapping = new Map([
     ['svg', (svg) => svg],
-    ['svg64', (svg) => btoa(svg)],
-    ['url', (svg) => `url('${dataurlSVG(svg)}')`],
-    ['url64', (svg) => `url('${dataurlSVG(svg, true)}')`],
-    ['content', (svg) => css`content: ${dataurlSVG(svg)};${defaultContent}`],
-    ['mask', (svg) => css`mask-image: ${dataurlSVG(svg)};${defaultMask}`],
-    ['maskImage', (svg) => css`mask-image: ${dataurlSVG(svg)};`],
-    ['bg', (svg) => css`background-image: ${dataurlSVG(svg)};${defaultBackground}`],
-    ['bgImage', (svg) => css`background-image: ${dataurlSVG(svg)}`],
+    ['b64', (svg) => btoa(svg)],
+    ['url', (svg) => `${dataUrl(svg)}`],
+    ['u64', (svg) => `${dataUrl(svg, true)}`],
+    ['tnt', (svg) => css`content: ${dataUrl(svg)};${defaultContent}`],
+    ['msk', (svg) => css`mask-image: ${dataUrl(svg)};${defaultMask}`],
+    ['msi', (svg) => css`mask-image: ${dataUrl(svg)};`],
+    ['bgr', (svg) => css`background-image: ${dataUrl(svg)};${defaultBackground}`],
+    ['bgi', (svg) => css`background-image: ${dataUrl(svg)}`],
   ]);
 
-  const copy = (e, copyAs) => {
+  const copy = (target, copyAs) => {
     const notifyCopied = (target) => target && (target.classList.add('copied') || setTimeout(() => target.classList.remove('copied'), 3000));
     const notifyFail = (target, message) => target && (target.classList.add('copyfail') || setTimeout(() => target.classList.remove('copyfail'), 4000)) || message && console.warn(message);
     
-    const svgData = e.target?.closest?.(':has(> .wrappedSVG)')?.querySelector?.('.wrappedSVG')?.outerHTML;
+    const svgData = target?.closest?.(':has(> .wrappedSVG)')?.querySelector?.('.wrappedSVG')?.innerHTML;
 
     if (svgData === null) {
-      notifyFail(e.target, 'SVG missing');
+      notifyFail(target, 'SVG missing');
       return;
     }
     if (!copyAsMapping.has(copyAs)) {
-      notifyFail(e.target, 'Invalid copyAs method');
+      notifyFail(target, 'Invalid copyAs method');
       return;
     }
 
     copyTextToClipboard(copyAsMapping.get(copyAs)(svgData))
       .then(() => {
-        notifyCopied(e.target)
+        notifyCopied(target)
       })
       .catch((err) => {
-        notifyFail(e.target, `Copy failed, err: ${err}`);
+        notifyFail(target, `Copy failed, err: ${err}`);
       });
   }
 
@@ -127,17 +121,17 @@
           <div class="inner">
             <div class="svgActions"
               <textarea></textarea>
-              <label class="down" onClick="download(event, 'svg')">svg</label>
-              <label class="copy" onClick="copy(event, 'svg')">svg</label>
-              <label class="copy" onClick="copy(event, 'svg64')">svg(b64)</label>
-              <label class="copy" onClick="copy(event, 'svgSymbol')">symbol(svg)</label>
-              <label class="copy" onClick="copy(event, 'url')">url(svg)</label>
-              <label class="copy" onClick="copy(event, 'url64')">url(b64)</label>
-              <label class="copy" onClick="copy(event, 'content')">content</label>
-              <label class="copy" onClick="copy(event, 'mask')">mask</label>
-              <label class="copy" onClick="copy(event, 'maskImage')">mask-image</label>
-              <label class="copy" onClick="copy(event, 'bg')">background</label>
-              <label class="copy" onClick="copy(event, 'bgImage')">background-image</label>
+              <label class="down" data-down="svg" onClick="down(event, 'svg')">svg</label>
+              <label class="copy" data-copy="svg" onClick="copy(event, 'svg')">svg</label>
+              <label class="copy" data-copy="b64" onClick="copy(event, 's64')">base64</label>
+              <label class="copy" data-copy="sym" onClick="copy(event, 'sym')">symbol</label>
+              <label class="copy" data-copy="url" onClick="copy(event, 'url')">url(svg)</label>
+              <label class="copy" data-copy="u64" onClick="copy(event, 'u64')">url(b64)</label>
+              <label class="copy" data-copy="tnt" onClick="copy(event, 'tnt')">content</label>
+              <label class="copy" data-copy="msk" onClick="copy(event, 'msk')">mask</label>
+              <label class="copy" data-copy="msk" onClick="copy(event, 'msk')">mask-image</label>
+              <label class="copy" data-copy="bgr" onClick="copy(event, 'bgr')">background</label>
+              <label class="copy" data-copy="bgi" onClick="copy(event, 'bgi')">background-image</label>
             </div>
             <div class="wrappedSVG">${svg.outerHTML}</div>
           </div>
@@ -145,6 +139,11 @@
       `);
       svg.replaceWith(div);
     });
+
+    body.addEventListener('click', ({target}) => {
+      (target.dataset.copy ?? '')
+      };
+    }, {})
 
     /*styles.push('}');
     const styleString = styles.join('\n');

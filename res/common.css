@@ -63,12 +63,12 @@
   --Ø‥text-shadow: 0 0 #0000;
 }
 @property --clientw {
-  syntax: '<Number>';
+  syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
 @property --clienth {
-  syntax: '<Number>';
+  syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }

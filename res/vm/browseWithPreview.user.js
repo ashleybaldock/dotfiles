@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.98
+// @version     1.0.99
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -242,7 +242,13 @@ const initBrowsePreview = ({ document }) => {
 
     const mediaPlayers = [];
 
+    /**
+     * Track count of player errors to avoid infinite fail loops
+     */
     const playerErrors = new WeakMap();
+    const maxErrorCount = 10,
+      addToCountOnError = 1,
+      addToCountOnSuccess = -2;
 
     const filelist = getFileList({
       loop: true,
@@ -259,10 +265,25 @@ const initBrowsePreview = ({ document }) => {
     const playNext = (video) => {
       video.src = filelist?.next().value ?? '';
     };
-    const onEndedPlayNext = ({ target }) => playNext(target);
-    const onErrorPlayNext = ({ target }) => {
-      playerErrors.set(target, (playerErrors.get(target) ?? 0) + 1);
+    const onEndedPlayNext = ({ target }) => {
+      playerErrors.set(
+        target,
+        Math.max(0, (playerErrors.get(target) ?? 0) + addToCountOnSuccess),
+      );
       playNext(target);
+    };
+    const onErrorPlayNext = ({ target }) => {
+      playerErrors.set(
+        target,
+        (playerErrors.get(target) ?? 0) + addToCountOnError,
+      );
+      if ((playerErrors.get(target) ?? 0) > maxErrorCount) {
+        target.pause();
+        target.classList.add('error');
+        console.warn(`player '${target.id}' exceeded max error count`);
+      } else {
+        playNext(target);
+      }
     };
 
     const updateMediaPlayerCount = (count = 4) => {
@@ -270,6 +291,7 @@ const initBrowsePreview = ({ document }) => {
       for (let i = mediaPlayers.length; i < newPlayerCount; i++) {
         const { wrapper, player } = addWrappedVideo(container, {
           class: `i${i}`,
+          id: `i${i}`,
         });
         wrapper.style.setProperty('--playerIdx', i);
         wrapper.style.setProperty('--s-playerIdx', `"${i}"`);

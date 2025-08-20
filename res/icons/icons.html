@@ -24,6 +24,18 @@
   const html = (...args) => parseTag(...args);
   const css = (...args) => parseTag(...args);
   
+  /**
+   * 'maybeString' in e.dataset && copy(e.dataset.maybeString)
+   * Object.hasOwn(e.dataset, 'maybeString') && copy(e.dataset.maybeString)
+   * e.dataset.maybeString !== undefined && copy(e.dataset.maybeString)
+   * e.dataset.maybeString?.match?.({[Symbol.match]: (s) => copy(s)})
+   */
+  const matchDispatch = (action) => {
+    return {
+      [Symbol.match]: (str) => action(str),
+    };
+  };
+
 
   /**
    * Inject a style attribute into an SVG
@@ -118,20 +130,19 @@
       div.className = 'iconRow';
       div.insertAdjacentHTML('afterbegin', html`
         <div class="outer">
+              <!-- <label class="down" data-down="svg" onClick="down(event, 'svg')">svg</label> -->
           <div class="inner">
             <div class="svgActions"
-              <textarea></textarea>
-              <label class="down" data-down="svg" onClick="down(event, 'svg')">svg</label>
-              <label class="copy" data-copy="svg" onClick="copy(event, 'svg')">svg</label>
-              <label class="copy" data-copy="b64" onClick="copy(event, 's64')">base64</label>
-              <label class="copy" data-copy="sym" onClick="copy(event, 'sym')">symbol</label>
-              <label class="copy" data-copy="url" onClick="copy(event, 'url')">url(svg)</label>
-              <label class="copy" data-copy="u64" onClick="copy(event, 'u64')">url(b64)</label>
-              <label class="copy" data-copy="tnt" onClick="copy(event, 'tnt')">content</label>
-              <label class="copy" data-copy="msk" onClick="copy(event, 'msk')">mask</label>
-              <label class="copy" data-copy="msk" onClick="copy(event, 'msk')">mask-image</label>
-              <label class="copy" data-copy="bgr" onClick="copy(event, 'bgr')">background</label>
-              <label class="copy" data-copy="bgi" onClick="copy(event, 'bgi')">background-image</label>
+              <label data-copyas="svg">svg</label>
+              <label data-copyas="b64">base64</label>
+              <label data-copyas="sym">symbol</label>
+              <label data-copyas="url">url(svg)</label>
+              <label data-copyas="u64">url(b64)</label>
+              <label data-copyas="tnt">content</label>
+              <label data-copyas="msk">mask</label>
+              <label data-copyas="msk">mask-image</label>
+              <label data-copyas="bgr">background</label>
+              <label data-copyas="bgi">background-image</label>
             </div>
             <div class="wrappedSVG">${svg.outerHTML}</div>
           </div>
@@ -140,10 +151,9 @@
       svg.replaceWith(div);
     });
 
-    body.addEventListener('click', ({target}) => {
-      (target.dataset.copy ?? '')
-      };
-    }, {})
+    document.body.addEventListener('click', ({target}) => 
+      target.dataset.copyas?.match?.({[Symbol.match]: (copyAs) => copy(target, copyAs)})
+    , {})
 
     /*styles.push('}');
     const styleString = styles.join('\n');

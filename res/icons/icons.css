@@ -767,7 +767,7 @@ svg path:only-of-type {
 .svgActions:hover {
   transition-delay: 0ms;
 }
-.svgActions > :where(.down, .copy) {
+.svgActions > :where(.down, .copy, [data-copyas]) {
   cursor: pointer;
   flex: auto;
   align-self: stretch;
@@ -795,11 +795,11 @@ svg path:only-of-type {
   font-size: 0.9em;
 }
 
-.svgActions > :where(.down, .copy)::before {
+.svgActions > :where(.down, .copy, [data-copyas])::before {
   background-color: white;
 }
 
-.svgActions > :where(.down, .copy):hover {
+.svgActions > :where(.down, .copy, [data-copyas]):hover {
   background-size: 1em, 0;
   transition: 60ms ease;
   transition-property: background, text-decoration;
@@ -810,22 +810,22 @@ svg path:only-of-type {
     center left 1.2em;
 }
 
-.svgActions > :where(.down, .copy):hover:active {
+.svgActions > :where(.down, .copy, [data-copyas]):hover:active {
   transition: 30ms ease;
 }
 
-.svgActions > :where(.down, .copy):active {
+.svgActions > :where(.down, .copy, [data-copyas]):active {
   transition: 40ms ease;
 }
 
 .svgActions > .down {
   --icon: var(--icon-down);
 }
-.svgActions > .copy {
+.svgActions > :where(.copy, [data-copyas]) {
   --icon: var(--icon-copy);
 }
-.svgActions > :where(.down, .copy).copied,
-.svgActions > :where(.down, .copy).copied:hover {
+.svgActions > :where(.down, .copy, [data-copyas]).copied,
+.svgActions > :where(.down, .copy, [data-copyas]).copied:hover {
   background-position:
     center left 1.4em,
     center left 1.2em;
@@ -834,7 +834,7 @@ svg path:only-of-type {
     background-size 200ms cubic-bezier(0.23, 1.15, 0.89, 1.44),
     background-position 200ms ease;
 }
-.svgActions > :where(.down, .copy).copied::before {
+.svgActions > :where(.down, .copy, [data-copyas]).copied::before {
   display: none;
 }
 /*{{{*/

@@ -310,53 +310,28 @@ td:first-child + td {
   grid-row: 1/1;
 }
 
-.vidwrap.interleave.paused {
+.interleave {
+  --c: var(--playerCount, 1);
+}
+
+.interleave > .vidwrap:has(> .paused) {
   animation-play-state: paused;
 }
-.interleave .vidwrap:has(video:not(.paused)) {
+.interleave > .vidwrap:has(> :not(.paused):not(.off)) {
   animation: calc(var(--c) * var(--d)) steps(2, jump-none)
     calc((var(--n) - 1) * var(--d)) switch infinite;
   opacity: 0;
   --d: 600ms;
 }
-.interleave:has(.vidwrap:nth-of-type(1)) {
-  --c: 1;
+.interleave .vidwrap:has(> .off) {
+  display: none;
 }
-.interleave:has(.vidwrap:nth-of-type(2)) {
-  --c: 2;
-}
-.interleave:has(.vidwrap:nth-of-type(3)) {
-  --c: 3;
-}
-.interleave:has(.vidwrap:nth-of-type(4)) {
-  --c: 4;
-}
-.interleave:has(.vidwrap:nth-of-type(5)) {
-  --c: 5;
-}
-.interleave:has(.vidwrap:nth-of-type(6)) {
-  --c: 6;
-}
-.interleave .vidwrap:has(video:not(.paused)):nth-of-type(1) {
-  --n: 1;
-}
-.interleave .vidwrap:has(video:not(.paused)):nth-of-type(2) {
-  --n: 2;
-}
-.interleave .vidwrap:has(video:not(.paused)):nth-of-type(3) {
-  --n: 3;
-}
-.interleave .vidwrap:has(video:not(.paused)):nth-of-type(4) {
-  --n: 4;
-}
-.interleave .vidwrap:has(video:not(.paused)):nth-of-type(5) {
-  --n: 5;
-}
-.interleave .vidwrap:has(video:not(.paused)):nth-of-type(6) {
-  --n: 6;
-}
+
 .interleave .vidwrap::after {
-  content: 'Q';
+  content: var(--s-playerIdx);
+  --bg: hsl(
+    calc(360deg / var(--playerCount) * var(--playerIdx)) 80% 50% / 100%
+  );
   aspect-ratio: 1;
   width: auto;
   height: 1em;
@@ -373,35 +348,6 @@ td:first-child + td {
   color: #000;
   font-family: monospace;
   opacity: 0.4;
-}
-.interleave .vidwrap:nth-of-type(1)::after {
-  content: '1';
-  --bg: #f00;
-}
-.interleave .vidwrap:nth-of-type(2)::after {
-  content: '2';
-  --bg: #0ff;
-  left: 0.5em;
-}
-.interleave .vidwrap:nth-of-type(3)::after {
-  content: '3';
-  --bg: #f0f;
-  left: 1em;
-}
-.interleave .vidwrap:nth-of-type(4)::after {
-  content: '4';
-  --bg: #ff0;
-  left: 1.5em;
-}
-.interleave .vidwrap:nth-of-type(5)::after {
-  content: '5';
-  --bg: #0f0;
-  left: 2em;
-}
-.interleave .vidwrap:nth-of-type(6)::after {
-  content: '6';
-  --bg: #00f;
-  left: 2.5em;
 }
 
 /*{{{1 Overlay */
@@ -514,6 +460,8 @@ body > table {
   border: 0;
   border-collapse: collapse;
   padding: 3.4rem 2rem 1rem 1.4rem;
+  --row-h: 2.2rem;
+  --row-pad: 1px;
 }
 
 body > table > tbody > tr {
@@ -533,9 +481,9 @@ body > table > tbody > tr:hover {
   --l: 30%;
   overflow: visible;
   box-shadow:
-    inset 1px 1.3px 3px -1px #fffa,
-    inset 0px -0.2px 5px -1.2px #000;
-  filter: drop-shadow(0.6px 0.8px 0.2px #fff4);
+    inset 3px 1.2px 10px -2px #fff8,
+    inset 2px -0.2px 5px -1.2px #000,
+    1px 2px 0 -1px #000;
   border-radius: 1lh;
 }
 body > table > thead > tr::before {
@@ -563,27 +511,31 @@ body > table > tbody > ::before {
   aspect-ratio: 1;
   background-repeat: no-repeat;
   background-position: center;
-  line-height: 1.1rem;
   text-align: center;
+  line-height: calc(var(--row-h) * 0.5);
   white-space: preserve-spaces;
-  width: 2.2rem;
-  height: 2.2rem;
+  width: var(--row-h);
+  height: var(--row-h);
   color: #fff0;
-  padding: 1px;
+  padding: var(--row-pad);
 }
 body > table > tbody > :where(.playing, .paused)::before {
   mask-clip: no-clip;
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
   overflow: visible;
-  background-size: auto, contain, contain, contain;
+  background-size:
+    50% 50%,
+    contain,
+    contain,
+    contain;
   background-image:
     var(--playback-status-icon),
     radial-gradient(
       circle at center,
       #f00,
-      #a00 50% 53%,
-      #969090 58%,
-      #000 58%
+      #a00 50% 57%,
+      #fffa 60% 62%,
+      #000 65%
     ),
     radial-gradient(
       ellipse 60% 50% at 20% 10%,
@@ -608,13 +560,32 @@ body > table > tbody > :where(.playing, .paused)::before {
   background-blend-mode: normal;
 }
 body > table > tbody > .played::before {
-  --playback-status-icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E%3C/path%3E%3C/svg%3E');
+  --playback-status-icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 448 512%22%3E\
+    %3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E\
+    %3C/path%3E\
+    %3C/svg%3E');
 }
 body > table > tbody > .playing::before {
-  --playback-status-icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c-7.6 4.2-12.3 12.3-12.3 20.9V344c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z%22%3E%3C/path%3E%3C/svg%3E');
+  --playback-status-icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E\
+    %3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z%22%3E\
+    %3C/path%3E\
+    %3C/svg%3E');
+  background-size:
+    45% 45%,
+    contain,
+    contain,
+    contain;
+  background-position:
+    56% 50%,
+    center center,
+    center center,
+    center center;
 }
 body > table > tbody > .paused::before {
-  --playback-status-icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E%3C/path%3E%3C/svg%3E');
+  --playback-status-icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E\
+    %3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E\
+    %3C/path%3E\
+    %3C/svg%3E');
 }
 
 td:not(:first-child) {
@@ -632,14 +603,17 @@ body > table > tbody > tr > td {
   color: #fff;
   margin: 0;
   width: 100%;
-  display: block;
   font-family: Menlo, monospace;
   letter-spacing: 0.02ch;
   font-size: 1.1rem;
   border-width: 0;
-  height: 1.4rem;
-  padding: 0.4rem 0.5ch;
   line-height: normal;
+  padding: var(--row-pad) 0.5ch;
+  height: var(--row-h);
+  align-content: center;
+  align-items: center;
+  justify-content: start;
+  display: flex;
 }
 :where(.file, .dir):hover {
   text-decoration: none;
@@ -654,15 +628,17 @@ body > table > tbody > tr > td {
   font-family: Menlo, monospace;
   border-radius: 6px / 40px;
   letter-spacing: 0;
-  display: inline-block;
   width: 3.5ch;
   text-align: center;
-  margin: 0 0.5ch 0 0;
-  padding: 0.16em 0 0.1em 0.1ch;
+  margin: 0 1ch 0 0;
+  padding: 0.12em 0 0.06em 0.1ch;
   max-width: 3.5ch;
-  font-size: 0.86em;
+  font-size: 0.9em;
   text-transform: uppercase;
-  line-height: 1em;
+  line-height: normal;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 
 .file:has(> [src="moz-icon://.mp4?size=16"])::before
@@ -718,6 +694,8 @@ body > table > tbody > tr > td {
 
 .ellipsis > tbody > tr > td {
   padding: 0;
+  margin: 0;
+  border: 0;
 }
 
 /*{{{1 Size and Date columns */
@@ -744,14 +722,9 @@ tr:hover > td:nth-child(3) {
   transform: scale(1.04) translateX(-4%);
 }
 
-/* Inline | file:///Users/ashley/noita/wiki-demos/for%20wiki%20wand%20drawback%20demos */
-
 body > table > tbody > tr:hover {
-  /* filter: drop-shadow(0.6px 0.8px 0.2px #fff4); */
-  filter: drop-shadow(0 0 0.6px #ddda);
+  filter: none;
 }
-
-/* Inline | file:///Users/ashley/noita/wiki-demos/for%20wiki%20wand%20drawback%20demos */
 
 body > table > tbody > tr:hover::before {
   filter: drop-shadow(0 0 0.6px #ddda);

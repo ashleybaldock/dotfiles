@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.87
+// @version     1.0.94
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -50,8 +50,8 @@ const addWrappedVideo = (
     muted: '',
   },
 ) => {
-  const vidwrap = GM_addElement(parent, 'div', { class: 'vidwrap' });
-  const video = GM_addElement(vidwrap, 'video', options);
+  const wrapper = GM_addElement(parent, 'div', { class: 'vidwrap ' });
+  const video = GM_addElement(wrapper, 'video', options);
   video.addEventListener(
     'play',
     () => {
@@ -96,7 +96,13 @@ const addWrappedVideo = (
     },
     {},
   );
-  return video;
+  video.addEventListener('canplaythrough', ({ target }) => {
+    console.log('canplaythrough');
+    target.volume = 0;
+    target.muted = true;
+    target.play();
+  });
+  return { wrapper, video };
 };
 
 const initBrowsePreview = ({ document }) => {
@@ -198,7 +204,7 @@ const initBrowsePreview = ({ document }) => {
   };
 
   const config = (({}) => {
-    let _maxInterleaved = 6,
+    let _maxInterleaved = 4,
       _maxInterleaved_subs = new Set(),
       _imageDuration = 5 * 1000;
 
@@ -242,17 +248,18 @@ const initBrowsePreview = ({ document }) => {
     });
 
     const playNext = (video) => {
-      video.src = filelist?.next().value;
-      video.volume = 0;
-      video.muted = true;
-      video.play();
+      video.src = filelist?.next().value ?? '';
     };
     const onEndedPlayNext = ({ target }) => playNext(target);
 
-    const updateMediaPlayerCount = (count = 6) => {
+    const updateMediaPlayerCount = (count = 4) => {
       const newPlayerCount = Math.min(filelist.length, count);
-      for (let i = mediaPlayers.length - 1; i < newPlayerCount; i++) {
-        const newMediaPlayer = addWrappedVideo(container, { class: `i${i}` });
+      for (let i = mediaPlayers.length; i < newPlayerCount; i++) {
+        const newMediaPlayer = addWrappedVideo(container, {
+          class: `i${i}`,
+        });
+        newMediaPlayer.style.setProperty('--playerIdx', i);
+        newMediaPlayer.style.setProperty('--s-playerIdx', `"${i}"`);
         newMediaPlayer.addEventListener('ended', onEndedPlayNext, {});
         resetHandlers.push(() =>
           newMediaPlayer.removeEventListener('ended', onEndedPlayNext, {}),
@@ -270,6 +277,8 @@ const initBrowsePreview = ({ document }) => {
           mediaPlayer.classList.add('off');
         }
       });
+      container.style.setProperty('--playerCount', newPlayerCount);
+      container.style.setProperty('--s-playerCount', `"${newPlayerCount}"`);
     };
 
     const unsub = config.subscribe_maxInterleaved(updateMediaPlayerCount);

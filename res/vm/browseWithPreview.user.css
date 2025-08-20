@@ -483,6 +483,12 @@ section.playing {
   max-width: calc(100vw / var(--n));
 }
 
+body > table {
+  border: 0;
+  border-collapse: collapse;
+  padding: 3.4rem 2rem 1rem 1.4rem;
+}
+
 body > table > tbody > tr {
   --h: 90deg;
   --s: 40%;
@@ -492,11 +498,18 @@ body > table > tbody > tr {
     calc(var(--h) + var(--h±, 0deg)) calc(var(--s) * var(--s✕, 1))
       calc(var(--l) * var(--l✕, 1) / calc(var(--a) * var(--a✕, 1)))
   );
+  padding: 0 0.5ch;
 }
 body > table > tbody > tr:hover {
   outline: none;
   --s: 60%;
   --l: 30%;
+  overflow: visible;
+  box-shadow:
+    inset 1px 1.3px 3px -1px #fffa,
+    inset 0px -0.2px 5px -1.2px #000;
+  border-radius: 1em;
+  filter: drop-shadow(0.6px 0.8px 0.2px #fff4);
 }
 body > table > tbody > tr.playing {
   --s✕: 1;
@@ -506,37 +519,6 @@ body > table > thead > tr::before {
 }
 td:not(:first-child) {
   width: unset;
-}
-
-body > table > tbody > tr:hover {
-  overflow: visible;
-  box-shadow:
-    inset 0 1.5px 3px -1px #fffa,
-    inset 0 -1px 5px -1px #333;
-}
-
-body > table > tbody > tr > td {
-  border-width: 0;
-  margin: 0;
-  padding: 0;
-}
-
-.file,
-.dir {
-  color: #fff;
-  margin: 0;
-  width: 100%;
-  display: block;
-  font-family: Menlo, monospace;
-  letter-spacing: 0.02ch;
-  font-size: 1.1rem;
-  border-width: 0;
-  height: 1.4rem;
-  padding: 0.4rem 0.5ch;
-  line-height: normal;
-}
-:where(.file, .dir):hover {
-  text-decoration: none;
 }
 
 body > table > tbody > :where(.playing, .paused) {
@@ -553,9 +535,9 @@ body > table > tbody > ::before {
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
   mask-repeat: no-repeat;
   mask-composite: add;
-  mask-position: center;
+  mask-position: center center;
   mask-size: contain;
-  mask-origin: content-box;
+  mask-origin: padding-box;
   mask-clip: padding-box;
   aspect-ratio: 1;
   background-repeat: no-repeat;
@@ -566,17 +548,14 @@ body > table > tbody > ::before {
   width: 2.2rem;
   height: 2.2rem;
   color: #fff0;
-  background-size: 40%;
-  padding: 0 2px;
+  padding: 1px;
 }
 body > table > tbody > :where(.playing, .paused)::before {
-  display: table-cell;
   mask-clip: no-clip;
   mask-size: 60%;
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E%3C/path%3E%3C/svg%3E');
   overflow: visible;
   background-size: auto, contain, contain, contain;
-  padding: 1px;
   background-image:
     var(--playback-status-icon),
     radial-gradient(
@@ -618,11 +597,28 @@ body > table > tbody > .paused::before {
   --playback-status-icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%22-15 -15 350 542%22%3E%3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z%22%3E%3C/path%3E%3C/svg%3E');
 }
 
-body > table > tbody > :where(.playing, .paused)::before {
+body > table > tbody > tr > td {
+  border-width: 0;
+  margin: 0;
+  padding: 0;
 }
 
-.ellipsis > tbody > tr > td {
-  padding: 0;
+.file,
+.dir {
+  color: #fff;
+  margin: 0;
+  width: 100%;
+  display: block;
+  font-family: Menlo, monospace;
+  letter-spacing: 0.02ch;
+  font-size: 1.1rem;
+  border-width: 0;
+  height: 1.4rem;
+  padding: 0.4rem 0.5ch;
+  line-height: normal;
+}
+:where(.file, .dir):hover {
+  text-decoration: none;
 }
 
 :where(.file, .dir)::before {
@@ -685,24 +681,6 @@ body > table > tbody > :where(.playing, .paused)::before {
   content: 'dir';
 }
 
-body > table {
-  border: 0;
-  border-collapse: collapse;
-  padding: 3.4rem 2rem 1rem 1.4rem;
-}
-
-body > table > tbody > tr {
-  padding: 0 0.5ch;
-}
-
-body > table > tbody > tr:hover {
-  box-shadow:
-    inset 1px 1.3px 3px -1px #fffa,
-    inset 0px -0.2px 5px -1.2px #000;
-  border-radius: 1em;
-  filter: drop-shadow(0.6px 0.8px 0.2px #fff4);
-}
-
 .file::before {
   background: #eee9;
   opacity: 0.8;
@@ -712,6 +690,10 @@ body > table > tbody > tr:hover {
 
 :has(.file:hover) .file:not(:hover)::before {
   mix-blend-mode: soft-light;
+}
+
+.ellipsis > tbody > tr > td {
+  padding: 0;
 }
 
 /*{{{1 Size and Date columns */

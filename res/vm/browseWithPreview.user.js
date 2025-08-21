@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.99
+// @version     1.0.103
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -241,6 +241,7 @@ const initBrowsePreview = ({ document }) => {
     };
 
     const mediaPlayers = [];
+    let _showAsGrid = false;
 
     /**
      * Track count of player errors to avoid infinite fail loops
@@ -322,6 +323,17 @@ const initBrowsePreview = ({ document }) => {
     const unsub = config.subscribe_maxInterleaved(updateMediaPlayerCount);
     updateMediaPlayerCount(config.maxInterleaved);
 
+    const grid = (showAsGrid = !_showAsGrid) => {
+      if (_showAsGrid !== showAsGrid) {
+        _showAsGrid = showAsGrid;
+        if (_showAsGrid) {
+          container.classList.add('grid');
+        } else {
+          container.classList.remove('grid');
+        }
+      }
+    };
+
     const play = () => {
       reset();
       mediaPlayers
@@ -331,6 +343,9 @@ const initBrowsePreview = ({ document }) => {
         });
       container.classList.add('playing');
       container.classList.remove('paused');
+      _showAsGrid
+        ? container.classList.add('grid')
+        : container.classList.remove('grid');
     };
     const pause = () => {
       mediaPlayers
@@ -340,6 +355,7 @@ const initBrowsePreview = ({ document }) => {
         });
       container.classList.add('paused');
       container.classList.remove('playing');
+      container.classList.add('grid');
     };
 
     const onClickContainer = () => {
@@ -355,6 +371,7 @@ const initBrowsePreview = ({ document }) => {
       play,
       pause,
       reset,
+      grid,
     };
   })({ document, config });
 

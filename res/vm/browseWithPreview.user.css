@@ -762,4 +762,20 @@ body {
   z-index: 10;
   grid-row: options;
   grid-column: auto/span options-end;
+  display: flex !important;
+  margin: 0.2em 1ch 0.2em 0;
+  align-content: center;
+  align-items: center;
+  justify-content: start;
+}
+#UI_goUp {
+  grid-column: 1 / span 2;
+}
+#UI_showHidden {
+  grid-column: -2;
+  justify-self: end;
+}
+body > table,
+.interleave {
+  grid-column: 1/-1;
 }

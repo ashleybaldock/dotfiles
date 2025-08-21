@@ -78,8 +78,11 @@
 
   /* Boilerplate CSS for mask image */
   const defaultMask = css`
+    mask-position: center center;
+    mask-clip: content-box; 
+    mask-origin: content-box;
     mask-repeat: no-repeat;
-    mask-position: center;
+    mask-size: contain;
   `;
 
   /* Boilerplate CSS for image as content */

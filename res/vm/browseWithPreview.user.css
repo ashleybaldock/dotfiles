@@ -512,7 +512,7 @@ body > table > tbody > ::before {
   mask-clip: padding-box;
   aspect-ratio: 1;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center center;
   text-align: center;
   line-height: calc(var(--row-h) * 0.5);
   white-space: preserve-spaces;

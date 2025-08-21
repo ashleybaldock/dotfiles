@@ -94,6 +94,10 @@
       /* calc(var(--step) * 6) */;
   --steps: var(--s7);
 }
+.huewheel.after {
+  display: block;
+}
+
 .huewheel.lines {
   --lw: 0.5deg;
   --g0: #0000;

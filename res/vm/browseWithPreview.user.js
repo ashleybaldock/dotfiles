@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.115
+// @version     1.0.122
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -51,11 +51,11 @@ const addToggle = ({
   icon = null,
   ...attrs
 } = {}) => {
-  const li = GM_addElement(to, 'li', {
-    class: 'tgl',
+  const div = GM_addElement(to, 'div', {
+    class: 'toggle',
     ...attrs,
   });
-  const label = GM_addElement(li, 'label', {
+  const label = GM_addElement(div, 'label', {
     class: '',
     textContent,
   });
@@ -64,7 +64,7 @@ const addToggle = ({
     type,
     ...(checked ? { checked: '' } : {}),
   });
-  return li;
+  return div;
 };
 
 const addWrappedVideo = (
@@ -79,11 +79,11 @@ const addWrappedVideo = (
   const video = GM_addElement(wrapper, 'video', options);
   video.addEventListener(
     'play',
-    () => {
+    ({ target: { id } }) => {
       video.classList.remove('paused');
       video.classList.add('playing');
 
-      console.debug(`i${i} playing '${video.src}'`);
+      console.debug(`${id} playing '${video.src}'`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -105,11 +105,11 @@ const addWrappedVideo = (
   );
   video.addEventListener(
     'pause',
-    () => {
+    ({ target: { id } }) => {
       video.classList.remove('playing');
       video.classList.add('paused');
 
-      console.debug(`i${i} paused`);
+      console.debug(`${id} paused`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -122,18 +122,21 @@ const addWrappedVideo = (
     },
     {},
   );
-  video.addEventListener('loadstart', ({ target }) => {
-    console.debug(`i${i} loadstart`);
+  video.addEventListener('loadstart', ({ target: { id = '??' } }) => {
+    console.debug(`${id} loadstart`);
   });
   video.addEventListener('error', ({ target }) => {
-    console.warn(`i${i} error loading '${target.src}'`);
+    console.warn(`${id} error loading '${target.src}'`);
   });
-  video.addEventListener('canplaythrough', ({ target }) => {
-    console.debug(`i${i} canplaythrough`);
-    target.volume = 0;
-    target.muted = true;
-    target.play();
-  });
+  video.addEventListener(
+    'canplaythrough',
+    ({ target, target: { id = '??' } }) => {
+      console.debug(`${id} canplaythrough`);
+      target.volume = 0;
+      target.muted = true;
+      target.play();
+    },
+  );
   return { wrapper, player: video };
 };
 
@@ -278,9 +281,9 @@ const initBrowsePreview = ({ document }) => {
   }) => {
     return {
       grid: addToggle({
-        body,
-        class: 'tgl',
-        id: 'tgl_grid',
+        to: body,
+        class: 'toggle',
+        id: 'toggle_grid',
         textContent: 'grid',
         checked: false,
         bindTo: showGrid,
@@ -295,7 +298,7 @@ const initBrowsePreview = ({ document }) => {
 
     const resetHandlers = [];
     const reset = () => {
-      resetHandlers.forEach((f) => f());
+      resetHandlers.forEach((f) => f?.());
     };
 
     const mediaPlayers = [];
@@ -357,10 +360,10 @@ const initBrowsePreview = ({ document }) => {
 
         player.addEventListener('ended', onEndedPlayNext, {});
         player.addEventListener('error', onErrorPlayNext, {});
-        resetHandlers.push(
-          () => player.removeEventListener('ended', onEndedPlayNext, {}),
-          player.removeEventListener('error', onErrorPlayNext, {}),
-        );
+        resetHandlers.push(() => {
+          player.removeEventListener('ended', onEndedPlayNext, {});
+          player.removeEventListener('error', onErrorPlayNext, {});
+        });
         mediaPlayers.push(player);
       }
       mediaPlayers.forEach((mediaPlayer, i) => {

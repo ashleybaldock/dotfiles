@@ -751,6 +751,7 @@ body {
     'files   files   files   files   files   files  ';
 }
 
+.toggle,
 #UI_goUp,
 #UI_showHidden {
   z-index: 10;

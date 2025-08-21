@@ -749,8 +749,12 @@ body > table > tbody > tr:hover {
 }
 
 body {
-  grid-template-rows: [preview-start] auto [preview-end options-start] auto [options-end files-start] 1fr [files-end];
-  grid-template-columns: [preview-start files-start options-start] auto auto auto [options-end files-end preview-end];
+  grid-template-rows: auto auto auto;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-areas:
+    'preview preview preview preview preview preview'
+    'options options options options options options'
+    'files   files   files   files   files   files  ';
 }
 
 #UI_goUp,

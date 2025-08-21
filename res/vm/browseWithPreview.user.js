@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.114
+// @version     1.0.115
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -353,7 +353,7 @@ const initBrowsePreview = ({ document }) => {
           id: `i${i}`,
         });
         wrapper.style.setProperty('--playerIdx', i);
-        wrapper.style.setProperty('--s-playerIdx', `"${i}"`);
+        wrapper.style.setProperty('--s-playerIdx', `'${i}'`);
 
         player.addEventListener('ended', onEndedPlayNext, {});
         player.addEventListener('error', onErrorPlayNext, {});
@@ -375,7 +375,7 @@ const initBrowsePreview = ({ document }) => {
         }
       });
       container.style.setProperty('--playerCount', newPlayerCount);
-      container.style.setProperty('--s-playerCount', `"${newPlayerCount}"`);
+      container.style.setProperty('--s-playerCount', `'${newPlayerCount}'`);
     };
 
     const unsub = config.subscribe_maxInterleaved(updateMediaPlayerCount);

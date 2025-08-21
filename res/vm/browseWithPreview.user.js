@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.105
+// @version     1.0.106
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -232,7 +232,7 @@ const initBrowsePreview = ({ document }) => {
 
   const interleavedPlayer = (({ document: { body }, config }) => {
     const container = GM_addElement(body, 'section', {
-      class: 'interleave paused',
+      class: 'player interleave paused',
     });
 
     const resetHandlers = [];
@@ -377,7 +377,7 @@ const initBrowsePreview = ({ document }) => {
 
   const linearPlayer = (({ document: { body } }) => {
     const container = GM_addElement(body, 'section', {
-      class: 'linear paused',
+      class: 'player linear paused',
     });
 
     ['last', 'cue-prev', 'current', 'cue-next'].forEach((cl) =>

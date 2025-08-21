@@ -776,6 +776,12 @@ body {
   justify-self: end;
 }
 body > table,
-.interleave {
+.player {
   grid-column: 1/-1;
+}
+body > table {
+  grid-row: files;
+}
+.player {
+  grid-row: preview;
 }

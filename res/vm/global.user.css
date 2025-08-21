@@ -172,9 +172,9 @@ round(to-zero, x, 1) '.' round(nearest, (x - round(to-zero, x, 1)) * pow(s, 10),
   }
 }
 
-body {
-  filter: brightness(0.5);
-}
-video {
-  filter: saturate(4) contrast(1.2) hue-rotate(10deg);
-}
+/* body { */
+/*   filter: brightness(0.5); */
+/* } */
+/* video { */
+/*   filter: saturate(4) contrast(1.2) hue-rotate(10deg); */
+/* } */

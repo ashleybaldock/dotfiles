@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.106
+// @version     1.0.108
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -40,6 +40,29 @@ const overrideFileListClicks = () => {
       return false;
     }),
   );
+};
+
+const addToggle = ({
+  to,
+  tag = 'input',
+  type = 'checkbox',
+  checked = false,
+  textContent = '',
+  ...attrs
+} = {}) => {
+  const li = GM_addElement(to, 'li', {
+    class: 'tgl',
+    ...attrs,
+  });
+  const label = GM_addElement(li, 'label', {
+    class: '',
+    textContent,
+  });
+  GM_addElement(label, tag, {
+    type,
+    ...(checked ? { checked: '' } : {}),
+  });
+  return li;
 };
 
 const addWrappedVideo = (
@@ -229,6 +252,22 @@ const initBrowsePreview = ({ document }) => {
       },
     };
   })({});
+
+  const toggles = (({
+    unsafeWindow: {
+      document: { body },
+    },
+    config: {},
+  }) => {
+    return {
+      grid: addToggle({
+        body,
+        class: 'tgl',
+        textContent: 'grid',
+        checked: false,
+      }),
+    };
+  })({ unsafeWindow, config });
 
   const interleavedPlayer = (({ document: { body }, config }) => {
     const container = GM_addElement(body, 'section', {

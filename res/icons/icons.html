@@ -65,11 +65,22 @@
   const dataUrl = (svg, base64 = false) => `url('${encodeSVG(svg, base64)}')`;
 
   /* Boilerplate CSS for background image */
-  const defaultBackground = css`background-repeat: no-repeat;background-position: center;background-size: contain;
+  const defaultBackground = css`
+    background: #0000;
+    background-position: center center;
+    background-origin: content-box;
+    background-size: contain;
+    background-clip: no-clip;
+    background-repeat: no-repeat;
+    background-blend-mode: normal;
+    background-attachment: scroll;;
   `;
 
   /* Boilerplate CSS for mask image */
-  const defaultMask = css`mask-repeat: no-repeat;mask-position: center;`;
+  const defaultMask = css`
+    mask-repeat: no-repeat;
+    mask-position: center;
+  `;
 
   /* Boilerplate CSS for image as content */
   const defaultContent = css``;

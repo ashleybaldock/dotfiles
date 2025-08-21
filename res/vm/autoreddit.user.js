@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name        AutoReddit
 // @namespace   mayhem
-// @version     1.0.17
+// @version     1.0.18
 // @author      flowsINtomAyHeM
 // @description Make reddit's UI suck less
 // @downloadURL http://localhost:3333/vm/autoreddit.user.js
 // @match       https://*.reddit.com*
 // @match       https://www.reddit.com*
+// @run-at      document-start
 // @grant       GM_info
 // @grant       GM_addStyle
 // @grant       GM_addElement
@@ -19,7 +20,6 @@
 // @require     http://localhost:3333/vm/util.user.js
 // @cssBaseUrl  http://localhost:3333/vm/
 // @cssBaseName reddit
-// @run-at      document-start
 // ==/UserScript==
 
 /*

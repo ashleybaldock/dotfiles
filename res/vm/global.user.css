@@ -171,3 +171,7 @@ round(to-zero, x, 1) '.' round(nearest, (x - round(to-zero, x, 1)) * pow(s, 10),
     top: calc(0.42em - 1.66px);
   }
 }
+
+body {
+  filter: brightness(0.6);
+}

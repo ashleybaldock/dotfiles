@@ -443,18 +443,23 @@ section.playing {
   --n: 4;
 }
 .interleave.paused,
-.interleave:not(:has(.vidwrap > .playing)) {
+.interleave:not(:has(.vidwrap > .playing)),
+.interleave.grid {
   grid-template-columns: repeat(var(--n), 1fr);
   grid-template-rows: auto;
 }
-.interleave.paused > .vidwrap {
+.interleave.paused > .vidwrap,
+.interleave:not(:has(.vidwrap > .playing)) > .vidwrap,
+.interleave.grid interleave.paused > .vidwrap {
   grid-column: auto;
   grid-row: auto;
   outline: 1px dashed #fff4;
   outline-offset: 0;
   place-items: stretch;
 }
-.interleave.paused > .vidwrap > video {
+.interleave.paused > .vidwrap > video,
+.interleave:not(:has(.vidwrap > .playing)) > .vidwrap > video,
+.interleave.grid interleave.paused > .vidwrap > video {
   max-width: calc(100vw / var(--n));
 }
 

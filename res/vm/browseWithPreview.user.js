@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.108
+// @version     1.0.114
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -48,6 +48,7 @@ const addToggle = ({
   type = 'checkbox',
   checked = false,
   textContent = '',
+  icon = null,
   ...attrs
 } = {}) => {
   const li = GM_addElement(to, 'li', {
@@ -58,6 +59,7 @@ const addToggle = ({
     class: '',
     textContent,
   });
+  icon !== null && label.style.setProperty('--icon', icon);
   GM_addElement(label, tag, {
     type,
     ...(checked ? { checked: '' } : {}),
@@ -233,6 +235,21 @@ const initBrowsePreview = ({ document }) => {
     };
   };
 
+  const configBool = (_val = false) => {
+    const subs = new Set();
+    return {
+      get: () => _val,
+      set: (newVal) => {
+        _val = newVal;
+        return _val;
+      },
+      toggle: () => {
+        _val = !_val;
+        return _val;
+      },
+      subscribe: (callback) => {},
+    };
+  };
   const config = (({}) => {
     let _maxInterleaved = 4,
       _maxInterleaved_subs = new Set(),
@@ -257,14 +274,16 @@ const initBrowsePreview = ({ document }) => {
     unsafeWindow: {
       document: { body },
     },
-    config: {},
+    config: { showGrid },
   }) => {
     return {
       grid: addToggle({
         body,
         class: 'tgl',
+        id: 'tgl_grid',
         textContent: 'grid',
         checked: false,
+        bindTo: showGrid,
       }),
     };
   })({ unsafeWindow, config });

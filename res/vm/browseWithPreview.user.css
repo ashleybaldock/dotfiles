@@ -745,3 +745,20 @@ body > table > tbody > tr:hover {
     inset 2px -0.2px 5px -1.2px #000,
     1px 2px 0 -1px #000;
 }
+
+#UI_showHidden {
+  z-index: 10;
+  grid-row: options;
+}
+
+#UI_goUp {
+  z-index: 10;
+  grid-row: options;
+  grid-column: options/span 1;
+}
+
+body {
+  grid-template-areas: 'preview' 'options' 'files';
+  grid-template-rows: [preview-start] auto [preview-end options-start] auto [options-end files-start] 1fr [files-end];
+  grid-template-columns: [preview-start files-start options-start] auto auto auto [options-end files-end preview-end];
+}

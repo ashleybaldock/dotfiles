@@ -266,8 +266,8 @@ function! s:UpdateSynFoBuffer(winid)
 " 􀣤 􀏃 􀣦􀂒􀃰􀃲 
 " ⎛  ★   ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )              ⎞
 
-" ⎛  ★                                                   ⎞
-" ⎢ ᴅ 1234:╺┳╸cssUrlFunction   ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )  ⎥
+" ⎛  ★                          ꜰ  ʙ  ꜱ                  ⎞
+" ⎢ ᴅ 1234:╺┳╸cssUrlFunction    􀂓 􀯮 􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )  ⎥
 " ⎢    134: ┃ ⫘⃗  Statement                               ⎥
 " ⎢     34: ┃  ⫘⃗  Constant                               ⎥
 " ⎢ ᴅ  424: ┠╴cssUrl           ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )  ⎥
@@ -284,7 +284,7 @@ function! s:UpdateSynFoBuffer(winid)
     let gui = get(val, 'gui', {})
 
     let line += [
-          \ #{t: ' ɢᴜɪ:'},
+          \ #{t: ' '},
           \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colorHidden},
           \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colorHidden},
           \ #{t: get(gui, 'underdouble', v:false) ? '􃐊' : '􀅕',
@@ -297,6 +297,7 @@ function! s:UpdateSynFoBuffer(winid)
           \ #{t: '􀨡', fg: get(gui, 'standout', v:false) ? v:none : s:colorHidden},
           \ #{t: '􂏾️ ', fg: (get(gui, 'inverse', v:false)
           \ || get(gui, 'reverse', v:false)) ? v:none : s:colorHidden},
+          \ #{t: ' '},
           \]
 
 "          underline    U U̲ U̳ U ＿⎯ ￣〰 ⋯⋯ ══ ﹍＿﹏﹋

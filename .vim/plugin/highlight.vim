@@ -248,7 +248,7 @@ function! s:UpdateSynFoBuffer(winid)
   "
   " <color>: 􀂓#RRGGBB 􀯯bg,background 􀯮fg,foreground 􀂒NONE
   " <attributes>:
-  "   - 􀅓bold 􀅔italic 􀨡[re/in]verse 􂏾 standout 􀅖strikethrough¹
+  "   - 􀅓bold 􀅔italic 􂏾[re/in]verse 􀨡standout 􀅖strikethrough¹
 	"   - 􀅕under[line/curl¹/double¹/dotted¹/dashed¹]
   "   - nocombine² NONE³
 
@@ -287,11 +287,12 @@ function! s:UpdateSynFoBuffer(winid)
           \ #{t: ' ɢᴜɪ:'},
           \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colorHidden},
           \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colorHidden},
-          \ #{t: '􀅕', fg: (get(gui, 'underline', v:false)
-          \ || get(gui, 'undercurl', v:false)
-          \ || get(gui, 'underdotted', v:false)
-          \ || get(gui, 'underdashed', v:false)
-          \ || get(gui, 'underdouble', v:false)) ? v:none : s:colorHidden},
+          \ #{t: get(gui, 'underdouble', v:false) ? '􃐊' : '􀅕',
+          \ fg: (get(gui, 'underline', v:false)
+          \   || get(gui, 'undercurl', v:false)
+          \   || get(gui, 'underdotted', v:false)
+          \   || get(gui, 'underdashed', v:false)
+          \   || get(gui, 'underdouble', v:false)) ? v:none : s:colorHidden},
           \ #{t: '􀅖', fg: get(gui, 'strikethrough', v:false) ? v:none : s:colorHidden},
           \ #{t: '􀨡', fg: get(gui, 'standout', v:false) ? v:none : s:colorHidden},
           \ #{t: '􂏾️ ', fg: (get(gui, 'inverse', v:false)

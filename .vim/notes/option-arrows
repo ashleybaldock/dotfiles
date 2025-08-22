@@ -1,0 +1,16 @@
+move up/down…
+
+mode │ ⌥️ ⬆︎ / ⌥️ ⬇︎  
+   n │ …line
+   v │ …line containing selection*
+   V │ …selected line(s)
+   │ …line(s) containing selection*
+     ╎
+     │ ⇧️ ⌥️ ⬆︎ / ⇧️ ⌥️ ⬇︎ 
+   n │ …line
+   v │ …line containing selection*
+   V │ …selected line(s)
+   │ …line(s) containing selection*
+
+
+* preserve original selection

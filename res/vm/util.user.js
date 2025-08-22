@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.0.417
+// @version     1.1.2
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
-// @match       *://*/*
+// @exclude-match *
 // @grant       GM_addStyle
 // @grant       GM_registerMenuCommand
 // @grant       GM_getValue
@@ -305,11 +305,14 @@ const waitForMatches = (selector, { signal, root = 'body' } = {}) => ({
     const seenBefore = new WeakSet();
 
     const lookForNewMatches = (/* mutations, observer */) =>
-      document.querySelectorAll(selector).forEach((node) => {
-        if (!seenBefore.has(node)) {
-          seenBefore.add(node);
-        }
-      });
+      resolve(
+        document
+          .querySelectorAll(selector)
+          .filter((node) =>
+            seenBefore.has(node) ? false : seenBefore.add(node) && true,
+          )
+          .entries(),
+      );
 
     const observer = new MutationObserver(lookForNewMatches);
 
@@ -332,7 +335,7 @@ const waitForMatches = (selector, { signal, root = 'body' } = {}) => ({
     try {
       while (true) {
         signal?.throwIfAborted();
-        yield await promise;
+        yield* await promise;
         ({ promise, resolve, reject } = Promise.withResolvers());
       }
     } finally {

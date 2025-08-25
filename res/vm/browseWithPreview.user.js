@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.124
+// @version     1.0.127
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -49,6 +49,7 @@ const addToggle = ({
   checked = false,
   textContent = '',
   icon = null,
+  bindTo,
   ...attrs
 } = {}) => {
   const div = GM_addElement(to, 'div', {
@@ -60,7 +61,7 @@ const addToggle = ({
     textContent,
   });
   icon !== null && label.style.setProperty('--icon', icon);
-  GM_addElement(label, tag, {
+  const input = GM_addElement(label, tag, {
     type,
     ...(checked ? { checked: '' } : {}),
   });
@@ -241,67 +242,84 @@ const initBrowsePreview = ({ document }) => {
   const config = (({}) => {
     const root = {};
 
-  const defineToggle = (parent, name, _val = false) => {
-    const subs = new Set();
-    
+    const defineNumber = (_val = 0) => {
+      const subs = new Set();
 
-    Object.defineProperties(target, {
-      [name]: {
-      get: () => _val,
-      set: (newVal) => {
-        _val = newVal;
+      const notify = () => {
         subs.forEach((sub) => sub(_val));
-        return _val;
-      },
-      enumerable: false,
-      configurable: false,
-    },
-      [`toggle_${name}`]: {
-      get: () => _val,
-      set: (newVal) => {
-        _val = newVal;
-        subs.forEach((sub) => sub(_val));
-        return _val;
-      },
-      enumerable: false,
-      configurable: false,
-    },
-    })
-    
-    return {
-      get: () => _val,
-      set: (newVal) => {
-        _val = newVal;
-        subs.forEach((sub) => sub(_val));
-        return _val;
-      },
-      toggle: () => {
-        this.set(!_val);
-        return _val;
-      }
-      subscribe: (callback) => {
-        subs.add(callback);
-        return () => subs.remove(callback);
-      },
+      };
+      return {
+        get value() {
+          return _val;
+        },
+        set value(newValue) {
+          _val = newValue;
+          notify();
+          return _val;
+        },
+        set: (newValue) => {
+          _val = newValue;
+          notify();
+          return _val;
+        },
+        subscribe: (callback) => {
+          subs.add(callback);
+          return () => subs.remove(callback);
+        },
+      };
     };
-  };
-    let _maxInterleaved = 4,
-      _maxInterleaved_subs = new Set(),
-      _imageDuration = 5 * 1000;
+
+    const defineToggle = (_val = false) => {
+      const subs = new Set();
+
+      const notify = () => {
+        subs.forEach((sub) => sub(_val));
+      };
+
+      return {
+        get value() {
+          return _val;
+        },
+        set value(newValue) {
+          _val = newValue;
+          notify();
+          return _val;
+        },
+        set: (newValue) => {
+          _val = newValue;
+          notify();
+          return _val;
+        },
+        toggle: () => {
+          _val = !_val;
+          notify();
+          return _val;
+        },
+        subscribe: (callback) => {
+          subs.add(callback);
+          return () => subs.remove(callback);
+        },
+      };
+    };
+    // let _maxInterleaved = 4,
+    //   _maxInterleaved_subs = new Set(),
+    //   _imageDuration = 5 * 1000;
 
     return {
-      
-      get maxInterleaved() {
-        return _maxInterleaved;
-      },
-      set maxInterleaved(newValue) {
-        _maxInterleaved = newValue;
-        _maxInterleaved_subs.forEach((sub) => sub(newValue));
-      },
-      subscribe_maxInterleaved: (callback) => {
-        _maxInterleaved_subs.add(callback);
-        return () => _maxInterleaved_subs.remove(callback);
-      },
+      maxInterleaved: defineNumber(4),
+      imageDuration: defineNumber(5),
+      showGrid: defineToggle(false),
+      // get maxInterleaved() {
+      //   return _maxInterleaved;
+      // },
+      // set maxInterleaved(newValue) {
+      //   _maxInterleaved = newValue;
+      //   _maxInterleaved_subs.forEach((sub) => sub(newValue));
+      // },
+      // subscribe_maxInterleaved: (callback) => {
+      //   _maxInterleaved_subs.add(callback);
+      //   return () => _maxInterleaved_subs.remove(callback);
+      // },
     };
   })({});
 
@@ -554,3 +572,26 @@ const browsePreviewToggleIds = addStyleToggles([
     })
     .catch((e) => console.warn(e)),
 );
+
+//     Object.defineProperties(target, {
+//       [name]: {
+//       get: () => _val,
+//       set: (newVal) => {
+//         _val = newVal;
+//         subs.forEach((sub) => sub(_val));
+//         return _val;
+//       },
+//       enumerable: false,
+//       configurable: false,
+//     },
+//       [`toggle_${name}`]: {
+//       get: () => _val,
+//       set: (newVal) => {
+//         _val = newVal;
+//         subs.forEach((sub) => sub(_val));
+//         return _val;
+//       },
+//       enumerable: false,
+//       configurable: false,
+//     },
+//     })

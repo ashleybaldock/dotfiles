@@ -158,8 +158,6 @@ alias ghbo="ghob"
 alias imgurl="imgurl.sh"
 alias dataurl="imgurl.sh"
 
-alias tmuxreload="tmux source-file ~/.tmux.conf"
-
 # If using nvm set up lazy loading
 # First time node/npm/nvm are run this loads nvm
 # If not using nvm node will come from brew or system path
@@ -224,6 +222,9 @@ function tmux_split {
   tmux resize-pane -t $initialPaneId -x $width
   tmux select-pane -t $initialPaneId
 }
+
+alias tmuxreload="tmux source-file ~/.tmux.conf"
+alias tmux="tmux -u"
 
 
 ## Other bits

@@ -334,6 +334,7 @@ function! s:UpdateSynFoBuffer(winid)
 
     " Stack:
     for val in reverse(stack)
+      " let line = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. SwapNumbers(val.id, 'sansb')}]
       let res = ""
       let res = res .. (get(val, 'cleared') ? 'ᴄ' : ' ')
       let res = res .. (get(val, 'default') ? 'ᴅ' : ' ')

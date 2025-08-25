@@ -307,6 +307,8 @@ let g:html_no_links=0
 let g:html_use_encoding='UTF-8'
 let g:html_font='monospace'
 
+" tmux syntax settings
+let g:tmux_syntax_colors=0
 
 " Coc settings
 let g:coc_enable_locationlist = 0

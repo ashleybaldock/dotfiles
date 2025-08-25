@@ -457,7 +457,9 @@ syn region cssAtRule
       \ contains=cssVarCustomProp,cssCustomProp,cssComment
 syn region cssAtPropertyDef transparent fold contained
       \ matchgroup=cssBraces start=+{+ end=+}+
-      \ contains=cssPropertyProp,cssPropertyAttr,cssPropertySyntax,cssComment,cssValue.*,cssColor,cssURL,cssCustomProp,cssError,cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssNoise
+      \ contains=cssPropertyProp,cssPropertyAttr,cssPropertySyntax,
+      \cssComment,cssValue.*,cssColor,cssURL,cssCustomProp,cssError,
+      \cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssNoise
 syn region cssPropertySyntax contained
       \ start=+\z("\|'\)+ end=+\z1+
       \ contains=cssSyntaxType
@@ -471,7 +473,9 @@ hi def link cssPropertyProp PreProc
 syn region cssAtRule matchgroup=cssAtKeyword
       \ start=+@layer\>+ end=+\ze{+
       \ skipwhite skipnl
-      \ contains=cssMediaProp,cssValueLength,cssAtRuleLogical,cssValueInteger,cssMediaAttr,cssVendor,cssMediaType,cssComment,cssCustomProp,cssFunctionName
+      \ contains=cssMediaProp,cssValueLength,cssAtRuleLogical,cssValueInteger,
+      \cssMediaAttr,cssVendor,cssMediaType,
+      \cssComment,cssCustomProp,cssFunctionName
       \ nextgroup=cssDefinition
 
 "{{{1 SVG in CSS url()
@@ -502,7 +506,7 @@ syn keyword cssUrlSvgTagName contained title tref tspan unknown use video view v
 syn region cssUrlFunction contained 
       \ matchgroup=cssUrlFnName start=+\<\(url\)\ze(\z("\|'\)+
       \ end=+\z1)+
-      \ keepend containedin=cssAttrRegion
+      \ keepend containedin=cssAttrRegion,cssAtPropertyDef
       \ contains=cssUrlFunctionParens
 
 syn region cssUrlFunctionParens contained
@@ -512,7 +516,8 @@ syn region cssUrlFunctionParens contained
 syn region cssUrlFunctionString contained
       \ start=+\z("\|'\)+
       \ end=+\z1+
-      \ contains=cssUrlPrefix,cssUrlMimeType,cssUrlSvgComment,cssUrlSvgTag,cssUrlSvgEndTag,cssUrl64Data,cssUrlSeps,cssLineCont,cssPer0A
+      \ contains=cssUrlPrefix,cssUrlMimeType,cssUrlSvgComment,cssUrlSvgTag,
+      \cssUrlSvgEndTag,cssUrl64Data,cssUrlSeps,cssLineCont,cssPer0A
 " dataurl preamble
 " url('data:image/svg+xml,
 syn match cssUrlPrefix +data+ contained
@@ -540,11 +545,14 @@ syn match cssUrl64Invalid contained !^\s*\zs[^A-Za-z0-9/+=]\+!
 syn region cssUrlSvgTag contained keepend
       \ start=+%3[cC]+
       \ end=+%3[eE]+
-      \ contains=cssUrlSvgValue,cssUrlSvgTagN,cssUrlSvgPath,cssUrlSvgXmlns,cssUrlSvgAttr,cssUrlSvgAttrSep,cssPerTag,cssLineCont
+      \ contains=cssUrlSvgValue,cssUrlSvgTagN,cssUrlSvgPath,cssUrlSvgXmlns,
+      \cssUrlSvgAttr,cssUrlSvgAttrSep,cssPerTag,
+      \cssLineCont
 syn region cssUrlSvgEndTag contained keepend
       \ start=+%3[cC]/+
       \ end=+%3[eE]+
-      \ contains=cssUrlSvgTagN,cssPerTag,cssLineCont
+      \ contains=cssUrlSvgTagN,cssPerTag,
+      \cssLineCont
 
 syn region cssUrlSvgComment contained keepend
       \ start=+%3[cC]!--[!]\?+
@@ -580,6 +588,17 @@ syn region cssUrlSvgValue contained keepend
       \ contains=cssPer22,cssPer
 
 syn case match
+
+syn match pathM /M\s*/ contained
+      \ contains=cssLineCont nextgroup=pathMExpl
+syn match pathMExpl /\%(-\?\d*\.\?\d\+\s*\)\{2}/ contained
+      \ contains=cssLineCont nextgroup=pathMImpl
+syn match pathMImpl /\%(-\?\d*\.\?\d\+\s*\)\{2}/ contained
+      \ contains=cssLineCont nextgroup=pathMImpl
+
+
+syn match pathm /m\s*/ contained contains=cssLineCont nextgroup=pathMex
+syn match pathmex /\%(-\?\d*\.\?\d\+\s*\)\{2}/ contained contains=cssLineCont
 
 syn match pathClose +[zZ]+ contained
 

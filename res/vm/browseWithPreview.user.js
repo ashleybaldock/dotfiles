@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.122
+// @version     1.0.124
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
 // @match       *://localhost/*/*
 // @match       file:///*/*
 // @grant       GM_info
-// @grant       GM_addStyle
+// @grantGM_addStyle
 // @grant       GM_addElement
 // @grant       GM_getValue
 // @grant       GM_setValue
@@ -238,27 +238,59 @@ const initBrowsePreview = ({ document }) => {
     };
   };
 
-  const configBool = (_val = false) => {
+  const config = (({}) => {
+    const root = {};
+
+  const defineToggle = (parent, name, _val = false) => {
     const subs = new Set();
+    
+
+    Object.defineProperties(target, {
+      [name]: {
+      get: () => _val,
+      set: (newVal) => {
+        _val = newVal;
+        subs.forEach((sub) => sub(_val));
+        return _val;
+      },
+      enumerable: false,
+      configurable: false,
+    },
+      [`toggle_${name}`]: {
+      get: () => _val,
+      set: (newVal) => {
+        _val = newVal;
+        subs.forEach((sub) => sub(_val));
+        return _val;
+      },
+      enumerable: false,
+      configurable: false,
+    },
+    })
+    
     return {
       get: () => _val,
       set: (newVal) => {
         _val = newVal;
+        subs.forEach((sub) => sub(_val));
         return _val;
       },
       toggle: () => {
-        _val = !_val;
+        this.set(!_val);
         return _val;
+      }
+      subscribe: (callback) => {
+        subs.add(callback);
+        return () => subs.remove(callback);
       },
-      subscribe: (callback) => {},
     };
   };
-  const config = (({}) => {
     let _maxInterleaved = 4,
       _maxInterleaved_subs = new Set(),
       _imageDuration = 5 * 1000;
 
     return {
+      
       get maxInterleaved() {
         return _maxInterleaved;
       },

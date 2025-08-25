@@ -335,8 +335,9 @@ function! s:UpdateSynFoBuffer(winid)
     " Stack:
     for val in reverse(stack)
       let res = ""
-      let res = (get(val, 'cleared') ? 'ᴄ' : ' ') .. res
-      let res = (get(val, 'default') ? 'ᴅ' : ' ') .. res
+      let res = res .. (get(val, 'cleared') ? 'ᴄ' : ' ')
+      let res = res .. (get(val, 'default') ? 'ᴅ' : ' ')
+      let res = res .. " "
     " Id:
     " Hide intermediate links in chain to save space?       TODO
       if (get(val, 'linksto', "") != "")
@@ -384,7 +385,7 @@ function! s:UpdateSynFoBuffer(winid)
   call popup_settext(a:winid, lines)
 endfunc
 
-function s:SynFoPopupFilter(winid, key)
+function s:SynFoPopupFilter(winid, key) abort
   " if a:key == '<LeftMouse>'
   "   let contents = getbufline(winbufnr(a:winid), 1, '$')
   "   echom contents
@@ -401,7 +402,7 @@ function s:SynFoPopupFilter(winid, key)
   return 0
 endfunc
 
-function s:SynFo()
+function s:SynFo() abort
   if empty(popup_getpos(get(w:, 'mayhem_winid_synfo', 0)))
     let w:mayhem_winid_synfo = popup_create('', #{
           \ pos: 'topleft',
@@ -589,19 +590,18 @@ command! -bar -nargs=1 HiDefinition exec ':norm f HiDefinition(<f-args>)
 "
 "  ★ ☆ ★⃝︎  ☆⃝︎  ★⃝  ☆⃝  ★️ ☆️  ★⃞ ☆⃞  ★⃞︎ ☆⃞︎   ✻️ ✲️ ✱️  ✓️ ✔︎️  ✕️ ✖︎️  ✗️ ✘️  ※️      ❘️ ❙️
 "
-" ⎢                                                  ⎥
-" ⎢                                                  ⎥
-" ⎛  ★ cssUrlFunction:1234 ꜰ􀏄 ʙ􀏄 ꜱ􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾 ⎞
+"
+" ⎛  ★ cssUrlFunction:1234 ꜰ􀏄 ʙ􀏄 ꜱ􀏄  􀅓􀅔􀅕􀅖􀨡 􂏾  ⎞
 " ⎢ ᴅ   ↳️ S️tatement:667  Error:554                    ⎥
 " ⎢                                                   ⎥
 " ⎢  ᴄ  567: cssAttrRegion                            ⎥
 " ⎢  ᴄ   89: cssDefinition                            ⎥
 " ⎝                        Synstack @ Row 62 Col 39   ⎠
 "
-" ⎛  ★️         􀅓️⃝ 􀅔️⃝ 􀅕️⃝ 􀅖️⃝ 􀨡️⃝     􂏾️⃝                 ⎞
+" ⎛  ★️         􀅓️⃝ 􀅔️⃝ 􀅕️⃝ 􀅖️⃝ 􀨡️⃝     􂏾️⃝                  ⎞
 "
-" ⎛  ★   fg:􀂓 bg:􀂓 sp:􀂓  􀅓 􀅔 􀅕 􀅖 􀨡    􂏾     ⎞
-" ⎢ɴ ᴅ  1234: cssUrlFunction  S️tatement               ⎥
+" ⎛  ★   fg:􀂓 bg:􀂓 sp:􀂓  􀅓 􀅔 􀅕 􀅖 􀨡    􂏾      ⎞
+" ⎢ɴ ᴅ  1234: cssUrlFunction  S️tatement              ⎥
 " ⎢  ᴄ  567: cssAttrRegion                           ⎥
 " ⎢  ᴄ   89: cssDefinition                           ⎥
 " ⎝                        Synstack @ Row 62 Col 39  ⎠

@@ -2,7 +2,12 @@
 @property --cursor-image {
   syntax: '<image> | <url>';
   inherits: true;
-  initial-value: url('data:image/svg+xml,%3Csvg width=%2232%22 height=%2232%22 xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cpath fill=%22%23fff%22 d=%22m16.148 25.473 1.863-1.003 1.615-.839-2.568-4.816h4.332L10.011 7.407v16.015l3.316-3.221z%22/%3E%3Cpath fill=%22%23000%22 d=%22m16.431 24 1.765-.941-2.775-5.202h3.604L11 9.814v11.188l2.53-2.442z%22/%3E%3C/g%3E%3C/svg%3E');
+  initial-value: url('data:image/svg+xml,%3Csvg width=%2232%22 height=%2232%22 xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E\
+    %3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E\
+    %3Cpath fill=%22%23fff%22 d=%22m16.148 25.473 1.863-1.003 1.615-.839-2.568-4.816h4.332L10.011 7.407v16.015l3.316-3.221z%22/%3E\
+    %3Cpath fill=%22%23000%22 d=%22m16.431 24 1.765-.941-2.775-5.202h3.604L11 9.814v11.188l2.53-2.442z%22/%3E\
+    %3C/g%3E\
+    %3C/svg%3E');
 }
 @property --cursor-hotspot-x {
   syntax: '<integer>';

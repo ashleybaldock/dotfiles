@@ -41,8 +41,11 @@ function s:InsertTemplate(filename)
   silent! exec '%s/%FILE:LC%/' .. tolower(l:head) .. '/g'
 
   "
-  "  %FILE:LUC% - spaced lowercase ([fiNm, FiNm, Fi Nm, fi_nm, fi-nm] -> fi nm)
-  " TODO
+  "  %FILE:SLC% - spaced lowercase ([fiNm, FiNm, Fi Nm, fi_nm, fi-nm] -> fi nm)
+  "
+  silent! exec '%s/%FILE:SLC%/' .. 
+        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
+        \  {_, v -> tolower(v)})->join(' ') .. '/g'
 
   "
   "  %FILE:UC% - UPPERCASE (FileName -> FILENAME)
@@ -51,7 +54,10 @@ function s:InsertTemplate(filename)
 
   "
   "  %FILE:SUC% - SPACED UPPERCASE ([fiNm, FiNm, Fi Nm, fi_nm, fi-nm] -> FI NM)
-  " TODO
+  "
+  silent! exec '%s/%FILE:SUC%/' .. 
+        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
+        \  {_, v -> toupper(v)})->join(' ') .. '/g'
 
   "
   "  %FILE:TC% - TitleCase (fn -> Fn, [fiNm, Fi Nm] -> FiNm)
@@ -71,23 +77,40 @@ function s:InsertTemplate(filename)
 
   "
   "  %FILE:SC% - snake_case (fn -> fn, [fiNm, Fi Nm] -> fi_nm)
-  " TODO
+  "
+  silent! exec '%s/%FILE:SC%/' .. 
+        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
+        \  {_, v -> tolower(v)})->join('_') .. '/g'
  
   "
   "  %FILE:SSC% - SCREAMING_SNAKE_CASE (fn -> FN, [fiNm, Fi Nm] -> FI_NM)
-  " TODO
+  "
+  silent! exec '%s/%FILE:SSC%/' .. 
+        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
+        \  {_, v -> toupper(v)})->join('_') .. '/g'
  
   "
   "  %FILE:KC% - kebab-case (fn -> fn, [fiNm, Fi Nm] -> fi-nm)
-  " TODO
+  "
+  silent! exec '%s/%FILE:KC%/' .. 
+        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
+        \  {_, v -> tolower(v)})->join('-') .. '/g'
 
   "
   "  %FILE:CC% - camelCase ([FiNm, fi nm] -> fiNm)
-  " TODO
+  "
+  silent! exec '%s/%FILE:CC%/' .. 
+        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
+        \  {i, v -> substitute(v,'\(.\)\(.*\)', i == 0 ? '\l\1\2' : '\u\1\2', 'g')}
+        \)->join('') .. '/g'
 
   "
   "  %FILE:PC% - PascalCase ([fiNm, fi nm] -> FiNm)
-  " TODO (probably identical to TitleCase)
+  "
+  silent! exec '%s/%FILE:PC%/' .. 
+        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
+        \  {_, v -> substitute(v,'\(.\)\(.*\)', '\u\1\2', 'g')}
+        \)->join('') .. '/g'
 
 
   " Date And Time:

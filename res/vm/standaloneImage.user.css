@@ -183,6 +183,51 @@
 
 @media not print {
   :root {
+    --clienthmid: calc(round(down, var(--clienth), 2) * 0.5);
+    --clientwmid: calc(round(down, var(--clientw), 2) * 0.5);
+
+    --naturalmax: max(var(--naturalw), var(--naturalh));
+    --naturalmin: max(var(--naturalw), var(--naturalh));
+    --fith: calc(var(--clienth) * var(--fitmaxh));
+    --fitw: calc(var(--clientw) * var(--fitmaxw));
+    --h-if-fitw: calc(var(--fitw) / var(--naturalw) * var(--naturalh));
+    --h-if-fith: var(--fith);
+    --w-if-fith: calc(var(--fith) / var(--naturalh) * var(--naturalw));
+    --w-if-fitw: var(--fitw);
+
+    /* Pick best fit from width or height */
+    --imfittedh: round(down, min(var(--h-if-fitw), var(--h-if-fith)), 1);
+    --imfittedw: round(down, min(var(--w-if-fitw), var(--w-if-fith)), 1);
+    /* Determine pixel display size */
+    --pixelh: round(down, calc(var(--imfittedh) / var(--naturalh)), 1);
+    --pixelw: round(down, calc(var(--imfittedw) / var(--naturalw)), 1);
+
+    /* Pixel-aligned size of image for display */
+    --imalignedh: calc(var(--pixelh) * var(--naturalh));
+    --imalignedw: calc(var(--pixelw) * var(--naturalw));
+
+    --imtop: calc(var(--clienthmid) - (var(--imalignedh) * 0.5));
+    --imright: calc(var(--imleft) + var(--imalignedw));
+    --imbottom: calc(var(--imtop) + var(--imalignedh));
+    --imleft: calc(var(--clientwmid) - (var(--imalignedw) * 0.5));
+
+    /* Lengths*/
+    --px-imalignedh: calc(var(--imalignedh) * 1px);
+    --px-imalignedw: calc(var(--imalignedw) * 1px);
+
+    --px-imfittedh: calc(var(--imfittedh) * 1px);
+    --px-imfittedw: calc(var(--imfittedw) * 1px);
+
+    --px-imheight: var(--px-imalignedh);
+    --px-imwidth: var(--px-imalignedw);
+
+    --px-imtop: calc(var(--imtop) * 1px);
+    --px-imright: calc(var(--imright) * 1px);
+    --px-imbottom: calc(var(--imbottom) * 1px);
+    --px-imleft: calc(var(--imleft) * 1px);
+
+    --px-pixelw: calc(var(--pixelw) * 1px);
+    --px-pixelh: calc(var(--pixelh) * 1px);
     color: #eee;
     background-color: #222;
     background-image: linear-gradient(#141414, #1a1a1a, #141414);
@@ -190,35 +235,10 @@
     background-position: 50% 50%;
     contain: size;
     container: imgonlychild size;
-    /* --naturalmax: max(var(--naturalw), var(--naturalh)); */
-    /* --naturalmin: max(var(--naturalw), var(--naturalh)); */
 
-    /* --pixelw: calc(50vmin / var(--naturalw)); */
-    /* --pixelh: calc(50vmin / var(--naturalh)); */
-    /*       --pixelh: calc(50vh / var(--naturalh)); */
-    /* --displayw: 50vmin; */
-    /* --displayh: 50vmin; */
-    /* --displayw: min(50vw, var(--pixelw)); */
-    /* --maxfitw: 0.7; */
-    /* --maxfith: 0.7; */
-    /* --h-if-fitw: calc( */
-    /* ((var(--maxfitw) * 100vw) / var(--naturalw)) * var(--naturalh) */
-    /* ); */
-    /* --w-if-fith: calc( */
-    /* ((var(--maxfith) * 100vh) / var(--naturalh)) * var(--naturalw) */
-    /* ); */
-    /* --w-if-fitw: calc(var(--maxfitw) * 100vw); */
-    /* --h-if-fith: calc(var(--maxfith) * 100vh); */
-
-    /* --displayw: min(var(--w-if-fitw), var(--w-if-fith)); */
-    /* --displayh: min(var(--h-if-fitw), var(--h-if-fith)); */
-    /* --pixelh: calc(var(--displayh) / var(--naturalh)); */
-    /* --pixelw: calc(var(--displayw) / var(--naturalw)); */
-
-    /* --imtop: calc(50vh - (var(--displayh) * 0.5)); */
-    /* --imbottom: calc(50vh + (var(--displayh) * 0.5)); */
-    /* --imleft: calc(50vw - (var(--displayw) * 0.5)); */
-    /* --imright: calc(50vw + (var(--displayw) * 0.5)); */
+    --z-toggles-hint: 2;
+    --z-toggles-menu: 3;
+    --z-toggles-item: 4;
   }
   :root:has(.tgl.sun :checked) {
     color: #222;
@@ -279,39 +299,50 @@
     width: var(--px-imwidth);
     height: var(--px-imheight);
     box-sizing: content-box;
-    --gridcolor: #1111;
+    --gridcolor: #1118;
     --gridlinehalfthickness: 0.5px;
-    --gridlinefadeover: 0.2px;
-
+    --gridlinefadeover: 0px;
     --glt: var(--gridlinehalfthickness);
+    --glt2: calc(var(--glt) * 2);
     --glf: var(--gridlinefadeover);
     background:
       repeating-linear-gradient(
-        to bottom,
-        /*blue*/ var(--gch2) 0 var(--glt),
-        #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)
+        360deg,
+        var(--gcl) 0,
+        var(--gcl0) var(--glt) var(--px-pixelw)
       ),
       repeating-linear-gradient(
-        to bottom,
-        /*red*/ var(--gch1) 0 var(--glt),
-        #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)
+        180deg,
+        var(--gcd) 0,
+        var(--gcd0) var(--glt) var(--px-pixelw)
       ),
       repeating-linear-gradient(
-        to right,
-        /*yellow*/ var(--gcv1) 0 var(--glt),
-        #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)
+        450deg,
+        var(--gcd) 0,
+        var(--gcd0) var(--glt) var(--px-pixelw)
       ),
       repeating-linear-gradient(
-        to left,
-        /*cyan*/ var(--gcv2) 0 var(--glt),
-        #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)
-      );
-    background-position: 0 0;
-    background-size: var(--px-pixelw) var(--px-pixelw);
-    --gch1: var(--gridcolor);
-    --gch2: var(--gridcolor);
-    --gcv1: var(--gridcolor);
-    --gcv2: var(--gridcolor);
+        270deg,
+        var(--gcl) 0,
+        var(--gcl0) var(--glt) var(--px-pixelw)
+      ),
+      linear-gradient(#0000);
+    background-position:
+      0 0,
+      100% 100%,
+      0 0,
+      100% 100%;
+    background-size:
+      calc(var(--px-pixelw) - var(--glt)) var(--px-pixelw),
+      calc(var(--px-pixelw) - var(--glt)) var(--px-pixelw),
+      var(--px-pixelw) calc(var(--px-pixelw) - var(--glt)),
+      var(--px-pixelw) calc(var(--px-pixelw) - var(--glt)),
+      0 0;
+    background-repeat: round;
+    --gcl: #aaa4;
+    --gcl0: rgb(from var(--gcl) r g b / 0);
+    --gcd: #0006;
+    --gcd0: rgb(from var(--gcd) r g b / 0);
   }
   :root:has(.tgl.pix :checked):has(.tgl.sun :checked):has(
       .tgl.grd :checked
@@ -319,10 +350,10 @@
     --gridcolor: #3331;
   }
   :root:has(.tgl.pix :checked):has(.tgl.dbg :checked)::after {
-    --gch1: #f00a;
-    --gch2: #00fa;
-    --gcv1: #ff0a;
-    --gcv2: #0ffa;
+    --gcl: #f00a;
+    --gcl0: #00fa;
+    --gcd: #ff0a;
+    --gcd0: #0ffa;
   }
   /*}}}1*/
 
@@ -592,7 +623,7 @@
   }
   :root .toggles {
     pointer-events: none;
-    z-index: 2;
+    z-index: var(--z-toggles-menu);
     position: fixed;
   }
   :root:hover .toggles,
@@ -601,44 +632,41 @@
   }
   :root .toggles::before {
     pointer-events: none;
-    z-index: 2;
+    z-index: var(--z-toggles-hint);
     opacity: 0;
-    transition: opacity 120ms ease 200ms;
     padding: 1ch 0 0 0.5ch;
     width: auto;
     height: auto;
-  }
-  :root:hover .toggles::before,
-  .toggles:hover::before {
-    opacity: 0.6;
-    transition: opacity 2000ms ease 200ms;
-  }
-  .toggles::before {
     content: '{…}';
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     min-width: 10vw;
     min-height: 4vh;
-    padding: 1ch 0.5ch;
-    opacity: 0.7;
     transition: opacity var(--short-duration) ease
       calc(var(--short-delay) + var(--long-delay));
-    width: 100%;
-    height: 100%;
   }
+  :root:hover .toggles::before,
   .toggles:hover::before {
+    opacity: 0.6;
+    transition: opacity var(--long-duration) ease var(--short-delay);
+  }
+  :root:hover .toggles:hover::before {
     content: '{…}';
     transition: opacity var(--short-duration) ease var(--short-delay);
     opacity: 1;
-    pointer-events: none;
   }
   .toggles > .tgl {
     opacity: 0;
+    z-index: var(--z-toggles-item);
     pointer-events: none;
     margin: 0;
     transition: opacity var(--long-duration) ease var(--long-delay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     outline: none;
+    user-select: none;
   }
   .toggles:hover > .tgl {
     opacity: 1;
@@ -646,25 +674,17 @@
     cursor: pointer;
     transition: opacity var(--short-duration) ease var(--short-delay);
   }
-
-  .tgl {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    outline: none;
-    user-select: none;
-  }
-  .tgl input {
+  .toggles > .tgl input {
     display: flex;
     align-items: center;
     justify-content: right;
     cursor: pointer;
   }
-  .tgl input[type='checkbox'],
-  .tgl input[type='radio'] {
+  .toggles > .tgl input[type='checkbox'],
+  .toggles > .tgl input[type='radio'] {
     display: none;
   }
-  .tgl label {
+  .toggles > .tgl label {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -675,16 +695,16 @@
     flex: 1 1 100%;
     justify-content: space-evenly;
   }
-  .tgl label::after {
+  .toggles > .tgl label::after {
     justify-self: end;
   }
-  .tgl label:has(> [type='checkbox']:disabled),
-  .tgl label:has(> [type='radio']:disabled) {
+  .toggles > .tgl label:has(> [type='checkbox']:disabled),
+  .toggles > .tgl label:has(> [type='radio']:disabled) {
     color: #999;
     cursor: not-allowed;
   }
 
-  .tgl label:has(> [type='checkbox']) {
+  .toggles > .tgl label:has(> [type='checkbox']) {
     --fade: 0.5px;
     --dot-r: 0.2;
     --circle-ri: 0.3;
@@ -706,14 +726,14 @@
       inset 1px 2px 4px -1px #666a;
     border-radius: 2px;
   }
-  .tgl label:has(> [type='checkbox']):hover {
+  .toggles > .tgl label:has(> [type='checkbox']):hover {
     box-shadow:
       inset -2px -3px 4px -2px #0a0303,
       inset 1px 2px 4px -1px #c02626;
     border-color: #222 #2a2a2a #2a2a2a #222;
     background-color: #2e0f0f;
   }
-  .tgl label:has(> [type='checkbox'])::after {
+  .toggles > .tgl label:has(> [type='checkbox'])::after {
     content: '';
     padding: 1px 0.4rem 1px 0;
     margin-left: 0.5ch;
@@ -737,51 +757,51 @@
     transition: background-image 100ms ease 50ms;
     transition-property: --dot-c, --dot-r;
   }
-  .tgl.plain label:has(> [type='checkbox'])::after {
+  .toggles > .tgl.plain label:has(> [type='checkbox'])::after {
     content: '◯';
   }
-  .tgl label:has(> [type='checkbox']):hover::after {
+  .toggles > .tgl label:has(> [type='checkbox']):hover::after {
     --dot-c: #999;
     --dot-r: 0.14;
     transition: all background-image 100ms ease 50ms;
   }
-  .tgl label:has(> [type='checkbox']:checked)::after {
+  .toggles > .tgl label:has(> [type='checkbox']:checked)::after {
     --dot-c: currentColor;
     --dot-r: 0.2;
     transition: all 100ms ease 50ms;
   }
-  .tgl.plain label:has(> [type='checkbox']:checked)::after {
+  .toggles > .tgl.plain label:has(> [type='checkbox']:checked)::after {
     content: '◉';
   }
-  .tgl label:has(> [type='checkbox']:checked):hover::after {
+  .toggles > .tgl label:has(> [type='checkbox']:checked):hover::after {
     --dot-c: currentColor;
     --dot-r: 0.14;
     transition: all 100ms ease 50ms;
   }
-  .tgl label:has(> [type='checkbox']):active::after {
+  .toggles > .tgl label:has(> [type='checkbox']):active::after {
     --dot-c: #fff;
     --dot-r: 0.2;
     --circle-ri: 0.28;
     --circle-ro: 0.42;
     transition: all 100ms ease 50ms;
   }
-  .tgl label:has(> [type='checkbox']:checked):active::after {
+  .toggles > .tgl label:has(> [type='checkbox']:checked):active::after {
     --dot-c: #fff;
     --dot-r: 0.2;
     --circle-ri: 0.28;
     --circle-ro: 0.42;
     transition: all 100ms ease 50ms;
   }
-  .tgl label:has(> [type='checkbox']:disabled)::after {
+  .toggles > .tgl label:has(> [type='checkbox']:disabled)::after {
     --circle-c: #aaa;
     --dot-c: #333;
     --dot-r: 0.25;
     transition: all 100ms ease 50ms;
   }
-  .tgl.plain label:has(> [type='checkbox']:disabled)::after {
+  .toggles > .tgl.plain label:has(> [type='checkbox']:disabled)::after {
     content: '◌';
   }
-  .tgl label:has(> [type='checkbox'])::before {
+  .toggles > .tgl label:has(> [type='checkbox'])::before {
     content: '';
     width: 0.5ch;
   }
@@ -852,209 +872,104 @@
   .proto + .sep {
     padding: 0 0.3ch 0 0;
   }
-}
 
-.tiny {
-  margin: 0;
-  top: var(--px-imtop);
-  left: var(--px-imleft);
-  width: var(--px-imwidth);
-  height: var(--px-imheight);
-}
-:root {
-  --clienthmid: calc(round(down, var(--clienth), 2) * 0.5);
-  --clientwmid: calc(round(down, var(--clientw), 2) * 0.5);
-
-  --naturalmax: max(var(--naturalw), var(--naturalh));
-  --naturalmin: max(var(--naturalw), var(--naturalh));
-  --fith: calc(var(--clienth) * var(--fitmaxh));
-  --fitw: calc(var(--clientw) * var(--fitmaxw));
-  --h-if-fitw: calc(var(--fitw) / var(--naturalw) * var(--naturalh));
-  --h-if-fith: var(--fith);
-  --w-if-fith: calc(var(--fith) / var(--naturalh) * var(--naturalw));
-  --w-if-fitw: var(--fitw);
-
-  /* Pick best fit from width or height */
-  --imfittedh: round(down, min(var(--h-if-fitw), var(--h-if-fith)), 1);
-  --imfittedw: round(down, min(var(--w-if-fitw), var(--w-if-fith)), 1);
-  /* Determine pixel display size */
-  --pixelh: round(down, calc(var(--imfittedh) / var(--naturalh)), 1);
-  --pixelw: round(down, calc(var(--imfittedw) / var(--naturalw)), 1);
-
-  /* Pixel-aligned size of image for display */
-  --imalignedh: calc(var(--pixelh) * var(--naturalh));
-  --imalignedw: calc(var(--pixelw) * var(--naturalw));
-
-  --imtop: calc(var(--clienthmid) - (var(--imalignedh) * 0.5));
-  --imright: calc(var(--imleft) + var(--imalignedw));
-  --imbottom: calc(var(--imtop) + var(--imalignedh));
-  --imleft: calc(var(--clientwmid) - (var(--imalignedw) * 0.5));
-
-  /* Lengths*/
-  --px-imalignedh: calc(var(--imalignedh) * 1px);
-  --px-imalignedw: calc(var(--imalignedw) * 1px);
-
-  --px-imfittedh: calc(var(--imfittedh) * 1px);
-  --px-imfittedw: calc(var(--imfittedw) * 1px);
-
-  --px-imheight: var(--px-imalignedh);
-  --px-imwidth: var(--px-imalignedw);
-
-  --px-imtop: calc(var(--imtop) * 1px);
-  --px-imright: calc(var(--imright) * 1px);
-  --px-imbottom: calc(var(--imbottom) * 1px);
-  --px-imleft: calc(var(--imleft) * 1px);
-
-  --px-pixelw: calc(var(--pixelw) * 1px);
-  --px-pixelh: calc(var(--pixelh) * 1px);
-}
-
-.output:where(
-    .imtopleft,
-    .imbottomright,
-    .imdisplaywh,
-    .imalignedwh,
-    .pixelwh,
-    .imtop,
-    .imright,
-    .imbottom,
-    .imleft,
-    .imdisplayh,
-    .imdisplayw
-  ) {
-  font-size: 0.6rem;
-  letter-spacing: 0.05ch;
-  text-align: right;
-  line-height: normal;
-  visibility: visible;
-}
-.output.imdisplaywh {
-  --value: var(--imfittedw);
-  --value2: var(--imfittedh);
-  --prefix: 'imfittedw: ';
-  --suffix: ' ';
-  --prefix2: 'imfittedh: ';
-  --suffix2: '';
-  top: 0;
-  left: 70px;
-}
-.output.imalignedwh {
-  --value: var(--imalignedw);
-  --value2: var(--imalignedh);
-  --prefix: 'imalignedw: ';
-  --suffix: ' ';
-  --prefix2: 'imalignedh: ';
-  --suffix2: '';
-  top: 20px;
-  left: 70px;
-}
-.output.pixelwh {
-  --value: var(--pixelw);
-  --value2: var(--pixelh);
-  --prefix: 'pixelw: ';
-  --suffix: ' ';
-  --prefix2: 'pixelh: ';
-  --suffix2: '';
-  top: 40px;
-  left: 70px;
-}
-.output.imtopleft {
-  --value: var(--imtop);
-  --value2: var(--imleft);
-  --prefix: 'imtop: ';
-  --suffix: '\0a';
-  --prefix2: 'imleft: ';
-  --suffix2: '';
-  top: var(--px-imtop);
-  left: var(--px-imleft);
-  text-align: left;
-  line-height: normal;
-}
-.output.imbottomright {
-  --value: var(--imbottom);
-  --value2: var(--imright);
-  --prefix: 'imbottom: ';
-  --suffix: '\0a';
-  --prefix2: 'imright: ';
-  --suffix2: '';
-  top: var(--px-imbottom);
-  left: var(--px-imright);
-  transform: translate(-100%, -100%);
-}
-
-.output.width {
-  top: calc(var(--px-imtop) - 1lh - var(--endlength));
-  left: var(--px-imleft);
-  width: var(--px-imwidth);
-}
-.output.height {
-  top: var(--px-imtop);
-  right: var(--px-imright);
-  height: var(--px-imheight);
-}
-.output.fitw {
-  width: calc(var(--w-if-fitw) * 1px);
-  height: calc(var(--h-if-fitw) * 1px);
-}
-.output.fith {
-  width: calc(var(--w-if-fith) * 1px);
-  height: calc(var(--h-if-fith) * 1px);
-}
-
-@media not print {
-  :root:has(.tgl.pix :checked):has(.tgl.grd :checked)::after {
-    pointer-events: none;
-    content: '';
-    display: block;
-    position: fixed;
+  .tiny {
+    margin: 0;
     top: var(--px-imtop);
     left: var(--px-imleft);
     width: var(--px-imwidth);
     height: var(--px-imheight);
-    box-sizing: content-box;
-    --gridcolor: #1118;
-    --gridlinehalfthickness: 0.5px;
-    --gridlinefadeover: 0px;
-    --glt: var(--gridlinehalfthickness);
-    --glt2: calc(var(--glt) * 2);
-    --glf: var(--gridlinefadeover);
-    background:
-      repeating-linear-gradient(
-        360deg,
-        var(--gcl) 0,
-        var(--gcl0) var(--glt) var(--px-pixelw)
-      ),
-      repeating-linear-gradient(
-        180deg,
-        var(--gcd) 0,
-        var(--gcd0) var(--glt) var(--px-pixelw)
-      ),
-      repeating-linear-gradient(
-        450deg,
-        var(--gcd) 0,
-        var(--gcd0) var(--glt) var(--px-pixelw)
-      ),
-      repeating-linear-gradient(
-        270deg,
-        var(--gcl) 0,
-        var(--gcl0) var(--glt) var(--px-pixelw)
-      ),
-      linear-gradient(#0000);
-    background-position:
-      0 0,
-      100% 100%,
-      0 0,
-      100% 100%;
-    background-size:
-      calc(var(--px-pixelw) - var(--glt)) var(--px-pixelw),
-      calc(var(--px-pixelw) - var(--glt)) var(--px-pixelw),
-      var(--px-pixelw) calc(var(--px-pixelw) - var(--glt)),
-      var(--px-pixelw) calc(var(--px-pixelw) - var(--glt)),
-      0 0;
-    background-repeat: round;
-    --gcl: #aaa4;
-    --gcl0: rgb(from var(--gcl) r g b / 0);
-    --gcd: #0006;
-    --gcd0: rgb(from var(--gcd) r g b / 0);
+  }
+
+  .output:where(
+      .imtopleft,
+      .imbottomright,
+      .imdisplaywh,
+      .imalignedwh,
+      .pixelwh,
+      .imtop,
+      .imright,
+      .imbottom,
+      .imleft,
+      .imdisplayh,
+      .imdisplayw
+    ) {
+    font-size: 0.6rem;
+    letter-spacing: 0.05ch;
+    text-align: right;
+    line-height: normal;
+    visibility: visible;
+  }
+  .output.imdisplaywh {
+    --value: var(--imfittedw);
+    --value2: var(--imfittedh);
+    --prefix: 'imfittedw: ';
+    --suffix: ' ';
+    --prefix2: 'imfittedh: ';
+    --suffix2: '';
+    top: 0;
+    left: 70px;
+  }
+  .output.imalignedwh {
+    --value: var(--imalignedw);
+    --value2: var(--imalignedh);
+    --prefix: 'imalignedw: ';
+    --suffix: ' ';
+    --prefix2: 'imalignedh: ';
+    --suffix2: '';
+    top: 20px;
+    left: 70px;
+  }
+  .output.pixelwh {
+    --value: var(--pixelw);
+    --value2: var(--pixelh);
+    --prefix: 'pixelw: ';
+    --suffix: ' ';
+    --prefix2: 'pixelh: ';
+    --suffix2: '';
+    top: 40px;
+    left: 70px;
+  }
+  .output.imtopleft {
+    --value: var(--imtop);
+    --value2: var(--imleft);
+    --prefix: 'imtop: ';
+    --suffix: '\0a';
+    --prefix2: 'imleft: ';
+    --suffix2: '';
+    top: var(--px-imtop);
+    left: var(--px-imleft);
+    text-align: left;
+    line-height: normal;
+  }
+  .output.imbottomright {
+    --value: var(--imbottom);
+    --value2: var(--imright);
+    --prefix: 'imbottom: ';
+    --suffix: '\0a';
+    --prefix2: 'imright: ';
+    --suffix2: '';
+    top: var(--px-imbottom);
+    left: var(--px-imright);
+    transform: translate(-100%, -100%);
+  }
+
+  .output.width {
+    top: calc(var(--px-imtop) - 1lh - var(--endlength));
+    left: var(--px-imleft);
+    width: var(--px-imwidth);
+  }
+  .output.height {
+    top: var(--px-imtop);
+    right: var(--px-imright);
+    height: var(--px-imheight);
+  }
+  .output.fitw {
+    width: calc(var(--w-if-fitw) * 1px);
+    height: calc(var(--h-if-fitw) * 1px);
+  }
+  .output.fith {
+    width: calc(var(--w-if-fith) * 1px);
+    height: calc(var(--h-if-fith) * 1px);
   }
 }

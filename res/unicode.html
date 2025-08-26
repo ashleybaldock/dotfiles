@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>Unicode</title>
@@ -6,7 +6,7 @@
     <meta charset="utf-8" http-equiv="Content-type" />
     <meta name="theme-color" content="#000000" />
 
-    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="/common.css" />
     <link rel="stylesheet" href="adobe-blank.css" />
     <link rel="stylesheet" href="last-resort.css" />
     <link rel="stylesheet" href="unicode.css" />
@@ -31,76 +31,114 @@
       <fieldset>
         <legend>Display</legend>
         <div data-sink="g1">
-          <label for="g1">Show Grid</label>
-          <input data-source type="checkbox" id="g1" name="rg-g1" checked />
+          <label>
+            <span>Grid</span>
+            <input
+              data-source
+              type="checkbox"
+              id="tgl-g1"
+              name="rg-g1"
+              checked
+            />
+          </label>
         </div>
         <div data-sink="d1">
-          <label for="d1">Dark Mode</label>
-          <input data-source type="checkbox" id="d1" name="rg-d1" checked />
+          <label>
+            <span>Dark</span>
+            <input
+              data-source
+              type="checkbox"
+              id="tgl-d1"
+              name="rg-d1"
+              checked
+            />
+          </label>
         </div>
       </fieldset>
       <fieldset name="gf">
         <legend>Font</legend>
         <div data-sink="f1">
-          <label for="f1"></label>
-          <input data-source type="radio" id="f1" name="gf" checked />
+          <label>
+            <input data-source type="radio" id="f1" name="gf" checked />
+          </label>
         </div>
         <div data-sink="f2">
-          <label for="f2"></label>
-          <input data-source type="radio" id="f2" name="gf" />
+          <label for="f2">
+            <input data-source type="radio" id="f2" name="gf" />
+          </label>
         </div>
       </fieldset>
       <fieldset name="gs" data-source="">
         <legend>Grid row spacing</legend>
         <div>
-          <label for="g0"></label>
-          <input type="radio" id="g0" name="gs" value="1vw" />
+          <label>
+            <span>1vw</span>
+            <input type="radio" id="g0" name="gs" value="1vw" />
+          </label>
         </div>
         <div>
-          <label for="g1"></label>
-          <input type="radio" id="g1" name="gs" value="16px" />
+          <label>
+            <span>16px</span>
+            <input type="radio" id="g1" name="gs" value="16px" />
+          </label>
         </div>
         <div>
-          <label for="g2"></label>
-          <input type="radio" id="g2" name="gs" value="32px" />
+          <label>
+            <span>32px</span>
+            <input type="radio" id="g2" name="gs" value="32px" />
+          </label>
         </div>
         <div>
-          <label for="g3"></label>
-          <input type="radio" id="g3" name="gs" value="64px" />
+          <label>
+            <span>64px</span>
+            <input type="radio" id="g3" name="gs" value="64px" />
+          </label>
         </div>
       </fieldset>
       <fieldset name="fs">
         <legend>Font size</legend>
         <div>
-          <label for="s0"></label>
-          <input data-source type="radio" id="s0" name="fs" value="1vw" />
+          <label>
+            <span>1vw</span>
+            <input data-source type="radio" id="s0" name="fs" value="1vw" />
+          </label>
         </div>
         <div>
-          <label for="s1"></label>
-          <input data-source type="radio" id="s1" name="fs" value="16px" />
+          <label>
+            <span>16px</span>
+            <input data-source type="radio" id="s1" name="fs" value="16px" />
+          </label>
         </div>
         <div>
-          <label for="s2"></label>
-          <input
-            data-source
-            type="radio"
-            id="s2"
-            name="fs"
-            value="32px"
-            checked
-          />
+          <label>
+            <span>32px</span>
+            <input
+              data-source
+              type="radio"
+              id="s2"
+              name="fs"
+              value="32px"
+              checked
+            />
+          </label>
         </div>
         <div>
-          <label for="s3"></label>
-          <input data-source type="radio" id="s3" name="fs" value="64px" />
+          <label>
+            <span>64px</span>
+            <input data-source type="radio" id="s3" name="fs" value="64px" />
+          </label>
         </div>
         <div>
-          <label for="s4"></label>
-          <input data-source type="radio" id="s4" name="fs" value="96px" />
+          <label>
+            <span>96px</span>
+            <input data-source type="radio" id="s4" name="fs" value="96px" />
+          </label>
         </div>
         <div>
-          <label for="s5"></label>
-          <input data-source type="radio" id="s5" name="fs" value="128px" />
+          <label>
+            <span>128px</span>
+            <input data-source type="radio" id="s5" name="fs" value="128px" />
+          </label>
         </div>
       </fieldset>
       <!-- <fieldset> -->

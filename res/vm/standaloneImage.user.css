@@ -1018,37 +1018,43 @@
     --glt: var(--gridlinehalfthickness);
     --glt2: calc(var(--glt) * 2);
     --glf: var(--gridlinefadeover);
-    background: 
-/*       repeating-linear-gradient( 180deg, var(--gch1) 0 var(--glt), #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)), 
-      repeating-linear-gradient( 360deg, var(--gch2) 0 var(--glt), #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)),  */
+    background:
+      repeating-linear-gradient(
+        360deg,
+        var(--gcl) 0,
+        var(--gcl0) var(--glt) var(--px-pixelw)
+      ),
+      repeating-linear-gradient(
+        180deg,
+        var(--gcd) 0,
+        var(--gcd0) var(--glt) var(--px-pixelw)
+      ),
       repeating-linear-gradient(
         450deg,
-        var(--gcv2) 0 var(--glt),
-        #0000 var(--glt) var(--px-pixelw)
+        var(--gcd) 0,
+        var(--gcd0) var(--glt) var(--px-pixelw)
       ),
       repeating-linear-gradient(
         270deg,
-        var(--gcv2) 0 var(--glt),
-        #0000 var(--glt) var(--px-pixelw)
+        var(--gcl) 0,
+        var(--gcl0) var(--glt) var(--px-pixelw)
       ),
-      /*      repeating-linear-gradient( 360deg, var(--gch1) 0 var(--glt), #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)), 
-      repeating-linear-gradient( 180deg, var(--gch2) 0 var(--glt), #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)),  */
-        linear-gradient(#0000);
+      linear-gradient(#0000);
     background-position:
       0 0,
+      100% 100%,
+      0 0,
       100% 100%;
-    background-size: 100% calc(var(--px-pixelw) - var(--glt));
-    background-size: var(--px-pixelw) calc(var(--px-pixelw) - var(--glt));
-    background-repeat: round no-repeat;
-    background-repeat: space;
-    background-repeat: repeat-x;
-    --gch1: var(--gridcolor);
-    --gch2: var(--gridcolor);
-    --gcv1: var(--gridcolor);
-    --gcv2: var(--gridcolor);
-    --gch1: #111a;
-    --gch2: #aaa4;
-    --gcv1: #111a;
-    --gcv2: #aaaf;
+    background-size:
+      calc(var(--px-pixelw) - var(--glt)) var(--px-pixelw),
+      calc(var(--px-pixelw) - var(--glt)) var(--px-pixelw),
+      var(--px-pixelw) calc(var(--px-pixelw) - var(--glt)),
+      var(--px-pixelw) calc(var(--px-pixelw) - var(--glt)),
+      0 0;
+    background-repeat: round;
+    --gcl: #aaa4;
+    --gcl0: rgb(from var(--gcl) r g b / 0);
+    --gcd: #0006;
+    --gcd0: rgb(from var(--gcd) r g b / 0);
   }
 }

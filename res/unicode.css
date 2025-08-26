@@ -1,12 +1,10 @@
-
-
 :root {
   font-size: 16px;
   --font-ratio: calc(1em / 1ch);
   --font-to-test: 'Menlo';
 
   --color-fg-base: #eaeaea;
-  --color-bg-base: #0B0B0B;
+  --color-bg-base: #0b0b0b;
 
   --color-radio-bd: #9e0000;
   --color-radio-bd2: #d30000;
@@ -16,7 +14,7 @@
   --ddw: #720000;
 
   --grid-color: #a1a1a1;
-  
+
   --font-size-1: 16px;
   --font-size-2: 32px;
   --font-size-3: 64px;
@@ -61,33 +59,33 @@ fieldset {
   gap: 0.4em;
   padding: 0.5em;
 }
-[id="s1"]:checked ~ * dd {
+[id='s1']:checked ~ * dd {
   font-size: var(--font-size-1);
 }
-[id="s2"]:checked ~ * dd {
+[id='s2']:checked ~ * dd {
   font-size: var(--font-size-2);
 }
-[id="s3"]:checked ~ * dd {
+[id='s3']:checked ~ * dd {
   font-size: var(--font-size-3);
 }
-[id="s4"]:checked ~ * dd {
+[id='s4']:checked ~ * dd {
   font-size: var(--font-size-4);
 }
-[id="s5"]:checked ~ * dd {
+[id='s5']:checked ~ * dd {
   font-size: var(--font-size-5);
 }
 
-[id="g1"] ~ * dd::after {
+[id='g1'] ~ * dd::after {
   --grid-thickness: var(--grid-thickness-none);
 }
-[id="g1"]:checked ~ * dd::after {
+[id='g1']:checked ~ * dd::after {
   --grid-thickness: var(--grid-thickness-thin);
 }
 
-[id="d1"] ~ * dd::after {
+[id='d1'] ~ * dd::after {
   --active-theme: var(--theme-light);
 }
-[id="d1"]:checked ~ * dd::after {
+[id='d1']:checked ~ * dd::after {
   --active-theme: var(--theme-dark);
 }
 
@@ -103,59 +101,64 @@ dd::after {
   bottom: 0;
   left: 0;
   border: 0;
-  
+
   --w-sz: var(--base);
   --h-sz: var(--base);
   --h-gap: var(--grid-row-gap);
   --w-gap: var(--grid-col-gap);
   --w-repeat: calc(var(--w-sz) + var(--w-gap));
   --h-repeat: calc(var(--h-sz) + var(--h-gap));
-  
+
   --thinnest-noq: var(--vvvthin-noq); /*-/ not opaque /-*/
-  --vvvthin-noq: 0;                     /*  vvvthin */
-  --vvthin-noq: 0.1px;                 /*  vvthin  */
-  --thinnest: var(--vthin);        /*-/-- opaque --/-*/
-  --vthin: 0.29px;                   /*  vthin   */
-  --thin: 0.85px;                   /*  thin    */
-  --medium: 1.22px;                /*  medium  */
-  
+  --vvvthin-noq: 0; /*  vvvthin */
+  --vvthin-noq: 0.1px; /*  vvthin  */
+  --thinnest: var(--vthin); /*-/-- opaque --/-*/
+  --vthin: 0.29px; /*  vthin   */
+  --thin: 0.85px; /*  thin    */
+  --medium: 1.22px; /*  medium  */
+
   --thickness: var(--thinnest-noq);
 
-  background-position: 
+  background-position:
     calc(var(--l-pad) - 0px) calc(var(--t-pad) - 0px),
-    calc(var(--l-pad) + var(--w-sz) - 0px) calc(var(--t-pad) + var(--h-sz) - 0px); 
+    calc(var(--l-pad) + var(--w-sz) - 0px)
+      calc(var(--t-pad) + var(--h-sz) - 0px);
   background-size: var(--w-repeat) var(--h-repeat);
   background-image:
-    repeating-linear-gradient(to left,
+    repeating-linear-gradient(
+      to left,
       transparent 0 0,
       red 0 var(--thickness),
       transparent 0.4px 0.4px,
       transparent 100%
-    )
-    ,repeating-linear-gradient(to right,
+    ),
+    repeating-linear-gradient(
+      to right,
       transparent 0 0,
       red 0 var(--thickness),
       transparent 0.4px 0.4px,
       transparent 100%
-    )
-    ,repeating-linear-gradient(to top,
+    ),
+    repeating-linear-gradient(
+      to top,
       transparent 0 0,
       red 0 var(--thickness),
       transparent 0.4px 0.4px,
       transparent 100%
-    )
-    ,repeating-linear-gradient(to bottom,
+    ),
+    repeating-linear-gradient(
+      to bottom,
       transparent 0 0,
       red 0 var(--thickness),
       transparent 0.4px 0.4px,
       transparent 100%
-    )
-    ,linear-gradient(#0000,#0000);
+    ),
+    linear-gradient(#0000, #0000);
 }
 
 p {
   color: #720000;
-  margin: 0em 0 0.4em 0;
+  margin: 0 0 0.4em 0;
   text-align: start;
   border-bottom: 1px dotted #720000;
 }
@@ -166,7 +169,7 @@ dt {
   border-bottom: 1px dotted #720000;
   user-select: none;
   pointer-events: none;
-  text-shadow: 0.04em 0.02em 0.0em #de0000;
+  text-shadow: 0.04em 0.02em 0 #de0000;
   overflow-x: scroll;
 }
 dd {
@@ -182,12 +185,11 @@ dd {
   grid-column-gap: var(--grid-col-gap);
   grid-auto-rows: var(--base);
   grid-template-columns: repeat(16, var(--base));
-  
 
   margin: 1em;
   padding: var(--t-pad) var(--l-pad);
   font-family: 'Menlo', 'AdobeBlank';
-  white-space: normal;  
+  white-space: normal;
   overflow-x: scroll;
   overflow-y: visible;
   width: auto;
@@ -239,42 +241,48 @@ dd > a > q:last-child {
   aspect-ratio: 1;
   border-radius: 50%;
   line-height: 1em;
-  background-image: linear-gradient(to top right, transparent, transparent 46%, red 46%, red 55%, transparent 56%);
+  background-image: linear-gradient(
+    to top right,
+    transparent,
+    transparent 46%,
+    red 46%,
+    red 55%,
+    transparent 56%
+  );
   box-sizing: content-box;
 }
-dd q::after, dd q::before {
+dd q::after,
+dd q::before {
   display: none;
 }
 
 div:has(button:hover) {
   background-color: cyan;
-} 
+}
 dd:has(a) {
   display: grid;
 }
 
-
-input[type=checkbox],
-input[type=radio] {
+input[type='checkbox'],
+input[type='radio'] {
   --size: 1.2em;
   appearance: none;
   border-radius: calc(var(--size) / 2);
   width: var(--size);
-  background-color: black;
   border-style: solid;
   border-width: calc(var(--size) / 5);
   background: black;
-  border-color: #9F0000;
+  border-color: #9f0000;
   aspect-ratio: 1;
   background-color: #97000033;
   position: relative;
   transition: border 100ms ease;
 }
-input[type=checkbox] {
+input[type='checkbox'] {
   border-radius: calc(var(--size) / 10);
 }
-input[type="checkbox"]:checked,
-input[type="radio"]:checked {
+input[type='checkbox']:checked,
+input[type='radio']:checked {
   background-color: #970000a6;
   border-color: var(--color-radio-bd2);
   border-style: double;
@@ -307,13 +315,13 @@ label.toggle {
   box-sizing: border-box;
   cursor: pointer;
   padding: 0.1em 0.8em 0.1em 0.1em;
-  margin-left: 0em;
+  margin-left: 0;
 }
 .toggles label::before,
 label.toggle::before {
   border-style: solid;
   border-width: calc(var(--size) / 5);
-  border-color: #9F0000;
+  border-color: #9f0000;
   aspect-ratio: 1;
   border-radius: var(--size);
   --size: 1.3em;
@@ -332,33 +340,33 @@ label.toggle::after {
   content: '';
 }
 
-[id="f1"] ~ * [for="f1"]::after,
-[id="f1"]:checked ~ * [for="f1"]::after {
+[id='f1'] ~ * [for='f1']::after,
+[id='f1']:checked ~ * [for='f1']::after {
   margin-left: 0.5em;
 }
-[id="f1"]:checked ~ * [for="f1"]::before,
-[id="f2"]:checked ~ * [for="f2"]::before,
-[id="s1"]:checked ~ * [for="s1"]::before,
-[id="s2"]:checked ~ * [for="s2"]::before,
-[id="s3"]:checked ~ * [for="s3"]::before,
-[id="s4"]:checked ~ * [for="s4"]::before,
-[id="s5"]:checked ~ * [for="s5"]::before,
-[id="g1"]:checked ~ * [for="g1"]::before,
-[id="d1"]:checked ~ * [for="d1"]::before {
+[id='f1']:checked ~ * [for='f1']::before,
+[id='f2']:checked ~ * [for='f2']::before,
+[id='s1']:checked ~ * [for='s1']::before,
+[id='s2']:checked ~ * [for='s2']::before,
+[id='s3']:checked ~ * [for='s3']::before,
+[id='s4']:checked ~ * [for='s4']::before,
+[id='s5']:checked ~ * [for='s5']::before,
+[id='g1']:checked ~ * [for='g1']::before,
+[id='d1']:checked ~ * [for='d1']::before {
   background-color: #2e0000a6;
   border-color: var(--color-radio-bd2);
   border-style: double;
   border-width: calc(var(--size) / 2);
 }
-[id="f1"]:checked ~ * [for="f1"],
-[id="f2"]:checked ~ * [for="f2"],
-[id="s1"]:checked ~ * [for="s1"],
-[id="s2"]:checked ~ * [for="s2"],
-[id="s3"]:checked ~ * [for="s3"],
-[id="s4"]:checked ~ * [for="s4"],
-[id="s5"]:checked ~ * [for="s5"],
-[id="g1"]:checked ~ * [for="g1"],
-[id="d1"]:checked ~ * [for="d1"] {
+[id='f1']:checked ~ * [for='f1'],
+[id='f2']:checked ~ * [for='f2'],
+[id='s1']:checked ~ * [for='s1'],
+[id='s2']:checked ~ * [for='s2'],
+[id='s3']:checked ~ * [for='s3'],
+[id='s4']:checked ~ * [for='s4'],
+[id='s5']:checked ~ * [for='s5'],
+[id='g1']:checked ~ * [for='g1'],
+[id='d1']:checked ~ * [for='d1'] {
   background-color: var(--color-radio-checked-bg);
 }
 
@@ -367,21 +375,20 @@ dd {
   font-family: 'Menlo', 'LastResort';
   font-size: var(--demo-font-size);
 }
-[id="f1"] ~ * [for="f1"]::after,
-[id="f1"]:checked ~ * [for="f1"]::after {
+[id='f1'] ~ * [for='f1']::after,
+[id='f1']:checked ~ * [for='f1']::after {
   content: 'Menlo ❱❱ Blank';
 }
-[id="f1"]:checked ~ * dd {
+[id='f1']:checked ~ * dd {
   font-family: 'Menlo', 'AdobeBlank';
 }
-[id="f2"] ~ * [for="f2"]::after,
-[id="f2"]:checked ~ * [for="f2"]::after {
+[id='f2'] ~ * [for='f2']::after,
+[id='f2']:checked ~ * [for='f2']::after {
   content: 'Menlo ❱❱ LastResort ❱❱ Blank';
 }
-[id="f2"]:checked ~ * dd {
+[id='f2']:checked ~ * dd {
   font-family: 'Menlo', 'LastResort', 'AdobeBlank';
 }
-
 
 .fontSize {
   margin-left: 1em;
@@ -395,5 +402,83 @@ dd {
   line-height: 1em;
 }
 
+fieldset {
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  --size: 1rem;
+  --bdc: #a00;
+  --bgc: #330000;
+  --bdc-active: #e00;
+  --bgc-active: #7a0000;
+}
 
+fieldset > :has(> input[type='checkbox'], > input[type='radio']) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+.toggles label,
+label.toggle {
+  bottom: unset;
+  padding: 0;
+  line-height: normal;
+  font-size: 0.7rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  flex: 1 1 auto;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5ch;
+  border-color: var(--bdc);
+  box-shadow: 0 0 0 0.5px var(--bdc);
+}
 
+.toggles label::before,
+label.toggle::before {
+  position: relative;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.toggles label::after,
+label.toggle::after {
+  margin-left: 0;
+  content: none;
+}
+
+input[type='checkbox']:checked,
+input[type='radio']:checked,
+label:has(
+    > input[type='checkbox']:checked,
+    > input[type='radio']:checked
+  )::before {
+  transition:
+    border 100ms cubic-bezier(0.33, 1, 0.66, 1),
+    transform 200ms cubic-bezier(0.33, 4, 0.66, 4);
+  transform: scale(1.01);
+  background-color: var(--bgc-active);
+  border-color: var(--bdc-active);
+  border-style: double;
+  border-width: calc(var(--size) / 2);
+}
+
+input[type='checkbox'],
+input[type='radio'],
+label:has(> input[type='checkbox'], > input[type='radio'])::before {
+  transition:
+    border 100ms cubic-bezier(0.33, 1, 0.66, 1),
+    transform 200ms cubic-bezier(0.33, 2, 0.66, 2);
+  transform: scale(0.99);
+  background-color: var(--bgc);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 1px #000;
+  border-color: var(--bdc);
+}

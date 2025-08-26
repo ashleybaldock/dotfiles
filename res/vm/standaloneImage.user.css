@@ -358,24 +358,24 @@
   /*}}}1*/
 
   /* Background for images with transparency */
-  img.transparent {
+  .transparent {
     background: #68686844;
   }
-  :root:has(.tgl.sun :checked) img.transparent {
+  :root:has(.tgl.sun :checked) .transparent {
     background: #78787844;
   }
 
   /* outline around image */
-  :root:has(.tgl.out :checked) img.transparent {
+  :root:has(.tgl.out :checked) .transparent {
     background: #0000;
     outline: 1px dashed #888;
   }
-  :root:has(.tgl.sun :checked):has(.tgl.out :checked) img.transparent {
+  :root:has(.tgl.sun :checked):has(.tgl.out :checked) .transparent {
     outline: 1px dashed #aaa;
   }
 
   /* hatched box background */
-  :root:has(.tgl.tch :checked) img.transparent {
+  :root:has(.tgl.tch :checked) .transparent {
     background-image: repeating-conic-gradient(
       #383838 0 90deg,
       #484848 90deg 180deg
@@ -386,7 +386,7 @@
     border: 0;
     padding: 0;
   }
-  :root:has(.tgl.sun :checked):has(.tgl.tch :checked) img.transparent {
+  :root:has(.tgl.sun :checked):has(.tgl.tch :checked) .transparent {
     background-image: repeating-conic-gradient(
       #686868 0 90deg,
       #787878 90deg 180deg

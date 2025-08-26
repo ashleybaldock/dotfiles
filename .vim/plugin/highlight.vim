@@ -266,10 +266,10 @@ function! s:UpdateSynFoBuffer(winid)
 " 􀣤 􀏃 􀣦􀂒􀃰􀃲 
 " ⎛  ★   ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )              ⎞
 
-" ⎛  ★                          ꜰ  ʙ  ꜱ                  ⎞
+" ⎛  ★                          ᶠᵍ ᵇᵍ ˢᵖ                  ⎞
 " ⎢ ᴅ 1234:╺┳╸cssUrlFunction    􀂓 􀯮 􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )  ⎥
 " ⎢    134: ┃ ⫘⃗  Statement                               ⎥
-" ⎢     34: ┃  ⫘⃗  Constant                               ⎥
+" ⎢     34: ┃  ⫘⃗  Constant       ᴳ ᴮᴳ  ᴾ                 ⎥
 " ⎢ ᴅ  424: ┠╴cssUrl           ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )  ⎥
 " ⎢  ᴄ 111: ┠╴cssParam         ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )  ⎥
 

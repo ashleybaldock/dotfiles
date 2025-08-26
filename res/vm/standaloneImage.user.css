@@ -19,12 +19,12 @@
   inherits: true;
   initial-value: 0;
 }
-@property --displayw {
+@property --px-imwidth {
   syntax: '<length>';
   inherits: true;
   initial-value: 0;
 }
-@property --displayh {
+@property --px-imheight {
   syntax: '<length>';
   inherits: true;
   initial-value: 0;
@@ -65,8 +65,8 @@
     background-position: 50% 50%;
     contain: size;
     container: imgonlychild size;
-    --naturalmax: max(var(--naturalw), var(--naturalh));
-    --naturalmin: max(var(--naturalw), var(--naturalh));
+    /* --naturalmax: max(var(--naturalw), var(--naturalh)); */
+    /* --naturalmin: max(var(--naturalw), var(--naturalh)); */
 
     /* --pixelw: calc(50vmin / var(--naturalw)); */
     /* --pixelh: calc(50vmin / var(--naturalh)); */
@@ -74,26 +74,26 @@
     /* --displayw: 50vmin; */
     /* --displayh: 50vmin; */
     /* --displayw: min(50vw, var(--pixelw)); */
-    --maxfitw: 0.7;
-    --maxfith: 0.7;
-    --h-if-fitw: calc(
-      ((var(--maxfitw) * 100vw) / var(--naturalw)) * var(--naturalh)
-    );
-    --w-if-fith: calc(
-      ((var(--maxfith) * 100vh) / var(--naturalh)) * var(--naturalw)
-    );
-    --w-if-fitw: calc(var(--maxfitw) * 100vw);
-    --h-if-fith: calc(var(--maxfith) * 100vh);
+    /* --maxfitw: 0.7; */
+    /* --maxfith: 0.7; */
+    /* --h-if-fitw: calc( */
+    /* ((var(--maxfitw) * 100vw) / var(--naturalw)) * var(--naturalh) */
+    /* ); */
+    /* --w-if-fith: calc( */
+    /* ((var(--maxfith) * 100vh) / var(--naturalh)) * var(--naturalw) */
+    /* ); */
+    /* --w-if-fitw: calc(var(--maxfitw) * 100vw); */
+    /* --h-if-fith: calc(var(--maxfith) * 100vh); */
 
-    --displayw: min(var(--w-if-fitw), var(--w-if-fith));
-    --displayh: min(var(--h-if-fitw), var(--h-if-fith));
-    --pixelh: calc(var(--displayh) / var(--naturalh));
-    --pixelw: calc(var(--displayw) / var(--naturalw));
+    /* --displayw: min(var(--w-if-fitw), var(--w-if-fith)); */
+    /* --displayh: min(var(--h-if-fitw), var(--h-if-fith)); */
+    /* --pixelh: calc(var(--displayh) / var(--naturalh)); */
+    /* --pixelw: calc(var(--displayw) / var(--naturalw)); */
 
-    --imtop: calc(50vh - (var(--displayh) * 0.5));
-    --imbottom: calc(50vh + (var(--displayh) * 0.5));
-    --imleft: calc(50vw - (var(--displayw) * 0.5));
-    --imright: calc(50vw + (var(--displayw) * 0.5));
+    /* --imtop: calc(50vh - (var(--displayh) * 0.5)); */
+    /* --imbottom: calc(50vh + (var(--displayh) * 0.5)); */
+    /* --imleft: calc(50vw - (var(--displayw) * 0.5)); */
+    /* --imright: calc(50vw + (var(--displayw) * 0.5)); */
   }
   :root:has(.tgl.sun :checked) {
     color: #222;
@@ -118,10 +118,6 @@
   }
 
   /* Pixel mode */
-  /* :root:has(> img.transparent):has(.tgl.pix :checked)::after { */
-  /*   opacity: 0; */
-  /* } */
-
   :root:has(.tgl.pix :checked) {
     background-image:
       linear-gradient(#1a1a1a44, #14141466, #1a1a1a66),
@@ -148,16 +144,17 @@
   }
 
   /*{{{1 Thin-lined grid pixel hint */
-  :root:has(.tgl.pix :checked):has(.tgl.grid :checked)::after {
+  :root:has(.tgl.pix :checked):has(.tgl.grd :checked)::after {
     pointer-events: none;
     content: '';
     display: block;
     position: fixed;
     top: var(--imtop);
     left: var(--imleft);
-    width: var(--displayw);
-    height: var(--displayh);
+    width: var(--px-imwidth);
+    height: var(--px-imheight);
     box-sizing: content-box;
+    --gridcolor: #1111;
     --gridlinehalfthickness: 0.6px;
     --gridlinefadeover: 0.2px;
 
@@ -192,7 +189,7 @@
     --gcv2: var(--gridcolor);
   }
   :root:has(.tgl.pix :checked):has(.tgl.sun :checked):has(
-      .tgl.grid :checked
+      .tgl.grd :checked
     )::after {
     --gridcolor: #3331;
   }
@@ -245,6 +242,12 @@
     padding: 0;
   }
 
+  li {
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+
   .output {
     visibility: hidden;
     display: flex;
@@ -271,7 +274,7 @@
   }
 
   /* debug labels for image fitting to client */
-  :root:has(.tgl.dbg :checked) :is(.output.fitw, output.fith) {
+  :root:has(.tgl.dbg :checked) :is(.output.fitw, .output.fith) {
     visibility: visible;
   }
   .output.fitw,
@@ -340,7 +343,7 @@
     --value: var(--naturalw);
     /* top: calc(var(--imtop) - 1lh - var(--endlength)); */
     left: var(--imleft);
-    width: var(--displayw);
+    width: var(--px-imwidth);
     padding-bottom: var(--endlength);
     background-repeat: no-repeat;
 
@@ -375,7 +378,7 @@
     --suffix: 'px';
     top: var(--imtop);
     right: var(--imright);
-    height: var(--displayh);
+    height: var(--px-imheight);
     padding-right: calc(var(--endlength) * 2);
     background-image:
       linear-gradient(to left, var(--color) 0 var(--thickness), #fff0 0),
@@ -396,9 +399,9 @@
     --endlength: 0.5lh;
     --thickness: 2px;
     --prefix: 'viewport:\0a ';
-    --value: var(--screenw);
+    --value: var(--clientw);
     --suffix: '×';
-    --value2: var(--screenh);
+    --value2: var(--clienth);
     --suffix2: 'px';
     top: 4px;
     left: 4px;
@@ -419,7 +422,7 @@
    *  .overflowingVertical  (zoomed in)
    *  .transparent          (background)
    */
-  img.overflowingVertical {
+  .overflowingVertical {
     margin-top: 0;
   }
 
@@ -434,30 +437,76 @@
    */
   /* images below a threshold size optimised for pixel graphics */
   .tiny {
-    width: var(--displayw);
-    height: var(--displayh);
+    width: var(--px-imwidth);
+    height: var(--px-imheight);
     image-rendering: pixelated;
   }
 
   /*{{{1 Toggle controls */
   .toggles {
+    --short-delay: 0ms;
+    --long-delay: 2s;
+    --short-duration: 120ms;
+    --long-duration: 600ms;
     position: absolute;
     top: 0;
     left: 0;
-    color: #eee;
     list-style-type: none;
-    padding: 0;
     margin: 0 0;
+    padding: 2px 0 0 2px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
     column-gap: 1ch;
+    row-gap: 1px;
+    color: #eee;
     font-family: monospace;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     transition: opacity var(--long-duration) ease var(--long-delay);
-    --long-delay: 2s;
-    --short-delay: 100ms;
-    --long-duration: 600ms;
-    --short-duration: 80ms;
+  }
+  :root .toggles {
+    pointer-events: none;
+    z-index: 2;
+    position: fixed;
+  }
+  :root:hover .toggles,
+  .toggles:hover {
+    pointer-events: all;
+  }
+  :root .toggles::before {
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 120ms ease 200ms;
+    padding: 1ch 0 0 0.5ch;
+    width: auto;
+    height: auto;
+  }
+  :root:hover .toggles::before,
+  .toggles:hover::before {
+    opacity: 0.6;
+    transition: opacity 2000ms ease 200ms;
+  }
+  .toggles::before {
+    content: '{…}';
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 10vw;
+    min-height: 4vh;
+    padding: 1ch 0.5ch;
+    opacity: 0.7;
+    transition: opacity var(--short-duration) ease
+      calc(var(--short-delay) + var(--long-delay));
+    width: 100%;
+    height: 100%;
+  }
+  .toggles:hover::before {
+    content: '{…}';
+    transition: opacity var(--short-duration) ease var(--short-delay);
+    opacity: 1;
+    pointer-events: none;
   }
   .toggles > .tgl {
     opacity: 0;
@@ -471,45 +520,6 @@
     pointer-events: all;
     cursor: pointer;
     transition: opacity var(--short-duration) ease var(--short-delay);
-  }
-  .toggles::before {
-    content: '{…}';
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-width: 10vw;
-    min-height: 4vh;
-    padding: 1ch 0.5ch;
-    opacity: 0.7;
-    transition: opacity var(--short-duration) ease
-      calc(var(--short-delay) + var(--long-delay));
-  }
-  .toggles:hover::before {
-    content: '{…}';
-    opacity: 0;
-    transition: opacity var(--short-duration) ease var(--short-delay);
-  }
-
-  li {
-    padding: 0;
-    margin: 0;
-    border: none;
-  }
-  .toggles {
-    font-size: 0.8rem;
-    padding: 2px 0 0 2px;
-    row-gap: 2px;
-    flex-direction: column;
-    row-gap: 1px;
-    align-items: stretch;
-    justify-content: center;
-  }
-  .toggles::before {
-    width: 100%;
-    height: 100%;
-  }
-  .toggles:hover::before {
-    pointer-events: none;
   }
 
   .tgl {
@@ -569,8 +579,6 @@
     box-shadow:
       inset -2px -3px 4px -2px #000,
       inset 1px 2px 4px -1px #666a;
-  }
-  .tgl label:has(> [type='checkbox']) {
     border-radius: 2px;
   }
   .tgl label:has(> [type='checkbox']):hover {
@@ -581,6 +589,7 @@
     background-color: #2e0f0f;
   }
   .tgl label:has(> [type='checkbox'])::after {
+    content: '';
     padding: 1px 0.4rem 1px 0;
     margin-left: 0.5ch;
     width: auto;
@@ -591,7 +600,6 @@
     align-items: center;
     justify-content: center;
     line-height: normal;
-    content: '';
     --dot-c: transparent;
     background-image: radial-gradient(
       circle at center,
@@ -604,6 +612,9 @@
     transition: background-image 100ms ease 50ms;
     transition-property: --dot-c, --dot-r;
   }
+  .tgl.plain label:has(> [type='checkbox'])::after {
+    content: '◯';
+  }
   .tgl label:has(> [type='checkbox']):hover::after {
     --dot-c: #999;
     --dot-r: 0.14;
@@ -613,6 +624,9 @@
     --dot-c: currentColor;
     --dot-r: 0.2;
     transition: all 100ms ease 50ms;
+  }
+  .tgl.plain label:has(> [type='checkbox']:checked)::after {
+    content: '◉';
   }
   .tgl label:has(> [type='checkbox']:checked):hover::after {
     --dot-c: currentColor;
@@ -639,20 +653,14 @@
     --dot-r: 0.25;
     transition: all 100ms ease 50ms;
   }
+  .tgl.plain label:has(> [type='checkbox']:disabled)::after {
+    content: '◌';
+  }
   .tgl label:has(> [type='checkbox'])::before {
     content: '';
     width: 0.5ch;
   }
 
-  .tgl.plain label:has(> [type='checkbox'])::after {
-    content: '◯';
-  }
-  .tgl.plain label:has(> [type='checkbox']:checked)::after {
-    content: '◉';
-  }
-  .tgl.plain label:has(> [type='checkbox']:disabled)::after {
-    content: '◌';
-  }
   /*}}}1*/
 
   .breadcrumbs output::after {
@@ -719,33 +727,269 @@
   .proto + .sep {
     padding: 0 0.3ch 0 0;
   }
+}
 
-  body .toggles {
-    pointer-events: none;
-    z-index: 2;
-    position: fixed;
-  }
-  body:hover .toggles,
-  .toggles:hover {
-    pointer-events: all;
-  }
+@property --clienthmid {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --clientwmid {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --imfittedh {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --imfittedw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --naturalh {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --naturalw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --naturalmax {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --naturalmin {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --fitmaxh {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.7;
+}
+@property --fitmaxw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.7;
+}
+@property --fith {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --fitw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --imtop {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --imright {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --imbottom {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --imleft {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --px-imtop {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --px-imright {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --px-imbottom {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --px-imleft {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --h-if-fitw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --h-if-fith {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --w-if-fitw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --w-if-fith {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
 
-  body .toggles::before {
-    pointer-events: none;
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 120ms ease 200ms;
-    padding: 1ch 0 0 0.5ch;
-    width: auto;
-    height: auto;
-  }
-  body:hover .toggles::before,
-  .toggles:hover::before {
-    opacity: 0.6;
-    transition: opacity 2000ms ease 200ms;
-  }
-  .toggles:hover::before {
-    opacity: 1;
-    transition: opacity 120ms ease 0ms;
-  }
+.tiny {
+  margin: 0;
+  top: var(--px-imtop);
+  left: var(--px-imleft);
+  width: var(--px-imdisplayw);
+  height: var(--px-imdisplayh);
+}
+:root {
+  --clienthmid: calc(round(down, var(--clienth), 2) * 0.5);
+  --clientwmid: calc(round(down, var(--clientw), 2) * 0.5);
+
+  --naturalmax: max(var(--naturalw), var(--naturalh));
+  --naturalmin: max(var(--naturalw), var(--naturalh));
+  --fith: calc(var(--clienth) * var(--fitmaxh));
+  --fitw: calc(var(--clientw) * var(--fitmaxw));
+  --h-if-fitw: calc(var(--fitw) / var(--naturalw) * var(--naturalh));
+  --h-if-fith: var(--fith);
+  --w-if-fith: calc(var(--fith) / var(--naturalh) * var(--naturalw));
+  --w-if-fitw: var(--fitw);
+
+  /* Pick best fit from width or height */
+  --imfittedh: round(down, min(var(--h-if-fitw), var(--h-if-fith)), 1);
+  --imfittedw: round(down, min(var(--w-if-fitw), var(--w-if-fith)), 1);
+  /* Determine pixel display size */
+  --pixelh: round(down, calc(var(--imfittedh) / var(--naturalh)), 1);
+  --pixelw: round(down, calc(var(--imfittedw) / var(--naturalw)), 1);
+
+  /* Pixel-aligned size of image for display */
+  --imalignedh: calc(var(--pixelh) * var(--naturalh));
+  --imalignedw: calc(var(--pixelw) * var(--naturalw));
+
+  --imtop: calc(var(--clienthmid) - (var(--imalignedh) * 0.5));
+  --imright: calc(var(--left) + var(--imalignedw));
+  --imbottom: calc(var(--imtop) + var(--imalignedh));
+  --imleft: calc(var(--clientwmid) - (var(--imalignedw) * 0.5));
+
+  /* Lengths*/
+  --px-imalignedh: calc(var(--imalignedh) * 1px);
+  --px-imalignedw: calc(var(--imalignedw) * 1px);
+
+  --px-imfittedh: calc(var(--imfittedh) * 1px);
+  --px-imfittedw: calc(var(--imfittedw) * 1px);
+
+  --px-imheight: var(--px-imalignedh);
+  --px-imwidth: var(--px-imalignedw);
+
+  --px-imtop: calc(var(--imtop) * 1px);
+  --px-imright: calc(var(--imright) * 1px);
+  --px-imbottom: calc(var(--imbottom) * 1px);
+  --px-imleft: calc(var(--imleft) * 1px);
+}
+
+.output:where(
+    .imtopleft,
+    .imbottomright,
+    .imdisplaywh,
+    .imalignedwh,
+    .pixelwh,
+    .imtop,
+    .imright,
+    .imbottom,
+    .imleft,
+    .imdisplayh,
+    .imdisplayw
+  ) {
+  font-size: 0.6rem;
+  letter-spacing: 0.05ch;
+  text-align: right;
+  line-height: normal;
+  visibility: visible;
+}
+.output.imdisplaywh {
+  --value: var(--imfittedw);
+  --value2: var(--imfittedh);
+  --prefix: 'imfittedw: ';
+  --suffix: ' ';
+  --prefix2: 'imfittedh: ';
+  --suffix2: '';
+  top: 0;
+  left: 70px;
+}
+.output.imalignedwh {
+  --value: var(--imalignedw);
+  --value2: var(--imalignedh);
+  --prefix: 'imalignedw: ';
+  --suffix: ' ';
+  --prefix2: 'imalignedh: ';
+  --suffix2: '';
+  top: 20px;
+  left: 70px;
+}
+.output.pixelwh {
+  --value: var(--pixelw);
+  --value2: var(--pixelh);
+  --prefix: 'pixelw: ';
+  --suffix: ' ';
+  --prefix2: 'pixelh: ';
+  --suffix2: '';
+  top: 40px;
+  left: 70px;
+}
+.output.imtopleft {
+  --value: var(--imtop);
+  --value2: var(--imleft);
+  --prefix: 'imtop: ';
+  --suffix: '\0a';
+  --prefix2: 'imleft: ';
+  --suffix2: '';
+  top: var(--px-imtop);
+  left: var(--px-imleft);
+  text-align: left;
+  line-height: normal;
+}
+.output.imbottomright {
+  --value: var(--imbottom);
+  --value2: var(--imright);
+  --prefix: 'imbottom: ';
+  --suffix: '\0a';
+  --prefix2: 'imright: ';
+  --suffix2: '';
+  top: var(--px-imbottom);
+  left: var(--px-imright);
+  transform: translate(-100%, -100%);
+}
+
+.output.width {
+  top: calc(var(--px-imtop) - 1lh - var(--endlength));
+  left: var(--px-imleft);
+  width: var(--px-imdisplayw);
+}
+.output.height {
+  top: var(--px-imtop);
+  right: var(--px-imright);
+  height: var(--px-imdisplayh);
+}
+.output.fitw {
+  width: calc(var(--w-if-fitw) * 1px);
+  height: calc(var(--h-if-fitw) * 1px);
+}
+.output.fith {
+  width: calc(var(--w-if-fith) * 1px);
+  height: calc(var(--h-if-fith) * 1px);
 }

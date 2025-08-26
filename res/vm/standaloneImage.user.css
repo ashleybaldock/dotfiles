@@ -1,24 +1,117 @@
 /*{{{1 @property */
+@property --clienthmid {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --clientwmid {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
 @property --pixelw {
-  syntax: '<length>';
+  syntax: '<integer>';
   inherits: true;
   initial-value: 0;
 }
 @property --pixelh {
-  syntax: '<length>';
+  syntax: '<integer>';
   inherits: true;
   initial-value: 0;
 }
 @property --naturalw {
-  syntax: '<number>';
+  syntax: '<integer>';
   inherits: true;
   initial-value: 0;
 }
 @property --naturalh {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --naturalmax {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --naturalmin {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --fitmaxh {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.7;
+}
+@property --fitmaxw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.7;
+}
+@property --fith {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
+@property --fitw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --h-if-fitw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --h-if-fith {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --w-if-fitw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --w-if-fith {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --imfittedh {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --imfittedw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --imtop {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --imright {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --imbottom {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --imleft {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+
+/* Lengths */
 @property --px-imwidth {
   syntax: '<length>';
   inherits: true;
@@ -29,6 +122,38 @@
   inherits: true;
   initial-value: 0;
 }
+@property --px-imtop {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --px-imright {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --px-imbottom {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --px-imleft {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --px-pixelw {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --px-pixelh {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+
 @property --dot-c {
   syntax: '<color>';
   inherits: false;
@@ -149,13 +274,13 @@
     content: '';
     display: block;
     position: fixed;
-    top: var(--imtop);
-    left: var(--imleft);
+    top: var(--px-imtop);
+    left: var(--px-imleft);
     width: var(--px-imwidth);
     height: var(--px-imheight);
     box-sizing: content-box;
     --gridcolor: #1111;
-    --gridlinehalfthickness: 0.6px;
+    --gridlinehalfthickness: 0.5px;
     --gridlinefadeover: 0.2px;
 
     --glt: var(--gridlinehalfthickness);
@@ -164,25 +289,25 @@
       repeating-linear-gradient(
         to bottom,
         /*blue*/ var(--gch2) 0 var(--glt),
-        #0000 calc(var(--glt) + var(--glf)) var(--pixelw)
+        #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)
       ),
       repeating-linear-gradient(
         to bottom,
         /*red*/ var(--gch1) 0 var(--glt),
-        #0000 calc(var(--glt) + var(--glf)) var(--pixelw)
+        #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)
       ),
       repeating-linear-gradient(
         to right,
         /*yellow*/ var(--gcv1) 0 var(--glt),
-        #0000 calc(var(--glt) + var(--glf)) var(--pixelw)
+        #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)
       ),
       repeating-linear-gradient(
         to left,
         /*cyan*/ var(--gcv2) 0 var(--glt),
-        #0000 calc(var(--glt) + var(--glf)) var(--pixelw)
+        #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)
       );
     background-position: 0 0;
-    background-size: var(--pixelw) var(--pixelw);
+    background-size: var(--px-pixelw) var(--px-pixelw);
     --gch1: var(--gridcolor);
     --gch2: var(--gridcolor);
     --gcv1: var(--gridcolor);
@@ -729,133 +854,12 @@
   }
 }
 
-@property --clienthmid {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --clientwmid {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --imfittedh {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --imfittedw {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --naturalh {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --naturalw {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --naturalmax {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --naturalmin {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --fitmaxh {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0.7;
-}
-@property --fitmaxw {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0.7;
-}
-@property --fith {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --fitw {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --imtop {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --imright {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --imbottom {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --imleft {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --px-imtop {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --px-imright {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --px-imbottom {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --px-imleft {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --h-if-fitw {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --h-if-fith {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --w-if-fitw {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --w-if-fith {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-
 .tiny {
   margin: 0;
   top: var(--px-imtop);
   left: var(--px-imleft);
-  width: var(--px-imdisplayw);
-  height: var(--px-imdisplayh);
+  width: var(--px-imwidth);
+  height: var(--px-imheight);
 }
 :root {
   --clienthmid: calc(round(down, var(--clienth), 2) * 0.5);
@@ -882,7 +886,7 @@
   --imalignedw: calc(var(--pixelw) * var(--naturalw));
 
   --imtop: calc(var(--clienthmid) - (var(--imalignedh) * 0.5));
-  --imright: calc(var(--left) + var(--imalignedw));
+  --imright: calc(var(--imleft) + var(--imalignedw));
   --imbottom: calc(var(--imtop) + var(--imalignedh));
   --imleft: calc(var(--clientwmid) - (var(--imalignedw) * 0.5));
 
@@ -900,6 +904,9 @@
   --px-imright: calc(var(--imright) * 1px);
   --px-imbottom: calc(var(--imbottom) * 1px);
   --px-imleft: calc(var(--imleft) * 1px);
+
+  --px-pixelw: calc(var(--pixelw) * 1px);
+  --px-pixelh: calc(var(--pixelh) * 1px);
 }
 
 .output:where(
@@ -978,12 +985,12 @@
 .output.width {
   top: calc(var(--px-imtop) - 1lh - var(--endlength));
   left: var(--px-imleft);
-  width: var(--px-imdisplayw);
+  width: var(--px-imwidth);
 }
 .output.height {
   top: var(--px-imtop);
   right: var(--px-imright);
-  height: var(--px-imdisplayh);
+  height: var(--px-imheight);
 }
 .output.fitw {
   width: calc(var(--w-if-fitw) * 1px);
@@ -992,4 +999,56 @@
 .output.fith {
   width: calc(var(--w-if-fith) * 1px);
   height: calc(var(--h-if-fith) * 1px);
+}
+
+@media not print {
+  :root:has(.tgl.pix :checked):has(.tgl.grd :checked)::after {
+    pointer-events: none;
+    content: '';
+    display: block;
+    position: fixed;
+    top: var(--px-imtop);
+    left: var(--px-imleft);
+    width: var(--px-imwidth);
+    height: var(--px-imheight);
+    box-sizing: content-box;
+    --gridcolor: #1118;
+    --gridlinehalfthickness: 0.5px;
+    --gridlinefadeover: 0px;
+    --glt: var(--gridlinehalfthickness);
+    --glt2: calc(var(--glt) * 2);
+    --glf: var(--gridlinefadeover);
+    background: 
+/*       repeating-linear-gradient( 180deg, var(--gch1) 0 var(--glt), #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)), 
+      repeating-linear-gradient( 360deg, var(--gch2) 0 var(--glt), #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)),  */
+      repeating-linear-gradient(
+        450deg,
+        var(--gcv2) 0 var(--glt),
+        #0000 var(--glt) var(--px-pixelw)
+      ),
+      repeating-linear-gradient(
+        270deg,
+        var(--gcv2) 0 var(--glt),
+        #0000 var(--glt) var(--px-pixelw)
+      ),
+      /*      repeating-linear-gradient( 360deg, var(--gch1) 0 var(--glt), #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)), 
+      repeating-linear-gradient( 180deg, var(--gch2) 0 var(--glt), #0000 calc(var(--glt) + var(--glf)) var(--px-pixelw)),  */
+        linear-gradient(#0000);
+    background-position:
+      0 0,
+      100% 100%;
+    background-size: 100% calc(var(--px-pixelw) - var(--glt));
+    background-size: var(--px-pixelw) calc(var(--px-pixelw) - var(--glt));
+    background-repeat: round no-repeat;
+    background-repeat: space;
+    background-repeat: repeat-x;
+    --gch1: var(--gridcolor);
+    --gch2: var(--gridcolor);
+    --gcv1: var(--gridcolor);
+    --gcv2: var(--gridcolor);
+    --gch1: #111a;
+    --gch2: #aaa4;
+    --gcv1: #111a;
+    --gcv2: #aaaf;
+  }
 }

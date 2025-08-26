@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.187
+// @version     1.2.188
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -73,6 +73,8 @@ const initStandaloneImage = ({
     part(prefix, {
       class: `proto proto-${url.protocol.replaceAll(':', '')}`,
     });
+
+    linkpart(url.host, '/');
 
     parts.slice(1, -1).reduce((acc, cur) => {
       cur === '/' ? sep(cur) : linkpart(cur, acc);

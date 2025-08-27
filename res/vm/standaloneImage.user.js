@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.188
+// @version     1.2.197
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -122,6 +122,9 @@ const initStandaloneImage = ({
   const overlaid = GM_addElement(document.body, 'aside', {
     class: 'overlaid',
   });
+  const selection = GM_addElement(document.body, 'div', {
+    class: 'selection',
+  });
 
   const outputs = ((to) => ({
     breadcrumbs: breadcrumbs(to),
@@ -140,6 +143,11 @@ const initStandaloneImage = ({
     }),
     fitW: addOutput({ to, class: 'output fitw' }),
     fitH: addOutput({ to, class: 'output fith' }),
+    imdisplaywh: addOutput({ to, class: 'output two imdisplaywh' }),
+    imalignedwh: addOutput({ to, class: 'output two imalignedwh' }),
+    pixelwh: addOutput({ to, class: 'output two pixelwh' }),
+    imtopleft: addOutput({ to, class: 'output two imtopleft' }),
+    imbottomright: addOutput({ to, class: 'output two imbottomright' }),
   }))(overlaid);
 
   const toggles = ((to) => ({
@@ -186,6 +194,42 @@ const initStandaloneImage = ({
       checked: false,
     }),
   }))(viewmenu);
+
+  ((img) => {
+    const mousemove = (e) => {
+      document.body.style.setProperty('--selectXend', e.clientX);
+      document.body.style.setProperty('--selectYend', e.clientY);
+    };
+    const mousedown = (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      document.body.style.setProperty('--selectXstart', e.clientX);
+      document.body.style.setProperty('--selectYstart', e.clientY);
+      document.body.style.setProperty('--selectXend', e.clientX);
+      document.body.style.setProperty('--selectYend', e.clientY);
+      document.body.style.setProperty('--selecting', 1);
+      document.body.addEventListener('mousemove', mousemove, {});
+    };
+    const mouseup = (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      document.body.style.setProperty('--selectXend', e.clientX);
+      document.body.style.setProperty('--selectYend', e.clientY);
+      document.body.style.setProperty('--selecting', 0);
+      document.body.removeEventListener('mousemove', mousemove, {});
+    };
+    const click = (e) => {
+      if (document.body.style.getPropertyValue('--selecting') === 1) {
+        e.stopPropagation();
+        e.preventDefault();
+        document.body.style.setProperty('--selecting', 0);
+      }
+    };
+
+    img.addEventListener('mousedown', mousedown, {});
+    img.addEventListener('mouseup', mouseup, {});
+    document.body.addEventListener('click', click, {});
+  })(qs`img`.one);
 };
 
 const isStandaloneImage = (({ document }) => {

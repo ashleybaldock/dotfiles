@@ -179,6 +179,33 @@
   inherits: false;
   initial-value: 0.4;
 }
+
+/* Selection (mouse positions) */
+@property --selectXstart {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --selectYstart {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --selectXend {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --selectYend {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --selecting {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
 /*}}}1*/
 
 @media not print {
@@ -972,4 +999,82 @@
     width: calc(var(--w-if-fith) * 1px);
     height: calc(var(--h-if-fith) * 1px);
   }
+
+  /* .selection { */
+  /*   outline: var(--px-pixelw) dashed #f00; */
+  /*   position: fixed; */
+  /*   top: calc(var(--px-imtop) + (var(--minY) * 1px)); */
+  /*   left: calc(var(--px-imleft) + (var(--minX) * 1px)); */
+  /*   width: calc((var(--maxX) - var(--minX)) * 1px); */
+  /*   height: calc((var(--maxY) - var(--minY)) * 1px); */
+  /*   display: flex; */
+  /*   --minX: min(var(--Xs), var(--Xe)); */
+  /*   --maxX: max(var(--Xs), var(--Xe)); */
+  /*   --minY: min(var(--Ys), var(--Ye)); */
+  /*   --maxY: max(var(--Ys), var(--Ye)); */
+  /*   --Xs: round(down, calc(var(--selectXstart) - var(--imleft)), var(--pixelw)); */
+  /*   --Xe: round(down, calc(var(--selectXend) - var(--imleft)), var(--pixelw)); */
+  /*   --Ys: round(down, calc(var(--selectYstart) - var(--imtop)), var(--pixelw)); */
+  /*   --Ye: round(down, calc(var(--selectYend) - var(--imtop)), var(--pixelw)); */
+  /*   outline-offset: 0; */
+  /*   background-color: #f008; */
+  /*   border: 0; */
+  /*   padding: 0; */
+  /* } */
+@property --off {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
 }
+@keyframes ants {
+  0% {
+    --off: 0px;
+  }
+  100% {
+    --off: 4px;
+  }
+}
+
+   .selection {
+    position: fixed;
+    pointer-events: none;
+    top: calc(var(--px-imtop) - var(--linew) + (var(--minY) * 1px));
+    left: calc(var(--px-imleft) - var(--linew) + (var(--minX) * 1px));
+    width: max(calc((var(--maxX) - var(--minX)) * 1px), var(--px-pixelw));
+    height: max(calc((var(--maxY) - var(--minY)) * 1px), var(--px-pixelw));
+    display: flex;
+    --minX: min(var(--Xs), var(--Xe));
+    --maxX: max(var(--Xs), var(--Xe));
+    --minY: min(var(--Ys), var(--Ye));
+    --maxY: max(var(--Ys), var(--Ye));
+    --Xs: round(down, calc(var(--selectXstart) - var(--imleft)), var(--pixelw));
+    --Xe: round(nearest, calc(var(--selectXend) - var(--imleft)), var(--pixelw));
+    --Ys: round(down, calc(var(--selectYstart) - var(--imtop)), var(--pixelw));
+    --Ye: round(nearest, calc(var(--selectYend) - var(--imtop)), var(--pixelw));
+    background-color: #0000;
+    padding: 0;
+    --linew: 1px;
+     box-sizing: content-box;
+     box-shadow: 0 0 min(var(--px-pixelw), 0.5vw) -1px #000, inset 0 0 min(var(--px-pixelw), 0.5vw) -1px #000;
+    background-origin: border-box;
+    background-clip: border-box;
+     border-radius: 1px;
+    border: var(--linew) solid #0000;
+    background-size: var(--linew) 100%, 100% var(--linew),var(--linew) 100%, 100% var(--linew);
+    background-position: top left, top left, bottom right, bottom right;
+    background-repeat: no-repeat;
+    --rp: 309%;
+    background-image:
+      repeating-linear-gradient(0deg, var(--scl) var(--yoff) calc(var(--yoff) + var(--bgs2)), var(--scd) calc(var(--yoff) + var(--bgs2)) calc(var(--yoff) + var(--bgs))),
+      repeating-linear-gradient(90deg, var(--scl) var(--xoff) calc(var(--xoff) + var(--bgs2)),  var(--scd) calc(var(--xoff) + var(--bgs2)) calc(var(--xoff) + var(--bgs))),
+      repeating-linear-gradient(180deg, var(--scl) var(--yoff) calc(var(--yoff) + var(--bgs2)),  var(--scd) calc(var(--yoff) + var(--bgs2)) calc(var(--yoff) + var(--bgs))),
+      repeating-linear-gradient(270deg, var(--scl) var(--xoff) calc(var(--xoff) + var(--bgs2)),  var(--scd) calc(var(--xoff) + var(--bgs2)) calc(var(--xoff) + var(--bgs)));
+    animation: forwards ants infinite 300ms linear;
+    --bgs2: calc(var(--bgs) * 0.5);
+    --bgs: 4px;
+    --xoff: var(--off);
+    --yoff: var(--off);
+    --off: 14px;
+     --scl: #fff;
+     --scd: #000;
+  }

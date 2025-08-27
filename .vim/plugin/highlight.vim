@@ -276,7 +276,10 @@ function! s:UpdateSynFoBuffer(winid)
 " ⎢╶─╴wincolor╶─────────────────────────────────────────╴⎥
 " ⎢     ╰‣️BaseWin❘𝟤𝟥𝟦❘􀮵        􀂓 􀯮 􀂒 􂏾   􀅓􀅔􀅕􀅖􀨡  ⎥
 " ⎢                                                      ⎥
-" ⎢                                                      ⎥
+" ⎢ ⎧ cᷟ⃝     ⎫                                         ⎥
+" ⎢ ╰⎧ c    ⎪                                      ⎥
+" ⎢  ╰⎧ ◌ᷟ   ⎪                                 ⎥
+" ⎢   ╰{️ ◌⃝  ⎭                           ⎥
 " ⎢                                                      ⎥
 " ⎝  𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦                             ⎠
 
@@ -771,3 +774,6 @@ command! -bar -nargs=1 HiDefinition exec ':norm f HiDefinition(<f-args>)
 " ⎢     34: ┃  ⫘⃗  Constant􀮵                             ⎥
 " ⎢ ᴅ  424: ┠╴cssUrl􀮶           􀂓 􀯮 􀂒 􀅓􀅔􀅕􀅖􀨡􂏾    ⎥
 " ⎢  ᴄ 111: ┠╴cssParam           􀂓 􀯮 􀂒 􀅓􀅔􀅕􀅖􀨡􂏾    ⎥
+" ╭    ╮ ╭    ╮ ╭    ╮ ╭    ╮ 
+" │ cᷟ⃝  │:{️ c }️│‥│ ◌ᷟ○ᷟ︎ │‥│ ◌⃝  │ 
+" ╰    ╯ ╰    ╯ ╰    ╯ ╰    ╯ 

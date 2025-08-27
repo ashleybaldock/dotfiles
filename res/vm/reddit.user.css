@@ -514,3 +514,43 @@ shreddit-sort-dropdown {
   /*   display: none; */
   /*   background-color: #f00; */
 }
+
+:not(#u#n#i) gallery-carousel {
+  height: 100%;
+  display: grid;
+  grid-auto-flow: row dense;
+  transition: transform ease-out;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none;
+  position: relative;
+  gap: var(--carousel-gap);
+  margin: 0 !important;
+  padding: 0 !important;
+  grid-auto-flow: row dense;
+}
+
+:not(#u#n#i)
+  :where(
+    shreddit-post[post-type='gallery'],
+    [bundlename='gallery_carousel'],
+    faceplate-batch,
+    shreddit-feed
+  ) {
+  display: contents !important;
+}
+:not(#u#n#i)
+  :where(
+    shreddit-async-loader[bundlename='navigation_links'],
+    navigation-indicator
+  ) {
+  display: none !important;
+}
+:not(#u#n#i) #subgrid-container {
+  padding: 0;
+}
+
+:not(#u#n#i) gallery-carousel > ul {
+  padding-left: 0;
+  margin: 0;
+}

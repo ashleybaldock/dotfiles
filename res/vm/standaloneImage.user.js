@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.211
+// @version     1.2.248
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -242,50 +242,112 @@ const initStandaloneImage = ({
     }),
   }))(viewmenu);
 
-  (({ img, document: { body } }) => {
+  (({ document: { body } }) => {
+    const selecting = () => body.dataset.selecting !== undefined;
+    const selection = () => body.dataset.selection !== undefined;
+
     const updateSelection = ({ clientX, clientY }) => {
-      body.style.setProperty('--selectXend', clientX);
-      body.style.setProperty('--selectYend', clientY);
+      body.dataset.selecting !== 'vertical' &&
+        body.style.setProperty('--selectXend', clientX);
+      body.dataset.selecting !== 'horizontal' &&
+        body.style.setProperty('--selectYend', clientY);
     };
     const clearSelection = () => {
+      delete body.dataset.selecting;
+      delete body.dataset.selection;
       body.style.removeProperty('--selectXstart');
       body.style.removeProperty('--selectYstart');
       body.style.removeProperty('--selectXend');
       body.style.removeProperty('--selectYend');
-      delete body.dataset.selecting;
-      delete body.dataset.selection;
     };
-    const endSelection = ({ clientX, clientY }) => {
-      body.removeEventListener('mousemove', updateSelection, {});
-      body.style.setProperty('--selectXend', clientX);
-      body.style.setProperty('--selectYend', clientY);
+    const endSelection = (e) => {
+      updateSelection(e);
       delete body.dataset.selecting;
+      body.removeEventListener('mousemove', mousemove, {});
       body.dataset.selection = '';
     };
     const cancelSelection = () => {
-      body.removeEventListener('mousemove', updateSelection, {});
       delete body.dataset.selecting;
-      clearSelection();
+      body.removeEventListener('mousemove', mousemove, {});
     };
     const beginSelection = ({ clientX, clientY }) => {
+      body.dataset.selecting = '';
       body.style.setProperty('--selectXstart', clientX);
       body.style.setProperty('--selectYstart', clientY);
       body.style.setProperty('--selectXend', clientX);
       body.style.setProperty('--selectYend', clientY);
-      body.dataset.selecting = '';
-      body.addEventListener('mousemove', updateSelection, {});
+      body.addEventListener('mousemove', mousemove, {});
+    };
+    const resumeSelection = ({ target: { classList } }) => {
+      const sX = body.style.getPropertyValue('--selectXstart');
+      const sY = body.style.getPropertyValue('--selectYstart');
+      const eX = body.style.getPropertyValue('--selectXend');
+      const eY = body.style.getPropertyValue('--selectYend');
+
+      const [minX, maxX] = sX > eX ? [eX, sX] : [sX, eX];
+      const [minY, maxY] = sY > eY ? [eY, sY] : [sY, eY];
+
+      const top = classList.contains('top'),
+        right = classList.contains('right'),
+        bottom = classList.contains('bottom'),
+        left = classList.contains('left');
+
+      if (top) {
+        body.style.setProperty('--selectYstart', maxY);
+        body.style.setProperty('--selectYend', minY);
+        body.dataset.selecting = left || right ? '' : 'vertical';
+      }
+      if (bottom) {
+        body.style.setProperty('--selectYstart', minY);
+        body.style.setProperty('--selectYend', maxY);
+        body.dataset.selecting = left || right ? '' : 'vertical';
+      }
+      if (left) {
+        body.style.setProperty('--selectXstart', maxX);
+        body.style.setProperty('--selectXend', minX);
+        body.dataset.selecting = top || bottom ? '' : 'horizontal';
+      }
+      if (right) {
+        body.style.setProperty('--selectXstart', minX);
+        body.style.setProperty('--selectXend', maxX);
+        body.dataset.selecting = top || bottom ? '' : 'horizontal';
+      }
+
+      body.addEventListener('mousemove', mousemove, {});
+    };
+
+    const mousemove = (e) => {
+      const { pressed } = buttonsPressed(e);
+      if (selecting()) {
+        if (pressed.left) {
+          updateSelection(e);
+        } else {
+          endSelection(e);
+        }
+      }
     };
 
     const mousedown = (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      clearSelection();
-      beginSelection(e);
+      const { trigger } = buttonsPressed(e);
+      if (trigger.left) {
+        e.preventDefault();
+        if (e.target.classList.contains('handle')) {
+          e.stopPropagation();
+          resumeSelection(e);
+        } else {
+          clearSelection();
+          beginSelection(e);
+        }
+      }
     };
     const mouseup = (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      endSelection(e);
+      const { trigger, pressed } = buttonsPressed(e);
+      // console.debug(buttonsPressed(e));
+      if (selecting() && (trigger.left || !pressed.left)) {
+        // e.stopPropagation();
+        e.preventDefault();
+        endSelection(e);
+      }
     };
     // const click = (e) => {
     //   if (body.dataset.selecting !== undefined) {
@@ -295,12 +357,12 @@ const initStandaloneImage = ({
     //   }
     // };
     const keydown = ({ code }) => {
-      if (body.dataset.selecting !== undefined) {
+      if (selecting()) {
         if (code === 'Escape') {
           cancelSelection();
         }
       } else {
-        if (body.dataset.selection !== undefined) {
+        if (selection()) {
           if (code === 'Escape') {
             clearSelection();
           }
@@ -308,8 +370,8 @@ const initStandaloneImage = ({
       }
     };
 
-    img.addEventListener('mousedown', mousedown, {});
-    img.addEventListener('mouseup', mouseup, {});
+    body.addEventListener('mousedown', mousedown, {});
+    body.addEventListener('mouseup', mouseup, {});
     // body.addEventListener('click', click, {});
     body.addEventListener('keydown', keydown, {});
   })({ img: qs`img`.one, document });

@@ -267,6 +267,7 @@
     --z-toggles-menu: 3;
     --z-toggles-item: 4;
     --z-selection: 10;
+    --z-selection-corner: 12;
     --z-selection-handle: 14;
   }
   :root:has(.tgl.sun :checked) {
@@ -1057,6 +1058,7 @@
   }
 
   .selection {
+    visibility: hidden;
     position: fixed;
     pointer-events: none;
     top: calc(var(--px-imtop) - var(--linew) + (var(--minY) * 1px));
@@ -1141,10 +1143,12 @@
     pointer-events: auto;
     cursor: grab;
   }
+  :where([data-selection], [data-selecting]) > .selection {
+    visibility: visible;
+  }
   .selection > .handle {
     z-index: var(--z-selection-handle);
     pointer-events: auto;
-    display: flex;
     position: absolute;
     width: var(--size);
     height: auto;
@@ -1162,6 +1166,23 @@
     bottom: calc(50% - var(--half));
     left: calc(50% - var(--half));
     right: calc(50% - var(--half));
+    display: grid;
+    grid-template: 1fr / 1fr;
+  }
+  .selection > .handle:hover {
+    transform: scale(1.2);
+  }
+  .selection > .handle::before {
+    content: '';
+    width: max(calc(var(--size) * 3), calc(var(--px-pixelw) * 2));
+    height: auto;
+    aspect-ratio: 1;
+    display: flex;
+    box-shadow: inset 0 0 1px 1px #f0f4;
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+    place-self: center;
+    position: absolute;
   }
 
   .selection > .handle.top {
@@ -1187,15 +1208,24 @@
 
   .selection > .handle.top.right {
     cursor: nesw-resize;
+    z-index: var(--z-selection-corner);
   }
   .selection > .handle.bottom.left {
     cursor: nesw-resize;
+    z-index: var(--z-selection-corner);
   }
 
   .selection > .handle.top.left {
+    z-index: var(--z-selection-corner);
     cursor: nwse-resize;
   }
   .selection > .handle.bottom.right {
+    z-index: var(--z-selection-corner);
     cursor: nwse-resize;
+  }
+  [data-selecting] .selection,
+  [data-selecting] .selection > .handle {
+    visibility: visible;
+    pointer-events: none;
   }
 }

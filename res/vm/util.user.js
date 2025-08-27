@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.2
+// @version     1.1.3
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -61,6 +61,29 @@ const tee = (({ console }) => {
   );
   return base;
 })(window);
+
+/**
+ * Represents button states for MouseEvents
+ *
+ * pressed: buttons pressed when the event happened
+ * trigger: button that caused the event
+ *
+ * e.g. const { pressed, trigger } = buttonsPressed(e);
+ */
+const buttonsPressed = ({ button, buttons }) => ({
+  pressed: Object.fromEntries(
+    ['left', 'right', 'wheel', 'back', 'forward'].reduce(
+      (acc, cur, i) => [...acc, [cur, Boolean(buttons & (1 << i))]],
+      [],
+    ),
+  ),
+  trigger: Object.fromEntries(
+    ['left', 'wheel', 'right', 'back', 'forward'].reduce(
+      (acc, cur, i) => [...acc, [cur, i === button]],
+      [],
+    ),
+  ),
+});
 
 /*}}}1*/
 /**

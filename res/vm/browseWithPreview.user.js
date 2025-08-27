@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.127
+// @version     1.0.130
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -46,10 +46,10 @@ const addToggle = ({
   to,
   tag = 'input',
   type = 'checkbox',
-  checked = false,
+  bindTo,
+  checked = bindTo?.value ?? false,
   textContent = '',
   icon = null,
-  bindTo,
   ...attrs
 } = {}) => {
   const div = GM_addElement(to, 'div', {
@@ -64,6 +64,16 @@ const addToggle = ({
   const input = GM_addElement(label, tag, {
     type,
     ...(checked ? { checked: '' } : {}),
+  });
+  input.addEventListener(
+    'change',
+    (e) => {
+      bindTo.value = e.target.checked;
+    },
+    {},
+  );
+  bindTo.subscribe((checked) => {
+    input.checked = checked;
   });
   return div;
 };
@@ -431,8 +441,8 @@ const initBrowsePreview = ({ document }) => {
       container.style.setProperty('--s-playerCount', `'${newPlayerCount}'`);
     };
 
-    const unsub = config.subscribe_maxInterleaved(updateMediaPlayerCount);
-    updateMediaPlayerCount(config.maxInterleaved);
+    const unsub = config.maxInterleaved.subscribe(updateMediaPlayerCount);
+    updateMediaPlayerCount(config.maxInterleaved.value);
 
     const grid = (showAsGrid = !_showAsGrid) => {
       if (_showAsGrid !== showAsGrid) {

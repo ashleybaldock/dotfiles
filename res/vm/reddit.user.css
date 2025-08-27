@@ -484,3 +484,33 @@ shreddit-sort-dropdown {
   grid-row-gap: 0.2em;
   margin: 0.2em 0;
 }
+
+:not(#u#n#i) shreddit-post {
+  transform: translate(0, 0) scale(0.8);
+  transform-origin: right;
+  grid-template-columns: [content-start credit-start title-start] 3fr [info-start credit-end flair-start] 2fr [flair-end info-end] 30fr [title-end content-end];
+  margin-bottom: -30px;
+}
+:not(#u#n#i) shreddit-post .text-neutral-content {
+  grid-area: content;
+  margin-bottom: -20px;
+  transform: translate(0, -20px) scale(1.26);
+  transform-origin: top right;
+  /*   background-color: #111; */
+  z-index: 10000;
+}
+:not(#u#n#i) shreddit-post::before {
+  margin-right: 20px;
+  transform: translate(0, -20px) scale(1.26);
+  transform-origin: bottom right;
+}
+[bundlename='comment_body_header'] {
+  display: grid;
+  transform: translate(0px, -30px) scale(0.8);
+  transform-origin: top left;
+}
+[bundlename='comment_body_header'] > * {
+  /*! display: contents; */
+  /*   display: none; */
+  /*   background-color: #f00; */
+}

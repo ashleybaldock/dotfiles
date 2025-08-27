@@ -268,6 +268,9 @@ command! -bar -nargs=? -count=16 UnicodepointsCountFromChar
 " e.g. :UnicodepointsBetween Z A
 " -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
 "
+" '<,'>s/^\(. .\).*$/\=ExecAndReturn("UnicodepointsBetween " .. submatch(1))/
+"  
+"
 function s:UnicodepointsBetween(
       \ from = s:GetLineFromCursor(),
       \ to = nr2char(char2nr(a:fromchar) + 16)) abort

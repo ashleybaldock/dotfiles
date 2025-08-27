@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.7
+// @version     1.1.8
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -24,13 +24,13 @@ const defaultCssBaseUrl = 'http://localhost:3333/vm/';
 
 /*{{{1 Utility */
 
-(({ document: { body } }) => {
-  const cssOQN = (el) =>
-    `${el.tagName.toLowerCase()}${[...new Set(['', el.id])].join('#')}${[
-      '',
-      ...el.classList,
-    ].join('.')}`;
+const cssOQN = (el) =>
+  `${el.tagName.toLowerCase()}${[...new Set(['', el.id])].join('#')}${[
+    '',
+    ...el.classList,
+  ].join('.')}`;
 
+(({ document: { body } }) => {
   const checkNode = (el) => {
     [...el.children]
       .map((child) => {

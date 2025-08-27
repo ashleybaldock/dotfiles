@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.197
+// @version     1.2.211
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -116,6 +116,19 @@ const initStandaloneImage = ({
     return li;
   };
 
+  const addSelectionHandle = ({
+    to,
+    select: { top = false, right = false, bottom = false, left = false },
+    textContent = '',
+    ...attrs
+  }) => {
+    return GM_addElement(to, 'div', {
+      class: `handle${top ? ' top' : ''}${right ? ' right' : ''}${bottom ? ' bottom' : ''}${left ? ' left' : ''}`,
+      textContent,
+      ...attrs,
+    });
+  };
+
   const viewmenu = GM_addElement(document.body, 'menu', {
     class: 'viewmenu toggles',
   });
@@ -125,6 +138,40 @@ const initStandaloneImage = ({
   const selection = GM_addElement(document.body, 'div', {
     class: 'selection',
   });
+  const selectionHandles = ((to) => ({
+    top: addSelectionHandle({
+      to,
+      select: { top: true },
+    }),
+    topright: addSelectionHandle({
+      to,
+      select: { top: true, right: true },
+    }),
+    right: addSelectionHandle({
+      to,
+      select: { right: true },
+    }),
+    bottomright: addSelectionHandle({
+      to,
+      select: { bottom: true, right: true },
+    }),
+    bottom: addSelectionHandle({
+      to,
+      select: { bottom: true },
+    }),
+    bottomleft: addSelectionHandle({
+      to,
+      select: { bottom: true, left: true },
+    }),
+    left: addSelectionHandle({
+      to,
+      select: { left: true },
+    }),
+    topleft: addSelectionHandle({
+      to,
+      select: { top: true, left: true },
+    }),
+  }))(selection);
 
   const outputs = ((to) => ({
     breadcrumbs: breadcrumbs(to),
@@ -195,41 +242,77 @@ const initStandaloneImage = ({
     }),
   }))(viewmenu);
 
-  ((img) => {
-    const mousemove = (e) => {
-      document.body.style.setProperty('--selectXend', e.clientX);
-      document.body.style.setProperty('--selectYend', e.clientY);
+  (({ img, document: { body } }) => {
+    const updateSelection = ({ clientX, clientY }) => {
+      body.style.setProperty('--selectXend', clientX);
+      body.style.setProperty('--selectYend', clientY);
     };
+    const clearSelection = () => {
+      body.style.removeProperty('--selectXstart');
+      body.style.removeProperty('--selectYstart');
+      body.style.removeProperty('--selectXend');
+      body.style.removeProperty('--selectYend');
+      delete body.dataset.selecting;
+      delete body.dataset.selection;
+    };
+    const endSelection = ({ clientX, clientY }) => {
+      body.removeEventListener('mousemove', updateSelection, {});
+      body.style.setProperty('--selectXend', clientX);
+      body.style.setProperty('--selectYend', clientY);
+      delete body.dataset.selecting;
+      body.dataset.selection = '';
+    };
+    const cancelSelection = () => {
+      body.removeEventListener('mousemove', updateSelection, {});
+      delete body.dataset.selecting;
+      clearSelection();
+    };
+    const beginSelection = ({ clientX, clientY }) => {
+      body.style.setProperty('--selectXstart', clientX);
+      body.style.setProperty('--selectYstart', clientY);
+      body.style.setProperty('--selectXend', clientX);
+      body.style.setProperty('--selectYend', clientY);
+      body.dataset.selecting = '';
+      body.addEventListener('mousemove', updateSelection, {});
+    };
+
     const mousedown = (e) => {
       e.stopPropagation();
       e.preventDefault();
-      document.body.style.setProperty('--selectXstart', e.clientX);
-      document.body.style.setProperty('--selectYstart', e.clientY);
-      document.body.style.setProperty('--selectXend', e.clientX);
-      document.body.style.setProperty('--selectYend', e.clientY);
-      document.body.style.setProperty('--selecting', 1);
-      document.body.addEventListener('mousemove', mousemove, {});
+      clearSelection();
+      beginSelection(e);
     };
     const mouseup = (e) => {
       e.stopPropagation();
       e.preventDefault();
-      document.body.style.setProperty('--selectXend', e.clientX);
-      document.body.style.setProperty('--selectYend', e.clientY);
-      document.body.style.setProperty('--selecting', 0);
-      document.body.removeEventListener('mousemove', mousemove, {});
+      endSelection(e);
     };
-    const click = (e) => {
-      if (document.body.style.getPropertyValue('--selecting') === 1) {
-        e.stopPropagation();
-        e.preventDefault();
-        document.body.style.setProperty('--selecting', 0);
+    // const click = (e) => {
+    //   if (body.dataset.selecting !== undefined) {
+    //     e.stopPropagation();
+    //     e.preventDefault();
+    //     delete body.dataset.selecting;
+    //   }
+    // };
+    const keydown = ({ code }) => {
+      if (body.dataset.selecting !== undefined) {
+        if (code === 'Escape') {
+          cancelSelection();
+        }
+      } else {
+        if (body.dataset.selection !== undefined) {
+          if (code === 'Escape') {
+            clearSelection();
+          }
+        }
       }
     };
 
     img.addEventListener('mousedown', mousedown, {});
     img.addEventListener('mouseup', mouseup, {});
-    document.body.addEventListener('click', click, {});
-  })(qs`img`.one);
+    // body.addEventListener('click', click, {});
+    body.addEventListener('keydown', keydown, {});
+  })({ img: qs`img`.one, document });
 };
 
 const isStandaloneImage = (({ document }) => {

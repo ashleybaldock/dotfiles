@@ -1,0 +1,85 @@
+.squares {
+  display: grid;
+  width: auto;
+  column-gap: 0;
+  row-gap: 0;
+  --size: calc(100cqw / var(--nw));
+  --nw: 22;
+  grid-template-columns: repeat(var(--nw), 1fr);
+  grid-template-rows: repeat(var(--nh), 1fr);
+  --nh: 30;
+  height: auto;
+  aspect-ratio: calc(var(--nw) / var(--nh));
+  min-height: unset;
+  min-width: unset;
+  margin: 0 8px;
+  background-color: #1a1a1a;
+  background-image:
+    repeating-linear-gradient(90deg, #111 0 1px, #1110 1px var(--size)),
+    repeating-linear-gradient(0deg, #111 0 1px, #1110 1px var(--size));
+  background-size: calc(100% / var(--nw)) calc(100% / var(--nh));
+  background-origin: content-box;
+  box-shadow:
+    inset -1px -1px 3px -2px #fff,
+    inset 1px 1px 3px -2px #000;
+}
+:root,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  max-width: 100vw;
+}
+/* .squares::before { */
+/*   grid-row: 2/5; */
+/*   grid-column: 1 / calc(var(--nw) * 0.5 + 1); */
+/*   display: grid; */
+/*   background-color: #f00; */
+/*   content: 'A'; */
+/*   align-items: center; */
+/*   justify-items: center; */
+/*   line-height: normal; */
+/*   font-size: var(--size); */
+/*   box-shadow: */
+/*     inset 1px 1px 3px -2px #fff, */
+/*     inset -1px -1px 3px -2px #000; */
+/* } */
+/* .squares::after { */
+/*   grid-row: 8/15; */
+/*   grid-column: calc(var(--nw) * 0.5) / -1; */
+/*   display: grid; */
+/*   background-color: #00f; */
+/*   content: 'B'; */
+/*   align-items: center; */
+/*   justify-items: center; */
+/*   font-size: calc(100cqw / var(--nw)); */
+/*   line-height: normal; */
+/*   box-shadow: */
+/*     inset 1px 1px 3px -2px #fff, */
+/*     inset -1px -1px 3px -2px #000; */
+/* } */
+
+.squares > .square {
+  --xa: var(--x1) / var(--x2);
+  --xb: var(--x) / calc(var(--x) + var(--w));
+  --xx: var(--xa, var(--xb));
+  grid-column: var(--xx);
+
+  --ya: var(--y1) / var(--y2);
+  --yb: var(--y) / calc(var(--y) + var(--h));
+  --yy: var(--ya, var(--yb));
+  grid-row: var(--yy);
+  display: grid;
+  background-color: var(--c, #0f04);
+  align-items: center;
+  justify-items: center;
+  font-size: calc(100cqw / var(--nw));
+  line-height: 0;
+  text-shadow: var(--text-outline-thick);
+  box-shadow:
+    inset 1px 1px 3px -2px #fff,
+    inset -1px -1px 3px -2px #000;
+}
+.square::after {
+  content: var(--t, '?');
+}

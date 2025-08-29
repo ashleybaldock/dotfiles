@@ -30,36 +30,28 @@ body {
   width: 100vw;
   max-width: 100vw;
 }
-/* .squares::before { */
-/*   grid-row: 2/5; */
-/*   grid-column: 1 / calc(var(--nw) * 0.5 + 1); */
-/*   display: grid; */
-/*   background-color: #f00; */
-/*   content: 'A'; */
-/*   align-items: center; */
-/*   justify-items: center; */
-/*   line-height: normal; */
-/*   font-size: var(--size); */
-/*   box-shadow: */
-/*     inset 1px 1px 3px -2px #fff, */
-/*     inset -1px -1px 3px -2px #000; */
-/* } */
-/* .squares::after { */
-/*   grid-row: 8/15; */
-/*   grid-column: calc(var(--nw) * 0.5) / -1; */
-/*   display: grid; */
-/*   background-color: #00f; */
-/*   content: 'B'; */
-/*   align-items: center; */
-/*   justify-items: center; */
-/*   font-size: calc(100cqw / var(--nw)); */
-/*   line-height: normal; */
-/*   box-shadow: */
-/*     inset 1px 1px 3px -2px #fff, */
-/*     inset -1px -1px 3px -2px #000; */
-/* } */
+@property --a {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+@property --t {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '?';
+}
 
-.squares > .square {
+.group {
+  grid-column: 1/-1;
+  grid-row: 1/-1;
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-template-columns: subgrid;
+  pointer-events: none;
+}
+.squares > .square,
+.squares > .group > .square {
+  --a: 60%;
   --xa: var(--x1) / var(--x2);
   --xb: var(--x) / calc(var(--x) + var(--w));
   --xx: var(--xa, var(--xb));
@@ -70,16 +62,21 @@ body {
   --yy: var(--ya, var(--yb));
   grid-row: var(--yy);
   display: grid;
-  background-color: var(--c, #0f04);
+  background-color: hsl(from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--a));
+  border-radius: 3px;
   align-items: center;
   justify-items: center;
-  font-size: calc(100cqw / var(--nw));
   line-height: 0;
   text-shadow: var(--text-outline-thick);
   box-shadow:
-    inset 1px 1px 3px -2px #fff,
-    inset -1px -1px 3px -2px #000;
+    inset 1px 1px 3px -2px hsl(from #fff h s l / calc(var(--a) * 0.6)),
+    inset -1px -1px 3px -2px hsl(from #000 h s l / calc(var(--a) * 0.6));
+  pointer-events: all;
 }
 .square::after {
   content: var(--t, '?');
+}
+.squares > .square:hover,
+.squares > .group:has(> .square:hover) > .square {
+  --a: 100%;
 }

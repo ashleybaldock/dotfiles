@@ -38,7 +38,7 @@ body {
 @property --t {
   syntax: '<string>';
   inherits: true;
-  initial-value: '?';
+  initial-value: '';
 }
 
 .group {
@@ -49,8 +49,20 @@ body {
   grid-template-columns: subgrid;
   pointer-events: none;
 }
+.squares label {
+  padding: 0 1ch;
+  --c: #555a;
+  white-space: nowrap;
+  height: var(--size);
+  width: fit-content;
+  place-self: center start;
+}
+.squares label.end {
+  place-self: center end;
+}
 .squares > .square,
-.squares > .group > .square {
+.squares > .group > .square,
+.squares > .group > label {
   --a: 60%;
   --xa: var(--x1) / var(--x2);
   --xb: var(--x) / calc(var(--x) + var(--w));
@@ -74,9 +86,9 @@ body {
   pointer-events: all;
 }
 .square::after {
-  content: var(--t, '?');
+  content: var(--t, '');
 }
 .squares > .square:hover,
-.squares > .group:has(> .square:hover) > .square {
+.squares > .group:has(> .square:hover, > label:hover) > :is(.square, label) {
   --a: 100%;
 }

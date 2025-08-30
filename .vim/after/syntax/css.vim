@@ -697,15 +697,14 @@ syn match cssImportant conceal contained "!\@1<=\s*important\>"
 
 
 " Concealing - hacks
-syn match cssImportant
+syn match specificity
       \ /:\zenot(\_s*\%[#u#n#i#m#p#o#r#t#a#n#t]\_s*)/
-      \ conceal cchar=! contains=NONE
-syn match cssImportant
-      \ /:\@1<=n\zeot(\_s*\%[#u#n#i#m#p#o#r#t#a#n#t]\_s*)/
-      \ conceal cchar=! contains=NONE
-syn match cssImportant
-      \ /:n\@2<=ot(\_s*\%[#u#n#i#m#p#o#r#t#a#n#t]\_s*)/
-      \ conceal cchar=! contains=NONE
+      \ conceal cchar=􀣴 contains=NONE
+syn match specificity
+      \ /:\@1<=not(\_s*\%[#u#n#i#m#p#o#r#t#a#n#t]\_s*)/
+      \ conceal contains=NONE
+
+hi def link specificity cssImportant
 
 "
 " Concealing - frivolous

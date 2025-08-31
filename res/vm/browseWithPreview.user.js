@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.130
+// @version     1.0.136
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -91,6 +91,8 @@ const addWrappedVideo = (
   video.addEventListener(
     'play',
     ({ target: { id } }) => {
+      const idx = wrapper.style.getPropertyValue('--playerIdx');
+
       video.classList.remove('paused');
       video.classList.add('playing');
 
@@ -102,14 +104,17 @@ const addWrappedVideo = (
         .forEach((tr) => {
           tr.classList.remove('paused');
           tr.classList.add('playing');
-          tr.dataset.playerid = options.class;
-          video.addEventListener(
-            'ended',
-            () => {
-              tr.dataset.playerid = '';
-            },
-            { once: true },
-          );
+          tr.style.setProperty('--playerIdx', idx);
+          tr.style.setProperty('--s-playerIdx', `'${idx}'`);
+
+          const undo = () => {
+            tr.classList.remove('playing');
+            tr.classList.add('played');
+            tr.style.removeProperty('--playerIdx');
+            tr.style.removeProperty('--s-playerIdx');
+          };
+          video.addEventListener('ended', undo, { once: true });
+          video.addEventListener('loadstart', undo, { once: true });
         });
     },
     {},
@@ -117,6 +122,8 @@ const addWrappedVideo = (
   video.addEventListener(
     'pause',
     ({ target: { id } }) => {
+      const idx = wrapper.style.getPropertyValue('--playerIdx');
+
       video.classList.remove('playing');
       video.classList.add('paused');
 
@@ -128,7 +135,8 @@ const addWrappedVideo = (
         .forEach((tr) => {
           tr.classList.remove('playing');
           tr.classList.add('paused');
-          tr.dataset.playerid = options.class;
+          tr.style.setProperty('--playerIdx', idx);
+          tr.style.setProperty('--s-playerIdx', `'${idx}'`);
         });
     },
     {},
@@ -437,8 +445,8 @@ const initBrowsePreview = ({ document }) => {
           mediaPlayer.classList.add('off');
         }
       });
-      container.style.setProperty('--playerCount', newPlayerCount);
-      container.style.setProperty('--s-playerCount', `'${newPlayerCount}'`);
+      body.style.setProperty('--playerCount', newPlayerCount);
+      body.style.setProperty('--s-playerCount', `'${newPlayerCount}'`);
     };
 
     const unsub = config.maxInterleaved.subscribe(updateMediaPlayerCount);

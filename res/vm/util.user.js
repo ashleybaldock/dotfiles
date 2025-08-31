@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.8
+// @version     1.1.25
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -338,8 +338,8 @@ const matchExistsFor = (selector, { root = 'body' } = {}) => {
  *   root - Defaults to 'body', root node for querySelectorAll
  * based on https://github.com/sindresorhus/dom-mutations/blob/main/index.js
  */
-const waitForMatches = (selector, { signal, root = 'body' } = {}) => ({
-  async *[Symbol.asyncIterator]() {
+const waitForMatches = (selector, { signal, root = 'body' } = {}) => {
+  async function* matchGenerator() {
     signal?.throwIfAborted();
 
     let { promise, resolve, reject } = Promise.withResolvers();
@@ -347,12 +347,11 @@ const waitForMatches = (selector, { signal, root = 'body' } = {}) => ({
 
     const lookForNewMatches = (/* mutations, observer */) =>
       resolve(
-        document
-          .querySelectorAll(selector)
+        [...document.querySelectorAll(selector)]
           .filter((node) =>
             seenBefore.has(node) ? false : seenBefore.add(node) && true,
           )
-          .entries(),
+          .values(),
       );
 
     const observer = new MutationObserver(lookForNewMatches);
@@ -376,14 +375,27 @@ const waitForMatches = (selector, { signal, root = 'body' } = {}) => ({
     try {
       while (true) {
         signal?.throwIfAborted();
-        yield* await promise;
+        for (match of await promise) {
+          yield Promise.resolve(match);
+        }
         ({ promise, resolve, reject } = Promise.withResolvers());
       }
     } finally {
       observer.disconnect();
     }
-  },
-});
+  }
+
+  return {
+    async *[Symbol.asyncIterator]() {
+      return matchGenerator();
+    },
+    then: async (callback) => {
+      for await (match of matchGenerator()) {
+        return Promise.resolve(match).then((match) => callback(match));
+      }
+    },
+  };
+};
 
 /*{{{1 Actions */
 /*{{{2 Async */

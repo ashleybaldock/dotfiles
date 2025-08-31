@@ -324,20 +324,39 @@ td:first-child + td {
   grid-row: 1/1;
 }
 
+@property --playerIdx {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --s-playerIdx {
+  syntax: '<string>';
+  inherits: false;
+  initial-value: '0';
+}
+@property --playerCount {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 1;
+}
+@property --s-playerCount {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '1';
+}
 .interleave {
   grid-row: preview;
   grid-column: 1/-1;
-  --c: var(--playerCount, 1);
 }
 
 .interleave > .vidwrap:has(> .paused) {
   animation-play-state: paused;
 }
 .interleave > .vidwrap:has(> :not(.paused):not(.off)) {
-  animation: calc(var(--c) * var(--d)) steps(2, jump-none)
-    calc((var(--n) - 1) * var(--d)) switch infinite;
+  animation: calc(var(--playerCount) * var(--d)) steps(2, jump-none)
+    calc((var(--playerIdx)) * var(--d)) switch infinite;
   opacity: 0;
-  --d: 600ms;
+  --d: var(--interleave-delay, 600ms);
 }
 .interleave .vidwrap:has(> .off) {
   display: none;
@@ -364,6 +383,38 @@ td:first-child + td {
   color: #000;
   font-family: monospace;
   opacity: 0.4;
+}
+.interleave .vidwrap::after {
+  content: var(--s-playerIdx);
+  --bg: hsl(var(--angle) 80% 50% / 80%);
+  aspect-ratio: 1;
+  width: auto;
+  height: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: calc(var(--radius) + sin(var(--angle)) * var(--radius));
+  left: calc(var(--radius) + cos(var(--angle)) * var(--radius));
+  z-index: 100;
+  background-color: var(--bg);
+  line-height: normal;
+  --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
+  --radius: 16px;
+  border-radius: 50%;
+  font-size: 2em;
+  padding: var(--radius);
+  color: #fff;
+  text-shadow:
+    0 0 1px #000,
+    0 0 1px #000,
+    0 0 1px #000,
+    0 0 1px #000;
+  font-family: Menlo, monospace;
+  font-weight: normal;
+  border: 2px solid hsl(from var(--bg) h s l / 100%);
+  opacity: 1;
+  margin: 2px;
 }
 
 /*{{{1 Overlay */
@@ -442,26 +493,18 @@ section.playing {
 .interleave {
   display: grid;
   overflow: clip;
+  grid-template: 1fr / 1fr;
 }
 
-.interleave:has(:nth-child(1)) {
-  --n: 1;
-}
-.interleave:has(:nth-child(2)) {
-  --n: 2;
-}
-.interleave:has(:nth-child(6)) {
-  --n: 3;
-}
-.interleave:has(:nth-child(10)) {
-  --n: 4;
-}
+:has(#toggle_grid [type='checkbox']:checked) .interleave,
 .interleave.paused,
 .interleave:not(:has(.vidwrap > .playing)),
 .interleave.grid {
-  grid-template-columns: repeat(var(--n), 1fr);
+  --ncols: round(up, sqrt(var(--playerCount)), 1);
+  grid-template-columns: repeat(var(--ncols), 1fr);
   grid-template-rows: auto;
 }
+:has(#toggle_grid [type='checkbox']:checked) .interleave > .vidwrap,
 .interleave.paused > .vidwrap,
 .interleave:not(:has(.vidwrap > .playing)) > .vidwrap,
 .interleave.grid interleave.paused > .vidwrap {
@@ -471,10 +514,11 @@ section.playing {
   outline-offset: 0;
   place-items: stretch;
 }
+:has(#toggle_grid [type='checkbox']:checked) .interleave > .vidwrap > video,
 .interleave.paused > .vidwrap > video,
 .interleave:not(:has(.vidwrap > .playing)) > .vidwrap > video,
 .interleave.grid interleave.paused > .vidwrap > video {
-  max-width: calc(100vw / var(--n));
+  max-width: calc(100vw / var(--ncols));
 }
 
 body > table {
@@ -516,8 +560,11 @@ body > table > tbody > :where(.playing, .paused) {
   --a: 100%;
 }
 body > table > tbody > ::before {
-  content: attr(data-playerid, '');
-  --h: 90deg;
+  content: var(--s-playerIdx);
+  --bg: hsl(var(--h) var(--s) var(--l) / var(--a));
+  --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
+
+  --h: calc(var(--angle), 90deg);
   --s: 60%;
   --l: 50%;
   --a: 20%;

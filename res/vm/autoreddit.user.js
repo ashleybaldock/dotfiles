@@ -1,12 +1,11 @@
 // ==UserScript==
 // @name        AutoReddit
 // @namespace   mayhem
-// @version     1.0.18
+// @version     1.0.37
 // @author      flowsINtomAyHeM
 // @description Make reddit's UI suck less
 // @downloadURL http://localhost:3333/vm/autoreddit.user.js
-// @match       https://*.reddit.com*
-// @match       https://www.reddit.com*
+// @match       https://*.reddit.com/*
 // @run-at      document-start
 // @grant       GM_info
 // @grant       GM_addStyle
@@ -46,6 +45,43 @@ qs`[slot="post-media-container"]`[0].addEventListener('click', () => window.loca
 
 // GM_registerMenuCommand('Prevent Navigate: On', (e) => {}, { autoClose: false });
 
+const addImageInfo = ({ naturalWidth: natW, naturalHeight: natH, style }) => {
+  style?.setProperty('--natW', natW);
+  style?.setProperty('--natH', natH);
+  style?.setProperty('--natRatio', natW / natH);
+  style?.setProperty('--isPortrait', natW < natH);
+  style?.setProperty('--isLandscape', natW > natH);
+  style?.setProperty('--isSquareish', natW / natH < 1.1 && natW / natH > 0.9);
+};
+
+const removeCarousel = (ul) => {
+  [...ul.querySelectorAll('li > img')].forEach((img) => {
+    if (img.srcset === '' && img.dataset.lazySrcset !== undefined) {
+      img.srcset = img.dataset.lazySrcset;
+    }
+    if (img.src === '' && img.dataset.lazySrc !== undefined) {
+      img.src = img.dataset.lazySrc;
+    }
+  });
+  const images = [...ul.querySelectorAll('li > img')].map(
+    ({ naturalWidth: natW, naturalHeight: natH }) => ({
+      w: natW,
+      h: natH,
+      ratio: natW / natH,
+      portrait: natW < natH,
+      landscape: natW > natH,
+      squareish: natW / natH < 1.1 && natW / natH > 0.9,
+    }),
+  );
+  const n_squareish = images.filter(({ squareish }) => squareish).length,
+    n_portrait = images.filter(({ portrait }) => portrait).length,
+    n_landscape = images.filter(({ landscape }) => landscape).length;
+  const cols =
+    n_squareish >= 1 ? 2 : n_portrait >= 2 ? 3 : n_landscape > 2 ? 2 : 4;
+  ul.style.setProperty('--ncols', cols);
+  ul.parentNode.closest('[slot="post-media-container"]').appendChild(ul);
+};
+
 const initAutoReddit = ({ document }) => {};
 
 const autoRedditToggleIds = addStyleToggles([
@@ -65,6 +101,13 @@ const autoRedditToggleIds = addStyleToggles([
       // console.debug('document ready');
 
       initAutoReddit(unsafeWindow);
+
+      return Promise.all([
+        waitForMatches('img').then((img) => addImageInfo(img)),
+        waitForMatches('[bundlename="gallery_carousel"] > * > ul').then((ul) =>
+          removeCarousel(ul),
+        ),
+      ]);
     })
     .catch((e) => console.warn(e)),
 );

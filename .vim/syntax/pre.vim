@@ -60,6 +60,7 @@ exec 'syn match preArrows /[' .. db_sl .. any_s .. ']\?[' .. db_m .. ']\+[' .. e
 exec 'syn match preArrows /[' .. db_cl .. '][' .. db_m .. ']\+[' .. any_s .. ']\Z/ contains=NONE extend'
 syn match preArrows />\?-\+>/ contains=NONE
 syn match preArrows /<-\+<\?/ contains=NONE
+syn match preArrows /<-\+>\?/ contains=NONE
 
 syn match preNewline /[⏎⏎️]↩︎/ contains=NONE
 

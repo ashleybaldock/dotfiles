@@ -3995,6 +3995,41 @@ d
 
 ```
 
+```
+
+ﾤﾧￜﾍｪｮﾼﾩﾻﾷ
+           ￠￥￦           ｟ ︎｠ ￣
+ ￢ ！ ︎＠￡＃＄ ︎％ ＾ ︎＆ ＊ （ ︎） ＿ ︎＋  ︎
+ ￤ １ ︎２ ︎３ ︎４ ︎５ ︎６ ︎７ ︎８ ︎９ ︎０ － ＝  ︎    
+     Ｑ ︎Ｗ ︎Ｅ ︎Ｒ ︎Ｔ ︎Ｙ ︎Ｕ ︎Ｉ ︎Ｏ ︎Ｐ ︎｛ ︎ ︎｝    ︎ ︎ ︎
+     ｑ ︎ｗ ︎ｅ ︎ｒ ︎ｔ ︎ｙ ︎ｕ ︎ｉ ︎ｏ ︎ｐ ︎［ ︎ ︎］ ︎ ︎
+      Ａ ︎Ｓ ︎Ｄ ︎Ｆ ︎Ｇ ︎Ｈ ︎Ｊ ︎Ｋ ︎Ｌ ︎： ︎＂ ｜
+      ａ ︎ｓ ︎ｄ ︎ｆ ︎ｇ ︎ｈ ︎ｊ ︎ｋ ︎ｌ ︎； ＇ ＼
+    ｀ Ｚ Ｘ ︎Ｃ ︎Ｖ ︎Ｂ ︎Ｎ ︎Ｍ ︎＜ ︎＞ ？  
+    ～ ｚ ｘ ︎ｃ ︎ｖ ︎ｂ ︎ｎ ︎ｍ ， ︎． ︎／ ︎ ︎ ︎
+
+｡ ︎｢ ︎｣ ︎､ ︎･ ︎ｦ ︎ｧ ︎ｨ ︎ｩ ︎ｪ ︎ｫ ︎ｬ ︎ｭ ︎ｮ ︎ｯ ︎ｰ ︎ｱ ︎ｲ ︎ｳ ︎ｴ ︎ｵ ︎ｶ ︎ｷ ︎ｸ ︎ｹ ︎ｺ ︎ｻ ︎ｼ ︎ｽ ︎ｾ ︎ｿ ︎ﾀ ︎ﾁ ︎ﾂ ︎ﾃ ︎ﾄ ︎ﾅ ︎ﾆ ︎ﾇ ︎ﾈ ︎ﾉ ︎ﾊ ︎ﾋ ︎ﾌ ︎ﾍ ︎ﾎ ︎ﾏ ︎ﾐ ︎ﾑ ︎ﾒ ︎ﾓ ︎ﾔ ︎ﾕ ︎ﾖ ︎ﾗ ︎ﾘ ︎ﾙ ︎ﾚ ︎ﾛ ︎ﾜ ︎ﾝ ︎ﾞ ︎ﾟ ︎ﾠ ︎ﾡ ︎ﾢ ︎ﾣ ︎ﾤ ︎ﾥ ︎ﾦ ︎ﾧ ︎ﾨ ︎ﾩ ︎ﾪ ︎ﾫ ︎ﾬ ︎ﾭ ︎ﾮ ︎ﾯ ︎ﾰ ︎ﾱ ︎ﾲ ︎ﾳ ︎ﾴ ︎ﾵ ︎ﾶ ︎ﾷ ︎ﾸ ︎ﾹ ︎ﾺ ︎ﾻ ︎ﾼ ︎ﾽ ︎ﾾ ︎﾿ ︎￀ ︎￁ ︎ￂ ︎ￃ ︎ￄ ︎ￅ ︎ￆ ︎ￇ ︎￈ ︎￉ ︎ￊ ︎ￋ ︎ￌ ︎ￍ ︎ￎ ︎ￏ ︎￐ ︎￑ ︎ￒ ︎ￓ ︎ￔ ︎ￕ ︎ￖ ︎ￗ ︎￘ ︎￙ ︎ￚ ︎ￛ ︎ￜ ︎￝ ︎￞ ︎￟ ︎ ︎￧ ︎￨ ︎￩ ︎￪ ︎￫ ︎￬ ︎￭ ︎￮
+
+╻·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️０·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️╻ 
+╏·️·️１·️·️╷·️·️·️·️·️·️2·️·️·️·️·️·️╷·️３·️╷·️·️·️·️·️·️４·️·️·️·️·️·️╏ 
+┃      ╎·️·️５·️·️╷·️·️６·️·️╎    │              ┃ 
+┃      │      │      │    │              ┃ 
+┃aaaaaa│bbbbbbbbbbbbb│cccc│dddddddddddddd┃ 
+┃aaaaaa│bbbbbbbbbbbbb│cccc│dddddddddddddd┃ 
+┃aaaaaa│bbbbbbbbbbbbb│cccc│dddddddddddddd┃ 
+┃xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx┃ 
+┃aaaaaa│bbbbbb│eeeeee│cccc│dddddddddddddd┃ 
+┃aaaaaa│bbbbbb│eeeeee│cccc│dddddddddddddd┃ 
+┃aaaaaa│bbbbbb│eeeeee│cccc│dddddddddddddd┃ 
+┃aaaaaa│bbbbbb│eeeeee│cccc│dddddddddddddd┃ 
+┃aaaaaa│bbbbbbbbbbbbb│cccc│dddddddddddddd┃ 
+┃      │      │      │    │              ┃ 
+                                           
+                                           
+                                          
+
+```
+
 <!-- }}}1 -->
 
 <!-- vim: set colorcolumn=40,60,80 foldcolumn=2 foldmethod=marker nolist nowrap conceallevel=2: -->

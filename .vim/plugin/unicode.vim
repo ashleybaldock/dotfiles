@@ -273,7 +273,7 @@ command! -bar -nargs=? -count=16 UnicodepointsCountFromChar
 "
 function s:UnicodepointsBetween(
       \ from = s:GetLineFromCursor(),
-      \ to = nr2char(char2nr(a:fromchar) + 16)) abort
+      \ to = nr2char(char2nr(a:from) + 16)) abort
   return s:ToString(s:CodepointsBetweenChars(a:from, a:to))
 endfunc
 command! -bar -nargs=* UnicodepointsBetween

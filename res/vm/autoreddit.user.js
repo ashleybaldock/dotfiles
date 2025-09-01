@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        AutoReddit
 // @namespace   mayhem
-// @version     1.0.37
+// @version     1.0.39
 // @author      flowsINtomAyHeM
 // @description Make reddit's UI suck less
 // @downloadURL http://localhost:3333/vm/autoreddit.user.js
@@ -103,10 +103,10 @@ const autoRedditToggleIds = addStyleToggles([
       initAutoReddit(unsafeWindow);
 
       return Promise.all([
-        waitForMatches('img').then((img) => addImageInfo(img)),
-        waitForMatches('[bundlename="gallery_carousel"] > * > ul').then((ul) =>
-          removeCarousel(ul),
-        ),
+        waitForMatches('img', { callback: (img) => addImageInfo(img) }),
+        waitForMatches('[bundlename="gallery_carousel"] > * > ul', {
+          callback: (ul) => removeCarousel(ul),
+        }),
       ]);
     })
     .catch((e) => console.warn(e)),

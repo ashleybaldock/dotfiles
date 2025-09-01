@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.25
+// @version     1.1.36
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -270,7 +270,15 @@ const stopPropagation = (e) => {
   e.stopPropagation();
 };
 
+/*{{{1 Video */
+
+const videoIsPlaying = (video) =>
+  !video.paused && video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA;
+
+/*}}}1*/
+
 /*{{{1 Events */
+
 const readyStateComplete = () => {
   const promise = new Promise((resolve, reject) => {
     const waitForComplete = () =>
@@ -338,7 +346,10 @@ const matchExistsFor = (selector, { root = 'body' } = {}) => {
  *   root - Defaults to 'body', root node for querySelectorAll
  * based on https://github.com/sindresorhus/dom-mutations/blob/main/index.js
  */
-const waitForMatches = (selector, { signal, root = 'body' } = {}) => {
+const waitForMatches = async (
+  selector,
+  { callback, signal, root = 'body' } = {},
+) => {
   async function* matchGenerator() {
     signal?.throwIfAborted();
 
@@ -385,16 +396,18 @@ const waitForMatches = (selector, { signal, root = 'body' } = {}) => {
     }
   }
 
-  return {
-    async *[Symbol.asyncIterator]() {
-      return matchGenerator();
-    },
-    then: async (callback) => {
-      for await (match of matchGenerator()) {
-        return Promise.resolve(match).then((match) => callback(match));
-      }
-    },
-  };
+  if (callback !== undefined) {
+    for await (match of matchGenerator()) {
+      callback(match);
+    }
+    return Promise.reject('Aborted');
+  } else {
+    return {
+      async *[Symbol.asyncIterator]() {
+        return matchGenerator();
+      },
+    };
+  }
 };
 
 /*{{{1 Actions */

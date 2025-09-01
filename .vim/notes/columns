@@ -1,0 +1,26 @@
+
+  
+  ╻·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️０·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️╻ 0: implicit column for no-column
+  ╏·️·️１·️·️╷·️·️·️·️·️·️2·️·️·️·️·️·️╷·️３·️╷·️·️·️·️·️·️４·️·️·️·️·️·️╏ 1,2,3,4: Defined together, forming a
+  ┃      │             │    │              ┃  column group.
+  ┃aaaaaa│  2center2   │cccc│dddddddddddddd┃ A line can only use one group, but groups
+  ┃aaaaaa│     22222end│cccc│dddddddddddddd┃  can be broken by lines with other groups
+  ┃aaaaaa│start222     │cccc│dddddddddddddd┃ 
+  ┃0000000000000000000000000000000000000000┃ 
+  ┃      ╎·️·️５·️·️╷·️·️６·️·️╎    │              ┃ 
+  ┃aaaaaa│555   │66    │cccc│dddddddddddddd┃ 
+  ┃aaaaaa│   555│ 66   │cccc│dddddddddddddd┃ 
+  ┃aaaaaa│  5555│666666│cccc│dddddddddddddd┃ 
+  ┃aaaaaa│ 555  │  6   │cccc│dddddddddddddd┃ 
+  ┃aaaaaa│2longesttext2│cccc│dddddddddddddd┃ 
+  ╎      ╎      ╎      ╎    ╎              ╎
+  :️      :️      :️      :️    :️              :️               
+                 <---->
+                 Find longest in both 5 and 6 to determine which
+                 of the two gets more space
+          <---->
+          5's width is the remaining portion of 2's width,
+          after 6 is subtracted
+
+sub-columns can determine parent column width
+or have their width determined by the parent column

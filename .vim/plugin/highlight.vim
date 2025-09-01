@@ -253,30 +253,38 @@ function! s:UpdateSynFoBuffer(winid)
   "   - nocombine² NONE³
 
   for val in results
-    let line = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. SwapNumbers(val.id, 'sansb')}]
+    let line = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. SwapNumbers(val.id, 'sansb'), col: 2}]
 
     let [fgsymbol, fgcolor] = s:ForColor(get(val, 'guifg', ''))
     let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
     let [spsymbol, spcolor] = s:ForColor(get(val, 'guisp', ''))
 
-    let line += [#{t: 'ꜰ'}, #{t: fgsymbol, fg: fgcolor}]
-    let line += [#{t: 'ʙ'}, #{t: bgsymbol, fg: bgcolor}]
-    let line += [#{t: 'ꜱ'}, #{t: spsymbol, fg: spcolor}]
+    let line += [#{t: ' '}, #{t: fgsymbol, fg: fgcolor, col: 3}]
+    let line += [#{t: ' '}, #{t: bgsymbol, fg: bgcolor, col: 3}]
+    let line += [#{t: ' '}, #{t: spsymbol, fg: spcolor, col: 3}]
 
 " 􀣤 􀏃 􀣦􀂒􀃰􀃲   􁄻  
+" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ-️ⲃɢ-️ꮪᴩ╶───╴ɢᴜɪ╶──────╴⎥
 " ⎛  ★   ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )              ⎞
 
+" ⎛                                          ─╸SynFo╺─  ⎞
+" ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
+" ⎢                                                     ⎥
+" ⎢╶─╴default╶─────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶╴ɢᴜɪ╶─────╴ꭱꮩ╶╴⎥
+" ⎢     ╰‣️Normal❘𝟤❘􀮵           􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡􂏾   ⎥
 "
+" col1|     col2  width:fit    |     col3  width:22    |
+"  w:2|                        |                       |
 " ⎛                                          ─╸SynFo╺─  ⎞
 " ⎢★️ ᴅ⎧cssUrlFunction❘𝟤𝟥𝟦𝟧❘􀮵   􀂓 􀯮 􀂒 􂏾  􀅓􀅔􀅕􀅖􀨡  ⎥
 " ⎢   │╰‣️Statement❘𝟤𝟥𝟦❘􀮵        ╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴   ⎥
 " ⎢   │  ╰‣️Constant❘𝟧𝟧𝟧𝟧❘􀮵      ╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴   ⎥
-" ⎢ ᴄ⎧cssUrl❘􀮵                 􀂓 􀯮 􀂒 􂏾  􀅓􀅔􀅕􀅖􀨡  ⎥
-" ⎢ᴅ⎧cssParam❘􀮵                􀂓 􀯮 􀂒 􂏾  􀅓􀅔􀅕􀅖􀨡  ⎥
-" ⎢╶─╴wincolor╶────────────────────────────────────────╴⎥
+" ⎢ ᴄ ⎧cssUrl❘􀮵                􀂓 􀯮 􀂒 􂏾  􀅓􀅔􀅕􀅖􀨡  ⎥
+" ⎢  ᴅ⎧cssParam❘􀮵              􀂓 􀯮 􀂒 􂏾  􀅓􀅔􀅕􀅖􀨡  ⎥
+" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
 " ⎢     ╰‣️BaseWin❘𝟤𝟥𝟦❘􀮵        􀂓 􀯮 􀂒 􂏾  􀅓􀅔􀅕􀅖􀨡  ⎥
 " ⎢                                                     ⎥
-" ⎢ ⎧ cᷟ⃝     ⎫                                         ⎥
+" ⎢ ⎧ cᷟ⃝     ⎫                      𐔥ɢ ʙɢ ꮪꮲ  ʀᴠ ꭱꮩ                ⎥
 " ⎢ ╰⎧ c    ⎪                                      ⎥
 " ⎢  ╰⎧ ◌ᷟ   ⎪                                 ⎥
 " ⎢   ╰{️ ◌⃝  ⎭                           ⎥
@@ -287,20 +295,20 @@ function! s:UpdateSynFoBuffer(winid)
     let gui = get(val, 'gui', {})
 
     let line += [
-          \ #{t: ' '},
-          \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colorHidden},
+          \ #{t: ' ', col: 3},
+          \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colorHidden, col: 3},
           \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colorHidden},
           \ #{t: get(gui, 'underdouble', v:false) ? '􃐊' : '􀅕',
           \ fg: (get(gui, 'underline', v:false)
           \   || get(gui, 'undercurl', v:false)
           \   || get(gui, 'underdotted', v:false)
           \   || get(gui, 'underdashed', v:false)
-          \   || get(gui, 'underdouble', v:false)) ? v:none : s:colorHidden},
-          \ #{t: '􀅖', fg: get(gui, 'strikethrough', v:false) ? v:none : s:colorHidden},
-          \ #{t: '􀨡', fg: get(gui, 'standout', v:false) ? v:none : s:colorHidden},
+          \   || get(gui, 'underdouble', v:false)) ? v:none : s:colorHidden, col: 3},
+          \ #{t: '􀅖', fg: get(gui, 'strikethrough', v:false) ? v:none : s:colorHidden, col: 3},
+          \ #{t: '􀨡', fg: get(gui, 'standout', v:false) ? v:none : s:colorHidden, col: 3},
           \ #{t: '􂏾️ ', fg: (get(gui, 'inverse', v:false)
-          \ || get(gui, 'reverse', v:false)) ? v:none : s:colorHidden},
-          \ #{t: ' '},
+          \ || get(gui, 'reverse', v:false)) ? v:none : s:colorHidden, col: 3},
+          \ #{t: ' ', col: 3},
           \]
 
 "          underline    U U̲ U̳ U ＿⎯ ￣〰 ⋯⋯ ══ ﹍＿﹏﹋
@@ -317,6 +325,7 @@ function! s:UpdateSynFoBuffer(winid)
   endif
 
   if &l:wincolor != '' 
+" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
     call add(lines, #{text: 'base(wincolor): ' .. &l:wincolor, props: []})
   else
     call add(lines, #{text: 'base: ' .. get(hlget('Normal'), 'guifg', ''), props: []})

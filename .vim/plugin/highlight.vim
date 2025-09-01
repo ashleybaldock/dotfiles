@@ -211,7 +211,7 @@ function! s:LineWithPropsFromParts(parts, bufnr)
     "  Given as an array of 1-3 strings, e.g.:
     "
     "  [((start, )middle)(, end)]
-    "                                              1̲0̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲▯️⃞ ▯⃞ ▯⃞⃝ ▯ ▯︎⃝ ▯⃝    ▮️⃝▮⃝ ▮⃝⃝  ▮︎▮︎▮️
+    "                                              1̲0̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲
     " 1:       (middle)                 ['bar'] →️ 'barbarbarb'
     " 2:       (middle/end)       ['bar','baz'] →️ 'barbarbbaz'
     " 3: (start/middle/end) ['foo','bar','baz'] →️ 'foobarbbaz'

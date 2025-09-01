@@ -269,8 +269,8 @@ function! s:UpdateSynFoBuffer(winid)
 
 " ⎛                                          ─╸SynFo╺─  ⎞
 " ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
-" ⎢                                                     ⎥
-" ⎢╶─╴default╶─────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶╴ɢᴜɪ╶─────╴ꭱꮩ╶╴⎥
+" ⎢                               ᢁ                     ⎥
+" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────╴ꭱꮩ╶╴⎥
 " ⎢     ╰‣️Normal❘𝟤❘􀮵           􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡􂏾   ⎥
 "
 " col1|     col2  width:fit    |     col3  width:22    |

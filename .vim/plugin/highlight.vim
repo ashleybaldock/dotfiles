@@ -200,12 +200,30 @@ endfunc
 " TODO - this could be more efficient by adding a lookup dict
 " for the auto-generated highlighting groups to avoid duplication
 " - parts with identical formatting could share the same prop
-function! s:GenProps(parts, bufnr)
+function! s:LineWithPropsFromParts(parts, bufnr)
   let line = ''
   let props = []
 
   for part in a:parts
     let text = get(part, 't', '')
+    let justify = get(part, 'j', 'start')
+    " How to fill any space left before/after the justified text
+    "  Given as an array of 1-3 strings, e.g.:
+    "
+    "  [((start, )middle)(, end)]
+    "                                              1̲0̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲▯️⃞ ▯⃞ ▯⃞⃝ ▯ ▯︎⃝ ▯⃝    ▮️⃝▮⃝ ▮⃝⃝  ▮︎▮︎▮️
+    " 1:       (middle)                 ['bar'] →️ 'barbarbarb'
+    " 2:       (middle/end)       ['bar','baz'] →️ 'barbarbbaz'
+    " 3: (start/middle/end) ['foo','bar','baz'] →️ 'foobarbbaz'
+    "
+    " If there isn't enough space for all the parts the middle is
+    " truncated/skipped first, then the start, then the end, e.g. 
+    "                     6̲ ̲ ̲ ̲ ̲ ̲   5̲ ̲ ̲ ̲ ̲   4̲ ̲ ̲ ̲   3̲ ̲ ̲   2̲ ̲   1̲
+    " ['ST','MI','EN'] →️ 'STMIEN' 'STMEN' 'STEN' 'SEN' 'EN' 'E'
+    "
+    let fill = get(part, 'fill', ['start'])
+    " Column this part is aligned to, 0 = no column (uses full width)
+    let col = get(part, 'col', 0)
     let fg = get(part, 'fg', v:none)
     if fg != v:none
       let s:hlid = s:hlid + 1
@@ -253,15 +271,15 @@ function! s:UpdateSynFoBuffer(winid)
   "   - nocombine² NONE³
 
   for val in results
-    let line = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. SwapNumbers(val.id, 'sansb'), col: 2}]
+    let lineParts = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. SwapNumbers(val.id, 'sansb'), col: 2}]
 
     let [fgsymbol, fgcolor] = s:ForColor(get(val, 'guifg', ''))
     let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
     let [spsymbol, spcolor] = s:ForColor(get(val, 'guisp', ''))
 
-    let line += [#{t: ' '}, #{t: fgsymbol, fg: fgcolor, col: 3}]
-    let line += [#{t: ' '}, #{t: bgsymbol, fg: bgcolor, col: 3}]
-    let line += [#{t: ' '}, #{t: spsymbol, fg: spcolor, col: 3}]
+    let lineParts += [#{t: ' '}, #{t: fgsymbol, fg: fgcolor, col: 3}]
+    let lineParts += [#{t: ' '}, #{t: bgsymbol, fg: bgcolor, col: 3}]
+    let lineParts += [#{t: ' '}, #{t: spsymbol, fg: spcolor, col: 3}]
 
 " 􀣤 􀏃 􀣦􀂒􀃰􀃲   􁄻  
 " ⎢╶─╴wincolor╶────────────────╴𐔥ɢ-️ⲃɢ-️ꮪᴩ╶───╴ɢᴜɪ╶──────╴⎥
@@ -294,7 +312,7 @@ function! s:UpdateSynFoBuffer(winid)
     " Gui: (bold/underline etc.)
     let gui = get(val, 'gui', {})
 
-    let line += [
+    let lineParts += [
           \ #{t: ' ', col: 3},
           \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colorHidden, col: 3},
           \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colorHidden},
@@ -317,11 +335,19 @@ function! s:UpdateSynFoBuffer(winid)
 "          underdashed  ﹉﹍
 "          underdouble  ══ ║॥ 
 
-    call add(lines, s:GenProps(line, bufnr))
+    call add(lines, s:LineWithPropsFromParts(lineParts, bufnr))
   endfor
 
   if len(lines) == 0
-    call add(lines, #{text: 'No highlighting here', props: []})
+" ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
+    let nohlParts = [
+          \ #{t: '╶╶ ', fg: s:colorHidden, col: 1},
+          \ #{t: 'No highlighting here', col: 2},
+          \ #{t: ' ╴', fg: s:colorHidden, fill: '╴', col: 2},
+          \ #{t: '╴', fg: s:colorHidden, fill: '╴', col: 3},
+          \]
+    " call add(lines, #{text: 'No highlighting here', props: []})
+    call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
   endif
 
   if &l:wincolor != '' 

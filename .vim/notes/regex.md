@@ -3,17 +3,17 @@
 ## Pattern
 
 ```pre
-    ╭  pattern             1+ branch   (OR) match first matching branch
-    ∆    ╰─┬─────────┬┈┈┈┈   (OR)
-    ┊    branch \| branch       1+ concat  (AND)     match if all match at same position
-    ┊      ╰─┬─────────┬┈┈┈┈   (AND)
-    ┊      concat \& concat         1+ piece  match if all match in sequence
-    ┊        ╰─┬─────┬─────┬┈┈   (A,B,C)
+    ╭  pattern             = 1+ branch (first matching branch)
+    ∆    ╰─┬───────────┬─┈    branch (OR) branch (OR) branch …️
+    ┊    branch  \|  branch       1+ concat  (AND)     match if all match at same position
+    ┊      ╰─┬───────────┬─┈   (AND)
+    ┊      concat  \&  concat         1+ piece  match if all match in sequence
+    ┊        ╰─┬─────┬─────┬─┈   (A,B,C)
     ┊        piece piece piece        1+ atom/atom+multi
     ╭        ╮ ╰─╮
     ┤  \( \) ├╴atom(multi)
-    │ \%( \) │   ╰─┬─────┬─────┬┈┈
-    ╰        ╯
+    │ \%( \) │   ╰─┬───┬───┬───┬─┈
+    ╰        ╯    \d* \ze \w [etc.]
 ```
 
 ## Atoms
@@ -25,20 +25,20 @@
   ╭──────────┬─────────────────────────────────╮┌───────┬──────────┬─────────┐
   │ \e <Esc> │ \m magic        \M nomagic      ││ range │ geedy \{ │ lazy \{-│
   │ \t <Tab> │ \v very magic   \V very nomagic │├───────┼──────────┼─────────┤
-  │ \r  <CR> │ \c ignore case  \C match case   ││ 0 → 1 │ \? \{,1} │ \{-,1} ╭┴╮
-  │ \b  <BS> ┢━━━━━━━┱─────────────────────────┤│ 0 → m │    \{,m} │ \{-,m} │m│
-  │ \n  EoL  ┃ ATOMS ┃ ignore combining chars… ││ 0 → ∞ │ *  \{}   │ \{-}   │u│
+  │ \r  <CR> │ \c ignore case  \C match case   ││ 0 →️ 1 │ \? \{,1} │ \{-,1} ╭┴╮
+  │ \b  <BS> ┢━━━━━━━┱─────────────────────────┤│ 0 →️ m │    \{,m} │ \{-,m} │m│
+  │ \n  EoL  ┃ ATOMS ┃ ignore combining chars… ││ 0 →️ ∞ │ *  \{}   │ \{-}   │u│
   ├──────────┺━━━━━━━┹────────╮ \%C prev. atom │├───────┼──────────┼────────┤l│
-  │ [] - any character inside │ \Z globally    ││ 1 → ∞ │ \+ \{1,} │ \{-1,} │t│
-  │ \~ - last subst. string   ╰────────────────┤│ n → ∞ │    \{n,} │ \{-n,} │i│
-  │ \%[] - sequence of optional atoms          ││ n → m │    \{n,m}│ \{-n,m}╰┬╯
+  │ [] - any character inside │ \Z globally    ││ 1 →️ ∞ │ \+ \{1,} │ \{-1,} │t│
+  │ \~ - last subst. string   ╰────────────────┤│ n →️ ∞ │    \{n,} │ \{-n,} │i│
+  │ \%[] - sequence of optional atoms          ││ n →️ m │    \{n,m}│ \{-n,m}╰┬╯
   │ \z1…9 - indexed matches from \(\) groups   ││   n   │    \{n}  │ \{-n}   │
   │ char codes  \%d255 decimal   \%o377 octal  │└───────┴──────────┴─────────┘
   │ hex  ¹ᴮ \%xFF  ²ᴮ \%uFFFF  ⁴ᴮ \%U7FFFFFFF  │
   │ [\d25] [\o44] [\xFF] [\uFFFF] [\U7FFFFFFF] │
   ┢━━(ascii↴)━━━━━╸=⃝ ╺╸¬⃝ ╺━(character classes)━┪
   ┃ UPPER        [^0-9]╮̩̣  ╭̩̣[0-9\n]  ⎛  not:  ⎞ ┃
-  ┃           [0-9]↴   ↓̍  ↓̍        ⎧⎝[^0-9\n]⎠ ┃
+  ┃           [0-9]↴   ↓̍️  ↓̍️        ⎧⎝[^0-9\n]⎠ ┃
   ┃ digit       ╷ \d  \D \_d \_D ◁─┴[^0-9]\|\n ┃
   ┃ hex digit   ┊ \x  \X ╷  [0-9A-Fa-f]        ┃
   ┃ octal digit ┊ \o  \O ┊        [0-7] [^0-7] ┃
@@ -64,8 +64,8 @@
                                ╭─────────────────────────────────────────────────╮
   ╭───────────────╮   ╭───────╮│            line │ file/string │ word │ pattern  │
   │W ← zero width │   │ Atoms 􀬚         ──┬─────│─────────────│──────│───────── │
-  │↓̍B ← not in [] │   ╰───────╯│     start │ BoL │    BoF/S    │ BoW  │ BoP      │
-  ├─↓̍┬────────────┼────────────┤       end │ EoL │    EoF/S    │ EoW  │ EoP      │
+  │↓️B ← not in [] │   ╰───────╯│     start │ BoL │    BoF/S    │ BoW  │ BoP      │
+  ├─↓️┬────────────┼────────────┤       end │ EoL │    EoF/S    │ EoW  │ EoP      │
   │  │ start  end │     of...  └┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
   │WB│  \_^   \_$ │ File/string             \^   \$  │   literal
   │WB│  \_^   \_$ │    Line    └┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
@@ -95,13 +95,13 @@
   ┌───────┬──────────┬─────────┐
   │ range │ \{ greedy│ \{- lazy│  n,m = 0 or +ve
   ├───────┼──────────┼─────────┤
-  │ 0 → 1 │ \? \{,1} │ \{-,1}  │  also: \=
-  │ 0 → m │    \{,m} │ \{-,m}  │
-  │ 0 → ∞ │ *  \{}   │ \{-}    │  nomagic: \*
+  │ 0 →️ 1 │ \? \{,1} │ \{-,1}  │  also: \=
+  │ 0 →️ m │    \{,m} │ \{-,m}  │
+  │ 0 →️ ∞️ │ *  \{}   │ \{-}    │  nomagic: \*
   ├───────┼──────────┼─────────┤
-  │ 1 → ∞ │ \+ \{1,} │ \{-1,}  │   '\' ╭╴Optional
-  │ n → ∞ │    \{n,} │ \{-n,}  │       ∇
-  │ n → m │    \{n,m}│ \{-n,m} │  \{n,m\}
+  │ 1 →️ ∞️ │ \+ \{1,} │ \{-1,}  │   '\' ╭╴Optional
+  │ n →️ ∞️ │    \{n,} │ \{-n,}  │       ∇
+  │ n →️ m │    \{n,m}│ \{-n,m} │  \{n,m\}
   │   n   │    \{n}  │ \{-n}   │
   └───────┴──────────┴─────────┘
 ```
@@ -113,13 +113,13 @@
   ┌─∇─┬─────┬────────────┐┌───────┬──────────┬─────────┐
   │ ✔︎ │ \@> │ as pattern ││ range │ \{ greedy│ \{- lazy│
   ├───┼─────┼────────────┤├───────┼──────────┼─────────┤
-  │ ✔︎ │ \@= │       (\&) ││ 0 → 1 │ \? \{,1} │ \{-,1}  │
-  │┈┈┈│┈┈┈┈┈│ at same    ││ 0 → m │    \{,m} │ \{-,m}  │
-  │ ✘ │ \@! │ position   ││ 0 → ∞ │ *  \{}   │ \{-}    │
+  │ ✔︎ │ \@= │       (\&) ││ 0 →️ 1 │ \? \{,1} │ \{-,1}  │
+  │┈┈┈│┈┈┈┈┈│ at same    ││ 0 →️ m │    \{,m} │ \{-,m}  │
+  │ ✘ │ \@! │ position   ││ 0 →️ ∞ │ *  \{}   │ \{-}    │
   ├───┼─────┴─┬──────────┤├───────┼──────────┼─────────┤
-  │ ✔︎ │ \@N<= │    (\zs) ││ 1 → ∞ │ \+ \(1,} │ \{-1,}  │
-  │┈┈┈│┈┈┈┈┈┈┈│ before   ││ n → ∞ │    \{n,} │ \{-n,}  │
-  │ ✘ │ \@N<! │ position ││ n → m │    \{n,m}│ \{-n,m} │
+  │ ✔︎ │ \@N<= │    (\zs) ││ 1 →️ ∞ │ \+ \(1,} │ \{-1,}  │
+  │┈┈┈│┈┈┈┈┈┈┈│ before   ││ n →️ ∞ │    \{n,} │ \{-n,}  │
+  │ ✘ │ \@N<! │ position ││ n →️ m │    \{n,m}│ \{-n,m} │
   └───┴──╴∆╶──┴──────────┘│   n   │    \{n}  │ \{-n}   │
     look back N bytes     └───────┴──────────┴─────────┘
 ```

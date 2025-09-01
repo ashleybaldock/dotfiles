@@ -338,6 +338,13 @@ an 120.400 View.-sep2-		<Nop>
 exec 'an' SfIcon() '120.400.200' 'View.􀓔\ \ Visual.Show\ Outline'
       \ '<Cmd>Toggle g:mayhem_show_visual_outline<CR>'
 
+an 120.600 View.-sep3-		<Nop>
+exec 'an' SfIcon('􀵫') '120.600.200' 'View.􀆪\ \ Unicode.Whitespace\ Hints'
+      \ '<Cmd>UnicodeWhitespaceHints<CR>'
+exec 'an' SfIcon('􀋡') '120.600.300' 'View.􀆪\ \ Unicode.Tag\ Hints'
+      \ '<Cmd>UnicodeTagHints<CR>'
+exec 'an' SfIcon('􀅑') '120.600.400' 'View.􀆪\ \ Unicode.Variation\ Selector\ Hints'
+      \ '<Cmd>VariationSelectorHints<CR>'
 
 "! Debug / WinSize:
 exec 'an' SfIcon('􀆄') '120.300.150' 'View.􂟦\ \ Debug.WinSize'

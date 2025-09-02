@@ -213,6 +213,7 @@ function! s:LineWithPropsFromParts(parts, bufnr, lineconfig)
 
   for part in a:parts
     " Content:
+    "
     let text = get(part, 't', '')
 
     " Columns:

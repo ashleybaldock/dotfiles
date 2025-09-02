@@ -205,7 +205,14 @@ function! s:LineWithPropsFromParts(parts, bufnr)
   let props = []
 
   for part in a:parts
+    " Content:
     let text = get(part, 't', '')
+
+    " Columns:
+    " Column this part is aligned to, 0 = no column (uses full width)
+    let col = get(part, 'col', 0)
+    " Horizontal position of text within column, one of:
+    "  '<-<', '>-<', '>->'
     let justify = get(part, 'j', 'start')
     " How to fill any space left before/after the justified text
     "  Given as an array of 1-3 strings, e.g.:
@@ -221,10 +228,19 @@ function! s:LineWithPropsFromParts(parts, bufnr)
     "                     6̲ ̲ ̲ ̲ ̲ ̲   5̲ ̲ ̲ ̲ ̲   4̲ ̲ ̲ ̲   3̲ ̲ ̲   2̲ ̲   1̲
     " ['ST','MI','EN'] →️ 'STMIEN' 'STMEN' 'STEN' 'SEN' 'EN' 'E'
     "
-    let fill = get(part, 'fill', ['start'])
-    " Column this part is aligned to, 0 = no column (uses full width)
-    let col = get(part, 'col', 0)
+    let pad = get(part, 'pad', ['start'])
+
+    " highlighting group to use for this part
+    " if any of the ad-hoc highlighting options below are given,
+    " then this serves as a base for them to modify
+    let hi = get(part, 'hi', v:none)
+    " ad-hoc highlighting (creates buffer-local highlight group)
+    " if 'hi' is also set, it is copied and these act as overrides
     let fg = get(part, 'fg', v:none)
+    let bg = get(part, 'bg', v:none)
+    let sp = get(part, 'sp', v:none)
+    let gui = get(part, 'gui', v:none)
+
     if fg != v:none
       let s:hlid = s:hlid + 1
       let id = 'hif' .. s:hlid
@@ -341,10 +357,10 @@ function! s:UpdateSynFoBuffer(winid)
   if len(lines) == 0
 " ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
     let nohlParts = [
-          \ #{t: '╶╶ ', fg: s:colorHidden, col: 1},
+          \ #{t: '╶╶ ', fg: s:colorHidden, hi: 'SlHomeMN', col: 1},
           \ #{t: 'No highlighting here', hi: 'SlHomeMC', col: 2},
-          \ #{t: ' ╴', fg: s:colorHidden, fill: '╴', col: 2},
-          \ #{t: '╴', fg: s:colorHidden, fill: '╴', col: 3},
+          \ #{t: ' ╴', fg: s:colorHidden, hi: 'SlHomeMN',pad: '╴', col: 2},
+          \ #{t: '╴', fg: s:colorHidden, hi: 'SlHomeMN',pad: '╴', col: 3},
           \]
     " call add(lines, #{text: 'No highlighting here', props: []})
     call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))

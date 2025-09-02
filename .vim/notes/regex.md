@@ -32,7 +32,7 @@
   │ [] - any character inside │ \Z globally    ││ 1 →️ ∞ │ \+ \{1,} │ \{-1,} │t│
   │ \~ - last subst. string   ╰────────────────┤│ n →️ ∞ │    \{n,} │ \{-n,} │i│
   │ \%[] - sequence of optional atoms          ││ n →️ m │    \{n,m}│ \{-n,m}╰┬╯
-  │ \z1…9 - indexed matches from \(\) groups   ││   n   │    \{n}  │ \{-n}   │
+  │ \z1…️9 - indexed matches from \(\) groups   ││   n   │    \{n}  │ \{-n}   │
   │ char codes  \%d255 decimal   \%o377 octal  │└───────┴──────────┴─────────┘
   │ hex  ¹ᴮ \%xFF  ²ᴮ \%uFFFF  ⁴ᴮ \%U7FFFFFFF  │
   │ [\d25] [\o44] [\xFF] [\uFFFF] [\U7FFFFFFF] │

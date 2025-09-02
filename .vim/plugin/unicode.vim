@@ -39,7 +39,7 @@ function s:ToggleHintVS1516() abort
           \ matchadd('VS16', '️', 1),
           \ matchadd('VS1516', '︎️', 1),
           \ matchadd('VS1615', '️︎', 1),
-          \ matchadd('SpecialSpace', ' ︎', 1)
+          \ matchadd('SpecialSpace', '\@3<! ︎', 1)
           \]
   endif
 endfunc

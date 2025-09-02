@@ -200,9 +200,16 @@ endfunc
 " TODO - this could be more efficient by adding a lookup dict
 " for the auto-generated highlighting groups to avoid duplication
 " - parts with identical formatting could share the same prop
-function! s:LineWithPropsFromParts(parts, bufnr)
+function! s:LineWithPropsFromParts(parts, bufnr, lineconfig)
   let line = ''
   let props = []
+  " The column group this line uses for layout
+  " Groups are defined the first time they are used,
+  " and can be extended later by splitting columns.
+  " A Column is referred to by a single character (e.g. a, b, c etc.)
+  " A Group consists of a string of Columns and 
+  "  sub-Groups [enclosed in square brackets],
+  let group = get(lineconfig, 'g', '0]')
 
   for part in a:parts
     " Content:

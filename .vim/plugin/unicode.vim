@@ -28,18 +28,17 @@ let s:combase = get(g:, 'mayhem_unicode_combine_default', '◌')
 " See: ../demo/unicode-whitespace
 "
 function s:ToggleHintVS1516() abort
-  if exists('w:mayhem_match_vs1516')
-    for addedmatch in w:mayhem_match_vs1516
-      call matchdelete(addedmatch)
-    endfor
+    call get(w:, 'mayhem_match_vs1516', [])->foreach({_,m -> matchdelete(m)})
     unlet w:mayhem_match_vs1516
   else
     let w:mayhem_match_vs1516 = [
           \ matchadd('VS15', '︎', 1),
+          \ matchadd('VS15Sp', ' ︎', 1),
           \ matchadd('VS16', '️', 1),
+          \ matchadd('VS16Sp', ' ️', 1),
           \ matchadd('VS1516', '︎️', 1),
           \ matchadd('VS1615', '️︎', 1),
-          \ matchadd('SpecialSpace', '\@3<! ︎', 1)
+          \ matchadd('SpecialSpace', ' ︎', 1),
           \]
   endif
 endfunc

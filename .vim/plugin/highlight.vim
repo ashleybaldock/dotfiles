@@ -216,7 +216,11 @@ function! s:LineWithPropsFromParts(parts, bufnr, lineconfig)
     let text = get(part, 't', '')
 
     " Columns:
-    " Column this part is aligned to, 0 = no column (uses full width)
+    " Column this part is aligned within
+    " - The column must exist in the group for this line
+    "   (if not, behaves as if unset)
+    "  If unset, uses the same column as the previous part,
+    "  (if this is the first part, default to the first column)
     let col = get(part, 'col', 0)
     " Horizontal position of text within column, one of:
     "  '<-<', '>-<', '>->'

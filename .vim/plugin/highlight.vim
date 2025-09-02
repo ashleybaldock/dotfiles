@@ -342,7 +342,7 @@ function! s:UpdateSynFoBuffer(winid)
 " ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
     let nohlParts = [
           \ #{t: '╶╶ ', fg: s:colorHidden, col: 1},
-          \ #{t: 'No highlighting here', col: 2},
+          \ #{t: 'No highlighting here', hi: 'SlHomeMC', col: 2},
           \ #{t: ' ╴', fg: s:colorHidden, fill: '╴', col: 2},
           \ #{t: '╴', fg: s:colorHidden, fill: '╴', col: 3},
           \]

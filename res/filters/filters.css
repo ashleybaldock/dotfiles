@@ -38,6 +38,16 @@
       %3CfeMorphology operator=%22dilate%22 radius=%220%22/%3E\
     %3C/filter%3E\
   %3C/svg%3E#filter-pixelate');
+
+  --f-tinydots: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E\
+    %3Cfilter id=%22filter-pixelate%22 x=%22%22 y=%22%22 width=%22%22 height=%22%22%3E\
+      %3CfeFlood x=%220 %22 y=%220 %22 height=%221 %22 width=%221 %22/%3E\
+%3CfeComposite x=%220.5%22 y=%22-0.5%22  width=%221.0%22 height=%221.0%22/%3E\
+      %3CfeTile x=%220%22 y=%220%22 width=%22100%25%22 height=%22100%25%22 result=%22a%22/%3E\
+      %3CfeComposite in=%22SourceGraphic%22 in2=%22a%22 operator=%22in%22/%3E\
+      %3CfeMorphology operator=%22dilate%22 radius=%220%22/%3E\
+    %3C/filter%3E\
+  %3C/svg%3E#filter-pixelate');
 }
 
 /* TODO 
@@ -48,7 +58,3 @@
  *
  *
  * */
-
-.demo {
-  font-size: 4em;
-}

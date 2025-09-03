@@ -507,13 +507,13 @@ function! s:AddDynamicToolBar()
   exec 'tmenu' 'ToolBar.Terminal' '􀩼' 'Open Terminal window in split'
 
   " 􀈕 􀈖 􀬔
-  exec 'nnoremenu' SfIcon('􀈕') s:MenuNextItem()
+  exec 'nnoremenu' SfIcon('􀥯') s:MenuNextItem()
         \ 'ToolBar.ShowInFinder'
         \ '<Cmd>silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
   exec 'inoremenu' SfIcon('􀬔') s:MenuNextItem()
         \ 'ToolBar.ShowInFinder'
         \ 'silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
-  exec 'tmenu' 'ToolBar.ShowInFinder' '􀈕' 'Show current file in Finder'
+  exec 'tmenu' 'ToolBar.ShowInFinder' '􀥯' 'Show current file in Finder'
 
   " ------------Sep-------------- 400
   call s:MenuSeparator('ToolBar')

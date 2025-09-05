@@ -19,11 +19,12 @@ function s:GetRuntimeList() abort
 endfunc
 
 function s:GetScriptnamesList() abort
-  return execute('silent scriptnames')->split("\n")[1:-1]
+  return execute('silent scriptnames')->split('\s*\n\s*')
+  " echo execute('silent scriptnames')->split('\s*\n\s*')->map({_,s -> split(s, '\s*:\s*')})
 endfunc
 
 function s:GetMessagesList() abort
-  return execute('silent messages')->split("\n")[1:-1]
+  return s:ExpandMessages(execute('silent messages')->split("\n")[1:-1])
 endfunc
 
 
@@ -49,7 +50,9 @@ command! Runtime call s:SplitWithRuntime()
 " Expand <SNR> in messages output with real file names      TODO
 "
 function s:ExpandMessages(messages) abort
-  call mapnew(a:messages, {i, v -> v})
+  return mapnew(a:messages,
+        \ {i, v -> substitute(v, '\%(\.\.\(function\|script\)\?\)\?<SNR>\(\d\+\)_\([^.[]\+\)\[\(\d*\)]',
+        \   {m -> "  " .. m[3] .. "		" .. m[1]  .. getscriptinfo(#{sid: str2nr(m[2], 10)})[0].name .. ':' .. m[4] .. "\n" }, 'g')->split("\n")})->flatten(1)
 
 endfunc
 

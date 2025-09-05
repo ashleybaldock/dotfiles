@@ -7,6 +7,9 @@ endif
 "
 " au BufWritePost <buffer> syn on
 "
+" See Also:
+"     ../plugin/messages.vim
+"
 
 let s:cpo_save = &cpo
 set cpo&vim
@@ -36,10 +39,14 @@ syn region vimMsgError
 
 syn match vimMsgErrNum 'E\d\+:' contained
 
+      " \ start=+\%( \)\@2<=\/+
 syn region vimMsgPath contained
-      \ start=+\%( \)\@2<=\/+
+      \ start=+ \ze\/+
       \ end=+\ze\.\.+
       \ end=+\ze:+
+      " \ contains=vimMsgPathNlb4
+
+" syn match vimMsgPathNlb4 / \ze\// contained conceal cchar=
 
 " function {function-name}[{lnum}]  function line
 "       script {file-name}[{lnum}]  script line

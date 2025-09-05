@@ -1,4 +1,9 @@
 " %FILE:TC% filetype plugin
+"
+" See Also:
+"     $VIMHOME/syntax/%FILE:LC%.vim
+"     $VIMRUNTIME/ftplugin/%FILE:LC%.vim
+"     $VIMRUNTIME/syntax/%FILE:LC%.vim
 
 if exists("b:did_ftplugin")
   finish
@@ -15,3 +20,4 @@ set cpo&vim
 let &cpo = s:cpo_save
 unlet s:cpo_save
 
+" vim: nowrap sw=2 sts=2 ts=2 et fdm=marker:

@@ -7,6 +7,10 @@ endif
 "
 " au BufWritePost <buffer> syn on
 "
+" See Also:
+"     $VIMHOME/ftplugin/%FILE:LC%.vim
+"     $VIMRUNTIME/ftplugin/%FILE:LC%.vim
+"     $VIMRUNTIME/syntax/%FILE:LC%.vim
 
 let s:cpo_save = &cpo
 set cpo&vim

@@ -28,7 +28,7 @@ function s:ListNone8()
   set fillchars+=vert:┃
   set fillchars+=eob:~
   set fillchars+=lastline:@
-  set fillchars+=foldclose:􃁴
+  set fillchars+=foldclose:𑁌
   set fillchars+=foldopen:⎞
   set fillchars+=foldsep:⎟
   set fillchars+=fold:═

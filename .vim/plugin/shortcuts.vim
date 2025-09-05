@@ -265,9 +265,9 @@ nnoremap <leader>p   :CtrlP<CR>
 " Sessions And Splits: §s
 " See: ./sessions.vim
 "
-nnoremap §se <Cmd>SessionInfo<CR>
+nnoremap §sq <Cmd>SessionInfo<CR>
 nnoremap <expr> §sc ':SessionCreate '..expand('%:p:h')
-nnoremap §ss :SessionLoad 
+nnoremap §se :SessionLoad 
 " nnoremap §s  :SessionPause<CR>
 " nnoremap §s  :SessionResume<CR>
 " nnoremap §s  :SessionDelete<CR>

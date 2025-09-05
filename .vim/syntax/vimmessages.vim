@@ -11,32 +11,32 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
-syn region vimmsgDict
-      \ matchgroup=vimmsgDictBrace start=+{+
-      \ matchgroup=vimmsgDictBrace end=+}+
-      \ contains=vimmsgDict,vimmsgStr,vimmsgNum,vimmsgDictNoise
+syn region vimMsgDict
+      \ matchgroup=vimMsgDictBrace start=+{+
+      \ matchgroup=vimMsgDictBrace end=+}+
+      \ contains=vimMsgDict,vimMsgStr,vimMsgNum,vimMsgDictNoise
 
-syn region vimmsgStr
+syn region vimMsgStr
       \ start=+\z('\|"\)+
       \ end=+\z1+
 
-syn match vimmsgNum '\%(:\|\s\)\@1<=\d\+' contained
+syn match vimMsgNum '\%(:\|\s\)\@1<=\d\+' contained
 
-syn match vimmsgNum '^\d\+$' contains=NONE
+syn match vimMsgNum '^\d\+$' contains=NONE
 
-hi def vimmsgDict none
-hi def link vimmsgDictBrace Delimiter
-hi def link vimmsgStr String
-hi def link vimmsgNum Number
+hi def vimMsgDict none
+hi def link vimMsgDictBrace Delimiter
+hi def link vimMsgStr String
+hi def link vimMsgNum Number
 
-syn region vimmsgError
+syn region vimMsgError
       \ start=+^\(Error\|E\d\+\)+
       \ end=+$+
-      \ contains=vimmsgErrNum,vimmsgPath,vimmsgFunc,vimmsgLastFn
+      \ contains=vimMsgErrNum,vimMsgPath,vimMsgFunc,vimMsgLastFn
 
-syn match vimmsgErrNum 'E\d\+:' contained
+syn match vimMsgErrNum 'E\d\+:' contained
 
-syn region vimmsgPath contained
+syn region vimMsgPath contained
       \ start=+\%( \)\@2<=\/+
       \ end=+\ze\.\.+
       \ end=+\ze:+
@@ -47,55 +47,55 @@ syn region vimmsgPath contained
 "function {function-name1}[{lnum}]..{function-name2}[{lnum}]"
 
       " \ start=+\%(\.\.\\)\@2<=%(function \)\?<SNR>+
-syn region vimmsgFunc contained
+syn region vimMsgFunc contained
       \ start=+<SNR>+
       \ end=+\ze\.\.+
-      \ contains=vimmsgFnSNR,vimmsgFnName,vimmsgFnLn,vimmsgnoise
+      \ contains=vimMsgFnSNR,vimMsgFnName,vimMsgFnLn,vimMsgnoise
 
-syn match vimmsgLastFn '\%(\.\.\)\@2<=\a\w\+\ze:$' contained
+syn match vimMsgLastFn '\%(\.\.\)\@2<=\a\w\+\ze:$' contained
 
-syn region vimmsgFnSNR contained
-      \ matchgroup=vimmsgnoise start=+<+
-      \ matchgroup=vimmsgnoise end=+>+
+syn region vimMsgFnSNR contained
+      \ matchgroup=vimMsgnoise start=+<+
+      \ matchgroup=vimMsgnoise end=+>+
 
-syn region vimmsgFnLn contained
-      \ matchgroup=vimmsgnoise start=+\[+
-      \ matchgroup=vimmsgnoise end=+\]+
+syn region vimMsgFnLn contained
+      \ matchgroup=vimMsgnoise start=+\[+
+      \ matchgroup=vimMsgnoise end=+\]+
 
-syn match vimmsgFnName '\a\w\+' contained
+syn match vimMsgFnName '\a\w\+' contained
 
-syn match vimmsgnoise '_' contained
+syn match vimMsgnoise '_' contained
 
-syn match vimmsgLineNr '^line\s\+\d\+.*$'
+syn match vimMsgLineNr '^line\s\+\d\+.*$'
 
-syn match vimmsgWrite '^.*written$'
+syn match vimMsgWrite '^.*written$'
 
-syn region vimmsgCompile
+syn region vimMsgCompile
       \ start='^\zeFunction '
-      \ end='compiling$' contains=vimmsgCompileFn
+      \ end='compiling$' contains=vimMsgCompileFn
 
-syn match vimmsgCompileFn '\%(^Function \)\@12<=\S\+' contained
-syn match vimmsgTitle '-- \w\+ Messages --' fold
+syn match vimMsgCompileFn '\%(^Function \)\@12<=\S\+' contained
+syn match vimMsgTitle '-- \w\+ Messages --' fold
 
-syn match vimmsgTitle '⁓ Fin ⁓'
+syn match vimMsgTitle '⁓ Fin ⁓'
 
 
-hi def vimmsgOk       guifg=#066606
-hi def vimmsgLineNr   guifg=#dddd00
-hi def vimmsgError    guifg=#dd2222
-hi def vimmsgErrNum   guifg=#ff0000 guibg=#880000 
-hi def vimmsgWrite    guifg=#00bb33
-hi def vimmsgPath     guifg=#55dddd
-hi def vimmsgFunc     guifg=#339933
-hi def vimmsgnoise    guifg=#393939
-hi def vimmsgFnSNR    guifg=#339933
-hi def vimmsgFnSep    guifg=#393939
-hi def link vimmsgFnLn vimmsgFnSNR
-hi def link vimmsgFnName Function
-hi def link vimmsgCompileFn vimmsgFunc
-hi def link vimmsgCompile vimmsgOk
-hi def link vimmsgLastFn Function
-hi def link vimmsgTitle Comment
+hi def vimMsgOk       guifg=#066606
+hi def vimMsgLineNr   guifg=#dddd00
+hi def vimMsgError    guifg=#dd2222
+hi def vimMsgErrNum   guifg=#ff0000 guibg=#880000 
+hi def vimMsgWrite    guifg=#00bb33
+hi def vimMsgPath     guifg=#55dddd
+hi def vimMsgFunc     guifg=#339933
+hi def vimMsgnoise    guifg=#393939
+hi def vimMsgFnSNR    guifg=#339933
+hi def vimMsgFnSep    guifg=#393939
+hi def link vimMsgFnLn vimMsgFnSNR
+hi def link vimMsgFnName Function
+hi def link vimMsgCompileFn vimMsgFunc
+hi def link vimMsgCompile vimMsgOk
+hi def link vimMsgLastFn Function
+hi def link vimMsgTitle Comment
 
 let b:current_syntax = "vimmessages"
 

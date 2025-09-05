@@ -135,6 +135,7 @@ function s:GetFormattedPositionInfo(maxlines = 20) abort
 endfunc
 
 "
+" ⎛★                                                  ⎞
 " ⎢   𝟧𝟤𝟥𝟦⁝cssUrlFunction ꜰ􀂒ʙ􀣦ꜱ􀂓  􀅓􀅔􀅕􀅖􀨡 􂏾     ⎥
 " ⎢                                                   ⎥
 " ⎢        𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴⦉𝟵𝟭⦊                     ⎥

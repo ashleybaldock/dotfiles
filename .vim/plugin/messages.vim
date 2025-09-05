@@ -50,10 +50,12 @@ command! Runtime call s:SplitWithRuntime()
 " Expand <SNR> in messages output with real file names      TODO
 "
 function s:ExpandMessages(messages) abort
-  return mapnew(a:messages,
+  let replaceSNR = mapnew(a:messages,
         \ {i, v -> substitute(v, '\%(\.\.\(function\|script\)\?\)\?<SNR>\(\d\+\)_\([^.[]\+\)\[\(\d*\)]',
-        \   {m -> "  " .. m[3] .. "		" .. m[1] .. getscriptinfo(#{sid: str2nr(m[2], 10)})[0].name .. ':' .. m[4] .. "\n" }, 'g')->split("\n")})->flatten(1)->mapnew({_,p -> substitute(p, '^' .. expand('$VIMHOME'))
-
+        \   {m -> "  " .. m[3] .. "		" .. m[1] .. getscriptinfo(#{sid: str2nr(m[2], 10)})[0].name .. ':' .. m[4] .. "\n" }, 'g')->split("\n")})->flatten(1)
+  "let replaceHome = map(replaceSNR,
+   "     \ {_, p -> substitute(p, expand('$VIMHOME') .. '[]', 'g')
+  return replaceSNR
 endfunc
 
 function s:OnVimEnter(when) abort

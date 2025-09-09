@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Global Util
 // @namespace   mayhem
-// @version     1.2.153
+// @version     1.2.154
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/global.user.js
 // @match       *://*/*
@@ -29,11 +29,7 @@ const removeClickJacksToggleId = (() => {
   const addEvents = () => {
     document
       .querySelectorAll('div.thumbnail-info-wrapper span.title a')
-      .forEach((node) =>
-        node.addEventListener('click', (e) => e.stopImmediatePropagation(), {
-          passive: true,
-        }),
-      );
+      .forEach(preventClickInterception);
     hasRun++;
   };
   createMenuToggle({

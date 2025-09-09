@@ -113,7 +113,6 @@ shreddit-app {
 :not(#u#n#i) reddit-header-action-items header > nav > div:first-of-type {
   opacity: 1;
   visibility: visible;
-  display: flex;
   flex-direction: row-reverse;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -397,7 +396,7 @@ shreddit-sort-dropdown {
     inset 0 0 0.5px 1px #f66,
     0 0 0.5px 1px #f00;
 }
-:not(#u#n#i) shreddit-post > [slot="post-flair"]) {
+:not(#u#n#i) shreddit-post > [slot='post-flair'] {
   grid-row: 1;
   grid-column: flair;
 }
@@ -422,8 +421,6 @@ shreddit-sort-dropdown {
   font-size: 1.1em;
   color: #eee;
 }
-:not(#u#n#i) faceplate-batch {
-}
 :not(#u#n#i) faceplate-batch > hr {
   border: none;
   border-bottom: 4px double #333;
@@ -436,10 +433,7 @@ shreddit-sort-dropdown {
   grid-template-columns: 1fr;
   grid-template-rows: auto;
   border-radius: 0;
-  border-radius: 0;
   grid-auto-flow: dense;
-  border-radius: 0;
-  border-radius: 0;
   width: auto;
   height: auto;
   margin: 0;
@@ -502,13 +496,8 @@ shreddit-sort-dropdown {
 }
 [bundlename='comment_body_header'] {
   display: grid;
-  transform: translate(0px, -30px) scale(0.8);
+  transform: translate(0, -30px) scale(0.8);
   transform-origin: top left;
-}
-[bundlename='comment_body_header'] > * {
-  /*! display: contents; */
-  /*   display: none; */
-  /*   background-color: #f00; */
 }
 
 :not(#u#n#i) gallery-carousel {
@@ -567,7 +556,6 @@ shreddit-sort-dropdown {
 :not(#u#n#i) gallery-carousel > ul,
 :not(#u#n#i) [slot='post-media-container'] > ul {
   display: grid;
-  height: fit-content !important;
   max-height: unset !important;
   grid-template-columns: repeat(var(--ncols), 1fr);
   grid-template-rows: repeat(4, auto);
@@ -613,7 +601,6 @@ shreddit-sort-dropdown {
   display: grid;
   column-gap: 0.5ch;
   row-gap: 0.5em;
-  height: fit-content !important;
   max-height: unset !important;
   grid-template-columns: repeat(var(--ncols), 1fr);
   grid-template-rows: repeat(4, auto);
@@ -704,8 +691,6 @@ shreddit-sort-dropdown {
 :not(#u#n#i) [bundlename='gallery_carousel'] > div,
 :not(#u#n#i) [bundlename='gallery_carousel'] > div > faceplate-carousel {
   display: contents !important;
-}
-ul {
 }
 :not(#u#n#i) faceplate-carousel,
 :not(#u#n#i) gallery-carousel > ul > li > img {

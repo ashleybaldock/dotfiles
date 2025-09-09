@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.40
+// @version     1.1.42
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -207,6 +207,9 @@ const getMediaRanges = (el) =>
     ]),
   );
 
+const videoIsPlaying = (video) =>
+  !video.paused && video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA;
+
 /*{{{2 Iterators/Generators */
 function* dropIter(source, n) {
   for (
@@ -230,7 +233,6 @@ function* takeIter(source, n) {
 function exhaustIter(source) {
   for (let { done } = source.next(); !done; { done } = source.next()) {}
 }
-// unsafeWindow.takeIter = window.takeIter = takeIter;
 
 function* filterIter(source, predicate) {
   for (const s of source) {
@@ -283,13 +285,6 @@ const stopPropagation = (e) => {
   e.stopImmediatePropagation();
   e.stopPropagation();
 };
-
-/*{{{1 Video */
-
-const videoIsPlaying = (video) =>
-  !video.paused && video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA;
-
-/*}}}1*/
 
 /*{{{1 Events */
 

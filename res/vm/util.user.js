@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.38
+// @version     1.1.40
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -24,6 +24,7 @@ const defaultCssBaseUrl = 'http://localhost:3333/vm/';
 
 /*{{{1 Utility */
 
+/* Get an Over-Qualified CSS name for an element */
 const cssOQN = (el) =>
   `${el.tagName.toLowerCase()}${[...new Set(['', el.id])].join('#')}${[
     '',
@@ -43,6 +44,11 @@ const cssOQN = (el) =>
 })({ document });
 
 /*{{{2 Logging */
+
+/** TODO logging filters
+ *  - match regex pattern, severity level etc.
+ *  - change logging severity, group into hidden streams
+ */
 const tee = (({ console }) => {
   const immediate = ['error'];
   const methodsToBind = ['log', 'info', 'warn', 'error', 'debug'];

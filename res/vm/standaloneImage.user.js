@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.250
+// @version     1.2.251
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -113,10 +113,11 @@ const initStandaloneImage = ({
       class: '',
       textContent,
     });
-    GM_addElement(label, tag, {
+    const input = GM_addElement(label, tag, {
       type,
       ...(checked ? { checked: '' } : {}),
     });
+    input.addEventListener('click', stopPropagation);
     return li;
   };
 

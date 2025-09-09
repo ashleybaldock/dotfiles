@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.248
+// @version     1.2.250
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -47,11 +47,15 @@ const initStandaloneImage = ({
     body.classList.add('pixelgrid', 'dims');
   }
 
-  const breadcrumbs = (parent, path = document.URL) => {
-    const url = new URL(path);
+  const breadcrumbs = ({
+    to: parent,
+    path = document.URL,
+    url = new URL(path),
+    hideProtocol = url.protocol.match(/https\?/),
+  }) => {
     const parts = url.pathname.split(/(\/)/);
     const label = GM_addElement(parent, 'label', {
-      class: 'output breadcrumbs',
+      class: 'output breadcrumbs fixed',
     });
     const ul = GM_addElement(label, 'ul', {});
 
@@ -174,7 +178,7 @@ const initStandaloneImage = ({
   }))(selection);
 
   const outputs = ((to) => ({
-    breadcrumbs: breadcrumbs(to),
+    breadcrumbs: breadcrumbs({ to }),
     width: addOutput({
       to,
       class: 'output one width',

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.36
+// @version     1.1.38
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -45,7 +45,7 @@ const cssOQN = (el) =>
 /*{{{2 Logging */
 const tee = (({ console }) => {
   const immediate = ['error'];
-  const methods = ['log', 'info', 'warn', 'error', 'debug'];
+  const methodsToBind = ['log', 'info', 'warn', 'error', 'debug'];
   const base = /*<T>*/ (
     sideEffect /*: (i: Readonly<T>, ...args: unknown[]) => void*/ = console.log,
     x /*: T*/,
@@ -57,14 +57,15 @@ const tee = (({ console }) => {
   const deferLogMessage = (method, ...x) => method('defer', ...x);
   const flush = () => {};
   const bound = Object.fromEntries(
-    methods.map((methodName) => [
+    methodsToBind.map((methodName) => [
       methodName,
       Function.prototype.call.bind(base, base, console[methodName]),
     ]),
   );
 
-  /* https://codepen.io/shshaw/pen/XbxvNj - TODO qs`.output > a`.m(e => e.click()).all */
-  methods.forEach((methodName) =>
+  /* https://codepen.io/shshaw/pen/XbxvNj
+   * - TODO qs`.output > a`.m(e => e.click()).all */
+  methodsToBind.forEach((methodName) =>
     Object.defineProperty(base, methodName, {
       value: immediate.includes(methodName)
         ? bound[methodName]
@@ -80,6 +81,7 @@ const tee = (({ console }) => {
   return base;
 })(window);
 
+/*{{{2 Events */
 /**
  * Represents button states for MouseEvents
  *
@@ -120,6 +122,7 @@ function hashCode(str) {
   return hash;
 }
 
+/* Fisher–Yates shuffle */
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -127,6 +130,7 @@ function shuffle(array) {
   }
 }
 
+/*{{{2 Predicates */
 const isPromise = /*<T>*/ (x /*: unknown*/) /*: x is Promise<T>*/ =>
   x !== null &&
   x !== undefined &&
@@ -135,6 +139,7 @@ const isPromise = /*<T>*/ (x /*: unknown*/) /*: x is Promise<T>*/ =>
   typeof x.then === 'function';
 /* type StyleSource = Promise<string> | string | (() => string); */
 
+/*{{{2 Parser Tags */
 /**
  * Does what untagged template strings do by default
  */
@@ -161,6 +166,7 @@ const css = (...args) => parseTag(...args);
  */
 const html = (...args) => parseTag(...args);
 
+/*{{{2 Time */
 const timeInMs = ({ m = 0, s = 0, ms = 0 } = {}) => m * 60000 + s * 1000 + ms;
 const timeInWords = (time) => {
   const ms = timeInMs(time);
@@ -173,6 +179,7 @@ const timeInWords = (time) => {
         : `${ms}ms`;
 };
 
+/*{{{2 Set Operations */
 const intersectSets = (set1, set2) => {
   const [larger, smaller] = set1.size > set2.size ? [set1, set2] : [set2, set1];
 
@@ -182,7 +189,8 @@ const intersectSets = (set1, set2) => {
   );
 };
 
-/* Retrieve all the range stats for a video at once */
+/*{{{2 Media Players */
+/* Retrieve all range stats at once */
 const getMediaRanges = (el) =>
   Object.fromEntries(
     ['played', 'seekable', 'buffered'].map((range) => [

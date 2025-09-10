@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.251
+// @version     1.2.267
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -53,42 +53,48 @@ const initStandaloneImage = ({
     url = new URL(path),
     hideProtocol = url.protocol.match(/https\?/),
   }) => {
-    const parts = url.pathname.split(/(\/)/);
+    const parts = url.pathname.split(/(\/)/),
+      prefix = `${url.protocol}//`,
+      filename = parts.slice(-1)[0],
+      extension = filename.split(/\./).slice(-1)[0],
+      head = filename.slice(0, filename.length - extension.length);
+
     const label = GM_addElement(parent, 'label', {
       class: 'output breadcrumbs fixed',
     });
     const ul = GM_addElement(label, 'ul', {});
 
-    const sep = (text = '/', attrs = {}) =>
+    const addSep = ({ text = '/', ...attrs } = {}) =>
       GM_addElement(ul, 'li', { class: 'sep', ...attrs, textContent: text });
 
-    const part = (text = '', attrs = {}) =>
-      GM_addElement(ul, 'li', { ...attrs, textContent: text });
+    const addPart = ({ text = '', link = null, ...attrs } = {}) =>
+      ((to) =>
+        link
+          ? GM_addElement(to, 'a', {
+              href: link,
+              ...attrs,
+              textContent: text,
+            })
+          : to)(GM_addElement(ul, 'li', { ...attrs, textContent: text }));
 
-    const linkpart = (text, partpath, attrs = {}) =>
-      GM_addElement(part(), 'a', {
-        href: partpath,
-        ...attrs,
-        textContent: text,
+    hideProtocol ||
+      addPart({
+        text: prefix,
+        class: `proto proto-${url.protocol.replaceAll(':', '')}`,
       });
 
-    const prefix = `${url.protocol}//`;
-
-    part(prefix, {
-      class: `proto proto-${url.protocol.replaceAll(':', '')}`,
+    addPart({
+      text: url.host || url.protocol.match(/https\?/) ? 'localhost' : 'fsroot',
+      link: '/',
     });
 
-    linkpart(url.host, '/');
-
     parts.slice(1, -1).reduce((acc, cur) => {
-      cur === '/' ? sep(cur) : linkpart(cur, acc);
+      '/' === cur ? addSep() : addPart({ text: cur, link: acc });
       return acc + cur;
     }, prefix);
 
-    const filename = parts.slice(-1)[0];
-    part(`${filename}`, {
-      class: `filename ext-${filename.split(/\./).slice(-1)}`,
-    });
+    addPart({ text: head, class: 'filename', dataName: head });
+    addPart({ text: extension, class: `ext-${extension}` });
   };
 
   const addOutput = ({ to, tag = 'output', ...attrs } = {}) => {

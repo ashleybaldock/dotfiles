@@ -942,15 +942,15 @@
   .breadcrumbs .name {
     min-width: 5ch;
     text-overflow: '';
+    user-select: all;
     text-align: left;
+    overflow: clip;
     display: grid;
     grid-template-columns: 1fr;
-    flex: 0 0 round(down, 50%, 1ch);
-    overflow: clip;
     grid-template-rows: 1fr;
     gap: 0;
+    flex: 0 0 round(down, 50%, 1ch);
     max-width: round(down, 50%, 1ch);
-    user-select: all;
   }
 
   .breadcrumbs .name::after,

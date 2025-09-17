@@ -323,6 +323,9 @@ nnoremap §i <Cmd>SynFo<CR>
 " nnoremap <D-i> <Cmd>SynFo<CR>
 nnoremap §I <Cmd>SynFoWindowToggle<CR>
 " nnoremap <D-I> <Cmd>SynFo<CR>
+"
+" ▌️ ga ▐️  Info about character under cursor (Characterize)
+nmap ga <Plug>(mayhem_charinfo)
 
 
 "─── Column guides ─────────────────────────────────────

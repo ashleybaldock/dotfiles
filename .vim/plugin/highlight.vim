@@ -99,6 +99,28 @@ function! s:GetFormattedCharacterInfo() abort
   return [output]
 endfunc
 
+command! -bar -nargs=? CharInfo echo <SID>GetFormattedCharacterInfo(<q-args>)
+
+nnoremap <silent><script> <Plug>(charinfo) :<C-U>CharInfo<CR>
+
+function s:ToggleAutoCharInfo()
+  let s:auto_charinfo = !get(s:, 'auto_charinfo', v:true)
+
+  if (s:auto_charinfo) 
+    call autocmd_add([#{
+          \ event: 'CursorHold',
+          \ cmd: 'CharInfo',
+          \ group: 'mayhem_auto_charinfo', replace: v:true,
+          \}])
+  else
+    call autocmd_delete([#{
+          \ event: 'CursorHold',
+          \ group: 'mayhem_auto_charinfo',
+          \}])
+  endif
+endfunc
+
+command! -bar -nargs=0 CharInfoToggle echo <SID>GetFormattedCharacterInfo(<q-args>)
 
 " Follow links to the end (or until detecting a loop)
 function s:GetLinkChain(name)
@@ -138,9 +160,9 @@ endfunc
 " ⎛★                                                  ⎞
 " ⎢   𝟧𝟤𝟥𝟦⁝cssUrlFunction ꜰ􀂒ʙ􀣦ꜱ􀂓  􀅓􀅔􀅕􀅖􀨡 􂏾     ⎥
 " ⎢                                                   ⎥
-" ⎢        𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴⦉𝟵𝟭⦊                     ⎥
-" ⎢        𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴⦇𝟵𝟭⦈                     ⎥
-" ⎢        𝟢𝟤𝟥𝟦𝟧𝟨𝟩𝟪»𝟫𝟣  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴❨𝟵𝟭❩                     ⎥
+" ⎢        𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴⦉𝟵𝟭⦊                ⎥
+" ⎢        𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴⦇𝟵𝟭⦈                ⎥
+" ⎢        𝟢𝟤𝟥𝟦𝟧𝟨𝟩𝟪»𝟫𝟣  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴❨𝟵𝟭❩               ⎥
 " ⎢      ₅️₆️₇️₈️₉️                                        ⎥
 " ⎢                                                   ⎥
 

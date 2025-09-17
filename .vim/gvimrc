@@ -212,7 +212,7 @@ exec 'an' SfIcon('􁂷') '100.510.180' 'Tools2.􀆃\ \ Colour\ Highlighting.Text
 exec 'an' SfIcon('􀃪') '100.510.200' 'Tools2.􀆃\ \ Colour\ Highlighting.Virtual\ Text'
       \ '<Cmd>call ColourHighlightTextOnly()<CR>'
   
-exec 'an' SfIcon=('􁙧') '100.520.130' 'Tools2.Hi\ Hi'
+exec 'an' SfIcon('􁙧') '100.520.130' 'Tools2.Hi\ Hi'
       \ '<Cmd>HiHi<CR>'
 exec 'an' '100.530.130' 'Tools2.Enable\ Syntax\ Reload\ On\ Write'
       \ '<Cmd>au BufWritePost <buffer> syn on<CR>'

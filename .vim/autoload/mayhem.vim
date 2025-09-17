@@ -30,10 +30,10 @@ endfunc
 function! mayhem#Toggle(togglename) 
   let [name, scope; rest] = split('g:' .. a:togglename, ':\zs')->reverse()
   exec 'let' scope .. name '= !(get(' .. scope .. ',''' .. name .. ''', 1))'
-  call mayhem#doUserAutocmd('#User#Toggle_' .. scope .. name)
+  call mayhem#doUserAutocmd('Toggle_' .. scope .. name)
 endfunc
 
-function! mayhem#Toggled(togglename) abort
+function! mayhem#Toggled(togglename) 
   let [name, scope; rest] = split('g:' .. a:togglename, ':\zs')->reverse()
   exec 'let result = get(' .. scope .. ',''' .. name .. ''', 0)'
   return result

@@ -119,19 +119,19 @@ endfunc
 
 command! -bar -nargs=? CharInfo echo <SID>FormatCharInfoForCommand(<q-args>)
 
-nnoremap <silent><script> <Plug>(charinfo) :<C-U>CharInfo<CR>
+nnoremap <silent><script> <Plug>(mayhem_charinfo) :<C-U>CharInfo<CR>
 
 function s:Update_AutoCharInfo()
   if mayhem#Toggled('g:mayhem_hl_auto_charinfo')
     call autocmd_add([#{
-          \ event: 'CursorHold',
-          \ cmd: 'CharInfo',
+          \ event: 'CursorMoved', pattern: '*',
+          \ cmd: 'echo s:FormatCharInfoForCommand()',
           \ group: 'mayhem_hl_auto_charinfo',
           \}])
   else
     if exists('#mayhem_hl_auto_charinfo')
       call autocmd_delete([#{
-            \ event: 'CursorHold',
+            \ event: 'CursorMoved',
             \ group: 'mayhem_hl_auto_charinfo',
             \}])
     endif

@@ -6439,4 +6439,8 @@ let s:symbols = {
       \ '􀣺': 'apple.logo'
    \}
 
-let s:reversed_symbols = mapnew(s:symbols, {k, v -> {[v]: k}})->reduce({acc, e -> extend(acc, e)})
+" let s:reversed_symbols = mapnew(s:symbols, {k, v -> {[v]: k}})->reduce({acc, e -> extend(acc, e)})
+let s:reversed_symbols = {}
+for k in keys(s:symbols)
+  let s:reversed_symbols[s:symbols[k]] = k
+endfor

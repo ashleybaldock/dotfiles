@@ -69,9 +69,10 @@ command! -bar HiHi call <SID>HighlightHighlight()
 "
 " See: ./sfsymbols.vim
 "
-function! s:GetCharacterInfo() abort
-  let char = char2nr(getline('.')[col('.') - 1 : -1])->nr2char()
-  let composedchar = strpart(getline('.'), col('.') - 1, 1, v:true)
+function! s:GetCharacterInfo(arg)
+  let char = empty(a:arg) ? char2nr(getline('.')[col('.') - 1 : -1])->nr2char() : char2nr(a:arg)->nr2char()
+  let composedchar = empty(a:arg) ? strpart(getline('.'), col('.') - 1, 1, v:true) : strpart(a:arg, 0, 1, v:true)
+
   let output = 'No Char Info'
 
   " SFSymbols doesn't define composing characters itself
@@ -101,8 +102,8 @@ endfunc
 "
 " Formats character info for display in command line
 "
-function! s:FormatCharInfoForCommand() abort
-  let charinfo = s:GetCharacterInfo()
+function! s:FormatCharInfoForCommand(arg)
+  let charinfo = s:GetCharacterInfo(a:arg)
 
   return charinfo
 endfunc 
@@ -110,8 +111,8 @@ endfunc
 "
 " Formats character info for display in SynFo popup
 "
-function! s:FormatCharInfoForSynFo() abort
-  let charinfo = s:GetCharacterInfo()
+function! s:FormatCharInfoForSynFo(arg)
+  let charinfo = s:GetCharacterInfo(a:arg)
 
   return #{text: charinfo, props: []}
 endfunc

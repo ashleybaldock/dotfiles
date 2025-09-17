@@ -66,11 +66,10 @@ endfunc
 
 command! -bar HiHi call <SID>HighlightHighlight()
 
-
 "
 " See: ./sfsymbols.vim
 "
-function! s:GetFormattedCharacterInfo() abort
+function! s:GetCharacterInfo() abort
   let char = char2nr(getline('.')[col('.') - 1 : -1])->nr2char()
   let composedchar = strpart(getline('.'), col('.') - 1, 1, v:true)
   let output = 'No Char Info'
@@ -96,10 +95,28 @@ function! s:GetFormattedCharacterInfo() abort
       let output = trim(output)->split(', ')->join(' ╱ ')
     endif
   endif
-  return [output]
+  return output
 endfunc
 
-command! -bar -nargs=? CharInfo echo <SID>GetFormattedCharacterInfo(<q-args>)
+"
+" Formats character info for display in command line
+"
+function! s:FormatCharInfoForCommand() abort
+  let charinfo = s:GetCharacterInfo()
+
+  return charinfo
+endfunc 
+
+"
+" Formats character info for display in SynFo popup
+"
+function! s:FormatCharInfoForSynFo() abort
+  let charinfo = s:GetCharacterInfo()
+
+  return #{text: charinfo, props: []}
+endfunc
+
+command! -bar -nargs=? CharInfo echo <SID>FormatCharInfoForCommand(<q-args>)
 
 nnoremap <silent><script> <Plug>(charinfo) :<C-U>CharInfo<CR>
 
@@ -120,7 +137,7 @@ function s:ToggleAutoCharInfo()
   endif
 endfunc
 
-command! -bar -nargs=0 CharInfoToggle echo <SID>GetFormattedCharacterInfo(<q-args>)
+command! -bar -nargs=0 CharInfoToggle call <SID>ToggleAutoCharInfo()
 
 " Follow links to the end (or until detecting a loop)
 function s:GetLinkChain(name)
@@ -223,7 +240,7 @@ endfunc
 " TODO - this could be more efficient by adding a lookup dict
 " for the auto-generated highlighting groups to avoid duplication
 " - parts with identical formatting could share the same prop
-function! s:LineWithPropsFromParts(parts, bufnr, lineconfig)
+function! s:LineWithPropsFromParts(parts, bufnr, lineconfig = #{})
   let line = ''
   let props = []
   " The column group this line uses for layout
@@ -232,7 +249,7 @@ function! s:LineWithPropsFromParts(parts, bufnr, lineconfig)
   " A Column is referred to by a single character (e.g. a, b, c etc.)
   " A Group consists of a string of Columns and 
   "  sub-Groups [enclosed in square brackets],
-  let group = get(lineconfig, 'g', '0]')
+  let group = get(a:lineconfig, 'g', '0]')
 
   for part in a:parts
     " Content:
@@ -462,8 +479,7 @@ function! s:UpdateSynFoBuffer(winid)
   " Character Info:
   "
   " let charinfo = printf('%'..longest..'S', ExecAndReturn('Characterize'))
-  let [charinfo] = s:GetFormattedCharacterInfo()
-  call add(lines, #{text: charinfo, props: []})
+  call add(lines, s:FormatCharInfoForSynFo())
 
   call add(lines, s:sectionBreak)
 

@@ -102,7 +102,7 @@ endfunc
 "
 " Formats character info for display in command line
 "
-function! s:FormatCharInfoForCommand(arg)
+function! s:FormatCharInfoForCommand(arg = v:null)
   let charinfo = s:GetCharacterInfo(a:arg)
 
   return charinfo
@@ -111,7 +111,7 @@ endfunc
 "
 " Formats character info for display in SynFo popup
 "
-function! s:FormatCharInfoForSynFo(arg)
+function! s:FormatCharInfoForSynFo(arg = v:null)
   let charinfo = s:GetCharacterInfo(a:arg)
 
   return #{text: charinfo, props: []}
@@ -121,24 +121,33 @@ command! -bar -nargs=? CharInfo echo <SID>FormatCharInfoForCommand(<q-args>)
 
 nnoremap <silent><script> <Plug>(charinfo) :<C-U>CharInfo<CR>
 
-function s:ToggleAutoCharInfo()
-  let s:auto_charinfo = !get(s:, 'auto_charinfo', v:true)
-
-  if (s:auto_charinfo) 
+function s:Update_AutoCharInfo()
+  if mayhem#Toggled('g:mayhem_hl_auto_charinfo')
     call autocmd_add([#{
           \ event: 'CursorHold',
           \ cmd: 'CharInfo',
-          \ group: 'mayhem_auto_charinfo', replace: v:true,
+          \ group: 'mayhem_hl_auto_charinfo',
           \}])
   else
-    call autocmd_delete([#{
-          \ event: 'CursorHold',
-          \ group: 'mayhem_auto_charinfo',
-          \}])
+    if exists('#mayhem_hl_auto_charinfo')
+      call autocmd_delete([#{
+            \ event: 'CursorHold',
+            \ group: 'mayhem_hl_auto_charinfo',
+            \}])
+    endif
   endif
 endfunc
 
-command! -bar -nargs=0 CharInfoToggle call <SID>ToggleAutoCharInfo()
+call autocmd_add([
+      \#{
+      \ event: 'User', pattern: 'Toggle_g:mayhem_hl_auto_charinfo',
+      \ cmd: 'call s:Update_AutoCharInfo()',
+      \ group: 'mayhem_hl_update_auto_charinfo', replace: v:true,
+      \},
+      \])
+
+
+" command! -bar -nargs=0 CharInfoToggle Toggle g:mayhem_hl_auto_charinfo<CR>
 
 " Follow links to the end (or until detecting a loop)
 function s:GetLinkChain(name)

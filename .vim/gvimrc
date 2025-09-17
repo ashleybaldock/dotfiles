@@ -325,7 +325,9 @@ an 100.650.100 Tools2.Auto\ Format	<Cmd>call FormatBuffer()<CR>
 "
 " aunmenu View
 " an icon=text.badge.checkmark:hierarchical 120.200.100 View.Chars <Nop>
-exec 'an' SfIcon('􀆅') '120.200.200' 'View.Chars.Default' '<Cmd>CharsDefault<CR>'
+exec 'an' SfIcon() '120.200.110' 'View.Chars.Auto\ Char\ Info' '<Cmd>Toggle g:mayhem_hl_auto_charinfo<CR>'
+an 120.200.200 View.Chars.-sep1-		<Nop>
+exec 'an' SfIcon('􀆅') '120.200.210' 'View.Chars.Default' '<Cmd>CharsDefault<CR>'
 exec 'an' SfIcon() '120.200.230' 'View.Chars.None' '<Cmd>CharsNone<CR>'
 exec 'an' SfIcon() '120.200.250' 'View.Chars.Minimal' '<Cmd>CharsMinimal<CR>'
 exec 'an' SfIcon() '120.200.260' 'View.Chars.Diagnostic' '<Cmd>CharsDiagnostic<CR>'

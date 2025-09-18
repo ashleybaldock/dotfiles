@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.43
+// @version     1.1.45
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -135,6 +135,8 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
+const uniqueValues = (v, i, a) => a.indexOf(v) === i;
 
 /*{{{2 Predicates */
 const isPromise = /*<T>*/ (x /*: unknown*/) /*: x is Promise<T>*/ =>

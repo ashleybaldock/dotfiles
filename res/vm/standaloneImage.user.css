@@ -981,6 +981,29 @@
     grid-column: 1;
   }
 
+  .breadcrumbs .filename::after,
+  .breadcrumbs .filename::before {
+    display: none;
+  }
+  .breadcrumbs .filename {
+    display: unset;
+    max-width: unset;
+    width: round(down, 100%, 1ch);
+    overflow: clip;
+    flex: 0 1 round(down, 100%, 1ch);
+    text-overflow: '…';
+  }
+
+  .breadcrumbs > ul > li.ext-png {
+    text-align: left;
+    flex: 1 auto;
+    margin: 0 auto;
+  }
+
+  .ext-png::before {
+    content: '.';
+  }
+
   .tiny {
     margin: 0;
     top: var(--px-imtop);

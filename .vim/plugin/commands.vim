@@ -3,8 +3,6 @@ if exists("g:mayhem_loaded_commands")
 endif
 let g:mayhem_loaded_commands = 1
 
-command! -nargs=1 Toggle call mayhem#Toggle(<f-args>)
-
 
 " Highlight entire tab that cursor is in
 "echo matchadd('Error', '\%#	', 2)

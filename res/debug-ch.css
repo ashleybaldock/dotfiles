@@ -3,67 +3,62 @@
 @media not print {
   .breadcrumbs .filename::before {
     /* place-self: center end; */
+    /* color: #0f0; */
     /* text-overflow: '.]' '[.'; */
     /* display: none; */
+    /* overflow: hidden; */
+    /* max-width: round(up, 100%, var(--cw)); */
+    /* width: auto; */
+    /* outline-offset: -1px; */
     /* width: round(up, 100%, 1ch); */
+    /* outline: 1px solid #00b7ff; */
     /* padding: 0 calc(var(--ls) * 0.5) 0 calc(var(--ls) * 0.5); */
     /* padding: 0 var(--ls) 0 0; */
+    /* background-image: repeating-linear-gradient(to right, hsl(from var(--c-base) h s l / 60%) 0 1ch, hsl(from var(--c-base) h calc(s * 0.8) calc(l * 1.5) / 60%) 1ch var(--cw)), linear-gradient(to right, var(--c-pad) 0 0); */
     place-self: center start;
     text-overflow: '..';
     grid-row: 1;
     overflow:;
     display:;
+    --cw: calc(1ch + var(--ls));
     width: round(up, 100%, var(--cw));
-    box-sizing: content-box;
     --cw: calc(1ch + var(--ls));
     --ls: 0.5ch;
     letter-spacing: var(--ls);
     width: auto;
     margin: 0 0 0 0;
     border: 0;
-    border: 0;
-    background-image:
-      repeating-linear-gradient(to right, #228 0 0, #44d var(--cw) var(--cw)),
-      linear-gradient(#ff0 0 0);
-    background-origin: content-box, padding-box;
     background-clip: content-box, padding-box;
-    background-clip: content-box, padding-box;
-    background-repeat: repeat-x;
-    word-spacing: 0;
-    font-kerning: none;
-    background-size: var(--cw);
+    --cw: calc(1ch + var(--ls));
+    --ls: 0.5ch;
+    letter-spacing: var(--ls);
+    --c-base: #f0f;
+    padding: 0 0 0 var(--ls);
   }
   .breadcrumbs .filename::after,
   .breadcrumbs .filename::before {
+    /* width: round(50%, 1ch); */
     width: auto;
     grid-column: 1;
     box-sizing: content-box;
     --cw: calc(1ch + var(--ls));
     --ls: 0.1ch;
     letter-spacing: var(--ls);
-  }
-  .breadcrumbs .filename::after {
-    /* width: 50%; */
-    /* direction: rtl; */
-    /* text-overflow: '[..'; */
-    /* margin-left: 50%; */
-    /* outline: 1px dashed red; */
-    /* display: flex; */
-    max-width: round(down, 50%, var(--cw));
-    text-overflow: '...';
-    outline-offset: -1px;
-    outline: 1px solid red;
-    word-break:;
-    --ls: 0;
-    width: auto;
-    margin: 0 0 0 0;
-    border: 0;
+    padding: 0 0 0 var(--ls);
+    --c-pad: #06f;
     background-image:
-      repeating-linear-gradient(to right, #228 0 0, #44d var(--cw) var(--cw)),
-      linear-gradient(#ff0 0 0);
-    background-origin: content-box, padding-box;
-    background-clip: content-box, padding-box;
+      repeating-linear-gradient(
+        to right,
+        hsl(from var(--c-base) h s l / 60%) 0 1ch,
+        hsl(from var(--c-base) h calc(s * 0.8) calc(l * 1.5) / 60%) 1ch
+          var(--cw)
+      ),
+      linear-gradient(to right, var(--c-pad) 0 0);
+    border-color: #0000;
+    background-origin: content-box, padding-box, border-box;
+    background-clip: content-box, padding-box, border-box;
     background-repeat: repeat-x;
+    margin: 0 0 0 0;
     word-spacing: 0;
     font-kerning: none;
     background-size: var(--cw);
@@ -71,6 +66,32 @@
     --cw: calc(1ch + var(--ls));
     --ls: 0.5ch;
     letter-spacing: var(--ls);
+    overflow: hidden;
+    width: auto;
+    color: hsl(from var(--c-base) h s calc(l * 2) / 100%);
+  }
+  .breadcrumbs .filename::after {
+    /* width: 50%; */
+    /* direction: rtl; */
+    /* color: #bff; */
+    /* text-overflow: '[..'; */
+    /* margin-left: 50%; */
+    /* outline: 1px dashed red; */
+    /* line-break: anywhere; */
+    /* display: flex; */
+    /* word-wrap: anywhere; */
+    /* display: inline; */
+    /* word-break: break-all; */
+    /* text-align: left; */
+    /* overflow: hidden; */
+    /* background-image: repeating-linear-gradient(to right, #228 0 1ch, #44d 1ch var(--cw)), linear-gradient(var(--c-pad)); */
+    max-width: round(down, 50%, var(--cw));
+    place-self: center start;
+    text-overflow: '...';
+    --ls: 0;
+    --cw: calc(1ch + var(--ls));
+    --ls: 0.5ch;
+    --c-base: #3800ff;
   }
   .breadcrumbs {
     bottom: 30px;

@@ -1,0 +1,132 @@
+/* Inline | file:///Users/ashley/noita/newer3/shot_20250821-154555-0-232522--8392-92299516.png */
+
+@media not print {
+  .breadcrumbs .filename::before {
+    /* place-self: center end; */
+    /* text-overflow: '.]' '[.'; */
+    /* display: none; */
+    /* width: round(up, 100%, 1ch); */
+    /* padding: 0 calc(var(--ls) * 0.5) 0 calc(var(--ls) * 0.5); */
+    /* padding: 0 var(--ls) 0 0; */
+    place-self: center start;
+    text-overflow: '..';
+    grid-row: 1;
+    overflow:;
+    display:;
+    width: round(up, 100%, var(--cw));
+    box-sizing: content-box;
+    --cw: calc(1ch + var(--ls));
+    --ls: 0.5ch;
+    letter-spacing: var(--ls);
+    width: auto;
+    margin: 0 0 0 0;
+    border: 0;
+    border: 0;
+    background-image:
+      repeating-linear-gradient(to right, #228 0 0, #44d var(--cw) var(--cw)),
+      linear-gradient(#ff0 0 0);
+    background-origin: content-box, padding-box;
+    background-clip: content-box, padding-box;
+    background-clip: content-box, padding-box;
+    background-repeat: repeat-x;
+    word-spacing: 0;
+    font-kerning: none;
+    background-size: var(--cw);
+  }
+  .breadcrumbs .filename::after,
+  .breadcrumbs .filename::before {
+    width: auto;
+    grid-column: 1;
+    box-sizing: content-box;
+    --cw: calc(1ch + var(--ls));
+    --ls: 0.1ch;
+    letter-spacing: var(--ls);
+  }
+  .breadcrumbs .filename::after {
+    /* width: 50%; */
+    /* direction: rtl; */
+    /* text-overflow: '[..'; */
+    /* margin-left: 50%; */
+    /* outline: 1px dashed red; */
+    /* display: flex; */
+    max-width: round(down, 50%, var(--cw));
+    text-overflow: '...';
+    outline-offset: -1px;
+    outline: 1px solid red;
+    word-break:;
+    --ls: 0;
+    width: auto;
+    margin: 0 0 0 0;
+    border: 0;
+    background-image:
+      repeating-linear-gradient(to right, #228 0 0, #44d var(--cw) var(--cw)),
+      linear-gradient(#ff0 0 0);
+    background-origin: content-box, padding-box;
+    background-clip: content-box, padding-box;
+    background-repeat: repeat-x;
+    word-spacing: 0;
+    font-kerning: none;
+    background-size: var(--cw);
+    box-sizing: content-box;
+    --cw: calc(1ch + var(--ls));
+    --ls: 0.5ch;
+    letter-spacing: var(--ls);
+  }
+  .breadcrumbs {
+    bottom: 30px;
+  }
+  .breadcrumbs .filename {
+    /* overflow: clip; */
+    /* grid-template-columns: 1fr; */
+    /* grid-template-rows: 1fr; */
+    /* max-width: round(down, 50%, 1ch); */
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    box-sizing: content-box;
+    --cw: calc(1ch + var(--ls));
+    --ls: 0.1ch;
+    letter-spacing: var(--ls);
+    width: fit-content;
+    flex: 0 0 fit-content;
+  }
+}
+
+/* Inline | file:///Users/ashley/noita/newer3/shot_20250821-154555-0-232522--8392-92299516.png */
+
+@media not print {
+  .breadcrumbs .filename::after,
+  .breadcrumbs .filename::before {
+    /* content: attr(data-filename); */
+  }
+  .breadcrumbs .filename {
+    /* text-overflow: ''; */
+    /* display: grid; */
+    /* max-width: round(down, 50%, 1ch); */
+    width: round(down, 100%, 1ch);
+    outline: 1px solid pink;
+    outline-offset: -1px;
+  }
+}
+
+/* Inline | file:///Users/ashley/noita/newer3/shot_20250821-154555-0-232522--8392-92299516.png */
+
+.breadcrumbs .filename {
+  overflow: hidden;
+  text-overflow:;
+  border:;
+  overflow: clip;
+  text-overflow: '⟨…⟩';
+  flex: 0 1 round(down, 100%, 1ch);
+  text-overflow: '…';
+}
+
+.breadcrumbs > ul > li.ext-png {
+  text-align: left;
+  float:;
+  flex: 1 auto;
+  margin: 0 auto;
+}
+
+.ext-png::before {
+  content: '.';
+}

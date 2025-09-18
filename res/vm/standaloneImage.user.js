@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.267
+// @version     1.2.269
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -75,7 +75,9 @@ const initStandaloneImage = ({
               ...attrs,
               textContent: text,
             })
-          : to)(GM_addElement(ul, 'li', { ...attrs, textContent: text }));
+          : to)(
+        GM_addElement(ul, 'li', { ...attrs, textContent: link ? '' : text }),
+      );
 
     hideProtocol ||
       addPart({
@@ -93,7 +95,7 @@ const initStandaloneImage = ({
       return acc + cur;
     }, prefix);
 
-    addPart({ text: head, class: 'filename', dataName: head });
+    addPart({ text: head, class: 'filename', 'data-filename': head });
     addPart({ text: extension, class: `ext-${extension}` });
   };
 

@@ -872,9 +872,9 @@
     right: 0;
     border-radius: 0 0 0 10px;
     top: unset;
-    bottom: 90px;
+    bottom: 0;
     justify-content: end;
-    padding: 0;
+    padding: 0 0.5ch;
     flex-direction: column;
     margin: 0;
     max-width: 100vw;
@@ -939,7 +939,7 @@
     padding: 0 0.3ch 0 0;
   }
 
-  .breadcrumbs .name {
+  .breadcrumbs .filename {
     min-width: 5ch;
     text-overflow: '';
     user-select: all;
@@ -953,8 +953,8 @@
     max-width: round(down, 50%, 1ch);
   }
 
-  .breadcrumbs .name::after,
-  .breadcrumbs .name::before {
+  .breadcrumbs .filename::after,
+  .breadcrumbs .filename::before {
     display: inline-block;
     content: attr(data-filename);
     grid-row: 1;
@@ -962,7 +962,7 @@
     opacity: 0.7;
   }
 
-  .breadcrumbs .name::after {
+  .breadcrumbs .filename::after {
     width: 50%;
     direction: rtl;
     place-self: center start;
@@ -973,7 +973,7 @@
     overflow: hidden;
   }
 
-  .breadcrumbs .name::before {
+  .breadcrumbs .filename::before {
     direction: ltr;
     place-self: center end;
     color: #0f0;

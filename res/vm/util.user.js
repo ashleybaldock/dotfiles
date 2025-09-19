@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.56
+// @version     1.1.57
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -221,8 +221,8 @@ const padAlternateEndStart =
       { raw },
       ...substitutions.map((sub, i) =>
         i % 2
-          ? sub?.toString?.().padStart(padTo)
-          : sub?.toString?.().padEnd(padTo),
+          ? sub?.toString?.().padEnd(padTo)
+          : sub?.toString?.().padStart(padTo),
       ),
     );
 

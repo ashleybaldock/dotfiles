@@ -1313,9 +1313,4 @@
     z-index: var(--z-selection-corner);
     cursor: nwse-resize;
   }
-  [data-selection] .selection,
-  [data-selection] .selection > .handle {
-    visibility: visible;
-    pointer-events: none;
-  }
 }

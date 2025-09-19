@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.292
+// @version     1.2.294
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -363,9 +363,12 @@ const initStandaloneImage = ({
 
       const pageSame = viewportX === pageX && viewportY === pageY;
 
-      console.log(padAllStart(4)`
-viewport: ${viewportX}/${viewportW},${viewportY}/${viewportH}
-  screen: ${screenX}/${screenW},${screenY}/${screenH}
+      console.log(pad([
+        ['s', 4],
+        ['e', 4],
+      ])`
+viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
+  screen: ${screenX},${screenY} (${screenW}×${screenH})
    delta: ${deltaX},${deltaY}
     page: ${pageX}/${pageW},${pageY}/${pageH}
   offset: ${offsetX}/${offsetW},${offsetY}/${offsetH}

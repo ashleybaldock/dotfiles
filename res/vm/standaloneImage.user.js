@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.277
+// @version     1.2.280
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -333,13 +333,37 @@ const initStandaloneImage = ({
     };
 
     const mousemove = (e) => {
-      const layerSame = e.clientX === e.layerX && e.clientY === e.layerY;
+      const { clientWidth: pageW, clientHeight: pageH } =
+        document.documentElement;
+      const { pageX, pageY } = e;
+
+      const { width: screenW, height: screenH } = window.screen;
+      const { screenX, screenY } = e;
+
+      const { innerWidth: viewportW, innerHeight: viewportH } = window;
+      const { clientX: viewportX, clientY: viewportY } = e;
+
+      const { layerX, layerY } = e;
+
+      const { offsetWidth: offsetW, offsetHeight: offsetH } = document.documentElement;
+      const { offsetX, offsetY } = e;
+
+      const { movementX: deltaX, movementY: deltaY } = e;
+
+      const widest = Math.max(pageW, screenW, viewportW);
+      const tallest = Math.max(pageH, screenH, viewportH);
+      const padTo = Math.max(widest, tallest).toString().length;
+
+      const layerSame = clientX === layerX && clientY === layerY;
       const pageSame =
-        layerSame && e.clientX === e.pageX && e.clientY === e.pageY;
+        layerSame && clientX === pageX && clientY === pageY;
+
       console.log(`
-viewport: ${e.clientX},${e.clientY} | screen: ${e.screenX},${e.screenY}
-   layer: ${layerSame ? `== ⤴︎` : `${e.layerX},${e.layerY}`} | movement: ${e.movementX},${e.movementY}
-    page: ${pageSame ? `== ⤴︎` : `${e.pageX},${e.pageY}`} | offset: ${e.offsetX},${e.offsetY}
+viewport: ${viewportX}/${viewportW},${viewportY}/${viewportH} | screen: ${screenX}/${screenW},${screenY}/${screenH}
+   layer: ${layerX}/${},${layerY}/${} | movement: ${e.movementX},${e.movementY}
+    page: ${pageX}/${pageW},${pageY}/${pageH}
+  offset: ${offsetX}/${offsetW},${offsetY}/${offsetH}
+  scroll: ${window.scrollX},${window.scrollY}
       `);
       const { pressed } = buttonsPressed(e);
       if (selecting()) {

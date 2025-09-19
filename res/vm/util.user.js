@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.47
+// @version     1.1.48
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -110,10 +110,13 @@ const buttonsPressed = ({
       [],
     ),
     [
-      ['shift', shiftKey],
-      ['ctrl', ctrlKey],
+      ['shift', shiftKey] /* ⇧️  */,
+      ['ctrl', ctrlKey] /* ^️ */,
       ['meta', metaKey],
+      ['command', metaKey] /* ⌘️  */,
+      ['windows', metaKey] /* ⊞️ */,
       ['alt', altKey],
+      ['option', altKey] /* ⌥️  */,
     ],
   ]),
   trigger: Object.fromEntries(

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.48
+// @version     1.1.49
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -91,14 +91,18 @@ const tee = (({ console }) => {
 /**
  * Represents button states for MouseEvents
  *
- * pressed: buttons pressed when the event happened
- * trigger: button that caused the event
+ * trigger: button or key that caused the event
+ * pressed: buttons and/or modifier keys when the event happened
  *
  * e.g. const { pressed, trigger } = buttonsPressed(e);
  */
 const buttonsPressed = ({
-  button,
-  buttons,
+  /* MouseEvent */
+  button = -1,
+  buttons = 0,
+  /* KeyboardEvent */
+  key = ,
+  /* Both */
   shiftKey,
   ctrlKey,
   metaKey,
@@ -119,12 +123,21 @@ const buttonsPressed = ({
       ['option', altKey] /* ⌥️  */,
     ],
   ]),
-  trigger: Object.fromEntries(
+  trigger: new Proxy(Object.fromEntries(
     ['left', 'wheel', 'right', 'back', 'forward'].reduce(
       (acc, cur, i) => [...acc, [cur, i === button]],
       [],
     ),
-  ),
+  ), {
+    get: (target, key) => {
+      if ('symbol' === typeof key) {
+        return target[key];
+      }
+      if (Object.hasOwn(target, key)) {
+        return target[key];
+      }
+    },
+  }),
 });
 
 /*}}}1*/

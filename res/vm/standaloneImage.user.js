@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.286
+// @version     1.2.287
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -402,27 +402,23 @@ viewport: ${viewportX}/${viewportW},${viewportY}/${viewportH}
     //     delete body.dataset.selecting;
     //   }
     // };
-    const keydown = ({
-      key,
-      shiftKey: shift,
-      ctrlKey: ctrl,
-      metaKey: meta,
-      altKey: alt,
-      target,
-    }) => {
-      const { trigger, pressed } = buttonsPressed(e);
+    const keydown = (e) => {
+      const {
+        trigger,
+        pressed: { ctrl },
+      } = buttonsPressed(e);
       if (selecting()) {
-        if (key === 'Escape') {
+        if (trigger === 'Escape') {
           cancelSelection();
         }
       } else {
         if (selection()) {
-          if (key === 'Escape') {
+          if (trigger === 'Escape') {
             clearSelection();
           }
         }
       }
-      if (ctrl && key === 'a') {
+      if (ctrl && trigger === 'a') {
       }
     };
 

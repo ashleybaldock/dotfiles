@@ -12,12 +12,12 @@
 @property --pixelw {
   syntax: '<integer>';
   inherits: true;
-  initial-value: 0;
+  initial-value: 1;
 }
 @property --pixelh {
   syntax: '<integer>';
   inherits: true;
-  initial-value: 0;
+  initial-value: 1;
 }
 @property --naturalw {
   syntax: '<integer>';
@@ -226,8 +226,8 @@
     --imfittedh: round(down, min(var(--h-if-fitw), var(--h-if-fith)), 1);
     --imfittedw: round(down, min(var(--w-if-fitw), var(--w-if-fith)), 1);
     /* Determine pixel display size */
-    --pixelh: round(down, calc(var(--imfittedh) / var(--naturalh)), 1);
-    --pixelw: round(down, calc(var(--imfittedw) / var(--naturalw)), 1);
+    --pixelh: max(1, round(down, calc(var(--imfittedh) / var(--naturalh)), 1));
+    --pixelw: max(1, round(down, calc(var(--imfittedw) / var(--naturalw)), 1));
 
     /* Pixel-aligned size of image for display */
     --imalignedh: calc(var(--pixelh) * var(--naturalh));
@@ -1147,8 +1147,6 @@
 
   .selection {
     visibility: hidden;
-    position: fixed;
-    pointer-events: none;
     top: calc(var(--px-imtop) - var(--linew) + (var(--minY) * 1px));
     left: calc(var(--px-imleft) - var(--linew) + (var(--minX) * 1px));
     width: max(calc((var(--maxX) - var(--minX)) * 1px), var(--px-pixelw));
@@ -1232,7 +1230,8 @@
     --scd: #000;
   }
 
-  :where([data-selection], [data-selecting]) > .selection {
+  :is([data-selection], [data-selecting])
+    :is(.selection, .selection > .handle) {
     visibility: visible;
   }
   .selection > .handle {

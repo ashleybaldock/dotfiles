@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.275
+// @version     1.2.277
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -333,12 +333,14 @@ const initStandaloneImage = ({
     };
 
     const mousemove = (e) => {
-      console.log(`viewport: ${e.clientX},${e.clientY}
-        layer: ${e.layerX},${e.layerY}
-        movement: ${e.movementX},${e.movementY}
-        offset: ${e.offsetX},${e.offsetY}
-        page: ${e.pageX},${e.pageY}
-        screen: ${e.screenX},${e.screenY}`);
+      const layerSame = e.clientX === e.layerX && e.clientY === e.layerY;
+      const pageSame =
+        layerSame && e.clientX === e.pageX && e.clientY === e.pageY;
+      console.log(`
+viewport: ${e.clientX},${e.clientY} | screen: ${e.screenX},${e.screenY}
+   layer: ${layerSame ? `== ⤴︎` : `${e.layerX},${e.layerY}`} | movement: ${e.movementX},${e.movementY}
+    page: ${pageSame ? `== ⤴︎` : `${e.pageX},${e.pageY}`} | offset: ${e.offsetX},${e.offsetY}
+      `);
       const { pressed } = buttonsPressed(e);
       if (selecting()) {
         if (pressed.left) {

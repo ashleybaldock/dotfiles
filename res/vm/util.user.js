@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.52
+// @version     1.1.54
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -108,21 +108,20 @@ const buttonsPressed = ({
   metaKey,
   altKey,
 }) => ({
-  pressed: Object.fromEntries([
-    ...['left', 'right', 'wheel', 'back', 'forward'].reduce(
+  pressed: Object.fromEntries(
+    ['left', 'right', 'wheel', 'back', 'forward'].reduce(
       (acc, cur, i) => [...acc, [cur, Boolean(buttons & (1 << i))]],
-      [],
+      [
+        ['shift', shiftKey] /* ⇧️  */,
+        ['ctrl', ctrlKey] /* ^️ */,
+        ['meta', metaKey],
+        ['command', metaKey] /* ⌘️  */,
+        ['windows', metaKey] /* ⊞️ */,
+        ['alt', altKey],
+        ['option', altKey] /* ⌥️  */,
+      ],
     ),
-    [
-      ['shift', shiftKey] /* ⇧️  */,
-      ['ctrl', ctrlKey] /* ^️ */,
-      ['meta', metaKey],
-      ['command', metaKey] /* ⌘️  */,
-      ['windows', metaKey] /* ⊞️ */,
-      ['alt', altKey],
-      ['option', altKey] /* ⌥️  */,
-    ],
-  ]),
+  ),
   trigger: new Proxy(
     Object.fromEntries(
       ['left', 'wheel', 'right', 'back', 'forward'].reduce(

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.289
+// @version     1.2.292
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -295,7 +295,7 @@ const initStandaloneImage = ({
       eventLayer.addEventListener('mousemove', mousemove, {});
     };
     const selectAll = () => {
-      delete body.dataset.selecting;
+      clearSelection();
       body.style.setProperty('--selectXstart', 0);
       body.style.setProperty('--selectYstart', 0);
       body.style.setProperty('--selectXend', naturalWidth);

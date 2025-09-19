@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.270
+// @version     1.2.275
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -149,7 +149,7 @@ const initStandaloneImage = ({
     class: 'selecting',
   });
   const selection = GM_addElement(selecting, 'div', {
-    class: 'selection',
+    class: 'selection ants',
   });
   const selectionHandles = ((to) => ({
     top: addSelectionHandle({
@@ -333,7 +333,12 @@ const initStandaloneImage = ({
     };
 
     const mousemove = (e) => {
-      console.log(e.clientX, e.clientY);
+      console.log(`viewport: ${e.clientX},${e.clientY}
+        layer: ${e.layerX},${e.layerY}
+        movement: ${e.movementX},${e.movementY}
+        offset: ${e.offsetX},${e.offsetY}
+        page: ${e.pageX},${e.pageY}
+        screen: ${e.screenX},${e.screenY}`);
       const { pressed } = buttonsPressed(e);
       if (selecting()) {
         if (pressed.left) {

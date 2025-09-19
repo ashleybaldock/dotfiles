@@ -1139,6 +1139,12 @@
     }
   }
 
+  .selecting {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
   .selection {
     visibility: hidden;
     position: fixed;
@@ -1148,6 +1154,13 @@
     width: max(calc((var(--maxX) - var(--minX)) * 1px), var(--px-pixelw));
     height: max(calc((var(--maxY) - var(--minY)) * 1px), var(--px-pixelw));
     display: flex;
+    background-color: #0000;
+    padding: 0;
+    position: relative;
+    --handle-size: 8px;
+    z-index: var(--z-selection);
+    pointer-events: auto;
+    cursor: grab;
     --minX: min(var(--Xs), var(--Xe));
     --maxX: max(var(--Xs), var(--Xe));
     --minY: min(var(--Ys), var(--Ye));
@@ -1160,8 +1173,9 @@
     );
     --Ys: round(down, calc(var(--selectYstart) - var(--imtop)), var(--pixelw));
     --Ye: round(nearest, calc(var(--selectYend) - var(--imtop)), var(--pixelw));
-    background-color: #0000;
-    padding: 0;
+  }
+
+  .ants {
     --linew: 1px;
     box-sizing: content-box;
     box-shadow:
@@ -1218,13 +1232,6 @@
     --scd: #000;
   }
 
-  .selection {
-    position: relative;
-    --handle-size: 8px;
-    z-index: var(--z-selection);
-    pointer-events: auto;
-    cursor: grab;
-  }
   :where([data-selection], [data-selecting]) > .selection {
     visibility: visible;
   }
@@ -1260,11 +1267,13 @@
     height: auto;
     aspect-ratio: 1;
     display: flex;
-    box-shadow: inset 0 0 1px 1px #f0f4;
     grid-row: 1 / -1;
     grid-column: 1 / -1;
     place-self: center;
     position: absolute;
+  }
+  :root:has(.tgl.dbg :checked) .selection > .handle::before {
+    box-shadow: inset 0 0 1px 1px #f0f4;
   }
 
   .selection > .handle.top {

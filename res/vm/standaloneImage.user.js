@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.269
+// @version     1.2.270
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -142,13 +142,13 @@ const initStandaloneImage = ({
     });
   };
 
-  const viewmenu = GM_addElement(document.body, 'menu', {
-    class: 'viewmenu toggles',
-  });
   const overlaid = GM_addElement(document.body, 'aside', {
     class: 'overlaid',
   });
-  const selection = GM_addElement(document.body, 'div', {
+  const selecting = GM_addElement(document.body, 'aside', {
+    class: 'selecting',
+  });
+  const selection = GM_addElement(selecting, 'div', {
     class: 'selection',
   });
   const selectionHandles = ((to) => ({
@@ -210,6 +210,9 @@ const initStandaloneImage = ({
     imbottomright: addOutput({ to, class: 'output two imbottomright' }),
   }))(overlaid);
 
+  const viewmenu = GM_addElement(document.body, 'menu', {
+    class: 'viewmenu toggles',
+  });
   const toggles = ((to) => ({
     showImageDims: addToggle({
       to,
@@ -255,7 +258,7 @@ const initStandaloneImage = ({
     }),
   }))(viewmenu);
 
-  (({ document: { body } }) => {
+  (({ document: { body }, eventLayer }) => {
     const selecting = () => body.dataset.selecting !== undefined;
     const selection = () => body.dataset.selection !== undefined;
 
@@ -276,12 +279,12 @@ const initStandaloneImage = ({
     const endSelection = (e) => {
       updateSelection(e);
       delete body.dataset.selecting;
-      body.removeEventListener('mousemove', mousemove, {});
+      eventLayer.removeEventListener('mousemove', mousemove, {});
       body.dataset.selection = '';
     };
     const cancelSelection = () => {
       delete body.dataset.selecting;
-      body.removeEventListener('mousemove', mousemove, {});
+      eventLayer.removeEventListener('mousemove', mousemove, {});
     };
     const beginSelection = ({ clientX, clientY }) => {
       body.dataset.selecting = '';
@@ -289,7 +292,7 @@ const initStandaloneImage = ({
       body.style.setProperty('--selectYstart', clientY);
       body.style.setProperty('--selectXend', clientX);
       body.style.setProperty('--selectYend', clientY);
-      body.addEventListener('mousemove', mousemove, {});
+      eventLayer.addEventListener('mousemove', mousemove, {});
     };
     const resumeSelection = ({ target: { classList } }) => {
       const sX = body.style.getPropertyValue('--selectXstart');
@@ -326,10 +329,11 @@ const initStandaloneImage = ({
         body.dataset.selecting = top || bottom ? '' : 'horizontal';
       }
 
-      body.addEventListener('mousemove', mousemove, {});
+      eventLayer.addEventListener('mousemove', mousemove, {});
     };
 
     const mousemove = (e) => {
+      console.log(e.clientX, e.clientY);
       const { pressed } = buttonsPressed(e);
       if (selecting()) {
         if (pressed.left) {
@@ -369,25 +373,34 @@ const initStandaloneImage = ({
     //     delete body.dataset.selecting;
     //   }
     // };
-    const keydown = ({ code }) => {
+    const keydown = ({
+      key,
+      shiftKey: shift,
+      ctrlKey: ctrl,
+      metaKey: meta,
+      altKey: alt,
+      target,
+    }) => {
       if (selecting()) {
-        if (code === 'Escape') {
+        if (key === 'Escape') {
           cancelSelection();
         }
       } else {
         if (selection()) {
-          if (code === 'Escape') {
+          if (key === 'Escape') {
             clearSelection();
           }
         }
       }
+      if (ctrl && key === 'a') {
+      }
     };
 
-    body.addEventListener('mousedown', mousedown, {});
-    body.addEventListener('mouseup', mouseup, {});
-    // body.addEventListener('click', click, {});
+    eventLayer.addEventListener('mousedown', mousedown, {});
+    eventLayer.addEventListener('mouseup', mouseup, {});
+    // eventLayer.addEventListener('click', click, {});
     body.addEventListener('keydown', keydown, {});
-  })({ img: qs`img`.one, document });
+  })({ img: qs`img`.one, document, eventLayer: selecting });
 };
 
 const isStandaloneImage = (({ document }) => {

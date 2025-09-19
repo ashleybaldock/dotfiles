@@ -1305,8 +1305,8 @@
     z-index: var(--z-selection-corner);
     cursor: nwse-resize;
   }
-  [data-selecting] .selection,
-  [data-selecting] .selection > .handle {
+  [data-selection] .selection,
+  [data-selection] .selection > .handle {
     visibility: visible;
     pointer-events: none;
   }

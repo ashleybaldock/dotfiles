@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.45
+// @version     1.1.47
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -96,13 +96,26 @@ const tee = (({ console }) => {
  *
  * e.g. const { pressed, trigger } = buttonsPressed(e);
  */
-const buttonsPressed = ({ button, buttons }) => ({
-  pressed: Object.fromEntries(
-    ['left', 'right', 'wheel', 'back', 'forward'].reduce(
+const buttonsPressed = ({
+  button,
+  buttons,
+  shiftKey,
+  ctrlKey,
+  metaKey,
+  altKey,
+}) => ({
+  pressed: Object.fromEntries([
+    ...['left', 'right', 'wheel', 'back', 'forward'].reduce(
       (acc, cur, i) => [...acc, [cur, Boolean(buttons & (1 << i))]],
       [],
     ),
-  ),
+    [
+      ['shift', shiftKey],
+      ['ctrl', ctrlKey],
+      ['meta', metaKey],
+      ['alt', altKey],
+    ],
+  ]),
   trigger: Object.fromEntries(
     ['left', 'wheel', 'right', 'back', 'forward'].reduce(
       (acc, cur, i) => [...acc, [cur, i === button]],
@@ -173,6 +186,17 @@ const css = (...args) => parseTag(...args);
  * e.g. html`<div><span class="${foo}">hello</span></div>`
  */
 const html = (...args) => parseTag(...args);
+
+/**
+ * Pad start of all substituted variables so they are same width
+ */
+const padAllStart =
+  (padTo) =>
+  (raw, ...substitutions) =>
+    String.raw(
+      { raw },
+      ...substitutions.map((sub) => sub?.toString?.().padStart(padTo)),
+    );
 
 /*{{{2 Time */
 const timeInMs = ({ m = 0, s = 0, ms = 0 } = {}) => m * 60000 + s * 1000 + ms;

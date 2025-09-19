@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.280
+// @version     1.2.286
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -343,9 +343,8 @@ const initStandaloneImage = ({
       const { innerWidth: viewportW, innerHeight: viewportH } = window;
       const { clientX: viewportX, clientY: viewportY } = e;
 
-      const { layerX, layerY } = e;
-
-      const { offsetWidth: offsetW, offsetHeight: offsetH } = document.documentElement;
+      const { offsetWidth: offsetW, offsetHeight: offsetH } =
+        document.documentElement;
       const { offsetX, offsetY } = e;
 
       const { movementX: deltaX, movementY: deltaY } = e;
@@ -354,13 +353,12 @@ const initStandaloneImage = ({
       const tallest = Math.max(pageH, screenH, viewportH);
       const padTo = Math.max(widest, tallest).toString().length;
 
-      const layerSame = clientX === layerX && clientY === layerY;
-      const pageSame =
-        layerSame && clientX === pageX && clientY === pageY;
+      const pageSame = viewportX === pageX && viewportY === pageY;
 
-      console.log(`
-viewport: ${viewportX}/${viewportW},${viewportY}/${viewportH} | screen: ${screenX}/${screenW},${screenY}/${screenH}
-   layer: ${layerX}/${},${layerY}/${} | movement: ${e.movementX},${e.movementY}
+      console.log(padAllStart(4)`
+viewport: ${viewportX}/${viewportW},${viewportY}/${viewportH}
+  screen: ${screenX}/${screenW},${screenY}/${screenH}
+   delta: ${deltaX},${deltaY}
     page: ${pageX}/${pageW},${pageY}/${pageH}
   offset: ${offsetX}/${offsetW},${offsetY}/${offsetH}
   scroll: ${window.scrollX},${window.scrollY}
@@ -412,6 +410,7 @@ viewport: ${viewportX}/${viewportW},${viewportY}/${viewportH} | screen: ${screen
       altKey: alt,
       target,
     }) => {
+      const { trigger, pressed } = buttonsPressed(e);
       if (selecting()) {
         if (key === 'Escape') {
           cancelSelection();

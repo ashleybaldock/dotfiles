@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.287
+// @version     1.2.289
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -294,6 +294,14 @@ const initStandaloneImage = ({
       body.style.setProperty('--selectYend', clientY);
       eventLayer.addEventListener('mousemove', mousemove, {});
     };
+    const selectAll = () => {
+      delete body.dataset.selecting;
+      body.style.setProperty('--selectXstart', 0);
+      body.style.setProperty('--selectYstart', 0);
+      body.style.setProperty('--selectXend', naturalWidth);
+      body.style.setProperty('--selectYend', naturalHeight);
+      body.dataset.selection = '';
+    };
     const resumeSelection = ({ target: { classList } }) => {
       const sX = body.style.getPropertyValue('--selectXstart');
       const sY = body.style.getPropertyValue('--selectYstart');
@@ -403,22 +411,20 @@ viewport: ${viewportX}/${viewportW},${viewportY}/${viewportH}
     //   }
     // };
     const keydown = (e) => {
-      const {
-        trigger,
-        pressed: { ctrl },
-      } = buttonsPressed(e);
+      const { trigger, pressed } = buttonsPressed(e);
       if (selecting()) {
-        if (trigger === 'Escape') {
+        if (trigger.Escape) {
           cancelSelection();
         }
       } else {
         if (selection()) {
-          if (trigger === 'Escape') {
+          if (trigger.Escape) {
             clearSelection();
           }
         }
       }
-      if (ctrl && trigger === 'a') {
+      if (pressed.ctrl && trigger.a) {
+        selectAll();
       }
     };
 

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.49
+// @version     1.1.52
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -101,7 +101,7 @@ const buttonsPressed = ({
   button = -1,
   buttons = 0,
   /* KeyboardEvent */
-  key = ,
+  key = null,
   /* Both */
   shiftKey,
   ctrlKey,
@@ -123,21 +123,22 @@ const buttonsPressed = ({
       ['option', altKey] /* ⌥️  */,
     ],
   ]),
-  trigger: new Proxy(Object.fromEntries(
-    ['left', 'wheel', 'right', 'back', 'forward'].reduce(
-      (acc, cur, i) => [...acc, [cur, i === button]],
-      [],
+  trigger: new Proxy(
+    Object.fromEntries(
+      ['left', 'wheel', 'right', 'back', 'forward'].reduce(
+        (acc, cur, i) => [...acc, [cur, i === button]],
+        [],
+      ),
     ),
-  ), {
-    get: (target, key) => {
-      if ('symbol' === typeof key) {
-        return target[key];
-      }
-      if (Object.hasOwn(target, key)) {
-        return target[key];
-      }
+    {
+      get: (target, propName) => {
+        if ('symbol' === typeof propName || Object.hasOwn(target, propName)) {
+          return target[propName];
+        }
+        return propName === key;
+      },
     },
-  }),
+  ),
 });
 
 /*}}}1*/

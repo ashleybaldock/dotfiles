@@ -48,6 +48,7 @@ body {
   grid-template-rows: subgrid;
   grid-template-columns: subgrid;
   pointer-events: none;
+  position: relative;
 }
 .squares label {
   padding: 0 1ch;
@@ -78,7 +79,7 @@ body {
   border-radius: 3px;
   align-items: center;
   justify-items: center;
-  line-height: 0;
+  line-height: normal;
   text-shadow: var(--text-outline-thick);
   box-shadow:
     inset 1px 1px 3px -2px hsl(from #fff h s l / calc(var(--a) * 0.6)),
@@ -91,4 +92,24 @@ body {
 .squares > .square:hover,
 .squares > .group:has(> .square:hover, > label:hover) > :is(.square, label) {
   --a: 100%;
+}
+
+.squares label {
+  overflow: visible;
+  position: absolute;
+  text-align: left;
+  left: 0;
+  visibility: hidden;
+}
+.squares label {
+  padding: 0 1ch;
+  --c: #555a;
+  white-space: nowrap;
+  width: fit-content;
+  place-self: center start;
+  font-size: 0.8em;
+}
+
+section.squares:nth-child(2) {
+  width: 30%;
 }

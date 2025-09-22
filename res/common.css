@@ -26,16 +26,6 @@
   inherits: true;
   initial-value: 72.828deg; /* atan((1 + √5) / 2) */
 }
-@property --_100vw {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 100vw;
-}
-@property --_100vh {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 100vh;
-}
 :root {
   /* Unitless */
   /* --𝞅: 1.618; */
@@ -62,6 +52,18 @@
   /* Null placeholders */
   --Ø‥text-shadow: 0 0 #0000;
 }
+
+/*{{{1 viewport dimensions */
+@property --_100vw {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vw;
+}
+@property --_100vh {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vh;
+}
 @property --clientw {
   syntax: '<number>';
   inherits: true;
@@ -72,12 +74,28 @@
   inherits: true;
   initial-value: 0;
 }
+@property --int-clientw {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --int-clienth {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
 :root {
   /* Metrics */
   /* Screen size */
   --clientw: tan(atan2(var(--_100vw), 1px)); /* screen width */
-  --clienth: tan(atan2(var(--_100vh), 1px)); /* screen height*/
+  --clienth: tan(atan2(var(--_100vh), 1px)); /* screen height */
+  --int-clientw: round(down, var(--clientw), 1);
+  --int-clienth: round(down, var(--clienth), 1);
+  counter-reset: viewportw var(--int-clientw) viewporth var(--int-clienth);
+}
+/*}}}1 end viewport dimensions */
 
+:root {
   --icon-border: 1;
   --icon-padding: 20;
   --icon-radius: 60;
@@ -94,16 +112,24 @@
 
 /*{{{1 Metrics */
 
-body::before {
-  counter-reset:
-    screenw var(--clientw),
-    screenh var(--clienth);
-  content: counter(screenw) '×' counter(screenh);
+:root::before {
+  content: counter(viewportw) '×' counter(viewporth);
+  color: #fff;
+  opacity: 0.4;
+  font-size: 12px;
+  font-family: Menlo, monospace;
+  letter-spacing: 0.02ch;
+  padding: 0.1em 0.5ch;
+  position: fixed;
+  top: 0;
+  right: 0;
 }
 
-body {
+:root {
   font-size: 14px;
   line-height: normal;
+}
+body {
   display: flex;
   flex-direction: column;
   margin: 0.6em;

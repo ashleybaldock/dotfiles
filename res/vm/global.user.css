@@ -5,52 +5,49 @@ html {
 body {
   /* background: #222 !important; */
 }
-@property --⍴100vw {
+/*{{{1 viewport dimensions */
+@property --_100vw {
   syntax: '<length>';
   inherits: true;
   initial-value: 100vw;
 }
-@property --⍴100vh {
+@property --_100vh {
   syntax: '<length>';
   inherits: true;
   initial-value: 100vh;
 }
-@property --clientw-rem {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --clientw-rem {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
 @property --clientw {
-  syntax: '<integer>';
+  syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
 @property --clienth {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --int-clientw {
   syntax: '<integer>';
   inherits: true;
   initial-value: 0;
 }
-@property --out {
-  syntax: '<string>';
-  inherits: false;
-  initial-value: '<out>';
+@property --int-clienth {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
 }
 :root {
-  /* The result is an integer without unit  */
-  --clientw: tan(atan2(var(--⍴100vw), 1px)); /* screen width */
-  --clienth: tan(atan2(var(--⍴100vh), 1px)); /* screen height*/
-  --clientw-rem: tan(atan2(var(--⍴100vw), 1em)); /* screen width in rem */
-  --clienth-rem: tan(atan2(var(--⍴100vh), 1em)); /* screen height in rem*/
+  /* Metrics */
+  /* Screen size */
+  --clientw: tan(atan2(var(--_100vw), 1px)); /* screen width */
+  --clienth: tan(atan2(var(--_100vh), 1px)); /* screen height */
+  --int-clientw: round(down, var(--clientw), 1);
+  --int-clienth: round(down, var(--clienth), 1);
+  counter-reset: viewportw var(--int-clientw) viewporth var(--int-clienth);
+}
+/*}}}1 end viewport dimensions */
 
-  counter-reset: clientw var(--clientw, 0) clienth var(--clienth, 0) clientw-rem
-    calc(var(--clientw-rem, 0) * 1000) clienth-rem var(--clienth-rem, 0);
-
-  /*
+/*
 
 a =   1.23
 b =   0.455
@@ -85,7 +82,6 @@ round(to-zero, x, 1) '.' round(nearest, (x - round(to-zero, x, 1)) * pow(s, 10),
   100.33  - 100 .33      100.3   100.33  100.330
   -12.032 - 12  .032     -12.0   -12.03  -12.032
   */
-}
 
 :root.__global_clientDims::before {
   content: ' ' counter(clientw) ' × ' counter(clienth) ' ᵖˣ';
@@ -127,6 +123,12 @@ round(to-zero, x, 1) '.' round(nearest, (x - round(to-zero, x, 1)) * pow(s, 10),
   content: ' ' counter(clientw) ' × ' counter(clienth) ' ᵖˣ\0a '
     counter(clientw-rem) ' × ' counter(clienth-rem) ' ʳᵉᵐ';
   color: #f5f5f5;
+}
+
+@property --out {
+  syntax: '<string>';
+  inherits: false;
+  initial-value: '<out>';
 }
 
 /* Make links fill their parent list

@@ -2,9 +2,6 @@ html {
   /* background: #222 !important; */
   overscroll-behavior: none;
 }
-body {
-  /* background: #222 !important; */
-}
 /*{{{1 viewport dimensions */
 @property --_100vw {
   syntax: '<length>';

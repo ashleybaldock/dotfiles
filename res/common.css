@@ -79,7 +79,37 @@
   inherits: true;
   initial-value: 0;
 }
+@property --int-clientw-1dp {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --int-clientw-2dp {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --int-clientw-3dp {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
 @property --int-clienth {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --int-clienth-1dp {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --int-clienth-2dp {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --int-clienth-3dp {
   syntax: '<integer>';
   inherits: true;
   initial-value: 0;
@@ -91,7 +121,58 @@
   --clienth: tan(atan2(var(--_100vh), 1px)); /* screen height */
   --int-clientw: round(down, var(--clientw), 1);
   --int-clienth: round(down, var(--clienth), 1);
-  counter-reset: viewportw var(--int-clientw) viewporth var(--int-clienth);
+  /* counter-reset: viewportw var(--int-clientw) viewporth var(--int-clienth); */
+  --int-clientw-1dp: calc(
+    (var(--clientw) - round(to-zero, var(--clientw), 1)) * 10
+  );
+  --int-clientw-2dp: calc(
+    (var(--clientw) - round(to-zero, var(--clientw), 1)) * 100
+  );
+  --int-clientw-3dp: calc(
+    (var(--clientw) - round(to-zero, var(--clientw), 1)) * 1000
+  );
+  --int-clienth-1dp: calc(
+    (var(--clienth) - round(to-zero, var(--clienth), 1)) * 10
+  );
+  --int-clienth-2dp: calc(
+    (var(--clienth) - round(to-zero, var(--clienth), 1)) * 100
+  );
+  --int-clienth-3dp: calc(
+    (var(--clienth) - round(to-zero, var(--clienth), 1)) * 1000
+  );
+}
+:root[data-debug-viewport]::before {
+  content: counter(viewportw) '×' counter(viewporth);
+  color: #fff;
+  opacity: 0.4;
+  font-size: 12px;
+  font-family: Menlo, monospace;
+  letter-spacing: 0.02ch;
+  padding: 0.1em 0.5ch;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+:root[data-debug-viewport~='1dp']::before {
+  counter-reset: viewportw var(--int-clientw, 0) viewportwdp
+    var(--int-clientw-1dp, 0) viewporth var(--int-clienth, 0) viewporthdp
+    var(--int-clienth-1dp, 0);
+  content: counter(viewportw) '.' counter(viewportwdp) '×' counter(viewporth)
+    '.' counter(viewporthdp);
+}
+:root[data-debug-viewport~='2dp']::before {
+  counter-reset: viewportw var(--int-clientw, 0) viewportwdp
+    var(--int-clientw-2dp, 0) viewporth var(--int-clienth, 0) viewporthdp
+    var(--int-clienth-2dp, 0);
+  content: counter(viewportw) '.' counter(viewportwdp) '×' counter(viewporth)
+    '.' counter(viewporthdp);
+}
+:root[data-debug-viewport~='3dp']::before {
+  counter-reset: viewportw var(--int-clientw, 0) viewportwdp
+    var(--int-clientw-3dp, 0) viewporth var(--int-clienth, 0) viewporthdp
+    var(--int-clienth-3dp, 0);
+  content: counter(viewportw) '.' counter(viewportwdp) '×' counter(viewporth)
+    '.' counter(viewporthdp);
 }
 /*}}}1 end viewport dimensions */
 
@@ -111,19 +192,6 @@
 }
 
 /*{{{1 Metrics */
-
-:root::before {
-  content: counter(viewportw) '×' counter(viewporth);
-  color: #fff;
-  opacity: 0.4;
-  font-size: 12px;
-  font-family: Menlo, monospace;
-  letter-spacing: 0.02ch;
-  padding: 0.1em 0.5ch;
-  position: fixed;
-  top: 0;
-  right: 0;
-}
 
 :root {
   font-size: 14px;

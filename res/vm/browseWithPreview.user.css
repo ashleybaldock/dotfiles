@@ -1,3 +1,6 @@
+/*  */
+/* Tue Sep 23 2025 10:55:48 GMT+0100 (British Summer Time) */
+
 /*{{{1 SVG Icons */
 .toggle-images {
   background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z%22%3E%3C/path%3E%3C/svg%3E');
@@ -303,13 +306,13 @@ td:first-child + td {
 
 @keyframes switch {
   0% {
-    opacity: 1;
+    --animated-opacity: 1;
   }
   50% {
-    opacity: 0;
+    --animated-opacity: 0;
   }
   100% {
-    opacity: 0;
+    --animated-opacity: 0;
   }
 }
 
@@ -326,14 +329,20 @@ td:first-child + td {
   grid-row: 1/1;
 }
 
+@property --animated-opacity {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
 @property --playerIdx {
   syntax: '<integer>';
-  inherits: false;
+  inherits: true;
   initial-value: 0;
 }
 @property --s-playerIdx {
   syntax: '<string>';
-  inherits: false;
+  inherits: true;
   initial-value: '0';
 }
 @property --playerCount {
@@ -350,14 +359,20 @@ td:first-child + td {
   grid-row: preview;
   grid-column: 1/-1;
 }
-
+.interleave > .vidwrap > video {
+  opacity: var(--animated-opacity);
+}
 .interleave > .vidwrap:has(> .paused) {
+  position: relative;
+}
+.interleave > .vidwrap:has(> .paused) > video,
+.interleave > .vidwrap:has(> .paused)::after {
   animation-play-state: paused;
 }
-.interleave > .vidwrap:has(> :not(.paused):not(.off)) {
+.interleave > .vidwrap:has(> :not(.paused):not(.off)) > video,
+.interleave > .vidwrap:has(> :not(.paused):not(.off))::after {
   animation: calc(var(--playerCount) * var(--d)) steps(2, jump-none)
     calc((var(--playerIdx)) * var(--d)) switch infinite;
-  opacity: 0;
   --d: var(--interleave-delay, 600ms);
 }
 .interleave .vidwrap:has(> .off) {
@@ -371,7 +386,7 @@ td:first-child + td {
   );
   aspect-ratio: 1;
   width: auto;
-  height: 1em;
+  height: 1.8em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -384,27 +399,23 @@ td:first-child + td {
   line-height: normal;
   color: #000;
   font-family: monospace;
-  opacity: 0.4;
-}
-.interleave .vidwrap::after {
+  opacity: 1;
   content: var(--s-playerIdx);
-  --bg: hsl(var(--angle) 80% 50% / 80%);
+  --bg: hsl(var(--angle) 80% 50% / calc(0.5 + (0.5 * var(--animated-opacity))));
   aspect-ratio: 1;
-  width: auto;
-  height: 1em;
   display: flex;
   align-items: center;
   justify-content: center;
   position: fixed;
   top: calc(var(--radius) + sin(var(--angle)) * var(--radius));
   left: calc(var(--radius) + cos(var(--angle)) * var(--radius));
-  z-index: 100;
+  z-index: calc(100 + var(--animated-opacity));
   background-color: var(--bg);
   line-height: normal;
   --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
-  --radius: 16px;
+  --radius: 14px;
   border-radius: 50%;
-  font-size: 2em;
+  font-size: calc(var(--radius) * 1.2);
   padding: var(--radius);
   color: #fff;
   text-shadow:
@@ -415,8 +426,21 @@ td:first-child + td {
   font-family: Menlo, monospace;
   font-weight: normal;
   border: 2px solid hsl(from var(--bg) h s l / 100%);
-  opacity: 1;
   margin: 2px;
+  --playerIdx: inherit;
+  --s-playerIdx: inherit;
+}
+.interleave > .vidwrap:has(> .paused)::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  --radius: 2px;
+  font-size: calc(var(--radius) * 6);
+}
+.interleave .vidwrap:has(> .off)::after {
+  background-image:
+    linear-gradient(45deg, #0000 0 46%, #000 48% 52%, #0000 54% 100%),
+    linear-gradient(-45deg, #0000 0 46%, #000 48% 52%, #0000 54% 100%);
 }
 
 /*{{{1 Overlay */
@@ -492,6 +516,7 @@ section.playing {
   display: grid;
   height: var(--playerHeight);
   width: var(--playerWidth);
+  grid-template-rows: [preview-start] 1fr [preview-end];
 }
 
 .interleave {

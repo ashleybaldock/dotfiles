@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.141
+// @version     1.0.145
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -87,16 +87,15 @@ const addWrappedVideo = (
   },
 ) => {
   const wrapper = GM_addElement(parent, 'div', { class: 'vidwrap ' });
+  const idx = () => wrapper.style.getPropertyValue('--playerIdx');
   const video = GM_addElement(wrapper, 'video', options);
   video.addEventListener(
     'play',
-    ({ target: { id } }) => {
-      const idx = wrapper.style.getPropertyValue('--playerIdx');
-
+    () => {
       video.classList.remove('paused');
       video.classList.add('playing');
 
-      console.debug(`${idx} playing '${video.src}'`);
+      console.debug(`${idx()} playing '${video.src}'`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -104,8 +103,8 @@ const addWrappedVideo = (
         .forEach((tr) => {
           tr.classList.remove('paused');
           tr.classList.add('playing');
-          tr.style.setProperty('--playerIdx', idx);
-          tr.style.setProperty('--s-playerIdx', `'${idx}'`);
+          tr.style.setProperty('--playerIdx', idx());
+          tr.style.setProperty('--s-playerIdx', `'${idx()}'`);
 
           const undo = () => {
             tr.classList.remove('playing');
@@ -121,13 +120,11 @@ const addWrappedVideo = (
   );
   video.addEventListener(
     'pause',
-    ({ target: { id } }) => {
-      const idx = wrapper.style.getPropertyValue('--playerIdx');
-
+    () => {
       video.classList.remove('playing');
       video.classList.add('paused');
 
-      console.debug(`${idx} paused`);
+      console.debug(`${idx()} paused '${video.src}'`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -135,30 +132,24 @@ const addWrappedVideo = (
         .forEach((tr) => {
           tr.classList.remove('playing');
           tr.classList.add('paused');
-          tr.style.setProperty('--playerIdx', idx);
-          tr.style.setProperty('--s-playerIdx', `'${idx}'`);
+          tr.style.setProperty('--playerIdx', idx());
+          tr.style.setProperty('--s-playerIdx', `'${idx()}'`);
         });
     },
     {},
   );
-  video.addEventListener('loadstart', ({ target: { id = '??' } }) => {
-    const idx = wrapper.style.getPropertyValue('--playerIdx');
-    console.debug(`${idx} loadstart`);
+  video.addEventListener('loadstart', () => {
+    console.debug(`${idx()} loadstart '${video.src}'`);
   });
-  video.addEventListener('error', ({ target }) => {
-    const idx = wrapper.style.getPropertyValue('--playerIdx');
-    console.warn(`${idx} error loading '${target.src}'`);
+  video.addEventListener('error', () => {
+    console.warn(`${idx()} error loading '${video.src}'`);
   });
-  video.addEventListener(
-    'canplaythrough',
-    ({ target, target: { id = '??' } }) => {
-      const idx = wrapper.style.getPropertyValue('--playerIdx');
-      console.debug(`${idx} canplaythrough`);
-      target.volume = 0;
-      target.muted = true;
-      target.play();
-    },
-  );
+  video.addEventListener('canplaythrough', () => {
+    console.debug(`${idx()} canplaythrough '${video.src}'`);
+    target.volume = 0;
+    target.muted = true;
+    target.play();
+  });
   return { wrapper, player: video };
 };
 

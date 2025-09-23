@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.136
+// @version     1.0.141
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -96,7 +96,7 @@ const addWrappedVideo = (
       video.classList.remove('paused');
       video.classList.add('playing');
 
-      console.debug(`${id} playing '${video.src}'`);
+      console.debug(`${idx} playing '${video.src}'`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -127,7 +127,7 @@ const addWrappedVideo = (
       video.classList.remove('playing');
       video.classList.add('paused');
 
-      console.debug(`${id} paused`);
+      console.debug(`${idx} paused`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -142,15 +142,18 @@ const addWrappedVideo = (
     {},
   );
   video.addEventListener('loadstart', ({ target: { id = '??' } }) => {
-    console.debug(`${id} loadstart`);
+    const idx = wrapper.style.getPropertyValue('--playerIdx');
+    console.debug(`${idx} loadstart`);
   });
   video.addEventListener('error', ({ target }) => {
-    console.warn(`${id} error loading '${target.src}'`);
+    const idx = wrapper.style.getPropertyValue('--playerIdx');
+    console.warn(`${idx} error loading '${target.src}'`);
   });
   video.addEventListener(
     'canplaythrough',
     ({ target, target: { id = '??' } }) => {
-      console.debug(`${id} canplaythrough`);
+      const idx = wrapper.style.getPropertyValue('--playerIdx');
+      console.debug(`${idx} canplaythrough`);
       target.volume = 0;
       target.muted = true;
       target.play();
@@ -173,9 +176,7 @@ const initBrowsePreview = ({ document }) => {
     let _shuffled = false;
 
     function* filteredFiles() {
-      while (1) {
-        yield* files.filter((x) => x.match(_filter));
-      }
+      yield* files.filter((x) => x.match(_filter));
     }
 
     const load = () => {

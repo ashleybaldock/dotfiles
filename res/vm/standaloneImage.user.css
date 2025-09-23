@@ -270,6 +270,8 @@
     --z-selection: 10;
     --z-selection-corner: 12;
     --z-selection-handle: 14;
+
+    --bgx: 10;
   }
   :root:has(.tgl.sun :checked) {
     color: #222;
@@ -300,11 +302,11 @@
       repeating-conic-gradient(#444 0 90deg, #333 90deg 180deg);
     background-size:
       100vw 100vh,
-      calc(var(--pixelw) * 2) calc(var(--pixelw) * 2);
+      calc(var(--px-pixelw) * var(--bgx)) calc(var(--px-pixelw) * var(--bgx));
     background-repeat: no-repeat, repeat;
     background-position:
       0 0,
-      var(--imleft) var(--imtop);
+      var(--px-imleft) var(--px-imtop);
   }
   :root:has(.tgl.pix :checked):has(.tgl.sun :checked) {
     background-image:
@@ -312,11 +314,11 @@
       repeating-conic-gradient(#555 0 90deg, #333 90deg 180deg);
     background-size:
       100vw 100vh,
-      calc(var(--pixelw) * 2) calc(var(--pixelw) * 2);
+      calc(var(--px-pixelw) * var(--bgx)) calc(var(--px-pixelw) * var(--bgx));
     background-repeat: no-repeat, repeat;
     background-position:
       0 0,
-      var(--imleft) var(--imtop);
+      var(--px-imleft) var(--px-imtop);
   }
 
   /*{{{1 Thin-lined grid pixel hint */
@@ -942,7 +944,7 @@
   .breadcrumbs .filename {
     min-width: 5ch;
     text-overflow: '';
-    user-select: all;
+    user-select: none;
     text-align: left;
     overflow: clip;
     display: grid;

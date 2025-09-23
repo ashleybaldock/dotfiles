@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.296
+// @version     1.2.297
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -142,9 +142,6 @@ const initStandaloneImage = ({
     });
   };
 
-  const overlaid = GM_addElement(document.body, 'aside', {
-    class: 'overlaid',
-  });
   const selecting = GM_addElement(document.body, 'aside', {
     class: 'selecting',
   });
@@ -185,6 +182,10 @@ const initStandaloneImage = ({
       select: { top: true, left: true },
     }),
   }))(selection);
+
+  const overlaid = GM_addElement(document.body, 'aside', {
+    class: 'overlaid',
+  });
 
   const outputs = ((to) => ({
     breadcrumbs: breadcrumbs({ to }),

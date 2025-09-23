@@ -113,3 +113,11 @@ body {
 section.squares:nth-child(2) {
   width: 30%;
 }
+
+.square:hover ~ label {
+  visibility: visible;
+}
+.squares label {
+  height: fit-content;
+  padding: 0.1em 0.5ch;
+}

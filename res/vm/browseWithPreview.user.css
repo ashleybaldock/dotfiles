@@ -381,9 +381,6 @@ td:first-child + td {
 
 .interleave .vidwrap::after {
   content: var(--s-playerIdx);
-  --bg: hsl(
-    calc(360deg / var(--playerCount) * var(--playerIdx)) 80% 50% / 100%
-  );
   aspect-ratio: 1;
   width: auto;
   height: 1.8em;
@@ -429,6 +426,9 @@ td:first-child + td {
   margin: 2px;
   --playerIdx: inherit;
   --s-playerIdx: inherit;
+  height: 1lh;
+  aspect-ratio: 1;
+  padding: 0;
 }
 .interleave > .vidwrap:has(> .paused)::after {
   position: absolute;
@@ -436,6 +436,20 @@ td:first-child + td {
   left: 0;
   --radius: 2px;
   font-size: calc(var(--radius) * 6);
+  font-size: 1.2em;
+  width: 2ch;
+  height: auto;
+  aspect-ratio: 1;
+  display: flex;
+  text-shadow:
+    1px 0 0.2px #000,
+    0 -1px 0.2px #000,
+    -1px 0 0.2px #000,
+    0 1px 0.2px #000,
+    1px 1px 0.2px #000,
+    1px -1px 0.2px #000,
+    -1px 1px 0.2px #000,
+    -1px -1px 0.2px #000;
 }
 .interleave .vidwrap:has(> .off)::after {
   background-image:
@@ -595,7 +609,9 @@ body > table > tbody > :where(.playing, .paused) {
 }
 body > table > tbody > ::before {
   content: var(--s-playerIdx);
-  --bg: hsl(var(--h) var(--s) var(--l) / var(--a));
+  --bg: hsl(
+    calc(360deg / var(--playerCount) * var(--playerIdx)) 80% 50% / 100%
+  );
   --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
 
   --h: calc(var(--angle), 90deg);
@@ -630,12 +646,19 @@ body > table > tbody > :where(.playing, .paused)::before {
     contain,
     contain,
     contain;
+  background-clip: content-box, content-box, content-box, content-box;
+  background-origin: content-box, content-box, content-box, content-box;
+  background-repeat: no-repeat;
+  background-position: center center;
+  /* background-blend-mode: hard-light, luminosity, normal; */
+  /* background-blend-mode: normal, color-burn, normal; */
+  background-blend-mode: normal;
   background-image:
     var(--playback-status-icon),
     radial-gradient(
       circle at center,
-      #f00,
-      #a00 50% 57%,
+      var(--c1),
+      var(--c2) 50% 57%,
       #fffa 60% 62%,
       #000 65%
     ),
@@ -653,13 +676,8 @@ body > table > tbody > :where(.playing, .paused)::before {
       #fff4 58%
     ),
     radial-gradient(circle at center, #0001 55%, #0002 60%, #000 60%);
-  background-clip: content-box, content-box, content-box, content-box;
-  background-origin: content-box, content-box, content-box, content-box;
-  background-repeat: no-repeat;
-  background-position: center center;
-  /* background-blend-mode: hard-light, luminosity, normal; */
-  /* background-blend-mode: normal, color-burn, normal; */
-  background-blend-mode: normal;
+  --c1: hsl(from var(--bg) h s l / 100%);
+  --c2: hsl(from var(--bg) h s calc(l * 0.66) / 100%);
 }
 body > table > tbody > .played::before {
   --playback-status-icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 448 512%22%3E\

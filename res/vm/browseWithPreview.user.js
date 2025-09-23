@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.145
+// @version     1.0.148
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -86,7 +86,7 @@ const addWrappedVideo = (
     muted: '',
   },
 ) => {
-  const wrapper = GM_addElement(parent, 'div', { class: 'vidwrap ' });
+  const wrapper = GM_addElement(parent, 'div', { class: 'vidwrap' });
   const idx = () => wrapper.style.getPropertyValue('--playerIdx');
   const video = GM_addElement(wrapper, 'video', options);
   video.addEventListener(
@@ -95,7 +95,7 @@ const addWrappedVideo = (
       video.classList.remove('paused');
       video.classList.add('playing');
 
-      console.debug(`${idx()} playing '${video.src}'`);
+      console.debug(`${idx()} playing '${decodeURI(video.src)}'`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -124,7 +124,7 @@ const addWrappedVideo = (
       video.classList.remove('playing');
       video.classList.add('paused');
 
-      console.debug(`${idx()} paused '${video.src}'`);
+      console.debug(`${idx()} paused '${decodeURI(video.src)}'`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -139,16 +139,16 @@ const addWrappedVideo = (
     {},
   );
   video.addEventListener('loadstart', () => {
-    console.debug(`${idx()} loadstart '${video.src}'`);
+    console.debug(`${idx()} loadstart '${decodeURI(video.src)}'`);
   });
   video.addEventListener('error', () => {
-    console.warn(`${idx()} error loading '${video.src}'`);
+    console.warn(`${idx()} error loading '${decodeURI(video.src)}'`);
   });
   video.addEventListener('canplaythrough', () => {
-    console.debug(`${idx()} canplaythrough '${video.src}'`);
-    target.volume = 0;
-    target.muted = true;
-    target.play();
+    console.debug(`${idx()} canplaythrough '${decodeURI(video.src)}'`);
+    video.volume = 0;
+    video.muted = true;
+    video.play();
   });
   return { wrapper, player: video };
 };

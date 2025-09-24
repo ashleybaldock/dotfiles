@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.57
+// @version     1.1.60
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -49,6 +49,27 @@ const cssOQN = (el) =>
  *  - match regex pattern, severity level etc.
  *  - change logging severity, group into hidden streams
  */
+const concept = (({ window }) => {
+  const _console = window.console;
+  const _concept = new Proxy(_console, {
+    get: (target, key) => {
+      return target[key];
+      // return (...args) => _console.log('proxy!', ...args);
+    },
+  });
+  window.console = _concept;
+  return {
+    deconceptualise: () => (window.console = _console),
+    reconceptualise: () => (window.console = _concept),
+    get console() {
+      return _console;
+    },
+    get status() {
+      return `window.console === _concept: ${window.console === _concept} | window.console === _console: ${window.console === _console}`;
+    },
+  };
+})({ window });
+
 const tee = (({ console }) => {
   const immediate = ['error'];
   const methodsToBind = ['log', 'info', 'warn', 'error', 'debug'];

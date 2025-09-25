@@ -167,6 +167,12 @@ let m=[] | %s/--data-wand-\zs\d\{4}\ze:\|stroke=%22%23\zs\x\{6}\ze%22/\=add(m,su
 let m=[] | %s//\=add(m,[submatch(1, 1), submatch(3, 1), submatch(5, 1), submatch(7, 1), submatch(9, 1), submatch(2, 1), submatch(4, 1), submatch(6, 1)])/gn | vnew | call append('$', m)
 ```
 
+### Replace matches with lookup from another buffer
+
+```vim
+%s@name\s*=\s*"\zs$\(\w*\)\ze"@\=matchbufline('common.csv', '^'..submatch(1)..',\zs[^,]*\ze,', 1, '$')[0].text@
+```
+
 ## Wiki Tables
 
 ### Find first element of table to amend

@@ -163,11 +163,12 @@ an <silent> 10.327.130 &File.Open\ Related.Runtime\ Autoload	    <Nop>
 
 exec 'an 200.100 Test.' .. format#session(printf("%14S", '0123456789')) .. '⏐ <Nop>'
 exec 'an 200.110 Test.' .. format#session(printf("%14S", 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')) .. '⏐ <Nop>'
-exec 'an 200.120 Test.' .. format#session(printf("%14S", 'abcdefghijklmnopqrstuvwxyz')) .. '⏐ <Nop>'
+exec 'an 200.120 Test.a️b️c️d️e️f️g️h️i️j️k️l️m️n️o️p️q️r️s️t️u️v️w️xy️z️⏐ <Nop>'
 exec 'an 200.130 Test.' .. format#session(printf("%14S", 'No Session')) .. '⏐ <Nop>'
 exec 'an 200.140 Test.' .. format#session(printf("%14S", 'no session')) .. '⏐ <Nop>'
-exec 'an 200.150 Test.' .. format#session(printf("%14S", '1a2b3c4d5e6f')) .. '⏐ <Nop>'
+exec 'an 200.150 Test.1︎a︎2︎b︎i︎j︎3︎c︎4︎d︎5︎e︎6f︎⏐ <Nop>'
 exec 'an 200.160 Test.' .. format#session(printf("%14S", 'A0B0C0    ZZ')) .. '⏐ <Nop>'
+exec 'an 200.170 Test.ＡＢＣＤＥＦZZ⏐ <Nop>'
 
 let s:g = '𝚐'
 let s:gh = '𝚐 '

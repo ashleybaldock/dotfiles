@@ -86,18 +86,17 @@ function s:ToFixedWidthFont(text)
         \ 'g')
 endfunc
 
-function! SessionFixedWidthName()
+function! SessionNameForTitle() abort
   if empty(v:this_session)
-    return '[𝙽𝚘 𝚂𝚎𝚜𝚜𝚒𝚘𝚗]'
+    return '𝚗𝚘 𝚜𝚎𝚜𝚜𝚒𝚘𝚗'
   else
-    return s:ToFixedWidthFont(fnamemodify(v:this_session, ':t:r:r'))
+    return format#session(printf("%.14S", fnamemodify(v:this_session, ':t:r:r')))
   endif
 endfunc
 
-function! SessionName()
+function! SessionName() abort
   if empty(v:this_session)
-    " return '[No Session]'
-    return '𝚗𝚘 𝚜𝚎𝚜𝚜𝚒𝚘𝚗'
+    return 'no session'
   else
     return fnamemodify(v:this_session, ':t:r:r')
   endif

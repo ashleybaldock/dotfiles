@@ -161,6 +161,13 @@ an <silent> 10.327.110 &File.Open\ Related.Runtime\ FT\ Plugin	    <Nop>
 an <silent> 10.327.120 &File.Open\ Related.Runtime\ Plugin	    <Nop>
 an <silent> 10.327.130 &File.Open\ Related.Runtime\ Autoload	    <Nop>
 
+exec 'an 200.100 Test.' .. format#session(printf("%14S", '0123456789')) .. '⏐ <Nop>'
+exec 'an 200.110 Test.' .. format#session(printf("%14S", 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')) .. '⏐ <Nop>'
+exec 'an 200.120 Test.' .. format#session(printf("%14S", 'abcdefghijklmnopqrstuvwxyz')) .. '⏐ <Nop>'
+exec 'an 200.130 Test.' .. format#session(printf("%14S", 'No Session')) .. '⏐ <Nop>'
+exec 'an 200.140 Test.' .. format#session(printf("%14S", 'no session')) .. '⏐ <Nop>'
+exec 'an 200.150 Test.' .. format#session(printf("%14S", '1a2b3c4d5e6f')) .. '⏐ <Nop>'
+exec 'an 200.160 Test.' .. format#session(printf("%14S", 'A0B0C0    ZZ')) .. '⏐ <Nop>'
 
 "
 " Extra Tools Menu:

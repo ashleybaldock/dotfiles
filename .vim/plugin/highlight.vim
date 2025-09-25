@@ -172,14 +172,14 @@ function s:GetFormattedPositionInfo(maxlines = 20) abort
   let cc = charcol('.')
   let vc = virtcol('.')
   let bc = col('.')
-  let col = printf('𝖢𝗈𝗅%s', SwapNumbers(cc))
-  let vcol = printf('𝖵𝖢𝗈𝗅%s', SwapNumbers(vc))
-  let byte = printf('ʙʏᴛᴇ%s', SwapNumbers(bc))
+  let col = printf('𝖢𝗈𝗅%s', format#numbers(cc))
+  let vcol = printf('𝖵𝖢𝗈𝗅%s', format#numbers(vc))
+  let byte = printf('ʙʏᴛᴇ%s', format#numbers(bc))
   let numbers = printf('𝖱𝗈𝗐 %s | %s%s%s',
-        \ SwapNumbers(line('.')),
-        \ SwapNumbers(col),
-        \ cc == vc ? '' : printf(' | %s', SwapNumbers(vcol)),
-        \ cc == bc ? '' : printf(' | %s', SwapNumbers(byte)))
+        \ format#numbers(line('.')),
+        \ format#numbers(col),
+        \ cc == vc ? '' : printf(' | %s', format#numbers(vcol)),
+        \ cc == bc ? '' : printf(' | %s', format#numbers(byte)))
   return #{text: printf('%'..a:maxlines..'S', numbers), props: []}
 endfunc
 
@@ -193,26 +193,30 @@ endfunc
 " ⎢      ₅️₆️₇️₈️₉️                                        ⎥
 " ⎢                                                   ⎥
 
-let s:subranges = #{
-      \ norm:  '0123456789',
-      \ vs16:  '0️1️2️3️4️5️6️7️8️9️',
-      \ sans:  '𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫',
-      \ sansb: '𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵',
-      \ sup:   '⁰¹²³⁴⁵⁶⁷⁸⁹',
-      \ sub:   '₀₁₂₃₄₅₆₇₈₉',
-      \ sub16: '₀️₁️₂️₃️₄️₅️₆️₇️₈️₉️',
-      \ mono:  '𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿',
-      \ fullw: '０１２３４５６７８９'
-      \}
+" let s:subranges = #{
+"       \ norm:  '0123456789',
+"       \ vs16:  '0️1️2️3️4️5️6️7️8️9️',
+"       \ sans:  '𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫',
+"       \ sansb: '𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵',
+"       \ sup:   '⁰¹²³⁴⁵⁶⁷⁸⁹',
+"       \ sub:   '₀₁₂₃₄₅₆₇₈₉',
+"       \ sub16: '₀️₁️₂️₃️₄️₅️₆️₇️₈️₉️',
+"       \ mono:  '𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿',
+"       \ fullw: '０１２３４５６７８９',
+"       \ circ: '⓪①②③④⑤⑥⑦⑧⑨',
+"       \ paren: '0⑴⑵⑶⑷⑸⑹⑺⑻⑼',
+"       \ dot: '0⒈⒉⒊⒋⒌⒍⒎⒏⒐',
+"       \ 
+"       \}
   " let range = split(a:subrange, '\zs')
   "       \ '\=get(l:range, str2nr(submatch(0)), submatch(0))',
 "
 " Replace range(s) of codepoints in input string
-function SwapNumbers(str, subrange = 'sans')
-  return substitute(a:str, '[0-9]',
-        \ '\=nr2char(strgetchar(s:subranges[a:subrange], str2nr(submatch(0))))',
-        \ 'g')
-endfunc
+" function format#numbers(str, subrange = 'sans')
+"   return substitute(a:str, '[0-9]',
+"         \ '\=nr2char(strgetchar(s:subranges[a:subrange], str2nr(submatch(0))))',
+"         \ 'g')
+" endfunc
 "                                           
 function! s:ForColor(color)
   " if a:color == 'NONE'
@@ -349,7 +353,7 @@ function! s:UpdateSynFoBuffer(winid)
   "   - nocombine² NONE³
 
   for val in results
-    let lineParts = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. SwapNumbers(val.id, 'sansb'), col: 2}]
+    let lineParts = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. format#numbers(val.id, 'sansb'), col: 2}]
 
     let [fgsymbol, fgcolor] = s:ForColor(get(val, 'guifg', ''))
     let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
@@ -458,7 +462,7 @@ function! s:UpdateSynFoBuffer(winid)
 
     " Stack:
     for val in reverse(stack)
-      " let line = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. SwapNumbers(val.id, 'sansb')}]
+      " let line = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. format#numbers(val.id, 'sansb')}]
       let res = ""
       let res = res .. (get(val, 'cleared') ? 'ᴄ' : ' ')
       let res = res .. (get(val, 'default') ? 'ᴅ' : ' ')
@@ -472,10 +476,10 @@ function! s:UpdateSynFoBuffer(winid)
               \  win_execute(a:winid, 'call matchadd('''
               \  .. link .. ''', ''\<' .. link .. '\>'')'  )})
         let res = res .. join(mapnew(chain,
-              \ {i, link -> link .. '»' .. SwapNumbers((hlget(link)[0]->get('id')), 'sansb')}
+              \ {i, link -> link .. '»' .. format#numbers((hlget(link)[0]->get('id')), 'sansb')}
               \ ), ' ' .. s:symbol_linksto .. ' ')
       else
-        let res = res .. val.name .. '»' .. SwapNumbers(val.id, 'sansb')
+        let res = res .. val.name .. '»' .. format#numbers(val.id, 'sansb')
       endif
       let res = res .. ''
 

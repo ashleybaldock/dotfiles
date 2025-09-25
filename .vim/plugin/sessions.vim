@@ -65,7 +65,7 @@ endfunc
 
 function! SessionInfo()
   if empty(v:this_session)
-    return 'No Session'
+    return '𝚗𝚘 𝚜𝚎𝚜𝚜𝚒𝚘𝚗'
   else
     if exists('g:loaded_obsession') && exists('g:this_obsession')
       return 'Obsession: '..v:this_session
@@ -96,7 +96,8 @@ endfunc
 
 function! SessionName()
   if empty(v:this_session)
-    return '[No Session]'
+    " return '[No Session]'
+    return '𝚗𝚘 𝚜𝚎𝚜𝚜𝚒𝚘𝚗'
   else
     return fnamemodify(v:this_session, ':t:r:r')
   endif

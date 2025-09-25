@@ -170,7 +170,11 @@ let m=[] | %s//\=add(m,[submatch(1, 1), submatch(3, 1), submatch(5, 1), submatch
 ### Replace matches with lookup from another buffer
 
 ```vim
+" |  match in current buffer  |               |lookup buffer|    match in lookup buffer     |  lines  |N|th match
+" |    removed-->|X||~~~|<--replaced(w/lookup)|  name/id    |     (lookup)     (replacement)| from to | | replacement string
 %s@name\s*=\s*"\zs$\(\w*\)\ze"@\=matchbufline('common.csv', '^'..submatch(1)..',\zs[^,]*\ze,', 1, '$')[0].text@
+"                                                                                                                     
+%s@name\s*=\s*"\zs\w*\ze"@\=matchbufline('common.csv', '^'..submatch(0)..',\zs[^,]*\ze,', 1, '$')->get(0, {})->get('text', 'default')@
 ```
 
 ## Wiki Tables

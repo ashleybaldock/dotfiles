@@ -440,6 +440,14 @@ function! s:UpdateSynFoBuffer(winid)
   "
 
   "
+  " TODO Fold Info:
+  "
+
+  call foldlevel('.') " level of current fold
+  call foldclosed('.') " -1 = not in closed fold, else first line of that fold
+  call foldclosedend('.') " -1 = not in closed fold, else last line of that fold
+  call foldtextresult('.')
+  "
   " Synstack:
   "
   if !exists("*synstack")

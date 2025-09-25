@@ -169,6 +169,34 @@ exec 'an 200.140 Test.' .. format#session(printf("%14S", 'no session')) .. '⏐ 
 exec 'an 200.150 Test.' .. format#session(printf("%14S", '1a2b3c4d5e6f')) .. '⏐ <Nop>'
 exec 'an 200.160 Test.' .. format#session(printf("%14S", 'A0B0C0    ZZ')) .. '⏐ <Nop>'
 
+let s:gh = '𝚐 '
+let s:gt = '𝚐 '
+let s:G = '𝙶'
+let s:Gh = '𝙶 '
+let s:tab = "\\	\\	"
+
+" let s:tests = [
+"       \ s:gh->repeat(1)
+"       \ s:gh->repeat(2)
+"       \ s:gh->repeat(3)
+"       \ s:gh->repeat(4)
+"       \ s:gh->repeat(5)
+"       \ s:gh->repeat(6)
+"       \]
+let s:r = 14
+let s:GN = s:G->repeat(s:r)..s:Gh
+let s:gN = s:gh->repeat(s:r + 1)
+for [i, t] in [
+      \ s:GN->repeat(1), s:gN->repeat(1),
+      \ s:GN->repeat(2), s:gN->repeat(2),
+      \ s:GN->repeat(3), s:gN->repeat(3),
+      \ s:GN->repeat(4), s:gN->repeat(4),
+      \ s:GN->repeat(5), s:gN->repeat(5),
+      \]->items()
+  exec printf("an 202.%03S ", i + 100) .. 'Test2.' .. t .. '\ ⏐ <Nop>'
+endfor
+
+
 "
 " Extra Tools Menu:
 "

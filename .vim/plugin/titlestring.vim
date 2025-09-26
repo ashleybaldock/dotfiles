@@ -10,5 +10,9 @@ let g:mayhem_loaded_titlestring = 1
 "   '<,'>s/\l/\=nr2char(char2nr(submatch(0)) + 0x1D629)/g
 " endfunc
 
+function! Tab() abort
+  return "	"
+endfunc
 
-set titlestring=%-{SessionNameForTitle()}\ │\ %t\ │\ %{substitute\(pathshorten\(expand(\"%:p:~:h\"),8),\"/\",\" / \",\"g\"\)}\ / %t%=%<
+set titlestring=%-{SessionName()}%{Tab()}⎬%{Tab()} %{substitute\(pathshorten\(expand(\"%:p:~:h\"),8),\"/\",\" / \",\"g\"\)}\ / %t%=%<
+" set titlestring=%-{SessionNameForTitle()}%{Tab()}│%{Tab()}%t\ │\ %{substitute\(pathshorten\(expand(\"%:p:~:h\"),8),\"/\",\" / \",\"g\"\)}\ / %t%=%<

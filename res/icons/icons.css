@@ -48,7 +48,7 @@
 body {
 }
 
-h1 {
+h2 {
   display: block;
 }
 
@@ -224,7 +224,7 @@ option:nth-child(2n)::after {
   color: #d2d2ff;
 }
 
-h1 {
+h2 {
   display: block;
   width: 100%;
   margin: 0.2em 0.2em 0 0.2em;
@@ -647,7 +647,7 @@ svg path:only-of-type {
   align-content: first baseline;
   min-height: unset;
 }
-.svgListing h1 {
+.svgListing h2 {
   width: unset;
   flex: 1 100%;
 }

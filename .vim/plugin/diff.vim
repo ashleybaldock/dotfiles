@@ -31,6 +31,12 @@ function! s:DiffWithSavedOff(diffoff, tempbuf = 0)
 
   if a:tempbuf > 0
     call timer_start(100, {_ -> execute('silent! bdelete '..a:tempbuf)})
+  else
+   nunmap <buffer> [[
+   nunmap <buffer> ]]
+   nunmap <buffer> “
+   nunmap <buffer> ‘
+   unlet b:mayhem_diff_left
   endif
 
   augroup mayhem_diffoff
@@ -44,7 +50,17 @@ endfunc
       \ | r ++edit #
       \ | 0d_ | let filetype = sourceft
       \ | exec 'nnoremap <buffer> §dx :diffoff!<CR>'
+      \ | nnoremap <buffer> [[ [c
+      \ | nnoremap <buffer> ]] ]c
+      \ | nnoremap <buffer> { <Cmd>diffput<CR>
+      \ | nnoremap <buffer> } <Cmd>diffget<CR>
+      \ | let b:mayhem_diff_right = 1
       \ | diffthis | wincmd p | diffthis 
+      \ | nnoremap <buffer> [[ [c
+      \ | nnoremap <buffer> ]] ]c
+      \ | nnoremap <buffer> { <Cmd>diffget<CR>
+      \ | nnoremap <buffer> } <Cmd>diffput<CR>
+      \ | let b:mayhem_diff_left = 1
       \ | exec 'augroup mayhem_diffoff'
       \ |   exec 'au!'
       \ |   exec 'autocmd OptionSet diff if v:option_new == 0 | call s:DiffWithSavedOff(0, '..bufnr('$')..') | endif'

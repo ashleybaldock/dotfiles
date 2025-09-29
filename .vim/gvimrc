@@ -439,7 +439,7 @@ exec 'an' SfIcon() '120.300.150' 'View.􂟦\ \ Debug.WinSize'
       \ '<Cmd>Toggle g:mayhem_sl_show_winsize<CR>'
 
 
-"
+"􁒺􁒻  􁏮􁏻􁏯􁏼􁕳􁘀􀠩􀠪 􀰬􂀙􃋮􃋯
 " File Menu:
 "
 an 10.404 &File.Diff\ With\ Saved<Tab>§df	<Cmd>DiffWithSaved<CR>

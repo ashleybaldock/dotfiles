@@ -374,6 +374,7 @@ td:first-child + td {
   animation: calc(var(--playerCount) * var(--d)) steps(2, jump-none)
     calc((var(--playerIdx)) * var(--d)) switch infinite;
   --d: var(--interleave-delay, 600ms);
+  animation-play-state: playing;
 }
 .interleave .vidwrap:has(> .off) {
   display: none;
@@ -381,25 +382,9 @@ td:first-child + td {
 
 .interleave .vidwrap::after {
   content: var(--s-playerIdx);
-  aspect-ratio: 1;
   width: auto;
-  height: 1.8em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  background-color: var(--bg);
-  font-size: 3em;
-  line-height: normal;
-  color: #000;
-  font-family: monospace;
   opacity: 1;
-  content: var(--s-playerIdx);
   --bg: hsl(var(--angle) 80% 50% / calc(0.5 + (0.5 * var(--animated-opacity))));
-  aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -413,7 +398,6 @@ td:first-child + td {
   --radius: 14px;
   border-radius: 50%;
   font-size: calc(var(--radius) * 1.2);
-  padding: var(--radius);
   color: #fff;
   text-shadow:
     0 0 1px #000,

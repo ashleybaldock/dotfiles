@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.148
+// @version     1.0.150
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -345,8 +345,36 @@ const initBrowsePreview = ({ document }) => {
         class: 'toggle',
         id: 'toggle_grid',
         textContent: 'grid',
+        name: 'grid',
         checked: false,
         bindTo: showGrid,
+      }),
+      images: addToggle({
+        to: body,
+        class: 'toggle',
+        id: 'toggle_images',
+        textContent: 'images',
+        name: 'images',
+        checked: false,
+        bindTo: showImages,
+      }),
+      video: addToggle({
+        to: body,
+        class: 'toggle',
+        id: 'toggle_video',
+        textContent: 'video',
+        name: 'video',
+        checked: false,
+        bindTo: showVideo,
+      }),
+      other: addToggle({
+        to: body,
+        class: 'toggle',
+        id: 'toggle_other',
+        textContent: 'other',
+        name: 'other',
+        checked: false,
+        bindTo: showOther,
       }),
     };
   })({ unsafeWindow, config });

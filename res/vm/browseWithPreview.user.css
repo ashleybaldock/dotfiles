@@ -312,7 +312,7 @@ td:first-child + td {
     --animated-opacity: 0;
   }
   100% {
-    --animated-opacity: 0;
+    --animated-opacity: 1;
   }
 }
 
@@ -331,8 +331,18 @@ td:first-child + td {
 
 @property --animated-opacity {
   syntax: '<number>';
-  inherits: false;
+  inherits: true;
   initial-value: 1;
+}
+@property --interleave-delay {
+  syntax: '<time>';
+  inherits: true;
+  initial-value: 500ms;
+}
+@property --interleave-steps {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 2;
 }
 
 @property --playerIdx {
@@ -356,34 +366,40 @@ td:first-child + td {
   initial-value: '1';
 }
 .interleave {
+  --interleave-delay: 500ms;
+  --interleave-steps: 2;
   grid-row: preview;
   grid-column: 1/-1;
 }
-.interleave > .vidwrap > video {
-  opacity: var(--animated-opacity);
-}
-.interleave > .vidwrap:has(> .paused) {
+.interleave > .vidwrap {
   position: relative;
+  animation-composition: initial;
+  animation-delay: calc((var(--playerIdx)) * var(--d));
+  animation-direction: normal;
+  animation-duration: calc(var(--d) * var(--playerCount));
+  animation-fill-mode: initial;
+  animation-iteration-count: infinite;
+  animation-name: switch;
+  animation-timing-function: steps(
+    calc(var(--interleave-steps) - 1),
+    jump-start
+  );
 }
-.interleave > .vidwrap:has(> .paused) > video,
-.interleave > .vidwrap:has(> .paused)::after {
+.interleave.playing > .vidwrap {
+  --d: var(--interleave-delay, 500ms);
+  animation-play-state: running;
+}
+.interleave.paused > .vidwrap,
+.interleave > .vidwrap:not(:has(> .playing)) {
   animation-play-state: paused;
 }
-.interleave > .vidwrap:has(> :not(.paused):not(.off)) > video,
-.interleave > .vidwrap:has(> :not(.paused):not(.off))::after {
-  animation: calc(var(--playerCount) * var(--d)) steps(2, jump-none)
-    calc((var(--playerIdx)) * var(--d)) switch infinite;
-  --d: var(--interleave-delay, 600ms);
-  animation-play-state: playing;
-}
-.interleave .vidwrap:has(> .off) {
-  display: none;
+:not(#a#b#c) .interleave.grid > .vidwrap {
+  animation-play-state: paused;
 }
 
 .interleave .vidwrap::after {
   content: var(--s-playerIdx);
   width: auto;
-  opacity: 1;
   --bg: hsl(var(--angle) 80% 50% / calc(0.5 + (0.5 * var(--animated-opacity))));
   display: flex;
   align-items: center;
@@ -391,7 +407,7 @@ td:first-child + td {
   position: fixed;
   top: calc(var(--radius) + sin(var(--angle)) * var(--radius));
   left: calc(var(--radius) + cos(var(--angle)) * var(--radius));
-  z-index: calc(100 + var(--animated-opacity));
+  z-index: calc(200 + round(calc(var(--animated-opacity) * 10), 1));
   background-color: var(--bg);
   line-height: normal;
   --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
@@ -414,7 +430,9 @@ td:first-child + td {
   aspect-ratio: 1;
   padding: 0;
 }
-.interleave > .vidwrap:has(> .paused)::after {
+
+.interleave:is(.paused, .grid) > .vidwrap::after,
+.interleave > :is(.vidwrap:has(> .paused))::after {
   position: absolute;
   top: 0;
   left: 0;
@@ -435,10 +453,18 @@ td:first-child + td {
     -1px 1px 0.2px #000,
     -1px -1px 0.2px #000;
 }
+.interleave .vidwrap:has(> .off) {
+  display: none;
+}
 .interleave .vidwrap:has(> .off)::after {
   background-image:
     linear-gradient(45deg, #0000 0 46%, #000 48% 52%, #0000 54% 100%),
     linear-gradient(-45deg, #0000 0 46%, #000 48% 52%, #0000 54% 100%);
+}
+
+.interleave > .vidwrap > video {
+  z-index: calc(100 + round(calc(var(--animated-opacity) * 10), 1));
+  opacity: var(--animated-opacity, 1);
 }
 
 /*{{{1 Overlay */
@@ -909,14 +935,14 @@ body > table {
   font-size: 0;
   display: grid;
   grid-template-columns: auto auto;
-  grid-column: 1/-1;
-  grid-row: 1/-1;
+  grid-column: 1;
+  grid-row: 1;
   grid-template-rows: auto;
 }
 
 #UI_showHidden:has([type='checkbox']) > label > * {
-  grid-row: 1/-1;
-  grid-column: 1/-1;
+  grid-row: 1;
+  grid-column: 1;
 }
 
 #UI_showHidden:has([type='checkbox']) > label::after {
@@ -942,12 +968,12 @@ body > table {
 #UI_showHidden:has([type='checkbox']) > label {
   font-size: 0;
   display: grid;
-  grid-column: 1/-1;
-  grid-row: 1/-1;
+  grid-column: 1;
+  grid-row: 1;
 }
 #UI_showHidden:has([type='checkbox']) > label::after {
-  grid-row: 1/-1;
-  grid-column: 1/-1;
+  grid-row: 1;
+  grid-column: 1;
   margin: 0;
   height: 2rem;
   width: auto;
@@ -962,7 +988,7 @@ body > table {
 }
 #UI_showHidden:has([type='checkbox']) > label > input {
   visibility: hidden;
-  grid-column: 1/-1;
-  grid-row: 1/-1;
+  grid-column: 1;
+  grid-row: 1;
   margin: 0;
 }

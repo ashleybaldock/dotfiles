@@ -1,0 +1,84 @@
+.offpeak {
+  background-image:
+    linear-gradient(#0000 0 0),
+    repeating-conic-gradient(
+      from var(--st) at 50% 50%,
+      hsl(from var(--c) h s calc(l * 1.2) / 100%) 0 var(--xa),
+      hsl(from var(--c) h s calc(l * 0.6) / 100%) var(--xa) var(--x)
+    ),
+    repeating-conic-gradient(
+      from var(--st) at 50% 50%,
+      hsl(from var(--c) h s calc(l * 1.2) / 100%) 0 var(--xa),
+      hsl(from var(--c) h s calc(l * 0.6) / 100%) var(--xa) var(--x)
+    ),
+    repeating-conic-gradient(
+      from var(--st) at 50% 50%,
+      hsl(from var(--c) h s calc(l * 0.6) / 100%) 0 var(--xa),
+      hsl(from var(--c) h s calc(l * 1.2) / 100%) var(--xa) var(--x)
+    ),
+    linear-gradient(hsl(from var(--c) h 50% 6% / 80%));
+  background-blend-mode: soft-light;
+  /*   background-position:
+    center center
+    ,left var(--bs) top var(--bs)
+    ,left calc(var(--b1) * var(--bs)) top calc(var(--b1) * var(--bs))
+    ,left calc(var(--b2) * var(--bs)) top calc(var(--b2) * var(--bs))
+    center center; */
+  background-size:
+    100% 100%,
+    calc(var(--b2) * var(--bs)) calc(var(--b2) * var(--bs)),
+    var(--bs) var(--bs),
+    calc(var(--b1) * var(--bs)) calc(var(--b1) * var(--bs)),
+    100% 100%;
+  background-attachment: local, local, fixed, local, local;
+  --bs: 20px;
+  --b1: 1.25;
+  --b2: 0.5;
+  --st: 160deg;
+  --x: 222deg;
+  --st: calc(var(--o) - (var(--xa) * 0.5));
+  --o: 0deg;
+  --x: 90deg;
+  --a: 60;
+  --xa: calc(var(--x) * var(--a) * 0.01);
+  box-shadow:
+    0 0 #0000,
+    inset 0 calc((var(--t, 0) + var(--f, 0)) * var(--u))
+      calc(var(--f, 0) * var(--u))
+      calc((var(--t, 0) + var(--b, 0) + var(--f)) * -1 * var(--u)) var(--c),
+    inset calc((var(--r, 0)) * 1 * var(--u)) calc((var(--t, 0)) * var(--u)) 0
+      calc((var(--t, 0) + var(--r, 0)) * var(--u))
+      hsl(from var(--c) h 50% 6% / 88%)
+      /*     ,inset
+    calc((var(--l, 0)) * var(--u))
+    calc((var(--b, 0)) * -1 * var(--u))
+    0
+    0
+    hsl(from var(--c) h 50% 6% / 88%)
+    ,inset 
+    calc((var(--l, 0) + var(--f, 0)) * var(--u))
+    calc((var(--b, 0) + var(--f, 0)) * -1 * var(--u))
+    calc(var(--f, 0) * var(--u))
+    calc((var(--f)) * -1 * var(--u))
+    var(--c)
+    ,inset
+    calc((var(--r, 0)) * -1 * var(--u))
+    calc((var(--t, 0)) * var(--u))
+    0
+    0
+    hsl(from var(--c) h 90% 96% / 4%) */;
+  outline-offset: 0px;
+  padding: 14px;
+  padding: calc((var(--t, 0) + (var(--f) * var(--s))) * var(--u))
+    calc((var(--r, 0) + (var(--f) * var(--s))) * var(--u))
+    calc((var(--b, 0) + (var(--f) * var(--s))) * var(--u))
+    calc((var(--l, 0) + (var(--f) * var(--s))) * var(--u));
+  --t: 4;
+  --r: 20;
+  --b: 4;
+  --l: 10;
+  --f: 14;
+  --c: #0a0;
+  --u: 1px;
+  --s: 0.5;
+}

@@ -1,15 +1,3 @@
-/*  */
-/* Wed Oct 01 2025 16:14:48 GMT+0100 (British Summer Time) */
-
-/*  */
-/* Wed Oct 01 2025 14:00:25 GMT+0100 (British Summer Time) */
-
-/*  */
-/* Wed Oct 01 2025 07:43:20 GMT+0100 (British Summer Time) */
-
-/*  */
-/* Tue Sep 23 2025 10:55:48 GMT+0100 (British Summer Time) */
-
 /*{{{1 SVG Icons */
 .toggle[name='images'] > label {
   --icon: var(--icon-images-off);
@@ -296,9 +284,14 @@ body > * {
 }
 /* body > video, */
 body > section:has(> video, > .vidwrap) {
-  max-height: 100%;
-  max-height: var(--playerHeight);
-  overflow: clip;
+  height: var(--playerHeight);
+  min-height: var(--playerHeight);
+  overflow: visible;
+  /*! mask-image: linear-gradient(#ffff); */
+  /*! mask-origin: padding-box; */
+  width: var(--playerWidth);
+  /*! mask-position: center; */
+  /*! mask-clip: no-clip; */
 }
 
 body:has(video[src=]) body > h1 {
@@ -419,29 +412,28 @@ video {
   inherits: true;
   initial-value: 8;
 }
-/* @keyframes switch {
-  0% {
-    --interleave-var1: 0;
-  }
-  50% {
-    --interleave-var1: 1;
-  }
-  100% {
-    --interleave-var1: 0;
-  }
-} */
+
 @keyframes translate {
   0% {
-    /*     --interleave-var1: 0; */
-    transform: translateY(0);
+    --ani-translate: 0;
+  }
+  50% {
+    --ani-translate: 0.5;
   }
   100% {
-    transform: translateY(
-      calc(var(--playerCount) * -0.1 * var(--playerHeight))
-    );
+    --ani-translate: 1;
   }
 }
-
+@property --ani-translate {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --ani-transform {
+  syntax: '<transform-function>';
+  inherits: true;
+  initial-value: translateY(0);
+}
 @property --playerIdx {
   syntax: '<integer>';
   inherits: true;
@@ -465,21 +457,23 @@ video {
 
 :is(.interleave) {
   grid-row: preview;
-  grid-column: 1;
-  position: relative;
+  grid-column: 1/-1;
   animation-composition: initial;
   animation-delay: 0s;
   animation-direction: normal;
-  animation-duration: calc(var(--d) * var(--playerCount));
+  animation-duration: calc(var(--d) * (var(--playerCount)));
   animation-fill-mode: initial;
   animation-iteration-count: infinite;
   animation-name: translate;
-  animation-timing-function: steps(var(--playerCount), jump-none);
+  animation-timing-function: steps(var(--playerCount), jump-both);
   height: var(--playerHeight);
+  min-height: var(--playerHeight);
+  min-width: var(--playerWidth);
+  --ani-step: round(down, var(--playerCount) * var(--ani-translate), 1);
 }
 :is(.interleave)::before {
   content: counter(anim);
-  counter-reset: anim var(--interleave-var1);
+  counter-reset: anim var(--ani-step);
   display: flex;
   position: fixed;
   top: 2px;
@@ -523,16 +517,25 @@ video {
 
 ) {
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(var(--playerCount), var(--playerHeight));
+  grid-template-columns: repeat(var(--playerCount), var(--playerWidth));
+  grid-template-rows: 1fr;
   --d: var(--interleave-delay, 500ms);
   animation-play-state: running;
-  --transform: translateY(
-    calc(var(--playerHeight) * round(up, calc(var(--interleave-var1) * 10), 1))
-  );
-  --transform: translateY(
-    calc(4px * round(up, calc(var(--interleave-var1) * 10), 1))
-  );
+  --ani-transform: translateX(calc(var(--ani-step) * -1 * var(--playerWidth)));
+  grid-auto-flow: row;
+  overflow: clip;
+}
+:is(
+    :root:has(.toggle[name='interleave'] :checked) .interleave,
+    .interleave.playing .interleave:has(> .vidwrap > .playing),
+
+  )
+  > .vidwrap {
+  grid-column: initial;
+  transform: var(--ani-transform);
+  transform-origin: top left;
+  grid-row: 1;
+  outline: 1px dotted red;
 }
 
 /*{{{2 Paused */
@@ -644,6 +647,8 @@ video {
 
 /*{{{1 Table containing the file listing */
 table {
+  --row-h: 2.2rem;
+  --row-pad: 1px;
   clear: unset;
   border: 1px solid #444;
   border-radius: 10px;
@@ -656,14 +661,10 @@ table {
   display: block;
   width: auto;
   background-color: #1a1a1a;
-
-  --row-h: 2.2rem;
-  --row-pad: 1px;
   border: 0;
   border-collapse: collapse;
   padding: 3.4rem 2rem 1rem 1.4rem;
-  grid-column: 1/-1;
-  grid-row: files;
+  grid-area: files;
   --playback-status-played: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 448 512%22%3E\
     %3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E\
     %3C/path%3E\
@@ -679,9 +680,12 @@ table {
 }
 
 thead {
-  font-size: 1rem;
   display: none;
 }
+thead > tr::before {
+  content: 'Playback';
+}
+
 td:first-child > a {
   color: #fff;
 }
@@ -703,7 +707,7 @@ tbody > tr {
   );
   padding: 0 0.5ch;
 }
-table > tbody > tr:hover {
+tbody > tr:hover {
   outline: none;
   --s: 60%;
   --l: 30%;
@@ -714,15 +718,11 @@ table > tbody > tr:hover {
     1px 2px 0 -1px #000;
   border-radius: 1lh;
 }
-table > thead > tr::before {
-  content: 'Playback';
-}
-
-table > tbody > :where(.playing, .paused) {
+tbody > :where(.playing, .paused) {
   --s✕: 0.4;
   --a: 100%;
 }
-table > tbody > ::before {
+tbody > ::before {
   content: var(--s-playerIdx);
   --bg: hsl(
     calc(360deg / var(--playerCount) * var(--playerIdx)) 80% 50% / 100%

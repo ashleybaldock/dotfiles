@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.60
+// @version     1.1.62
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -894,11 +894,30 @@ const mu = (({ document, console }) => {
   const makeHtmlElement = (tagName, { attributes = {} } = {}) =>
     addAttributesTo(document.createElement(tagName), attributes);
 
-  const makeSvgElement = (tagName, { attributes = {} } = {}) =>
+  const makeSvgElement = (tagName, { attributes = {}, data = {} } = {}) =>
     addAttributesTo(
       document.createElementNS('http://www.w3.org/2000/svg', tagName),
       attributes,
     );
+
+  // const splitSvgPath = (...pathElements) =>
+  //   pathElements.flat().map((path) => {
+  //   path.getAttribute('d').split(/(?<=[zZ])\s*(?=[MLHVCSQTA])/).map((zAbsPart) => {
+  // const absPosition = zAbsPart.split(/\s*(?=[MLHVCSQTAmlhvcsqta])/)[0];
+  // const g = makeSvgElement('g');
+  // g.replaceChildren(...(
+  // zAbsPart.split(/(?<=[zZ])\s*(?=[mlhvcsqta])/).map((zRelPart) => {
+  // const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  // path.setAttribute('d', `${absPosition}${zRelPart}`);
+  // return path;
+  // //   zRelPart.split(/\s*(?=[mlhvcsqta])/).map((part) => )
+  // })
+  // ))
+  // return g;
+  // })));
+  //   path.style.visibility = 'hidden';
+  // })
+  // })(temp1)
 
   const makeElement = (tagName, { attributes = {} } = {}) =>
     svgTags.has(tagName) && !ambiguousTags.has(name)

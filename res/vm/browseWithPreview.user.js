@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.150
+// @version     1.0.152
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -311,25 +311,17 @@ const initBrowsePreview = ({ document }) => {
         },
       };
     };
-    // let _maxInterleaved = 4,
-    //   _maxInterleaved_subs = new Set(),
-    //   _imageDuration = 5 * 1000;
 
     return {
-      maxInterleaved: defineNumber(4),
       imageDuration: defineNumber(5),
       showGrid: defineToggle(false),
-      // get maxInterleaved() {
-      //   return _maxInterleaved;
-      // },
-      // set maxInterleaved(newValue) {
-      //   _maxInterleaved = newValue;
-      //   _maxInterleaved_subs.forEach((sub) => sub(newValue));
-      // },
-      // subscribe_maxInterleaved: (callback) => {
-      //   _maxInterleaved_subs.add(callback);
-      //   return () => _maxInterleaved_subs.remove(callback);
-      // },
+      showImages: defineToggle(false),
+      showVideo: defineToggle(false),
+      showOther: defineToggle(false),
+      interleave: defineToggle(false),
+      maxInterleaved: defineNumber(4),
+      interleaveDelay: defineNumber(500),
+      linear: defineToggle(false),
     };
   })({});
 
@@ -337,7 +329,14 @@ const initBrowsePreview = ({ document }) => {
     unsafeWindow: {
       document: { body },
     },
-    config: { showGrid },
+    config: {
+      showGrid,
+      showImages,
+      showVideo,
+      showOther,
+      playInterleave,
+      playLinear,
+    },
   }) => {
     return {
       grid: addToggle({
@@ -348,6 +347,24 @@ const initBrowsePreview = ({ document }) => {
         name: 'grid',
         checked: false,
         bindTo: showGrid,
+      }),
+      interleave: addToggle({
+        to: body,
+        class: 'toggle',
+        id: 'toggle_interleave',
+        textContent: 'interleave',
+        name: 'interleave',
+        checked: false,
+        bindTo: playInterleave,
+      }),
+      linear: addToggle({
+        to: body,
+        class: 'toggle',
+        id: 'toggle_linear',
+        textContent: 'linear',
+        name: 'linear',
+        checked: false,
+        bindTo: playLinear,
       }),
       images: addToggle({
         to: body,
@@ -379,7 +396,7 @@ const initBrowsePreview = ({ document }) => {
     };
   })({ unsafeWindow, config });
 
-  const interleavedPlayer = (({ document: { body }, config }) => {
+  const interleavePlayer = (({ document: { body }, config }) => {
     const container = GM_addElement(body, 'section', {
       class: 'player interleave paused',
     });
@@ -585,7 +602,7 @@ const initBrowsePreview = ({ document }) => {
 
   document.querySelector('body').dataset.playmode = 'interleave';
 
-  interleavedPlayer.play();
+  interleavePlayer.play();
 };
 
 const browsePreviewToggleIds = addStyleToggles([

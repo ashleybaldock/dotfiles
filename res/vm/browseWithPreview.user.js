@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.154
+// @version     1.0.155
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -319,7 +319,7 @@ const initBrowsePreview = ({ document }) => {
       showVideo: defineToggle(false),
       showOther: defineToggle(false),
       interleave: defineToggle(false),
-      maxInterleaved: defineNumber(4),
+      maxInterleaved: defineNumber(8),
       interleaveDelay: defineNumber(500),
       linear: defineToggle(false),
     };

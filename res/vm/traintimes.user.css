@@ -56,6 +56,7 @@ header > #credit > a {
     'before stops .'
     'before fares .';
   grid-template-columns: 10fr 100fr 50fr;
+  grid-column: 1/-1;
 }
 .results > li > * {
   display: flex;
@@ -187,7 +188,7 @@ header > #credit > a {
   display: grid;
   padding: 0;
   max-width: unset;
-  grid-template-columns: [fromto-start results-start earlier-start] 20fr [earlier-end livedep-start] 80fr [livedep-end later-start] 20fr [later-end results-end fromto-end];
+  grid-template-columns: [fromto-start earlier-start results-start result-start] 10fr [earlier-end] 20fr [ livedep-start] 80fr [livedep-end] 20fr [later-start] 10fr [later-end results-end result-end fromto-end];
   grid-template-rows: [earlier-start later-start] 1fr [earlier-end later-end fromto-start] 1fr [fromto-end results-start] auto [results-end earlier-start later-start] 1fr [earlier-end later-end];
 }
 .earlierlater:has(~ .earlierlater) {
@@ -201,7 +202,7 @@ header > #credit > a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.8em 2ch;
+  padding: 0.6em 1.5ch;
   margin: 0;
   margin: 0 0 1em 0;
   background-color: #222;
@@ -220,6 +221,7 @@ header > #credit > a {
   grid-area: results;
   display: grid;
   grid-template-columns: subgrid;
+  grid-auto-rows: 1fr;
 }
 .earlierlater {
   display: contents;
@@ -267,7 +269,7 @@ header {
   display: inline-flex;
   column-count: 1;
 }
-#content > h2 > span {
+[id='content'] > h2 > span {
   display: flex;
   width: auto;
   width: 100%;
@@ -277,6 +279,22 @@ header {
 }
 #content > h2 > span {
 }
+
+#content > h2:nth-of-type(1) {
+  display: none;
+}
+h2 {
+}
+[data-text=','] {
+  display: none;
+}
+[data-orig]:not([data-text]) {
+  display: contents;
+}
+#expand_all {
+  display: none;
+}
+
 /*
 .offpeak {
   display: grid;

@@ -1,4 +1,7 @@
 /*  */
+/* Wed Oct 01 2025 14:00:25 GMT+0100 (British Summer Time) */
+
+/*  */
 /* Wed Oct 01 2025 07:43:20 GMT+0100 (British Summer Time) */
 
 /*  */
@@ -9,7 +12,7 @@
   --icon: var(--icon-images-off);
   --icon-images-off: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z%22%3E%3C/path%3E%3C/svg%3E');
 }
-.toggle[name='images']:checked > label {
+.toggle[name='images']:has(:checked) > label {
   --icon: var(--icon-images-on);
   --icon-images-on: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z%22%3E%3C/path%3E%3C/svg%3E');
 }
@@ -20,10 +23,8 @@
     %3Cpath d=%22M0 96C0 60.7 28.7 32 64 32l384 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM48 368l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 240l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 112l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16L64 96c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM160 128l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32L192 96c-17.7 0-32 14.3-32  32zm32 160c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-128 0z%22/%3E\
     %3C/svg%3E');
 }
-.toggle[name='video']:checked > label {
-  --icon-video-on: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E\
-    %3Cpath d=%22M0 96C0 60.7 28.7 32 64 32l384 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM48 368l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 240l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 112l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16L64 96c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM160 128l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32L192 96c-17.7 0-32 14.3-32  32zm32 160c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-128 0z%22/%3E\
-    %3C/svg%3E');
+.toggle[name='video']:has(:checked) > label {
+  --icon-video-on: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E%3Cpath d=%22M128 128C92.7 128 64 156.7 64 192L64 448C64 483.3 92.7 512 128 512L384 512C419.3 512 448 483.3 448 448L448 192C448 156.7 419.3 128 384 128L128 128zM496 400L569.5 458.8C573.7 462.2 578.9 464 584.3 464C597.4 464 608 453.4 608 440.3L608 199.7C608 186.6 597.4 176 584.3 176C578.9 176 573.7 177.8 569.5 181.2L496 240L496 400z%22%3E%3C/path%3E%3C/svg%3E');
   --icon: var(--icon-video-on);
 }
 .toggle[name='other'] > label {
@@ -33,7 +34,7 @@
     %3C/path%3E\
     %3C/svg%3E');
 }
-.toggle[name='other']:checked > label {
+.toggle[name='other']:has(:checked) > label {
   --icon: var(--icon-other-on);
   --icon-other-on: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E\
     %3Cpath d=%22M315.4 15.5C309.7 5.9 299.2 0 288 0s-21.7 5.9-27.4 15.5l-96 160c-5.9 9.9-6.1 22.2-.4 32.2s16.3 16.2 27.8 16.2H384c11.5 0 22.2-6.2 27.8-16.2s5.5-22.3-.4-32.2l-96-160zM288 312V456c0 22.1 17.9 40 40 40H472c22.1 0 40-17.9 40-40V312c0-22.1-17.9-40-40-40H328c-22.1 0-40 17.9-40 40zM128 512a128 128 0 1 0 0-256 128 128 0 1 0 0 256z%22%3E\
@@ -41,8 +42,7 @@
     %3C/svg%3E');
 }
 
-#UI_showHidden:has([type='checkbox']) > label,
-.toggle-hidden > label {
+#UI_showHidden > label {
   background-image: var(--icon);
   --icon: var(--icon-shown);
   --icon-shown: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 512%22%3E\
@@ -53,8 +53,7 @@
   background-size: contain;
 }
 
-#UI_showHidden:has([type='checkbox']:checked) > label,
-.toggle-hidden > label {
+#UI_showHidden:has(:checked) > label {
   background-image: var(--icon);
   --icon: var(--icon-hidden);
   --icon-hidden: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 512%22%3E\
@@ -443,7 +442,8 @@ video {
   display: none;
 }
 /*{{{1 Linear Player */
-:root:has(.toggle[name='linear']:checked) .linear {
+:root:has(.toggle[name='linear'] :checked) .linear,
+.linear.playing {
   display: grid;
 }
 .linear .current.playing {
@@ -512,6 +512,9 @@ video {
 .interleave {
   grid-row: preview;
   grid-column: 1;
+}
+:root:has(.toggle[name='interleave'] :checked) .interleave {
+  display: grid;
 }
 .interleave > .vidwrap {
   position: relative;
@@ -605,7 +608,7 @@ video {
   opacity: 1;
 }
 
-:root:has(.toggle[name='interleave']:checked) .interleave {
+:root:has(.toggle[name='interleave'] :checked) .interleave {
   display: grid;
   height: var(--playerHeight);
   width: var(--playerWidth);
@@ -615,7 +618,7 @@ video {
 }
 
 :is(
-  :root:has(.toggle[name='grid']:checked) .interleave,
+  :root:has(.toggle[name='grid'] :checked) .interleave,
   .interleave:is(.paused, .grid),
   .interleave:not(:has(.vidwrap > .playing)),
 
@@ -629,7 +632,7 @@ video {
   );
 }
 :is(
-    :root:has(.toggle[name='grid']:checked) .interleave,
+    :root:has(.toggle[name='grid'] :checked) .interleave,
     .interleave:is(.paused, .grid),
     .interleave:not(:has(.vidwrap > .playing)),
 
@@ -642,7 +645,7 @@ video {
   place-items: stretch;
 }
 :is(
-    :root:has(.toggle[name='grid']:checked) .interleave,
+    :root:has(.toggle[name='grid'] :checked) .interleave,
     .interleave:is(.paused, .grid),
     .interleave:not(:has(.vidwrap > .playing)),
 
@@ -1033,4 +1036,11 @@ table {
   grid-column: 1;
   grid-row: 1;
   margin: 0;
+}
+
+:is(.toggle, #UI_showHidden) > label::after {
+  pointer-events: none;
+}
+:is(.toggle, #UI_showHidden) > label {
+  cursor: pointer;
 }

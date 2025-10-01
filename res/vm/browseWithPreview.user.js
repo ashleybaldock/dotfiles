@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.152
+// @version     1.0.154
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -329,14 +329,7 @@ const initBrowsePreview = ({ document }) => {
     unsafeWindow: {
       document: { body },
     },
-    config: {
-      showGrid,
-      showImages,
-      showVideo,
-      showOther,
-      playInterleave,
-      playLinear,
-    },
+    config: { showGrid, showImages, showVideo, showOther, interleave, linear },
   }) => {
     return {
       grid: addToggle({
@@ -354,8 +347,8 @@ const initBrowsePreview = ({ document }) => {
         id: 'toggle_interleave',
         textContent: 'interleave',
         name: 'interleave',
-        checked: false,
-        bindTo: playInterleave,
+        checked: true,
+        bindTo: interleave,
       }),
       linear: addToggle({
         to: body,
@@ -364,7 +357,7 @@ const initBrowsePreview = ({ document }) => {
         textContent: 'linear',
         name: 'linear',
         checked: false,
-        bindTo: playLinear,
+        bindTo: linear,
       }),
       images: addToggle({
         to: body,
@@ -372,7 +365,7 @@ const initBrowsePreview = ({ document }) => {
         id: 'toggle_images',
         textContent: 'images',
         name: 'images',
-        checked: false,
+        checked: true,
         bindTo: showImages,
       }),
       video: addToggle({
@@ -381,7 +374,7 @@ const initBrowsePreview = ({ document }) => {
         id: 'toggle_video',
         textContent: 'video',
         name: 'video',
-        checked: false,
+        checked: true,
         bindTo: showVideo,
       }),
       other: addToggle({

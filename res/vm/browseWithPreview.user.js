@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.158
+// @version     1.0.160
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -268,6 +268,33 @@ const initBrowsePreview = ({ document }) => {
     config: { showGrid, showImages, showVideo, showOther, interleave, linear },
   }) => {
     return {
+      shuffle_on_loop: addToggle({
+        to: body,
+        class: 'toggle',
+        id: 'toggle_shuffle_on_loop',
+        textContent: 'shuffle_on_loop',
+        name: 'shuffle_on_loop',
+        checked: false,
+        bindTo: shuffle_on_loop,
+      }),
+      reload_on_loop: addToggle({
+        to: body,
+        class: 'toggle',
+        id: 'toggle_reload_on_loop',
+        textContent: 'reload_on_loop',
+        name: 'reload_on_loop',
+        checked: false,
+        bindTo: reload_on_loop,
+      }),
+      loop: addToggle({
+        to: body,
+        class: 'toggle',
+        id: 'toggle_loop',
+        textContent: 'loop',
+        name: 'loop',
+        checked: false,
+        bindTo: loop,
+      }),
       grid: addToggle({
         to: body,
         class: 'toggle',

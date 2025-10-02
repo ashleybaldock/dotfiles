@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.62
+// @version     1.1.63
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -893,6 +893,25 @@ const mu = (({ document, console }) => {
 
   const makeHtmlElement = (tagName, { attributes = {} } = {}) =>
     addAttributesTo(document.createElement(tagName), attributes);
+
+  // const wrapTextNodes = (parentNode, {trim = true, split = undefined, match = /.*/su}, wrapper = ({textContent,}) => makeHtmlElement('span', { data: {orig: textContent}})) => parentNode.childNodes.forEach((childNode) => {
+  //   if (childNode.nodeName === '#text' && match.test(childNode.textContent)) {
+  //     const parts = [...childNode.textContent.split(split)].filter(
+  //       (s) => (trim ? s.trim().length : s.length) > 0,
+  //     );
+  //     parts.length >.reduce((acc, cur) => acc.appendChild(wrapper({textContent:  trim ? cur.trim() : cur, data: {text: trim ? cur.trim() : cur, orig: cur}})), wrapper({textContent: childNode.textContent));
+
+  //     if (parts.length > 1) {
+  //       parts.forEach((s) => {
+  //         const part = makeHtmlElement(wrapWith);
+  //         part.innerText = part.dataset.text = s.trim();
+  //         wrapper.appendChild(part);
+  //       });
+  //     } else {
+  //       wrapper.innerText = wrapper.dataset.text = childNode.textContent.trim();
+  //     }
+  //     childNode.replaceWith(wrapper);
+  //   }
 
   const makeSvgElement = (tagName, { attributes = {}, data = {} } = {}) =>
     addAttributesTo(

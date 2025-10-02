@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.155
+// @version     1.0.158
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -154,103 +154,35 @@ const addWrappedVideo = (
 };
 
 const initBrowsePreview = ({ document }) => {
-  const getFileList = ({
-    loop: _loop = true,
-    shuffle: _shuffle = true,
-    shuffle_on_loop: _loopshuffle = true,
-    reload_on_loop: _loopreload = true,
-    filter: _filter = '.*\.mp4$',
-  } = {}) => {
-    let files = [],
-      filesOriginalOrder = [],
-      filesIter;
-    let _shuffled = false;
-
-    function* filteredFiles() {
-      yield* files.filter((x) => x.match(_filter));
-    }
-
-    const load = () => {
-      files = [...document.querySelectorAll('a.file')].map((file) =>
-        file.getAttribute('href'),
-      );
-      filesOriginalOrder = [...files];
-      _shuffled = false;
-      filesIter = filteredFiles();
-    };
-
-    const shuffleFiles = () => {
-      shuffle(files);
-      filesIter = filteredFiles();
-      _shuffled = true;
-    };
-
-    const reset = () => {
-      files = [...filesOriginalOrder];
-      filesIter = filteredFiles();
-      _shuffled = false;
-    };
-
-    load();
-
-    return {
-      next: () => {
-        const { done, value } = filesIter.next();
-        if (done) {
-          if (_loop) {
-            if (_loopreload) {
-              load();
-            }
-            if (_loopshuffle) {
-              shuffleFiles();
-            }
-            filesIter = filteredFiles();
-            return filesIter.next();
-          } else {
-            return { done: true };
-          }
-        } else {
-          return { done: false, value };
-        }
-      },
-      get length() {
-        return files.length;
-      },
-      get shuffled() {
-        return _shuffled;
-      },
-      shuffle: shuffleFiles,
-      reset,
-      reload: () => load(),
-      get loop() {
-        return _loop;
-      },
-      set loop(newValue) {
-        _loop = newValue;
-      },
-      get filter() {
-        return _filter;
-      },
-      set filter(newValue) {
-        _filter = newValue;
-      },
-      get shuffle_on_loop() {
-        return _loopshuffle;
-      },
-      set shuffle_on_loop(newValue) {
-        _loopshuffle = newValue;
-      },
-      get reload_on_loop() {
-        return _loopreload;
-      },
-      set reload_on_loop(newValue) {
-        _loopreload = newValue;
-      },
-    };
-  };
-
   const config = (({}) => {
     const root = {};
+
+    const defineString = (_val = '') => {
+      const subs = new Set();
+
+      const notify = () => {
+        subs.forEach((sub) => sub(_val));
+      };
+      return {
+        get value() {
+          return _val;
+        },
+        set value(newValue) {
+          _val = newValue;
+          notify();
+          return _val;
+        },
+        set: (newValue) => {
+          _val = newValue;
+          notify();
+          return _val;
+        },
+        subscribe: (callback) => {
+          subs.add(callback);
+          return () => subs.remove(callback);
+        },
+      };
+    };
 
     const defineNumber = (_val = 0) => {
       const subs = new Set();
@@ -314,14 +246,18 @@ const initBrowsePreview = ({ document }) => {
 
     return {
       imageDuration: defineNumber(5),
-      showGrid: defineToggle(false),
       showImages: defineToggle(false),
       showVideo: defineToggle(false),
       showOther: defineToggle(false),
+      showGrid: defineToggle(false),
+      linear: defineToggle(false),
       interleave: defineToggle(false),
       maxInterleaved: defineNumber(8),
       interleaveDelay: defineNumber(500),
-      linear: defineToggle(false),
+      loop: defineToggle(true),
+      shuffle_on_loop: defineToggle(true),
+      reload_on_loop: defineToggle(true),
+      filter: defineString('.*\.mp4$'),
     };
   })({});
 
@@ -388,6 +324,122 @@ const initBrowsePreview = ({ document }) => {
       }),
     };
   })({ unsafeWindow, config });
+
+  const getFileList = (
+    ({
+      config: { loop, shuffle_on_loop, reload_on_loop, filter },
+      shuffleArray,
+    }) =>
+    () => {
+      let files = null,
+        filesOriginalOrder = [],
+        filesIter;
+      let _shuffled = false,
+        _filtered_length = null;
+
+      function* filteredFiles() {
+        yield* files.filter((x) => x.match(_filter));
+      }
+
+      const load = () => {
+        files = [...document.querySelectorAll('a.file')].map((file) =>
+          file.getAttribute('href'),
+        );
+        filesOriginalOrder = [...files];
+        _shuffled = false;
+        _filtered_length = null;
+        filesIter = filteredFiles();
+      };
+
+      const shuffle = () => {
+        files ?? load();
+        shuffleArray(files);
+        /* shuffling ought not to change the filtered length */
+        filesIter = filteredFiles();
+        _shuffled = true;
+      };
+
+      const reset = () => {
+        files ?? load();
+        files = [...filesOriginalOrder];
+        /* unshuffling ought not to change the filtered length */
+        filesIter = filteredFiles();
+        _shuffled = false;
+      };
+
+      return {
+        next: () => {
+          files ?? load();
+          const { done, value } = filesIter.next();
+          if (done) {
+            if (loop.value) {
+              if (reload_on_loop.value) {
+                load();
+              }
+              if (shuffle_on_loop.value) {
+                shuffleFiles();
+              }
+              filesIter = filteredFiles();
+              return filesIter.next();
+            } else {
+              return { done: true };
+            }
+          } else {
+            return { done: false, value };
+          }
+        },
+        /**
+         *  If a filter is set, this returns the filtered count
+         *  This is calculated lazily the first time it is required
+         */
+        get length() {
+          files ?? load();
+          _filtered_length ??= [...files.filter((x) => x.match(_filter))]
+            .length;
+        },
+        /**
+         * Always returns the full, unfiltered length
+         */
+        get fullLength() {
+          files ?? load();
+          return files.length;
+        },
+        get shuffled() {
+          return _shuffled;
+        },
+        shuffle,
+        reset,
+        reload: () => load(),
+        get loop() {
+          return loop.value;
+        },
+        set loop(newValue) {
+          loop.value = newValue;
+        },
+        get filter() {
+          return filter.value;
+        },
+        set filter(newValue) {
+          if (filter.value !== newValue) {
+            _filtered_length = null;
+          }
+          filter.value = newValue;
+        },
+        get shuffle_on_loop() {
+          return shuffle_on_loop.value;
+        },
+        set shuffle_on_loop(newValue) {
+          shuffle_on_loop.value = newValue;
+        },
+        get reload_on_loop() {
+          return reload_on_loop.value;
+        },
+        set reload_on_loop(newValue) {
+          reload_on_loop.value = newValue;
+        },
+      };
+    }
+  )({ config, shuffleArray: shuffle });
 
   const interleavePlayer = (({ document: { body }, config }) => {
     const container = GM_addElement(body, 'section', {

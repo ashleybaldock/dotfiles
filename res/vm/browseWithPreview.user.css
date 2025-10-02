@@ -68,11 +68,9 @@
   mask-mode: luminance;
 }
 .toggle[name='grid']:has(:checked) > label {
-  --icon-grid-on: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E\
-    %3Cpath d=%22M448 96V224H288V96H448zm0 192V416H288V288H448zM224 224H64V96H224V224zM64 288H224V416H64V288zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z%22%3E\
-    %3C/path%3E\
-    %3C/svg%3E');
   --icon: var(--icon-grid-on);
+
+  --icon-grid-on: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm88 64v64H64V96h88zm56 0h88v64H208V96zm240 0v64H360V96h88zM64 224h88v64H64V224zm232 0v64H208V224h88zm64 0h88v64H360V224zM152 352v64H64V352h88zm56 0h88v64H208V352zm240 0v64H360V352h88z%22%3E%3C/path%3E%3C/svg%3E');
 }
 
 .toggle[name='interleave'] > label {

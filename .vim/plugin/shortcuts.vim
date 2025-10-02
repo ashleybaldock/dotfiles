@@ -11,23 +11,25 @@ let g:mayhem_loaded_shortcuts = 1
 "
 " (commands/functions are defined elsewhere)
 "
-"  Option: 􀆕 ⌥️   (<M-x> or <A-x>)
+"    Option: 􀆕 ⌥️  ⌥ ⌥︎   (<M-x> or <A-x>)
+"
 "  ‣ bound as resulting unicode character
 "   e.g.
 "  (option + 5)            􀆕 5  ──▷  ∞    :map ∞ <Nop>
 "  (option + shift + 5)  􀆕 ⇧️ 5  ──▷  ﬁ    :map ﬁ <Nop>
 "
-" Command: 􀆔 ⌘️   (<D-x>)
+"   Command: 􀆔 ⌘️  ⌘ ⌘︎   (<D-x>)
+"
 "  ‣ case-sensitive in mapping definition e.g. <D-e> != <D-E> 
 "  ‣ must be un-mapped in ../gvimrc before being redefined
 "
-"  Shift: 􀆝 ⇧️
+"     Shift: 􀆝 ⇧️  ⇧ ⇧︎
 "
-"  Ctrl: 􀆍 ^
+"      Ctrl: 􀆍 ^️  ^ ^︎
 "
-"  Backspace: 􀆛 ⌫
+" Backspace: 􀆛 ⌫️  ⌫ ⌫︎
 "
-"  Space: 􁁺  ␣
+"     Space: 􁁺 ␣️  ␣ ␣︎
 "
  
 " ▌️ 􀆔 E ▐️────▷ LH Enter
@@ -67,23 +69,25 @@ nnoremap §u\ "=GetCharCode()Pl
 " Add Combining: 
 " ▌️ 􀆕 0 ▐️────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝  + Re̲p̲e̲a̲t̲M̲o̲ve
 nnoremap º a⃝ <Esc>h<Cmd>RepeatMove<CR>
-xnoremap º <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR> 
+xnoremap º :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR> 
 "
 " ▌️􀆝􀆕 0▐️────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞  + RepeatMove
 nnoremap ‚ a⃞ <Esc>h<Cmd>RepeatMove<CR>
-xnoremap ‚ <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<CR> 
+xnoremap ‚ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<CR> 
 "
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ + RepeatMove
 nnoremap – a̲<Esc>h<Cmd>RepeatMove<CR>
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲h̲i̲t̲e̲s̲p̲a̲c̲e̲
-xnoremap – :s/\(\_^\s*"\)\?\s*\%V\S/\0̲/g<CR>
+" ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲️h̲️i̲️t̲️e̲️s̲️p̲️a̲️c̲️e̲️
+" ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲︎h̲︎i̲︎t̲︎e̲︎s̲︎p̲︎a̲︎c̲︎e̲︎
+" ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w︎̲h︎̲i︎̲t︎̲e︎̲s︎̲p︎̲a︎̲c︎̲e︎̲
+" xnoremap – :s/\(\_^\s*"\)\?\s*\%V\S/\0̲/g<CR>
+xnoremap – :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
 "
 " ▌️􀆝􀆕 -▐️──▷ O̅v̅e̅r̅l̅i̅n̅e̅ + RepeatMove
 nnoremap — a̅<Esc>h<Cmd>RepeatMove<CR>
 " ▌️􀆝􀆕 -▐️──▷ Overline visual selection, skip leading/trailing whitespace
-" xnoremap — <Cmd>'<,'>s/\_^"\?.*\zs\%V\S\%V\ze/\0̅/g<CR>
-" xnoremap — :s/\(\_^\s*"\)\?\s*\%V\S/\0̅/g<CR><Cmd>nohlsearch<CR>
-xnoremap — :s/\(\_^\s*"\)\?\s*\%V\S/\0̅/g<CR>
+xnoremap — :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̅/g<CR><Cmd>nohlsearch<CR> 
 "<Cmd>nohlsearch<CR> 
 " nno̅r̅e̅m̅a̅p <p̅l̅u̅g̅> a꛱<Esc><Cmd>RepeatMove<CR>
 " nno̅r̅e̅m̅ap <plug> a꛰<Esc><Cmd>R̲̅̅epeatMove<CR>
@@ -97,11 +101,11 @@ xnoremap — :s/\(\_^\s*"\)\?\s*\%V\S/\0̅/g<CR>
 " ▌️􀆕 =︎▐️──▷ ────▷ V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️ + RepeatMove
 nnoremap ≠ a️<Esc>h<Cmd>RepeatMove<CR>
 " ▌️􀆕 =︎▐️──▷ Add V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️  to all non-whitespace in visual area
-xnoremap ≠ <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
+xnoremap ≠ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
 " ▌️􀆝􀆕 =︎▐️──▷ V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ + RepeatMove
 nnoremap ± a︎<Esc>h<Cmd>RepeatMove<CR>
 " ▌️􀆝􀆕 =︎▐️──▷ Add V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ to all non-whitespace in visual area
-xnoremap ± <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0︎/g<CR><Cmd>nohlsearch<CR> 
+xnoremap ± :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0︎/g<CR><Cmd>nohlsearch<CR> 
 
 " Remove Combining:                                                       TODO
 " ▌️􀆕 􀆛▐️──▷ Remove first combining (as apposed to last, like x) + RepeatMove

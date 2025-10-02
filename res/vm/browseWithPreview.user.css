@@ -552,6 +552,7 @@ video {
   outline: 1px dashed #fff4;
   outline-offset: 0;
   place-items: stretch;
+  transform: none;
 }
 :is(
     :root:has(.toggle[name='grid'] :checked) .interleave,

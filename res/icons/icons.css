@@ -698,6 +698,25 @@ svg path:only-of-type {
   filter: brightness(1.6);
 }
 
+.iconRow:hover .wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
+  transform: scale(1.4) translate(4px, -4px);
+}
+.wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
+  content: '◰ ◱ ◧ ◨ ◪ ◐ ○ ● ◌ ◔◴ ◢◣ ◥◤ ◠ ◸◹ ◺◿ □ ◑ □ ◫';
+  font-size: 8px;
+  border: none;
+  color: #f0f;
+  line-height: normal;
+  display: flex;
+  position: absolute;
+  top: -2px;
+  right: 2px;
+  padding: 0.1em 0.6ch;
+  letter-spacing: -0.08ch;
+  font-family: Menlo, monospace;
+  content: '□';
+}
+
 .outer {
   contain: unset;
   container: unset;
@@ -924,4 +943,5 @@ svg path:only-of-type {
     80% 30%;
 }
 /*{{{*/
+
 /* vim: set signcolumn=auto foldmethod=marker foldlevel=1 nolist nowrap conceallevel=2: */

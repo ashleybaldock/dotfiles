@@ -5,19 +5,19 @@
 
   const cap = css`
     font-size: 16px;
+    font-weight: normal;
+    font-family: SF mono;
     line-height: 18px;
+    text-align: center;
+    text-transform: uppercase;
     border: 1px solid #eee;
     border-radius: 4px;
     display: inline-block;
     margin: 0 0.5ch;
     height: 1lh;
-    text-align: center;
-    font-weight: normal;
     min-width: 1lh;
     box-sizing: content-box;
     padding: 0 0;
-    font-family: SF mono;
-    text-transform: uppercase;
   `;
   const capn = css`
     ${cap};

@@ -520,7 +520,7 @@ video {
   transform: var(--ani-transform);
   transform-origin: top left;
   grid-row: 1;
-  outline: 1px dotted red;
+  outline: 1px dotted #f00;
 }
 
 /*{{{2 Paused */

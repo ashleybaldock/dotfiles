@@ -50,12 +50,6 @@ header > #credit > a {
 .results > li {
   display: grid;
   grid-auto-flow: column;
-  grid-template-areas:
-    'before duration .'
-    'before times ical'
-    'before stops .'
-    'before fares .';
-  grid-template-columns: 10fr 100fr 50fr;
   grid-column: 1/-1;
 }
 .results > li > * {
@@ -115,12 +109,6 @@ header > #credit > a {
     ),
     linear-gradient(hsl(from var(--c) h 50% 6% / 80%));
   background-blend-mode: soft-light;
-  /*   background-position:
-    center center
-    ,left var(--bs) top var(--bs)
-    ,left calc(var(--b1) * var(--bs)) top calc(var(--b1) * var(--bs))
-    ,left calc(var(--b2) * var(--bs)) top calc(var(--b2) * var(--bs))
-    center center; */
   background-size:
     100% 100%,
     calc(var(--b2) * var(--bs)) calc(var(--b2) * var(--bs)),
@@ -143,31 +131,7 @@ header > #credit > a {
     inset 0 calc(((var(--t, 0) * 0.5) + var(--f, 0)) * var(--u))
       calc(var(--f, 0) * var(--u))
       calc((var(--t, 0) + var(--b, 0) + var(--f)) * -1 * var(--u)) var(--c),
-    inset 0px 0px 4px 10px hsl(from var(--c) h 50% 6% / 88%)
-      /*     ,inset
-    calc((var(--r, 0)) * -1 * var(--u))
-    calc((var(--t, 0)) * var(--u))
-    0
-    calc((var(--t, 0) + var(--r, 0)) * var(--u))
-    hsl(from var(--c) h 50% 6% / 88%) */
-      /*     ,inset
-    calc((var(--l, 0)) * var(--u))
-    calc((var(--b, 0)) * -1 * var(--u))
-    0
-    0
-    hsl(from var(--c) h 50% 6% / 88%)
-    ,inset 
-    calc((var(--l, 0) + var(--f, 0)) * var(--u))
-    calc((var(--b, 0) + var(--f, 0)) * -1 * var(--u))
-    calc(var(--f, 0) * var(--u))
-    calc((var(--f)) * -1 * var(--u))
-    var(--c)
-    ,inset
-    calc((var(--r, 0)) * -1 * var(--u))
-    calc((var(--t, 0)) * var(--u))
-    0
-    0
-    hsl(from var(--c) h 90% 96% / 4%) */;
+    inset 0px 0px 4px 10px hsl(from var(--c) h 50% 6% / 88%);
   outline-offset: 0px;
   padding: 14px;
   padding: calc((var(--t, 0) + (var(--f) * var(--s))) * var(--u))
@@ -221,7 +185,7 @@ header > #credit > a {
   grid-area: results;
   display: grid;
   grid-template-columns: subgrid;
-  grid-auto-rows: 1fr;
+  grid-auto-rows: auto;
 }
 .earlierlater {
   display: contents;
@@ -239,10 +203,14 @@ header > #credit > a {
   grid-area: fromto;
 }
 #livedep {
-  display: contents;
+  display: grid;
+  grid-area: livedep;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
 }
 #livedep > li:nth-of-type(1) {
-  grid-area: livedep;
+  grid-column: 1/-1;
+  grid-row: auto;
 }
 
 #credit {
@@ -295,105 +263,172 @@ h2 {
   display: none;
 }
 
-/*
-.offpeak {
-  display: grid;
-  grid-auto-flow: dense;
-  grid-template-areas: 
-    'before duration changes'
-    'before times times'
-    'before stops x ';
+.results > li {
+  grid-template-areas: 'before platdep duration platarr .   ' 'before platdep times    platarr ical' 'before changes   changes    changes   .   ' 'before stops   stops    stops   .   ' 'before fares   fares    fares   .   ';
+  grid-template-columns: 10fr 10fr auto 10fr 10fr;
 }
-.offpeak > strong {
-  grid-area: times;
-  word-spacing: 1em;
+
+.results > li > small {
+  place-self: center;
+  width: min-content;
+  text-align: center;
 }
-.offpeak > small {
+
+.results > li::before {
+  --bs: calc(var(--bsize) * var(--u));
+  --t: 3;
+  --r: 3;
+  --b: 3;
+  --l: 3;
+  --f: 10;
+  --u: 0.1em;
+  --s: 2;
+  --ei: 10;
+  --ef: 8;
+  --bi: 2;
+  border-color: #444;
+  border-width: calc(2 * var(--u)) calc(2 * var(--u)) calc(3 * var(--u))
+    calc(3 * var(--u));
+  border-style: ridge groove groove ridge;
+  background-origin: content-box, border-box, padding-box, border-box;
+  background-clip: padding-box, border-box, padding-box, padding-box;
+  box-shadow:
+    0 0 #0000,
+    inset 0 calc(((var(--t, 0) * 0.5) + var(--f, 0)) * var(--u))
+      calc(var(--f, 0) * var(--u))
+      calc((var(--t, 0) + var(--b, 0) + var(--f)) * -1 * var(--u)) var(--c),
+    inset 0px 0px calc(var(--ef) * var(--u)) calc(var(--ei) * var(--u))
+      hsl(from var(--c) h 50% 6% / 88%),
+    calc(-0.5 * var(--u)) calc(-1 * var(--u)) calc(0.2 * var(--u))
+      calc(var(--bi) * var(-u)) #556;
+  margin: 0 0 0 8px;
+  border-radius: 50% / 50% 52% 52% 50%;
+  width: var(--w);
+  height: auto;
+  aspect-ratio: 1;
+  --w: 2px;
+  --bsize: 16;
+}
+
+.results > li:nth-child(3)::before {
+  --c: #b00;
+}
+
+.results > li:nth-child(4)::before {
+  --c: #ffe600;
+}
+
+.platform {
+  color: #eee;
+  background-color: #222;
+  font-size: 1.2em;
+  place-self: center;
+}
+.results > li > .platform {
+  grid-area: platdep;
+}
+.results > li > .platform ~ .platform {
+  grid-area: platarr;
+}
+
+.results > li {
+  box-shadow:
+    inset 0 2px 4px -2px #333,
+    inset 0 -3px 4px -2px #111;
+}
+
+.js .slide,
+.js .statusbox {
+  max-height: unset;
+  overflow-y: unset;
+  display: unset;
+  transition: unset;
+}
+.results > li > .nojs-changes {
+  outline: 1px dashed #880;
   display: contents;
 }
-.offpeak > small > .change_link {
+:root {
+  --theme-button-color: #222;
+  --theme-visited: #eee;
+  --theme-background: #191919;
+  --theme-foreground: #eee;
+  --theme-link: #eee;
+  --theme-link-inversed: #eee;
+  --theme-link-header: hsl(from var(--theme-header) h s 60% / 80%);
+  --theme-button: #eee;
+  --theme-front-form: #dfe2fe;
+  --theme-header: #3453a6;
+}
+#livedep > li {
+  grid-area: livedep;
+  grid-column: 1/-1;
+  grid-row: auto;
+}
+.fares {
+  grid-area: fares;
+}
+.results > li .changestext {
   grid-area: changes;
-  text-decoration: none;
-  color: #fff;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-auto-flow: column dense;
+  grid-template-rows: repeat(
+    auto-fit,
+    [platdep-start times-start platarr-start] auto [ times-end stops-start] auto
+      [platdep-end platarr-end stops-end]
+  );
 }
-.offpeak > small > .calling_link {
-  grid-area: stops;
+.innertable,
+.innertable > :is(tbody, thead),
+.innertable > :is(tbody, thead) > :is(tr),
+.innertable > :is(tbody, thead) > :is(tr) > :is(td) {
+  display: contents;
 }
-.offpeak > * {
+.innertable > :is(tbody, thead) > :is(tr) > :is(th) {
+  display: none;
+}
+.innertable > :is(tbody, thead) > :is(tr) > :is(td):not(:has(> *)) {
   display: flex;
 }
-.offpeak::before {
-  grid-area: before;
-  content: '';
-  display: flex;
-  background-image:
-    linear-gradient(#0000 0 0)
-    ,repeating-conic-gradient(
-      from var(--st) at 50% 50%,
-      hsl(from var(--c) h s calc(l * 1.2) / 100%) 0 var(--xa),
-      hsl(from var(--c) h s calc(l * 0.6) / 100%) var(--xa) var(--x))
-    ,repeating-conic-gradient(
-      from var(--st) at 50% 50%,
-      hsl(from var(--c) h s calc(l * 1.2) / 100%) 0 var(--xa),
-      hsl(from var(--c) h s calc(l * 0.6) / 100%) var(--xa) var(--x))
-    ,repeating-conic-gradient(
-      from var(--st) at 50% 50%,
-      hsl(from var(--c) h s calc(l * 0.6) / 100%) 0 var(--xa),
-      hsl(from var(--c) h s calc(l * 1.2) / 100%)  var(--xa) var(--x))
-    ,linear-gradient(hsl(from var(--c) h 50% 6% / 80%))
-    ;
-  background-blend-mode: soft-light;
-  background-size:
-    100% 100%
-    ,calc(var(--b2) * var(--bs)) calc(var(--b2) * var(--bs))
-    ,var(--bs) var(--bs)
-    ,calc(var(--b1) * var(--bs)) calc(var(--b1) * var(--bs))
-    ,100% 100%
-    ;
-  background-attachment:
-    local,
-    local,
-    fixed,
-    local,
-    local;
-  --bs: 20px;
-  --b1: 1.25;
-  --b2: 0.5;
-  --st: 160deg;
-  --x: 222deg;
-  --st: calc(var(--o) - (var(--xa) * 0.5));
-  --o: 0deg;
-  --x: 90deg;
-  --a: 60;
-  --xa: calc(var(--x) * var(--a) * 0.01);
-  box-shadow:
-    0 0 #0000
-    ,inset
-    0
-    calc(((var(--t, 0) * 0.5) + var(--f, 0)) * var(--u))
-    calc(var(--f, 0) * var(--u))
-    calc((var(--t, 0) + var(--b, 0) + var(--f)) * -1 * var(--u))
-    var(--c)
-    ,inset
-    0px
-    0px
-    4px
-    10px
-    hsl(from var(--c) h 50% 6% / 88%)
-    ;
-  outline-offset: 0px;
-  padding: 14px;
-  padding:
-    calc((var(--t, 0) + (var(--f) * var(--s))) * var(--u))
-    calc((var(--r, 0) + (var(--f) * var(--s))) * var(--u))
-    calc((var(--b, 0) + (var(--f) * var(--s))) * var(--u))
-    calc((var(--l, 0) + (var(--f) * var(--s))) * var(--u));
-  --t: 4;
-  --r: 10;
-  --b: 4;
-  --l: 30;
-  --f: 14;
-  --c: #0a0;
-  --u: 1px;
-  --s: 0.5;
-}*/
+.innertable > :is(tbody, thead) > :is(tr) > :is(td.origin, td.destination) {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: repeat(
+    auto-fit,
+    [platdep-start times-start platarr-start] auto [ times-end stops-start] auto
+      [platdep-end platarr-end stops-end]
+  );
+  place-self: center;
+  place-items: center;
+}
+.changestext .origin {
+  grid-column: platdep;
+  grid-row: auto/span platdep-end;
+}
+.changestext .destination {
+  grid-column: platarr;
+  grid-row: auto/span platarr-end;
+}
+.changestext br {
+  display: contents;
+}
+.changestext td:has(.times, .times ~ .faded) {
+  grid-column: times;
+  display: grid;
+  grid-auto-flow: dense;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+}
+.changestext .times {
+  grid-column: 2;
+}
+.changestext .times ~ .faded {
+  justify-self: end;
+  grid-column: 1;
+}
+.changestext .calling_link_inner {
+  grid-column: stops-start/stops-end;
+  grid-row: auto/span stops-end;
+  place-self: center;
+}

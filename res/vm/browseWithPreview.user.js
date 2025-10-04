@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.163
+// @version     1.0.173
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -359,6 +359,9 @@ const initBrowsePreview = ({ document }) => {
       showOther,
       interleave,
       linear,
+      loop,
+      shuffle_on_loop,
+      reload_on_loop,
     },
   }) => {
     return {
@@ -469,7 +472,7 @@ const initBrowsePreview = ({ document }) => {
         _filtered_length = null;
 
       function* filteredFiles() {
-        yield* files.filter((x) => x.match(_filter));
+        yield* files.filter((x) => x.match(filter.value));
       }
 
       const load = () => {
@@ -525,8 +528,9 @@ const initBrowsePreview = ({ document }) => {
          */
         get length() {
           files ?? load();
-          _filtered_length ??= [...files.filter((x) => x.match(_filter))]
-            .length;
+          return (_filtered_length ??= [
+            ...files.filter((x) => x.match(filter.value)),
+          ].length);
         },
         /**
          * Always returns the full, unfiltered length
@@ -606,7 +610,7 @@ const initBrowsePreview = ({ document }) => {
     });
 
     const playNext = (video) => {
-      video.src = filelist?.next().value ?? '';
+      video.src = decodeURI(filelist?.next().value ?? '');
     };
     const onEndedPlayNext = ({ target }) => {
       playerErrors.set(
@@ -665,16 +669,16 @@ const initBrowsePreview = ({ document }) => {
     const unsub = config.maxInterleaved.subscribe(updateMediaPlayerCount);
     updateMediaPlayerCount(config.maxInterleaved.value);
 
-    const grid = (showAsGrid = !_showAsGrid) => {
-      if (_showAsGrid !== showAsGrid) {
-        _showAsGrid = showAsGrid;
-        if (_showAsGrid) {
-          container.classList.add('grid');
-        } else {
-          container.classList.remove('grid');
-        }
-      }
-    };
+    // const grid = (showAsGrid = !_showAsGrid) => {
+    //   if (_showAsGrid !== showAsGrid) {
+    //     _showAsGrid = showAsGrid;
+    //     if (_showAsGrid) {
+    //       container.classList.add('grid');
+    //     } else {
+    //       container.classList.remove('grid');
+    //     }
+    //   }
+    // };
 
     const play = () => {
       reset();
@@ -685,9 +689,6 @@ const initBrowsePreview = ({ document }) => {
         });
       container.classList.add('playing');
       container.classList.remove('paused');
-      _showAsGrid
-        ? container.classList.add('grid')
-        : container.classList.remove('grid');
     };
     const pause = () => {
       mediaPlayers
@@ -697,7 +698,6 @@ const initBrowsePreview = ({ document }) => {
         });
       container.classList.add('paused');
       container.classList.remove('playing');
-      container.classList.add('grid');
     };
 
     const onClickContainer = () => {
@@ -713,7 +713,6 @@ const initBrowsePreview = ({ document }) => {
       play,
       pause,
       reset,
-      grid,
     };
   })({ document, config });
 
@@ -776,7 +775,7 @@ const initBrowsePreview = ({ document }) => {
     }),
   );
 
-  document.querySelector('body').dataset.playmode = 'interleave';
+  // document.querySelector('body').dataset.playmode = 'interleave';
 
   interleavePlayer.play();
 };

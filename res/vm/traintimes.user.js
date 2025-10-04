@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        traintimes
 // @namespace   mayhem
-// @version     1.0.4
+// @version     1.0.5
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @match       *://*.traintimes.org/*

@@ -355,7 +355,12 @@ h2 {
   color: #eee;
   background-color: #222;
   font-size: 1.2em;
+  font-family: Menlo, monospace;
   place-self: center;
+  padding: 0.2em 0.5ch;
+  height: fit-content;
+  margin: 0.2em 0.2ch;
+  line-height: normal;
 }
 .results > li > .platform {
   grid-area: platdep;
@@ -471,24 +476,28 @@ h2 {
 
 .results > li :is(strong > span, strong::before, small) {
   filter: var(--f-tinydots);
-  font-size: 1.4em;
 }
 .results > li > .platform {
   filter: var(--f-smalldots);
   font-size: 3em;
   place-self: center;
   justify-items: first baseline;
-  height: 100%;
+  height: auto;
   align-items: center;
+  box-shadow:
+    inset -3px -2px 0.5px 0 #333,
+    inset 3px 2px 0.5px 0 #000;
 }
 .results > li > strong :is(.arr, .dep) {
-  font-size: 1.7em;
+  font-size: calc(var(--font-size-times, 1.7) * 1em);
+  letter-spacing: calc(var(--letter-sp-times, 0.02) * 1ch);
 }
-.results > li > strong .name {
+.results > li > strong :is(.name) {
+  font-size: calc(var(--font-size-names, 1.2) * 1em);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: '.';
-  letter-spacing: 0.06ch;
+  letter-spacing: calc(var(--letter-sp-names, 0.02) * 1ch);
   font-weight: 300;
   width: 100%;
 }
@@ -521,7 +530,6 @@ h2 {
 }
 .results > li > strong :is(span) {
   filter: var(--f-tinydots);
-  font-family: Menlo, monospace;
 }
 .results > li > strong::before {
   content: '';
@@ -529,7 +537,7 @@ h2 {
   grid-row: 1/-1;
   background-image:
     linear-gradient(
-      87deg,
+      90deg,
       #4444 0 1px,
       #5558 2px,
       #4444,
@@ -537,7 +545,7 @@ h2 {
       #4444 calc(100% - 1px) 100%
     ),
     linear-gradient(
-      89deg,
+      90deg,
       #4444 0 1px,
       #5558 2px,
       #4444,
@@ -545,16 +553,34 @@ h2 {
       #4444 calc(100% - 1px) 100%
     );
   background-size:
-    3ch 40%,
-    2ch 40%;
+    calc(
+        (var(--font-size-names) * 1ch) +
+          ((var(--font-size-names) * 1ch) * var(--letter-sp-names))
+      )
+      40%,
+    calc(
+        (var(--font-size-times) * 1ch) +
+          ((var(--font-size-times) * 1ch) * var(--letter-sp-times))
+      )
+      40%;
   background-position:
-    top 10% left,
-    bottom 10% left;
-  background-repeat: round no-repeat;
+    top 10% left calc(var(--letter-sp-names) * (var(--font-size-names) * -1ch)),
+    bottom 10% left
+      calc(var(--letter-sp-times) * (var(--font-size-times) * -1ch));
+  background-repeat: repeat no-repeat;
+  background-origin: border-box;
+  grid-gap: 0;
   width: 100%;
   height: 100%;
   display: flex;
   filter: var(--f-tinydots);
+}
+.results > li > strong {
+  --font-size-names: 1.2;
+  --letter-sp-names: 0.02;
+  --font-size-times: 1.7;
+  --letter-sp-times: 0.02;
+  font-family: Menlo, monospace;
 }
 .results > li > .platform > .sr-only {
   display: none;

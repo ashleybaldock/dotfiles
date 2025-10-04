@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.160
+// @version     1.0.163
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -26,6 +26,8 @@
  * // @injectIQB-into auto
  *
  */
+
+const fit_options = ['auto', 'contain', 'cover', 'fitw', 'fith'];
 
 const isDirectory = (({ document }) =>
   qs`:has([href="chrome://global/skin/dirListing/dirListing.css"])`.hasSome)(
@@ -74,6 +76,56 @@ const addToggle = ({
   );
   bindTo.subscribe((checked) => {
     input.checked = checked;
+  });
+  return div;
+};
+
+const addSequenceToggle = ({
+  to,
+  tag = 'input',
+  type = 'radio',
+  name = '',
+  bindTo,
+  sequence = [
+    ({
+      value = '',
+      checked = bindTo?.value === value ?? false,
+      textContent = name,
+      icon = null,
+    } = {}),
+  ],
+  ...attrs
+} = {}) => {
+  const div = GM_addElement(to, 'div', {
+    class: 'sequencetoggle',
+    ...attrs,
+  });
+  sequence.forEach(({ name, value, checked, textContent, icon }) => {
+    const label = GM_addElement(div, 'label', {
+      class: '',
+      textContent,
+      dataName: name,
+      dataValue: value,
+    });
+    icon !== null && label.style.setProperty('--icon', icon);
+    const input = GM_addElement(label, tag, {
+      type,
+      ...(checked ? { checked: '' } : {}),
+      name,
+      value,
+    });
+    input.addEventListener(
+      'change',
+      (e) => {
+        if (e.target.checked) {
+          bindTo.value = e.target.checked;
+        }
+      },
+      {},
+    );
+    bindTo.subscribe((checkedValue) => {
+      input.checked = checkedValue === input.value;
+    });
   });
   return div;
 };
@@ -244,12 +296,46 @@ const initBrowsePreview = ({ document }) => {
       };
     };
 
+    const defineSequence = (_vals = ['a', 'b', 'c'], _val = _vals[0]) => {
+      const subs = new Set();
+
+      const notify = () => {
+        subs.forEach((sub) => sub(_val));
+      };
+      const subscribe = (callback) => {
+        subs.add(callback);
+        return () => subs.remove(callback);
+      };
+
+      const set = (newValue) => {
+        if (_vals.contains(newValue)) {
+          _val = newValue;
+          notify();
+        }
+        return _val;
+      };
+      const toggle = () => set(_vals[(_vals.indexOf(_val) + 1) % _vals.length]);
+
+      return {
+        get value() {
+          return _val;
+        },
+        set value(newValue) {
+          return set(newValue);
+        },
+        set,
+        toggle,
+        subscribe,
+      };
+    };
+
     return {
       imageDuration: defineNumber(5),
       showImages: defineToggle(false),
       showVideo: defineToggle(false),
       showOther: defineToggle(false),
       showGrid: defineToggle(false),
+      grid_fit: defineSequence(fit_options),
       linear: defineToggle(false),
       interleave: defineToggle(false),
       maxInterleaved: defineNumber(8),
@@ -265,7 +351,15 @@ const initBrowsePreview = ({ document }) => {
     unsafeWindow: {
       document: { body },
     },
-    config: { showGrid, showImages, showVideo, showOther, interleave, linear },
+    config: {
+      showGrid,
+      grid_fit,
+      showImages,
+      showVideo,
+      showOther,
+      interleave,
+      linear,
+    },
   }) => {
     return {
       shuffle_on_loop: addToggle({
@@ -303,6 +397,16 @@ const initBrowsePreview = ({ document }) => {
         name: 'grid',
         checked: false,
         bindTo: showGrid,
+      }),
+      grid_fit: addSequenceToggle({
+        to: body,
+        class: 'sequencetoggle',
+        id: 'toggle_grid_fit',
+        name: 'grid_fit',
+        bindTo: grid_fit,
+        sequence: fit_options.map((fit) => ({
+          value: fit,
+        })),
       }),
       interleave: addToggle({
         to: body,

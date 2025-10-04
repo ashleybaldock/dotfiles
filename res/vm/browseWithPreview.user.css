@@ -553,6 +553,8 @@ video {
   outline-offset: 0;
   place-items: stretch;
   transform: none;
+  height: auto;
+  position: relative;
 }
 :is(
     :root:has(.toggle[name='grid'] :checked) .interleave,

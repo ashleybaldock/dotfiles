@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        traintimes
 // @namespace   mayhem
-// @version     1.0.3
+// @version     1.0.4
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @match       *://*.traintimes.org/*
@@ -14,6 +14,7 @@
 
 const initTraintimes = ({ document }) => {
   // const clone = qs`#content > h2`.one.cloneNode(true);
+  const textSplits = [[`#content > h2`, /\s*(to|,)\s*/]];
   qs`#content > h2`.one.childNodes.forEach((node) => {
     if (node.nodeName === '#text') {
       const wrapper = document.createElement('span');

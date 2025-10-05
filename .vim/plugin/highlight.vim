@@ -87,7 +87,7 @@ function! s:GetCharacterInfo(arg)
     endif
     let v:errmsg = ''
     redir => output
-      silent exec 'Characterize ' .. char
+      silent exec 'Characterize ' .. composedchar
     redir END
     if v:errmsg != ''
       echom 'Error running Characterize: ' .. v:errmsg

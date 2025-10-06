@@ -944,4 +944,143 @@ svg path:only-of-type {
 }
 /*{{{*/
 
+svg path:only-of-type svg path {
+  fill: #aaa;
+}
+
+.iconRow .wrappedSVG {
+  z-index: -1;
+}
+
+.svgActions {
+  padding: calc(var(--icon-inset) * var(--pad-nearside) + var(--item-size))
+    var(--icon-inset) calc(var(--icon-inset) * var(--pad-farside))
+    var(--icon-inset);
+  inset: calc(var(--item-size) - 4 * var(--item-gap)) auto auto auto;
+}
+
+.svgListing h2 {
+  width: 100vw;
+  flex: 1 0 auto;
+  max-width: 100vw;
+  display: flex;
+  text-align: end;
+  align-items: end;
+  align-content: end;
+  justify-content: end;
+  margin-left: auto;
+}
+
+.wrappedSVG:has(> [viewBox='0 0 640 640']) {
+  max-height: 0.9em;
+  padding: calc(0.01em * (var(--icon-padding, 16) - var(--icon-border, 3)));
+  padding: 1px;
+  display: grid;
+  grid-template: 1fr/1fr;
+  place-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+svg[viewBox='0 0 640 640'] {
+  max-height: 1.1em;
+  width: 1.1em;
+  height: 1.1em;
+}
+
+.wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
+  bottom: -8px;
+  border-radius: inherit;
+  font-size: 8px;
+  border: 0;
+  color: #f0f;
+  line-height: normal;
+  display: flex;
+  position: absolute;
+  top: -2px;
+  right: 2px;
+  padding: 0.1em 0.6ch;
+  letter-spacing: -0.08ch;
+  font-family: Menlo, monospace;
+  content: '□';
+}
+
+.iconRow:hover .wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
+  transform: scale(1.4) translate(4px, -4px);
+}
+
+
+svg path:only-of-type svg path {
+    fill: #aaa
+}
+
+.iconRow .wrappedSVG {
+    z-index: -1
+}
+
+.svgActions {
+    padding: calc(var(--icon-inset)*var(--pad-nearside) + var(--item-size)) var(--icon-inset) calc(var(--icon-inset)*var(--pad-farside)) var(--icon-inset);
+    inset: calc(var(--item-size) - 4*var(--item-gap)) auto auto auto
+}
+
+.svgListing h2 {
+    width: 93vw;
+    flex: 1 1 90w;
+    display: flex;
+    text-align: end;
+    align-items: end;
+    align-content: end;
+    justify-content: end;
+    /*! margin: auto; */
+      border: border: var(--section-border);
+    border-radius: var(--section-border-radius);
+    border: var(--section-border);
+    border-radius: var(--section-border-radius);
+    border-inline-width: 0;
+    padding-inline: 2ch;
+    margin: calc(var(--section-border-width) * -2) -2ch 0.5em -1ch;
+    border-radius: var(--section-border-radius) 0 0 0;
+}
+
+.wrappedSVG:has(>[viewBox="0 0 640 640"]) {
+    max-height: .9em;
+    padding: calc(.01em*(var(--icon-padding, 16) - var(--icon-border, 3)));
+    padding: 1px;
+    display: grid;
+    grid-template: 1fr/1fr;
+    place-content: center;
+    height: 100%;
+    width: 100%
+}
+
+svg[viewBox="0 0 640 640"] {
+    max-height: 1.1em;
+    width: 1.1em;
+    height: 1.1em
+}
+
+.wrappedSVG:has(>[viewBox="0 0 640 640"])::after {
+    bottom: -8px;
+    border-radius: inherit;
+    font-size: 8px;
+    border: 0;
+    color: #f0f;
+    line-height: normal;
+    display: flex;
+    position: absolute;
+    top: -2px;
+    right: 2px;
+    padding: .1em .6ch;
+    letter-spacing: -.08ch;
+    font-family: Menlo,monospace;
+    content: "□"
+}
+
+.iconRow:hover .wrappedSVG:has(>[viewBox="0 0 640 640"])::after {
+    transform: scale(1.4) translate(4px,-4px)
+}
+.svgListing:has(> h2) {
+  border-top-right-radius: 0;
+}
+
 /* vim: set signcolumn=auto foldmethod=marker foldlevel=1 nolist nowrap conceallevel=2: */

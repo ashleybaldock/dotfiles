@@ -2,14 +2,66 @@
   display: none;
 }
 :root {
-  --f-tinydots: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E\
-    %3Cfilter id=%22filter-pixelate%22 x=%220%22 y=%220%22 width=%22100%25%22 height=%22100%25%22%3E\
-      %3CfeFlood x=%220.8px%22 y=%221px%22 height=%222%25%22 width=%222%25%22/%3E\
-      %3CfeComposite x=%220.3%25%22 y=%22-0.2%25%22 width=%221%22 height=%222%22/%3E\
-      %3CfeTile x=%220%25%22 y=%220%25%22 width=%22100%25%22 height=%22100%25%22 result=%22a%22/%3E\
-      %3CfeComposite in=%22SourceGraphic%22 in2=%22a%22 operator=%22in%22/%3E\
+  --f-tinydots: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E%3C\
+filter \
+    id=%22filter-tinydots%22 \
+    x=%22 0 %22 \
+    y=%22 0 %22 \
+    width=%22 100%25 %22 \
+    height=%22 100%25 %22%3E%3C\
+\
+feFlood \
+     x= %22 1px %22 \
+     y= %22 1px %22 \
+height= %22 2%25 %22 \
+ width= %22 2%25 %22/%3E%3C\
+\
+feComposite \
+     x=%22  0.3%25 %22 \
+     y=%22 -0.2%25 %22 \
+ width=%22    1    %22 \
+height=%22    2    %22/%3E%3C\
+\
+feTile \
+     x=%22   0%25 %22 \
+     y=%22   0%25 %22 \
+ width=%22 100%25 %22 \
+height=%22 100%25 %22 \
+result=%22 a %22/%3E\
+      %3C\
+feComposite in=%22SourceGraphic%22 in2=%22a%22 operator=%22in%22/%3E\
     %3C/filter%3E\
-    %3C/svg%3E#filter-pixelate');
+    %3C/svg%3E#filter-tinydots');
+  --f-sdots: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E%3C\
+filter id=%22filter-sdots%22 \
+     x=%22 0 %22 \
+     y=%22 0 %22 \
+ width=%22 100%25 %22 \
+height=%22 100%25 %22%3E%3C\
+\
+feFlood \
+     x= %22 0px %22 \
+     y= %22 0px %22 \
+ width= %22 10px %22 \
+height= %22 10px %22 \
+/%3E%3C\
+\
+feComposite \
+     x=%22  0.2ch %22 \
+     y=%22  0.2em %22 \
+ width=%22    1ch    %22 \
+height=%22    0.6em    %22/%3E%3C\
+\
+feTile \
+     x=%22   0%25 %22 \
+     y=%22   0%25 %22 \
+ width=%22 100%25 %22 \
+height=%22 100%25 %22 \
+result=%22 a %22/%3E\
+      %3C\
+feComposite in=%22SourceGraphic%22 in2=%22a%22 operator=%22in%22/%3E\
+    %3C/filter%3E\
+    %3C/svg%3E#filter-sdots');
   --f-smalldots: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E\
     %3Cfilter id=%22filter-smalldots%22 x=%220%22 y=%220%22 width=%22100%25%22 height=%22100%25%22%3E\
       %3CfeFlood x=%222px%22 y=%222px%22 height=%22100%25%22 width=%22100%25%22/%3E\
@@ -77,20 +129,7 @@ header > #credit > a {
 .results > li > * {
   display: flex;
 }
-.results > li > strong {
-  grid-area: times;
-  display: grid;
-  grid-template-columns: [originname-start origindep-start] 100fr [origindep-end sep-start] 10fr [originname-end destname-start] 10fr [sep-end destarr-start] 100fr [destarr-end destname-end];
-  place-items: center;
-  color: #ff6;
-  grid-template-rows: [originname-start destname-start] 1fr [originname-end destname-end destarr-start origindep-start sep-start] 1fr [sep-end destarr-end origindep-end];
-  column-gap: 1ch;
-  overflow: hidden;
-  background-image: linear-gradient(#000, #000);
-  padding: 0.2em 0.5ch;
-  letter-spacing: 0.04ch;
-  background-origin: border-box;
-}
+
 .results > li > small {
   /*! display: contents; */
   grid-area: duration;
@@ -474,8 +513,70 @@ h2 {
   place-self: center;
 }
 
-.results > li :is(strong > span, strong::before, small) {
+.results > li > strong {
+  --font-size-names: 1.2;
+  --letter-sp-names: 0.02;
+  /*   --letter-sp-names: 0; */
+  --font-size-times: 1.7;
+  --letter-sp-times: 0.02;
+  font-family: Menlo, monospace;
+  grid-area: times;
+  display: grid;
+  grid-template-columns: [originname-start origindep-start] 100fr [origindep-end sep-start] 10fr [originname-end destname-start] 10fr [sep-end destarr-start] 100fr [destarr-end destname-end];
+  place-items: center;
+  color: #ff6;
+  grid-template-rows: [originname-start destname-start] 1fr [originname-end destname-end destarr-start origindep-start sep-start] 1fr [sep-end destarr-end origindep-end];
+  column-gap: 1ch;
+  overflow: hidden;
+  background-image: linear-gradient(#000, #000);
+  padding: 0.2em 0.5ch;
+  letter-spacing: 0.04ch;
+  background-origin: border-box;
+}
+.results > li > strong > :is(.name, .arr, .dep) {
+  font-size: var(--font-size, 1em);
+  letter-spacing: var(--letter-sp, 0);
+  background-color: #080802;
+  background-size: calc(var(--letter-sp) + round(down, 100%, var(--charw))) 1lh;
+  padding: 0 0 0 var(--letter-sp);
+  background-repeat: no-repeat;
+  background-origin: border-box;
+  background-origin: content-box;
+  background-origin: padding-box;
+  background-clip: content-box;
+  background-clip: padding-box;
+  background-position: top 0 left calc(var(--letter-sp) * -2);
+  grid-gap: 0;
+  display: flex;
   filter: var(--f-tinydots);
+  --charw: calc(1ch + var(--letter-sp));
+  background-image: repeating-linear-gradient(
+    var(--bg-angle),
+    #555a 0 0.5px,
+    #444a 0.5px calc(var(--charw) - 1px),
+    #555a calc(var(--charw) - 0.5px) var(--charw)
+  );
+  width: round(down, 100%, var(--charw));
+  --bg-angle: 90deg;
+}
+.results > li > strong > :is(.name, .arr, .dep)::selection {
+  background-color: #ffffff66;
+  background-image: repeating-linear-gradient(
+    var(--bg-angle),
+    #555f 0 0.5px,
+    #444a 0.5px calc(var(--charw) - 1px),
+    #555f calc(var(--charw) - 0.5px) var(--charw)
+  );
+}
+.results > li > strong > :is(.dest) {
+  --bg-angle: -90deg;
+  padding: 0 0 0 var(--letter-sp);
+  background-position: top 0 left calc(var(--letter-sp) * -2);
+  justify-self: start;
+  justify-content: start;
+  text-align: start;
+  /*! text-align: end; */
+  display: inline;
 }
 .results > li > .platform {
   filter: var(--f-smalldots);
@@ -489,26 +590,25 @@ h2 {
     inset 3px 2px 0.5px 0 #000;
 }
 .results > li > strong :is(.arr, .dep) {
-  font-size: calc(var(--font-size-times, 1.7) * 1em);
-  letter-spacing: calc(var(--letter-sp-times, 0.02) * 1ch);
+  --font-size: calc(var(--font-size-times, 1.7) * 1em);
+  --letter-sp: calc(var(--letter-sp-times, 0.02) * 1ch);
 }
 .results > li > strong :is(.name) {
-  font-size: calc(var(--font-size-names, 1.2) * 1em);
+  --font-size: calc(var(--font-size-names, 1.2) * 1em);
+  --letter-sp: calc(var(--letter-sp-names, 0.02) * 1ch);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: '.';
-  letter-spacing: calc(var(--letter-sp-names, 0.02) * 1ch);
   font-weight: 300;
   width: 100%;
 }
-.results > li > strong .origin.name {
+.results > li > strong :is(.origin.name) {
   grid-area: originname;
   justify-self: start;
+  text-align: start;
 }
-.results > li > strong .dest.name {
+.results > li > strong :is(.dest.name) {
   grid-area: destname;
-  justify-self: end;
-  text-align: end;
 }
 .results > li > strong :is(.origin.dep, .dest.arr) {
   font-weight: 600;
@@ -516,72 +616,29 @@ h2 {
 .results > li > strong :is(.origin.dep) {
   grid-area: origindep;
   justify-self: start;
+  justify-content: start;
   text-align: start;
 }
 .results > li > strong :is(.dest.arr) {
   grid-area: destarr;
   justify-self: end;
+  justify-content: end;
   text-align: end;
+  position: relative;
+}
+.results > li > strong :is(.dest.arr)::after {
+  /*   content: '████████'; */
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .origin + .sep {
   grid-area: sep;
   justify-self: center;
   text-align: center;
 }
-.results > li > strong :is(span) {
-  filter: var(--f-tinydots);
-}
-.results > li > strong::before {
-  content: '';
-  grid-column: 1/-1;
-  grid-row: 1/-1;
-  background-image:
-    linear-gradient(
-      90deg,
-      #4444 0 1px,
-      #5558 2px,
-      #4444,
-      #5558 calc(100% - 1px),
-      #4444 calc(100% - 1px) 100%
-    ),
-    linear-gradient(
-      90deg,
-      #4444 0 1px,
-      #5558 2px,
-      #4444,
-      #5558 calc(100% - 1px),
-      #4444 calc(100% - 1px) 100%
-    );
-  background-size:
-    calc(
-        (var(--font-size-names) * 1ch) +
-          ((var(--font-size-names) * 1ch) * var(--letter-sp-names))
-      )
-      40%,
-    calc(
-        (var(--font-size-times) * 1ch) +
-          ((var(--font-size-times) * 1ch) * var(--letter-sp-times))
-      )
-      40%;
-  background-position:
-    top 10% left calc(var(--letter-sp-names) * (var(--font-size-names) * -1ch)),
-    bottom 10% left
-      calc(var(--letter-sp-times) * (var(--font-size-times) * -1ch));
-  background-repeat: repeat no-repeat;
-  background-origin: border-box;
-  grid-gap: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  filter: var(--f-tinydots);
-}
-.results > li > strong {
-  --font-size-names: 1.2;
-  --letter-sp-names: 0.02;
-  --font-size-times: 1.7;
-  --letter-sp-times: 0.02;
-  font-family: Menlo, monospace;
-}
+
 .results > li > .platform > .sr-only {
   display: none;
 }

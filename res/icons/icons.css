@@ -702,7 +702,7 @@ svg path:only-of-type {
   transform: scale(1.4) translate(4px, -4px);
 }
 .wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
-  content: '◰ ◱ ◧ ◨ ◪ ◐ ○ ● ◌ ◔◴ ◢◣ ◥◤ ◠ ◸◹ ◺◿ □ ◑ □ ◫';
+  /*! content: '◰ ◱ ◧ ◨ ◪ ◐ ○ ● ◌ ◔◴ ◢◣ ◥◤ ◠ ◸◹ ◺◿ □ ◑ □ ◫'; */
   font-size: 8px;
   border: none;
   color: #f0f;
@@ -803,8 +803,8 @@ svg path:only-of-type {
     calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset);
 }
 
-.iconRow:hover .inner .svgActions,
-.svgActions:hover {
+:is(.iconRow:hover, .inner:hover) :is(.svgActions, .wrappedSVG.duplicate),
+:is(.svgActions, .wrappedSVG.duplicate):hover {
   z-index: 1;
   opacity: 1;
   transition-property: opacity;
@@ -813,7 +813,7 @@ svg path:only-of-type {
   transition-timing-function: ease;
   pointer-events: all;
 }
-.iconRow:hover .inner .svgActions + .wrappedSVG,
+:is(.iconRow:hover, .inner:hover) .svgActions + .wrappedSVG,
 .wrappedSVG:hover {
   z-index: 2;
 }
@@ -825,8 +825,8 @@ svg path:only-of-type {
     300% 300%;
 }
 
-.iconRow:hover .svgActions,
-.svgActions:hover {
+.iconRow:hover :is(.svgActions, .wrappedSVG.duplicate),
+:is(.svgActions, .wrappedSVG.duplicate):hover {
   transition-delay: 0ms;
 }
 .svgActions > :where(.down, .copy, [data-copyas]) {
@@ -1206,6 +1206,106 @@ svg[viewBox='0 0 640 640'] {
   width: auto;
   aspect-ratio: 1;
   max-height: unset;
+}
+
+.inner,
+.inner:hover {
+  grid-template-columns: 3em 2em 2.5em;
+  column-gap: 2ch;
+}
+.wrappedSVG {
+  width: auto;
+  aspect-ratio: 1;
+}
+.wrappedSVG.duplicated {
+  height: 1em;
+}
+.wrappedSVG.duplicated + .wrappedSVG.duplicate {
+  height: 1em;
+}
+.wrappedSVG.duplicated + .wrappedSVG.duplicate + .wrappedSVG.duplicate {
+  height: 1em;
+}
+
+.svgListing svg {
+  max-height: 1em;
+  height: 1em;
+  width: auto;
+}
+.wrappedSVG:has(> [viewBox='0 0 640 640']) {
+  width: auto;
+  padding: 0;
+  grid-template: 1fr/1fr;
+  aspect-ratio: 1;
+  max-height: unset;
+  height: 100%;
+  place-self: center;
+}
+
+.wrappedSVG,
+.wrappedSVG:has(> [viewBox='0 0 640 640']) {
+  grid-column: 1 / span 1;
+  grid-row: 1;
+  font-size: 3em;
+  height: 1em;
+  width: auto;
+  aspect-ratio: 1;
+  padding: 0.04em;
+  place-content: center;
+  grid-template: auto/auto;
+  margin: 0 -0.04em;
+}
+.wrappedSVG ~ .wrappedSVG.duplicate,
+.wrappedSVG:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']) {
+  grid-column: 2 / span 1;
+  font-size: 2em;
+}
+.wrappedSVG ~ .wrappedSVG.duplicate ~ .wrappedSVG.duplicate,
+.wrappedSVG:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']) {
+  grid-column: 3 / span 1;
+  font-size: 1.2em;
+}
+
+.wrappedSVG.duplicate,
+.wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']) {
+  grid-column: 2 / span 1;
+  grid-row: 1;
+  font-size: 2em;
+  height: fit-content;
+  padding: 0.1em;
+}
+
+.wrappedSVG.duplicate + .wrappedSVG.duplicate,
+.wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
+  + .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']) {
+  grid-column: 3 / span 1;
+  grid-row: 1;
+  font-size: 1em;
+}
+
+.inner,
+.inner:hover {
+  grid-template-columns: 3em 3em 1em;
+}
+
+.wrappedSVG.duplicate,
+.wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']) {
+  grid-column: 2 / span 1;
+  grid-row: 1;
+  font-size: 2em;
+  height: fit-content;
+  padding: 0.1em;
+}
+
+.wrappedSVG.duplicate + .wrappedSVG.duplicate,
+.wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
+  + .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']) {
+  grid-column: 3 / span 1;
+  grid-row: 1;
+  font-size: 1em;
 }
 
 /* vim: set signcolumn=auto foldmethod=marker foldlevel=1 nolist nowrap conceallevel=2: */

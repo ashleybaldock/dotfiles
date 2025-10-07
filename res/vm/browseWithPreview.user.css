@@ -360,12 +360,6 @@ video {
   grid-row: preview;
 }
 
-.interleave,
-.linear,
-thead {
-  display: none;
-}
-
 .linear.playing,
 :root:has(.toggle[name='linear'] :checked) .linear {
   display: grid;
@@ -1105,3 +1099,30 @@ thead {
   background-color: #111;
   height: fit-content;
 }
+
+
+
+
+body {
+overflow: clip;
+overflow-y: scroll;
+height: fit-content;
+}
+:root {
+overflow: hidden;
+overflow-y: scroll;
+}
+body > * {
+grid-area: files;
+max-height: 40vh;
+}
+body > section:has(> video, > .vidwrap) {
+overflow: visible;
+overflow-y: hidden;
+overflow-x: visible;
+}
+Inline
+:is(.interleave) {
+display: grid;
+grid-template-columns: auto-fill(var(--playerCount), var(--playerWidth));
+

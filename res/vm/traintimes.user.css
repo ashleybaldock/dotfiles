@@ -32,36 +32,36 @@ result=%22 a %22/%3E\
 feComposite in=%22SourceGraphic%22 in2=%22a%22 operator=%22in%22/%3E\
     %3C/filter%3E\
     %3C/svg%3E#filter-tinydots');
-  --f-sdots: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E%3C\
-filter id=%22filter-sdots%22 \
+  --f-dots8: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E%3C\
+filter id=%22filter-dots8%22 \
      x=%22 0 %22 \
      y=%22 0 %22 \
  width=%22 100%25 %22 \
 height=%22 100%25 %22%3E%3C\
 \
 feFlood \
-     x= %22 0px %22 \
-     y= %22 0px %22 \
- width= %22 10px %22 \
-height= %22 10px %22 \
+     x= %22 0ch %22 \
+     y= %22 0em %22 \
+ width= %22 0.1ch %22 \
+height= %22 0.1em %22 \
 /%3E%3C\
 \
 feComposite \
-     x=%22  0.2ch %22 \
-     y=%22  0.2em %22 \
- width=%22    1ch    %22 \
-height=%22    0.6em    %22/%3E%3C\
+     x=%22  0.0ch %22 \
+     y=%22  0.0lh %22 \
+ width=%22    0.2ch    %22 \
+height=%22    0.2lh    %22/%3E%3C\
 \
 feTile \
-     x=%22   0%25 %22 \
-     y=%22   0%25 %22 \
+     x=%22   0ch %22 \
+     y=%22   0lh %22 \
  width=%22 100%25 %22 \
 height=%22 100%25 %22 \
 result=%22 a %22/%3E\
       %3C\
 feComposite in=%22SourceGraphic%22 in2=%22a%22 operator=%22in%22/%3E\
     %3C/filter%3E\
-    %3C/svg%3E#filter-sdots');
+    %3C/svg%3E#filter-dots8');
   --f-smalldots: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E\
     %3Cfilter id=%22filter-smalldots%22 x=%220%22 y=%220%22 width=%22100%25%22 height=%22100%25%22%3E\
       %3CfeFlood x=%222px%22 y=%222px%22 height=%22100%25%22 width=%22100%25%22/%3E\
@@ -72,43 +72,56 @@ feComposite in=%22SourceGraphic%22 in2=%22a%22 operator=%22in%22/%3E\
     %3C/svg%3E#filter-smalldots');
 }
 
+:root {
+  --theme-background: #191919;
+  --theme-foreground: #eee;
+  --theme-header-color: #3453a6;
+  --theme-link-header: hsl(from var(--theme-header-color) h s 60% / 80%);
+  --theme-button-background-color: #222;
+  --theme-button-color: #eee;
+  --theme-link: #eee;
+  --theme-visited: #eee;
+  --theme-link-inversed: #eee;
+  --theme-front-form: #dfe2fe;
+  --c-dotmatrix: #ff6;
+  --c-dotmatrix-bg: #080802;
+}
 :root,
 body,
 header,
 .inversed {
-  background-color: #191919;
-  color: #eee;
-  --c-header: #3453a6;
+  background-color: var(--theme-background);
+  color: var(--theme-foreground);
   --img-times: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22102%22 version=%221.0%22%3E%3Cpath fill=%22%233453a6%22 d=%22M62.5 1.9c-12.4 3.65-22.3 9.55-35.15 20.85-7.15 6.3-25.4 26-26.15 28.2-1.5 4.3 17.2 24.35 28 30.05 11.8 6.25 11.1 7.85-4.45 10.85C18 93.15 10.05 95.05 7 96l-5.5 1.8 5.05.1c7.5.15 45.25-5.15 60.7-8.55 5.35-1.15 2.55 1.2-7.3 6.15-8.4 4.25-13.1 7.5-8.7 6 .7-.2 6.2-1.35 12.25-2.5 14.4-2.7 54.8-11.45 69.9-15.05 6.55-1.6 15.25-4.45 19.25-6.35l7.35-3.5-.05-12.8-.05-12.8-25.4-16.8C91.85 3.4 77.55-2.5 62.5 1.9m29.65 9.25c5.15 2.5 16.2 9.1 24.6 14.7L132 35.95v15.2l-2.75-.55c-1.5-.3-13.45-2.85-26.5-5.6-13.1-2.75-27.25-5.4-31.5-5.9-7.75-.9-10.8-.85-40.75.35-14.75.65-15.85.55-14-.9 3.65-2.95 11.85-4.65 25.5-5.2 15.2-.6 22.45-2.2 26.9-5.9 3.15-2.65 10.45-13.8 9.9-15.15-.45-1.05-12.55-.45-24.2 1.25-11.9 1.75-12.4 1.55-4.8-1.9 16.35-7.3 28-7.45 42.35-.5M68.1 21c-6.5 5.95-8.6 6.65-21.85 7.5-11.6.75-12.15.3-5.5-4.2 7.45-5.1 17.5-7.95 28.25-8.15l4.5-.05zM43.5 44.95c3.2.15 3.6.35 2 1.05-2.45 1.05-28.05 1.25-31.5.25-5.05-1.5 10.95-2.2 29.5-1.3m46 2.15C115.2 51.35 133 57.05 133 61c0 .45-8.95.55-19.85.25-23.3-.65-23.2-.65-31.55 5.65l-6.45 4.9-1-2.65c-.5-1.45-2.8-7.75-5.05-14.05l-4.15-11.35 6.3.65c3.45.4 11.65 1.6 18.25 2.7m51.95-.65L147 48.9v9.8l-5.2.65c-2.85.3-5.25.5-5.35.4-.4-.55-1.25-15.75-.9-15.75.2 0 2.9 1.1 5.9 2.45m-79.8 4.9C62.7 52.4 72 75.3 71.6 75.75c-1.05 1.05-37.4.6-41.2-.55C22.6 72.9 3.15 53 7.25 51.5c2.95-1.1 53.35-1.25 54.4-.15m92.8.2c1.85 1.9 2.05 5.55.35 7.25-3.25 3.25-6.75-1.05-4.75-5.9 1.35-3.3 2.15-3.55 4.4-1.35M132 66.5c4.7.25 11.75.45 15.75.5 10.8 0 8.9 1.3-8 5.35C94.2 83.3 85.85 85.1 79.1 85.7c-8.5.7-8.45 1.25-.7-8.5 9.95-12.45 12.3-12.9 53.6-10.7M57.9 82.35c1.35 1.65.55 4.25-1.55 5.05-1.9.75-5.35-1.05-5.35-2.75 0-3.25 4.75-4.85 6.9-2.3%22/%3E%3C/svg%3E%0A');
 }
 :is(a, a:link, a:hover, a:visited, a:active) {
-  color: #eee;
+  color: var(--theme-link);
   text-decoration: none;
 }
 :is(a#home, a#home:link, a#home:visited, a#home:active, a#home:hover) {
-  color: hsl(from var(--c-header) h s 60% / 80%);
+  color: var(--theme-link-header);
 }
 header {
   background-image:
     linear-gradient(
       to right,
-      hsl(from var(--c-header) h s l / 0%),
-      hsl(from var(--c-header) h s l / 60%)
+      hsl(from var(--theme-header-color) h s l / 0%),
+      hsl(from var(--theme-header-color) h s l / 60%)
     ),
     var(--img-times);
-  background-origin: padding-box, content-box;
+  background-origin: border-box, padding-box;
   background-size:
     100vw 100%,
     contain;
   margin: 0 0 1em 0;
-  border: 5px dashed #0004;
-  border-width: calc(var(--ol) * 0.5) 5px calc(var(--ol) * 1.6) 5px;
+  border: 5px solid #0000;
+  padding: 0.4em 0 0.4em 2ch;
+  border-width: 0.6em 2ch 0.8em 2ch;
   background-position:
     center left,
     bottom left;
-  padding: 0.6em 2ch 1em 2ch;
-  border-style: dotted solid;
-  margin-bottom: 1em;
+  margin-bottom: 0.6em;
+  box-shadow: 0 2px 2px -2px #000;
 }
 header > #credit,
 header > #credit > a {
@@ -131,7 +144,6 @@ header > #credit > a {
 }
 
 .results > li > small {
-  /*! display: contents; */
   grid-area: duration;
   word-spacing: 100vw;
   height: 1lh;
@@ -223,30 +235,42 @@ header > #credit > a {
   display: grid;
   padding: 0;
   max-width: unset;
-  grid-template-columns: [fromto-start earlier-start results-start result-start] 10fr [earlier-end] 20fr [ livedep-start] 80fr [livedep-end] 20fr [later-start] 10fr [later-end results-end result-end fromto-end];
+  grid-template-columns: [fromto-start earlier-start results-start result-start] 10fr 20fr [livedep-start] 40fr [earlier-end later-start] 40fr [livedep-end] 20fr 10fr [later-end results-end result-end fromto-end];
   grid-template-rows: [earlier-start later-start] 1fr [earlier-end later-end fromto-start] 1fr [fromto-end results-start] auto [results-end earlier-start later-start] 1fr [earlier-end later-end];
 }
-.earlierlater:has(~ .earlierlater) {
-  float: unset;
+.earlierlater {
   display: contents;
-  width: auto;
-  justify-content: space-between;
-  margin-right: 0;
+}
+.earlierlater ~ .earlierlater {
+  display: none;
 }
 .earlierlater:has(~ .earlierlater) > a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.6em 1.5ch;
+  padding: 0.4em 1ch;
   margin: 0;
-  margin: 0 0 1em 0;
-  background-color: #222;
+  background-color: var(--theme-button-background-color);
+  color: var(--theme-button-color);
   border-radius: 0 1em 1em 0 / 0 3em 3em 0;
-  box-shadow: inset -4px 0 0.5px 1px var(--c-header);
+  box-shadow: inset -4px 0 0.5px 1px var(--theme-header-color);
+  width: 20vw;
+  height: auto;
+  aspect-ratio: 4;
+  font-size: 1.2em;
+  letter-spacing: 0.1ch;
 }
 .earlierlater:has(~ .earlierlater) > a ~ a {
   border-radius: 1em 0 0 1em / 3em 0 0 3em;
-  box-shadow: inset 4px 0 0.5px 1px var(--c-header);
+  box-shadow: inset 4px 0 0.5px 1px var(--theme-header-color);
+}
+.earlierlater [data-type='out-earlier'] {
+  grid-area: earlier;
+  justify-self: start;
+}
+.earlierlater [data-type='out-later'] {
+  grid-area: later;
+  justify-self: end;
 }
 .results-out {
   grid-area: results;
@@ -257,21 +281,6 @@ header > #credit > a {
   display: grid;
   grid-template-columns: subgrid;
   grid-auto-rows: auto;
-}
-.earlierlater {
-  display: contents;
-}
-.earlierlater ~ .earlierlater {
-  display: none;
-}
-[data-type='out-earlier'] {
-  grid-area: earlier;
-}
-[data-type='out-later'] {
-  grid-area: later;
-}
-#content > h2 {
-  grid-area: fromto;
 }
 #livedep {
   display: grid;
@@ -299,7 +308,7 @@ header {
   flex-wrap: wrap;
 }
 #content > h2 {
-  flex-direction:;
+  grid-area: fromto;
   grid-template-columns: auto 3fr auto 2fr 20fr;
   white-space: pre;
   display: flex;
@@ -316,14 +325,7 @@ header {
   break-before: avoid;
   break-after: always;
 }
-#content > h2 > span {
-}
 
-#content > h2:nth-of-type(1) {
-  /*! display: none; */
-}
-h2 {
-}
 [data-text=','] {
   display: none;
 }
@@ -337,8 +339,10 @@ h2 {
 .results > li {
   grid-template-areas: '. duration duration duration .   ' 'before platdep times    platarr ical' '. changes changes  changes .   ' '. stops   stops    stops   .   ' '. fares   fares    fares   .   ';
   grid-template-columns: 10fr 12fr 100fr 12fr 10fr;
+  box-shadow:
+    inset 0 2px 4px -2px #333,
+    inset 0 -3px 4px -2px #111;
 }
-
 .results > li > small {
   place-self: center;
   width: min-content;
@@ -403,15 +407,21 @@ h2 {
 }
 .results > li > .platform {
   grid-area: platdep;
+  filter: var(--f-smalldots);
+  font-size: round(down, 3em, 1px);
+  place-self: center;
+  justify-items: first baseline;
+  height: auto;
+  align-items: center;
+  box-shadow:
+    inset -3px -2px 0.5px 0 #333,
+    inset 3px 2px 0.5px 0 #000;
 }
 .results > li > .platform ~ .platform {
   grid-area: platarr;
 }
-
-.results > li {
-  box-shadow:
-    inset 0 2px 4px -2px #333,
-    inset 0 -3px 4px -2px #111;
+.results > li > .platform > .sr-only {
+  display: none;
 }
 
 .js .slide,
@@ -425,21 +435,6 @@ h2 {
   outline: 1px dashed #880;
   display: contents;
 }
-.alt {
-  background-color:;
-}
-:root {
-  --theme-button-color: #222;
-  --theme-visited: #eee;
-  --theme-background: #191919;
-  --theme-foreground: #eee;
-  --theme-link: #eee;
-  --theme-link-inversed: #eee;
-  --theme-link-header: hsl(from var(--theme-header) h s 60% / 80%);
-  --theme-button: #eee;
-  --theme-front-form: #dfe2fe;
-  --theme-header: #3453a6;
-}
 #livedep > li {
   grid-area: livedep;
   grid-column: 1/-1;
@@ -447,17 +442,6 @@ h2 {
 }
 .fares {
   grid-area: fares;
-}
-.results > li .changestext {
-  grid-area: changes;
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-auto-flow: column dense;
-  grid-template-rows: repeat(
-    auto-fit,
-    [platdep-start times-start platarr-start] auto [ times-end stops-start] auto
-      [platdep-end platarr-end stops-end]
-  );
 }
 .innertable,
 .innertable > :is(tbody, thead),
@@ -482,32 +466,44 @@ h2 {
   place-self: center;
   place-items: center;
 }
-.changestext .origin {
+
+.results > li .changestext {
+  grid-area: changes;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-auto-flow: column dense;
+  grid-template-rows: repeat(
+    auto-fit,
+    [platdep-start times-start platarr-start] auto [ times-end stops-start] auto
+      [platdep-end platarr-end stops-end]
+  );
+}
+.results > li .changestext .origin {
   grid-column: platdep;
   grid-row: auto/span platdep-end;
 }
-.changestext .destination {
+.results > li .changestext .destination {
   grid-column: platarr;
   grid-row: auto/span platarr-end;
 }
-.changestext br {
+.results > li .changestext br {
   display: contents;
 }
-.changestext td:has(.times, .times ~ .faded) {
+.results > li .changestext td:has(.times, .times ~ .faded) {
   grid-column: times;
   display: grid;
   grid-auto-flow: dense;
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
 }
-.changestext .times {
+.results > li .changestext .times {
   grid-column: 2;
 }
-.changestext .times ~ .faded {
+.results > li .changestext .times ~ .faded {
   justify-self: end;
   grid-column: 1;
 }
-.changestext .calling_link_inner {
+.results > li .changestext .calling_link_inner {
   grid-column: stops-start/stops-end;
   grid-row: auto/span stops-end;
   place-self: center;
@@ -515,41 +511,44 @@ h2 {
 
 .results > li > strong {
   --font-size-names: 1.2;
-  --letter-sp-names: 0.02;
-  /*   --letter-sp-names: 0; */
+  --filter-names: var(--f-dots8);
   --font-size-times: 1.7;
-  --letter-sp-times: 0.02;
+  --filter-times: var(--f-dots8);
   font-family: Menlo, monospace;
   grid-area: times;
   display: grid;
   grid-template-columns: [originname-start origindep-start] 100fr [origindep-end sep-start] 10fr [originname-end destname-start] 10fr [sep-end destarr-start] 100fr [destarr-end destname-end];
-  place-items: center;
-  color: #ff6;
   grid-template-rows: [originname-start destname-start] 1fr [originname-end destname-end destarr-start origindep-start sep-start] 1fr [sep-end destarr-end origindep-end];
-  column-gap: 1ch;
+  place-items: center;
+  color: var(--c-dotmatrix);
+  column-gap: 0;
   overflow: hidden;
   background-image: linear-gradient(#000, #000);
-  padding: 0.2em 0.5ch;
-  letter-spacing: 0.04ch;
   background-origin: border-box;
+  padding: 0.2em 0.5ch;
+  letter-spacing: 0;
 }
 .results > li > strong > :is(.name, .arr, .dep) {
+  --letter-sp: calc(round(up, 1ch, 1px) - round(down, 1ch, 1px));
+  --charw: calc(1ch + var(--letter-sp));
+  --bg-angle: 90deg;
+  font-family: Menlo, monospace;
   font-size: var(--font-size, 1em);
   letter-spacing: var(--letter-sp, 0);
-  background-color: #080802;
-  background-size: calc(var(--letter-sp) + round(down, 100%, var(--charw))) 1lh;
+  background-color: var(--c-dotmatrix-bg);
+  background-size: round(down, 100% + var(--charw), var(--charw)) 1em;
   padding: 0 0 0 var(--letter-sp);
+  padding: 0;
   background-repeat: no-repeat;
   background-origin: border-box;
   background-origin: content-box;
   background-origin: padding-box;
   background-clip: content-box;
   background-clip: padding-box;
-  background-position: top 0 left calc(var(--letter-sp) * -2);
+  background-position: bottom calc(0em) left calc(var(--letter-sp) * 0);
   grid-gap: 0;
-  display: flex;
-  filter: var(--f-tinydots);
-  --charw: calc(1ch + var(--letter-sp));
+  display: inline;
+  filter: var(--filter);
   background-image: repeating-linear-gradient(
     var(--bg-angle),
     #555a 0 0.5px,
@@ -557,7 +556,12 @@ h2 {
     #555a calc(var(--charw) - 0.5px) var(--charw)
   );
   width: round(down, 100%, var(--charw));
-  --bg-angle: 90deg;
+  position: relative;
+  line-height: 1em;
+  height: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: '.';
 }
 .results > li > strong > :is(.name, .arr, .dep)::selection {
   background-color: #ffffff66;
@@ -568,77 +572,45 @@ h2 {
     #555f calc(var(--charw) - 0.5px) var(--charw)
   );
 }
-.results > li > strong > :is(.dest) {
-  --bg-angle: -90deg;
-  padding: 0 0 0 var(--letter-sp);
-  background-position: top 0 left calc(var(--letter-sp) * -2);
-  justify-self: start;
-  justify-content: start;
-  text-align: start;
-  /*! text-align: end; */
-  display: inline;
-}
-.results > li > .platform {
-  filter: var(--f-smalldots);
-  font-size: 3em;
-  place-self: center;
-  justify-items: first baseline;
-  height: auto;
-  align-items: center;
-  box-shadow:
-    inset -3px -2px 0.5px 0 #333,
-    inset 3px 2px 0.5px 0 #000;
-}
 .results > li > strong :is(.arr, .dep) {
-  --font-size: calc(var(--font-size-times, 1.7) * 1em);
-  --letter-sp: calc(var(--letter-sp-times, 0.02) * 1ch);
+  --font-size: round(up, var(--font-size-times) * 1em, 1px);
+  --filter: var(--filter-times);
+  font-weight: 600;
 }
 .results > li > strong :is(.name) {
-  --font-size: calc(var(--font-size-names, 1.2) * 1em);
-  --letter-sp: calc(var(--letter-sp-names, 0.02) * 1ch);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: '.';
+  --font-size: round(up, var(--font-size-names) * 1em, 1px);
+  --filter: var(--filter-names);
   font-weight: 300;
-  width: 100%;
+}
+.results > li > strong :is(.origin) {
+  justify-self: start;
+  text-align: start;
+}
+.results > li > strong > :is(.dest) {
+  justify-self: end;
+  text-align: end;
 }
 .results > li > strong :is(.origin.name) {
   grid-area: originname;
-  justify-self: start;
-  text-align: start;
 }
 .results > li > strong :is(.dest.name) {
   grid-area: destname;
 }
-.results > li > strong :is(.origin.dep, .dest.arr) {
-  font-weight: 600;
-}
 .results > li > strong :is(.origin.dep) {
   grid-area: origindep;
-  justify-self: start;
-  justify-content: start;
-  text-align: start;
 }
 .results > li > strong :is(.dest.arr) {
   grid-area: destarr;
-  justify-self: end;
-  justify-content: end;
-  text-align: end;
-  position: relative;
 }
-.results > li > strong :is(.dest.arr)::after {
-  /*   content: '████████'; */
+/*.results > li > strong :is(.dest.arr)::after {
+  content: '████████'; 
   display: flex;
   position: absolute;
   top: 0;
   right: 0;
-}
-.origin + .sep {
+}*/
+.results > li > strong :is(.origin + .sep) {
   grid-area: sep;
   justify-self: center;
   text-align: center;
-}
-
-.results > li > .platform > .sr-only {
-  display: none;
 }

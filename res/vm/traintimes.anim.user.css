@@ -17,10 +17,12 @@
   content: '?';
 }
 .results > li > strong :is(.scrollfrombottom)::before {
-  animation: 3s linear 1s infinite reverse both running scrollfrombottom;
+  animation: 2s linear infinite normal running scrollfrombottom;
+  /*   animation-delay: 10s; */
+  animation-timing-function: steps(8);
 }
 .results > li > strong :is(.scrolltobottom)::before {
-  animation: 3s linear 1s infinite reverse both running scrolltobottom;
+  animation: 2s linear infinite normal running scrolltobottom;
 }
 .results > li > strong :is(.scrollfromtop, .scrolltotop) {
   align-self: center;
@@ -35,30 +37,49 @@
   line-height: 1em;
 }
 .results > li > strong :is(.scrollfromtop)::after {
-  animation: 3s linear 1s infinite reverse both running scrollfromtop;
+  /*   animation: 2s linear 1s infinite normal running scrollfromtop; */
 }
 .results > li > strong :is(.scrolltotop)::after {
-  animation: 3s linear 1s infinite reverse both running scrolltotop;
+  /*   animation: 2s linear 1s infinite normal running scrolltotop; */
+}
+
+.results > li > strong :is(.wipefromright)::before {
+  content: '▗▉██▊▋█▐▘';
+  animation: 3s linear 1s infinite normal running wipefromleft;
+  transform: rotate(-4deg) skew(-4deg, 0deg) scale(0.12, 4) translate(1px, -2px);
 }
 
 .results > li > strong :is(.wipefromleft)::before {
   content: '▗▉██▊▋█▐▘';
-  animation: 3s linear 1s infinite reverse both running wipefromleft;
-  transform: rotate(-4deg) skew(-4deg, 0deg) scale(0.12, 4) translate(1px, -2px);
+  animation: 3s linear 1s infinite normal running wipefromleft;
+  transform: rotate(-4deg) skew(-4deg, 0deg) scale(-0.12, -4)
+    translate(1px, -2px);
+  animation-timing-function: steps(80);
+}
+
+.origin.name {
+}
+.origin.name.scrolltotop {
+  animation-name: wipefromleft, scrollfromtop;
+  animation-duration: 3s, 3s, 3s;
+  animation-delay: 0s, 6s, 6s;
+}
+.results > li > strong :is(.scrolltotop.wipefromleft)::before,
+.results > li > strong :is(.scrolltotop.wipefromleft)::after {
 }
 
 @keyframes wipefromleft {
   0% {
-    padding-left: 200%;
-    margin-left: -200%;
+    padding-left: 0%;
+    margin-left: 0%;
     margin-right: 0%;
-    padding-right: 100%;
+    padding-right: 0%;
   }
   100% {
-    padding-left: 100%;
+    padding-left: 0%;
     margin-right: 0%;
-    padding-right: 200%;
-    margin-left: 0;
+    padding-right: 0%;
+    margin-left: 100%;
   }
 }
 

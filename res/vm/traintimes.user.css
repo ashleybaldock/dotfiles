@@ -32,36 +32,39 @@ result=%22 a %22/%3E\
 feComposite in=%22SourceGraphic%22 in2=%22a%22 operator=%22in%22/%3E\
     %3C/filter%3E\
     %3C/svg%3E#filter-tinydots');
-  --f-dots8: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E%3C\
-filter id=%22filter-dots8%22 \
+  --f-dots8a: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E%3C\
+filter id=%22filter-dots8a%22 \
      x=%22 0 %22 \
      y=%22 0 %22 \
  width=%22 100%25 %22 \
 height=%22 100%25 %22%3E%3C\
 \
 feFlood \
-     x= %22 0ch %22 \
-     y= %22 0em %22 \
- width= %22 0.1ch %22 \
-height= %22 0.1em %22 \
+     x= %22 2px %22 \
+ width= %22 2px %22 \
+     y= %22 5%25 %22 \
+height= %22 10%25 %22 \
 /%3E%3C\
 \
 feComposite \
-     x=%22  0.0ch %22 \
-     y=%22  0.0lh %22 \
- width=%22    0.2ch    %22 \
-height=%22    0.2lh    %22/%3E%3C\
+     x=%22  1px %22 \
+ width=%22  20%25 %22 \
+     y=%22  5%25 %22 \
+height=%22  20%25 %22/%3E%3C!--  --%3E%3C\
 \
 feTile \
-     x=%22   0ch %22 \
-     y=%22   0lh %22 \
- width=%22 100%25 %22 \
-height=%22 100%25 %22 \
-result=%22 a %22/%3E\
+     x = %22   0 %22 \
+     y = %22   0 %22 \
+ width = %22 100%25 %22 \
+height = %22 100%25 %22 \
+result = %22a%22/%3E\
       %3C\
-feComposite in=%22SourceGraphic%22 in2=%22a%22 operator=%22in%22/%3E\
+feComposite \
+      in = %22SourceGraphic%22 \
+     in2 = %22a%22 \
+operator = %22in%22/%3E\
     %3C/filter%3E\
-    %3C/svg%3E#filter-dots8');
+    %3C/svg%3E#filter-dots8a');
   --f-smalldots: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E\
     %3Cfilter id=%22filter-smalldots%22 x=%220%22 y=%220%22 width=%22100%25%22 height=%22100%25%22%3E\
       %3CfeFlood x=%222px%22 y=%222px%22 height=%22100%25%22 width=%22100%25%22/%3E\
@@ -70,6 +73,7 @@ feComposite in=%22SourceGraphic%22 in2=%22a%22 operator=%22in%22/%3E\
       %3CfeComposite in=%22SourceGraphic%22 in2=%22a%22 operator=%22in%22/%3E\
     %3C/filter%3E\
     %3C/svg%3E#filter-smalldots');
+  --f-dots8: url('#filter-dots8');
 }
 
 :root {

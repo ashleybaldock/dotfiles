@@ -1,0 +1,98 @@
+@keyframes scrollfromleft {
+  0% {
+    padding-right: 0;
+  }
+  100% {
+    padding-right: 100%;
+  }
+}
+
+.results > li > strong :is(span)::before {
+  content: '⸮';
+  display: inline-block;
+}
+.results > li > strong :is(span)::after {
+  display: inline-block;
+  transform: scaleY(-1);
+  content: '?';
+}
+.results > li > strong :is(.scrollfrombottom)::before {
+  animation: 3s linear 1s infinite reverse both running scrollfrombottom;
+}
+.results > li > strong :is(.scrolltobottom)::before {
+  animation: 3s linear 1s infinite reverse both running scrolltobottom;
+}
+.results > li > strong :is(.scrollfromtop, .scrolltotop) {
+  align-self: center;
+  padding-bottom: 1em;
+  margin-top: -1em;
+  overflow-y: hidden;
+  height: 1em;
+  mask-image: linear-gradient(#ffff), linear-gradient(#ffff);
+  mask-composite: exclude;
+  mask-clip: no-clip, content-box;
+  mask-origin: content-box, border-box;
+  line-height: 1em;
+}
+.results > li > strong :is(.scrollfromtop)::after {
+  animation: 3s linear 1s infinite reverse both running scrollfromtop;
+}
+.results > li > strong :is(.scrolltotop)::after {
+  animation: 3s linear 1s infinite reverse both running scrolltotop;
+}
+
+.results > li > strong :is(.wipefromleft)::before {
+  content: '▗▉██▊▋█▐▘';
+  animation: 3s linear 1s infinite reverse both running wipefromleft;
+  transform: rotate(-4deg) skew(-4deg, 0deg) scale(0.12, 4) translate(1px, -2px);
+}
+
+@keyframes wipefromleft {
+  0% {
+    padding-left: 200%;
+    margin-left: -200%;
+    margin-right: 0%;
+    padding-right: 100%;
+  }
+  100% {
+    padding-left: 100%;
+    margin-right: 0%;
+    padding-right: 200%;
+    margin-left: 0;
+  }
+}
+
+@keyframes scrollfrombottom {
+  0% {
+    vertical-align: 0%;
+  }
+  100% {
+    vertical-align: 100%;
+  }
+}
+
+@keyframes scrolltobottom {
+  0% {
+    vertical-align: 100%;
+  }
+  100% {
+    vertical-align: 0%;
+  }
+}
+
+@keyframes scrollfromtop {
+  0% {
+    vertical-align: 0%;
+  }
+  100% {
+    vertical-align: 100%;
+  }
+}
+@keyframes scrolltotop {
+  0% {
+    vertical-align: 100%;
+  }
+  100% {
+    vertical-align: 0%;
+  }
+}

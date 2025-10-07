@@ -1010,7 +1010,6 @@ table > tbody > tr:hover::before {
 }
 
 :is(.toggle, #UI_showHidden) > label::after {
-  /*   --icon: var(--icon-show); */
   mask-image: var(--icon);
   font-size: 1rem;
   content: '';
@@ -1028,10 +1027,6 @@ table > tbody > tr:hover::before {
   mask-position: center center;
   display: grid;
 }
-
-/* :is(.toggle, #UI_showHidden):has([type='checkbox']:checked) > label::after {
-  --icon: var(--icon-hide);
-} */
 
 :is(.toggle, #UI_showHidden) > label > input {
   visibility: hidden;
@@ -1071,7 +1066,6 @@ body {
   max-height: unset;
   height: 100%;
   grid-template-rows: [index-start] auto [index-end preview-start] auto [preview-end options-start] auto [options-end files-start] auto [files-end];
-  grid-template-columns: repeat(20, 1fr);
   overflow-y: scroll;
   grid-template-columns:
     [index-start preview-start options-start files-start] repeat(20, auto)
@@ -1088,14 +1082,246 @@ body {
   top: 80vh;
 }
 
-table {
-  /* place-self: start auto; */
-  place-self: end auto;
+table td,
+table th {
+  position: sticky;
+  top: 50vh;
 }
 
-body > * {
-  /* grid-area: files; */
-  /* max-height: 40vh; */
+h1 {
+  font-size: 14px;
+  margin: 0;
+  border-bottom: none;
+  font-weight: normal;
+  grid-area: index;
+  position: sticky;
+  top: 90vh;
+  z-index: 50;
+}
+
+:is(tbody, thead) > :is(tr) {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-auto-flow: column;
+  grid-column: files-start/files-end;
+}
+
+table {
+  top: 67vh;
+  max-height: 33vh;
+  grid-column: files-start/files-end;
+  grid-template-columns: 1fr;
+  grid-row: files-start/files-end;
+  padding: 0;
+}
+td[sortable-data] {
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+
+table {
+  max-width: 100vw;
+}
+tbody,
+thead {
+  max-width: 100vw;
+  display: contents;
+}
+td,
+th {
+  display: flex;
+  height: fit-content;
+}
+table {
+  display: grid;
+  overflow-y: visible;
+  top: 0;
+  z-index: 0;
+  height: fit-content;
+  margin-top: 0;
+  grid-column: files-start/files-end;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 1lh;
+  grid-row: files-start/files-end;
+}
+table td,
+table th {
+  position: sticky;
+  top: 0;
+}
+h1 {
+  font-size: 14px;
+  margin: 0;
+  border-bottom: none;
+  font-weight: normal;
+  grid-area: index;
+  position: sticky;
+  top: 90vh;
+  z-index: 50;
+}
+
+:is(tbody, thead) > :is(tr) {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-auto-flow: column;
+  grid-column: files-start/files-end;
+  height: fit-content;
+}
+:is(thead) > :is(tr) {
+  position: sticky;
+  top: 86vh;
+  z-index: 50;
+  background-color: #444;
+}
+:is(tbody) > :is(tr) {
+  position: sticky;
+  top: 90vh;
+  z-index: 500;
+  background-color: #111;
+  height: fit-content;
+}
+td[sortable-data]::before {
+  justify-self: start;
+}
+td[sortable-data] {
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+table.ellipsis,
+table.ellipsis > *,
+table.ellipsis > * > * {
+  padding: 0;
+  display: contents;
+}
+
+:root {
+  --playerHeight: 80vh;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.player {
+  align-self: start;
+  top: 0;
+  position: absolute;
+}
+
+body {
+  max-height: unset;
+  height: 100%;
+  grid-template-rows: [index-start] auto [index-end preview-start] auto [preview-end options-start] auto [options-end files-start] auto [files-end];
+  overflow-y: scroll;
+  grid-template-columns:
+    [index-start preview-start options-start files-start] repeat(20, auto)
+    [files-end options-end preview-end index-end];
+  overscroll-behavior: none;
+}
+
+.toggle,
+.sequencetoggle,
+#UI_goUp,
+#UI_showHidden {
+  position: sticky;
+  top: 80vh;
+}
+table {
+  max-width: 100vw;
+}
+
+table {
+  /* overflow-y: scroll; */
+  display: grid;
+  overflow-y: visible;
+  position: sticky;
+  top: 50vh;
+  z-index: 30;
+  max-height: 30vh;
+  margin-top: 0;
+  grid-template-columns: auto auto auto auto;
+  grid-auto-rows: 1lh;
+}
+
+table td,
+table th {
+  position: sticky;
+  top: 50vh;
+}
+
+h1 {
+  font-size: 14px;
+  margin: 0;
+  border-bottom: none;
+  font-weight: normal;
+  grid-area: index;
+  position: sticky;
+  top: 90vh;
+  z-index: 50;
+}
+
+:is(tbody, thead) > :is(tr) {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-auto-flow: column;
+  grid-column: files-start/files-end;
+}
+
+table {
+  top: 67vh;
+  max-height: 33vh;
+  grid-column: files-start/files-end;
+  grid-template-columns: 1fr;
+  grid-row: files-start/files-end;
+  padding: 0;
+}
+
+td[sortable-data]::before {
+  content: attr(sortable-data);
+  justify-self: start;
+}
+
+td[sortable-data] {
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+
+table.ellipsis,
+table.ellipsis > *,
+table.ellipsis > * > * {
+  padding: 0;
+  display: contents;
+}
+
+h1 {
+  grid-area: index;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+body {
+  max-height: unset;
+  height: 100%;
+  grid-template-rows: [index-start] auto [index-end preview-start] auto [preview-end options-start] auto [options-end files-start] auto [files-end];
+  overflow-y: scroll;
+  grid-template-columns:
+    [index-start preview-start options-start files-start] repeat(20, auto)
+    [files-end options-end preview-end index-end];
+  overscroll-behavior: none;
+}
+
+.toggle,
+.sequencetoggle,
+#UI_goUp,
+#UI_showHidden {
+  position: sticky;
+  top: 80vh;
+}
+
+table {
+  place-self: end auto;
 }
 
 table {
@@ -1106,9 +1332,7 @@ table,
 tbody,
 thead,
 tr {
-  /* display: f; */
   max-width: 100vw;
-  display:;
 }
 
 td,
@@ -1117,10 +1341,8 @@ th {
 }
 
 table {
-  /* overflow-y: scroll; */
   display: grid;
   overflow-y: visible;
-  margin-top: var(--playerHeight);
   position: sticky;
   top: 50vh;
   z-index: 30;
@@ -1216,8 +1438,6 @@ h1 {
   grid-auto-flow: column;
   grid-column: files-start/files-end;
   height: fit-content;
-  /*   position: sticky; */
-  /*   top: 80vh; */
 }
 :is(thead) > :is(tr) {
   position: sticky;
@@ -1233,7 +1453,6 @@ h1 {
   height: fit-content;
 }
 td[sortable-data]::before {
-  /*   content: attr(sortable-data); */
   justify-self: start;
 }
 td[sortable-data] {

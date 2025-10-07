@@ -1195,7 +1195,6 @@ svg[viewBox='0 0 640 640'] {
   height: auto;
   width: 100%;
   aspect-ratio: 1;
-  grid-template: subgrid / subgrid;
   max-height: unset;
   max-width: unset;
   grid-template: 1fr/1fr;

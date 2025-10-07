@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        traintimes
 // @namespace   mayhem
-// @version     1.0.7
+// @version     1.0.8
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @match       *://*.traintimes.org/*
@@ -72,6 +72,36 @@ const svgFilterDots = html`
   cmp1.setAttribute('x', to3`${gap2}lh`);
   cmp1.setAttribute('y', to3`${gap2}lh`);
   cmp1.setAttribute('width', `${doth}lh`);
+  cmp1.setAttribute('height', `${doth}lh`);
+  cmp1.setAttribute('in', 'fld1');
+  cmp1.setAttribute('in2', 'SourceGraphic');
+  cmp1.setAttribute('operator', 'arithmetic');
+  /*result = k1*i1*i2 + k2*i1 + k3*i2 + k4*/
+  cmp1.setAttribute('k1', 1); /* in*in2 */
+  cmp1.setAttribute('k2', 0); /* in  */
+  cmp1.setAttribute('k3', 0); /* in2 */
+  cmp1.setAttribute('k4', 0); /* */
+})({ id: '#filter-dots8' });
+(({ id }) => {
+  const dots = 8;
+  const ratio = 0.6;
+
+  const doth = 1 / dots;
+  const dotH = (1 * ratio) / dots;
+  const gap = (1 - 1 * ratio) / (dots - 1);
+  const gap2 = gap / 2;
+  const fld1 = qs`${id} > feFlood:first-of-type`.one;
+  fld1.setAttribute('result', 'fld1');
+  fld1.setAttribute('x', `-${gap2.toFixed(3)}ch`);
+  fld1.setAttribute('y', `-${gap2.toFixed(3)}lh`);
+  fld1.setAttribute('width', `${doth}ch`);
+  fld1.setAttribute('height', `${doth}lh`);
+  fld1.setAttribute('flood-opacity', '1');
+
+  const cmp1 = qs`${id} > feComposite:first-of-type`.one;
+  cmp1.setAttribute('x', `${gap2.toFixed(3)}ch`);
+  cmp1.setAttribute('y', `${gap2.toFixed(3)}lh`);
+  cmp1.setAttribute('width', `${doth}ch`);
   cmp1.setAttribute('height', `${doth}lh`);
   cmp1.setAttribute('in', 'fld1');
   cmp1.setAttribute('in2', 'SourceGraphic');

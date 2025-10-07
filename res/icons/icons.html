@@ -10,14 +10,32 @@
     <!-- <link rel="stylesheet" href="tooltips.css"/> -->
 
     <!--!Font Awesome Free v7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-    <script type="application/javascript" src="/entanglement.js"></script>
+    <!-- <script type="application/javascript" src="/entanglement.js"></script> -->
   
     <script>
-      <!-- entanglement().then((untangle) => console.log(untangle)); -->
+      /* entanglement().then((untangle) => console.log(untangle)); */
     </script>
 
 
     <script>
+
+
+      
+ /* customElements.define( "svg-icon", class extends HTMLElement {
+      connectedCallback() {
+        this.innerHTML =
+          `<svg xmlns='http://www.w3.org/2000/svg'>` +
+            `<rect width='100%' height='100%' fill='${this.getAttribute("bg")}'/>` +
+          `</svg>`;
+      }});*/
+
+  function* repeat(n, f, ...args) {
+    while (n-- > 0) {
+      yield f(...args);
+    }
+  }
+
+
   const parseTag = (raw, ...substitutions) =>
     String.raw({ raw }, ...substitutions) ?? '';
   const html = (...args) => parseTag(...args);
@@ -147,19 +165,20 @@
 
   window.addEventListener('load', (event) => {
 
-    /*const styles = [':root {'];*/
     document.querySelectorAll('.autoWrap svg').forEach((svg) => {
       const name = svg.getAttribute('data-name');
       /*const cssvar = (name !== null && name?.length > 0) ? svgToCSSvar(svg.outerHTML, name) : null;
       cssvar && styles.push(`  ${svgToCSSvar(svg.outerHTML, name)}`);*/
 
+      /*<label class="down" data-down="svg" onClick="down(event, 'svg')">svg</label>*/
+
       const div = document.createElement('div');
       div.className = 'iconRow';
       div.insertAdjacentHTML('afterbegin', html`
         <div class="outer">
-              <!-- <label class="down" data-down="svg" onClick="down(event, 'svg')">svg</label> -->
           <div class="inner">
-            <div class="svgActions"
+            <div class="wrappedSVG">${svg.outerHTML}</div>
+            <div class="svgActions">
               <label data-copyas="svg">svg</label>
               <label data-copyas="b64">base64</label>
               <label data-copyas="sym">symbol</label>
@@ -171,7 +190,6 @@
               <label data-copyas="bgr">background</label>
               <label data-copyas="bgi">background-image</label>
             </div>
-            <div class="wrappedSVG">${svg.outerHTML}</div>
           </div>
         </div>
       `);
@@ -182,7 +200,19 @@
       target.dataset.copyas?.match?.({
         [Symbol.match]: (copyAs) => copy(target, copyAs)
       })
-    , {})
+    , {});
+
+    document.addEventListener('mouseover', ({target}) => {
+      const svgTarget = target.parentElement?.closest?.('.iconRow')?.querySelector?.('.wrappedSVG') ?? false;
+      if (svgTarget && !svgTarget.classList.contains('duplicated') && !svgTarget.classList.contains('duplicate')) {
+        svgTarget.classList.add('duplicated');
+        for (let i = 2; i > 0; i--) {
+          const clone = svgTarget.cloneNode(true);
+          clone.classList.add('duplicate');
+          svgTarget.parentElement.append(clone);
+        }
+      }
+    })
   });
     </script>
 

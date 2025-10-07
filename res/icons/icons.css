@@ -1123,4 +1123,90 @@ svg[viewBox='0 0 640 640'] {
   place-self: center;
 }
 
+.svgActions {
+  width: fit-content;
+}
+.wrappedSVG.duplicate {
+  display: none;
+  grid-column: 2 / span 1;
+  grid-row: 1;
+  font-size: 2em;
+}
+.wrappedSVG.duplicate + .wrappedSVG.duplicate {
+  display: none;
+  grid-column: 3 / span 1;
+  grid-row: 1;
+  font-size: 1em;
+}
+:is(.iconRow:hover, .inner:hover, .outer:hover) .wrappedSVG.duplicate {
+  display: grid;
+}
+.iconRow:hover .inner .svgActions ~ .wrappedSVG,
+.wrappedSVG:hover {
+  z-index: 2;
+}
+:is(.iconRow:hover, .inner:hover, .outer:hover) .inner::before,
+.inner:hover::before,
+.inner::before {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  inset: unset;
+  justify-self: center;
+  align-self: center;
+  grid-column: 1/-1;
+  grid-row: 1;
+  aspect-ratio: unset;
+  position: relative;
+  width: calc(100% + var(--icon-inset) * 2.4);
+  height: calc(100% + var(--icon-inset) * 2.4);
+}
+.inner,
+.inner:hover {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1ch;
+  grid-template-rows: subgrid;
+  place-items: center;
+  justify-self: start;
+  align-self: center;
+}
+.iconRow,
+.outer {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  place-items: center;
+  justify-self: center;
+  align-self: center;
+}
+
+.iconRow:hover .wrappedSVG {
+  z-index: 2;
+}
+
+.inner,
+.inner:hover {
+  grid-template-columns: 30fr 20fr 20fr;
+  width: 100%;
+}
+
+.wrappedSVG.duplicate {
+  height: auto;
+  width: 100%;
+  aspect-ratio: 1;
+  grid-template: subgrid / subgrid;
+  max-height: unset;
+  max-width: unset;
+  grid-template: 1fr/1fr;
+  margin: auto;
+}
+
+.wrappedSVG:has(> [viewBox='0 0 640 640']) {
+  height: 100%;
+  width: auto;
+  aspect-ratio: 1;
+  max-height: unset;
+}
+
 /* vim: set signcolumn=auto foldmethod=marker foldlevel=1 nolist nowrap conceallevel=2: */

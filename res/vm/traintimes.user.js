@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        traintimes
 // @namespace   mayhem
-// @version     1.0.6
+// @version     1.0.7
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @match       *://*.traintimes.org/*
@@ -58,16 +58,19 @@ const svgFilterDots = html`
   const gap = (1 - 1 * ratio) / (dots - 1);
   const gap2 = gap / 2;
   const fld1 = qs`${id} > feFlood:first-of-type`.one;
+
+  const to3 = parseMap((x) => x.toFixed(3));
+
   fld1.setAttribute('result', 'fld1');
-  fld1.setAttribute('x', `-${gap2.toFixed(3)}lh`);
-  fld1.setAttribute('y', `-${gap2.toFixed(3)}lh`);
+  fld1.setAttribute('x', to3`-${gap2}lh`);
+  fld1.setAttribute('y', to3`-${gap2}lh`);
   fld1.setAttribute('width', `${doth}lh`);
   fld1.setAttribute('height', `${doth}lh`);
   fld1.setAttribute('flood-opacity', '1');
 
   const cmp1 = qs`${id} > feComposite:first-of-type`.one;
-  cmp1.setAttribute('x', `${gap2.toFixed(3)}lh`);
-  cmp1.setAttribute('y', `${gap2.toFixed(3)}lh`);
+  cmp1.setAttribute('x', to3`${gap2}lh`);
+  cmp1.setAttribute('y', to3`${gap2}lh`);
   cmp1.setAttribute('width', `${doth}lh`);
   cmp1.setAttribute('height', `${doth}lh`);
   cmp1.setAttribute('in', 'fld1');

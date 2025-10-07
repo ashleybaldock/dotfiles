@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.63
+// @version     1.1.66
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -205,6 +205,15 @@ const parseTag = (raw, ...substitutions) =>
   String.raw({ raw }, ...substitutions) ?? '';
 
 /**
+ * Return a parser function that maps all arguments
+ * through the provided function
+ */
+const parseMap =
+  (mapperFn) =>
+  (raw, ...substitutions) =>
+    String.raw({ raw }, ...substitutions.map(mapperFn));
+
+/**
  * for places you can't throw, yeet
  * let foo = a?.b ?? yeet`error! ${}`
  */
@@ -227,13 +236,8 @@ const html = (...args) => parseTag(...args);
 /**
  * Pad start of all substituted variables so they are same width
  */
-const padAllStart =
-  (padTo) =>
-  (raw, ...substitutions) =>
-    String.raw(
-      { raw },
-      ...substitutions.map((sub) => sub?.toString?.().padStart(padTo)),
-    );
+const padAllStart = (padTo) =>
+  parseMap((sub) => sub?.toString?.().padStart(padTo));
 
 const padAlternateEndStart =
   (padTo) =>

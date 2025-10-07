@@ -25,9 +25,14 @@
   
   /**
    * 'maybeString' in e.dataset && copy(e.dataset.maybeString)
+   *
    * Object.hasOwn(e.dataset, 'maybeString') && copy(e.dataset.maybeString)
+   *
    * e.dataset.maybeString !== undefined && copy(e.dataset.maybeString)
+   *
    * e.dataset.maybeString?.match?.({[Symbol.match]: (s) => copy(s)})
+   *
+   * e.dataset.maybeString?.match?.(matchDispatch(copy))
    */
   const matchDispatch = (action) => {
     return {

@@ -1100,29 +1100,102 @@ thead {
   height: fit-content;
 }
 
-
-
-
 body {
-overflow: clip;
-overflow-y: scroll;
-height: fit-content;
+  min-height: 100vh;
+  height: fit-content;
+  min-width: 100vw;
+  grid-template-areas: unset;
+  grid-template-rows:
+    [top
+    preview-start index-start]auto[index-end]auto[preview-end
+    options-start]auto[options-end
+    files-start] auto auto [files-end
+    bottom];
+  grid-template-columns:
+    [left
+    index-start preview-start options-start files-start] repeat(20, auto) [
+    files-end options-end preview-end index-end
+    right];
+  grid-auto-rows: 0;
+  overflow: visible;
 }
-:root {
-overflow: hidden;
-overflow-y: scroll;
-}
-body > * {
-grid-area: files;
-max-height: 40vh;
-}
-body > section:has(> video, > .vidwrap) {
-overflow: visible;
-overflow-y: hidden;
-overflow-x: visible;
-}
-Inline
-:is(.interleave) {
-display: grid;
-grid-template-columns: auto-fill(var(--playerCount), var(--playerWidth));
 
+body > * {
+  grid-area: unset;
+  max-height: unset;
+}
+
+body > h1 {
+  grid-area: index;
+  position: sticky;
+  top: 0;
+}
+.player {
+  grid-area: preview;
+  position: sticky;
+  top: 0;
+}
+.player.interleave {
+  background-image:
+    repeating-conic-gradient(from 112deg, #f006 0 54deg, #f002 56deg 180deg),
+    repeating-conic-gradient(from -112deg, #f006 0 94deg, #f002 96deg 180deg);
+  background-size:
+    5% 5%,
+    5% 5%;
+  background-repeat: round;
+  background-position:
+    5% 5%,
+    -10% -10%;
+  background-attachment: fixed;
+}
+.player.linear.paused {
+  display: none;
+}
+
+body > table::before {
+  content: '';
+  display: block;
+  height: 40vh;
+  width: 100%;
+  outline: 2px dashed #ff0;
+  outline-offset: 40px;
+  display: none;
+}
+body > table {
+  grid-area: files;
+  justify-self: center;
+  align-self: end;
+  margin: 0;
+  max-height: unset;
+  height: fit-content;
+  position: sticky;
+  top: 60vh;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-template-columns: 10fr 10fr 10fr 10fr;
+}
+
+body > table > :is(tbody, thead) {
+  display: grid;
+  overscroll-behavior: auto;
+  grid-template-columns: subgrid;
+  width: 100vw;
+  z-index: 10000;
+}
+
+body > table > :is(thead) {
+  grid-row: 1 / span 1;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+}
+
+body > table > :is(tbody) {
+  grid-row: 2 / span 1;
+  grid-column: 1/-1;
+  grid-auto-rows: 1fr;
+  grid-template-rows: subgrid;
+}
+:is(tbody, thead) > :is(tr) {
+  display: contents;
+}

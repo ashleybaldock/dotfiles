@@ -9,5 +9,9 @@ syn match CommentSt /^\s*\zs"/ contained containedin=Comment,vimLineComment cont
 
 hi CommentSt guifg=#cf28df guibg=#cf28df gui=none
 
-syn region 
-
+syn region CommentMultiLn
+      \ start=/^\s*\zs"/
+      \ skip=/^$/
+      \ end=/\ze^\s*\%([^"]\|$\)/
+      \ contains=CommentFirstLn,CommentLastLn,CommentSt,Comment
+syn match CommentFirstLn /\(^\s*\)\@10<\zs"/ contained conceal cchar=◣

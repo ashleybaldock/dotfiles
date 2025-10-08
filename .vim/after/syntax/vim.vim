@@ -99,3 +99,18 @@ hi def KeyComboStart guibg=#2255cc guifg=bg gui=bold
 hi def DemoCursorRange guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
 " hi def link DemoCursor Cursor
 hi def DemoCursor guifg=#000000 guibg=#cc22dd
+
+
+syn match CommentStart /^\s*\zs"/ contained contains=NONE
+      \ containedin=Comment,vimLineComment
+syn match CommentStart /^\s*\zs"/ contained containedin=Comment,vimLineComment contains=NONE conceal cchar=⎢
+
+hi def CommentStart guifg=#cf28df guibg=#cf28df gui=none
+
+" echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: ''})
+function! MultiComments() abort
+  echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '⎢'})
+  echo matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: '│'})
+  echo matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '╮'})
+  echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: '╯'})
+endfunc

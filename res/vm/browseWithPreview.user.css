@@ -1452,3 +1452,27 @@ body > table > :is(tbody) {
   text-align: center;
   align-items: center;
 }
+
+
+
+.sequencetoggle {
+  background-image: linear-gradient(#0000) var(--bg-bg) var(--bg-curr) var(--bg-next) var(--bg-prev);
+  background-size: 3.5em 3em, 3.5em 3em, 2.4em 3em;
+  background-position: left center, right center, center center;
+  --bg-prev: ,radial-gradient(circle at 50% 50%, #0000 0 40%, #444 40% 60%, #0000 60%);
+  --bg-next: ,radial-gradient(circle at 50% 50%, #0000 0 40%, #444 40% 60%, #0000 60%);
+  --bg-curr: ,radial-gradient(circle at 50% 50%, #0000 0 40%, #444 40% 60%, #0000 60%);
+  --bg-bg: ,radial-gradient(circle at 75% 50%, #0000 0 40%, #444 40% 60%, #0000 60%), radial-gradient(circle at 25% 50%, #0000 0 40%, #444 40% 60%, #0000 60%), radial-gradient(circle at 50% 50%, #0000 0 40%, #444 40% 60%, #0000 60%);
+}
+
+.sequencetoggle > label:has(> :checked)::after {
+  justify-self: center;
+  background-size: 3em 2.2em;
+}
+
+.sequencetoggle > label::after {
+  padding: 0.2em;
+  background-size: 3em 2.2em;
+  background: none;
+}
+

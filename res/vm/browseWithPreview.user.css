@@ -1391,3 +1391,64 @@ body > table > :is(tbody) {
   text-align: center;
   align-items: center;
 }
+
+.sequencetoggle > label:has(> :checked) + label::after,
+.sequencetoggle:has(> label:last-of-type > :checked)
+  > label:first-of-type::after {
+  justify-self: start;
+}
+
+.sequencetoggle > label:has(> :checked)::after {
+  text-align: center;
+  letter-spacing: 0;
+  justify-self: end;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sequencetoggle {
+  background-image:
+    radial-gradient(circle at 75% 50%, #0000 0 40%, #444 40% 60%, #0000 60%),
+    radial-gradient(circle at 25% 50%, #0000 0 40%, #444 40% 60%, #0000 60%),
+    radial-gradient(circle at 50% 50%, #0000 0 40%, #444 40% 60%, #0000 60%);
+  background-size:
+    3em 4em,
+    3em 4em,
+    2em 3em;
+  background-position:
+    left center,
+    right center,
+    center top;
+  background-repeat: no-repeat;
+  width: 6em;
+  height: 6em;
+}
+
+.sequencetoggle > label,
+.sequencetoggle > label:has(> :checked) {
+  background-image: none;
+}
+
+.sequencetoggle > label::after {
+  place-self: center;
+  letter-spacing: 0;
+  margin: 0;
+  padding: 0.4em;
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    #000 0 40%,
+    #444 40% 60%,
+    #0000 60%
+  );
+  background-size: 3em 3em;
+  overflow: visible;
+  width: 2em;
+  height: 2em;
+  background-repeat: no-repeat;
+  background-position: center;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}

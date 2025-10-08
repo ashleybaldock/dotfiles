@@ -1199,3 +1199,119 @@ body > table > :is(tbody) {
 :is(tbody, thead) > :is(tr) {
   display: contents;
 }
+
+/*{{{1 Sequence Toggle */
+
+.sequencetoggle {
+  display: grid;
+  grid-template: 1/1;
+  font-size: 1em;
+  counter-reset: n;
+  cursor: pointer;
+}
+@property --p {
+  syntax: '<number>';
+  initial-value: 0.5;
+  inherits: true;
+}
+@property --s {
+  syntax: '<angle>';
+  initial-value: 180deg;
+  inherits: true;
+}
+@property --r {
+  syntax: '<angle>';
+  initial-value: 90deg;
+  inherits: true;
+}
+@keyframes spin {
+  0% {
+    --p: 0;
+  }
+  50% {
+    --p: 0.5;
+  }
+  100% {
+    --p: 1;
+  }
+}
+.sequencetoggle::after {
+  content: '⤻';
+  font-size: 2em;
+  /*   --p: 0.4; */
+  --s: calc(80deg * var(--p));
+  --r: calc(var(--s) + 40deg);
+  --＋s: var(--s);
+  --－s: calc(var(--s) * -1);
+  --＋r: var(--r);
+  --－r: calc(var(--r) * -1);
+  /*   transform: skew(10deg, 0deg) scale(1.4, 1)  skew(-10deg, 0deg) translateY(0.4em); */
+  transform: scale(1, -1) skew(var(--＋r), 0)
+    /*     scale(max(-1.2, min(1.2, calc(var(--p) * 1.2))), max(-1.2, min(1.2, calc(-1 * sin(var(--p)))))) */
+    skew(var(--－r), var(--＋s)) rotate(calc(var(--＋s) + var(--－r)));
+  grid-area: 1/1;
+  align-self: start;
+  justify-self: center;
+  z-index: 10;
+  animation: 8s forwards infinite linear spin;
+}
+.sequencetoggle > label {
+  counter-increment: n;
+  grid-area: 1/1/1/1;
+  background-image: radial-gradient(
+    circle at center,
+    #000 0 40%,
+    #444 40% 60%,
+    #000 60%
+  );
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-size: 80% 80%;
+  background-position: center center;
+  width: 3em;
+  height: 3em;
+  display: grid;
+  grid-template: 1/1;
+  justify-items: end;
+  align-items: start;
+  position: relative;
+
+  pointer-events: none;
+}
+.sequencetoggle > label > [type='radio'] {
+  display: none;
+}
+.sequencetoggle > label:has(> :checked) {
+  background-image: radial-gradient(
+    circle at center,
+    #444 0 20%,
+    #000 20% 40%,
+    #444 40% 60%,
+    #000 60%
+  );
+  z-index: 2;
+}
+
+.sequencetoggle > label:has(> :checked) + label,
+.sequencetoggle:has(> label:last-of-type > :checked) > label:first-of-type {
+  z-index: 2;
+  pointer-events: auto;
+}
+.sequencetoggle > label::after {
+  content: counter(n);
+  font-size: 1em;
+  visibility: hidden;
+  position: absolute;
+  display: flex;
+}
+.sequencetoggle > label:has(> :checked)::after {
+  visibility: visible;
+  justify-self: start;
+  z-index: 10;
+}
+.sequencetoggle > label:has(> :checked) + label::after,
+.sequencetoggle:has(> label:last-of-type > :checked)
+  > label:first-of-type::after {
+  visibility: visible;
+  z-index: 10;
+}

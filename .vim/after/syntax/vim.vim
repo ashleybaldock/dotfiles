@@ -101,16 +101,26 @@ hi def DemoCursorRange guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
 hi def DemoCursor guifg=#000000 guibg=#cc22dd
 
 
-syn match CommentStart /^\s*\zs"/ contained contains=NONE
-      \ containedin=Comment,vimLineComment
-syn match CommentStart /^\s*\zs"/ contained containedin=Comment,vimLineComment contains=NONE conceal cchar=⎢
+" syn match CommentStart /^\s*\zs"/ contained contains=NONE containedin=Comment,vimLineComment
+ " syn match CommentStart /^\s*\zs"/ contained containedin=Comment,vimLineComment contains=NONE conceal cchar=⎢
+ syn match CommentStart /^\s*\zs"/ contained containedin=Comment,vimLineComment contains=NONE conceal cchar=│
 
 hi def CommentStart guifg=#cf28df guibg=#cf28df gui=none
 
 " echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: ''})
+let s:multi_comment_matchids = []
+let g:mayhem_conceal_comment = [
+      \'⍋',
+      \'║',
+      \'⍒',
+      \'',
+      \]
 function! MultiComments() abort
-  echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '⎢'})
-  echo matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: '│'})
-  echo matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '╮'})
-  echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: '╯'})
+  call foreach(s:multi_comment_matchids, {i, id -> matchdelete(id)})
+  let s:multi_comment_matchids = [
+        \matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '║'}),
+        \matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: '⎢'}),
+        \matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '⍋'}),
+        \matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: '⍒'}),
+        \]
 endfunc

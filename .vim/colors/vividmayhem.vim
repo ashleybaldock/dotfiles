@@ -210,6 +210,12 @@ hi PmenuExtra     guifg=#af00af guibg=#220055
 hi PmenuExtraSel  guifg=#af00af guibg=#440077 gui=bold 
 hi PmenuSbar                    guibg=#220055                       
 hi PmenuThumb                   guibg=#4400dd                       
+hi PmenuMatch     guifg=#15aabf
+hi PmenuMatchSel  guifg=#15aabf               gui=bold
+hi ComplMatchIns                guibg=#ffaa22
+
+hi link PopupSelected PmenuSel
+hi link PopupNotification WarningMsg
 
 " Custom
 hi HlPop01Bg      guifg=#ddaacc guibg=#100008    
@@ -250,9 +256,10 @@ hi link PopDiagWarn   LineDgWarn
 hi link PopDiagInfo   LineDgInfo
 hi link PopDiagHint   LineDgHint
 
+hi CocSearch      guifg=#15aabf
 " Coc Floating window
 hi link CocPum            Pmenu
-hi link CocPumSearch      CocSearch
+hi link CocPumSearch      PmenuMatch
 hi link CocPumDetail      Comment
 hi link CocPumMenu        CocFloating
 hi link CocPumShortcut    Comment

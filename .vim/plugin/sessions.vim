@@ -21,7 +21,7 @@ endfunc
 
 function! s:SessionComplete(ArgLead, CmdLine, CursorPos)
   return map(globpath(g:mayhem_dir_session, a:ArgLead.."*.session.vim", 0, 1),
-        \ {_, val -> fnamemodify(val, ":t:r:r")})
+        \ {_, val -> fnamemodify(val, ":t:r:r") .. '	|etc'})
 endfunc
 
 function! s:RoughTimeSince(eventtime)

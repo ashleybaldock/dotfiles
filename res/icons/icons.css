@@ -1361,3 +1361,46 @@ section label {
     inset 1px 1px 1px 0 #eee4,
     inset -1px -1px 2px 1px #000a;
 }
+
+.controlgroup.overlap {
+  row-gap: 0.2em;
+}
+
+.combineList label:has(> [type='radio']) {
+  background-image:
+    linear-gradient(45deg, #0002, 50%, #0008, 90%, #000a),
+    linear-gradient(-45deg, #0006, #000a, #4448),
+    linear-gradient(#000, #222, #444);
+  min-height: 10vh;
+  box-shadow:
+    inset 1px 1px 1px 0 #eee4,
+    inset -1px -1px 2px 1px #000a;
+  box-sizing: border-box;
+  border: 1.5px dashed #0000;
+  border-width: 1.5px 2px 2px 1.5px;
+  border-radius: 2px / 20px;
+  transition: border 220ms ease;
+}
+
+.combineList label:has(> [type='radio']:checked, > [type='radio'][checked]) {
+  background-image:
+    linear-gradient(45deg, #0002, 50%, #0008, 90%, #000a),
+    linear-gradient(-45deg, #0006, #000a, #4448),
+    linear-gradient(#000, #222, #444);
+  box-shadow:
+    inset 1px 1px 1px 0 #eee4,
+    inset -1px -1px 2px 1px #000a;
+  border-color: #cccd #aaad #999d #bbbd;
+  transition: border 120ms ease;
+}
+
+.combineList label:has(> [type='radio']):not(:has(> :checked, > [checked])) {
+  cursor: pointer;
+  transition: border 120ms ease;
+}
+.combineList
+  label:has(> [type='radio']):not(:has(> :checked, > [checked])):hover {
+  border-color: #cccf #aaaf #999f #bbbf;
+  border-style: dotted;
+  transition: border 120ms ease;
+}

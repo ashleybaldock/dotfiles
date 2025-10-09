@@ -110,6 +110,12 @@ hi def CommentStart guifg=#cf28df guibg=#cf28df gui=none
 " echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: ''})
 let s:multi_comment_matchids = []
 let g:mayhem_conceal_comment = [
+      \'┳',
+      \'┃',
+      \'┗',
+      \'❙',
+      \]
+let g:mayhem_conceal_comment = [
       \'⍋',
       \'║',
       \'⍒',

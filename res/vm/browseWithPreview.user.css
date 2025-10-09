@@ -1685,7 +1685,6 @@ body > table > :is(tbody) {
 }
 
 
-
 .sequencetoggle {
   background-image: linear-gradient(#0000) 
     var(--bg-curr)
@@ -1701,13 +1700,15 @@ body > table > :is(tbody) {
     ;
     --bg-curr-size:
       ,2.4em 2.4em
-      ,2.4em 2.8em
+      ,2.6em 2.8em
       ;
     --bg-prev-size:
-      ,2.2em 3em
+      ,2.2em 2.2em
+      ,3em 2.8em
       ;
     --bg-next-size:
-      ,2.2em 3em
+      ,2.2em 2.2em
+      ,3em 2.8em
       ;
     --bg-bg-size:
       ,6em 4.2em
@@ -1728,17 +1729,19 @@ body > table > :is(tbody) {
       ,center center
       ;
     --bg-prev-pos:
-      ,left 0.6em center
+      ,left 0% center
+      ,left 0% center
       ;
     --bg-next-pos:
-      ,right 0.6em center
+      ,right 0% center
+      ,right 0% center
       ;
     --bg-bg-pos:
     ,center center
     ,center center
     ,center center
-    ,right 0.6em center
     ,left 0.6em center
+    ,right 0.6em center
     ;
   background-blend-mode: normal
     ,normal
@@ -1764,37 +1767,174 @@ body > table > :is(tbody) {
     ,exclusion
     ,darken
     ,multiply
-/*     ,difference 
-    ,   exclusion
-     ,soft-light
-    ,hard-light
-    ,exclusion */
     ;
   --bg-curr:
-    ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 60%, var(--bgc-curr) 80% 90%, #0006, 94%, #0000 94%)
-    ,radial-gradient(circle farthest-corner at 50% 50%, #0000 0 34%, var(--bgc1) 75% 80%, var(--bgc1a) 86%, #000, 88%, #0000 90%)
+    ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 77%, var(--bgc-inset) 79% 80%, var(--bgc-curr) 80% 90%, var(--bgc-outset), 94%, #0000 94%)
+    ,radial-gradient(ellipse 1.8em 1.4em at 50% 50%,  var(--bgc2) 0 34%, var(--bgc-curr2a) 75% 88%,  var(--bgc-outset), 90%, #0000 100%)
+/*     ,radial-gradient(circle closest-side at 50% 50%, #000 0 34%, var(--bgc-curr2a) 75% 80%, var(--bgc-curr2b) 86%, #000, 88%, #0000 90%) */
     ;
-/*     ,radial-gradient(circle closest-side at 50% 50%, #0000 0 34%, var(--bgc1a) 75% 80%, #0000 100%) */
   --bg-prev:
     ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 70%, var(--bgc-prev) 70% 90%, #0006, 94%, #0000 94%)
+    ,radial-gradient(ellipse farthest-corner at 50% 50%, #0000 0 34%, var(--bgc1a) 75% 80%, #0000 90%)
     ;
   --bg-next:
     ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 70%, var(--bgc-next) 70% 90%, #0006, 94%, #0000 94%)
+    ,radial-gradient(ellipse farthest-corner at 50% 50%, #0000 0 34%, var(--bgc1a) 75% 80%, #0000 90%)
     ;
   --bg-bg: 
-    , radial-gradient(ellipse farthest-corner at 50% 50%, #0000 0 34%, var(--bgc1a) 75% 80%, #0000 90%)
-    , radial-gradient(ellipse farthest-corner at 50% 50%, #0000 0 34%, var(--bgc1a) 75% 80%, #0000 90%)
-/*     , repeating-radial-gradient(ellipse closest-corner at 30% 14%, var(--bgc3) 36%, 42%, #0007, 51%, #0000 52%) */
-    , radial-gradient(ellipse 1em 1em at 50% 50%, #0000 20% 34%, var(--bgc1) 35% 48%, #0000 52%)
-    , radial-gradient(ellipse farthest-side at 50% 50%, #0000 0 34%, var(--bgc1) 75% 80%, var(--bgc1a) 86%, #000, 88%, #0000 90%)
+    ,repeating-radial-gradient(ellipse farthest-corner at 20% 50%, var(--bgc3) 36%, 42%, #0007, 51%, #0000 100%)
+    ,radial-gradient(ellipse 1em 1em at 50% 50%, #0000 20% 34%, var(--bgc1) 35% 48%, #0000 52%)
+    ,radial-gradient(ellipse farthest-side at 50% 50%, #0000 0 34%, var(--bgc1) 75% 80%, var(--bgc1a) 86%, #000, 88%, #0000 90%)
     ;
-  --bgc1: #bbba;
+  
+  --bgc-curr: #00c;
+  --bgc-curr2a: #444;
+  --bgc-curr2b: #888;
+  --bgc-inset: hsl(from var(--bgc-curr) h 100 70 / 80%);
+  --bgc-outset: hsl(from var(--bgc-curr) h 100 10 / 100%);
+  --bgc1: #bbbc;
   --bgc1a: #eeea;
-  --bgc2: #222d;
-  --bgc3: #0001;
+  --bgc2: #222;
+  --bgc3: #000a;
   --bgc-next: #800;
   --bgc-prev: #080;
+}
+
+.sequencetoggle > label::after {
+  background: none;
+  font-family: Menlo,monospace;
+}
+
+.sequencetoggle > label:has(> :checked)::after {
+  justify-self: center;
+  font-size: 1.4em;
+}
+
+
+
+
+
+
+
+
+.sequencetoggle {
+  background-image: linear-gradient(#0000) 
+    var(--bg-curr)
+    var(--bg-prev)
+    var(--bg-next) 
+    var(--bg-bg) 
+    ;
+  background-size: 0 0
+    var(--bg-curr-size)
+    var(--bg-prev-size)
+    var(--bg-next-size) 
+    var(--bg-bg-size)
+    ;
+    --bg-curr-size:
+      ,2.4em 2.4em
+      ,2.6em 2.8em
+      ;
+    --bg-prev-size:
+      ,2.2em 2.2em
+      ,3em 2.8em
+      ;
+    --bg-next-size:
+      ,2.2em 2.2em
+      ,3em 2.8em
+      ;
+    --bg-bg-size:
+      ,6em 4.2em
+      ,40% 65%
+      ,40% 65%
+      ,4.5em 3.1em
+      ,6em 4.2em
+      ,8.2em 60%
+    ;
+  background-position: 0 0
+    var(--bg-curr-pos)
+    var(--bg-prev-pos)
+    var(--bg-next-pos) 
+    var(--bg-bg-pos)
+    ;
+    --bg-curr-pos:
+      ,center center
+      ,center center
+      ;
+    --bg-prev-pos:
+      ,left 0% center
+      ,left 0% center
+      ;
+    --bg-next-pos:
+      ,right 0% center
+      ,right 0% center
+      ;
+    --bg-bg-pos:
+    ,center center
+    ,center center
+    ,center center
+    ,left 0.6em center
+    ,right 0.6em center
+    ;
+  background-blend-mode: normal
+    ,normal
+    ,normal
+    ,normal
+    ,normal
+    ,normal
+    ,normal
+    ,normal
+    ,normal
+    ,normal
+    ,normal
+    ,normal
+    ,overlay
+    ,overlay
+    ,difference
+    ,difference
+    ,soft-light
+    ,difference
+    ,multiply
+    ,multiply
+    ,darken
+    ,exclusion
+    ,darken
+    ,multiply
+    ;
+  --bg-curr:
+    ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 77%, var(--bgc-curr-inset) 79% 80%, var(--bgc-curr) 80% 90%, var(--bgc-curr-outset), 94%, #0000 94%)
+    ,radial-gradient(ellipse 1.8em 1.4em at 50% 50%,  var(--bgc2) 0 34%, var(--bgc-curr2a) 75% 88%,  var(--bgc-curr-outset), 90%, #0000 100%)
+/*     ,radial-gradient(circle closest-side at 50% 50%, #000 0 34%, var(--bgc-curr2a) 75% 80%, var(--bgc-curr2b) 86%, #000, 88%, #0000 90%) */
+    ;
+  --bg-prev:
+    ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 77%, var(--bgc-prev-inset) 79% 80%, var(--bgc-prev) 70% 90%, var(--bgc-prev-outset), 94%, #0000 94%)
+    ,radial-gradient(ellipse farthest-corner at 50% 50%, #0000 0 34%, var(--bgc1a) 75% 80%, #0000 90%)
+    ;
+  --bg-next:
+    ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 77%, var(--bgc-next-inset) 79% 80%, var(--bgc-next) 70% 90%, var(--bgc-next-outset), 94%, #0000 94%)
+/*     ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 70%, var(--bgc-next) 70% 90%, #0006, 94%, #0000 94%) */
+    ,radial-gradient(ellipse farthest-corner at 50% 50%, #0000 0 34%, var(--bgc1a) 75% 80%, #0000 90%)
+    ;
+  --bg-bg: 
+    ,repeating-radial-gradient(ellipse farthest-corner at 20% 50%, var(--bgc3) 36%, 42%, #0007, 51%, #0000 100%)
+    ,radial-gradient(ellipse 1em 1em at 50% 50%, #0000 20% 34%, var(--bgc1) 35% 48%, #0000 52%)
+    ,radial-gradient(ellipse farthest-side at 50% 50%, #0000 0 34%, var(--bgc1) 75% 80%, var(--bgc1a) 86%, #000, 88%, #0000 90%)
+    ;
+  
   --bgc-curr: #00c;
+  --bgc-curr2a: #444;
+  --bgc-curr2b: #888;
+  --bgc-curr-inset: hsl(from var(--bgc-curr) h 100 70 / 80%);
+  --bgc-curr-outset: hsl(from var(--bgc-curr) h 100 10 / 100%);
+  --bgc-prev: #080;
+  --bgc-prev-inset: hsl(from var(--bgc-prev) h 100 70 / 80%);
+  --bgc-prev-outset: hsl(from var(--bgc-prev) h 100 10 / 100%);
+  --bgc1: #bbbc;
+  --bgc1a: #eeea;
+  --bgc2: #222;
+  --bgc3: #000a;
+  --bgc-next: #800;
+  --bgc-next-inset: hsl(from var(--bgc-next) h 100 70 / 80%);
+  --bgc-next-outset: hsl(from var(--bgc-next) h 100 10 / 100%);
 }
 
 .sequencetoggle > label::after {

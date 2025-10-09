@@ -13,7 +13,7 @@ let g:mayhem_dir_view      = $VIMHOME..'/view'
 " See: ./plugin/sessions.vim
 let g:mayhem_dir_session   = $VIMHOME..'/session'
 " See: ./plugin/templates.vim
-let g:mayhem_dir_template = $VIMHOME..'/templates'
+let g:mayhem_dir_template  = $VIMHOME..'/templates'
 
 "
 " Set up folders which have special behaviour
@@ -271,7 +271,8 @@ set formatoptions+=j
 set delcombine
 set virtualedit=block
 
-set completeopt=longest,menuone,noinsert
+set completeopt=longest,menuone,noinsert,popup,fuzzy,nosort
+set completepopup=height:10,width:60,highlight:InfoPopup
 
 " Searching
 set hlsearch

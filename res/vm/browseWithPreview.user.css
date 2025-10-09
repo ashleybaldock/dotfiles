@@ -232,7 +232,6 @@
     --cursor-hotspot-x: 8;
     --cursor-hotspot-y: 2;
 }
-
 :root {
     --outline-thin8: 1px 0 0.2px #000, 0 -1px 0.2px #000, -1px 0 0.2px #000, 0 1px 0.2px #000,
     1px 1px 0.2px #000, 1px -1px 0.2px #000, -1px 1px 0.2px #000,

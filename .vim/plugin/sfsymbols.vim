@@ -126,7 +126,7 @@ export class SfSymbol
   enddef
 
   def newFromString(chars: string)
-    this.codepoint = char2nr(NormalisedChar(chars))
+    this.codepoint = NormalisedChar(chars)->char2nr()
   enddef
 
   def newFromCodepoint(codepoint: number)

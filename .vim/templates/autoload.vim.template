@@ -3,6 +3,10 @@ if exists("g:mayhem_autoloaded_%FILE:LC%") || &cp
 endif
 let g:mayhem_autoloaded_%FILE:LC% = 1
 
+"
+" See: ../plugin/%FILE%
+"
+
 function! %FILE:LC%#myNewFunction(...) abort
 
 endfunction

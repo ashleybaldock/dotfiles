@@ -47,9 +47,9 @@ function! s:HighlightHighlight() abort
         \ group: 'mayhem_hihi_colorscheme_event', replace: v:true,
         \}])
 
-  let hlgroups = hlget()
+  " call hlget()->foreach('syn match' v:val.name '/\<' .. v:val.name .. '\>/')
 
-  for hlgroup in hlgroups
+  for hlgroup in hlget()
     exec 'syn match' hlgroup['name'] '/\<' .. hlgroup['name'] .. '\>/'
           \ ' contained contains=NONE containedin=VimGroupName,VimHiGroup,VimGroup'
   endfor
@@ -67,85 +67,14 @@ endfunc
 command! -bar HiHi call <SID>HighlightHighlight()
 
 "
-" See: ./sfsymbols.vim
-"
-function! s:GetCharacterInfo(arg)
-  let char = empty(a:arg) ? char2nr(getline('.')[col('.') - 1 : -1])->nr2char() : char2nr(a:arg)->nr2char()
-  let composedchar = empty(a:arg) ? strpart(getline('.'), col('.') - 1, 1, v:true) : strpart(a:arg, 0, 1, v:true)
-
-  let output = 'No Char Info'
-
-  " SFSymbols doesn't define composing characters itself
-  let info = GetSfSymbolInfo(char)
-  if info.IsValid()
-    let output = '⟨' .. composedchar .. '⟩' .. string(info) .. ' (SFSymbol)'
-  else
-    " TODO implement similar in ./unicode.vim and remove dep.
-    if !exists('g:autoloaded_characterize')
-      " Characterize's autoload uses redir, which can't be nested
-      silent exec 'Characterize'
-    endif
-    let v:errmsg = ''
-    redir => output
-      silent exec 'Characterize ' .. composedchar
-    redir END
-    if v:errmsg != ''
-      echom 'Error running Characterize: ' .. v:errmsg
-      let output = 'Char Info Err'
-    else
-      let output = trim(output)->split(', ')->join(' ╱ ')
-    endif
-  endif
-  return output
-endfunc
-
-"
-" Formats character info for display in command line
-"
-function! s:FormatCharInfoForCommand(arg = v:null)
-  let charinfo = s:GetCharacterInfo(a:arg)
-
-  return charinfo
-endfunc 
-
-"
 " Formats character info for display in SynFo popup
+" See: ../autoload/charinfo.vim
 "
 function! s:FormatCharInfoForSynFo(arg = v:null)
-  let charinfo = s:GetCharacterInfo(a:arg)
+  let charinfo = charinfo#get(a:arg)
 
   return #{text: charinfo, props: []}
 endfunc
-
-command! -bar -nargs=? CharInfo echo <SID>FormatCharInfoForCommand(<q-args>)
-
-nnoremap <silent><script> <Plug>(mayhem_charinfo) :<C-U>CharInfo<CR>
-
-function s:Update_AutoCharInfo()
-  if mayhem#Toggled('g:mayhem_hl_auto_charinfo')
-    call autocmd_add([#{
-          \ event: 'CursorMoved', pattern: '*',
-          \ cmd: 'echo s:FormatCharInfoForCommand()',
-          \ group: 'mayhem_hl_auto_charinfo',
-          \}])
-  else
-    if exists('#mayhem_hl_auto_charinfo')
-      call autocmd_delete([#{
-            \ event: 'CursorMoved',
-            \ group: 'mayhem_hl_auto_charinfo',
-            \}])
-    endif
-  endif
-endfunc
-
-call autocmd_add([
-      \#{
-      \ event: 'User', pattern: 'Toggle_g:mayhem_hl_auto_charinfo',
-      \ cmd: 'call s:Update_AutoCharInfo()',
-      \ group: 'mayhem_hl_update_auto_charinfo', replace: v:true,
-      \},
-      \])
-
 
 " command! -bar -nargs=0 CharInfoToggle Toggle g:mayhem_hl_auto_charinfo<CR>
 

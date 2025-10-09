@@ -161,6 +161,9 @@ an <silent> 10.327.110 &File.Open\ Related.Runtime\ FT\ Plugin	    <Nop>
 an <silent> 10.327.120 &File.Open\ Related.Runtime\ Plugin	    <Nop>
 an <silent> 10.327.130 &File.Open\ Related.Runtime\ Autoload	    <Nop>
 
+"
+"{{{1 Test menu, please ignore
+"
 exec 'an 200.101.100 Test.Test1.' .. format#session(printf("%14S", '0123456789')) .. '⏐ <Nop>'
 exec 'an 200.101.110 Test.Test1.' .. format#session(printf("%14S", 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')) .. '⏐ <Nop>'
 exec 'an 200.101.120 Test.Test1.a️b️c️d️e️f️g️h️i️j️k️l️m️n️o️p️q️r️s️t️u️v️w️xy️z️⏐ <Nop>'
@@ -240,6 +243,7 @@ for [i, t] in [
       \]->items()
   exec printf("an 200.204.%03S ", i + 100) .. 'Test.Test4.' .. t .. '\ ⏐ <Nop>'
 endfor
+"}}}1
 
 
 "

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.178
+// @version     1.0.179
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -363,7 +363,7 @@ const initBrowsePreview = ({ document }) => {
       };
 
       const set = (newValue) => {
-        if (_vals.contains(newValue)) {
+        if (_vals.indexOf(newValue) > -1) {
           _val = newValue;
           notify();
         }

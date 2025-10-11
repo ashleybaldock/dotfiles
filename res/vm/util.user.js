@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.66
+// @version     1.1.73
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -825,6 +825,21 @@ const addStyleToggles = (...definitions) =>
 
 /*{{{1 Create Elements */
 
+() => {
+  qs`td:has(>a.file)`.map((n) => {
+    const img = document.createElement('img');
+    img.setAttribute('src', n.querySelector('a').getAttribute('href'));
+    img.style.setProperty('width', '4em');
+    n.prepend(img);
+  });
+  qs`td:has(>a.file)`.all.forEach((n) => {
+    const img = document.createElement('img');
+    img.setAttribute('src', n.querySelector('a').getAttribute('href'));
+    img.style.setProperty('width', '4em');
+    n.prepend(img);
+  });
+};
+
 /**
  * Chainable Element creation
  *
@@ -895,31 +910,16 @@ const mu = (({ document, console }) => {
     return el;
   };
 
-  const makeHtmlElement = (tagName, { attributes = {} } = {}) =>
-    addAttributesTo(document.createElement(tagName), attributes);
+  const makeHtmlElement = ({
+    name,
+    attributes = {},
+    data = {},
+    style = {},
+  } = {}) => addAttributesTo(document.createElement(name), attributes);
 
-  // const wrapTextNodes = (parentNode, {trim = true, split = undefined, match = /.*/su}, wrapper = ({textContent,}) => makeHtmlElement('span', { data: {orig: textContent}})) => parentNode.childNodes.forEach((childNode) => {
-  //   if (childNode.nodeName === '#text' && match.test(childNode.textContent)) {
-  //     const parts = [...childNode.textContent.split(split)].filter(
-  //       (s) => (trim ? s.trim().length : s.length) > 0,
-  //     );
-  //     parts.length >.reduce((acc, cur) => acc.appendChild(wrapper({textContent:  trim ? cur.trim() : cur, data: {text: trim ? cur.trim() : cur, orig: cur}})), wrapper({textContent: childNode.textContent));
-
-  //     if (parts.length > 1) {
-  //       parts.forEach((s) => {
-  //         const part = makeHtmlElement(wrapWith);
-  //         part.innerText = part.dataset.text = s.trim();
-  //         wrapper.appendChild(part);
-  //       });
-  //     } else {
-  //       wrapper.innerText = wrapper.dataset.text = childNode.textContent.trim();
-  //     }
-  //     childNode.replaceWith(wrapper);
-  //   }
-
-  const makeSvgElement = (tagName, { attributes = {}, data = {} } = {}) =>
+  const makeSvgElement = ({ name, attributes = {}, data = {} } = {}) =>
     addAttributesTo(
-      document.createElementNS('http://www.w3.org/2000/svg', tagName),
+      document.createElementNS('http://www.w3.org/2000/svg', name),
       attributes,
     );
 
@@ -942,10 +942,13 @@ const mu = (({ document, console }) => {
   // })
   // })(temp1)
 
-  const makeElement = (tagName, { attributes = {} } = {}) =>
+  const makeElement = (
+    tagName,
+    { text, attributes = {}, data = {}, styles = {} } = {},
+  ) =>
     svgTags.has(tagName) && !ambiguousTags.has(name)
-      ? makeSvgElement(name, { attributes })
-      : makeHtmlElement(name, { attributes });
+      ? makeSvgElement({ name, attributes, data, styles })
+      : makeHtmlElement({ name, attributes, data, styles, text });
   /*
    * Wrap node in a new element of the type specified
    *
@@ -959,6 +962,34 @@ const mu = (({ document, console }) => {
     nodeToWrap.replaceWith?.(wrapperElement, nodeToWrap);
     wrapperElement.appendChild(nodeToWrap);
   };
+
+  const wrapText = (
+    parentNode,
+    {
+      match = /.*/su,
+      split = undefined,
+      trim = true,
+      wrapper = ({ matched, text }) =>
+        makeHtmlElement({
+          name: 'span',
+          text,
+          attributes: {},
+          data: { text, orig: matched },
+        }),
+    },
+  ) =>
+    parentNode.childNodes.forEach(
+      (childNode) =>
+        childNode.nodeName === '#text' && match.test(childNode.textContent),
+    ) &&
+    childNode.replaceWith(
+      ...childNode.textContent
+        .split(split)
+        .filter((s) => (trim ? s.trim().length : s.length) > 0)
+        .map((s) =>
+          wrapper({ matched: childNode.textContent, text: s.trim() }),
+        ),
+    );
 
   /**
    * mu`div.foo#bar[baz="99"]` -> <div class="foo" id="bar" baz="99"></div>
@@ -976,6 +1007,10 @@ const mu = (({ document, console }) => {
       },
       wrap: (...args) => {
         wrap(...args);
+        return elementMethods;
+      },
+      wrapText: (...args) => {
+        wrapText(...args);
         return elementMethods;
       },
     };
@@ -1223,7 +1258,35 @@ const IterableQueryBuilder = ({
         );
         return iqb;
       },
-
+      /**
+       * Make text nodes into elements
+       *
+       *   match : process only text nodes matching this pattern
+       *   split : matching text nodes are further split by this pattern, with each being wrapped
+       *    trim : remove whitespace from ends of split matches
+       * wrapper : function that returns the node to wrap each split match with
+       *           takes one argument, an object:
+       *           matched: string  The full original text string matched
+       *           split: string    The split, trimmed part of the full text match
+       */
+      wrapText: (options) => {
+        iterChain.extend(mapIter, (node) => mu.wrapText(node, options));
+        return iqb;
+      },
+      /**
+       * mu(tate) nodes
+       *
+       * @arg mutator
+       */
+      mu: (mutator) => {
+        iterChain.extend(flatMapIter, (node) => {
+          return mutator({
+            querySelectorAll: node.querySelectorAll.bind(node),
+            createElement: node.createElement.bind(node),
+          });
+        });
+        return iqb;
+      },
       /**
        * get or set attribute values
        *
@@ -1248,6 +1311,7 @@ const IterableQueryBuilder = ({
        *     qs({'src': 'newsrc', 'alt': 'newalt'})
        *
        * with lambda:
+       *     at(({src, alt}) => ({}))
        *
        * */
       at: (...args) => {

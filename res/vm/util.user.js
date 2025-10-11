@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.73
+// @version     1.1.76
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -187,6 +187,10 @@ function shuffle(array) {
 }
 
 const uniqueValues = (v, i, a) => a.indexOf(v) === i;
+const uniqueArrays = (av, ai, a) =>
+  a.findIndex(
+    (n) => av.length === n.length && av.every((avv, avi) => avv === n[avi]),
+  ) === ai;
 
 /*{{{2 Predicates */
 const isPromise = /*<T>*/ (x /*: unknown*/) /*: x is Promise<T>*/ =>
@@ -341,6 +345,16 @@ function* flatMapIter /*<T, Tout>*/(
     for (const i of mapperFn(s)) {
       yield i;
     }
+  }
+}
+
+function* iterPairs(source) {
+  for (
+    let { value: value1 } = source.next(), { value, done } = source.next();
+    !done;
+    value1 = value, { value, done } = source.next()
+  ) {
+    yield [value1, value];
   }
 }
 

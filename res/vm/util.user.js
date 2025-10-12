@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.76
+// @version     1.1.89
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1172,26 +1172,61 @@ const IterableQueryBuilder = ({
      * Stores iterable for each link in the query chain
      * First one being the initial result of querySelectorAll
      */
-    const iterChain = ((initial) => {
-      const steps = [initial];
+    const iterChain = ((sourceIterable) => {
+      const step = (_iter) => {
+        let _peeked;
+        return {
+          get peek() {
+            return (_peeked ??= _iter.next());
+          },
+          get done() {
+            return this.peek.done;
+          },
+          *[Symbol.iterator]() {
+            if (_peeked?.done === false) {
+              yield _peeked.value;
+            }
+            yield* _iter;
+          },
+          get iter() {
+            return this[Symbol.iterator];
+          },
+          entries: () => this[Symbol.iterator],
+          values: () => this[Symbol.iterator],
+          keys: () => this[Symbol.iterator],
+        };
+      };
+      const steps = [step(sourceIterable)];
+
+      const end = () => steps[steps.length - 1];
 
       return {
         /**
-         * Add a new step to the chain of iterator transformations
+         * Add a new step to the chain of iterators
          */
         extend: (f /**/, ...args) => {
-          steps.push(() => f(steps[steps.length - 1], ...args));
+          steps.push(step(f(end(), ...args)));
         },
+        /**
+         * Last of the chain of iterators, the result
+         */
         get iter() {
-          return steps[steps.length - 1];
+          return end();
         },
+        /**
+         * Look at the next item without consuming it
+         */
+        get peek() {
+          return end().peek;
+        },
+        /**
+         * Is the end of the chain empty
+         */
         get done() {
-          return steps[steps.length - 1].done;
+          return end().done;
         },
       };
     })(qsAll(selector).values());
-
-    // const last = () => iterChain[iterChain.length - 1];
 
     const iqb = {
       [Symbol.toStringTag]: `IQB\`${selector}\` |toStringTag|`,
@@ -1381,9 +1416,6 @@ const IterableQueryBuilder = ({
        * if true, return chainable, else null
        *  e.g.
        *       qs`span`.many?.map(...)
-       *
-       *       TODO - implement iter.peek() so this doesn't consume
-       *       values and chaining works
        */
       get some(/* 0 < n */) {
         return (iterChain.iter.next()?.done ?? false) ? null : iqb;

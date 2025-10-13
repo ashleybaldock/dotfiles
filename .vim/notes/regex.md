@@ -63,14 +63,14 @@
 ```pre
                                ╭─────────────────────────────────────────────────╮
   ╭───────────────╮   ╭───────╮│            line │ file/string │ word │ pattern  │
-  │W ← zero width │   │ Atoms 􀬚         ──┬─────│─────────────│──────│───────── │
-  │↓️B ← not in [] │   ╰───────╯│     start │ BoL │    BoF/S    │ BoW  │ BoP      │
+  │W ←︎ zero width │   │ Atoms 􀬚         ──┬─────│─────────────│──────│───────── │
+  │↓️B ←️ not in [] │   ╰───────╯│     start │ BoL │    BoF/S    │ BoW  │ BoP      │
   ├─↓️┬────────────┼────────────┤       end │ EoL │    EoF/S    │ EoW  │ EoP      │
   │  │ start  end │     of...  └┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
-  │WB│  \_^   \_$ │ File/string             \^   \$  │   literal
+  │WB│  \_^   \_$ │ File/string             \^   \$  │   literal                 │
   │WB│  \_^   \_$ │    Line    └┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
   │ B│                         │  ⎧ ^ = BoL: @BoP or after `\(` `\|` `\n` `\%(`  │
-  │~~│   ^     $  │   varies   │  ⎩ $ = EoL: @EoP or after `\)` `\|` `\n`        │
+  │~~│   ^     $  │   varies   │  ⎩ $ = EoL: @EoP or before `\)` `\|` `\n`       │
   │┈┈│┈┈┈┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
   │WB│  \zs   \ze │   Match    │ sets start/end of match                         │
   │W │  \<    \>  │    Word    │ next/prev char is first/last of word  \<word\>  │
@@ -78,14 +78,14 @@
   ├──┼────────────┴────────────┴─────────────────────────────────────────────────┤
   │  │                 \\%\(\^\|\$\|#\|V\|\([><]\=\(\'M\|\([N.]\+[lcv]\+\)\)\)   │
   │  │                                                                           │
-  │  │   before╶  ╭╴<╶╮ ╭╴N╶╮ ← Number  ╭╴c╶─ c̲olumn ⎫(bytes)  \%<22c     \%>.c  │
-  │  │       in╶ ╭┼───┼╮┴╴.╶┤ ← cursor  ├─╴v╶─ v̲.col ⎪(chars)  \%<2v \%.l \%>3v  │
-  │  │    after╶ │╰╴>╶╯│    ╰───────────┴──╴l╶─ l̲ine ⎪                           │
-  │W │  ╔════╗   │     ╰'M╶ mark M                   ⎬ not updated on change     │
-  │W │  ║ \% ╟───┴───┬╴#╶ Cursor position  \%#       ⎭                           │
-  │W │  ╚════╝       ├╴V╶ Visual area      \%Vfoo\%V   (current, or previous)    │
-  │W │               ├╴^╶ Beginning ⎫      \%^                                   │
-  │W │               ╰╴$╶ End       ⎭      \%$         (of file/string)          │
+  │  │    before⎯ ╭╴<╶╮  number･･･╭╴N╶╮ ╭╴c╶─ c̲olumn ⎫(bytes)  \%<22c     \%>.c  │
+  │  │   within⎯ ╭┼───┼╮──────────┤   ├─┼─╴v╶─ v̲.col ⎪(chars)  \%<2v \%.l \%>3v  │
+  │  │    after⇢️ │╰╴>╶╯│ cursor →️ ╰╴.╶╯ ╰──╴l╶─ l̲ine ⎪                           │
+  │W │  ╔════╗   │     ╰─────────────────'M╶╴ mark M ⎬ not updated on change     │
+  │W │  ║ \% ╟───┴───┬╴#╶───╴ Cursor      \%#        ⎭                           │
+  │W │  ╚════╝       ├─╴V╶──╴ Visual   \%Vfoo\%V        (current, or previous)   │
+  │W │               ├──╴^╶─╴  BoF/S      \%^       ⎫ ⎛ of file      ⎞           │
+  │W │               ╰───╴$╶╴  EoF/S      \%$       ⎭ ⎝    or string ⎠           │
   └──┴───────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -122,6 +122,21 @@
   │ ✘ │ \@N<! │ position ││ n →️ m │    \{n,m}│ \{-n,m} │
   └───┴──╴∆╶──┴──────────┘│   n   │    \{n}  │ \{-n}   │
     look back N bytes     └───────┴──────────┴─────────┘
+```
+
+## Useful DIY character classes
+
+### SVG path
+
+```reg
+/[MLVCSQTAmlhvcsqtaZz0-9. -]/
+?[MLVCSQTAmlhvcsqtaZz0-9. -]
+?[MLVCSQTAmlhvcsqtaZz\]0-9. -]
+?[^MLVCSQTAmlhvcsqtaZz0-9. -]
+?\_[^MLVCSQTAmlhvcsqtaZz0-9. -]
+```
+```reg
+%s/path\_s\+d=\(["']\|%22\)\zs\_[MLVCSQTAmlhvcsqtaZz0-9. -]*\ze\1
 ```
 
 ## Copy matching texts to buffer

@@ -268,6 +268,8 @@ command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\
 " Split SVG URLs at tag boundaries …%3E\⏎️ %3C… (…>\⏎️ <…)
 "
 command! CssDataURLSplit3E3C :s/%3E\zs\ze%3C/\\    /g
+
+" command! CssDataURLSplitPathZ 
 "
 " If base64, wrap @ fixed length after preamble
 " If svg, break up by:

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.179
+// @version     1.0.180
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -108,7 +108,7 @@ const addSequenceToggle = ({
       dataName: name,
       dataValue: value,
     });
-    icon !== null && label.style.setProperty('--icon', icon);
+    icon && label.style.setProperty('--icon', icon);
     const input = GM_addElement(label, tag, {
       type,
       ...(checked ? { checked: '' } : {}),

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.89
+// @version     1.1.90
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -955,6 +955,8 @@ const mu = (({ document, console }) => {
   //   path.style.visibility = 'hidden';
   // })
   // })(temp1)
+
+  // qs`td:has(>a[href])`.forEach((n, _i, _a, img = document.createElement('img')) => img.setAttribute('src', n.querySelector('a')?.getAttribute('href')) || n.prepend(img)).all
 
   const makeElement = (
     tagName,

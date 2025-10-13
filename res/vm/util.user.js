@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.90
+// @version     1.1.94
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -311,7 +311,25 @@ function* dropIter(source, n) {
   yield* source();
 }
 
+const isIterable = (x) =>
+  'object' === typeof x &&
+  Symbol.iterator in x &&
+  typeof x[Symbol.iterator] === 'function';
+
+const isIterator = (x) =>
+  'object' === typeof x && 'next' in x && typeof x['next'] === 'function';
+
+const toIterator = (iterish) => {
+  if (isIterable(iterish)) {
+    return iterish[Symbol.iterator]();
+  } else if (isIterator(iterish)) {
+    return iterish;
+  }
+  throw new Error('Not iterish');
+};
+
 function* takeIter(source, n) {
+  source = toIterator(source);
   for (
     let { value, done } = source.next(), i = 0;
     !done && i < n;
@@ -1191,7 +1209,7 @@ const IterableQueryBuilder = ({
             yield* _iter;
           },
           get iter() {
-            return this[Symbol.iterator];
+            return this[Symbol.iterator]();
           },
           entries: () => this[Symbol.iterator],
           values: () => this[Symbol.iterator],
@@ -1209,11 +1227,15 @@ const IterableQueryBuilder = ({
         extend: (f /**/, ...args) => {
           steps.push(step(f(end(), ...args)));
         },
+
+        *[Symbol.iterator]() {
+          yield* end();
+        },
         /**
          * Last of the chain of iterators, the result
          */
         get iter() {
-          return end();
+          return end().iter;
         },
         /**
          * Look at the next item without consuming it
@@ -1407,10 +1429,10 @@ const IterableQueryBuilder = ({
       },
 
       get hasSome() {
-        return !(iterChain.iter.next()?.done ?? false);
+        return !(iterChain.done ?? false);
       },
       get hasNone() {
-        return iterChain.iter.next()?.done ?? false;
+        return iterChain.done ?? false;
       },
       /**
        * option
@@ -1420,10 +1442,10 @@ const IterableQueryBuilder = ({
        *       qs`span`.many?.map(...)
        */
       get some(/* 0 < n */) {
-        return (iterChain.iter.next()?.done ?? false) ? null : iqb;
+        return (iterChain.done ?? false) ? null : iqb;
       },
       get none(/* 0 = n */) {
-        return (iterChain.iter.next()?.done ?? false) ? iqb : null;
+        return (iterChain.done ?? false) ? iqb : null;
       },
       // get only(/* 1 = n */) {
       //   return iterChain.length === 1 ? iqb : null;

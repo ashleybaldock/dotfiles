@@ -206,6 +206,10 @@ set splitbelow
 set splitright
 set splitkeep=cursor
 
+set tabclose=left
+set guitablabel=
+set guitabtooltip=
+
 set previewheight=8
 set winheight=14
 set winminheight=0

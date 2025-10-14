@@ -377,11 +377,11 @@ hi link CocHintHighlight        HintHint
 "════════════════════════════════════════════════════════╡  Horizontal
 
 " Inactive tab
-hi TabLine        guifg=#bbbbbb guibg=yslnnnb gui=underline 
+hi TabLine        guifg=#aaaaaa guibg=#18002f gui=underline 
 " Active tab
-hi TabLineSel     guifg=#ffffff guibg=#000000               
+hi TabLineSel     guifg=#eeeeee guibg=#28003f               
 " Tabline bar
-hi TabLineFill    guifg=#bbbbbb guibg=yslnnnb guisp=yslcccb gui=underline 
+hi TabLineFill    guifg=#bbbbbb guibg=#000000 guisp=yslcccb gui=underline 
 
 " WinBar:
 " Background for the whole bar

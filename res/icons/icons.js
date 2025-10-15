@@ -194,7 +194,7 @@ const copy = (target, copyAs) => {
 };
 
 window.addEventListener('load', (event) => {
-  document.querySelectorAll('.autoWrap svg').forEach((svg) => {
+  document.querySelectorAll('.svgListing svg').forEach((svg) => {
     const name = svg.getAttribute('data-name');
     /*const cssvar = (name !== null && name?.length > 0) ? svgToCSSvar(svg.outerHTML, name) : null;
       cssvar && styles.push(`  ${svgToCSSvar(svg.outerHTML, name)}`);*/

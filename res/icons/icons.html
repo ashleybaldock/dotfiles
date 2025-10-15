@@ -22,14 +22,19 @@
 
   <body data-sink-all data-sink="*">
     <fieldset>
+      <label data-value="debug">
+        <span>debug</span>
+        <input value="debug" type="checkbox" id="toggle_debug" name="debug"/>
+      </label>
+    </fieldset>
+    <fieldset>
         <label for="stroke-width" data-sink="stroke-width">
-            test:glass
+          <span>test:glass</span>
           <output for="testmetal"/></output>
           <input type="range" list="markersglass" min="-30" max="30" step="3"
             class="glass"
             id="testglass"
             />
-            <!-- data-source="stroke-width;input,change;root" -->
           <datalist id="markersglass" class="text-outline-thick">
             <option value="-30"></option>
             <option value="0"></option>
@@ -39,13 +44,12 @@
     </fieldset>
     <fieldset>
         <label for="stroke-width" data-sink="stroke-width">
-            test:metal
+          <span>test:metal</span>
           <output for="testmetal"/></output>
           <input type="range" list="markersmetal" min="0" max="6" step="1"
             class="metal"
             id="testmetal"
             />
-            <!-- data-source="stroke-width;input,change;root" -->
           <datalist id="markersmetal" class="text-outline-thick">
             <option value="0"></option>
             <option value="1"></option>
@@ -59,13 +63,12 @@
     </fieldset>
     <fieldset>
         <label for="stroke-width" data-sink="stroke-width">
-            SVG::stroke-width
+          <span>SVG::stroke-width</span> 
           <output for="stroke-width"/></output>
           <input type="range" list="markers" min="0" max="64" step="1"
             id="stroke-width"
             data-source="stroke-width"
             />
-            <!-- data-source="stroke-width;input,change;root" -->
           <datalist id="markers" class="text-outline-thick" data-sink="stroke-width">
             <option value="0"></option>
             <option value="8"></option>
@@ -178,9 +181,6 @@
   <div id="droppedpreview"></div>
 </section>
 
-<div class="autoWrap">
-<div class="snapsize">
-
 <section class="svgListing">
   <h2>Imported</h1>
   <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.3155" height="29.6873">
@@ -201,7 +201,6 @@
   <path d="M37.9691 24.8403C37.9691 28.092 35.2433 30.7878 32.0215 30.7878C28.7599 30.7878 26.0589 28.1168 26.0589 24.8403C26.0589 21.5787 28.7599 18.8927 32.0215 18.8927C35.283 18.8927 37.9691 21.5761 37.9691 24.8403ZM31.2997 21.8317L31.2997 24.1184L29.0079 24.1184C28.5848 24.1184 28.2885 24.4071 28.2885 24.8403C28.2885 25.2734 28.5848 25.5596 29.0079 25.5596L31.2997 25.5596L31.2997 27.8514C31.2997 28.2795 31.5759 28.5732 32.0215 28.5732C32.4521 28.5732 32.7408 28.2795 32.7408 27.8514L32.7408 25.5596L35.03 25.5596C35.4557 25.5596 35.7369 25.2734 35.7369 24.8403C35.7369 24.4071 35.4557 24.1184 35.03 24.1184L32.7408 24.1184L32.7408 21.8317C32.7408 21.4061 32.4521 21.1098 32.0215 21.1098C31.5759 21.1098 31.2997 21.4061 31.2997 21.8317Z" fill="#ffffff" fill-opacity="0.85"/>
    </g>
   </section>
-</div>
 
 
 <section class="svgListing">
@@ -1182,6 +1181,5 @@ M502.6 534.6C493.4 543.8 479.7 546.5 467.7 541.5C455.7 536.5 448 524.9 448 512L4
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z"/></svg>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320z"/></svg>
 </section>
-    </div><!--end:autoWrap-->
   </body>
 </html>

@@ -1,465 +1,419 @@
-section.svgListing:nth-child(19)
-  > div:nth-child(4)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(2) {
-  transform: translate(-5%, -9%);
+.svgActions {
+  padding: calc(var(--icon-inset) * var(--pad-nearside) + var(--item-size))
+    var(--icon-inset) calc(var(--icon-inset) * var(--pad-farside))
+    var(--icon-inset);
+  inset: calc(var(--item-size) - 4 * var(--item-gap)) auto auto auto;
+  inset: unset;
+  width: fit-content;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(4)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(2)
-  > path:nth-child(2) {
-  transform-origin: 22%;
+.iconRow .wrappedSVG {
+  z-index: -1;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > path:nth-child(3) {
-  fill: #000;
-  transform: translate(-10%);
-  stroke: #000;
-  stroke-width: 40;
+.svgListing {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, var(--item-size));
+  column-gap: calc(var(--item-gap) * 3);
+  row-gap: calc(var(--item-gap) * 2);
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > path:nth-child(2) {
+.svgListing:has(> h2) {
+  border-top-right-radius: 0;
+}
+
+.inner::before {
+  aspect-ratio: 1;
+  inset: unset;
+  width: auto;
+  place-self: center center;
+}
+
+.wrappedSVG.duplicate {
+  display: none;
+  grid-column: 2 / span 1;
+  grid-row: 1;
+  font-size: 2em;
+}
+
+.wrappedSVG.duplicate + .wrappedSVG.duplicate {
+  grid-column: 3 / span 1;
+  font-size: 1em;
+}
+
+:is(.iconRow:hover, .inner:hover, .outer:hover) .wrappedSVG.duplicate {
+  display: grid;
+}
+
+.iconRow:hover .inner .svgActions ~ .wrappedSVG,
+.iconRow:hover .wrappedSVG,
+.wrappedSVG:hover {
+  z-index: 2;
+}
+
+.inner::before,
+.inner:hover::before,
+:is(.iconRow:hover, .inner:hover, .outer:hover) .inner::before {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  inset: unset;
+  justify-self: center;
+  align-self: center;
+  grid-column: 1/-1;
+  grid-row: 1;
+  aspect-ratio: unset;
+  position: relative;
+  width: calc(100% + var(--icon-inset) * 2.4);
+  height: calc(100% + var(--icon-inset) * 2.4);
+}
+.inner,
+.inner:hover {
+  display: grid;
+  grid-template-rows: subgrid;
+  place-items: center;
+  align-self: center;
+  width: 100%;
+  column-gap: 2ch;
+  grid-template-columns: 3em 3em 1em;
+}
+
+.iconRow,
+.outer {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-template-columns: subgrid;
+  place-items: center;
+  align-self: center;
+}
+.wrappedSVG {
+  width: auto;
+  aspect-ratio: 1;
+}
+.wrappedSVG.duplicate {
+  height: auto;
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: unset;
+  max-width: unset;
+  grid-template: 1fr/1fr;
+  margin: auto;
+}
+
+.wrappedSVG.duplicated,
+.wrappedSVG.duplicated + .wrappedSVG.duplicate,
+.wrappedSVG.duplicated + .wrappedSVG.duplicate + .wrappedSVG.duplicate {
+  height: 1em;
+}
+
+.svgListing svg {
+  max-height: 1em;
+  height: 1em;
+  width: auto;
+}
+
+.wrappedSVG:has(> [viewBox='0 0 640 640']) {
+  padding: calc(0.01em * (var(--icon-padding, 16) - var(--icon-border, 3)));
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-template-columns: subgrid;
+}
+
+svg[viewBox='0 0 640 640'] {
+  max-height: 1.1em;
+  width: 1.1em;
+  height: 1.1em;
+  place-self: center;
+}
+
+.wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
+  bottom: -8px;
+  border-radius: inherit;
+  font-size: 8px;
+  border: 0;
+  color: #f0f;
+  line-height: normal;
+  display: flex;
+  position: absolute;
+  right: 2px;
+  padding: 0.1em 0.6ch;
+  letter-spacing: -0.08ch;
+  font-family: Menlo, monospace;
+  content: '□';
+  top: -9px;
+}
+
+.iconRow:hover .wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
+  transform: scale(1.4) translate(4px, -4px);
+}
+.wrappedSVG:has(> [viewBox='0 0 640 640']) {
+  max-height: unset;
+  place-self: center;
+}
+
+.wrappedSVG,
+.wrappedSVG:has(> [viewBox='0 0 640 640']) {
+  grid-column: 1 / span 1;
+  grid-row: 1;
+  font-size: 3em;
+  height: 1em;
+  width: auto;
+  aspect-ratio: 1;
+  padding: 0.04em;
+  place-content: center;
+  grid-template: auto/auto;
+  margin: 0-0.04em;
+}
+
+.wrappedSVG:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
+.wrappedSVG ~ .wrappedSVG.duplicate {
+  height: auto;
+  width: 1em;
+  grid-column: 2 / span 1;
+  font-size: 2em;
+}
+
+.wrappedSVG:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
+.wrappedSVG ~ .wrappedSVG.duplicate ~ .wrappedSVG.duplicate {
+  grid-column: 3 / span 1;
+  font-size: 1.2em;
+}
+
+.wrappedSVG.duplicate + .wrappedSVG.duplicate,
+.wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
+  + .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']) {
+  grid-column: 3 / span 1;
+  grid-row: 1;
+  font-size: 1em;
+}
+
+.inner,
+.inner:hover {
+}
+
+.wrappedSVG.duplicate,
+.wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']) {
+  grid-column: 2 / span 1;
+  grid-row: 1;
+  font-size: 2em;
+  height: fit-content;
+  padding: 0.1em;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: inherit;
+  list-style-type: none;
+}
+
+.colnames,
+.radiorow,
+.radiorow > li {
+  display: contents;
+}
+
+.controlgroup.overlap {
+  width: auto;
+  height: auto;
+  font-size: 1em;
+  row-gap: 0.2em;
+}
+
+.sourceOverlay {
+  counter-increment: srcidx;
+}
+.sourceBase {
+  counter-reset: srcidx;
+  padding: 0.4em 0.6em;
+}
+
+.colnames > li {
+  font-size: 0.8em;
+  text-align: center;
+  justify-self: center;
+  display: grid;
+}
+
+section label {
+  padding: 0;
+}
+
+.combineList label:has(> [type='radio']) {
+  display: grid;
+  grid-template: 1/1;
+  place-content: center;
+  place-self: center;
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-position: center;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  min-height: 10vh;
+  box-shadow:
+    inset 1px 1px 1px 0#eee4,
+    inset -1px -1px 2px 1px #000a;
+  box-sizing: border-box;
+  border: 1.5px dashed #0000;
+  border-width: 1.5px 2px 2px 1.5px;
+  border-radius: 2px/20px;
+  transition: border 220ms ease;
+}
+
+.combineList [type='radio'] {
   visibility: hidden;
+  width: 0;
+  height: 0;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(4)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3) {
-  transform: scale(0.66);
-  transform-origin: 85% -5%;
+.combineList label:has(> [type='radio']:checked) {
+  box-shadow:
+    inset 1px 1px 1px 0#eee4,
+    inset -1px -1px 2px 1px #000a;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(4)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(2) {
-  transform: translate(0, -7%);
+.combineList label:has(> [type='radio']:checked, > [type='radio'][checked]) {
+  box-shadow:
+    inset 1px 1px 1px 0#eee4,
+    inset -1px -1px 2px 1px #000a;
+  border-color: #cccd #aaad #999d #bbbd;
+  transition: border 120ms ease;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(4)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(3) {
-  transform: scale(-1, 1);
+.combineList label:has(> [type='radio']):not(:has(> :checked, > [checked])) {
+  cursor: pointer;
+  transition: border 120ms ease;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(4)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(4) {
-  transform: scale(-1, -1);
-  transform-origin: 20% 50%;
-  transform: translate(0, -2%);
+.combineList
+  label:has(> [type='radio']):not(:has(> :checked, > [checked])):hover {
+  border-color: #cccf #aaaf #999f #bbbf;
+  border-style: dotted;
+  transition: border 120ms ease;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(4)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(1)
-  > g:nth-child(1)
-  > path:nth-child(4) {
-  transform: translate(0, -2%);
+.combineList :is(h2, h3, h4, h5) {
+  font-size: inherit;
+  line-height: normal;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(4)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(1) {
-  transform: translate(0, -3%);
+.svgListing h2 {
+  max-width: 100vw;
+  margin-left: auto;
+  width: 93vw;
+  flex: 1 1 90w;
+  display: flex;
+  text-align: end;
+  align-items: end;
+  align-content: end;
+  justify-content: end;
+  border: var(--section-border);
+  border-inline-width: 0;
+  padding-inline: 2ch;
+  border-radius: var(--section-border-radius) 0 0 0;
+  margin: calc(var(--section-border-width) * -2) -2ch 0-1ch;
+  grid-row: 1;
+  grid-column: 1/-1;
+  position: sticky;
+  background-color: #222;
+}
+:is(section, .svgListing):has(> h2) {
+  position: sticky;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  width: auto;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(4)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(3) {
-  transform: scale(-1.5, -1.5) rotate(333deg);
-  transform-origin: 17% 54%;
+:is(section, .svgListing) > h2 {
+  position: sticky;
+  top: 0;
+  background-color: #222;
+  width: 93vw;
+  display: flex;
+  text-align: end;
+  align-items: end;
+  align-content: end;
+  justify-content: end;
+  border: var(--section-border);
+  border-inline-width: 0;
+  padding-inline: 2ch;
+  border-radius: var(--section-border-radius) 0 0 0;
+  max-width: 100vw;
+  inset: 20vh auto auto auto;
+  margin: -57vh 0 57vh;
+  grid-column: -2;
+  min-width: var(--item-size);
+  height: var(--item-size);
+  grid-row: auto;
 }
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(1)
-  > g:nth-child(1)
-  > path:nth-child(2) {
-  transform: translate(6%, -4%);
+.svgCombiner > h3 {
+  display: grid;
+  place-content: center;
+  place-items: center;
+  grid-template-rows: 1fr auto 1fr;
 }
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(2) {
-  transform: scale(-1, 1) translate(-40%, -1%);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(1) {
-  transform: translate(0, 1%);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(1)
-  > g:nth-child(1)
-  > path:nth-child(5) {
-  transform: rotate(180deg) translate(-55%, -75%);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(1)
-  > g:nth-child(1)
-  > path:nth-child(3) {
-  transform: translate(1px, -2%);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(5) {
-  transform: translate(0, 0);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(1)
-  > g:nth-child(1)
-  > path:nth-child(1) {
-  transform: translate(-1%, 1%);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(1)
-  > g:nth-child(1)
-  > path:nth-child(4) {
-  transform: translate(0, -19%);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(1)
-  > g:nth-child(1)
-  > path:nth-child(6) {
-  transform: rotate(90deg) scale(-1, 1) translate(-71.5%, -76.5%);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(6) {
-  transform: rotate(90deg) translate(30.5%, -71.5%);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(4) {
-  transform: rotate(180deg) translate(-40.5%, -100.5%);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3) {
-  transform: translate(-10%);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(1)
-  > path:nth-child(2) {
-  transform: translate(0);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(1)
-  > path:nth-child(1) {
-  transform: translate(-35%);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(6)
-  > g:nth-child(1) {
-  fill: #000;
-  stroke: #000;
-  stroke-width: 50;
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(2) {
-  fill: #fff;
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(5)
-  > g:nth-child(2)
-  > path:nth-child(4) {
-  transform: translate(-35%, 1%) scale(0.68);
-  transform-origin: 75% 25%;
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(3)
-  > g:nth-child(2)
-  > path:nth-child(2) {
-  transform: translate(0);
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2) {
+:is(.sourceBase, .sourceOverlay) > h3 > span {
+  font-size: 1.1em;
   visibility: hidden;
+  display: none;
+}
+:is(.sourceBase, .sourceOverlay) > h3 > span::first-line {
+  font-size: 0.8em;
+  word-spacing: 10em;
+  text-align: center;
+}
+.sourceOverlay > h3::after {
+  content: '#' counter(srcidx);
+  font-size: 1.2em;
+  grid-row: 3 / span 1;
+  align-self: end;
+}
+.sourceOverlay > h3::before {
+  content: '+';
+  font-size: 2em;
+  position: relative;
+  top: -50%;
+  grid-row: 1 / span 1;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(5)
-  > g:nth-child(2)
-  > path:nth-child(3) {
-  transform: translate(-35%, 1%);
-  stroke-width: 77;
-  stroke: #000;
-  fill: #000;
-  transform: translate(-35%, 1%) scale(0.8, 0.8);
-  transform-origin: 75% 25%;
+:is(.sourceBase, .sourceOverlay) > h3 > svg {
+  font-size: 4em;
+  height: 6em;
+  grid-row: 2 / span 1;
+}
+.sourceBase > h3 > svg {
+  font-size: 6em;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(5)
-  > g:nth-child(2)
-  > path:nth-child(1) {
-  transform: scale(0.68);
-  transform-origin: 95% -20%;
-  stroke-width: 100;
-  stroke: #000;
-  fill: #000;
+.controlgroup > h4 {
+  font-size: 0.9em;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(5)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(3) {
-  transform: translate(0, 0);
+.controlgroup > h5 {
+  display: grid;
+  place-content: center;
+  place-items: center;
+  grid-template: 1fr 1fr/1fr;
+}
+.controlgroup > h5 > svg {
+  font-size: 1.6em;
 }
 
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(5)
-  > g:nth-child(1)
-  > g:nth-child(2)
-  > path:nth-child(2) {
-  visibility: hidden;
-}
-
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(2),
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(4),
-section.svgListing:nth-child(19)
-  > div:nth-child(5)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > div:nth-child(1)
-  > svg:nth-child(1)
-  > g:nth-child(5)
-  > g:nth-child(2)
-  > path:nth-child(2) {
-  transform: scale(0.68);
+.controlgroup > h5 > span {
+  font-size: 0.8em;
+  align-self: end;
 }
 
 .iconRow,
@@ -477,13 +431,6 @@ section.svgListing:nth-child(19)
   height: var(--item-size);
 }
 
-.wrappedSVG:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
-.wrappedSVG ~ .wrappedSVG.duplicate {
-  height: auto;
-  width: 1em;
-}
-
 body {
   --n-item: ;
   margin: 0.6em 10em 0.6em 0.6em;
@@ -493,10 +440,9 @@ body {
   overflow: hidden scroll;
   inset: auto;
   display: grid;
-  grid-template-columns: repeat(
-      auto-fit,
-      [item-start]var(--item-size) [item-end]
-    ) [label-start]10vw[label-end];
+  grid-template-columns:
+    repeat(auto-fit, [item-start]var(--item-size) [item-end])
+    [label-start]10vw[label-end];
   column-gap: calc(var(--item-gap) * 4);
   width: calc(100vw - var(--rightgutter) - var(--leftmargin));
   grid-auto-flow: row dense;
@@ -522,75 +468,13 @@ body {
   position: sticky;
 }
 
-:is(section, .svgListing) > h2 {
-  inset: 20vh auto auto auto;
-  margin: -57vh 0 57vh;
-  grid-column: -2;
-  min-width: var(--item-size);
-  height: var(--item-size);
-  grid-row: auto;
-}
-
-.svgListing:not(:has(> h2))::before {
-  inset: 20vh auto auto auto;
-}
-
-:is(section, .svgListing),
-:is(section, .svgListing):has(> h2) {
-  bottom: 0;
-  top: 0;
-  z-index: unset;
-  margin: 0 max(10vw, 100px) 0 0;
-  height: auto;
-}
-
 .inner::before {
   z-index: auto;
-}
-
-.autoWrap,
-.snapsize {
-  display: contents;
-}
-
-section {
-  container-type: size;
-  contain: size;
-}
-
-.svgListing:not(:has(> h2))::before {
-  content: 'nameless';
-  font-style: italic;
-  letter-spacing: 0.2ch;
-  outline: 3px double #00f;
-  outline-offset: 1px;
 }
 
 fieldset,
 section {
   grid-column: 1/-1;
-}
-
-.svgListing > h2 {
-  outline: 3px dashed #f0f;
-  outline-offset: 1px;
-}
-
-.svgListing > .iconRow:first-of-type {
-  outline: 1px solid red;
-}
-
-.svgListing > .iconRow:last-of-type {
-  outline: 1.5px solid #ff0;
-}
-
-.inner:hover > *,
-:is(.iconRow:hover, .outer:hover) .inner > * {
-  outline: 1px dashed #aa0;
-}
-
-.svgActions {
-  grid-area: 1/-1/1/-1;
 }
 
 .iconRow:hover .inner .svgActions ~ .wrappedSVG,
@@ -599,9 +483,27 @@ section {
   align-self: start;
 }
 
+:is(section, .svgListing),
+:is(section, .svgListing):has(> h2) {
+  container-type: size;
+  contain: size;
+  background-color: #0000;
+  border: 0;
+  box-shadow: none;
+  bottom: 0;
+  top: 0;
+  z-index: unset;
+  margin: 0 max(10vw, 100px) 0 0;
+  height: auto;
+}
+.svgListing:not(:has(> h2))::before {
+  inset: 20vh auto auto auto;
+  content: 'nameless';
+  font-style: italic;
+  letter-spacing: 0.2ch;
+}
 .svgListing:not(:has(> h2))::before,
 :not(#a#b) :is(section, .svgListing) > h2 {
-  margin: -57vh 0 57vh;
   inset: var(--voff) auto calc(var(--voff) * -1) auto;
   margin: calc(var(--voff) * -1) 0 var(--voff) 0;
   grid-column: -1;
@@ -613,7 +515,6 @@ section {
   background-color: #a4a4;
 }
 
-.iconRow,
 .inner,
 .inner:hover,
 .outer {
@@ -626,27 +527,23 @@ section {
   grid-template: 1fr/1fr;
 }
 
-.iconRow .wrappedSVG,
-.svgActions {
+.iconRow .wrappedSVG {
   place-self: center;
   place-content: center;
   place-items: center;
 }
 
 .svgActions {
+  grid-area: 1/-1/1/-1;
   place-self: start center;
+  place-content: center;
+  place-items: center;
 }
 
 .iconRow {
+  place-self: center;
   position: sticky;
   inset: auto auto auto auto;
   box-shadow: calc(var(--item-gap) * 1) calc(var(--item-gap) * 2) 0
     calc(var(--item-gap) * 2) #222;
-}
-
-:is(section, .svgListing),
-:is(section, .svgListing):has(> h2) {
-  background-color: #0000;
-  border: 0;
-  box-shadow: none;
 }

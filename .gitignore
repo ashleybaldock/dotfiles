@@ -1,12 +1,12 @@
 
 com.apple.Terminal.plist
 
+*.swk
+*.swl
+*.swm
+*.swn
 *.swo
 *.swp
-*.swn
-*.swm
-*.swl
-*.swk
 *.s@([a-v][a-z]|w[a-p])
 *.tern-project
 .DS_Store

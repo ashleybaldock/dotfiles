@@ -1305,18 +1305,10 @@ ul {
   place-self: center;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(#222, #444, #222);
   background-size: contain;
   background-position: center;
   background-origin: content-box;
   background-repeat: no-repeat;
-}
-
-.combineList label:has(> [type='radio']:checked) {
-  background-image:
-    linear-gradient(45deg, #000, #0000, #000),
-    linear-gradient(-45deg, #000, #0000, #000),
-    linear-gradient(#222, #444, #222);
 }
 
 .combineList [type='radio'] {
@@ -1390,10 +1382,6 @@ section label {
 }
 
 .combineList label:has(> [type='radio']) {
-  background-image:
-    linear-gradient(45deg, #0002, 50%, #0008, 90%, #000a),
-    linear-gradient(-45deg, #0006, #000a, #4448),
-    linear-gradient(#000, #222, #444);
   min-height: 10vh;
   box-shadow:
     inset 1px 1px 1px 0 #eee4,
@@ -1401,10 +1389,6 @@ section label {
 }
 
 .combineList label:has(> [type='radio']:checked) {
-  background-image:
-    linear-gradient(45deg, #0002, 50%, #0008, 90%, #000a),
-    linear-gradient(-45deg, #0006, #000a, #4448),
-    linear-gradient(#000, #222, #444);
   box-shadow:
     inset 1px 1px 1px 0 #eee4,
     inset -1px -1px 2px 1px #000a;
@@ -1415,10 +1399,6 @@ section label {
 }
 
 .combineList label:has(> [type='radio']) {
-  background-image:
-    linear-gradient(45deg, #0002, 50%, #0008, 90%, #000a),
-    linear-gradient(-45deg, #0006, #000a, #4448),
-    linear-gradient(#000, #222, #444);
   min-height: 10vh;
   box-shadow:
     inset 1px 1px 1px 0 #eee4,
@@ -1431,10 +1411,6 @@ section label {
 }
 
 .combineList label:has(> [type='radio']:checked, > [type='radio'][checked]) {
-  background-image:
-    linear-gradient(45deg, #0002, 50%, #0008, 90%, #000a),
-    linear-gradient(-45deg, #0006, #000a, #4448),
-    linear-gradient(#000, #222, #444);
   box-shadow:
     inset 1px 1px 1px 0 #eee4,
     inset -1px -1px 2px 1px #000a;

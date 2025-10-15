@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.180
+// @version     1.0.181
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -395,9 +395,9 @@ const initBrowsePreview = ({ document }) => {
       interleave: defineToggle(false),
       maxInterleaved: defineNumber(8),
       interleaveDelay: defineNumber(500),
-      loop: defineToggle(true),
-      shuffle_on_loop: defineToggle(true),
-      reload_on_loop: defineToggle(true),
+      repeat: defineToggle(true),
+      shuffle_on_repeat: defineToggle(true),
+      reload_on_repeat: defineToggle(true),
       filter: defineString('.*\.mp4$'),
     };
   })({});
@@ -414,38 +414,38 @@ const initBrowsePreview = ({ document }) => {
       showOther,
       interleave,
       linear,
-      loop,
-      shuffle_on_loop,
-      reload_on_loop,
+      repeat,
+      shuffle_on_repeat,
+      reload_on_repeat,
     },
   }) => {
     return {
-      shuffle_on_loop: addToggle({
+      shuffle_on_repeat: addToggle({
         to: body,
         class: 'toggle',
-        id: 'toggle_shuffle_on_loop',
-        textContent: 'shuffle_on_loop',
-        name: 'shuffle_on_loop',
+        id: 'toggle_shuffle_on_repeat',
+        textContent: 'shuffle_on_repeat',
+        name: 'shuffle_on_repeat',
         checked: false,
-        bindTo: shuffle_on_loop,
+        bindTo: shuffle_on_repeat,
       }),
-      reload_on_loop: addToggle({
+      reload_on_repeat: addToggle({
         to: body,
         class: 'toggle',
-        id: 'toggle_reload_on_loop',
-        textContent: 'reload_on_loop',
-        name: 'reload_on_loop',
+        id: 'toggle_reload_on_repeat',
+        textContent: 'reload_on_repeat',
+        name: 'reload_on_repeat',
         checked: false,
-        bindTo: reload_on_loop,
+        bindTo: reload_on_repeat,
       }),
-      loop: addToggle({
+      repeat: addToggle({
         to: body,
         class: 'toggle',
-        id: 'toggle_loop',
-        textContent: 'loop',
-        name: 'loop',
+        id: 'toggle_repeat',
+        textContent: 'repeat',
+        name: 'repeat',
         checked: false,
-        bindTo: loop,
+        bindTo: repeat,
       }),
       grid: addToggle({
         to: body,
@@ -516,7 +516,7 @@ const initBrowsePreview = ({ document }) => {
 
   const getFileList = (
     ({
-      config: { loop, shuffle_on_loop, reload_on_loop, filter },
+      config: { repeat, shuffle_on_repeat, reload_on_repeat, filter },
       shuffleArray,
     }) =>
     () => {
@@ -561,11 +561,11 @@ const initBrowsePreview = ({ document }) => {
           files ?? load();
           const { done, value } = filesIter.next();
           if (done) {
-            if (loop.value) {
-              if (reload_on_loop.value) {
+            if (repeat.value) {
+              if (reload_on_repeat.value) {
                 load();
               }
-              if (shuffle_on_loop.value) {
+              if (shuffle_on_repeat.value) {
                 shuffleFiles();
               }
               filesIter = filteredFiles();
@@ -600,11 +600,11 @@ const initBrowsePreview = ({ document }) => {
         shuffle,
         reset,
         reload: () => load(),
-        get loop() {
-          return loop.value;
+        get repeat() {
+          return repeat.value;
         },
-        set loop(newValue) {
-          loop.value = newValue;
+        set repeat(newValue) {
+          repeat.value = newValue;
         },
         get filter() {
           return filter.value;
@@ -615,17 +615,17 @@ const initBrowsePreview = ({ document }) => {
           }
           filter.value = newValue;
         },
-        get shuffle_on_loop() {
-          return shuffle_on_loop.value;
+        get shuffle_on_repeat() {
+          return shuffle_on_repeat.value;
         },
-        set shuffle_on_loop(newValue) {
-          shuffle_on_loop.value = newValue;
+        set shuffle_on_repeat(newValue) {
+          shuffle_on_repeat.value = newValue;
         },
-        get reload_on_loop() {
-          return reload_on_loop.value;
+        get reload_on_repeat() {
+          return reload_on_repeat.value;
         },
-        set reload_on_loop(newValue) {
-          reload_on_loop.value = newValue;
+        set reload_on_repeat(newValue) {
+          reload_on_repeat.value = newValue;
         },
       };
     }
@@ -652,9 +652,9 @@ const initBrowsePreview = ({ document }) => {
       addToCountOnSuccess = -2;
 
     const filelist = getFileList({
-      loop: true,
+      repeat: true,
       shuffle: true,
-      shuffle_on_loop: true,
+      shuffle_on_repeat: true,
       include: {
         all: false,
         videos: true,
@@ -779,7 +779,7 @@ const initBrowsePreview = ({ document }) => {
       addWrappedVideo(container, { class: cl }),
     );
 
-    const filelist = getFileList({ loop: true, shuffle: false });
+    const filelist = getFileList({ repeat: true, shuffle: false });
 
     return {
       play: () => {

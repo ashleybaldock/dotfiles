@@ -64,7 +64,7 @@ Mx y[…️]z ╱ Axᴿ yᴿ 𝑎 𝐹̍ 𝐹̎ x y ┊
 ### ...at 2 arbitrary points
 
 ```pre
-Cx¹ y¹ x² y² x y ╱ *        ┊ …️ \nMx y …️
+Cx¹ y¹ x² y² x y ╱ *        ┊ …️ "\nMx" y …️
 
     […️]z ╱ Mx y             ┊ …️ \n …️
 Mx y[…️]z ╱ Lx y             ┊ …️ \nMx y …️

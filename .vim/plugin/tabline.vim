@@ -41,5 +41,5 @@ endfunction
 set guitablabel=%{GuiTabLabel()}
 
 function! GuiTabLabel() abort
-  return printf("tab %d/%d\n%s", tabpagenr(), tabpagenr('$'), bufname())
+  return printf(" ▄▄▄▄▄▄▄▄▄▄▄▄▄ %d  ╱\n  %d%=%s \n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", tabpagenr(), tabpagenr('$'), bufname())
 endfunction

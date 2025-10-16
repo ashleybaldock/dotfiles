@@ -3,6 +3,10 @@ if exists("g:mayhem_loaded_tabline")
 endif
 let g:mayhem_loaded_tabline = 1
 
+"
+" au BufWritePost <buffer> :silent UnsetAndReload
+"
+
 
 set guitabtooltip=%.400{%GuiTabToolTip()%}
 
@@ -38,8 +42,13 @@ function! GuiTabToolTip() abort
         \)})->join("\n"))
 endfunction
 
-set guitablabel=%{GuiTabLabel()}
+set guitablabel=%{%GuiTabLabel()%}
 
 function! GuiTabLabel() abort
-  return printf(" ▄▄▄▄▄▄▄▄▄▄▄▄▄ %d  ╱\n  %d%=%s \n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", tabpagenr(), tabpagenr('$'), bufname())
+  if tabpagenr() == get(t:, '__tid', -1)
+    return printf("▀▀         \n%d․   %-26.26s\n▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆", tabpagenr(), bufname())
+  else
+    return printf("\n%d․   %-40.40s\n▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", tabpagenr(), bufname())
+  endif
+  " return printf("█  ‸ ▪︎ ⚬        %%=\n  %d %%#HlUnderline#   %-40.40s\n▄ ▇▇▇▇▇▇▇▇▇▇▇▇▇▆▆▆▆▆▆▆▆⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺%%=", tabpagenr(), bufname())
 endfunction

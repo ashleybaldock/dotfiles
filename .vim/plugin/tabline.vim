@@ -50,12 +50,12 @@ function! GuiTabLabel() abort
 
   if tabpagenr() == get(t:, '__tid', -1)
     return [
-          \printf("%s", modified ? "_⃓  v̲͎ |̩̲   " : ""),
-          \printf("＋%d   %-25.25s", modified, bufname()->fnamemodify(":~:s?\\~\/dotfiles\/\.vim?(️v)️?")),
-          \printf("＋%s", "▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆")
+          \printf(" ̵̩̩  -⃤       ̵̩̩    ╷̵̵̵⃒⃒     %s", modified ? "     ⃯ _⃯   v̲͎  ‡    " : ""),
+          \printf("-⃤＋ %d   %-25.25s", modified, bufname()->fnamemodify(":~:s?\\~\/dotfiles\/\.vim?(️v)️?")),
+          \printf("%s", "▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆")
           \]->join("\n")
   else
-    return printf("\n%d․ ⦁%d․  %%<%%=%-26.26s%d+\n▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", tabpagenr(), bufname(), modified)
+    return printf("\n%d․ ⦁%d․  %%<%%=%-26.26s%d+\n▄▄▄▆̍̍̍̍̍̍̍▄▄ ̊̊̊̊̊̊▄▄ ̈̈̈̈̈̈̈▄▄▄ˈ▄▄|̩̲▄▄ ̥̥̥̥̥̥▄▄", tabpagenr(), bufname(), modified)
   endif
-  " return printf("█  ‸ ▪︎ ⚬        %%=\n  %d %-40.40s\n▄ ▇▇▇▇▇▇▇▇▇▇▇▇▇▆▆▆▆▆▆▆▆⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺%%=", tabpagenr(), bufname())
+  " return printf("█  ‸ ▪︎ ⚬ _̩̩̩̩̩̩__̻̻̻_̩̻̩̻_̩̩_⃓̶̩̩̩  ˌ̵⃒̩ ˌ̵⃒̩̣   ̵⃒̵̵⃒⃒⃒̣̩̣  ˌ̵⃒̩̩  ˌ̵⃒̩      ̤̤̤̤̤̤̤̤̤    ̬̬̬̬̬̬̬   ̩̩̩̩̩    ̣̣̣̣̣̣̣̣ |̶̲‖ˌˌˌ ˇ̑̑ˆ̴̬̬̬̬̬̬̬‸̣̣̣̣̣̣̣̣˖̩̩̣̣̣̣̩̩⸋̣     %%=\n  %d %-40.40s\n▄ ▇▇▇▇▇▇▇▇▇▇▇▇▇▆▆▆▆▆▆▆▆⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺%%=", tabpagenr(), bufname())
 endfunction

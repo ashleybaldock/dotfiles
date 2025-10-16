@@ -1,7 +1,8 @@
 
 com.apple.Terminal.plist
 
-*.s@([a-v][a-z]|w[a-p])
+**/*.sw[a-p]
+**/*.s[a-v][a-z]
 *.tern-project
 .DS_Store
 

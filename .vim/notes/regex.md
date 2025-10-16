@@ -139,6 +139,17 @@
 %s/path\_s\+d=\(["']\|%22\)\zs\_[MLVCSQTAmlhvcsqtaZz0-9. -]*\ze\1
 ```
 
+```reg
+s/pattern/e/g
+s/pattern/replacement/g
+s/pat\/tern/replac\/ement/g
+:%s/pattern/replace\0ment/g
+:%s$pattern$replace\0ment$g
+'<,'>s/pat\(capturing[1-9a-d]\)tern/repl\1acement/gc 23
+'<,'>s+pat\(capturing[1-9a-d]\)tern+repl\1acement+gc 23
+'<,'>s/pat\%(non-capturing[1-9a-d]\)tern/repl\1acement/gc 23
+```
+
 ## Copy matching texts to buffer
 
 ```vim
@@ -188,6 +199,7 @@ let m=[] | %s//\=add(m,[submatch(1, 1), submatch(3, 1), submatch(5, 1), submatch
 " |  match in current buffer  |               |lookup buffer|    match in lookup buffer     |  lines  |N|th match
 " |    removed-->|X||~~~|<--replaced(w/lookup)|  name/id    |     (lookup)     (replacement)| from to | | replacement string
 %s@name\s*=\s*"\zs$\(\w*\)\ze"@\=matchbufline('common.csv', '^'..submatch(1)..',\zs[^,]*\ze,', 1, '$')[0].text@
+%s/name\s*=\s*"\zs$\(\w*\)\ze"/\=matchbufline('common.csv', '^'..submatch(1)..',\zs[^,]*\ze,', 1, '$')[0].text/
 "                                                                                                                     
 %s@name\s*=\s*"\zs\w*\ze"@\=matchbufline(BUF, '^'..submatch(0)..',\zs[^,]*\ze,', 1, '$')->get(0, {})->get('text', 'default')@
 
@@ -199,13 +211,13 @@ function ReplaceWithLookup(r_in<string|buffer|list>, r_pat, l_pat, l_in<string|b
 
 ### Find first element of table to amend
 
-```vim
+```reg
 %s/\-\n| \({\)\@!\zs\(.*\)\ze$/
 ```
 
 ### Table row
 
-```vim
+```reg
 /|-\s*\zs\(\w*\)\ze\($\||\)\+
 ```
 
@@ -246,6 +258,11 @@ multibyte characters).
 
 ### pass 1, same value in first two cells
 
+```pre
+ \1   =\1  \2                           \2   \1    \1
+|420||420||420|| … ⮕  |data-sort-value="420"|420 - 420|| …
+```
+
 ```reg
 %s/^|
 \([^|]*\)||
@@ -254,9 +271,6 @@ multibyte characters).
 \ze
 \%([^|]*||\)\{6}
 [^|]*[^%]$
-
- \1   =\1  \2                           \2   \1    \1
-|420||420||420|| … ⮕  |data-sort-value="420"|420 - 420|| …
 
 %s/^|\([^|]*\)||\1||\([^|]*\)||\ze\%([^|]*||\)\{6}[^|]*[^%]$/|data-sort-value="\2"|\1||/
 ```

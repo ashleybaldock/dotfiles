@@ -45,10 +45,17 @@ endfunction
 set guitablabel=%{%GuiTabLabel()%}
 
 function! GuiTabLabel() abort
+  let modified = tabpagebuflist(v:lnum)
+        \->reduce({acc, bufnr -> acc + getbufvar(bufnr, "&modified", 0)}, 0)
+
   if tabpagenr() == get(t:, '__tid', -1)
-    return printf("▀▀         \n%d․   %-26.26s\n▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆", tabpagenr(), bufname())
+    return [
+          \printf("%s", modified ? "_⃓  v̲͎ |̩̲   " : ""),
+          \printf("＋%d   %-25.25s", modified, bufname()->fnamemodify(":~:s?\\~\/dotfiles\/\.vim?(️v)️?")),
+          \printf("＋%s", "▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆")
+          \]->join("\n")
   else
-    return printf("\n%d․   %-40.40s\n▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", tabpagenr(), bufname())
+    return printf("\n%d․ ⦁%d․  %%<%%=%-26.26s%d+\n▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", tabpagenr(), bufname(), modified)
   endif
-  " return printf("█  ‸ ▪︎ ⚬        %%=\n  %d %%#HlUnderline#   %-40.40s\n▄ ▇▇▇▇▇▇▇▇▇▇▇▇▇▆▆▆▆▆▆▆▆⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺%%=", tabpagenr(), bufname())
+  " return printf("█  ‸ ▪︎ ⚬        %%=\n  %d %-40.40s\n▄ ▇▇▇▇▇▇▇▇▇▇▇▇▇▆▆▆▆▆▆▆▆⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺%%=", tabpagenr(), bufname())
 endfunction

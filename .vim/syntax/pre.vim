@@ -25,10 +25,15 @@ syn match preBox /[\u2500-\u257f]\+/ contains=NONE
 syn match preEscaped /\%(\\\S[^)\u2500-\u257f \\]*\)\+/
 syn region preInSquare matchgroup=preSquare start=/\[/ end=/\]/ oneline contains=preInSquare,preYes,preNo,preMaybe
 
+syn match TagsUnknown /[\Ue0000\Ue0002-\Ue001f]/
+syn match TagLang /[\Ue0001]/
+syn match TagCancel /[\Ue007f]/
+syn match TagsUpper /[\Ue0020-\Ue0060\Ue007b-\Ue007e]/
+syn match TagsLower /[\Ue0061-\Ue007a]/
 
 syn region TagA 
-      \start=+󠁁+
-      \end=+󠁡+
+      \ start=+\%Ue0041+
+      \ end=+\%Ue0061+
 
 hi def TagA guifg=#ff00ff
 

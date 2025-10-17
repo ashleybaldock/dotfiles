@@ -16,6 +16,14 @@
         --filter-outline: url(#filter-outline);
         --filter-coloroutline: url(#filter-coloroutline);
         --filter-softoutline: url(#filter-softoutline);
+
+        --filter-turbulence1: url(#filter-turbulence1);
+
+        --clipPath-demo-objectBoundingBox: url(#demo-ClipPath-objectBoundingBox);
+        --clipPath-demo-userSpaceOnUse: url(#demo-ClipPath-userSpaceOnUse);
+
+        --mask-demo-objectBoundingBox: url(#demo-Mask-objectBoundingBox);
+        --mask-demo-userSpaceOnUse: url(#demo-Mask-userSpaceOnUse);
       }
     </style>
   </head>
@@ -34,7 +42,6 @@
           clipPathUnits="userSpaceOnUse">
           <circle cx="50" cy="50" r="35" />
         </clipPath>
-          <!-- primitiveUnits="userSpaceOnUse" -->
 
         <mask
           id="demo-Mask-userSpaceOnUse"
@@ -47,7 +54,6 @@
           <rect fill="black" x="0" y="0" width="100%" height="100%" />
           <circle fill="white" cx="50" cy="50" r="35" />
         </mask>
-
         <mask
           id="demo-Mask-objectBoundingBox"
           maskUnits="objectBoundingBox"
@@ -60,10 +66,14 @@
           <circle fill="white" cx="50" cy="50" r="35" />
         </mask>
 
+        <filter id="filter-turbulence1">
+          <feTurbulence result="TURBULENCE" baseFrequency="0.08" numOctaves="1" seed="1" />
+          <feDisplacementMap in="SourceGraphic" in2="TURBULENCE" scale="9" />
+        </filter>
+
         <filter id="filter-fillandoutline"
           x="-10%" y="-10%" width="120%" height="120%"
-          filterUnits="objectBoundingBox"
-          >
+          filterUnits="objectBoundingBox" primitiveUnits="objectBoundingBox">
           <feMorphology
             in="SourceAlpha"
             operator="dilate"
@@ -103,6 +113,7 @@
 
         <filter id="filter-coloroutline" 
           x="-10%" y="-10%" width="120%" height="120%"
+          primitiveUnits="objectBoundingBox"
           filterUnits="objectBoundingBox">
           <feFlood
             flood-opacity="1"
@@ -148,6 +159,7 @@
 
         <filter id="filter-softoutline"
           x="-10%" y="-10%" width="120%" height="120%"
+          primitiveUnits="objectBoundingBox"
           filterUnits="objectBoundingBox">
           <feMorphology
             in="SourceAlpha"
@@ -212,16 +224,17 @@
     <h2>Filters</h2>
 
     <section class="demo">
-      <article style="--f: url(#fillandoutline)">
+      <h2>Text Outlining</h2>
+      <article style="--f: var(--filter-fillandoutline)">
         <h3>Fill and Outline</h3>
       </article>
-      <article style="--f: url(#outline)">
+      <article style="--f: var(--filter-outline)">
         <h3>Outline</h3>
       </article>
-      <article style="--f: url(#coloroutline)">
+      <article style="--f: var(--filter-coloroutline)">
         <h3>Color Outline</h3>
       </article>
-      <article style="--f: url(#softoutline)">
+      <article style="--f: var(--filter-softoutline)">
         <h3>Soft Outline</h3>
       </article>
     </section>
@@ -229,9 +242,12 @@
     <section class="demo">
       <h2>Basic CSS Filters</h2>
 
-      <article style="--f: var(--f-tinydots)">
+      <article style="--f: var(--filter-turbulence1)">
+        <h3>Turbulence<h3>
+      </article>
+
+      <article style="--f: var(--filter-tinydots)">
         <h3>Tiny dots<h3>
-        <div class="svg"></div>
       </article>
     </section>
   </body>

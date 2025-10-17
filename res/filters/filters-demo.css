@@ -1,5 +1,5 @@
 .svgdefs {
-  display: none;
+  visibility: hidden;
 }
 
 :is(.demo, .demos) > article > :is(h2, p, svg, img) {

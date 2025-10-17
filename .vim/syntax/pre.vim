@@ -26,6 +26,12 @@ syn match preEscaped /\%(\\\S[^)\u2500-\u257f \\]*\)\+/
 syn region preInSquare matchgroup=preSquare start=/\[/ end=/\]/ oneline contains=preInSquare,preYes,preNo,preMaybe
 
 
+syn region TagA 
+      \start=+󠁁+
+      \end=+󠁡+
+
+hi def TagA guifg=#ff00ff
+
 syn match preArrows /[\u2190-\u21ff\u2798-\u27af\u27b1-\u27be\u27f0-\u27ff\u2900-\u297f\u2b00-\u2b11\u2b30-\u2b4f\u2b5a-\u2b73\u2b80-\u2b94\u2b95]\+/ contains=NONE
 
 let end_l = '◀◀◂◁◃◅'

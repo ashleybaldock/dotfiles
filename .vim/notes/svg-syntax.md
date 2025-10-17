@@ -160,7 +160,86 @@ Only absolute coordinates need to be changed
 - width
 - result: <ident>
 
+### feColorMatrix
+- in: 
+  - <ident>|SourceGraphic|SourceAlpha|BackgroundAlpha|FillPaint|StrokePaint
+  - SourceGraphic
+  - SourceAlpha
+  - BackgroundAlpha
+  - BackgroundImage
+  - FillPaint
+  - StrokePaint
+  - or a reference to another filter primitive.
 
+type: Values include
+  - matrix
+  - saturate
+  - hueRotate
+  - luminanceToAlpha
+
+values: The value for the matrix type set in the type attribute.
+
+
+```css
+*:has(> img) {
+  background-size: 10% 10%;
+  background-repeat: round round;
+  background-image: repeating-conic-gradient(from 45deg,#111 0 90deg ,#191919 90deg 180deg);
+}
+img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  filter: brightness(0.4) contrast(0.5);
+  filter: contrast(0.5) brightness(0.4);
+  filter: saturate(16) contrast(0.6) brightness(0.7);
+  filter: var(--filter-feColorMatrix, brightness(0.4));
+/*   filter: brightness(0.5) opacity(0.5); */
+}
+
+img:hover {
+}
+
+
+:root {
+  --filter-feColorMatrix: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cdefs%3E%3Cfilter \
+  id=%22\
+filter-feColorMatrix\
+%22  %3E%3CfeColorMatrix \
+    type=%22\
+matrix\
+    %22 \
+    values=%22\
+    0.5  0.5    0.5   0    0 \
+    0    0.33  0    0    0 \
+    0    0    0.33  0    0 \
+    0.2  0.1  0.1  0.5  -0.52 \
+    %22/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E\
+    #filter-feColorMatrix\
+');;
+}
+
+/*
+
+in: Values include 
+  - SourceGraphic
+  - SourceAlpha
+  - BackgroundImage
+  - BackgroundAlpha
+  - FillPaint
+  - StrokePaint
+  - or a reference to another filter primitive.
+
+type: Values include
+  - matrix
+  - saturate
+  - hueRotate
+  - luminanceToAlpha
+
+values: The value for the matrix type set in the type attribute.
+
+*/
+```
 
 
 

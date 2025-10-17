@@ -10,19 +10,20 @@ let g:mayhem_loaded_tabline = 1
 
 set guitabtooltip=%.400{%GuiTabToolTip()%}
 
-let abbrpaths = [
-      \ ":s?\\~\/dotfiles\/\.vim\/after/ftplugin?(️v/a/f)️?",
-      \ ":s?\\~\/dotfiles\/\.vim\/after/plugin?(️v/a/p)️?",
-      \ ":s?\\~\/dotfiles\/\.vim\/after/syntax?(️v/a/s)️?",
-      \ ":s?\\~\/dotfiles\/\.vim\/autoload?(️v/au)️?",
-      \ ":s?\\~\/dotfiles\/\.vim\/colors?(️v/cl)️?",
-      \ ":s?\\~\/dotfiles\/\.vim\/ftplugin?(️v/f)️?",
-      \ ":s?\\~\/dotfiles\/\.vim\/plugin?(️v/p)️?",
-      \ ":s?\\~\/dotfiles\/\.vim\/syntax?(️v/s)️?",
-      \ ":s?\\~\/dotfiles\/\.vim\/templates?(️v/tpl)️?",
-      \ ":s?\\~\/dotfiles\/\.vim\/notes?(️v/notes)️?",
-      \ ":s?\\~\/dotfiles\/\.vim?(️v)️?",
-      \]
+let s:abbrpaths = [
+      \ ":s?\\~\/dotfiles\/\.vim\/after/ftplugin?𝙫∕𝙖/𝙛⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/after/plugin?𝙫∕𝙖/𝙥⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/after/syntax?𝙫∕𝙖/𝙨⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/autoload?𝙫∕𝙖𝙪⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/colors?𝙫∕𝙘𝙡⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/ftplugin?𝙫∕𝙛⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/plugin\/?𝙫∕𝙥⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/syntax?𝙫∕𝙨⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/templates?𝙫∕𝙩𝙥𝙡⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/notes?𝙫∕𝙣𝙤𝙩𝙚𝙨⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/?𝙫⋮?",
+      \ ":s?\\~\/googledrive\/projects\/?𝒈𝑷⋮?",
+      \]->join('')
 " 𝙪𝙣𝙣𝙖𝙢𝙚𝙙
 " 𝘶𝘯𝘯𝘢𝘮𝘦𝘥
 " 𝓊𝓃𝓃𝒶𝓂ℯ𝒹
@@ -37,7 +38,8 @@ function! GuiTabToolTip() abort
         \ tabpagenr()
         \->tabpagebuflist()
         \->map({i, bufnr -> printf("%s %s",
-        \ bufname(bufnr)->empty() ? "%#HlItalic#𝑢𝑛𝑛𝑎𝑚𝑒𝑑%*" : bufname(bufnr)->fnamemodify(":~:s?\\~\/dotfiles\/\.vim?(️v)️?"),
+        \ bufname(bufnr)->empty() ? "%#HlItalic#𝑢𝑛𝑛𝑎𝑚𝑒𝑑%*" : bufname(bufnr)
+        \ ->fnamemodify(":~"..s:abbrpaths),
         \ getbufvar(bufnr, "&modified") ? '+' : getbufvar(bufnr, "&modifiable") == 0 ? '-' : ''
         \)})->join("\n"))
 endfunction
@@ -51,7 +53,8 @@ function! GuiTabLabel() abort
   if tabpagenr() == get(t:, '__tid', -1)
     return [
           \printf("   %s", modified ? " ̵̩̩" : " "),
-          \printf("%d	%-32.32s", modified, bufname()->fnamemodify(":~:s?\\~\/dotfiles\/\.vim?(️v)️?")),
+          \printf("%d	%-32.32s", modified, bufname()
+          \ ->fnamemodify(":~"..s:abbrpaths)),
           \printf("%s", "▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ ")
           \]->join("\n")
   else

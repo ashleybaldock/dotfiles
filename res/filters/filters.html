@@ -10,37 +10,58 @@
     <link rel="stylesheet" href="filters.css" />
     <link rel="stylesheet" href="filters-demo.css" />
 
-    <!--<script type="application/javascript" src="/entanglement.js"></script>
-
-    <script>
-      entanglement().then((untangle) => {
-        console.log(untangle);
-      });
-    </script>-->
-    <!--}}}-->
+    <style>
+      :root {
+        --filter-fillandoutline: url(#filter-fillandoutline);
+        --filter-outline: url(#filter-outline);
+        --filter-coloroutline: url(#filter-coloroutline);
+        --filter-softoutline: url(#filter-softoutline);
+      }
+    </style>
   </head>
+
   <body>
     <aside class="svgdefs">
     <svg xmlns="http://www.w3.org/2000/svg">
       <defs>
         <clipPath
-          id="objectBoundingBoxClipPath"
+          id="demo-ClipPath-objectBoundingBox"
           clipPathUnits="objectBoundingBox">
           <circle cx=".5" cy=".5" r=".35" />
         </clipPath>
         <clipPath
-          id="userSpaceOnUseClipPath"
+          id="demo-ClipPath-userSpaceOnUse"
           clipPathUnits="userSpaceOnUse">
           <circle cx="50" cy="50" r="35" />
         </clipPath>
           <!-- primitiveUnits="userSpaceOnUse" -->
 
-        <filter
-          id="fillandoutline"
-          x="-10%"
-          y="-10%"
-          width="120%"
-          height="120%"
+        <mask
+          id="demo-Mask-userSpaceOnUse"
+          maskUnits="userSpaceOnUse"
+          maskContentUnits="userSpaceOnUse"
+          x="20%"
+          y="20%"
+          width="60%"
+          height="60%">
+          <rect fill="black" x="0" y="0" width="100%" height="100%" />
+          <circle fill="white" cx="50" cy="50" r="35" />
+        </mask>
+
+        <mask
+          id="demo-Mask-objectBoundingBox"
+          maskUnits="objectBoundingBox"
+          maskContentUnits="objectBoundingBox"
+          x="20%"
+          y="20%"
+          width="60%"
+          height="60%">
+          <rect fill="black" x="0" y="0" width="100%" height="100%" />
+          <circle fill="white" cx="50" cy="50" r="35" />
+        </mask>
+
+        <filter id="filter-fillandoutline"
+          x="-10%" y="-10%" width="120%" height="120%"
           filterUnits="objectBoundingBox"
           >
           <feMorphology
@@ -79,11 +100,10 @@
             <feMergeNode in="SOURCE-RECOLOR"></feMergeNode>
           </feMerge>
         </filter>
-      </defs>
-    </svg>
-    <svg xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="coloroutline" clipPathUnits="objectBoundingBox">
+
+        <filter id="filter-coloroutline" 
+          x="-10%" y="-10%" width="120%" height="120%"
+          filterUnits="objectBoundingBox">
           <feFlood
             flood-opacity="1"
             flood-color="#006cbf"
@@ -126,11 +146,9 @@
           </feMerge>
         </filter>
 
-      </defs>
-    </svg>
-    <svg xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="softoutline" clipPathUnits="objectBoundingBox">
+        <filter id="filter-softoutline"
+          x="-10%" y="-10%" width="120%" height="120%"
+          filterUnits="objectBoundingBox">
           <feMorphology
             in="SourceAlpha"
             operator="dilate"
@@ -190,6 +208,7 @@
       </defs>
     </svg>
     </aside>
+
     <h2>Filters</h2>
 
     <section class="demo">

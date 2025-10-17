@@ -171,7 +171,7 @@ Only absolute coordinates need to be changed
   - StrokePaint
   - or a reference to another filter primitive.
 
-type: Values include
+type:
   - matrix
   - saturate
   - hueRotate

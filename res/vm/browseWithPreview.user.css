@@ -123,6 +123,27 @@
     --icon: var(--icon-pause);
 }
 
+.toggle[name=repeat]>label {
+    --icon: var(--icon-repeat-off);
+}
+.toggle[name=repeat]:has(:checked)>label {
+    --icon: var(--icon-repeat);
+}
+
+.toggle[name=reload_on_repeat]>label {
+    --icon: var(--icon-repeat-reload-off);
+}
+.toggle[name=reload_on_repeat]:has(:checked)>label {
+    --icon: var(--icon-repeat-reload);
+}
+
+.toggle[name=shuffle_on_repeat]>label {
+    --icon: var(--icon-repeat-shuffle-off);
+}
+.toggle[name=shuffle_on_repeat]:has(:checked)>label {
+    --icon: var(--icon-repeat-shuffle);
+}
+
 .next,.prev,.stop,.toggle[name=pause]>label,.toggle[name=shuffle]>label {
     background-repeat: no-repeat;
     background-position: center;

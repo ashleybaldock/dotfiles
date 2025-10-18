@@ -32,10 +32,13 @@ syn match TagsUpper /[\Ue0020-\Ue0060\Ue007b-\Ue007e]/
 syn match TagsLower /[\Ue0061-\Ue007a]/
 
 syn region TagA 
-      \ start=+\%Ue0041+
-      \ end=+\%Ue0061+
+      \ matchgroup=TagsUpper start=+\%Ue0041+
+      \ matchgroup=TagsLower end=+\%Ue0061+
 
 hi def TagA guifg=#ff00ff
+
+syn match preEqVar /\s\@1<=[𝝼𝛼𝛽𝓍𝓎].\{-}\s/ contains=NONE
+hi def preEqVar guifg=#f56cff
 
 syn match preArrows /[\u2190-\u21ff\u2798-\u27af\u27b1-\u27be\u27f0-\u27ff\u2900-\u297f\u2b00-\u2b11\u2b30-\u2b4f\u2b5a-\u2b73\u2b80-\u2b94\u2b95]\+/ contains=NONE
 

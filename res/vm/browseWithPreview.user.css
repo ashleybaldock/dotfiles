@@ -1372,7 +1372,14 @@ body>table>:is(tbody) {
 }
 body {
   column-gap: 1ch;
-  grid-template-rows: [top preview-start index-start]auto[index-end]auto[preview-end options-start]auto[options-end files-start]auto auto[files-end bottom];
+  grid-template-rows: [top
+    preview-start index-start]auto[index-end
+    ]auto[preview-end
+    options-start]auto[options-end
+    files-start]auto auto[files-end
+    bottom];
+  grid-template-columns: [left
+    index-start preview-start options-start files-start]repeat(20,auto)[files-end options-end preview-end index-end right];
 }
 
 

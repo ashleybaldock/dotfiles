@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.183
+// @version     1.0.186
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -46,8 +46,10 @@ const overrideFileListClicks = () => {
 
 const addToggle = ({
   to,
+  name,
   tag = 'input',
   type = 'checkbox',
+  id = `toggle_${name}`,
   bindTo,
   checked = bindTo?.value ?? false,
   textContent = '',
@@ -422,44 +424,31 @@ const initBrowsePreview = ({ document }) => {
     return {
       shuffle_on_repeat: addToggle({
         to: body,
-        class: 'toggle',
-        id: 'toggle_shuffle_on_repeat',
-        textContent: 'Shuffle on playlist repeat',
+        textContent: 'Shuffle playlist every repeat',
         name: 'shuffle_on_repeat',
-        checked: false,
         bindTo: shuffle_on_repeat,
       }),
       reload_on_repeat: addToggle({
         to: body,
-        class: 'toggle',
-        id: 'toggle_reload_on_repeat',
-        textContent: 'Reload file list on playlist repeat',
+        textContent: 'Reload folder contents on playlist repeat',
         name: 'reload_on_repeat',
-        checked: false,
         bindTo: reload_on_repeat,
       }),
       repeat: addToggle({
         to: body,
-        class: 'toggle',
-        id: 'toggle_repeat',
         textContent: 'Repeat playlist',
         name: 'repeat',
-        checked: false,
         bindTo: repeat,
       }),
       grid: addToggle({
         to: body,
-        class: 'toggle',
-        id: 'toggle_grid',
-        textContent: 'grid',
-        name: 'Show as grid',
-        checked: false,
+        textContent: 'Show as grid',
+        name: 'grid',
         bindTo: showGrid,
       }),
       grid_fit: addSequenceToggle({
         to: body,
-        class: 'sequencetoggle',
-        id: 'toggle_grid_fit',
+        textContent: 'Fit mode for grid items',
         name: 'gridfit',
         bindTo: grid_fit,
         sequence: fit_options.map((fit) => ({
@@ -468,47 +457,32 @@ const initBrowsePreview = ({ document }) => {
       }),
       interleave: addToggle({
         to: body,
-        class: 'toggle',
-        id: 'toggle_interleave',
-        textContent: 'interleave',
+        textContent: 'Interleaved playback',
         name: 'interleave',
-        checked: true,
         bindTo: interleave,
       }),
       linear: addToggle({
         to: body,
-        class: 'toggle',
-        id: 'toggle_linear',
-        textContent: 'linear',
+        textContent: 'Linear playback',
         name: 'linear',
-        checked: false,
         bindTo: linear,
       }),
       images: addToggle({
         to: body,
-        class: 'toggle',
-        id: 'toggle_images',
-        textContent: 'images',
+        textContent: 'Include image files',
         name: 'images',
-        checked: true,
         bindTo: showImages,
       }),
       video: addToggle({
         to: body,
-        class: 'toggle',
-        id: 'toggle_video',
-        textContent: 'video',
+        textContent: 'Include video files',
         name: 'video',
-        checked: true,
         bindTo: showVideo,
       }),
       other: addToggle({
         to: body,
-        class: 'toggle',
-        id: 'toggle_other',
-        textContent: 'other',
+        textContent: 'Include other files',
         name: 'other',
-        checked: false,
         bindTo: showOther,
       }),
     };

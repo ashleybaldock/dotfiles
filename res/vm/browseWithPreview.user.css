@@ -1448,3 +1448,79 @@ body {
 :root {
   --offset-tip: 0.2em;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+#UI_goUp, #UI_showHidden, .toggle {
+  /* flex-direction: column; */
+  /* display: flex !important; */
+}
+#UI_goUp {
+  
+}
+
+:not(#a) :where(#UI_goUp, #UI_showHidden, .toggle) {
+  display: grid;
+  margin: 1.4em;
+}
+:not(#a) :where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
+  inset: auto auto calc(100% + var(--offset-tip)) auto;
+  min-width: 100px;
+  max-width: 200px;
+  min-height: 2lh;
+  height: auto;
+  width: auto;
+/*   max-height: 5lh; */
+  position:  absolute;
+  display: grid;
+  inset: auto auto 100% auto;
+  align-self: center;
+  place-items: center;
+  margin: 1em;
+  background-color: #000;
+  border: 0.5px solid #c00;
+  padding: 0.2em 1ch;
+  border-radius: 3px;
+  font-size: 1rem;
+  transition: opacity 140ms ease 50ms;
+  box-shadow: calc(var(--x) + 1 * var(--w)) calc(var(--y) + var(--h) + 0 * var(--w)) 0 calc((0.5 * var(--a) + 0.25 * var(--w))) #f00;
+  --a: 0px;
+  --x: 0px;
+  --y: 0px;
+  --w: 20px;
+  --h: 0px;
+}
+:not(#a) :where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle):hover::after {
+  transition: opacity 80ms ease 0s;
+}
+:not(#a) :where(#UI_goUp, #UI_showHidden, .toggle) > label {
+  background: none;
+  aspect-ratio: 1;
+}
+
+:not(#a#b)  #UI_goUp::after {
+  content: 'fefefe wfewfe wwfwefw';
+  justify-content: start;
+  opacity: 1;
+  left: 0;
+}
+
+:not(#a#b) #UI_showHidden::after {
+  content: 'fefefew fewfeww fwefw';
+  justify-self: end;
+/*   justify-content: end; */
+  right: 0;
+}
+
+:root {
+  --offset-tip: 0.2em;
+}

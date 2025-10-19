@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.195
+// @version     1.0.196
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -117,7 +117,7 @@ const addSequenceToggle = ({
       'data-value': value,
       'data-text': textContent,
     });
-    const span = GM_addElement(label, 'span', {
+    GM_addElement(label, 'span', {
       class: 'tip',
       textContent,
     });

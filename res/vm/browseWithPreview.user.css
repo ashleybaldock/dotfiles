@@ -390,6 +390,32 @@
     -1px -1px 0.2px #000;
 }
 
+.interleave>.vidwrap::after {
+  --text-shadow:
+    var(--tot－) var(--tot０) var(--tob) var(--toc_▲),
+    var(--tot＋) var(--tot０) var(--tob) var(--toc_▶︎),
+    var(--tot０) var(--tot＋) var(--tob) var(--toc_◀︎),
+    var(--tot０) var(--tot－) var(--tob) var(--toc_▼),
+    var(--tot－) var(--tot－) var(--tob) var(--toc_◤),
+    var(--tot＋) var(--tot－) var(--tob) var(--toc_◥),
+    var(--tot＋) var(--tot＋) var(--tob) var(--toc_◢),
+    var(--tot－) var(--tot＋) var(--tob) var(--toc_◣);
+  text-shadow: var(--text-shadow);
+  --tot＋: calc(var(--text-outline-thickness) * 0.5);
+  --tot－: calc(var(--text-outline-thickness) * -0.5);
+  --tot０: 0;
+  --tob: 0.1px;
+  --toc: var(--text-outline-color, #000);
+  --toc_▲: var(--toc);
+  --toc_▶︎: var(--toc);
+  --toc_◀︎: var(--toc);
+  --toc_▼: var(--toc);
+  --toc_◤: var(--toc);
+  --toc_◥: var(--toc);
+  --toc_◢: var(--toc);
+  --toc_◣: var(--toc);
+}
+
 body {
   padding: 0;
   margin: 0;

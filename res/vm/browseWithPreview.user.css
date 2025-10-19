@@ -267,6 +267,7 @@
     padding: 0;
     --playerHeight: 90vh;
     --playerWidth: 100vw;
+    --offset-tip: 0.2em;
 }
 
 @keyframes translate {
@@ -980,18 +981,13 @@ table>tbody>tr:hover::before {
 }
 
 .toggle::after {
-    content: attr(text);
+    content: attr(data-text);
 }
-:is(#UI_goUp)::after {
+#UI_goUp::after {
   content: 'Parent directory';
 }
-
-:is(#UI_showHidden)::after {
+#UI_showHidden::after {
   content: 'Show Hidden Files';
-}
-
-#UI_showHidden {
-    display: grid;
 }
 
 h1,table td,table th {
@@ -1392,3 +1388,63 @@ body {
 
 
 
+
+
+
+
+
+
+
+
+#UI_goUp, #UI_showHidden, .toggle {
+  /* flex-direction: column; */
+  /* display: flex !important; */
+}
+#UI_goUp {
+  
+}
+
+:not(#a) :where(#UI_goUp, #UI_showHidden, .toggle) {
+  display: grid;
+  margin: 0;
+}
+:not(#a) :where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
+  inset: auto auto calc(100% + var(--offset-tip)) auto;
+  width: 110%;
+  width: fit-content;
+  opacity: 1;
+  position:  absolute;
+  display: grid;
+  background-color: #0f08;
+  overflow: hidden;
+  overflow: visible;
+  margin: 0 -100%;
+  inset: auto auto 100% auto;
+  align-self: start;
+}
+:not(#a) :where(#UI_goUp, #UI_showHidden, .toggle) > label {
+  background: none;
+  aspect-ratio: 1;
+}
+
+:not(#a#b)  #UI_goUp::after {
+  content: 'fefefewfewfewwfwefw';
+  justify-content: start;
+  margin-left: 1em;
+  outline: 1px solid red;
+  opacity: 1;
+}
+
+:not(#a#b) #UI_showHidden::after {
+  content: 'fefefewfewfewwfwefw';
+  justify-self: end;
+  justify-content: end;
+  margin-right: 1em;
+  outline: 1px solid red;
+  opacity: 1;
+  right: 0;
+}
+
+:root {
+  --offset-tip: 0.2em;
+}

@@ -1357,10 +1357,6 @@ body>table>:is(tbody) {
 :is(#UI_goUp) {
   grid-column: 1;
 }
-:is(#UI_goUp) > * {
-  aspect-ratio: unset;
-}
-
 :is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
   white-space: normal;
   display: flex;
@@ -1396,90 +1392,16 @@ body {
 
 
 
-#UI_goUp, #UI_showHidden, .toggle {
-  /* flex-direction: column; */
-  /* display: flex !important; */
-}
-#UI_goUp {
-  
-}
-
 :not(#a) :where(#UI_goUp, #UI_showHidden, .toggle) {
-  display: grid;
-  margin: 0;
-}
-:not(#a) :where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
-  inset: auto auto calc(100% + var(--offset-tip)) auto;
-  width: 110%;
-  width: fit-content;
-  opacity: 1;
-  position:  absolute;
-  display: grid;
-  background-color: #0f08;
-  overflow: hidden;
-  overflow: visible;
-  margin: 0 -100%;
-  inset: auto auto 100% auto;
-  align-self: start;
-}
-:not(#a) :where(#UI_goUp, #UI_showHidden, .toggle) > label {
-  background: none;
-  aspect-ratio: 1;
-}
-
-:not(#a#b)  #UI_goUp::after {
-  content: 'fefefewfewfewwfwefw';
-  justify-content: start;
-  margin-left: 1em;
-  outline: 1px solid red;
-  opacity: 1;
-}
-
-:not(#a#b) #UI_showHidden::after {
-  content: 'fefefewfewfewwfwefw';
-  justify-self: end;
-  justify-content: end;
-  margin-right: 1em;
-  outline: 1px solid red;
-  opacity: 1;
-  right: 0;
-}
-
-:root {
-  --offset-tip: 0.2em;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-#UI_goUp, #UI_showHidden, .toggle {
-  /* flex-direction: column; */
-  /* display: flex !important; */
-}
-#UI_goUp {
-  
-}
-
-:not(#a) :where(#UI_goUp, #UI_showHidden, .toggle) {
-  display: grid;
+  display: grid !important;
   margin: 1.4em;
 }
 :not(#a) :where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
-  inset: auto auto calc(100% + var(--offset-tip)) auto;
   min-width: 100px;
   max-width: 200px;
   min-height: 2lh;
   height: auto;
   width: auto;
-/*   max-height: 5lh; */
   position:  absolute;
   display: grid;
   inset: auto auto 100% auto;
@@ -1492,12 +1414,17 @@ body {
   border-radius: 3px;
   font-size: 1rem;
   transition: opacity 140ms ease 50ms;
-  box-shadow: calc(var(--x) + 1 * var(--w)) calc(var(--y) + var(--h) + 0 * var(--w)) 0 calc((0.5 * var(--a) + 0.25 * var(--w))) #f00;
-  --a: 0px;
+  --a: -2px;
   --x: 0px;
   --y: 0px;
-  --w: 20px;
-  --h: 0px;
+  --w: 10px;
+  --h: 10px;
+  box-shadow: 
+    calc(0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) 0 calc(var(--a)) #f0ac,
+    calc(0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) 0 calc(var(--a)) #a0fc,
+    calc(-0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) 0 calc(var(--a))  #a0ac,
+    calc(-0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) 0 calc(var(--a))  #f0fc,
+    0 0 #0000;
 }
 :not(#a) :where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle):hover::after {
   transition: opacity 80ms ease 0s;
@@ -1508,16 +1435,13 @@ body {
 }
 
 :not(#a#b)  #UI_goUp::after {
-  content: 'fefefe wfewfe wwfwefw';
   justify-content: start;
   opacity: 1;
   left: 0;
 }
 
 :not(#a#b) #UI_showHidden::after {
-  content: 'fefefew fewfeww fwefw';
   justify-self: end;
-/*   justify-content: end; */
   right: 0;
 }
 

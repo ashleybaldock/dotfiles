@@ -50,9 +50,10 @@
     %3C/svg%3E');
     
     --icon-repeat: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z%22%3E%3C/path%3E%3C/svg%3E');
-    --icon-repeat-off:;
-    --icon-repeat-reload:;
-    --icon-repeat-reload-off:;
+    --icon-repeat-off: ;
+
+    --icon-repeat-reload: ;
+    --icon-repeat-reload-off: ;
     
     --icon-repeat-shuffle: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E\
     %3C!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--%3E\
@@ -144,7 +145,7 @@
     %3C/g%3E\
     %3C/svg%3E');
     
-    --icon-repeat-shuffle-off:;
+    --icon-repeat-shuffle-off: ;
     
     background-repeat: no-repeat;
     background-position: center;
@@ -1337,3 +1338,43 @@ body>table>:is(tbody) {
 .sequencetoggle>label,.sequencetoggle>label:has(>:checked) {
     background-image: none;
 }
+
+
+:is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle) > * {
+  height: auto;
+  width: 100%;
+  place-self: center;
+  aspect-ratio: 1;
+  justify-content: center;
+  align-items: center;
+}
+:is(#UI_goUp) {
+  grid-column: 1;
+}
+:is(#UI_goUp) > * {
+  aspect-ratio: unset;
+}
+
+#UI_showHidden::after {
+  content: 'Show Hidden Files';
+  white-space: normal;
+}
+
+:is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
+  display: flex;
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  text-align: center;
+}
+:is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle):hover::after {
+  opacity: 1;
+}
+body {
+  column-gap: 1ch;
+  grid-template-rows: [top preview-start index-start]auto[index-end]auto[preview-end options-start]auto[options-end files-start]auto auto[files-end bottom];
+}
+
+
+
+

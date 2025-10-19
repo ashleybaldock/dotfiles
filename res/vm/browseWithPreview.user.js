@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.182
+// @version     1.0.183
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -424,7 +424,7 @@ const initBrowsePreview = ({ document }) => {
         to: body,
         class: 'toggle',
         id: 'toggle_shuffle_on_repeat',
-        textContent: 'shuffle_on_repeat',
+        textContent: 'Shuffle on playlist repeat',
         name: 'shuffle_on_repeat',
         checked: false,
         bindTo: shuffle_on_repeat,
@@ -433,7 +433,7 @@ const initBrowsePreview = ({ document }) => {
         to: body,
         class: 'toggle',
         id: 'toggle_reload_on_repeat',
-        textContent: 'reload_on_repeat',
+        textContent: 'Reload file list on playlist repeat',
         name: 'reload_on_repeat',
         checked: false,
         bindTo: reload_on_repeat,
@@ -442,7 +442,7 @@ const initBrowsePreview = ({ document }) => {
         to: body,
         class: 'toggle',
         id: 'toggle_repeat',
-        textContent: 'repeat',
+        textContent: 'Repeat playlist',
         name: 'repeat',
         checked: false,
         bindTo: repeat,
@@ -452,7 +452,7 @@ const initBrowsePreview = ({ document }) => {
         class: 'toggle',
         id: 'toggle_grid',
         textContent: 'grid',
-        name: 'grid',
+        name: 'Show as grid',
         checked: false,
         bindTo: showGrid,
       }),

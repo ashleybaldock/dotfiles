@@ -1521,3 +1521,100 @@ body {
   background-image: radial-gradient(farthest-corner circle at top left, #4442, #4448, #4442);
   border: 1px solid #666;
 }
+
+
+
+
+:not(#a#b) .up:hover {
+  background-color: none;
+  border: none;
+}
+
+:not(#a#b)  :where(#UI_goUp, #UI_showHidden, .toggle) {
+  border: 0.5px solid #4440;
+  margin: 0;
+  padding: 1ch;
+}
+:not(#a#b)  :where(#UI_goUp, #UI_showHidden, .toggle) > label::after {
+  background-color: #0000;
+}
+:not(#a#b)  :where(#UI_goUp, #UI_showHidden, .toggle):hover {
+  background-color: #000;
+  --null: linear-gradient(#0000);
+/*   --m1: #0002 0%, #fff8 10% 30%, #0002 50% 50%, #fff8, #0002 100%; */
+  --m1: #0002, #fff8, #0002;
+  --m1a:  linear-gradient(var(--xangle), var(--m1));
+  --m1b:  linear-gradient(var(--yangle), var(--m1));
+--xangle: 90deg;
+--yangle: 180deg;
+  background-image:
+    var(--m1a, var(--null)),
+    var(--m1b, var(--null)),
+    linear-gradient(#0002),
+    linear-gradient(#fff2),
+    repeating-radial-gradient(closest-side ellipse at center, #0002, #fff8, #0002),
+    repeating-radial-gradient(closest-side ellipse at center, #0002, #fff8, #0002),
+    var(--null);
+  background-repeat: 
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    repeat-x,
+    repeat-y,
+    no-repeat,
+    no-repeat;
+  background-size:
+    100% 20%,
+    20% 100%,
+    100% 50%,
+    50% 100%,
+    50% 100%,
+    100% 50%,
+    100% 50%,
+    contain,
+    contain;
+  background-position:
+    bottom 50% right 0%,
+    top 0% left 50%,
+
+    0 50%,
+    50% 0,
+    0 50%,
+    50% 0,
+    bottom 0% right 0%,
+    top 0% left 0%,
+    0 0,
+    0 0;
+  background-clip: 
+    padding-box, 
+    padding-box, 
+    border-box, 
+    border-box, 
+    border-box, 
+    border-box,
+    border-box,
+    border-box,
+    padding-box,
+    content-box 
+    ;
+  background-origin: 
+    border-box,
+    border-box, 
+    border-box,
+    border-box,
+    border-box,
+    border-box,
+    border-box,
+    border-box,
+    content-box, 
+    content-box, 
+    content-box, 
+    border-box,
+    padding-box,
+    padding-box
+    ;
+  border-radius: 25%;
+  border: 0.5px solid #2224;
+}
+

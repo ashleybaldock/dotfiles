@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.197
+// @version     1.0.198
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -404,6 +404,8 @@ const initBrowsePreview = ({ document }) => {
       showOther: defineToggle(false),
       showGrid: defineToggle(false),
       grid_fit: defineSequence(fit_options),
+      playing: defineToggle(false),
+      paused: defineToggle(true),
       linear: defineToggle(false),
       interleave: defineToggle(false),
       maxInterleaved: defineNumber(8),
@@ -420,13 +422,15 @@ const initBrowsePreview = ({ document }) => {
       document: { body },
     },
     config: {
-      showGrid,
-      grid_fit,
       showImages,
       showVideo,
       showOther,
-      interleave,
+      showGrid,
+      grid_fit,
+      playing,
+      paused,
       linear,
+      interleave,
       repeat,
       shuffle_on_repeat,
       reload_on_repeat,
@@ -456,6 +460,18 @@ const initBrowsePreview = ({ document }) => {
         textContent: 'Show as grid',
         name: 'grid',
         bindTo: showGrid,
+      }),
+      grid: addToggle({
+        to: body,
+        textContent: 'Paused',
+        name: 'paused',
+        bindTo: paused,
+      }),
+      grid: addToggle({
+        to: body,
+        textContent: 'Playing',
+        name: 'playing',
+        bindTo: playing,
       }),
       grid_fit: addSequenceToggle({
         to: body,

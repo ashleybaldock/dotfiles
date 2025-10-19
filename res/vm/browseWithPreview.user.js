@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.196
+// @version     1.0.197
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -211,7 +211,7 @@ const addWrappedVideo = (
   );
   /* Playback */
   video.addEventListener('volumechange', () => {
-    console.debug(`${idx()} volumechange '${decodeURI(video.src)}'`);
+    // console.debug(`${idx()} volumechange '${decodeURI(video.src)}'`);
   });
 
   video.addEventListener('canplay', () => {
@@ -227,10 +227,10 @@ const addWrappedVideo = (
     console.info(`${idx()} seeked '${decodeURI(video.src)}'`);
   });
   video.addEventListener('seeking', () => {
-    console.debug(`${idx()} seeking '${decodeURI(video.src)}'`);
+    // console.debug(`${idx()} seeking '${decodeURI(video.src)}'`);
   });
   video.addEventListener('timeupdate', () => {
-    console.debug(`${idx()} timeupdate '${decodeURI(video.src)}'`);
+    // console.debug(`${idx()} timeupdate '${decodeURI(video.src)}'`);
   });
   video.addEventListener('durationchange', () => {
     console.debug(`${idx()} durationchange '${decodeURI(video.src)}'`);
@@ -256,7 +256,7 @@ const addWrappedVideo = (
     console.debug(`${idx()} loadedmetadata '${decodeURI(video.src)}'`);
   });
   video.addEventListener('progress', () => {
-    console.debug(`${idx()} progress '${decodeURI(video.src)}'`);
+    // console.debug(`${idx()} progress '${decodeURI(video.src)}'`);
   });
   video.addEventListener('waiting', () => {
     console.info(`${idx()} waiting '${decodeURI(video.src)}'`);

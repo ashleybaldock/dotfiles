@@ -309,21 +309,6 @@
     max-height: 100vh;
     overflow: hidden;
 }
-
-@keyframes translate {
-    0% {
-        --ani-translate: 0;
-    }
-
-    50% {
-        --ani-translate: 0.5;
-    }
-
-    to {
-        --ani-translate: 1;
-    }
-}
-
 /*!{{{1 Cursors */
 /*!{{{2 @property */
 @property --cursor-image {
@@ -521,12 +506,29 @@ body > h1 {
 /*!}}}1*/
 
 /*!{{{1 Media Players */
+
+/*!{{{2 @keyframes */
+@keyframes translate {
+    0% {
+        --ani-translate-progress: 0;
+    }
+
+    50% {
+        --ani-translate-progress: 0.5;
+    }
+
+    to {
+        --ani-translate-progress: 1;
+    }
+}
+/*!}}}2*/
+
 /*!{{{2 @property */
-@property --interleave-var1 {
-    syntax:"<number>";inherits:true;initial-value:0;
+@property --interleave-delay {
+    syntax:"<time>";inherits:true;initial-value:500ms;
 }
 
-@property --interleave-delay {
+@property --interleave-duration-per {
     syntax:"<time>";inherits:true;initial-value:500ms;
 }
 
@@ -534,12 +536,12 @@ body > h1 {
     syntax:"<integer>";inherits:true;initial-value:8;
 }
 
-@property --ani-translate {
+@property --ani-translate-progress {
     syntax:"<number>";inherits:true;initial-value:0;
 }
 
 @property --ani-transform {
-    syntax:"<transform-function>";inherits:true;initial-value:translateY(0);
+    syntax:"<transform-function>";inherits:true;initial-value:translateX(0);
 }
 
 @property --playerIdx {
@@ -609,37 +611,41 @@ video {
 /*!{{{2 Interleaved Player */
 
 .interleave {
-    grid-row: preview;
-    grid-column: 1/-1;
-    animation-composition: initial;
-    animation-delay: 0s;
-    animation-direction: normal;
-    animation-duration: calc(var(--d)*(var(--playerCount)));
-    animation-fill-mode: initial;
-    animation-iteration-count: infinite;
-    animation-name: translate;
-    animation-timing-function: steps(var(--playerCount),jump-both);
-    height: var(--playerHeight);
-    min-height: var(--playerHeight);
-    min-width: var(--playerWidth);
-    --ani-step: round(down, var(--playerCount) * var(--ani-translate), 1);
-    background-image: repeating-conic-gradient(from 112deg,#f006 0 54deg,#f002 56deg 180deg),repeating-conic-gradient(from -112deg,#f006 0 94deg,#f002 96deg 180deg);
-    background-size: 5% 5%,5% 5%;
-    background-repeat: round;
-    background-position: 5% 5%,-10% -10%;
-    background-attachment: fixed;
+  height: var(--playerHeight);
+  min-height: var(--playerHeight);
+  --ani-step: round(down, var(--playerCount) * var(--ani-translate-progress), 1);
+  --ani-transform: translateX(calc(var(--ani-step) * -1 * var(--playerWidth)));
+  min-width: var(--playerWidth);
+  background-image: repeating-conic-gradient(from 112deg,#f006 0 54deg,#f002 56deg 180deg),repeating-conic-gradient(from -112deg,#f006 0 94deg,#f002 96deg 180deg);
+  background-size: 5% 5%,5% 5%;
+  background-repeat: round;
+  background-position: 5% 5%,-10% -10%;
+  background-attachment: fixed;
+  animation-composition: initial;
+  animation-delay: 0s;
+  animation-direction: normal;
+  animation-fill-mode: initial;
+  animation-iteration-count: infinite;
+  animation-name: translate;
+  animation-timing-function: steps(var(--playerCount),jump-both);
+  animation-duration: calc(var(--interleave-duration-per, 500ms) * (var(--playerCount, 4) - 1));
+  grid-area: preview;
+  display: grid;
+  grid-template-columns: [left interleave-start] repeat(auto-fit, var(--playerWidth)) [interleave-end right];
+  grid-template-rows: [top interleave-start] var(--playerHeight) [interleave-end bottom];
+  transform: var(--ani-transform);
 }
 
 .interleave::before {
-    content: counter(anim);
-    counter-reset: anim var(--ani-step);
-    display: flex;
-    position: fixed;
-    top: 2px;
-    right: 2px;
+  content: counter(anim);
+  counter-reset: anim var(--ani-step);
+  display: flex;
+  position: fixed;
+  top: 2px;
+  right: 2px;
 }
 
-.interleave>.vidwrap::after {
+.interleave > .vidwrap::after {
     --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
     --radius: 14px;
     --bgc: hsl(var(--angle) 60% 50% / 40%);
@@ -676,6 +682,17 @@ video {
 .interleave>.vidwrap:has(>.off)::after {
     background-image: linear-gradient(45deg,#0000 0 46%,#000 48% 52%,#0000 54% 100%),linear-gradient(-45deg,#0000 0 46%,#000 48% 52%,#0000 54% 100%);
 }
+
+
+
+.interleave.playing > .vidwrap {
+  grid-area: interleave;
+  transform: unset;
+}
+
+
+
+
 /*!}}}1*/
 
 

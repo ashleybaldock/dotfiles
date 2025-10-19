@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.189
+// @version     1.0.195
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -52,21 +52,21 @@ const addToggle = ({
   id = `toggle_${name}`,
   bindTo,
   checked = bindTo?.value ?? false,
-  textContent = name,
+  textContent = `Toggle ${name}`,
   icon = null,
   ...attrs
 } = {}) => {
   const div = GM_addElement(to, 'div', {
     class: 'toggle',
     name,
-    dataText: textContent,
+    'data-text': textContent,
     ...attrs,
   });
   const label = GM_addElement(div, 'label', {
     class: '',
   });
   const span = GM_addElement(label, 'span', {
-    class: '',
+    class: 'tip',
     textContent,
   });
   const input = GM_addElement(label, tag, {
@@ -93,6 +93,7 @@ const addSequenceToggle = ({
   type = 'radio',
   name = '',
   bindTo,
+  textContent = `Toggle ${name}`,
   sequence = [
     ({
       name = name,
@@ -106,16 +107,21 @@ const addSequenceToggle = ({
 } = {}) => {
   const div = GM_addElement(to, 'div', {
     class: 'sequencetoggle',
+    'data-text': textContent,
     ...attrs,
   });
   sequence.forEach(({ value, checked, textContent, icon }) => {
     const label = GM_addElement(div, 'label', {
       class: '',
-      textContent,
-      dataName: name,
-      dataValue: value,
+      'data-name': name,
+      'data-value': value,
+      'data-text': textContent,
     });
-    icon && label.style.setProperty('--icon', icon);
+    const span = GM_addElement(label, 'span', {
+      class: 'tip',
+      textContent,
+    });
+    // icon && label.style.setProperty('--icon', icon);
     const input = GM_addElement(label, tag, {
       type,
       ...(checked ? { checked: '' } : {}),

@@ -980,7 +980,14 @@ table>tbody>tr:hover::before {
 }
 
 .toggle::after {
-    content: attr(name);
+    content: attr(text);
+}
+:is(#UI_goUp)::after {
+  content: 'Parent directory';
+}
+
+:is(#UI_showHidden)::after {
+  content: 'Show Hidden Files';
 }
 
 #UI_showHidden {
@@ -1348,18 +1355,14 @@ body>table>:is(tbody) {
   justify-content: center;
   align-items: center;
 }
+:is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle) > label > span {
+  display: none;
+}
 :is(#UI_goUp) {
   grid-column: 1;
 }
 :is(#UI_goUp) > * {
   aspect-ratio: unset;
-}
-:is(#UI_goUp)::after {
-  content: 'Parent directory';
-}
-
-:is(#UI_showHidden)::after {
-  content: 'Show Hidden Files';
 }
 
 :is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {

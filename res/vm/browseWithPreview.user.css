@@ -825,7 +825,8 @@ td:not(:first-child) {
     --icon: var(--icon-image);
 }
 
-.file:has(>[src="moz-icon://.jpeg?size=16"])::before,.file:has(>[src="moz-icon://.jpg?size=16"])::before {
+.file:has(>[src="moz-icon://.jpeg?size=16"])::before,
+.file:has(>[src="moz-icon://.jpg?size=16"])::before {
     content: "jpg";
     --icon: var(--icon-image);
 }
@@ -856,7 +857,7 @@ td:not(:first-child) {
     --icon: var(--icon-folder);
 }
 
-.ellipsis>tbody>tr>td {
+.ellipsis > tbody > tr > td {
     padding: 0;
     margin: 0;
     border: 0;
@@ -980,14 +981,6 @@ table>tbody>tr:hover::before {
 
 .toggle::after {
     content: attr(name);
-}
-
-#UI_goUp::after {
-    content: "parent directory";
-}
-
-#UI_showHidden::after {
-    content: "grid";
 }
 
 #UI_showHidden {
@@ -1259,10 +1252,10 @@ body>table>:is(tbody) {
     align-self: start;
     justify-self: center;
     z-index: 10;
-    display: none;
+   display: none;
 }
 
-.sequencetoggle>label {
+.sequencetoggle > label {
     counter-increment: n;
     grid-area: 1/1/1/1;
     background-origin: content-box;
@@ -1274,23 +1267,26 @@ body>table>:is(tbody) {
     background-position: left center,right center,center top;
 }
 
-.sequencetoggle>label>[type=radio] {
+.sequencetoggle > label > [type=radio] {
     z-index: -10;
     visibility: hidden;
 }
 
-.sequencetoggle>label:has(>:checked) {
+.sequencetoggle > label:has(> :checked) {
     z-index: 1;
     background-image: radial-gradient(circle at center,#444 0 30%,#0000 30% 45%,#444 45% 60%,#0000 60%);
 }
 
-.sequencetoggle:has(>label:last-of-type>:checked)>label:first-of-type,.sequencetoggle:not(:has(label>:checked)):not(:has(label>[checked]))>label:first-of-type,.sequencetoggle:not(:has(label>:checked))>label:has(>[checked]),.sequencetoggle>label:has(>:checked)+label {
+.sequencetoggle:has(> label:last-of-type > :checked) > label:first-of-type,
+.sequencetoggle:not(:has(label > :checked)):not(:has(label > [checked])) > label:first-of-type,
+.sequencetoggle:not(:has(label > :checked)) > label:has(> [checked]),
+.sequencetoggle > label:has(> :checked) + label {
     z-index: 2;
     pointer-events: auto;
     cursor: pointer;
 }
 
-.sequencetoggle>label::after {
+.sequencetoggle > label::after {
     content: counter(n);
     font-size: 1em;
     visibility: hidden;
@@ -1315,7 +1311,7 @@ body>table>:is(tbody) {
     font-family: Menlo,monospace;
 }
 
-.sequencetoggle>label:has(>:checked)::after {
+.sequencetoggle > label:has(> :checked)::after {
     visibility: visible;
     z-index: 10;
     text-align: center;
@@ -1329,13 +1325,17 @@ body>table>:is(tbody) {
     font-size: 1.4em;
 }
 
-.sequencetoggle:has(>label:last-of-type>:checked)>label:first-of-type::after,.sequencetoggle>label:has(>:checked)+label::after {
+.sequencetoggle:has(
+  > label:last-of-type > :checked
+  ) > label:first-of-type::after,
+.sequencetoggle > label:has(> :checked) + label::after {
     visibility: visible;
     z-index: 10;
     justify-self: start;
 }
 
-.sequencetoggle>label,.sequencetoggle>label:has(>:checked) {
+.sequencetoggle > label,
+.sequencetoggle > label:has(> :checked) {
     background-image: none;
 }
 
@@ -1354,13 +1354,16 @@ body>table>:is(tbody) {
 :is(#UI_goUp) > * {
   aspect-ratio: unset;
 }
+:is(#UI_goUp)::after {
+  content: 'Parent directory';
+}
 
-#UI_showHidden::after {
+:is(#UI_showHidden)::after {
   content: 'Show Hidden Files';
-  white-space: normal;
 }
 
 :is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
+  white-space: normal;
   display: flex;
   position: absolute;
   pointer-events: none;
@@ -1379,7 +1382,8 @@ body {
     files-start]auto auto[files-end
     bottom];
   grid-template-columns: [left
-    index-start preview-start options-start files-start]repeat(20,auto)[files-end options-end preview-end index-end right];
+    index-start preview-start options-start files-start]repeat(20,auto)[files-end options-end preview-end index-end
+    right];
 }
 
 

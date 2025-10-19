@@ -324,7 +324,8 @@
     }
 }
 
-/*!{{{1 @property */
+/*!{{{1 Cursors */
+/*!{{{2 @property */
 @property --cursor-image {
     syntax:"<image> | <url>";inherits:true;initial-value:url("data:image/svg+xml,%3Csvg width=%2232%22 height=%2232%22 xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cpath fill=%22%23fff%22 d=%22m16.148 25.473 1.863-1.003 1.615-.839-2.568-4.816h4.332L10.011 7.407v16.015l3.316-3.221z%22/%3E%3Cpath fill=%22%23000%22 d=%22m16.431 24 1.765-.941-2.775-5.202h3.604L11 9.814v11.188l2.53-2.442z%22/%3E%3C/g%3E%3C/svg%3E");
 }
@@ -348,6 +349,7 @@
 @property --cursor-fallback {
     syntax:"auto | none | context-menu | help | pointer | progress | wait | cell | crosshair | text | vertical-text | alias | copy | move | no-drop | not-allowed | grab | grabbing | e-resize | n-resize | ne-resize | nw-resize | s-resize | se-resize | sw-resize | w-resize | ew-resize | ns-resize | nesw-resize | nwse-resize | col-resize | row-resize | all-scroll | zoom-in | zoom-out";inherits:true;initial-value:auto;
 }
+/*!}}}2*/
 
 .vidwrap:has(>.paused),.vidwrap:has(>.playing),[data-cursor] {
     cursor: var(--cursor-image) var(--cursor-hotspot-x) var(--cursor-hotspot-y),var(--cursor-fallback);
@@ -355,56 +357,58 @@
 }
 
 .vidwrap:has(>.playing),[data-cursor=media-default-pause] {
-    --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E\
-    %3Cpath fill=%22%23fff%22 d=%22M146 368a128 128 0 1 1 256 0 128 128 0 1 1-256 0m94.15-54.45c-3.8 2.1-6.15 6.15-6.15 10.45v88c0 4.35 2.35 8.35 6.15 10.45s8.4 2.05 12.15-.25l72-44c3.55-2.2 5.75-6.05 5.75-10.25s-2.2-8.05-5.75-10.25l-72-44a12.13 12.13 0 0 0-12.15-.25zM116 269.752V13.512l185.456 185.904H188.8l-2.416.984z%22/%3E\
-    %3Cpath d=%22M132 52.024v179.008l47.504-45.856.56-2.224h80.576z%22/%3E\
-    %3C/svg%3E');
-    --cursor-fallback: pointer;
-    --cursor-width: 32;
-    --cursor-height: 32;
-    --cursor-hotspot-x: 8;
-    --cursor-hotspot-y: 2;
+  --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E\
+  %3Cpath fill=%22%23fff%22 d=%22M146 368a128 128 0 1 1 256 0 128 128 0 1 1-256 0m94.15-54.45c-3.8 2.1-6.15 6.15-6.15 10.45v88c0 4.35 2.35 8.35 6.15 10.45s8.4 2.05 12.15-.25l72-44c3.55-2.2 5.75-6.05 5.75-10.25s-2.2-8.05-5.75-10.25l-72-44a12.13 12.13 0 0 0-12.15-.25zM116 269.752V13.512l185.456 185.904H188.8l-2.416.984z%22/%3E\
+  %3Cpath d=%22M132 52.024v179.008l47.504-45.856.56-2.224h80.576z%22/%3E\
+  %3C/svg%3E');
+  --cursor-fallback: pointer;
+  --cursor-width: 32;
+  --cursor-height: 32;
+  --cursor-hotspot-x: 8;
+  --cursor-hotspot-y: 2;
 }
 
 .vidwrap:has(>.paused),[data-cursor=media-default-play] {
-    --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E\
-    %3Cpath fill=%22%23fff%22 d=%22M274 496a128 128 0 1 0 0-256 128 128 0 1 0 0 256m-16-160v64c0 8.85-7.15 16-16 16s-16-7.15-16-16v-64c0-8.85 7.15-16 16-16s16 7.15 16 16m64 0v64c0 8.85-7.15 16-16 16s-16-7.15-16-16v-64c0-8.85 7.15-16 16-16s16 7.15 16 16%22/%3E\
-    %3Cg fill=%22none%22%3E\
-    %3Cpath fill=%22%23fff%22 d=%22M116 269.752V13.512l185.456 185.904H188.8l-2.416.984z%22/%3E\
-    %3Cpath fill=%22%23000%22 d=%22M132 52.024v179.008l47.504-45.856.56-2.224h80.576z%22/%3E\
-    %3C/g%3E\
-    %3C/svg%3E');
-    --cursor-fallback: pointer;
-    --cursor-width: 32;
-    --cursor-height: 32;
-    --cursor-hotspot-x: 8;
-    --cursor-hotspot-y: 2;
+  --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E\
+  %3Cpath fill=%22%23fff%22 d=%22M274 496a128 128 0 1 0 0-256 128 128 0 1 0 0 256m-16-160v64c0 8.85-7.15 16-16 16s-16-7.15-16-16v-64c0-8.85 7.15-16 16-16s16 7.15 16 16m64 0v64c0 8.85-7.15 16-16 16s-16-7.15-16-16v-64c0-8.85 7.15-16 16-16s16 7.15 16 16%22/%3E\
+  %3Cg fill=%22none%22%3E\
+  %3Cpath fill=%22%23fff%22 d=%22M116 269.752V13.512l185.456 185.904H188.8l-2.416.984z%22/%3E\
+  %3Cpath fill=%22%23000%22 d=%22M132 52.024v179.008l47.504-45.856.56-2.224h80.576z%22/%3E\
+  %3C/g%3E\
+  %3C/svg%3E');
+  --cursor-fallback: pointer;
+  --cursor-width: 32;
+  --cursor-height: 32;
+  --cursor-hotspot-x: 8;
+  --cursor-hotspot-y: 2;
 }
+/*!}}}1*/
+
 :root {
-    --outline-thin8: 1px 0 0.2px #000, 0 -1px 0.2px #000, -1px 0 0.2px #000, 0 1px 0.2px #000,
-    1px 1px 0.2px #000, 1px -1px 0.2px #000, -1px 1px 0.2px #000,
+  --outline-thin8: 1px 0 0.2px #000, 0 -1px 0.2px #000, -1px 0 0.2px #000, 0 1px 0.2px #000,
+  1px 1px 0.2px #000, 1px -1px 0.2px #000, -1px 1px 0.2px #000,
     -1px -1px 0.2px #000;
 }
 
 body {
-    padding: 0;
-    margin: 0;
-    align-items: center;
-    display: grid;
-    background-color: #000;
-    color: #fff;
-    max-width: 100vw;
-    border: 0;
-    border-radius: 0;
-    max-height: unset;
-    overflow-y: scroll;
-    overscroll-behavior: none;
-    min-height: 100vh;
-    height: fit-content;
-    min-width: 100vw;
-    grid-template-areas: unset;
-    grid-auto-rows: 0;
-    overflow: visible;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  display: grid;
+  background-color: #000;
+  color: #fff;
+  max-width: 100vw;
+  border: 0;
+  border-radius: 0;
+  max-height: unset;
+  overflow-y: scroll;
+  overscroll-behavior: none;
+  min-height: 100vh;
+  height: fit-content;
+  min-width: 100vw;
+  grid-template-areas: unset;
+  grid-auto-rows: 0;
+  overflow: visible;
   column-gap: 1ch;
   grid-template-rows: [top
     preview-start index-start]auto[index-end
@@ -555,7 +559,8 @@ video {
 
 
 /*{{{2 Linear Player */
-.linear.playing,:root:has(.toggle[name=linear] :checked) .linear {
+.linear.playing,
+:root:has(.toggle[name=linear] :checked) .linear {
     display: grid;
 }
 
@@ -577,7 +582,7 @@ video {
 /*!}}}2*/
 /*!{{{2 Interleaved Player */
 
-:is(.interleave) {
+.interleave {
     grid-row: preview;
     grid-column: 1/-1;
     animation-composition: initial;
@@ -592,9 +597,14 @@ video {
     min-height: var(--playerHeight);
     min-width: var(--playerWidth);
     --ani-step: round(down, var(--playerCount) * var(--ani-translate), 1);
+    background-image: repeating-conic-gradient(from 112deg,#f006 0 54deg,#f002 56deg 180deg),repeating-conic-gradient(from -112deg,#f006 0 94deg,#f002 96deg 180deg);
+    background-size: 5% 5%,5% 5%;
+    background-repeat: round;
+    background-position: 5% 5%,-10% -10%;
+    background-attachment: fixed;
 }
 
-:is(.interleave)::before {
+.interleave::before {
     content: counter(anim);
     counter-reset: anim var(--ani-step);
     display: flex;
@@ -603,7 +613,7 @@ video {
     right: 2px;
 }
 
-:is(.interleave>.vidwrap)::after {
+.interleave>.vidwrap::after {
     --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
     --radius: 14px;
     --bgc: hsl(var(--angle) 60% 50% / 40%);
@@ -639,14 +649,6 @@ video {
 
 .interleave>.vidwrap:has(>.off)::after {
     background-image: linear-gradient(45deg,#0000 0 46%,#000 48% 52%,#0000 54% 100%),linear-gradient(-45deg,#0000 0 46%,#000 48% 52%,#0000 54% 100%);
-}
-
-.player.interleave {
-    background-image: repeating-conic-gradient(from 112deg,#f006 0 54deg,#f002 56deg 180deg),repeating-conic-gradient(from -112deg,#f006 0 94deg,#f002 96deg 180deg);
-    background-size: 5% 5%,5% 5%;
-    background-repeat: round;
-    background-position: 5% 5%,-10% -10%;
-    background-attachment: fixed;
 }
 /*!}}}1*/
 

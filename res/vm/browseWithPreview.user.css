@@ -363,10 +363,19 @@ body {
     height: fit-content;
     min-width: 100vw;
     grid-template-areas: unset;
-    grid-template-rows: [top preview-start index-start]auto[index-end]auto[preview-end options-start]auto[options-end files-start]auto auto[files-end bottom];
-    grid-template-columns: [left index-start preview-start options-start files-start]repeat(20,auto)[files-end options-end preview-end index-end right];
     grid-auto-rows: 0;
     overflow: visible;
+  column-gap: 1ch;
+  grid-template-rows: [top
+    preview-start index-start]auto[index-end
+    ]auto[preview-end
+    options-start]auto[options-end
+    files-start]auto auto[files-end
+    bottom];
+  grid-template-columns: [left
+    index-start preview-start options-start files-start]repeat(20,auto)[files-end options-end preview-end index-end
+    right];
+
 }
 
 body>* {
@@ -1343,7 +1352,13 @@ body>table>:is(tbody) {
 }
 
 
-:is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle) > * {
+:where(#UI_goUp, #UI_showHidden, .toggle) {
+  display: grid !important;
+  border: 0.5px solid #4440;
+  margin: 0;
+  padding: 1ch;
+}
+:where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle) > * {
   height: auto;
   width: 100%;
   place-self: center;
@@ -1351,52 +1366,24 @@ body>table>:is(tbody) {
   justify-content: center;
   align-items: center;
 }
-:is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle) > label > span {
+:where(#UI_goUp, #UI_showHidden, .toggle) > label {
+  background: none;
+  aspect-ratio: 1;
+}
+:where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle) > label > span {
   display: none;
 }
-:is(#UI_goUp) {
-  grid-column: 1;
+:where(#UI_goUp, #UI_showHidden, .toggle):hover {
+  background-image: radial-gradient(farthest-corner circle at top left, #4442, #4448, #4442);
+  background-color: #000;
+  border-radius: 25%;
+  border: 0.5px solid #2224;
 }
-:is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
+:where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
   white-space: normal;
-  display: flex;
-  position: absolute;
   pointer-events: none;
   opacity: 0;
   text-align: center;
-}
-:is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle):hover::after {
-  opacity: 1;
-}
-body {
-  column-gap: 1ch;
-  grid-template-rows: [top
-    preview-start index-start]auto[index-end
-    ]auto[preview-end
-    options-start]auto[options-end
-    files-start]auto auto[files-end
-    bottom];
-  grid-template-columns: [left
-    index-start preview-start options-start files-start]repeat(20,auto)[files-end options-end preview-end index-end
-    right];
-}
-
-
-
-
-
-
-
-
-
-
-
-
-:not(#a) :where(#UI_goUp, #UI_showHidden, .toggle) {
-  display: grid !important;
-  margin: 1.4em;
-}
-:not(#a) :where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
   min-width: 100px;
   max-width: 200px;
   min-height: 2lh;
@@ -1417,50 +1404,44 @@ body {
   --a: -2px;
   --x: 0px;
   --y: 0px;
-  --w: 10px;
-  --h: 10px;
+  --w: 0.5ch;
+  --h: 0.2em;
   box-shadow: 
-    calc(0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) 0 calc(var(--a)) #f0ac,
-    calc(0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) 0 calc(var(--a)) #a0fc,
-    calc(-0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) 0 calc(var(--a))  #a0ac,
-    calc(-0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) 0 calc(var(--a))  #f0fc,
+    calc(0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f) calc(var(--a)) #f0ac,
+    calc(0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f) calc(var(--a)) #a0fc,
+    calc(-0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f) calc(var(--a))  #a0ac,
+    calc(-0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f) calc(var(--a))  #f0fc,
     0 0 #0000;
 }
-:not(#a) :where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle):hover::after {
+:where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle):hover::after {
+  opacity: 1;
   transition: opacity 80ms ease 0s;
 }
-:not(#a) :where(#UI_goUp, #UI_showHidden, .toggle) > label {
-  background: none;
-  aspect-ratio: 1;
-}
 
-:not(#a#b)  #UI_goUp::after {
+#UI_goUp {
+  grid-column: 1;
+}
+#UI_goUp::after {
   justify-content: start;
-  opacity: 1;
   left: 0;
 }
 
-:not(#a#b) #UI_showHidden::after {
+#UI_showHidden::after {
   justify-self: end;
   right: 0;
 }
 
-:root {
-  --offset-tip: 0.2em;
-}
 
 
 
-
-
-:not(#a#b) .up {
-
-  flex-direction: column;
+/*!{{{1 Parent Directory button */
+.up {
   display: grid;
+  flex-direction: column;
   grid-template: 1fr/1fr;
   place-content: center center;
   
-    z-index: 1;
+  z-index: 1;
   margin: 0;
   padding: 0;
   font-size: 0;
@@ -1468,7 +1449,7 @@ body {
   border: none;
   gap: 0;
 }
-:not(#a#b) .up::before {
+.up::before {
   grid-area: 1/1;
   background: #fff;
   background-color: #fff;
@@ -1490,7 +1471,7 @@ body {
   place-self: top left;
 }
 
-:not(#a#b) .up::after {
+.up::after {
   grid-area: 1/1;
   display: flex;
   content: '../';
@@ -1500,34 +1481,8 @@ body {
   margin: 0.8lh 0 -0.8lh 0.5ch;
 }
 
-
-:not(#a#b) .up:hover {
+.up:hover {
   background-color: none;
   border: none;
 }
-
-:not(#a#b)  :where(#UI_goUp, #UI_showHidden, .toggle) {
-  border: 1px solid #4440;
-  margin: 0;
-  padding: 1ch;
-}
-:not(#a#b)  :where(#UI_goUp, #UI_showHidden, .toggle):hover {
-  background-color: #4448;
-  background-image: radial-gradient(farthest-corner circle at top left, #4442, #4448, #4442);
-  border: 1px solid #666;
-}
-
-
-
-
-:not(#a#b)  :where(#UI_goUp, #UI_showHidden, .toggle) {
-  border: 0.5px solid #4440;
-  margin: 0;
-  padding: 1ch;
-}
-:not(#a#b)  :where(#UI_goUp, #UI_showHidden, .toggle):hover {
-  background-color: #000;
-  border-radius: 25%;
-  border: 0.5px solid #2224;
-}
-
+/*!}}}1*/

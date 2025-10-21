@@ -1081,10 +1081,10 @@ body > table > tbody > tr > td[sortable-data] {
     flex-wrap: nowrap;
 }
 
-body > table > tbody > tr >  td[sortable-data]::before {
-    content: attr(sortable-data);
-    justify-self: start;
-}
+/* body > table > tbody > tr >  td[sortable-data]::before { */
+/*     content: attr(sortable-data); */
+/*     justify-self: start; */
+/* } */
 
 :where(.file, .dir) {
   width: auto;

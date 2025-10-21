@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.199
+// @version     1.0.200
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -153,6 +153,8 @@ const addWrappedVideo = (
   },
 ) => {
   const wrapper = GM_addElement(parent, 'div', { class: 'vidwrap' });
+  const playLabel = GM_addElement(wrapper, 'label', { for: 'toggle_playing' });
+  const pauseLabel = GM_addElement(wrapper, 'label', { for: 'toggle_paused' });
   const idx = () => wrapper.style.getPropertyValue('--playerIdx');
   const video = GM_addElement(wrapper, 'video', options);
   video.addEventListener(

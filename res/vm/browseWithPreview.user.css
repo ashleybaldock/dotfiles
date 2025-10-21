@@ -1043,41 +1043,6 @@ body > table,
     display: contents;
 }
 
-body > table {
-  display: contents;
-}
-
-body > table > :where(tbody, thead) {
-  display: grid;
-  overscroll-behavior: auto;
-  grid-template-columns: subgrid;
-  width: 100vw;
-  z-index: 10000;
-}
-
-body > table > thead {
-  grid-row: 1;
-  grid-column: 1/-1;
-  grid-template-columns: subgrid;
-  grid-template-rows: subgrid;
-}
-
-body > table > tbody {
-  grid-row: 2;
-  grid-column: 1/-1;
-  grid-template-columns: subgrid;
-  grid-auto-rows: 1fr;
-}
-
-body > table > tbody > tr:hover {
-  filter: none;
-  box-shadow: inset 3px 2px 8px -2px #fffa,inset 2px -.2px 5px -1.2px #000,1px 2px 0-1px #000;
-}
-
-body > table > tbody > tr:hover::before {
-  filter: drop-shadow(0 0 .6px #ddda);
-}
-
 body > table > :where(tbody, thead) > tr > :where(td, th) {
     position: sticky;
     top: 0;
@@ -1110,7 +1075,7 @@ body > table > :where(tbody, thead) > tr >  td:nth-child(3) {
     transform-origin: left;
 }
 
-body > table > tbody > tr >  td[sortable-data] {
+body > table > tbody > tr > td[sortable-data] {
     white-space: nowrap;
     flex-wrap: nowrap;
 }
@@ -1119,6 +1084,274 @@ body > table > tbody > tr >  td[sortable-data]::before {
     content: attr(sortable-data);
     justify-self: start;
 }
+
+:where(.file, .dir) {
+  width: auto;
+}
+
+:where(.file, .dir)::before {
+  display: flex;
+}
+
+td,
+td:first-child > a {
+  white-space: unset;
+}
+
+td:first-child + td {
+  text-align: unset;
+}
+
+
+td:first-child,
+th:first-child {
+    grid-column: 3/-6;
+    inset: var(--inset-files);
+    grid-row: span files-start;
+    position: sticky;
+}
+
+body > table[order] > thead > tr > th ::after {
+    width: unset;
+}
+
+body > table > tbody > ::before {
+  grid-column: 1/3;
+}
+body > table > thead > ::before {
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  background-color: #222;
+  width: 100%;
+  grid-column: 1/3;
+}
+
+body > table td:first-child + td,
+body > table th:first-child + th {
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  grid-row: span files-start;
+  grid-column: -6/-4;
+}
+
+body > table td:first-child + td + td,
+body > table th:first-child + th + th {
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  grid-row: span files-start;
+  grid-column: -4/-1;
+}
+
+body > table :where(td,th):last-child {
+  grid-column: -4/span -1;
+}
+
+body > table :where(tbody, thead, tr) {
+  display: contents;
+}
+
+:not(#a#b)
+body > table :where(td,th) {
+  background-color: #222;
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+body > table th,
+body > table > thead > tr::before {
+  z-index: var(--z-files-header);
+  grid-row: fhead !important;
+  order: 1
+}
+
+
+
+body > table td:nth-child(n+2) {
+  transition: transform 200ms ease 0ms;
+  transform: scale(1);
+  font-size: 1em;
+}
+
+
+
+
+
+:not(#a#b) :where(td, th) {
+  padding-inline-end: 0;
+  padding: 0;
+}
+
+td:first-child,
+th:first-child {
+    grid-column: 3/-6;
+    inset: var(--inset-files);
+    grid-row: span files-start;
+    position: sticky;
+}
+
+body > table > tbody > ::before {
+    display: none;
+}
+body > table[order] > thead > tr > th ::after {
+    width: unset;
+}
+
+body > table > thead > tr::before {
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  background-color: #222;
+  width: auto;
+  height: 100%;
+  padding: 0.1em 0.5ch;
+  letter-spacing: 0.05ch;
+  text-align: center;
+}
+
+body > table td:first-child + td,
+body > table th:first-child + th {
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  grid-row: span files-start;
+  grid-column: -6/-4;
+}
+
+body > table td:first-child + td + td,
+body > table th:first-child + th + th {
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  grid-row: span files-start;
+  grid-column: -4/-1;
+}
+
+body > table :where(td,th):last-child {
+  grid-column: -4/span -1;
+}
+
+body > table :where(tbody, thead, tr) {
+  display: contents;
+}
+
+:not(#a#b)
+body > table :where(td,th) {
+  background-color: #222;
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+body > table td:nth-child(n+2) {
+  transition: transform 200ms ease 0ms;
+  transform: scale(1);
+  font-size: 1em;
+}
+:not(#a#b) body > table > tbody > ::before {
+  content: var(--s-playerIdx);
+  --bg: hsl( calc(360deg / var(--playerCount) * var(--playerIdx)) 80% 50% / 100% );
+  --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
+  --h: calc(var(--angle), 90deg);
+  --s: 60deg;
+  --l: 50%;
+  --a: 20%;
+  mask-composite: add;
+  mask-position: center center;
+  mask-size: contain;
+  mask-origin: content-box;
+  mask-clip: padding-box;
+  background-position: center center;
+  text-align: center;
+  white-space: preserve-spaces;
+  color: #fff0;
+  padding: var(--row-pad);
+  aspect-ratio: unset;
+  display: flex;
+  line-height: normal;
+  height: 2em;
+  grid-column: 1/3;
+  z-index: var(--z-files);
+  width: auto;
+  opacity: 1;
+  visibility: visible;
+  
+  position: sticky;
+  inset: var(--inset-files);
+  
+  background-color: #222;
+  background-image: radial-gradient(circle 0.1lh at center, #fff8, 90%, #000 90% 96%, #f000 0);
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  mask-image: linear-gradient(#ffff);
+}
+:not(#a#b)
+body > table > tbody > :where(.playing,.paused,.played)::before {
+    mask-clip: no-clip;
+    overflow: visible;
+    background-clip: content-box,content-box,content-box,content-box;
+    background-origin: content-box,content-box,content-box,content-box;
+    background-repeat: no-repeat;
+    background-position: var(--playback-status-icon-position, center center), center center, center center, center center;
+    background-blend-mode: normal;
+    background-image: var(--playback-status-icon),radial-gradient(1.3lh circle at center,var(--c1),var(--c2) 50% 57%,#fffa 60% 62%,#000 65%,#0000 68%),radial-gradient(ellipse 0.65lh 0.65lh at calc(50% - 0.5lh) 0.1lh,#fdd8 30%,#fff2 60% 70%,#00000050 120%,#0008 180%, #0000 0),radial-gradient(ellipse 0.65lh 0.65lh at calc(50% - 0.5lh) 0.7lh,#fff0 22%,#fff8 50% 56%,#fff4 58%, #fff0 61%),radial-gradient(1.3lh circle at center,#0001 55%,#0002 60%,#000 60%, #0000 63%);
+    --c1: hsl(from var(--bg) h s l / 100%);
+    --c2: hsl(from var(--bg) h s calc(l * 0.66) / 100%);
+    background-size: var(--playback-status-icon-size, 0.5lh), 100% 2lh, 1.2lh 1.2lh, 1lh 1lh;
+}
+body > table > tbody > :where(.played)::before {
+  --playback-status-icon: var(--playback-status-played);
+  --playback-status-icon-size: 0.9lh;
+}
+body > table > tbody > :where(.played):hover::before {
+  --playback-status-icon: var(--playback-status-replay);
+}
+table > tbody > .playing::before {
+  --playback-status-icon: var(--playback-status-playing);
+  --playback-status-icon-size: 0.45lh;
+  --playback-status-icon-position: calc(50% + 0.04lh) 0.5lh;
+}
+
+table > tbody > .paused::before {
+    --playback-status-icon: var(--playback-status-paused);
+}
+
+:not(#a#b) body > table th,
+:not(#a#b) body > table > thead > tr::before {
+  grid-row: fhead !important;
+  order: 1;
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  background-color: #141414;
+  width: auto;
+  height: 100%;
+  padding: 0;
+  letter-spacing: 0.05ch;
+  text-align: center;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
 /*!}}}1*/
 
 /*!{{{1 Replace ellipsis table with text-overflow */
@@ -1483,10 +1716,6 @@ body > table > tbody > tr >  td[sortable-data]::before {
   grid-column: unset;
   grid-area: options;
 }
-.sequencetoggle {
-  grid-area: options;
-}
-
 
 .toggle, .sequencetoggle {
   grid-column: unset;
@@ -1535,9 +1764,7 @@ body > table > tbody > tr >  td[sortable-data]::before {
   grid-area: unset;
   grid-row: options;
 }
-
 /*!}}}1*/
-
 
 
 /*!{{{1 Parent Directory button */
@@ -1602,272 +1829,4 @@ body > table > tbody > tr >  td[sortable-data]::before {
   border: none;
 }
 /*!}}}1*/
-
-
-:where(.file, .dir) {
-  width: auto;
-}
-
-:where(.file, .dir)::before {
-  display: flex;
-}
-
-td,
-td:first-child > a {
-  white-space: unset;
-}
-
-td:first-child + td {
-  text-align: unset;
-}
-
-
-td:first-child,
-th:first-child {
-    grid-column: 3/-6;
-    inset: var(--inset-files);
-    grid-row: span files-start;
-    position: sticky;
-}
-
-body > table[order] > thead > tr > th ::after {
-    width: unset;
-}
-
-body > table > tbody > ::before {
-  grid-column: 1/3;
-}
-body > table > thead > ::before {
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  background-color: #222;
-  width: 100%;
-  grid-column: 1/3;
-}
-
-body > table td:first-child + td,
-body > table th:first-child + th {
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  grid-row: span files-start;
-  grid-column: -6/-4;
-}
-
-body > table td:first-child + td + td,
-body > table th:first-child + th + th {
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  grid-row: span files-start;
-  grid-column: -4/-1;
-}
-
-body > table :where(td,th):last-child {
-  grid-column: -4/span -1;
-}
-
-body > table :where(tbody, thead, tr) {
-  display: contents;
-}
-
-:not(#a#b)
-body > table :where(td,th) {
-  background-color: #222;
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-  white-space: nowrap;
-}
-
-body > table th,
-body > table > thead > tr::before {
-  z-index: var(--z-files-header);
-  grid-row: fhead !important;
-  order: 1
-}
-
-
-
-body > table td:nth-child(n+2) {
-  transition: transform 200ms ease 0ms;
-  transform: scale(1);
-  font-size: 1em;
-}
-
-
-
-
-
-:not(#a#b) :where(td, th) {
-  padding-inline-end: 0;
-  padding: 0;
-}
-
-td:first-child,
-th:first-child {
-    grid-column: 3/-6;
-    inset: var(--inset-files);
-    grid-row: span files-start;
-    position: sticky;
-}
-
-body > table > tbody > ::before {
-    display: none;
-}
-body > table[order] > thead > tr > th ::after {
-    width: unset;
-}
-
-body > table > thead > tr::before {
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  background-color: #222;
-  width: auto;
-  height: 100%;
-  padding: 0.1em 0.5ch;
-  letter-spacing: 0.05ch;
-  text-align: center;
-}
-
-body > table td:first-child + td,
-body > table th:first-child + th {
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  grid-row: span files-start;
-  grid-column: -6/-4;
-}
-
-body > table td:first-child + td + td,
-body > table th:first-child + th + th {
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  grid-row: span files-start;
-  grid-column: -4/-1;
-}
-
-body > table :where(td,th):last-child {
-  grid-column: -4/span -1;
-}
-
-body > table :where(tbody, thead, tr) {
-  display: contents;
-}
-
-:not(#a#b)
-body > table :where(td,th) {
-  background-color: #222;
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-  white-space: nowrap;
-}
-
-body > table td:nth-child(n+2) {
-  transition: transform 200ms ease 0ms;
-  transform: scale(1);
-  font-size: 1em;
-}
-:not(#a#b) body > table > tbody > ::before {
-  content: var(--s-playerIdx);
-  --bg: hsl( calc(360deg / var(--playerCount) * var(--playerIdx)) 80% 50% / 100% );
-  --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
-  --h: calc(var(--angle), 90deg);
-  --s: 60deg;
-  --l: 50%;
-  --a: 20%;
-  mask-composite: add;
-  mask-position: center center;
-  mask-size: contain;
-  mask-origin: content-box;
-  mask-clip: padding-box;
-  background-position: center center;
-  text-align: center;
-  white-space: preserve-spaces;
-  color: #fff0;
-  padding: var(--row-pad);
-  aspect-ratio: unset;
-  display: flex;
-  line-height: normal;
-  height: 2em;
-  grid-column: 1/3;
-  z-index: var(--z-files);
-  width: auto;
-  opacity: 1;
-  visibility: visible;
-  
-  position: sticky;
-  inset: var(--inset-files);
-  
-  background-color: #222;
-  background-image: radial-gradient(circle 0.1lh at center, #fff8, 90%, #000 90% 96%, #f000 0);
-  background-origin: content-box;
-  background-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  mask-image: linear-gradient(#ffff);
-}
-:not(#a#b)
-body > table > tbody > :where(.playing,.paused,.played)::before {
-    mask-clip: no-clip;
-    overflow: visible;
-    background-clip: content-box,content-box,content-box,content-box;
-    background-origin: content-box,content-box,content-box,content-box;
-    background-repeat: no-repeat;
-    background-position: var(--playback-status-icon-position, center center), center center, center center, center center;
-    background-blend-mode: normal;
-    background-image: var(--playback-status-icon),radial-gradient(1.3lh circle at center,var(--c1),var(--c2) 50% 57%,#fffa 60% 62%,#000 65%,#0000 68%),radial-gradient(ellipse 0.65lh 0.65lh at calc(50% - 0.5lh) 0.1lh,#fdd8 30%,#fff2 60% 70%,#00000050 120%,#0008 180%, #0000 0),radial-gradient(ellipse 0.65lh 0.65lh at calc(50% - 0.5lh) 0.7lh,#fff0 22%,#fff8 50% 56%,#fff4 58%, #fff0 61%),radial-gradient(1.3lh circle at center,#0001 55%,#0002 60%,#000 60%, #0000 63%);
-    --c1: hsl(from var(--bg) h s l / 100%);
-    --c2: hsl(from var(--bg) h s calc(l * 0.66) / 100%);
-    background-size: var(--playback-status-icon-size, 0.5lh), 100% 2lh, 1.2lh 1.2lh, 1lh 1lh;
-}
-body > table > tbody > :where(.played)::before {
-  --playback-status-icon: var(--playback-status-played);
-  --playback-status-icon-size: 0.9lh;
-}
-body > table > tbody > :where(.played):hover::before {
-  --playback-status-icon: var(--playback-status-replay);
-}
-table > tbody > .playing::before {
-  --playback-status-icon: var(--playback-status-playing);
-  --playback-status-icon-size: 0.45lh;
-  --playback-status-icon-position: calc(50% + 0.04lh) 0.5lh;
-}
-
-table > tbody > .paused::before {
-    --playback-status-icon: var(--playback-status-paused);
-}
-
-:not(#a#b) body > table th,
-:not(#a#b) body > table > thead > tr::before {
-  grid-row: fhead !important;
-  order: 1;
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  background-color: #141414;
-  width: auto;
-  height: 100%;
-  padding: 0;
-  letter-spacing: 0.05ch;
-  text-align: center;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  outline: none;
-}
 

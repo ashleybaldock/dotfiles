@@ -9,18 +9,54 @@
 
 source <script>:p:h/common.vim
 
-syn match tsTypeOpenBracket +<+ conceal cchar=❮
-      \ contained
-      \ contains=NONE 
-      \ containedin=typescriptBlock,typescriptTypeBrackets,
-      \  typescriptTypeArguments,typescriptTypeParameters
 
-syn match tsTypeCloseBracket +<+ conceal cchar=❯
-      \ contained
-      \ contains=NONE 
-      \ containedin=typescriptBlock,typescriptTypeBrackets,
-      \  typescriptTypeArguments,typescriptTypeParameters
+hi typescriptCall guifg=#88eeff
+hi typescriptFuncCallArg guifg=#88eeff
+hi typescriptParamExp  guifg=#88eeff
 
+hi link typescriptExport Special
+hi typescriptAliasKeyword guifg=#ffaa00
+hi typescriptAliasDefinition guifg=#ffaa00
 
-hi def tsTypeOpenBracket guibg=#ff0000 guifg=#00ffff
-hi def tsTypeCloseBracket guibg=#00ff00 guifg=#00ffff
+hi typescriptTypeQuery guifg=#ffaa00
+hi typescriptUnion guifg=#ffaa00
+hi typescriptTypeAnnotation guifg=#ffaa00
+hi typescriptTypeBrackets guifg=#ffaa00
+hi typescriptTypeReference guifg=#ffaa00
+
+hi typescriptIdentifierName guifg=#ffaa00
+hi typescriptDefaultParam guifg=#ffaa00
+
+hi typescriptVariable guifg=#ffaa00
+hi typescriptKeywordOp guifg=#ffaa00
+
+hi typescriptTemplateLiteralType guifg=#ffaa00
+hi typescriptTemplateSubstitutionType guifg=#ffaa00
+hi typescriptTemplate guifg=#ffaa00
+hi typescriptTemplateSubstitution guifg=#ffaa00
+hi typescriptTemplateSB guifg=#ffaa00
+
+hi typescriptBOMWindowProp guifg=#ffaa00
+
+hi link typescriptAssign Operator
+hi link typescriptUnaryOp Operator
+hi link typescriptBinaryOp Operator
+hi link typescriptTernaryOp Operator
+hi link typescriptDotNotation Operator
+
+hi link typescriptParens Delimiter
+"hi typescriptConditionalParen 
+
+hi typescriptProp guifg=#ffee77
+hi clear typescriptStringMethod
+hi link typescriptStringMethod typescriptProp
+hi link typescriptArrayMethod typescriptProp
+
+hi link typescriptMathStaticMethod typescriptProp
+hi link typescriptRegExpMethod typescriptProp
+hi link typescriptBOMLocationMethod typescriptProp
+hi link typescriptObjectStaticMethod typescriptProp
+hi link typescriptES6SetMethod typescriptProp
+hi link typescriptDOMFormProp typescriptProp
+hi link typescriptDOMDocMethod typescriptProp
+

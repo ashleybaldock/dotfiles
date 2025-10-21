@@ -119,7 +119,7 @@ syn keyword cssFunctionNameVar contained conceal cchar=𐐏 var
 " Math operators are valid inside these (and nested children)
 syn region cssMathFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
-      \ contains=cssMathFunctionRegion,cssCalcKeyword,
+      \ contains=cssMathFunctionRegion,cssCalcKeyword,CssMathOp,
       \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
       \cssError,
       \cssCustomPropRef,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
@@ -141,6 +141,8 @@ syn keyword cssMathFunctionName sqrt
       \ contained conceal cchar=√
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssSqrtRegion
+
+syn match CssMathOp $[+*/-]$ contained contains=NONE
 
 " syn keyword cssMathFunctionName pow
 "       \ contained conceal cchar=
@@ -339,8 +341,6 @@ syn region cssFunction contained
 syn match cssCustomPropRefDashes /--/ contained contains=NONE transparent conceal
 syn match cssCustomPropRef contained "--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)*\Z"
       \ contains=cssCustomPropRefDashes
-hi def cssFunctionComma guifg=#dddd22
-hi def link cssCustomPropRef cssCustomProp
 " syn region cssFunctionVar
 "       \ matchgroup=cssVarParens
 "       \ start="\<var\s*("ms=s+3,hs=e
@@ -355,11 +355,6 @@ hi def link cssCustomPropRef cssCustomProp
 "         \ contained oneline
 "         \ contains=cssVarCustomProp,cssFunctionVar,cssValue.*,cssFunction,cssColor,cssStringQ,cssStringQQ
 
-hi def link cssFunctionNameVar Conceal
-hi def link cssVarCustomProp cssCustomProp
-hi def link cssVarParens Conceal
-
-hi def cssMathFunctionName guifg=ycsealf gui=bold
 
 syn case ignore
 syn keyword cssCalcKeyword contained e pi
@@ -369,7 +364,6 @@ syn keyword cssCalcKeyword contained NaN
 syn match cssError +\<\%(n[aA][nN]\|N\%(an\|A[nN]\)\)\>+ contained containedin=cssFunctionCalc
 syn case ignore
 
-hi def link cssCalcKeyword Constant
 
 
 
@@ -463,11 +457,6 @@ syn region cssAtPropertyDef transparent fold contained
 syn region cssPropertySyntax contained
       \ start=+\z("\|'\)+ end=+\z1+
       \ contains=cssSyntaxType
-
-hi def link cssPropertySyntax String
-hi def link cssSyntaxType Type
-hi def link cssPropertyAttr Keyword
-hi def link cssPropertyProp PreProc
 
 " @layer
 syn region cssAtRule matchgroup=cssAtKeyword
@@ -745,6 +734,23 @@ hi link cssClassNameDot Statement
 hi def link cssAttrParens Statement
 hi def link cssAttrOp cssSelectorOp2
 hi def link cssIdHash Statement
+
+hi def cssFunctionComma guifg=#dddd22
+hi def link cssCustomPropRef cssCustomProp
+
+hi def link cssFunctionNameVar Conceal
+hi def link cssVarCustomProp cssCustomProp
+hi def link cssVarParens Conceal
+
+hi def cssMathFunctionName guifg=ycsealf gui=bold
+hi def link CssMathOp Operator
+
+hi def link cssCalcKeyword Constant
+hi def link cssPropertySyntax String
+hi def link cssSyntaxType Type
+hi def link cssPropertyAttr Keyword
+hi def link cssPropertyProp PreProc
+
 "
 hi def link cssUrlFnName cssFunctionName
 hi def link cssUrlParen  cssFunctionName

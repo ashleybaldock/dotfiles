@@ -1212,8 +1212,8 @@ body > table > thead > tr::before {
   text-align: center;
 }
 
-body > table td:first-child + td,
-body > table th:first-child + th {
+body > table > :where(tbody, thead) > tr > td:first-child + td,
+body > table > :where(tbody, thead) > tr > th:first-child + th {
   position: sticky;
   inset: var(--inset-files);
   z-index: var(--z-files);
@@ -1221,8 +1221,8 @@ body > table th:first-child + th {
   grid-column: -6/-4;
 }
 
-body > table td:first-child + td + td,
-body > table th:first-child + th + th {
+body > table > :where(tbody, thead) > tr > td:first-child + td + td,
+body > table > :where(tbody, thead) > tr > th:first-child + th + th {
   position: sticky;
   inset: var(--inset-files);
   z-index: var(--z-files);
@@ -1230,16 +1230,11 @@ body > table th:first-child + th + th {
   grid-column: -4/-1;
 }
 
-body > table :where(td,th):last-child {
+body > table > :where(tbody, thead) > tr >  :where(td, th):last-child {
   grid-column: -4/span -1;
 }
 
-body > table :where(tbody, thead, tr) {
-  display: contents;
-}
-
-:not(#a#b)
-body > table :where(td,th) {
+body > table > :where(tbody, thead) > tr >  :where(td, th) {
   background-color: #222;
   position: sticky;
   inset: var(--inset-files);
@@ -1252,12 +1247,12 @@ body > table :where(td,th) {
   white-space: nowrap;
 }
 
-body > table td:nth-child(n+2) {
+body > table > :where(tbody, thead) > tr > td:nth-child(n+2) {
   transition: transform 200ms ease 0ms;
   transform: scale(1);
   font-size: 1em;
 }
-:not(#a#b) body > table > tbody > ::before {
+body > table > tbody > ::before {
   content: var(--s-playerIdx);
   --bg: hsl( calc(360deg / var(--playerCount) * var(--playerIdx)) 80% 50% / 100% );
   --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
@@ -1295,7 +1290,7 @@ body > table td:nth-child(n+2) {
   mask-repeat: no-repeat;
   mask-image: linear-gradient(#ffff);
 }
-:not(#a#b)
+
 body > table > tbody > :where(.playing,.paused,.played)::before {
     mask-clip: no-clip;
     overflow: visible;
@@ -1326,8 +1321,8 @@ table > tbody > .paused::before {
     --playback-status-icon: var(--playback-status-paused);
 }
 
-:not(#a#b) body > table th,
-:not(#a#b) body > table > thead > tr::before {
+body > table > thead > tr > th,
+body > table > thead > tr::before {
   grid-row: fhead !important;
   order: 1;
   position: sticky;
@@ -1345,7 +1340,6 @@ table > tbody > .paused::before {
   justify-content: center;
   outline: none;
 }
-
 /*!}}}1*/
 
 /*!{{{1 Replace ellipsis table with text-overflow */

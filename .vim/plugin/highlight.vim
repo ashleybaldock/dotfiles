@@ -3,26 +3,42 @@ if exists("g:mayhem_loaded_highlight")
 endif
 let g:mayhem_loaded_highlight = 1
 
+function s:Conceal_guixx()
+  try
+    call get(s:, 'conceal_guixx_matchids', [])
+          \->foreach({i, v -> matchdelete(v)})
+  catch
+  endtry
+  let s:conceal_guixx_matchids = [
+        \ matchadd('Conceal', '\<\zsg\zeui\([fbs]g\)\?\>=', 10, -1, #{conceal: ' '}),
+        \ matchadd('Conceal', '\<g\zsu\zei\([fbs]g\)\?\>=', 10, -1, #{conceal: ' '}),
+        \ matchadd('Conceal', '\<gu\zsi\ze\([fbs]g\)\?\>=', 10, -1, #{conceal: ' '}),
+        \ matchadd('Conceal', '\<gui[fbs]\zsg\ze\>=', 10, -1, #{conceal: ' '}),
+        \ matchadd('Conceal', '\<gui\([fbs]g\)\?\>\zs=\ze', 10, -1, #{conceal: ' '}),
+        \]
+        " \ matchadd('Conceal', '\<gui\zs[fbs]\zeg\>=', 10, -1, #{conceal: ' '}),
+endfunc
+
 " Foreground text shown in a contrasting colour to the colour background
 function ColourHighlightTextContrast() abort
 endfunc
 
 " Foreground text hidden (same colour as the background)
 function ColourHighlightTextHidden() abort
-  call hlget()->filter(
-        \ {_, x -> x.name =~ '^BG.*'}
-        \ )->map(
-        \ {_, x -> #{name: x.name, guifg: x.guibg}}
-        \ )->hlset()
+  call hlget()
+        \ ->filter({_, x -> x.name =~ '^BG.*' && has_key(x, 'guibg')})
+        \ ->map({_, x -> #{name: x.name, guifg: x.guibg}})
+        \ ->hlset()
+  call s:Conceal_guixx()
 endfunc
 
 " Background hidden, show only text in colour
 function ColourHighlightTextOnly() abort
-  call hlget()->filter(
-        \ {_, x -> x.name =~ '^BG.*'}
-        \ )->map(
-        \ {_, x -> #{name: x.name, guifg: x.guibg, guibg: 'NONE'}}
-        \ )->hlset()
+  call hlget()
+        \ ->filter({_, x -> x.name =~ '^BG.*' && has_key(x, 'guibg')})
+        \ ->map({_, x -> #{name: x.name, guifg: x.guibg, guibg: 'NONE'}})
+        \ ->hlset()
+  call s:Conceal_guixx()
 endfunc
 
 
@@ -71,9 +87,9 @@ command! -bar HiHi call <SID>HighlightHighlight()
 " See: ../autoload/charinfo.vim
 "
 function! s:FormatCharInfoForSynFo(arg = v:null)
-  let charinfo = charinfo#get(a:arg)
+  let chfo = charinfo#get(a:arg)
 
-  return #{text: charinfo, props: []}
+  return #{text: chfo['characterise_output'], props: []}
 endfunc
 
 " command! -bar -nargs=0 CharInfoToggle Toggle g:mayhem_hl_auto_charinfo<CR>

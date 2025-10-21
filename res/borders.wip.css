@@ -1,0 +1,358 @@
+:not(#a)
+  :where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle):hover::after {
+  transition: opacity 80ms ease 0s;
+}
+:is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle):hover::after {
+  opacity: 1;
+}
+:not(#a) :where(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
+  min-width: 100px;
+  max-width: 200px;
+  min-height: 2lh;
+  height: auto;
+  width: auto;
+  position: absolute;
+  display: grid;
+  inset: auto auto 100% auto;
+
+  align-self: center;
+  place-items: center;
+
+  margin: 1em;
+
+  background-color: #000;
+  border: 0.5px solid #c00;
+
+  padding: 0.2em 1ch;
+
+  border-radius: 3px;
+
+  font-size: 1rem;
+  transition: opacity 140ms ease 50ms;
+  --a: 4px;
+  --x: 0px;
+  --y: 0px;
+  --w: 0px;
+  --h: 20px;
+  box-shadow:
+    calc(0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) 0
+      calc(var(--a)) #f0ac,
+    calc(0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) 0
+      calc(var(--a)) #a0fc,
+    calc(-0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) 0
+      calc(var(--a)) #a0ac,
+    calc(-0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) 0
+      calc(var(--a)) #f0fc,
+    0 0 #0000;
+}
+:is(#UI_goUp, #UI_showHidden, .sequencetoggle, .toggle)::after {
+  white-space: normal;
+
+  display: flex;
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  text-align: center;
+}
+.toggle::after {
+  content: attr(data-text);
+}
+.class + .class {
+}
+:not(#a#b) :where(#UI_goUp, #UI_showHidden, .toggle):hover {
+  width: 20px;
+  height: 20px;
+  border-width: 0px;
+  padding: 20px;
+
+  position: fixed;
+  left: 500px;
+  top: 500px;
+  background-color: #000;
+  --null: linear-gradient(#0000);
+  --m1: #0002 0%, #fff8 10% 30%, #0002 50% 50%, #fff8, #0002 100%;
+  --m1: #000, #f00, #0f0, #000;
+  --m1r: #000, #0f0, #f00, #000;
+  --m2: #000, #f0f, #0ff, #000;
+  --m1a: linear-gradient(to bottom, var(--m1r));
+  --m1b: linear-gradient(to left, var(--m1r));
+  --m1c: linear-gradient(to bottom, var(--m1));
+  --m1d: linear-gradient(to right, var(--m1r));
+  background-image:
+    linear-gradient(#000), var(--m1a, var(--null)), var(--m1b, var(--null)),
+    var(--m1c, var(--null)), var(--m1d, var(--null)), linear-gradient(#000),
+    radial-gradient(closest-side ellipse at 50% 50%, var(--m1)), var(--null);
+  background-repeat:
+    no-repeat,
+    no-repeat no-repeat,
+    no-repeat no-repeat,
+    no-repeat repeat,
+    repeat no-repeat,
+    no-repeat,
+    repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat;
+  background-size:
+    50% 50%,
+    50% 25%,
+    25% 50%,
+    50% 25%,
+    25% 50%,
+    50% 50%,
+    50% 50%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    50% 50%,
+    50% 50%,
+    50% 50%,
+    50% 50%,
+    contain,
+    contain;
+  background-position:
+    50% 50%,
+    50% 0,
+    100%,
+    50% 100%,
+    0% 50%,
+    50% 50%,
+    top left,
+    top right,
+    bottom right,
+    bottom left,
+    0 50%,
+    50% 0,
+    bottom 0% right 0%,
+    top 0% left 0%,
+    0 0,
+    0 0;
+
+  background-clip: border-box;
+  background-origin: border-box;
+  border-radius: 20%;
+
+  border: 0.5px solid #2224;
+}
+:not(#a#b) :where(#UI_goUp, #UI_showHidden, .toggle) {
+  border: 0.5px solid #4440;
+  margin: 0;
+
+  padding: 1ch;
+}
+:not(#a#b) :where(#UI_goUp, #UI_showHidden, .toggle) {
+  outline: 1px solid #a00;
+  outline-offset: 1px;
+  outline: none;
+}
+:not(#a) :where(#UI_goUp, #UI_showHidden, .toggle) {
+  display: grid !important;
+  margin: 1.4em;
+}
+#UI_goUp,
+#UI_showHidden,
+.sequencetoggle,
+.toggle {
+  position: sticky;
+  top: 80vh;
+}
+#UI_goUp,
+#UI_showHidden,
+.toggle {
+  flex-direction: column;
+}
+#UI_goUp,
+#UI_showHidden,
+.toggle {
+  z-index: 10;
+  grid-row: options;
+
+  display: flex !important;
+  margin: 0.2em 1ch 0.2em 0;
+  align-content: center;
+  align-items: center;
+  justify-content: start;
+}
+.toggle {
+  grid-column: auto/span options-end;
+}
+body > *,
+body > table {
+  grid-area: unset;
+  max-height: unset;
+}
+body > * {
+  max-height: 40vh;
+}
+element {
+  --playerCount: 0;
+  --s-playerCount: '0';
+}
+body {
+  color: #fff;
+}
+body {
+  color: FieldText;
+}
+:root {
+  --offset-tip: 0.2em;
+}
+:root {
+  --playerHeight: 80vh;
+}
+:root {
+  --outline-thin8:
+    1px 0 0.2px #000, 0 -1px 0.2px #000, -1px 0 0.2px #000, 0 1px 0.2px #000,
+    1px 1px 0.2px #000, 1px -1px 0.2px #000, -1px 1px 0.2px #000,
+    -1px -1px 0.2px #000;
+}
+:root {
+  --playerHeight: 90vh;
+  --playerWidth: 100vw;
+  --offset-tip: 0.2em;
+}
+:root {
+  --clientw: tan(atan2(var(--_100vw), 1px));
+  --clienth: tan(atan2(var(--_100vh), 1px));
+  --int-clientw: round(down, var(--clientw), 1);
+  --int-clienth: round(down, var(--clienth), 1);
+}
+:root {
+  color: -moz-dialogtext;
+  font: message-box;
+
+  color-scheme: light dark;
+}
+:root {
+  font-family: sans-serif;
+}
+--_100vh {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vh;
+}
+--_100vw {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vw;
+}
+--ani-transform {
+  syntax: '<transform-function>';
+  inherits: true;
+  initial-value: translateY(0);
+}
+--ani-translate {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+--clienth {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+--clientw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+--cursor-fallback {
+  syntax: 'auto | none | context-menu | help | pointer | progress | wait | cell | crosshair | text | vertical-text | alias | copy | move | no-drop | not-allowed | grab | grabbing | e-resize | n-resize | ne-resize | nw-resize | s-resize | se-resize | sw-resize | w-resize | ew-resize | ns-resize | nesw-resize | nwse-resize | col-resize | row-resize | all-scroll | zoom-in | zoom-out';
+  inherits: true;
+  initial-value: auto;
+}
+--cursor-height {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 1;
+}
+--cursor-hotspot-x {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+--cursor-hotspot-y {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+--cursor-image {
+  syntax: '<image> | <url>';
+  inherits: true;
+  initial-value: url('data:image/svg+xml,%3Csvg width=%2232%22 height=%2232%22 xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cpath fill=%22%23fff%22 d=%22m16.148 25.473 1.863-1.003 1.615-.839-2.568-4.816h4.332L10.011 7.407v16.015l3.316-3.221z%22/%3E%3Cpath fill=%22%23000%22 d=%22m16.431 24 1.765-.941-2.775-5.202h3.604L11 9.814v11.188l2.53-2.442z%22/%3E%3C/g%3E%3C/svg%3E');
+}
+--cursor-width {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 1;
+}
+--int-clienth {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+--int-clientw {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+--interleave-delay {
+  syntax: '<time>';
+  inherits: true;
+  initial-value: 500ms;
+}
+--interleave-steps {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 8;
+}
+--interleave-var1 {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+--out {
+  syntax: '<string>';
+  inherits: false;
+  initial-value: '<out>';
+}
+--p {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.5;
+}
+--playerCount {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 1;
+}
+--playerIdx {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+--r {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 90deg;
+}
+--s {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 180deg;
+}
+--s-playerCount {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '1';
+}
+--s-playerIdx {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '0';
+}

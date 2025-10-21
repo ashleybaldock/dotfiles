@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.198
+// @version     1.0.199
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -461,13 +461,13 @@ const initBrowsePreview = ({ document }) => {
         name: 'grid',
         bindTo: showGrid,
       }),
-      grid: addToggle({
+      paused: addToggle({
         to: body,
         textContent: 'Paused',
         name: 'paused',
         bindTo: paused,
       }),
-      grid: addToggle({
+      playing: addToggle({
         to: body,
         textContent: 'Playing',
         name: 'playing',
@@ -476,7 +476,7 @@ const initBrowsePreview = ({ document }) => {
       grid_fit: addSequenceToggle({
         to: body,
         textContent: 'Fit mode for grid items',
-        name: 'gridfit',
+        name: 'grid_fit',
         bindTo: grid_fit,
         sequence: fit_options.map((fit) => ({
           value: fit,

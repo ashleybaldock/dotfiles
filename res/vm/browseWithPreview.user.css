@@ -1674,3 +1674,222 @@ body > * {
   grid-area: 1/1/1/1;
 }
 
+
+
+
+
+
+
+
+
+
+
+:root {
+  overflow: visible;
+  min-height: 100vh;
+  inset: auto auto -100vh auto;
+
+  --inset-player: 0 0 0 0;
+  
+  --inset-top: 0 auto auto auto;
+  --margin-top: 0 0 0 0;
+  --inset-options: 55vh auto auto auto;
+  --margin-options: 0 0 0 0;
+  --inset-files: 60vh auto auto auto;
+  --inset-spacer: auto auto 100vh auto;
+  --margin-spacer: 0 0 75vh 0;
+
+  --z-spacer: 0;
+  --z-player: 30;
+  --z-options: 40;
+  --z-files: 50;
+  --z-files-header: 100;
+  --z-player-diag: 1000;
+}
+
+body {
+  max-height: unset;
+  position: sticky;
+  min-height: fit-content;
+  height: min-content;
+  overflow: visible;
+  inset: 0 auto 0 auto;
+  grid-auto-rows: auto;
+  column-gap: .5ch;
+  row-gap: .5ch;
+  grid-template-rows: [top 
+    spacer-start]auto[spacer-end 
+    options-start]3em[options-end
+    fhead-start]2em[fhead-end
+    files-start]auto[
+    bottom];
+  grid-template-columns: [left 
+    spacer-start
+    preview-start 
+    options-start
+    files-start
+    ]repeat(auto-fit,3rem)[
+    files-end
+    options-end
+    preview-end
+    spacer-end 
+    right];
+}
+body::before {
+    position: sticky;
+    inset: var(--inset-spacer);
+    margin: var(--margin-spacer);
+    border: 0;
+    z-index: var(--z-spacer);
+    grid-area: spacer;
+    max-height: unset;
+    content: "";
+}
+
+body > :not(h1) {
+  width: auto;
+  height: auto;
+}
+
+.player {
+  position: fixed;
+  z-index: var(--z-player);
+  inset: var(--inset-player);
+}
+
+.player::before {
+  position: fixed;
+  inset: var(--inset-top);
+  z-index: var(--z-player-diag);
+}
+
+body > table {
+  display: contents;
+}
+
+:where(tbody, thead) > ::before {
+  grid-column: 1/3;
+}
+
+body > h1 {
+  inset: var(--inset-top);
+}
+
+:not(#a#b)
+:where(
+  #UI_goUp,
+  #UI_showHidden,
+  .toggle,
+  .sequencetoggle
+) {
+  inset: var(--inset-options);
+  margin: var(--margin-options);
+  z-index: var(--z-options);
+  position: sticky;
+  order: -1;
+  grid-area: unset;
+  grid-row: options;
+}
+
+:not(#a#b) :where(td, th) {
+  padding-inline-end: 0;
+  padding: 0;
+}
+
+td:first-child,
+th:first-child {
+    grid-column: 3/-6;
+    inset: var(--inset-files);
+    grid-row: span files-start;
+    position: sticky;
+}
+
+body > table > tbody > ::before {
+    display: none;
+}
+body > table[order] > thead > tr > th ::after {
+    width: unset;
+}
+
+body > table > thead > tr::before {
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  background-color: #f02;
+  width: 100%;
+}
+
+body > table td:first-child + td,
+body > table th:first-child + th {
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  grid-row: span files-start;
+  grid-column: -6/-4;
+}
+
+body > table td:first-child + td + td,
+body > table th:first-child + th + th {
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+  grid-row: span files-start;
+  grid-column: -4/-1;
+}
+
+body > table :where(td,th):last-child {
+  grid-column: -4/span -1;
+}
+
+body > table :where(tbody, thead, tr) {
+  display: contents;
+}
+
+body > table :where(td,th) {
+  background-color: #222;
+  position: sticky;
+  inset: var(--inset-files);
+  z-index: var(--z-files);
+}
+
+body > table th,
+body > table > thead > tr::before {
+  z-index: var(--z-files-header);
+  grid-row: fhead !important;
+  order: 1
+}
+
+
+
+
+
+
+body {
+    outline: 3px solid orange;
+    background-color: #fff;
+    outline-offset: -3px;
+}
+body>:not(h1) {
+    background-color: #000!important;
+}
+tbody>tr:nth-child(-n+2)>td {
+    outline: 2px solid #0f0
+}
+.hidden-object {
+    outline: 2px solid purple
+}
+.hidden-object>td:nth-child(1) {
+    outline: 2px dashed orange
+}
+body>table:nth-child(4)>tbody:nth-child(2)>tr:nth-child(2)>td:nth-child(1) {
+    outline: 2px solid orange
+}
+body>table:nth-child(4)>tbody:nth-child(2)>tr:nth-child(13),body>table:nth-child(4)>tbody:nth-child(2)>tr:nth-child(16)>td:nth-child(1) {
+    outline: 2px solid purple
+}
+body>table:nth-child(4)>tbody:nth-child(2)>tr:nth-child(18)>td:nth-child(1) {
+    outline: 2px solid pink
+}
+body>table:nth-child(4)>tbody:nth-child(2)>tr:nth-child(43)>td:nth-child(1) {
+    outline: 2px solid #00f
+}

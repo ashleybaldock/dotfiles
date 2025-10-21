@@ -272,9 +272,12 @@ command! CssDataURLSplit3E3C :s/%3E\zs\s*\ze%3C/\\    /g
 "
 " Add spaces before and after the child combinator ( > )
 "
-command! -bar -range=% CssSpaceChildCombi
-      \ <line1>,<line2> s/\%(}\|\%^\)\_.\{-}\S\zs\s*>\s*\ze\S\_.\{-}\%({\|\%$\)/ > /gc
+" \%d173 used in place of } to avoid syntax bug
+"
+command! -bar -range=% CssSpaceChildCombi 
+      \ <line1>,<line2>s/\%(}\|\%^\)\_.\{-}\S\zs\s*>\s*\ze\S\_.\{-}\(\%d173\|\%$\)/ > /gc
 
+"
 " command! CssDataURLSplitPathZ 
 "
 " If base64, wrap @ fixed length after preamble

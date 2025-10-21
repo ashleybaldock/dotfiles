@@ -1037,6 +1037,7 @@ body > * {
     max-height: unset;
 }
 
+body > table,
 :where(tbody, thead),
 :where(tbody, thead) > tr {
     display: contents;
@@ -1046,7 +1047,7 @@ body > table {
   display: contents;
 }
 
-body > table > :where(tbody,thead) {
+body > table > :where(tbody, thead) {
   display: grid;
   overscroll-behavior: auto;
   grid-template-columns: subgrid;
@@ -1077,44 +1078,44 @@ body > table > tbody > tr:hover::before {
   filter: drop-shadow(0 0 .6px #ddda);
 }
 
-body > table :where(td, th) {
+body > table > :where(tbody, thead) > tr > :where(td, th) {
     position: sticky;
     top: 0;
     display: flex;
     height: fit-content;
 }
 
-body > table tr:hover > td:nth-child(n+2) {
+body > table > :where(tbody, thead) > tr:hover > td:nth-child(n+2) {
   transition: transform 120ms ease 0ms;
 }
-body > table tr:hover > td:nth-child(2) {
+body > table > :where(tbody, thead) > tr:hover > td:nth-child(2) {
   transform: scale(1.04) translateX(4%);
 }
 
-body > table tr:hover > td:nth-child(3) {
+body > table > :where(tbody, thead) > tr:hover > td:nth-child(3) {
   transform: scale(1.04) translateX(-4%);
 }
 
-body > table td:nth-child(n+2) {
+body > table > :where(tbody, thead) > tr > td:nth-child(n+2) {
     transition: transform 200ms ease 0ms;
     transform: scale(.8);
     font-size: 1em;
 }
-body > table td:nth-child(2) {
+body > table > :where(tbody, thead) > tr >  td:nth-child(2) {
     text-align: end;
     transform-origin: right;
 }
-body > table td:nth-child(3) {
+body > table > :where(tbody, thead) > tr >  td:nth-child(3) {
     text-align: start;
     transform-origin: left;
 }
 
-body > table td[sortable-data] {
+body > table > tbody > tr >  td[sortable-data] {
     white-space: nowrap;
     flex-wrap: nowrap;
 }
 
-body > table td[sortable-data]::before {
+body > table > tbody > tr >  td[sortable-data]::before {
     content: attr(sortable-data);
     justify-self: start;
 }
@@ -1620,11 +1621,6 @@ td:first-child + td {
   text-align: unset;
 }
 
-
-:not(#a#b) :where(td, th) {
-  padding-inline-end: 0;
-  padding: 0;
-}
 
 td:first-child,
 th:first-child {

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.200
+// @version     1.0.201
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -406,8 +406,9 @@ const initBrowsePreview = ({ document }) => {
       showOther: defineToggle(false),
       showGrid: defineToggle(false),
       grid_fit: defineSequence(fit_options),
-      playing: defineToggle(false),
-      paused: defineToggle(true),
+      playpause: defineSequence(['playing', 'paused']),
+      // playing: defineToggle(false),
+      // paused: defineToggle(true),
       linear: defineToggle(false),
       interleave: defineToggle(false),
       maxInterleaved: defineNumber(8),
@@ -429,8 +430,9 @@ const initBrowsePreview = ({ document }) => {
       showOther,
       showGrid,
       grid_fit,
-      playing,
-      paused,
+      playpause,
+      // playing,
+      // paused,
       linear,
       interleave,
       repeat,
@@ -463,17 +465,31 @@ const initBrowsePreview = ({ document }) => {
         name: 'grid',
         bindTo: showGrid,
       }),
-      paused: addToggle({
+      // paused: addToggle({
+      //   to: body,
+      //   textContent: 'Paused',
+      //   name: 'paused',
+      //   bindTo: paused,
+      // }),
+      // playing: addToggle({
+      //   to: body,
+      //   textContent: 'Playing',
+      //   name: 'playing',
+      //   bindTo: playing,
+      // }),
+      playpause: addSequenceToggle({
         to: body,
-        textContent: 'Paused',
-        name: 'paused',
-        bindTo: paused,
-      }),
-      playing: addToggle({
-        to: body,
-        textContent: 'Playing',
-        name: 'playing',
-        bindTo: playing,
+        textContent: 'Playback state',
+        name: 'playpause',
+        bindTo: playpause,
+        sequence: [
+          {
+            value: 'playing',
+          },
+          {
+            value: 'paused',
+          },
+        ],
       }),
       grid_fit: addSequenceToggle({
         to: body,

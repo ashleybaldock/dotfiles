@@ -1,0 +1,101 @@
+/* Inline | file:///Users/ashley/googledrive/projects/noita/ */
+
+body > table {
+  /* max-height: 33vh; */
+  /* height: fit-content; */
+  /* padding: 0; */
+  /* margin: 0; */
+  max-height: 100vh;
+  height: 40vh;
+  margin: o;
+  padding: 0;
+  outline: 1px solid #ff0;
+}
+
+body > table > :where(tbody, thead) {
+  /* z-index: 10000; */
+}
+
+body > table > tbody {
+  /* grid-auto-rows: 1fr; */
+  grid-auto-rows: auto;
+  z-index: -100;
+  background: #0000;
+}
+
+body > table > thead {
+  z-index: 1000;
+}
+
+body > table {
+  /* grid-template-rows: subgrid; */
+  /* overflow-y: scroll; */
+  /* display: c block; */
+  overflow: visible;
+  background: #0000;
+  background-color:;
+  background: #0000;
+  outline: 1px dotted #ff0;
+  position: sticky;
+  inset: 60vh 0 0 0;
+  scale:;
+  display: i;
+}
+
+/* :where(#UI_goUp, #UI_showHidden, .toggle) { */
+:where(#UI_goUp, #UI_showHidden, .toggle, .sequencetoggle) {
+  /* top: 60vh; */
+  inset: 55vh 0 0 0;
+  position:;
+}
+
+body {
+  /* max-height: unset; */
+  /* overflow: visible; */
+}
+
+body {
+  /* position: relative; */
+}
+
+tbody > ::before {
+  position: sticky;
+  inset: 60vh auto auto auto;
+}
+
+/* Inline | file:///Users/ashley/googledrive/projects/noita/ */
+
+body > table > :where(thead, tbody) {
+  background-color: #222;
+  padding: 0.2em 0.5ch;
+  inset: 60vh 0 0 0;
+  position: sticky;
+}
+
+body > table td {
+  background-color: #222;
+  inset: 60vh 0 0 0;
+  position: sticky;
+  z-index: 100;
+}
+
+body > table th {
+  z-index: 1000;
+}
+
+body > table > :where(thead, tbody) {
+  background-color: #222;
+  padding: 0.2em 0.5ch;
+  inset: 60vh auto auto auto;
+  position: sticky;
+}
+body > table td {
+  background-color: #222;
+  /*! padding: 0.2em 0.5ch; */
+  inset: 63vh auto auto auto;
+  position: sticky;
+  z-index: 100;
+}
+body > table th {
+  z-index: 1000;
+}

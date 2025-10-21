@@ -1093,18 +1093,17 @@ body > table > tbody > tr >  td[sortable-data]::before {
   display: flex;
 }
 
-td,
-td:first-child > a {
+body > table > :where(tbody, thead) > td,
+body > table > :where(tbody, thead) > td:first-child > a {
   white-space: unset;
 }
 
-td:first-child + td {
+body > table > :where(tbody, thead) > td:first-child + td {
   text-align: unset;
 }
 
-
-td:first-child,
-th:first-child {
+body > table > :where(tbody, thead) > td:first-child,
+body > table > :where(tbody, thead) > th:first-child {
     grid-column: 3/-6;
     inset: var(--inset-files);
     grid-row: span files-start;
@@ -1127,8 +1126,8 @@ body > table > thead > ::before {
   grid-column: 1/3;
 }
 
-body > table td:first-child + td,
-body > table th:first-child + th {
+body > table > :where(tbody, thead) > td:first-child + td,
+body > table > :where(tbody, thead) > th:first-child + th {
   position: sticky;
   inset: var(--inset-files);
   z-index: var(--z-files);
@@ -1136,8 +1135,8 @@ body > table th:first-child + th {
   grid-column: -6/-4;
 }
 
-body > table td:first-child + td + td,
-body > table th:first-child + th + th {
+body > table > :where(tbody, thead) > td:first-child + td + td,
+body > table > :where(tbody, thead) > th:first-child + th + th {
   position: sticky;
   inset: var(--inset-files);
   z-index: var(--z-files);
@@ -1145,11 +1144,13 @@ body > table th:first-child + th + th {
   grid-column: -4/-1;
 }
 
-body > table :where(td,th):last-child {
+body > table > :where(tbody, thead) > tr > :where(td, th):last-child {
   grid-column: -4/span -1;
 }
 
-body > table :where(tbody, thead, tr) {
+body > table,
+body > table > :where(tbody, thead),
+body > table > :where(tbody, thead) > tr {
   display: contents;
 }
 

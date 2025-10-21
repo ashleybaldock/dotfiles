@@ -342,14 +342,16 @@
 }
 
 :root {
-    margin: 0;
-    padding: 0;
-    --playerWidth: 100vw;
-    --offset-tip: 0.2em;
-    --playerHeight: 80vh;
-    max-height: 100vh;
+  margin: 0;
+  padding: 0;
   overflow: visible;
+  --playerWidth: 100vw;
+  --offset-tip: 0.2em;
+  --playerHeight: 80vh;
+    max-height: 100vh;
   min-height: 100vh;
+  max-width: 100vw;
+  min-width: 100vw;
   inset: auto auto -100vh auto;
 
   --inset-player: 0 0 0 0;
@@ -370,6 +372,7 @@
   --z-player-diag: 1000;
   
   --main-layout-column-count: 14;
+
 }
 
 /*!{{{1 Cursors */
@@ -1629,44 +1632,6 @@ body > table td[sortable-data]::before {
 /*!}}}1*/
 
 
-
-
-
-
-
-
-.interleave {
-  grid-area: preview;
-}
-
-:where(td, th) {
-  position: unset;
-  top: unset;
-  height: unset;
-}
-
-td[sortable-data] {
-  white-space: unset;
-  flex-wrap: unset;
-}
-
-body > table > thead {
-  grid-row: unset;
-  grid-template-rows: 1fr;
-}
-
-:root {
-  overflow-y: scroll;
-  max-width: 100vw;
-  overflow-x: hidden;
-  min-width: 100vw;
-}
-
-body > table > :where(tbody, thead) {
-  grid-auto-rows: auto;
-  grid-template-columns: subgrid;
-}
-
 :where(.file, .dir) {
   width: auto;
 }
@@ -1675,35 +1640,8 @@ body > table > :where(tbody, thead) {
   display: flex;
 }
 
-td:nth-child(2) {
-  text-align: unset;
-}
-
-td:nth-child(n+2) {
-  font-size: unset;
-}
-
-tbody > tr {
-  padding: unset;
-}
-
-tbody > ::before {
-  aspect-ratio: unset;
-  display: flex;
-  line-height: normal;
-  height: 2em;
-}
-
-table {
-  width: unset;
-  margin: unset;
-}
-
+td,
 td:first-child > a {
-  white-space: unset;
-}
-
-td {
   white-space: unset;
 }
 

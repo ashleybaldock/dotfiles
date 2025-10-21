@@ -10,8 +10,12 @@ let g:mayhem_autoloaded_charinfo = 1
 "
 
 function! charinfo#get(arg) abort
-  let char = empty(a:arg) ? char2nr(getline('.')[col('.') - 1 : -1])->nr2char() : char2nr(a:arg)->nr2char()
-  let composedchar = empty(a:arg) ? strpart(getline('.'), col('.') - 1, 1, v:true) : strpart(a:arg, 0, 1, v:true)
+  let char = empty(a:arg)
+        \ ? char2nr(getline('.')[col('.') - 1 : -1])->nr2char()
+        \ : char2nr(a:arg)->nr2char()
+  let composedchar = empty(a:arg)
+        \ ? strpart(getline('.'), col('.') - 1, 1, v:true)
+        \ : strpart(a:arg, 0, 1, v:true)
 
   let output = 'No Char Info'
 
@@ -33,18 +37,18 @@ function! charinfo#get(arg) abort
     if v:errmsg != ''
       echom 'Error running Characterize: ' .. v:errmsg
       let output = #{
-            \err: 'Char Info Err',
-            \in: composedchar,
+            \ err: 'Char Info Err',
+            \ in: composedchar,
             \}
     else
       let output = #{
-            \err: v:null,
-            \in: composedchar,
-            \base: #{
-            \ char: char,
-            \ codepoint: char2nr(char)
-            \},
-            \characterise_output: characterise_output
+            \ err: v:null,
+            \ in: composedchar,
+            \ base: #{
+            \  char: char,
+            \  codepoint: char2nr(char)
+            \ },
+            \ characterise_output: characterise_output
             \}
     endif
   endif

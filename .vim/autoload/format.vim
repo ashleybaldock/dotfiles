@@ -18,10 +18,11 @@ let s:f_number = #{
       \ dot: '0⒈⒉⒊⒋⒌⒍⒎⒏⒐',
       \}
 function! format#numbers(str, format = 'sans') abort
-  return substitute(a:str, '[0-9]',
-        \ { m -> get(s:f_number, a:format, '0123456789')->strgetchar(
-        \  m[0]->str2nr()
-        \ )->nr2char()}, 'g')
+  return (a:str .. '')
+        \->substitute('[0-9]', { 
+        \ m -> get(s:f_number, a:format, '0123456789')
+        \      ->strgetchar(m[0]->str2nr())->nr2char()
+        \}, 'g')
 endfunc
 
 let s:f_session = [[

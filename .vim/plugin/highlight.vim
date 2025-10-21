@@ -66,8 +66,12 @@ function! s:HighlightHighlight() abort
   " call hlget()->foreach('syn match' v:val.name '/\<' .. v:val.name .. '\>/')
 
   for hlgroup in hlget()
-    exec 'syn match' hlgroup['name'] '/\<' .. hlgroup['name'] .. '\>/'
-          \ ' contained contains=NONE containedin=VimGroupName,VimHiGroup,VimGroup'
+    try
+      exec 'syn match' hlgroup['name'] '/\<' .. hlgroup['name'] .. '\>/'
+          \ ' contained contains=NONE containedin=VimGroupName,VimHiGroup,VimHiLink'
+    catch
+      echom v:exception
+    endtry
   endfor
 endfunc
 
@@ -122,47 +126,12 @@ function s:GetFormattedPositionInfo(maxlines = 20) abort
   let byte = printf('ʙʏᴛᴇ%s', format#numbers(bc))
   let numbers = printf('𝖱𝗈𝗐 %s | %s%s%s',
         \ format#numbers(line('.')),
-        \ format#numbers(col),
-        \ cc == vc ? '' : printf(' | %s', format#numbers(vcol)),
-        \ cc == bc ? '' : printf(' | %s', format#numbers(byte)))
+        \ col,
+        \ cc == vc ? '' : printf(' | %s', vcol),
+        \ cc == bc ? '' : printf(' | %s', byte))
   return #{text: printf('%'..a:maxlines..'S', numbers), props: []}
 endfunc
 
-"
-" ⎛★                                                  ⎞
-" ⎢   𝟧𝟤𝟥𝟦⁝cssUrlFunction ꜰ􀂒ʙ􀣦ꜱ􀂓  􀅓􀅔􀅕􀅖􀨡 􂏾     ⎥
-" ⎢                                                   ⎥
-" ⎢        𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴⦉𝟵𝟭⦊                ⎥
-" ⎢        𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴⦇𝟵𝟭⦈                ⎥
-" ⎢        𝟢𝟤𝟥𝟦𝟧𝟨𝟩𝟪»𝟫𝟣  𝟬‹𝟭𝟮›𝟯𝟰𝟱𝟲𝟳𝟴❨𝟵𝟭❩               ⎥
-" ⎢      ₅️₆️₇️₈️₉️                                        ⎥
-" ⎢                                                   ⎥
-
-" let s:subranges = #{
-"       \ norm:  '0123456789',
-"       \ vs16:  '0️1️2️3️4️5️6️7️8️9️',
-"       \ sans:  '𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫',
-"       \ sansb: '𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵',
-"       \ sup:   '⁰¹²³⁴⁵⁶⁷⁸⁹',
-"       \ sub:   '₀₁₂₃₄₅₆₇₈₉',
-"       \ sub16: '₀️₁️₂️₃️₄️₅️₆️₇️₈️₉️',
-"       \ mono:  '𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿',
-"       \ fullw: '０１２３４５６７８９',
-"       \ circ: '⓪①②③④⑤⑥⑦⑧⑨',
-"       \ paren: '0⑴⑵⑶⑷⑸⑹⑺⑻⑼',
-"       \ dot: '0⒈⒉⒊⒋⒌⒍⒎⒏⒐',
-"       \ 
-"       \}
-  " let range = split(a:subrange, '\zs')
-  "       \ '\=get(l:range, str2nr(submatch(0)), submatch(0))',
-"
-" Replace range(s) of codepoints in input string
-" function format#numbers(str, subrange = 'sans')
-"   return substitute(a:str, '[0-9]',
-"         \ '\=nr2char(strgetchar(s:subranges[a:subrange], str2nr(submatch(0))))',
-"         \ 'g')
-" endfunc
-"                                           
 function! s:ForColor(color)
   " if a:color == 'NONE'
   "   return ['􀣦', '#333333']
@@ -276,7 +245,6 @@ function! s:UpdateSynFoBuffer(winid)
   "
   " Top Level Highlight Info:
   "
-  let results = synID(line("."), col("."), 1)->synIDtrans()->synIDattr("name")->hlget(v:true)
 
   " ⎢ ᴅ  9999: SomeGroup fg:􀏄 bg:􀏄 sp:􀏄 gui: 􀅓􀅔􀅕􀅖􀨡􂏾   ⎥
 
@@ -296,8 +264,7 @@ function! s:UpdateSynFoBuffer(winid)
   "   - 􀅓bold 􀅔italic 􂏾[re/in]verse 􀨡standout 􀅖strikethrough¹
 	"   - 􀅕under[line/curl¹/double¹/dotted¹/dashed¹]
   "   - nocombine² NONE³
-
-  for val in results
+  for val in synID(line("."), col("."), 1)->synIDtrans()->synIDattr("name")->hlget(v:true)
     let lineParts = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. format#numbers(val.id, 'sansb'), col: 2}]
 
     let [fgsymbol, fgcolor] = s:ForColor(get(val, 'guifg', ''))
@@ -311,30 +278,35 @@ function! s:UpdateSynFoBuffer(winid)
 " 􀣤 􀏃 􀣦􀂒􀃰􀃲   􁄻  
 " ⎢╶─╴wincolor╶────────────────╴𐔥ɢ-️ⲃɢ-️ꮪᴩ╶───╴ɢᴜɪ╶──────╴⎥
 " ⎛  ★   ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )              ⎞
-
+"
+"
 " ⎛                                          ─╸SynFo╺─  ⎞
 " ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
-" ⎢                               ᢁ                     ⎥
-" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────╴ꭱꮩ╶╴⎥
-" ⎢     ╰‣️Normal❘𝟤❘􀮵           􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡􂏾   ⎥
+" ⎢                                                     ⎥
+" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶──────╴ꭱꮩ╶⎥
+" ⎢     ╰‣️Normal❘𝟤❘􀮵           􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡 􂏾  ⎥
 "
 " col1|     col2  width:fit    |     col3  width:22    |
 "  w:2|                        |                       |
-" ⎛                                          ─╸SynFo╺─  ⎞
-" ⎢★️ ᴅ⎧cssUrlFunction❘𝟤𝟥𝟦𝟧❘􀮵   􀂓 􀯮 􀂒 􂏾  􀅓􀅔􀅕􀅖􀨡  ⎥
-" ⎢   │╰‣️Statement❘𝟤𝟥𝟦❘􀮵        ╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴   ⎥
-" ⎢   │  ╰‣️Constant❘𝟧𝟧𝟧𝟧❘􀮵      ╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴   ⎥
-" ⎢ ᴄ ⎧cssUrl❘􀮵                􀂓 􀯮 􀂒 􂏾  􀅓􀅔􀅕􀅖􀨡  ⎥
-" ⎢  ᴅ⎧cssParam❘􀮵              􀂓 􀯮 􀂒 􂏾  􀅓􀅔􀅕􀅖􀨡  ⎥
-" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
-" ⎢     ╰‣️BaseWin❘𝟤𝟥𝟦❘􀮵        􀂓 􀯮 􀂒 􂏾  􀅓􀅔􀅕􀅖􀨡  ⎥
-" ⎢                                                     ⎥
-" ⎢ ⎧ cᷟ⃝     ⎫                      𐔥ɢ ʙɢ ꮪꮲ  ʀᴠ ꭱꮩ                ⎥
-" ⎢ ╰⎧ c    ⎪                                      ⎥
-" ⎢  ╰⎧ ◌ᷟ   ⎪                                 ⎥
-" ⎢   ╰{️ ◌⃝  ⎭                           ⎥
-" ⎢                                                      ⎥
-" ⎝  𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦                             ⎠
+"
+" ⎛╶─⸻ˢ️ʸ︎ⁿ⸻ᶠ︎ᴼ╶──────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎞
+" ⎢★️ ᴅ⎧cssUrlFunction❘𝟤𝟥𝟦𝟧❘􀮵   􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡 ꭱ ⎥
+" ⎢   │╰‣️Statement❘𝟤𝟥𝟦❘􀮵       ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
+" ⎢   │  ╰‣️Constant❘𝟧𝟧𝟧𝟧❘􀮵     ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
+" ⎢ ᴄ ⎧cssUrl❘􀮵                􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
+" ⎢  ᴅ⎧cssParam❘􀮵              􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
+" ⎢╶─╴wincolor╶───────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎥
+" ⎢     ╰‣️BaseWin❘𝟤𝟥𝟦❘􀮵        􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
+" ⎢                                                    ⎥
+" ⎢ ⎧ cᷟ⃝     ⎫                      𐔥ɢ ʙɢ ꮪꮲ  ʀᴠ ꭱꮩ     ⎥
+" ⎢ ╰⎧ c    ⎪                                          ⎥
+" ⎢  ╰⎧ ◌ᷟ   ⎪                                          ⎥
+" ⎢   ╰{️ ◌⃝  ⎭                                          ⎥
+" ⎢                                                    ⎥
+" ⎢                      ᣛ ᔥ   ᔓ ˠɣʃyʎʏʆˢʸⁿᶠᶮᶯᶴ ᶰᴺ    ⎥
+" ⎢  ⸻Ⅲ⃛ Ⅲ⃛ ꠵⃛ ꠲⃛ 𑁔⸻𐤛𒐺   ⬱                                    ⎥
+" ⎢                                ᴝ ᵙᵞᶂᶡᶠ             ⎥
+" ⎝  ─╸𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦╺─                       ⎠
 
     " Gui: (bold/underline etc.)
     let gui = get(val, 'gui', {})
@@ -370,16 +342,24 @@ function! s:UpdateSynFoBuffer(winid)
     let nohlParts = [
           \ #{t: '╶╶ ', fg: s:colorHidden, hi: 'SlHomeMN', col: 1},
           \ #{t: 'No highlighting here', hi: 'SlHomeMC', col: 2},
-          \ #{t: ' ╴', fg: s:colorHidden, hi: 'SlHomeMN',pad: '╴', col: 2},
-          \ #{t: '╴', fg: s:colorHidden, hi: 'SlHomeMN',pad: '╴', col: 3},
+          \ #{t: ' ╴', fg: s:colorHidden, hi: 'SlHomeMN', pad: '╴', col: 2},
+          \ #{t: '╴', fg: s:colorHidden, hi: 'SlHomeMN', pad: '╴', col: 3},
           \]
-    " call add(lines, #{text: 'No highlighting here', props: []})
     call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
   endif
 
   if &l:wincolor != '' 
+" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────╴ꭱꮩ╶╴⎥
+" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
 " ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
     call add(lines, #{text: 'base(wincolor): ' .. &l:wincolor, props: []})
+    let nohlParts = [
+          \ #{t: '╶╶ ', fg: s:colorHidden, hi: 'SlHomeMN', col: 1},
+          \ #{t: '╴wincolor╶', hi: 'SlHomeMC', col: 2},
+          \ #{t: ' ╴', fg: s:colorHidden, hi: 'SlHomeMN', pad: '╴', col: 2},
+          \ #{t: '╴', fg: s:colorHidden, hi: 'SlHomeMN', pad: '╴', col: 3},
+          \]
+    call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
   else
     call add(lines, #{text: 'base: ' .. get(hlget('Normal'), 'guifg', ''), props: []})
   endif

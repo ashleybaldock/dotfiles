@@ -1155,7 +1155,7 @@ body > table > :where(tbody, thead) > tr {
 }
 
 :not(#a#b)
-body > table :where(td,th) {
+body > table > :where(tbody, thead) > tr > :where(td, th) {
   background-color: #222;
   position: sticky;
   inset: var(--inset-files);
@@ -1168,32 +1168,25 @@ body > table :where(td,th) {
   white-space: nowrap;
 }
 
-body > table th,
+body > table > thead > tr > th,
 body > table > thead > tr::before {
   z-index: var(--z-files-header);
   grid-row: fhead !important;
   order: 1
 }
 
-
-
-body > table td:nth-child(n+2) {
+body > table > :where(tbody, thead) > tr > td:nth-child(n+2) {
   transition: transform 200ms ease 0ms;
   transform: scale(1);
   font-size: 1em;
 }
 
-
-
-
-
-:not(#a#b) :where(td, th) {
+body > table > :where(tbody, thead) > tr > :where(td, th) {
   padding-inline-end: 0;
   padding: 0;
 }
 
-td:first-child,
-th:first-child {
+body > table > :where(tbody, thead) > tr > :where(td, th):first-child {
     grid-column: 3/-6;
     inset: var(--inset-files);
     grid-row: span files-start;

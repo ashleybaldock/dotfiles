@@ -221,7 +221,7 @@ an 100.530.230 Tools2.SynFo.Show\ At\ Cursor	<Cmd>SynFo<CR>
 macm Tools2.SynFo.Show\ At\ Cursor key=<D-i>
 
 an 100.600 Tools2.-sep4-	<Nop>
-an 100.650.100 Tools2.Auto\ Format	<Cmd>call FormatBuffer()<CR>
+an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 "
 " 􂠺  􂠸    􁘃 􁘅 􁘇  􁘉 􁘋 􁘍     􀟦 􀟧
 "                     

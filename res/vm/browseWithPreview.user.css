@@ -355,15 +355,14 @@
 
   --z-spacer: 0;
   --z-player: 30;
-  --z-options: 40;
+  --z-other-labels: 35;
+  --z-top-label: 40;
   --z-files: 50;
-  --z-files-header: 100;
-  --z-player-diag: 1000;
-  --z-other-labels: 9999;
-  --z-top-label: 10000;
+  --z-options: 55;
+  --z-files-header: 60;
+  --z-player-diag: 100;
   
   --main-layout-column-count: 14;
-
 }
 
 /*!{{{1 Cursors */
@@ -632,6 +631,10 @@ body > h1 {
     syntax:"<transform-function>";inherits:true;initial-value:translateX(0);
 }
 
+@property --ani-transform-inverse {
+    syntax:"<transform-function>";inherits:true;initial-value:translateX(0);
+}
+
 @property --playerIdx {
     syntax:"<integer>";inherits:true;initial-value:0;
 }
@@ -699,6 +702,7 @@ video {
   min-height: var(--playerHeight);
   --ani-step: round(down, var(--playerCount) * var(--ani-translate-progress), 1);
   --ani-transform: translateX(calc(var(--ani-step) * -1 * var(--playerWidth)));
+  --ani-transform-inverse: translateX(calc(var(--ani-step) * 1 * var(--playerWidth)));
   min-width: var(--playerWidth);
   background-image: repeating-conic-gradient(from 112deg,#f006 0 54deg,#f002 56deg 180deg),repeating-conic-gradient(from -112deg,#f006 0 94deg,#f002 96deg 180deg);
   background-size: 5% 5%,5% 5%;
@@ -728,35 +732,37 @@ video {
   position: fixed;
   top: 2px;
   right: 2px;
+  transform: none;
 }
 
 .interleave > .vidwrap::after {
-    --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
-    --radius: 14px;
-    --bgc: hsl(var(--angle) 60% 50% / 40%);
-    --bdc: hsl(from var(--bgc) h s l / 100%);
-    --playerIdx: inherit;
-    --s-playerIdx: inherit;
-    content: var(--s-playerIdx);
-    width: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: calc(var(--radius) + sin(var(--angle))*var(--radius));
-    left: calc(var(--radius) + cos(var(--angle))*var(--radius));
-    background-color: var(--bgc);
-    line-height: normal;
-    border-radius: 50%;
-    font-size: calc(var(--radius)*1.2);
-    color: #fff;
-    font-family: Menlo,monospace;
-    font-weight: 400;
-    border: 2px solid var(--bdc);
-    margin: 2px;
-    height: 1lh;
-    aspect-ratio: 1;
-    padding: 0;
+  --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
+  --radius: 14px;
+  --bgc: hsl(var(--angle) 60% 50% / 40%);
+  --bdc: hsl(from var(--bgc) h s l / 100%);
+  --playerIdx: inherit;
+  --s-playerIdx: inherit;
+  content: var(--s-playerIdx);
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: calc(var(--radius) + sin(var(--angle))*var(--radius));
+  left: calc(var(--radius) + cos(var(--angle))*var(--radius));
+  background-color: var(--bgc);
+  line-height: normal;
+  border-radius: 50%;
+  font-size: calc(var(--radius)*1.2);
+  color: #fff;
+  font-family: Menlo,monospace;
+  font-weight: 400;
+  border: 2px solid var(--bdc);
+  margin: 2px;
+  height: 1lh;
+  aspect-ratio: 1;
+  padding: 0;
+  position: static;
+  transform: translateX(calc(var(--playerIdx) * var(--playerWidth) * -1)) var(--ani-transform-inverse);
 }
 
 .interleave > .vidwrap:has(> .off) {
@@ -769,7 +775,12 @@ video {
 
 .interleave:not(.grid) > .vidwrap {
   grid-area: auto;
-  transform: unset;
+  transform: var(--ani-transform);
+}
+
+.interleave > .vidwrap > label {
+  height: var(--playerHeight);
+  background-color: #0000;
 }
 /*!}}}1*/
 
@@ -1363,7 +1374,7 @@ body > table > thead > tr::before {
 .sequencetoggle > label {
     background-repeat: no-repeat;
     display: grid;
-    grid-template: 1/1;
+    grid-template: 1fr/1fr;
     background-image: radial-gradient(circle at 75% 50%,#0000 0 40%,#444 40% 60%,#0000 60%),radial-gradient(circle at 25% 50%,#0000 0 40%,#444 40% 60%,#0000 60%),radial-gradient(circle at 50% 50%,#0000 0 40%,#444 40% 60%,#0000 60%);
     width: 6em;
     height: 6em;
@@ -1813,7 +1824,6 @@ body > table > thead > tr::before {
 
 
 .player {
---z-player: 10000;
 overflow-x: visible;
 overflow: visible !important;
 }
@@ -1828,7 +1838,6 @@ animation-play-state: paused;
 grid-area: auto;
 width: var(--playerWidth);
 grid-row: 1;
-outline: 5px solid orange;
 }
 
 :root:has([name="playpause"] [value="paused"]:checked) :where(.vidwrap, .player),
@@ -1854,24 +1863,12 @@ outline: 5px solid orange;
 :where(.player,.vidwrap)
 > [for="toggle_paused"] {
   z-index: var(--z-top-label);
-  outline: 10px dashed #080;
   background-image: var(--icon-play);
 }
 :root:has([name="playpause"] [value="paused"]:checked)
 :where(.player,.vidwrap)
 > [for="toggle_playing"] {
   z-index: var(--z-top-label);
-  outline: 10px dashed #808;
   background-image: var(--icon-pause);
 }
 
-
-
-:where(.player,.vidwrap)
-> [for="toggle_paused"] {
-  outline: 5px solid #080;
-}
-:where(.player,.vidwrap)
-> [for="toggle_playing"] {
-  outline: 5px solid #808;
-}

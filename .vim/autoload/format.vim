@@ -3,6 +3,10 @@ if exists("g:mayhem_autoloaded_format") || &cp
 endif
 let g:mayhem_autoloaded_format = 1
 
+"
+" See: ../plugin/format.vim
+"
+
 let s:f_number = #{
       \ norm:  '0123456789',
       \ vs16:  '0️1️2️3️4️5️6️7️8️9️',
@@ -52,5 +56,22 @@ endfor
 "
 function! format#session(str) abort
   return a:str->split('\zs')->map({i, c -> get(s:f_session_lookup, c, '⍰')})->join('')
+endfunc
+
+"
+" Runs prettier on the input JSON string
+"
+function format#JSON(jsonString) abort
+  return systemlist('npx prettier --stdin-filepath nameless.json', a:jsonString)
+endfunc
+"
+" Apply code beautification to the contents of a buffer (or part thereof)
+"
+function format#buffer(bufnr = bufnr()) range abort
+  let l:filetype = &filetype ?? 'html'
+  let l:filename = expand('%') ?? 'nameless'
+  let l:stdinpath = shellescape(l:filename .. '.' .. l:filetype)
+
+  exec a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath ' .. l:stdinpath
 endfunc
 

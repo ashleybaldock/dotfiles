@@ -537,7 +537,7 @@ nnoremap §rv <Cmd>so expand('$VIMHOME/vimrc')<CR>
 "
 " Prettify: §p
 "
-nnoremap §p call FormatBuffer()<CR>
+nnoremap §p <Plug>(mayhem_format_buffer)
 " nnoremap §p %!npx prettier --stdin-filepath shellescape(expand('%'))<CR>
 
 "

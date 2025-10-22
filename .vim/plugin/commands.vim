@@ -51,26 +51,6 @@ function PrefixDecimal(n) abort
 endfunc
 
 
-function FormatJSON(jsonString) abort
-  return systemlist('npx prettier --stdin-filepath nameless.json', a:jsonString)
-endfunc
-"
-" Apply code beautification to current
-" contents of buffer (or part thereof)
-"
-function FormatBuffer(bufnr = bufnr()) range abort
-  let l:filetype = &filetype
-  let l:filename = expand('%')
-  if ( l:filename != '' )
-    let stdinpath = shellescape(l:filename)
-  elseif ( l:filetype != '')
-    let l:stdinpath = 'nameless.' .. l:filetype
-  else
-    let l:stdinpath = 'nameless.html'
-  endif
-
-  exec a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath ' .. l:stdinpath
-endfunc
 
 "
 " Transpose Rows And Columns: in range or visual selection
@@ -105,8 +85,8 @@ endfunc
 function Discontinuation() range
 endfunc
 
-xnoremap <unique> <script> <Plug>MayhemContinuationInsert <ScriptCmd>call Continuation()<CR>
-xnoremap <unique> <script> <Plug>MayhemContinuationRemove <ScriptCmd>call Discontinuation()<CR>
+xnoremap <unique> <silent><script> <Plug>(mayhem_continuation) <ScriptCmd>call Continuation()<CR>
+xnoremap <unique> <silent><script> <Plug>(mayhem_discontinuation) <ScriptCmd>call Discontinuation()<CR>
 
 
 " Information & Debug

@@ -10,7 +10,7 @@ let g:mayhem_loaded_charinfo = 1
 
 command! -bar -nargs=? CharInfo echo charinfo#formatForCommand(<q-args>)
 
-nnoremap <silent><cript> <Plug>(mayhem_charinfo) :<C-U>CharInfo<CR>
+nnoremap <silent><script> <Plug>(mayhem_charinfo) :<C-U>CharInfo<CR>
 
 nnoremap <silent><script> <Plug>(mayhem_charinfo_toggle) :<C-U>Toggle g:mayhem_auto_charinfo<CR>
 

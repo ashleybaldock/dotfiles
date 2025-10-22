@@ -258,26 +258,6 @@ command! -bar -range=% CssAttrSingleQuotes <line1>,<line2> s/\[\zs\([^|~$^=\]]*\
 " --color02: rgb(var(--c02r) var(--c02g) var(--c02b) / var(--c02a));
 
 "
-" Data URLs:
-" See also: ./dataurl.vim
-"
-" /url(\("\|'\|\)data:\([A-Za-z/]\+\);\(base64\)\?,\([A-Za-z0-9/+=]\+\)\1)/
-"
-" Split: across multiple lines                              TODO
-" TODO
-" Split SVG URLs at tag boundaries …%3E\⏎️ %3C… (…>\⏎️ <…)
-"
-command! CssDataURLSplit3E3C :s/%3E\zs\s*\ze%3C/\\    /g
-
-"
-" Add spaces before and after the child combinator ( > )
-"
-" \%d173 used in place of } to avoid syntax bug
-"
-command! -bar -range=% CssSpaceChildCombi 
-      \ <line1>,<line2>s/\%(}\|\%^\)\_.\{-}\S\zs\s*>\s*\ze\S\_.\{-}\(\%d173\|\%$\)/ > /gc
-
-"
 " command! CssDataURLSplitPathZ 
 "
 " If base64, wrap @ fixed length after preamble
@@ -433,6 +413,26 @@ endfunc
 "
 "
 " '<,'>s/^\(\s*\)[^;]\+;\zs\(base64,\_[a-zA-Z0-9/+ \\]\+\_[=]*\)\ze['");]
+
+"
+" Data URLs:
+" See Also: ./dataurl.vim
+"
+" /url(\("\|'\|\)data:\([A-Za-z/]\+\);\(base64\)\?,\([A-Za-z0-9/+=]\+\)\1)/
+"
+" Split: across multiple lines                              TODO
+" TODO
+" Split SVG URLs at tag boundaries …%3E\⏎️ %3C… (…>\⏎️ <…)
+"
+command! CssDataURLSplit3E3C :s/%3E\zs\s*\ze%3C/\\    /g
+
+"
+" Add spaces before and after the child combinator ( > )
+"
+" \%d173 used in place of } to avoid syntax bug
+"
+command! -bar -range=% CssSpaceChildCombi 
+      \ <line1>,<line2>s/\%(}\|\%^\)\_.\{-}\S\zs\s*>\s*\ze\S\_.\{-}\(\%d173\|\%$\)/ > /gc
 
 "
 " Data URLs:

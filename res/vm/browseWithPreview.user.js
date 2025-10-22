@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.204
+// @version     1.0.208
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -27,7 +27,11 @@
  *
  */
 
-const fit_options = ['auto', 'contain', 'cover', 'fitw', 'fith'];
+const sequenceOptions = {
+  fit: ['auto', 'contain', 'cover', 'fitw', 'fith'],
+  playpause: ['playing', 'paused'],
+  player: ['interleave', 'linear'],
+};
 
 const isDirectory = (({ document }) =>
   qs`:has([href="chrome://global/skin/dirListing/dirListing.css"])`.hasSome)(
@@ -404,10 +408,9 @@ const initBrowsePreview = ({ document }) => {
       showVideo: defineToggle(false),
       showOther: defineToggle(false),
       showGrid: defineToggle(false),
-      grid_fit: defineSequence(fit_options),
-      playpause: defineSequence(['playing', 'paused']),
-      linear: defineToggle(false),
-      interleave: defineToggle(false),
+      grid_fit: defineSequence(sequenceOptions.fit),
+      playpause: defineSequence(sequenceOptions.playpause),
+      player: defineSequence(sequenceOptions.player),
       maxInterleaved: defineNumber(8),
       interleaveDelay: defineNumber(500),
       repeat: defineToggle(true),
@@ -428,10 +431,7 @@ const initBrowsePreview = ({ document }) => {
       showGrid,
       grid_fit,
       playpause,
-      // playing,
-      // paused,
-      linear,
-      interleave,
+      player,
       repeat,
       shuffle_on_repeat,
       reload_on_repeat,
@@ -439,56 +439,46 @@ const initBrowsePreview = ({ document }) => {
   }) => {
     return {
       shuffle_on_repeat: addToggle({
-        to: body,
         textContent: 'Shuffle playlist every repeat',
-        name: 'shuffle_on_repeat',
         bindTo: shuffle_on_repeat,
+        name: 'shuffle_on_repeat',
+        to: body,
       }),
       reload_on_repeat: addToggle({
-        to: body,
         textContent: 'Reload folder contents on playlist repeat',
-        name: 'reload_on_repeat',
         bindTo: reload_on_repeat,
+        name: 'reload_on_repeat',
+        to: body,
       }),
       repeat: addToggle({
-        to: body,
         textContent: 'Repeat playlist',
-        name: 'repeat',
         bindTo: repeat,
+        name: 'repeat',
+        to: body,
       }),
       playpause: addSequenceToggle({
-        to: body,
         textContent: 'Playback state',
-        name: 'playpause',
         bindTo: playpause,
-        sequence: [
-          {
-            value: 'playing',
-          },
-          {
-            value: 'paused',
-          },
-        ],
+        name: 'playpause',
+        to: body,
+        sequence: sequenceOptions.playpause.map((p) => ({
+          value: p,
+        })),
       }),
       player: addSequenceToggle({
         to: body,
         textContent: 'Playback state',
         name: 'player',
         bindTo: player,
-        sequence: [
-          {
-            value: 'interleave',
-          },
-          {
-            value: 'linear',
-          },
-        ],
+        sequence: sequenceOptions.player.map((p) => ({
+          value: p,
+        })),
       }),
       grid: addToggle({
-        to: body,
         textContent: 'Show as grid',
-        name: 'grid',
         bindTo: showGrid,
+        name: 'grid',
+        to: body,
       }),
       grid_fit: addSequenceToggle({
         to: body,
@@ -500,34 +490,34 @@ const initBrowsePreview = ({ document }) => {
         })),
       }),
       // interleave: addToggle({
-      //   to: body,
       //   textContent: 'Interleaved playback',
-      //   name: 'interleave',
       //   bindTo: interleave,
+      //   name: 'interleave',
+      //   to: body,
       // }),
       // linear: addToggle({
-      //   to: body,
       //   textContent: 'Linear playback',
-      //   name: 'linear',
       //   bindTo: linear,
+      //   name: 'linear',
+      //   to: body,
       // }),
       images: addToggle({
-        to: body,
         textContent: 'Include image files',
-        name: 'images',
         bindTo: showImages,
+        name: 'images',
+        to: body,
       }),
       video: addToggle({
-        to: body,
         textContent: 'Include video files',
-        name: 'video',
         bindTo: showVideo,
+        name: 'video',
+        to: body,
       }),
       other: addToggle({
-        to: body,
         textContent: 'Include other files',
-        name: 'other',
         bindTo: showOther,
+        name: 'other',
+        to: body,
       }),
     };
   })({ unsafeWindow, config });

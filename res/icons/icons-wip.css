@@ -1,0 +1,48 @@
+
+/* icons.css | http://localhost:3333/icons/icons.css */
+
+:is(section, .svgListing), :is(section, .svgListing):has(> h2) {
+  /* container-type: size; */
+  /* contain: size; */
+}
+
+body {
+  /* grid-template-columns: repeat(auto-fit, [item-start]var(--item-size) [item-end]) [label-start]auto[label-end]; */
+}
+
+.iconRow {
+  /* box-shadow: calc(var(--item-gap) * 1) calc(var(--item-gap) * 2) 0 calc(var(--item-gap) * 2) #222; */
+  inset: 0 auto;
+}
+
+/* Inline | http://localhost:3333/icons/icons.html */
+
+.iconRow:nth-child(6n+1) {
+  inset: 10vh auto;
+}
+
+.iconRow:nth-child(6n+0) {
+  inset: -1vh auto;
+}
+.iconRow:nth-child(6n+1) {
+  inset: 5vh auto;
+}
+.iconRow:nth-child(6n+2) {
+  inset: 1vh auto;
+}
+.iconRow:nth-child(6n+3) {
+  inset: 2vh auto;
+}
+.iconRow:nth-child(6n+4) {
+  inset: 4vh auto;
+}
+.iconRow:nth-child(6n+5) {
+  inset: 3vh auto;
+}
+.iconRow,
+.iconRow .wrappedSVG,
+.inner::before {
+  background-color: #0000;
+  box-shadow: 0 0 0 0 #0000;
+}
+o

@@ -7,10 +7,10 @@ g:mayhem_loaded_sfsymbols = 1
 #
 # See Also:
 #   ../autoload/sfsymbols.vim
-#   ../notes/sf-symbols.createlist.md
-#   ../demo/
+#      ../notes/sf-symbols.createlist.md
+#       ../demo/
 #
-#
+#􀥯
 
 # Scope: Script
 var sfrange_start = 0x100000

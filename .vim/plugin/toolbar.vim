@@ -489,7 +489,7 @@ function! s:AddDynamicToolBar()
   "         \ 'ToolBar.Unused1' '<Nop>'
 
   " Unused:
-  " 􀌬 􀌭 􁃒 􁃓  􀣋 􀣌 􀥎 􀥏 􀺼 􁐂  􁐑 􁐑️⃞ 􁐑️⃝ 
+  " 􀌬 􀌭 􁃒 􁃓  􀣋 􀣌 􀥎 􀥏 􀺼 􁐂  􁐑 􁐑️⃞ 􁐑️⃝   􁅊  􀏜 􀥃 􃑷  􀢌 􀤯 􀏝 
   exec 'an' SfIcon('􀣋') s:MenuNextItem()
         \ 'ToolBar.ReloadConfig' '<Nop>'
   exec 'tmenu' 'ToolBar.ReloadConfig' '􀣋' 'Reload config'

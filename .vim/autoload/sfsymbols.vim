@@ -7,6 +7,12 @@ let g:autoloaded_sfsymbols = 1
 scriptencoding utf-8
 
 "
+" See Also: ../plugin/sfsymbols.vim
+"             ../demo/
+"            ../notes/sf-symbols.createlist.md
+"
+
+"
 " With:
 "   0 args: return list of all symbols
 " 1-2 args: return id (name) for symbol provided in first arg, or

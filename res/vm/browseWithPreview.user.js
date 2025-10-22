@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.203
+// @version     1.0.204
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -406,8 +406,6 @@ const initBrowsePreview = ({ document }) => {
       showGrid: defineToggle(false),
       grid_fit: defineSequence(fit_options),
       playpause: defineSequence(['playing', 'paused']),
-      // playing: defineToggle(false),
-      // paused: defineToggle(true),
       linear: defineToggle(false),
       interleave: defineToggle(false),
       maxInterleaved: defineNumber(8),
@@ -458,24 +456,6 @@ const initBrowsePreview = ({ document }) => {
         name: 'repeat',
         bindTo: repeat,
       }),
-      grid: addToggle({
-        to: body,
-        textContent: 'Show as grid',
-        name: 'grid',
-        bindTo: showGrid,
-      }),
-      // paused: addToggle({
-      //   to: body,
-      //   textContent: 'Paused',
-      //   name: 'paused',
-      //   bindTo: paused,
-      // }),
-      // playing: addToggle({
-      //   to: body,
-      //   textContent: 'Playing',
-      //   name: 'playing',
-      //   bindTo: playing,
-      // }),
       playpause: addSequenceToggle({
         to: body,
         textContent: 'Playback state',
@@ -490,6 +470,26 @@ const initBrowsePreview = ({ document }) => {
           },
         ],
       }),
+      player: addSequenceToggle({
+        to: body,
+        textContent: 'Playback state',
+        name: 'player',
+        bindTo: player,
+        sequence: [
+          {
+            value: 'interleave',
+          },
+          {
+            value: 'linear',
+          },
+        ],
+      }),
+      grid: addToggle({
+        to: body,
+        textContent: 'Show as grid',
+        name: 'grid',
+        bindTo: showGrid,
+      }),
       grid_fit: addSequenceToggle({
         to: body,
         textContent: 'Fit mode for grid items',
@@ -499,18 +499,18 @@ const initBrowsePreview = ({ document }) => {
           value: fit,
         })),
       }),
-      interleave: addToggle({
-        to: body,
-        textContent: 'Interleaved playback',
-        name: 'interleave',
-        bindTo: interleave,
-      }),
-      linear: addToggle({
-        to: body,
-        textContent: 'Linear playback',
-        name: 'linear',
-        bindTo: linear,
-      }),
+      // interleave: addToggle({
+      //   to: body,
+      //   textContent: 'Interleaved playback',
+      //   name: 'interleave',
+      //   bindTo: interleave,
+      // }),
+      // linear: addToggle({
+      //   to: body,
+      //   textContent: 'Linear playback',
+      //   name: 'linear',
+      //   bindTo: linear,
+      // }),
       images: addToggle({
         to: body,
         textContent: 'Include image files',

@@ -674,8 +674,7 @@ video {
 }
 
 /*{{{2 Linear Player */
-.linear.playing,
-:root:has(.toggle[name=linear] :checked) .linear {
+:root:has([name="player"] [value="linear"]:checked) .linear {
     display: grid;
 }
 
@@ -718,11 +717,14 @@ video {
   animation-timing-function: steps(var(--playerCount),jump-both);
   animation-duration: calc(var(--interleave-duration-per, 500ms) * (var(--playerCount, 4) - 1));
   grid-area: preview;
-  display: grid;
   grid-template-columns: [left interleave-start] repeat(var(--playerCount), var(--playerWidth)) [interleave-end right];
   grid-auto-flow: row;
   grid-template-rows: [top interleave-start] var(--playerHeight) [interleave-end bottom];
   transform: var(--ani-transform);
+  display: none;
+}
+:root:has([name="player"] [value="interleave"]:checked) .interleave {
+  display: grid;
 }
 
 .interleave::before {

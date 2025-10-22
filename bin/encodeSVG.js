@@ -10,6 +10,7 @@ const encodeSVG = (svg) =>
   `data:image/svg+xml,${svg
     .replace(/>\s{1,}</g, `><`) /* strip spaces between tags */
     .replace(/\s{2,}/g, ` `) /* remove multiple spaces */
+    .replace(/[\r\n]$/g, ``) /* remove trailing newline(s) */
     .replace(/[\r\n%#()"'<>?[\\\]^`{|}]/g, encodeURIComponent)}`;
 
 /**

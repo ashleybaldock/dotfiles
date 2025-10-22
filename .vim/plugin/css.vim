@@ -9,6 +9,7 @@ let g:mayhem_loaded_css = 1
 " See Also:
 "                  ./csso.vim (CSS optimise)
 "                  ./svgo.vim (SVG optimise)
+"               ./dataurl.vim
 "           ../syntax/css.vim
 "     ../after/syntax/css.vim
 "         ../ftplugin/css.vim

@@ -782,6 +782,58 @@ video {
   height: var(--playerHeight);
   background-color: #0000;
 }
+
+
+.interleave > .vidwrap::before,
+.interleave > .vidwrap::after {
+  --bgc: hsl(var(--angle) 50% 45% / 35%);
+  --bdc: hsl(from var(--bgc) h s l / 100%);
+  --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
+  --radius: 14px;
+  --ratio: 1;
+  --playerIdx: inherit;
+  --s-playerIdx: inherit;
+  color: #ddd;
+  content: var(--s-playerIdx);
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inset: 
+    calc(var(--radius) + cos(var(--angle)) * var(--radius))
+    calc(var(--radius) + sin(var(--angle)) * var(--radius)) auto auto;
+  background-color: var(--bgc);
+  border-radius: 50%;
+  line-height: normal;
+  font-size: calc(var(--radius)*var(--ratio));
+  font-family: Menlo,monospace;
+  font-weight: 400;
+  border: 1px solid var(--bdc);
+  margin: 3px;
+  height: 0.9lh;
+  aspect-ratio: 1;
+  padding: 0;
+}
+.interleave > .vidwrap::after {
+  --bdc: hsl(var(--angle) 100% 60% / 100%);
+  --bgc: hsl(var(--angle) 100% 70% / 100%);
+/*   --bdc: #000;
+  color: #fff0; */
+  color: #000;
+  font-weight: 600;
+  position: absolute;
+  transform: none;
+}
+
+.interleave > .vidwrap::before {
+  position: fixed;
+  transform: translateX(calc(var(--playerIdx) * var(--playerWidth) * -1)) var(--ani-transform-inverse);
+}
+
+.interleave {
+  animation-timing-function: steps(calc(var(--playerCount) - 1),jump-end);
+  transform: unset;
+}
 /*!}}}1*/
 
 

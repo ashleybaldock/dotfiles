@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.201
+// @version     1.0.202
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -106,7 +106,7 @@ const addSequenceToggle = ({
   ...attrs
 } = {}) => {
   const div = GM_addElement(to, 'div', {
-    class: 'sequencetoggle',
+    class: 'sequencetoggle toggle',
     'data-text': textContent,
     ...attrs,
   });

@@ -370,6 +370,8 @@
   --z-files: 50;
   --z-files-header: 100;
   --z-player-diag: 1000;
+  --z-other-labels: 9999;
+  --z-top-label: 10000;
   
   --main-layout-column-count: 14;
 
@@ -724,7 +726,8 @@ video {
   animation-duration: calc(var(--interleave-duration-per, 500ms) * (var(--playerCount, 4) - 1));
   grid-area: preview;
   display: grid;
-  grid-template-columns: [left interleave-start] repeat(auto-fit, var(--playerWidth)) [interleave-end right];
+  grid-template-columns: [left interleave-start] repeat(var(--playerCount), var(--playerWidth)) [interleave-end right];
+  grid-auto-flow: row;
   grid-template-rows: [top interleave-start] var(--playerHeight) [interleave-end bottom];
   transform: var(--ani-transform);
 }
@@ -778,7 +781,7 @@ video {
 
 
 .interleave:not(.grid) > .vidwrap {
-  grid-area: interleave;
+  grid-area: auto;
   transform: unset;
 }
 
@@ -1844,16 +1847,18 @@ grid-row: 1;
 outline: 5px solid orange;
 }
 
-:root:has(.toggle[name="paused"] :checked) :where(.vidwrap, .player), .paused, [data-cursor="media-default-play"], .player > [for="toggle_playing"] {
-animation-play-state: paused;
-transform: none;
+:root:has([name="playpause"] [value="paused"]:checked) :where(.vidwrap, .player),
+.paused {
+  animation-play-state: paused;
+  transform: none;
 }
-:root:has(.toggle[name="playing"] :checked) :where(.vidwrap, .player), .playing, [data-cursor="media-default-pause"], .player > [for="toggle_paused"] {
-animation-play-state: playing;
-transform: var(--ani-transform);
+:root:has([name="playpause"] [value="playing"]:checked) :where(.vidwrap, .player),
+.playing {
+  animation-play-state: running;
+  transform: var(--ani-transform);
 }
 
-.player > label {
+:where(.player, .vidwrap) > label {
   grid-row: 1/-1;
   grid-column: 1/-1;
   z-index: var(--z-other-labels);
@@ -1861,23 +1866,28 @@ transform: var(--ani-transform);
   background-size: contain;
   background-color: #2224;
 }
-.player > [for="toggle_paused"] {
-  outline: 5px solid #080;
-}
-:root:has(.toggle[name="playing"] :checked) .player > [for="toggle_paused"] {
+:root:has([name="playpause"] [value="playing"]:checked)
+:where(.player,.vidwrap)
+> [for="toggle_paused"] {
   z-index: var(--z-top-label);
   outline: 10px dashed #080;
   background-image: var(--icon-play);
 }
-:root {
-  --z-top-label: 10000;
-  --z-other-labels: 9999;
-}
-.player > [for="toggle_playing"] {
-  outline: 5px solid #808;
-}
-:root:has(.toggle[name="paused"] :checked) .player > [for="toggle_playing"] {
+:root:has([name="playpause"] [value="playing"]:checked)
+:where(.player,.vidwrap)
+> [for="toggle_playing"] {
   z-index: var(--z-top-label);
   outline: 10px dashed #808;
   background-image: var(--icon-pause);
+}
+
+
+
+:where(.player,.vidwrap)
+> [for="toggle_paused"] {
+  outline: 5px solid #080;
+}
+:where(.player,.vidwrap)
+> [for="toggle_playing"] {
+  outline: 5px solid #808;
 }

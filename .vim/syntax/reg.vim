@@ -13,29 +13,33 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
+syn match SynErr contained /\\%/ contains=NONE
+syn match SynErr contained /\\@/ contains=NONE
+
 syn region BareRegex oneline
       \ matchgroup=BareEnds start=+^\s*[/?]*+
       \ skip=+$\s*\\+
       \ matchgroup=BareEnds end=+/\?$+
       \ contains=NewLine,MatchOr,
-      \@Atoms,Escaped,@Multis,@Groups
+      \@Atoms,@Looks,Escaped,SynErr,@Multis,@Groups
 
       " \ end=+\z1.*\zs\z1+
-syn region SubstCmd keepend transparent
+syn region Substitute keepend transparent
       \ start=+\ze:\?\%(%\|'<,'>\)\?s\z([/|+!@£$%^&:]\)+
       \ skip=+\\\z1+
       \ end=+\%([^\\]\)\@<=[^\\]\z1[cegiInp#lr]*\%(\s*\d\+\)\?\%(\s\|$\)+
-      \ nextgroup=SubColon,SubRange,SubS
+      \ nextgroup=SubstColon,SubstRange,SubstCmd
 
-syn match SubColon +:+ contained contains=NONE nextgroup=SubRange,SubS
-syn match SubRange +%\|'<,'>+ contained contains=NONE nextgroup=SubS
-syn match SubS +s+ contained contains=NONE nextgroup=SubPat
-" syn match SubDelim1 +[/|+!@£$%^&:]+ contained contains=NONE nextgroup=SubPat
-syn region SubPat contained keepend oneline
+syn match SubstColon +:+ contained contains=NONE nextgroup=SubstRange,SubstCmd
+syn match SubstRange /%\|'<,'>/ contained contains=NONE nextgroup=SubstCmd
+syn match SubstCmd +s+ contained contains=NONE nextgroup=SubstPat
+" syn match SubDelim1 +[/|+!@£$%^&:]+ contained contains=NONE
+" nextgroup=SubstPat
+syn region SubstPat contained keepend oneline
       \ matchgroup=SubstEnds start=+\\\@1<!\z([/|+!@£$%^&:]\)+
       \ skip=+\\\z1+
       \ end=+\z1+
-      \ contains=@Atoms,Escaped,@Multis,@Groups,MatchOr
+      \ contains=@Atoms,@Looks,Escaped,SynErr,@Multis,@Groups,MatchOr
       \ nextgroup=SubstRep
 
 syn region SubstRep contained keepend oneline
@@ -45,9 +49,6 @@ syn region SubstRep contained keepend oneline
       \ contains=BackRef,Escaped
       \ nextgroup=SubstFlag,SubstCount
 
-syn match SubText /.*/ contained
-syn match BackRef /\\[0-9]/ contained
-
 syn match SubstFlag /[cegiInp#lr]/ contained contains=NONE
       \ nextgroup=SubstFlag,SubstCount
 syn match SubstCount /\s*\zs\d\+/ contained contains=NONE
@@ -56,13 +57,15 @@ syn region CapGrp contained oneline
       \ matchgroup=CapGrpEnds start=+\\(+
       \ end=+\\)+
       \ containedin=PreEscaped
-      \ contains=@Atoms,Escaped,@Multis,@Groups,MatchOr
+      \ contains=@Atoms,@Looks,Escaped,SynErr,@Multis,@Groups,MatchOr
 
 syn region NCapGrp contained oneline
       \ matchgroup=NCapGrpEnds start=+\\%(+
       \ end=+\\)+ 
       \ containedin=PreEscaped
-      \ contains=@Atoms,Escaped,@Multis,@Groups,MatchOr
+      \ contains=@Atoms,@Looks,Escaped,SynErr,@Multis,@Groups,MatchOr
+
+syn match BackRef /\\[0-9]/ contained
 
 syn match Multi contained /\*/ contains=NONE
 syn match Multi contained /\\+/ contains=NONE
@@ -72,6 +75,14 @@ syn match Multi contained /\\{-\?\d*,\?\d*}/ contains=NONE
 
 syn match Escaped contained +\\\*+ contains=NONE
 syn match Escaped contained +\\\/+ contains=NONE
+syn match Escaped contained +\\\\+ contains=NONE
+syn match Escaped contained +\\\[+ contains=NONE
+
+syn match LkBehind contained /\\@\d*<=/ contains=NONE
+syn match NLkBehind contained /\\@\d*<!/ contains=NONE
+syn match LkAhead contained /\\@=>/ contains=NONE
+syn match LkHere contained /\\@=/ contains=NONE
+syn match NLkHere contained /\\@!/ contains=NONE
 
 syn match Atom contained +\.+ contains=NONE
 syn match Atom contained +\\ze+ contains=NONE
@@ -105,14 +116,15 @@ syn region NCharClass contained
 syn match ChRg contained /.-[^]]/ contains=NONE
 syn match NChRg contained /.-[^]]/ contains=NONE
 
-syn cluster Atoms contains=Atom,CharClass,NCharClass,NewLine
+syn cluster Atoms contains=Atom,CharClass,NCharClass,NewLine,BackRef
 syn cluster Multis contains=Multi
+syn cluster Looks contains=LkBehind,NLkBehind,LkAhead,LkHere,NLkHere
 syn cluster Groups contains=CapGrp,NCapGrp
 
 " syn region Multi contained oneline
 "       \ start=+\\{+
 
-syn match MatchOr /\\|/ contained
+syn match MatchOr /\\|/ contained contains=NONE
 
 "hi def  guifg=#eebbee
 "hi def  guifg=#ff9999
@@ -132,22 +144,30 @@ hi def CapGrpEnds   guifg=#ffaa33 guibg=#662200
 hi def BackRef      guifg=#ffaa33 guibg=#662200
 hi def NCapGrp      guifg=#bbeeee
 hi def NCapGrpEnds  guifg=#eebbee guibg=#663366
-hi def MatchOr      guifg=#ffaa22 guibg=#003333
+hi def MatchOr      guifg=#ffff30                             gui=bold
 hi def NewLine      guifg=#ffdd33 guibg=#8833dd
 hi def BareEnds     guifg=#22ffff
-hi def SubstCmd     guifg=#22ff22
+hi def Substitute   guifg=#22ff22
 hi def SubstEnds    guifg=#ffff30 gui=bold
 hi def SubstRep     guifg=#eeddee
 hi def link SubstFlags Error
 hi def SubstFlag    guifg=#ff4499 guibg=bg
 hi def link SubstCount SubstEnds
 
-hi def SubRange     guifg=#8888dd
-hi def SubS         guifg=#4fff29
-hi def link SubColon SubS
-hi def SubPat       guifg=#bbeeee
+hi def SubstRange     guifg=#8888dd
+hi def SubstCmd         guifg=#4fff29
+hi def link SubstColon SubstCmd
+hi def SubstPat       guifg=#bbeeee
 " hi def BackRef      guifg=#00ffff guibg=#3300aa guisp=#00ffff gui=underdashed
 
+hi def Look         guifg=#88eeee
+hi def link LkBehind Look
+hi def link NLkBehind Look
+hi def link LkAhead Look
+hi def link LkHere Look
+hi def link NLkHere Look
+
+hi def SynErr       guifg=#ffffff guibg=#ff0000
 hi def Multi        guifg=#ff9999 gui=nocombine
 hi def Escaped      guifg=#12cd4d
 hi def Atom         guifg=#9999ff
@@ -162,4 +182,3 @@ let b:current_syntax = "reg"
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-

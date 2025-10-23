@@ -1,3 +1,19 @@
+@property --c-badge {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #0000;
+}
+@property --badge-content {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '';
+}
+@property --badge-transform {
+  syntax: '<transform-list>';
+  inherits: true;
+  initial-value: none;
+}
+
 .nths {
   display: grid;
   grid-template-columns: repeat(20, 1fr);
@@ -26,18 +42,42 @@
   padding: 1ch;
   letter-spacing: normal;
   place-items: center;
-  flex: 0 0 auto;
   margin: 0 auto 0 auto;
   grid-column: 1/-1;
+  counter-reset: count;
+}
+.nth > ::before {
+  content: counter(count);
+  grid-area: 1/1;
 }
 .nth > ::after {
-  inset: auto 0 -0.2lh auto;
+  --badge-transform: rotate(-5deg) translate(0.1ch, 0.3lh);
+  inset: auto -0.5ch -0.5lh auto;
   position: absolute;
-  font-size: 0.67em;
   display: flex;
-  aspect-ratio: 1;
   width: auto;
   height: auto;
+  padding: 0.2em 1ch;
+  content: var(--badge-content);
+  font-size: 0.56em;
+  background-image: radial-gradient(
+    farthest-side circle at top right,
+    #000,
+    40%,
+    #222a
+  );
+  background-repeat: no-repeat;
+  background-origin: border-box;
+  background-clip: border-box;
+  /*   backdrop-filter: blur(1px); */
+  box-shadow: inset 0 0.25px 3px 0.5px var(--c-badge);
+  border-radius: 0.25ch;
+  transform: var(--badge-transform);
+  filter: drop-shadow(1px 1px 2px #0006);
+}
+.nth > * {
+  counter-increment: count;
+  box-shadow: inset 0 0 4px 0.5px var(--c-badge);
 }
 .nth > div {
   position: relative;
@@ -49,149 +89,55 @@
   height: auto;
   place-content: center;
   place-items: center;
+  filter: drop-shadow(1px 1px 2px #0006);
+  border-radius: 0.25ch;
 }
-.nth {
-  counter-reset: count;
-}
-.nth > * {
-  counter-increment: count;
-}
-.nth > *::before {
-  content: counter(count);
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-}
-
-.nth > *::after {
-  --badge-transform: inherit;
-  --badge-label: inherit;
-  --c: inherit;
-  content: var(--badge-label, '');
-  font-size: 0.4em;
-  opacity: 0;
-  box-shadow: inset 0 0 4px 0.5px var(--c);
-  transform: var(--badge-transform, none);
-}
-[data-nth],
-[data-nth]::before,
-[data-nth]::after {
-  --c: inherit;
-  box-shadow: inset 0 0 4px 0.5px var(--c);
+[data-nth] {
+  box-shadow: inset 0 0 4px 0.5px var(--c-badge);
   letter-spacing: 0.18ch;
-  opacity: 1;
+  border-radius: 0.25ch;
+  filter: drop-shadow(1px 1px 2px #0006);
 }
 
-[data-nth='odd']:hover,
-.nth:has(~ [data-nth='odd']:hover) > :nth-child(odd),
-.nth:has(~ [data-nth='odd']:hover) > :nth-child(odd)::after,
-.nth:has(> :nth-child(odd):hover) ~ [data-nth='odd'],
-.nth:has(> :nth-child(odd):hover) > :nth-child(odd),
-.nth:has(> :nth-child(odd):hover) > :nth-child(odd)::after {
-  --c: #66d;
-  --badge-transform: rotate(-15deg);
-  --badge-label: 'odd';
-}
-
-[data-nth='even']:hover,
-.nth:has(~ [data-nth='even']:hover) > :nth-child(even),
-.nth:has(> :nth-child(even):hover) ~ [data-nth='even'],
-.nth > :nth-child(even):hover,
-.nth > :nth-child(even):hover ~ :nth-child(even),
-.nth > :nth-child(even):has(~ :nth-child(even):hover) {
-  --c: #d66;
-  --badge-transform: rotate(-15deg) translate(0.1ch, 0.3lh);
+.nths:has([data-nth='even']:hover, .nth > :nth-child(even):hover)
+  :where([data-nth='even'], .nth > :nth-child(even)) {
+  --c-badge: #66d;
   --badge-content: 'even';
 }
+.nths:has(> [data-nth='odd']:hover, > .nth > :nth-child(odd):hover)
+  :where([data-nth='odd'], .nth > :nth-child(odd)) {
+  --c-badge: #d66;
+  --badge-content: 'odd';
+}
 
-[data-nth='2n']:hover,
-.nth:has(~ [data-nth='2n']:hover) > :nth-child(2n),
-.nth:has(> :nth-child(2n):hover) ~ [data-nth='2n'],
-.nth > :nth-child(2n):hover,
-.nth > :nth-child(2n):hover ~ :nth-child(2n),
-.nth > :nth-child(2n):has(~ :nth-child(2n):hover) {
-  box-shadow: inset 0 0 4px 0.5px #dd6;
-  --c: #dd6;
+.nths:has(> [data-nth='2n-1']:hover, > .nth > :nth-child(2n-1):hover)
+  :where([data-nth='2n-1'], .nth > :nth-child(2n-1)) {
+  --c-badge: #393;
+  --badge-content: '2n-1';
 }
 .nths:has(> [data-nth='2n']:hover, > .nth > :nth-child(2n):hover)
-  > :where(> [data-nth='2n'], > .nth > :nth-child(2n)) {
-  --c: #d66;
-  --badge-transform: rotate(-15deg) translate(0.1ch, 0.3lh);
+  :where([data-nth='2n'], .nth > :nth-child(2n)) {
+  --c-badge: #d66;
   --badge-content: '2n';
 }
-
-[data-nth='2n+1']:hover,
-.nth:has(~ [data-nth='2n+1']:hover) > :nth-child(2n + 1),
-.nth:has(> :nth-child(2n + 1):hover) ~ [data-nth='2n+1'],
-.nth > :nth-child(2n + 1):hover,
-.nth > :nth-child(2n + 1):hover ~ :nth-child(2n + 1),
-.nth > :nth-child(2n + 1):has(~ :nth-child(2n + 1):hover) {
-  box-shadow: inset 0 0 4px 0.5px #6d6;
-  --c: #6d6;
-}
-.nth:has(~ [data-nth='2n+1']:hover) > :nth-child(2n + 1)::after,
-.nth > :nth-child(2n + 1):hover::after,
-.nth > :nth-child(2n + 1):hover ~ :nth-child(2n + 1)::after,
-.nth > :nth-child(2n + 1):has(~ :nth-child(2n + 1):hover)::after {
-  transform: rotate(-15deg) translate(0.1ch, 0.3lh);
-  letter-spacing: 0.18ch;
-  content: '2n+1';
-  opacity: 1;
+.nths:has(> [data-nth='2n+1']:hover, > .nth > :nth-child(2n + 1):hover)
+  :where([data-nth='2n+1'], .nth > :nth-child(2n + 1)) {
+  --c-badge: #6d6;
+  --badge-content: '2n+1';
 }
 
-[data-nth='2n-1']:hover,
-.nth:has(~ [data-nth='2n-1']:hover) > :nth-child(2n-1),
-.nth:has(> :nth-child(2n-1):hover) ~ [data-nth='2n-1'],
-.nth > :nth-child(2n-1):hover,
-.nth > :nth-child(2n-1):hover ~ :nth-child(2n-1),
-.nth > :nth-child(2n-1):has(~ :nth-child(2n-1):hover) {
-  box-shadow: inset 0 0 4px 0.5px #393;
-  --c: #393;
+.nths:has(> [data-nth='-2n-1']:hover, > .nth > :nth-child(-2n-1):hover)
+  :where([data-nth='-2n-1'], .nth > :nth-child(-2n-1)) {
+  --c-badge: #399;
+  --badge-content: '-2n-1';
 }
-.nth:has(~ [data-nth='2n-1']:hover) > :nth-child(2n-1)::after,
-.nth > :nth-child(2n-1):hover::after,
-.nth > :nth-child(2n-1):hover ~ :nth-child(2n-1)::after,
-.nth > :nth-child(2n-1):has(~ :nth-child(2n-1):hover)::after {
-  transform: rotate(-15deg) translate(0.1ch, 0.3lh);
-  letter-spacing: 0.18ch;
-  content: '2n-1';
-  opacity: 1;
+.nths:has(> [data-nth='-2n']:hover, > .nth > :nth-child(-2n):hover)
+  :where([data-nth='-2n'], .nth > :nth-child(-2n)) {
+  --c-badge: #d66;
+  --badge-content: '-2n';
 }
-
-[data-nth='-2n+1']:hover,
-.nth:has(~ [data-nth='-2n+1']:hover) > :nth-child(-2n + 1),
-.nth:has(> :nth-child(-2n + 1):hover) ~ [data-nth='-2n+1'],
-.nth > :nth-child(-2n + 1):hover,
-.nth > :nth-child(-2n + 1):hover ~ :nth-child(-2n + 1),
-.nth > :nth-child(-2n + 1):has(~ :nth-child(-2n + 1):hover) {
-  box-shadow: inset 0 0 4px 0.5px #993;
-  --c: #993;
-}
-.nth:has(~ [data-nth='-2n+1']:hover) > :nth-child(-2n + 1)::after,
-.nth > :nth-child(-2n + 1):hover::after,
-.nth > :nth-child(-2n + 1):hover ~ :nth-child(-2n + 1)::after,
-.nth > :nth-child(-2n + 1):has(~ :nth-child(-2n + 1):hover)::after {
-  transform: rotate(-15deg) translate(0.1ch, 0.3lh);
-  letter-spacing: 0.18ch;
-  content: '-2n+1';
-  opacity: 1;
-}
-
-[data-nth='-2n-1']:hover,
-.nth:has(~ [data-nth='-2n-1']:hover) > :nth-child(-2n-1),
-.nth:has(> :nth-child(-2n-1):hover) ~ [data-nth='-2n-1'],
-.nth > :nth-child(-2n-1):hover,
-.nth > :nth-child(-2n-1):hover ~ :nth-child(-2n-1),
-.nth > :nth-child(-2n-1):has(~ :nth-child(-2n-1):hover) {
-  box-shadow: inset 0 0 4px 0.5px #399;
-  --c: #399;
-}
-.nth:has(~ [data-nth='-2n-1']:hover) > :nth-child(-2n-1)::after,
-.nth > :nth-child(-2n-1):hover::after,
-.nth > :nth-child(-2n-1):hover ~ :nth-child(-2n-1)::after,
-.nth > :nth-child(-2n-1):has(~ :nth-child(-2n-1):hover)::after {
-  transform: rotate(-15deg) translate(0.1ch, 0.3lh);
-  letter-spacing: 0.18ch;
-  content: '2n-1';
-  opacity: 1;
+.nths:has(> [data-nth='-2n+1']:hover, > .nth > :nth-child(-2n + 1):hover)
+  :where([data-nth='-2n+1'], .nth > :nth-child(-2n + 1)) {
+  --c-badge: #993;
+  --badge-content: '-2n+1';
 }

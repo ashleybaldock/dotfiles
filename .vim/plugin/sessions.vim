@@ -10,17 +10,17 @@ if !exists('g:mayhem_dir_session')
 endif
 
 if !isdirectory(g:mayhem_dir_session)
-  echom 'session dir '''..g:mayhem_dir_session
+  echom 'session dir ''' .. g:mayhem_dir_session
         \ ..'''not found- creating it'
   call mkdir(g:mayhem_dir_session, "p", 0711)
 endif
 
 function! s:SessionNameToPath(name)
-  return g:mayhem_dir_session..'/'..a:name..'.session.vim'
+  return g:mayhem_dir_session .. '/' .. a:name .. '.session.vim'
 endfunc
 
 function! s:SessionComplete(ArgLead, CmdLine, CursorPos)
-  return map(globpath(g:mayhem_dir_session, a:ArgLead.."*.session.vim", 0, 1),
+  return map(globpath(g:mayhem_dir_session, a:ArgLead .. "*.session.vim", 0, 1),
         \ {_, val -> fnamemodify(val, ":t:r:r") .. '	|etc'})
 endfunc
 

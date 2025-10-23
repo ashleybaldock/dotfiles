@@ -1,0 +1,77 @@
+  .sprite-outline {
+    --dss: var(--sprite-outline-scale, 0.2);
+    --dsp: calc(var(--dss) * 1em);
+    --dsn: calc(var(--dss) * -1em);
+    --dsb: var(--sprite-outline-blur, 0);
+    --dsc: var(--sprite-outline-color, #000F);
+    --glb: var(--sprite-outline-glow, var(--dss) * 4em);
+    --glc: var(--sprite-outline-glowcolor, #FFF0);
+
+    filter: drop-shadow(0 var(--dsp) var(--dsb) var(--dsc)) drop-shadow(var(--dsp) 0 var(--dsb) var(--dsc)) drop-shadow(0 var(--dsn) var(--dsb) var(--dsc)) drop-shadow(var(--dsn) 0 var(--dsb) var(--dsc)) drop-shadow(0 0 var(--glb) var(--glc));
+    transition: 140ms filter ease;
+  }
+
+  /**
+   * spriteFilter - make sprites 'pop'
+   *
+   * Default effect adds a thin solid outline and light background glow
+  --spriteFilter-base    - 1em - base value for all sizes
+
+  * - The outline can be customised with these variables:
+  --sprite-outline-scale - 0.1 - unitless - {scale}*{base}
+     determines the width of the outline
+  --sprite-outline-blur  - 0   - unitless - {scale}*{blur}
+     blur to apply, for a sharp outline leave at 0
+  --sprite-outline-color - #171717  - Any CSS color, fully opaque recommended
+
+  --spriteFilter-glow-scale  - {outline-scale * 3}
+  --spriteFilter-glow-size   - {glow-scale}*{base}
+   * 1. Give the sprite image the class spriteOutline
+   * 2. Inline, or in a class applied to the the target element,
+   *    define the CSS variable: --sprite-outline: 1
+   * 2. If you want the class spriteOutlineHover
+   */
+   .enemy-query-item .enemy-thumbnail,
+
+
+.spriteOutline {
+  --enable: var(--spriteFilter, 0);
+  --dsu: var(--spriteFilter-base, 14px);
+  --dsb: calc(var(--dsu) * 0.01 * var(--spriteFilter-outline-blur, 6));
+  --dsc: var(--spriteFilter-outline-color, #000F);
+  --dss: var(--spriteFilter-outline-scale, 0.03);
+  --dsp: calc(var(--dss) * var(--dsu));
+  --dsn: calc(var(--dss) * var(--dsu) * -1);
+  --gss: var(--spriteFilter-glow-scale, var(--dss) * 3);
+  --glb: var(--spriteFilter-glow-size, calc(var(--gss) * var(--dsu)));
+  --glc: var(--spriteFilter-glow-color, #FFF6);
+  filter: drop-shadow(0 var(--dsp) var(--dsb) var(--dsc)) drop-shadow(var(--dsp) 0 var(--dsb) var(--dsc)) drop-shadow(0 var(--dsn) var(--dsb) var(--dsc)) drop-shadow(var(--dsn) 0 var(--dsb) var(--dsc)) drop-shadow(0 0 var(--glb) var(--glc));
+  transition: 140ms filter ease;
+  --spriteFilter: 1;
+}
+
+
+
+  .spriteOutline:hover {
+
+  }
+  .spriteOutlineHover {
+
+  }
+  .spriteOutlineHover:hover {
+
+  }
+
+  /* .EnemyQuery .enemy-query-item:hover {
+    border-radius: 8px;
+    mask: var(--enemyquery-background) 0 0 / 100% 100%;
+  } */
+  /* .EnemyQuery .enemy-query-item:hover img {
+    --dss: 0.14;
+    --dsc: rgba(0,0,0,0.6);
+    --dsb: 0.6px;
+    --glc: rgba(102, 139, 171, 0.6);
+    --glb: 16px;
+
+    transition: 140ms filter ease;
+  } */

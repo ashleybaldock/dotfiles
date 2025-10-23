@@ -106,15 +106,15 @@ syn region CharClass contained
       \ matchgroup=ChClEnds start=+\(\\_\)\?\[+
       \ skip=+\\]+
       \ end=+]+
-      \ contains=ChRg
+      \ contains=ChClRange
 syn region NCharClass contained
       \ matchgroup=NChClEnds start=+\(\\_\)\?\[^+
       \ skip=+\\]+
       \ end=+]+
-      \ contains=NChRg
+      \ contains=NChClRange
 
-syn match ChRg contained /.-[^]]/ contains=NONE
-syn match NChRg contained /.-[^]]/ contains=NONE
+syn match ChClRange contained /.-[^]]/ contains=NONE
+syn match NChClRange contained /.-[^]]/ contains=NONE
 
 syn cluster Atoms contains=Atom,CharClass,NCharClass,NewLine,BackRef
 syn cluster Multis contains=Multi
@@ -139,11 +139,11 @@ syn match MatchOr /\\|/ contained contains=NONE
 "hi def  guifg=#ffaa00
 "hi def  guifg=#ff0000
 
-hi def CapGrp       guifg=#bbeeee               guisp=#cc8800 gui=underline
+hi def CapGrp       guifg=#bbeeee guibg=#662200 guisp=#cc8800 gui=underline
 hi def CapGrpEnds   guifg=#ffaa33 guibg=#662200
 hi def BackRef      guifg=#ffaa33 guibg=#662200
 hi def NCapGrp      guifg=#bbeeee
-hi def NCapGrpEnds  guifg=#eebbee guibg=#663366
+hi def NCapGrpEnds  guifg=#f6ccf6 guibg=#662266
 hi def MatchOr      guifg=#ffff30                             gui=bold
 hi def NewLine      guifg=#ffdd33 guibg=#8833dd
 hi def BareEnds     guifg=#22ffff
@@ -154,10 +154,11 @@ hi def link SubstFlags Error
 hi def SubstFlag    guifg=#ff4499 guibg=bg
 hi def link SubstCount SubstEnds
 
-hi def SubstRange     guifg=#8888dd
-hi def SubstCmd         guifg=#4fff29
+hi def SubstRange   guifg=#44dd88
+hi def SubstRgComma guifg=#44dd88
+hi def SubstCmd     guifg=#4fff29
 hi def link SubstColon SubstCmd
-hi def SubstPat       guifg=#bbeeee
+hi def SubstPat     guifg=#bbeeee
 " hi def BackRef      guifg=#00ffff guibg=#3300aa guisp=#00ffff gui=underdashed
 
 hi def Look         guifg=#88eeee
@@ -172,11 +173,13 @@ hi def Multi        guifg=#ff9999 gui=nocombine
 hi def Escaped      guifg=#12cd4d
 hi def Atom         guifg=#9999ff
 hi def CharClass    guifg=#88aaff
-hi def ChRg         guifg=#88aaff guibg=#001965 guisp=#5583ff gui=underline
+hi def ChClRange      guifg=#88aaff guibg=#001965 guisp=#5583ff gui=underline
 hi def ChClEnds     guifg=#5583ff guibg=#001965
 hi def NCharClass   guifg=#fea6a6
-hi def NChClEnds    guifg=#ff3f3f guibg=#300000
-hi def NChRg        guifg=#fea6a6 guibg=#300000 guisp=#ff3f3f gui=underline
+" hi def NChClEnds    guifg=#ff3f3f guibg=#300000
+" hi def NChClRange     guifg=#fea6a6 guibg=#300000 guisp=#ff3f3f gui=underline
+hi def NChClEnds    guifg=#ff3f3f guibg=NONE               gui=nocombine
+hi def NChClRange     guifg=#fea6a6 guibg=NONE guisp=#ff3f3f gui=underline
 
 let b:current_syntax = "reg"
 

@@ -1,7 +1,7 @@
-
 /* icons.css | http://localhost:3333/icons/icons.css */
 
-:is(section, .svgListing), :is(section, .svgListing):has(> h2) {
+:is(section, .svgListing),
+:is(section, .svgListing):has(> h2) {
   /* container-type: size; */
   /* contain: size; */
 }
@@ -17,26 +17,26 @@ body {
 
 /* Inline | http://localhost:3333/icons/icons.html */
 
-.iconRow:nth-child(6n+1) {
+.iconRow:nth-child(6n + 1) {
   inset: 10vh auto;
 }
 
-.iconRow:nth-child(6n+0) {
+.iconRow:nth-child(6n + 0) {
   inset: -1vh auto;
 }
-.iconRow:nth-child(6n+1) {
+.iconRow:nth-child(6n + 1) {
   inset: 5vh auto;
 }
-.iconRow:nth-child(6n+2) {
+.iconRow:nth-child(6n + 2) {
   inset: 1vh auto;
 }
-.iconRow:nth-child(6n+3) {
+.iconRow:nth-child(6n + 3) {
   inset: 2vh auto;
 }
-.iconRow:nth-child(6n+4) {
+.iconRow:nth-child(6n + 4) {
   inset: 4vh auto;
 }
-.iconRow:nth-child(6n+5) {
+.iconRow:nth-child(6n + 5) {
   inset: 3vh auto;
 }
 .iconRow,
@@ -80,14 +80,10 @@ Inline | http://localhost:3333/icons/icons.html */
 }
 .iconRow {
   --ix: calc(
-    (1 * var(--i1,0))
-    + (2 * var(--i2,0))
-    + (4 * var(--i4,0))
-    + (8 * var(--i8,0))
-    + (16 * var(--i16,0))
-    + (32 * var(--i32,0))
+    (1 * var(--i1, 0)) + (2 * var(--i2, 0)) + (4 * var(--i4, 0)) +
+      (8 * var(--i8, 0)) + (16 * var(--i16, 0)) + (32 * var(--i32, 0))
   );
-  inset: calc(var(--ix) * 1vw)  calc(var(--ix) * 1vw) auto auto;
+  inset: calc(var(--ix) * 1vw) calc(var(--ix) * 1vw) auto auto;
 }
 :not(#a#b) .iconRow::after {
   content: 'n=' counter(idx);
@@ -113,19 +109,19 @@ Inline | http://localhost:3333/icons/icons.html */
 .iconRow:nth-child(6n) {
   outline: 2px solid red;
 }
-.iconRow:nth-child(6n+1) {
+.iconRow:nth-child(6n + 1) {
   outline: 2px solid orange;
 }
-.iconRow:nth-child(6n+2) {
+.iconRow:nth-child(6n + 2) {
   outline: 2px solid yellow;
 }
-.iconRow:nth-child(6n+3) {
+.iconRow:nth-child(6n + 3) {
   outline: 2px solid green;
-} 
-.iconRow:nth-child(6n+4) {
+}
+.iconRow:nth-child(6n + 4) {
   outline: 2px solid blue;
 }
-.iconRow:nth-child(6n+5) {
+.iconRow:nth-child(6n + 5) {
   outline: 2px solid purple;
 }
 
@@ -141,7 +137,8 @@ Inline | http://localhost:3333/icons/icons.html */
 }
 /* icons.css | http://localhost:3333/icons/icons.css */
 
-:is(section, .svgListing), :is(section, .svgListing):has(> h2) {
+:is(section, .svgListing),
+:is(section, .svgListing):has(> h2) {
   /* display: contents; */
 }
 
@@ -154,7 +151,8 @@ Inline | http://localhost:3333/icons/icons.html */
   /* position: sticky; */
 }
 
-.svgListing:not(:has(> h2))::before, :not(#a#b) :is(section, .svgListing) > h2 {
+.svgListing:not(:has(> h2))::before,
+:not(#a#b) :is(section, .svgListing) > h2 {
   /* position: sticky; */
 }
 
@@ -183,14 +181,16 @@ fieldset::before {
   /* width: 70px; */
 }
 
-:is(section, .svgListing), :is(section, .svgListing):has(> h2) {
+:is(section, .svgListing),
+:is(section, .svgListing):has(> h2) {
   /* container-type: size; */
   /* contain: size; */
 }
 
 /* icons.css | http://localhost:3333/icons/icons.css */
 
-:is(section, .svgListing), :is(section, .svgListing):has(> h2) {
+:is(section, .svgListing),
+:is(section, .svgListing):has(> h2) {
   /*! container-type: size; */
   /*! contain: size; */
 }
@@ -201,7 +201,199 @@ body {
 
 .iconRow {
   /* box-shadow: calc(var(--item-gap) * 1) calc(var(--item-gap) * 2) 0 calc(var(--item-gap) * 2) #222; */
-/*   inset: 0 auto; */
+  /*   inset: 0 auto; */
 }
 
-/* 
+.nth {
+  position: relative;
+  display: grid;
+  gap: 1ch;
+  grid-template-columns: repeat(10, 1em);
+  padding: 1ch;
+  box-shadow: inset 0 0 4px 0.5px #66d;
+  letter-spacing: normal;
+  place-items: center;
+}
+.nth > * > * {
+  grid-row: 1;
+}
+.nth > * > ::after {
+  font-size: 0.67em;
+  /*   inset: 0.1ch auto auto 0.2ch; */
+  display: flex;
+  aspect-ratio: 1;
+  width: auto;
+  height: 100%;
+}
+.nth > div {
+  position: relative;
+  aspect-ratio: 1;
+  display: grid;
+  grid-template: 1fr/1fr;
+  padding: 0.5ch;
+  width: auto;
+  height: 1lh;
+  place-content: center;
+  place-items: center;
+}
+.nth > :nth-child(1)::after {
+  content: '1';
+}
+.nth > :nth-child(odd) {
+  box-shadow: inset 0 0 4px 0.5px #66d;
+}
+.nth > :nth-child(3) {
+  content: '3';
+  box-shadow: inset 0 0 4px 0.5px #66d;
+}
+.nth > :nth-child(odd)::after {
+  inset: auto auto auto auto;
+  content: 'odd';
+  font-size: 0.4em;
+  rotate: -15deg;
+  letter-spacing: 1px;
+}
+
+.iconRow:last-child:nth-child(odd) {
+  --i1: 1;
+}
+.iconRow:nth-child(-2n):not(:nth-child(4n)) {
+  --i2: 1;
+}
+.iconRow:nth-child(-4n):not(:nth-child(8n)) {
+  --i4: 1;
+}
+.iconRow:nth-child(8n):not(:nth-child(16n)) {
+  --i8: 1;
+}
+.iconRow:nth-child(16n):not(:nth-child(32n)) {
+  --i16: 1;
+}
+.iconRow:nth-child(32n):not(:nth-child(64n)) {
+  --i32: 1;
+}
+.iconRow {
+  --ix: calc(
+    (1 * var(--i1, 0)) + (2 * var(--i2, 0)) + (4 * var(--i4, 0)) +
+      (8 * var(--i8, 0)) + (16 * var(--i16, 0)) + (32 * var(--i32, 0))
+  );
+  inset: calc(var(--ix) * 1vw) calc(var(--ix) * 1vw) auto auto;
+}
+:not(#a#b) .iconRow::after {
+  content: 'n=' counter(idx);
+  counter-reset: idx var(--ix);
+  display: flex;
+  position: absolute;
+  inset: -10px auto auto -10px;
+  z-index: 100000;
+}
+/* .iconRow:nth-child(6n+2) {
+  inset: 1vh 60vw auto auto;
+}
+.iconRow:nth-child(6n+3) {
+  inset: 2vh 70vw auto auto;
+}
+.iconRow:nth-child(6n+4) {
+  inset: 4vh 80vw auto auto;
+}
+.iconRow:nth-child(6n+5) {
+  inset: 3vh 90vw auto auto;
+}*/
+
+.iconRow:nth-child(6n) {
+  outline: 2px solid red;
+}
+.iconRow:nth-child(6n + 1) {
+  outline: 2px solid orange;
+}
+.iconRow:nth-child(6n + 2) {
+  outline: 2px solid yellow;
+}
+.iconRow:nth-child(6n + 3) {
+  outline: 2px solid green;
+}
+.iconRow:nth-child(6n + 4) {
+  outline: 2px solid blue;
+}
+.iconRow:nth-child(6n + 5) {
+  outline: 2px solid purple;
+}
+
+.iconRow,
+.iconRow .wrappedSVG,
+.inner::before {
+  background-color: #0000;
+  box-shadow: 0 0 0 0 #0000;
+}
+
+.iconRow:nth-child(6n) {
+  inset: 2vh 40vw auto auto;
+}
+/* icons.css | http://localhost:3333/icons/icons.css */
+
+:is(section, .svgListing),
+:is(section, .svgListing):has(> h2) {
+  /* display: contents; */
+}
+
+.iconRow {
+  /* position: sticky; */
+  /* box-shadow: calc(var(--item-gap) * 1) calc(var(--item-gap) * 2) 0 calc(var(--item-gap) * 2) #222; */
+}
+
+:is(section, .svgListing):has(> h2) {
+  /* position: sticky; */
+}
+
+.svgListing:not(:has(> h2))::before,
+:not(#a#b) :is(section, .svgListing) > h2 {
+  /* position: sticky; */
+}
+
+body {
+  /* margin: 0.6em 10em 0.6em 0.6em; */
+  /* overflow: hidden scroll; */
+  /* inset: auto; */
+  /* column-gap: calc(var(--item-gap) * 4); */
+  /* grid-auto-rows: var(--item-size); */
+  column-gap: calc(var(--item-gap) * 8);
+  grid-auto-rows: auto;
+}
+
+fieldset::before {
+  /* content: ''; */
+  /* width: 70px; */
+  /* height: auto; */
+  /* background-image: var(--icon-doc); */
+  /* display: block; */
+  /* background-repeat: no-repeat; */
+  /* background-size: contain; */
+  /* aspect-ratio: 1; */
+}
+
+fieldset::before {
+  /* width: 70px; */
+}
+
+:is(section, .svgListing),
+:is(section, .svgListing):has(> h2) {
+  /* container-type: size; */
+  /* contain: size; */
+}
+
+/* icons.css | http://localhost:3333/icons/icons.css */
+
+:is(section, .svgListing),
+:is(section, .svgListing):has(> h2) {
+  /*! container-type: size; */
+  /*! contain: size; */
+}
+
+body {
+  /* grid-template-columns: repeat(auto-fit, [item-start]var(--item-size) [item-end]) [label-start]auto[label-end]; */
+}
+
+.iconRow {
+  /* box-shadow: calc(var(--item-gap) * 1) calc(var(--item-gap) * 2) 0 calc(var(--item-gap) * 2) #222; */
+  /*   inset: 0 auto; */
+}

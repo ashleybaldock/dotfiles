@@ -25,14 +25,14 @@ syn region BareRegex oneline
 
       " \ end=+\z1.*\zs\z1+
 syn region Substitute keepend transparent
-      \ start=+\ze:\?\%(%\|'<,'>\)\?s\z([/|+!@£$%^&:]\)+
+      \ start=+\ze:\?\%(%\|'<,'>\)\?s\%[ubstitute]\z([/|+!@£$%^&:]\)+
       \ skip=+\\\z1+
       \ end=+\%([^\\]\)\@<=[^\\]\z1[cegiInp#lr]*\%(\s*\d\+\)\?\%(\s\|$\)+
       \ nextgroup=SubstColon,SubstRange,SubstCmd
 
 syn match SubstColon +:+ contained contains=NONE nextgroup=SubstRange,SubstCmd
 syn match SubstRange /%\|'<,'>/ contained contains=NONE nextgroup=SubstCmd
-syn match SubstCmd +s+ contained contains=NONE nextgroup=SubstPat
+syn match SubstCmd /\<s\%[ubstitute]\>/ contained contains=NONE nextgroup=SubstPat
 " syn match SubDelim1 +[/|+!@£$%^&:]+ contained contains=NONE
 " nextgroup=SubstPat
 syn region SubstPat contained keepend oneline

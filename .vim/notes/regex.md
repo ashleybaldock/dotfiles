@@ -173,9 +173,9 @@ substitute/pattern/replacement/g
 s/pat\/tern/replac\/ement/g
 :%s/pattern/replace\0ment/g
 :%substitute$pattern$replace\0ment$g
-'<,'>s/pat\(capturing[1-9a-d]\)tern/repl\1acement/gc 23
-'<,'>s+pat\(capturing[1-9a-d]\)tern+repl\1acement+gc 23
-'<,'>s/pat\%(non-capturing[1-9a-d]\)tern/repl\1acement/gc 23
+'<,'>subs/pat\(capturing[1-9a-d]\)tern/repl\1acement/gc 23
+'<,'>subs+pat\(capturing[1-9a-d]\)tern+repl\1acement+gc 23
+'<,'>su/pat\%(non-capturing[1-9a-d]\)tern/repl\1acement/gc 23
 ```
 
 ## Copy matching texts to buffer

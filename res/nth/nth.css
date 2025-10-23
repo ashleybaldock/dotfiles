@@ -59,6 +59,7 @@
   height: auto;
   padding: 0.2em 1ch;
   content: var(--badge-content);
+  letter-spacing: 0.18ch;
   font-size: 0.56em;
   background-image: radial-gradient(
     farthest-side circle at top right,
@@ -99,7 +100,17 @@
   filter: drop-shadow(1px 1px 2px #0006);
 }
 
-.nths:has([data-nth='even']:hover, .nth > :nth-child(even):hover)
+.end {
+  grid-column: auto/-1;
+}
+
+.nths:has(
+    > [data-nth='even']:hover,
+    > [data-nth='2n']:hover,
+    > [data-nth='2n+2']:hover,
+    > [data-nth='2n-2']:hover,
+    .nth > :nth-child(even):hover
+  )
   :where([data-nth='even'], .nth > :nth-child(even)) {
   --c-badge: #66d;
   --badge-content: 'even';
@@ -110,6 +121,63 @@
   --badge-content: 'odd';
 }
 
+.nths:has(> [data-nth='n-2']:hover, > .nth > :nth-child(n-2):hover)
+  :where([data-nth='n-2'], .nth > :nth-child(n-2)) {
+  --c-badge: #699;
+  --badge-content: 'n-2';
+}
+.nths:has(> [data-nth='n-1']:hover, > .nth > :nth-child(n-1):hover)
+  :where([data-nth='n-1'], .nth > :nth-child(n-1)) {
+  --c-badge: #699;
+  --badge-content: 'n-1';
+}
+.nths:has(> [data-nth='n']:hover, > .nth > :nth-child(n):hover)
+  :where([data-nth='n'], .nth > :nth-child(n)) {
+  --c-badge: #699;
+  --badge-content: 'n';
+}
+.nths:has(> [data-nth='n+1']:hover, > .nth > :nth-child(n + 1):hover)
+  :where([data-nth='n+1'], .nth > :nth-child(n + 1)) {
+  --c-badge: #699;
+  --badge-content: 'n+1';
+}
+.nths:has(> [data-nth='n+2']:hover, > .nth > :nth-child(n + 2):hover)
+  :where([data-nth='n+2'], .nth > :nth-child(n + 2)) {
+  --c-badge: #699;
+  --badge-content: 'n+2';
+}
+
+.nths:has(> [data-nth='-n-2']:hover, > .nth > :nth-child(-n-2):hover)
+  :where([data-nth='-n-2'], .nth > :nth-child(-n-2)) {
+  --c-badge: #9dd;
+  --badge-content: '-n-2';
+}
+.nths:has(> [data-nth='-n-1']:hover, > .nth > :nth-child(-n-1):hover)
+  :where([data-nth='-n-1'], .nth > :nth-child(-n-1)) {
+  --c-badge: #9dd;
+  --badge-content: '-n-1';
+}
+.nths:has(> [data-nth='-n']:hover, > .nth > :nth-child(-n):hover)
+  :where([data-nth='-n'], .nth > :nth-child(-n)) {
+  --c-badge: #9dd;
+  --badge-content: '-n';
+}
+.nths:has(> [data-nth='-n+1']:hover, > .nth > :nth-child(-n + 1):hover)
+  :where([data-nth='-n+1'], .nth > :nth-child(-n + 1)) {
+  --c-badge: #9dd;
+  --badge-content: '-n+1';
+}
+.nths:has(> [data-nth='-n+2']:hover, > .nth > :nth-child(-n + 2):hover)
+  :where([data-nth='-n+2'], .nth > :nth-child(-n + 2)) {
+  --c-badge: #9dd;
+  --badge-content: '-n+2';
+}
+
+.nths:has(> [data-nth='2n-2']:hover, > .nth > :nth-child(2n-2):hover)
+  :where([data-nth='2n-2'], .nth > :nth-child(2n-2)) {
+  --c-badge: #393;
+  --badge-content: '2n-2';
+}
 .nths:has(> [data-nth='2n-1']:hover, > .nth > :nth-child(2n-1):hover)
   :where([data-nth='2n-1'], .nth > :nth-child(2n-1)) {
   --c-badge: #393;
@@ -117,27 +185,42 @@
 }
 .nths:has(> [data-nth='2n']:hover, > .nth > :nth-child(2n):hover)
   :where([data-nth='2n'], .nth > :nth-child(2n)) {
-  --c-badge: #d66;
+  --c-badge: #6d6;
   --badge-content: '2n';
 }
 .nths:has(> [data-nth='2n+1']:hover, > .nth > :nth-child(2n + 1):hover)
   :where([data-nth='2n+1'], .nth > :nth-child(2n + 1)) {
-  --c-badge: #6d6;
+  --c-badge: #393;
   --badge-content: '2n+1';
 }
+.nths:has(> [data-nth='2n+2']:hover, > .nth > :nth-child(2n + 2):hover)
+  :where([data-nth='2n+2'], .nth > :nth-child(2n + 2)) {
+  --c-badge: #393;
+  --badge-content: '2n+2';
+}
 
+.nths:has(> [data-nth='-2n-2']:hover, > .nth > :nth-child(-2n-2):hover)
+  :where([data-nth='-2n-2'], .nth > :nth-child(-2n-2)) {
+  --c-badge: #993;
+  --badge-content: '-2n-2';
+}
 .nths:has(> [data-nth='-2n-1']:hover, > .nth > :nth-child(-2n-1):hover)
   :where([data-nth='-2n-1'], .nth > :nth-child(-2n-1)) {
-  --c-badge: #399;
+  --c-badge: #993;
   --badge-content: '-2n-1';
 }
 .nths:has(> [data-nth='-2n']:hover, > .nth > :nth-child(-2n):hover)
   :where([data-nth='-2n'], .nth > :nth-child(-2n)) {
-  --c-badge: #d66;
+  --c-badge: #dd6;
   --badge-content: '-2n';
 }
 .nths:has(> [data-nth='-2n+1']:hover, > .nth > :nth-child(-2n + 1):hover)
   :where([data-nth='-2n+1'], .nth > :nth-child(-2n + 1)) {
   --c-badge: #993;
   --badge-content: '-2n+1';
+}
+.nths:has(> [data-nth='-2n+2']:hover, > .nth > :nth-child(-2n + 2):hover)
+  :where([data-nth='-2n+2'], .nth > :nth-child(-2n + 2)) {
+  --c-badge: #993;
+  --badge-content: '-2n+2';
 }

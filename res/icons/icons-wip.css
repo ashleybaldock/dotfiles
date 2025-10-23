@@ -159,20 +159,19 @@ Inline | http://localhost:3333/icons/icons.html */
 }
 
 .nths {
-  grid-row: -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 10%);
+  grid-template-rows: auto;
+  grid-auto-rows: 1fr;
+  place-content: center;
+  place-items: center;
   grid-column: 1/-1;
-  display: flex;
-  flex: 1 auto;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: start;
-  width: auto;
 }
 .nths > [data-nth] {
   display: flex;
   flex: 1 1 auto;
   margin: 0;
+  padding: 0.5ch;
 }
 .nths > [data-nth]::before {
   content: attr(data-nth);
@@ -186,7 +185,8 @@ Inline | http://localhost:3333/icons/icons.html */
   letter-spacing: normal;
   place-items: center;
   flex: 0 0 auto;
-  margin: 0 auto 0 0;
+  margin: 0 auto 0 auto;
+  grid-column: 1/-1;
 }
 .nth > ::after {
   inset: auto 0 -0.2lh auto;
@@ -227,6 +227,9 @@ Inline | http://localhost:3333/icons/icons.html */
   opacity: 0;
 }
 
+[data-nth='odd']:hover,
+.nth:has(~ [data-nth='odd']:hover) > :nth-child(odd),
+.nth:has(> :nth-child(odd):hover) ~ [data-nth='odd'],
 .nth > :nth-child(odd):hover,
 .nth > :nth-child(odd):hover ~ :nth-child(odd),
 .nth > :nth-child(odd):has(~ :nth-child(odd):hover) {

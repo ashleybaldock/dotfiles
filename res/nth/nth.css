@@ -8,6 +8,11 @@
   inherits: true;
   initial-value: '';
 }
+@property --override-index {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: none;
+}
 @property --badge-transform {
   syntax: '<transform-list>';
   inherits: true;
@@ -16,7 +21,7 @@
 
 .nths {
   display: grid;
-  grid-template-columns: repeat(20, 1fr);
+  grid-template-columns: repeat(21, 1fr);
   grid-template-rows: auto;
   grid-auto-rows: 1fr;
   place-content: center;
@@ -25,7 +30,7 @@
 }
 .nths > h3 {
   grid-column: 1/-1;
-  justify-self: start;
+  justify-self: end;
   font-family: Menlo, monospace;
   font-weight: 400;
   letter-spacing: 0.1ch;
@@ -51,18 +56,17 @@
 .nths > [data-nth]::before {
   content: attr(data-nth);
 }
-.nth,
-.nthl {
+:where(.nth, .nthl) {
+  grid-column: 1/-2;
+  counter-reset: count;
   position: relative;
   display: grid;
-  column-gap: 0;
   grid-template-columns: subgrid;
-  padding: 1ch;
-  letter-spacing: normal;
   place-items: center;
+  column-gap: 0;
+  letter-spacing: normal;
+  padding: 1ch;
   margin: 0 auto 0 auto;
-  grid-column: 1/-1;
-  counter-reset: count;
 }
 :where(.nth, .nthl) > ::before {
   content: counter(count);
@@ -75,20 +79,11 @@
   display: flex;
   width: auto;
   height: auto;
-  padding: 0.2em 1ch;
+  /*   padding: 0.2em 1ch; */
   content: var(--badge-content);
   letter-spacing: 0.18ch;
   font-size: 0.56em;
-  background-image: radial-gradient(
-    farthest-side circle at top right,
-    #000,
-    40%,
-    #222a
-  );
-  background-repeat: no-repeat;
-  background-origin: border-box;
-  background-clip: border-box;
-  /*   backdrop-filter: blur(1px); */
+  background-color: #222222;
   box-shadow: inset 0 0.25px 3px 0.5px var(--c-badge);
   border-radius: 0.25ch;
   transform: var(--badge-transform);
@@ -377,7 +372,7 @@
 }
 .nths > .sum {
   display: flex;
-  grid-column: -1;
+  grid-column: -2/-1;
   outline: 1px solid #a0a;
   width: 1lh;
   height: auto;
@@ -390,23 +385,3 @@
 .nths > .sum::after {
   content: counter(sum);
 }
-
-/* 
-.nths > * > :nth-child(2n):not(:nth-child(4n)):nth-last-child(-n+2) {
-  outline: 2px dashed #afa;
-}
-.nths > * > :nth-child(4n):not(:nth-child(8n)):nth-last-child(-n+4) {
-  outline: 2px dashed #6f6;
-}
-.nths > * > :nth-child(8n):not(:nth-child(16n)):nth-last-child(-n+8) {
-  outline: 2px dashed #0f0;
-}
-.nths > * > :nth-child(16n):not(:nth-child(32n)):nth-last-child(-n+16) {
-  outline: 2px dashed #0a0;
-}
-.nths > * > :nth-child(32n):not(:nth-child(64n)):nth-last-child(-n+32) {
-  outline: 2px dashed #090;
-}
-.nths > * > :nth-child(64n):not(:nth-child(128n)):nth-last-child(-n+64) {
-  outline: 2px dashed #066;
-} */

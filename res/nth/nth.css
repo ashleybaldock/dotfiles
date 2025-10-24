@@ -23,6 +23,14 @@
   place-items: center;
   grid-column: 1/-1;
 }
+.nths > h3 {
+  grid-column: 1/-1;
+  justify-self: start;
+  font-family: Menlo, monospace;
+  font-weight: 400;
+  letter-spacing: 0.1ch;
+  font-size: 1rem;
+}
 .nths > [data-nth] {
   display: flex;
   width: auto;
@@ -30,11 +38,21 @@
   padding: 0.4em 1ch;
   letter-spacing: 0.1ch;
   grid-column-end: span 2;
+  font-family: Menlo, monospace;
+  justify-self: end;
+  justify-content: end;
+  min-width: 5ch;
+  cursor: pointer;
+}
+.nths > [data-nth].fade {
+  opacity: 0.4;
+  cursor: auto;
 }
 .nths > [data-nth]::before {
   content: attr(data-nth);
 }
-.nth {
+.nth,
+.nthl {
   position: relative;
   display: grid;
   column-gap: 0;
@@ -46,11 +64,11 @@
   grid-column: 1/-1;
   counter-reset: count;
 }
-.nth > ::before {
+:where(.nth, .nthl) > ::before {
   content: counter(count);
   grid-area: 1/1;
 }
-.nth > ::after {
+:where(.nth, .nthl) > ::after {
   --badge-transform: rotate(-5deg) translate(0.1ch, 0.3lh);
   inset: auto -0.5ch -0.5lh auto;
   position: absolute;
@@ -76,11 +94,11 @@
   transform: var(--badge-transform);
   filter: drop-shadow(1px 1px 2px #0006);
 }
-.nth > * {
+:where(.nth, .nthl) > * {
   counter-increment: count;
   box-shadow: inset 0 0 4px 0.5px var(--c-badge);
 }
-.nth > div {
+:where(.nth, .nthl) > div {
   position: relative;
   aspect-ratio: 1;
   display: grid;
@@ -121,106 +139,217 @@
   --badge-content: 'odd';
 }
 
+.nths:has(> [data-nth='n-2']:hover, > .nthl > :nth-last-child(n-2):hover)
+  :where([data-nth='n-2'], .nthl > :nth-last-child(n-2)),
 .nths:has(> [data-nth='n-2']:hover, > .nth > :nth-child(n-2):hover)
   :where([data-nth='n-2'], .nth > :nth-child(n-2)) {
   --c-badge: #699;
   --badge-content: 'n-2';
 }
+.nths:has(> [data-nth='n-1']:hover, > .nthl > :nth-last-child(n-1):hover)
+  :where([data-nth='n-1'], .nthl > :nth-last-child(n-1)),
 .nths:has(> [data-nth='n-1']:hover, > .nth > :nth-child(n-1):hover)
   :where([data-nth='n-1'], .nth > :nth-child(n-1)) {
   --c-badge: #699;
   --badge-content: 'n-1';
 }
+.nths:has(> [data-nth='n']:hover, > .nthl > :nth-last-child(n):hover)
+  :where([data-nth='n'], .nthl > :nth-last-child(n)),
 .nths:has(> [data-nth='n']:hover, > .nth > :nth-child(n):hover)
   :where([data-nth='n'], .nth > :nth-child(n)) {
   --c-badge: #699;
   --badge-content: 'n';
 }
+.nths:has(> [data-nth='n+1']:hover, > .nthl > :nth-last-child(n + 1):hover)
+  :where([data-nth='n+1'], .nthl > :nth-last-child(n + 1)),
 .nths:has(> [data-nth='n+1']:hover, > .nth > :nth-child(n + 1):hover)
   :where([data-nth='n+1'], .nth > :nth-child(n + 1)) {
   --c-badge: #699;
   --badge-content: 'n+1';
 }
+.nths:has(> [data-nth='n+2']:hover, > .nthl > :nth-last-child(n + 2):hover)
+  :where([data-nth='n+2'], .nthl > :nth-last-child(n + 2)),
 .nths:has(> [data-nth='n+2']:hover, > .nth > :nth-child(n + 2):hover)
   :where([data-nth='n+2'], .nth > :nth-child(n + 2)) {
   --c-badge: #699;
   --badge-content: 'n+2';
 }
 
+.nths:has(> [data-nth='-n-2']:hover, > .nthl > :nth-last-child(-n-2):hover)
+  :where([data-nth='-n-2'], .nthl > :nth-last-child(-n-2)),
 .nths:has(> [data-nth='-n-2']:hover, > .nth > :nth-child(-n-2):hover)
   :where([data-nth='-n-2'], .nth > :nth-child(-n-2)) {
   --c-badge: #9dd;
   --badge-content: '-n-2';
 }
+.nths:has(> [data-nth='-n-1']:hover, > .nthl > :nth-last-child(-n-1):hover)
+  :where([data-nth='-n-1'], .nthl > :nth-last-child(-n-1)),
 .nths:has(> [data-nth='-n-1']:hover, > .nth > :nth-child(-n-1):hover)
   :where([data-nth='-n-1'], .nth > :nth-child(-n-1)) {
   --c-badge: #9dd;
   --badge-content: '-n-1';
 }
+.nths:has(> [data-nth='-n']:hover, > .nthl > :nth-last-child(-n):hover)
+  :where([data-nth='-n'], .nthl > :nth-last-child(-n)),
 .nths:has(> [data-nth='-n']:hover, > .nth > :nth-child(-n):hover)
   :where([data-nth='-n'], .nth > :nth-child(-n)) {
   --c-badge: #9dd;
   --badge-content: '-n';
 }
+.nths:has(> [data-nth='-n+1']:hover, > .nthl > :nth-last-child(-n + 1):hover)
+  :where([data-nth='-n+1'], .nthl > :nth-last-child(-n + 1)),
 .nths:has(> [data-nth='-n+1']:hover, > .nth > :nth-child(-n + 1):hover)
   :where([data-nth='-n+1'], .nth > :nth-child(-n + 1)) {
   --c-badge: #9dd;
   --badge-content: '-n+1';
 }
+.nths:has(> [data-nth='-n+2']:hover, > .nthl > :nth-last-child(-n + 2):hover)
+  :where([data-nth='-n+2'], .nthl > :nth-last-child(-n + 2)),
 .nths:has(> [data-nth='-n+2']:hover, > .nth > :nth-child(-n + 2):hover)
   :where([data-nth='-n+2'], .nth > :nth-child(-n + 2)) {
   --c-badge: #9dd;
   --badge-content: '-n+2';
 }
 
+.nths:has(> [data-nth='2n-2']:hover, > .nthl > :nth-last-child(2n-2):hover)
+  :where([data-nth='2n-2'], .nthl > :nth-last-child(2n-2)),
 .nths:has(> [data-nth='2n-2']:hover, > .nth > :nth-child(2n-2):hover)
   :where([data-nth='2n-2'], .nth > :nth-child(2n-2)) {
   --c-badge: #393;
   --badge-content: '2n-2';
 }
+.nths:has(> [data-nth='2n-1']:hover, > .nthl > :nth-last-child(2n-1):hover)
+  :where([data-nth='2n-1'], .nthl > :nth-last-child(2n-1)),
 .nths:has(> [data-nth='2n-1']:hover, > .nth > :nth-child(2n-1):hover)
   :where([data-nth='2n-1'], .nth > :nth-child(2n-1)) {
   --c-badge: #393;
   --badge-content: '2n-1';
 }
+.nths:has(> [data-nth='2n']:hover, > .nthl > :nth-last-child(2n):hover)
+  :where([data-nth='2n'], .nthl > :nth-last-child(2n)),
 .nths:has(> [data-nth='2n']:hover, > .nth > :nth-child(2n):hover)
   :where([data-nth='2n'], .nth > :nth-child(2n)) {
   --c-badge: #6d6;
   --badge-content: '2n';
 }
+.nths:has(> [data-nth='2n+1']:hover, > .nthl > :nth-last-child(2n + 1):hover)
+  :where([data-nth='2n+1'], .nthl > :nth-last-child(2n + 1)),
 .nths:has(> [data-nth='2n+1']:hover, > .nth > :nth-child(2n + 1):hover)
   :where([data-nth='2n+1'], .nth > :nth-child(2n + 1)) {
   --c-badge: #393;
   --badge-content: '2n+1';
 }
+.nths:has(> [data-nth='2n+2']:hover, > .nthl > :nth-last-child(2n + 2):hover)
+  :where([data-nth='2n+2'], .nthl > :nth-last-child(2n + 2)),
 .nths:has(> [data-nth='2n+2']:hover, > .nth > :nth-child(2n + 2):hover)
   :where([data-nth='2n+2'], .nth > :nth-child(2n + 2)) {
   --c-badge: #393;
   --badge-content: '2n+2';
 }
 
+.nths:has(> [data-nth='-2n-2']:hover, > .nthl > :nth-last-child(-2n-2):hover)
+  :where([data-nth='-2n-2'], .nthl > :nth-last-child(-2n-2)),
 .nths:has(> [data-nth='-2n-2']:hover, > .nth > :nth-child(-2n-2):hover)
   :where([data-nth='-2n-2'], .nth > :nth-child(-2n-2)) {
   --c-badge: #993;
   --badge-content: '-2n-2';
 }
+.nths:has(> [data-nth='-2n-1']:hover, > .nthl > :nth-last-child(-2n-1):hover)
+  :where([data-nth='-2n-1'], .nthl > :nth-last-child(-2n-1)),
 .nths:has(> [data-nth='-2n-1']:hover, > .nth > :nth-child(-2n-1):hover)
   :where([data-nth='-2n-1'], .nth > :nth-child(-2n-1)) {
   --c-badge: #993;
   --badge-content: '-2n-1';
 }
+.nths:has(> [data-nth='-2n']:hover, > .nthl > :nth-last-child(-2n):hover)
+  :where([data-nth='-2n'], .nthl > :nth-last-child(-2n)),
 .nths:has(> [data-nth='-2n']:hover, > .nth > :nth-child(-2n):hover)
   :where([data-nth='-2n'], .nth > :nth-child(-2n)) {
   --c-badge: #dd6;
   --badge-content: '-2n';
 }
+.nths:has(> [data-nth='-2n+1']:hover, > .nthl > :nth-last-child(-2n + 1):hover)
+  :where([data-nth='-2n+1'], .nthl > :nth-last-child(-2n + 1)),
 .nths:has(> [data-nth='-2n+1']:hover, > .nth > :nth-child(-2n + 1):hover)
   :where([data-nth='-2n+1'], .nth > :nth-child(-2n + 1)) {
   --c-badge: #993;
   --badge-content: '-2n+1';
 }
+.nths:has(> [data-nth='-2n+2']:hover, > .nthl > :nth-last-child(-2n + 2):hover)
+  :where([data-nth='-2n+2'], .nthl > :nth-last-child(-2n + 2)),
 .nths:has(> [data-nth='-2n+2']:hover, > .nth > :nth-child(-2n + 2):hover)
   :where([data-nth='-2n+2'], .nth > :nth-child(-2n + 2)) {
   --c-badge: #993;
   --badge-content: '-2n+2';
 }
+
+:where(.nth, .nthl) > ::before {
+  content: var(--override-index, counter(count));
+  grid-area: 1/1;
+}
+e .nths > * > :nth-child(n):not(:nth-child(2n)):nth-last-child(-n + 1) {
+  outline: 2px dashed #faa;
+  --override-index: '+2';
+  counter-increment: sum 2;
+}
+.nths > * > :nth-child(2n):not(:nth-child(4n)):nth-last-child(-n + 2) {
+  outline: 2px dashed #faa;
+  --override-index: '+2';
+  counter-increment: sum 2;
+}
+.nths > * > :nth-child(4n):not(:nth-child(8n)):nth-last-child(-n + 4) {
+  outline: 2px dashed #f66;
+  --override-index: '+4';
+  counter-increment: sum 4;
+}
+.nths > * > :nth-child(8n):not(:nth-child(16n)):nth-last-child(-n + 8) {
+  outline: 2px dashed #f00;
+  --override-index: '+8';
+  counter-increment: sum 8;
+}
+.nths > * > :nth-child(16n):not(:nth-child(32n)):nth-last-child(-n + 16) {
+  outline: 2px dashed #a00;
+  --override-index: '+16';
+  counter-increment: sum 16;
+}
+.nths > * > :nth-child(32n):not(:nth-child(64n)):nth-last-child(-n + 32) {
+  outline: 2px dashed #900;
+  --override-index: '+32';
+  counter-increment: sum 32;
+}
+.nths > * > :nth-child(64n):not(:nth-child(128n)):nth-last-child(-n + 64) {
+  outline: 2px dashed #606;
+  --override-index: '+64';
+  counter-increment: sum 64;
+}
+.nths > .nth {
+  counter-reset: sum 0;
+}
+.nths > .nth::after {
+  content: '= ' counter(sum);
+  outline: 1px solid #a0a;
+  border-radius: 0.25ch;
+  padding: 0.75ch;
+  width: 1lh;
+  height: auto;
+}
+
+/* 
+.nths > * > :nth-child(2n):not(:nth-child(4n)):nth-last-child(-n+2) {
+  outline: 2px dashed #afa;
+}
+.nths > * > :nth-child(4n):not(:nth-child(8n)):nth-last-child(-n+4) {
+  outline: 2px dashed #6f6;
+}
+.nths > * > :nth-child(8n):not(:nth-child(16n)):nth-last-child(-n+8) {
+  outline: 2px dashed #0f0;
+}
+.nths > * > :nth-child(16n):not(:nth-child(32n)):nth-last-child(-n+16) {
+  outline: 2px dashed #0a0;
+}
+.nths > * > :nth-child(32n):not(:nth-child(64n)):nth-last-child(-n+32) {
+  outline: 2px dashed #090;
+}
+.nths > * > :nth-child(64n):not(:nth-child(128n)):nth-last-child(-n+64) {
+  outline: 2px dashed #066;
+} */

@@ -283,9 +283,7 @@
   grid-area: 1/1;
 }
 
-.nths
-  > :where(.nth, .nthl)
-  > :nth-child(n):not(:nth-child(2n-1)):nth-last-child(-n + 2) {
+.nths > :where(.nth, .nthl) > :nth-child(odd):nth-last-child(-n + 1) {
   outline: 2px dashed #faa;
   --override-index: '+1';
   counter-increment: count 1 sum 1;

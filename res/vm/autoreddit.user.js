@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        AutoReddit
 // @namespace   mayhem
-// @version     1.0.39
+// @version     1.0.40
 // @author      flowsINtomAyHeM
 // @description Make reddit's UI suck less
 // @downloadURL http://localhost:3333/vm/autoreddit.user.js
@@ -63,6 +63,7 @@ const removeCarousel = (ul) => {
       img.src = img.dataset.lazySrc;
     }
   });
+
   const images = [...ul.querySelectorAll('li > img')].map(
     ({ naturalWidth: natW, naturalHeight: natH }) => ({
       w: natW,
@@ -78,6 +79,7 @@ const removeCarousel = (ul) => {
     n_landscape = images.filter(({ landscape }) => landscape).length;
   const cols =
     n_squareish >= 1 ? 2 : n_portrait >= 2 ? 3 : n_landscape > 2 ? 2 : 4;
+
   ul.style.setProperty('--ncols', cols);
   ul.parentNode.closest('[slot="post-media-container"]').appendChild(ul);
 };

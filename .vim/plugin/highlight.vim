@@ -52,6 +52,11 @@ let s:symbols_synfo = #{
       \}
 
 let s:colorHidden = '#441122'
+let s:colorCleared = '#448822'
+let s:colorDefault = '#441188'
+let s:colorIdNum = '#881188'
+let s:colorIdSep = '#991144'
+let s:colorLinksTo = '#994400'
 
 
 "
@@ -61,14 +66,21 @@ function! s:HighlightHighlight() abort
         \ event: 'ColorScheme', pattern: 'vividmayhem',
         \ cmd: 'call s:HighlightHighlight()',
         \ group: 'mayhem_hihi_colorscheme_event', replace: v:true,
-        \}])
+        \},
+        \#{
+        \ event: 'Syntax', pattern: 'vim',
+        \ cmd: 'call s:HighlightHighlight()',
+        \ group: 'mayhem_hihi_colorscheme_event', replace: v:true,
+        \}
+        \])
 
-  " call hlget()->foreach('syn match' v:val.name '/\<' .. v:val.name .. '\>/')
+  silent! syn clear vimGroup
+  silent! syn clear vimHLGroup
 
   for hlgroup in hlget()
     try
       exec 'syn match' hlgroup['name'] '/\<' .. hlgroup['name'] .. '\>/'
-          \ ' contained contains=NONE containedin=VimGroupName,VimHiGroup,VimHiLink'
+          \ ' contained contains=NONE containedin=vimHiKeyList,VimGroupName,VimHiGroup,VimHiLink'
     catch
       echom v:exception
     endtry
@@ -76,10 +88,16 @@ function! s:HighlightHighlight() abort
 endfunc
 
 function! s:NoHighlightHighlight()
-  call autocmd_delete([#{
+  call autocmd_delete([
+        \#{
         \ event: 'ColorScheme', pattern: 'vividmayhem',
         \ group: 'mayhem_hihi_colorscheme_event',
-        \}])
+        \}
+        \#{
+        \ event: 'Syntax', pattern: 'vim',
+        \ group: 'mayhem_hihi_colorscheme_event',
+        \}
+        \])
 
   syn enable
 endfunc
@@ -114,6 +132,23 @@ function s:GetLinkChain(name)
     endif
   endwhile
   return chain
+endfunc
+
+function s:FormatLinkChain(name)
+  let lineParts = []
+  let hl = hlget(a:name)->get(0, #{})
+  while get(hl, 'id', v:none)
+    let lineParts += [
+          \ #{t: get(hl, 'name', '???'), fg: get(hl, 'guifg', '')},
+          \ #{t: '❘', fg: s:colorIdSep},
+          \ #{t: format#numbers(get(hl, 'id', 0), 'sans'), fg: s:colorIdNum},
+          \]
+    if has_key(hl, 'linksto')
+      let lineParts += [#{t: ' ' .. s:symbol_linksto .. ' ', fg: s:colorLinksTo}]
+    endif
+    let hl = get(hl, 'linksto', '')->hlget()->get(0, #{})
+  endwhile
+  return lineParts
 endfunc
 
 "    𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦  
@@ -264,8 +299,13 @@ function! s:UpdateSynFoBuffer(winid)
   "   - 􀅓bold 􀅔italic 􂏾[re/in]verse 􀨡standout 􀅖strikethrough¹
 	"   - 􀅕under[line/curl¹/double¹/dotted¹/dashed¹]
   "   - nocombine² NONE³
-  for val in synID(line("."), col("."), 1)->synIDtrans()->synIDattr("name")->hlget(v:true)
-    let lineParts = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. format#numbers(val.id, 'sansb'), col: 2}]
+  for val in synID(line("."), col("."), 1)
+        \->synIDtrans()
+        \->synIDattr("name")
+        \->hlget(v:true)
+    let lineParts = [
+          \#{t: '  ' .. get(val, 'name', '???')
+          \ .. format#numbers(val.id, 'sup'), col: 2}]
 
     let [fgsymbol, fgcolor] = s:ForColor(get(val, 'guifg', ''))
     let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
@@ -387,28 +427,13 @@ function! s:UpdateSynFoBuffer(winid)
 
     " Stack:
     for val in reverse(stack)
-      " let line = [#{t: '  ' .. get(val, 'name', '???') .. '»' .. format#numbers(val.id, 'sansb')}]
-      let res = ""
-      let res = res .. (get(val, 'cleared') ? 'ᴄ' : ' ')
-      let res = res .. (get(val, 'default') ? 'ᴅ' : ' ')
-      let res = res .. " "
-    " Id:
-    " Hide intermediate links in chain to save space?       TODO
-      if (get(val, 'linksto', "") != "")
-        let chain = s:GetLinkChain(val.name)
-        let matchids = mapnew(chain,
-              \ {i, link -> 
-              \  win_execute(a:winid, 'call matchadd('''
-              \  .. link .. ''', ''\<' .. link .. '\>'')'  )})
-        let res = res .. join(mapnew(chain,
-              \ {i, link -> link .. '»' .. format#numbers((hlget(link)[0]->get('id')), 'sansb')}
-              \ ), ' ' .. s:symbol_linksto .. ' ')
-      else
-        let res = res .. val.name .. '»' .. format#numbers(val.id, 'sansb')
-      endif
-      let res = res .. ''
+      let lineParts = [
+            \ #{t: (get(val, 'cleared') ? 'ᴄ' : ' '), fg: s:colorCleared},
+            \ #{t: (get(val, 'default') ? 'ᴅ' : ' '), fg: s:colorDefault},
+            \]
+      let lineParts += s:FormatLinkChain(val.name)
 
-      call add(lines, #{text: res, props: []})
+      call add(lines, s:LineWithPropsFromParts(lineParts, bufnr))
     endfor
   end
 

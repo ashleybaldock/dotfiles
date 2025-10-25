@@ -54,6 +54,8 @@ syn keyword vimHiAttrStand  contained standout
 syn keyword vimHiAttrNoCom  contained nocombine
 syn keyword vimHiAttrNONE   contained NONE
 
+syn match vimHiFgBgSp /fg\|bg\|sp/ contained containedin=vimHiGuiFgBg contains=NONE
+
 hi def vimHiAttrBold   guifg=ywnormf gui=bold
 hi def vimHiAttrUnLine guifg=#009999 gui=underline     guisp=ywnormf
 hi def vimHiAttrUnCurl guifg=#009999 gui=undercurl     guisp=ywnormf

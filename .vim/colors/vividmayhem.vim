@@ -326,10 +326,20 @@ hi LineDgWarn                   guibg=#121200 gui=none
 hi LineDgInfo                   guibg=#001f1f gui=none
 hi LineDgHint                   guibg=#1b191f gui=none
 
-hi link VtextDgErr     SignDgErr 
-hi link VtextDgWarn    SignDgWarn  
-hi link VtextDgInfo    SignDgInfo  
-hi link VtextDgHint    SignDgHint  
+hi link vimHighlight Statement
+hi link vimHiClear Type
+hi vimHiAttrib guifg=#009999 gui=italic
+hi vimHiKeyList guifg=#005599
+hi vimHiGuiFgBg guifg=#003977
+hi vimHiGui guifg=#bbbb99
+hi def link vimHiFgBgSp vimHiGui
+hi link vimHiGuiRgb Number
+hi link vimHiNmbr Number
+
+hi li VtextDgErr     SignDgErr 
+hi li VtextDgWarn    SignDgWarn  
+hi li VtextDgInfo    SignDgInfo  
+hi li VtextDgHint    SignDgHint  
 
 hi link GitGutterAdd              SignGitAdd
 hi link GitGutterAddLine          DiffAdd
@@ -422,7 +432,7 @@ hi Statement      guifg=#ff6600 guibg=NONE    gui=none
 hi link Conditional Statement
 hi link Repeat	    Statement
 hi link Label	      Statement
-hi link Operator    Statement
+hi clear Operator | hi link Operator    Statement
 hi link Keyword     Statement
 hi link Exception   Statement
 

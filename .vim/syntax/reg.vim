@@ -113,8 +113,10 @@ syn region NCharClass contained
       \ end=+]+
       \ contains=NChClRange
 
-syn match ChClRange contained /.-[^]]/ contains=NONE
-syn match NChClRange contained /.-[^]]/ contains=NONE
+syn match ChClRange contained /[^[-]-[^]-]/ contains=ChClRgSep
+syn match ChClRangeSep contained /[^[-]\@1<=-\ze[^]-]/ contains=NONE
+syn match NChClRange contained /[^[-]-[^]-]/ contains=NChClRgSep
+syn match NChClRangeSep contained /[^[-]\@1<=-\ze[^]-]/ contains=NONE
 
 syn cluster Atoms contains=Atom,CharClass,NCharClass,NewLine,BackRef
 syn cluster Multis contains=Multi

@@ -174,8 +174,12 @@ s/pat\/tern/replac\/ement/g
 :%s/pattern/replace\0ment/g
 :%substitute$pattern$replace\0ment$g
 '<,'>subs/pat\(capturing[1-9a-d]\)tern/repl\1acement/gc 23
-'<,'>subs+pat\(capturing[1-9a-d]\)tern+repl\1acement+gc 23
+'<,'>subs+pat\(capturing[^PQ1-9a-d]\)tern+repl\1acement+gc 23
 '<,'>su/pat\%(non-capturing[1-9a-d]\)tern/repl\1acement/gc 23
+'<,'>su/pat\%(non-[^-][-]\)tern/repl\1acement/gc 23
+'<,'>su/pat\%(non-[^-9-][-9-]\)tern/repl\1acement/gc 23
+'<,'>su/pat\%(non-[^1--8][1--8]\)tern/repl\1acement/gc 23
+'<,'>s/pat\%(alt\|er\|\(nested\)\)tern/repl\1acement/gc 23
 ```
 
 ## Copy matching texts to buffer

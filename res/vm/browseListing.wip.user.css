@@ -28,25 +28,17 @@ body > table > thead {
 }
 
 body > table {
-  /* grid-template-rows: subgrid; */
-  /* overflow-y: scroll; */
-  /* display: c block; */
   overflow: visible;
-  background: #0000;
-  background-color:;
   background: #0000;
   outline: 1px dotted #ff0;
   position: sticky;
   inset: 60vh 0 0 0;
-  scale:;
-  display: i;
 }
 
 /* :where(#UI_goUp, #UI_showHidden, .toggle) { */
 :where(#UI_goUp, #UI_showHidden, .toggle, .sequencetoggle) {
   /* top: 60vh; */
   inset: 55vh 0 0 0;
-  position:;
 }
 
 body {

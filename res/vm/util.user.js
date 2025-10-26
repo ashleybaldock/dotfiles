@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.94
+// @version     1.1.95
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1352,12 +1352,15 @@ const IterableQueryBuilder = ({
        * @arg mutator
        */
       mu: (mutator) => {
-        iterChain.extend(flatMapIter, (node) => {
-          return mutator({
+        iterChain.extend(flatMapIter, (node) =>
+          mutator({
+            n: node,
+            addEl: mu.makeElement,
+            // has: [],
             querySelectorAll: node.querySelectorAll.bind(node),
             createElement: node.createElement.bind(node),
-          });
-        });
+          }),
+        );
         return iqb;
       },
       /**

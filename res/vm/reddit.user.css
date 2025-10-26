@@ -750,3 +750,40 @@ shreddit-sort-dropdown {
   display: contents;
 }
 /*}}}1*/
+
+:not(#u#n#i) #reddit-logo {
+  margin: -57.5px 0 0 -38.5px;
+}
+
+:not(#u#n#i) reddit-header-action-items header > nav > div:first-of-type {
+  height: 40px;
+}
+
+:not(#u#n#i) #create-post > span > span + span {
+  display: none;
+}
+:not(#u#n#i) #create-post {
+  margin-left: 2em;
+  padding: 0;
+}
+
+.container > img {
+  max-width: 100vw;
+  margin: 0;
+  max-height: 100vh;
+  object-fit: contain;
+  width: auto;
+  height: auto;
+}
+:not(#u#n#i) .container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  max-width: 100vw;
+  max-height: 100vh;
+  height: fit-content;
+  margin: 0;
+  padding: 0;
+  border: none;
+  justify-content: center;
+}

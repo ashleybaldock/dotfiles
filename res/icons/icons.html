@@ -21,103 +21,105 @@
   </head>
 
   <body data-sink-all data-sink="*">
-    <fieldset>
-      <label data-value="debug">
-        <span>debug</span>
-        <input value="debug" type="checkbox" id="toggle_debug" name="debug"/>
-      </label>
-    </fieldset>
-    <fieldset>
-        <label for="stroke-width" data-sink="stroke-width">
-          <span>test:glass</span>
-          <output for="testmetal"/></output>
-          <input type="range" list="markersglass" min="-30" max="30" step="3"
-            class="glass"
-            id="testglass"
-            />
-          <datalist id="markersglass" class="text-outline-thick">
-            <option value="-30"></option>
-            <option value="0"></option>
-            <option value="30"></option>
-          </datalist>
-        </label>
-    </fieldset>
-    <fieldset>
-        <label for="stroke-width" data-sink="stroke-width">
-          <span>test:metal</span>
-          <output for="testmetal"/></output>
-          <input type="range" list="markersmetal" min="0" max="6" step="1"
-            class="metal"
-            id="testmetal"
-            />
-          <datalist id="markersmetal" class="text-outline-thick">
-            <option value="0"></option>
-            <option value="1"></option>
-            <option value="2"></option>
-            <option value="3"></option>
-            <option value="4"></option>
-            <option value="5"></option>
-            <option value="6"></option>
-          </datalist>
-        </label>
-    </fieldset>
-    <fieldset>
-        <label for="stroke-width" data-sink="stroke-width">
-          <span>SVG::stroke-width</span> 
-          <output for="stroke-width"/></output>
-          <input type="range" list="markers" min="0" max="64" step="1"
-            id="stroke-width"
-            data-source="stroke-width"
-            />
-          <datalist id="markers" class="text-outline-thick" data-sink="stroke-width">
-            <option value="0"></option>
-            <option value="8"></option>
-            <option value="16"></option>
-            <option value="24"></option>
-            <option value="32"></option>
-            <option value="40"></option>
-            <option value="48"></option>
-            <option value="56"></option>
-            <option value="64"></option>
-          </datalist>
-        </label>
-    </fieldset>
-    <section>
-    <h2>Split</h1>
-    <div class="splitList">
-      <div class="svgSplitter sourceBase">
-        <div class="title">
-          <span>Base</span>
-          <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M500.3 7.3C507.7 13.3 512 22.4 512 32V176c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V71L352 90.2V208c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V64c0-15.3 10.8-28.4 25.7-31.4l160-32c9.4-1.9 19.1 .6 26.6 6.6zM74.7 304l11.8-17.8c5.9-8.9 15.9-14.2 26.6-14.2h61.7c10.7 0 20.7 5.3 26.6 14.2L213.3 304H240c26.5 0 48 21.5 48 48V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V352c0-26.5 21.5-48 48-48H74.7zM192 408a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM478.7 278.3L440.3 368H496c6.7 0 12.6 4.1 15 10.4s.6 13.3-4.4 17.7l-128 112c-5.6 4.9-13.9 5.3-19.9 .9s-8.2-12.4-5.3-19.2L391.7 400H336c-6.7 0-12.6-4.1-15-10.4s-.6-13.3 4.4-17.7l128-112c5.6-4.9 13.9-5.3 19.9-.9s8.2 12.4 5.3 19.2zm-339-59.2c-6.5 6.5-17 6.5-23 0L19.9 119.2c-28-29-26.5-76.9 5-103.9c27-23.5 68.4-19 93.4 6.5l10 10.5 9.5-10.5c25-25.5 65.9-30 93.9-6.5c31 27 32.5 74.9 4.5 103.9l-96.4 99.9z"></path></svg>
+    <div class="parallax">
+      <section class="edit">
+        <fieldset>
+          <label data-value="debug">
+            <span>debug</span>
+            <input value="debug" type="checkbox" id="toggle_debug" name="debug"/>
+          </label>
+        </fieldset>
+        <fieldset>
+          <label for="stroke-width" data-sink="stroke-width">
+            <span>test:glass</span>
+            <output for="testmetal"/></output>
+            <input type="range" list="markersglass" min="-30" max="30" step="3"
+              class="glass"
+              id="testglass"
+              />
+            <datalist id="markersglass" class="text-outline-thick">
+              <option value="-30"></option>
+              <option value="0"></option>
+              <option value="30"></option>
+            </datalist>
+          </label>
+        </fieldset>
+        <fieldset>
+          <label for="stroke-width" data-sink="stroke-width">
+            <span>test:metal</span>
+            <output for="testmetal"/></output>
+            <input type="range" list="markersmetal" min="0" max="6" step="1"
+              class="metal"
+              id="testmetal"
+              />
+            <datalist id="markersmetal" class="text-outline-thick">
+              <option value="0"></option>
+              <option value="1"></option>
+              <option value="2"></option>
+              <option value="3"></option>
+              <option value="4"></option>
+              <option value="5"></option>
+              <option value="6"></option>
+            </datalist>
+          </label>
+        </fieldset>
+        <fieldset>
+          <label for="stroke-width" data-sink="stroke-width">
+            <span>SVG::stroke-width</span> 
+            <output for="stroke-width"/></output>
+            <input type="range" list="markers" min="0" max="64" step="1"
+              id="stroke-width"
+              data-source="stroke-width"
+              />
+            <datalist id="markers" class="text-outline-thick" data-sink="stroke-width">
+              <option value="0"></option>
+              <option value="8"></option>
+              <option value="16"></option>
+              <option value="24"></option>
+              <option value="32"></option>
+              <option value="40"></option>
+              <option value="48"></option>
+              <option value="56"></option>
+              <option value="64"></option>
+            </datalist>
+          </label>
+        </fieldset>
+        <section>
+        <h2>Split</h1>
+        <div class="splitList">
+          <div class="svgSplitter sourceBase">
+            <div class="title">
+              <span>Base</span>
+              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M500.3 7.3C507.7 13.3 512 22.4 512 32V176c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V71L352 90.2V208c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V64c0-15.3 10.8-28.4 25.7-31.4l160-32c9.4-1.9 19.1 .6 26.6 6.6zM74.7 304l11.8-17.8c5.9-8.9 15.9-14.2 26.6-14.2h61.7c10.7 0 20.7 5.3 26.6 14.2L213.3 304H240c26.5 0 48 21.5 48 48V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V352c0-26.5 21.5-48 48-48H74.7zM192 408a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM478.7 278.3L440.3 368H496c6.7 0 12.6 4.1 15 10.4s.6 13.3-4.4 17.7l-128 112c-5.6 4.9-13.9 5.3-19.9 .9s-8.2-12.4-5.3-19.2L391.7 400H336c-6.7 0-12.6-4.1-15-10.4s-.6-13.3 4.4-17.7l128-112c5.6-4.9 13.9-5.3 19.9-.9s8.2 12.4 5.3 19.2zm-339-59.2c-6.5 6.5-17 6.5-23 0L19.9 119.2c-28-29-26.5-76.9 5-103.9c27-23.5 68.4-19 93.4 6.5l10 10.5 9.5-10.5c25-25.5 65.9-30 93.9-6.5c31 27 32.5 74.9 4.5 103.9l-96.4 99.9z"></path></svg>
+            </div>
+            <div>
+              <span></span>
+              <label><span>Split tags</span><input type="checkbox"></label>
+              <label><span>Split paths</span><input type="checkbox"></label>
+            </div>
+          </div>
+          <div class="splitResultList">
+          <div class="sourceSplit svgSplitter">
+            <div class="title">
+              <span>Part 1</span>
+              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M500.3 7.3C507.7 13.3 512 22.4 512 32V176c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V71L352 90.2V208c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V64c0-15.3 10.8-28.4 25.7-31.4l160-32c9.4-1.9 19.1 .6 26.6 6.6z"></path></svg>
+            </div>
+            </div><div class="sourceSplit svgSplitter">
+            <div class="title">
+              <span>Part 2</span>
+              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M74.7 304l11.8-17.8c5.9-8.9 15.9-14.2 26.6-14.2h61.7c10.7 0 20.7 5.3 26.6 14.2L213.3 304H240c26.5 0 48 21.5 48 48V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V352c0-26.5 21.5-48 48-48H74.7zM192 408a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"></path></svg>
+            </div>
+            </div><div class="sourceSplit svgSplitter">
+            <div class="title">
+              <span>Part 3</span>
+              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M192 408a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"></path></svg>
+            </div>
+            </div><div class="sourceSplit svgSplitter"><div class="title"><span>Part 4</span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M478.7 278.3L440.3 368H496c6.7 0 12.6 4.1 15 10.4s.6 13.3-4.4 17.7l-128 112c-5.6 4.9-13.9 5.3-19.9 .9s-8.2-12.4-5.3-19.2L391.7 400H336c-6.7 0-12.6-4.1-15-10.4s-.6-13.3 4.4-17.7l128-112c5.6-4.9 13.9-5.3 19.9-.9s8.2 12.4 5.3 19.2z"></path></svg>
+              </div></div><div class="sourceSplit svgSplitter"><div class="title"><span>Part 5</span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M139.7 219.1c-6.5 6.5-17 6.5-23 0L19.9 119.2c-28-29-26.5-76.9 5-103.9c27-23.5 68.4-19 93.4 6.5l10 10.5 9.5-10.5c25-25.5 65.9-30 93.9-6.5c31 27 32.5 74.9 4.5 103.9l-96.4 99.9z"></path></svg>
+              </div></div><div></div></div>
         </div>
-        <div>
-          <span></span>
-          <label><span>Split tags</span><input type="checkbox"></label>
-          <label><span>Split paths</span><input type="checkbox"></label>
-        </div>
-      </div>
-      <div class="splitResultList">
-      <div class="sourceSplit svgSplitter">
-        <div class="title">
-          <span>Part 1</span>
-          <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M500.3 7.3C507.7 13.3 512 22.4 512 32V176c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V71L352 90.2V208c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V64c0-15.3 10.8-28.4 25.7-31.4l160-32c9.4-1.9 19.1 .6 26.6 6.6z"></path></svg>
-        </div>
-        </div><div class="sourceSplit svgSplitter">
-        <div class="title">
-          <span>Part 2</span>
-          <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M74.7 304l11.8-17.8c5.9-8.9 15.9-14.2 26.6-14.2h61.7c10.7 0 20.7 5.3 26.6 14.2L213.3 304H240c26.5 0 48 21.5 48 48V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V352c0-26.5 21.5-48 48-48H74.7zM192 408a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"></path></svg>
-        </div>
-        </div><div class="sourceSplit svgSplitter">
-        <div class="title">
-          <span>Part 3</span>
-          <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M192 408a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"></path></svg>
-        </div>
-        </div><div class="sourceSplit svgSplitter"><div class="title"><span>Part 4</span>
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M478.7 278.3L440.3 368H496c6.7 0 12.6 4.1 15 10.4s.6 13.3-4.4 17.7l-128 112c-5.6 4.9-13.9 5.3-19.9 .9s-8.2-12.4-5.3-19.2L391.7 400H336c-6.7 0-12.6-4.1-15-10.4s-.6-13.3 4.4-17.7l128-112c5.6-4.9 13.9-5.3 19.9-.9s8.2 12.4 5.3 19.2z"></path></svg>
-          </div></div><div class="sourceSplit svgSplitter"><div class="title"><span>Part 5</span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M139.7 219.1c-6.5 6.5-17 6.5-23 0L19.9 119.2c-28-29-26.5-76.9 5-103.9c27-23.5 68.4-19 93.4 6.5l10 10.5 9.5-10.5c25-25.5 65.9-30 93.9-6.5c31 27 32.5 74.9 4.5 103.9l-96.4 99.9z"></path></svg>
-          </div></div><div></div></div>
-    </div>
-  </section>
+      </section>
 
   <section>
     <h2>Combine</h1>
@@ -167,20 +169,18 @@
                 <li><label data-value="union"><input value="union" type="radio" id="fill1union" name="fill1"></label></li>
               </ol>
             </div>
-            </div>
           </div>
         </div>
       </li>
-
     </ol>
-</section>
+  </section>
 
-<section>
-  <h2>Preview</h1>
-  <div id="droptarget"></div>
-  <div id="droppedpreview"></div>
+  <section>
+    <h2>Preview</h1>
+    <div id="droptarget"></div>
+    <div id="droppedpreview"></div>
+  </section>
 </section>
-
 <section class="svgListing">
   <h2>Imported</h1>
   <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.3155" height="29.6873">
@@ -1185,6 +1185,6 @@ M502.6 534.6C493.4 543.8 479.7 546.5 467.7 541.5C455.7 536.5 448 524.9 448 512L4
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z"/></svg>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320z"/></svg>
-</section>
+</section></div>
   </body>
 </html>

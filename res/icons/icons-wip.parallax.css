@@ -1,0 +1,86 @@
+.parallax {
+  width: 100vw;
+}
+
+.edit {
+  margin: 0;
+}
+
+.iconRow {
+  transform: scale(2) translateZ(-1px);
+}
+
+.parallax {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+:not(#a#b) .svgListing:not(:has(> h2))::before,
+:not(#a#b) :is(section, .svgListing) > h2 {
+  transform-origin: right;
+  transform: scale(1) translateZ(0);
+  inset: 10vh auto 10vh auto;
+  max-width: var(--width);
+  min-width: var(--width);
+  margin: 0 0 0 calc(100vw - var(--width));
+  --width: 25vw;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.parallax {
+  display: flex;
+  height: 100vh;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  perspective: 1px;
+  width: 100vw;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.parallax > * {
+  position: sticky;
+  inset: 0 0 0 0;
+}
+
+.edit {
+  /*   transform: translateZ(0); */
+  margin: 0;
+}
+.svgListing {
+  display: contents;
+  /*   transform: scale(1) translateZ(-2px); */
+}
+
+:not(#a#b) .svgListing:not(:has(> h2))::before,
+:not(#a#b) :is(section, .svgListing) > h2 {
+  display: flex;
+  transform-origin: right;
+  transform: translate(100vw, 0) scale(3) translateZ(-4px);
+  inset: 10vh auto 10vh auto;
+  opacity: 1;
+  z-index: 100;
+  position: static;
+  max-width: var(--width);
+  min-width: var(--width);
+  margin: 0 0 0 calc(100vw - var(--width));
+  --width: 25vw;
+}
+.svgListing > h2::after {
+  content: '';
+  display: flex;
+}
+
+.svgListing::before,
+.iconRow {
+  inset: auto auto -200vh auto;
+  transform: scale(0.5, 0.5);
+  margin: 0;
+}

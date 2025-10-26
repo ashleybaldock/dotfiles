@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.96
+// @version     1.1.98
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1394,17 +1394,38 @@ const IterableQueryBuilder = ({
         /* Single argument, retrieve attr value(s) */
         if (args.length === 1) {
           const parsed = parseTag(...args);
-          return flatMapIter(iterChain.iter, (x) =>
-            x.hasAttribute(parsed) ? [x.getAttribute(parsed)] : [],
-          );
+          // return flatMapIter(iterChain.iter, (x, xresult) =>
+          // x.hasAttribute(parsed) ? xresult.at[parsed] = x.getAttribute(parsed) && xresult : xresult,
+          // );
+
+          /*
+           * Extract data from the current iterator state
+           * This can be updated in subsequent steps and
+           * returned at the end of the chain
+           *
+           * @param (x: Node, xresult: IQBResult) => void
+           *
+           * IQBResult {
+           *   at: Attributes,
+           *   dt: Datalist,
+           *   cl: ClassList,
+           * }
+           */
+          iterChain.extract(forEachSideEffect, (x, xresult) => {
+            if (x.hasAttribute(parsed)) {
+              xresult.at[parsed] = x.getAttribute(parsed);
+            }
+          });
+          return iqb;
         }
         /* Two arguments, set attr value */
         if (args.length === 2) {
           const parsed = parseTag(...args[0]);
-          for (const x in iterChain.iter) {
+
+          iterChain.extend(forEachSideEffect, (x) => {
             x.setAttribute(parsed, args[1]);
-          }
-          return iterChain.iter;
+          });
+          return iqb;
         }
       },
       /**
@@ -1506,6 +1527,12 @@ const IterableQueryBuilder = ({
       get go() {
         gone += 1;
         exhaustIter(iterChain.iter);
+        return iqb;
+      },
+      /** By default, if a Result has been created, it is returned
+       * Add this flag to request the nodes instead */
+      get nodes() {
+        iterChain.result = 'nodes';
         return iqb;
       },
       /**

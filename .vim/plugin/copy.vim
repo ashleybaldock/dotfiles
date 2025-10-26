@@ -36,9 +36,9 @@ command! -bar -nargs=? -range=% CopyBuffer let @+ = getbufline(bufname(<q-args>)
 " command! -bar -nargs=? CopyCharacterize redir @+>| Characterize <args> | redir END
 command! -bar -nargs=? CopyCharacterize silent call ExecToRegister('Characterize '..<q-args>, '+')
 " ╎   ├─▶︎ unicode info, character codepoint
-command! -bar -nargs=? CopyCharCode redir @+>| GetCharCode <args> | redir END
+command! -bar -nargs=? CopyCharCode let @+ = char#code(<args>)
 " ╎   ╰─▶︎ unicode info, character codepoint
-command! -bar -nargs=? CopyCharCodeMatch redir @+>| GetCharCodeMatch <args> | redir END
+command! -bar -nargs=? CopyCharCodeMatch let @+ = char#match(<args>)
 " ╎
 " ╰─╴search
 " ╎   ╰─▶︎ last

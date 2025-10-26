@@ -7,6 +7,8 @@ let g:mayhem_autoloaded_format = 1
 " See: ../plugin/format.vim
 "
 
+let s:combase = get(g:, 'mayhem_unicode_combine_default', '◌')
+
 let s:f_number = #{
       \ norm:  '0123456789',
       \ vs16:  '0️1️2️3️4️5️6️7️8️9️',
@@ -42,7 +44,7 @@ for [j, part] in s:f_session->items()
   let [_from, _to, prefix, suffix] = part
   let to = _to->split('\zs')
   for [i, f] in _from->split('\zs')->items()
-    let s:f_session_lookup[f] = prefix..to[i]..suffix
+    let s:f_session_lookup[f] = prefix .. to[i] .. suffix
   endfor
 endfor
 
@@ -75,3 +77,27 @@ function format#buffer(bufnr = bufnr()) range abort
   exec a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath ' .. l:stdinpath
 endfunc
 
+function format#FixedWidthFont(text)
+  " '<,'>s/\u/\=nr2char(char2nr(submatch(0)) + 0x1D62F)/g
+  " '<,'>s/\l/\=nr2char(char2nr(submatch(0)) + 0x1D629)/g
+  return substitute(a:text,
+        \ '\u', '\=char#base(submatch(0)) + 0x1D62F)', 'g')
+        \->substitute(
+        \ '\l', '\=char#base(submatch(0)) + 0x1D629)', 'g')
+endfunc
+
+
+"
+" Format (combined) character for display, showing
+" sequence of base and combining characters
+"
+" e.g. format#charSplit('a̲')  ->  a ◌̲   
+"
+" Uses base display character defined in: g:mayhem_unicode_combine_default
+"
+function format#splitChar(str) abort
+  return char#split(a:str)
+        \->map({i, v -> i == 0 ? char2nr(v) : [char2nr(s:combase), char2nr(v)]})
+        \->flatten()
+        \->list2str()
+endfunc 

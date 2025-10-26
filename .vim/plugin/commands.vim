@@ -26,7 +26,7 @@ let g:mayhem_loaded_commands = 1
 
 " 
 " Predicate: Cursor Is On A Comment
-command! CursorOnComment echo predicates#cursorIsOnComment()
+command! CursorOnComment echo predicate#cursorIsOnComment()
 
 
 " Set number column width based on length of file

@@ -68,23 +68,13 @@ function! SessionInfo()
     return '𝚗𝚘 𝚜𝚎𝚜𝚜𝚒𝚘𝚗'
   else
     if exists('g:loaded_obsession') && exists('g:this_obsession')
-      return 'Obsession: '..v:this_session
+      return 'Obsession: ' .. v:this_session
     else
-      return 'Session: '..v:this_session
+      return 'Session: ' .. v:this_session
     endif
   endif
 endfunc
 
-
-function s:ToFixedWidthFont(text)
-  " '<,'>s/\u/\=nr2char(char2nr(submatch(0)) + 0x1D62F)/g
-  " '<,'>s/\l/\=nr2char(char2nr(submatch(0)) + 0x1D629)/g
-  return substitute(a:text, '\u',
-        \ '\=nr2char(char2nr(submatch(0)) + 0x1D62F)',
-        \ 'g')->substitute('\l',
-        \ '\=nr2char(char2nr(submatch(0)) + 0x1D629)',
-        \ 'g')
-endfunc
 
 function! SessionNameForTitle() abort
   if empty(v:this_session)

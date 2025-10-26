@@ -1,7 +1,11 @@
-if exists("g:mayhem_autoloaded_predicates") || &cp
+if exists("g:mayhem_autoloaded_predicate") || &cp
   finish
 endif
-let g:mayhem_autoloaded_predicates = 1
+let g:mayhem_autoloaded_predicate = 1
+
+"
+" See: ../plugin/predicate.vim
+"
 
 "
 " Get visibility status for the sign column in the given window
@@ -20,7 +24,7 @@ let g:mayhem_autoloaded_predicates = 1
 "              signcolumn=number && nonumber && number of signs > 0
 "           1 if sign column is visible 
 "
-function! predicates#addingSignWillShiftSignColumn(winid = win_getid(winnr())) abort
+function! predicate#addingSignWillShiftSignColumn(winid = win_getid(winnr())) abort
   let signcolumn = getwinvar(a:winid, '&signcolumn')
   let signcount = sign_getplaced(winbufnr(winnr()), {'group':'*'})[0]['signs']->len()
   let number = getwinvar(a:winid, '&number')
@@ -29,6 +33,7 @@ function! predicates#addingSignWillShiftSignColumn(winid = win_getid(winnr())) a
   \ || ('number' == signcolumn && 0 == number && 0 == signcount)
 endfunction
 
-function predicates#cursorIsOnComment() abort
+function predicate#cursorIsOnComment() abort
   return join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')) =~? 'comment'
 endfunc
+

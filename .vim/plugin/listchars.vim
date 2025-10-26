@@ -1,7 +1,7 @@
-if exists("g:mayhem_loaded_chars")
+if exists("g:mayhem_loaded_listchars")
   finish
 endif
-let g:mayhem_loaded_chars = 1
+let g:mayhem_loaded_listchars = 1
 
 """""""""""""""""""""""""""""""""""""  None 
 " Almost nothing, base for other configs

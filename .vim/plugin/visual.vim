@@ -142,7 +142,7 @@ function s:VisualBlockOutline() abort
         \ culhl: 'SignVisTop',
         \})
 
-  if predicates#addingSignWillShiftSignColumn()
+  if predicate#addingSignWillShiftSignColumn()
     return
   endif
 

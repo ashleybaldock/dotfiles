@@ -28,7 +28,8 @@ let s:combase = get(g:, 'mayhem_unicode_combine_default', '◌')
 " See: ../demo/unicode-whitespace
 "
 function s:ToggleHintVS1516() abort
-    call get(w:, 'mayhem_match_vs1516', [])->foreach({_,m -> matchdelete(m)})
+    call get(w:, 'mayhem_match_vs1516', [])
+          \->foreach({_,m -> matchdelete(m)})
     unlet w:mayhem_match_vs1516
   else
     let w:mayhem_match_vs1516 = [
@@ -81,76 +82,6 @@ endfunc
 
 command! UnicodeTagHints call <SID>ToggleUnicodeTagHints()
 
-
-"
-" Line of text starting @ current cursor position
-" (Can use with char2nr(), which works on the
-"  first character in the string)
-function s:GetLineFromCursor() abort
-  return getline('.')[col('.') - 1 : -1]
-endfunc
-
-"
-" The (multibyte) character @ current cursor position
-"
-function s:GetCharUnderCursor() abort
-  return s:GetLineFromCursor()->char2nr()->nr2char()
-endfunc
-
-"
-" Character class of argument (defaults to char under cursor)
-"
-function s:GetCharClass(char = s:GetLineFromCursor()) abort
-  return charclass(a:char)
-endfunc
-
-command! -bar -nargs=? GetCharClass echo <SID>GetCharClass(<args>)
-
-"
-" String representation of char code
-" (Char @ cursor position used if no argument given)
-function! GetCharCode(char = s:GetLineFromCursor()) abort
-  let n = char2nr(a:char)
-  return n < 0xff ? printf('\x%x', n) : n < 0xffff ? printf('\u%04x', n) :  printf('\U%x', n)
-endfunc
-
-command! -bar -nargs=? GetCharCode echo GetCharCode(<f-args>)
-
-"
-" Convert char into regex escaped form
-"
-function! GetCharCodeMatch(char = s:GetLineFromCursor()) abort
-  let n = char2nr(a:char)
-  return n < 0xffff ? printf('\%%u%x', n) :  printf('\%%U%x', n)
-endfunc
-
-command! -bar -nargs=? GetCharCodeMatch echo GetCharCodeMatch(<f-args>)
-
-" Replaces the base character in a glyph made up of multiple
-" characters (combining diacritics, variation selectors etc.)
-"
-" Takes two arguments:
-" 1. the replacement base character
-" 2. (optional) the character to modify
-"     - defaults to the character under the cursor
-"       (this method doesn't change it)
-"
-" e.g. (B⃝ , C)  ▬▶︎ C⃝
-"
-" No cleverness here, it just swaps the first character,
-" will probably not work for some inputs
-"
-function s:ReplaceBaseChar(replacement, char = s:GetLineFromCursor()) abort
-  return a:replacement .. strpart(a:char, 1)
-endfunc
-
-" s/\zs\(\%#\)\ze/\=ReplaceBaseCharWith(submatch(0))/n
-command! -bar -nargs=+ ReplaceBaseCharWith echo <SID>ReplaceBaseChar(<q-args>)
-
-"
-" command! -bar -nargs=+ CombineWithDiacritic echo <SID>CombineWith(<q-args>)
-
-
 "
 " List of characters in a range
 "  from: number/string, codepoint at start of range
@@ -177,7 +108,7 @@ endfunc
 "            defaults to fromchar codepoint + 16
 "
 function s:CodepointsBetweenChars(
-      \ fromchar = s:GetLineFromCursor(),
+      \ fromchar = char#fromCursor(),
       \ tochar = nr2char(char2nr(a:fromchar) + 16)
       \) abort
   let fromidx = char2nr(a:fromchar)
@@ -189,13 +120,13 @@ function s:CodepointsBetweenChars(
 endfunc
 
 function s:CodepointsStartingFromChar(
-      \ fromchar = s:GetLineFromCursor(),
+      \ fromchar = char#fromCursor(),
       \ count = 16) abort
   let fromidx = char2nr(a:fromchar)
   return s:CodepointsInRange(fromidx, a:count)
 endfunc
 
-function s:RenderCodepointRow(for = s:GetLineFromCursor()) abort
+function s:RenderCodepointRow(for = char#fromCursor()) abort
   let foridx = type(a:for) == type(0) ? a:for : char2nr(a:for)
   let fromidx = foridx / 16 * 16
 
@@ -250,7 +181,7 @@ command! -bar -nargs=? -count=16 UnicodepointsCountFromIndex
 " -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
 "
 function s:UnicodepointsCountFromChar(
-      \ from = s:GetLineFromCursor(), count = 16) abort
+      \ from = char#fromCursor(), count = 16) abort
   return s:ToString(s:CodepointsStartingFromChar(a:from, a:count))
 endfunc
 command! -bar -nargs=? -count=16 UnicodepointsCountFromChar
@@ -271,7 +202,7 @@ command! -bar -nargs=? -count=16 UnicodepointsCountFromChar
 "  
 "
 function s:UnicodepointsBetween(
-      \ from = s:GetLineFromCursor(),
+      \ from = char#fromCursor(),
       \ to = nr2char(char2nr(a:from) + 16)) abort
   return s:ToString(s:CodepointsBetweenChars(a:from, a:to))
 endfunc
@@ -316,7 +247,7 @@ let s:variation_selectors = [ '', '︀', '︁', '︂', '︃', '︄', '︅', '︆
 " Combine a char with various diacritical marks
 "
 function! s:GenerateCombinings(
-      \ from = s:GetLineFromCursor(),
+      \ from = char#fromCursor(),
       \ with = s:combining_diacriticals
       \) abort
   let base = strpart(a:from, 0, 1)
@@ -324,7 +255,7 @@ function! s:GenerateCombinings(
   return combined
 endfunc
 
-function s:GenerateVariations(from = s:GetLineFromCursor()) abort
+function s:GenerateVariations(from = char#fromCursor()) abort
   return s:GenerateCombinings(a:from, s:variation_selectors)
 endfunc
 

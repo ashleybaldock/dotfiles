@@ -60,9 +60,9 @@ nnoremap <leader>i   <C-i>
 " gv"od:put o `[v`]J0"od$dd"oP
 
 "
-" Replace: Character with its escape code
+" Replace: Character under cursor with its escape code
 "
-nnoremap §u\ "=GetCharCode()Pl
+nnoremap §u\ "=char#code()Pl
 
 
 "

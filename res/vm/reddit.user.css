@@ -767,14 +767,45 @@ shreddit-sort-dropdown {
   padding: 0;
 }
 
-.container > img {
+.container > .imageSet {
+  display: grid;
+  grid-template: 1fr/1fr;
+  width: 100vw;
+  max-width: 100vw;
+  height: fit-content;
+  place-items: center;
+  place-content: center;
+}
+
+.container > .imageSet > img {
   max-width: 100vw;
   margin: 0;
   max-height: 100vh;
   object-fit: contain;
-  width: auto;
+  width: 100%;
   height: auto;
+  background-color: #121212;
+  grid-area: 1/1;
 }
+.container > .imageSet > .img-fullsize {
+  z-index: -1;
+}
+.container > .imageSet > .img-fullsize.loaded {
+  z-index: 2;
+}
+.container > .imageSet > .img-preview {
+  position: relative;
+}
+.container > .imageSet::after {
+  content: '...';
+  display: flex;
+  position: absolute;
+  inset: 0 0 auto auto;
+  font-size: clamp(45px, 6vw, 60px);
+  line-height: 0;
+  color: #000;
+}
+
 :not(#u#n#i) .container {
   display: flex;
   flex-direction: column;
@@ -786,4 +817,5 @@ shreddit-sort-dropdown {
   padding: 0;
   border: none;
   justify-content: center;
+  background-color: #121212;
 }

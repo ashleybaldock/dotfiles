@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        AutoReddit
 // @namespace   mayhem
-// @version     1.0.51
+// @version     1.0.69
 // @author      flowsINtomAyHeM
 // @description Make reddit's UI suck less
 // @downloadURL http://localhost:3333/vm/autoreddit.user.js
@@ -172,6 +172,45 @@ const removeCarousel = (ul) => {
   ul.parentNode.closest('[slot="post-media-container"]').appendChild(ul);
 };
 
+const imageSet = (({ document }) => {
+  const container = document.createElement('div');
+  const imageSet = document.createElement('div');
+  imageSet.classList.add('imageSet');
+  container.classList.add('container');
+  container.append(imageSet);
+
+  return matchExistsFor(':root > body')
+    .then((match) => match.prepend(container))
+    .then(() =>
+      Promise.all([
+        waitForMatches(
+          'shreddit-post shreddit-media-lightbox-listener #post-image',
+          {
+            callback: (img) => {
+              img.classList = ['img-preview'];
+              imageSet.append(img);
+            },
+          },
+        ),
+        waitForMatches(
+          'shreddit-post shreddit-media-lightbox-listener zoomable-img img',
+          {
+            callback: (img) => {
+              img.classList = ['img-fullsize'];
+              img.complete
+                ? img.classList.add('loaded')
+                : img.addEventListener('load', (e) =>
+                    img.classList.add('loaded'),
+                  );
+              imageSet.append(img);
+            },
+          },
+        ),
+      ]),
+    )
+    .catch((e) => console.warn(e));
+})(unsafeWindow);
+
 const initAutoReddit = ({ document }) => {};
 
 const autoRedditToggleIds = addStyleToggles([
@@ -191,10 +230,6 @@ const autoRedditToggleIds = addStyleToggles([
       console.debug('document ready');
 
       initAutoReddit(unsafeWindow);
-
-      const container = document.createElement('div');
-      container.classList.add('container');
-      qs`:root > body`.one.append(container);
       // qs`:root > body:has(> .title):has(> .footer)`.mu(
       //   ({ n, has: [title, footer], addEl }) =>
       //     n.append(
@@ -213,15 +248,24 @@ const autoRedditToggleIds = addStyleToggles([
             img.addEventListener('load', (e) => updateImageInfo(img));
           },
         }),
-        waitForMatches(
-          'shreddit-post shreddit-media-lightbox-listener zoomable-img img',
-          {
-            callback: (img) => {
-              img.classList = [];
-              container.append(img);
-            },
-          },
-        ),
+        // waitForMatches(
+        //   'shreddit-post shreddit-media-lightbox-listener #post-image',
+        //   {
+        //     callback: (img) => {
+        //       img.classList = ['img-preview'];
+        //       imageSet.append(img);
+        //     },
+        //   },
+        // ),
+        // waitForMatches(
+        //   'shreddit-post shreddit-media-lightbox-listener zoomable-img img',
+        //   {
+        //     callback: (img) => {
+        //       img.classList = ['img-fullsize'];
+        //       imageSet.append(img);
+        //     },
+        //   },
+        // ),
         waitForMatches('[bundlename="gallery_carousel"] > * > ul', {
           callback: (ul) => removeCarousel(ul),
         }),

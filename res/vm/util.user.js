@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.95
+// @version     1.1.96
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -441,7 +441,7 @@ const timeout = ({ m = 0, s = 1, ms = 0 } = {}) =>
  * Returns a promise which resolves to a node matching the
  * given selector, waiting for it to exist if needed
  */
-const matchExistsFor = (selector, { root = 'body' } = {}) => {
+const matchExistsFor = (selector, { root = ':root' } = {}) => {
   let { promise, resolve /*, reject */ } = Promise.withResolvers();
   const lookForMatch = (observer) => {
     const node = document.querySelector(selector);
@@ -476,7 +476,7 @@ const matchExistsFor = (selector, { root = 'body' } = {}) => {
  */
 const waitForMatches = async (
   selector,
-  { callback, signal, root = 'body' } = {},
+  { callback, signal, root = ':root' } = {},
 ) => {
   async function* matchGenerator() {
     signal?.throwIfAborted();

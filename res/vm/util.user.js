@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.98
+// @version     1.1.100
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1193,6 +1193,8 @@ const IterableQueryBuilder = ({
      * First one being the initial result of querySelectorAll
      */
     const iterChain = ((sourceIterable) => {
+      let _nodesAsResult = true;
+
       const step = (_iter) => {
         let _peeked;
         return {
@@ -1226,6 +1228,34 @@ const IterableQueryBuilder = ({
          */
         extend: (f /**/, ...args) => {
           steps.push(step(f(end(), ...args)));
+        },
+
+        /**
+         * Last of the chain of iterators, the result
+         */
+        get nodesAsResult() {
+          return _nodesAsResult;
+        },
+        set nodesAsResult(newValue) {
+          return (_nodesAsResult = newValue);
+        },
+
+        /**
+         * Modify the Result of the iteration
+         *
+         * These steps are added to the current end of the chain,
+         * and run (in sequence) just after the step completes.
+         *
+         * The result of the last one is passed as the second argument
+         * to the next one, allowing you to accumulate and pass extra
+         * information between steps.
+         *
+         * Additionally, the third argument permits access to a Map()
+         * shared between all items iterated over.
+         */
+        extract: (f) => {
+          _nodesAsResult = false;
+          // f(x: Element, xresult: IQBResult, imap: Map<
         },
 
         *[Symbol.iterator]() {
@@ -1532,7 +1562,7 @@ const IterableQueryBuilder = ({
       /** By default, if a Result has been created, it is returned
        * Add this flag to request the nodes instead */
       get nodes() {
-        iterChain.result = 'nodes';
+        iterChain.nodesAsResult = true;
         return iqb;
       },
       /**

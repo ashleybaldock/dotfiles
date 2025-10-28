@@ -37,7 +37,8 @@ syn match TagA +󠅀+
 
 hi def TagA guifg=#ff00ff
 
-syn match preEqVar /\s\@1<=[𝝼𝛼𝛽𝓍𝓎].\{-}\s/ contains=NONE
+syn match preEqVar /\%(\_^\|\s\)\@1<=[𝝼𝞶𝝂𝜈ʋ𝛼𝛽𝓍𝓎]\+.\{-}\ze\%(\_$\|\s\)/ contains=NONE
+" syn match preEqVar /\%(\_^\|\s\)\@1<=\S\{-}[ᵪᵥₓᘁᘁᵥᕽᴴᵂᶹᑋʰˣʸ]\{-}\ze\%(\_$\|\s\)/ contains=NONE
 hi def preEqVar guifg=#f56cff
 
 syn match preArrows /[

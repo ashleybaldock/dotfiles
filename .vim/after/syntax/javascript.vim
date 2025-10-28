@@ -17,9 +17,9 @@ hi jsObjectMethodType guifg=#aaaa55
 hi jsObjectKey guifg=#eedd77
 hi jsObjectColon guifg=#ffaa44
 
-hi clear jsBraces | hi link jsBraces Operator
-hi clear jsObjectBraces | hi link jsObjectBraces jsBraces
-hi clear jsFuncBraces | hi link jsFuncBraces jsArrowFunction
+hi c jsBraces | hi link jsBraces Operator
+hi c jsObjectBraces | hi link jsObjectBraces jsBraces
+hi c jsFuncBraces | hi link jsFuncBraces jsArrowFunction
 
 hi jsParens guifg=#aaaaaa
 hi jsFuncParens guifg=#aaaaaa

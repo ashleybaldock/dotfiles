@@ -3,6 +3,8 @@ if exists("g:mayhem_loaded_highlight")
 endif
 let g:mayhem_loaded_highlight = 1
 
+let s:conceal_guixx_matchids = []
+
 function s:Conceal_guixx()
   try
     call get(s:, 'conceal_guixx_matchids', [])
@@ -40,24 +42,6 @@ function ColourHighlightTextOnly() abort
         \ ->hlset()
   call s:Conceal_guixx()
 endfunc
-
-
-" TODO - add to symbols repository when implemented
-let s:symbol_linksto = get(g:, 'mayhem_symbol_hihi_linksto', '⫘⃗ ')
-let s:symbols_synfo = #{
-      \ fg: '􀯮',
-      \ bg: '􀯯',
-      \ color: '􀂓',
-      \ none: '􀂒',
-      \}
-
-let s:colorHidden = '#441122'
-let s:colorCleared = '#448822'
-let s:colorDefault = '#441188'
-let s:colorIdNum = '#881188'
-let s:colorIdSep = '#991144'
-let s:colorLinksTo = '#994400'
-
 
 "
 " TODO convert this to vim9script for speed
@@ -104,6 +88,27 @@ endfunc
 
 command! -bar HiHi call <SID>HighlightHighlight()
 
+
+" TODO - add to symbols repository when implemented
+let s:symbols = get(g:, 'mayhem_symbols_synfo', #{
+      \ linksto, '⫘⃗ ',
+      \ cleared: '􀣦',
+      \ loop: '􀱨',
+      \ fg: '􀯮',
+      \ bg: '􀯯',
+      \ color: '􀂓',
+      \ none: '􀂒',
+      \})
+
+let s:colors = #{
+      \hidden: '#441122',
+      \cleared: '#448822',
+      \default: '#441188',
+      \idnum: '#881188',
+      \idsep: '#991144',
+      \linksto: '#994400',
+      \}
+
 "
 " Formats character info for display in SynFo popup
 " See: ../autoload/charinfo.vim
@@ -136,15 +141,39 @@ endfunc
 
 function s:FormatLinkChain(name)
   let lineParts = []
-  let hl = hlget(a:name)->get(0, #{})
-  while get(hl, 'id', v:none)
+  let seen = {}
+  let nextname = a:name
+  " let hl = hlget(a:name)->get(0, #{name: a:name})
+  let done = v:false
+  while !done
+    let hl = hlget(nextname)->get(0, 
     let lineParts += [
-          \ #{t: get(hl, 'name', '???'), fg: get(hl, 'guifg', '')},
-          \ #{t: '❘', fg: s:colorIdSep},
-          \ #{t: format#numbers(get(hl, 'id', 0), 'sans'), fg: s:colorIdNum},
+          \ #{
+          \   t: get(hl, 'name', '???'),
+          \   fg: get(hl, 'guifg', ''),
+          \   bg: get(hl, 'guibg', ''),
+          \   sp: get(hl, 'guisp', ''),
+          \   gui: get(hl, gui, #{})
+          \ },
+          \ #{t: '❘', fg: s:colors.idsep},
+          \ #{t: format#numbers(get(hl, 'id', 0), 'sans'), fg: s:colors.idnum},
           \]
     if has_key(hl, 'linksto')
-      let lineParts += [#{t: ' ' .. s:symbol_linksto .. ' ', fg: s:colorLinksTo}]
+      if has_key(seen, hl.linksto)
+        let lineParts += [
+              \#{t: ' '},
+              \#{t: s:symbols.loop, fg: s:colors.loop},
+              \]
+        let done = v:true
+      else
+        let lineParts += [
+              \#{t: ' '},
+              \#{t: s:symbols.linksto, fg: s:colors.linksto},
+              \#{t: ' '},
+              \]
+      endif
+    else
+      let done = v:true
     endif
     let hl = get(hl, 'linksto', '')->hlget()->get(0, #{})
   endwhile
@@ -168,22 +197,19 @@ function s:GetFormattedPositionInfo(maxlines = 20) abort
 endfunc
 
 function! s:ForColor(color)
-  " if a:color == 'NONE'
-  "   return ['􀣦', '#333333']
-  " endif
   if a:color == 'fg' || a:color == 'foreground'
-    return [s:symbols_synfo['fg'], '#333333']
+    return [s:symbols.fg, '#333333']
   endif
   if a:color == 'bg' || a:color == 'background'
-    return [s:symbols_synfo['bg'], '#333333']
+    return [s:symbols.bg, '#333333']
   endif
   if v:colornames->has_key(a:color)
-    return [s:symbols_synfo['color'], v:colornames[a:color]]
+    return [s:symbols.color, v:colornames[a:color]]
   endif
   if a:color =~ '^#'
-    return [s:symbols_synfo['color'], a:color]
+    return [s:symbols.color, a:color]
   endif
-  return [s:symbols_synfo['none'], '#333333']
+  return [s:symbols.none, '#333333']
 endfunc
 
 let s:sectionBreak = #{text: '', props: []}
@@ -296,7 +322,7 @@ function! s:UpdateSynFoBuffer(winid)
   "
   " <color>: 􀂓#RRGGBB 􀯯bg,background 􀯮fg,foreground 􀂒NONE
   " <attributes>:
-  "   - 􀅓bold 􀅔italic 􂏾[re/in]verse 􀨡standout 􀅖strikethrough¹
+  "   - 􀅓bold 􀅔italic 􂏾 [re/in]verse 􀨡standout 􀅖strikethrough¹
 	"   - 􀅕under[line/curl¹/double¹/dotted¹/dashed¹]
   "   - nocombine² NONE³
   for val in synID(line("."), col("."), 1)
@@ -353,18 +379,18 @@ function! s:UpdateSynFoBuffer(winid)
 
     let lineParts += [
           \ #{t: ' ', col: 3},
-          \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colorHidden, col: 3},
-          \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colorHidden},
+          \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colors.hidden},
           \ #{t: get(gui, 'underdouble', v:false) ? '􃐊' : '􀅕',
           \ fg: (get(gui, 'underline', v:false)
           \   || get(gui, 'undercurl', v:false)
           \   || get(gui, 'underdotted', v:false)
           \   || get(gui, 'underdashed', v:false)
-          \   || get(gui, 'underdouble', v:false)) ? v:none : s:colorHidden, col: 3},
-          \ #{t: '􀅖', fg: get(gui, 'strikethrough', v:false) ? v:none : s:colorHidden, col: 3},
-          \ #{t: '􀨡', fg: get(gui, 'standout', v:false) ? v:none : s:colorHidden, col: 3},
+          \   || get(gui, 'underdouble', v:false)) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􀅖', fg: get(gui, 'strikethrough', v:false) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􀨡', fg: get(gui, 'standout', v:false) ? v:none : s:colors.hidden, col: 3},
           \ #{t: '􂏾️ ', fg: (get(gui, 'inverse', v:false)
-          \ || get(gui, 'reverse', v:false)) ? v:none : s:colorHidden, col: 3},
+          \ || get(gui, 'reverse', v:false)) ? v:none : s:colors.hidden, col: 3},
           \ #{t: ' ', col: 3},
           \]
 
@@ -380,10 +406,10 @@ function! s:UpdateSynFoBuffer(winid)
   if len(lines) == 0
 " ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
     let nohlParts = [
-          \ #{t: '╶╶ ', fg: s:colorHidden, hi: 'SlHomeMN', col: 1},
+          \ #{t: '╶╶ ', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
           \ #{t: 'No highlighting here', hi: 'SlHomeMC', col: 2},
-          \ #{t: ' ╴', fg: s:colorHidden, hi: 'SlHomeMN', pad: '╴', col: 2},
-          \ #{t: '╴', fg: s:colorHidden, hi: 'SlHomeMN', pad: '╴', col: 3},
+          \ #{t: ' ╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 2},
+          \ #{t: '╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 3},
           \]
     call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
   endif
@@ -394,10 +420,10 @@ function! s:UpdateSynFoBuffer(winid)
 " ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
     call add(lines, #{text: 'base(wincolor): ' .. &l:wincolor, props: []})
     let nohlParts = [
-          \ #{t: '╶╶ ', fg: s:colorHidden, hi: 'SlHomeMN', col: 1},
+          \ #{t: '╶╶ ', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
           \ #{t: '╴wincolor╶', hi: 'SlHomeMC', col: 2},
-          \ #{t: ' ╴', fg: s:colorHidden, hi: 'SlHomeMN', pad: '╴', col: 2},
-          \ #{t: '╴', fg: s:colorHidden, hi: 'SlHomeMN', pad: '╴', col: 3},
+          \ #{t: ' ╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 2},
+          \ #{t: '╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 3},
           \]
     call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
   else
@@ -428,8 +454,8 @@ function! s:UpdateSynFoBuffer(winid)
     " Stack:
     for val in reverse(stack)
       let lineParts = [
-            \ #{t: (get(val, 'cleared') ? 'ᴄ' : ' '), fg: s:colorCleared},
-            \ #{t: (get(val, 'default') ? 'ᴅ' : ' '), fg: s:colorDefault},
+            \ #{t: (get(val, 'cleared') ? 'ᴄ' : ' '), fg: s:color.cleared},
+            \ #{t: (get(val, 'default') ? 'ᴅ' : ' '), fg: s:color.default},
             \]
       let lineParts += s:FormatLinkChain(val.name)
 

@@ -26,21 +26,23 @@ endif
 
 let g:colors_name = "vividmayhem"
 
+"
 " These names have to be lower case
 "
 " echom filter(copy(v:colornames), {key -> key =~ '^y'})
 "
-call extend(v:colornames, {
-      \ 'yormalb': '#0f0f0f', 'yormalf': '#f2f2f2',
-      \ 'ywreadb': '#090909',
-      \ 'ywnormb': '#060606', 'ywnormf': '#dedede',
-      \ 'ywhelpb': '#020922', 'ywhelpf': '#e5e5ff',
-      \ 'yunsavb': '#440000', 'yunsavf': '#f5f5f5',
-      \ 'ysignsb': '#10101f',
-      \ 'yslcccb': '#202020',
-      \ 'yslnnnb': '#151515',
-      \                       'ycsealf': '#33aadd',
-      \ }, 'force')
+let g:colornames = #{
+      \ yormalb: '#0f0f0f', yormalf: '#f2f2f2',
+      \ ywreadb: '#090909',
+      \ ywnormb: '#060606', ywnormf: '#dedede',
+      \ ywhelpb: '#020922', ywhelpf: '#e5e5ff',
+      \ yunsavb: '#440000', yunsavf: '#f5f5f5',
+      \ ysignsb: '#10101f',
+      \ yslcccb: '#202020',
+      \ yslnnnb: '#151515',
+      \                     ycsealf: '#33aadd',
+      \}
+call extend(v:colornames, g:colornames, 'force')
 
 "════════════════════════════════════════════════════════╡ Window
 

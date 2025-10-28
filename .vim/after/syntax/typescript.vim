@@ -9,6 +9,7 @@
 
 source <script>:p:h/common.vim
 
+hi typescriptBraces          guifg=#eebb11
 
 hi typescriptUnion           guifg=#ffaa00
 
@@ -35,6 +36,7 @@ hi typescriptTypeArguments   guifg=#aa44ff
 hi typescriptComputedMember  guifg=#ffaa00
 hi typescriptProperty        guifg=#ffaa00
 hi typescriptMember          guifg=#ffaa00
+hi typescriptMemberOptionality guifg=#ffaa00
 hi typescriptComputedPropertyName guifg=#ffaa00
 " keyof
 hi typescriptTypeQuery       guifg=#718bff
@@ -43,6 +45,7 @@ hi typescriptTypeBracket     guifg=#ffaa00
 
 hi typescriptTypeAnnotation  guifg=#dd55dd
 hi typescriptTypeBrackets    guifg=#ee55ee
+hi typescriptTypeBracket     guifg=#ee55ee
 hi typescriptTypeReference   guifg=#77aaff
 
 hi typescriptIdentifier      guifg=#ffaa00

@@ -164,13 +164,13 @@ hi NonText     none | hi link NonText NonTextNone
 " See: ../demo/unicode-whitespace
 "      ../plugin/unicode.vim
 "
-hi SpecialSpace   guibg=#440044 gui=strikethrough guisp=#000000
-hi VS16           guibg=#221100 gui=underline     guisp=#993300
-hi VS16Sp         guibg=#662200 gui=strikethrough guisp=#000000
-hi VS15           guibg=#001122 gui=underline     guisp=#003399
-hi VS15Sp         guibg=#002266 gui=strikethrough guisp=#000000
-hi VS1516         guibg=#112200 gui=underdouble   guisp=#999900
-hi VS1615         guibg=#002211 gui=underdouble   guisp=#009999
+hi SpecialSpace   guifg=#440044 guibg=#440044 gui=strikethrough guisp=#000000
+hi VS16                         guibg=#221100 gui=underline     guisp=#993300
+hi VS16Sp         guifg=#662200 guibg=#662200 gui=strikethrough guisp=#000000
+hi VS15                         guibg=#001122 gui=underline     guisp=#003399
+hi VS15Sp         guifg=#002266 guibg=#002266 gui=strikethrough guisp=#000000
+hi VS1516                       guibg=#112200 gui=underdouble   guisp=#999900
+hi VS1615                       guibg=#002211 gui=underdouble   guisp=#009999
 
 " Used for: listchars: tab,nbsp,space,multispace,lead,trail;
 hi SpecialKey  none | hi link SpecialKey SpecialNone

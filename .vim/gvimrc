@@ -383,58 +383,68 @@ noremenu  20.403 &Edit.&ReSelect\ Visual<Tab>gv	gv
 "
 if has("gui_macvim")
   "
-  " ▌️⌘️ 􁾱  ▐️ ️Move to the ends of things
+  " ▌️􀆔 􁾱  ▐️ ️Move to the ends of things
 
-  " ▌️􀆔 􁾲  ▐️────▷ Jump to top of PUM
+  " ▌️􀆔 􁾲  ▐️
   noremap <D-Up> <C-Home>
-  " ▌️􀆔 􁾲  ▐️────▷ Jump to top of PUM
-  inoremap <expr> <D-Up>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
 
-  "􀆔􁾵 
+  " ▌️􀆔 􁾵  ▐️
   noremap   <D-Right>  <End>
   noremap!  <D-Right>  <End>
-" Accept selection + exit PUM
-  inoremap <expr> <D-Right>  pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
 
+  " ▌️􀆔 􁾳  ▐️ 
   noremap   <D-Down>   <C-End>
-  inoremap  <D-Down>   <C-End>
-  " ▌️􀆔 􁾳  ▐️ Jump to end of PUM
-  inoremap <expr> <D-Down>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
 
+  " ▌️􀆔 􁾴  ▐️
   noremap   <D-Left>   <Home>
   noremap!  <D-Left>   <Home>
-  " ▌️􀆔 􁾴  ▐️ Cancel out of PUM
-  inoremap <expr> <D-Left>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
-
-  " ▌️􀆔 􀆛 ▐️ ️
-  inoremap  <D-BS> <C-u>
-
-  "
-  " ▌️􀆕 􁾱  ▐️ Move (around) things in steps
 
   " ▌️􀆕 􁾱  ▐️ Move in steps
-  " noremap <M-Up> {
-  inoremap <M-Up> <C-o>{
 
+  " ▌️􀆕 􁾲  ▐️
+  " noremap <M-Up> {
+
+  " ▌️􀆕 􁾵  ▐️
   noremap  <M-Right> <C-Right>
   noremap! <M-Right> <C-Right>
 
+  " ▌️􀆕 􁾳  ▐️
   " noremap <M-Down> }
-  inoremap <M-Down> <C-o>}
 
+  " ▌️􀆕 􁾴  ▐️
   noremap  <M-Left> <C-Left>
   noremap! <M-Left> <C-Left>
 
+
+  "
+  " Insert Mode:
+  "
+
+  " ▌️􀆔 􁾲  ▐️ PUM: Jump to top
+  inoremap <expr> <D-Up>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
+  " ▌️􀆔 􁾵  ▐️ PUM: Accept selection + exit
+  inoremap <expr> <D-Right>  pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-End>"
+  " ▌️􀆔 􁾳  ▐️ PUM: Jump to end
+  inoremap <expr> <D-Down>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
+  " ▌️􀆔 􁾴  ▐️ PUM: Cancel out
+  inoremap <expr> <D-Left>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
+
+  " ▌️􀆔 􀆛 ▐️ ️
+  inoremap <D-BS> <C-u>
+
+  " ▌️􀆕 􀆛 ▐️
   inoremap <M-BS> <C-w>
 
-" ▌️􀆕 􁾲  ▐️────▷ Jump up a page in PUM listing
-  inoremap <expr> <M-Up> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>{"
-" ▌️􀆕 􁾵  ▐️────▷ Select part of path in PUM + prompt for next part
-  inoremap <expr> <M-Right> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-Home>"
-" ▌️􀆕 􁾳  ▐️────▷ Jump down a page in PUM listing
-  inoremap <expr> <M-Down> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
-" ▌️􀆕 􁾴  ▐️────▷ Jump up a level in path, and reselect
-  inoremap <expr> <M-Left> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>}"
+  " \_^\ze\s*\S\|\S\ze\s\|\s\zs\S\|\S\s*\zs\_$
+
+  " ▌️􀆕 􁾲  ▐️ PUM: Up 1 page
+  inoremap <expr> <M-Up> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>:move -2<CR>"
+  " ▌️􀆕 􁾵  ▐️ PUM: Select path part & prompt for next part
+  inoremap <expr> <M-Right> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>w"
+  " ▌️􀆕 􁾳  ▐️ PUM: Down 1 page
+  inoremap <expr> <M-Down> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-o>:move +1<CR>"
+  " ▌️􀆕 􁾴  ▐️ PUM: Jump up a level in path, and reselect
+  inoremap <expr> <M-Left> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>b"
 endif
 
 " ^X  open

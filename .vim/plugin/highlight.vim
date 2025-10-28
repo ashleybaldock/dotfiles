@@ -91,7 +91,7 @@ command! -bar HiHi call <SID>HighlightHighlight()
 
 " TODO - add to symbols repository when implemented
 let s:symbols = get(g:, 'mayhem_symbols_synfo', #{
-      \ linksto, '⫘⃗ ',
+      \ linksto: '⫘⃗ ',
       \ cleared: '􀣦',
       \ loop: '􀱨',
       \ fg: '􀯮',
@@ -143,10 +143,10 @@ function s:FormatLinkChain(name)
   let lineParts = []
   let seen = {}
   let nextname = a:name
-  " let hl = hlget(a:name)->get(0, #{name: a:name})
   let done = v:false
   while !done
-    let hl = hlget(nextname)->get(0, 
+    let hl = hlget(nextname)->get(0)
+    let seen[hl.name] = v:true
     let lineParts += [
           \ #{
           \   t: get(hl, 'name', '???'),
@@ -171,11 +171,11 @@ function s:FormatLinkChain(name)
               \#{t: s:symbols.linksto, fg: s:colors.linksto},
               \#{t: ' '},
               \]
+        let nextname = get(hl, 'linksto', '')
       endif
     else
       let done = v:true
     endif
-    let hl = get(hl, 'linksto', '')->hlget()->get(0, #{})
   endwhile
   return lineParts
 endfunc
@@ -454,8 +454,8 @@ function! s:UpdateSynFoBuffer(winid)
     " Stack:
     for val in reverse(stack)
       let lineParts = [
-            \ #{t: (get(val, 'cleared') ? 'ᴄ' : ' '), fg: s:color.cleared},
-            \ #{t: (get(val, 'default') ? 'ᴅ' : ' '), fg: s:color.default},
+            \ #{t: (get(val, 'cleared') ? 'ᴄ' : ' '), fg: s:colors.cleared},
+            \ #{t: (get(val, 'default') ? 'ᴅ' : ' '), fg: s:colors.default},
             \]
       let lineParts += s:FormatLinkChain(val.name)
 
@@ -507,8 +507,10 @@ function s:SynFoPopupFilter(winid, key) abort
 endfunc
 
 function s:SynFo() abort
-  if empty(popup_getpos(get(w:, 'mayhem_winid_synfo', 0)))
-    let w:mayhem_winid_synfo = popup_create('', #{
+  if get(w:, 'mayhem_synfo_winid', 0)
+        \->popup_getpos()
+        \->empty()
+    let w:mayhem_synfo_winid = popup_create('', #{
           \ pos: 'topleft',
           \ line: 'cursor+2',
           \ col: 'cursor',
@@ -523,21 +525,24 @@ function s:SynFo() abort
           \ moved: 'any',
           \ filter: 's:SynFoPopupFilter',
           \ filtermode: 'n',
-          \ title: ' ★ '
-          \ })
+          \ title: ' ★️ '
+          \})
   else
-    call popup_move(w:mayhem_winid_synfo, #{
+    call popup_move(w:mayhem_synfo_winid, #{
           \ pos: 'topleft',
           \ line: 'cursor+2',
           \ col: 'cursor',
           \ minwidth: 30,
           \ maxwidth: 80,
           \ minheight: 3,
-          \ title: ' ꛵ '
-          \ })
+          \})
+    call popup_setoptions(w:mayhem_synfo_winid, #{
+          \ title: ' ★ '
+          \})
+    call popup_show(w:mayhem_synfo_winid)
   endif
 
-  call s:UpdateSynFoBuffer(w:mayhem_winid_synfo)
+  call s:UpdateSynFoBuffer(w:mayhem_synfo_winid)
 endfunc
 
 command! -bar SynFo call <SID>SynFo()
@@ -545,7 +550,7 @@ command! -bar SynFo call <SID>SynFo()
 command! SynFoBuf vsp|enew|call <SID>UpdateSynFoBuffer(winnr())
 
 function! s:SynFoClose(winid = win_getid()) abort
-  let popid = getwinvar(winnr(a:winid), 'mayhem_winid_synfo', 0)
+  let popid = winnr(a:winid)->getwinvar('mayhem_synfo_winid', 0)
   if popid > 0 && !empty(popup_getpos(popid))
     call popup_close(popid)
   endif

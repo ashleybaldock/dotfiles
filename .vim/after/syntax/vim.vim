@@ -13,6 +13,17 @@ if expand('%:p') == expand('$VIMHOME/plugin/statusline.vim')
   exec 'so ' .. expand('$VIMHOME/after/syntax/vim.statusline.vim')
 endif
 
+" Avoids syntax glitching when a pattern consists only of
+" a combining character, variation selector etc.
+"  e.g.: /󠅀/  /◌󠅀/ '/'‥'◌󠅀⁸¹'‥'/'
+"        /̲/  /◌̲/ '/'‥'◌̲'‥'/'
+syn region	vimSynRegPat	contained extend
+      \ start="\Z\z([-`~!@#$%^&*_=+;:'",./?]\)"
+      \ skip=/\\\\\|\\\z1\|\n\s*\\\|\n\s*"\\ /
+      \ end="\Z\z1"
+      \ contains=@vimSynRegPatGroup skipwhite
+      \ nextgroup=vimSynPatMod,vimSynReg
+
 syn keyword	vimHiAttrib	contained	undercurl underdotted underdouble
 syn keyword	vimHiAttrib	contained	underdashed strikethrough
 
@@ -95,12 +106,12 @@ syn region DemoCursor contained containedin=DemoCursorRange
       \ matchgroup=Conceal start="󠁛"
       \ end="󠁝"
 
-hi def KeyCombo guifg=#f9f9f9 guibg=#2255cc guisp=bg gui=bold
-hi def KeyComboEnd guibg=#2255cc guifg=bg gui=bold
-hi def KeyComboStart guibg=#2255cc guifg=bg gui=bold
-hi def DemoCursorRange guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
+hi def KeyCombo         guifg=#f9f9f9 guibg=#2255cc guisp=bg      gui=bold
+hi def KeyComboEnd      guifg=bg      guibg=#2255cc               gui=bold
+hi def KeyComboStart    guifg=bg      guibg=#2255cc               gui=bold
+hi def DemoCursorRange  guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
 " hi def link DemoCursor Cursor
-hi def DemoCursor guifg=#000000 guibg=#cc22dd
+hi def DemoCursor       guifg=#000000 guibg=#cc22dd
 
 
 " syn match CommentStart /^\s*\zs"/ contained contains=NONE containedin=Comment,vimLineComment

@@ -4,6 +4,37 @@ endif
 let g:mayhem_loaded_commands = 1
 
 
+"
+" Find similar matching lines and move them to cursor location
+"
+function! Gather(pat, bufnr = bufnr(), to = '$') range abort
+  " let l = @l
+  " let @l = ''
+  " let restore_l = getreginfo()
+  " call setreg('l', [], '')
+  " exec a:firstline .. a:lastline .. '%g/' .. a:pat .. '/d L'
+
+  if a:firstline == a:lastline
+    let fromline = 1
+    let toline = '$'
+  else
+    let fromline = a:firstline
+    let toline = a:lastline
+  endif
+
+  let matches = matchbufline(a:bufnr, a:pat, fromline, toline)
+  echom matches
+  let matchedlines = mapnew(matches, {i,m -> getbufline(a:bufnr, m.lnum)[0]})
+  echom matchedlines
+  call reverse(matches)
+        \->foreach({i,m -> deletebufline(a:bufnr, m.lnum)})
+  
+  call appendbufline(a:bufnr, a:to, matchedlines)
+  " let gathered = map(matchedlines, {i,l -> })
+  " let str = getreg('l', 1, 0)
+  " let list = getreg('l', 1, 1)
+  " let @l = l
+endfunc
 " Highlight entire tab that cursor is in
 "echo matchadd('Error', '\%#	', 2)
 

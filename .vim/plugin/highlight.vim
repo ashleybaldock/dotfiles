@@ -10,6 +10,7 @@ function s:Conceal_guixx()
     call get(s:, 'conceal_guixx_matchids', [])
           \->foreach({i, v -> matchdelete(v)})
   catch
+    echom v:errmsg
   endtry
   let s:conceal_guixx_matchids = [
         \ matchadd('Conceal', '\<\zsg\zeui\([fbs]g\)\?\>=', 10, -1, #{conceal: ' '}),

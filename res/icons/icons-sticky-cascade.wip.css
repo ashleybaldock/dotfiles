@@ -1,0 +1,102 @@
+.parallax {
+  display: contents;
+}
+
+h2 {
+  position: sticky;
+  inset: 10vh auto 10vh auto;
+}
+
+h2 ~ section {
+  display: grid !important;
+  grid-template-columns: subgrid;
+  grid-auto-rows: 1fr;
+  position: sticky;
+  inset: 10vh auto 10vh auto;
+}
+
+h2 ~ section > .iconRow {
+  position: sticky;
+}
+
+section:not(:has(> h2))::before {
+  content: none !important;
+}
+
+h2 ~ :where(section > .iconRow, section):nth-of-type(5n + 1) {
+  --ot: var(--ot1);
+  --ob: var(--ob1);
+  --c: var(--c1);
+}
+h2 ~ :where(section > .iconRow, section):nth-of-type(5n + 2) {
+  --ot: var(--ot2);
+  --ob: var(--ob2);
+  --c: var(--c2);
+}
+h2 ~ :where(section > .iconRow, section):nth-of-type(5n + 3) {
+  --ot: var(--ot3);
+  --ob: var(--ob3);
+  --c: var(--c3);
+}
+h2 ~ :where(section > .iconRow, section):nth-of-type(5n + 4) {
+  --ot: var(--ot4);
+  --ob: var(--ob4);
+  --c: var(--c4);
+}
+h2 ~ :where(section > .iconRow, section):nth-of-type(5n) {
+  --ot: var(--ot5);
+  --ob: var(--ob5);
+  --c: var(--c5);
+}
+
+h2 ~ section {
+  inset: calc(var(--sit) - var(--ot)) auto calc(var(--sib) - var(--ob)) auto;
+  outline: 1px dashed var(--c);
+}
+.iconRow {
+  outline: 1px solid var(--c);
+  inset: calc(var(--iit) - var(--ot)) auto calc(var(--iib) - var(--ob)) auto;
+}
+h2 ~ section > .iconRow:first-of-type {
+  outline: 2px solid var(--c);
+  z-index: 100;
+  inset: calc(var(--i1it) - var(--ot)) auto calc(var(--i1ib) - var(--ob)) auto;
+}
+
+h2 ~ :where(section > .iconRow, section) {
+  --sit: 20vh;
+  --sib: 20vh;
+  --iit: 10vh;
+  --iib: 10vh;
+  --i1it: 1vh;
+  --i1ib: 1vh;
+}
+:root {
+  --c1: #f00;
+  --c2: #ff0;
+  --c3: #00f;
+  --c4: #0ff;
+  --c5: #0f0;
+  --ob: 1vh;
+  --otb: var(--ob);
+  --obb: var(--ob);
+  --ot1: calc(var(--otb) * 1);
+  --ot2: calc(var(--otb) * 2);
+  --ot3: calc(var(--otb) * 3);
+  --ot4: calc(var(--otb) * 4);
+  --ot5: calc(var(--otb) * 5);
+  --ob1: calc(var(--obb) * 1);
+  --ob2: calc(var(--obb) * 2);
+  --ob3: calc(var(--bbb) * 3);
+  --ob4: calc(var(--obb) * 4);
+  --ob5: calc(var(--obb) * 5);
+}
+
+:is(section, .svgListing),
+:is(section, .svgListing):has(> h2) {
+  container-type: unset;
+  contain: unset;
+  height: fit-content;
+  inset: -100% auto -100% auto;
+  height:;
+}

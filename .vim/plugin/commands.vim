@@ -22,6 +22,19 @@ function! Gather(pat, bufnr = bufnr(), to = '$') range abort
     let toline = a:lastline
   endif
 
+  " get matching lines before and after 'to' position
+  " if 'to' position is a matching line
+  "  - insert before matches just before it
+  "  - append after matches just after it
+  " if 'to' position is not a matching line
+  "  - insert 'before' matches just before
+  "   - place cursor on the last 'before' match
+  "  - append 'after' matches just after
+  "
+  "  thus the cursor ends up in the middle of the gathered
+  "  matches, at the same relative position to them as they
+  "  were in the file before gathering
+
   let matches = matchbufline(a:bufnr, a:pat, fromline, toline)
   echom matches
   let matchedlines = mapnew(matches, {i,m -> getbufline(a:bufnr, m.lnum)[0]})

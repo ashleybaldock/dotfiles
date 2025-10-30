@@ -66,7 +66,7 @@ h2 ~ section > .iconRow:first-of-type {
 h2 ~ :where(section > .iconRow, section) {
   --sit: 20vh;
   --sib: 20vh;
-  --iit: 10vh;
+  --iit: 50vh;
   --iib: 10vh;
   --i1it: 1vh;
   --i1ib: 1vh;
@@ -80,15 +80,20 @@ h2 ~ :where(section > .iconRow, section) {
   --ob: 1vh;
   --otb: var(--ob);
   --obb: var(--ob);
+
   --ot1: calc(var(--otb) * 1);
-  --ot2: calc(var(--otb) * 2);
-  --ot3: calc(var(--otb) * 3);
-  --ot4: calc(var(--otb) * 4);
-  --ot5: calc(var(--otb) * 5);
   --ob1: calc(var(--obb) * 1);
+
+  --ot2: calc(var(--otb) * 2);
   --ob2: calc(var(--obb) * 2);
+
+  --ot3: calc(var(--otb) * 3);
   --ob3: calc(var(--bbb) * 3);
+
+  --ot4: calc(var(--otb) * 4);
   --ob4: calc(var(--obb) * 4);
+
+  --ot5: calc(var(--otb) * 5);
   --ob5: calc(var(--obb) * 5);
 }
 
@@ -98,5 +103,4 @@ h2 ~ :where(section > .iconRow, section) {
   contain: unset;
   height: fit-content;
   inset: -100% auto -100% auto;
-  height:;
 }

@@ -1,4 +1,16 @@
 /*
+
+## Intro
+
+entanglement - declarative data-binding for HTML/CSS documents
+
+
+<input type="text" id="in1"/>
+<input type="range" id="" name="volume" min="" max="11" />
+
+<output id="out1" for="in1 in2"></output>
+
+
 ## Quick Start
 
 

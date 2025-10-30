@@ -86,6 +86,31 @@ function format#FixedWidthFont(text)
         \ '\l', '\=char#base(submatch(0)) + 0x1D629)', 'g')
 endfunc
 
+function format#timeSince(eventtime)
+  let ds = localtime() - a:eventtime
+  if ds < 1
+    return 'the future'
+  endif
+  if ds < 60
+    return 'the last minute'
+  endif
+  if ds < 3600
+    return 'the last hour'
+  endif
+  if ds < 86400
+    return 'the last day'
+  endif
+  if ds < 604800
+    return 'the last week'
+  endif
+  if ds < 2629743
+    return 'the last month'
+  endif
+  if ds < 31556926
+    return 'the last year'
+  endif
+  return 'over a year ago'
+endfunc
 
 "
 " Format (combined) character for display, showing

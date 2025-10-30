@@ -24,32 +24,6 @@ function! s:SessionComplete(ArgLead, CmdLine, CursorPos)
         \ {_, val -> fnamemodify(val, ":t:r:r") .. '	|etc'})
 endfunc
 
-function! s:RoughTimeSince(eventtime)
-  let diffseconds = localtime() - a:eventtime
-  if diffseconds < 1
-    return 'the future'
-  endif
-  if diffseconds < 60
-    return 'the last minute'
-  endif
-  if diffseconds < 3600
-    return 'the last hour'
-  endif
-  if diffseconds < 86400
-    return 'the last day'
-  endif
-  if diffseconds < 604800
-    return 'the last week'
-  endif
-  if diffseconds < 2629743
-    return 'the last month'
-  endif
-  if diffseconds < 31556926
-    return 'the last year'
-  endif
-  return 'over a year ago'
-endfunc
-
 function! s:SessionList()
   return expand('$HOME/.vim/session')
         \ ->readdirex({e -> e.name =~ '.session.vim$'})
@@ -57,7 +31,7 @@ function! s:SessionList()
         \ ->map({i, val -> [
           \ fnamemodify(val.name, ":t:r:r"),
           \ '     - updated within',
-          \ s:RoughTimeSince(val.time),
+          \ format#timeSince(val.time),
           \ strftime("[%H:%M:%S %d-%m-%Y]", val.time),
           \ ]})
         \ ->join()

@@ -147,3 +147,28 @@ function char#match(str = char#fromCursor(), collection = 0) abort
   let n = char2nr(a:str)
   return printf('\%s%s%x', a:collection ? '%' : '', n < 0xffff ? 'u' : 'U', n)
 endfunc
+
+" 81-104, 105-128
+let g:mayhem_hi_vsels = [
+      \ ◌󠅀 ︎◌󠅁 ︎◌󠅂 ︎◌󠅃 ︎◌󠅄 ︎◌󠅅 ︎◌󠅆 ︎◌󠅇 ︎◌󠅈 ︎◌󠅉 ︎◌󠅊 ︎◌󠅋 ︎◌󠅌 ︎◌󠅍 ︎◌󠅎 ︎◌󠅏 ︎◌󠅐 ︎◌󠅑 ︎◌󠅒 ︎◌󠅓 ︎◌󠅔 ︎◌󠅕 ︎◌󠅖 ︎◌󠅗 ︎
+      \ ︎◌󠅘 ︎◌󠅙 ︎◌󠅚 ︎◌󠅛 ︎◌󠅜 ︎◌󠅝 ︎◌󠅞 ︎◌󠅟 ︎◌󠅠 ︎◌󠅡 ︎◌󠅢 ︎◌󠅣 ︎◌󠅤 ︎◌󠅥 ︎◌󠅦 ︎◌󠅧 ︎◌󠅨 ︎◌󠅩 ︎◌󠅪 ︎◌󠅫 ︎◌󠅬 ︎◌󠅭 ︎◌󠅮 ︎◌󠅯 ︎
+      \]
+"
+" Combine character with the variation selector corresponding to number
+"
+" Notes:
+" - Only the first n (= &mco) combining characters affect the displayed charcter
+"  - However, subsequent characters can still match patterns.
+" - Order can change the output, e.g. 'a'‥'◌⃝ '‥'16' = a⃝️   'a'‥'◌⃝ '‥'16' =  a️⃝ 
+"
+" Some variation selectors (see: g:mayhem_hi_vsels) are used for character-wise
+" highlighting. These are placed after any other combining characters.
+"
+function char#vary(str = char#fromCursor(), vsel = 16) abort
+endfunc
+
+"
+" Move combining characters in g:mayhem_hi_vsels after any others
+"
+function char#sort(str = char#fromCursor(), vsel = 16) abort
+endfunc

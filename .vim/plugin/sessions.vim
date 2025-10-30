@@ -103,7 +103,7 @@ command!
       \ if exists('g:loaded_obsession')
         \ && exists('g:this_session')
         \ && !exists('g:this_obsession')
-      \|  exec 'Obsession '..g:this_session
+      \|  exec 'Obsession' g:this_session
       \|endif
       \|doautocmd User Obsession
 

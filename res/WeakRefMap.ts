@@ -81,6 +81,7 @@ class IterableWeakSet<T extends WeakKey> implements Set<T> {
     );
     this.#refSet = new Set<WeakRef<T>>(weakRefs);
   }
+
   get size(): number {
     let n = 0;
     for (const item of this[Symbol.iterator]()) {
@@ -88,16 +89,19 @@ class IterableWeakSet<T extends WeakKey> implements Set<T> {
     }
     return n;
   }
+
   add(item: T): this {
     const weakRef = this.#refMap.get(item) ?? new WeakRef(item);
     this.#refMap.set(item, weakRef);
     this.#refSet.add(weakRef);
     return this;
   }
+
   clear(): void {
     this.#refMap = new WeakMap<T, WeakRef<T>>();
     this.#refSet = new Set<WeakRef<T>>();
   }
+
   delete(key: T): boolean {
     const weakRef = this.#refMap.get(key);
     if (weakRef === undefined) {
@@ -105,6 +109,7 @@ class IterableWeakSet<T extends WeakKey> implements Set<T> {
     }
     return this.#refMap.delete(key) || this.#refSet.delete(weakRef);
   }
+
   forEach(
     callbackfn: (value: T, value2: T, set: IterableWeakSet<T>) => void,
     thisArg?: any,
@@ -115,6 +120,7 @@ class IterableWeakSet<T extends WeakKey> implements Set<T> {
         : callbackfn.call(thisArg, item, item, this);
     }
   }
+
   has(item: T): boolean {
     return this.#refMap.has(item);
   }
@@ -124,12 +130,15 @@ class IterableWeakSet<T extends WeakKey> implements Set<T> {
       yield [item, item];
     }
   }
+
   *keys(): SetIterator<T> {
     yield* this[Symbol.iterator]();
   }
+
   *values(): SetIterator<T> {
     yield* this[Symbol.iterator]();
   }
+
   *[Symbol.iterator](): SetIterator<T> {
     for (const weakRef of this.#refSet.values()) {
       const value = weakRef.deref();
@@ -140,13 +149,11 @@ class IterableWeakSet<T extends WeakKey> implements Set<T> {
       }
     }
   }
+
   get [Symbol.toStringTag](): string {
     return 'IterableWeakSet';
   }
 }
-
-// export type WeakRefMap<K extends WeakKey, V extends WeakMap
-// }
 
 const weakRefSet = new Set<WeakRef<HTMLElement>>(
   mapIter(
@@ -154,5 +161,3 @@ const weakRefSet = new Set<WeakRef<HTMLElement>>(
     (element) => new WeakRef(element),
   ),
 );
-
-// weakRefSet.values(

@@ -65,7 +65,9 @@ endfunc
 " Remove combining character
 "
 function char#strip(remove, str = char#fromCursor()) abort
-  return char#split(str)->filter({i, v -> i == 0 || v != a:remove })->char#join()
+  return char#split(str)
+        \->filter({i, v -> i == 0 || v != a:remove })
+        \->char#join()
 endfunc
 
 "
@@ -149,10 +151,10 @@ function char#match(str = char#fromCursor(), collection = 0) abort
 endfunc
 
 " 81-104, 105-128
-let g:mayhem_hi_vsels = [
-      \ ◌󠅀 ︎◌󠅁 ︎◌󠅂 ︎◌󠅃 ︎◌󠅄 ︎◌󠅅 ︎◌󠅆 ︎◌󠅇 ︎◌󠅈 ︎◌󠅉 ︎◌󠅊 ︎◌󠅋 ︎◌󠅌 ︎◌󠅍 ︎◌󠅎 ︎◌󠅏 ︎◌󠅐 ︎◌󠅑 ︎◌󠅒 ︎◌󠅓 ︎◌󠅔 ︎◌󠅕 ︎◌󠅖 ︎◌󠅗 ︎
-      \ ︎◌󠅘 ︎◌󠅙 ︎◌󠅚 ︎◌󠅛 ︎◌󠅜 ︎◌󠅝 ︎◌󠅞 ︎◌󠅟 ︎◌󠅠 ︎◌󠅡 ︎◌󠅢 ︎◌󠅣 ︎◌󠅤 ︎◌󠅥 ︎◌󠅦 ︎◌󠅧 ︎◌󠅨 ︎◌󠅩 ︎◌󠅪 ︎◌󠅫 ︎◌󠅬 ︎◌󠅭 ︎◌󠅮 ︎◌󠅯 ︎
-      \]
+" let g:mayhem_hi_vsels = [
+"       \ ◌󠅀 ︎◌󠅁 ︎◌󠅂 ︎◌󠅃 ︎◌󠅄 ︎◌󠅅 ︎◌󠅆 ︎◌󠅇 ︎◌󠅈 ︎◌󠅉 ︎◌󠅊 ︎◌󠅋 ︎◌󠅌 ︎◌󠅍 ︎◌󠅎 ︎◌󠅏 ︎◌󠅐 ︎◌󠅑 ︎◌󠅒 ︎◌󠅓 ︎◌󠅔 ︎◌󠅕 ︎◌󠅖 ︎◌󠅗 ︎
+"       \ ︎◌󠅘 ︎◌󠅙 ︎◌󠅚 ︎◌󠅛 ︎◌󠅜 ︎◌󠅝 ︎◌󠅞 ︎◌󠅟 ︎◌󠅠 ︎◌󠅡 ︎◌󠅢 ︎◌󠅣 ︎◌󠅤 ︎◌󠅥 ︎◌󠅦 ︎◌󠅧 ︎◌󠅨 ︎◌󠅩 ︎◌󠅪 ︎◌󠅫 ︎◌󠅬 ︎◌󠅭 ︎◌󠅮 ︎◌󠅯 ︎
+"       \]
 "
 " Combine character with the variation selector corresponding to number
 "
@@ -168,7 +170,7 @@ function char#vary(str = char#fromCursor(), vsel = 16) abort
 endfunc
 
 "
-" Move combining characters in g:mayhem_hi_vsels after any others
+" Move the 
 "
 function char#sort(str = char#fromCursor(), vsel = 16) abort
 endfunc

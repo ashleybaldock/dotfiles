@@ -12,14 +12,14 @@ let s:matchids = []
 " TODO
 
 " Highlight the entire width of the <Tab> that the cursor is on
-function s:CursorTab() abort
+function s:Update_CursorTab() abort
   let s:matchids['tab'] = matchadd('Error', '\%#	', 2)
 endfunc
 
 let g:mayhem_chold_highlight_tab = 0
 
 " Highlight the <cword> under cursor
-function s:CursorWord() abort
+function s:Update_CursorWord() abort
   if mayhem#Toggled('g:mayhem_chold_highlight_word')
     call matchdelete(s:matchids['word'])
     let s:matchids['word'] = matchadd('Error', '\<\S\{-}\%#\S\{-}\>', 2)

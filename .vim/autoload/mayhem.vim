@@ -9,10 +9,17 @@ scriptencoding utf-8
 "
 " Do User Autocmd (but only if anything is listening)
 "
-function! mayhem#doUserAutocmd(name)
+function! mayhem#doUserAutocmd(name) abort
   if exists('#User#' .. a:name)
     exec 'doautocmd User ' .. a:name
   endif
+endfunc
+
+function! mayhem#ToggleSplit(togglename) abort
+  let [name, scope; rest] = split('g:' .. a:togglename, ':\zs')->reverse()
+  let aupat = 'Toggle_' .. scope .. name
+  let augroup = 'mayhem_update_' .. aupat
+  return #{name: name, scope: scope, aupat: aupat, augroup: augroup}
 endfunc
 
 "
@@ -27,16 +34,41 @@ endfunc
 "
 "   mayhem_no_scope -> #User#Toggle_g:mayhem_no_scope
 "
-function! mayhem#Toggle(togglename) 
-  let [name, scope; rest] = split('g:' .. a:togglename, ':\zs')->reverse()
-  exec 'let' scope .. name '= !(get(' .. scope .. ',''' .. name .. ''', 1))'
-  call mayhem#doUserAutocmd('Toggle_' .. scope .. name)
+function! mayhem#Toggle(togglename) abort
+  let tgl = mayhem#ToggleSplit(a:togglename)
+  exec 'let' tgl.scope .. tgl.name '= !(get(' .. tgl.scope .. ',''' .. tgl.name .. ''', 1))'
+  call mayhem#doUserAutocmd(tgl.aupat)
 endfunc
 
-function! mayhem#Toggled(togglename) 
-  let [name, scope; rest] = split('g:' .. a:togglename, ':\zs')->reverse()
-  exec 'let result = get(' .. scope .. ',''' .. name .. ''', 0)'
+"
+" Returns the current state of a toggle
+"
+function! mayhem#Toggled(togglename) abort
+  let tgl = mayhem#ToggleSplit(a:togglename)
+  exec 'let result = get(' .. tgl.scope .. ',''' .. tgl.name .. ''', 0)'
   return result
+endfunc
+
+" let acmd = #{
+"       \bufnr:   '',
+"       \cmd:     '',
+"       \event:   '',
+"       \group:   '',
+"       \nested:  '',
+"       \once:    '',
+"       \pattern: '',
+"       \replace: '', 
+"       \}
+
+function! mayhem#ObserveToggle(togglename, togglecmd)
+  let tgl = mayhem#ToggleSplit(a:togglename)
+  call autocmd_add([
+        \#{
+        \ event: 'User', pattern: tgl.aupat,
+        \ cmd: a:togglecmd,
+        \ group: tgl.augroup, replace: v:true,
+        \},
+        \])
 endfunc
 
 
@@ -82,3 +114,5 @@ endfunc
 "   let dx_char = abs(x1_char - x2_char)
 "   return #{from: min(x1_char, x2_char), to: max(x1_char, x2_char), count: dx_char}
 " endfunc
+
+

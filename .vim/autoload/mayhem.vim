@@ -15,7 +15,10 @@ function! mayhem#doUserAutocmd(name) abort
   endif
 endfunc
 
-function! mayhem#ToggleSplit(togglename) abort
+"
+" Generate predictable values from toggle variable name
+"
+function! mayhem#ToggleParse(togglename) abort
   let [name, scope; rest] = split('g:' .. a:togglename, ':\zs')->reverse()
   let aupat = 'Toggle_' .. scope .. name
   let augroup = 'mayhem_update_' .. aupat
@@ -35,7 +38,7 @@ endfunc
 "   mayhem_no_scope -> #User#Toggle_g:mayhem_no_scope
 "
 function! mayhem#Toggle(togglename) abort
-  let tgl = mayhem#ToggleSplit(a:togglename)
+  let tgl = mayhem#ToggleParse(a:togglename)
   exec 'let' tgl.scope .. tgl.name '= !(get(' .. tgl.scope .. ',''' .. tgl.name .. ''', 1))'
   call mayhem#doUserAutocmd(tgl.aupat)
 endfunc
@@ -44,7 +47,7 @@ endfunc
 " Returns the current state of a toggle
 "
 function! mayhem#Toggled(togglename) abort
-  let tgl = mayhem#ToggleSplit(a:togglename)
+  let tgl = mayhem#ToggleParse(a:togglename)
   exec 'let result = get(' .. tgl.scope .. ',''' .. tgl.name .. ''', 0)'
   return result
 endfunc
@@ -61,7 +64,7 @@ endfunc
 "       \}
 
 function! mayhem#ObserveToggle(togglename, togglecmd)
-  let tgl = mayhem#ToggleSplit(a:togglename)
+  let tgl = mayhem#ToggleParse(a:togglename)
   call autocmd_add([
         \#{
         \ event: 'User', pattern: tgl.aupat,

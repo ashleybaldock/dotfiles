@@ -36,11 +36,11 @@ endfunc
 
 call mayhem#ObserveToggle('g:mayhem_auto_charinfo', 'call s:Update_AutoCharInfo()')
 
-call autocmd_add([
-      \#{
-      \ event: 'User', pattern: 'Toggle_g:mayhem_auto_charinfo',
-      \ cmd: 'call s:Update_AutoCharInfo()',
-      \ group: 'mayhem_update_auto_charinfo', replace: v:true,
-      \},
-      \])
+" call autocmd_add([
+"       \#{
+"       \ event: 'User', pattern: 'Toggle_g:mayhem_auto_charinfo',
+"       \ cmd: 'call s:Update_AutoCharInfo()',
+"       \ group: 'mayhem_update_auto_charinfo', replace: v:true,
+"       \},
+"       \])
 

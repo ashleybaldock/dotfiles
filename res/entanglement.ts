@@ -12,6 +12,14 @@ const defaultConfig: EntangledConfig = {
   observe: false,
 };
 
+
+/* Defines automatically entangled event sources, and the events they produce */
+const autoEventSources = new Map([
+  { query: `[data-source]`, events: [``] },
+  { query: `input[type=radio]`, events: [``] },
+  { query: `input[type=checkbox]`, events: [``] },
+]);
+
 const awaitComplete = 13;
 
 const parseTag = (
@@ -101,7 +109,7 @@ export const entanglement = (({ window, window: { document } }) => {
   const wrapped = () => {};
 
   const entangle = (document, options: EntangledConfig) => {
-    awaitMatches({ selector: parseSelector(...args) });
+    awaitMatches({ selector:  });
   };
 
   return (options: Partial<EntangledConfig> = {}) =>

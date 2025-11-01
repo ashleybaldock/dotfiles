@@ -113,6 +113,21 @@ function format#timeSince(eventtime)
 endfunc
 
 "
+" Format numbers with SI prefixes in a way that is pleasing to humans
+"
+function format#SIPrefixDecimal(n) abort
+  let prefixes = ['', 'k', 'M', 'G', 'T']
+  let cur = a:n
+  let i = 0
+  while cur > 1000 && i < len(prefixes) - 1
+    let cur = cur / 1000.0
+    let i = i + 1
+  endwhile
+
+  return printf("%4.1f%s", cur, prefixes[i])
+endfunc
+
+"
 " Format (combined) character for display, showing
 " sequence of base and combining characters
 "

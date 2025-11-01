@@ -77,35 +77,10 @@ endfunc
 
 
 
-" find cursor                                       TODO
-" highlight current cursor position by horizontal and vertical cursor
-" command! PingCursor <Nop>
-
-" 
-" Predicate: Cursor Is On A Comment
-command! CursorOnComment echo predicate#cursorIsOnComment()
-
-
 " Set number column width based on length of file
 " autocmd BufRead * let &l:numberwidth =
 " \ max([float2nr(log10(line('$')))+3, &numberwidth]) 
 "
-
-"
-" Util: Format numbers with SI prefixes in a
-"       way that is pleasing to humans
-"
-function PrefixDecimal(n) abort
-  let prefixes = ['', 'k', 'M', 'G', 'T']
-  let cur = a:n
-  let i = 0
-  while cur > 1000 && i < len(prefixes) - 1
-    let cur = cur / 1000.0
-    let i = i + 1
-  endwhile
-
-  return printf("%4.1f%s", cur, prefixes[i])
-endfunc
 
 
 

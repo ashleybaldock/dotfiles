@@ -34,48 +34,45 @@ let g:mayhem_chold_highlight_word = 0
 " (matched pairs of: "", '', `` etc.)
 " TODO
 
+"{{{1
+" function s:ClearCurHoldHighlights() abort
+"   augroup CurHoldHighlightOverride
+"     autocmd!
+"   augroup END
+"   call clearmatches()
+"   " if exists('b:lastCursorHoldHighlight')
+"   "   silent! matchdelete(b:lastCursorHoldHighlight)
+"   " endif
+" endfunc
 
-" command! -bar -nargs=0 CharInfoToggle Toggle g:mayhem_hl_auto_charinfo<CR>
+"function s:CurHoldHlBrighterComments() abort
+"  call s:ClearCurHoldHighlights()
+"  augroup CurHoldHighlightOverride
+"    autocmd!
+"    " autocmd ColorScheme vividmayhem call s:CurHoldHlBrighterComments()
+"    autocmd CursorMoved <buffer> call s:ClearCurHoldHighlights()
+"  augroup END
+"  " sy match cursor +\%#+ contained
+"  " syn off | syn on
+"  " sy region htmlCommentCursor2 start=+<!+ end=+>+ contains=cursor
+"  "
+"  let b:lastCursorHoldHighlight = matchadd('CommentBright', '\%'.line('.').'l')
+"  " redraw!
+"endfunc
 
-function s:ClearCurHoldHighlights() abort
-  augroup CurHoldHighlightOverride
-    autocmd!
-  augroup END
-  call clearmatches()
-  " if exists('b:lastCursorHoldHighlight')
-  "   silent! matchdelete(b:lastCursorHoldHighlight)
-  " endif
-endfunc
+" function s:CursorHoldHighlights() abort
+"   if !exists(g:mayhem_curhold_highlights) || !g:mayhem_curhold_highlights
+"     return
+"   endif
+"   if predicate#cursorIsOnComment()
+"     call s:CurHoldHlBrighterComments()
+"   endif
+" endfunc
 
-function s:CurHoldHlBrighterComments() abort
-  call s:ClearCurHoldHighlights()
-  augroup CurHoldHighlightOverride
-    autocmd!
-    " autocmd ColorScheme vividmayhem call s:CurHoldHlBrighterComments()
-    autocmd CursorMoved <buffer> call s:ClearCurHoldHighlights()
-  augroup END
-  " sy match cursor +\%#+ contained
-  " syn off | syn on
-  " sy region htmlCommentCursor2 start=+<!+ end=+>+ contains=cursor
-
-  "
-  let b:lastCursorHoldHighlight = matchadd('CommentBright', '\%'.line('.').'l')
-  " redraw!
-endfunc
-
-function s:CursorHoldHighlights() abort
-  if !exists(g:mayhem_curhold_highlights) || !g:mayhem_curhold_highlights
-    return
-  endif
-  if CursorOnComment()
-    call s:CurHoldHlBrighterComments()
-  endif
-endfunc
-
-augroup HighlightHold
-  autocmd!
-  " autocmd CursorHold <buffer> call s:CursorHoldHighlights()
-augroup END
+" augroup HighlightHold
+"   autocmd!
+"   " autocmd CursorHold <buffer> call s:CursorHoldHighlights()
+" augroup END
 
 
 

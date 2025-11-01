@@ -20,7 +20,10 @@ hi typescriptParamExp        guifg=#bbeeff
 
 hi typescriptExport          guifg=#3300aa gui=italic
 hi typescriptExport          guifg=#33aa00 gui=italic
+hi typescriptExportType      guifg=#33aa00 gui=italic
 " hi typescriptDefaultImportName
+hi typescriptImport          guifg=#33aa00 gui=italic
+hi typescriptImportType      guifg=#33aa00 gui=italic
 
 hi typescriptAliasKeyword    guifg=#c248fe gui=italic
 hi typescriptAliasDefinition guifg=#bb66ff
@@ -107,6 +110,7 @@ hi typescriptBOMWindowProp    guifg=#ffaa00
 hi link typescriptAssign Operator
 hi link typescriptUnaryOp Operator
 hi link typescriptBinaryOp Operator
+" hi typescriptTernary
 hi link typescriptTernaryOp Operator
 hi link typescriptDotNotation Operator
 hi link typescriptDotStyleNotation Operator
@@ -151,7 +155,9 @@ hi link typescriptDOMFormProp typescriptProp
 hi link typescriptDOMNodeMethod typescriptMethod
 hi link typescriptDOMStorageMethod typescriptMethod
 hi link typescriptDateMethod typescriptMethod
+hi link typescriptES6MapProp typescriptProp
 hi link typescriptES6MapMethod typescriptMethod
+hi link typescriptES6SetProp typescriptProp
 hi link typescriptES6SetMethod typescriptMethod
 hi link typescriptEncodingMethod typescriptMethod
 hi link typescriptFileListMethod typescriptMethod

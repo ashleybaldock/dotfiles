@@ -12,7 +12,6 @@ const defaultConfig: EntangledConfig = {
   observe: false,
 };
 
-
 /* Defines automatically entangled event sources, and the events they produce */
 const autoEventSources = new Map([
   { query: `[data-source]`, events: [``] },
@@ -109,15 +108,15 @@ export const entanglement = (({ window, window: { document } }) => {
   const wrapped = () => {};
 
   const entangle = (document, options: EntangledConfig) => {
-    awaitMatches({ selector:  });
+    awaitMatches({ selector: '' });
   };
 
   return (options: Partial<EntangledConfig> = {}) =>
     new Promise((resolve, reject) => {
       const waitForComplete = () =>
         document.readyState === 'complete'
-        ? resolve(entangle(document, { ...defaultConfig, ...options }))
-        : document.addEventListener('readystatechange', waitForComplete);
-    waitForComplete();
-  });
+          ? resolve(entangle(document, { ...defaultConfig, ...options }))
+          : document.addEventListener('readystatechange', waitForComplete);
+      waitForComplete();
+    });
 })({ window });

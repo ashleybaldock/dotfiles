@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.100
+// @version     1.1.101
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -514,7 +514,7 @@ const waitForMatches = async (
     try {
       while (true) {
         signal?.throwIfAborted();
-        for (match of await promise) {
+        for (const match of await promise) {
           yield Promise.resolve(match);
         }
         ({ promise, resolve, reject } = Promise.withResolvers());

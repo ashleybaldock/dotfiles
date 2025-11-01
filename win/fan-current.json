@@ -1,0 +1,504 @@
+{
+  "__VERSION__": "245",
+  "Main": {
+    "Controls": [
+      {
+        "Name": "CPU Fan",
+        "NickName": "CPU Fan",
+        "Identifier": "/lpc/nct6687d/control/0",
+        "IsHidden": false,
+        "Enable": true,
+        "SelectedFanCurve": {
+          "Name": "Graph"
+        },
+        "SelectedOffset": -3,
+        "PairedFanSensor": {
+          "Identifier": "/lpc/nct6687d/fan/0"
+        },
+        "SelectedStart": 28,
+        "SelectedStop": 16,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": [
+          [
+            10,
+            0
+          ],
+          [
+            20,
+            297
+          ],
+          [
+            30,
+            438
+          ],
+          [
+            40,
+            632
+          ],
+          [
+            50,
+            807
+          ],
+          [
+            60,
+            958
+          ],
+          [
+            70,
+            1096
+          ],
+          [
+            80,
+            1236
+          ],
+          [
+            90,
+            1386
+          ],
+          [
+            100,
+            1513
+          ]
+        ]
+      },
+      {
+        "Name": "System Fan #1",
+        "NickName": "System Fan #1",
+        "Identifier": "/lpc/nct6687d/control/2",
+        "IsHidden": false,
+        "Enable": true,
+        "SelectedFanCurve": {
+          "Name": "Graph"
+        },
+        "SelectedOffset": 0,
+        "PairedFanSensor": {
+          "Identifier": "/lpc/nct6687d/fan/2"
+        },
+        "SelectedStart": 42,
+        "SelectedStop": 36,
+        "MinimumPercent": 40,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": [
+          [
+            30,
+            0
+          ],
+          [
+            40,
+            663
+          ],
+          [
+            50,
+            794
+          ],
+          [
+            60,
+            912
+          ],
+          [
+            70,
+            1016
+          ],
+          [
+            80,
+            1130
+          ],
+          [
+            90,
+            1212
+          ],
+          [
+            100,
+            1331
+          ]
+        ]
+      },
+      {
+        "Name": "System Fan #2",
+        "NickName": "System Fan #2",
+        "Identifier": "/lpc/nct6687d/control/3",
+        "IsHidden": false,
+        "Enable": true,
+        "SelectedFanCurve": {
+          "Name": "Graph"
+        },
+        "SelectedOffset": 0,
+        "PairedFanSensor": {
+          "Identifier": "/lpc/nct6687d/fan/3"
+        },
+        "SelectedStart": 45,
+        "SelectedStop": 36,
+        "MinimumPercent": 40,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": [
+          [
+            30,
+            0
+          ],
+          [
+            40,
+            620
+          ],
+          [
+            50,
+            754
+          ],
+          [
+            60,
+            870
+          ],
+          [
+            70,
+            986
+          ],
+          [
+            80,
+            1079
+          ],
+          [
+            90,
+            1174
+          ],
+          [
+            100,
+            1282
+          ]
+        ]
+      },
+      {
+        "Name": "System Fan #3",
+        "NickName": "System Fan #3",
+        "Identifier": "/lpc/nct6687d/control/4",
+        "IsHidden": false,
+        "Enable": true,
+        "SelectedFanCurve": {
+          "Name": "Graph"
+        },
+        "SelectedOffset": 0,
+        "PairedFanSensor": {
+          "Identifier": "/lpc/nct6687d/fan/4"
+        },
+        "SelectedStart": 42,
+        "SelectedStop": 36,
+        "MinimumPercent": 45,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": [
+          [
+            30,
+            0
+          ],
+          [
+            40,
+            626
+          ],
+          [
+            50,
+            750
+          ],
+          [
+            60,
+            865
+          ],
+          [
+            70,
+            966
+          ],
+          [
+            80,
+            1064
+          ],
+          [
+            90,
+            1153
+          ],
+          [
+            100,
+            1256
+          ]
+        ]
+      },
+      {
+        "Name": "Pump Fan",
+        "NickName": "Pump Fan",
+        "Identifier": "/lpc/nct6687d/control/1",
+        "IsHidden": true,
+        "Enable": false,
+        "SelectedFanCurve": null,
+        "SelectedOffset": 0,
+        "PairedFanSensor": null,
+        "SelectedStart": 0,
+        "SelectedStop": 0,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": []
+      },
+      {
+        "Name": "System Fan #4",
+        "NickName": "System Fan #4",
+        "Identifier": "/lpc/nct6687d/control/5",
+        "IsHidden": true,
+        "Enable": false,
+        "SelectedFanCurve": null,
+        "SelectedOffset": 0,
+        "PairedFanSensor": null,
+        "SelectedStart": 0,
+        "SelectedStop": 0,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": []
+      },
+      {
+        "Name": "System Fan #5",
+        "NickName": "System Fan #5",
+        "Identifier": "/lpc/nct6687d/control/6",
+        "IsHidden": true,
+        "Enable": false,
+        "SelectedFanCurve": null,
+        "SelectedOffset": 0,
+        "PairedFanSensor": null,
+        "SelectedStart": 0,
+        "SelectedStop": 0,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": []
+      },
+      {
+        "Name": "Control 1 - AMD Radeon RX 5600 XT",
+        "NickName": "Control 1 - AMD Radeon RX 5600 XT",
+        "Identifier": "ADLX/AMD Radeon RX 5600 XT/11520/control",
+        "IsHidden": false,
+        "Enable": false,
+        "SelectedFanCurve": null,
+        "SelectedOffset": 0,
+        "PairedFanSensor": {
+          "Identifier": "ADLX/AMD Radeon RX 5600 XT/11520/fan"
+        },
+        "SelectedStart": 0,
+        "SelectedStop": 0,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": [
+          [
+            20,
+            1134
+          ],
+          [
+            30,
+            1530
+          ],
+          [
+            40,
+            1894
+          ],
+          [
+            50,
+            2198
+          ],
+          [
+            60,
+            2494
+          ],
+          [
+            70,
+            2722
+          ],
+          [
+            80,
+            2962
+          ],
+          [
+            90,
+            3183
+          ],
+          [
+            100,
+            3405
+          ]
+        ]
+      },
+      {
+        "Name": "System Fan #6",
+        "NickName": "System Fan #6",
+        "Identifier": "/lpc/nct6687d/control/7",
+        "IsHidden": true,
+        "Enable": false,
+        "SelectedFanCurve": {
+          "Name": "Graph"
+        },
+        "SelectedOffset": 0,
+        "PairedFanSensor": null,
+        "SelectedStart": 0,
+        "SelectedStop": 0,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": []
+      }
+    ],
+    "CustomSensors": [],
+    "Fahrenheit": false,
+    "FanCurves": [
+      {
+        "CommandMode": 0,
+        "Name": "Flat curve example",
+        "IsHidden": false,
+        "Percent": 50
+      },
+      {
+        "CommandMode": 0,
+        "Name": "Graph",
+        "IsHidden": false,
+        "SelectedTempSource": {
+          "Identifier": "/amdcpu/0/temperature/2"
+        },
+        "Points": [
+          "50,28",
+          "90,100"
+        ],
+        "MaximumTemperature": 100,
+        "MinimumTemperature": 20,
+        "MaximumCommand": 100,
+        "HysteresisConfig": {
+          "ResponseTimeUp": 1,
+          "ResponseTimeDown": 1,
+          "HysteresisValueUp": 1,
+          "HysteresisValueDown": 2,
+          "IgnoreHysteresisAtLimits": true
+        }
+      }
+    ],
+    "FanSensors": [
+      {
+        "Identifier": "/lpc/nct6687d/fan/0",
+        "IsHidden": true,
+        "Name": "CPU Fan",
+        "NickName": "CPU Fan"
+      },
+      {
+        "Identifier": "/lpc/nct6687d/fan/1",
+        "IsHidden": true,
+        "Name": "Pump Fan",
+        "NickName": "Pump Fan"
+      },
+      {
+        "Identifier": "/lpc/nct6687d/fan/2",
+        "IsHidden": true,
+        "Name": "System Fan #1",
+        "NickName": "System Fan #1"
+      },
+      {
+        "Identifier": "/lpc/nct6687d/fan/3",
+        "IsHidden": true,
+        "Name": "System Fan #2",
+        "NickName": "System Fan #2"
+      },
+      {
+        "Identifier": "/lpc/nct6687d/fan/4",
+        "IsHidden": true,
+        "Name": "System Fan #3",
+        "NickName": "System Fan #3"
+      },
+      {
+        "Identifier": "/lpc/nct6687d/fan/5",
+        "IsHidden": true,
+        "Name": "System Fan #4",
+        "NickName": "System Fan #4"
+      },
+      {
+        "Identifier": "/lpc/nct6687d/fan/6",
+        "IsHidden": true,
+        "Name": "System Fan #5",
+        "NickName": "System Fan #5"
+      },
+      {
+        "Identifier": "ADLX/AMD Radeon RX 5600 XT/11520/fan",
+        "IsHidden": false,
+        "Name": "Fan 1 - AMD Radeon RX 5600 XT",
+        "NickName": "Fan 1 - AMD Radeon RX 5600 XT"
+      },
+      {
+        "Identifier": "/lpc/nct6687d/fan/7",
+        "IsHidden": true,
+        "Name": "System Fan #6",
+        "NickName": "System Fan #6"
+      }
+    ],
+    "HideCalibration": false,
+    "HideFanSpeedCards": true,
+    "HorizontalUIOrientation": true,
+    "PrimaryColor": "#FF487388",
+    "SecondaryColor": "#FFAEEA00",
+    "SelectedTheme": "",
+    "ShowHiddenCards": false,
+    "SyncThemeWithWindows": true,
+    "SyncTrayIconColorWithWindows": true,
+    "TemperatureSensors": [],
+    "TrayIconColor": null,
+    "TrayIcons": [
+      {
+        "SensorId": {
+          "Identifier": "/lpc/nct6687d/temperature/0"
+        },
+        "Color": null
+      }
+    ]
+  },
+  "Sensors": {
+    "AdlxWrapperSettings": {
+      "Enabled": true
+    },
+    "DisabledPlugins": [],
+    "DisableStorageSensors": true,
+    "LibreHardwareMonitorSettings": {
+      "Controller": false,
+      "CPU": true,
+      "EmbeddedEC": true,
+      "GPU": true,
+      "Memory": false,
+      "Motherboard": true,
+      "PSU": false,
+      "Storage": false,
+      "ZeroRPMOverride": false
+    },
+    "NvAPIWrapperSettings": {
+      "Enabled": true,
+      "ZeroRPMOverride": false
+    }
+  }
+}

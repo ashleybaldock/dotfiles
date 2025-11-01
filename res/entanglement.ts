@@ -116,8 +116,8 @@ export const entanglement = (({ window, window: { document } }) => {
     new Promise((resolve, reject) => {
       const waitForComplete = () =>
         document.readyState === 'complete'
-          ? resolve(entangle(document, { ...defaultConfig, ...options }))
-          : document.addEventListener('readystatechange', waitForComplete);
-      waitForComplete();
-    });
+        ? resolve(entangle(document, { ...defaultConfig, ...options }))
+        : document.addEventListener('readystatechange', waitForComplete);
+    waitForComplete();
+  });
 })({ window });

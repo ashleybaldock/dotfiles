@@ -5,13 +5,13 @@ let g:mayhem_loaded_highlight = 1
 
 let s:conceal_guixx_matchids = []
 
-function s:Conceal_guixx()
+function s:Conceal_guixx() abort
   try
-    call get(s:, 'conceal_guixx_matchids', [])
-          \->foreach({i, v -> matchdelete(v)})
+    call foreach(get(s:, 'conceal_guixx_matchids', []), {i, v -> matchdelete(v)})
   catch
     echom v:errmsg
   endtry
+
   let s:conceal_guixx_matchids = [
         \ matchadd('Conceal', '\<\zsg\zeui\([fbs]g\)\?\>=', 10, -1, #{conceal: ' '}),
         \ matchadd('Conceal', '\<g\zsu\zei\([fbs]g\)\?\>=', 10, -1, #{conceal: ' '}),
@@ -28,40 +28,22 @@ endfunc
 
 " Foreground text hidden (same colour as the background)
 function ColourHighlightTextHidden() abort
-  call hlget()
+  call hlset(hlget()
         \ ->filter({_, x -> x.name =~ '^BG.*' && has_key(x, 'guibg')})
-        \ ->map({_, x -> #{name: x.name, guifg: x.guibg}})
-        \ ->hlset()
+        \ ->map({_, x -> #{name: x.name, guifg: x.guibg}}))
   call s:Conceal_guixx()
 endfunc
 
 " Background hidden, show only text in colour
 function ColourHighlightTextOnly() abort
-  call hlget()
+  call hlset(hlget()
         \ ->filter({_, x -> x.name =~ '^BG.*' && has_key(x, 'guibg')})
-        \ ->map({_, x -> #{name: x.name, guifg: x.guibg, guibg: 'NONE'}})
-        \ ->hlset()
+        \ ->map({_, x -> #{name: x.name, guifg: x.guibg, guibg: 'NONE'}}))
   call s:Conceal_guixx()
 endfunc
 
-"
 " TODO convert this to vim9script for speed
 function! s:HighlightHighlight() abort
-  call autocmd_add([#{
-        \ event: 'ColorScheme', pattern: 'vividmayhem',
-        \ cmd: 'call s:HighlightHighlight()',
-        \ group: 'mayhem_hihi_colorscheme_event', replace: v:true,
-        \},
-        \#{
-        \ event: 'Syntax', pattern: 'vim',
-        \ cmd: 'call s:HighlightHighlight()',
-        \ group: 'mayhem_hihi_colorscheme_event', replace: v:true,
-        \}
-        \])
-
-  silent! syn clear vimGroup
-  silent! syn clear vimHiGroup
-  silent! syn clear vimHLGroup
 
   " Can't use 'cluster add=' for this, as doing so adds the existing
   " syntax rule(s) with the group name alongside these new ones
@@ -74,17 +56,34 @@ function! s:HighlightHighlight() abort
       exec 'syn keyword' hlgroup['name'] 'contained' hlgroup['name']
             \ 'containedin=vimHiHiKeyword'
     catch
-      echom 'HiHi: caught exception from hl group ''' .. hlgroup .. '''' .. v:exception
+      echom 'HiHi: caught exception from hl group ''' .. hlgroup .. ''''
+      echom v:errmsg
     endtry
   endfor
+
+  silent! syn clear vimGroup
+  silent! syn clear vimHiGroup
+  silent! syn clear vimHLGroup
+
+  call autocmd_add([#{
+        \ event: 'ColorScheme', pattern: 'vividmayhem',
+        \ cmd: 'call s:HighlightHighlight()',
+        \ group: 'mayhem_hihi_colorscheme_event', replace: v:true,
+        \},
+        \#{
+        \ event: 'Syntax', pattern: 'vim',
+        \ cmd: 'call s:HighlightHighlight()',
+        \ group: 'mayhem_hihi_colorscheme_event', replace: v:true,
+        \}
+        \])
 endfunc
 
-function! s:NoHighlightHighlight()
+function! s:NoHighlightHighlight() abort
   call autocmd_delete([
         \#{
         \ event: 'ColorScheme', pattern: 'vividmayhem',
         \ group: 'mayhem_hihi_colorscheme_event',
-        \}
+        \},
         \#{
         \ event: 'Syntax', pattern: 'vim',
         \ group: 'mayhem_hihi_colorscheme_event',

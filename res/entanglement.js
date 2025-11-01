@@ -4,12 +4,12 @@
 
 entanglement - declarative data-binding for HTML/CSS documents
 
-
+```html
 <input type="text" id="in1"/>
-<input type="range" id="" name="volume" min="" max="11" />
+<input type="range" id="in2" name="size" min="10" max="18"/>
 
-<output id="out1" for="in1 in2"></output>
-
+<output id="out1" for="in1 in2" style="font-size: var(--from-in2s)"></output>
+```
 
 ## Quick Start
 
@@ -143,7 +143,7 @@ const entanglement = (({
 
     const getUpdateQueue = (() => {
       const dataSinksMap = new Map();
-      const dataSinksMap /*: WeakRefMap<HTMLElement, >*/ = createWeakRefMap();
+      // const dataSinksMap /*: WeakRefMap<HTMLElement, >*/ = createWeakRefMap();
 
       return () => ({
         enqueue: ({ source, sink, newValue }) => {
@@ -185,7 +185,7 @@ const entanglement = (({
     /**
      * Obtain a value from data source
      *
-     * The value is determind in different ways depending on the kind of source
+     * The value is determined in different ways depending on the kind of source
      */
     const getCurrentValue = (() => {
       const getRadioGroupValue = ({ element, name }) =>
@@ -320,6 +320,7 @@ const entanglement = (({
               ) ?? id)(nextId())
           : null
     )({ nextId, options });
+
     const sources = potentialSourceElements.flatMap((el) => {
       const source = {
         element: el,
@@ -346,16 +347,14 @@ const entanglement = (({
     return abort;
   };
 
-  return (options = {}) => {
-    const promise = new Promise((resolve, reject) => {
+  return (options = {}) =>
+    new Promise((resolve, reject) => {
       const waitForComplete = () =>
         document.readyState === 'complete'
           ? resolve(entangle(document, options))
           : document.addEventListener('readystatechange', waitForComplete);
       waitForComplete();
     });
-    return promise;
-  };
 })({ window });
 
 /* Update nearest parent sink */

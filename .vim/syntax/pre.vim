@@ -27,19 +27,16 @@ syn region preInSquare
       \ matchgroup=preSquare start=/\[/
       \ end=/\]/ oneline contains=preInSquare,preYes,preNo,preMaybe
 
-syn match TagsUnknown /[\Ue0000\Ue0002-\Ue001f]/
-syn match TagLang /[\Ue0001]/
-syn match TagCancel /[\Ue007f]/
-syn match TagsUpper /[\Ue0020-\Ue0060\Ue007b-\Ue007e]/
-syn match TagsLower /[\Ue0061-\Ue007a]/
+" syn match TagsUnknown /[\Ue0000\Ue0002-\Ue001f]/
+" syn match TagLang /[\Ue0001]/
+" syn match TagCancel /[\Ue007f]/
+" syn match TagsUpper /[\Ue0020-\Ue0060\Ue007b-\Ue007e]/
+" syn match TagsLower /[\Ue0061-\Ue007a]/
 
 syn match TagA +󠅀+
 
-hi def TagA guifg=#ff00ff
-
 syn match preEqVar /\%(\_^\|\s\)\@1<=[𝝼𝞶𝝂𝜈ʋ𝛼𝛽𝓍𝓎]\+.\{-}\ze\%(\_$\|\s\)/ contains=NONE
 " syn match preEqVar /\%(\_^\|\s\)\@1<=\S\{-}[ᵪᵥₓᘁᘁᵥᕽᴴᵂᶹᑋʰˣʸ]\{-}\ze\%(\_$\|\s\)/ contains=NONE
-hi def preEqVar guifg=#f56cff
 
 syn match preArrows /[
       \\u2190-\u21ff
@@ -102,6 +99,9 @@ hi def preYes       guifg=#00ff00
 hi def preMaybe     guifg=#ffaa00
 hi def preNo        guifg=#ff0000
 hi def preNewline   guifg=#ff00ff
+
+hi def preEqVar guifg=#f56cff
+hi def TagA guifg=#ff00ff
 
 hi def TestInd guifg=#ffaa22
 

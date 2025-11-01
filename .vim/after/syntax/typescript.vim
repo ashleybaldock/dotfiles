@@ -39,10 +39,21 @@ hi typescriptMember          guifg=#ffaa00
 hi typescriptMemberOptionality guifg=#ffaa00
 hi typescriptComputedPropertyName guifg=#ffaa00
 " keyof
-hi typescriptTypeQuery       guifg=#718bff
+hi typescriptTypeQuery        guifg=#718bff
 
-hi typescriptObjectSpread    guifg=#ff6600
-hi typescriptRestOrSpread    guifg=#ffaa00
+hi typescriptObjectSpread     guifg=#ff6600
+hi typescriptRestOrSpread     guifg=#ffaa00
+hi typescriptArrayDestructure guifg=#ffee77
+hi typescriptObjectDestructure
+hi typescriptDestructureAs
+hi typescriptDestructureLabel
+hi typescriptDestructureString
+hi typescriptDestructureVariable
+" Commas
+hi typescriptDestructureComma guifg=#ff6600
+hi typescriptMixinComma       guifg=#ff6600
+hi typescriptFuncComma        guifg=#ff6600
+hi typescriptInterfaceComma   guifg=#ff6600
 
 hi typescriptTypeAnnotation  guifg=#dd55dd
 hi typescriptTypeBrackets    guifg=#ee55ee

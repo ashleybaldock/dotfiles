@@ -52,16 +52,31 @@ endfunc
 "echo matchadd('Error', '\%#	', 2)
 
 
- "" yank all matching lines to register
- " :let @a=""
- " :g/<pattern>/y A
- "" :echo @a
- "" copy register to clipboard
- " :let @*=@a
+" yank all matching lines to register
+"> :let @a=""
+"> :g/<pattern>/y A
+"> :echo @a
+" copy register to clipboard
+"> :let @*=@a
 
- "" delete all matching lines
- " :g/pattern/d
- " :g//d
+"" delete all matching lines
+" :g/pattern/d
+" :g//d
+
+
+let s:seqtoggles = {
+      \'true':'false',
+      \'false':'true',
+      \}
+" Return next string from predefined sequences
+" e.g. 'true' -> 'false', 'false' -> 'true'
+function SequenceToggleNext(word = expand('<cword>')) abort
+  if has_key(s:seqtoggles, a:word)
+    call substitute('\<\S\{-}\%#\S\{-}\>', s:seqtoggles[a:word], 'g')
+  else
+  endif
+endfunc
+
 
 
 " find cursor                                       TODO

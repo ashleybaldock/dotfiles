@@ -41,7 +41,8 @@ hi typescriptComputedPropertyName guifg=#ffaa00
 " keyof
 hi typescriptTypeQuery       guifg=#718bff
 
-hi typescriptTypeBracket     guifg=#ffaa00
+hi typescriptObjectSpread    guifg=#ff6600
+hi typescriptRestOrSpread    guifg=#ffaa00
 
 hi typescriptTypeAnnotation  guifg=#dd55dd
 hi typescriptTypeBrackets    guifg=#ee55ee

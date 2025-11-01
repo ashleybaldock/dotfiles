@@ -48,8 +48,6 @@ function! Gather(pat, bufnr = bufnr(), to = '$') range abort
   " let list = getreg('l', 1, 1)
   " let @l = l
 endfunc
-" Highlight entire tab that cursor is in
-"echo matchadd('Error', '\%#	', 2)
 
 
 " yank all matching lines to register

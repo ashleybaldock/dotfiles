@@ -34,26 +34,7 @@ function! s:FormatCharInfoForSynFo(arg = v:null)
   return #{text: chfo['characterise_output'], props: []}
 endfunc
 
-" command! -bar -nargs=0 CharInfoToggle Toggle g:mayhem_hl_auto_charinfo<CR>
-
 " Follow links to the end (or until detecting a loop)
-function s:GetLinkChain(name)
-  let chain = []
-  let lastName = a:name
-  while lastName != ''
-    " if name seen already, must be in a loop. This isn't a very efficient
-    "lookup, but highlighting chains are usually very short
-    if (len(hlget(lastName)) > 0)
-      call add(chain, lastName)
-      let hl = hlget(lastName)[0]
-      let lastName = get(hl, 'linksto', '')
-    else
-      let lastName = ''
-    endif
-  endwhile
-  return chain
-endfunc
-
 function s:FormatLinkChain(name)
   let lineParts = []
   let seen = {}

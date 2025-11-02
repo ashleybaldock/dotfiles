@@ -394,18 +394,18 @@ hi def link mdCodeDelimiter         Delimiter
 hi def link mdEscape                Special
 hi def link mdError                 Error
 
-hi def mdEscapedCode guifg=#aaaa00 guibg=#222222
-hi mdCode guifg=#cc88dd guibg=#391044
-hi mdCodeStart guibg=#391044
+hi def mdEscapedCode    guifg=#aaaa00 guibg=#222222
+hi mdCode               guifg=#cc88dd guibg=#391044
+hi mdCodeStart                        guibg=#391044
 hi def link mdCode2 mdCode
-hi mdCodeBlock guifg=#cc6688 guibg=#222222
-hi def mdCodeBlockType guifg=#99ff99
-hi def mdEscapedItalic gui=italic
-hi def mdEscapedItalicDelim guibg=#440022 gui=italic,underdotted
-hi def mdEscapedBold gui=bold
-hi def mdEscapedBoldDelimiter guibg=#220044 gui=bold,underdotted
-hi def mdEscapedBoldItalic gui=bold,italic
-hi def mdEscapedBoldItalicDelimiter guibg=#442200 gui=bold,italic,underdotted
+hi mdCodeBlock          guifg=#cc6688 guibg=#222222
+hi def mdCodeBlockType  guifg=#99ff99
+hi def mdEscapedItalic                              gui=italic
+hi def mdEscapedItalicDelim           guibg=#440022 gui=italic,underdotted
+hi def mdEscapedBold                                gui=bold
+hi def mdEscapedBoldDelimiter         guibg=#220044 gui=bold,underdotted
+hi def mdEscapedBoldItalic                          gui=bold,italic
+hi def mdEscapedBoldItalicDelimiter   guibg=#442200 gui=bold,italic,underdotted
 
 hi def link mdCodeDelim Delimiter
 

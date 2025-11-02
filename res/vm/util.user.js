@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.103
+// @version     1.1.105
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -440,8 +440,20 @@ const readyStateComplete = () => {
   return promise;
 };
 
+// const documentIsVisible = (({ document, once = true }) => {
+const documentIsVisible = () => {
+  const promise = new Promise((resolve, reject) => {
+    const waitForVisible = () =>
+      document.visibilityState === 'visible'
+        ? resolve({ window, unsafeWindow })
+        : document.addEventListener('', waitForVisible, { once });
+  });
+  return promise;
+};
+
 const delay = ({ m = 0, s = 1, ms = 0 } = {}) =>
   new Promise((resolve) => window.setTimeout(resolve, timeInMs({ m, s, ms })));
+
 const timeout = ({ m = 0, s = 1, ms = 0 } = {}) =>
   new Promise((_, reject) => window.setTimeout(reject, timeInMs({ m, s, ms })));
 

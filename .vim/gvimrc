@@ -316,8 +316,19 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 "
 " aunmenu View
 " an icon=text.badge.checkmark:hierarchical 120.200.100 View.Chars <Nop>
-exec 'an' SfIcon() '120.200.110' 'View.Chars.Auto\ Char\ Info' '<Cmd>Toggle g:mayhem_hl_auto_charinfo<CR>'
+function! s:UpdateMenuToggle_AutoCharInfo() abort
+  silent! exec 'aunmenu' 'View.Chars.Auto\ Char\ Info'
+  exec 'an' mayhem#Toggled('g:mayhem_auto_charinfo')
+        \ ? SfIcon('􀆅') : SfIcon() 
+        \ '120.200.110'
+        \ 'View.Chars.Auto\ Char\ Info'
+        \ '<Cmd>Toggle g:mayhem_auto_charinfo<CR>'
+endfunc
+call mayhem#ObserveToggle('g:mayhem_auto_charinfo', function('s:UpdateMenuToggle_AutoCharInfo()'))
+call s:UpdateMenuToggle_AutoCharInfo()
+
 an 120.200.200 View.Chars.-sep1-		<Nop>
+
 exec 'an' SfIcon('􀆅') '120.200.210' 'View.Chars.Default' '<Cmd>CharsDefault<CR>'
 exec 'an' SfIcon() '120.200.230' 'View.Chars.None' '<Cmd>CharsNone<CR>'
 exec 'an' SfIcon() '120.200.250' 'View.Chars.Minimal' '<Cmd>CharsMinimal<CR>'

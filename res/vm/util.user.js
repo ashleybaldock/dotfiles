@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.101
+// @version     1.1.103
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -300,6 +300,28 @@ const getMediaRanges = (el) =>
 
 const videoIsPlaying = (video) =>
   !video.paused && video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA;
+
+const overrideVideoClickEvents = (video) => {
+  video.addEventListener(
+    'click',
+    (e) => {
+      const { target } = e;
+      const { trigger } = buttonsPressed(e);
+      if (target === video && trigger.left) {
+        if (videoIsPlaying(target)) {
+          target.pause();
+          e.stopImmediatePropagation();
+          e.preventDefault();
+        } else if (target.src !== '') {
+          target.play();
+          e.stopImmediatePropagation();
+          e.preventDefault();
+        }
+      }
+    },
+    { capture: true },
+  );
+};
 
 /*{{{2 Iterators/Generators */
 function* dropIter(source, n) {

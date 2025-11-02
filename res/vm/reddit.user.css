@@ -819,3 +819,22 @@ shreddit-sort-dropdown {
   justify-content: center;
   background-color: #121212;
 }
+
+:root {
+  scroll-snap-type: y mandatory;
+  scroll-padding: 0 0 0 0;
+  --smt: 0;
+  --smb: 0;
+}
+
+hr {
+  display: none;
+}
+article {
+  position: relative;
+  scroll-snap-align: start;
+  scroll-margin: var(--smt) 0 var(--smb) 0;
+  min-height: 33vh;
+  max-height: 95vh;
+  padding: 0.5em 0;
+}

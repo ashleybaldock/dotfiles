@@ -63,7 +63,7 @@ endfunc
 "       \replace: '', 
 "       \}
 
-function! mayhem#ObserveToggle(togglename, togglecmd)
+function! mayhem#ObserveToggle(togglename, callback)
   let tgl = mayhem#ToggleParse(a:togglename)
   call autocmd_add([
         \#{

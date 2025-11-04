@@ -1,63 +1,76 @@
 ## Headings
 
-\# A first-level heading
+\# An escaped first-level heading
 
 # A first-level heading
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-\## A second-level heading
+\## An escaped second-level heading
 
-## ━━ A second-level heading ━━━━━━━━━━━━━━━━━━━━━
+## A second-level heading
 
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-\### A third-level heading
-\#\#\# A third-level heading
+\### An escaped third-level heading
+\#\#\# An escaped third-level heading
 
-### ── A third-level heading ──────────────────────
+### A third-level heading
 
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 
-\#### A fourth-level heading
+\#### An escaped fourth-level heading
 
 #### A fourth-level heading
 
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-\##### A Fifth level heading
+\##### An escaped Fifth level heading
 
 ##### A Fifth level heading
 
-\###### A Sixth level heading
-\#\#\#\#\#\# A Sixth level heading
+\###### An escaped Sixth level heading
+\#\#\#\#\#\# An escaped Sixth level heading
 
 ###### A Sixth level heading
 
 ## Text formatting
 
+\*Escaped Italic\* \*\*Escaped Bold\*\* \_Escaped Italic\_ \_\_Escaped Bold\_\_
 *Italic* **Bold** _Italic_ __Bold__
 
 ```pre
 |      Example      |         Syntax         |    Alternate Syntax    |
 | :---------------: | :--------------------: | :--------------------: |
+|        Bold       |        **Bold**        |        __Bold__        |
 |      **Bold**     |      \*\*Bold\*\*      |      \_\_Bold\_\_      |
-|                   |    \\*\\*Bold\\_\\_    |                        |
+|    \*\*Bold\*\*   |    \\*\\*Bold\\*\\*    |    \\_\\_Bold\\_\\_    |
+|                   |                        |                        |
+|       Italic      |        *Italic*        |        _Italic_        |
 |      *Italic*     |       \*Italic\*       |       \_Italic\_       |
+|     \*Italic\*    |      \\*Italic\\*      |      \\_Italic\\_      |
 |                   |                        |                        |
-|  **_BoldItalic_** | \*\*\*BoldItalic\*\*\* | \_\_\_BoldItalic\_\_\_ |
+|     BoldItalic    |    ***BoldItalic***    |    ___BoldItalic___    |
+|  ***BoldItalic*** | \*\*\*BoldItalic\*\*\* | \_\_\_BoldItalic\_\_\_ |
 |                   |                        |                        |
+|   Strikethrough   |   ~~Strikethrough~~    |                        |
 | ~~Strikethrough~~ | \~\~Strikethrough\~\~  |                        |
 ```
 
 |      Example      |         Syntax         |    Alternate Syntax    |
 | :---------------: | :--------------------: | :--------------------: |
-|     **Bold**      |      \*\*Bold\*\*      |      \_\_Bold\_\_      |
-|                   |    \\*\\*Bold\\_\\_    |                        |
-|     *Italic*      |       \*Italic\*       |       \_Italic\_       |
+|        Bold       |        **Bold**        |        __Bold__        |
+|      **Bold**     |      \*\*Bold\*\*      |      \_\_Bold\_\_      |
+|    \*\*Bold\*\*   |    \\*\\*Bold\\*\\*    |    \\_\\_Bold\\_\\_    |
 |                   |                        |                        |
-| **_BoldItalic_**  | \*\*\*BoldItalic\*\*\* | \_\_\_BoldItalic\_\_\_ |
+|       Italic      |        *Italic*        |        _Italic_        |
+|      *Italic*     |       \*Italic\*       |       \_Italic\_       |
+|     \*Italic\*    |      \\*Italic\\*      |      \\_Italic\\_      |
 |                   |                        |                        |
+|     BoldItalic    |    ***BoldItalic***    |    ___BoldItalic___    |
+|  ***BoldItalic*** | \*\*\*BoldItalic\*\*\* | \_\_\_BoldItalic\_\_\_ |
+|                   |                        |                        |
+|   Strikethrough   |   ~~Strikethrough~~    |                        |
 | ~~Strikethrough~~ | \~\~Strikethrough\~\~  |                        |
 
 \_\_Bold \*nested Italic\* Bold\_\_ **Bold _nested Italic_ Bold** ⎫  

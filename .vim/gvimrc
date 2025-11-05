@@ -318,7 +318,7 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 " an icon=text.badge.checkmark:hierarchical 120.200.100 View.Chars <Nop>
 function! s:UpdateMenuToggle_AutoCharInfo() abort
   silent! exec 'aunmenu' 'View.Chars.Auto\ Char\ Info'
-  exec 'an' mayhem#Toggled('g:mayhem_auto_charinfo')
+  exec 'an' toggle#get('g:mayhem_auto_charinfo')
         \ ? SfIcon('􀆅') : SfIcon() 
         \ '120.200.110'
         \ 'View.Chars.Auto\ Char\ Info'

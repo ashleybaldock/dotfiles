@@ -20,7 +20,7 @@ let g:mayhem_chold_highlight_tab = 0
 
 " Highlight the <cword> under cursor
 function s:Update_CursorWord() abort
-  if mayhem#Toggled('g:mayhem_chold_highlight_word')
+  if toggle#get('g:mayhem_chold_highlight_word')
     call matchdelete(s:matchids['word'])
     let s:matchids['word'] = matchadd('Error', '\<\S\{-}\%#\S\{-}\>', 2)
   else

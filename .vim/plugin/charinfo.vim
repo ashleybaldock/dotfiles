@@ -25,7 +25,7 @@ call toggle#observe('g:mayhem_auto_charinfo', #{
       \  1: #{ cmd: 'silent! call autocmd_delete([#{ event: ''CursorMoved'', group: ''mayhem_auto_charinfo''}])'}
       \}})
 
-" call mayhem#ObserveToggle('g:mayhem_auto_charinfo', function('s:Update_AutoCharInfo()'))
+" call toggle#observe('g:mayhem_auto_charinfo', function('s:Update_AutoCharInfo()'))
 " call s:Update_AutoCharInfo()
 
 " call autocmd_add([

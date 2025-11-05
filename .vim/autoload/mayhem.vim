@@ -27,17 +27,6 @@ endfunc
 "       \replace: '', 
 "       \}
 
-" function! mayhem#ObserveToggle(togglename, callback)
-"   let tgl = mayhem#ToggleParse(a:togglename)
-"   call autocmd_add([
-"         \#{
-"         \ event: 'User', pattern: tgl.aupat,
-"         \ cmd: a:togglecmd,
-"         \ group: tgl.augroup, replace: v:true,
-"         \},
-"         \])
-" endfunc
-
 
 " show hint for files in these folders
 " most specific is used

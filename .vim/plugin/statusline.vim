@@ -371,7 +371,7 @@ endfunc
 function s:Update_WinSize() abort
   call s:SetStatusVars()
 
-  if mayhem#Toggled('g:mayhem_sl_show_winsize')
+  if toggle#get('g:mayhem_sl_show_winsize')
     let b:mayhem.sl_cached_winsize = [
         \['%#SlDebugC#', '%{%winwidth(0)%}', GetSymbol('status.multx'), '%{%winheight(0)%}','%*']->join(''),
         \['%#SlDebugN#', '%{%winwidth(0)%}', GetSymbol('status.multx'), '%{%winheight(0)%}','%*']->join(''),

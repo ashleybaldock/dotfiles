@@ -38,7 +38,7 @@ endfunc
 "
 " Returns the current state of a toggle
 "
-function! toggle#current(togglename) abort
+function! toggle#get(togglename) abort
   let tgl = toggle#parse(a:togglename)
   exec 'let result = get(' .. tgl.scope .. ',''' .. tgl.name .. ''', 0)'
   return result

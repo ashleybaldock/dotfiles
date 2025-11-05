@@ -324,7 +324,7 @@ function! s:UpdateMenuToggle_AutoCharInfo() abort
         \ 'View.Chars.Auto\ Char\ Info'
         \ '<Cmd>Toggle g:mayhem_auto_charinfo<CR>'
 endfunc
-call mayhem#ObserveToggle('g:mayhem_auto_charinfo', function('s:UpdateMenuToggle_AutoCharInfo()'))
+call toggle#observe('g:mayhem_auto_charinfo', function('s:UpdateMenuToggle_AutoCharInfo()'))
 call s:UpdateMenuToggle_AutoCharInfo()
 
 an 120.200.200 View.Chars.-sep1-		<Nop>

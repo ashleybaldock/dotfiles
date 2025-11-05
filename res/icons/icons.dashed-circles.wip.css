@@ -1,0 +1,105 @@
+.dashed-circle {
+  --unit: 1px;
+  --radius: 30;
+  --stroke-dashcount: 8;
+  --stroke-offsetangle: 0deg;
+  --stroke-offset: calc(360deg / var(--stroke-offsetangle));
+  --stroke-width: 1;
+  r: calc(var(--radius) * var(--unit));
+  stroke-width: calc(var(--stroke-width) * var(--unit));
+  stroke: orange;
+  fill: #0001;
+  stroke-dasharray: calc(
+    var(--radius) * (pi / var(--stroke-dashcount)) * var(--unit)
+  );
+  stroke-dashoffset: calc(
+    (
+        (var(--radius) * (pi / -4)) +
+          (var(--radius) * (pi / var(--stroke-dashcount) * 0.5))
+      ) *
+      var(--unit)
+  );
+}
+
+.decaying-circles > circle:nth-of-type(1) {
+  --radius: 16;
+  --stroke-width: 4;
+  --stroke-dashcount: 3;
+}
+
+.decaying-circles > circle:nth-of-type(2) {
+  --radius: 20;
+  --stroke-width: 3.5;
+  --stroke-dashcount: 5;
+}
+
+.decaying-circles > circle:nth-of-type(3) {
+  --radius: 24;
+  --stroke-width: 3;
+  --stroke-dashcount: 7;
+}
+.decaying-circles > circle:nth-of-type(4) {
+  --radius: 28;
+  --stroke-width: 2.5;
+  --stroke-dashcount: 9;
+}
+.decaying-circles > circle:nth-of-type(5) {
+  --radius: 32;
+  --stroke-width: 2;
+  --stroke-dashcount: 11;
+}
+.decaying-circles > circle:nth-of-type(6) {
+  --radius: 36;
+  --stroke-width: 1.5;
+  --stroke-dashcount: 13;
+  --stroke-offsetangle: 40deg;
+}
+
+svg :not(marker) path {
+  marker-end: inherit;
+  marker-mid: inherit;
+  marker-start: inherit;
+}
+
+:where(#coordstart, #coordmid, #coordend) {
+  fill-opacity: 1;
+  stroke: #0000;
+  fill: #0000;
+  --marker-color: orange;
+}
+:where(#coordstart, #coordmid, #coordend) > path {
+  fill: var(--marker-color);
+  stroke-width: 0;
+}
+:where(#coordstart, #coordmid, #coordend) > circle {
+  stroke: var(--marker-color);
+  fill: #0001;
+  --radius: 1.8;
+}
+:where(#coordstart, #coordmid, #coordend) > circle + circle {
+  r: 0.2px;
+  stroke-width: 0;
+  fill: var(--marker-color);
+}
+
+.skel {
+  marker-start: url(#coordstart);
+  marker-mid: url(#coordmid);
+  marker-end: url(#coordend);
+  fill: #f000;
+  stroke: #f00;
+  stroke-width: 0.1px;
+}
+
+.winding-evenodd {
+  fill: #fff;
+  stroke: #fff;
+  stroke-width: 1;
+  fill-rule: evenodd;
+}
+.winding-nonzero {
+  fill: #fff;
+  stroke: #fff;
+  stroke-width: 1;
+  fill-rule: nonzero;
+}

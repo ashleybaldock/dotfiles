@@ -7,6 +7,9 @@
 <pre></pre>
 <div></div>
 
+-->{{DamageMultiplier|{{{damage mult fire4|1}}}}}<!--
+{{#if:{{#pos:{{{immunities4}}}|fire}}|<span class="setChildImgSize" style="--child-image-size:20px">[[File:evil protection fire.png]]<span>}}since there is no enemy that has immune to fire damage
+   --></format>
 <!--
 -->{{{param|}}}<!--
 -->{{{param|{{{nested|default}}}}}}<!--

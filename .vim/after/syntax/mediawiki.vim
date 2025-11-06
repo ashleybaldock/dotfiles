@@ -3,6 +3,7 @@
 "
 " See Also:
 "    ../../pack/default/start/mediawiki.vim/syntax/mediawiki.vim
+"    ../../demo/syntax.test.mediawiki
 "
 " au BufWritePost <buffer> syn on
 "

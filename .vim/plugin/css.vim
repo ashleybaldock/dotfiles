@@ -192,7 +192,8 @@ command! -bar -range=% CssZeroUnits <line1>,<line2> s/\%(\s\|,\)\zs[-+]\?0\+\.\?
 " (Anywhere else would be a syntax error)
 " Useful for output from CSSO
 "
-command! -bar -range=% CssAddTrailingSemi <line1>,<line2> s/[^;{}]\zs\ze$\n\s*}/;/
+command! -bar -range=% CssAddTrailingSemi <line1>,<line2>
+      \ s/[^;{}]\zs\ze$\n\s*}/;/
 
 "
 " Important Comments:
@@ -200,8 +201,17 @@ command! -bar -range=% CssAddTrailingSemi <line1>,<line2> s/[^;{}]\zs\ze$\n\s*}/
 " e.g.
 " /*! comment */
 "
-command! -bar -range=% CssNoDevToolComments <line1>,<line2> s/\*\s\?\%(Inline\s#\d\+\|Element\)\s\?|.*$//
+command! -bar -range=% CssNoDevToolComments <line1>,<line2>
+      \ s/\*\s\?\%(Inline\s#\d\+\|Element\)\s\?|.*$//
 
+
+"
+" CSS Grid Template Split:
+"
+" Formats grid-template-[columns/rows] into multiple lines
+" 
+command! -bar -range=% CssGridTemplateSplit <line1>,<line2>
+      \ s/\%(^\(\s*\)grid-template-\%(rows\|columns\):.*\)\@<=\%(\[[^]]*\)\@<=\zs \ze.*[;}]/\1  /g
 
 
 

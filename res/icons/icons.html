@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="icons.css" />
     <link rel="stylesheet" href="icons-sticky-cascade.wip.css" />
     <link rel="stylesheet" href="icons.dashed-circles.wip.css" />
+    <link rel="stylesheet" href="icons.winding.wip.css" />
     <link rel="stylesheet" href="sliders.css" />
     <!-- <link rel="stylesheet" href="tooltips.css"/> -->
 
@@ -435,7 +436,7 @@
     </section>
 
     <h2>Imported</h2>
-    <section class="svgListing">
+    <section class="svgListing imported">
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
@@ -495,6 +496,271 @@
             fill="#ffffff"
             fill-opacity="0.85"
           />
+        </g>
+      </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="1em"
+        viewBox="0 0 384 512"
+      >
+        <path
+          d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z"
+        ></path></svg
+      ><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 10 10">
+        <path
+          fill-rule="evenodd"
+          style="fill: #ffffff; stroke: #fff; stroke-width: 0"
+          d="M0 8h8v-8h-8zm1-1h6v-6h-6z"
+        ></path></svg
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="1em"
+        viewBox="0 0 100 100"
+      >
+        <g class="decaying-circles">
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+        </g></svg
+      ><svg
+        viewBox="-1 -1 30 30"
+        xmlns="http://www.w3.org/2000/svg"
+        style="overflow: visible; background: none"
+      >
+        <defs>
+          <!-- A marker to be used as an arrowhead -->
+          <marker
+            viewBox="0 0 10 10"
+            refY="5"
+            refX="0"
+            orient="0deg"
+            id="coordend"
+            markerUnits="userSpaceOnUse"
+            style="fill-opacity: 1; stroke: blue; fill: goldenrod"
+          >
+            <circle cx="5" cy="5" r="3" style="fill: #0000"></circle>
+            <circle cy="0" cx="0" r="3"></circle>
+          </marker>
+          <marker
+            markerUnits="userSpaceOnUse"
+            orient="auto"
+            refX="2.5"
+            refY="2.5"
+            viewBox="0 0 8 8"
+            style=""
+            id="coordmid"
+          >
+            <path
+              d="M 0 0 L 0.5 3 L 1 3 A 2 2 0 0 1 3 1 L 3 0.5 Z M 3 0.5 L 3 1 A 2 2 0 0 1 1 3 L 0.5 3 A 2 2 0 1 0 3 0.5 Z"
+              style="
+                d: path(
+                  'M 0 0 L 0.2 2.8 L 1.4 2.6 A 1 1 0 0 1 2.6 1.4 L 2.8 0.2 Z'
+                );
+              "
+            ></path>
+            <circle cy="2.5" cx="2.5" r="1.8" style="fill-opacity: 1"></circle>
+            <circle
+              cy="2.5"
+              cx="2.5"
+              r="0.2"
+              style="
+                fill-opacity: 1;
+                r: 0.2px !important;
+                stroke-width: 0;
+                fill: orange;
+              "
+            ></circle>
+          </marker>
+          <marker
+            markerUnits="userSpaceOnUse"
+            orient="auto"
+            refX="2.5"
+            refY="2.5"
+            viewBox="0 0 8 8"
+            style=""
+            id="coordstart"
+          >
+            <path
+              d="M0 0
+L0.5 3
+L1 3
+A2 2 0 0 1 3 1
+L3 0.5
+z
+M3 0.5
+L3 1
+A2 2 0 0 1 1 3
+L0.5 3
+A2 2 0 1 0 3 0.5
+z"
+              style="
+                d: path(
+                  'M 0 0 L 0.2 2.8 L 1.4 2.6 A 1 1 0 0 1 2.6 1.4 L 2.8 0.2 Z'
+                );
+              "
+            ></path>
+            <circle cy="2.5" cx="2.5" r="1.8" style="fill-opacity: 1"></circle>
+            <circle
+              cy="2.5"
+              cx="2.5"
+              r="0.2"
+              style="
+                fill-opacity: 1;
+                r: 0.2px !important;
+                stroke-width: 0;
+                fill: orange;
+              "
+            ></circle>
+          </marker>
+          <marker
+            markerUnits="userSpaceOnUse"
+            orient="auto"
+            refX="2.5"
+            refY="2.5"
+            viewBox="0 0 8 8"
+            style=""
+            id="coordstart2"
+          >
+            <path
+              d="M0 0
+L0.5 3
+L1 3
+A2 2 0 0 1 3 1
+L3 0.5
+z
+M3 0.5
+L3 1
+A2 2 0 0 1 1 3
+L0.5 3
+A2 2 0 1 0 3 0.5
+z"
+              style="
+                fill: orange;
+                stroke: orangered;
+                stroke-width: 0;
+                d: path(
+                  'M 0 0 L 0.2 2.8 L 1.4 2.6 A 1 1 0 0 1 2.6 1.4 L 2.8 0.2 Z'
+                );
+              "
+            ></path>
+            <circle cy="2.5" cx="2.5" r="1.8" style="fill-opacity: 1"></circle>
+            <circle
+              cy="2.5"
+              cx="2.5"
+              r="0.2"
+              style="
+                fill-opacity: 1;
+                r: 0.2px !important;
+                stroke-width: 0;
+                fill: orange;
+              "
+            ></circle>
+          </marker>
+          <marker
+            refX="5"
+            refY="5"
+            orient="auto"
+            viewBox="0 0 40 40"
+            style="fill-opacity: 1; stroke: blue; fill: blue"
+            markerWidth="5"
+            markerHeight="5"
+            id="line"
+          >
+            <path d="M 0 0 L 20 5 L 0 20 z"></path>
+          </marker>
+        </defs>
+        <path d="M0 8h8v-8h-8zm1-1h6v-6h-6z" class="skel"></path>
+        <path
+          d="M10 8h8v-8h-8zm1-1h6v-6h-6z"
+          style="fill: #fff; stroke: #fff; stroke-width: 1; fill-rule: evenodd"
+        ></path>
+        <path
+          d="M20 8h8v-8h-8zm1-1h6v-6h-6z"
+          style="fill: #fff; stroke: #fff; fill-rule: nonzero"
+        ></path>
+
+        <path class="skel" d="M0 18h8v-8h-8zm1-1v-6h6v6z"></path>
+        <path
+          style="fill: #fff; stroke: #fff; stroke-width: 1; fill-rule: evenodd"
+          d="M10 18h8v-8h-8zm1-1v-6h6v6z"
+        ></path>
+        <path
+          style="fill: #fff; stroke: #fff; fill-rule: nonzero"
+          d="M20 18h8v-8h-8zm1-1v-6h6v6z"
+        ></path></svg
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="1em"
+        viewBox="-10 -10 660 660"
+      >
+        <defs>
+          <!-- A marker to be used as an arrowhead -->
+          <marker
+            id="arrow"
+            style="fill-opacity: 1; stroke: blue; fill: goldenrod"
+            refY="5"
+            orient="auto"
+            markerWidth="15"
+            markerHeight="15"
+            refX="5"
+            viewBox="0 0 40 40"
+          >
+            <path d="M 0 0 L 20 5 L 0 20 z"></path>
+          </marker>
+          <marker
+            style="fill-opacity: 1; stroke: red; fill: goldenrod"
+            id="dot"
+            orient="auto"
+            markerWidth="40"
+            markerHeight="40"
+            viewBox="0 0 40 40"
+            refY="20"
+            refX="20"
+          >
+            <circle cx="20" cy="20" r="10"></circle>
+          </marker>
+        </defs>
+        <g style="">
+          <path
+            style="
+              fill-rule: evenodd;
+              marker-end: url(#arrow);
+              marker-mid: url(#arrow);
+              marker-start: url(#arrow);
+            "
+            d="M320 320V640H0V320zM240 400V560H80V400z"
+          ></path>
+          <path d="M100 100V100H540V540H100z" style="display: none"></path>
+          <path d="M480 160H160V480H480z" style="display: none"></path>
+          <path
+            style="fill-rule: nonzero; fill-rule: evenodd"
+            d="M100 100V100H540V540H100zM480 160H160V480H480z"
+          ></path>
+          <path d="M320 320V0H640V320z" style=""></path>
+          <g style="stroke-width: 0; /*! fill: red; */ display: none">
+            <line
+              x2="320"
+              y1="320"
+              y2="0"
+              stroke="orange"
+              x1="320"
+              stroke-width="10"
+              style="
+                stroke: blue;
+                fill: orange;
+                marker-end: url(#arrow);
+                stroke-width: 10; /*! marker-start: url(#arrow); */
+              "
+            ></line>
+
+            <circle cx="320" cy="320" r="10"></circle>
+            <circle cx="320" cy="0" r="10"></circle>
+            <circle cx="640" cy="0" r="10"></circle>
+            <circle cx="640" cy="320" r="10"></circle>
+          </g>
         </g>
       </svg>
     </section>

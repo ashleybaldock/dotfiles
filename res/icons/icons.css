@@ -1541,6 +1541,15 @@ section {
 :is(section, .svgListing):has(> h2) {
   display: contents;
 }
+.svgListing.imported {
+  grid-column: -2/-1;
+  grid-template-columns: 1fr 1fr;
+}
+.svgListing.imported > .iconRow {
+  --item-size: 6rem;
+  inset: unset;
+  outline: unset;
+}
 
 body {
   grid-template-columns:

@@ -5,6 +5,11 @@ let g:mayhem_loaded_commands = 1
 
 
 "
+" Turn current search (in command line) into an :substitute command
+"
+" TODO
+
+"
 " Find similar matching lines and move them to cursor location
 "
 function! Gather(pat, bufnr = bufnr(), to = '$') range abort

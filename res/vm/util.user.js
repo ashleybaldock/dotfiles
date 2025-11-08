@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.105
+// @version     1.1.106
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -389,6 +389,7 @@ function* flatMapIter /*<T, Tout>*/(
 }
 
 function* iterPairs(source) {
+  source = toIterator(source);
   for (
     let { value: value1 } = source.next(), { value, done } = source.next();
     !done;

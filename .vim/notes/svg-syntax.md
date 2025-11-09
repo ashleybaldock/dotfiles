@@ -89,8 +89,10 @@ m6.148 18.473 1.863-1.003 1.615-.839-2.568-4.816h4.332l-11.379-11.408v16.015l3.3
  │ │     │ │    █︎⃓       █︎⃓     █︎⃓       █︎⃓ 
  │ ▲╶────◁ │    █︎⃓ ▄︎⃪▄︎⃪▄︎⃪ ▄︎⃪ █︎⃓     █︎⃓ ▄︎⃪▄︎⃪▄︎⃪ ▄︎⃪ █︎⃓ 
  ▶︎╶────────△    ▀︎⃪ ▀︎⃪▀︎⃪▀︎⃪ ▀︎⃪ ▀︎⃪     ▀︎⃪ ▀︎⃪▀︎⃪▀︎⃪ ▀︎⃪ ▀︎⃪ 
+```
 
-<svg viewBox="-1 -1 30 30" xmlns="http://www.w3.org/2000/svg"><defs>
+```html
+<svg viewBox="-1 -1 30 30" xmlns="http://www.w3.org/2000/svg">
 <defs>
     <!-- A marker to be used as an arrowhead -->
     <marker id="coord" style="
@@ -114,8 +116,9 @@ viewBox="0 0 40 40">
 <path d="M10 8h8v-8h-8zm1-1h6v-6h-6z"></path>
 <path d="M20 8h8v-8h-8zm1-1h6v-6h-6z"></path>
 </svg>
+```
 
-
+```pre
 d="M0 18h8v-8h-8zm1-1v-6h6v6z"
 
                 scale(-1, 1)

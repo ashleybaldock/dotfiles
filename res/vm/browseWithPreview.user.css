@@ -1401,8 +1401,34 @@ body > table > thead > tr::before {
 /*!{{{1 Grouping */
 .grouping {
   display: grid;
-  grid-template: subgrid/1fr;
+  grid-template-rows: 1fr;
   outline: 1px solid #333;
+  grid-row: options;
+  grid-column-end: span var(--span);
+  --span: calc(var(--n-children, 1) + var(--span-extra, 0));
+  --n-children: calc(
+    var(--n1-children, 0)
+    + var(--n2-children, 0)
+    + var(--n4-children, 0)
+    + var(--n8-children, 0)
+    + var(--n16-children, 0) );
+  /* grid-template-columns: repeat(var(--n-children, 1), 1fr); */
+  grid-template-columns: subgrid;
+}
+.grouping:has(> :nth-child(odd):nth-last-child(-n + 1)) {
+  --n1-children: 1;
+}
+.grouping:has(> :nth-child(2n):not(:nth-child(4n)):nth-last-child(-n + 2)) {
+  --n2-children: 2;
+}
+.grouping:has(> :nth-child(4n):not(:nth-child(8n)):nth-last-child(-n + 4)) {
+  --n4-children: 4;
+}
+.grouping:has(> :nth-child(8n):not(:nth-child(16n)):nth-last-child(-n + 8)) {
+  --n8-children: 8;
+}
+.grouping:has(> :nth-child(16n):not(:nth-child(32n)):nth-last-child(-n + 16)) {
+  --n16-children: 16;
 }
 /*!}}}1*/
 
@@ -1898,6 +1924,12 @@ body > section:has(> video, > .vidwrap) {
 :root:has([name="playpause"][value="playing"]:checked) :where(.vidwrap, .player) {
   animation-play-state: running;
   transform: var(--ani-transform);
+}
+
+
+:root:has([name="player"] [value="interleave"]:checked) .interleave,
+:root:has([name="playpause"] [value="playing"]:checked) .interleave {
+  display: grid;
 }
 
 :where(.player, .vidwrap) > label {

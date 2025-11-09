@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.218
+// @version     1.0.222
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -105,14 +105,7 @@ const addSequenceToggle = ({
   name = '',
   bindTo,
   textContent = `Toggle for ${name}`,
-  sequence = [
-    ({
-      name = name,
-      value = '',
-      checked = bindTo?.value === value ?? false,
-      textContent = name,
-    } = {}),
-  ],
+  sequence = [],
   ...attrs
 } = {}) => {
   const div = GM_addElement(to, 'div', {
@@ -120,36 +113,42 @@ const addSequenceToggle = ({
     'data-text': textContent,
     ...attrs,
   });
-  sequence.forEach(({ value, checked, textContent }) => {
-    const label = GM_addElement(div, 'label', {
-      class: '',
-      'data-name': name,
-      'data-value': value,
-      'data-text': textContent ?? name ?? '',
-    });
-    GM_addElement(label, 'span', {
-      class: 'tip',
-      textContent,
-    });
-    const input = GM_addElement(label, tag, {
-      type,
-      ...(checked ? { checked: '' } : {}),
-      name,
+  sequence.forEach(
+    ({
       value,
-    });
-    input.addEventListener(
-      'change',
-      (e) => {
-        if (e.target.checked) {
-          bindTo.value = e.target.checked;
-        }
-      },
-      {},
-    );
-    bindTo.subscribe((checkedValue) => {
-      input.checked = checkedValue === input.value;
-    });
-  });
+      checked = bindTo?.value === value ?? false,
+      textContent = name,
+    }) => {
+      const label = GM_addElement(div, 'label', {
+        class: '',
+        'data-name': name,
+        'data-value': value,
+        'data-text': textContent ?? name ?? '',
+      });
+      GM_addElement(label, 'span', {
+        class: 'tip',
+        textContent,
+      });
+      const input = GM_addElement(label, tag, {
+        type,
+        ...(checked ? { checked: '' } : {}),
+        name,
+        value,
+      });
+      input.addEventListener(
+        'change',
+        (e) => {
+          if (e.target.checked) {
+            bindTo.value = e.target.checked;
+          }
+        },
+        {},
+      );
+      bindTo.subscribe((checkedValue) => {
+        input.checked = checkedValue === input.value;
+      });
+    },
+  );
   return div;
 };
 
@@ -413,10 +412,10 @@ const initBrowsePreview = ({ document }) => {
       showImages: defineToggle(false),
       showVideo: defineToggle(false),
       showOther: defineToggle(false),
-      playpause: defineSequence(sequenceOptions.playpause),
+      playpause: defineSequence(sequenceOptions.playpause, 'paused'),
       showGrid: defineToggle(false),
       grid_fit: defineSequence(sequenceOptions.fit),
-      player: defineSequence(sequenceOptions.player),
+      player: defineSequence(sequenceOptions.player, 'interleave'),
       maxInterleaved: defineNumber(8),
       interleaveDelay: defineNumber(500),
       repeat: defineToggle(true),
@@ -487,16 +486,16 @@ const initBrowsePreview = ({ document }) => {
       bindTo: showGrid,
       name: 'grid',
       to: gridGrouping,
-    }),
-      addSequenceToggle({
-        textContent: 'Fit mode for grid items',
-        bindTo: grid_fit,
-        name: 'grid_fit',
-        sequence: sequenceOptions.fit.map((fit) => ({
-          value: fit,
-        })),
-        to: gridGrouping,
-      });
+    });
+    addSequenceToggle({
+      textContent: 'Fit mode for grid items',
+      bindTo: grid_fit,
+      name: 'grid_fit',
+      sequence: sequenceOptions.fit.map((fit) => ({
+        value: fit,
+      })),
+      to: gridGrouping,
+    });
     const filesGrouping = addGrouping({ to: body });
     addToggle({
       textContent: 'Include image files',

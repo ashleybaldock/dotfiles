@@ -1917,18 +1917,38 @@ body > section:has(> video, > .vidwrap) {
   grid-row: 1;
 }
 
+:root:has(
+  [name="playpause"][value="paused"][checked]
+):not(:has(
+  [name="playpause"][value="playing"]:checked)
+) :where(.vidwrap, .player),
 :root:has([name="playpause"][value="paused"]:checked) :where(.vidwrap, .player) {
   animation-play-state: paused;
   transform: none;
 }
+:root:has(
+  [name="playpause"][value="playing"][checked]
+):not(:has(
+  [name="playpause"][value="paused"]:checked)
+) :where(.vidwrap, .player),
 :root:has([name="playpause"][value="playing"]:checked) :where(.vidwrap, .player) {
   animation-play-state: running;
   transform: var(--ani-transform);
 }
 
 
-:root:has([name="player"] [value="interleave"]:checked) .interleave,
-:root:has([name="playpause"] [value="playing"]:checked) .interleave {
+:root:has([name="player"][value="interleave"]:checked) .interleave,
+:root:has(
+  [name="player"][value="interleave"][checked]
+):not(:has(
+  [name="player"][value="linear"]:checked)
+) .interleave,
+:root:has([name="playpause"][value="playing"]:checked) .interleave ,
+:root:has(
+  [name="playpause"][value="playing"][checked]
+):not(:has(
+  [name="playpause"][value="paused"]:checked)
+) .interleave {
   display: grid;
 }
 

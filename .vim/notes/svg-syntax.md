@@ -138,6 +138,14 @@ d="M0 18h8v-8h-8zm1-1v-6h6v6z"
  scale(1,-1)   scale(-1,-1)
 ```
 
+## Change starting point of a <path>
+
+TODO
+
+## Convert shapes/lines etc. into a <path>
+
+TODO
+
 
 ## Split <path>
 

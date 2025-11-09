@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.208
+// @version     1.0.210
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -97,14 +97,12 @@ const addSequenceToggle = ({
   type = 'radio',
   name = '',
   bindTo,
-  textContent = `Toggle ${name}`,
-  sequence = [
+  textContent = `Toggle for ${name}` = [
     ({
       name = name,
       value = '',
       checked = bindTo?.value === value ?? false,
       textContent = name,
-      icon = null,
     } = {}),
   ],
   ...attrs
@@ -114,12 +112,12 @@ const addSequenceToggle = ({
     'data-text': textContent,
     ...attrs,
   });
-  sequence.forEach(({ value, checked, textContent, icon }) => {
+  sequence.forEach(({ value, checked, textContent }) => {
     const label = GM_addElement(div, 'label', {
       class: '',
       'data-name': name,
       'data-value': value,
-      'data-text': textContent,
+      'data-text': textContent ?? name ?? '',
     });
     GM_addElement(label, 'span', {
       class: 'tip',
@@ -485,7 +483,7 @@ const initBrowsePreview = ({ document }) => {
         textContent: 'Fit mode for grid items',
         name: 'grid_fit',
         bindTo: grid_fit,
-        sequence: fit_options.map((fit) => ({
+        sequence: sequenceOptions.fit.map((fit) => ({
           value: fit,
         })),
       }),

@@ -305,11 +305,11 @@
   background-size: contain;
 }
 
-[name="playpause"] [data-value="playing"] {
+.sequencetoggle > [data-name="playpause"][data-value="playing"] {
     --icon: var(--icon-play);
 }
 
-[name="playpause"] [data-value="paused"] {
+.sequencetoggle > [data-name="playpause"][data-value="paused"] {
     --icon: var(--icon-pause);
 }
 

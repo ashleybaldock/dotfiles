@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.210
+// @version     1.0.218
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -48,6 +48,14 @@ const overrideFileListClicks = () => {
   );
 };
 
+const addGrouping = ({ to, ...attrs } = {}) => {
+  const div = GM_addElement(to, 'div', {
+    class: 'grouping',
+    ...attrs,
+  });
+  return div;
+};
+
 const addToggle = ({
   to,
   name,
@@ -57,7 +65,6 @@ const addToggle = ({
   bindTo,
   checked = bindTo?.value ?? false,
   textContent = `Toggle ${name}`,
-  icon = null,
   ...attrs
 } = {}) => {
   const div = GM_addElement(to, 'div', {
@@ -97,7 +104,8 @@ const addSequenceToggle = ({
   type = 'radio',
   name = '',
   bindTo,
-  textContent = `Toggle for ${name}` = [
+  textContent = `Toggle for ${name}`,
+  sequence = [
     ({
       name = name,
       value = '',
@@ -405,9 +413,9 @@ const initBrowsePreview = ({ document }) => {
       showImages: defineToggle(false),
       showVideo: defineToggle(false),
       showOther: defineToggle(false),
+      playpause: defineSequence(sequenceOptions.playpause),
       showGrid: defineToggle(false),
       grid_fit: defineSequence(sequenceOptions.fit),
-      playpause: defineSequence(sequenceOptions.playpause),
       player: defineSequence(sequenceOptions.player),
       maxInterleaved: defineNumber(8),
       interleaveDelay: defineNumber(500),
@@ -435,89 +443,79 @@ const initBrowsePreview = ({ document }) => {
       reload_on_repeat,
     },
   }) => {
-    return {
-      shuffle_on_repeat: addToggle({
-        textContent: 'Shuffle playlist every repeat',
-        bindTo: shuffle_on_repeat,
-        name: 'shuffle_on_repeat',
-        to: body,
-      }),
-      reload_on_repeat: addToggle({
-        textContent: 'Reload folder contents on playlist repeat',
-        bindTo: reload_on_repeat,
-        name: 'reload_on_repeat',
-        to: body,
-      }),
-      repeat: addToggle({
-        textContent: 'Repeat playlist',
-        bindTo: repeat,
-        name: 'repeat',
-        to: body,
-      }),
-      playpause: addSequenceToggle({
-        textContent: 'Playback state',
-        bindTo: playpause,
-        name: 'playpause',
-        to: body,
-        sequence: sequenceOptions.playpause.map((p) => ({
-          value: p,
-        })),
-      }),
-      player: addSequenceToggle({
-        to: body,
-        textContent: 'Playback state',
-        name: 'player',
-        bindTo: player,
-        sequence: sequenceOptions.player.map((p) => ({
-          value: p,
-        })),
-      }),
-      grid: addToggle({
-        textContent: 'Show as grid',
-        bindTo: showGrid,
-        name: 'grid',
-        to: body,
-      }),
-      grid_fit: addSequenceToggle({
-        to: body,
+    const repeatGrouping = addGrouping({ to: body });
+    addToggle({
+      textContent: 'Repeat playlist',
+      bindTo: repeat,
+      name: 'repeat',
+      to: repeatGrouping,
+    });
+    addToggle({
+      textContent: 'Shuffle playlist every repeat',
+      bindTo: shuffle_on_repeat,
+      name: 'shuffle_on_repeat',
+      to: repeatGrouping,
+    });
+    addToggle({
+      textContent: 'Reload folder contents on playlist repeat',
+      bindTo: reload_on_repeat,
+      name: 'reload_on_repeat',
+      to: repeatGrouping,
+    });
+    addSequenceToggle({
+      textContent: 'Playback (play/pause)',
+      bindTo: playpause,
+      name: 'playpause',
+      to: body,
+      sequence: sequenceOptions.playpause.map((p) => ({
+        value: p,
+      })),
+    });
+    const playerGrouping = addGrouping({ to: body });
+    addSequenceToggle({
+      textContent: 'Mode (interleave/linear)',
+      bindTo: player,
+      name: 'player',
+      sequence: sequenceOptions.player.map((p) => ({
+        value: p,
+      })),
+      to: playerGrouping,
+    });
+    const gridGrouping = addGrouping({ to: playerGrouping });
+    addToggle({
+      textContent: 'Show as Grid',
+      bindTo: showGrid,
+      name: 'grid',
+      to: gridGrouping,
+    }),
+      addSequenceToggle({
         textContent: 'Fit mode for grid items',
-        name: 'grid_fit',
         bindTo: grid_fit,
+        name: 'grid_fit',
         sequence: sequenceOptions.fit.map((fit) => ({
           value: fit,
         })),
-      }),
-      // interleave: addToggle({
-      //   textContent: 'Interleaved playback',
-      //   bindTo: interleave,
-      //   name: 'interleave',
-      //   to: body,
-      // }),
-      // linear: addToggle({
-      //   textContent: 'Linear playback',
-      //   bindTo: linear,
-      //   name: 'linear',
-      //   to: body,
-      // }),
-      images: addToggle({
-        textContent: 'Include image files',
-        bindTo: showImages,
-        name: 'images',
-        to: body,
-      }),
-      video: addToggle({
-        textContent: 'Include video files',
-        bindTo: showVideo,
-        name: 'video',
-        to: body,
-      }),
-      other: addToggle({
-        textContent: 'Include other files',
-        bindTo: showOther,
-        name: 'other',
-        to: body,
-      }),
-    };
+        to: gridGrouping,
+      });
+    const filesGrouping = addGrouping({ to: body });
+    addToggle({
+      textContent: 'Include image files',
+      bindTo: showImages,
+      name: 'images',
+      to: filesGrouping,
+    });
+    addToggle({
+      textContent: 'Include video files',
+      bindTo: showVideo,
+      name: 'video',
+      to: filesGrouping,
+    });
+    addToggle({
+      textContent: 'Include other files',
+      bindTo: showOther,
+      name: 'other',
+      to: filesGrouping,
+    });
   })({ unsafeWindow, config });
 
   const getFileList = (

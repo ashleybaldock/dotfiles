@@ -1398,6 +1398,14 @@ body > table > thead > tr::before {
 /*!}}}1*/
 
 
+/*!{{{1 Grouping */
+.grouping {
+  display: grid;
+  grid-template: subgrid/1fr;
+  outline: 1px solid #333;
+}
+/*!}}}1*/
+
 /*!{{{1 Sequence Toggle */
 /*!{{{2 @property */
 @property --p {

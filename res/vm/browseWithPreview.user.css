@@ -109,14 +109,8 @@
   %3Cpath d=%22M448 96V224H288V96H448zm0 192V416H288V288H448zM224 224H64V96H224V224zM64 288H224V416H64V288zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z%22%3E\
   %3C/path%3E\
   %3C/svg%3E');
-  --icon-pause: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E\
-  %3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM192 160H320c17.7 0 32 14.3 32 32V320c0 17.7-14.3 32-32 32H192c-17.7 0-32-14.3-32-32V192c0-17.7 14.3-32 32-32z%22%3E\
-  %3C/path%3E\
-  %3C/svg%3E');
-  --icon-play: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E\
-  %3Cpath d=%22M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c-7.6 4.2-12.3 12.3-12.3 20.9V344c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z%22%3E\
-  %3C/path%3E\
-  %3C/svg%3E');
+  --icon-pause: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM192 160H320c17.7 0 32 14.3 32 32V320c0 17.7-14.3 32-32 32H192c-17.7 0-32-14.3-32-32V192c0-17.7 14.3-32 32-32z%22%3E%3C/path%3E%3C/svg%3E');
+  --icon-play: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c-7.6 4.2-12.3 12.3-12.3 20.9V344c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z%22%3E%3C/path%3E%3C/svg%3E');
   
   --icon-repeat: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E\
     %3Cpath d=%22M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z%22%3E\
@@ -1537,7 +1531,7 @@ body > table > thead > tr::before {
     cursor: pointer;
 }
 
-.sequencetoggle > label::after {
+.sequencetoggle > label::before {
     content: counter(n);
     font-size: 1em;
     visibility: hidden;
@@ -1562,6 +1556,7 @@ body > table > thead > tr::before {
     font-family: Menlo,monospace;
 }
 
+.sequencetoggle > label:has(> :checked)::before,
 .sequencetoggle > label:has(> :checked)::after {
     visibility: visible;
     z-index: 10;
@@ -1873,29 +1868,26 @@ body > table > thead > tr::before {
 
 
 .player {
-overflow-x: visible;
-overflow: visible !important;
+  overflow: visible !important;
 }
 body > section:has(> video, > .vidwrap) {
-width: calc(var(--playerWidth) * var(--playerCount));
+  width: calc(var(--playerWidth) * var(--playerCount));
 }
 .interleave {
-animation-play-state: paused;
+  animation-play-state: paused;
 }
 
 .vidwrap {
-grid-area: auto;
-width: var(--playerWidth);
-grid-row: 1;
+  grid-area: auto;
+  width: var(--playerWidth);
+  grid-row: 1;
 }
 
-:root:has([name="playpause"] [value="paused"]:checked) :where(.vidwrap, .player),
-.paused {
+:root:has([name="playpause"][value="paused"]:checked) :where(.vidwrap, .player) {
   animation-play-state: paused;
   transform: none;
 }
-:root:has([name="playpause"] [value="playing"]:checked) :where(.vidwrap, .player),
-.playing {
+:root:has([name="playpause"][value="playing"]:checked) :where(.vidwrap, .player) {
   animation-play-state: running;
   transform: var(--ani-transform);
 }
@@ -1908,15 +1900,13 @@ grid-row: 1;
   background-size: contain;
   background-color: #2224;
 }
-:root:has([name="playpause"] [value="playing"]:checked)
-:where(.player,.vidwrap)
-> [for="toggle_paused"] {
+:root:has([name="playpause"][value="playing"]:checked)
+:where(.player,.vidwrap) > label[for="toggle_paused"] {
   z-index: var(--z-top-label);
   background-image: var(--icon-play);
 }
-:root:has([name="playpause"] [value="paused"]:checked)
-:where(.player,.vidwrap)
-> [for="toggle_playing"] {
+:root:has([name="playpause"][value="paused"]:checked)
+:where(.player,.vidwrap) > label[for="toggle_playing"] {
   z-index: var(--z-top-label);
   background-image: var(--icon-pause);
 }

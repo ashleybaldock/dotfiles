@@ -1,0 +1,189 @@
+/
+/*!{{{1 Sequence Toggle */
+/*!{{{2 @property */
+@property --p {
+    syntax:"<number>";initial-value:.5;inherits:true;
+}
+
+@property --s {
+    syntax:"<angle>";initial-value:180deg;inherits:true;
+}
+
+@property --r {
+    syntax:"<angle>";initial-value:90deg;inherits:true;
+}
+/*!}}}2*/
+
+.sequencetoggle,
+.sequencetoggle > label {
+    background-repeat: no-repeat;
+    display: grid;
+    grid-template: 1fr/1fr;
+    background-image: radial-gradient(circle at 75% 50%,#0000 0 40%,#444 40% 60%,#0000 60%),radial-gradient(circle at 25% 50%,#0000 0 40%,#444 40% 60%,#0000 60%),radial-gradient(circle at 50% 50%,#0000 0 40%,#444 40% 60%,#0000 60%);
+    width: 6em;
+    height: 6em;
+}
+
+.sequencetoggle {
+    font-size: 1em;
+    counter-reset: n;
+    cursor: pointer;
+    background-image: linear-gradient(#0000) var(--bg-curr) var(--bg-prev) var(--bg-next) var(--bg-bg);
+    background-size: 0 0 var(--bg-curr-size) var(--bg-prev-size) var(--bg-next-size) var(--bg-bg-size);
+    --bg-curr-size: ,2.4em 2.4em
+      ,2.6em 2.8em;
+    --bg-prev-size: ,2.2em 2.2em
+      ,3em 2.8em;
+    --bg-next-size: ,2.2em 2.2em
+      ,3em 2.8em;
+    --bg-bg-size: ,6em 4.2em
+      ,40% 65%
+      ,40% 65%
+      ,4.5em 3.1em
+      ,6em 4.2em
+      ,8.2em 60%;
+    background-position: 0 0 var(--bg-curr-pos) var(--bg-prev-pos) var(--bg-next-pos) var(--bg-bg-pos);
+    --bg-curr-pos: ,center center
+      ,center center;
+    --bg-prev-pos: ,left 0% center
+      ,left 0% center;
+    --bg-next-pos: ,right 0% center
+      ,right 0% center;
+    --bg-bg-pos: ,center center
+    ,center center
+    ,center center
+    ,left 0.6em center
+    ,right 0.6em center;
+    background-blend-mode: normal,normal,normal,normal,normal,normal,normal,normal,normal,normal,normal,normal,overlay,overlay,difference,difference,soft-light,difference,multiply,multiply,darken,exclusion,darken,multiply;
+    --bg-curr: ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 77%, var(--bgc-curr-inset) 79% 80%, var(--bgc-curr) 80% 90%, var(--bgc-curr-outset), 94%, #0000 94%)
+    ,radial-gradient(ellipse 1.8em 1.4em at 50% 50%,  var(--bgc2) 0 34%, var(--bgc-curr2a) 75% 88%,  var(--bgc-curr-outset), 90%, #0000 100%)
+/*     ,radial-gradient(circle closest-side at 50% 50%, #000 0 34%, var(--bgc-curr2a) 75% 80%, var(--bgc-curr2b) 86%, #000, 88%, #0000 90%) */
+    ;
+    --bg-prev: ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 77%, var(--bgc-prev-inset) 79% 80%, var(--bgc-prev) 70% 90%, var(--bgc-prev-outset), 94%, #0000 94%)
+    ,radial-gradient(ellipse farthest-corner at 50% 50%, #0000 0 34%, var(--bgc1a) 75% 80%, #0000 90%);
+    --bg-next: ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 77%, var(--bgc-next-inset) 79% 80%, var(--bgc-next) 70% 90%, var(--bgc-next-outset), 94%, #0000 94%)
+/*     ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 70%, var(--bgc-next) 70% 90%, #0006, 94%, #0000 94%) */
+    ,radial-gradient(ellipse farthest-corner at 50% 50%, #0000 0 34%, var(--bgc1a) 75% 80%, #0000 90%);
+    --bg-bg: ,repeating-radial-gradient(ellipse farthest-corner at 20% 50%, var(--bgc3) 36%, 42%, #0007, 51%, #0000 100%)
+    ,radial-gradient(ellipse 1em 1em at 50% 50%, #0000 20% 34%, var(--bgc1) 35% 48%, #0000 52%)
+    ,radial-gradient(ellipse farthest-side at 50% 50%, #0000 0 34%, var(--bgc1) 75% 80%, var(--bgc1a) 86%, #000, 88%, #0000 90%);
+    --bgc-curr: #00c;
+    --bgc-curr2a: #444;
+    --bgc-curr2b: #888;
+    --bgc-curr-inset: hsl(from var(--bgc-curr) h 100 70 / 80%);
+    --bgc-curr-outset: hsl(from var(--bgc-curr) h 100 10 / 100%);
+    --bgc-prev: #080;
+    --bgc-prev-inset: hsl(from var(--bgc-prev) h 100 70 / 80%);
+    --bgc-prev-outset: hsl(from var(--bgc-prev) h 100 10 / 100%);
+    --bgc-next: #800;
+    --bgc-next-inset: hsl(from var(--bgc-next) h 100 70 / 80%);
+    --bgc-next-outset: hsl(from var(--bgc-next) h 100 10 / 100%);
+    --bgc1: #bbbc;
+    --bgc1a: #eeea;
+    --bgc2: #222;
+    --bgc3: #000a;
+}
+
+.sequencetoggle::after {
+    content: "⤻";
+    font-size: 2em;
+    --s: calc(80deg * var(--p));
+    --r: calc(var(--s) + 40deg);
+    --＋s: var(--s);
+    --－s: calc(var(--s) * -1);
+    --＋r: var(--r);
+    --－r: calc(var(--r) * -1);
+    transform: scale(1,-1) skew(var(--＋r),0) skew(var(--－r),var(--＋s)) rotate(calc(var(--＋s) + var(--－r)));
+    grid-area: 1/1;
+    align-self: start;
+    justify-self: center;
+    z-index: 10;
+   display: none;
+}
+
+.sequencetoggle > label {
+    counter-increment: n;
+    grid-area: 1/1/1/1;
+    background-origin: content-box;
+    justify-items: end;
+    align-items: start;
+    position: relative;
+    pointer-events: none;
+    background-size: 3em 4em,3em 4em,2em 3em;
+    background-position: left center,right center,center top;
+}
+
+.sequencetoggle > label > [type=radio] {
+    z-index: -10;
+    visibility: hidden;
+}
+
+.sequencetoggle > label:has(> :checked) {
+    z-index: 1;
+    background-image: radial-gradient(circle at center,#444 0 30%,#0000 30% 45%,#444 45% 60%,#0000 60%);
+}
+
+.sequencetoggle:has(> label:last-of-type > :checked) > label:first-of-type,
+.sequencetoggle:not(:has(label > :checked)):not(:has(label > [checked])) > label:first-of-type,
+.sequencetoggle:not(:has(label > :checked)) > label:has(> [checked]),
+.sequencetoggle > label:has(> :checked) + label {
+    z-index: 2;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.sequencetoggle > label::before {
+    content: counter(n);
+    font-size: 1em;
+    visibility: hidden;
+    position: absolute;
+    display: flex;
+    pointer-events: none;
+    place-self: center;
+    letter-spacing: 0;
+    margin: 0;
+    overflow: visible;
+    width: 2em;
+    height: 2em;
+    background-image: radial-gradient(circle at 50% 50%,#000 0 40%,#444 40% 60%,#0000 60%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 3em 2.2em;
+    background: 0 0;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: .2em;
+    font-family: Menlo,monospace;
+}
+
+.sequencetoggle > label:has(> :checked)::before,
+.sequencetoggle > label:has(> :checked)::after {
+    visibility: visible;
+    z-index: 10;
+    text-align: center;
+    letter-spacing: 0;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: 3em 2.2em;
+    justify-self: center;
+    font-size: 1.4em;
+}
+
+.sequencetoggle:has(
+  > label:last-of-type > :checked
+  ) > label:first-of-type::after,
+.sequencetoggle > label:has(> :checked) + label::after {
+    visibility: visible;
+    z-index: 10;
+    justify-self: start;
+}
+
+.sequencetoggle > label,
+.sequencetoggle > label:has(> :checked) {
+    background-image: none;
+}
+/*!}}}1*/
+

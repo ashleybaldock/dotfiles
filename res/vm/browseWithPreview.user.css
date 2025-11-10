@@ -778,14 +778,13 @@ body > section:has(> video, > .vidwrap) {
   min-height: var(--playerHeight);
   min-width: var(--playerWidth);
   grid-area: preview;
-  grid-template-columns: [left interleave-start] repeat(
-      var(--playerCount),
-      var(--playerWidth)
-    ) [interleave-end right];
+  grid-template-columns:
+    [left interleave-start] repeat(var(--playerCount), var(--playerWidth))
+    [interleave-end right];
   grid-auto-flow: row;
-  grid-template-rows: [top interleave-start] var(
-      --playerHeight
-    ) [interleave-end bottom];
+  grid-template-rows:
+    [top interleave-start] var(--playerHeight)
+    [interleave-end bottom];
   background-color: #0000;
   transform: unset;
   display: none;
@@ -1872,35 +1871,56 @@ body > table > thead > tr::before {
 :not(#u#n#i) .sequencetoggle > label::after {
   display: none;
 }
-
-.grouping {
-  position: sticky;
-}
-
-:not(#u#n#i) .sequencetoggle > label::after {
-  display: none;
-}
 .sequencetoggle > label > [type='radio'] {
   z-index: -10px;
   visibility: hidden;
 }
+.sequencetoggle {
+  grid-column-end: span 1;
+}
 .grouping {
   position: sticky;
+  inset: var(--inset-options);
+  outline: 1px solid #626;
+  outline-offset: 0;
+  grid-template-columns: repeat(var(--n-children, 1fr));
+  grid-column-end: span var(--span);
+  grid-column-end: span var(--n-children);
+}
+.grouping:has(> .grouping) {
+  /*   --span-extra: 2; */
+  /*   grid-template-columns: repeat(var(--n-children, 1fr)); */
+}
+.grouping .grouping {
+  outline: 2px dashed #626;
+  outline-offset: -1px;
 }
 .toggle > label {
   background-color: #00f;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  margin: 0;
 }
-:where(.toggle, #UI_showHidden) > label::after {
-  background-color: #f00;
-  --icon-slash-overlay: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffffff%22 stroke=%22%230000%22 stroke-width=%220%22 viewBox=%220 0 640 640%22%3E %3Cpath d=%22M39 39C48.4 29.6 63.6 29.6 72.9 39L601 567C610.4 576.4 610.4 591.6 601 600.9C591.6 610.2 576.4 610.3 567.1 600.9L39 73C29.7 63.6 29.7 48.4 39 39z%22%3E %3C/path%3E%3C/svg%3E');
+.toggle > label::after {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  margin: 0;
+}
+.toggle > label,
+.toggle > label::after {
+  --icon-slash-overlay: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffffff%22 stroke-width=%220%22 viewBox=%220 0 640 640%22%3E %3Cpath d=%22M39 39C48.4 29.6 63.6 29.6 72.9 39L601 567C610.4 576.4 610.4 591.6 601 600.9C591.6 610.2 576.4 610.3 567.1 600.9L39 73C29.7 63.6 29.7 48.4 39 39z%22%3E %3C/path%3E%3C/svg%3E');
   --icon-slash-overlay-inv: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22background-color: %23ffffff%22 fill=%22%23000000%22 stroke=%22%230000%22 stroke-width=%220%22 viewBox=%220 0 640 640%22%3E %3Cpath d=%22M39 39C48.4 29.6 63.6 29.6 72.9 39L601 567C610.4 576.4 610.4 591.6 601 600.9C591.6 610.2 576.4 610.3 567.1 600.9L39 73C29.7 63.6 29.7 48.4 39 39z%22%3E %3C/path%3E%3C/svg%3E');
 
   --default-icon: linear-gradient(#ffff, #fff0, #ffff);
-  --null-overlay: linear-gradient(#fff 0 0);
+  --null-overlay: linear-gradient(#0000 0 0);
   --icon-composite:
     var(--icon, var(--default-icon)),
     var(--icon-slash-overlay, var(--null-overlay));
   mask-image: var(--icon-composite);
+  mask-size: auto;
+  mask-mode: alpha;
   --mask-none: linear-gradient(#fff0 0 0);
   --mask-all: linear-gradient(#ffff 0 0);
   mask-composite: subtract;
@@ -1908,15 +1928,29 @@ body > table > thead > tr::before {
   mask-composite: exclude;
   mask-composite: intersect;
 }
+.toggle:not(:has(:checked)) > label,
 .toggle:not(:has(:checked)) > label::after {
-  --icon-composite: var(--icon), var(--mask-none);
-  mask-composite: exclude;
-}
-.toggle:has(:checked) > label::after {
-  --icon-composite: var(--icon), var(--mask-all);
-  --icon-composite: var(--mask-all), var(--icon);
-  --icon-composite: var(--icon-slash-overlay-inv);
-  mask-mode: alpha;
+  --icon-composite: var(--mask-all), var(--icon), var(--icon-slash-overlay-inv);
+  --icon-composite: var(--icon-slash-overlay);
+  --icon-composite: var(--icon), var(--icon-slash-overlay), var(--mask-all);
+  --icon-composite:
+    var(--icon-slash-overlay), var(--icon), var(--icon-slash-overlay);
   mask-mode: luminance;
+  mask-mode: alpha;
+  mask-composite: exclude;
+  mask-composite: subtract;
+  mask-composite: intersect;
+  mask-composite: add, subtract;
+  mask-position:
+    left 0.5px top -0.5px,
+    50% 50%,
+    left -0.5px top 0.5px;
+  background-color: #626;
+}
+
+.toggle:has(:checked) > label,
+.toggle:has(:checked) > label::after {
+  --icon-composite: var(--icon);
   mask-composite: add;
+  background-color: #828;
 }

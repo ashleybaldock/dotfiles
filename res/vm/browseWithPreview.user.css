@@ -1895,18 +1895,33 @@ body > section:has(> video, > .vidwrap) {
   [name="playpause"][value="paused"][checked]
 ):not(:has(
   [name="playpause"][value="playing"]:checked)
-) :where(.vidwrap, .player),
-:root:has([name="playpause"][value="paused"]:checked) :where(.vidwrap, .player) {
+) .player,
+:root:has([name="playpause"][value="paused"]:checked) .player {
   animation-play-state: paused;
+}
+:root:has(
+  [name="playpause"][value="paused"][checked]
+):not(:has(
+  [name="playpause"][value="playing"]:checked)
+) .vidwrap,
+:root:has([name="playpause"][value="paused"]:checked) .vidwrap {
   transform: none;
 }
 :root:has(
   [name="playpause"][value="playing"][checked]
 ):not(:has(
   [name="playpause"][value="paused"]:checked)
-) :where(.vidwrap, .player),
-:root:has([name="playpause"][value="playing"]:checked) :where(.vidwrap, .player) {
+) .player,
+:root:has([name="playpause"][value="playing"]:checked) .player {
   animation-play-state: running;
+}
+
+:root:has(
+  [name="playpause"][value="playing"][checked]
+):not(:has(
+  [name="playpause"][value="paused"]:checked)
+) .vidwrap,
+:root:has([name="playpause"][value="playing"]:checked) .vidwrap {
   transform: var(--ani-transform);
 }
 

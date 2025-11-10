@@ -639,6 +639,7 @@ video {
   position: fixed;
   z-index: var(--z-player);
   inset: var(--inset-player);
+  overflow: visible !important;
 }
 
 .player::before {
@@ -646,6 +647,59 @@ video {
   inset: var(--inset-top);
   z-index: var(--z-player-diag);
 }
+body > section:has(> video, > .vidwrap) {
+  width: calc(var(--playerWidth) * var(--playerCount));
+}
+.vidwrap {
+  grid-area: auto;
+  width: var(--playerWidth);
+  grid-row: 1;
+}
+
+:where(.player, .vidwrap) > label {
+  grid-row: 1/-1;
+  grid-column: 1/-1;
+  z-index: var(--z-other-labels);
+  background-position: left center;
+  background-size: contain;
+  background-color: #2224;
+}
+
+:root:has(
+  [name="playpause"][value="paused"][checked]
+):not(:has(
+  [name="playpause"][value="playing"]:checked)
+) .player,
+:root:has([name="playpause"][value="paused"]:checked) .player {
+  animation-play-state: paused;
+}
+:root:has(
+  [name="playpause"][value="paused"][checked]
+):not(:has(
+  [name="playpause"][value="playing"]:checked)
+) .vidwrap,
+:root:has([name="playpause"][value="paused"]:checked) .vidwrap {
+  transform: none;
+}
+
+:root:has(
+  [name="playpause"][value="playing"][checked]
+):not(:has(
+  [name="playpause"][value="paused"]:checked)
+) .player,
+:root:has([name="playpause"][value="playing"]:checked) .player {
+  animation-play-state: running;
+}
+
+:root:has(
+  [name="playpause"][value="playing"][checked]
+):not(:has(
+  [name="playpause"][value="paused"]:checked)
+) .vidwrap,
+:root:has([name="playpause"][value="playing"]:checked) .vidwrap {
+  transform: var(--ani-transform);
+}
+
 
 /*{{{2 Linear Player */
 :root:has([name="player"] [value="linear"]:checked) .linear {
@@ -1871,67 +1925,4 @@ body > table > thead > tr::before {
   border: none;
 }
 /*!}}}1*/
-
-
-
-
-
-
-
-.player {
-  overflow: visible !important;
-}
-body > section:has(> video, > .vidwrap) {
-  width: calc(var(--playerWidth) * var(--playerCount));
-}
-
-.vidwrap {
-  grid-area: auto;
-  width: var(--playerWidth);
-  grid-row: 1;
-}
-
-:root:has(
-  [name="playpause"][value="paused"][checked]
-):not(:has(
-  [name="playpause"][value="playing"]:checked)
-) .player,
-:root:has([name="playpause"][value="paused"]:checked) .player {
-  animation-play-state: paused;
-}
-:root:has(
-  [name="playpause"][value="paused"][checked]
-):not(:has(
-  [name="playpause"][value="playing"]:checked)
-) .vidwrap,
-:root:has([name="playpause"][value="paused"]:checked) .vidwrap {
-  transform: none;
-}
-:root:has(
-  [name="playpause"][value="playing"][checked]
-):not(:has(
-  [name="playpause"][value="paused"]:checked)
-) .player,
-:root:has([name="playpause"][value="playing"]:checked) .player {
-  animation-play-state: running;
-}
-
-:root:has(
-  [name="playpause"][value="playing"][checked]
-):not(:has(
-  [name="playpause"][value="paused"]:checked)
-) .vidwrap,
-:root:has([name="playpause"][value="playing"]:checked) .vidwrap {
-  transform: var(--ani-transform);
-}
-
-
-:where(.player, .vidwrap) > label {
-  grid-row: 1/-1;
-  grid-column: 1/-1;
-  z-index: var(--z-other-labels);
-  background-position: left center;
-  background-size: contain;
-  background-color: #2224;
-}
 

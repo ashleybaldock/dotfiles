@@ -693,9 +693,21 @@ video {
   transform: unset;
   display: none;
 }
-:root:has([name="player"][value="interleave"]:checked) .interleave {
+:root:has([name="player"][value="interleave"]:checked) .interleave,
+:root:has(
+  [name="player"][value="interleave"][checked]
+):not(:has(
+  [name="player"][value="linear"]:checked)
+) .interleave,
+:root:has([name="playpause"][value="playing"]:checked) .interleave ,
+:root:has(
+  [name="playpause"][value="playing"][checked]
+):not(:has(
+  [name="playpause"][value="paused"]:checked)
+) .interleave {
   display: grid;
 }
+
 
 .interleave::before {
   content: counter(anim);
@@ -1898,21 +1910,6 @@ body > section:has(> video, > .vidwrap) {
   transform: var(--ani-transform);
 }
 
-
-:root:has([name="player"][value="interleave"]:checked) .interleave,
-:root:has(
-  [name="player"][value="interleave"][checked]
-):not(:has(
-  [name="player"][value="linear"]:checked)
-) .interleave,
-:root:has([name="playpause"][value="playing"]:checked) .interleave ,
-:root:has(
-  [name="playpause"][value="playing"][checked]
-):not(:has(
-  [name="playpause"][value="paused"]:checked)
-) .interleave {
-  display: grid;
-}
 
 :where(.player, .vidwrap) > label {
   grid-row: 1/-1;

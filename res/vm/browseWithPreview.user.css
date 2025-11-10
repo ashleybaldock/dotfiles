@@ -690,7 +690,6 @@ body > section:has(> video, > .vidwrap) {
 :root:has([name="playpause"][value="playing"]:checked) .player {
   animation-play-state: running;
 }
-
 :root:has(
   [name="playpause"][value="playing"][checked]
 ):not(:has(
@@ -702,7 +701,7 @@ body > section:has(> video, > .vidwrap) {
 
 
 /*{{{2 Linear Player */
-:root:has([name="player"] [value="linear"]:checked) .linear {
+:root:has([name="player"][value="linear"]:checked) .linear {
     display: grid;
 }
 

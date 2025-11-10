@@ -116,10 +116,8 @@
     %3Cpath d=%22M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z%22%3E\
     %3C/path%3E\
     %3C/svg%3E');
-  --icon-repeat-off: ;
 
   --icon-repeat-reload: ;
-  --icon-repeat-reload-off: ;
   
   --icon-repeat-shuffle: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E\
   %3C!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--%3E\
@@ -211,8 +209,6 @@
   %3C/g%3E\
   %3C/svg%3E');
   
-  --icon-repeat-shuffle-off: ;
-  
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -221,90 +217,60 @@
   mask-mode: luminance;
 }
 
-.toggle[name=images] > label {
-  --icon: var(--icon-images-off);
+.toggle > label {
+  --default-icon: linear-gradient(#ffff, #fff0, #ffff);
+  --null-overlay: linear-gradient(#0000 0 0);
+  --icon-composite: var(--icon, var(--default-icon)), var(--icon-slash-overlay, var(--null-overlay));
 }
-.toggle[name=images]:has(:checked) > label {
+.toggle:not(:has(:checked)) > label {
+  --icon-overlay: var(--icon-slash-overlay);
+}
+.toggle:has(:checked) > label {
+  --icon-overlay: var(--null-overlay);
+}
+
+.toggle[name=images] > label {
   --icon: var(--icon-images);
 }
-
 .toggle[name=video] > label {
-  --icon: var(--icon-video-off);
-}
-.toggle[name=video]:has(:checked) > label {
   --icon: var(--icon-video);
 }
-
-.toggle[name=other]>label {
-  --icon: var(--icon-other-off);
-}
-.toggle[name=other]:has(:checked) > label {
+.toggle[name=other] > label {
   --icon: var(--icon-other);
 }
-
-#UI_showHidden > label {
+#UI_showHidden:not(:has(:checked)) > label {
   --icon: var(--icon-shown);
 }
 #UI_showHidden:has(:checked) > label {
   --icon: var(--icon-hidden);
 }
-
 .toggle[name=grid] > label {
   --icon: var(--icon-grid);
 }
-.toggle[name=grid]:has(:checked) > label {
-  --icon: var(--icon-grid);
-}
-
 .toggle[name=interleave] > label {
-  --icon: var(--icon-interleave-off);
-}
-.toggle[name=interleave]:has(:checked) > label {
   --icon: var(--icon-interleave);
 }
-
 .toggle[name=linear] > label {
-  --icon: var(--icon-linear-off);
-}
-.toggle[name=linear]:has(:checked) > label {
   --icon: var(--icon-linear);
 }
-
 .toggle[name=repeat] > label {
-  --icon: var(--icon-repeat-off);
-}
-.toggle[name=repeat]:has(:checked) > label {
   --icon: var(--icon-repeat);
 }
-
 .toggle[name=reload_on_repeat] > label {
-  --icon: var(--icon-repeat-reload-off);
-}
-.toggle[name=reload_on_repeat]:has(:checked) > label {
   --icon: var(--icon-repeat-reload);
 }
-
 .toggle[name=shuffle_on_repeat] > label {
-  --icon: var(--icon-repeat-shuffle-off);
-}
-.toggle[name=shuffle_on_repeat]:has(:checked) > label {
   --icon: var(--icon-repeat-shuffle);
 }
 
 :where(
-.next, .prev, .stop, .toggle[name=pause] > label, .toggle[name=shuffle] > label
+.next, .prev, .stop,
+.toggle[name=pause] > label,
+.toggle[name=shuffle] > label
 ) {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-}
-
-.sequencetoggle > [data-name="playpause"][data-value="playing"] {
-    --icon: var(--icon-play);
-}
-
-.sequencetoggle > [data-name="playpause"][data-value="paused"] {
-    --icon: var(--icon-pause);
 }
 
 .toggle[name=shuffle] > label {
@@ -319,6 +285,23 @@
     background-image: var(--icon-play-prev);
 }
 
+
+.sequencetoggle > [data-name="playpause"][data-value="playing"] {
+    --icon: var(--icon-play);
+}
+:root:has([name="playpause"][value="playing"]:checked)
+:where(.player, .vidwrap) > label[for="toggle_paused"] {
+  z-index: var(--z-topmost-sequencetoggle-label);
+  background-image: var(--icon-play);
+}
+.sequencetoggle > [data-name="playpause"][data-value="paused"] {
+    --icon: var(--icon-pause);
+}
+:root:has([name="playpause"][value="paused"]:checked)
+:where(.player, .vidwrap) > label[for="toggle_playing"] {
+  z-index: var(--z-topmost-sequencetoggle-label);
+  background-image: var(--icon-pause);
+}
 :root {
   margin: 0;
   padding: 0;
@@ -326,7 +309,7 @@
   --playerWidth: 100vw;
   --offset-tip: 0.2em;
   --playerHeight: 80vh;
-    max-height: 100vh;
+  max-height: 100vh;
   min-height: 100vh;
   max-width: 100vw;
   min-width: 100vw;
@@ -345,7 +328,7 @@
   --z-spacer: 0;
   --z-player: 30;
   --z-other-labels: 35;
-  --z-top-label: 40;
+  --z-topmost-sequencetoggle-label: 40;
   --z-files: 50;
   --z-options: 55;
   --z-files-header: 60;
@@ -390,7 +373,7 @@
 }
 
 :root:has(
-  [name="playpause"] [value="playing"]:checked
+  [name="playpause"][value="playing"]:checked
   ) :where(.vidwrap, .player),
   .playing,
   [data-cursor=media-default-pause] {
@@ -406,7 +389,7 @@
 }
 
 :root:has(
-  [name="playpause"] [value="paused"]:checked
+  [name="playpause"][value="paused"]:checked
   ) :where(.vidwrap, .player),
   .paused,
   [data-cursor=media-default-play] {
@@ -532,22 +515,6 @@ body > h1 {
 
 
 /*!{{{1 Video Wrapper & Overlay */
-.vidwrap {
-    display: grid;
-    align-items: center;
-    grid-area: preview;
-    height: var(--playerHeight);
-    justify-content: center;
-    width: auto;
-    grid-row: auto/span preview-end;
-    overflow: visible;
-}
-
-.overlay::after,.vidwrap > * {
-    grid-column: 1/1;
-    grid-row: 1/1;
-}
-
 .overlay {
     width: 100%;
     display: grid;
@@ -562,21 +529,39 @@ body > h1 {
     text-align: center;
     counter-reset: n var(--n);
     display: block;
+    grid-column: 1/1;
+    grid-row: 1/1;
+}
+
+.vidwrap {
+    display: grid;
+    align-items: center;
+    grid-area: preview;
+    height: var(--playerHeight);
+    justify-content: center;
+    width: auto;
+    grid-row: auto/span preview-end;
+    overflow: visible;
+}
+
+.vidwrap > * {
+    grid-column: 1/1;
+    grid-row: 1/1;
 }
 
 .vidwrap .overlay {
     --t: 'Overlay i1';
 }
 
-.vidwrap+.vidwrap .overlay {
+.vidwrap + .vidwrap .overlay {
     --t: 'Overlay i2';
 }
 
-.vidwrap+.vidwrap+.vidwrap .overlay {
+.vidwrap + .vidwrap + .vidwrap .overlay {
     --t: 'Overlay i3';
 }
 
-.vidwrap+.vidwrap+.vidwrap+.vidwrap .overlay {
+.vidwrap + .vidwrap + .vidwrap + .vidwrap .overlay {
     --t: 'Overlay i4';
 }
 /*!}}}1*/
@@ -683,36 +668,32 @@ video {
     z-index: 12;
 }
 /*!}}}2*/
-/*!{{{2 Interleaved Player */
 
+/*!{{{2 Interleaved Player */
 .interleave {
-  height: var(--playerHeight);
-  min-height: var(--playerHeight);
   --ani-step: round(down, var(--playerCount) * var(--ani-translate-progress), 1);
   --ani-transform: translateX(calc(var(--ani-step) * -1 * var(--playerWidth)));
   --ani-transform-inverse: translateX(calc(var(--ani-step) * 1 * var(--playerWidth)));
-  min-width: var(--playerWidth);
-  background-image: repeating-conic-gradient(from 112deg,#f006 0 54deg,#f002 56deg 180deg),repeating-conic-gradient(from -112deg,#f006 0 94deg,#f002 96deg 180deg);
-  background-size: 5% 5%,5% 5%;
-  background-repeat: round;
-  background-position: 5% 5%,-10% -10%;
-  background-attachment: fixed;
   animation-composition: initial;
   animation-delay: 0s;
   animation-direction: normal;
   animation-fill-mode: initial;
   animation-iteration-count: infinite;
   animation-name: translate;
-  animation-timing-function: steps(var(--playerCount),jump-both);
   animation-duration: calc(var(--interleave-duration-per, 500ms) * (var(--playerCount, 4) - 1));
+  animation-timing-function: steps(calc(var(--playerCount) - 1),jump-end);
+  height: var(--playerHeight);
+  min-height: var(--playerHeight);
+  min-width: var(--playerWidth);
   grid-area: preview;
   grid-template-columns: [left interleave-start] repeat(var(--playerCount), var(--playerWidth)) [interleave-end right];
   grid-auto-flow: row;
   grid-template-rows: [top interleave-start] var(--playerHeight) [interleave-end bottom];
-  transform: var(--ani-transform);
+  background-color: #0000;
+  transform: unset;
   display: none;
 }
-:root:has([name="player"] [value="interleave"]:checked) .interleave {
+:root:has([name="player"][value="interleave"]:checked) .interleave {
   display: grid;
 }
 
@@ -724,6 +705,14 @@ video {
   top: 2px;
   right: 2px;
   transform: none;
+}
+
+.interleave.bgpattern {
+  background-image: repeating-conic-gradient(from 112deg,#f006 0 54deg,#f002 56deg 180deg),repeating-conic-gradient(from -112deg,#f006 0 94deg,#f002 96deg 180deg);
+  background-size: 5% 5%,5% 5%;
+  background-repeat: round;
+  background-position: 5% 5%,-10% -10%;
+  background-attachment: fixed;
 }
 
 .interleave > .vidwrap::after {
@@ -821,10 +810,6 @@ video {
   transform: translateX(calc(var(--playerIdx) * var(--playerWidth) * -1)) var(--ani-transform-inverse);
 }
 
-.interleave {
-  animation-timing-function: steps(calc(var(--playerCount) - 1),jump-end);
-  transform: unset;
-}
 /*!}}}1*/
 
 
@@ -847,23 +832,23 @@ table {
     place-self: end auto;
 }
 
-thead>tr::before {
+thead > tr::before {
     content: "Playback";
 }
 
-td:first-child>a {
+td:first-child > a {
     color: #fff;
 }
 
-td:first-child+td+td+td {
+td:first-child + td + td + td {
     display: none;
 }
 
-td:first-child+td {
+td:first-child + td {
     padding-inline-end: 0;
 }
 
-tbody>tr {
+tbody > tr {
     --h: 90deg;
     --s: 40%;
     --l: 10%;
@@ -879,11 +864,6 @@ tbody>tr:hover {
     overflow: visible;
     box-shadow: inset 3px 1.2px 10px -2px #fff8,inset 2px -.2px 5px -1.2px #000,1px 2px 0-1px #000;
     border-radius: 1lh;
-}
-
-tbody>:where(.playing,.paused) {
-    --s✕: 0.4;
-    --a: 100%;
 }
 
 tbody>::before {
@@ -917,6 +897,11 @@ tbody>::before {
     height: var(--row-h);
     color: #fff0;
     padding: var(--row-pad);
+}
+
+tbody>:where(.playing,.paused) {
+    --s✕: 0.4;
+    --a: 100%;
 }
 
 table>tbody>:where(.playing,.paused)::before {
@@ -966,14 +951,10 @@ td:not(:first-child) {
     margin: 0;
 }
 
-:where(.file,.dir),
-:where(.file,.dir)::before {
+:where(.file,.dir) {
     font-family: Menlo,monospace;
     line-height: normal;
     align-items: center;
-}
-
-:where(.file,.dir) {
     color: #fff;
     margin: 0;
     width: 100%;
@@ -992,6 +973,9 @@ td:not(:first-child) {
 }
 
 :where(.file,.dir)::before {
+    font-family: Menlo,monospace;
+    line-height: normal;
+    align-items: center;
     content: "";
     background: #eee;
     color: #000;
@@ -1167,22 +1151,13 @@ body > table > thead > ::before {
   grid-column: 1/3;
 }
 
-body > table > :where(tbody, thead) > td:first-child + td,
-body > table > :where(tbody, thead) > th:first-child + th {
+body > table > :where(tbody, thead) > tr > td:first-child + td,
+body > table > :where(tbody, thead) > tr > th:first-child + th {
   position: sticky;
   inset: var(--inset-files);
   z-index: var(--z-files);
   grid-row: span files-start;
   grid-column: -6/-4;
-}
-
-body > table > :where(tbody, thead) > td:first-child + td + td,
-body > table > :where(tbody, thead) > th:first-child + th + th {
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  grid-row: span files-start;
-  grid-column: -4/-1;
 }
 
 body > table > :where(tbody, thead) > tr > :where(td, th):last-child {
@@ -1253,14 +1228,6 @@ body > table > thead > tr::before {
   text-align: center;
 }
 
-body > table > :where(tbody, thead) > tr > td:first-child + td,
-body > table > :where(tbody, thead) > tr > th:first-child + th {
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  grid-row: span files-start;
-  grid-column: -6/-4;
-}
 
 body > table > :where(tbody, thead) > tr > td:first-child + td + td,
 body > table > :where(tbody, thead) > tr > th:first-child + th + th {
@@ -1332,7 +1299,7 @@ body > table > tbody > ::before {
   mask-image: linear-gradient(#ffff);
 }
 
-body > table > tbody > :where(.playing,.paused,.played)::before {
+body > table > tbody > :where(.playing, .paused, .played)::before {
     mask-clip: no-clip;
     overflow: visible;
     background-clip: content-box,content-box,content-box,content-box;
@@ -1398,7 +1365,7 @@ body > table > thead > tr::before {
 /*!}}}1*/
 
 
-/*!{{{1 Grouping */
+/*!{{{1 Grouping for toolbar icons */
 .grouping {
   display: grid;
   grid-template-rows: 1fr;
@@ -1575,18 +1542,18 @@ body > table > thead > tr::before {
     place-self: center;
     letter-spacing: 0;
     margin: 0;
-    background-image: radial-gradient(circle at 50% 50%,#000 0 40%,#444 40% 60%,#0000 60%);
     overflow: visible;
     width: 2em;
     height: 2em;
+    background-image: radial-gradient(circle at 50% 50%,#000 0 40%,#444 40% 60%,#0000 60%);
     background-repeat: no-repeat;
     background-position: center;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-    padding: .2em;
     background-size: 3em 2.2em;
     background: 0 0;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: .2em;
     font-family: Menlo,monospace;
 }
 
@@ -1664,7 +1631,7 @@ body > table > thead > tr::before {
   right: 0;
 }
 
-:where(.toggle,#UI_showHidden)>label {
+:where(.toggle, #UI_showHidden) > label {
     grid-template-columns: auto auto;
     grid-template-rows: auto;
     font-size: 0;
@@ -1674,12 +1641,12 @@ body > table > thead > tr::before {
     cursor: pointer;
 }
 
-:where(.toggle,#UI_showHidden)>label>* {
+:where(.toggle, #UI_showHidden) > label > * {
     grid-row: 1;
     grid-column: 1;
 }
 
-:where(.toggle,#UI_showHidden)>label::after {
+:where(.toggle, #UI_showHidden) > label::after {
     mask-image: var(--icon);
     font-size: 1rem;
     content: "";
@@ -1699,7 +1666,7 @@ body > table > thead > tr::before {
     pointer-events: none;
 }
 
-:where(.toggle,#UI_showHidden)>label>input {
+:where(.toggle, #UI_showHidden) > label > input {
     visibility: hidden;
     grid-column: 1;
     grid-row: 1;
@@ -1770,18 +1737,6 @@ body > table > thead > tr::before {
   top: 60vh;
 }
 
-:where(.toggle, #UI_showHidden) > label,
-:where(.toggle, #UI_showHidden) > label::after {
-  grid-column: unset;
-  grid-row: unset;
-}
-.toggle {
-  width: fit-content;
-  grid-row: unset;
-  grid-column: unset;
-  grid-area: options;
-}
-
 .toggle, .sequencetoggle {
   grid-column: unset;
   grid-area: span options/span 1;
@@ -1792,15 +1747,27 @@ body > table > thead > tr::before {
   height: auto;
   margin: 0;
 }
+.toggle {
+  width: fit-content;
+  grid-row: unset;
+  grid-column: unset;
+  grid-area: options;
+}
+.sequencetoggle {
+  grid-column-end: span 1;
+  grid-area: span options/span 2;
+  place-self: center;
+}
 
 .sequencetoggle::after {
   grid-area: unset;
 }
 
-.sequencetoggle {
-  grid-column-end: span 1;
-  grid-area: span options/span 2;
-  place-self: center;
+
+:where(.toggle, #UI_showHidden) > label,
+:where(.toggle, #UI_showHidden) > label::after {
+  grid-column: unset;
+  grid-row: unset;
 }
 
 :where(.toggle, #UI_showHidden) > label,
@@ -1814,13 +1781,11 @@ body > table > thead > tr::before {
   grid-area: 1/1/1/1;
 }
 
-:not(#a#b)
-:where(
   #UI_goUp,
   #UI_showHidden,
   .toggle,
   .sequencetoggle
-) {
+ {
   inset: var(--inset-options);
   margin: var(--margin-options);
   z-index: var(--z-options);
@@ -1907,9 +1872,6 @@ body > table > thead > tr::before {
 body > section:has(> video, > .vidwrap) {
   width: calc(var(--playerWidth) * var(--playerCount));
 }
-.interleave {
-  animation-play-state: paused;
-}
 
 .vidwrap {
   grid-area: auto;
@@ -1959,15 +1921,5 @@ body > section:has(> video, > .vidwrap) {
   background-position: left center;
   background-size: contain;
   background-color: #2224;
-}
-:root:has([name="playpause"][value="playing"]:checked)
-:where(.player,.vidwrap) > label[for="toggle_paused"] {
-  z-index: var(--z-top-label);
-  background-image: var(--icon-play);
-}
-:root:has([name="playpause"][value="paused"]:checked)
-:where(.player,.vidwrap) > label[for="toggle_playing"] {
-  z-index: var(--z-top-label);
-  background-image: var(--icon-pause);
 }
 

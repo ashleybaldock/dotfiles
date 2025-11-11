@@ -830,11 +830,24 @@ shreddit-sort-dropdown {
 hr {
   display: none;
 }
+
+#content-tag-container {
+  display: flex;
+  position: absolute;
+  inset: 0 0 auto auto;
+}
 article {
-  position: relative;
   scroll-snap-align: start;
   scroll-margin: var(--smt) 0 var(--smb) 0;
   min-height: 33vh;
-  max-height: 95vh;
-  padding: 0.5em 0;
+  max-height: 100vh;
+  padding: 0;
+  display: grid;
+  grid-template-rows: auto [nsfw-start] auto [nsfw-end] auto auto [buttons-start] auto [buttons-end after-start] auto [after-end article-end];
+  grid-template-columns: 100vw;
+  position: relative;
+  grid-auto-flow: column;
+}
+.object-contain {
+  object-fit: contain;
 }

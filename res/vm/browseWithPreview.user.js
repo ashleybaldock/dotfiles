@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.225
+// @version     1.0.227
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -110,7 +110,7 @@ const addSequenceToggle = ({
   ...attrs
 } = {}) => {
   const div = GM_addElement(to, 'div', {
-    class: 'sequencetoggle toggle',
+    class: 'sequence toggle',
     'data-text': textContent,
     ...attrs,
   });
@@ -166,13 +166,15 @@ const addWrappedVideo = (
   const pauseLabel = GM_addElement(wrapper, 'label', { for: 'toggle_paused' });
   const idx = () => wrapper.style.getPropertyValue('--playerIdx');
   const video = GM_addElement(wrapper, 'video', options);
+
   video.addEventListener(
     'play',
     () => {
+      console.info(`${idx()} playing '${decodeURI(video.src)}'`);
+
       video.classList.remove('paused');
       video.classList.add('playing');
 
-      console.info(`${idx()} playing '${decodeURI(video.src)}'`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -203,10 +205,11 @@ const addWrappedVideo = (
   video.addEventListener(
     'pause',
     () => {
+      console.info(`${idx()} paused '${decodeURI(video.src)}'`);
+
       video.classList.remove('playing');
       video.classList.add('paused');
 
-      console.info(`${idx()} paused '${decodeURI(video.src)}'`);
       document
         .querySelectorAll(
           `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
@@ -220,6 +223,7 @@ const addWrappedVideo = (
     },
     {},
   );
+
   /* Playback */
   video.addEventListener('volumechange', () => {
     // console.debug(`${idx()} volumechange '${decodeURI(video.src)}'`);
@@ -464,21 +468,23 @@ const initBrowsePreview = ({ document }) => {
       to: repeatGrouping,
     });
     addSequenceToggle({
-      textContent: 'Playback (play/pause)',
+      textContent: 'Playback State (playing/paused)',
       bindTo: playpause,
       name: 'playpause',
       to: body,
       sequence: sequences.playpause.map((p) => ({
         value: p,
+        textContent: `Playback State: ${p}`,
       })),
     });
     const playerGrouping = addGrouping({ to: body });
     addSequenceToggle({
-      textContent: 'Mode (interleave/linear)',
+      textContent: 'Player Mode (interleave/linear)',
       bindTo: player,
       name: 'player',
       sequence: sequences.player.map((p) => ({
         value: p,
+        textContent: `Player Mode: ${p}`,
       })),
       to: playerGrouping,
     });

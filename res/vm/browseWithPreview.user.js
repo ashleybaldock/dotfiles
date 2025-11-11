@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.227
+// @version     1.0.230
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -537,7 +537,15 @@ const initBrowsePreview = ({ document }) => {
 
   const getFileList = (
     ({
-      config: { repeat, shuffle_on_repeat, reload_on_repeat, filter },
+      config: {
+        repeat,
+        shuffle_on_repeat,
+        reload_on_repeat,
+        filter,
+        includeImageFiles,
+        includeVideoFiles,
+        includeOtherFiles,
+      },
       shuffleArray,
     }) =>
     () => {
@@ -545,10 +553,12 @@ const initBrowsePreview = ({ document }) => {
         filesOriginalOrder = [],
         filesIter;
       let _shuffled = false,
+        _filter = null,
         _filtered_length = null;
 
       function* filteredFiles() {
-        yield* files.filter((x) => x.match(filter.value));
+        yield* files.filter((x) => x.match(_filter));
+        // yield* files.filter((x) => x.match(filter.value));
       }
 
       const load = () => {
@@ -576,6 +586,35 @@ const initBrowsePreview = ({ document }) => {
         filesIter = filteredFiles();
         _shuffled = false;
       };
+
+      const updateFilter = () => {
+        const exts = {
+          video: ['mp4', 'mov'],
+          image: ['jpg', 'jpeg', 'png'],
+        };
+        // filter: defineString('.*\.mp4$'),
+        // ^.*\.(?:mp4|mov)$|^.*\.(?:jpg|jpeg|png|)$|^.*\.(?:)$
+        const matchVideo = `^.*\.(?:${exts.video.join('|')})`;
+        const matchImage = `^.*\.(?:${exts.image.join('|')})`;
+        const matchOther = `^.*(?<!\.(?:${[...exts.video, ...exts.image].join('|')}))$`;
+        _filter = [
+          includeImageFiles.value ? matchImage : [],
+          includeVideoFiles.value ? matchVideo : [],
+          includeOtherFiles.value ? matchOther : [],
+        ]
+          .flat()
+          .join('|');
+      };
+
+      const unsubs = [
+        // repeat.subscribe((newValue) => ),
+        // shuffle_on_repeat.subscribe(() => ),
+        // reload_on_repeat.subscribe(() => ),
+        // filter.subscribe(() => ),
+        includeImageFiles.subscribe(() => updateFilter()),
+        includeVideoFiles.subscribe(() => updateFilter()),
+        includeOtherFiles.subscribe(() => updateFilter()),
+      ];
 
       return {
         next: () => {

@@ -1,3 +1,6 @@
+:root {
+  text-shadow: unset;
+}
 .labels {
   display: flex;
   flex-direction: column;

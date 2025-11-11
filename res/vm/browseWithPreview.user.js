@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.222
+// @version     1.0.224
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -27,8 +27,9 @@
  *
  */
 
-const sequenceOptions = {
+const sequences = {
   fit: ['auto', 'contain', 'cover', 'fitw', 'fith'],
+  filelist: ['below', 'beside', 'hide'],
   playpause: ['playing', 'paused'],
   player: ['interleave', 'linear'],
 };
@@ -123,7 +124,7 @@ const addSequenceToggle = ({
         class: '',
         'data-name': name,
         'data-value': value,
-        'data-text': textContent ?? name ?? '',
+        'data-text': textContent,
       });
       GM_addElement(label, 'span', {
         class: 'tip',
@@ -406,16 +407,16 @@ const initBrowsePreview = ({ document }) => {
         subscribe,
       };
     };
-
     return {
+      filelist: defineSequence(sequences.filelist, 'below'),
       imageDuration: defineNumber(5),
-      showImages: defineToggle(false),
-      showVideo: defineToggle(false),
-      showOther: defineToggle(false),
-      playpause: defineSequence(sequenceOptions.playpause, 'paused'),
+      includeImageFiles: defineToggle(true),
+      includeVideoFiles: defineToggle(true),
+      includeOtherFiles: defineToggle(false),
+      playpause: defineSequence(sequences.playpause, 'paused'),
       showGrid: defineToggle(false),
-      grid_fit: defineSequence(sequenceOptions.fit),
-      player: defineSequence(sequenceOptions.player, 'interleave'),
+      grid_fit: defineSequence(sequences.fit),
+      player: defineSequence(sequences.player, 'interleave'),
       maxInterleaved: defineNumber(8),
       interleaveDelay: defineNumber(500),
       repeat: defineToggle(true),
@@ -430,9 +431,9 @@ const initBrowsePreview = ({ document }) => {
       document: { body },
     },
     config: {
-      showImages,
-      showVideo,
-      showOther,
+      includeImageFiles,
+      includeVideoFiles,
+      includeOtherFiles,
       showGrid,
       grid_fit,
       playpause,
@@ -466,7 +467,7 @@ const initBrowsePreview = ({ document }) => {
       bindTo: playpause,
       name: 'playpause',
       to: body,
-      sequence: sequenceOptions.playpause.map((p) => ({
+      sequence: sequences.playpause.map((p) => ({
         value: p,
       })),
     });
@@ -475,7 +476,7 @@ const initBrowsePreview = ({ document }) => {
       textContent: 'Mode (interleave/linear)',
       bindTo: player,
       name: 'player',
-      sequence: sequenceOptions.player.map((p) => ({
+      sequence: sequences.player.map((p) => ({
         value: p,
       })),
       to: playerGrouping,
@@ -491,7 +492,7 @@ const initBrowsePreview = ({ document }) => {
       textContent: 'Fit mode for grid items',
       bindTo: grid_fit,
       name: 'grid_fit',
-      sequence: sequenceOptions.fit.map((fit) => ({
+      lsequence: sequences.fit.map((fit) => ({
         value: fit,
       })),
       to: gridGrouping,
@@ -499,20 +500,30 @@ const initBrowsePreview = ({ document }) => {
     const filesGrouping = addGrouping({ to: body });
     addToggle({
       textContent: 'Include image files',
-      bindTo: showImages,
+      bindTo: includeImageFiles,
       name: 'images',
       to: filesGrouping,
     });
     addToggle({
       textContent: 'Include video files',
-      bindTo: showVideo,
+      bindTo: includeVideoFiles,
       name: 'video',
       to: filesGrouping,
     });
     addToggle({
       textContent: 'Include other files',
-      bindTo: showOther,
+      bindTo: includeOtherFiles,
       name: 'other',
+      to: filesGrouping,
+    });
+    addSequenceToggle({
+      textContent: 'File List (below/beside/hide)',
+      bindTo: filelist,
+      name: 'filelist',
+      sequence: sequences.filelist.map((v) => ({
+        value: v,
+        textContent: `File List: ${v}`,
+      })),
       to: filesGrouping,
     });
   })({ unsafeWindow, config });

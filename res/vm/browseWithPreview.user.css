@@ -315,20 +315,8 @@
   --icon: var(--icon-repeat-shuffle);
 }
 
-:where(
-  .next,
-  .prev,
-  .stop,
-  .toggle[name='pause'] > label,
-  .toggle[name='shuffle'] > label
-) {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-}
-
 .toggle[name='shuffle'] > label {
-  background-image: var(--icon-toggle-shuffle);
+  --icon: var(--icon-toggle-shuffle);
 }
 
 .next {

@@ -33,43 +33,96 @@ syn region preInSquare
 " syn match TagsUpper /[\Ue0020-\Ue0060\Ue007b-\Ue007e]/
 " syn match TagsLower /[\Ue0061-\Ue007a]/
 
+syn match Tag80 +󠄿+
+syn match Tag80 +󠄿+
 syn match Tag81 +󠅀+
+syn match Tag82 +󠅁+
+syn match Tag83 +󠅂+
+syn match Tag84 +󠅃+
+syn match Tag85 +󠅄+
+syn match Tag86 +󠅅+
+syn match Tag87 +󠅆+
+syn match Tag88 +󠅇+
+syn match Tag89 +󠅈+
+syn match Tag8A +󠅈+
+syn match Tag8B +󠅉+
+syn match Tag8C +󠅊+
+syn match Tag8D +󠅋+
+syn match Tag8E +󠅋+
+syn match Tag8F +󠅏+
 
-syn match Tag120 ++
-syn match Tag121 ++
-syn match Tag122 ++
-syn match Tag123 ++
-syn match Tag124 ++
-syn match Tag125 ++
-syn match Tag126 ++
-syn match Tag127 ++
+syn match Tag91 ++
+syn match Tag92 ++
+syn match Tag93 ++
+syn match Tag94 ++
+syn match Tag95 ++
+syn match Tag96 ++
+syn match Tag97 ++
+syn match Tag98 ++
+syn match Tag99 ++
+syn match Tag9A ++
+syn match Tag9B ++
+syn match Tag9C ++
+syn match Tag9D ++
+syn match Tag9E ++
+syn match Tag9F ++
 
 hi def Tag80 guifg=#000000
-hi def Tag81 guifg=#0000ff
-hi def Tag82 guifg=#0088ff
-hi def Tag83 guifg=#00ffff
-hi def Tag84 guifg=#00ff88
-hi def Tag85 guifg=#00ff00
-hi def Tag86 guifg=#88ff00
-hi def Tag87 guifg=#ffff00
-hi def Tag88 guifg=#ff8800
-hi def Tag89 guifg=#ff0000
-hi def Tag8A guifg=#ff0088
-hi def Tag8B guifg=#ff00ff
-hi def Tag8C guifg=#8800ff
-hi def Tag8D guifg=#000088
-hi def Tag8E guifg=#8888ff
-hi def Tag8F guifg=#008888
-hi def Tag90 guifg=#88ffff
-hi def Tag91 guifg=#008800
-hi def Tag92 guifg=#88ff88
-hi def Tag93 guifg=#888800
-hi def Tag94 guifg=#ffff88
-hi def Tag95 guifg=#880000
-hi def Tag96 guifg=#ff8888
-hi def Tag97 guifg=#880088
-hi def Tag98 guifg=#ff88ff
-hi def Tag99 guifg=#ffffff
+hi def Tag81 guifg=#ff0000
+hi def Tag82 guifg=#ffff00
+hi def Tag83 guifg=#00ff00
+hi def Tag84 guifg=#00ffff
+hi def Tag85 guifg=#0000ff
+hi def Tag86 guifg=#ff00ff
+hi def Tag87 guifg=#888888
+hi def Tag88 guifg=#880000
+hi def Tag89 guifg=#888800
+hi def Tag8A guifg=#008800
+hi def Tag8B guifg=#008888
+hi def Tag8C guifg=#000088
+hi def Tag8D guifg=#880088
+hi def Tag8E guifg=#ff8888
+hi def Tag8F guifg=#ffff88
+
+hi def Tag90 guifg=#88ff88
+hi def Tag91 guifg=#8888ff
+hi def Tag92 guifg=#88ffff
+hi def Tag93 guifg=#ff88ff
+hi def Tag94 guifg=#ff0088
+hi def Tag95 guifg=#ff8800
+hi def Tag96 guifg=#88ff00
+hi def Tag97 guifg=#00ff88
+hi def Tag98 guifg=#0088ff
+hi def Tag99 guifg=#8800ff
+hi def Tag9A guifg=#ffffff
+
+" hi def Tag80 guifg=#000000
+" hi def Tag81 guifg=#0000ff
+" hi def Tag82 guifg=#0088ff
+" hi def Tag83 guifg=#00ffff
+" hi def Tag84 guifg=#00ff88
+" hi def Tag85 guifg=#00ff00
+" hi def Tag86 guifg=#88ff00
+" hi def Tag87 guifg=#ffff00
+" hi def Tag88 guifg=#ff8800
+" hi def Tag89 guifg=#ff0000
+" hi def Tag8A guifg=#ff0088
+" hi def Tag8B guifg=#ff00ff
+" hi def Tag8C guifg=#8800ff
+" hi def Tag8D guifg=#000088
+" hi def Tag8E guifg=#8888ff
+" hi def Tag8F guifg=#008888
+" hi def Tag90 guifg=#88ffff
+" hi def Tag91 guifg=#008800
+" hi def Tag92 guifg=#88ff88
+" hi def Tag93 guifg=#888800
+" hi def Tag94 guifg=#ffff88
+" hi def Tag95 guifg=#880000
+" hi def Tag96 guifg=#ff8888
+" hi def Tag97 guifg=#880088
+" hi def Tag98 guifg=#ff88ff
+" hi def Tag99 guifg=#888888
+" hi def Tag9A guifg=#ffffff
 
 syn match preEqVar /\%(\_^\|\s\)\@1<=[𝝼𝞶𝝂𝜈ʋ𝛼𝛽𝓍𝓎]\+.\{-}\ze\%(\_$\|\s\)/ contains=NONE
 " syn match preEqVar /\%(\_^\|\s\)\@1<=\S\{-}[ᵪᵥₓᘁᘁᵥᕽᴴᵂᶹᑋʰˣʸ]\{-}\ze\%(\_$\|\s\)/ contains=NONE

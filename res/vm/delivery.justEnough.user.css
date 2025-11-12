@@ -9,8 +9,7 @@ div,
   background-color: transparent;
   position: relative;
 }
-:root,
-html {
+:root {
   height: 100vh;
   width: 100vw;
 }
@@ -61,30 +60,105 @@ body {
   width: auto;
 }
 
-:root > body > :first-child {
+:root > body > img:nth-of-type(1) {
   margin: 0 !important;
   padding: 0 !important;
   display: block;
   border: none !important;
   line-height: 0;
   font-size: 0;
-  grid-area: image;
-  place-self: center;
 }
 
-:root[data-fit='auto'] > body > :first-child {
+:root[data-fit='auto'] > body > img:nth-of-type(1) {
   max-width: 100vw;
   max-height: 100vh;
 }
-:root[data-fit='width'] > body > :first-child {
+:root[data-fit='width'] > body > img:nth-of-type(1) {
   width: 100vw;
   max-height: unset;
 }
-:root[data-fit='height'] > body > :first-child {
+:root[data-fit='height'] > body > img:nth-of-type(1) {
   max-width: unset;
   height: 100vh;
 }
 
 :not(#u#n#i#m#p#o#r#t#a#n#t) .grecaptcha-badge {
   visibility: hidden;
+}
+
+:root {
+  height: 100vh;
+  width: 100vw;
+  overflow: scroll-y hidden;
+}
+body {
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+  height: 100%;
+  max-width: 100vw;
+  overflow: visible;
+  --n: calc(var(--r-l) + var(--r-m) + var(--r-r));
+  --r-l: 2;
+  --r-m: 8;
+  --r-r: 4;
+  --u: calc(100vw / var(--n));
+  grid-template-columns: [l-start] repeat(
+      var(--r-l),
+      var(--u)
+    ) [l-end m-start] repeat(var(--r-m), var(--u)) [m-end r-start] repeat(
+      var(--r-r),
+      var(--u)
+    ) [r-end];
+  grid-template-rows: [t-start] repeat(auto-fill, var(--u)) [b-end];
+  grid-auto-rows: var(--u);
+}
+
+body::after {
+  content: '';
+  display: flex;
+  grid-column: l-start/m-end;
+  grid-row: t-start/b-end;
+  border-right: 3px dashed red;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+body > * {
+  grid-area: image;
+  max-width: 100vw;
+  max-height: 100vh;
+}
+body > canvas {
+  visibility: hidden;
+  position: fixed;
+  inset: -100%;
+  width: 0;
+  height: 0;
+}
+body > img {
+  aspect-ratio: var(--natRatio);
+  max-height: min(100vh, 100%);
+  max-width: min(100vw, 100%);
+  height: auto;
+  width: auto;
+}
+body > img:nth-of-type(1) {
+  grid-column: l-start/m-end;
+  /*   grid-row: t-start/auto; */
+  /*   margin: auto; */
+  align-self: center;
+  justify-self: center;
+  position: sticky;
+  inset: 0 auto auto auto;
+}
+body > img:nth-of-type(2) {
+  grid-column: m-end/r-end;
+  grid-row: auto/span round(up, var(--natRatio), var(--r-r));
+}
+body > img:nth-of-type(3) {
+  grid-column: m-end/r-end;
+  grid-row: auto/span round(up, var(--natRatio), var(--r-r));
 }

@@ -33,7 +33,43 @@ syn region preInSquare
 " syn match TagsUpper /[\Ue0020-\Ue0060\Ue007b-\Ue007e]/
 " syn match TagsLower /[\Ue0061-\Ue007a]/
 
-syn match TagA +󠅀+
+syn match Tag81 +󠅀+
+
+syn match Tag120 ++
+syn match Tag121 ++
+syn match Tag122 ++
+syn match Tag123 ++
+syn match Tag124 ++
+syn match Tag125 ++
+syn match Tag126 ++
+syn match Tag127 ++
+
+hi def Tag80 guifg=#000000
+hi def Tag81 guifg=#0000ff
+hi def Tag82 guifg=#0088ff
+hi def Tag83 guifg=#00ffff
+hi def Tag84 guifg=#00ff88
+hi def Tag85 guifg=#00ff00
+hi def Tag86 guifg=#88ff00
+hi def Tag87 guifg=#ffff00
+hi def Tag88 guifg=#ff8800
+hi def Tag89 guifg=#ff0000
+hi def Tag8A guifg=#ff0088
+hi def Tag8B guifg=#ff00ff
+hi def Tag8C guifg=#8800ff
+hi def Tag8D guifg=#000088
+hi def Tag8E guifg=#8888ff
+hi def Tag8F guifg=#008888
+hi def Tag90 guifg=#88ffff
+hi def Tag91 guifg=#008800
+hi def Tag92 guifg=#88ff88
+hi def Tag93 guifg=#888800
+hi def Tag94 guifg=#ffff88
+hi def Tag95 guifg=#880000
+hi def Tag96 guifg=#ff8888
+hi def Tag97 guifg=#880088
+hi def Tag98 guifg=#ff88ff
+hi def Tag99 guifg=#ffffff
 
 syn match preEqVar /\%(\_^\|\s\)\@1<=[𝝼𝞶𝝂𝜈ʋ𝛼𝛽𝓍𝓎]\+.\{-}\ze\%(\_$\|\s\)/ contains=NONE
 " syn match preEqVar /\%(\_^\|\s\)\@1<=\S\{-}[ᵪᵥₓᘁᘁᵥᕽᴴᵂᶹᑋʰˣʸ]\{-}\ze\%(\_$\|\s\)/ contains=NONE
@@ -101,7 +137,7 @@ hi def preNo        guifg=#ff0000
 hi def preNewline   guifg=#ff00ff
 
 hi def preEqVar guifg=#f56cff
-hi def TagA guifg=#ff00ff
+hi def Tag81 guifg=#ff00ff
 
 hi def TestInd guifg=#ffaa22
 

@@ -851,3 +851,72 @@ article {
 .object-contain {
   object-fit: contain;
 }
+
+:not(#u#n#i)
+  [slot='post-media-container']:has(
+    > shreddit-async-loader[bundlename='gallery_carousel']
+  )
+  li
+  > img {
+  grid-column: auto/span
+    round(to-zero, var(--natRatio) + var(--roff), var(--col-interval)) !important;
+  grid-row: auto/span
+    round(up, var(--natRatio) + var(--roff), var(--row-interval)) !important;
+  --roff: 1.5;
+  --col-interval: 3;
+  --row-interval: 3;
+}
+
+:not(#u#n#i)
+  [slot='post-media-container']:has(
+    > shreddit-async-loader[bundlename='gallery_carousel']
+  )
+  li
+  > img {
+  /* --roff: 1.5; */
+  /* --col-interval: 3; */
+  /* --row-interval: 3; */
+  --roff: 0;
+  --col-interval: round(up, calc(var(--ncols) * (1 - var(--natRatio))), 1);
+  --row-interval: round(up, calc(var(--rowsper) * (1 - var(--natRatio))), 1);
+  grid-row: auto/span
+    round(up, var(--natRatio) + var(--roff), var(--row-interval)) !important;
+  grid-column: auto/span
+    round(up, var(--natRatio) + var(--roff), var(--col-interval)) !important;
+  --col-interval: calc(var(--ncols) / (3 + var(--natRatio)));
+  --row-interval: calc(var(--rowsper) / (2 + var(--natRatio)));
+}
+
+:not(#u#n#i)
+  [slot='post-media-container']:has(
+    > shreddit-async-loader[bundlename='gallery_carousel']
+  )
+  ul {
+  grid-template-rows: repeat(var(--rowsper), calc(100vh / var(--rowsper)));
+  grid-auto-flow: row dense;
+  height: 100vh !important;
+  overflow-y: visible;
+  --ncols: 9;
+  --rowsper: 9;
+}
+
+:not(#u#n#i)
+  [slot='post-media-container']:has(
+    > shreddit-async-loader[bundlename='gallery_carousel']
+  )
+  li
+  > img {
+  grid-column: auto/span
+    round(to-zero, var(--natRatio) + var(--roff), var(--col-interval)) !important;
+  grid-row: auto/span
+    round(up, var(--natRatio) + var(--roff), var(--row-interval)) !important;
+  --roff: 0;
+  --col-interval: round(up, calc(var(--ncols) * (1 - var(--natRatio))), 1);
+  --row-interval: round(up, calc(var(--rowsper) * (1 - var(--natRatio))), 1);
+  grid-row: auto/span
+    round(up, var(--natRatio) + var(--roff), var(--row-interval)) !important;
+  grid-column: auto/span
+    round(up, var(--natRatio) + var(--roff), var(--col-interval)) !important;
+  --col-interval: calc(var(--ncols) / (3 + var(--natRatio)));
+  --row-interval: calc(var(--rowsper) / (2 + var(--natRatio)));
+}

@@ -124,14 +124,15 @@ body > canvas.hidden {
   width: 0;
   height: 0;
 }
-:root > body > img,
-:root > body > a > img {
-  aspect-ratio: var(--natRatio);
-  max-height: min(100vh, 100%);
-  max-width: min(100vw, 100%);
-  height: auto;
-  width: auto;
+
+body > div:has(.preview) {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  display: contents;
+  position: relative;
 }
+
 :root > body > img:first-of-type {
   margin: 0 !important;
   padding: 0 !important;
@@ -160,8 +161,38 @@ body > canvas.hidden {
   height: max(100vh, 100%);
 }
 
+:root > body > img,
+:root > body > :where(a, label) > img,
+:root > body > div:has(.preview) img {
+  aspect-ratio: var(--natRatio);
+  max-height: min(100vh, 100%);
+  max-width: min(100vw, 100%);
+  height: auto;
+  width: auto;
+}
+
 body > :where(img:nth-of-type(n + 2), canvas),
-body > a > img {
+body > :where(a, label) > img,
+/* body > div:has(.preview), */
+body > div:has(.preview) > label > img {
   grid-column: m-end/r-end;
   grid-row: auto/span round(up, var(--natRatio), var(--r-r));
+}
+
+label:has(> .preview, > [type='checkbox'], > [type='radio']) {
+  display: contents;
+}
+
+label > :where([type='checkbox'], [type='radio'], ) {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  max-width: 0;
+  max-height: 0;
+}
+
+label:has(> :checked) > img {
+  box-shadow:
+    0 0 0.5px 2px #000,
+    0 0 0.5px 4px #a8a;
 }

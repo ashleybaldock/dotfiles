@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        justEnough(Delivery)
 // @namespace   mayhem
-// @version     1.0.111
+// @version     1.0.122
 // @description Deliver me the content, the whole content, and nothing but the content.
 // @downloadURL http://localhost:3333/vm/delivery.justEnough.user.js
 // @match       *://i.redd.it/*
@@ -60,17 +60,6 @@ const cyclicToggle = (name, states, selector = ':root') => {
     },
   };
 };
-/*
-
- ˈ̲̅ˌ̲'ǀ̲̅ ̲̅ 
-
- ╴─︎─︎╴╴̍︎╴̍̍╴̩̍╴̩̍╴̩̩╴̩︎─︎──┬┬̍︎┬̍̍┬̩̍┬̩̍┬̩̩┬̩︎──̍︎─̍̍─̩̍─̩̍─̩̩─̩︎─┴┴̩︎┴̩̩┴̩̍┴̩̍┴̍̍┴̍︎─︎╌╌̍︎╌̍̍╌̩̍╌̩̍╌̩̩╌̩︎─︎╶╶̍︎╶̍̍╶̩̍╶̩̍╶̩̩╶̩︎─︎─︎─︎╶︎
-
-ˌ̍̍ˌ̩̍ˌ̍ˌˌ̩ˌ̩̍ˌ̩̩ˈ̩̩ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍ˌ̍̍ˌ̩̍ˌ̍ˌˌ̩ˌ̩̍ˌ̩̩    ˈ̩̍ˈ̍︎ˈˈ̩︎ˈ̩̍ˈ̩̩ˌ̩̩ˌ̩̍ˌ̩ˌˌ̍ˌ̩̍ˌ̍̍ ˈ̩̩ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍ˌ̩̩ˌ̩̍ˌ̩ˌˌ̍ˌ̩̍ˌ̍̍  ˈ̅ˈ️̅ˌ️̲ˌ̲'ǀ|️
-ˈ̩̩ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍ˌ̍̍ˌ̩̍ˌ̍ˌˌ̩ˌ̩̍ˌ̩̩ˌ̩̍ˌ̍ˌˌ̩ˌ̩̍ˌ̩̩ˈ̩̩ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍    ˌ̩̩ˈ̩̩ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍  ˈ̅ˈ️̅ˌ️̲ˌ̲'ǀ|️
-
-ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍ˌ̩̩ˌ̩̍ˌ̩ˌˌ̍ˌ̩̍ˌ̍̍ˈ̩︎ˈ̩̍
-*/
 
 /*         ˈ̩̩        above         ˈ̩̩
  *  ╶╶╶╶╶╶╶┌̍̍─︎─────────────────────┐̍̍╴︎╴╴╴╴╴╴
@@ -91,37 +80,53 @@ const getFilename = () => {
   return src.split('/').findLast(() => true);
 };
 
-const wrapBlob = (blob) => {
+/*
+ <>
+   <label>
+     <img src="url(blob)">
+     <input type="radio" name="preview" value="" id="radio_${name}_${value}"
+   </label>
+   <label>
+     <input type="checkbox" class="hidden" name="selected" value="" id="check_${name}_${value}"
+     <span>Select</span>
+   </label>
+   <a download="filename" href="url(blob)">Download</a>
+ </>
+*/
+const wrapBlob = (blob, { onload = () => null } = {}) => {
   const url = URL.createObjectURL(blob);
 
   const radioId = `radio_preview_idx`;
   const checkId = `check_selected_idx`;
 
-  const radiolabel = GM_addElement('label', {
+  const wrapper = GM_addElement('div', {});
+  const radiolabel = GM_addElement(wrapper, 'label', {
     for: radioId,
   });
   const img = GM_addElement(radiolabel, 'img', {
     class: 'preview',
-    src: url,
   });
-  const radio = GM_addElement(radiolabel, 'label', {
+  img.addEventListener('load', onload, { once: true });
+  img.src = url;
+  const radio = GM_addElement(radiolabel, 'input', {
     type: 'radio',
     name: 'preview',
     value: '',
     id: radioId,
   });
-  const checklabel = GM_addElement('label', {
+  const checklabel = GM_addElement(wrapper, 'label', {
     for: checkId,
   });
-  const checkbox = GM_addElement(checklabel, 'label', {
+  const checkbox = GM_addElement(checklabel, 'input', {
     type: 'checkbox',
     name: 'selected',
     value: '',
     id: checkId,
   });
-  const a = GM_addElement(label, 'a', {
+  const a = GM_addElement(wrapper, 'a', {
     download: getFilename(),
     href: url,
+    textContent: 'Download',
   });
 };
 
@@ -188,22 +193,7 @@ const overlayText = (
   ctx.strokeText(text, midw, image.naturalHeight - 50);
   ctx.fillText(text, midw, image.naturalHeight - 50);
 
-  /*
-
-   <>
-     <label>
-       <img src="url(blob)">
-       <input type="radio" name="preview" value="" id="radio_${name}_${value}"
-     </label>
-     <label>
-       <input type="checkbox" class="hidden" name="selected" value="" id="check_${name}_${value}"
-       <span>Select</span>
-     </label>
-     <a download="filename" href="url(blob)">Download</a>
-   </>
-
-   */
-  return canvas.toBlob(wrapBlob, 'image/png');
+  canvas.toBlob(wrapBlob, 'image/png');
 };
 
 /**
@@ -284,20 +274,14 @@ const { sourceInfo } = (({
         responseHeaders,
         response,
         context: sourceInfo,
-      }) /*:void*/ => {
-        let src = URL.createObjectURL(response);
-        const image = GM_addElement('img', {});
-        image.addEventListener(
-          'load',
-          () => {
-            console.debug(`load, src: ${src}`);
-            overlayText(sourceInfo.title, image);
+      }) /*:void*/ =>
+        wrapBlob(response, {
+          onload: ({ target }) => {
+            console.debug(`load, src: ${target.src}`);
+            overlayText(sourceInfo.title, target);
           },
-          // { once: true },
-        );
-        image.setAttribute('src', src);
-        qs`body`.one.appendChild(image);
-      },
+        }),
+
       onloadstart: () /*:void*/ => console.debug('onloadstart'),
       onloadend: () /*:void*/ => console.debug('onloadend'),
       onprogress: () /*:void*/ => console.debug('onprogress'),

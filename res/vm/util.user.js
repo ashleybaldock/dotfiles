@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.106
+// @version     1.1.107
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -143,7 +143,11 @@ const buttonsPressed = ({
       ],
     ),
   ),
-  trigger: new Proxy(
+  trigger:
+    button >= 0
+      ? ['left', 'wheel', 'right', 'back', 'forward'][button]
+      : (key ?? 'unknown'),
+  wasTrigger: new Proxy(
     Object.fromEntries(
       ['left', 'wheel', 'right', 'back', 'forward'].reduce(
         (acc, cur, i) => [...acc, [cur, i === button]],

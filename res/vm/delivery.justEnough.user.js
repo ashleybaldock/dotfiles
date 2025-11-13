@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        justEnough(Delivery)
 // @namespace   mayhem
-// @version     1.0.82
+// @version     1.0.107
 // @description Deliver me the content, the whole content, and nothing but the content.
 // @downloadURL http://localhost:3333/vm/delivery.justEnough.user.js
 // @match       *://i.redd.it/*
@@ -29,6 +29,13 @@ const help = `
  q - close tab
 `;
 
+const sequences = {
+  fit: ['auto', /*'contain', 'cover',*/ 'fitw', 'fith'],
+
+  placeX: ['before', 'left', 'center', 'right', 'after'],
+  placeY: ['above', 'top', 'center', 'bottom', 'below'],
+};
+
 const cyclicToggle = (name, states, selector = ':root') => {
   function* repeat(arr) {
     while (true) {
@@ -38,17 +45,50 @@ const cyclicToggle = (name, states, selector = ':root') => {
   const iter = repeat(states);
 
   let current;
+
+  const update = () => {
+    qs`${selector}`.one.setAttribute(`data-${name}`, current);
+    qs`${selector}`.one.style.setProperty(`--data-${name}`, current);
+  };
+
   return {
-    update: () => {
-      qs`${selector}`.one.setAttribute(`data-${name}`, current);
-      qs`${selector}`.one.style.setProperty(`--data-${name}`, current);
-    },
+    update,
     next: () => {
       current = iter.next()?.value;
       update();
       return current;
     },
   };
+};
+/*
+
+ ˈ̲̅ˌ̲'ǀ̲̅ ̲̅ 
+
+ ╴─︎─︎╴╴̍︎╴̍̍╴̩̍╴̩̍╴̩̩╴̩︎─︎──┬┬̍︎┬̍̍┬̩̍┬̩̍┬̩̩┬̩︎──̍︎─̍̍─̩̍─̩̍─̩̩─̩︎─┴┴̩︎┴̩̩┴̩̍┴̩̍┴̍̍┴̍︎─︎╌╌̍︎╌̍̍╌̩̍╌̩̍╌̩̩╌̩︎─︎╶╶̍︎╶̍̍╶̩̍╶̩̍╶̩̩╶̩︎─︎─︎─︎╶︎
+
+ˌ̍̍ˌ̩̍ˌ̍ˌˌ̩ˌ̩̍ˌ̩̩ˈ̩̩ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍ˌ̍̍ˌ̩̍ˌ̍ˌˌ̩ˌ̩̍ˌ̩̩    ˈ̩̍ˈ̍︎ˈˈ̩︎ˈ̩̍ˈ̩̩ˌ̩̩ˌ̩̍ˌ̩ˌˌ̍ˌ̩̍ˌ̍̍ ˈ̩̩ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍ˌ̩̩ˌ̩̍ˌ̩ˌˌ̍ˌ̩̍ˌ̍̍  ˈ̅ˈ️̅ˌ️̲ˌ̲'ǀ|️
+ˈ̩̩ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍ˌ̍̍ˌ̩̍ˌ̍ˌˌ̩ˌ̩̍ˌ̩̩ˌ̩̍ˌ̍ˌˌ̩ˌ̩̍ˌ̩̩ˈ̩̩ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍    ˌ̩̩ˈ̩̩ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍  ˈ̅ˈ️̅ˌ️̲ˌ̲'ǀ|️
+
+ˈ̩̍ˈ̩︎ˈˈ̍︎ˈ̩̍ˈ̍̍ˌ̩̩ˌ̩̍ˌ̩ˌˌ̍ˌ̩̍ˌ̍̍ˈ̩︎ˈ̩̍
+*/
+
+/*         ˈ̩̩        above         ˈ̩̩
+ *  ╶╶╶╶╶╶╶┌̍̍─︎─────────────────────┐̍̍╴︎╴╴╴╴╴╴
+ *         │         top          │
+ *         │                      │
+ *  before │ left   center  right │ after
+ *         │                      │
+ *         │        bottom        │
+ *  ╶╶╶╶╶╶╶└̩̩─︎─────────────────────┘̩̩╴︎╴╴╴╴╴╴
+ *         ˈ̩̩        below         ˈ̩̩
+ */
+
+const getFilename = () => {
+  const src =
+    qs`video`.one?.currentSrc ??
+    qs`img`.one?.src ??
+    window.location.href.replace(location.search, '');
+  return src.split('/').findLast(() => true);
 };
 
 const overlayText = (
@@ -58,37 +98,48 @@ const overlayText = (
     font: 'serif',
     fillstyle: '#eeeeee',
     strokestyle: '#000000',
-    fitratio: 0.66,
+    fitwratio: 0.66,
+    fithratio: 0.1,
     strokewidth: 6,
-    alignX: 'center' /* left, right, before, after */,
-    alignY: 'bottom' /* center, top, above, below */,
+    placeTextX: 'center',
+    placeTextY: 'bottom',
+    bgcolor: '#00000000',
   },
 ) => {
   const canvas = GM_addElement('canvas', {
+    id: 'scratch',
+    class: 'hidden',
     width: image.naturalWidth,
     height: image.naturalHeight,
   });
   // qs`body`.one.appendChild(canvas);
 
-  const fitw = image.naturalWidth * options.fitratio;
+  const fitw = image.naturalWidth * options.fitwratio;
+  const fith = image.naturalHeight * options.fithratio;
   const midw = image.naturalWidth * 0.5;
 
-  const findsize = (text, ctx, maxwidth, minfontsize) => {
+  const findsize = (text, ctx, maxwidth, maxheight, minfontsize = 10) => {
+    ctx.save();
     ctx.strokeStyle = options.strokestyle;
     ctx.fillStyle = options.fillstyle;
     ctx.lineWidth = options.strokewidth;
 
+    let bestFit = ctx.font;
     for (
-      let f = Math.round(minfontsize), w = 0, sofar = minfontsize;
-      w < maxwidth;
-      f++
+      let f = Math.round(maxheight),
+        // widestFitSoFar = 0,
+        renderedTextWidth = Number.POSITIVE_INFINITY;
+      renderedTextWidth > maxwidth && f > minfontsize;
+      f--
     ) {
-      ctx.font = `${f}px ${options.font}`;
-      w = ctx.measureText(text).width;
+      bestFit = ctx.font = `${f}px ${options.font}`;
+      renderedTextWidth = ctx.measureText(text).width;
 
-      sofar = Math.max(w, sofar);
-      console.log(`sofar: ${sofar}`);
+      // widestFitSoFar = Math.max(renderedTextWidth, widestFitSoFar);
+      // console.log(`sofar: ${widestFitSoFar}`);
     }
+    ctx.restore();
+    return bestFit;
   };
 
   const ctx = canvas.getContext('2d');
@@ -98,25 +149,23 @@ const overlayText = (
   ctx.fillStyle = options.fillstyle;
   ctx.lineWidth = options.strokewidth;
   ctx.textAlign = 'center';
-  ctx.font = `${findsize(text, ctx, fitw, 10)}px ${options.font}`;
+  ctx.font = findsize(text, ctx, fitw, fith, 10);
 
   ctx.strokeText(text, midw, image.naturalHeight - 50);
   ctx.fillText(text, midw, image.naturalHeight - 50);
 
-  return {
-    toImg: () =>
-      canvas.toBlob((blob) => {
-        // console.log(blob);
-        const img = GM_addElement('img', {});
-        img.src = URL.createObjectURL(blob);
-        return img;
-      }, 'image/png'),
-    downloadAs: (filename) =>
-      GM_addElement('a', {
-        download: filename,
-        href: canvas.toDataURL('image/png'),
-      }).click(),
-  };
+  return canvas.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = GM_addElement('a', {
+      download: getFilename(),
+      href: url,
+      // href: canvas.toDataURL('image/png'),
+    });
+    return GM_addElement(a, 'img', {
+      class: 'preview',
+      src: url,
+    });
+  }, 'image/png');
 };
 
 /**
@@ -252,33 +301,26 @@ const { sourceInfo } = (({
   };
 })({ window: unsafeWindow, qs: uqs });
 
-const deliver = ({
-  window: {
-    document: { body },
-  },
-  qs,
-  sourceInfo,
-}) => {
-  const config = document.createElement('div');
-  config.setAttribute('class', 'config');
-  body.appendChild(config);
+const deliver = ({ window: { document }, qs, sourceInfo }) => {
+  const config = GM_addElement('div', {
+    class: 'config',
+  });
+  const notify = GM_addElement('div', {
+    class: 'notify',
+  });
 
-  const notify = document.createElement('div');
-  notify.setAttribute('class', 'notify');
-  body.appendChild(notify);
+  const source = GM_addElement('a', {
+    class: 'source',
+    href: sourceInfo.href,
+    name: sourceInfo.name,
+    textContent: '',
+  });
 
-  const source = document.createElement('a');
-  source.setAttribute('class', 'source');
-  source.setAttribute('href', sourceInfo.href);
-  source.setAttribute('data-name', sourceInfo.name);
-  source.innerText = '';
-  body.appendChild(source);
-
-  const title = document.createElement('div');
-  title.setAttribute('class', 'title');
-  title.setAttribute('data-title', sourceInfo.title);
-  source.innerText = sourceInfo.title;
-  body.appendChild(notify);
+  const title = GM_addElement('div', {
+    class: 'title',
+    'data-title': sourceInfo.title,
+    textContent: sourceInfo.title,
+  });
 
   const triggerDownload = (src, filename) => {
     notify.innerHTML = 'downloading...';
@@ -299,83 +341,58 @@ const deliver = ({
   };
 
   const toggles = {
-    fit: cyclicToggle('fit', ['auto', 'width', 'height']),
+    fit: cyclicToggle('fit', sequences.fit),
 
-    alignX: cyclicToggle('alignX', [
-      'before',
-      'left',
-      'center',
-      'right',
-      'after',
-    ]),
-
-    alignY: cyclicToggle('alignY', [
-      'above',
-      'top',
-      'center',
-      'bottom',
-      'below',
-    ]),
+    placeTextX: cyclicToggle('placeTextX', sequences.placeX),
+    placeTextY: cyclicToggle('placeTextY', sequences.placeY),
   };
 
   /* Initial state */
-  toggles.forEach((toggle) => toggle.update());
+  Object.values(toggles).forEach((toggle) => toggle.update());
 
-  // const align = cyclicToggle('align', ['top left', 'top center', 'top right', 'center right', 'bottom right', 'bottom center', 'bottom left', 'center left']);
-  // align.update();
-
-  // todo - use vm-shortcut
   const keydownEventHandler = (e) => {
-    const { key, code, shiftKey, ctrlKey, metaKey } = e;
+    const {
+      pressed: { shift, ctrl, command, option },
+      trigger,
+    } = buttonsPressed(e);
     console.groupCollapsed(
-      `keydown[${code}] <shift ${shiftKey ? '✔' : '✘'}, ctrl ${
-        ctrlKey ? '✔' : '✘'
-      }, meta ${metaKey ? '✔' : '✘'}>`,
+      `keydown[${trigger}] <shift ${shift ? '✔' : '✘'}, ctrl ${
+        ctrl ? '✔' : '✘'
+      }, meta ${option ? '✔' : '✘'}>`,
     );
     console.log(
-      `key: '${key}', code: '${code}', shift: '${shiftKey}', ctrl: '${ctrlKey}', meta: '${metaKey}'`,
+      `trigger: '${trigger}', shift: '${shift}', ctrl: '${ctrl}', meta: '${option}'`,
     );
     console.groupEnd();
 
-    if (code === 'KeyT' && !shiftKey && !metaKey && !ctrlKey) {
-      align.next();
+    if (trigger === 'e' && !shift && !ctrl && !option && !command) {
+      toggles.fit.next();
     }
 
-    if (code === 'KeyE' && !shiftKey && !metaKey && !ctrlKey) {
-      fit.next();
-    }
-
-    if (code === 'KeyQ' && !shiftKey && !metaKey && !ctrlKey) {
+    if (trigger === 'q' && !shift && !ctrl && !option && !command) {
       window.close();
     }
 
-    if (code === 'KeyP' && !shiftKey && !metaKey && !ctrlKey) {
+    if (trigger === 'p' && !shift && !ctrl && !option && !command) {
       overlayText(sourceInfo.title);
     }
 
-    if (code === 'KeyG' && !shiftKey && !metaKey && !ctrlKey) {
-      alignX.next();
+    if (trigger === 'g' && !shift && !ctrl && !option && !command) {
+      placeTextX.next();
       overlayText(sourceInfo.title);
     }
 
-    if (code === 'KeyT' && !shiftKey && !metaKey && !ctrlKey) {
-      alignY.next();
+    if (trigger === 't' && !shift && !ctrl && !option && !command) {
+      placeTextY.next();
       overlayText(sourceInfo.title);
     }
 
-    if (code === 'KeyD') {
-      if (!metaKey && !ctrlKey) {
-        const src =
-          qs`video`.one?.currentSrc ??
-          qs`img`.one?.src ??
-          window.location.href.replace(location.search, '');
-        const filename = src.split('/').findLast(() => true);
+    if (trigger === 'd' && !ctrl && !option && !command) {
+      const closeAfterDownload = shift;
 
-        const closeAfterDownload = shiftKey;
-        triggerDownload(src, filename).then((outcome) => {
-          outcome === 'success' && closeAfterDownload && window.close();
-        });
-      }
+      triggerDownload(src, getFilename()).then((outcome) => {
+        outcome === 'success' && closeAfterDownload && window.close();
+      });
     }
   };
   window.document.addEventListener('keydown', keydownEventHandler);
@@ -393,8 +410,7 @@ const styleToggleIds = addStyleToggles([
       .catch(() => console.log('timed out waiting for readyStateComplete'))
       .then(({ window, unsafeWindow }) => {
         console.debug('document ready');
-        // console.debug(qs`body`.one.innerHTML.trim());
-        // console.debug(sourceInfo);
+
         deliver({ window: unsafeWindow, qs: uqs, sourceInfo });
       }),
   )

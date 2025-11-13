@@ -1,5 +1,4 @@
 :root,
-html,
 body,
 img,
 div,
@@ -12,14 +11,34 @@ div,
 :root {
   height: 100vh;
   width: 100vw;
+  overflow: scroll-y hidden;
 }
 body {
   background-color: rgb(16, 16, 16);
-  line-height: 0;
+  line-height: normal;
   display: grid;
-  grid-template-areas: 'image';
-  height: 100%;
   width: 100%;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+  height: 100%;
+  max-width: 100vw;
+  overflow: visible;
+  --n: calc(var(--r-l) + var(--r-m) + var(--r-r));
+  --r-l: 2;
+  --r-m: 8;
+  --r-r: 4;
+  --u: calc(100vw / var(--n));
+  grid-template-columns:
+    [l-start] repeat(var(--r-l), var(--u))
+    [l-end m-start] repeat(var(--r-m), var(--u)) [m-end r-start] repeat(
+      var(--r-r),
+      var(--u)
+    )
+    [r-end];
+  grid-template-rows: [t-start] repeat(auto-fill, var(--u)) [b-end];
+  grid-auto-rows: var(--u);
 }
 
 .config,
@@ -60,59 +79,8 @@ body {
   width: auto;
 }
 
-:root > body > img:nth-of-type(1) {
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block;
-  border: none !important;
-  line-height: 0;
-  font-size: 0;
-}
-
-:root[data-fit='auto'] > body > img:nth-of-type(1) {
-  max-width: 100vw;
-  max-height: 100vh;
-}
-:root[data-fit='width'] > body > img:nth-of-type(1) {
-  width: 100vw;
-  max-height: unset;
-}
-:root[data-fit='height'] > body > img:nth-of-type(1) {
-  max-width: unset;
-  height: 100vh;
-}
-
 :not(#u#n#i#m#p#o#r#t#a#n#t) .grecaptcha-badge {
   visibility: hidden;
-}
-
-:root {
-  height: 100vh;
-  width: 100vw;
-  overflow: scroll-y hidden;
-}
-body {
-  justify-content: center;
-  align-content: center;
-  justify-items: center;
-  align-items: center;
-  height: 100%;
-  max-width: 100vw;
-  overflow: visible;
-  --n: calc(var(--r-l) + var(--r-m) + var(--r-r));
-  --r-l: 2;
-  --r-m: 8;
-  --r-r: 4;
-  --u: calc(100vw / var(--n));
-  grid-template-columns: [l-start] repeat(
-      var(--r-l),
-      var(--u)
-    ) [l-end m-start] repeat(var(--r-m), var(--u)) [m-end r-start] repeat(
-      var(--r-r),
-      var(--u)
-    ) [r-end];
-  grid-template-rows: [t-start] repeat(auto-fill, var(--u)) [b-end];
-  grid-auto-rows: var(--u);
 }
 
 body::after {
@@ -120,45 +88,80 @@ body::after {
   display: flex;
   grid-column: l-start/m-end;
   grid-row: t-start/b-end;
-  border-right: 3px dashed red;
-  width: 100%;
-  height: 100vh;
+  border-color: var(--c);
+  width: 0;
+  height: 80vh;
   z-index: 1;
+  outline: var(--olw) dashed black;
+  outline-offset: var(--olo);
+  border-style: dotted;
+  margin: calc(var(--ot) * -1) 0 calc(var(--ob) * -1) auto;
+  --c: #0000;
+  border-width: var(--v) var(--h) var(--v) var(--h);
+  --v: 0;
+  --h: calc(var(--olw) * 2);
+  mask-clip: border-box;
+  mask-image: linear-gradient(#fff 0 0);
+  padding: var(--ot) 0 var(--ob) 0;
+  --ot: calc(var(--olw) * 1);
+  --ob: calc(var(--olw) * 1);
+  --olw: 2px;
+  --olo: calc(var(--olw) * -2);
+  background-color: #0000;
 }
 
 body > * {
-  grid-area: image;
-  max-width: 100vw;
-  max-height: 100vh;
+  max-height: min(100vh, 100%);
+  max-width: min(100vw, 100%);
 }
-body > canvas {
+body > a {
+  display: contents;
+}
+body > canvas.hidden {
   visibility: hidden;
   position: fixed;
   inset: -100%;
   width: 0;
   height: 0;
 }
-body > img {
+:root > body > img,
+:root > body > a > img {
   aspect-ratio: var(--natRatio);
   max-height: min(100vh, 100%);
   max-width: min(100vw, 100%);
   height: auto;
   width: auto;
 }
-body > img:nth-of-type(1) {
+:root > body > img:first-of-type {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block;
+  border: none !important;
+  line-height: 0;
+  font-size: 0;
   grid-column: l-start/m-end;
-  /*   grid-row: t-start/auto; */
-  /*   margin: auto; */
+  grid-row: t-start/b-end;
   align-self: center;
   justify-self: center;
   position: sticky;
   inset: 0 auto auto auto;
 }
-body > img:nth-of-type(2) {
-  grid-column: m-end/r-end;
-  grid-row: auto/span round(up, var(--natRatio), var(--r-r));
+
+:root[data-fit='auto'] > body > img:first-of-type {
+  max-height: min(100vh, 100%);
+  max-width: min(100vw, 100%);
 }
-body > img:nth-of-type(3) {
+:root[data-fit='fitw'] > body > img:first-of-type {
+  width: max(100vw, 100%);
+  max-height: unset;
+}
+:root[data-fit='fith'] > body > img:first-of-type {
+  max-width: unset;
+  height: max(100vh, 100%);
+}
+
+body > :where(img:nth-of-type(n + 2), canvas),
+body > a > img {
   grid-column: m-end/r-end;
   grid-row: auto/span round(up, var(--natRatio), var(--r-r));
 }

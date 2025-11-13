@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        justEnough(Delivery)
 // @namespace   mayhem
-// @version     1.0.107
+// @version     1.0.111
 // @description Deliver me the content, the whole content, and nothing but the content.
 // @downloadURL http://localhost:3333/vm/delivery.justEnough.user.js
 // @match       *://i.redd.it/*
@@ -91,6 +91,40 @@ const getFilename = () => {
   return src.split('/').findLast(() => true);
 };
 
+const wrapBlob = (blob) => {
+  const url = URL.createObjectURL(blob);
+
+  const radioId = `radio_preview_idx`;
+  const checkId = `check_selected_idx`;
+
+  const radiolabel = GM_addElement('label', {
+    for: radioId,
+  });
+  const img = GM_addElement(radiolabel, 'img', {
+    class: 'preview',
+    src: url,
+  });
+  const radio = GM_addElement(radiolabel, 'label', {
+    type: 'radio',
+    name: 'preview',
+    value: '',
+    id: radioId,
+  });
+  const checklabel = GM_addElement('label', {
+    for: checkId,
+  });
+  const checkbox = GM_addElement(checklabel, 'label', {
+    type: 'checkbox',
+    name: 'selected',
+    value: '',
+    id: checkId,
+  });
+  const a = GM_addElement(label, 'a', {
+    download: getFilename(),
+    href: url,
+  });
+};
+
 const overlayText = (
   text,
   image,
@@ -154,18 +188,22 @@ const overlayText = (
   ctx.strokeText(text, midw, image.naturalHeight - 50);
   ctx.fillText(text, midw, image.naturalHeight - 50);
 
-  return canvas.toBlob((blob) => {
-    const url = URL.createObjectURL(blob);
-    const a = GM_addElement('a', {
-      download: getFilename(),
-      href: url,
-      // href: canvas.toDataURL('image/png'),
-    });
-    return GM_addElement(a, 'img', {
-      class: 'preview',
-      src: url,
-    });
-  }, 'image/png');
+  /*
+
+   <>
+     <label>
+       <img src="url(blob)">
+       <input type="radio" name="preview" value="" id="radio_${name}_${value}"
+     </label>
+     <label>
+       <input type="checkbox" class="hidden" name="selected" value="" id="check_${name}_${value}"
+       <span>Select</span>
+     </label>
+     <a download="filename" href="url(blob)">Download</a>
+   </>
+
+   */
+  return canvas.toBlob(wrapBlob, 'image/png');
 };
 
 /**

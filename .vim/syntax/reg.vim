@@ -87,6 +87,8 @@ syn match NLkHere contained /\\@!/ contains=NONE
 syn match Atom contained +\.+ contains=NONE
 syn match Atom contained +\\ze+ contains=NONE
 syn match Atom contained +\\zs+ contains=NONE
+syn match Boundary contained +\\<+ contains=NONE
+syn match Boundary contained +\\>+ contains=NONE
 
 syn match BoL contained +\\_^+ contains=NONE
 syn match BoL contained +^\zs\^+ contains=NONE
@@ -118,7 +120,7 @@ syn match ChClRangeSep contained /[^[-]\@1<=-\ze[^]-]/ contains=NONE
 syn match NChClRange contained /[^[-]-[^]-]/ contains=NChClRgSep
 syn match NChClRangeSep contained /[^[-]\@1<=-\ze[^]-]/ contains=NONE
 
-syn cluster Atoms contains=Atom,CharClass,NCharClass,NewLine,BackRef
+syn cluster Atoms contains=Atom,Boundary,CharClass,NCharClass,NewLine,BackRef
 syn cluster Multis contains=Multi
 syn cluster Looks contains=LkBehind,NLkBehind,LkAhead,LkHere,NLkHere
 syn cluster Groups contains=CapGrp,NCapGrp
@@ -174,6 +176,7 @@ hi def SynErr       guifg=#ffffff guibg=#ff0000
 hi def Multi        guifg=#ff9999 gui=nocombine
 hi def Escaped      guifg=#12cd4d
 hi def Atom         guifg=#9999ff
+hi def Boundary     guifg=#c248fe
 hi def CharClass    guifg=#88aaff
 hi def ChClRange      guifg=#88aaff guibg=#001965 guisp=#5583ff gui=underline
 hi def ChClEnds     guifg=#5583ff guibg=#001965

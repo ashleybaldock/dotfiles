@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        justEnough(Delivery)
 // @namespace   mayhem
-// @version     1.0.122
+// @version     1.0.124
 // @description Deliver me the content, the whole content, and nothing but the content.
 // @downloadURL http://localhost:3333/vm/delivery.justEnough.user.js
 // @match       *://i.redd.it/*
@@ -83,14 +83,14 @@ const getFilename = () => {
 /*
  <>
    <label>
-     <img src="url(blob)">
+     <img src="${url(blob)}">
      <input type="radio" name="preview" value="" id="radio_${name}_${value}"
    </label>
    <label>
      <input type="checkbox" class="hidden" name="selected" value="" id="check_${name}_${value}"
      <span>Select</span>
    </label>
-   <a download="filename" href="url(blob)">Download</a>
+   <a download="${filename}" href="${url(blob)}">Download</a>
  </>
 */
 const wrapBlob = (blob, { onload = () => null } = {}) => {
@@ -344,23 +344,23 @@ const deliver = ({ window: { document }, qs, sourceInfo }) => {
     textContent: sourceInfo.title,
   });
 
-  const triggerDownload = (src, filename) => {
-    notify.innerHTML = 'downloading...';
-    return fetch(src, {})
-      .then((res) => res.blob())
-      .then((blob) => {
-        notify.innerHTML = 'saving...';
-        const tempUrl = window.URL.createObjectURL(blob);
-        // console.log(tempUrl);
-        const a = document.createElement('a');
-        a.setAttribute('download', filename);
-        a.href = tempUrl;
-        a.click();
-        window.URL.revokeObjectURL(tempUrl);
-        notify.innerHTML = 'saved ✔︎';
-        return 'success';
-      });
-  };
+  // const triggerDownload = (src, filename) => {
+  //   notify.innerHTML = 'downloading...';
+  //   return fetch(src, {})
+  //     .then((res) => res.blob())
+  //     .then((blob) => {
+  //       notify.innerHTML = 'saving...';
+  //       const tempUrl = window.URL.createObjectURL(blob);
+  //       // console.log(tempUrl);
+  //       const a = document.createElement('a');
+  //       a.setAttribute('download', filename);
+  //       a.href = tempUrl;
+  //       a.click();
+  //       window.URL.revokeObjectURL(tempUrl);
+  //       notify.innerHTML = 'saved ✔︎';
+  //       return 'success';
+  //     });
+  // };
 
   const toggles = {
     fit: cyclicToggle('fit', sequences.fit),
@@ -410,11 +410,12 @@ const deliver = ({ window: { document }, qs, sourceInfo }) => {
     }
 
     if (trigger === 'd' && !ctrl && !option && !command) {
-      const closeAfterDownload = shift;
+      qs`label:has(> [name="selected"]:checked) ~ [download]`.forEach((a) => {
+        a.click();
+        a.classList.add('clicked');
+      }).all;
 
-      triggerDownload(src, getFilename()).then((outcome) => {
-        outcome === 'success' && closeAfterDownload && window.close();
-      });
+      shift && window.close();
     }
   };
   window.document.addEventListener('keydown', keydownEventHandler);

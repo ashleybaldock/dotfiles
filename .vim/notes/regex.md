@@ -171,6 +171,7 @@ echo autocmd_add([#{event: 'CursorHold', pattern: '<buffer>', cmd: 'exec "/"..ge
 ```reg
 s/pattern/e/g
 s/pattern/replacement/g
+s/\<pattern\>/replacement/g
 substitute/pattern/replacement/g
 s/pat\/tern/replac\/ement/g
 :%s/pattern/replace\0ment/g

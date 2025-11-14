@@ -4,7 +4,8 @@
 " au BufWritePost <buffer> syn on
 "
 " See Also:
-"       $VIMRUNTIME/syntax/typescript.vim
+"   $VIMRUNTIME/syntax/shared/typescriptcommon.vim
+"   $VIMRUNTIME/syntax/typescript.vim
 
 
 source <script>:p:h/common.vim
@@ -126,26 +127,18 @@ hi typescriptProp           guifg=#ffee77
 hi typescriptStaticProp     guifg=#ffee77 gui=italic
 hi typescriptMethod         guifg=#eebb11
 hi typescriptStaticMethod   guifg=#eebb11 gui=italic
-hi clear typescriptArrayMethod | hi link typescriptArrayMethod typescriptMethod
-hi link typescriptGlobalMethod typescriptStaticMethod
 
-hi link typescriptArrayStaticMethod typescriptStaticMethod
-hi link typescriptDateStaticMethod typescriptStaticMethod
-hi link typescriptJSONStaticMethod typescriptStaticMethod
-hi link typescriptMathStaticMethod typescriptStaticMethod
-hi link typescriptNumberStaticMethod typescriptStaticMethod
+hi link typescriptGlobalMethod typescriptStaticMethod
 hi link typescriptObjectStaticMethod typescriptStaticMethod
 hi link typescriptSymbolStaticMethod typescriptStaticMethod
 hi link typescriptURLStaticMethod typescriptStaticMethod
 
-hi link typescriptArrayMethod typescriptMethod
 hi link typescriptBlobMethod typescriptMethod
 hi link typescriptBOMLocationMethod typescriptMethod
 hi link typescriptBOMHistoryMethod typescriptMethod
 hi link typescriptBOMNavigatorMethod typescriptMethod
 hi link typescriptBOMWindowMethod typescriptMethod
 hi link typescriptCacheMethod typescriptMethod
-hi link typescriptConsoleMethod typescriptMethod
 hi link typescriptCryptoMethod typescriptMethod
 hi link typescriptDOMDocMethod typescriptMethod
 hi link typescriptDOMEventMethod typescriptMethod
@@ -154,7 +147,6 @@ hi link typescriptDOMFormMethod typescriptMethod
 hi link typescriptDOMFormProp typescriptProp
 hi link typescriptDOMNodeMethod typescriptMethod
 hi link typescriptDOMStorageMethod typescriptMethod
-hi link typescriptDateMethod typescriptMethod
 hi link typescriptES6MapProp typescriptProp
 hi link typescriptES6MapMethod typescriptMethod
 hi link typescriptES6SetProp typescriptProp
@@ -168,7 +160,6 @@ hi link typescriptGeolocationMethod typescriptMethod
 hi link typescriptHeadersMethod typescriptMethod
 hi link typescriptIntlMethod typescriptMethod
 hi link typescriptMethodAccessor typescriptMethod
-hi link typescriptNumberMethod typescriptMethod
 hi link typescriptObjectMethod typescriptMethod
 hi link typescriptPaymentMethod typescriptMethod
 hi link typescriptPaymentResponseMethod typescriptMethod
@@ -181,16 +172,29 @@ hi link typescriptXHRMethod typescriptMethod
 
 hi typescriptGlobalDot guifg=#00ffff
 " Array.…️
+" typescriptArray
+hi clear typescriptArrayMethod | hi link typescriptArrayMethod typescriptMethod
+hi link typescriptArrayStaticMethod typescriptStaticMethod
 hi link typescriptGlobalArrayDot typescriptGlobalDot
 " Console.…️
+hi link typescriptConsoleMethod typescriptMethod
 hi link typescriptGlobalConsoleDot typescriptGlobalDot
 " Date.…️
+hi link typescriptDateMethod typescriptMethod
+hi link typescriptDateStaticMethod typescriptStaticMethod
 hi link typescriptGlobalDateDot typescriptGlobalDot
 " JSON.…️
+hi link typescriptJSONStaticMethod typescriptStaticMethod
 hi link typescriptGlobalJSONDot typescriptGlobalDot
 " Math.…️
+hi link typescriptMathStaticProp typescriptStaticProp
+hi link typescriptMathStaticMethod typescriptStaticMethod
 hi link typescriptGlobalMathDot typescriptGlobalDot
 " Number.…️
+hi link typescriptNumberMethod typescriptMethod
+hi link typescriptNumberStaticMethod typescriptStaticMethod
+hi link typescriptNumber Number
+hi link typescriptNumberStaticProp typescriptStaticProp
 hi link typescriptGlobalNumberDot typescriptGlobalDot
 " Object.…️
 hi link typescriptGlobalObjectDot typescriptGlobalDot
@@ -203,14 +207,14 @@ hi link typescriptRegExpProp typescriptProp
 hi link typescriptRegExpStaticProp typescriptStaticProp
 hi link typescriptRegExpMethod typescriptMethod
 hi link typescriptGlobalRegExpDot typescriptGlobalDot
-" typescriptRegexpBackRef
-" typescriptRegexpBoundary
-" typescriptRegexpCharClass
-" typescriptRegexpGroup
-" typescriptRegexpMod
-" typescriptRegexpOr
-" typescriptRegexpQuantifier
-" typescriptRegexpString
+hi link typescriptRegexpBackRef BackRef
+hi link typescriptRegexpBoundary Boundary
+hi link typescriptRegexpCharClass CharClass
+hi link typescriptRegexpGroup CapGrp
+hi link typescriptRegexpMod Multi
+hi link typescriptRegexpOr MatchOr
+hi link typescriptRegexpQuantifier Multi
+hi link typescriptRegexpString SubstPat
 
 " String.…️
 hi link typescriptGlobalStringDot typescriptGlobalDot
@@ -242,7 +246,6 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptAccessibilityModifier
 " typescriptAmbientDeclaration
 " typescriptAni󠅙mationEvent
-" typescriptArray
 " typescriptArrowFunc
 " typescriptArrowFuncArg
 " typescript󠅀A󠅀r󠅀r󠅀owF󠅚uncDef
@@ -337,15 +340,12 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptLoopParen
 " typescriptMagicComment
 " typescriptMappedIn
-" typescriptMathStaticProp
 " typescriptMediaEvent
 " typescriptMenuEvent
 " typescriptMessage
 " typescriptModule
 " typescriptNetworkEvent
 " typescriptNull
-" typescriptNumber
-" typescriptNumberStaticProp
 " typescriptObjectAsyncKeyword
 " typescriptObjectLabel
 " typescriptObjectLiteral

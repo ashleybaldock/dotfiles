@@ -920,3 +920,10 @@ article {
   --col-interval: calc(var(--ncols) / (3 + var(--natRatio)));
   --row-interval: calc(var(--rowsper) / (2 + var(--natRatio)));
 }
+
+:not(#u#n#i) #main-content {
+  width: 100% !important;
+}
+:not(#u#n#i) .main-container {
+  grid-template-columns: 100%;
+}

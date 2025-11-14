@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        AutoReddit
 // @namespace   mayhem
-// @version     1.0.73
+// @version     1.0.78
 // @author      flowsINtomAyHeM
 // @description Make reddit's UI suck less
 // @downloadURL http://localhost:3333/vm/autoreddit.user.js
@@ -167,10 +167,11 @@ const removeCarousel = (ul) => {
     n_landscape = images.filter(({ landscape }) => landscape).length;
 
   const all_landscape = n_squareish === 0 && n_portrait === 0;
-  const all_portrait = n_squareish === 0 && n_portrait === 0;
+  const all_portrait = n_squareish === 0 && n_landscape === 0;
 
+  const rowsper = all_portrait ? (n_portrait <= 3 ? 1 : 2) : 9;
   const cols = all_portrait
-    ? Math.min(n_portrait, 3)
+    ? Math.max(2, Math.min(n_portrait, 3))
     : all_landscape
       ? 1
       : n_squareish >= 1
@@ -182,6 +183,7 @@ const removeCarousel = (ul) => {
             : 4;
 
   ul.style.setProperty('--ncols', cols);
+  ul.style.setProperty('--rowsper', rowsper);
   ul.parentNode.closest('[slot="post-media-container"]').appendChild(ul);
 };
 

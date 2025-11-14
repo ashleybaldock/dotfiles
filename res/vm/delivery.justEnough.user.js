@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        justEnough(Delivery)
 // @namespace   mayhem
-// @version     1.0.124
+// @version     1.0.126
 // @description Deliver me the content, the whole content, and nothing but the content.
 // @downloadURL http://localhost:3333/vm/delivery.justEnough.user.js
 // @match       *://i.redd.it/*
@@ -93,41 +93,45 @@ const getFilename = () => {
    <a download="${filename}" href="${url(blob)}">Download</a>
  </>
 */
-const wrapBlob = (blob, { onload = () => null } = {}) => {
-  const url = URL.createObjectURL(blob);
+const wrapBlob = () => {
+  const idGenerator = rangeIter({ start: 1 });
 
-  const radioId = `radio_preview_idx`;
-  const checkId = `check_selected_idx`;
+  return (blob, { id = idGenerator.next(), onload = () => null } = {}) => {
+    const url = URL.createObjectURL(blob);
 
-  const wrapper = GM_addElement('div', {});
-  const radiolabel = GM_addElement(wrapper, 'label', {
-    for: radioId,
-  });
-  const img = GM_addElement(radiolabel, 'img', {
-    class: 'preview',
-  });
-  img.addEventListener('load', onload, { once: true });
-  img.src = url;
-  const radio = GM_addElement(radiolabel, 'input', {
-    type: 'radio',
-    name: 'preview',
-    value: '',
-    id: radioId,
-  });
-  const checklabel = GM_addElement(wrapper, 'label', {
-    for: checkId,
-  });
-  const checkbox = GM_addElement(checklabel, 'input', {
-    type: 'checkbox',
-    name: 'selected',
-    value: '',
-    id: checkId,
-  });
-  const a = GM_addElement(wrapper, 'a', {
-    download: getFilename(),
-    href: url,
-    textContent: 'Download',
-  });
+    const radioId = `radio_preview_${id}`;
+    const checkId = `check_selected_${id}`;
+
+    const wrapper = GM_addElement('div', {});
+    const radiolabel = GM_addElement(wrapper, 'label', {
+      for: radioId,
+    });
+    const img = GM_addElement(radiolabel, 'img', {
+      class: 'preview',
+    });
+    img.addEventListener('load', onload, { once: true });
+    img.src = url;
+    const radio = GM_addElement(radiolabel, 'input', {
+      type: 'radio',
+      name: 'preview',
+      value: '',
+      id: radioId,
+    });
+    const checklabel = GM_addElement(wrapper, 'label', {
+      for: checkId,
+    });
+    const checkbox = GM_addElement(checklabel, 'input', {
+      type: 'checkbox',
+      name: 'selected',
+      value: '',
+      id: checkId,
+    });
+    const a = GM_addElement(wrapper, 'a', {
+      download: getFilename(),
+      href: url,
+      textContent: 'Download',
+    });
+  };
 };
 
 const overlayText = (
@@ -344,7 +348,7 @@ const deliver = ({ window: { document }, qs, sourceInfo }) => {
     textContent: sourceInfo.title,
   });
 
-  // const triggerDownload = (src, filename) => {
+  // const triggerDownload = (src, fileame) => {
   //   notify.innerHTML = 'downloading...';
   //   return fetch(src, {})
   //     .then((res) => res.blob())

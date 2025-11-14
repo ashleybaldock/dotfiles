@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.107
+// @version     1.1.109
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -412,6 +412,22 @@ function* forEachSideEffect /*<T>*/(
     yield s;
   }
 }
+
+function* rangeIter({
+  start,
+  step = 1,
+  count = Number.POSITIVE_INFINITY,
+  end = start + step * count,
+}) {
+  for (
+    let next = start, i = 0;
+    i < count && step > 0 ? next < end : step < 0 ? next > end : true;
+    i++, next += step
+  ) {
+    yield next;
+  }
+}
+
 /**
  * Simple generator that returns output of a function
  */

@@ -1,0 +1,172 @@
+div.mw-highlight:nth-child(22) > pre:nth-child(1) {
+  background-attachment: fixed;
+  box-shadow: inset -5px 0 5px 0 #000;
+}
+
+.hoz-scroll > pre {
+  overflow-x: scroll;
+  white-space: pre;
+  background-attachment: fixed;
+  border-right: 2.75em solid var(--wiki-content-dynamic-color--inverted);
+  border-left: 2.75em solid var(--wiki-content-dynamic-color--inverted);
+  padding-left: 2ch;
+  box-shadow: inset -5px 0 5px 0 #000;
+}
+
+.hoz-scroll > pre::after {
+  content: '…';
+  display: flex;
+  position: absolute;
+  inset: 0 0 0 auto;
+  align-items: center;
+  font-size: 1.2em;
+  width: 40px;
+  background-image: linear-gradient(to right, #0000 10px, #000);
+  border-radius: inherit;
+}
+
+.hoz-scroll > pre::after {
+  width: 1.35em;
+  font-size: 1.8em;
+  background-image: linear-gradient(to left, #000 0 1.2em, #0000 1.4em);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.hoz-scroll > pre::before {
+  font-size: 1.8em;
+  background-image: linear-gradient(to right, #000 0 1.2em, #0000 1.4em);
+  box-shadow: none;
+}
+
+.hoz-scroll > pre::before {
+  inset: 0 auto auto auto;
+  width: 1.5em;
+  background-image: linear-gradient(to right, #000 0 1.5em, #0000 2em);
+  z-index: 200;
+}
+
+:not(#a) .hoz-scroll > pre {
+  background-image:
+    linear-gradient(to left, #808 0 2.2em, #0000 2.5em),
+    linear-gradient(to left, #0f0 0 2.2em, #0000 2.5em),
+    linear-gradient(to right, #808 0 2.2em, #0000 2.5em),
+    linear-gradient(to right, currentColor 0 2.2em, #0000 2.5em),
+    linear-gradient(#f000 74px 0);
+  background-attachment: local, scroll, local, scroll;
+}
+
+div.mw-highlight:nth-child(22) > pre:nth-child(1) {
+  background-attachment: fixed;
+  box-shadow: inset -5px 0 5px 0 #000;
+}
+
+.hoz-scroll > pre {
+  overflow-x: scroll;
+  white-space: pre;
+  background-attachment: fixed;
+  border-right: 2.75em solid var(--wiki-content-dynamic-color--inverted);
+  border-left: 2.75em solid var(--wiki-content-dynamic-color--inverted);
+  padding-left: 2ch;
+  box-shadow: inset -5px 0 5px 0 #000;
+}
+
+.hoz-scroll > pre {
+  scrollbar-width: thin;
+  overflow-x: scroll;
+  white-space: pre;
+  border-right: 0.8em solid #0000;
+  border-left: 0.8em solid #0000;
+  background-image:
+    linear-gradient(to left, currentColor 0 2.2em, #0000 2.5em),
+    linear-gradient(to left, #000 0 2.2em, #0000 2.5em),
+    linear-gradient(to left, currentColor 0 2.2em, #0000 2.2em),
+    linear-gradient(
+      to right,
+      #000 0 2.2em,
+      #0000 2.5em /*     ), linear-gradient(
+      to right, #f000 74px 0 */
+    );
+  background-clip: padding-box;
+  background-size: 3em 100%;
+  background-position:
+    top left,
+    top right,
+    top left,
+    top right,
+    top left;
+  background-attachment: local, scroll, local, scroll, local;
+  /*! background-origin:
+    border-box,
+    border-box,
+    padding-box,
+    padding-box,
+    padding-box,
+    padding-box, 
+    border-box,
+    border-box; */
+  background-repeat: no-repeat;
+}
+
+.hoz-scroll > pre::before,
+.hoz-scroll > pre::after {
+  --icon-right-chevron: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E%3Cpath d=%22M169.4 297.4C156.9 309.9 156.9 330.2 169.4 342.7L361.4 534.7C373.9 547.2 394.2 547.2 406.7 534.7C419.2 522.2 419.2 501.9 406.7 489.4L237.3 320L406.6 150.6C419.1 138.1 419.1 117.8 406.6 105.3C394.1 92.8 373.8 92.8 361.3 105.3L169.3 297.3z%22%3E%3C/path%3E%3C/svg%3E');
+  --icon-left-chevron: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E%3Cpath d=%22M471.1 297.4C483.6 309.9 483.6 330.2 471.1 342.7L279.1 534.7C266.6 547.2 246.3 547.2 233.8 534.7C221.3 522.2 221.3 501.9 233.8 489.4L403.2 320L233.9 150.6C221.4 138.1 221.4 117.8 233.9 105.3C246.4 92.8 266.7 92.8 279.2 105.3L471.2 297.3z%22%3E%3C/path%3E%3C/svg%3E');
+  --end-width: 3em;
+  --z-index-ends: 10;
+  --vertical-inset: 0;
+
+  content: '';
+  display: flex;
+  position: absolute;
+  inset: 0 0 0 auto;
+  align-items: center;
+  font-size: 1.8em;
+  width: var(--end-width);
+  background-image: linear-gradient(to right, #0000 10px, #000);
+  background-image: linear-gradient(to left, #000 0 1.2em, #0000 1.4em);
+  background-image: linear-gradient(to right, #000 0 2em, #0000 2.5em);
+  border-radius: inherit;
+  z-index: var(--z-index-ends);
+
+  mask-position: center;
+  mask-clip: content-box;
+  mask-origin: content-box;
+  mask-repeat: no-repeat;
+  mask-size: var(--end-width) 100%;
+  mask-composite: exclude;
+}
+
+.hoz-scroll > pre::before {
+  content: '';
+  display: flex;
+  position: absolute;
+  inset: var(--vertical-inset) auto var(--vertical-inset) 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: none;
+  color: var(--border-color-muted, #dadde3);
+  mask-position: left;
+  mask-image: var(--icon-right-chevron), linear-gradient(#ffff);
+}
+
+.hoz-scroll > pre::after {
+  content: '';
+  display: flex;
+  position: absolute;
+  inset: var(--vertical-inset) 0 var(--vertical-inset) auto;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(to left, #000 0 0);
+  border-radius: inherit;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-shadow: none;
+  color: var(--border-color-muted, #dadde3);
+
+  mask-position: right;
+  mask-image: var(--icon-left-chevron), linear-gradient(#ffff);
+}

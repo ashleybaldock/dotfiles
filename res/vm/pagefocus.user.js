@@ -1,24 +1,24 @@
 // ==UserScript==
 // @name        Page focus tracking
 // @namespace   mayhem
-// @version     1.0.5
+// @version     1.1.2
 // @author      flowsINtomAyHeM
+// @description Do things in response to blur/focus etc.
 // @downloadURL http://localhost:3333/vm/pagefocus.user.js
 // @match       *://*/*
 // @match       file:///*/*
 // @grant       GM_info
 // @grant       GM_addStyle
-// @grant       GM_registerMenuCommand
+// @grant       GM_addElement
 // @grant       GM_getValue
 // @grant       GM_setValue
-// @grant       GM_addValueChangeListener
 // @grant       GM_registerMenuCommand
+// @grant       GM_addValueChangeListener
 // @grant       GM_xmlhttpRequest
 // @require     http://localhost:3333/vm/util.user.js
 // @cssBaseUrl  http://localhost:3333/vm/
-// @description Do things in response to blur/focus etc.
 // @cssBaseName pagefocus
-// @injectIQB-into auto
+// @run-at      document-start
 // ==/UserScript==
 
 const trackPageFocus = ({ addHint = true }) => {
@@ -103,13 +103,13 @@ const pageFocusHint = (({ window, qs }) => {
   focusStatus.setAttribute('id', 'focusStatus');
 
   if (notEmbedded() && qs`#focusStatus`.empty) {
-    qs`body`.first?.appendChild?.(focusStatus);
+    qs`body`.one?.appendChild?.(focusStatus);
   }
-  qs`window`.first?.addEventListener?.('focus', () =>
+  qs`window`.one?.addEventListener?.('focus', () =>
     qs`#focusStatus`?.first.classList.add('focused'),
   );
 
-  qs`window`.first?.addEventListener('blur', () =>
+  qs`window`.one?.addEventListener('blur', () =>
     qs`#focusStatus`?.first.classList.remove('focused'),
   );
 

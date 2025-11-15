@@ -288,7 +288,10 @@
   line-height: 1;
   opacity: 0.4;
   color: rgb(95, 88, 75);
-  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+  text-shadow:
+    0 0 2px #000,
+    0 0 2px #000,
+    0 0 2px #000;
   display: inline-block;
   position: relative;
   align-self: start;
@@ -353,15 +356,24 @@
 
 .mw-usertoollinks::before {
   content: '\a0❪\a0';
-  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+  text-shadow:
+    0 0 2px #000,
+    0 0 2px #000,
+    0 0 2px #000;
 }
 .mw-usertoollinks > span:not(:first-child)::before {
   content: '-\a0';
-  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+  text-shadow:
+    0 0 2px #000,
+    0 0 2px #000,
+    0 0 2px #000;
 }
 .mw-usertoollinks::after {
   content: '❫';
-  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+  text-shadow:
+    0 0 2px #000,
+    0 0 2px #000,
+    0 0 2px #000;
 }
 
 .mw-thanks-thank-link::before {
@@ -743,7 +755,10 @@ a.new {
 }
 
 .mw-thanks-thank-link::before {
-  text-shadow: 0 0.8px 0#daa520, 0-0.6px 0#daa520, -0.4px 0 0#daa520,
+  text-shadow:
+    0 0.8px 0#daa520,
+    0-0.6px 0#daa520,
+    -0.4px 0 0#daa520,
     0.6px 0.1px 0#daa520;
   filter: url(#outline);
 }
@@ -790,7 +805,9 @@ v #pagehistory .comment,
 }
 
 #pagehistory .selected.before {
-  box-shadow: 0 1px 3px 0 var(--shadow), inset 0 1px 3px 0 var(--hint);
+  box-shadow:
+    0 1px 3px 0 var(--shadow),
+    inset 0 1px 3px 0 var(--hint);
 }
 
 /* load.php | https://noita.wiki.gg/load.php?lang=en&modules=codex-search-styles%7Cext.echo.styles.badge%7Cext.embedVideo.styles%7Cext.subscription.styles%7Cext.visualEditor.desktopArticleTarget.noscript%7Cjquery.makeCollapsible.styles%7Cmediawiki.action.history.styles%7Cmediawiki.feedlink%2Chelplink%7Cmediawiki.htmlform.ooui.styles%7Cmediawiki.htmlform.styles%7Cmediawiki.interface.helpers.styles%7Cmediawiki.pager.styles%7Cmediawiki.special.changeslist%7Cmediawiki.widgets.DateInputWidget.styles%7Cmediawiki.widgets.styles%7Coojs-ui-core.icons%2Cstyles%7Coojs-ui.styles.icons-alerts%2Cindicators%7Cskins.vector.styles.legacy&only=styles&skin=vector */
@@ -1276,4 +1293,129 @@ div.mw-collapsible-content:nth-child(3) {
 }
 .changedby {
   grid-column: 12 / -2;
+}
+
+.mw-changeslist .mw-changeslist-line {
+  grid-template-rows: 1fr auto;
+  grid-auto-rows: auto;
+}
+
+.mw-changeslist {
+  grid-template-columns: [left uihl-start] 10px [uihl-end minor-start] 10px [minor-end arrow-start] 10px [arrow-end unpat-start] 10px [unpat-end] 10px 10px [time-start] min-content [time-end article-start] 60fr [article-end history-start cur-start changed-start] 4fr [changed-end cur-end prev-start] 4fr [prev-end history-end diff-start] 2fr 2fr [diff-end user-start] 10fr [user-end talk-start] 4fr [ contrib-start] 4fr [talk-end contrib-end comment-start] 100fr [comment-end rollback-start] 10fr [rollback-end tags-start] 10fr [tags-end watching-start] 10fr [watching-end right];
+}
+
+.mw-changeslist-diff {
+  grid-column: diff-start/diff-end;
+}
+
+.mw-changeslist .mw-changeslist-line-inner-historyLink {
+  display: contents;
+}
+
+.mw-changeslist-groupdiff {
+  grid-column: changes-start/changes-end;
+}
+
+.mw-changeslist-links,
+.mw-changeslist-links > span {
+  display: contents;
+}
+
+.mw-changeslist-groupdiff,
+.mw-changeslist-history {
+  display: flex;
+}
+
+.mw-changeslist {
+  grid-template-columns:
+    [
+    left uihl-start] 10px [
+    uihl-end minor-start] 10px [
+    minor-end arrow-start] 10px [
+    arrow-end unpat-start] 10px [
+    unpat-end] 10px 10px [
+    time-start] min-content [
+    time-end title-start cur-start] 4fr [
+    cur-end] 80fr [
+    prev-start] 4fr [
+    title-end prev-end diff-start] 4fr [
+    diff-end user-start] 10fr [
+    user-end talk-start] 4fr [
+    talk-end contrib-start] 4fr [
+    contrib-end comment-start history-start] 4fr [
+    history-end] 100fr [
+    changed-start] 4fr [
+    comment-end changed-end rollback-start] 10fr [
+    rollback-end tags-start] 10fr [
+    tags-end watching-start] 10fr [
+    watching-end right];
+  grid-auto-rows: auto;
+}
+
+.mw-title {
+  grid-column: title-start/title-end;
+}
+.mw-enhanced-rc-time {
+  grid-column: time-start/time-end;
+}
+.mw-changeslist-diff-cur {
+  grid-column: cur-start/cur-end;
+}
+.mw-changeslist-diff {
+  grid-column: prev-start/prev-end;
+}
+.mw-changeslist-history {
+  grid-column: history-start/history-end;
+}
+.mw-changeslist-groupdiff {
+  grid-column: changed-start/changed-end;
+}
+.mw-userlink {
+  grid-column: user-start/user-end;
+}
+.mw-usertoollinks-talk {
+  grid-column: talk-start/talk-end;
+}
+.mw-usertoollinks-contribs {
+  grid-column: contrib-start/contrib-end;
+}
+.mw-usertoollinks-block {
+  display: none;
+  grid-column: block-start/block-end;
+}
+.mw-changeslist-diff {
+  grid-column: diff-start/diff-end;
+}
+.changedby.changedby {
+  font-size: 0.7em;
+}
+
+.mw-changeslist-line-inner-characterDiff,
+.mw-changeslist-line-inner-userLink,
+.mw-changeslist .mw-changeslist-line-inner-historyLink,
+.mw-changeslist-links,
+.mw-changeslist-links > span,
+span:has(
+    > .mw-usertoollinks-talk,
+    > .mw-usertoollinks-contribs,
+    > .mw-usertoollinks-block,
+    > .mw-changeslist-history
+  ) {
+  display: contents;
+}
+
+.mw-changeslist-line-inner-characterDiff::before,
+.mw-changeslist-line-inner-characterDiff::after,
+span:has(
+    > .mw-usertoollinks-talk,
+    > .mw-usertoollinks-contribs,
+    > .mw-usertoollinks-block,
+    > .mw-changeslist-history
+  )::before {
+  display: none;
+}
+
+.mw-changeslist-groupdiff,
+.mw-changeslist-history {
+  display: flex;
 }

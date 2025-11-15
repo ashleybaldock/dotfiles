@@ -1,20 +1,19 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.231
+// @version     1.0.232
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
 // @match       *://localhost/*/*
 // @match       file:///*/*
 // @grant       GM_info
-// @grantGM_addStyle
+// @grant       GM_addStyle
 // @grant       GM_addElement
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_registerMenuCommand
 // @grant       GM_addValueChangeListener
-// @grant       GM_registerMenuCommand
 // @grant       GM_xmlhttpRequest
 // @require     http://localhost:3333/vm/util.user.js
 // @cssBaseUrl  http://localhost:3333/vm/

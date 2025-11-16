@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.232
+// @version     1.0.233
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -194,8 +194,14 @@ const addWrappedVideo = (
               }
             };
           })();
-          video.addEventListener('pause', undo, { once: true });
-          video.addEventListener('ended', undo, { once: true });
+          video.addEventListener(
+            'ended',
+            () => {
+              tr.classList.remove('playing');
+              tr.classList.add('played');
+            },
+            { once: true },
+          );
           video.addEventListener('loadstart', undo, { once: true });
         });
     },

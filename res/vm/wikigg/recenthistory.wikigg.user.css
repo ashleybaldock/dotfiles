@@ -1419,3 +1419,11 @@ span:has(
 .mw-changeslist-history {
   display: flex;
 }
+
+.mw-changeslist-line-inner-articleLink {
+  display: contents;
+}
+.mw-rollback-link {
+  margin-top: 1lh;
+  grid-column: 1 / time-end;
+}

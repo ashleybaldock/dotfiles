@@ -1,0 +1,24 @@
+.demo.font-weight {
+  position: absolute;
+  inset: 50% auto 50% auto;
+  display: grid;
+  grid-template-columns: auto auto;
+  row-gap: 0.5lh;
+  column-gap: 1ch;
+}
+.demo.font-weight > span {
+  font-weight: var(--font-weight);
+  display: contents;
+  /* font-family: Menlo, monospace; */
+  font-size: 0.6rem;
+  font-family:
+    SF Mono,
+    monospace;
+}
+.demo.font-weight > span::before {
+  content: attr(style) ' ' attr(data-note);
+}
+.demo.font-weight > span::after {
+  font-style: italic;
+  content: attr(style) ' ' attr(data-note) ' italic';
+}

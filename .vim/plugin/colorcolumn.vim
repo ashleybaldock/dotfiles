@@ -14,76 +14,19 @@ let g:mayhem_loaded_colorcolumn = 1
 "                                          the cursor, if two are equally close, 
 "                                          remove the leftmost first.
 
-" TODO - use this with vartabstop/varsofttabstop
-" 
 
 command! AddColumnGuide :silent exec 'setlocal colorcolumn+=' .. virtcol('.')
 command! RemoveColumnGuide :silent exec 'setlocal colorcolumn+=' .. virtcol('.')
 
-" Return the column number of the color column to the right
-" If no argument given, uses the column containing the cursor
-" If there is no next color column, returns 0
-function! s:NextCC(col = getcursorcharpos()[2])
-  return split(&l:colorcolumn, ',')->filter('v:val > ' .. a:col)->min()
-endfunc
-
-" Get the column of the previous color column within the same line
-" If no argument given, uses the column containing the cursor
-" If there is no previous color column, returns 0
-function! s:PrevCC(col = getcursorcharpos()[2])
-  return split(&l:colorcolumn, ',')->filter('v:val < ' .. a:col)->max()
-endfunc
+nnoremap <silent><script> <Plug>(mayhem_colorcolumn_add)
+nnoremap <silent><script> <Plug>(mayhem_colorcolumn_delete)
+nnoremap <silent><script> <Plug>(mayhem_colorcolumn_next)
+nnoremap <silent><script> <Plug>(mayhem_colorcolumn_prev)
 
 
-function! s:CursorNextCC()
-  call setcursorcharpos([getcursorcharpos()[1], s:NextCC()])
-endfunc
 
-function! s:CursorPrevCC()
-  call setcursorcharpos([getcursorcharpos()[1], s:PrevCC()])
-endfunc
-" command! CursorNextCC :call <SID>CursorNextCC()
-" command! CursorPrevCC :call <SID>CursorPrevCC()
 nnoremap <plug>(CC#CursorNext) <ScriptCmd>CursorNextCC()<CR>
 nnoremap <plug>(CC#CursorPrev) <ScriptCmd>CursorPrevCC()<CR>
-
-" insert spaces to align position with column
-" optional args:
-"  from: column to pad from
-"    to: column to align to
-"
-"⎟ 2  5     11        21
-"⎟ Text     ░         ░
-"⎟ ⁃1‐‐‐Text░         ░  to ⎧right
-"⎟          ⁃2‐‐‐‐Text░     ⎧right
-"⎟          ⁃2‐‐‐‐Text░     ⎧right
-"⎟ ⁃‐‐‐‐‐‐‐‐Text      ░     ⎩left
-"⎟ ⁃‐Text   ░‐‐Text‐‐‐░     ⎪center
-"⎟          ░         ░
-"
-function! s:PadOnColumn(from = getcursorcharpos()[2], to = s:NextCC(from))
-  " let from = get(a:, 1, getcursorcharpos()[2])
-  " let to = get(a:, 2, s:NextCC(from))
-  if from >= to
-    echo 'attempt to pad to left'
-  else
-    let pad = to - from
-  exec "normal! " .. (from >= to) ? 
-        \ to .. "i \<Esc>" : '' .. pad .. "i \<Esc>"
-  endif
-endfunc
-
-function! s:PadToColumn(...)
-  let from = get(a:, 1, getcursorcharpos()[2])
-  let to = get(a:, 2, s:ColorColRightOf(from))
-  if from >= to
-    echo 'attempt to pad to left'
-  else
-    let pad = to - from + 1
-    exec "normal! "..pad.."i \<Esc>"
-  endif
-endfunc
-
 " ColorColumn guides TODO
 command! AlignRightToColorColumn :call <SID>PadToColumn()
 command! AlignRightOnColorColumn :call <SID>PadOnColumn()

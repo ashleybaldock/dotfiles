@@ -317,6 +317,7 @@ nnoremap §wa <Cmd>wa<CR>
 "
 nnoremap §hr <Cmd>vsplit ~/.vim/notes/regex.md<CR>
 
+nnoremap §hf <Cmd>vsplit ~/.vim/notes/cmdfuncmap.md<CR>
 
 "
 " Highlighting
@@ -335,13 +336,19 @@ nmap ga <Plug>(mayhem_charinfo)
 "─── Column guides ─────────────────────────────────────
 "
 " See: ./colorcolumn.vim
-nnoremap §\ <Cmd>AddColorColumn<CR>
+nnoremap §\ <Plug>(mayhem_colorcolumn_add)
 nnoremap §] <Cmd>AlignRightToColorColumn<CR>
 nnoremap §} <Cmd>AlignRightOnColorColumn<CR>
 nnoremap §[ <Cmd>AlignLeftToColorColumn<CR>
 nnoremap §{ <Cmd>AlignLeftOnColorColumn<CR>
-
 inoremap  <Cmd>AlignRightToColorColumn<CR>
+
+" nnoremap §\ <Cmd>AddColorColumn<CR>
+" nnoremap §] <Cmd>AlignRightToColorColumn<CR>
+" nnoremap §} <Cmd>AlignRightOnColorColumn<CR>
+" nnoremap §[ <Cmd>AlignLeftToColorColumn<CR>
+" nnoremap §{ <Cmd>AlignLeftOnColorColumn<CR>
+" inoremap  <Cmd>AlignRightToColorColumn<CR>
 
 "
 " Editing:

@@ -63,6 +63,15 @@ unsilent, verbose, vertical ]
 nnoremap <silent> <plug>(PluginCommand) :SomeCommand
 nnoremap <silent> <plug>Plugin#Command :SomeCommand
 
+xnoremap <unique> <silent><script> <Plug>(mayhem_format_buffer)
+    \ <Cmd>call format#buffer()<CR>
+
+"Plug
+" In case a partial command line already exists, use :<C-U> to
+" clear back to the initial :
+nnoremap <silent><script> <Plug>(mayhem_charinfo_toggle)
+    \ :<C-U>Toggle g:mayhem_auto_charinfo<CR>
+
 " Use
 nmap gc <plug>(PluginCommand)
 ```

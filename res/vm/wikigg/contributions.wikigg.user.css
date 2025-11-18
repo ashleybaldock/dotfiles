@@ -20,7 +20,7 @@ li[data-mw-revid],
   white-space: nowrap;
 }
 
-.comment {
+.mw-contributions-list .comment {
   grid-column: 1/-1;
   order: 1;
 }

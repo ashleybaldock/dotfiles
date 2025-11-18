@@ -1280,18 +1280,12 @@ div.mw-collapsible-content:nth-child(3) {
 .mw-changeslist {
   grid-template-columns:
     [
-    left uihl-start] auto [
-    uihl-end minor-start] 10px [
-    minor-end arrow-start] auto [
-    arrow-end unpat-start] 10px [
-    unpat-end] 10px [
-    time-start] min-content [
-    time-end
+    left uihl-start] 10px [
+    uihl-end time-start] min-content [ time-end
     title-start] 80fr [ title-end
     cur-start diff-start] 4fr [diff-end cur-end
-    prev-start] 4fr [ prev-end
-    history-start] 1em [ history-end
-    user-start] 10fr [
+    prev-start history-start] 4fr [ prev-end history-end
+    user-start] 40fr [
     user-end talk-start] 4fr [
     talk-end contrib-start] 4fr [
     contrib-end
@@ -1303,6 +1297,8 @@ div.mw-collapsible-content:nth-child(3) {
     rollback-end
     tags-start] 10fr [
     tags-end
+    thank-start] 10fr [
+    thank-end
     watching-start] 10fr [
     watching-end
     right];
@@ -1316,10 +1312,12 @@ div.mw-collapsible-content:nth-child(3) {
 .minoredit {
   grid-column: minor-start/minor-end;
   grid-row: 1;
+  display: none;
 }
 .unpatrolled {
   grid-column: unpat-start/unpat-end;
   grid-row: 1;
+  display: none;
 }
 .mw-changeslist-line-inner-tags {
   grid-column: tags-start/tags-end;
@@ -1353,6 +1351,7 @@ div.mw-collapsible-content:nth-child(3) {
 .mw-userlink {
   grid-column: user-start/user-end;
   grid-row: 1;
+  white-space: pre;
 }
 .mw-usertoollinks-talk {
   grid-column: talk-start/talk-end;
@@ -1373,6 +1372,10 @@ div.mw-collapsible-content:nth-child(3) {
   grid-column: user-start/user-end;
   grid-row: 1;
   font-size: 0.7em;
+}
+
+.mw-changeslist-line-inner-comment {
+  display: contents;
 }
 
 .mw-changeslist-line-inner-characterDiff,
@@ -1444,38 +1447,35 @@ span:has(
   background-position: 50% 50%;
   padding: 0;
 }
-.mw-changeslist-log-entry {
-  grid-template-rows: auto auto;
-}
 .mw-changeslist-line-inner-logLink {
   grid-column: title-start/title-end;
 }
 .mw-usertoollinks.mw-changeslist-links {
-  display: flex;
   grid-column: talk-start/contrib-end;
+  display: flex;
   font-size: 0.74rem;
 }
 .mw-changeslist-line-inner-logEntry {
   display: contents;
 }
 .mw-changeslist-log-entry {
+  grid-column: user-start/comment-end;
   display: grid;
   grid-template-columns: subgrid;
-  grid-column: user-start/comment-end;
 }
 .mw-changeslist-log-entry > a:last-of-type {
   display: flex;
 }
 .mw-usertoollinks.mw-changeslist-links {
+  grid-column: talk-start/contrib-end;
+  grid-row: 1/-1;
   flex-direction: column;
   vertical-align: 0.5em;
-  grid-column: talk-start/contrib-end;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto 1fr;
   padding: 0;
   margin: 0;
-  grid-row: 1/-1;
   width: fit-content;
 }
 .mw-changeslist {
@@ -1515,7 +1515,6 @@ span:has(
   width: fit-content;
   display: flex;
   padding: 0.1rem 0.5rem;
-  /* outline: 1px solid red; */
 }
 .mw-changeslist-line-inner-tags:hover .mw-tag-marker {
   font-size: 0.76rem;
@@ -1524,12 +1523,12 @@ span:has(
   display: contents;
 }
 .mw-changeslist-log-entry {
-  display: grid;
-  grid-template-columns: subgrid;
   grid-column: user-start/comment-end;
-  font-size: 0.6rem;
-  grid-template-rows: 0.7lh 1.4lh;
   grid-row: auto/span 1;
+  display: grid;
+  font-size: 0.6rem;
+  grid-template-columns: subgrid;
+  grid-template-rows: 0.7lh 1.4lh;
 }
 .mw-changeslist-log-entry > * {
   font-size: 0.8rem;
@@ -1540,12 +1539,13 @@ span:has(
 }
 
 .mw-changeslist-log-entry .mw-userlink {
-  font-size: 0.8rem;
   grid-column: user-start/user-end;
   grid-row: 1/-1;
+  font-size: 0.8rem;
 }
 .mw-changeslist-line-inner-logLink {
   grid-column: title-start/title-end;
+  grid-row: 1/-1;
 }
 .mw-changeslist .mw-changeslist-line.mw-changeslist-log {
   grid-template-rows: subgrid;
@@ -1572,34 +1572,19 @@ span:has(
 .mw-tag-markers {
   font-size: 0.01%;
 }
-.mw-tag-markers > * {
-  font-size: 1000000%;
-}
 .mw-tag-markers {
-  display: flex;
   grid-column: tags-start/tags-end;
   position: relative;
-  /*! min-height: 100%; */
-  height: auto;
-  width: 100%;
   aspect-ratio: 1;
-  background-image: var(--svg-icon-tag);
   background-repeat: no-repeat;
-  background-size: contain;
-  background-position: 50% 50%;
-  padding: 0;
   max-width: unset;
   max-height: unset;
-}
-
-.mw-tag-markers {
   display: flex;
   background-image: var(--svg-icon-tag);
   background-size: 20px;
   background-position: top right;
   font-size: 0.01%;
   padding: 0;
-  /* outline: 1px solid #afb1ad; */
   width: 22px;
   height: 22px;
   row-gap: 10px;
@@ -1609,11 +1594,8 @@ span:has(
 }
 .mw-tag-markers:hover {
   overflow: visible;
-  padding: 0;
 }
-
 .mw-tag-markers:hover > .mw-tag-marker {
-  /*   outline: 1px dashed blue; */
   font-size: 1000000%;
   transform: translate(-100%);
   display: flex;
@@ -1649,7 +1631,8 @@ span:has(> .mw-usertoollinks-block) {
   grid-row: 1;
 }
 .mw-thanks-thank-link {
-  grid-column: thanks-start/thanks-end;
+  grid-column: thank-start/thank-end;
+  grid-row: 1;
 }
 
 .mw-enhancedchanges-checkbox + * .mw-enhancedchanges-arrow,
@@ -1669,4 +1652,24 @@ span:has(> .mw-usertoollinks-block) {
 .mw-rollback-link {
   margin: 0;
   display: none;
+}
+
+/*.mw-changeslist-line,
+.mw-changeslist-edit,
+.mw-changeslist-ns0-Modding_Basics,
+.mw-changeslist-line-not-watched,
+.mw-changeslist-ns-0,
+.mw-changeslist-ns-subject,
+.mw-changeslist-user-registered,
+.mw-changeslist-user-learner,
+.mw-changeslist-others,
+.mw-changeslist-human,
+.mw-changeslist-last,
+.mw-changeslist-src-mw-edit,
+.mw-changeslist-notwatched,
+.mw-enhanced-rc,
+.mw-tag-visualeditor,*/
+
+.mw-changeslist-minor,
+.mw-changeslist-reviewstatus-unpatrolled {
 }

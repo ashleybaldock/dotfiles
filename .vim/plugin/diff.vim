@@ -44,29 +44,56 @@ function! s:DiffWithSavedOff(diffoff, tempbuf = 0)
   augroup END
 endfunc
 
-  command! DiffWithSaved diffoff!
+command! DiffWithSaved diffoff!
       \ | let sourceft = &filetype
       \ | vert new | setlocal bt=nofile modifiable
       \ | r ++edit #
-      \ | 0d_ | let filetype = sourceft
+      \ | 0d_ | let &l:filetype = sourceft
       \ | exec 'nnoremap <buffer> §dx :diffoff!<CR>'
       \ | nnoremap <buffer> [[ [c
       \ | nnoremap <buffer> ]] ]c
       \ | nnoremap <buffer> { <Cmd>diffput<CR>
       \ | nnoremap <buffer> } <Cmd>diffget<CR>
-      \ | let b:mayhem_diff_right = 1
       \ | diffthis | wincmd p | diffthis 
       \ | nnoremap <buffer> [[ [c
       \ | nnoremap <buffer> ]] ]c
       \ | nnoremap <buffer> { <Cmd>diffget<CR>
       \ | nnoremap <buffer> } <Cmd>diffput<CR>
       \ | let b:mayhem_diff_left = 1
+      \
       \ | exec 'augroup mayhem_diffoff'
       \ |   exec 'au!'
       \ |   exec 'autocmd OptionSet diff if v:option_new == 0 | call s:DiffWithSavedOff(0, '..bufnr('$')..') | endif'
       \ |   exec 'autocmd BufWinLeave,BufUnload <buffer='..bufnr('$')..'> call s:DiffWithSavedOff(1)'
       \ |   exec 'autocmd BufWinLeave,BufUnload <buffer='..bufnr('.')..'> call s:DiffWithSavedOff(1, '..bufnr('$')..')'
       \ | exec 'augroup END'
+      \
       \ | call setbufvar(bufnr('$'), 'filetype', &filetype)
       \ | call setbufvar(bufnr('$'), 'mayhem_diff_saved', expand('%'))
 
+function s:SetupLeftDiff()
+  nnoremap <buffer> [[ [c
+  nnoremap <buffer> ]] ]c
+  nnoremap <buffer> { <Cmd>diffget<CR>
+  nnoremap <buffer> } <Cmd>diffput<CR>
+  let b:mayhem_diff_left = 1
+  diffthis
+endfunc
+
+function s:SetupRightDiff()
+  exec 'nnoremap <buffer> §dx :diffoff!<CR>'
+  nnoremap <buffer> [[ [c
+  nnoremap <buffer> ]] ]c
+  nnoremap <buffer> { <Cmd>diffput<CR>
+  nnoremap <buffer> } <Cmd>diffget<CR>
+  let b:mayhem_diff_right = 1
+  diffthis
+endfunc
+
+function! DiffWithPaste()
+  let sourceft = &filetype
+  vert new | setlocal bt=nofile modifiable
+  exec "normal ggVG\"+p"
+  let &l:filetype = sourceft
+  exec 'nnoremap <buffer> §dx :diffoff!<CR>'
+endfunc

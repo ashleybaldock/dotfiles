@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.233
+// @version     1.0.237
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -31,6 +31,8 @@ const sequences = {
   filelist: ['below', 'beside', 'hide'],
   playpause: ['playing', 'paused'],
   player: ['interleave', 'linear'],
+  interleave_delay: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  maxInterleaved: [2, 3, 4, 6, 9, 12, 16],
 };
 
 const isDirectory = (({ document }) =>
@@ -293,7 +295,11 @@ const addWrappedVideo = (
   return { wrapper, player: video };
 };
 
-const initBrowsePreview = ({ document }) => {
+const initBrowsePreview = ({ document: { body } }) => {
+  const players = GM_addElement(body, 'section', { class: 'players' });
+
+  const toggles = GM_addElement(body, 'section', { class: 'toggles' });
+
   const config = (({}) => {
     const root = {};
 
@@ -422,6 +428,7 @@ const initBrowsePreview = ({ document }) => {
       includeImageFiles: defineToggle(true),
       includeVideoFiles: defineToggle(true),
       includeOtherFiles: defineToggle(false),
+      includeHiddenFiles: defineToggle(false),
       playpause: defineSequence(sequences.playpause, 'paused'),
       showGrid: defineToggle(false),
       grid_fit: defineSequence(sequences.fit),
@@ -435,15 +442,28 @@ const initBrowsePreview = ({ document }) => {
     };
   })({});
 
-  const toggles = (({
-    unsafeWindow: {
-      document: { body },
-    },
+  (({ document: { body }, config: { maxInterleaved, interleaveDelay } }) => {
+    /* TODO - set up @property automatically */
+    maxInterleaved.subscribe((newValue) => {
+      body.style.setAttribute('--playerCount', `${newValue}`);
+      body.style.setAttribute('--s-playerCount', `'${newValue}'`);
+    });
+    interleaveDelay.subscribe((newValue) => {
+      body.style.setAttribute('--interleave-delay', `${newValue}ms`);
+      body.style.setAttribute('--s-interleave-delay', `'${newValue}ms'`);
+    });
+  })({ document, config });
+
+  (({
+    to,
     config: {
       filelist,
       includeImageFiles,
       includeVideoFiles,
       includeOtherFiles,
+      includeHiddenFiles,
+      maxInterleaved,
+      interleaveDelay,
       showGrid,
       grid_fit,
       playpause,
@@ -453,7 +473,7 @@ const initBrowsePreview = ({ document }) => {
       reload_on_repeat,
     },
   }) => {
-    const repeatGrouping = addGrouping({ to: body });
+    const repeatGrouping = addGrouping({ to });
     addToggle({
       textContent: 'Repeat playlist',
       bindTo: repeat,
@@ -482,7 +502,7 @@ const initBrowsePreview = ({ document }) => {
         textContent: `Playback State: ${p}`,
       })),
     });
-    const playerGrouping = addGrouping({ to: body });
+    const playerGrouping = addGrouping({ to });
     addSequenceToggle({
       textContent: 'Player Mode (interleave/linear)',
       bindTo: player,
@@ -493,6 +513,26 @@ const initBrowsePreview = ({ document }) => {
       })),
       to: playerGrouping,
     });
+    const interleaveGrouping = addGrouping({ to: playerGrouping });
+    addSequenceToggle({
+      textContent: 'Max # of interleaved videos',
+      bindTo: maxInterleaved,
+      name: 'max_interleaved',
+      sequence: sequences.max_interleaved.map((n) => ({
+        value: n,
+      })),
+      to: interleaveGrouping,
+    });
+    addSequenceToggle({
+      textContent: 'Show each video for',
+      bindTo: interleaveDelay,
+      name: 'interleave_delay',
+      sequence: sequences.interleave_delay.map((n) => ({
+        value: n,
+        textContent: `Show each video for ${n}ms`,
+      })),
+      to: interleaveGrouping,
+    });
     const gridGrouping = addGrouping({ to: playerGrouping });
     addToggle({
       textContent: 'Show as Grid',
@@ -501,15 +541,16 @@ const initBrowsePreview = ({ document }) => {
       to: gridGrouping,
     });
     addSequenceToggle({
-      textContent: 'Fit mode for grid items',
+      textContent: 'Grid fit mode',
       bindTo: grid_fit,
       name: 'grid_fit',
-      lsequence: sequences.fit.map((fit) => ({
+      sequence: sequences.fit.map((fit) => ({
         value: fit,
+        textContent: `Grid fit mode: ${fit}`,
       })),
       to: gridGrouping,
     });
-    const filesGrouping = addGrouping({ to: body });
+    const filesGrouping = addGrouping({ to });
     addToggle({
       textContent: 'Include image files',
       bindTo: includeImageFiles,
@@ -528,6 +569,12 @@ const initBrowsePreview = ({ document }) => {
       name: 'other',
       to: filesGrouping,
     });
+    addToggle({
+      textContent: 'Include hidden files',
+      bindTo: includeHiddenFiles,
+      name: 'hidden',
+      to: filesGrouping,
+    });
     addSequenceToggle({
       textContent: 'File List (below/beside/hide)',
       bindTo: filelist,
@@ -538,7 +585,7 @@ const initBrowsePreview = ({ document }) => {
       })),
       to: filesGrouping,
     });
-  })({ unsafeWindow, config });
+  })({ to: toggles, config });
 
   const getFileList = (
     ({
@@ -696,8 +743,8 @@ const initBrowsePreview = ({ document }) => {
     }
   )({ config, shuffleArray: shuffle });
 
-  const interleavePlayer = (({ document: { body }, config }) => {
-    const container = GM_addElement(body, 'section', {
+  const interleavePlayer = (({ to, config }) => {
+    const container = GM_addElement(to, 'section', {
       class: 'player interleave paused',
     });
 
@@ -781,8 +828,6 @@ const initBrowsePreview = ({ document }) => {
           mediaPlayer.classList.add('off');
         }
       });
-      body.style.setProperty('--playerCount', newPlayerCount);
-      body.style.setProperty('--s-playerCount', `'${newPlayerCount}'`);
     };
 
     const unsub = config.maxInterleaved.subscribe(updateMediaPlayerCount);
@@ -833,10 +878,10 @@ const initBrowsePreview = ({ document }) => {
       pause,
       reset,
     };
-  })({ document, config });
+  })({ to: players, config });
 
-  const linearPlayer = (({ document: { body } }) => {
-    const container = GM_addElement(body, 'section', {
+  const linearPlayer = (({ to, config }) => {
+    const container = GM_addElement(to, 'section', {
       class: 'player linear paused',
     });
 
@@ -863,7 +908,7 @@ const initBrowsePreview = ({ document }) => {
         container.classList.remove('playing');
       },
     };
-  })({ document });
+  })({ to: players, config });
 
   document.querySelectorAll('a.file').forEach((file) =>
     file.addEventListener('click', (e) => {

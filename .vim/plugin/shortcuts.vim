@@ -337,10 +337,10 @@ nmap ga <Plug>(mayhem_charinfo)
 "
 " See: ./colorcolumn.vim
 nnoremap §\ <Plug>(mayhem_colorcolumn_add)
-nnoremap §] <Cmd>AlignRightToColorColumn<CR>
-nnoremap §} <Cmd>AlignRightOnColorColumn<CR>
-nnoremap §[ <Cmd>AlignLeftToColorColumn<CR>
-nnoremap §{ <Cmd>AlignLeftOnColorColumn<CR>
+nnoremap §] <Plug>(mayhem_colorcolumn_align_right_to_next)
+nnoremap §} <Plug>(mayhem_colorcolumn_align_right_on_next)
+nnoremap §[ <Plug>(mayhem_colorcolumn_align_left_to_next)
+nnoremap §{ <Plug>(mayhem_colorcolumn_align_left_on_next)
 inoremap  <Cmd>AlignRightToColorColumn<CR>
 
 " nnoremap §\ <Cmd>AddColorColumn<CR>

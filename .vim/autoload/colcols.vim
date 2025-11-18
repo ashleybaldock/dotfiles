@@ -7,6 +7,15 @@ let g:mayhem_autoloaded_colcols = 1
 " See: ../plugin/colcols.vim
 "
 
+" ╭── Column Guides ─────────────────────────────────────
+"colcol#
+" ├▻ add                      ┊+┊      Add guide at column (default: cursor)
+" ├▻ alignLeftTo     A̲bc      ┃▒┃A̲bc     Align based on absolute column number, 
+" ├▻ alignRightTo    A̲bc   A̲bc┃▒┃        or relative movement 
+" ├▻ alignLeftOn     A̲bc      ┃A̲┃bc       ('+2', 'next', 'prev' etc.)
+" ├▻ alignRightOn    A̲bc    A̲b┃c┃    
+" ╰▻ delete                   ┊✕┊      Remove guide at column (default: cursor)
+
 
 " TODO - use this with vartabstop/varsofttabstop
 
@@ -15,6 +24,14 @@ let g:mayhem_autoloaded_colcols = 1
 function colcols#list() abort
   return split(&l:colorcolumn, ',')->map({i, v -> str2nr(v)})
 function
+
+function! colcols#add(col = getcursorcharpos()[2]) abort
+  exec 'setlocal colorcolumn+=' .. a:col
+endfunc
+
+function! colcols#delete(col = getcursorcharpos()[2]) abort
+  exec 'setlocal colorcolumn-=' .. a:col
+endfunc
 
 " Return the column number of the color column to the right
 " If no argument given, uses the column containing the cursor
@@ -31,12 +48,12 @@ function! colcols#prev(col = getcursorcharpos()[2]) abort
 endfunc
 
 
-function! colcols#curNext() abort
-  call setcursorcharpos([getcursorcharpos()[1], s:NextCC()])
+function! colcols#cursorNext() abort
+  call setcursorcharpos([getcursorcharpos()[1], colcols#next()])
 endfunc
 
-function! colcols#curPrev() abort
-  call setcursorcharpos([getcursorcharpos()[1], s:PrevCC()])
+function! colcols#cursorPrev() abort
+  call setcursorcharpos([getcursorcharpos()[1], colcols#prev()])
 endfunc
 
 " insert spaces to align position with column
@@ -53,9 +70,10 @@ endfunc
 "⎟ ⁃‐Text   ░‐‐Text‐‐‐░     ⎪center
 "⎟          ░         ░
 "
-function! s:PadOnColumn(from = getcursorcharpos()[2], to = s:NextCC(a:from))
+function! colcols#padOnColumn(from = getcursorcharpos()[2], to = colcols#next(a:from))
   if a:from >= a:to
     echo 'attempt to pad to left'
+    " TODO - implement
   else
     let pad = a:to - a:from
     exec "normal! " .. (a:from >= a:to) ? 
@@ -63,9 +81,10 @@ function! s:PadOnColumn(from = getcursorcharpos()[2], to = s:NextCC(a:from))
   endif
 endfunc
 
-function! s:PadToColumn(from = getcursorcharpos()[2], to = s:ColorColRightOf(a:from))
+function! colcols#padToColumn(from = getcursorcharpos()[2], to = colcols#next(a:from))
   if a:from >= a:to
     echo 'attempt to pad to left'
+    " TODO - implement
   else
     let a:pad = a:to - a:from + 1
     exec "normal! " .. a:pad .. "i \<Esc>"

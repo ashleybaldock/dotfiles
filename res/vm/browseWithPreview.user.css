@@ -342,8 +342,10 @@
 :root:has([name='playpause'][value='paused']:checked)
   :where(.player, .vidwrap)
   > label[for='toggle_playing'] {
-  z-index: var(--z-topmost-sequencetoggle-label);
+  z-index: var(--z-topmost-playpause-overlay);
   background-image: var(--icon-pause);
+  --icon: var(--icon-pause);
+  background-color: #4442;
 }
 :root {
   margin: 0;
@@ -385,6 +387,8 @@
   --z-player-diag: 100;
 
   --main-layout-column-count: 14;
+  --z-topmost-playpause-overlay: 34;
+  --z-other-playpause-overlay: 33;
 }
 
 /*!{{{1 Cursors */
@@ -604,8 +608,8 @@ body > h1 {
 }
 
 .vidwrap > * {
-  grid-column: 1/1;
-  grid-row: 1/1;
+  grid-column: 1/-1;
+  grid-row: 1;
 }
 
 .vidwrap .overlay {
@@ -728,14 +732,17 @@ body > section:has(> video, > .vidwrap) {
 .vidwrap {
   grid-area: auto;
   width: var(--playerWidth);
+  grid-area: unset;
   grid-row: 1;
+  grid-column: 1/-1;
+  place-items: center;
 }
 
 :where(.player, .vidwrap) > label {
   grid-row: 1/-1;
   grid-column: 1/-1;
-  z-index: var(--z-other-labels);
-  background-position: left center;
+  z-index: var(--z-other-playpause-overlay);
+  background-position: 50% 50%;
   background-size: contain;
   background-color: #2224;
 }
@@ -922,7 +929,12 @@ body > section:has(> video, > .vidwrap) {
 
 .interleave > .vidwrap > label {
   height: var(--playerHeight);
-  background-color: #0000;
+  background-color: #ff03;
+  width: var(--playerWidth);
+  mask-image: var(--icon);
+  background-image: var(--icon);
+  mask-size: 10vmax;
+  background-size: 10vmax;
 }
 
 .interleave > .vidwrap::before,
@@ -1970,4 +1982,62 @@ body > table > thead > tr::before {
 }
 :root:has([name='filelist'][value='hide']:checked) body > table {
   display: none;
+}
+
+.vidwrap > video {
+  width: auto;
+  height: auto;
+  max-width: min(100%, 100vw);
+  max-height: min(100%, 100vh);
+  object-fit: contain;
+}
+
+:root {
+  --z-topmost-playpause-overlay: 34;
+  --z-other-playpause-overlay: 33;
+}
+
+:root:has([name='playpause'][value='paused']:checked)
+  :where(.player, .vidwrap)
+  > label[for='toggle_playing'] {
+  z-index: var(--z-topmost-playpause-overlay);
+  --icon: var(--icon-pause);
+  background-color: #4444;
+}
+
+:where(.player, .vidwrap) > label {
+  z-index: var(--z-other-playpause-overlay);
+  background-position: 50% 50%;
+}
+
+.vidwrap > * {
+  grid-column: 1/-1;
+  grid-row: 1;
+}
+
+.interleave > .vidwrap > label {
+  background-color: #ff03;
+  width: var(--playerWidth);
+  mask-image: var(--icon);
+  background-image: var(--icon);
+  mask-repeat: round repeat-y;
+  mask-position: 50% 50%;
+  mask-size: 15vmax;
+  background-size: 15vmax;
+  background-repeat: no-repeat;
+}
+
+.vidwrap {
+  grid-area: unset;
+  grid-row: 1;
+  grid-column: 1/-1;
+  place-items: center;
+}
+
+.vidwrap > video {
+  width: auto;
+  height: auto;
+  max-width: min(100%, 100vw);
+  max-height: min(100%, 100vh);
+  object-fit: contain;
 }

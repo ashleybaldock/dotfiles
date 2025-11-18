@@ -3,6 +3,8 @@ if exists("g:mayhem_loaded_diff")
 endif
 let g:mayhem_loaded_diff = 1
  
+let s:mayhem_diff_off = 'mayhem_diff_off'
+
 " function! s:closeSavedVersionWindow(tempbuf)
 "   for l:winId in win_findbuf(a:tempbuf)
 "     call win_execute(l:winId, ":q")
@@ -14,6 +16,8 @@ let g:mayhem_loaded_diff = 1
 " endfunction
 
 
+" call setbufvar(bufnr('$'), 'filetype', &filetype)
+" call setbufvar(bufnr('$'), 'mayhem_diff_saved', expand('%'))
 
 "
 " File Changed Since Reading:...
@@ -24,54 +28,44 @@ let g:mayhem_loaded_diff = 1
 " TODO - closing temp window ends diff in both
 " TODO - closing source window closes temp one
 
-function! s:DiffWithSavedOff(diffoff, tempbuf = 0)
+function! s:DiffWithOff(diffoff, tempbuf = 0)
   if a:diffoff > 0
     diffoff!
   endif
 
   if a:tempbuf > 0
-    call timer_start(100, {_ -> execute('silent! bdelete '..a:tempbuf)})
+    call timer_start(100, {_ -> execute('silent! bdelete ' .. a:tempbuf)})
   else
-   nunmap <buffer> [[
-   nunmap <buffer> ]]
-   nunmap <buffer> “
-   nunmap <buffer> ‘
-   unlet b:mayhem_diff_left
+    nunmap <buffer> [[
+    nunmap <buffer> ]]
+    nunmap <buffer> “
+    nunmap <buffer> ‘
+    unlet b:mayhem_diff_left
   endif
 
-  augroup mayhem_diffoff
-    au!
-  augroup END
+  call autocmd_delete([#{ event: '*', group: s:mayhem_diff_off}])
 endfunc
 
-command! DiffWithSaved diffoff!
-      \ | let sourceft = &filetype
-      \ | vert new | setlocal bt=nofile modifiable
-      \ | r ++edit #
-      \ | 0d_ | let &l:filetype = sourceft
-      \ | exec 'nnoremap <buffer> §dx :diffoff!<CR>'
-      \ | nnoremap <buffer> [[ [c
-      \ | nnoremap <buffer> ]] ]c
-      \ | nnoremap <buffer> { <Cmd>diffput<CR>
-      \ | nnoremap <buffer> } <Cmd>diffget<CR>
-      \ | diffthis | wincmd p | diffthis 
-      \ | nnoremap <buffer> [[ [c
-      \ | nnoremap <buffer> ]] ]c
-      \ | nnoremap <buffer> { <Cmd>diffget<CR>
-      \ | nnoremap <buffer> } <Cmd>diffput<CR>
-      \ | let b:mayhem_diff_left = 1
-      \
-      \ | exec 'augroup mayhem_diffoff'
-      \ |   exec 'au!'
-      \ |   exec 'autocmd OptionSet diff if v:option_new == 0 | call s:DiffWithSavedOff(0, '..bufnr('$')..') | endif'
-      \ |   exec 'autocmd BufWinLeave,BufUnload <buffer='..bufnr('$')..'> call s:DiffWithSavedOff(1)'
-      \ |   exec 'autocmd BufWinLeave,BufUnload <buffer='..bufnr('.')..'> call s:DiffWithSavedOff(1, '..bufnr('$')..')'
-      \ | exec 'augroup END'
-      \
-      \ | call setbufvar(bufnr('$'), 'filetype', &filetype)
-      \ | call setbufvar(bufnr('$'), 'mayhem_diff_saved', expand('%'))
+function! s:SetupDiffOffAutocmds()
+  call autocmd_add([#{
+        \ event: 'OptionSet', pattern: 'diff',
+        \ cmd: 'if v:option_new == 0 | call s:DiffWithOff(0, ' .. bufnr('$') .. ') | endif',
+        \ group: s:mayhem_diff_off, replace: v:true,
+        \},
+        \#{
+        \ event: ['BufWinLeave','BufUnload'], bufnr: bufnr('$'),
+        \ cmd: 'call s:DiffWithOff(1)',
+        \ group: s:mayhem_diff_off, replace: v:true,
+        \},
+        \#{
+        \ event: ['BufWinLeave','BufUnload'], bufnr: bufnr('.'),
+        \ cmd: 'call s:DiffWithOff(1, ' .. bufnr('$') .. ')',
+        \ group: s:mayhem_diff_off, replace: v:true,
+        \}
+        \])
+endfunc
 
-function s:SetupLeftDiff()
+function! s:SetupLeftDiff()
   nnoremap <buffer> [[ [c
   nnoremap <buffer> ]] ]c
   nnoremap <buffer> { <Cmd>diffget<CR>
@@ -80,7 +74,11 @@ function s:SetupLeftDiff()
   diffthis
 endfunc
 
-function s:SetupRightDiff()
+function! s:SetupRightDiff(execForContent)
+  diffoff!
+  let sourceft = &filetype
+  vert new | setlocal bt=nofile modifiable
+  exec a:execForContent
   exec 'nnoremap <buffer> §dx :diffoff!<CR>'
   nnoremap <buffer> [[ [c
   nnoremap <buffer> ]] ]c
@@ -88,12 +86,20 @@ function s:SetupRightDiff()
   nnoremap <buffer> } <Cmd>diffget<CR>
   let b:mayhem_diff_right = 1
   diffthis
+  wincmd p 
 endfunc
 
-function! DiffWithPaste()
-  let sourceft = &filetype
-  vert new | setlocal bt=nofile modifiable
-  exec "normal ggVG\"+p"
-  let &l:filetype = sourceft
-  exec 'nnoremap <buffer> §dx :diffoff!<CR>'
+function! s:DiffWithPaste()
+  call s:SetupRightDiff("normal ggVG\"+p")
+  call s:SetupLeftDiff()
+  call s:SetupDiffOffAutocmds()
 endfunc
+
+function! s:DiffWithSaved()
+  call s:SetupRightDiff("r ++edit # | normal 0d_")
+  call s:SetupLeftDiff()
+  call s:SetupDiffOffAutocmds()
+endfunc
+
+command! -bar -nargs=0 DiffWithPaste call <SID>DiffWithPaste()
+command! -bar -nargs=0 DiffWithSaved call <SID>DiffWithSaved()

@@ -799,6 +799,7 @@ nnoremap §dx :diffoff<CR>
 nnoremap §dq :diffoff!<CR>
 nnoremap §dr :diffupdate<CR>
 nnoremap §df :DiffWithSaved<CR>
+nnoremap §dv :DiffWithPaste<CR>
 
 
 "

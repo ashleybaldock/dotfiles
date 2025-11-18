@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        wiki.gg tweaks
 // @namespace   mayhem
-// @version     1.0.165
+// @version     1.0.166
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/wikigg.user.js
 // @match       *://noita.wiki.gg/wiki/*
@@ -21,13 +21,14 @@
 addStyleToggles([
   {
     title: 'custom',
-    enabled: true,
+    enabled: false,
     sources: [{}, { name: 'gg' }, { name: 'mainmenu' }, { name: 'topnav' }],
   },
 
-  { title: 'wip: search', sources: [{ name: 'search' }] },
+  { title: 'wip: search', enabled: false, sources: [{ name: 'search' }] },
   {
     title: 'wip: reskin',
+    enabled: false,
     sources: [{ name: 'uitweaks' }, { name: 'cargo' }],
   },
   {

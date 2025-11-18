@@ -1,8 +1,10 @@
 
 <nowiki></nowiki>
 <math></math>
+<source nin=4§></source>
 <source></source>
 <ref></ref>
+<syntaxhighlight></syntaxhighlight>
 <syntaxhighlight lang="bash" test ></syntaxhighlight>
 <pre></pre>
 <div></div>

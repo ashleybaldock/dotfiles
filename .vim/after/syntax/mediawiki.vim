@@ -59,9 +59,11 @@ syn cluster htmlTop contains=@Spell,
 
 syn cluster mwText contains=mwLink,mwTl,mwParam,mwParFunc,
       \mwNowiki,mwNowikiEndTag,
+      \mwRef,mwSyntaxHL,mwSource,
       \mwItalic,mwBold,mwBoldAndItalic
 
 syn cluster mwTop contains=@Spell,mwLink,
+      \mwRef,mwSyntaxHL,mwSource,
       \mwNowiki,mwNowikiEndTag
 
 syn cluster mwTableFormat contains=mwTl,
@@ -259,6 +261,13 @@ syn region mwTagVal contained skipwhite skipempty
       \ contains=@mwtext
       \ nextgroup=mwTagArg 
 
+syn match mwMathTag +<math\%(\s*/\)\?>+ contained contains=mwTag
+syn match mwMathEndTag +</math>+ contains=mwEndTag
+syn region mwMath
+      \ start=+<\z(math\)>+
+      \ end=+\%(</\z1>\)\@7<=+
+      \ contains=mwMathTag,mwMathEndTag
+
 syn match mwNowikiTag +<nowiki\%(\s*/\)\?>+ contained contains=mwTag
 syn match mwNowikiEndTag +</nowiki>+ contains=mwEndTag
 syn region mwNowiki
@@ -267,22 +276,25 @@ syn region mwNowiki
       \ contains=mwNowikiTag,mwNowikiEndTag
 syn match mwNowiki +<nowiki\s*/>+ contains=mwNowikiTag
 
-syn match mwSourceTag /<source\s\+[^>]\+>/ contains=mwTag
+syn match mwSourceTag +<source\%(\s[^>]*\)\?>+ contains=mwTag
 syn match mwSourceEndTag +</source>+ contains=mwEndTag
 syn region mwSource
-      \ start="<\z(source\)\s\+[^>]\+>"
+      \ start=+\ze<\z(source\)\s*[^>]*>+
       \ end=+\%(</\z1>\)\@9<=+
       \ contains=mwSourceTag,mwSourceEndTag
 
+syn match mwSyntaxHLTag +<syntaxhighlight\%(\s[^>]*\)\?>+ contains=mwTag
+syn match mwSyntaxHLEndTag +</syntaxhighlight>+ contains=mwTag
 syn region mwSyntaxHL
-      \ start=+<\z(syntaxhighlight\)\s*[^>]*>+
+      \ start=+\ze<\z(syntaxhighlight\)\s*[^>]*>+
       \ end=+\%(</\z1>\)\@18<=+
-      \ contains=mwTag,mwEndTag
+      \ contains=mwSyntaxHLTag,mwSyntaxHLEndTag
 
+syn match mwRefTag +<ref\%(\s[^>]*\)\?>+ contains=mwTag
+syn match mwRefEndTag +</ref>+ contains=mwEndTag
 syn region mwRef
-      \ matchgroup=mwTag
-      \ start="\ze<ref>"
-      \ end="<\/ref>"
+      \ start=+\ze<\z(ref\)\s*[^>]*>+
+      \ end=+\%(</\z1>\)\@6<=+
       \ contains=mwRefTag,mwRefEndTag
 
 syn match mwOnlyInc /<onlyinclude>/ contains=mwTag

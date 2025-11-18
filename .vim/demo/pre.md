@@ -20,6 +20,17 @@
 vs8󠅀1v󠅀s󠅀8󠅀1󠅀vs81
 
 
+vs80 +󠄿  vs88 +󠅇  vs90 +󠅏  vs98 +󠅗
+vs81 +󠅀  vs89 +󠅈  vs91 +󠅐  vs99 +󠅘
+vs82 +󠅁  vs8A +󠅉  vs92 +󠅑  vs9A +󠅙
+vs83 +󠅂  vs8B +󠅊  vs93 +󠅒  vs9B +󠅚
+vs84 +󠅃  vs8C +󠅋  vs94 +󠅓  vs9C +󠅛
+vs85 +󠅄  vs8D +󠅌  vs95 +󠅔  vs9D +󠅜
+vs86 +󠅅  vs8E +󠅍  vs96 +󠅕  vs9E +󠅝
+vs87 +󠅆  vs8F +󠅎  vs97 +󠅖  vs9F +󠅞
+             
+
+
 Paragraph the first.⏎️
 
 ┌─∇─┬─────┬───────────────┐

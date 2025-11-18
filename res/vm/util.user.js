@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.109
+// @version     1.1.110
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -42,6 +42,24 @@ const cssOQN = (el) =>
       .join('\n');
   };
 })({ document });
+
+const csvGroupCols = (csvString) => {
+  const ol = document.createElement('ol');
+  ol.append(
+    ...csvString.split('\n').map((csvRow) => {
+      const li = document.createElement('li');
+      li.append(
+        ...csvRow.split(',').map((csvField) => {
+          const s = document.createElement('span');
+          s.innerText = csvField;
+          return s;
+        }),
+      );
+      return li;
+    }),
+  );
+  return ol;
+};
 
 /*{{{2 Logging */
 

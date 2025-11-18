@@ -4,8 +4,13 @@
 <source nin=4§></source>
 <source></source>
 <ref></ref>
-<syntaxhighlight></syntaxhighlight>
-<syntaxhighlight lang="bash" test ></syntaxhighlight>
+<syntaxhighlight>
+<div>preformatted text</div>
+</syntaxhighlight>
+<syntaxhighlight lang="bash" test >
+  <div><!-- not a comment? -->preformatted text</div>
+  {{sprite/test|anonparam|2=numbered|meh=param}}
+</syntaxhighlight>
 <pre></pre>
 <div></div>
 

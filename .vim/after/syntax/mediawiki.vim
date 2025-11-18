@@ -234,12 +234,6 @@ syn region mwPi
       \mwPiEndTag,
       \@mwComment
 
-hi def mwPiTagParen guifg=#339449
-hi def mwPiTagN guifg=#aaaa33
-hi def mwPiAttrs guifg=#aa5920
-hi def mwPiValue guifg=#99bb33
-hi def mwPiParens guifg=#666666
-
 
 " Wiki Tags: <nowiki></nowiki>  {{{1
 syn region mwTag contained
@@ -312,21 +306,11 @@ syn match mwWhitespaceErr contained
 syn match mwWhitespaceErr "\%^\zs.\+\ze<\%(noinclude\|includeonly\|onlyinclude\)>"
 " syn match mwWhitespaceWarn contained ""
 
-hi def mwWhitespaceErr guibg=#551100 guisp=#ff0000 gui=undercurl
-
-hi def mwTag guifg=#ff4400 
-hi def link mwEndTag mwTag
-hi def mwTagN guifg=#ffaa44 
-hi def mwTagArg guifg=#ff7777
-hi def link mwTagSep mwTag
-hi def link mwTagVal String
-hi def link mwTagValDelim Special
-
+"
 " Comments: {{{1
 
 syn match mwHtmlNLComment "<!--\s*\n\+\s*-->"
 
-hi def mwHtmlNLComment guifg=#222222 guibg=NONE
 
 " Templates: {{Flex/Row}}  {{{1
 
@@ -385,16 +369,6 @@ syn match mwTlPDelim /|/ contained skipwhite skipempty
       \ nextgroup=mwTlAnonPVal,mwTlPNum,mwTlPName
 
 
-hi def mwTlParens   guifg=#ef0099
-hi def mwTlName     guifg=#cc55ff
-hi def mwTlPathSep  guifg=#ef0099
-hi def mwTlPDelim   guifg=#ff0099
-hi def mwTlAnonPVal guifg=#cceeff
-hi def mwTlPName    guifg=#cc88ff
-hi def mwTlPNum     guifg=#cc88ff
-hi def mwTlPSep     guifg=#ee66cc
-hi def mwTlPVal     guifg=#eeeeff
-
 
 "
 " Parser Functions: {{#Do|Something}}  {{{1
@@ -423,12 +397,6 @@ syn match mwParFuncDelim /:\||/
       \ contains=NONE
       \ nextgroup=mwParFuncParam,mwParFuncDelim
 
-
-hi def mwParFunc guifg=#0066aa
-hi def mwParFuncParens guifg=#9944ee
-hi def mwParFuncName guifg=#0099ff
-hi def mwParFuncParam guifg=#00ddee
-hi def mwParFuncDelim guifg=#22ff77
 
 
 "
@@ -478,9 +446,6 @@ syn match mwMagicVar /{{\%(FULL\|BASE\|SUB\|SUBJECT\|ARTICLE\|TALK\|ROOT\|\)PAGE
 syn match mwMagicVar /{{\%(NAME\|SUBJECT\|ARTICLE\|TALK\)SPACEE\?}}/
 syn match mwMagicVar /{{NAMESPACENUMBER}}/
 
-hi def mwMagicVar guibg=#440022 guifg=#dd4499
-hi def mwMagicChar guibg=#440000 guifg=#ee1111
-hi def mwMagicWord guibg=#440022 guifg=#ee0099
 
 
 " {{CASCADINGSOURCES}} expensive
@@ -624,8 +589,51 @@ syn match mwParamDefault /\%(|\)\@1<=[^{|}]\+/ contained
 syn match mwParamDelim /|/ contained
 
 
-hi def mwParamParens guifg=#dd9922
-hi def mwParamDelim guifg=#dd9922
-hi def mwParamName guifg=#ffee22
+
+"
+" Cheerful defaults for the highlighting groups
+"
+
+hi def mwHtmlNLComment guifg=#222222 guibg=NONE
+
+hi def mwWhitespaceErru              guibg=#551100 guisp=#ff0000 gui=undercurl
+
+hi def mwTag           guifg=#ff4400
+hi def link mwEndTag mwTag
+hi def mwTagN          guifg=#ffaa44
+hi def mwTagArg        guifg=#ff7777
+hi def link mwTagSep mwTag
+hi def link mwTagVal String
+hi def link mwTagValDelim Special
+
+hi def mwMagicVar      guifg=#dd4499 guibg=#440022 
+hi def mwMagicChar     guifg=#ee1111 guibg=#440000 
+hi def mwMagicWord     guifg=#ee0099 guibg=#440022 
+
+hi def mwTlParens      guifg=#ef0099
+hi def mwTlName        guifg=#cc55ff
+hi def mwTlPathSep     guifg=#ef0099
+hi def mwTlPDelim      guifg=#ff0099
+hi def mwTlAnonPVal    guifg=#cceeff
+hi def mwTlPName       guifg=#cc88ff
+hi def mwTlPNum        guifg=#cc88ff
+hi def mwTlPSep        guifg=#ee66cc
+hi def mwTlPVal        guifg=#eeeeff
+
+hi def mwParFunc       guifg=#0066aa
+hi def mwParFuncParens guifg=#9944ee
+hi def mwParFuncName   guifg=#0099ff
+hi def mwParFuncParam  guifg=#00ddee
+hi def mwParFuncDelim  guifg=#22ff77
+
+hi def mwParamParens   guifg=#dd9922
+hi def mwParamDelim    guifg=#dd9922
+hi def mwParamName     guifg=#ffee22
+
+hi def mwPiTagParen    guifg=#339449
+hi def mwPiTagN        guifg=#aaaa33
+hi def mwPiAttrs       guifg=#aa5920
+hi def mwPiValue       guifg=#99bb33
+hi def mwPiParens      guifg=#666666
 
 " vim: nowrap sw=2 sts=2 ts=8 et fdm=marker:

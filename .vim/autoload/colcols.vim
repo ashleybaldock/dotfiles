@@ -21,12 +21,16 @@ let g:mayhem_autoloaded_colcols = 1
 
 
 
-function colcols#list() abort
+function! colcols#list() abort
   return split(&l:colorcolumn, ',')->map({i, v -> str2nr(v)})
 function
 
 function! colcols#add(col = getcursorcharpos()[2]) abort
   exec 'setlocal colorcolumn+=' .. a:col
+endfunc
+
+function! colcols#clear() abort
+  exec 'setlocal colorcolumn='
 endfunc
 
 function! colcols#delete(col = getcursorcharpos()[2]) abort

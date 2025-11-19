@@ -60,10 +60,10 @@ endfunc
 "
 " TODO - this should be a method of a CharInfo object
 "
-function! charinfo#formatForCommand(arg = v:null)
+function! charinfo#formatForCommand(arg = v:null) abort
   let chfo = charinfo#get(a:arg)
-  return '◤️ '..chfo['base']['char']..'◢️ '..chfo['characterise_output']
+  return '◤️ ' .. chfo['base']['char'] .. '◢️ ' .. chfo['characterise_output']
        \->trim()
        \->split(', ')
-       \->join(' ◢◤ ')..'╱️╱️'
+       \->join(' ◢◤ ') .. '╱️╱️'
 endfunc 

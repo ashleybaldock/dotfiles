@@ -78,9 +78,6 @@ xnoremap ‚ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<C
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ + RepeatMove
 nnoremap – a̲<Esc>h<Cmd>RepeatMove<CR>
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲h̲i̲t̲e̲s̲p̲a̲c̲e̲
-" ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲️h̲️i̲️t̲️e̲️s̲️p̲️a̲️c̲️e̲️
-" ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲︎h̲︎i̲︎t̲︎e̲︎s̲︎p̲︎a̲︎c̲︎e̲︎
-" ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w︎̲h︎̲i︎̲t︎̲e︎̲s︎̲p︎̲a︎̲c︎̲e︎̲
 " xnoremap – :s/\(\_^\s*"\)\?\s*\%V\S/\0̲/g<CR>
 xnoremap – :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
 "
@@ -335,20 +332,16 @@ nmap ga <Plug>(mayhem_charinfo)
 
 "─── Column guides ─────────────────────────────────────
 "
-" See: ./colorcolumn.vim
+" See: ./colcols.vim
+"      ../autoload/colcols.vim
 nnoremap §\ <Plug>(mayhem_colorcolumn_add)
+nnoremap §<S-\> <Plug>(mayhem_colorcolumn_delete)
 nnoremap §] <Plug>(mayhem_colorcolumn_align_right_to_next)
 nnoremap §} <Plug>(mayhem_colorcolumn_align_right_on_next)
 nnoremap §[ <Plug>(mayhem_colorcolumn_align_left_to_next)
 nnoremap §{ <Plug>(mayhem_colorcolumn_align_left_on_next)
-inoremap  <Cmd>AlignRightToColorColumn<CR>
-
-" nnoremap §\ <Cmd>AddColorColumn<CR>
-" nnoremap §] <Cmd>AlignRightToColorColumn<CR>
-" nnoremap §} <Cmd>AlignRightOnColorColumn<CR>
-" nnoremap §[ <Cmd>AlignLeftToColorColumn<CR>
-" nnoremap §{ <Cmd>AlignLeftOnColorColumn<CR>
 " inoremap  <Cmd>AlignRightToColorColumn<CR>
+
 
 "
 " Editing:

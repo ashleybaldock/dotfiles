@@ -16,6 +16,7 @@ fi
 # echo "NVM_BIN: $NVM_BIN" >&2
 # echo "PATH: $PATH" >&2
 
+NL=$'\n'
 ENCODESVG="$HOME/dotfiles/bin/encodeSVG.js"
 PNGOUT="/opt/homebrew/bin/pngout"
 SVGO="$HOME/.nvm/versions/node/v18.19.0/bin/svgo"
@@ -26,13 +27,14 @@ optimise=1
 alwaysbase64=0
 copy=1
 
-if [ $# -gt 1 ]
-then
-  echo "info: multiple inputs, will skip copying" >&2
-  copy=0
+# if [ $# -gt 1 ]
+# then
+  # echo "info: multiple inputs, will skip copying" >&2
+  # copy=0
 
   # TODO multiple inputs: accumulate and copy together
-fi
+# fi
+tocopy=""
 
 for arg in "${args[@]}"
 do
@@ -128,30 +130,30 @@ do
     then
       echo "warn: '$arg' could not be identified as a supported file type, skipping..." >&2
     else
-      optcopy=""
-      if [ $copy -eq 0 ]
-      then
-        echo -n "$cssvar"
-        echo ''
-      else
-        echo -n "$cssvar" | tee >(pbcopy)
-        echo ''
-        if [ $? -eq 0 ]
-        then
-          echo "copied dataurl to clipboard" >&2
-        else
-          echo "copy command failed ($?)" >&2
-        fi
-        optcopy=",copy"
-      fi
+      tocopy+="${cssvar}${NL}"
 
       optencoding="encoding=$encoding"
       optoptimise=",optimise"
       cssvar=",cssvar"
-      echo "in:$detectedtype options:$optencoding$optoptimise$cssvar out:$detectedtype,stdout$optcopy" >&2
+      echo "in:$detectedtype options:$optencoding$optoptimise$cssvar out:$detectedtype,stdout$copy" >&2
     fi
   fi
 done
+
+if [ $copy -eq 0 ]
+then
+  echo -n "$tocopy"
+  echo ''
+else
+  echo -n "$tocopy" | tee >(pbcopy)
+  echo ''
+  if [ $? -eq 0 ]
+  then
+    echo "copied dataurl to clipboard" >&2
+  else
+    echo "copy command failed ($?)" >&2
+  fi
+fi
 
 
 # gen-delims  = " : / ? # [ ] @ "

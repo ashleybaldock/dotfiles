@@ -581,11 +581,9 @@ load.php span.comment {
   display: none;
 }
 
-.mw-changeslist-diff,
 .mw-usertoollinks-talk {
   font-size: 0.76em;
 }
-.mw-changeslist-diff,
 .mw-changeslist-history,
 .mw-usertoollinks-contribs {
   font-size: 0.6em;
@@ -1216,10 +1214,6 @@ td:has(> .minoredit, > .unpatrolled) {
   content: unset;
 }
 
-.mw-changeslist .mw-changeslist-line {
-  grid-template-columns: subgrid;
-}
-
 .mw-changeslist {
   grid-template-columns: [left uihl-start] 10px [uihl-end minor-start] 10px [minor-end arrow-start] 10px [arrow-end unpat-start] 10px [unpat-end] 10px 10px [time-start] min-content [time-end article-start] 60fr [article-end history-start changed-start] 4fr [changed-end] 4fr [history-end diff-start] 4fr [diff-end user-start] 10fr [user-end talk-start] 4fr [ contrib-start] 4fr [talk-end contrib-end comment-start] 100fr [comment-end rollback-start] 10fr [rollback-end tags-start] 10fr [tags-end watching-start] 10fr [watching-end right];
   grid-auto-rows: auto;
@@ -1242,21 +1236,9 @@ div.mw-collapsible-content:nth-child(3) {
   grid-column-end: -2;
   grid-column-start: 9;
 }
-.changedby {
-  grid-column: 12 / -2;
-}
-
-.mw-changeslist .mw-changeslist-line {
-  grid-template-rows: 1fr auto;
-  grid-auto-rows: auto;
-}
 
 .mw-changeslist {
   grid-template-columns: [left uihl-start] 10px [uihl-end minor-start] 10px [minor-end arrow-start] 10px [arrow-end unpat-start] 10px [unpat-end] 10px 10px [time-start] min-content [time-end article-start] 60fr [article-end history-start cur-start changed-start] 4fr [changed-end cur-end prev-start] 4fr [prev-end history-end diff-start] 2fr 2fr [diff-end user-start] 10fr [user-end talk-start] 4fr [ contrib-start] 4fr [talk-end contrib-end comment-start] 100fr [comment-end rollback-start] 10fr [rollback-end tags-start] 10fr [tags-end watching-start] 10fr [watching-end right];
-}
-
-.mw-changeslist-diff {
-  grid-column: diff-start/diff-end;
 }
 
 .mw-changeslist .mw-changeslist-line-inner-historyLink {
@@ -1328,16 +1310,16 @@ div.mw-collapsible-content:nth-child(3) {
   grid-column: title-start/title-end;
   grid-row: 1;
 }
+.mw-changeslist-line-watched .mw-title {
+  font-weight: normal;
+}
+
 .mw-enhanced-rc-time {
   grid-column: time-start/time-end;
   grid-row: 1;
 }
 .mw-changeslist-diff-cur {
   grid-column: cur-start/cur-end;
-  grid-row: 1;
-}
-.mw-changeslist-diff {
-  grid-column: prev-start/prev-end;
   grid-row: 1;
 }
 .mw-changeslist-history {
@@ -1350,7 +1332,7 @@ div.mw-collapsible-content:nth-child(3) {
 }
 .mw-userlink {
   grid-column: user-start/user-end;
-  grid-row: 1;
+  grid-row: auto;
   white-space: pre;
 }
 .mw-usertoollinks-talk {
@@ -1366,11 +1348,17 @@ div.mw-collapsible-content:nth-child(3) {
 }
 .mw-changeslist-diff {
   grid-column: diff-start/diff-end;
-  grid-row: 1;
+  grid-row: auto;
+  white-space: pre;
+  font-size: 0.6em;
 }
+.mw-enhanced-rc-nested > .mw-changeslist-diff {
+  font-size: 800000%;
+}
+
 .changedby.changedby {
   grid-column: user-start/user-end;
-  grid-row: 1;
+  grid-row: auto;
   font-size: 0.7em;
 }
 
@@ -1540,7 +1528,6 @@ span:has(
 
 .mw-changeslist-log-entry .mw-userlink {
   grid-column: user-start/user-end;
-  grid-row: 1/-1;
   font-size: 0.8rem;
 }
 .mw-changeslist-line-inner-logLink {
@@ -1550,6 +1537,7 @@ span:has(
 .mw-changeslist .mw-changeslist-line.mw-changeslist-log {
   grid-template-rows: subgrid;
   grid-auto-rows: auto;
+  grid-auto-flow: dense;
 }
 
 .mw-enhanced-rc-nested {
@@ -1569,9 +1557,6 @@ span:has(
   display: contents;
 }
 
-.mw-tag-markers {
-  font-size: 0.01%;
-}
 .mw-tag-markers {
   grid-column: tags-start/tags-end;
   position: relative;
@@ -1617,18 +1602,10 @@ span:has(
   border-width: 2px 0 1px 12px;
 }
 
-.comment {
-  grid-column: comment-start/comment-end;
-  grid-row: 1;
-}
 span:has(> .mw-usertoollinks-block) {
   grid-column: block-start/block-end;
-  grid-row: 1;
+  grid-row: auto;
   display: none;
-}
-.changedby.changedby {
-  grid-column: user-start/user-end;
-  grid-row: 1;
 }
 .mw-thanks-thank-link {
   grid-column: thank-start/thank-end;
@@ -1654,7 +1631,8 @@ span:has(> .mw-usertoollinks-block) {
   display: none;
 }
 
-/*.mw-changeslist-line,
+/*
+.mw-changeslist-line,
 .mw-changeslist-edit,
 .mw-changeslist-ns0-Modding_Basics,
 .mw-changeslist-line-not-watched,
@@ -1668,8 +1646,47 @@ span:has(> .mw-usertoollinks-block) {
 .mw-changeslist-src-mw-edit,
 .mw-changeslist-notwatched,
 .mw-enhanced-rc,
-.mw-tag-visualeditor,*/
+.mw-tag-visualeditor,
 
 .mw-changeslist-minor,
 .mw-changeslist-reviewstatus-unpatrolled {
+}
+ */
+
+.mw-usertoollinks.mw-changeslist-links {
+  grid-row: auto;
+}
+
+.mw-enhanced-rc-time > a,
+.mw-enhanced-rc[colspan='2'] {
+  grid-column: time-start/time-end;
+  grid-row: auto;
+  font-family: monospace;
+  font-weight: normal;
+  font-size: 0.9em;
+  align-items: start;
+  justify-content: end;
+  text-align: right;
+  width: auto;
+  color: #ddd;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  border-right: none;
+}
+.mw-enhanced-rc-time > a {
+  font-size: 0.8em;
+  margin-right: 1.1ch;
+  letter-spacing: 0.1ch;
+}
+.mw-enhanced-rc-nested > .comment {
+  grid-column: comment-start/comment-end;
+  grid-row: auto;
+  font-style: italic;
+  unicode-bidi: isolate;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  font-size: 0.9em;
+  line-height: normal;
 }

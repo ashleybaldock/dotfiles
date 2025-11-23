@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.110
+// @version     1.1.112
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -42,24 +42,6 @@ const cssOQN = (el) =>
       .join('\n');
   };
 })({ document });
-
-const csvGroupCols = (csvString) => {
-  const ol = document.createElement('ol');
-  ol.append(
-    ...csvString.split('\n').map((csvRow) => {
-      const li = document.createElement('li');
-      li.append(
-        ...csvRow.split(',').map((csvField) => {
-          const s = document.createElement('span');
-          s.innerText = csvField;
-          return s;
-        }),
-      );
-      return li;
-    }),
-  );
-  return ol;
-};
 
 /*{{{2 Logging */
 
@@ -161,6 +143,9 @@ const buttonsPressed = ({
       ],
     ),
   ),
+  // bind: (keycombos,callback,options) => {
+  //   const { pd, sip } = options;
+  // },
   trigger:
     button >= 0
       ? ['left', 'wheel', 'right', 'back', 'forward'][button]
@@ -329,7 +314,7 @@ const overrideVideoClickEvents = (video) => {
     (e) => {
       const { target } = e;
       const { trigger } = buttonsPressed(e);
-      if (target === video && trigger.left) {
+      if (target === video && trigger === 'left') {
         if (videoIsPlaying(target)) {
           target.pause();
           e.stopImmediatePropagation();
@@ -1049,10 +1034,13 @@ const mu = (({ document, console }) => {
 
   // qs`td:has(>a[href])`.forEach((n, _i, _a, img = document.createElement('img')) => img.setAttribute('src', n.querySelector('a')?.getAttribute('href')) || n.prepend(img)).all
 
-  const makeElement = (
-    tagName,
-    { text, attributes = {}, data = {}, styles = {} } = {},
-  ) =>
+  const makeElement = ({
+    tagName = 'div',
+    text = '',
+    attributes = {},
+    data = {},
+    styles = {},
+  } = {}) =>
     svgTags.has(tagName) && !ambiguousTags.has(name)
       ? makeSvgElement({ name, attributes, data, styles })
       : makeHtmlElement({ name, attributes, data, styles, text });
@@ -1128,6 +1116,24 @@ const mu = (({ document, console }) => {
     };
   };
 })(window);
+
+const csvGroupCols = (csvString) => {
+  const ol = document.createElement('ol');
+  ol.append(
+    ...csvString.split('\n').map((csvRow) => {
+      const li = document.createElement('li');
+      li.append(
+        ...csvRow.split(',').map((csvField) => {
+          const s = document.createElement('span');
+          s.innerText = csvField;
+          return s;
+        }),
+      );
+      return li;
+    }),
+  );
+  return ol;
+};
 
 /**
  * qs`.wrapMe`.forEach(wrapWith(() => document.createElement('pre')));

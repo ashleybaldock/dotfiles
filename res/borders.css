@@ -182,7 +182,7 @@ svg {
   --D: calc(var(--bdata-bd1_D) * var(--u));
   grid-area: p;
   border: 1px dashed lightblue;
-  background-color: #ddd;
+  background-color: #191919;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -768,4 +768,33 @@ input[type='range']:focus::-moz-range-thumb {
   word-spacing: 0.4em;
   filter: drop-shadow(6px 4px 0 #ff04) drop-shadow(-8px 5px 0 #f0f4)
     drop-shadow(-8px -5px 0 #00f4) drop-shadow(8px -7px 0 #0f04);
+}
+
+.fancy:nth-of-type(9) {
+  box-shadow: inset calc(var(--x, 0) + (var(--s) * 1))
+    calc(var(--y, 0) + (var(--s) * -1)) 0 var(--s) #aa0;
+  --s: 14px;
+  --x: -14px;
+  --y: 28px;
+  border-radius: 0 0 1ch 0;
+}
+.fancy:nth-of-type(10) {
+  box-shadow:
+    inset 10px -10px 0 0 #f00,
+    inset 10px -10px 0 10px #d00,
+    inset 10px -10px 0 20px #b00,
+    inset 10px -10px 0 30px #900,
+    inset 10px -10px 0 40px #700,
+    inset 10px -10px 0 50px #500;
+  border-radius: 0 0 0 50% / 0 0 0 60%;
+}
+.fancy:nth-of-type(11) {
+  box-shadow:
+    inset 30px -10px 0 -10px #f00,
+    inset 10px -10px 0 10px #d00,
+    inset 30px -10px 0 10px #b00,
+    inset 20px -20px 0 10px #900,
+    inset 50px -20px 0 10px #700,
+    inset 40px -30px 0 10px #500;
+  border-radius: 0 0 0 50% / 0 0 0 60%;
 }

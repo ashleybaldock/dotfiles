@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.114
+// @version     1.1.116
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -79,7 +79,7 @@ const trackVisibility = (
 
 const trackPageFocus = (
   ({ window, window: { document }, notify }) =>
-  ({}) => {
+  () => {
     const hide_focused = () => delete document.documentElement.dataset.focused;
     const show_focused = () => (document.documentElement.dataset.focused = '');
 

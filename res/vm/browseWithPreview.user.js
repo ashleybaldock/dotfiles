@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.237
+// @version     1.0.239
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -32,7 +32,7 @@ const sequences = {
   playpause: ['playing', 'paused'],
   player: ['interleave', 'linear'],
   interleave_delay: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-  maxInterleaved: [2, 3, 4, 6, 9, 12, 16],
+  max_interleaved: [2, 3, 4, 6, 9, 12, 16],
 };
 
 const isDirectory = (({ document }) =>
@@ -433,8 +433,8 @@ const initBrowsePreview = ({ document: { body } }) => {
       showGrid: defineToggle(false),
       grid_fit: defineSequence(sequences.fit),
       player: defineSequence(sequences.player, 'interleave'),
-      maxInterleaved: defineNumber(8),
-      interleaveDelay: defineNumber(500),
+      max_interleaved: defineNumber(8),
+      interleave_delay: defineNumber(500),
       repeat: defineToggle(true),
       shuffle_on_repeat: defineToggle(true),
       reload_on_repeat: defineToggle(true),
@@ -442,13 +442,13 @@ const initBrowsePreview = ({ document: { body } }) => {
     };
   })({});
 
-  (({ document: { body }, config: { maxInterleaved, interleaveDelay } }) => {
+  (({ document: { body }, config: { max_interleaved, interleave_delay } }) => {
     /* TODO - set up @property automatically */
-    maxInterleaved.subscribe((newValue) => {
+    max_interleaved.subscribe((newValue) => {
       body.style.setAttribute('--playerCount', `${newValue}`);
       body.style.setAttribute('--s-playerCount', `'${newValue}'`);
     });
-    interleaveDelay.subscribe((newValue) => {
+    interleave_delay.subscribe((newValue) => {
       body.style.setAttribute('--interleave-delay', `${newValue}ms`);
       body.style.setAttribute('--s-interleave-delay', `'${newValue}ms'`);
     });
@@ -462,8 +462,8 @@ const initBrowsePreview = ({ document: { body } }) => {
       includeVideoFiles,
       includeOtherFiles,
       includeHiddenFiles,
-      maxInterleaved,
-      interleaveDelay,
+      max_interleaved,
+      interleave_delay,
       showGrid,
       grid_fit,
       playpause,
@@ -496,7 +496,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       textContent: 'Playback State (playing/paused)',
       bindTo: playpause,
       name: 'playpause',
-      to: body,
+      to,
       sequence: sequences.playpause.map((p) => ({
         value: p,
         textContent: `Playback State: ${p}`,
@@ -516,7 +516,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     const interleaveGrouping = addGrouping({ to: playerGrouping });
     addSequenceToggle({
       textContent: 'Max # of interleaved videos',
-      bindTo: maxInterleaved,
+      bindTo: max_interleaved,
       name: 'max_interleaved',
       sequence: sequences.max_interleaved.map((n) => ({
         value: n,
@@ -525,7 +525,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
     addSequenceToggle({
       textContent: 'Show each video for',
-      bindTo: interleaveDelay,
+      bindTo: interleave_delay,
       name: 'interleave_delay',
       sequence: sequences.interleave_delay.map((n) => ({
         value: n,
@@ -830,8 +830,8 @@ const initBrowsePreview = ({ document: { body } }) => {
       });
     };
 
-    const unsub = config.maxInterleaved.subscribe(updateMediaPlayerCount);
-    updateMediaPlayerCount(config.maxInterleaved.value);
+    const unsub = config.max_interleaved.subscribe(updateMediaPlayerCount);
+    updateMediaPlayerCount(config.max_interleaved.value);
 
     // const grid = (showAsGrid = !_showAsGrid) => {
     //   if (_showAsGrid !== showAsGrid) {

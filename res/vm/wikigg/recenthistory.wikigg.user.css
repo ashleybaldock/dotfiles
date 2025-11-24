@@ -273,8 +273,8 @@
   position: relative;
   margin-left: auto;
 }
-.comment--without-parentheses::before,
-.comment--without-parentheses::after {
+#pagehistory .comment--without-parentheses::before,
+#pagehistory .comment--without-parentheses::after {
   font-family: monospace;
   font-size: 2.2em;
   line-height: 1;
@@ -289,13 +289,13 @@
   align-self: start;
 }
 
-.comment--without-parentheses::before {
+#pagehistory .comment--without-parentheses::before {
   content: '❝';
   margin-right: 0.12em;
   margin-left: -0.2em;
   left: 0;
 }
-.comment--without-parentheses::after {
+#pagehistory .comment--without-parentheses::after {
   content: '❞';
   margin-left: -0.14em;
   margin-right: -0.1em;
@@ -318,7 +318,7 @@
   height: 1lh;
 }
 
-.comment.comment--without-parentheses {
+#pagehistory .comment.comment--without-parentheses {
   text-overflow: ellipsis;
   align-items: start;
   text-align: start;
@@ -327,7 +327,7 @@
   height: 1lh;
   container: comment inline-size;
 }
-.comment.comment--without-parentheses:hover {
+#pagehistory .comment.comment--without-parentheses:hover {
   height: auto;
   top: 0;
 }
@@ -455,17 +455,23 @@
 }
 
 #pagehistory li {
-  overflow-x: clip;
-  overflow-y: visible;
+  /* overflow-x: clip; */
+  /* overflow-y: visible; */
+  border: 0 solid transparent;
+  padding: 0;
 }
-load.php span.comment {
+#pagehistory li.after {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#pagehistory span.comment {
   word-break: break-word;
 }
-.mw-index-pager-list-header {
+#pagehistory .mw-index-pager-list-header {
   overflow: visible;
 }
-.mw-changeslist-links,
-.mw-history-histlinks.mw-changeslist-links {
+#pagehistory .mw-changeslist-links,
+#pagehistory .mw-history-histlinks.mw-changeslist-links {
   white-space: nowrap;
 }
 #pagehistory .comment,
@@ -476,6 +482,7 @@ load.php span.comment {
   justify-content: flex-end;
   margin-left: auto;
   background-color: #111;
+  z-index: unset;
 }
 #pagehistory .comment:hover,
 #pagehistory .comment--without-parentheses:hover {
@@ -490,6 +497,233 @@ load.php span.comment {
 .between:hover,
 .after:hover {
   z-index: 90;
+}
+
+#pagehistory .mw-contributions-list > .before {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 0.2em;
+  margin: 0 0.4em;
+}
+
+#pagehistory .mw-contributions-list > .before.selected {
+  margin-top: -2px;
+  margin-bottom: -2px;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0 0.6em;
+}
+
+#pagehistory .mw-contributions-list:has(li.selected.before)::after {
+  display: none;
+}
+
+#pagehistory .comment,
+#pagehistory .comment--without-parentheses {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+#pagehistory .selected.before {
+  box-shadow:
+    0 1px 3px 0 var(--shadow),
+    inset 0 1px 3px 0 var(--hint);
+}
+
+#pagehistory .mw-contributions-list > .before.selected {
+  margin-top: -2px;
+  margin-bottom: -2px;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0 0.6em;
+}
+
+#pagehistory .mw-contributions-list > .before {
+  margin: 0 0.4em;
+}
+
+#pagehistory h4 {
+  counter-reset: groupedits 0;
+}
+
+#pagehistory ul:nth-of-type(2n-2) > li:not(.selected) {
+  box-shadow: inset 3px 0 0 2px red;
+}
+
+#pagehistory ul > li:nth-last-of-type(n + 1):not(.selected) {
+  box-shadow: inset 1px 1px 1px 0;
+}
+
+#pagehistory ul > li:first-of-type:not(.selected) {
+  box-shadow: inset 2px 2px 2px 0 green;
+}
+
+#pagehistory ul > li:last-of-type:not(.selected) {
+  box-shadow: inset 4px 0 2px -1px blue;
+}
+
+#pagehistory ul > li:nth-of-type(n + 2):nth-last-of-type(n + 2):not(.selected) {
+  box-shadow: inset 3px 0 2px -1px yellow;
+}
+#pagehistory ul:nth-of-type(2n-2) > li:not(.selected) {
+  box-shadow: inset 3px 0 0 2px red;
+}
+#pagehistory ul > li:last-of-type:not(.selected) {
+  box-shadow: inset 4px 0 2px -1px blue;
+  box-shadow: -10px -5px 0 -5px maroon;
+}
+#pagehistory ul > li:first-of-type:not(.selected) {
+  box-shadow: inset 4px 0 2px -2px green;
+  box-shadow: -5px 0 0 0 maroon;
+}
+#pagehistory ul > li:nth-of-type(n + 2):nth-last-of-type(n + 2):not(.selected) {
+  box-shadow: inset 3px 0 2px -1px yellow;
+  box-shadow: -5px 0 0 0 maroon;
+}
+
+#pagehistory #mw-history-compare {
+  display: grid;
+  grid-auto-columns: auto;
+  grid-template-columns: [left] auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto [right];
+}
+
+#pagehistory .mw-tag-visualeditor,
+#pagehistory .mw-tag-wikieditor {
+  grid-column: 1 / span 25;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-auto-flow: row dense;
+  white-space: break-spaces;
+}
+
+.mw-history-histlinks.mw-changeslist-links [type='radio']:nth-of-type(1) {
+  grid-column: 3;
+}
+
+#pagehistory [type='radio']:nth-of-type(2) {
+  grid-column: 4;
+}
+
+#pagehistory [type='radio']:nth-of-type(1) {
+  grid-column: 5;
+}
+
+#pagehistory h4 {
+  grid-column: 1/-1;
+}
+
+.mw-tag-wikieditor > :where(span, input, a) {
+  display: block;
+}
+
+#pagehistory ul > li:first-of-type:last-of-type:not(.selected) {
+  box-shadow: -10px -5px 0 -5px maroon;
+}
+
+#pagehistory ul > li:first-of-type:not(.selected) {
+  box-shadow: -5px 0 0 0 maroon;
+}
+
+#pagehistory ul > li:last-of-type:not(.selected) {
+  box-shadow: -10px -5px 0 -5px maroon;
+}
+
+#pagehistory ul > li:nth-of-type(n + 2):nth-last-of-type(n + 2):not(.selected) {
+  box-shadow: -5px 0 0 0 maroon;
+}
+#pagehistory .history-user {
+  grid-column: 7;
+}
+#pagehistory .mw-userlink {
+  white-space: nowrap;
+}
+
+#pagehistory .mw-history-compareselectedversions {
+  grid-column: 1/26;
+  width: auto;
+}
+
+#pagehistory .mw-history-histlinks.mw-changeslist-links {
+  grid-column: 2;
+}
+#pagehistory [type='radio']:nth-of-type(1) {
+  grid-column: 4;
+}
+#pagehistory [type='radio']:nth-of-type(2) {
+  grid-column: 6;
+}
+#pagehistory .mw-changeslist-date {
+  grid-column: 8;
+}
+#pagehistory .history-user {
+  grid-column: 10;
+}
+#pagehistory .minoredit {
+  grid-column: 12;
+}
+#pagehistory .mw-changeslist-separator {
+  grid-column: 14;
+}
+#pagehistory .history-size.mw-diff-bytes {
+  grid-column: 16;
+  justify-self: right;
+  text-align: right;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+#pagehistory .mw-plusminus-null.mw-diff-bytes,
+#pagehistory .mw-plusminus-pos.mw-diff-bytes,
+#pagehistory .mw-plusminus-neg.mw-diff-bytes {
+  grid-column: 18;
+}
+#pagehistory .mw-changeslist-separator ~ .mw-changeslist-separator {
+  grid-column: 20;
+}
+#pagehistory .mw-changeslist-links.mw-pager-tools {
+  grid-column: 22;
+}
+#pagehistory .mw-tag-markers {
+  grid-column: 24;
+}
+
+#pagehistory ul > li:first-of-type:last-of-type:not(.selected) {
+  box-shadow: -10px -5px 0 -5px maroon;
+}
+#pagehistory ul:nth-of-type(2n) > li:not(.selected) {
+  background-color: #000;
+}
+.mw-changeslist-separator {
+  display: none;
+}
+
+#mw-history-compare {
+  grid-auto-columns: auto;
+  grid-template-columns: [left] auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto [right];
+}
+
+#pagehistory li.before::after,
+#pagehistory li.between::after,
+#pagehistory li.after::after {
+  content: none;
+}
+
+#pagehistory li.before::before,
+#pagehistory li.between::before,
+#pagehistory li.after::before {
+  line-height: 1;
+  content: counter(groups) '.' counter(groupedits);
+  grid-column: 1;
+}
+
+#pagehistory .mw-usertoollinks::before,
+#pagehistory .mw-usertoollinks::after {
+  content: none;
+}
+#pagehistory .mw-usertoollinks {
+  font-size: 0.8em;
+}
+#pagehistory .history-user {
+  white-space: nowrap;
 }
 
 /* On the recentchanges page */
@@ -716,256 +950,6 @@ a.new {
 .mw-changeslist-history {
   font-size: 0.8em;
 }
-
-#pagehistory .comment,
-#pagehistory .comment--without-parentheses {
-  z-index: unset;
-}
-
-#pagehistory li {
-  /* overflow-x: clip; */
-  /* overflow-y: visible; */
-  border: 0 solid transparent;
-  /*! box-sizing: content-box; */
-}
-
-#pagehistory li.after {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-#pagehistory .mw-contributions-list > .before {
-  margin-top: 0;
-  margin-bottom: 0;
-  padding: 0 0.2em;
-  margin: 0 0.4em;
-}
-
-#pagehistory .mw-contributions-list > .before.selected {
-  margin-top: -2px;
-  margin-bottom: -2px;
-  margin-left: 0;
-  margin-right: 0;
-  padding: 0 0.6em;
-}
-
-#pagehistory .mw-contributions-list:has(li.selected.before)::after {
-  display: none;
-}
-
-#pagehistory .comment,
-#pagehistory .comment--without-parentheses {
-  background-color: transparent;
-  border-color: transparent;
-}
-
-#pagehistory .selected.before {
-  box-shadow:
-    0 1px 3px 0 var(--shadow),
-    inset 0 1px 3px 0 var(--hint);
-}
-
-/* load.php | https://noita.wiki.gg/load.php?lang=en&modules=codex-search-styles%7Cext.echo.styles.badge%7Cext.embedVideo.styles%7Cext.subscription.styles%7Cext.visualEditor.desktopArticleTarget.noscript%7Cjquery.makeCollapsible.styles%7Cmediawiki.action.history.styles%7Cmediawiki.feedlink%2Chelplink%7Cmediawiki.htmlform.ooui.styles%7Cmediawiki.htmlform.styles%7Cmediawiki.interface.helpers.styles%7Cmediawiki.pager.styles%7Cmediawiki.special.changeslist%7Cmediawiki.widgets.DateInputWidget.styles%7Cmediawiki.widgets.styles%7Coojs-ui-core.icons%2Cstyles%7Coojs-ui.styles.icons-alerts%2Cindicators%7Cskins.vector.styles.legacy&only=styles&skin=vector */
-
-#pagehistory li {
-  padding: 0;
-}
-
-#pagehistory .mw-contributions-list > .before.selected {
-  margin-top: -2px;
-  margin-bottom: -2px;
-  margin-left: 0;
-  margin-right: 0;
-  padding: 0 0.6em;
-}
-
-#pagehistory .mw-contributions-list > .before {
-  margin: 0 0.4em;
-}
-
-#pagehistory h4 {
-  counter-reset: groupedits 0;
-}
-
-#pagehistory ul:nth-of-type(2n-2) > li:not(.selected) {
-  box-shadow: inset 3px 0 0 2px red;
-}
-
-#pagehistory ul > li:nth-last-of-type(n + 1):not(.selected) {
-  box-shadow: inset 1px 1px 1px 0;
-}
-
-#pagehistory ul > li:first-of-type:not(.selected) {
-  box-shadow: inset 2px 2px 2px 0 green;
-}
-
-#pagehistory ul > li:last-of-type:not(.selected) {
-  box-shadow: inset 4px 0 2px -1px blue;
-}
-
-#pagehistory ul > li:nth-of-type(n + 2):nth-last-of-type(n + 2):not(.selected) {
-  box-shadow: inset 3px 0 2px -1px yellow;
-}
-#pagehistory ul:nth-of-type(2n-2) > li:not(.selected) {
-  box-shadow: inset 3px 0 0 2px red;
-}
-#pagehistory ul > li:last-of-type:not(.selected) {
-  box-shadow: inset 4px 0 2px -1px blue;
-  box-shadow: -10px -5px 0 -5px maroon;
-}
-#pagehistory ul > li:first-of-type:not(.selected) {
-  box-shadow: inset 4px 0 2px -2px green;
-  box-shadow: -5px 0 0 0 maroon;
-}
-#pagehistory ul > li:nth-of-type(n + 2):nth-last-of-type(n + 2):not(.selected) {
-  box-shadow: inset 3px 0 2px -1px yellow;
-  box-shadow: -5px 0 0 0 maroon;
-}
-
-#mw-history-compare {
-  display: grid;
-  grid-auto-columns: auto;
-  grid-template-columns: [left] auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto [right];
-}
-
-#pagehistory .mw-tag-visualeditor,
-#pagehistory .mw-tag-wikieditor {
-  grid-column: 1 / span 25;
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-auto-flow: row dense;
-  white-space: break-spaces;
-}
-
-.mw-history-histlinks.mw-changeslist-links [type='radio']:nth-of-type(1) {
-  grid-column: 3;
-}
-
-[type='radio']:nth-of-type(2) {
-  grid-column: 4;
-}
-
-[type='radio']:nth-of-type(1) {
-  grid-column: 5;
-}
-
-#pagehistory h4 {
-  grid-column: 1/-1;
-}
-
-.mw-tag-wikieditor > :where(span, input, a) {
-  display: block;
-}
-
-#pagehistory ul > li:first-of-type:last-of-type:not(.selected) {
-  box-shadow: -10px -5px 0 -5px maroon;
-}
-
-#pagehistory ul > li:first-of-type:not(.selected) {
-  box-shadow: -5px 0 0 0 maroon;
-}
-
-#pagehistory ul > li:last-of-type:not(.selected) {
-  box-shadow: -10px -5px 0 -5px maroon;
-}
-
-#pagehistory ul > li:nth-of-type(n + 2):nth-last-of-type(n + 2):not(.selected) {
-  box-shadow: -5px 0 0 0 maroon;
-}
-#pagehistory .history-user {
-  grid-column: 7;
-}
-#pagehistory .mw-userlink {
-  white-space: nowrap;
-}
-
-#pagehistory .mw-history-compareselectedversions {
-  grid-column: 1/26;
-  width: auto;
-}
-
-#pagehistory .mw-history-histlinks.mw-changeslist-links {
-  grid-column: 2;
-}
-#pagehistory [type='radio']:nth-of-type(1) {
-  grid-column: 4;
-}
-#pagehistory [type='radio']:nth-of-type(2) {
-  grid-column: 6;
-}
-#pagehistory .mw-changeslist-date {
-  grid-column: 8;
-}
-#pagehistory .history-user {
-  grid-column: 10;
-}
-#pagehistory .minoredit {
-  grid-column: 12;
-}
-#pagehistory .mw-changeslist-separator {
-  grid-column: 14;
-}
-#pagehistory .history-size.mw-diff-bytes {
-  grid-column: 16;
-  justify-self: right;
-  text-align: right;
-  font-size: 0.8em;
-  white-space: nowrap;
-}
-.mw-plusminus-null.mw-diff-bytes,
-.mw-plusminus-pos.mw-diff-bytes,
-.mw-plusminus-neg.mw-diff-bytes {
-  grid-column: 18;
-}
-.mw-changeslist-separator ~ .mw-changeslist-separator {
-  grid-column: 20;
-}
-.mw-changeslist-links.mw-pager-tools {
-  grid-column: 22;
-}
-.mw-tag-markers {
-  grid-column: 24;
-}
-
-#pagehistory ul > li:first-of-type:last-of-type:not(.selected) {
-  box-shadow: -10px -5px 0 -5px maroon;
-}
-#pagehistory ul:nth-of-type(2n) > li:not(.selected) {
-  background-color: #000;
-}
-.mw-changeslist-separator {
-  display: none;
-}
-
-#mw-history-compare {
-  grid-auto-columns: auto;
-  grid-template-columns: [left] auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto [right];
-}
-
-#pagehistory li.before::after,
-#pagehistory li.between::after,
-#pagehistory li.after::after {
-  content: none;
-}
-
-#pagehistory li.before::before,
-#pagehistory li.between::before,
-#pagehistory li.after::before {
-  line-height: 1;
-  content: counter(groups) '.' counter(groupedits);
-  grid-column: 1;
-}
-
-#pagehistory .mw-usertoollinks::before,
-#pagehistory .mw-usertoollinks::after {
-  content: none;
-}
-#pagehistory .mw-usertoollinks {
-  font-size: 0.8em;
-}
-#pagehistory .history-user {
-  white-space: nowrap;
-}
 .client-js .mw-changeslist ul,
 .client-js .mw-changeslist table.mw-enhanced-rc {
   margin-left: 1em;
@@ -1094,7 +1078,7 @@ h4:has(+ div > .mw-changeslist-line) {
 .mw-changeslist .mw-changeslist-line {
   display: grid;
   grid-template-rows: subgrid;
-  grid-template-columns: [left uihl-start] 10px [uihl-end minor-start] 10px [minor-end arrow-start] 10px [arrow-end unpat-start] 10px [unpat-end] 10px 10px [time-start] min-content [time-end article-start] auto [article-end] auto [history-start] auto [history-end diff-start] auto [diff-end user-start] auto [user-end talk-start] auto [talk-end comment-start] 1fr [comment-end rollback-start] auto [rollback-end tags-start] auto [tags-end watching-start] auto [watching-end right];
+  grid-template-columns: subgrid;
   grid-column: left / right;
   overflow-y: visible;
   height: auto;
@@ -1679,6 +1663,7 @@ span:has(> .mw-usertoollinks-block) {
   margin-right: 1.1ch;
   letter-spacing: 0.1ch;
 }
+.mw-changeslist-line-inner-comment > .comment,
 .mw-enhanced-rc-nested > .comment {
   grid-column: comment-start/comment-end;
   grid-row: auto;

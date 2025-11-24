@@ -2002,7 +2002,6 @@ body > table > thead > tr::before {
   > label[for='toggle_playing'] {
   z-index: var(--z-topmost-playpause-overlay);
   --icon: var(--icon-pause);
-  background-color: #4444;
 }
 
 :where(.player, .vidwrap) > label {
@@ -2010,13 +2009,7 @@ body > table > thead > tr::before {
   background-position: 50% 50%;
 }
 
-.vidwrap > * {
-  grid-column: 1/-1;
-  grid-row: 1;
-}
-
 .interleave > .vidwrap > label {
-  background-color: #ff03;
   width: var(--playerWidth);
   mask-image: var(--icon);
   background-image: var(--icon);
@@ -2027,11 +2020,46 @@ body > table > thead > tr::before {
   background-repeat: no-repeat;
 }
 
+:root {
+  --z-topmost-playpause-overlay: 34;
+  --z-other-playpause-overlay: 33;
+}
+.players,
+.toggles {
+  display: contents;
+}
+
+.interleave > .vidwrap > label {
+  z-index: var(--z-other-playpause-overlay);
+  background-color: #f001;
+  width: var(--playerWidth);
+  mask-image: var(--icon);
+  background-image: var(--icon);
+  background-position: 50% 50%;
+  mask-repeat: round repeat-y;
+  mask-position: 50% 50%;
+  mask-size: 15vmax;
+  background-size: 15vmax;
+  background-repeat: no-repeat;
+}
+:root:has([name='playpause'][value='paused']:checked)
+  :where(.player, .vidwrap)
+  > label[for='toggle_playing'] {
+  z-index: var(--z-topmost-playpause-overlay);
+  --icon: var(--icon-pause);
+  background-color: #4442;
+}
+
 .vidwrap {
   grid-area: unset;
   grid-row: 1;
   grid-column: 1/-1;
   place-items: center;
+}
+
+.vidwrap > * {
+  grid-column: 1/-1;
+  grid-row: 1;
 }
 
 .vidwrap > video {

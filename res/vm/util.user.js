@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.112
+// @version     1.1.114
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -42,6 +42,68 @@ const cssOQN = (el) =>
       .join('\n');
   };
 })({ document });
+
+const trackVisibility = (
+  ({ window, window: { document }, notify }) =>
+  () => {
+    const show_visible = () => (document.documentElement.dataset.visible = '');
+    const hide_visible = () => delete document.documentElement.dataset.visible;
+    const show_hidden = () => (document.documentElement.dataset.hidden = '');
+    const hide_hidden = () => delete document.documentElement.dataset.hidden;
+
+    const on_visibilitychange = () => {
+      if (document.visibilityState === 'visible') {
+        notify.info('page became visible');
+        show_visible();
+        hide_hidden();
+      }
+      if (document.visibilityState === 'hidden') {
+        notify.info('page became hidden');
+        hide_visible();
+        show_hidden();
+      }
+    };
+
+    window.addEventListener('visibilitychange', on_visibilitychange);
+
+    document.visibilityState === 'hidden' ? show_hidden() : hide_hidden();
+    document.visibilityState === 'visible' ? show_visible() : hide_visible();
+
+    return () => {
+      window.removeEventListener('visibilitychange', on_visibilitychange);
+      hide_hidden();
+      hide_visible();
+    };
+  }
+)({ window: unsafeWindow, notify: console });
+
+const trackPageFocus = (
+  ({ window, window: { document }, notify }) =>
+  ({}) => {
+    const hide_focused = () => delete document.documentElement.dataset.focused;
+    const show_focused = () => (document.documentElement.dataset.focused = '');
+
+    const on_blur = () => {
+      notify.info('page lost focus');
+      hide_focused();
+    };
+
+    const on_focus = () => {
+      notify.info('page gained focus');
+      show_focused();
+    };
+    window.addEventListener('blur', on_blur);
+    window.addEventListener('focus', on_focus);
+
+    document.hasFocus() ? show_focused() : hide_focused();
+
+    return () => {
+      window.removeEventListener('blur', on_blur);
+      window.removeEventListener('focus', on_focus);
+      hide_focused();
+    };
+  }
+)({ window: unsafeWindow, notify: console });
 
 /*{{{2 Logging */
 

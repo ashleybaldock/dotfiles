@@ -34,7 +34,8 @@
     %3C/svg%3E');
 }
 
-#UI_showHidden {
+:where(.next, .prev),
+.toggle > label {
   --icon-show: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 512%22%3E\
   %3Cpath d=%22M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c8.4-19.3 10.6-41.4 4.8-63.3c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zM373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5L373 389.9z%22/%3E\
   %3C/svg%3E');
@@ -42,9 +43,6 @@
   %3Cpath d=%22M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z%22%3E\
   %3C/path%3E\
   %3C/svg%3E');
-}
-:where(.next, .prev),
-:where(#UI_showHidden, .toggle) > label {
   --icon-default: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 320 512%22%3E%3Cpath d=%22M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z%22%3E%3C/path%3E%3C/svg%3E');
   --icon-slash-overlay: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffffff%22 stroke-width=%220%22 viewBox=%220 0 640 640%22%3E %3Cpath d=%22M39 39C48.4 29.6 63.6 29.6 72.9 39L601 567C610.4 576.4 610.4 591.6 601 600.9C591.6 610.2 576.4 610.3 567.1 600.9L39 73C29.7 63.6 29.7 48.4 39 39z%22%3E %3C/path%3E%3C/svg%3E');
   --icon-null-overlay: linear-gradient(#0000 0 0);
@@ -218,7 +216,7 @@
 }
 
 :where(.next, .prev),
-:where(#UI_showHidden, .toggle) > label {
+.toggle > label {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -284,12 +282,6 @@
 }
 .toggle[name='other'] > label {
   --icon: var(--icon-other);
-}
-#UI_showHidden:not(:has(:checked)) > label {
-  --icon: var(--icon-shown);
-}
-#UI_showHidden:has(:checked) > label {
-  --icon: var(--icon-hidden);
 }
 .toggle[name='grid'] > label {
   --icon: var(--icon-grid);
@@ -360,6 +352,8 @@
   min-width: 100vw;
   inset: auto auto -100vh auto;
 
+  --main-layout-column-count: 16;
+
   --inset-player: 0 0 0 0;
 
   --inset-top: 0 auto auto auto;
@@ -379,16 +373,15 @@
   --z-linear-cue-next-playing: 12;
   --z-linear-current-playing: 10;
   --z-player: 30;
-  --z-other-labels: 35;
+  --z-other-playpause-overlay: 33;
+  --z-topmost-playpause-overlay: 34;
+  --z-toggles: 35;
+  --z-other-labels: 39;
   --z-topmost-sequencetoggle-label: 40;
   --z-files: 50;
   --z-options: 55;
   --z-files-header: 60;
   --z-player-diag: 100;
-
-  --main-layout-column-count: 14;
-  --z-topmost-playpause-overlay: 34;
-  --z-other-playpause-overlay: 33;
 }
 
 /*!{{{1 Cursors */
@@ -1686,7 +1679,11 @@ body > table > thead > tr::before {
 /*!}}}1*/
 
 /*!{{{1 Toggles */
-:where(#UI_goUp, #UI_showHidden, .toggle) {
+#UI_goUp,
+#UI_showHidden {
+  display: none !important;
+}
+.toggle {
   grid-column: auto/span options-end;
   z-index: 10;
   grid-row: options;
@@ -1705,29 +1702,7 @@ body > table > thead > tr::before {
   content: attr(data-text);
 }
 
-#UI_goUp {
-  grid-column: 1;
-}
-#UI_goUp::after {
-  content: 'Parent directory';
-  justify-content: start;
-  left: 0;
-}
-
-#UI_showHidden {
-  grid-column: -2;
-  justify-self: end;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  place-items: center;
-}
-#UI_showHidden::after {
-  content: 'Show Hidden Files';
-  justify-self: end;
-  right: 0;
-}
-
-:where(#UI_goUp, #UI_showHidden, .toggle) > label {
+.toggle > label {
   grid-template-columns: auto auto;
   grid-template-rows: auto;
   font-size: 0;
@@ -1737,12 +1712,12 @@ body > table > thead > tr::before {
   cursor: pointer;
 }
 
-:where(#UI_goUp, #UI_showHidden, .toggle) > label > * {
+.toggle > label > * {
   grid-row: 1;
   grid-column: 1;
 }
 
-:where(#UI_goUp, #UI_showHidden, .toggle) > label::after {
+.toggle > label::after {
   mask-image: var(--icon);
   font-size: 1rem;
   content: '';
@@ -1762,14 +1737,14 @@ body > table > thead > tr::before {
   pointer-events: none;
 }
 
-:where(#UI_goUp, #UI_showHidden, .toggle) > label > input {
+.toggle > label > input {
   visibility: hidden;
   grid-column: 1;
   grid-row: 1;
   margin: 0;
 }
 
-:where(#UI_goUp, #UI_showHidden, .toggle) > * {
+.toggle > * {
   height: auto;
   width: 100%;
   place-self: center;
@@ -1777,14 +1752,14 @@ body > table > thead > tr::before {
   justify-content: center;
   align-items: center;
 }
-:where(#UI_goUp, #UI_showHidden, .toggle) > label {
+.toggle > label {
   background: none;
   aspect-ratio: 1;
 }
-:where(#UI_goUp, #UI_showHidden, .toggle) > label > span {
+.toggle > label > span {
   display: none;
 }
-:where(#UI_goUp, #UI_showHidden, .toggle):hover {
+.toggle:hover {
   background-image: radial-gradient(
     farthest-corner circle at top left,
     #4442,
@@ -1795,7 +1770,7 @@ body > table > thead > tr::before {
   border-radius: 25%;
   border: 0.5px solid #2224;
 }
-:where(#UI_goUp, #UI_showHidden, .toggle)::after {
+.toggle::after {
   white-space: normal;
   pointer-events: none;
   opacity: 0;
@@ -1833,12 +1808,12 @@ body > table > thead > tr::before {
       calc(var(--a)) #f0fc,
     0 0 #0000;
 }
-:where(#UI_goUp, #UI_showHidden, .toggle):hover::after {
+.toggle:hover::after {
   opacity: 1;
   transition: opacity 80ms ease 0s;
 }
 
-:where(#UI_goUp, #UI_showHidden, .toggle) {
+.toggle {
   top: 60vh;
 }
 
@@ -1854,16 +1829,16 @@ body > table > thead > tr::before {
   margin: 0;
 }
 
-:where(.toggle, #UI_showHidden) > label,
-:where(.toggle, #UI_showHidden) > label::after {
+.toggle > label,
+.toggle > label::after {
   grid-column: unset;
   grid-row: unset;
 }
 
-:where(.toggle, #UI_showHidden) > label,
-:where(.toggle, #UI_showHidden) > label::after,
-:where(.toggle, #UI_showHidden) > label > input,
-:where(.toggle, #UI_showHidden) > label > * {
+.toggle > label,
+.toggle > label::after,
+.toggle > label > input,
+.toggle > label > * {
   grid-template: 1fr/1fr;
   place-content: center;
   place-items: center;
@@ -1871,8 +1846,6 @@ body > table > thead > tr::before {
   grid-area: 1/1/1/1;
 }
 
-#UI_goUp,
-#UI_showHidden,
 .toggle {
   inset: var(--inset-options);
   margin: var(--margin-options);
@@ -2020,13 +1993,14 @@ body > table > thead > tr::before {
   background-repeat: no-repeat;
 }
 
-:root {
-  --z-topmost-playpause-overlay: 34;
-  --z-other-playpause-overlay: 33;
-}
 .players,
 .toggles {
   display: contents;
+}
+
+.toggles,
+.toggles > * {
+  z-index: var(--z-toggles);
 }
 
 .interleave > .vidwrap > label {

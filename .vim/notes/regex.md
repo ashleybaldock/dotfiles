@@ -139,7 +139,7 @@
 ?\_[^MLVCSQTAmlhvcsqtaZz0-9. -]
 ```
 ```reg
-%s/path\_s\+d=\(["']\|%22\)\zs\_[MLVCSQTAmlhvcsqtaZz0-9. -]*\ze\1
+%s/path\_s\+d=\(["']\|%22\)\zs\_[MLVCSQTAmlhvcsqtaZz0-9. -]*\ze\1/
 ```
 
 ### Inside & Outside
@@ -171,11 +171,24 @@ echo autocmd_add([#{event: 'CursorHold', pattern: '<buffer>', cmd: 'exec "/"..ge
 ```reg
 s/pattern/e/g
 s/pattern/replacement/g
+s/patt.*\>/replacement/g
+s/patt\_.*\>/replacement/g
+s/patt\.ern/replacement/g
 s/\<pattern\>/replacement/g
 substitute/pattern/replacement/g
 s/pat\/tern/replac\/ement/g
 :%s/pattern/replace\0ment/g
+s/^pattern$/replacement/g
+s/\^pattern\$/replacement/g
+s/\_^pattern\_$/replacement/g
+s/p^patter$n/replacement/g
+s/p\^patter\$n/replacement/g
+s/p\_^patter\_$n/replacement/g
+:%substitute/pattern/replace\0ment/g
+:%substitute|pattern|replace\0ment|g
 :%substitute$pattern$replace\0ment$g
+:%substitute$pattern\$replace\0ment$g
+:%substitute$a\_^pattern\_$replace\0ment$g
 '<,'>subs/pat\(capturing[1-9a-d]\)tern/repl\1acement/gc 23
 '<,'>subs+pat\(capturing[^PQ1-9a-d]\)tern+repl\1acement+gc 23
 '<,'>su/pat\%(non-capturing[1-9a-d]\)tern/repl\1acement/gc 23
@@ -183,6 +196,20 @@ s/pat\/tern/replac\/ement/g
 '<,'>su/pat\%(non-[^-9-][-9-]\)tern/repl\1acement/gc 23
 '<,'>su/pat\%(non-[^1--8][1--8]\)tern/repl\1acement/gc 23
 '<,'>s/pat\%(alt\|er\|\(nested\)\)tern/repl\1acement/gc 23
+
+
+
+s/ 99th…️   line   col   v.col  mark   /
+s/    at  \%99l  \%99c  \%99v  \%'q   /
+s/before \%<99l \%<99c \%<99v \%<'q   /
+s/ after \%>99l \%>99c \%>99v \%>'q   /
+s/         line   col   v.col    of   /
+s/    at  \%.l    \%.c   \%.v  cursor /
+s/before \%>.l   \%>.c  \%>.v         /
+s/ after \%<.l   \%<.c  \%<.v         /
+
+s/pattern/replacement/g
+s/pattern/replacement/g
 
 s/0\(1\)\(2\)\(3\)\(4\)\(5\)\(6\)\(7\)\(8\)\(9\)/\0\1\2\3\4\5\6\7\8\9/
 s/0\(1\(2\(3\(4\(5\(6\(7\(8\(9\)8\)7\)6\)5\)4\)3\)2\)1\)0/\0\1\2\3\4\5\6\7\8\9/
@@ -364,10 +391,13 @@ Selector list
 %s/\%(\%^\|}\)\_s*\zs\%(\s*\_[^} ]\)*\ze\s*{/
 ```
 
-##Selector
+## Selector
 
 ```reg
 \%(\%^\|[},]\)\_s*\zs\%(\s*\_[^}, ]\)*\ze\s*[,{]
 ```
 
-Selector & trailing comma
+## Selector & trailing comma
+
+
+

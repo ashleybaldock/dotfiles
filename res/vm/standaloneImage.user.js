@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.297
+// @version     1.2.298
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -385,7 +385,7 @@ viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
 
     const mousedown = (e) => {
       const { trigger } = buttonsPressed(e);
-      if (trigger.left) {
+      if (trigger === 'left') {
         e.preventDefault();
         if (e.target.classList.contains('handle')) {
           e.stopPropagation();
@@ -399,7 +399,7 @@ viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
     const mouseup = (e) => {
       const { trigger, pressed } = buttonsPressed(e);
       // console.debug(buttonsPressed(e));
-      if (selecting() && (trigger.left || !pressed.left)) {
+      if (selecting() && (trigger === 'left' || !pressed.left)) {
         // e.stopPropagation();
         e.preventDefault();
         endSelection(e);
@@ -415,17 +415,17 @@ viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
     const keydown = (e) => {
       const { trigger, pressed } = buttonsPressed(e);
       if (selecting()) {
-        if (trigger.Escape) {
+        if (trigger === 'Escape') {
           cancelSelection();
         }
       } else {
         if (selection()) {
-          if (trigger.Escape) {
+          if (trigger === 'Escape') {
             clearSelection();
           }
         }
       }
-      if (pressed.ctrl && trigger.a) {
+      if (pressed.ctrl && trigger === 'a') {
         selectAll();
       }
     };

@@ -927,3 +927,244 @@ article {
 :not(#u#n#i) .main-container {
   grid-template-columns: 100%;
 }
+
+article {
+  scroll-snap-align: start;
+  scroll-margin: var(--smt) 0 var(--smb) 0;
+  min-height: 33vh;
+  height: auto;
+  max-height: 100vh;
+  min-width: 100vw;
+  max-width: 100vw;
+  padding: 0;
+  display: grid;
+  grid-template-rows:
+    0 0 0 0 0 0 0 0 [
+    credit-start
+    title-start] auto [
+    title-end
+    credit-end
+    content-start] auto [
+    content-end
+    nsfw-start] 0 [
+    nsfw-end] 0 [] 0 [
+    buttons-start] 0 [
+    buttons-end] 20px [
+    after-start] auto auto auto auto [] auto [] auto [
+    after-end];
+  grid-template-columns:
+    [] 0 [
+    credit-start
+    content-start] auto [
+    credit-end
+    title-start] 2fr [
+    title-end
+    content-end];
+  position: relative;
+  grid-auto-flow: column;
+}
+
+:not(#u#n#i) .created-separator {
+  display: none;
+}
+:not(#u#n#i) shreddit-post::before,
+:not(#u#n#i) shreddit-post > ::before {
+  content: none;
+}
+
+:not(#u#n#i) shreddit-post {
+  visibility: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+:not(#u#n#i) shreddit-post * {
+  z-index: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+:not(#u#n#i) shreddit-post [slot='full-post-link'] {
+  grid-column: title-start/title-end;
+  grid-row: title-start/title-end;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  align-self: normal;
+  /*   outline: 1px dashed #808;
+  outline-offset: -2px; */
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0 0.5ch 0 0;
+  border: 0;
+  background-color: #191919;
+}
+:not(#u#n#i)
+  shreddit-post
+  [slot='full-post-link']
+  faceplate-screen-reader-content {
+  position: static;
+  width: unset;
+  height: unset;
+  display: inline;
+  overflow: visible;
+  clip: unset;
+  white-space: normal;
+  clip-path: unset;
+  font-size: 0.9em;
+  color: #bbb;
+  line-height: normal;
+  text-align: end;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-shadow:
+    0 0.1ch 0 #000,
+    -0.1ch 0 0 #000,
+    0.08ch 0.04ch 0 #fffa,
+    0.1ch 0 0 #000,
+    0 -0.1ch 0 #000,
+    0.1ch 0 0 #000;
+  pointer-events: none;
+}
+:not(#u#n#i) shreddit-post [slot='full-post-link']:hover {
+  text-decoration: 0.01ch underline #000;
+  text-decoration-skip-ink: auto;
+  text-underline-offset: 0.1em;
+}
+:not(#u#n#i) shreddit-post [slot='title'] {
+  display: none;
+}
+
+:not(#u#n#i) shreddit-post [slot='credit-bar'] {
+  grid-column: credit-start/credit-end;
+  grid-row: credit-start/credit-end;
+  height: min-content;
+  max-width: fit-content;
+  display: grid;
+  grid-template-columns: 26px auto 1fr;
+  grid-template-rows: 1lh 1lh;
+  align-content: center;
+  align-items: center;
+  column-gap: 0.5ch;
+  margin: 0;
+  row-gap: 0;
+  padding: 0;
+  background-color: #191919;
+}
+:not(#u#n#i)
+  [slot='post-media-container']:has(
+    > shreddit-async-loader[bundlename='gallery_carousel']
+  )
+  ul {
+  grid-column: content-start/content-end;
+  grid-row: content-start/content-end;
+  align-content: first baseline;
+  align-items: start;
+  grid-template-rows: repeat(var(--rowsper), calc(100% / var(--rowsper)));
+  height: 100% !important;
+}
+
+:not(#u#n#i) shreddit-post [id^='feed-post-credit-bar'],
+:not(#u#n#i) shreddit-post [data-post-click-location='subreddit-link'],
+:not(#u#n#i) shreddit-post [data-post-click-location='subreddit-link'] > *,
+:not(#u#n#i)
+  shreddit-post
+  span:has(> [bundlename='shreddit_post_overflow_menu']) {
+  display: contents;
+}
+:not(#u#n#i) shreddit-post .text-neutral-content {
+  grid-area: unset;
+  grid-row: 1/-1;
+  grid-column: 1/-1;
+  margin: -0.1lh 0 0 0;
+  z-index: unset;
+  line-height: 0.9;
+  height: fit-content;
+  display: flex;
+  align-items: self-start;
+  align-content: center;
+  font-size: 0.9em;
+}
+
+:not(#u#n#i) shreddit-post faceplate-timeago {
+  grid-row: 2;
+  grid-column: 2;
+  font-size: 0.9em;
+  line-height: 0.9;
+  margin: -0.4lh 0 0 0;
+}
+
+:not(#u#n#i) shreddit-post [bundlename='shreddit_post_overflow_menu'],
+:not(#u#n#i) shreddit-post shreddit-post-overflow-menu {
+  max-height: 20px;
+  grid-row: 2;
+  grid-column: 3;
+  width: fit-content;
+  height: auto;
+  margin: -0.9lh 0 0 0;
+  overflow: hidden;
+}
+
+:not(#u#n#i)
+  [slot='post-media-container']:has(
+    > shreddit-async-loader[bundlename='gallery_carousel']
+  )
+  ul {
+  --ncols: 5;
+  --rowsper: 3;
+  max-height: min(100%, 100vh) !important;
+  max-width: 100vw !important;
+  align-content: center;
+  align-items: center;
+  grid-template-rows: repeat(var(--rowsper), calc(100% / var(--rowsper)));
+  height: 100% !important;
+  margin: 0.5ch 2px;
+  column-gap: 0;
+  row-gap: 0;
+  cursor: initial;
+}
+:not(#u#n#i)
+  [slot='post-media-container']:has(
+    > shreddit-async-loader[bundlename='gallery_carousel']
+  )
+  ul
+  li {
+  display: flex;
+  max-height: min(100%, 100vh) !important;
+  height: fit-content !important;
+  width: 100% !important;
+  padding: 0;
+  margin: 0;
+  background-color: #1114;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  transform: scale(0.98);
+}
+:not(#u#n#i)
+  [slot='post-media-container']:has(
+    > shreddit-async-loader[bundlename='gallery_carousel']
+  )
+  ul
+  li:hover {
+  transform: scale(1);
+}
+:not(#u#n#i)
+  [slot='post-media-container']:has(
+    > shreddit-async-loader[bundlename='gallery_carousel']
+  )
+  ul
+  li
+  img {
+  transform: scale(1.5) translate(0, 10%);
+  filter: blur(5px) opacity(0.3);
+}
+:not(#u#n#i)
+  [slot='post-media-container']:has(
+    > shreddit-async-loader[bundlename='gallery_carousel']
+  )
+  ul
+  li:hover
+  img {
+  filter: blur(0);
+  transform: scale(1);
+}

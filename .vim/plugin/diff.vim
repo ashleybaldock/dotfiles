@@ -5,6 +5,11 @@ let g:mayhem_loaded_diff = 1
  
 let s:mayhem_diff_off = 'mayhem_diff_off'
 
+"
+" See also: ./winbar.vim
+"           ./statusline.vim
+" 
+
 " function! s:closeSavedVersionWindow(tempbuf)
 "   for l:winId in win_findbuf(a:tempbuf)
 "     call win_execute(l:winId, ":q")
@@ -38,9 +43,10 @@ function! s:DiffWithOff(diffoff, tempbuf = 0)
   else
     nunmap <buffer> [[
     nunmap <buffer> ]]
-    nunmap <buffer> “
-    nunmap <buffer> ‘
-    unlet b:mayhem_diff_left
+    nunmap <buffer> }
+    nunmap <buffer> {
+    silent! unlet b:mayhem_diff_left
+    silent! unlet b:mayhem_diff_right
   endif
 
   call autocmd_delete([#{ event: '*', group: s:mayhem_diff_off}])
@@ -79,6 +85,7 @@ function! s:SetupRightDiff(execForContent)
   let sourceft = &filetype
   vert new | setlocal bt=nofile modifiable
   exec a:execForContent
+  let &l:filetype = sourceft
   exec 'nnoremap <buffer> §dx :diffoff!<CR>'
   nnoremap <buffer> [[ [c
   nnoremap <buffer> ]] ]c

@@ -14,12 +14,12 @@ set cpo&vim
 syn match preYes +[✔︎✓☑︎☘︎☺︎]+
 syn match preMaybe +[¿‽⸮⁈⁉︎⁇†‡]+
 syn match preNo +[✘✖︎✗☒⚑☓☹︎‼︎]+
-syn match preBigSquare /[\u23a1-\u23a6]\+/ contains=NONE
-syn match preBigCurly /[\u23a7-\u23ad]\+/ contains=NONE
-syn match preBigParens /[\u239b-\u23a0]\+/ contains=NONE
-syn match preBlocks /[\u2580-\u259f]\+/ contains=NONE
-syn match preShapes /[\u25a0-\u25ff]\+/ contains=NONE
-syn match preBox /[\u2500-\u257f]\+/ contains=NONE
+syn match preBigSquare /[\u23a1-\u23a6]/ contains=NONE
+syn match preBigCurly /[\u23a7-\u23ad]/ contains=NONE
+syn match preBigParens /[\u239b-\u23a0]/ contains=NONE
+syn match preBlocks /[\u2580-\u259f]/ contains=NONE
+syn match preShapes /[\u25a0-\u25ff]/ contains=NONE
+syn match preBox /[\u2500-\u257f]/ contains=NONE
 
 
 syn match preEscaped /\%(\\\S[^)\u2500-\u257f \\]*\)\+/
@@ -69,11 +69,17 @@ syn match vs9F +󠅞+
 
 hi def vs80 guifg=#000000
 hi def vs81 guifg=#ff0000
+hi def vs92 guifg=#ff8800
 hi def vs82 guifg=#ffff00
+hi def vs93 guifg=#88ff00
 hi def vs83 guifg=#00ff00
+hi def vs94 guifg=#00ff88
 hi def vs84 guifg=#00ffff
+hi def vs95 guifg=#0088ff
 hi def vs85 guifg=#0000ff
+hi def vs96 guifg=#8800ff
 hi def vs86 guifg=#ff00ff
+hi def vs91 guifg=#ff0088
 hi def vs87 guifg=#ffffff
 
 hi def vs88 guifg=#222222
@@ -91,59 +97,62 @@ hi def vs8E guifg=#880088
 " hi def vs8E         guifg=#ff00ff
 hi def vs8F guifg=#777777
                   
-hi def vs90 guifg=#000000
-hi def vs91 guifg=#ff0088
-hi def vs92 guifg=#ff8800
-hi def vs93 guifg=#88ff00
-hi def vs94 guifg=#00ff88
+hi def vs90 guifg=#ff0088
+hi def vs91 guifg=#ff8800
+hi def vs92 guifg=#ffff44
+hi def vs93 guifg=#88ff44
+hi def vs94 guifg=#44ffff
 hi def vs95 guifg=#0088ff
-hi def vs96 guifg=#8800ff
-hi def vs97 guifg=#000000
+hi def vs96 guifg=#8844ff
+hi def vs97 guifg=#ff44ff
 
-hi def vs98 guifg=#000000
-hi def vs99 guifg=#ff8888
-hi def vs9A guifg=#ffff88
-hi def vs9B guifg=#88ff88
-hi def vs9C guifg=#88ffff
-hi def vs9D guifg=#8888ff
-hi def vs9E guifg=#ff88ff
-hi def vs9F guifg=#ffffff
+hi def vs98 guifg=#ff6688  guibg=#ff88aa
+hi def vs99 guifg=#ff8866  guibg=#ffaa88
+hi def vs9A guifg=#ffff88  guibg=#ffffaa
+hi def vs9B guifg=#88ff88  guibg=#b9ffb9
+hi def vs9C guifg=#88ffff  guibg=#bbffff
+hi def vs9D guifg=#6688ff  guibg=#88aaff
+hi def vs9E guifg=#8866ff  guibg=#aa88ff
+hi def vs9F guifg=#ff88ff  guibg=#ffaaff
 
-"hi def Tag80 guifg=#000000
-"hi def Tag81 guifg=#4400ff
-"hi def Tag81 guifg=#0000ff
-"hi def Tag81 guifg=#0044ff
-"  hi def Tag82 guifg=  #4444ff
-"  hi def Tag82 guifg #4488ff
-" hi def Tag82 guifg= #0088ff
-"  hi def Tag82 guifg=  #44aaff
-"hi def Tag83 guifg=#00ffff
-" hi def Tag84 guifg=   #44ff88
-" hi def Tag84 guifg= #00ff88
-"hi def Tag85 guifg=#00ff00
-"  hi def Tag86 guifg=  #44ff44
-" hi def Tag86 guifg= #88ff00
-"  hi def Tag86 guifg= #88ff44
-"  hi def Tag86 guifg=  #aaff44
-"hi def Tag87 guifg=#ffff00
-"  hi def Tag88 guifg=  #ffaa44
-" hi def Tag88 guifg= #ff8800
-"  hi def Tag88 guifg=  #ff4444
-"hi def Tag89 guifg= #ff4422
-"hi def Tag89 guifg= #ff4400
-"hi def Tag89 guifg=#ff0000
-"hi def Tag89 guifg= #ff0044
-" hi def Tag8A guifg= #ff0088
-" hi def Tag8A guifg= #ff00aa
-" hi def Tag8A guifg= #ff4488
-"  hi def Tag8A guifg=  #ff44aa
-"hi def Tag8B guifg=#ff00ff
-"hi def Tag8B guifg= #ff22ff
-"hi def Tag8B guifg=  #ff44ff
-"  hi def Tag8C guifg=  #aa44ff
-" hi def Tag8C guifg= #8800ff
-"  hi def Tag8C guifg=  #4400ff
-"  hi def Tag8C guifg=  #0044ff
+"#000000
+"#4400ff
+"#0000ff     #6867ff #000088
+"#0044ff
+"    #4444ff
+"  #4488ff
+"  #0088ff     #004488
+"  #0e95ff     #075588
+"    #44aaff
+"#00ffff     #008888
+"#00acab     #005656
+"    #44ff88
+"  #00ff88     #008844
+"#00ff00     #008800
+"#00cc00     #006600
+"    #44ff44
+"  #88ff00     #448800
+"   #88ff44
+"    #aaff44
+"#ffff00     #888800 #868600
+"    #ffaa44
+"  #ff8800     #884400
+"    #ff4444
+" #ff4422
+" #ff4400
+"#ff0000     #880000
+" #ff0044
+"  #ff0088     #880044
+"   #ff00aa
+"    #ff44aa
+"  #ff4488
+"#ff00ff     #880088
+" #ff22ff
+"  #ff44ff
+"    #aa44ff
+"  #8800ff     #440088
+"    #4400ff
+"    #0044ff
 "hi def Tag9A guifg=#ffffff
 " hi def Tag8D guifg=#000088  #444488
 " hi def Tag8E guifg=#8888ff  #8888aa
@@ -209,13 +218,13 @@ syn match preArrows />\?-\+>/ contains=NONE
 syn match preArrows /<-\+<\?/ contains=NONE
 syn match preArrows /<-\+>\?/ contains=NONE
 
-syn match preNewline /[⏎⏎️]↩︎/ contains=NONE
+syn match preNewline /[⏎↩]/ contains=NONE
 
-hi def preBox       guifg=#eebbee
-hi def preBigSquare guifg=#ff9999
-hi def preBigCurly  guifg=#00ff99
-hi def preBigParens guifg=#9999ff
-hi def preShapes    guifg=#99ffbb
+hi def preBox       guifg=#ffccff
+hi def preBigSquare guifg=#ffbbbb
+hi def preBigCurly  guifg=#00ff88
+hi def preBigParens guifg=#bbbbff
+hi def preShapes    guifg=#99ff99
 hi def preArrows    guifg=#ffff88
 hi def preEscaped   guifg=#88eeee
 hi def preSquare    guifg=#12cd4d
@@ -225,10 +234,9 @@ hi def preMaybe     guifg=#ffaa00
 hi def preNo        guifg=#ff0000
 hi def preNewline   guifg=#ff00ff
 
-hi def preEqVar guifg=#f56cff
-hi def Tag81 guifg=#ff00ff
+hi def preEqVar     guifg=#f56cff
 
-hi def TestInd guifg=#ffaa22
+hi def TestInd      guifg=#ffaa22
 
 let b:current_syntax = "pre"
 

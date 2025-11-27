@@ -391,6 +391,8 @@ function s:Update_FileInfo() abort
   let ext = expand('%:e')
   let name = expand('%:r')
   let diffname = getbufvar(bufnr(), 'mayhem_diff_saved', '')
+  let diff_left = getbufvar(bufnr(), 'mayhem_diff_left', 0)
+  let diff_right = getbufvar(bufnr(), 'mayhem_diff_right', 0)
   let tail = expand('%:t')
   let type = getbufvar(bufnr(), '&filetype')
   let hint = mayhem#getHintForPath('%')

@@ -1168,3 +1168,120 @@ article {
   filter: blur(0);
   transform: scale(1);
 }
+
+shreddit-feed.nd\:visible
+  > article:nth-child(3)
+  > shreddit-post:nth-child(1)
+  > div:nth-child(5)
+  > ul:nth-child(7) {
+  /* --ncols: 2; */
+  /* --rowsper: 1; */
+  --ncols: 6;
+  --rowsper: 5;
+}
+
+:not(#u#n#i) article {
+  grid-template-columns: [] 0 [ credit-start content-start] auto [ credit-end cross-start] auto [ cross-end title-start] 2fr [ title-end content-end];
+}
+
+:not(#u#n#i) [slot='post-media-container'] > * {
+  display: none;
+}
+:not(#u#n#i) faceplate-carousel,
+:not(#u#n#i) gallery-carousel > ul,
+:not(#u#n#i) [slot='post-media-container'] > ul {
+  grid-row: content-start/content-end;
+  grid-column: content-start/content-end;
+}
+:not(#u#n#i)
+  shreddit-post
+  [slot='post-media-container']
+  > div:has(> .crosspost-credit-bar) {
+  display: contents;
+}
+:not(#u#n#i)
+  shreddit-post
+  [slot='post-media-container']
+  > div:has(> .crosspost-credit-bar)
+  > .crosspost-title {
+  display: none;
+}
+/* :not(#u#n#i) shreddit-post [slot="credit-bar"] { */
+:not(#u#n#i) shreddit-post [slot='credit-bar'],
+:not(#u#n#i)
+  shreddit-post
+  [slot='post-media-container']
+  > div
+  > .crosspost-credit-bar {
+  grid-column: credit-start/credit-end;
+  grid-row: credit-start/credit-end;
+  height: min-content;
+  max-width: fit-content;
+  display: grid;
+  grid-template-columns: 26px auto 1fr;
+  grid-template-rows: 1lh 1lh;
+  align-content: center;
+  align-items: center;
+  column-gap: 0.5ch;
+  margin: 0;
+  row-gap: 0;
+  padding: 0;
+  background-color: #191919;
+}
+:not(#u#n#i)
+  shreddit-post
+  [slot='post-media-container']
+  > div
+  > .crosspost-credit-bar {
+  grid-column: cross-start/cross-end;
+  grid-template-columns: auto auto;
+  grid-template-rows: 1lh 1lh;
+}
+
+:not(#u#n#i) [slot='post-media-container'] > a {
+  grid-row: credit-start/credit-end;
+  display: none;
+}
+:not(#u#n#i)
+  shreddit-post
+  [slot='post-media-container']
+  > div
+  > .crosspost-credit-bar
+  > a {
+  white-space: pre;
+}
+:not(#u#n#i)
+  shreddit-post
+  [slot='post-media-container']
+  > div
+  > .crosspost-credit-bar
+  > span {
+  display: none;
+}
+:not(#u#n#i)
+  shreddit-post
+  [slot='post-media-container']
+  > div
+  > .crosspost-credit-bar
+  > faceplate-timeago {
+  white-space: pre;
+}
+
+:not(#u#n#i) faceplate-carousel,
+:not(#u#n#i) gallery-carousel > ul,
+:not(#u#n#i) [slot='post-media-container'] > ul {
+  padding: 0;
+  margin: 0;
+  padding-inline-start: 0;
+  cursor: initial;
+  max-height: 100vh !important;
+  grid-template-columns: repeat(var(--ncols), 1fr);
+  grid-template-rows: repeat(var(--rowsper), 1fr);
+  z-index: unset;
+
+  --ncols: var(--ver-ncols, 5);
+  --rowsper: var(--ver-rowsper, 6);
+}
+
+@media (max-aspect-ratio: 4/3) {
+}

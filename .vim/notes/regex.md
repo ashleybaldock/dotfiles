@@ -66,7 +66,7 @@
                                ╭─────────────────────────────────────────────────╮
   ╭───────────────╮   ╭───────╮│            line │ file/string │ word │ pattern  │
   │W ←︎ zero width │   │ Atoms 􀬚         ──┬─────│─────────────│──────│───────── │
-  │↓️B ←️ not in [] │   ╰───────╯│     start │ BoL │    BoF/S    │ BoW  │ BoP      │
+  │↓️B ← not in [] │   ╰───────╯│     start │ BoL │    BoF/S    │ BoW  │ BoP      │
   ├─↓️┬────────────┼────────────┤       end │ EoL │    EoF/S    │ EoW  │ EoP      │
   │  │ start  end │     of...  └┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
   │WB│  \_^   \_$ │ File/string             \^   \$  │   literal                 │
@@ -194,7 +194,7 @@ s/p\_^patter\_$n/replacement/g
 '<,'>su/pat\%(non-capturing[1-9a-d]\)tern/repl\1acement/gc 23
 '<,'>su/pat\%(non-[^-][-]\)tern/repl\1acement/gc 23
 '<,'>su/pat\%(non-[^-9-][-9-]\)tern/repl\1acement/gc 23
-'<,'>su/pat\%(non-[^1--8][1--8]\)tern/repl\1acement/gc 23
+'<,'>su/\%88c\%<76lpat\%(non-[^1--8][1--8]\)tern/repl\1acement/gc 23
 '<,'>s/pat\%(alt\|er\|\(nested\)\)tern/repl\1acement/gc 23
 
 

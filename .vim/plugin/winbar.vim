@@ -65,14 +65,13 @@ function! s:WinBarUpdate()
   if &diff
     silent nunmenu WinBar
     " nnoremenu 1.10 WinBar.􀆧\ $dx\ \ 􀈄\ §de\ 􀈂\ §dt▕\ 􀆇\ [c▕\ 􀆈\ ]c▕\ 􀅌\ §dr <nop>
+    "􀤴\ 􀤵\ 
+      silent nnoremenu 1.05 WinBar.􀆧\ $dx <Nop>
     if exists("b:mayhem_diff_left")
-      silent nnoremenu 1.05 WinBar.􀤴\ 􀆧\ $dx <Nop>
-      silent nnoremenu 1.20 WinBar.􂨪\ \ 􀆝[ <Nop>
+      silent nnoremenu 1.20 WinBar.􂨪\ \ 􀆝] <Nop>
     elseif exists("b:mayhem_diff_right")
-      silent nnoremenu 1.05 WinBar.􀤵\ 􀆧\ $dx <Nop>
-      silent nnoremenu 1.20 WinBar.􂨩\ \ 􀆝] <Nop>
+      silent nnoremenu 1.20 WinBar.􂨩\ \ 􀆝[ <Nop>
     else
-      silent nnoremenu 1.10 WinBar.􀆧\ $dx <Nop>
       silent nnoremenu 1.20 WinBar.􀈄\ §de\ ╱\ 􀈂\ §dt <Nop>
     endif
     " silent nnoremenu 1.30 WinBar.􀄶􀄨􀄻􀄲\ [[\ ╱\ 􀄺􀄩􀄷􀄳\ ]] <Nop>

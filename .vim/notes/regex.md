@@ -140,6 +140,8 @@
 ```
 ```reg
 %s/path\_s\+d=\(["']\|%22\)\zs\_[MLVCSQTAmlhvcsqtaZz0-9. -]*\ze\1/
+
+s/\%(<path\_s\_[^<>]*\)\@<=\&\%(\<d="\_[^"]*\)\@<=\&\%(\_[^"]*"\)\@=\&M\(\d\+\)\s\+\(\d\+\)h\(\d\+\)/M\1 \2h\3v1h-\3z/g
 ```
 
 ### Inside & Outside
@@ -184,19 +186,57 @@ s/\_^pattern\_$/replacement/g
 s/p^patter$n/replacement/g
 s/p\^patter\$n/replacement/g
 s/p\_^patter\_$n/replacement/g
-:%substitute/pattern/replace\0ment/g
+:%substitute/\p\a\t\t\e\r\n/replace\0ment/g
 :%substitute|pattern|replace\0ment|g
 :%substitute$pattern$replace\0ment$g
 :%substitute$pattern\$replace\0ment$g
 :%substitute$a\_^pattern\_$replace\0ment$g
-'<,'>subs/pat\(capturing[1-9a-d]\)tern/repl\1acement/gc 23
-'<,'>subs+pat\(capturing[^PQ1-9a-d]\)tern+repl\1acement+gc 23
+:s/\(capturing\|\a\l\t\e\r\n\a\t\e\)/replace\0ment/g
+'<,'>subs/pat\(capturing[|.>?1-9a-d]\)t\s\w\Iern/repl\1acement/gc 23
+'<,'>subs+pat\(capturing[^PQ1-9a-d]\)t\S\Wern+repl\1acement+gc 23
 '<,'>su/pat\%(non-capturing[1-9a-d]\)tern/repl\1acement/gc 23
 '<,'>su/pat\%(non-[^-][-]\)tern/repl\1acement/gc 23
 '<,'>su/pat\%(non-[^-9-][-9-]\)tern/repl\1acement/gc 23
 '<,'>su/\%88c\%<76lpat\%(non-[^1--8][1--8]\)tern/repl\1acement/gc 23
 '<,'>s/pat\%(alt\|er\|\(nested\)\)tern/repl\1acement/gc 23
 
+/\a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z/
+/\A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z/
+/\0\1\2\3\4\5\6\7\8\9/
+
+/[[:alnum:]]/
+/[^[:alnum:]]/
+/[[:alnum:][:alpha:][:blank:][:cntrl:][:digit:][:graph:][:lower:]]/
+/[[:print:][:punct:][:space:][:upper:][:xdigit:][:return:][:tab:]]/
+/[[:escape:][:backspace:][:ident:][:keyword:][:fname:]]/
+/[alnum:][alpha:][blank:][cntrl:][digit:][graph:][lower:]/
+/[print:][punct:][space:][upper:][xdigit:][return:][tab:]/
+/[escape:][backspace:][ident:][keyword:][fname:]/
+/[:alnum][:alpha][:blank][:cntrl][:digit][:graph][:lower]/
+/[:print][:punct][:space][:upper][:xdigit][:return][:tab]/
+/[:escape][:backspace][:ident][:keyword][:fname]/
+/[:alnum:][:alpha:][:blank:][:cntrl:][:digit:][:graph:][:lower:]/
+/[:print:][:punct:][:space:][:upper:][:xdigit:][:return:][:tab:]/
+/[:escape:][:backspace:][:ident:][:keyword:][:fname:]/
+/[^[:alnum:][:alpha:][:blank:][:cntrl:][:digit:][:graph:][:lower:]]/
+/[^[:print:][:punct:][:space:][:upper:][:xdigit:][:return:][:tab:]]/
+/[^[:escape:][:backspace:][:ident:][:keyword:][:fname:]]/
+/[^alnum:][^alpha:][^blank:][^cntrl:][^digit:][^graph:][^lower:]/
+/[^print:][^punct:][^space:][^upper:][^xdigit:][^return:][^tab:]/
+/[^escape:][^backspace:][^ident:][^keyword:][^fname:]/
+/[^:alnum][^:alpha][^:blank][^:cntrl][^:digit][^:graph][^:lower]/
+/[^:print][^:punct][^:space][^:upper][^:xdigit][^:return][^:tab]/
+/[^:escape][^:backspace][^:ident][^:keyword][^:fname]/
+/[^:alnum:][^:alpha:][^:blank:][^:cntrl:][^:digit:][^:graph:][^:lower:]/
+/[^:print:][^:punct:][^:space:][^:upper:][^:xdigit:][^:return:][^:tab:]/
+/[^:escape:][^:backspace:][^:ident:][^:keyword:][^:fname:]/
+
+/  g\=g\?        g*   g\+                        /
+/    0→1    0→9   0→∞   1→∞     9→∞    2→9     9 /
+/  g\{,1} g\{,9} g\{} g\{1,} g\{9,} g\{2,9} g\{9}/
+/ l\{-,1}l\{-,9}l\{-}l\{-1,}l\{-9,}l\{-2,9}l\{-9}/
+/ g\{0,1}       g\{,}                     g\{9,9}/
+/l\{-0,1}      l\{-,}                    l\{-9,9}/
 
 
 s/ 99th…️   line   col   v.col  mark   /
@@ -359,31 +399,58 @@ multibyte characters).
 ## Template from each Table Row
 
 ```reg
-%s/|\ {{\w\+|\(\w\+\)}}.*\n|\s\?\([^|]*\)\n|\s\?\([^|]*\)\n|\s\?\([^|]*\)\n|\s\?\([^|]*\)\n\%(|-\||}\)
+/|\ {{\w\+|\(\w\+\)}}.*\n|\s\?\([^|]*\)\n|\s\?\([^|]*\)\n|\s\?\([^|]*\)\n|\s\?\([^|]*\)\n\%(|-\||}\)/
 ```
 
 ```reg
-%s/|\ {{\w\+|\(\w\+\)}}.*\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n\%(|-\||}\)
-                           |\s\?\(.*\)\n|
-                           One table cell
+/|\ {{\w\+|\(\w\+\)}}.*\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n\%(|-\||}\)/
+                         |\s\?\(.*\)\n|
+                         One table cell
 ```
 
 ```reg
-%s|test|
-%s/|\ {{\w\+|\(\w\+\)}}.*\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n\%(|-\||}\)/
+|test|
+/|\ {{\w\+|\(\w\+\)}}.*\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n|\s\?\(.*\)\n\%(|-\||}\)/
 
                            |.*||\s\?\(.*\)\%(\n|\|||\)
 ```
 
-## Match all block comments
 
-Including whitespace before/after
+## CSS
 
+### Block comments
+
+```reg
+/\(\/\*.\{-}\*\/\)\+/
+```
+```reg
+/(\s*\/\*\_[^*]*\*\/\s*\_s\)\+/
+/(\s*\/\*[^!]\_[^*]*\*\/\s*\_s\)\+/
+/(\s*\/\*!\_[^*]*\*\/\s*\_s\)\+/
+```
+
+Not including/only 'important' comments
+```reg
+/\(\/\*[^!].\{-}\*\/\)\+/
+/\(\/\*!.\{-}\*\/\)\+/
+```
+
+Including whitespace/(& blank lines) before/after
+
+```reg
+/\(\s*\/\*.\{-}\*\/\s*\)\+/
+/\(\s*\/\*[^!].\{-}\*\/\s*\)\+/
+/\(\s*\/\*!.\{-}\*\/\s*\)\+/
+
+/\(\_s*\/\*.\{-}\*\/\_s*\)\+/
+/\(\_s*\/\*[^!].*\*\/\_s*\)\+/
+/\(\_s*\/\*!.\{-}\*\/\_s*\)\+/
+```
+
+Remove all block comments
 ```reg
 %s/\(\_s*\/\*.\{-}\*\/\_s*\)\+//
 ```
-
-## CSS
 
 Selector list
 

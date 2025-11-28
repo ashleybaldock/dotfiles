@@ -589,6 +589,8 @@ function s:AddToggledMenuItem(iconOn, iconOff, id, name, actionOn, actionOff, to
 endfunc
 
 "
+" 􃊌 􃊍 􃎷 􃎹 􃏁 􃇐 􃈃 􃐷 􃐸 􃐵 􃐶 􃑼 􃑽 􃄤 􃄥 􀙝
+"
 " MenuToggleGroup name id toggle {state0} {state1} .. {stateN}
 "
 "  􁑢 Virtual Edit ❯│􀆅none

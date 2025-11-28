@@ -71,16 +71,17 @@ function! s:SetupDiffOffAutocmds()
         \])
 endfunc
 
-function! s:SetupLeftDiff()
+function! s:SetupLeftDiff(diffwith)
   nnoremap <buffer> [[ [c
   nnoremap <buffer> ]] ]c
   nnoremap <buffer> { <Cmd>diffget<CR>
   nnoremap <buffer> } <Cmd>diffput<CR>
   let b:mayhem_diff_left = 1
+  let b:mayhem_diff_with = a:diffwith
   diffthis
 endfunc
 
-function! s:SetupRightDiff(execForContent)
+function! s:SetupRightDiff(diffwith, execForContent)
   diffoff!
   let sourceft = &filetype
   vert new | setlocal bt=nofile modifiable
@@ -92,19 +93,20 @@ function! s:SetupRightDiff(execForContent)
   nnoremap <buffer> { <Cmd>diffput<CR>
   nnoremap <buffer> } <Cmd>diffget<CR>
   let b:mayhem_diff_right = 1
+  let b:mayhem_diff_with = a:diffwith
   diffthis
   wincmd p 
 endfunc
 
 function! s:DiffWithPaste()
-  call s:SetupRightDiff("normal ggVG\"+p")
-  call s:SetupLeftDiff()
+  call s:SetupRightDiff('paste', "normal ggVG\"+p")
+  call s:SetupLeftDiff('paste')
   call s:SetupDiffOffAutocmds()
 endfunc
 
 function! s:DiffWithSaved()
-  call s:SetupRightDiff("r ++edit # | normal 0d_")
-  call s:SetupLeftDiff()
+  call s:SetupRightDiff('saved', "r ++edit # | normal 0d_")
+  call s:SetupLeftDiff('saved')
   call s:SetupDiffOffAutocmds()
 endfunc
 

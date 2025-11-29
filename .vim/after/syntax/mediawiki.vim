@@ -235,7 +235,7 @@ syn region mwPi
       \@mwComment
 
 
-" Wiki Tags: <nowiki></nowiki>  {{{1
+"{{{1  Wiki Tags: <nowiki></nowiki>
 syn region mwTag contained
       \ start=+<[^/]+
       \ end=+\%(\s*/\)\?>+
@@ -307,12 +307,12 @@ syn match mwWhitespaceErr "\%^\zs.\+\ze<\%(noinclude\|includeonly\|onlyinclude\)
 " syn match mwWhitespaceWarn contained ""
 
 "
-" Comments: {{{1
+"{{{1  Comments:
 
 syn match mwHtmlNLComment "<!--\s*\n\+\s*-->"
 
 
-" Templates: {{Flex/Row}}  {{{1
+"{{{1  Templates: {{Flex/Row
 
 syn region mwTl
       \ matchgroup=mwTlParens start="{{"
@@ -371,7 +371,7 @@ syn match mwTlPDelim /|/ contained skipwhite skipempty
 
 
 "
-" Parser Functions: {{#Do|Something}}  {{{1
+"{{{1 Parser Functions: {{#Do|Something}}  
 "
 
 syn region mwParFunc
@@ -400,7 +400,7 @@ syn match mwParFuncDelim /:\||/
 
 
 "
-" Tables: {|  {{{1
+"{{{1  Tables: {|  
 "
 syn match mwTableNormalCell /\(^|\|||\)\([^|]*|\)\?.*/
       \ contains=mwTableSeparator,mwTableNormalFormat,
@@ -408,7 +408,7 @@ syn match mwTableNormalCell /\(^|\|||\)\([^|]*|\)\?.*/
       \@htmlTop,@mwText
 
 "
-" Magic Words: __TOC__  {{{1
+"{{{1  Magic Words: __TOC__  
 "
 
 syn match mwMagicWord /__\%(NO\|FORCE\|\)TOC__/
@@ -431,7 +431,7 @@ syn match mwMagicWord /__EXPECTUNUSED\%(CATEGORY\|EXPECTUNUSEDTEMPLATE\)__/
 
 
 "
-" Magic Variables: {{PAGENAME}}  {{{1
+"{{{1 Magic Variables: {{PAGENAME}}
 "
 
 syn match mwMagicChar /{{[!=]}}/
@@ -445,6 +445,23 @@ syn match mwMagicVar /{{NUMBEROF\%(PAGES\|ARTICLES\|FILES\|EDITS\|VIEWS\|USERS\|
 syn match mwMagicVar /{{\%(FULL\|BASE\|SUB\|SUBJECT\|ARTICLE\|TALK\|ROOT\|\)PAGENAMEE\?}}/
 syn match mwMagicVar /{{\%(NAME\|SUBJECT\|ARTICLE\|TALK\)SPACEE\?}}/
 syn match mwMagicVar /{{NAMESPACENUMBER}}/
+
+
+"
+"{{{1 Template Parameters: ❴❴❴param❵❵❵
+
+
+syn region mwParam
+      \ matchgroup=mwParamParens start="{\{3}"
+      \ end="}\{3}" 
+      \ nextgroup=mwParamName
+      \ contains=mwParamName,mwParamDefault,mwParamDelim,
+      \@mwText,@mwComment,mwMagicVar
+
+syn match mwParamName +\%({\{3}\)\@3<=[^{|}]\++ contained
+syn match mwParamDefault /\%(|\)\@1<=[^{|}]\+/ contained
+syn match mwParamDelim /|/ contained
+
 
 
 
@@ -572,23 +589,6 @@ syn match mwMagicVar /{{NAMESPACENUMBER}}/
 " {{#speciale:special page name}}
 " {{#tag:tagname |content |attribute1=value1 |attribute2=value2 }} 
 "
-
-"
-" Template Parameters: ❴❴❴param❵❵❵  {{{1
-
-
-syn region mwParam
-      \ matchgroup=mwParamParens start="{\{3}"
-      \ end="}\{3}" 
-      \ nextgroup=mwParamName
-      \ contains=mwParamName,mwParamDefault,mwParamDelim,
-      \@mwText,@mwComment,mwMagicVar
-
-syn match mwParamName +\%({\{3}\)\@3<=[^{|}]\++ contained
-syn match mwParamDefault /\%(|\)\@1<=[^{|}]\+/ contained
-syn match mwParamDelim /|/ contained
-
-
 
 "
 " Cheerful defaults for the highlighting groups

@@ -565,6 +565,7 @@ command! -bar -range=% CssHexToRgb
 "       \})/
 
 "                                                           TODO
+" %s+rgba\?(\s*\(\d\+\)[ ,]\s*\(\d\+\)[, ]\s*\(\d\+\)\s*[,/ ]\s*\(\d*\.\?\d\+\)\s*)+r:\1,g:\2,b:\3,a:\4+
 " rgb(r g b [/ a]) ▬▶︎ #rrggbb[aa] 
 command! CssRgbToHex <Nop>
 "                                                           TODO

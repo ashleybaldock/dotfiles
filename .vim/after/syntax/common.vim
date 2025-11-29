@@ -20,11 +20,11 @@ syn match FoldMarkLevel +\%(}}}\)\@3<=\d\?+ conceal
 syn match FoldMark +{{{+ conceal
       \ contained contains=NONE
       \ nextgroup=FoldMarkLevel,FoldMarkName
-      \ containedin=cssComment,jsComment,javaScriptComment,htmlComment,Comment
+      \ containedin=cssComment,jsComment,javaScriptComment,htmlComment,vimLineComment,Comment
 syn match FoldEndMark +}}}+ conceal
       \ contained contains=NONE
       \ nextgroup=FoldMarkLevel
-      \ containedin=cssComment,jsComment,javaScriptComment,htmlComment,Comment
+      \ containedin=cssComment,jsComment,javaScriptComment,htmlComment,vimLineComment,Comment
 
 hi def link FoldMark Conceal
 hi def link FoldEndMark Conceal

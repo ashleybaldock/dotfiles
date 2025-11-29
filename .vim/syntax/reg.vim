@@ -81,6 +81,10 @@ syn match SubstFlag contained /[cegiInp#lr]/ contains=NONE
 syn match SubstCount contained /\s*\zs\d\+/ contains=NONE
 "}}}1
 
+syn region regHtmlComment concealends
+      \ matchgroup=Conceal start=+<!--\s\?+
+      \ matchgroup=Conceal end=+\s\?-->+
+
 syn region CapGrp contained oneline
       \ matchgroup=CapGrpEnds start=+\\(+
       \ end=+\\)+
@@ -203,6 +207,7 @@ syn cluster Groups contains=CapGrp,NCapGrp
 syn match MatchOr /\\|/ contained contains=NONE
 syn match MatchAnd /\\&/ contained contains=NONE
 
+
 "#eebbee #ff9999 #00ff99 #9999ff #99ffbb #ffff99
 "#88eeee #12cd4d #88eead #00ff00 #ffaa00 #ff0000
 "#00ffff #3300aa
@@ -306,6 +311,8 @@ hi def link NColExpr NColRange
 hi def link WildCompose CharClass
 hi def link Wildcard CharClass
 hi def link LastSub CharClass
+
+hi def regHtmlComment guifg=#999999 gui=italic
 
 let b:current_syntax = "reg"
 

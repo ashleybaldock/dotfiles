@@ -1,5 +1,8 @@
 # Regex quick reference
 
+See also: ../syntax/reg.vim
+            ../demo/syntax.test.reg
+
 ## Pattern
 
 ```pre
@@ -171,96 +174,7 @@ echo autocmd_add([#{event: 'CursorHold', pattern: '<buffer>', cmd: 'exec "/"..ge
 
 
 ```reg
-s/pattern/e/g
-s/pattern/replacement/g
-s/patt.*\>/replacement/g
-s/patt\_.*\>/replacement/g
-s/patt\.ern/replacement/g
-s/\<pattern\>/replacement/g
-substitute/pattern/replacement/g
-s/pat\/tern/replac\/ement/g
-:%s/pattern/replace\0ment/g
-s/^pattern$/replacement/g
-s/\^pattern\$/replacement/g
-s/\_^pattern\_$/replacement/g
-s/p^patter$n/replacement/g
-s/p\^patter\$n/replacement/g
-s/p\_^patter\_$n/replacement/g
-:%substitute/\p\a\t\t\e\r\n/replace\0ment/g
-:%substitute|pattern|replace\0ment|g
-:%substitute$pattern$replace\0ment$g
-:%substitute$pattern\$replace\0ment$g
-:%substitute$a\_^pattern\_$replace\0ment$g
-:s/\(capturing\|\a\l\t\e\r\n\a\t\e\)/replace\0ment/g
-'<,'>subs/pat\(capturing[|.>?1-9a-d]\)t\s\w\Iern/repl\1acement/gc 23
-'<,'>subs+pat\(capturing[^PQ1-9a-d]\)t\S\Wern+repl\1acement+gc 23
-'<,'>su/pat\%(non-capturing[1-9a-d]\)tern/repl\1acement/gc 23
-'<,'>su/pat\%(non-[^-][-]\)tern/repl\1acement/gc 23
-'<,'>su/pat\%(non-[^-9-][-9-]\)tern/repl\1acement/gc 23
-'<,'>su/\%88c\%<76lpat\%(non-[^1--8][1--8]\)tern/repl\1acement/gc 23
-'<,'>s/pat\%(alt\|er\|\(nested\)\)tern/repl\1acement/gc 23
 
-/\a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y/
-/\A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z/
-/\zs\ze\z(abc123\)\z1\z2\z3\z4\z5\z6\z7\z8\z9/
-/\0\1\2\3\4\5\6\7\8\9/
-
-/pa\%[ttern]/
-
-/\ccaseignored\Ccasesensitive\Zcombiningignored/
-/\magicno\Magic\verymagic\Verynomagic/
-/\%#=0auto select\%#=1old regex engine\%#=2new regex engine/
-/\%d123\%x2a\%o040\%u20ac\%U12345678\%Cany composing/
-
-/[[:alnum:]][[:notavalidkeyword:]]/
-/[^[:alnum:]][^[:notavalidkeyword:]]/
-/[[:alnum:][:alpha:][:blank:][:cntrl:][:digit:][:graph:][:lower:]]/
-/[[:print:][:punct:][:space:][:upper:][:xdigit:][:return:][:tab:]]/
-/[[:escape:][:backspace:][:ident:][:keyword:][:fname:]]/
-/[alnum:][alpha:][blank:][cntrl:][digit:][graph:][lower:]/
-/[print:][punct:][space:][upper:][xdigit:][return:][tab:]/
-/[escape:][backspace:][ident:][keyword:][fname:]/
-/[:alnum][:alpha][:blank][:cntrl][:digit][:graph][:lower]/
-/[:print][:punct][:space][:upper][:xdigit][:return][:tab]/
-/[:escape][:backspace][:ident][:keyword][:fname]/
-/[:alnum:][:alpha:][:blank:][:cntrl:][:digit:][:graph:][:lower:]/
-/[:print:][:punct:][:space:][:upper:][:xdigit:][:return:][:tab:]/
-/[:escape:][:backspace:][:ident:][:keyword:][:fname:]/
-/[^[:alnum:][:alpha:][:blank:][:cntrl:][:digit:][:graph:][:lower:]]/
-/[^[:print:][:punct:][:space:][:upper:][:xdigit:][:return:][:tab:]]/
-/[^[:escape:][:backspace:][:ident:][:keyword:][:fname:]]/
-/[^alnum:][^alpha:][^blank:][^cntrl:][^digit:][^graph:][^lower:]/
-/[^print:][^punct:][^space:][^upper:][^xdigit:][^return:][^tab:]/
-/[^escape:][^backspace:][^ident:][^keyword:][^fname:]/
-/[^:alnum][^:alpha][^:blank][^:cntrl][^:digit][^:graph][^:lower]/
-/[^:print][^:punct][^:space][^:upper][^:xdigit][^:return][^:tab]/
-/[^:escape][^:backspace][^:ident][^:keyword][^:fname]/
-/[^:alnum:][^:alpha:][^:blank:][^:cntrl:][^:digit:][^:graph:][^:lower:]/
-/[^:print:][^:punct:][^:space:][^:upper:][^:xdigit:][^:return:][^:tab:]/
-/[^:escape:][^:backspace:][^:ident:][^:keyword:][^:fname:]/
-
-/  g\=g\?        g*   g\+                        /
-/    0→1    0→9   0→∞   1→∞     9→∞    2→9     9 /
-/  g\{,1} g\{,9} g\{} g\{1,} g\{9,} g\{2,9} g\{9}/
-/ l\{-,1}l\{-,9}l\{-}l\{-1,}l\{-9,}l\{-2,9}l\{-9}/
-/ g\{0,1}       g\{,}                     g\{9,9}/
-/l\{-0,1}      l\{-,}                    l\{-9,9}/
-
-
-s/ 99th…️   line   col   v.col  mark   /
-s/    at  \%99l  \%99c  \%99v  \%'q   /
-s/before \%<99l \%<99c \%<99v \%<'q   /
-s/ after \%>99l \%>99c \%>99v \%>'q   /
-s/         line   col   v.col    of   /
-s/    at  \%.l    \%.c   \%.v  cursor /
-s/before \%>.l   \%>.c  \%>.v         /
-s/ after \%<.l   \%<.c  \%<.v         /
-
-s/pattern/replacement/g
-s/pattern/replacement/g
-
-s/0\(1\)\(2\)\(3\)\(4\)\(5\)\(6\)\(7\)\(8\)\(9\)/\0\1\2\3\4\5\6\7\8\9/
-s/0\(1\(2\(3\(4\(5\(6\(7\(8\(9\)8\)7\)6\)5\)4\)3\)2\)1\)0/\0\1\2\3\4\5\6\7\8\9/
 ```
 
 ## Copy matching texts to buffer
@@ -475,4 +389,4 @@ Selector list
 ## Selector & trailing comma
 
 
-
+<!-- -->

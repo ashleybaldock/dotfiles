@@ -13,13 +13,14 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
-syn keyword ColExprKeyword contained alnum alpha blank cntrl digit graph lower 
-syn keyword ColExprKeyword contained lprint punct space upper xdigit return 
-syn keyword ColExprKeyword contained tab escape backspace ident keyword fname
-
-syn match SynErr contained /\\%/ contains=NONE
-syn match SynErr contained /\\@/ contains=NONE
+syn match SynErr contained /\\[%@]/ contains=NONE
+syn match SynWarn contained /.*/ contains=NONE
 syn match SynUnknown contained /\\\w/ contains=NONE
+
+syn match SWColExprKeyword contained keepend /\w\+/ contains=SynWarn
+syn keyword ColExprKeyword contained transparent alnum alpha blank cntrl digit graph lower 
+syn keyword ColExprKeyword contained transparent lprint punct space upper xdigit return 
+syn keyword ColExprKeyword contained transparent tab escape backspace ident keyword fname
 
 " A pattern is one or more branches, separated by "\|"
 syn match PatternStart contained /\ze/ contains=NONE
@@ -44,11 +45,11 @@ syn match Piece contained /\ze/ contains=NONE
 syn match Atom contained // contains=@Atoms
       \ nextgroup=@Multi,Piece
 
-syn region BareRegex oneline
-      \ matchgroup=BareEnds start=+^\s*[/?]*+
+syn region BareRegex keepend transparent
+      \ matchgroup=REDelim start=+^\s*[/?]*+
       \ skip=+$\s*\\+
-      \ matchgroup=BareEnds end=+/\?$+
-      \ contains=NewLine,MatchOr,MatchAnd,
+      \ matchgroup=REDelim end=+/\?$+
+      \ contains=MatchOr,MatchAnd,
       \@Atoms,@Looks,SynUnknown,SynErr,@Multis,@Groups
 
 "{{{1 :substitute
@@ -57,11 +58,11 @@ syn region Substitute keepend transparent
       \ skip=+\\\%(_[$^]\|\z1\)+
       \ end=+\%([^\\]\)\@<=[^\\]\z1[cegiInp#lr]*\%(\s*\d\+\)\?\%(\s\|$\)+
       \ nextgroup=SubstColon,SubstRange,SubstCmd
-syn match SubstColon +:+ contained contains=NONE
+syn match SubstColon contained +:+ contains=NONE
       \ nextgroup=SubstRange,SubstCmd
-syn match SubstRange /%\|'<,'>/ contained contains=NONE
+syn match SubstRange contained /%\|'<,'>/ contains=NONE
       \ nextgroup=SubstCmd
-syn match SubstCmd /s\%[ubstitute]\ze[/|+!@£$%^&:]/ contained contains=NONE
+syn match SubstCmd contained /s\%[ubstitute]\ze[/|+!@£$%^&:]/ contains=NONE
       \ nextgroup=SubstPattern
 syn region SubstPattern contained keepend oneline
       \ matchgroup=SubstDelim start=+\\\@1<!\z([/|+!@£$%^&:]\)+
@@ -75,9 +76,9 @@ syn region SubstReplace contained keepend oneline
       \ matchgroup=SubstDelim end=+\z1+
       \ contains=BackRef
       \ nextgroup=SubstFlag,SubstCount
-syn match SubstFlag /[cegiInp#lr]/ contained contains=NONE
+syn match SubstFlag contained /[cegiInp#lr]/ contains=NONE
       \ nextgroup=SubstFlag,SubstCount
-syn match SubstCount /\s*\zs\d\+/ contained contains=NONE
+syn match SubstCount contained /\s*\zs\d\+/ contains=NONE
 "}}}1
 
 syn region CapGrp contained oneline
@@ -94,13 +95,16 @@ syn region NCapGrp contained oneline
       \ contains=NCapGrpOr,@Atoms,@Looks,SynUnknown,SynErr,@Multis,@Groups
 syn match NCapGrpOr /\\|/ contained contains=NONE
 
-syn match BackRef /\\[0-9]/ contained
+syn match BackRef contained /\\[0-9]/ contains=NONE
 
-syn match Engine /\\%#=[0-2]/ contains=NONE
-syn match Magic /\\m/ contains=NONE
-syn match NoMagic /\\M/ contains=NONE
-syn match VeryMagic /\\v/ contains=NONE
-syn match VeryNoMagic /\\V/ contains=NONE
+syn match Magic contained /\\m/ contains=NONE
+syn match NoMagic contained /\\M/ contains=NONE
+syn match VeryMagic contained /\\v/ contains=NONE
+syn match VeryNoMagic contained /\\V/ contains=NONE
+
+syn match CaseMatch contained /\\C/ contains=NONE
+syn match CaseIgnore contained /\\c/ contains=NONE
+syn match CompIgnore contained /\\Z/ contains=NONE
 
 syn match Greedy contained /\*/ contains=NONE
 syn match Greedy contained /\\[+=?]/ contains=NONE
@@ -145,6 +149,15 @@ syn match BdAfter contained       />\%(\d\+\|\.\|'[A-Za-z0-9]\)\?/ contains=NONE
 syn match BEoW contained +\\[<>]+ contains=NONE
 
 syn match Wildcard contained +\%(\\_\)\?\.+ contains=NONE
+syn match WildCompose contained /\\%C/ contains=NONE
+
+syn match Decimal contained /\\%d\d\+/ contains=NONE
+syn match Hex contained /\\%x\x\{1,2}/ contains=NONE
+syn match Octal contained /\\%o\o\{1,3}/ contains=NONE
+syn match Uni contained /\\%u\x\{1,4}/ contains=NONE
+syn match UniUni contained /\\%U\x\{1,8}/ contains=NONE
+
+syn match Engine contained /\\%#=[0-2]/ contains=NONE
 
 syn match LastSub contained +\~+ contains=NONE
 
@@ -158,10 +171,10 @@ syn region Collection contained
       \ contains=ColRange,SWColExpr,ColExpr
 syn match ColRange contained /[^[-]-[^]-]/ contains=ColRangeSep
 syn match ColRangeSep contained /[^[-]\@1<=-\ze[^]-]/ contains=NONE
-syn region ColExpr contained 
+syn region ColExpr contained  keepend
       \ matchgroup=ColExprEnds start=+\[:+
       \ end=+:]\|[^a-z]+
-      \ contains=ColExprKeyword,SWColExprKw
+      \ contains=ColExprKeyword
 
 syn region NCollection contained
       \ matchgroup=NColEnds start=+\(\\_\)\?\[^+
@@ -170,18 +183,19 @@ syn region NCollection contained
       \ contains=NColRange,SWColExpr,NColExpr
 syn match NColRange contained /[^[-]-[^]-]/ contains=NColRangeSep
 syn match NColRangeSep contained /[^[-]\@1<=-\ze[^]-]/ contains=NONE
-syn region NColExpr contained 
+syn region NColExpr contained keepend
       \ matchgroup=NColExprEnds start=+\[:+
       \ end=+:]\|[^a-z]+
-      \ contains=ColExprKeyword,SWColExprKw
-syn match SWColExpr contained /:\w\+:/ contains=ColExprKeyword
-syn match SWColExprKw contained /\w\+/
+      \ contains=ColExprKeyword
+syn match SWColExpr contained /:\w\+:/ contains=NONE
 
-syn cluster Flags contains=Engine,Magic,NoMagic,VeryMagic,VeryNoMagic
+syn cluster Flags contains=Engine,Magic,NoMagic,VeryMagic,VeryNoMagic,CaseMatch,CaseIgnore,CompIgnore
 syn cluster Bounds contains=
       \Boundary,BoL,EoL,BoF,EoF,BEoW,SoM,EoM,
       \BdVis,BdCur,BdMark,BdLine,BdCol,BdVCol
-syn cluster Atoms contains=Atom,LastSub,Wildcard,Literal,@Bounds,CharClass,NCharClass,Collection,NCollection,NewLine,BackRef
+syn cluster Atoms contains=@Bounds,@Flags,Atom,LastSub,WildCompose,Wildcard,
+      \Literal,CharClass,NCharClass,Collection,NCollection,BackRef,
+      \Decimal,Hex,Octal,Uni,UniUni
 syn cluster Multis contains=Greedy,Lazy
 syn cluster Looks contains=LkBehind,NLkBehind,LkAhead,LkHere,NLkHere
 syn cluster Groups contains=CapGrp,NCapGrp
@@ -189,22 +203,14 @@ syn cluster Groups contains=CapGrp,NCapGrp
 syn match MatchOr /\\|/ contained contains=NONE
 syn match MatchAnd /\\&/ contained contains=NONE
 
-"hi def  guifg=#eebbee
-"hi def  guifg=#ff9999
-"hi def  guifg=#00ff99
-"hi def  guifg=#9999ff
-"hi def  guifg=#99ffbb
-"hi def  guifg=#ffff99
-"hi def  guifg=#88eeee
-"hi def  guifg=#12cd4d
-"hi def  guifg=#88eead
-"hi def  guifg=#00ff00
-"hi def  guifg=#ffaa00
-"hi def  guifg=#ff0000
+"#eebbee #ff9999 #00ff99 #9999ff #99ffbb #ffff99
+"#88eeee #12cd4d #88eead #00ff00 #ffaa00 #ff0000
+"#00ffff #3300aa
 
+hi def REDelim      guifg=#ffff30 gui=bold
 hi def BareEnds     guifg=#22ffff
 hi def Substitute   guifg=#22ff22
-hi def SubstDelim   guifg=#ffff30                             gui=bold
+hi def link SubstDelim REDelim
 hi def SubstReplace guifg=#eeddee
 hi def link SubstFlags Error
 hi def SubstFlag    guifg=#ff4499 guibg=bg
@@ -215,7 +221,6 @@ hi def SubstRgComma guifg=#44dd88
 hi def SubstCmd     guifg=#4fff29
 hi def link SubstColon SubstCmd
 hi def SubstPattern guifg=#eeffff
-" hi def BackRef      guifg=#00ffff guibg=#3300aa guisp=#00ffff gui=underdashed
 
 hi def CapGrp       guifg=#ffffee
 hi def CapGrpEnds   guifg=#ffaa33 guibg=#662200
@@ -226,7 +231,6 @@ hi def NCapGrpEnds  guifg=#f6aaf6 guibg=#551855
 hi def NCapGrpOr    guifg=#f6aaf6 guibg=#551855
 hi def MatchOr      guifg=#ffff30                             gui=bold
 hi def MatchAnd     guifg=#ffff30                             gui=bold
-hi def NewLine      guifg=#ffdd33 guibg=#8833dd
 hi def Look         guifg=#ff33bb
 hi def link LkBehind Look
 hi def link NLkBehind Look
@@ -236,14 +240,30 @@ hi def link NLkHere Look
 hi def LkCount      guifg=#ccaaff gui=italic
 hi def LkWhere      guifg=#ccaaff gui=italic
 
+hi def Flag         guifg=#000000 guibg=#aaaaaa gui=bold
+hi def link Engine Flag
+hi def link CaseIgnore Flag
+hi def link CaseMatch Flag
+hi def link CompIgnore Flag
+hi def link Magic Flag
+hi def link NoMagic Flag
+hi def link VeryMagic Flag
+hi def link VeryNoMagic Flag
+
 hi def SynErr       guifg=#ffffff guibg=#ff0000
 hi def SynUnknown                               guisp=#ffff66 gui=undercurl 
 hi def link SynWarn SynUnknown
 hi def link SWColExpr SynWarn
 hi def link SWColExprKw SynWarn
+
 hi def Greedy       guifg=#00ffff
 hi def Lazy         guifg=#ff00ff
 hi def Escaped      guifg=#12cd4d
+hi def link Decimal Escaped
+hi def link Hex Escaped
+hi def link Octal Escaped
+hi def link Uni Escaped
+hi def link UniUni Escaped
 hi def Literal      guifg=#88eead
 hi def Atom         guifg=#9999ff
 hi def Boundary     guifg=#c248fe
@@ -283,6 +303,7 @@ hi def link NColRangeSep NColEnds
 hi def NColExprEnds guifg=#fea6a6
 hi def link NColExpr NColRange
 
+hi def link WildCompose CharClass
 hi def link Wildcard CharClass
 hi def link LastSub CharClass
 

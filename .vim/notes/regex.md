@@ -204,8 +204,15 @@ s/p\_^patter\_$n/replacement/g
 /\A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z/
 /\0\1\2\3\4\5\6\7\8\9/
 
-/[[:alnum:]]/
-/[^[:alnum:]]/
+/pa\%[ttern]/
+
+/\ccaseignored\Ccasesensitive\Zcombiningignored/
+/\magicno\Magic\verymagic\Verynomagic/
+/\%#=0auto select\%#=1old regex engine\%#=2new regex engine/
+/\%d123\%x2a\%o040\%u20ac\%U12345678\%Cany composing/
+
+/[[:alnum:]][[:notavalidkeyword:]]/
+/[^[:alnum:]][^[:notavalidkeyword:]]/
 /[[:alnum:][:alpha:][:blank:][:cntrl:][:digit:][:graph:][:lower:]]/
 /[[:print:][:punct:][:space:][:upper:][:xdigit:][:return:][:tab:]]/
 /[[:escape:][:backspace:][:ident:][:keyword:][:fname:]]/

@@ -200,8 +200,9 @@ s/p\_^patter\_$n/replacement/g
 '<,'>su/\%88c\%<76lpat\%(non-[^1--8][1--8]\)tern/repl\1acement/gc 23
 '<,'>s/pat\%(alt\|er\|\(nested\)\)tern/repl\1acement/gc 23
 
-/\a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z/
+/\a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y/
 /\A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z/
+/\zs\ze\z(abc123\)\z1\z2\z3\z4\z5\z6\z7\z8\z9/
 /\0\1\2\3\4\5\6\7\8\9/
 
 /pa\%[ttern]/

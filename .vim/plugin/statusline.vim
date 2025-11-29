@@ -300,31 +300,40 @@ endfunc
 
 
 let g:mayhem.symbols_S.status = {
-      \ 'readonly': 'ᴿ',
-      \ 'modified': '+',
+      \ 'readonly'    : 'ᴿ',
+      \ 'modified'    : '+',
       \ 'nomodifiable': '􀍼',
-      \ 'fencnot8': '∪⃞⃥ ',
-      \ 'ffnotnix': '␌⃞ ',
-      \ 'diffing' : '􀄐􀕹',
-      \ 'multx'   : '×',
+      \ 'fencnot8'    : '∪⃞⃥ ',
+      \ 'ffnotnix'    : '␌⃞ ',
+      \ 'scrollbind'  : '􀒠',
+      \ 'diffing'     : '􀄐􀕹',
+      \ 'diffleft'    : '􀤴􀕹',
+      \ 'diffright'   : '􀄐􀤵',
+      \ 'multx'       : '×',
       \ }
 let g:mayhem.symbols_8.status = {
-      \ 'readonly': 'ᴿ',
-      \ 'modified': '+',
+      \ 'readonly'    : 'ᴿ',
+      \ 'modified'    : '+',
       \ 'nomodifiable': ' ⃠',
-      \ 'fencnot8': '∪⃞⃥ ',
-      \ 'ffnotnix': '␌⃞ ',
-      \ 'diffing' : 'DIFF',
-      \ 'multx'   : '×',
+      \ 'fencnot8'    : '∪⃞⃥ ',
+      \ 'ffnotnix'    : '␌⃞ ',
+      \ 'scrollbind'  : '⚯',
+      \ 'diffing'     : 'DIFF',
+      \ 'diffleft'    : '𐰶DI',
+      \ 'diffright'   : 'FF𐰷',
+      \ 'multx'       : '×',
       \ }
 let g:mayhem.symbols_A.status = {
-      \ 'readonly': 'R',
-      \ 'modified': '+',
+      \ 'readonly'    : 'R',
+      \ 'modified'    : '+',
       \ 'nomodifiable': 'x',
-      \ 'fencnot8': '!8',
-      \ 'ffnotnix': '!F',
-      \ 'diffing' : 'DIFF',
-      \ 'multx'   : 'x',
+      \ 'fencnot8'    : '!8',
+      \ 'ffnotnix'    : '!F',
+      \ 'scrollbind'  : 's',
+      \ 'diffing'     : 'DIFF',
+      \ 'diffleft'    : '<DI',
+      \ 'diffright'   : 'FF>',
+      \ 'multx'       : 'x',
       \ }
 
 function RO() abort
@@ -344,7 +353,19 @@ function CheckUnix() abort
   return &fileformat == "unix" ? "" : GetSymbol('status.ffnotnix')
 endfunc
 function Diffing() abort
-  return &diff ? GetSymbol('status.diffing') : ""
+  let diff_left = getbufvar(bufnr(), 'mayhem_diff_left', 0)
+  let diff_right = getbufvar(bufnr(), 'mayhem_diff_right', 0)
+  if &diff
+    if diff_left
+      return GetSymbol('status.diffingleft')
+    elseif diff_right
+      return GetSymbol('status.diffingright')
+    else
+      return GetSymbol('status.diffing')
+    endif
+  else
+    return ''
+  endif
 endfunc
 " 0/anything and 2/n are usual
 function Conceal() abort
@@ -393,16 +414,17 @@ function s:Update_FileInfo() abort
   let diffname = getbufvar(bufnr(), 'mayhem_diff_saved', '')
   let diff_left = getbufvar(bufnr(), 'mayhem_diff_left', 0)
   let diff_right = getbufvar(bufnr(), 'mayhem_diff_right', 0)
+  let diff_with = getbufvar(bufnr(), 'mayhem_diff_with', 0)
   let tail = expand('%:t')
   let type = getbufvar(bufnr(), '&filetype')
   let hint = mayhem#getHintForPath('%')
   let subtype = mayhem#getSubtypeForPath('%')
 
   if name == ''
-    if &diff && diffname != ''
+    if &diff && diff_right
       let b:mayhem.sl_cached_filename = [
-        \['%#SlFDfSvNmC#Saved(', diffname, ')%* ', '%{%Modified()%}']->join(''),
-        \['%#SlFDfSvNmN#Saved(', diffname, ')%* ', '%{%Modified()%}']->join(''),
+        \['%#SlFDfSvNmC#◀︎╸diff,with:', diff_with, '%* ', '%{%Modified()%}']->join(''),
+        \['%#SlFDfSvNmN#◀︎╸diff,with:', diff_with, '%* ', '%{%Modified()%}']->join(''),
         \]
     else
       let b:mayhem.sl_cached_filename = [
@@ -478,21 +500,23 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_norm'] = [
         \ ['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
         \ '%#SlSepC#%=%*%<',
-        \ '%{%Diffing()%}',
         \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckUnix()%}%*%)',
         \ '%( %#SlHintC#%{%Conceal()%}%*%)',
         \ ' %{%ChFInfo()%}',
         \ ' %{%ScrollHint()%}',
-        \ ' %{%ChDiag()%}']->join(''),
+        \ ' %{%ChDiag()%}',
+        \ '%{%Diffing()%}',
+        \]->join(''),
         \
         \ ['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
         \ '%#SlSepN#%=%*%<',
-        \ '%{%Diffing()%}',
         \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%*%)',
         \ '%( %#SlHintN#%{%Conceal()%}%*%)',
         \ ' %{%ChFInfo()%}',
         \ ' %{%ScrollHint()%}',
-        \ ' %{%ChDiag()%}']->join('')
+        \ ' %{%ChDiag()%}',
+        \ '%{%Diffing()%}',
+        \]->join('')
         \ ]
 
 
@@ -551,7 +575,7 @@ function s:UpdateStatuslines() abort
         \ '%#SlDirC#􀈕 %-F%*%<%=%#SlDirInvC#netrw%*',
         \ '%#SlDirN#􀈕 %-F%*%<%=%#SlDirInvN#netrw%*']
 
-  let test = '%%%=%<%(%{subExpr}%{%subReExpr%} %)'
+  " let test = '%%%=%<%(%{subExpr}%{%subReExpr%} %)'
 
   " let g:mayhem['sl_home_todo'] = [
   "       \ '%#SlHomeC#HOME Vim Mayhem%*%<%=%#SlHmRtC#%*',

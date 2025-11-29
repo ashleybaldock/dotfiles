@@ -466,6 +466,8 @@ hi Comment        guifg=#cf28df guibg=NONE    gui=none
 hi CommentBright  guifg=#dd44ff guibg=NONE    gui=none
 hi CommentTitle   guifg=#33eeff guibg=bg      gui=underline,italic guisp=#7744ff
 hi CommentLink    guifg=#22aadd guibg=NONE    gui=underdashed
+hi CommentHidden  guifg=#999999 guibg=#111111 gui=italic
+hi CommentNoise   guifg=#000000 guibg=#222222 gui=reverse
 
 hi link vimLineComment Comment
 hi link vim9LineComment Comment

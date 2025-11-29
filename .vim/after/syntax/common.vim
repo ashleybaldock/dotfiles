@@ -5,6 +5,11 @@
 " au BufWritePost <buffer> syn on
 "
 
+"
+" See also: ../../plugin/fold.vim
+"    ./vim.vim ./css.vim ./javascript.vim ./typescript.vim
+"
+
 " syn match ConcealMark +{{{\d\?+ conceal contains=NONE containedin=ALL
 " syn match ConcealMark +}}}\d\?+ conceal contains=NONE containedin=ALL
 " syn match ConcealTitle +\%({{{\d\?\)\@4<=.*\s*\%(\*\\\)\?$+
@@ -20,11 +25,13 @@ syn match FoldMarkLevel +\%(}}}\)\@3<=\d\?+ conceal
 syn match FoldMark +{{{+ conceal
       \ contained contains=NONE
       \ nextgroup=FoldMarkLevel,FoldMarkName
-      \ containedin=cssComment,jsComment,javaScriptComment,htmlComment,vimLineComment,Comment
+      \ containedin=@FoldMarks
 syn match FoldEndMark +}}}+ conceal
       \ contained contains=NONE
       \ nextgroup=FoldMarkLevel
-      \ containedin=cssComment,jsComment,javaScriptComment,htmlComment,vimLineComment,Comment
+      \ containedin=@FoldMarks
+
+syn cluster FoldMarks contains=cssComment,jsComment,javaScriptComment,htmlComment,vimLineComment,Comment
 
 hi def link FoldMark Conceal
 hi def link FoldEndMark Conceal

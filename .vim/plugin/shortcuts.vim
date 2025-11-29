@@ -334,14 +334,26 @@ nmap ga <Plug>(mayhem_charinfo)
 "
 " See: ./colcols.vim
 "      ../autoload/colcols.vim
-nnoremap §\ <Plug>(mayhem_colorcolumn_add)
-nnoremap §<S-\> <Plug>(mayhem_colorcolumn_delete)
-nnoremap §] <Plug>(mayhem_colorcolumn_align_right_to_next)
-nnoremap §} <Plug>(mayhem_colorcolumn_align_right_on_next)
-nnoremap §[ <Plug>(mayhem_colorcolumn_align_left_to_next)
-nnoremap §{ <Plug>(mayhem_colorcolumn_align_left_on_next)
+" ▌️ § ‥  \ ▐️──▷ 
+nnoremap §\ <Plug>(mayhem_colcol_add)
+" ▌️ § ‥⌥️ \ ▐️──▷ 
+nnoremap §« <Plug>(mayhem_colcol_delete)
+" ▌️ § ‥  ]️ ▐️──▷ 
+nnoremap §] <Plug>(mayhem_colcol_align_right_to_next)
+" ▌️ § ‥⇧️ ]️ ▐️──▷ 
+nnoremap §} <Plug>(mayhem_colcol_align_right_on_next)
+" ▌️ § ‥  [️ ▐️──▷ 
+nnoremap §[ <Plug>(mayhem_colcol_align_left_to_next)
+" ▌️ § ‥⇧️ [️ ▐️──▷ 
+nnoremap §{ <Plug>(mayhem_colcol_align_left_on_next)
+" ▌️ § ‥️⌥️ ]️ ▐️──▷ 
+nnoremap §‘ <Plug>(mayhem_colcol_cursor_next)
+" ▌️ § ‥⌥️ [️ ▐️──▷ 
+nnoremap §“ <Plug>(mayhem_colcol_cursor_prev)
 " inoremap  <Cmd>AlignRightToColorColumn<CR>
 
+"    Option: 􀆕 ⌥️  ⌥ ⌥︎   (<M-x> or <A-x>)
+"     Shift: 􀆝 ⇧️  ⇧ ⇧︎
 
 "
 " Editing:

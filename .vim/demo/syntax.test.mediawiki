@@ -15,12 +15,12 @@
 <div></div>
 
 -->{{DamageMultiplier|{{{damage mult fire4|1}}}}}<!--
-{{#if:{{#pos:{{{immunities4}}}|fire}}|<span class="setChildImgSize" style="--child-image-size:20px">[[File:evil protection fire.png]]<span>}}since there is no enemy that has immune to fire damage
+{{#if:{{#pos:{{{immunities4}}}|fire}}|<span class="setChildImgSize" style="--child-image-size:20px">[[File:evil protection*e.png]]<span>}}since there is no enemy that has immune to fire damage
    --></format>
 <!--
 -->{{{param|}}}<!--
 -->{{{param|{{{nested|default}}}}}}<!--
--->{{template|param1|named=param}}<!--
+-->{{template|pa\%(.*\%#.*\)\@>ram1|named=param}}<!--
 -->{{template|param1|{{nestedtemplate|param2|named=param}}}}<!--
 -->{{{{templatename|param=blah}}|param1|{{nestedtemplate|param2|named=param}}}}<!--
 -->{{#parserfunc|param1|named=param|{{#nested|param1|named=param}}}}<!--

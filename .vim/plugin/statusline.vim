@@ -5,8 +5,7 @@ let g:mayhem_loaded_statusline = 1
 
 scriptencoding utf-8
 
-" TODO Statusline for narrow windows (<16)
-"
+"{{{1 TODO Statusline for narrow windows (<16)
 " fi⠒me.vim
 " fi⠤me.vim
 " fi𝌀lme.vim
@@ -21,6 +20,7 @@ scriptencoding utf-8
 " fi⸗me.vim
 " fil«»en·vim
 " Statusline for zero height windows
+" }}}
 
 let g:mayhem = get(g:, 'mayhem', {})
 let g:mayhem.sl = get(g:mayhem, 'sl', {})

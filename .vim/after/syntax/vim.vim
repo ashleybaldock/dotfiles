@@ -7,7 +7,10 @@
 "
 " See Also: $VIMRUNTIME/syntax/vim.vim
 "           ../syntax/vim.statusline.vim
+"           ./common.vim
 "
+
+source <script>:p:h/common.vim
 
 if expand('%:p') == expand('$VIMHOME/plugin/statusline.vim')
   exec 'so ' .. expand('$VIMHOME/after/syntax/vim.statusline.vim')
@@ -106,7 +109,7 @@ syn region DemoCursor contained containedin=DemoCursorRange
       \ matchgroup=Conceal start="󠁛"
       \ end="󠁝"
 
-hi def KeyCombo         guifg=#f9f9f9 guibg=#2255cc guisp=bg      gui=bold
+hi def KeyCombo         guifg=#f9f9f9 guibg=#2255cc
 hi def KeyComboEnd      guifg=bg      guibg=#2255cc               gui=bold
 hi def KeyComboStart    guifg=bg      guibg=#2255cc               gui=bold
 hi def DemoCursorRange  guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
@@ -119,6 +122,10 @@ hi def DemoCursor       guifg=#000000 guibg=#cc22dd
  syn match CommentStart /^\s*\zs"/ contained containedin=Comment,vimLineComment contains=NONE conceal cchar=│
 
 hi def CommentStart guifg=#cf28df guibg=#cf28df gui=none
+
+syn match Modeline contained /\(^["#]\)\@<=\s\+vim:.*$/ containedin=Comment,vimLineComment
+
+hi def link Modeline CommentHidden
 
 " echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: ''})
 let s:multi_comment_matchids = []

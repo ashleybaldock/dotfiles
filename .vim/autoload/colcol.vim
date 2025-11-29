@@ -1,10 +1,10 @@
-if exists("g:mayhem_autoloaded_colcols") || &cp
+if exists("g:mayhem_autoloaded_colcol") || &cp
   finish
 endif
-let g:mayhem_autoloaded_colcols = 1
+let g:mayhem_autoloaded_colcol = 1
 
 "
-" See: ../plugin/colcols.vim
+" See: ../plugin/colcol.vim
 "
 
 " ╭── Column Guides ─────────────────────────────────────
@@ -21,43 +21,43 @@ let g:mayhem_autoloaded_colcols = 1
 
 
 
-function! colcols#list() abort
+function! colcol#list() abort
   return split(&l:colorcolumn, ',')->map({i, v -> str2nr(v)})
-function
+endfunc
 
-function! colcols#add(col = getcursorcharpos()[2]) abort
+function! colcol#add(col = getcursorcharpos()[2]) abort
   exec 'setlocal colorcolumn+=' .. a:col
 endfunc
 
-function! colcols#clear() abort
+function! colcol#clear() abort
   exec 'setlocal colorcolumn='
 endfunc
 
-function! colcols#delete(col = getcursorcharpos()[2]) abort
+function! colcol#delete(col = getcursorcharpos()[2]) abort
   exec 'setlocal colorcolumn-=' .. a:col
 endfunc
 
 " Return the column number of the color column to the right
 " If no argument given, uses the column containing the cursor
 " If there is no next color column, returns 0
-function! colcols#next(col = getcursorcharpos()[2]) abort
+function! colcol#next(col = getcursorcharpos()[2]) abort
   return s:GetColorColumnList()->filter({i, v -> v > a:col})->min()
 endfunc
 
 " Get the column of the previous color column within the same line
 " If no argument given, uses the column containing the cursor
 " If there is no previous color column, returns 0
-function! colcols#prev(col = getcursorcharpos()[2]) abort
+function! colcol#prev(col = getcursorcharpos()[2]) abort
   return s:GetColorColumnList()->filter({i, v -> v < a:col})->max()
 endfunc
 
 
-function! colcols#cursorNext() abort
-  call setcursorcharpos([getcursorcharpos()[1], colcols#next()])
+function! colcol#cursorNext() abort
+  call setcursorcharpos([getcursorcharpos()[1], colcol#next()])
 endfunc
 
-function! colcols#cursorPrev() abort
-  call setcursorcharpos([getcursorcharpos()[1], colcols#prev()])
+function! colcol#cursorPrev() abort
+  call setcursorcharpos([getcursorcharpos()[1], colcol#prev()])
 endfunc
 
 " insert spaces to align position with column
@@ -74,7 +74,7 @@ endfunc
 "⎟ ⁃‐Text   ░‐‐Text‐‐‐░     ⎪center
 "⎟          ░         ░
 "
-function! colcols#padOnColumn(from = getcursorcharpos()[2], to = colcols#next(a:from))
+function! colcol#padOnColumn(from = getcursorcharpos()[2], to = colcol#next(a:from))
   if a:from >= a:to
     echo 'attempt to pad to left'
     " TODO - implement
@@ -85,7 +85,7 @@ function! colcols#padOnColumn(from = getcursorcharpos()[2], to = colcols#next(a:
   endif
 endfunc
 
-function! colcols#padToColumn(from = getcursorcharpos()[2], to = colcols#next(a:from))
+function! colcol#padToColumn(from = getcursorcharpos()[2], to = colcol#next(a:from))
   if a:from >= a:to
     echo 'attempt to pad to left'
     " TODO - implement

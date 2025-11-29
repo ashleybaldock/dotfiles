@@ -7,6 +7,12 @@
 "       $VIMRUNTIME/syntax/css.vim
 "   ../../demo/css-regex-tests.css
 
+" exec 'source '..expand("<script>:h")..'"/common.vim"'
+
+source <script>:p:h/common.vim
+
+syn sync lines=200
+
 " TODO
 "
 " make :hover etc. stand out more
@@ -84,13 +90,6 @@
 " A ~ B⃝     A⃝ :has(~ B)     A ~ B ~ C⃝    A ~ B⃝ :has(~ C)  A⃝ :has(~ B ~ C)
 "
 " BBAB̲B̲B̲AA  BBA̲BBBAA        BBBCCAABC̲C̲   BBBCCAABC̲C̲       ABBCCAA̲BCC
-
-
-" exec 'source '..expand("<script>:h")..'"/common.vim"'
-
-source <script>:p:h/common.vim
-
-syn sync lines=200
 
 syn match cssVarCustomProp contained "--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)*\Z"
       \ contains=cssCustomPropDashes

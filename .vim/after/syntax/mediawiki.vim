@@ -50,7 +50,7 @@ syn match mwPiAttrs /data\%(-\w*\)*/ contained
 
 
 " Clusters: {{{1
-syn cluster mwComment contains=mwHtmlNLComment,htmlComment
+syn cluster mwComment contains=mwHtmlNLCurComment,mwHtmlNLComment,htmlComment
 
 syn cluster htmlTop contains=@Spell,
       \htmlTag,htmlEndTag,htmlSpecialChar,
@@ -309,7 +309,19 @@ syn match mwWhitespaceErr "\%^\zs.\+\ze<\%(noinclude\|includeonly\|onlyinclude\)
 "
 "{{{1  Comments:
 
-syn match mwHtmlNLComment "<!--\s*\n\+\s*-->"
+syn match mwHtmlNLComment /<!--\_s*-->/ contains=NONE
+syn match mwHtmlNLCommentEnd contained /-->/ contains=NONE
+" syn match mwHtmlNLComment /\%([<>! \n-]*\%#[<>! \n-]*\)\@!\&<!--\_s*-->/
+" syn match mwHtmlNLCurComment /\%(\_.*\%#\)\@=\%(<!--\_s\{-}-->\)\@>\%(\%#\_.*\)\@<=/
+syn match mwHtmlNLCurComment /<!--\_s*-->\&[<>!\n -]*\%#[<>!\n -]*/
+" syn match mwHtmlNLCurComment /\%(.*\%#.*$\)\@<=\&<!--\_s*-->\|<!--\_s*-->\&\%(.*\%#.*$\)\@=/
+" syn match mwHtmlNLCurComment /<!--\%(.*\%#.*$\)\@=\_s*-->/
+" syn match mwHtmlNLCurComment /\%(.*\%#.*\)\@>\_^\s*-->/
+
+" syn match mwHtmlNLCurComment /<!--\_s*\_^-->\ze.\{-}\%#.*/
+" syn match mwHtmlNLCurComment /<!--\_s*\_^\zs\s*-->\ze.\{-}\%#.*/
+syn match mwHtmlNLCurComment /\%(.*\%#.*\)\@<=\zs<!--$/ skipempty skipwhite
+      \ nextgroup=mwHtmlNLCommentEnd
 
 
 "{{{1  Templates: {{Flex/Row
@@ -594,7 +606,10 @@ syn match mwParamDelim /|/ contained
 " Cheerful defaults for the highlighting groups
 "
 
-hi def mwHtmlNLComment guifg=#222222 guibg=NONE
+hi def link mwHtmlNLComment CommentNoise
+hi def link mwHtmlNLCurComment CommentHidden
+hi def link mwHtmlNLCommentEnd CommentNoise
+
 
 hi def mwWhitespaceErru              guibg=#551100 guisp=#ff0000 gui=undercurl
 

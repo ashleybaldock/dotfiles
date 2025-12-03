@@ -531,11 +531,11 @@ function s:UpdateStatuslines() abort
   "       \ '%#SlInfoC#𝓲⃝  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
   "       \ '%#SlInfoN#𝓲⃝  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
   let g:mayhem['sl_help'] = [
-        \ '%#SlInfoC#􀉚  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(%#SlHintC# help %#SlFPathC#[️%#SlInfoC#%l%#SlFPathC#/️%#SlInfoC#%L%#SlFPathC#]️%*%) ',
-        \ '%#SlInfoN#􀉚  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(%#SlHintN# help %#SlFPathN#[️%#SlInfoN#%l%#SlFPathN#/️%#SlInfoN#%L%#SlFPathN#]️%*%) ']
+        \ '%#SlInfoC#􀉚  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(%#SlHintC# help %#SlFPathC#[️%#SlInfoC#%l%#SlFPathC#/️%#SlInfoC#%L%#SlFPathC#]️%*%)',
+        \ '%#SlInfoN#􀉚  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(%#SlHintN# help %#SlFPathN#[️%#SlInfoN#%l%#SlFPathN#/️%#SlInfoN#%L%#SlFPathN#]️%*%)']
 
   let g:mayhem['sl_term'] = [
-    \ '􀩼%#SlTermC# %-f %F %t%*%<%=%(%n %l,%c%V %P%) ',
+    \ '%#HlInverse#􀪏 %#SlTermC#%-f%*%<%=%(%n %l,%c%V %P%) ',
     \ '􀩼%#SlTermN# %-f%*%<%=%(%n %l,%c%V %P%) ']
 
   let g:mayhem['sl_messages'] = [

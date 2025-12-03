@@ -7,9 +7,9 @@ let g:autoloaded_sfsymbols = 1
 scriptencoding utf-8
 
 "
-" See Also: ../plugin/sfsymbols.vim
-"             ../demo/
-"            ../notes/sf-symbols.createlist.md
+" See Also:
+"    ../plugin/sfsymbols.vim
+"     ../notes/sf-symbols.createlist.md
 "
 
 "

@@ -45,19 +45,21 @@ function! s:WinBarUpdate()
   "
   " 􀢤
   "
+  " 􀕴􀕵􀧺􀧻􀣮􀣯􀪵􀪶􀮋􁓓􀮌􂼼􀮞􀮟
+  "
   " register hints  􀭈􀆧  TODO
   "
   " nnoremenu 1.10 WinBar. <Nop>
-  " nnoremenu 1.20 WinBar.􀉃‹+›\ 􀈿‹%›
-  " nnoremenu 1.30 WinBar.last\ 􀠍‹/›\ 􀩼\ ‹:›\ 􀅫‹.›\ 􀆛‹-›
+  " nnoremenu 1.20 WinBar.􀉃‹️+️›️\ 􀈿‹️%︎›️
+  " nnoremenu 1.30 WinBar.last\ 􀠍‹️/︎›️\ 􀩼\ ‹️:️›️\ 􀅫‹️.️›️\ 􀆛‹️-️›️
   "
   if &buftype == 'terminal'
-    " tlnoremenu 1.10 WinBar.􀯪􀱢・‹C-W›‹C-N›:・ <nop>
+    " tlnoremenu 1.10 WinBar.􀯪􀱢・‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️:・ <nop>
     silent nunmenu WinBar
     if mode() =~# 'n'
-      silent nnoremenu 1.20 WinBar.􀊙\ ‹C-W›‹C-N› <nop>
+      silent nnoremenu 1.20 WinBar.􀊙\ ‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️ <nop>
     else
-      silent nnoremenu 1.20 WinBar.􀊛\ ‹C️-W›︎‹︎C︎-N› <nop>
+      silent nnoremenu 1.20 WinBar.􀊛\ ‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️ <nop>
     endif
     return
   endif
@@ -82,10 +84,10 @@ function! s:WinBarUpdate()
 
   if &ft == 'netrw'
     silent nunmenu WinBar
-    " nnoremenu 1.≀0 WinBar.Netrw・S:sort・I:layout・-:back・<S-B>:up・<S-W>:down・ <nop>
+    " nnoremenu 1.≀0 WinBar.Netrw・S:sort・I:layout・-:back・‹︎️s︎-️b︎›️:up・‹︎️s︎-️w›️:down・ <nop>
     silent nnoremenu 1.10 WinBar.􀄼\ - <Nop>
     silent nnoremenu 1.20 WinBar.􀊬\ a\ 􀄬􀅍s,r\ 􀞖\ i <Nop>
-    " silent nnoremenu 1.30 WinBar.‹B›􀄸􀄹‹W› <Nop>
+    " silent nnoremenu 1.30 WinBar.‹️B︎›️􀄸􀄹‹️W︎›️ <Nop>
     silent nnoremenu 1.60 WinBar.􀤰\ d <Nop>
     silent nnoremenu 1.70 WinBar.􀈑\ D <Nop>
     silent nnoremenu 1.80 WinBar.􀈎\ R <Nop>

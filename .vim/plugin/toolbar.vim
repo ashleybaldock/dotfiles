@@ -3,6 +3,12 @@ if exists("g:mayhem_loaded_toolbar")
 endif
 let g:mayhem_loaded_toolbar = 1
 
+"
+" See Also:
+"            ./sfsymbols.vim
+"  ../autoload/symbols.vim
+"
+
 " SF icons can be suffixed with:
 " :monochrome
 " :hierarchical
@@ -135,7 +141,7 @@ let g:mayhem_toolbarToggles = [
       \ name: 'autosynstack',
       \ priority: '1.510',
       \ type: 'exec',
-      \ current: 'SynStackAutoStatus',
+      \ execForCurrentValue: 'SynStackAutoStatus',
       \ states: #{
         \ 1: #{
           \ next: 'SynStackAuto',
@@ -217,7 +223,7 @@ function s:AddToggles()
 
     let priority = get(toggle, 'priority', '1.555')
     let type = get(toggle, 'type', 'exec')
-    let current = get(toggle, 'current',
+    let execForCurrentValue = get(toggle, 'execForCurrentValue',
           \ (type == 'set' && exists('+' .. name)) ? '&g:' .. name : v:null)
 
     let states = get(toggle, 'states', {})
@@ -226,13 +232,12 @@ function s:AddToggles()
           \ 'name': name,
           \ 'states': deepcopy(states),
           \ 'priority': priority,
-          \ 'current': current,
+          \ 'execForCurrentValue': execForCurrentValue,
           \ }
     function toggler.update()
       let name = self['name']
       exec 'silent! aunmenu <silent> ToolBar.Toggle\ ' .. self['name']
-      exec 'let current = ' .. self['current']
-      exec 'let current = &g:' .. self['current']
+      exec 'let current = ' .. self['execForCurrentValue']
       let states    = get(self, 'states', {})
       let state     = get(states, current, get(states, '_default', {}))
       let nextvalue = get(state, 'next', v:null )
@@ -501,19 +506,20 @@ function! s:AddDynamicToolBar()
   exec 'tmenu' 'ToolBar.ReloadColorscheme' '􀝥' 'Reload Colourscheme'
 
   " 􀩼 􀪏 􁹛  􁹜 
-  exec 'an' '<silent>' SfIcon('􀩼') s:MenuNextItem()
+  exec 'an' '<silent>' SfIcon('􁹛') s:MenuNextItem()
         \ 'ToolBar.Terminal'
         \ '<Cmd>terminal<CR>'
-  exec 'tmenu' 'ToolBar.Terminal' '􀩼' 'Open Terminal window in split'
+  exec 'tmenu' 'ToolBar.Terminal' '􁹛' 'Open Terminal window in split'
 
-  " 􀈕 􀈖 􀬔
-  exec 'nnoremenu' SfIcon('􀥯') s:MenuNextItem()
+  " 􀈕 􀈖 􀬔 􀥯
+  "
+  exec 'nnoremenu' SfIcon('􀬔') s:MenuNextItem()
         \ 'ToolBar.ShowInFinder'
         \ '<Cmd>silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
   exec 'inoremenu' SfIcon('􀬔') s:MenuNextItem()
         \ 'ToolBar.ShowInFinder'
         \ 'silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
-  exec 'tmenu' 'ToolBar.ShowInFinder' '􀥯' 'Show current file in Finder'
+  exec 'tmenu' 'ToolBar.ShowInFinder' '􀬔' 'Show current file in Finder'
 
   " ------------Sep-------------- 400
   call s:MenuSeparator('ToolBar')

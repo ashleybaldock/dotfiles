@@ -20,10 +20,9 @@ nnoremap <silent><script> <Plug>(mayhem_charinfo_toggle) :<C-U>Toggle g:mayhem_a
 let g:mayhem_auto_charinfo = get(g:, 'mayhem_auto_charinfo', 0)
 
 call toggle#observe('g:mayhem_auto_charinfo', #{
-      \ states: #{
       \  0: #{ cmd: 'call autocmd_add([#{ event: ''CursorMoved'', pattern: ''*'', cmd: ''CharInfo'', group: ''mayhem_auto_charinfo''}])'},
       \  1: #{ cmd: 'silent! call autocmd_delete([#{ event: ''CursorMoved'', group: ''mayhem_auto_charinfo''}])'}
-      \}})
+      \})
 
 " call toggle#observe('g:mayhem_auto_charinfo', function('s:Update_AutoCharInfo()'))
 " call s:Update_AutoCharInfo()

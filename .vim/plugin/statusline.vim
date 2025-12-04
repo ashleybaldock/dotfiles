@@ -557,12 +557,12 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_term'] = [
         \[
         \'%#SlTermC#%{%TermPaused()%} ',
-        \'%-f%*%<%=%(%n %l,%c%V %P%) ',
+        \'%-f%*%<%=%(%l,%c%V%) ',
         \ ' %{%ScrollHint()%}',
         \]->join(''),
         \[
         \'%#SlTermN#%{%TermPaused()%} ',
-        \'%-f%#SlSepN#%*%<%= %#SlTermN#%(%n %l,%c%V %P%) ',
+        \'%-f%#SlSepN#%*%<%= %#SlTermN#%(%l,%c%V%) ',
         \ ' %{%ScrollHint()%}',
         \]->join(''),
         \]

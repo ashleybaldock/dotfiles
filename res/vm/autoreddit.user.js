@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        AutoReddit
 // @namespace   mayhem
-// @version     1.0.78
+// @version     1.0.79
 // @author      flowsINtomAyHeM
 // @description Make reddit's UI suck less
 // @downloadURL http://localhost:3333/vm/autoreddit.user.js
@@ -162,13 +162,42 @@ const removeCarousel = (ul) => {
       squareish: natW / natH < 1.1 && natW / natH > 0.9,
     }),
   );
-  const n_squareish = images.filter(({ squareish }) => squareish).length,
-    n_portrait = images.filter(({ portrait }) => portrait).length,
-    n_landscape = images.filter(({ landscape }) => landscape).length;
 
-  const all_landscape = n_squareish === 0 && n_portrait === 0;
-  const all_portrait = n_squareish === 0 && n_landscape === 0;
+  const getGridLayout = (images) => {
+    const n_images = images.length;
+    const n_squareish = images.filter(({ squareish }) => squareish).length,
+      n_portrait = images.filter(({ portrait }) => portrait).length,
+      n_landscape = images.filter(({ landscape }) => landscape).length;
 
+    const all_landscape = n_portrait === 0;
+    const all_portrait = n_landscape === 0;
+
+    Map([[1, [1,1]], [2, [2,1]], [3, [3,1]], [4, [2,2]], [[5,6], [3,2]],[[7,8,9], [3,3]], [[10,11,12], [4,3]], [[13,14,15,16], [4,4]], [[17,18,19,20], [5,4]], [[21,22,23,24,25], [5,5]], [[26,27,28,29,30], [6,5]], [[31,32,33,34,35,36], [6,6]]].reduce(([acc, cur]) => , [])
+
+    if (all_landscape) {
+      return {
+        portrait: {
+          cols: 1,
+          rowsperpage: 9
+        },
+        landscape: {
+          cols: 2,
+          rowsperpage: 9
+        },
+      };
+    }
+    if (all_portrait) {
+      return {
+        portrait: {
+          cols: 2,
+          rowsperpage: 9
+        },
+        landscape: {
+          cols: Math.min(n_images / 3, 3),
+          rowsperpage: 9
+        },
+      };
+    }
   const rowsper = all_portrait ? (n_portrait <= 3 ? 1 : 2) : 9;
   const cols = all_portrait
     ? Math.max(2, Math.min(n_portrait, 3))
@@ -181,9 +210,14 @@ const removeCarousel = (ul) => {
           : n_landscape > 2
             ? 2
             : 4;
+  };
 
-  ul.style.setProperty('--ncols', cols);
-  ul.style.setProperty('--rowsper', rowsper);
+  const {portrait, landscape } = getGridLayout(images);
+
+  ul.style.setProperty('--ver-ncols', portrait.cols);
+  ul.style.setProperty('--ver-rowsper', portrait.rowsperpage);
+  ul.style.setProperty('--hoz-ncols', landscape.cols);
+  ul.style.setProperty('--hoz-rowsper', landscape.rowsperpage);
   ul.parentNode.closest('[slot="post-media-container"]').appendChild(ul);
 };
 

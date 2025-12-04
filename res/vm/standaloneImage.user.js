@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.298
+// @version     1.2.299
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -262,12 +262,25 @@ const initStandaloneImage = ({
   (({ document: { body }, eventLayer }) => {
     const selecting = () => body.dataset.selecting !== undefined;
     const selection = () => body.dataset.selection !== undefined;
+    /* Minimum distance mouse needs to move for selection to be considered to have started */
+    const beginThreshold = 4;
+
+    const selectionDisplacement = () => {
+      const sX = body.style.getPropertyValue('--selectXstart');
+      const sY = body.style.getPropertyValue('--selectYstart');
+      const eX = body.style.getPropertyValue('--selectXend');
+      const eY = body.style.getPropertyValue('--selectYend');
+      const dX = Math.max(sX, eX) - Math.min(sX, eX);
+      const dY = Math.max(sY, eY) - Math.min(sY, eY);
+      return {taxicab: dX + dY, euclidian: Math.sqrt(dX * dX + dY * dY)};
+    };
 
     const updateSelection = ({ clientX, clientY }) => {
-      body.dataset.selecting !== 'vertical' &&
+      body.dataset.selectingVertical === undefined &&
         body.style.setProperty('--selectXend', clientX);
-      body.dataset.selecting !== 'horizontal' &&
+      body.dataset.selectingHorizontal === undefined &&
         body.style.setProperty('--selectYend', clientY);
+      body.dataset.selectingBegin !== undefined && selectionDisplacement().taxicab > beginThreshold && delete body.dataset.selectingBegin;
     };
     const clearSelection = () => {
       delete body.dataset.selecting;
@@ -288,7 +301,7 @@ const initStandaloneImage = ({
       eventLayer.removeEventListener('mousemove', mousemove, {});
     };
     const beginSelection = ({ clientX, clientY }) => {
-      body.dataset.selecting = '';
+      body.dataset.selectingBegin = '';
       body.style.setProperty('--selectXstart', clientX);
       body.style.setProperty('--selectYstart', clientY);
       body.style.setProperty('--selectXend', clientX);
@@ -320,7 +333,8 @@ const initStandaloneImage = ({
       if (top) {
         body.style.setProperty('--selectYstart', maxY);
         body.style.setProperty('--selectYend', minY);
-        body.dataset.selecting = left || right ? '' : 'vertical';
+        body.dataset.selecting = '';
+        (left || right) && body.dataset.selectingVertical = '';
       }
       if (bottom) {
         body.style.setProperty('--selectYstart', minY);

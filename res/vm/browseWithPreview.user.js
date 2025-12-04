@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.239
+// @version     1.0.241
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -49,6 +49,15 @@ const overrideFileListClicks = () => {
     }),
   );
 };
+
+const addProperty = (({window}) => ({}) => {
+    window.CSS.registerProperty({
+      name: "--playerCount",
+      syntax: "<color>",
+      inherits: false,
+      initialValue: "aqua",
+    });
+})({window})
 
 const addGrouping = ({ to, ...attrs } = {}) => {
   const div = GM_addElement(to, 'div', {
@@ -155,14 +164,14 @@ const addSequenceToggle = ({
 };
 
 const addWrappedVideo = (
-  parent,
   options = {
-    class: `i${[...parent.querySelectorAll('.vidwrap')].length + 1}`,
+    to,
+    class: `i${[...to.querySelectorAll('.vidwrap')].length + 1}`,
     autoplay: '',
     muted: '',
   },
 ) => {
-  const wrapper = GM_addElement(parent, 'div', { class: 'vidwrap' });
+  const wrapper = GM_addElement(to, 'div', { class: 'vidwrap' });
   const playLabel = GM_addElement(wrapper, 'label', { for: 'toggle_playing' });
   const pauseLabel = GM_addElement(wrapper, 'label', { for: 'toggle_paused' });
   const idx = () => wrapper.style.getPropertyValue('--playerIdx');
@@ -442,6 +451,9 @@ const initBrowsePreview = ({ document: { body } }) => {
     };
   })({});
 
+
+const 
+
   (({ document: { body }, config: { max_interleaved, interleave_delay } }) => {
     /* TODO - set up @property automatically */
     max_interleaved.subscribe((newValue) => {
@@ -689,6 +701,12 @@ const initBrowsePreview = ({ document: { body } }) => {
             return { done: false, value };
           }
         },
+        // [Symbol.iterator]() {
+        //   return this;
+        // },
+        async *[Symbol.asyncIterator]() {
+          return this;
+        },
         /**
          *  If a filter is set, this returns the filtered count
          *  This is calculated lazily the first time it is required
@@ -802,7 +820,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     const updateMediaPlayerCount = (count = 4) => {
       const newPlayerCount = Math.min(filelist.length, count);
       for (let i = mediaPlayers.length; i < newPlayerCount; i++) {
-        const { wrapper, player } = addWrappedVideo(container, {
+        const { wrapper, player } = addWrappedVideo({to: container,
           class: `i${i}`,
           id: `i${i}`,
         });
@@ -886,7 +904,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
 
     ['last', 'cue-prev', 'current', 'cue-next'].forEach((cl) =>
-      addWrappedVideo(container, { class: cl }),
+      addWrappedVideo({to: container, class: cl }),
     );
 
     const filelist = getFileList({ repeat: true, shuffle: false });

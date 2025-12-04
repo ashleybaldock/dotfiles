@@ -1,28 +1,76 @@
-
-
-
 #ident,
 .class,
 span,
 div,
 *,
 [attr],
-[attr=''],[attr=""],
-[attr~=abc]  ,[attr~='abc'] ,[attr~="abc"]  ,
-[attr~=abc i],[attr~='abc'i],[attr~='abc' i],[attr~="abc"i],[attr~="abc" i],
-[attr~=abc s],[attr~='abc's],[attr~='abc' s],[attr~="abc"s],[attr~="abc" s],
-[attr^=pre],[attr^='pre'],[attr^="pre"],
-[attr^=pre i],[attr^='pre'i],[attr^='pre' i],[attr^="pre"i],[attr^="pre" i],
-[attr^=pre s],[attr^='pre's],[attr^='pre' s],[attr^="pre"s],[attr^="pre" s],
-[attr$=suf],[attr$='suf'],[attr$="suf"],
-[attr$=suf i],[attr$='suf'i],[attr$='suf' i],[attr$="suf"i],[attr$="suf" i],
-[attr$=suf s],[attr$='suf's],[attr$='suf' s],[attr$="suf"s],[attr$="suf" s],
-[attr|=abc],[attr|='abc'],[attr|="abc"],
-[attr|=abc i],[attr|='abc'i],[attr|='abc' i],[attr|="abc"i],[attr|="abc" i],
-[attr|=abc s],[attr|='abc's],[attr|='abc' s],[attr|="abc"s],[attr|="abc" s],
-[attr*=abc],[attr*='abc'],[attr*="abc"],
-[attr*=abc i],[attr*='abc'i],[attr*='abc' i],[attr*="abc"i],[attr*="abc" i],
-[attr*=abc s],[attr*='abc's],[attr*='abc' s],[attr*="abc"s],[attr*="abc" s],
+[attr=''],
+[attr=''],
+[attr~='abc'],
+[attr~='abc'],
+[attr~='abc'],
+[attr~='abc' i],
+[attr~='abc'i],
+[attr~='abc' i],
+[attr~='abc'i],
+[attr~='abc' i],
+[attr~='abc s'],
+[attr~='abc's],
+[attr~='abc' s],
+[attr~='abc's],
+[attr~='abc' s],
+[attr^='pre'],
+[attr^='pre'],
+[attr^='pre'],
+[attr^='pre' i],
+[attr^='pre'i],
+[attr^='pre' i],
+[attr^='pre'i],
+[attr^='pre' i],
+[attr^='pre s'],
+[attr^='pre's],
+[attr^='pre' s],
+[attr^='pre's],
+[attr^='pre' s],
+[attr$='suf'],
+[attr$='suf'],
+[attr$='suf'],
+[attr$='suf' i],
+[attr$='suf'i],
+[attr$='suf' i],
+[attr$='suf'i],
+[attr$='suf' i],
+[attr$='suf s'],
+[attr$='suf's],
+[attr$='suf' s],
+[attr$='suf's],
+[attr$='suf' s],
+[attr|='abc'],
+[attr|='abc'],
+[attr|='abc'],
+[attr|='abc' i],
+[attr|='abc'i],
+[attr|='abc' i],
+[attr|='abc'i],
+[attr|='abc' i],
+[attr|='abc s'],
+[attr|='abc's],
+[attr|='abc' s],
+[attr|='abc's],
+[attr|='abc' s],
+[attr*='abc'],
+[attr*='abc'],
+[attr*='abc'],
+[attr*='abc' i],
+[attr*='abc'i],
+[attr*='abc' i],
+[attr*='abc'i],
+[attr*='abc' i],
+[attr*='abc s'],
+[attr*='abc's],
+[attr*='abc' s],
+[attr*='abc's],
+[attr*='abc' s],
 #ident.class,
 .class#ident,
 div.class,
@@ -32,19 +80,29 @@ someOtherTag {
   color: green;
 }
 
-.class:hover, .class:active, .class:visited, .class:checked {
+.class:hover,
+.class:active,
+.class:visited,
+.class:checked {
   color: green;
 }
-.class::before, .class::after,
-.class:hover::before, .class:hover::after,
-.class::before:hover, .class::after:hover {
+.class::before,
+.class::after,
+.class:hover::before,
+.class:hover::after,
+.class::before:hover,
+.class::after:hover {
   color: green;
 }
 @media not print {
-  .class:hover, .class:active, .class:visited, .class:checked {
+  .class:hover,
+  .class:active,
+  .class:visited,
+  .class:checked {
     color: green;
   }
-  .class::before, .class::after {
+  .class::before,
+  .class::after {
     color: green;
   }
 }
@@ -69,7 +127,6 @@ unknownTag,
 .#test {
   color: red;
 }
-
 
 #modern-rgb-valid {
   --t0: rgb(0 0 0);
@@ -111,12 +168,12 @@ unknownTag,
 
 #calc {
   text-shadow:
-    var(--b) 0 var(--oblur) var(--c1) ,
-     0 var(--a) var(--oblur) var(--c2) ,
-    var(--a) 0 var(--oblur) var(--c3) ,
-    0 var(--b) var(--oblur) var(--c4) ,
-    var(--s1x) var(--s1y) var(--sblur1) var(--sc1) ,
-    var(--s2x) var(--s2y) var(--sblur2) var(--sc2) ;
+    var(--b) 0 var(--oblur) var(--c1),
+    0 var(--a) var(--oblur) var(--c2),
+    var(--a) 0 var(--oblur) var(--c3),
+    0 var(--b) var(--oblur) var(--c4),
+    var(--s1x) var(--s1y) var(--sblur1) var(--sc1),
+    var(--s2x) var(--s2y) var(--sblur2) var(--sc2);
 
   --q: var(--b, var(--mm, 34));
 
@@ -137,12 +194,13 @@ unknownTag,
   --notNaN5: calc(NAn);
 }
 .process {
-  --arrow-left-w: calc(100px - 6em * 3 +
-    max(var(--arrow-left), var(--arrow-radius)) + (var(--arrow-line-w) / 2)
+  --arrow-left-w: calc(
+    100px - 6em * 3 + max(var(--arrow-left), var(--arrow-radius)) +
+      (var(--arrow-line-w) / 2)
   );
 }
 #sqrt {
-  --sqrt2: sqrt(︎2 + 2)︎;
+  --sqrt2: sqrt(︎2 + 2) ︎;
   --sqrt22: sqrt(2);
 
   --s: sqrt(8);
@@ -151,17 +209,15 @@ unknownTag,
   --svar: sqrt(var(--a));
 }
 #pow {
-  --pow22: pow(2,2);
-  --pow24: pow(2,4);
-  --pow31: pow(3,1);
-  --pow3-1: pow(3,-1);
+  --pow22: pow(2, 2);
+  --pow24: pow(2, 4);
+  --pow31: pow(3, 1);
+  --pow3-1: pow(3, -1);
 
-  --pow3123: pow(3,123);
-  --powpow: pow(3,pow(2));
-  --powpowpow: pow(pow(2, 4), pow(3, 9))
-
-  --powv1: pow(2,(var(--a)));
-  --powv2: pow(2,var(--a));
+  --pow3123: pow(3, 123);
+  --powpow: pow(3, pow(2));
+  --powpowpow: pow(pow(2, 4), pow(3, 9)) --powv1: pow(2, (var(--a)));
+  --powv2: pow(2, var(--a));
 }
 
 .classpx.classem.classdeg {
@@ -201,13 +257,13 @@ unknownTag,
 }
 
 .trig {
-    --  sin: sin(42deg);
-    --  cos: cos(33deg);
-    --  tan: tan(33deg);
-    -- asin: asin(22deg);
-    -- acos: acos(22deg);
-    -- atan: atan(22deg);
-    --atan2: atan2(22deg);
+  --  sin: sin(42deg);
+  --  cos: cos(33deg);
+  --  tan: tan(33deg);
+  -- asin: asin(22deg);
+  -- acos: acos(22deg);
+  -- atan: atan(22deg);
+  --atan2: atan2(22deg);
 }
 
 .lots.of.classes {
@@ -240,7 +296,7 @@ unknownTag,
 
 .grid.parent {
   display: grid;
-  
+
   grid-template-columns: 1fr;
   grid-auto-columns: auto;
   grid-column-gap: 1em;
@@ -250,8 +306,9 @@ unknownTag,
   grid-row-gap: 1em;
 
   grid-template-areas: 'a a a' 'b b b';
-  grid-template: [row1-start] "header header header" 25px [row1-end]
-    [row2-start] "footer footer footer" 25px [row2-end]
+  grid-template:
+    [row1-start] 'header header header' 25px [row1-end]
+    [row2-start] 'footer footer footer' 25px [row2-end]
     / auto 50px auto;
   grid-auto-flow: auto;
   grid-gap: 1em;
@@ -294,10 +351,24 @@ unknownTag,
 :is(.class),
 :is([name='thing']),
 :is(:first-child),
+:is(:active),
 :is(#id) {
   color: red;
 }
 
+:nth-child(),
+:last-child,
+::selection,
+:abcd,
+:checked,
+:corner-present,
+:decrement {
+  color: #f00;
+}
+
+:is(.something) :not() :where() :has() {
+  content: 'functional';
+}
 
 /* Match: */
 /* prettier-ignore */
@@ -327,7 +398,8 @@ a
 a/**/
 b {--a: 0;}
 /* prettier-ignore */
-ab {--a: 0;}
+a
+b {--a: 0;}
 /* prettier-ignore */
 ab {--a: 0;}
 
@@ -450,7 +522,8 @@ Elliptic Arc: A   a   􀀀
  */
 
 #with-other-images {
-  background-image: linear-gradient(#000, #fff),
+  background-image:
+    linear-gradient(#000, #fff),
     url('data:imagesvgxml,\
     %3Csvg xmlns=%22http://www.w3.org/2000/svg%22\
       style=%22fill: %23ffffff;%22\
@@ -600,7 +673,8 @@ a
 a/**/
 b {--a: 0;}
 /* prettier-ignore */
-ab {--a: 0;}
+a
+b {--a: 0;}
 /* prettier-ignore */
 ab {--a: 0;}
 

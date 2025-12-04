@@ -147,7 +147,6 @@ hi WildMenu       guifg=#000000 guibg=#767fff gui=bold
 hi Conceal        guifg=ycsealf guibg=NONE
 hi link vimSynMtchCchar Conceal
 hi link vimSynCcharValue Conceal
-hi link cssUnitDecorators Conceal
 hi Ignore         guifg=#8888aa guibg=#222244         
 "
 " Diagnostics related
@@ -466,15 +465,17 @@ hi Comment        guifg=#cf28df guibg=NONE    gui=none
 hi CommentBright  guifg=#dd44ff guibg=NONE    gui=none
 hi CommentTitle   guifg=#33eeff guibg=bg      gui=underline,italic guisp=#7744ff
 hi CommentLink    guifg=#22aadd guibg=NONE    gui=underdashed
-hi CommentHidden  guifg=#999999 guibg=#111111 gui=italic
+hi CommentSubtle  guifg=#999999 guibg=#111111 gui=italic
+hi def link CommentHidden  CommentSubtle
 hi CommentNoise   guifg=#000000 guibg=#222222 gui=reverse
+hi def link CommentError Error
 
 hi link vimLineComment Comment
 hi link vim9LineComment Comment
 hi link vimCommentTitle CommentTitle
 hi link vim9CommentTitle CommentTitle
-hi link vimCommentError Error
-hi link vim9CommentError Error
+hi link vimCommentError CommentError
+hi link vim9CommentError CommentError
 hi link vimComment Comment
 hi link vim9Comment Comment
 hi link vimKeymapLineComment Comment
@@ -498,7 +499,7 @@ hi HlStandout     gui=standout
 "
 " Markdown:
 "
-hi htmlComment    guifg=#999999 guibg=#111111
+hi link htmlComment CommentSubtle
 
 " HlMkDnCode 
 " HlMkDnCdDelim
@@ -667,115 +668,6 @@ hi link SlGitOffN  SlSynOffN
 
 " TODO - move these to filetype specific files
 "
-hi link javascriptRegexpString  Regexp
-hi link javascriptNumber        Number
-hi link javascriptNull          Constant
-
-hi link jsonNoQuotesError       ErrorHint
-hi link jsonMissingCommaError   ErrorHint
-
-
-"
-" See: ../after/syntax/css.vim
-"   $VIMRUNTIME/syntax/css.vim
-"   ../pack/default/start/vim-css3-syntax/after/syntax/css/
-"
-"
-hi cssIdHash         guifg=#ffaa00
-hi cssSelectorOp     guifg=#22ffaa gui=bold
-hi cssSelectorOp2    guifg=#0800ff gui=bold
-hi cssAttrParens     guifg=#ff5500 gui=bold
-hi cssAttrComma      guifg=#ffff00 gui=bold
-hi cssAttrOp         guifg=#ff00ff
-
-hi link cssAtRule Include
-hi link cssAtKeyword PreProc
-
-hi link cssFunctionName Function
-hi link cssFunctionComma Function
-hi cssCustomProp  guifg=#bf53bc
-hi cssNoise       guifg=#bbaf00
-
-hi link cssPropertySyntax String
-hi link cssSyntaxType Type
-hi link cssPropertyAttr Keyword
-hi cssPropertyProp  guifg=#ccccff
-
-hi link cssIdentifier Function
-hi link cssClassName Function
-" hi cssPseudoClass
-hi link cssPseudoClassId PreProc
-" hi cssPseudoClassFn
-hi link cssPseudoClassLang Constant
-
-" Value types
-hi link cssCalcKeyword Constant
-hi link cssValueLength Number
-hi link cssValueInteger Number
-hi link cssValueNumber Number
-hi link cssValueAngle Number
-hi link cssValueTime Number
-hi link cssValueFrequency Number
-" unimplemented/vendor
-hi cssVendor       guifg=#ffaa00 guibg=NONE gui=italic,strikethrough guisp=#ff0000
-hi link cssHyerlinkProp cssVendor
-hi link cssIEUIProp cssVendor
-" no matches defined
-hi link cssLineboxProp cssProp
-hi link cssMarqueeProp cssProp
-hi link cssPagedMediaProp cssProp
-hi link cssPrintProp cssProp
-hi link cssRubyProp cssProp
-hi link cssSpeechProp cssProp
-hi link cssRenderProp cssProp
-" Generic/common
-hi link cssCascadeProp cssProp
-hi link cssCascadeAttr cssAttr
-hi link cssCommonAttr cssAttr
-" Language content & communication
-hi cssCommsProp  guifg=#aabcc7 guibg=NONE    gui=none
-hi link cssFontProp cssCommsProp
-hi link cssTextProp cssCommsProp
-hi link cssAuralProp cssCommsProp
-hi link cssGeneratedContentProp cssCommsProp
-hi link cssMobileTextProp cssCommsProp
-" Color & appearance
-hi cssPrettyProp guifg=#55aa77 guibg=NONE    gui=none
-hi link cssAnimationProp cssPrettyProp
-hi link cssTransitionProp cssPrettyProp
-hi link cssBackgroundProp cssPrettyProp
-hi link cssColorProp cssPrettyProp
-hi link cssListProp cssPrettyProp
-hi link cssObjectProp cssPrettyProp
-" UI & behaviour
-hi cssBehaveProp guifg=#cc6699 guibg=NONE    gui=none
-hi link cssBorderProp cssBehaveProp
-hi link cssTransformProp cssBehaveProp
-hi link cssUIProp cssBehaveProp
-hi link cssInteractProp cssBehaveProp
-" Layout & structure
-hi cssLayoutProp   guifg=#2288dd guibg=NONE  gui=none
-hi cssFlexAttrProp guifg=#6688dd guibg=NONE  gui=none
-hi cssGridAttrProp guifg=#8888dd guibg=NONE  gui=none
-
-hi link cssBoxProp cssLayoutProp
-hi link cssBoxAttr cssAttr
-
-hi link cssPositioningProp cssLayoutProp
-hi link cssPositioningAttr cssAttr
-
-hi link cssDimensionProp cssLayoutProp
-hi link cssDimensionAttr cssAttr
-
-hi link cssFlexibleBoxProp cssFlexAttrProp
-hi link cssFlexibleBoxAttr cssFlexAttrProp
-
-hi link cssGridProp cssGridAttrProp
-hi link cssMultiColumnProp cssLayoutProp
-hi link cssTableProp cssLayoutProp
-" Misc
-hi cssImportant guifg=#ff22cc guibg=NONE gui=bold,italic
-
 
 " hi link CocSymbolDefault  hl-MoreMsg
 " hi link CocSymbolFile

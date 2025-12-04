@@ -4,10 +4,11 @@
 " au BufWritePost <buffer> syn on
 "
 " See Also:
+"          ../after/syntax/css.vim
+"       ../../demo/css-regex-tests.cs
+"          ../pack/default/start/vim-css3-syntax/after/syntax/css/
 "       $VIMRUNTIME/syntax/css.vim
-"   ../../demo/css-regex-tests.css
-
-" exec 'source '..expand("<script>:h")..'"/common.vim"'
+"
 
 source <script>:p:h/common.vim
 
@@ -721,91 +722,197 @@ syn match devtoolComment +\*\s\?\%(Inline\s#\d\+\|Element\)\s\?|.*$+
 " syn match cssNoise contained +:+
 syn match cssUrlSeps /[:;,]/ contained contains=NONE
 
-hi link cssPseudoClassIdNoise cssNoise
 
 "}}}1
 
 
 "{{{1 Define colours
 "
+
+
+hi link cssUnitDecorators Conceal
+"
+hi cssIdHash         guifg=#ffaa00
+hi cssSelectorOp     guifg=#22ffaa gui=bold
+hi cssSelectorOp2    guifg=#0800ff gui=bold
+hi cssAttrParens     guifg=#ff5500 gui=bold
+hi cssAttrComma      guifg=#ffff00 gui=bold
+hi cssAttrOp         guifg=#ff00ff
+
+hi link cssAtRule Include
+hi link cssAtKeyword PreProc
+
+hi cssCustomProp  guifg=#bf53bc
+hi cssNoise       guifg=#bbaf00
+
+hi link cssIdentifier Function
+hi link cssClassName Function
+
+" Value types
+hi link cssCalcKeyword Constant
+hi link cssValueLength Number
+hi link cssValueInteger Number
+hi link cssValueNumber Number
+hi link cssValueAngle Number
+hi link cssValueTime Number
+hi link cssValueFrequency Number
+" unimplemented/vendor
+hi cssVendor       guifg=#ffaa00 guibg=NONE gui=italic,strikethrough guisp=#ff0000
+hi link cssHyerlinkProp cssVendor
+hi link cssIEUIProp cssVendor
+" no matches defined
+hi link cssLineboxProp cssProp
+hi link cssMarqueeProp cssProp
+hi link cssPagedMediaProp cssProp
+hi link cssPrintProp cssProp
+hi link cssRubyProp cssProp
+hi link cssSpeechProp cssProp
+hi link cssRenderProp cssProp
+" Generic/common
+hi link cssCascadeProp cssProp
+hi link cssCascadeAttr cssAttr
+hi link cssCommonAttr cssAttr
+" Language content & communication
+hi cssCommsProp  guifg=#aabcc7 guibg=NONE    gui=none
+hi link cssFontProp cssCommsProp
+hi link cssTextProp cssCommsProp
+hi link cssAuralProp cssCommsProp
+hi link cssGeneratedContentProp cssCommsProp
+hi link cssMobileTextProp cssCommsProp
+" Color & appearance
+hi cssPrettyProp guifg=#55aa77 guibg=NONE    gui=none
+hi link cssAnimationProp cssPrettyProp
+hi link cssTransitionProp cssPrettyProp
+hi link cssBackgroundProp cssPrettyProp
+hi link cssColorProp cssPrettyProp
+hi link cssListProp cssPrettyProp
+hi link cssObjectProp cssPrettyProp
+" UI & behaviour
+hi cssBehaveProp guifg=#cc6699 guibg=NONE    gui=none
+hi link cssBorderProp cssBehaveProp
+hi link cssTransformProp cssBehaveProp
+hi link cssUIProp cssBehaveProp
+hi link cssInteractProp cssBehaveProp
+" Layout & structure
+hi cssLayoutProp   guifg=#2288dd guibg=NONE  gui=none
+hi cssFlexAttrProp guifg=#6688dd guibg=NONE  gui=none
+hi cssGridAttrProp guifg=#8888dd guibg=NONE  gui=none
+
+hi link cssBoxProp cssLayoutProp
+hi link cssBoxAttr cssAttr
+
+hi link cssPositioningProp cssLayoutProp
+hi link cssPositioningAttr cssAttr
+
+hi link cssDimensionProp cssLayoutProp
+hi link cssDimensionAttr cssAttr
+
+hi link cssFlexibleBoxProp cssFlexAttrProp
+hi link cssFlexibleBoxAttr cssFlexAttrProp
+
+hi link cssGridProp cssGridAttrProp
+hi link cssMultiColumnProp cssLayoutProp
+hi link cssTableProp cssLayoutProp
+"
+" Misc
+"
+hi cssImportant guifg=#ff22cc guibg=NONE gui=bold,italic
+"
+" [selector="attribute"]
+"
 hi link cssAttributeSelector Type
 hi link cssClassNameDot Statement
 hi def link cssAttrParens Statement
 hi def link cssAttrOp cssSelectorOp2
 hi def link cssIdHash Statement
+"
+" :pseudo
+"
+hi link cssPseudoClassIdNoise cssNoise
+hi def cssPseudoClass      guifg=#ff0000
+hi link cssPseudoClassId PreProc
+hi link cssPseudoClassLang Constant
 
-hi def cssFunctionComma guifg=#dddd22
-hi def link cssCustomPropRef cssCustomProp
-
+hi def cssPseudoClassFn    guifg=#ff0000
+hi link cssFunctionName Function
+hi def cssFunctionComma    guifg=#dddd22
 hi def link cssFunctionNameVar Conceal
-hi def link cssVarCustomProp cssCustomProp
-hi def link cssVarParens Conceal
 
 hi def cssMathFunctionName guifg=ycsealf gui=bold
 hi def link CssMathOp Operator
 
+hi def link cssVarCustomProp cssCustomProp
+hi def link cssVarParens Conceal
 hi def link cssCalcKeyword Constant
+
+"
+" @property
+"
 hi def link cssPropertySyntax String
 hi def link cssSyntaxType Type
 hi def link cssPropertyAttr Keyword
-hi def link cssPropertyProp PreProc
+hi cssPropertyProp         guifg=#ccccff
 
+"
+" CSS extension for dataurls
 "
 hi def link cssUrlFnName cssFunctionName
 hi def link cssUrlParen  cssFunctionName
-hi def cssUrlPrefix      guifg=#cc77ee
-hi def cssUrlMimeType    guifg=#ff99ff
-hi def cssUrlSeps        guifg=#ddcc44
-hi def cssUrlSvgAttrSep  guifg=#ff00ff
-hi def cssUrl64Token     guifg=#cc5533
+hi def cssUrlPrefix        guifg=#cc77ee
+hi def cssUrlMimeType      guifg=#ff99ff
+hi def cssUrlSeps          guifg=#ddcc44
+hi def cssUrlSvgAttrSep    guifg=#ff00ff
+hi def cssUrl64Token       guifg=#cc5533
 hi def link cssUrl64Data Conceal
-hi def cssUrl64Invalid   guibg=#ff0000
-hi def cssUrlSvgTag      guifg=#1199dd
-hi def cssUrlSvgEndTag   guifg=#1199dd
-hi def cssUrlSvgTagName  guifg=#999900
-
+hi def link cssUrl64Invalid Error
+hi def cssUrlSvgTag        guifg=#1199dd
+hi def cssUrlSvgEndTag     guifg=#1199dd
+hi def cssUrlSvgTagName    guifg=#999900
 
 hi def link cssUrlSvgValue String 
 hi def link cssUrlSvgAttr Type
-hi def link cssUrlSvgTagError htmlCommentError
-hi def link cssUrlSvgComment htmlComment
-hi def link cssUrlSvgXmlns htmlComment
-hi def preProcComment guifg=#212121
+hi def link cssUrlSvgTagError CommentError
+hi def link cssUrlSvgComment CommentSubtle
+hi def link cssUrlSvgXmlns CommentSubtle
+hi def link preProcComment  CommentNoise
 
-hi def pathClose    guifg=#ffaa00 guibg=NONE gui=bold
-hi def pathMoveAbs  guifg=#009900 gui=bold guisp=#4444ee
-hi def pathMoveRel  guifg=#009900
-hi def pathLineAbs  guifg=#9900cc gui=bold guisp=#eeeeee
-hi def pathLineRel  guifg=#9900cc
-hi def pathHLineAbs guifg=#0066aa gui=bold guisp=#eeeeee
-hi def pathHLineRel guifg=#0066aa
-hi def pathVLineAbs guifg=#bb0077 gui=bold guisp=#eeeeee
-hi def pathVLineRel guifg=#aa0066
-hi def pathCubicAbs guifg=#8800ff gui=bold guisp=#44eeee
-hi def pathCubicRel guifg=#8800ff
-hi def pathCubi2Abs guifg=#8855ff
-hi def pathCubi2Rel guifg=#8855ff
-hi def pathQuadAbs  guifg=#664488 gui=bold guisp=#eeeeee
-hi def pathQuadRel  guifg=#664488
-hi def pathQuad2Abs guifg=#665588 gui=bold guisp=#eeeeee
-hi def pathQuad2Rel guifg=#665588
-hi def pathEllipA    guifg=#aa6666 guisp=#559999 gui=underdashed
-hi def pathEllipAL   guifg=#559999 gui=bold,underline
-hi def pathEllipAP1  guifg=#aa6666 guisp=#559999 gui=underline
-hi def pathEllipAP2  guifg=#cc8888 guisp=#aa6666 gui=italic,underdashed
-hi def pathEllipRP1  guifg=#aa6666 guisp=#559999 gui=underline
-hi def pathEllipRP2  guifg=#cc8888 guisp=#aa6666 gui=italic,underdashed
-hi def pathEllipRL   guifg=#559999 gui=underline
-hi def svgPathParam guifg=NONE
+"
+" CSS extension for SVG-in-dataurl
+"
+hi def pathClose           guifg=#ffaa00 guibg=NONE gui=bold
+hi def pathMoveAbs         guifg=#009900 gui=bold guisp=#4444ee
+hi def pathMoveRel         guifg=#009900
+hi def pathLineAbs         guifg=#9900cc gui=bold guisp=#eeeeee
+hi def pathLineRel         guifg=#9900cc
+hi def pathHLineAbs        guifg=#0066aa gui=bold guisp=#eeeeee
+hi def pathHLineRel        guifg=#0066aa
+hi def pathVLineAbs        guifg=#bb0077 gui=bold guisp=#eeeeee
+hi def pathVLineRel        guifg=#aa0066
+hi def pathCubicAbs        guifg=#8800ff gui=bold guisp=#44eeee
+hi def pathCubicRel        guifg=#8800ff
+hi def pathCubi2Abs        guifg=#8855ff
+hi def pathCubi2Rel        guifg=#8855ff
+hi def pathQuadAbs         guifg=#664488 gui=bold guisp=#eeeeee
+hi def pathQuadRel         guifg=#664488
+hi def pathQuad2Abs        guifg=#665588 gui=bold guisp=#eeeeee
+hi def pathQuad2Rel        guifg=#665588
+hi def pathEllipA          guifg=#aa6666 guisp=#559999 gui=underdashed
+hi def pathEllipAL         guifg=#559999 gui=bold,underline
+hi def pathEllipAP1        guifg=#aa6666 guisp=#559999 gui=underline
+hi def pathEllipAP2        guifg=#cc8888 guisp=#aa6666 gui=italic,underdashed
+hi def pathEllipRP1        guifg=#aa6666 guisp=#559999 gui=underline
+hi def pathEllipRP2        guifg=#cc8888 guisp=#aa6666 gui=italic,underdashed
+hi def pathEllipRL         guifg=#559999 gui=underline
+hi def svgPathParam        guifg=NONE
 
-hi def svgPathCmdLetter guisp=#ff0000 gui=underline,nocombine
+hi def svgPathCmdLetter    guisp=#ff0000 gui=underline,nocombine
 
 hi def link cssLineCont Conceal
-hi def link cssPer0A cssPerEnc
-hi def link cssPer cssPerEnc
-hi def link cssPer22 cssPerEnc
+hi def link   cssPerEnc Conceal
+hi def link  cssPer0A cssPerEnc
+hi def link    cssPer cssPerEnc
+hi def link  cssPer22 cssPerEnc
 hi def link cssPerTag cssPerEnc
-hi def link cssPerEnc Conceal
 
 "}}}1
 

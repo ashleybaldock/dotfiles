@@ -17,6 +17,10 @@ hi jsObjectMethodType         guifg=#aaaa55
 hi jsObjectKey                guifg=#eedd77
 hi jsObjectColon              guifg=#ffaa44
 
+hi link javascriptRegexpString  Regexp
+hi link javascriptNumber        Number
+hi link javascriptNull          Constant
+
 hi c jsBraces | hi link jsBraces Operator
 hi c jsObjectBraces | hi link jsObjectBraces jsBraces
 hi c jsFuncBraces | hi link jsFuncBraces jsArrowFunction

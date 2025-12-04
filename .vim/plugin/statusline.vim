@@ -310,6 +310,9 @@ let g:mayhem.symbols_S.status = {
       \ 'diffleft'    : '􀤴􀕹',
       \ 'diffright'   : '􀄐􀤵',
       \ 'multx'       : '×',
+      \ 'termpause'   : '􀊛',
+      \ 'termplay'    : '􀩼',
+      \ 'termtoggle'  : '􀊇',
       \ }
 let g:mayhem.symbols_8.status = {
       \ 'readonly'    : 'ᴿ',
@@ -322,6 +325,9 @@ let g:mayhem.symbols_8.status = {
       \ 'diffleft'    : '𐰶DI',
       \ 'diffright'   : 'FF𐰷',
       \ 'multx'       : '×',
+      \ 'termpause'   : '⏸⃞',
+      \ 'termplay'    : '>⃞ ',
+      \ 'termtoggle'  : '⏯︎',
       \ }
 let g:mayhem.symbols_A.status = {
       \ 'readonly'    : 'R',
@@ -334,6 +340,9 @@ let g:mayhem.symbols_A.status = {
       \ 'diffleft'    : '<DI',
       \ 'diffright'   : 'FF>',
       \ 'multx'       : 'x',
+      \ 'termpause'   : '>',
+      \ 'termplay'    : '>',
+      \ 'termtoggle'  : 't',
       \ }
 
 function RO() abort
@@ -349,8 +358,14 @@ endfunc
 function CheckUtf8() abort
   return &fenc !~ "^$\\|utf-8" || &bomb ? GetSymbol('status.fencnot8') : ""
 endfunc
-function CheckUnix() abort
+function CheckScb() abort
+  return &scrollbind ? GetSymbol('status.scrollbind') : ""
+endfunc
+function CheckFF() abort
   return &fileformat == "unix" ? "" : GetSymbol('status.ffnotnix')
+endfunc
+function TermPaused() abort
+  return mode() =~# 'n' ?  GetSymbol('status.termpause') : GetSymbol('status.termplay')
 endfunc
 function Diffing() abort
   let diff_left = getbufvar(bufnr(), 'mayhem_diff_left', 0)
@@ -500,8 +515,8 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_norm'] = [
         \ ['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
         \ '%#SlSepC#%=%*%<',
-        \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckUnix()%}%*%)',
-        \ '%( %#SlHintC#%{%Conceal()%}%*%)',
+        \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
+        \ '%( %#SlHintC#%{%Conceal()%}%{%CheckScb()%}%*%)',
         \ ' %{%ChFInfo()%}',
         \ ' %{%ScrollHint()%}',
         \ ' %{%ChDiag()%}',
@@ -510,8 +525,8 @@ function s:UpdateStatuslines() abort
         \
         \ ['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
         \ '%#SlSepN#%=%*%<',
-        \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckUnix()%}%*%)',
-        \ '%( %#SlHintN#%{%Conceal()%}%*%)',
+        \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
+        \ '%( %#SlHintN#%{%Conceal()%}%{%CheckScb()%}%*%)',
         \ ' %{%ChFInfo()%}',
         \ ' %{%ScrollHint()%}',
         \ ' %{%ChDiag()%}',
@@ -531,20 +546,38 @@ function s:UpdateStatuslines() abort
   "       \ '%#SlInfoC#𝓲⃝  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
   "       \ '%#SlInfoN#𝓲⃝  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
   let g:mayhem['sl_help'] = [
+        \[
         \ '%#SlInfoC#􀉚  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(%#SlHintC# help %#SlFPathC#[️%#SlInfoC#%l%#SlFPathC#/️%#SlInfoC#%L%#SlFPathC#]️%*%)',
-        \ '%#SlInfoN#􀉚  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(%#SlHintN# help %#SlFPathN#[️%#SlInfoN#%l%#SlFPathN#/️%#SlInfoN#%L%#SlFPathN#]️%*%)']
+        \]->join(''),
+        \[
+        \ '%#SlInfoN#􀉚  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(%#SlHintN# help %#SlFPathN#[️%#SlInfoN#%l%#SlFPathN#/️%#SlInfoN#%L%#SlFPathN#]️%*%)',
+        \]->join(''),
+        \]
 
   let g:mayhem['sl_term'] = [
-    \ '%#HlInverse#􀪏 %#SlTermC#%-f%*%<%=%(%n %l,%c%V %P%) ',
-    \ '􀩼%#SlTermN# %-f%*%<%=%(%n %l,%c%V %P%) ']
+        \[
+        \'%#SlTermC#%{%TermPaused()%} ',
+        \'%-f%*%<%=%(%n %l,%c%V %P%) ',
+        \ ' %{%ScrollHint()%}',
+        \]->join(''),
+        \[
+        \'%#SlTermN#%{%TermPaused()%} ',
+        \'%-f%#SlSepN#%*%<%= %#SlTermN#%(%n %l,%c%V %P%) ',
+        \ ' %{%ScrollHint()%}',
+        \]->join(''),
+        \]
 
   let g:mayhem['sl_messages'] = [
-        \['%{%ChWinSz()%}%#SlMessIC#􀤏%* %#SlMessC#Messages%*%=',
-        \ ' %{%ScrollHint()%}',
-        \ ' %#SlMessIC# %*']->join(''),
-        \['%{%ChWinSz()%}%#SlMessIN#􀤏%* %#SlMessN#Messages%*%=',
-        \ ' %{%ScrollHint()%}',
-        \ ' %#SlMessIN# %*']->join(''),
+        \[
+        \'%{%ChWinSz()%}%#SlMessIC#􀤏%* %#SlMessC#Messages%*%=',
+        \' %{%ScrollHint()%}',
+        \' %#SlMessIC# %*'
+        \]->join(''),
+        \[
+        \'%{%ChWinSz()%}%#SlMessIN#􀤏%* %#SlMessN#Messages%*%=',
+        \' %{%ScrollHint()%}',
+        \' %#SlMessIN# %*'
+        \]->join(''),
         \]
 
   let g:mayhem['sl_scriptnames'] = [
@@ -568,12 +601,14 @@ function s:UpdateStatuslines() abort
   " Quickfix:
   let g:mayhem['sl_qfix'] = [
         \ '%#SlQfixC#􀩳 %*',
-        \ '%#SlQfixN#􀩳 %*']
+        \ '%#SlQfixN#􀩳 %*'
+        \]
 
   " Netrw:
   let g:mayhem['sl_dir'] = [
         \ '%#SlDirC#􀈕 %-F%*%<%=%#SlDirInvC#netrw%*',
-        \ '%#SlDirN#􀈕 %-F%*%<%=%#SlDirInvN#netrw%*']
+        \ '%#SlDirN#􀈕 %-F%*%<%=%#SlDirInvN#netrw%*'
+        \]
 
   " let test = '%%%=%<%(%{subExpr}%{%subReExpr%} %)'
 
@@ -582,10 +617,14 @@ function s:UpdateStatuslines() abort
   "       \ '%#SlHomeN#HOME Vim Mayhem%*%<%=%#SlHmRtN#%*']
   " Home:
   let g:mayhem['sl_home'] = [
-        \ ['%{%ChWinSz()%}%#SlHomeLC#􁘲  Vim Mayhem%*',
-        \ '%<','%=','%#SlHomeMC# %*','%=','%#SlHomeRC# %*']->join(''),
-        \ ['%{%ChWinSz()%}%#SlHomeLN#􁘱  Vim Mayhem%*',
-        \ '%<','%=','%#SlHomeMN# %*','%=','%#SlHomeRN# %*']->join(''),
+        \[
+        \'%{%ChWinSz()%}%#SlHomeLC#􁘲  Vim Mayhem%*',
+        \'%<','%=','%#SlHomeMC# %*','%=','%#SlHomeRC# %*'
+        \]->join(''),
+        \[
+        \'%{%ChWinSz()%}%#SlHomeLN#􁘱  Vim Mayhem%*',
+        \'%<','%=','%#SlHomeMN# %*','%=','%#SlHomeRN# %*'
+        \]->join(''),
         \]
 
   let g:mayhem['sl_sfsym'] = [

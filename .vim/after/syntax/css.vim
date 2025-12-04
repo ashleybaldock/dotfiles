@@ -367,27 +367,32 @@ syn case ignore
 
 
 
-syn match cssPseudoClassIdNoise contained +:+ containedin=cssPseudoClass
+syn match cssPseudoClassIdNoise contained +:+ contains=NONE
+      \ containedin=cssPseudoClass,cssPseudoClassFn
 
 syn region cssPseudoClassFn containedin=cssPseudoClass
       \ matchgroup=cssFunctionName start=":where("
       \ end=")"
-      \ contains=cssNoise,cssSelectorOp,cssPseudoClass,cssStringQ,cssStringQQ,
+      \ contains=cssNoise,cssSelectorOp,cssPseudoClassFn,cssPseudoClass,
+      \cssStringQ,cssStringQQ,
       \cssTagName,cssAttributeSelector,cssClassName,cssIdentifier
 syn region cssPseudoClassFn containedin=cssPseudoClass
       \ matchgroup=cssFunctionName start=":is("
       \ end=")"
-      \ contains=cssNoise,cssSelectorOp,cssPseudoClass,cssStringQ,cssStringQQ,
+      \ contains=cssNoise,cssSelectorOp,cssPseudoClassFn,cssPseudoClass,
+      \cssStringQ,cssStringQQ,
       \cssTagName,cssAttributeSelector,cssClassName,cssIdentifier
 syn region cssPseudoClassFn containedin=cssPseudoClass
       \ matchgroup=cssFunctionName start=":has("
       \ end=")"
-      \ contains=cssNoise,cssSelectorOp,cssPseudoClass,cssStringQ,cssStringQQ,
+      \ contains=cssNoise,cssSelectorOp,cssPseudoClassFn,cssPseudoClass,
+      \cssStringQ,cssStringQQ,
       \cssTagName,cssAttributeSelector,cssClassName,cssIdentifier
 syn region cssPseudoClassFn containedin=cssPseudoClass
       \ matchgroup=cssFunctionName start=":not("
       \ end=")"
-      \ contains=cssNoise,cssSelectorOp,cssPseudoClass,cssStringQ,cssStringQQ,
+      \ contains=cssNoise,cssSelectorOp,cssPseudoClassFn,cssPseudoClass,
+      \cssStringQ,cssStringQQ,
       \cssTagName,cssAttributeSelector,cssClassName,cssIdentifier
 
 "                           
@@ -431,6 +436,26 @@ syn match cssIdHash '#' contained containedin=cssIdentifier contains=NONE
 
 syn match cssGridAttrProp contained "\<grid\>"
 syn keyword cssGridAttrProp contained grid
+
+syn match cssGridTemplateProp contained /\<grid-template-\%(columns\|rows\)\>/
+      \ containedin=cssDefinition contains=cssGridProp
+      \ nextgroup=cssGridTemplateRegion
+
+syn region cssGridTemplateRegion contained
+      \ start=+:\s\[+
+      \ end=+\ze\%(;\|)\|}\|{\)+
+      \ contains=cssGridTplLines,
+      \cssImportant,cssValueNumber,cssValueLength,cssFunction,cssComment,cssError,cssNoise
+
+syn region cssGridTplLines contained
+      \ matchgroup=cssGridTplDelims start=+\[+
+      \ end=+]+
+      \ contains=cssGridTplLineStart,cssGridTplLineEnd,cssGridTplLine,cssGridTplForbidden
+syn match cssGridTplLine contained +\<[A-Za-z_][A-Za-z0-9_-]\+\>+ contains=NONE
+syn match cssGridTplLineStart contained +\<[A-Za-z_][A-Za-z0-9_-]\+-start\>+ contains=cssGridTplSuffix
+syn match cssGridTplLineEnd contained +\<[A-Za-z_][A-Za-z0-9_-]\+-end\>+ contains=cssGridTplSuffix
+syn match cssGridTplSuffix contained /-start\|-end/ contains=NONE
+syn keyword cssGridTplForbidden contained span auto
 
 " Combinators
 " syn match cssCombinator
@@ -829,11 +854,11 @@ hi def link cssIdHash Statement
 " :pseudo
 "
 hi link cssPseudoClassIdNoise cssNoise
-hi def cssPseudoClass      guifg=#ff0000
+hi def cssPseudoClass      guifg=#ee0000 gui=italic
 hi link cssPseudoClassId PreProc
 hi link cssPseudoClassLang Constant
 
-hi def cssPseudoClassFn    guifg=#ff0000
+hi def cssPseudoClassFn    guifg=#ee0000 gui=italic
 hi link cssFunctionName Function
 hi def cssFunctionComma    guifg=#dddd22
 hi def link cssFunctionNameVar Conceal
@@ -853,6 +878,15 @@ hi def link cssSyntaxType Type
 hi def link cssPropertyAttr Keyword
 hi cssPropertyProp         guifg=#ccccff
 
+"
+" CSS extension for grid template
+"
+hi def cssGridTplSuffix    guifg=#666666
+hi def cssGridTplLine      guifg=#6666aa
+hi def cssGridTplLineStart guifg=#66aa66
+hi def cssGridTplLineEnd   guifg=#aa6666
+hi def cssGridTplDelims    guifg=#aaaaaa
+hi def link cssGridTplForbidden Error
 "
 " CSS extension for dataurls
 "

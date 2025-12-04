@@ -366,11 +366,88 @@ unknownTag,
   color: #f00;
 }
 
+/*! Functional */
 :is(.something) :not() :where() :has() {
   content: 'functional';
 }
 
-/* Match: */
+:where([data-a='blah'], a, div) {
+  content: 'OK';
+}
+
+:has(a, .b, #c, [data-ddd='d']),
+:has(> a, + .b, ~ #c, :is([data-ddd='d'])) {
+  content: 'OK';
+}
+:has(a, .b, #c, [data-ddd='d']:has(span)) {
+  content: 'nested :has() ERR';
+}
+div:has(:not(.bad)) {
+  /* any div that has a child that does not have the .bad class
+   * excludes only those divs that have only children with the .bad class */
+  content: 'Warning - probably not what you intended';
+}
+div:not(:has(.bad)) {
+  /* any div that has no children that have the .bad class */
+  content: 'More likely what you wanted';
+}
+
+
+/*! User action */
+:hover :active :focus :focus-visible :focus-within :target-current {
+  content: 'user action';
+}
+
+/*! Shadow DOM */
+:host :host() :host-context() :has-slotted {
+  content: 'shadow DOM';
+}
+
+/*! Tree Structural */
+:root :empty
+:nth-child() :nth-last-child()
+:first-child :last-child :only-child
+:nth-of-type() :nth-last-of-type()
+:first-of-type :last-of-type :only-of-type
+:heading() {
+  content: 'tree structural';
+}
+
+/*! Time-dimensional */
+:current :past :future
+
+/*! Resource state */
+:playing :paused :seeking :buffering :stalled :muted :volume-locked
+     
+/*! Location */
+:any-link :link :visited :local-link :target :scope
+
+/*! Linguistic */
+:dir() :lang()
+
+/*! Input */
+:enabled :disabled :read-only :read-write :placeholder-shown
+:autofill :default :checked :indeterminate :blank :valid :invalid
+:in-range :out-of-range :required :optional :user-valid :user-invalid
+
+/*! Element display state */
+:open :modal :fullscreen :picture-in-picture :popover-open
+
+/*! Elemental */
+:defined :heading
+
+/*! Custom state */
+:state()
+
+/*! Page */
+:left :right :blank :first
+
+/*! View transition */
+:active-view-transition :active-view-transition-type()
+
+    
+
+/*! Match: */
 /* prettier-ignore */
 a b {--a: 0;}
 /* prettier-ignore */
@@ -428,25 +505,6 @@ a/*
 /* prettier-ignore */
 a/**/b {--a: 0;}
 /* prettier-ignore */
-
-:where([data-a='blah'], a, div) {
-  content: 'OK';
-}
-
-:has(a, .b, #c, [data-ddd='d']),
-:has(> a, + .b, ~ #c, :is([data-ddd='d'])) {
-  content: 'OK';
-}
-:has(a, .b, #c, [data-ddd='d']:has(span)) {
-  content: 'nested :has() ERR';
-}
-div:has(:not(.bad)) {
-  content: 'Warning - probably not what you intended';
-}
-div:not(:has(.bad)) {
-  content: 'More likely what you wanted';
-}
-
 @property --bdw {
   syntax: '<length-percentage> | <angle>';
   inherits: false;
@@ -483,6 +541,43 @@ div:not(:has(.bad)) {
 
 .grid-templates {
   grid-template-columns: [left related-start vidfull-start] 30fr [related-end vidscrolled-start containing-start right-related-start right-controls-start playlists-start] 30fr [playlists-end containing-end comments-start] 40fr [ comments-end right-controls-end right-related-end vidscrolled-end vidfull-end right] !important;
+  grid-template-rows: [top related-start vidfull-start] 30fr [related-end vidscrolled-start containing-start right-related-start right-controls-start playlists-start] 30fr [playlists-end containing-end comments-start] 40fr [ comments-end right-controls-end right-related-end vidscrolled-end vidfull-end end] !important;
+}
+.grid-templates {
+  grid-template-columns: [left
+    related-start
+    vidfull-start] 30fr [related-end
+    vidscrolled-start
+    containing-start
+    right-related-start
+    right-controls-start
+    playlists-start] 30fr [playlists-end
+    containing-end
+    comments-start] 40fr [
+    comments-end
+    right-controls-end
+    right-related-end
+    vidscrolled-end
+    vidfull-end
+    right] !important;
+  grid-template-rows: [top
+    auto
+    related-start
+    vidfull-start] 30fr [related-end
+    vidscrolled-start
+    containing-start
+    right-related-start
+    right-controls-start
+    playlists-start] 30fr [playlists-end
+    containing-end
+    span
+    comments-start] auto [
+    comments-end
+    right-controls-end
+    right-related-end
+    vidscrolled-end
+    vidfull-end
+    end] !important;
 }
 
 /*

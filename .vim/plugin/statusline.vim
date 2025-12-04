@@ -513,44 +513,61 @@ function s:UpdateStatuslines() abort
   " Separate: %= ║ L%=Mid%=R ┃ L          Mid          R ┃
 
   let g:mayhem['sl_norm'] = [
-        \ ['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
-        \ '%#SlSepC#%=%*%<',
-        \ '%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
-        \ '%( %#SlHintC#%{%Conceal()%}%{%CheckScb()%}%*%)',
-        \ ' %{%ChFInfo()%}',
-        \ ' %{%ScrollHint()%}',
-        \ ' %{%ChDiag()%}',
-        \ '%{%Diffing()%}',
+        \['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
+        \'%#SlSepC#%=%*%<',
+        \'%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
+        \'%( %#SlHintC#%{%Conceal()%}%{%CheckScb()%}%*%)',
+        \' %{%ChFInfo()%}',
+        \' %{%ScrollHint()%}',
+        \' %{%ChDiag()%}',
+        \'%{%Diffing()%}',
         \]->join(''),
         \
-        \ ['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
-        \ '%#SlSepN#%=%*%<',
-        \ '%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
-        \ '%( %#SlHintN#%{%Conceal()%}%{%CheckScb()%}%*%)',
-        \ ' %{%ChFInfo()%}',
-        \ ' %{%ScrollHint()%}',
-        \ ' %{%ChDiag()%}',
-        \ '%{%Diffing()%}',
+        \['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
+        \'%#SlSepN#%=%*%<',
+        \'%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
+        \'%( %#SlHintN#%{%Conceal()%}%{%CheckScb()%}%*%)',
+        \' %{%ChFInfo()%}',
+        \' %{%ScrollHint()%}',
+        \' %{%ChDiag()%}',
+        \'%{%Diffing()%}',
         \]->join('')
-        \ ]
+        \]
 
 
   " let g:mayhem['sl_prev'] = [
   "   \ '%#SlInfoC#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ',
   "   \ '%#SlInfo#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ']
   let g:mayhem['sl_prev'] = [
-    \ '%#SlInfoC#􀬸 %-f%*%<%=%(%n %l,%c%V%) ',
-    \ '%#SlInfoN#􀬸 %-f%*%<%=%(%n %l,%c%V%) ']
+        \[
+        \'%#SlInfoC#􀬸 %-f%*%<%=%(%n %l,%c%V%) ',
+        \]->join(''),
+        \[
+        \'%#SlInfoN#􀬸 %-f%*%<%=%(%n %l,%c%V%) '
+        \]->join('')
+        \]
 
   " let g:mayhem['sl_help'] = [
   "       \ '%#SlInfoC#𝓲⃝  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
   "       \ '%#SlInfoN#𝓲⃝  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
   let g:mayhem['sl_help'] = [
         \[
-        \ '%#SlInfoC#􀉚  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(%#SlHintC# help %#SlFPathC#[️%#SlInfoC#%l%#SlFPathC#/️%#SlInfoC#%L%#SlFPathC#]️%*%)',
+        \'%#SlInfoC#􀉚 %{%FName()%}',
+        \'%#SlHintC#%{%FDotExt()%}',
+        \'%<%=',
+        \'%(',
+        \'%#SlHintC# help ',
+        \'%#SlFPathC#[️%#SlInfoC#%l%#SlFPathC#/️%#SlInfoC#%L%#SlFPathC#]️',
+        \'%)',
         \]->join(''),
         \[
-        \ '%#SlInfoN#􀉚  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(%#SlHintN# help %#SlFPathN#[️%#SlInfoN#%l%#SlFPathN#/️%#SlInfoN#%L%#SlFPathN#]️%*%)',
+        \'%#SlInfoN#􀉚 %{%FName()%}',
+        \'%#SlHintN#%{%FDotExt()%}',
+        \'%<%=',
+        \'%(',
+        \'%#SlHintN# help ',
+        \'%#SlFPathN#[️%#SlInfoN#%l%#SlFPathN#/️%#SlInfoN#%L%#SlFPathN#]️',
+        \'%)',
         \]->join(''),
         \]
 

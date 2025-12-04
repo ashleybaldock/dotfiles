@@ -34,7 +34,7 @@ function FName()
 endfunc
 function FDotExt()
   let ext = expand('%:e')
-  return ext == '' ? '' : '.'..ext
+  return ext == '' ? '' : '.' .. ext
 endfunc
 
 
@@ -165,8 +165,8 @@ function s:Update_Diag()
 
   if !exists('g:did_coc_loaded')
     let b:mayhem.sl_cache_diag = [
-          \ '%#SlSynOffC#'..GetSymbol('diag.off')..'%*',
-          \ '%#SlSynOffN#'..GetSymbol('diag.off')..'%*']
+          \ '%#SlSynOffC#' .. GetSymbol('diag.off') .. '%*',
+          \ '%#SlSynOffN#' .. GetSymbol('diag.off') .. '%*']
     return
   endif
 
@@ -279,21 +279,24 @@ endfunc
 function s:Update_Git()
   if !exists('g:loaded_fugitive')
     let b:mayhem.sl_cache_git = [
-          \ '%#SlGitOffC#'..GetSymbol('git.gitoff')..'%*',
-          \ '%#SlGitOffN#'..GetSymbol('git.gitoff')..'%*']
+          \ '%#SlGitOffC#' .. GetSymbol('git.gitoff') .. '%*',
+          \ '%#SlGitOffN#'  .. GetSymbol('git.gitoff') .. '%*'
+          \]
     return
   endif
 
   let head = FugitiveHead()
   if empty(head)
     let b:mayhem.sl_cache_git =  [
-          \ '%#SlNotGitC#'..GetSymbol('git.notgit')..'%*',
-          \ '%#SlNotGitN#'..GetSymbol('git.notgit')..'%*']
+          \ '%#SlNotGitC#' .. GetSymbol('git.notgit') .. '%*',
+          \ '%#SlNotGitN#' .. GetSymbol('git.notgit') .. '%*'
+          \]
     return
   else
     let b:mayhem.sl_cache_git =  [
-          \ '%#SlGitC#'..GetSymbol('git.isgit')..'%*',
-          \ '%#SlGitN#'..GetSymbol('git.isgit')..'%*']
+          \ '%#SlGitC#'  ..  GetSymbol('git.isgit')  ..  '%*',
+          \ '%#SlGitN#'  ..  GetSymbol('git.isgit' ) ..  '%*'
+          \]
     return
   endif
 endfunc

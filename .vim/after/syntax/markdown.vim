@@ -13,7 +13,6 @@ hi link htmlComment CommentSubtle
 " HlMkDnCode 
 " HlMkDnCdDelim
 "
-" hi HlMkDnCode     guifg=#ddaadd guibg=#441144 gui=underline           guisp=#ddaadd
 hi link HlMkDnCode mdCode
 hi HlMkDnCodeBg   guifg=NONE    guibg=#163646 gui=none
 hi link HlMkDnCdBlock mdCodeBlock
@@ -51,8 +50,8 @@ hi link markdownUrlTitle              String
 hi link markdownUrlDelimiter          htmlTag
 hi link markdownUrlTitleDelimiter     Delimiter
 
-hi markdownId 
-hi markdownIdDeclaration
+hi link markdownId mdId
+hi link markdownIdDeclaration mdIdDecl
 hi link markdownIdDelimiter           markdownLinkDelimiter
 
 hi link markdownItalic HlItalic
@@ -68,11 +67,11 @@ hi link markdownCode HlMkDnCode
 hi link markdownCodeBlock HlMkDnCdBlock
 hi link markdownCodeDelimiter HlMkDnCdDelim
 
-hi markdownEscape guifg=#33aa00 guibg=#061400    gui=none
-hi link markdownError Error
+hi link markdownEscape mdEscape
+hi link markdownError mdError
 
-hi link markdownHighlight_sh HlMkDnCodeBg
-hi link markdownHighlight_javascript HlMkDnCodeBg
-hi link markdownHighlight_typescript HlMkDnCodeBg
-hi link markdownHighlight_json HlMkDnCodeBg
+hi link markdownHighlight_sh mdCodeBlockBg
+hi link markdownHighlight_javascript mdCodeBlockBg
+hi link markdownHighlight_typescript mdCodeBlockBg
+hi link markdownHighlight_json mdCodeBlockBg
 

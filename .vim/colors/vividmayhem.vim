@@ -452,7 +452,6 @@ hi Special        guifg=#33aa00 guibg=NONE    gui=none
 hi link SpecialChar    Special
 hi link Tag	           Special
 hi Delimiter      guifg=#33aa00 guibg=NONE    gui=none
-hi link SpecialComment Special
 hi link Debug	         Special
 
 hi Underlined     guifg=#80a0ff gui=underline 
@@ -469,6 +468,7 @@ hi CommentSubtle  guifg=#999999 guibg=#111111 gui=italic
 hi def link CommentHidden  CommentSubtle
 hi CommentNoise   guifg=#000000 guibg=#222222 gui=reverse
 hi def link CommentError Error
+hi link SpecialComment Special
 
 hi link vimLineComment Comment
 hi link vim9LineComment Comment
@@ -499,73 +499,6 @@ hi HlStandout     gui=standout
 "
 " Markdown:
 "
-hi link htmlComment CommentSubtle
-
-" HlMkDnCode 
-" HlMkDnCdDelim
-"
-hi HlMkDnCode     guifg=#ddaadd guibg=#441144 gui=underline           guisp=#ddaadd
-hi HlMkDnCodeBg   guifg=NONE    guibg=#163646 gui=none
-hi HlMkDnCdBlock  guifg=#c9c9a3 guibg=#060606 gui=none
-hi HlMkDnCdDelim  guifg=#ffff00 guibg=NONE    gui=bold,strikethrough
-hi HlMkDnHeader   guifg=#cc44cc               gui=bold
-hi HlMkDnLink     guifg=#15aabf               gui=italic,underline
-
-"hi markdownHeadingRule
-hi markdownH1     guifg=#cc44cc               gui=bold                guisp=#00cc11
-hi markdownH2     guifg=#cc44cc               gui=underline           guisp=#00cc11
-hi markdownH3     guifg=#cc44cc               gui=underdashed         guisp=#00cc11
-hi markdownH4     guifg=#cc44cc               gui=underdotted         guisp=#00aa11
-hi markdownH5     guifg=#cc44cc               gui=underdotted,italic  guisp=#aa66aa
-hi markdownH6     guifg=#cc44cc               gui=italic              guisp=#aa66aa
-hi link markdownH1Delimiter Delimiter
-hi link markdownH2Delimiter Delimiter
-hi link markdownH3Delimiter Delimiter
-hi link markdownH4Delimiter Delimiter
-hi link markdownH5Delimiter Delimiter
-hi link markdownH6Delimiter Delimiter
-hi link markdownHeadingDelimiter Delimiter
-
-" hi markdownOrderedListMarker
-" hi markdownListMarker
-" hi markdownBlockquote
-" hi markdownRule
-
-" hi markdownFootnote
-" hi markdownFootnoteDefinition
-
-hi link markdownLinkText              htmlLink
-hi link markdownAutomaticLink         markdownUrl
-hi link markdownUrl                   Float
-hi link markdownUrlTitle              String
-hi link markdownUrlDelimiter          htmlTag
-hi link markdownUrlTitleDelimiter     Delimiter
-
-hi markdownId guifg=#cc00ff guibg=#440000
-hi markdownIdDeclaration guifg=#cc00ff guibg=#440000
-hi link markdownIdDelimiter           markdownLinkDelimiter
-
-hi link markdownItalic HlItalic
-hi markdownItalicDelimiter gui=italic,inverse
-hi link markdownBold HlBold
-hi markdownBoldDelimiter gui=bold,inverse
-hi link markdownBoldItalic HlBoldItalic
-hi markdownBoldItalicDelimiter gui=bold,italic,inverse
-hi link markdownStrike HlStrike
-hi markdownStrikeDelimiter gui=strikethrough,inverse
-
-hi link markdownCode HlMkDnCode
-hi link markdownCodeBlock HlMkDnCdBlock
-hi link markdownCodeDelimiter HlMkDnCdDelim
-
-hi markdownEscape guifg=#33aa00 guibg=#061400    gui=none
-hi link markdownError Error
-
-hi link markdownHighlight_sh HlMkDnCodeBg
-hi link markdownHighlight_javascript HlMkDnCodeBg
-hi link markdownHighlight_typescript HlMkDnCodeBg
-hi link markdownHighlight_json HlMkDnCodeBg
-
 " Coc/Markdown
 hi link CocBold HlBold
 hi link CocItalic HlItalic

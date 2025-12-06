@@ -5,6 +5,8 @@
 "
 " See Also: 
 "  $VIMRUNTIME/syntax/markdown.vim
+"     ../after/syntax/markdown.vim
+"     ../after/ftplugin/markdown.vim
 " Test Doc:
 "          ../demo/markdown.md
 "
@@ -215,12 +217,6 @@ syn keyword mdAlertTitleImp IMPORTANT contained
 syn keyword mdAlertTitleCaution CAUTION contained
 syn keyword mdAlertTitleWarn WARNING contained
 
-hi def mdAlertTitleNote guifg=#4444ff
-hi def mdAlertTitleTip guifg=#9999ee
-hi def mdAlertTitleImp guifg=#ee9999
-hi def mdAlertTitleWarn guifg=#ee9944
-hi def mdAlertTitleCaution guifg=#eeee44
-
 " call matchadd('HlMkDnCode', '\(\(\\[*_~`]\)\2*\).\+\1')
 " call matchadd('HlMkDnCode', '\\\zs[*_~(]\ze')
 " call matchadd('Conceal', '\zs\\\ze[*_~(]')
@@ -354,25 +350,31 @@ unlet! s:included
 "
 " Highlight Definitions:
 "
-hi def mdH1   guifg=#dd22dd gui=bold,italic
-hi def mdH2   guifg=#dd22dd guisp=#ff6600 gui=bold
-hi def mdH3   guifg=#dd22dd gui=none
-hi def mdH4   guifg=#dd22dd gui=italic
-hi def mdH5   guifg=#dd22dd gui=italic
-hi def mdH6   guifg=#dd22dd gui=italic
-hi def link mdHeadingRule           mdRule
-hi def link mdH1Delim               mdHeadDelim
-hi def mdH2Delim   guifg=#ff6600 gui=bold
-hi def link mdH3Delim               mdHeadDelim
-hi def link mdH4Delim               mdHeadDelim
-hi def link mdH5Delim               mdHeadDelim
-hi def link mdH6Delim               mdHeadDelim
-hi def link mdHeadDelim             Delimiter
-hi def link mdOrderedListMarker     mdListMarker
-hi def link mdListMarker            htmlTagName
+hi def mdAlertTitleNote    guifg=#4444ff
+hi def mdAlertTitleTip     guifg=#9999ee
+hi def mdAlertTitleImp     guifg=#ee9999
+hi def mdAlertTitleWarn    guifg=#ee9944
+hi def mdAlertTitleCaution guifg=#eeee44
+
+hi def mdH1                guifg=#cc44cc guisp=#00cc11 gui=bold                
+hi def mdH2                guifg=#cc44cc guisp=#00cc11 gui=underline           
+hi def mdH3                guifg=#cc44cc guisp=#00cc11 gui=underdashed         
+hi def mdH4                guifg=#cc44cc guisp=#00aa11 gui=underdotted         
+hi def mdH5                guifg=#cc44cc guisp=#aa66aa gui=underdotted,italic  
+hi def mdH6                guifg=#cc44cc guisp=#aa66aa gui=italic              
+hi def link mdHeadingRule mdRule
+hi def link mdHeadDelim Delimiter
+hi def link mdH1Delim mdHeadDelim
+hi def mdH2Delim           guifg=#ff6600               gui=bold
+hi def link mdH3Delim mdHeadDelim
+hi def link mdH4Delim mdHeadDelim
+hi def link mdH5Delim mdHeadDelim
+hi def link mdH6Delim mdHeadDelim
+hi def link mdListMarker htmlTagName
+hi def link mdOrderedListMarker mdListMarker
 
 hi def link mdBlockQuote Comment
-hi def mdHtmlComment     guifg=#999999 gui=italic
+hi def link mdHtmlComment CommentSubtle
 
 hi def link mdRule                  PreProc
 
@@ -380,8 +382,8 @@ hi def link mdFootnote              Typedef
 hi def link mdFootnoteDefinition    Typedef
 
 hi def link mdLinkText              htmlLink
-hi def link mdIdDeclaration         Typedef
-hi def link mdId                    Type
+hi def mdIdDeclaration  guifg=#cc00ff guibg=#440000
+hi def mdId             guifg=#cc00ff guibg=#440000
 hi def link mdAutoLink              mdUrl
 hi def link mdUrl                   Float
 hi def link mdUrlTitle              String
@@ -397,16 +399,16 @@ hi def link mdBoldItalic            htmlBoldItalic
 hi def link mdBoldItalicDelim       mdBoldItalic
 hi def link mdStrike                htmlStrike
 hi def link mdStrikeDelim           mdStrike
-hi def link mdCodeDelim             Delimiter
 
 hi def link mdEscape                Special
 hi def link mdError                 Error
 
+hi def mdCodeDelim      guifg=#ffff00 guibg=NONE    gui=bold,strikethrough
 hi def mdEscapedCode    guifg=#aaaa00 guibg=#222222
 hi mdCode               guifg=#cc88dd guibg=#391044
 hi mdCodeStart                        guibg=#391044
 hi def link mdCode2 mdCode
-hi mdCodeBlock          guifg=#cc6688 guibg=#222222
+hi def mdCodeBlock      guifg=#c9c9a3 guibg=#060606 gui=none
 hi def mdCodeBlockType  guifg=#99ff99
 hi def mdEscapedItalic                              gui=italic
 hi def mdEscapedItalicDelim           guibg=#440022 gui=italic,underdotted

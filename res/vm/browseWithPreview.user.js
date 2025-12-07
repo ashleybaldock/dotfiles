@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.241
+// @version     1.0.243
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -50,14 +50,28 @@ const overrideFileListClicks = () => {
   );
 };
 
-const addProperty = (({window}) => ({}) => {
+const setRegisteredCSSProp = (
+  ({ window }) =>
+  ({ on, name: _name, value, syntax }) => {
+    const name = /^--/.test(_name) ? _name : `--${_name}`;
+    const s_name = `--s-${name.slice(2)}`;
+
+    on.style.setProperty(name, value);
+    on.style.setProperty(s_name, `'${value}'`);
+  }
+)({ window: unsafeWindow });
+
+const addRegisteredCSSProp = (({ window }) => {
+  const registeredCSSProps = new Set();
+  return ({ name, syntax = '*', inherits = false, initialValue = 'none' }) => {
     window.CSS.registerProperty({
-      name: "--playerCount",
-      syntax: "<color>",
-      inherits: false,
-      initialValue: "aqua",
+      name,
+      syntax,
+      inherits,
+      initialValue,
     });
-})({window})
+  };
+})({ window });
 
 const addGrouping = ({ to, ...attrs } = {}) => {
   const div = GM_addElement(to, 'div', {
@@ -451,9 +465,6 @@ const initBrowsePreview = ({ document: { body } }) => {
     };
   })({});
 
-
-const 
-
   (({ document: { body }, config: { max_interleaved, interleave_delay } }) => {
     /* TODO - set up @property automatically */
     max_interleaved.subscribe((newValue) => {
@@ -820,7 +831,8 @@ const
     const updateMediaPlayerCount = (count = 4) => {
       const newPlayerCount = Math.min(filelist.length, count);
       for (let i = mediaPlayers.length; i < newPlayerCount; i++) {
-        const { wrapper, player } = addWrappedVideo({to: container,
+        const { wrapper, player } = addWrappedVideo({
+          to: container,
           class: `i${i}`,
           id: `i${i}`,
         });
@@ -904,7 +916,7 @@ const
     });
 
     ['last', 'cue-prev', 'current', 'cue-next'].forEach((cl) =>
-      addWrappedVideo({to: container, class: cl }),
+      addWrappedVideo({ to: container, class: cl }),
     );
 
     const filelist = getFileList({ repeat: true, shuffle: false });

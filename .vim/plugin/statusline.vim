@@ -496,13 +496,14 @@ function s:SetStatusVars() abort
 endfunc
 " sp|enew|pu=execute('echo getbufvar(bufnr(), "name")')
 
-  " TODO - change this so that the C/NC distinction doesn't need two
-  "         identical strings
-  "   - preprocessing step which looks for a marker and replaces with N or C
-  " TODO - it would be better to provide a plugin interface
-  "       for custom statusbar, winbar, etc. things 
-  " TODO - convert to vim9script
-  " TODO - finish symbols library
+
+" TODO - change this so that the C/NC distinction doesn't need two
+"         identical strings
+"   - preprocessing step which looks for a marker and replaces with N or C
+" TODO - it would be better to provide a plugin interface
+"       for custom statusbar, winbar, etc. things 
+" TODO - convert to vim9script
+" TODO - finish symbols library
 function s:UpdateStatuslines() abort
   call s:SetStatusVars()
   call s:Update_FileInfo()

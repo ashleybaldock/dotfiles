@@ -145,7 +145,15 @@ See also: ../syntax/reg.vim
 %s/path\_s\+d=\(["']\|%22\)\zs\_[MLVCSQTAmlhvcsqtaZz0-9. -]*\ze\1/
 
 s/\%(<path\_s\_[^<>]*\)\@<=\&\%(\<d="\_[^"]*\)\@<=\&\%(\_[^"]*"\)\@=\&M\(\d\+\)\s\+\(\d\+\)h\(\d\+\)/M\1 \2h\3v1h-\3z/g
+
 ```
+(Crudely) Add a zero to all numbers that aren't 0 (e.g. multiply by 10)
+(only M and h commands)
+```reg
+%s/\%(\<d="\_[^"]*\)\@<=\&\%(\_[^"]*"\)\@=\&[Mh ]\zs\([1-9]\d*\)/\10/g
+
+```
+
 
 ### Inside & Outside
 

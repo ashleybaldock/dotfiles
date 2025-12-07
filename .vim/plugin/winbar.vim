@@ -45,7 +45,7 @@ function! s:WinBarUpdate()
   "
   " 􀢤
   "
-  " 􀕴􀕵􀧺􀧻􀣮􀣯􀪵􀪶􀮋􁓓􀮌􂼼􀮞􀮟
+  " 􀕴􀕵􀧺􀧻􀣮􀣯􀪵􀪶􀮋􁓓􀮌􂼼 􀮞􀮟
   "
   " register hints  􀭈􀆧  TODO
   "

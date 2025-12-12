@@ -13,18 +13,19 @@ svg {
 .resizeXY {
   content: 'Drag corner to resize ⤴︎';
   resize: both;
-  display: flex;
-  align-items: baseline;
+  display: grid;
+  grid-template: 1fr / auto 1fr;
   line-height: 0;
   justify-content: space-between;
-  background-color: rgb(0, 0, 0);
-  border: 1px dashed rgb(56, 94, 71);
-  padding: 1em;
+  /*! background-color: rgb(0, 0, 0); */
+  /*! border: 1px dashed rgb(56, 94, 71); */
+  /*! padding: 1em; */
   overflow: hidden;
-  border-radius: 2px 14px 0px;
+  /*! border-radius: 2px 14px 0px; */
   min-width: 128px;
-  box-shadow: 2px 2px 3px 1px black;
+  /*! box-shadow: 2px 2px 3px 1px black; */
   aspect-ratio: 1;
+  place-content: center;
 }
 
 .resizeX {
@@ -39,14 +40,14 @@ svg {
 }
 
 .sizertop {
-  transform: rotateX(180deg);
 }
-.sizertop > * {
+.sizertop > *,
+.sizertop::after {
   transform: rotateX(180deg);
 }
 
 :where(.resizeX, .resizeY, .resizeX):where(.sizertop)::after {
-  content: 'Drag corner to resize ⤵︎';
+  /*! content: 'Drag corner to resize ⤵︎'; */
 }
 /*
  *  ⤶⤷  
@@ -54,3 +55,40 @@ svg {
  *⤣⤤⤥⤦  ⤴ ⤸ ⤺ ⤻ ⤾ ⤿   ↩ ↪ 
  ⬎ ⬏   ⬐ ⬑   ⭠⭡⭣⭢⭥ ⮂ ⮃  ⮐⮑
  */
+
+.resized {
+  background-color: rgb(0, 0, 0);
+  border: 1px dashed rgb(56, 94, 71);
+  /*! padding: 1em; */
+  border-radius: 2px 14px 0px;
+  box-shadow: 2px 2px 3px 1px black;
+  width: auto;
+  height: auto;
+  display: flex;
+  padding: 1em;
+  /*! box-sizing: content-box; */
+}
+:where(.resizeX, .resizeY, .resizeXY) > * {
+  grid-column: 1/-1;
+  grid-row: 1/-1;
+}
+.resized svg {
+  height: revert-layer;
+}
+.resized > svg:nth-of-type(1) {
+  height: 25%;
+  width: 25%;
+}
+.resized > svg:nth-of-type(2) {
+  height: 50%;
+  width: 50%;
+}
+.resized > svg:nth-of-type(3) {
+  height: 100%;
+  width: 100%;
+}
+.resize-hint {
+  grid-row: 1;
+  height: min-content;
+  z-index: 1;
+}

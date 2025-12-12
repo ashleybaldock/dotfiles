@@ -12,6 +12,8 @@ const defaultConfig: EntangledConfig = {
   observe: false,
 };
 
+const sourceIdAttributes = ['data-source', 'id', 'data-id'];
+
 /* Defines automatically entangled event sources, and the events they produce */
 const autoEventSources = new Map([
   { query: `[data-source]`, events: [``] },
@@ -33,9 +35,18 @@ const parseSelector = (...args: TagArgs) =>
     parseTag(...args),
   );
 
+
 export const entanglement = (({ window, window: { document } }) => {
   const qsAll = document.querySelectorAll.bind(document);
 
+  /**
+   * Adding new elements
+   *   or adding binding attributes to existing ones
+   * Removing bound elements
+   *   or removing binding attributes from them
+   *   or hanging binding attribute values
+   *
+   */
   const awaitMatches = ({
     selector,
     signal,
@@ -108,6 +119,47 @@ export const entanglement = (({ window, window: { document } }) => {
   const wrapped = () => {};
 
   const entangle = (document, options: EntangledConfig) => {
+
+/**
+ *  Get an ID to use to refer to a Data Source
+ */
+  const getOrAssignIdFor = (({ options }) => {
+    function* nextId(prefix: string = 'tngl') {
+      let next = 0;
+      while(next < Number.MAX_SAFE_INTEGER) {
+        yield `${prefix}${(++next).toString(16).padStart(6, '0')}`;
+      }
+    }
+    
+    type Predicate<T> = (t: T, i: number) => boolean;
+    type Mapper<T, O> = (t: T, i: number) => O;
+
+    function* shortReduce<T, O>(source: IterableIterator<T>, transform: Mapper<T, O>, test: Predicate<O>) {
+      let i = 0;
+      for (const item of source) {
+        let transformed = transform(item, i++);
+        if (test(transformed)) {
+          return transformed;
+        }
+      }
+      return undefined;
+    }
+
+    iterMap(sourceIdAttributes.values(), (attr) => el.getAttribute(attr)).
+
+
+    return (el: HTMLElement): string =>
+    sourceIdAttributes.find((attr) => el.getAttribute(attr) ?? false) ||
+    (el.getAttribute('data-source') ??
+    el.getAttribute('id') ??
+    options.autoId)
+      ? ((id) =>
+          el.setAttribute(
+            'data-source',
+            `${options.prefix}${id.toString(16).padStart(6, '0')}`,
+          ) ?? id)(nextId())
+      : null
+  })({ options });
     awaitMatches({ selector: '' });
   };
 

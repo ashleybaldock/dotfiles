@@ -1199,12 +1199,34 @@ td:has(> .minoredit, > .unpatrolled) {
 }
 
 .mw-changeslist {
-  grid-template-columns: [left uihl-start] 10px [uihl-end minor-start] 10px [minor-end arrow-start] 10px [arrow-end unpat-start] 10px [unpat-end] 10px 10px [time-start] min-content [time-end article-start] 60fr [article-end history-start changed-start] 4fr [changed-end] 4fr [history-end diff-start] 4fr [diff-end user-start] 10fr [user-end talk-start] 4fr [ contrib-start] 4fr [talk-end contrib-end comment-start] 100fr [comment-end rollback-start] 10fr [rollback-end tags-start] 10fr [tags-end watching-start] 10fr [watching-end right];
+  grid-template-columns:
+    [left
+    uihl-start] 10px [uihl-end
+    minor-start] 10px [minor-end
+    arrow-start] 10px [arrow-end
+    unpat-start] 10px [unpat-end] 10px 10px [time-start] min-content [time-end
+    article-start] 60fr [article-end
+    history-start
+    changed-start] 4fr [changed-end] 4fr [history-end
+    diff-start] 4fr [diff-end
+    user-start] 10fr [user-end
+    talk-start] 4fr [
+    contrib-start] 4fr [talk-end
+    contrib-end
+    comment-start] 100fr [comment-end
+    rollback-start] 10fr [rollback-end
+    tags-start] 10fr [tags-end
+    watching-start] 10fr [watching-end
+    right];
   grid-auto-rows: auto;
 }
 
 .mw-changeslist-legend dl {
-  grid-template-columns: [left dt-start] auto [dt-end dd-start] auto [dd-end right];
+  grid-template-columns:
+    [left
+    dt-start] auto [dt-end
+    dd-start] auto [dd-end
+    right];
 }
 
 div.mw-collapsible-content:nth-child(3) {
@@ -1222,7 +1244,29 @@ div.mw-collapsible-content:nth-child(3) {
 }
 
 .mw-changeslist {
-  grid-template-columns: [left uihl-start] 10px [uihl-end minor-start] 10px [minor-end arrow-start] 10px [arrow-end unpat-start] 10px [unpat-end] 10px 10px [time-start] min-content [time-end article-start] 60fr [article-end history-start cur-start changed-start] 4fr [changed-end cur-end prev-start] 4fr [prev-end history-end diff-start] 2fr 2fr [diff-end user-start] 10fr [user-end talk-start] 4fr [ contrib-start] 4fr [talk-end contrib-end comment-start] 100fr [comment-end rollback-start] 10fr [rollback-end tags-start] 10fr [tags-end watching-start] 10fr [watching-end right];
+  grid-template-columns:
+    [left
+    uihl-start] 10px [uihl-end
+    minor-start] 10px [minor-end
+    arrow-start] 10px [arrow-end
+    unpat-start] 10px [unpat-end] 10px 10px [time-start] min-content [time-end
+    article-start] 60fr [article-end
+    history-start
+    cur-start
+    changed-start] 4fr [changed-end
+    cur-end
+    prev-start] 4fr [prev-end
+    history-end
+    diff-start] 2fr 2fr [diff-end
+    user-start] 10fr [user-end
+    talk-start] 4fr [
+    contrib-start] 4fr [talk-end
+    contrib-end
+    comment-start] 100fr [comment-end
+    rollback-start] 10fr [rollback-end
+    tags-start] 10fr [tags-end
+    watching-start] 10fr [watching-end
+    right];
 }
 
 .mw-changeslist .mw-changeslist-line-inner-historyLink {
@@ -1292,7 +1336,13 @@ div.mw-collapsible-content:nth-child(3) {
 
 .mw-title {
   grid-column: title-start/title-end;
-  grid-row: 1;
+  grid-row: 1 / span 100;
+  align-self: baseline;
+  line-height: 1;
+  word-wrap: normal;
+  word-break: break-word;
+  hyphens: auto;
+  margin-bottom: 0.2em;
 }
 .mw-changeslist-line-watched .mw-title {
   font-weight: normal;
@@ -1674,4 +1724,237 @@ span:has(> .mw-usertoollinks-block) {
   word-break: break-word;
   font-size: 0.9em;
   line-height: normal;
+}
+
+.mw-plusminus-pos.mw-diff-bytes {
+  grid-row: 1 / auto;
+}
+
+.mw-enhanced-rc-time {
+  grid-row: auto;
+}
+.mw-enhanced-rc-time > a,
+.mw-enhanced-rc[colspan='2'] {
+  grid-row: auto/span 1;
+}
+
+.mw-userlink {
+  grid-column: user-start/user-end;
+  grid-row: auto;
+  white-space: pre;
+  justify-self: end;
+  margin-right: 0.5ch;
+}
+.mw-userlink > bdi {
+  font-size: 0.86em;
+}
+.mw-changeslist .mw-changeslist-line {
+  grid-template-rows: auto;
+  grid-auto-rows: auto;
+  grid-auto-flow: dense;
+  align-items: center;
+}
+.changedby,
+.mw-tag-markers,
+.mw-tag-markers > a,
+.mw-changeslist .mw-changeslist-line-inner-tags,
+.mw-tag-marker.mw-tag-marker-visualeditor-switched::before,
+.mw-tag-marker.mw-tag-marker-visualeditor-switched::after {
+  content: none;
+  display: none;
+}
+
+.mw-rc-unwatched {
+  display: none;
+}
+.mw-changeslist .mw-changeslist-line {
+  align-items: stretch;
+}
+
+.mw-rc-unwatched {
+  display: none;
+}
+.mw-changeslist .mw-changeslist-line {
+  align-items: stretch;
+}
+.mw-changeslist-links.mw-pager-tools a {
+  align-self: baseline;
+  align-items: baseline;
+  display: flex;
+  align-content: baseline;
+  line-height: normal;
+  padding: 0;
+  font-size: 0.8em;
+}
+.mw-changeslist-line-inner-historyLink a {
+  line-height: 1lh;
+  display: flex;
+  font-size: 0.86em;
+  align-items: baseline;
+  align-content: baseline;
+  justify-content: center;
+}
+/* .mw-usertoollinks.mw-changeslist-links, */
+.mw-changeslist-line-inner-userTalkLink a {
+  font-size: 0.68rem;
+  align-content: baseline;
+  display: flex;
+}
+.mw-changeslist-line-inner-userTalkLink a,
+.mw-usertoollinks-contribs,
+.mw-usertoollinks-talk {
+  line-height: 0.5lh;
+  align-items: baseline;
+  font-size: 0.68rem;
+}
+
+.mw-changeslist-line-inner-historyLink,
+.mw-changeslist-line-inner-userTalkLink,
+.mw-usertoollinks.mw-changeslist-links {
+  flex-direction: column;
+  vertical-align: 0.5em;
+  grid-column: talk-start/contrib-end;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
+  padding: 0;
+  margin: 0;
+  grid-row: 1/-1;
+  width: fit-content;
+}
+
+.mw-changeslist {
+  grid-template-columns:
+    [
+    left
+    uihl-start] 10px [
+    uihl-end
+    time-start] min-content [
+    time-end
+    title-start] 80fr [
+    title-end
+    cur-start
+    history-start] auto [
+    cur-end
+    history-end
+    diff-start
+    prev-start
+    changed-start] auto [diff-end
+    prev-end
+    user-start] auto [
+    user-end
+    talk-start] auto [
+    talk-end
+    changed-end
+    contrib-start] auto [
+    contrib-end
+    comment-start] 100fr [
+    comment-end
+    rollback-start] auto [
+    rollback-end
+    tags-start] auto [
+    tags-end
+    thank-start] auto [
+    thank-end
+    watching-start] auto [
+    watching-end
+    right];
+}
+
+.mw-changeslist .mw-changeslist-line {
+  grid-template-rows: auto [talk-start] auto;
+}
+
+.mw-changeslist-line-inner-historyLink,
+.mw-changeslist-line-inner-userTalkLink,
+.mw-usertoollinks.mw-changeslist-links,
+.mw-changeslist-diff-cur {
+  grid-row: auto;
+}
+
+.mw-changeslist-groupdiff {
+  font-size: 0.78rem;
+  justify-content: end;
+  align-items: center;
+  align-content: baseline;
+}
+
+.mw-changeslist-diff {
+  grid-column: prev-start/prev-end;
+}
+
+.mw-changeslist-history {
+  font-size: 0.78rem;
+  justify-content: end;
+  align-content: baseline;
+  align-items: baseline;
+}
+
+.mw-changeslist-log-entry > a:last-of-type {
+  display: none;
+}
+
+.mw-changeslist-log-entry {
+  font-size: 0;
+  grid-template-rows: 0 1rem 0 1rem 1rem 0.4rem;
+}
+
+.mw-changeslist-log-entry > bdi {
+  display: contents;
+}
+.mw-changeslist-log-entry .mw-userlink,
+.mw-changeslist-log-entry .mw-usertoollinks {
+  grid-row: 1/-1;
+}
+.mw-changeslist-log-entry > a:nth-of-type(2),
+.mw-changeslist-log-entry > a:nth-of-type(3),
+.mw-changeslist-log-entry > bdi > .comment {
+  grid-column: comment-start/comment-end;
+  padding: 0 0 0 1ch;
+}
+
+.mw-changeslist {
+  grid-template-columns: [ left uihl-start] 10px [ uihl-end time-start] min-content [ time-end cur-start history-start] 10px [ cur-end history-end diff-start prev-start changed-start] auto [diff-end prev-end title-start] 40fr [ title-end user-start] auto [ user-end talk-start] auto [ talk-end changed-end contrib-start] auto [ contrib-end comment-start] 100fr [ comment-end rollback-start] auto [ rollback-end tags-start] auto [ tags-end thank-start] auto [ thank-end watching-start] auto [ watching-end right];
+}
+
+.mw-changeslist-history {
+  font-size: 0;
+}
+.mw-changeslist-line-inner-historyLink .mw-changeslist-links {
+  display: grid;
+  grid-column: diff-start/diff-end;
+  line-height: 0.5lh;
+  font-size: 12px;
+  align-content: center;
+  align-items: center;
+  justify-content: start;
+  justify-items: center;
+}
+.mw-changeslist-diff::after {
+  content: 'Diff';
+  /*   font-size: 0.8rem; */
+}
+.mw-enhanced-rc-nested > .mw-changeslist-diff,
+.mw-changeslist-diff,
+.mw-changeslist-line-inner-historyLink .mw-changeslist-diff,
+.mw-changeslist-line-inner-historyLink .mw-changeslist-history {
+  font-size: 0;
+}
+.mw-changeslist-line-inner-historyLink .mw-changeslist-history::after {
+  content: 'History';
+  font-size: 0.7rem;
+  line-height: 0.5lh;
+  display: flex;
+  font-variant: small-caps;
+}
+.mw-changeslist-history {
+  grid-row: auto;
+}
+.mw-changeslist-diff::after,
+.mw-changeslist-line-inner-historyLink a.mw-changeslist-diff::after {
+  content: 'Diff';
+  font-variant: petite-caps;
+  font-size: 0.76rem;
+  border-bottom: 1px solid grey;
+  display: flex;
 }

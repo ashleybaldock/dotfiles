@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.116
+// @version     1.1.117
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -30,6 +30,38 @@ const cssOQN = (el) =>
     '',
     ...el.classList,
   ].join('.')}`;
+
+const setRegisteredCSSProp = (
+  ({ window }) =>
+  ({ on, name: _name, value, syntax }) => {
+    const name = /^--/.test(_name) ? _name : `--${_name}`;
+    const s_name = `--s-${name.slice(2)}`;
+
+    on.style.setProperty(name, value);
+    on.style.setProperty(s_name, `'${value}'`);
+  }
+)({ window: unsafeWindow });
+
+const addRegisteredCSSProp = (({ window }) => {
+  const registeredCSSProps = new Set();
+  return ({ name, syntax = '*', inherits = false, initialValue = 'none' }) => {
+    if (registeredCSSProps.has(name)) {
+      return true;
+    }
+    try {
+      window.CSS.registerProperty({
+        name,
+        syntax,
+        inherits,
+        initialValue,
+      });
+      registeredCSSProps.add(name);
+      return true;
+    } catch (InvalidModificationError) {
+      return false;
+    }
+  };
+})({ window: unsafeWindow });
 
 (({ document: { body } }) => {
   const checkNode = (el) => {

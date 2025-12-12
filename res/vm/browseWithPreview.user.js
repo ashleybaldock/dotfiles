@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.243
+// @version     1.0.244
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -49,29 +49,6 @@ const overrideFileListClicks = () => {
     }),
   );
 };
-
-const setRegisteredCSSProp = (
-  ({ window }) =>
-  ({ on, name: _name, value, syntax }) => {
-    const name = /^--/.test(_name) ? _name : `--${_name}`;
-    const s_name = `--s-${name.slice(2)}`;
-
-    on.style.setProperty(name, value);
-    on.style.setProperty(s_name, `'${value}'`);
-  }
-)({ window: unsafeWindow });
-
-const addRegisteredCSSProp = (({ window }) => {
-  const registeredCSSProps = new Set();
-  return ({ name, syntax = '*', inherits = false, initialValue = 'none' }) => {
-    window.CSS.registerProperty({
-      name,
-      syntax,
-      inherits,
-      initialValue,
-    });
-  };
-})({ window });
 
 const addGrouping = ({ to, ...attrs } = {}) => {
   const div = GM_addElement(to, 'div', {

@@ -65,7 +65,7 @@ let s:parts = #{
 " Non-blank middle line
 echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze.*\n\1"', 10, -1, #{conceal: s:parts.ml})
 " Blank middle line
-echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze\s*\n\1"', 10, -1, #{conceal: s:parts.bl})
+echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze\s*\n\1"', 10, -1, #{conceal: s:parts.mb})
 " Non-blank first line
 echo matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\(\s*\)\zs"\ze.*\n\1"', 10, -1, #{conceal: s:parts.fl})
 " Blank first line

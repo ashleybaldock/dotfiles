@@ -65,6 +65,23 @@ function! s:HighlightHighlight() abort
   silent! syn clear vimHiGroup
   silent! syn clear vimHLGroup
 
+  for [name, rgbhex] in get(g:, 'colornames', {})->items()
+    try
+      exec 'syn keyword' name 'contained' name
+            \ 'containedin=vimHiKeyList'
+    catch
+      echom 'HiHi: caught exception from hl group ''' .. hlgroup .. ''''
+      echom v:errmsg
+    endtry
+    if name =~ 'b$'
+      exec 'hi def' name 'guifg=#222222' 'guibg=' .. rgbhex
+    elseif name =~ 'f$'
+      exec 'hi def' name 'guifg=' .. rgbhex
+    else
+      exec 'hi def' name 'guifg=' .. rgbhex
+    endif
+  endfor
+
   call autocmd_add([#{
         \ event: 'ColorScheme', pattern: 'vividmayhem',
         \ cmd: 'call s:HighlightHighlight()',

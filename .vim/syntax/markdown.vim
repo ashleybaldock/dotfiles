@@ -28,23 +28,24 @@ let s:iskeyword = &l:iskeyword
 runtime! syntax/html.vim
 unlet! b:current_syntax
 
+let s:mdIncludePrefix = 'mdHl_'
 
 if !exists('g:md_fenced_languages')
   let g:md_fenced_languages = []
 endif
 let s:included = {}
-for s:type in mapnew(g:md_fenced_languages, 'matchstr(v:val,"[^=]*$")')
+for s:type in mapnew(g:md_fenced_languages, 'matchstr(v:val, "[^=]*$")')
   if has_key(s:included, matchstr(s:type,'[^.]*'))
     continue
   endif
   if s:type =~ '\.'
-    let b:{matchstr(s:type,'[^.]*')}_subtype = matchstr(s:type,'\.\zs.*')
+    let b:{matchstr(s:type, '[^.]*')}_subtype = matchstr(s:type, '\.\zs.*')
   endif
   syn case match
-  exec 'syn include @mdHighlight_' .. tr(s:type,'.','_') ..
-        \ ' syntax/' .. matchstr(s:type,'[^.]*') .. '.vim'
+  exec 'syn include @' .. s:mdIncludePrefix .. tr(s:type, '.', '_') ..
+        \ ' syntax/' .. matchstr(s:type, '[^.]*') .. '.vim'
   unlet! b:current_syntax
-  let s:included[matchstr(s:type,'[^.]*')] = 1
+  let s:included[matchstr(s:type, '[^.]*')] = 1
 endfor
 unlet! s:type
 unlet! s:included
@@ -317,22 +318,24 @@ syn match mdDblEscChar "\\\\[*_~#>`-]" contains=mdEscEscape
 "
 let s:included = {}
 for s:type in g:md_fenced_languages
-  if has_key(s:included, matchstr(s:type,'[^.]*'))
+  if has_key(s:included, matchstr(s:type, '[^.]*'))
     continue
   endif
-  exe 'syn region mdHl_' ..
-        \ substitute(matchstr(s:type,'[^=]*$'),'\..*','','') ..
-        \ ' matchgroup=mdCodeDelim start="^\s*\z(`\{3,\}\)\s*\%({.\{-}\.\)\=' ..
-        \ matchstr(s:type,'[^=]*') ..
-        \ '}\=\S\@!.*$" end="^\s*\z1\ze\s*$" keepend contains=@mdHl_' ..
-        \ tr(matchstr(s:type,'[^=]*$'),'.','_')
-  exe 'syn region mdHl_' ..
-        \ substitute(matchstr(s:type,'[^=]*$'),'\..*','','') ..
-        \ ' matchgroup=mdCodeDelim start="^\s*\z(\~\{3,\}\)\s*\%({.\{-}\.\)\=' ..
-        \ matchstr(s:type,'[^=]*') ..
-        \ '}\=\S\@!.*$" end="^\s*\z1\ze\s*$" keepend contains=@mdHl_' ..
-        \ tr(matchstr(s:type,'[^=]*$'),'.','_')
-  let s:included[matchstr(s:type,'[^.]*')] = 1
+  exe 'syn region'
+        \ s:mdIncludePrefix .. substitute(matchstr(s:type, '[^=]*$'), '\..*', '', '')
+        \ 'matchgroup=mdCodeDelim'
+        \ 'start="^\s*\z(`\{3,\}\)\s*\%({.\{-}\.\)\=' .. matchstr(s:type, '[^=]*') ..
+        \ '}\=\S\@!.*$"'
+        \ 'end="^\s*\z1\ze\s*$" keepend'
+        \ 'contains=@' .. s:mdIncludePrefix .. tr(matchstr(s:type, '[^=]*$'), '.', '_')
+  exe 'syn region'
+        \ s:mdIncludePrefix .. substitute(matchstr(s:type, '[^=]*$'), '\..*', '', '')
+        \ 'matchgroup=mdCodeDelim'
+        \ 'start="^\s*\z(\~\{3,\}\)\s*\%({.\{-}\.\)\=' .. matchstr(s:type, '[^=]*') ..
+        \ '}\=\S\@!.*$"'
+        \ 'end="^\s*\z1\ze\s*$" keepend'
+        \ 'contains=@' .. s:mdIncludePrefix .. tr(matchstr(s:type, '[^=]*$'), '.', '_')
+  let s:included[matchstr(s:type, '[^.]*')] = 1
 endfor
 unlet! s:type
 unlet! s:included

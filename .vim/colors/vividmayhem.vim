@@ -12,7 +12,8 @@
 "  ../plugin/chars.vim       - fillchars, listchars etc.
 "  ../plugin/highlight.vim   - Colourscheme Utils
 "            ╰─▷ ⎧ :HiHi     - inline highlight preview  ⎫
-"                ⎩ :SynStack - floating syntax info      ⎭
+"                ⎩                                       ⎭
+"  ../plugin/synfo.vim       - syntax info popup
 "
 "  ../after/syntax/vim.vim   - Tweaks to highlighting
 "
@@ -46,7 +47,6 @@ call extend(v:colornames, g:colornames, 'force')
 
 "════════════════════════════════════════════════════════╡ Window
 
-" 𝓲⃞  [gui=] ignored for 'Normal' highlight
 hi Normal         guifg=yormalf guibg=yormalb
 
 " Per-window background colors
@@ -87,8 +87,8 @@ hi CursorColumn none | hi link CursorColumn ColorColNormal
 "CocCursorRange   " activated cursors ranges
 "CocLinkedEditing " activated linked editing ranges
 " range of outgoing calls
-hi CocSelectedRange guibg=#00ffff
-hi CocHoverRange  guibg=#502a2a gui=none
+hi CocSelectedRange             guibg=#00ffff
+hi CocHoverRange                guibg=#502a2a gui=none
 
 " Document Highlights:
 " Matching Symbols: in the buffer at cursor position
@@ -116,9 +116,8 @@ hi IncSearch      guifg=#fefefe guibg=#000000
 hi CurSearch      guifg=NONE    guibg=#444422 gui=reverse
 
 hi QuickFixLine   guibg=NONE
-hi link qfError        Error
-hi link qfFileName     Directory
-hi link qfLineNr       LineNr
+hi link qfError    Error
+hi link qfFileName Directory
 hi qfLineNr       guifg=#999911
 hi qfSeparator    guifg=#999911
 
@@ -329,18 +328,18 @@ hi LineDgHint                   guibg=#1b191f gui=none
 
 hi link vimHighlight Statement
 hi link vimHiClear Type
-hi vimHiAttrib guifg=#009999 gui=italic
-hi vimHiKeyList guifg=#005599
-hi vimHiGuiFgBg guifg=#003977
-hi vimHiGui guifg=#bbbb99
+hi vimHiAttrib    guifg=#009999 gui=italic
+hi vimHiKeyList   guifg=#005599
+hi vimHiGuiFgBg   guifg=#003977
+hi vimHiGui       guifg=#bbbb99
 hi def link vimHiFgBgSp vimHiGui
 hi link vimHiGuiRgb Number
 hi link vimHiNmbr Number
 
-hi li VtextDgErr     SignDgErr 
-hi li VtextDgWarn    SignDgWarn  
-hi li VtextDgInfo    SignDgInfo  
-hi li VtextDgHint    SignDgHint  
+hi link VtextDgErr  SignDgErr 
+hi link VtextDgWarn SignDgWarn  
+hi link VtextDgInfo SignDgInfo  
+hi link VtextDgHint SignDgHint  
 
 hi link GitGutterAdd              SignGitAdd
 hi link GitGutterAddLine          DiffAdd
@@ -496,18 +495,6 @@ hi HlStrike       gui=strikethrough
 hi HlInverse      gui=reverse
 hi HlStandout     gui=standout
 
-"
-" Markdown:
-"
-" Coc/Markdown
-hi link CocBold HlBold
-hi link CocItalic HlItalic
-hi link CocUnderline HlUnderline
-hi link CocStrikeThrough HlStrike
-hi link CocMarkdownCode  HlMkDnCode
-hi link CocMarkdownHeader HlMkDnHeader
-hi link CocMarkdownLink  HlMkDnLink
-
 
 "
 " Netrw: ../after/syntax/netrw.vim
@@ -601,6 +588,18 @@ hi link SlGitOffN  SlSynOffN
 
 " TODO - move these to filetype specific files
 "
+
+"
+" Markdown:
+"
+" Coc/Markdown
+hi link CocBold HlBold
+hi link CocItalic HlItalic
+hi link CocUnderline HlUnderline
+hi link CocStrikeThrough HlStrike
+hi link CocMarkdownCode  HlMkDnCode
+hi link CocMarkdownHeader HlMkDnHeader
+hi link CocMarkdownLink  HlMkDnLink
 
 " hi link CocSymbolDefault  hl-MoreMsg
 " hi link CocSymbolFile

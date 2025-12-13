@@ -1,7 +1,13 @@
+h1 {
+  position: fixed;
+  z-index: 1;
+  font-size: 1rem;
+}
+
 .precession {
-  position: relative;
-  width: 35vmax;
-  height: 35vmax;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
   background-color: #000;
   margin: 0 auto;
   --n: 19;
@@ -73,15 +79,24 @@
       #0000 0.33rad
     ),
     linear-gradient(#0000);
+  inset: 0 0 0 0;
 }
 
+.precession > [data-n] {
+  position: fixed;
+  display: flex;
+  inset: 0 0 0 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
 .precession > [data-n]::after {
   content: attr(data-n);
   font-size: 10px;
-  position: absolute;
-  top: calc(50% - sin(90deg + var(--c) * 0.33rad) * 100px);
-  left: calc(50% - cos(90deg + var(--c) * 0.33rad) * 100px);
-  --c: var;
+  position: fixed;
+  top: calc(50vh - sin(90deg + var(--c) * 0.33rad) * 100px);
+  left: calc(50vw - cos(90deg + var(--c) * 0.33rad) * 100px);
+  --c: var(--nth-child);
 }
 
 .precession > [data-n]:nth-child(n) {

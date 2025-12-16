@@ -14,6 +14,13 @@
 }
 /*!}}}2*/
 
+.sequencetoggle input[type="radio"] {
+  visibility: hidden;
+  max-width: 0;
+  max-height: 0;
+  position: absolute;
+  z-index: -1000;
+}
 .sequencetoggle,
 .sequencetoggle > label {
     background-repeat: no-repeat;
@@ -25,15 +32,14 @@
 }
 
 .sequencetoggle {
-    font-size: 1em;
+    font-size: 3em;
     counter-reset: n;
     cursor: pointer;
-    background-image: linear-gradient(#0000) var(--bg-curr) var(--bg-prev) var(--bg-next) var(--bg-bg);
-    background-size: 0 0 var(--bg-curr-size) var(--bg-prev-size) var(--bg-next-size) var(--bg-bg-size);
+    background-image: linear-gradient(#0000) var(--bg-top) var(--bg-curr) var(--bg-prev) var(--bg-next) var(--bg-bg);
+    background-size: 0 0 var(--bg-top-size) var(--bg-curr-size) var(--bg-prev-size) var(--bg-next-size) var(--bg-bg-size);
     --bg-curr-size: ,2.4em 2.4em
       ,2.6em 2.8em;
-    --bg-prev-size: ,2.2em 2.2em
-      ,3em 2.8em;
+    --bg-prev-size: ,2em 2em ,3em 2.8em;
     --bg-next-size: ,2.2em 2.2em
       ,3em 2.8em;
     --bg-bg-size: ,6em 4.2em
@@ -42,9 +48,8 @@
       ,4.5em 3.1em
       ,6em 4.2em
       ,8.2em 60%;
-    background-position: 0 0 var(--bg-curr-pos) var(--bg-prev-pos) var(--bg-next-pos) var(--bg-bg-pos);
-    --bg-curr-pos: ,center center
-      ,center center;
+    background-position: 0 0 var(--bg-top-pos) var(--bg-curr-pos) var(--bg-prev-pos) var(--bg-next-pos) var(--bg-bg-pos);
+    --bg-curr-pos: ,center center ,center center;
     --bg-prev-pos: ,left 0% center
       ,left 0% center;
     --bg-next-pos: ,right 0% center
@@ -54,19 +59,11 @@
     ,center center
     ,left 0.6em center
     ,right 0.6em center;
-    background-blend-mode: normal,normal,normal,normal,normal,normal,normal,normal,normal,normal,normal,normal,overlay,overlay,difference,difference,soft-light,difference,multiply,multiply,darken,exclusion,darken,multiply;
-    --bg-curr: ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 77%, var(--bgc-curr-inset) 79% 80%, var(--bgc-curr) 80% 90%, var(--bgc-curr-outset), 94%, #0000 94%)
-    ,radial-gradient(ellipse 1.8em 1.4em at 50% 50%,  var(--bgc2) 0 34%, var(--bgc-curr2a) 75% 88%,  var(--bgc-curr-outset), 90%, #0000 100%)
-/*     ,radial-gradient(circle closest-side at 50% 50%, #000 0 34%, var(--bgc-curr2a) 75% 80%, var(--bgc-curr2b) 86%, #000, 88%, #0000 90%) */
-    ;
-    --bg-prev: ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 77%, var(--bgc-prev-inset) 79% 80%, var(--bgc-prev) 70% 90%, var(--bgc-prev-outset), 94%, #0000 94%)
-    ,radial-gradient(ellipse farthest-corner at 50% 50%, #0000 0 34%, var(--bgc1a) 75% 80%, #0000 90%);
-    --bg-next: ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 77%, var(--bgc-next-inset) 79% 80%, var(--bgc-next) 70% 90%, var(--bgc-next-outset), 94%, #0000 94%)
-/*     ,radial-gradient(circle closest-side at 50% 50%, var(--bgc2) 0 70%, var(--bgc-next) 70% 90%, #0006, 94%, #0000 94%) */
-    ,radial-gradient(ellipse farthest-corner at 50% 50%, #0000 0 34%, var(--bgc1a) 75% 80%, #0000 90%);
-    --bg-bg: ,repeating-radial-gradient(ellipse farthest-corner at 20% 50%, var(--bgc3) 36%, 42%, #0007, 51%, #0000 100%)
-    ,radial-gradient(ellipse 1em 1em at 50% 50%, #0000 20% 34%, var(--bgc1) 35% 48%, #0000 52%)
-    ,radial-gradient(ellipse farthest-side at 50% 50%, #0000 0 34%, var(--bgc1) 75% 80%, var(--bgc1a) 86%, #000, 88%, #0000 90%);
+    background-blend-mode: normal,normal,normal,normal,normal,normal,normal,normal,normal,normal,normal,normal,normal,overlay,overlay,difference,difference,soft-light,difference,multiply,multiply,darken,exclusion,darken,multiply;
+    --bg-curr: ,radial-gradient(circle 1.3em at 50% 50%, var(--bgc2) 0 77%, var(--bgc-curr-inset) 79% 80%, var(--bgc-curr) 80% 90%, var(--bgc-curr-outset), 94%, #0000 94%) ,radial-gradient(ellipse 1.6em 1.4em at 50% 50%, var(--bgc2) 0 34%, var(--bgc-curr2a) 75% 88%, var(--bgc-curr-outset), 90%, #0000 100%);
+    --bg-prev: ,radial-gradient(circle 1em at 56% 50%, var(--bgc2) 0 77%, var(--bgc-prev-inset) 79% 80%, var(--bgc-prev) 70% 90%, var(--bgc-prev-outset), 94%, #0000 94%) ,radial-gradient(ellipse 1.6em 1.4em at 47% 50%, #0000 0 48%, var(--bgc1a) 78% 80%, #0000 90%);
+    --bg-next: ,radial-gradient(circle 1em at 44% 50%, var(--bgc2) 0 77%, var(--bgc-next-inset) 79% 80%, var(--bgc-next) 70% 90%, var(--bgc-next-outset), 94%, #0000 94%) ,radial-gradient(ellipse 1.6em 1.4em at 53% 50%, #0000 0 48%, var(--bgc1a) 78% 80%, #0000 90%);
+    --bg-bg: ,repeating-radial-gradient(ellipse 0.8em 0.6em at 50% 50%, var(--bgc3) 36%, 42%, #0007, 70%, #0000 100%) ,radial-gradient(ellipse 1em 1em at 50% 50%, #0000 20% 34%, var(--bgc1) 35% 48%, #0000 52%) ,radial-gradient(ellipse 2.6em 1.8em at 50% 50%, #0000 0 64%, var(--bgc1) 75% 80%, var(--bgc1a) 84%, #000, 88%, #0000 90%);
     --bgc-curr: #00c;
     --bgc-curr2a: #444;
     --bgc-curr2b: #888;
@@ -82,6 +79,10 @@
     --bgc1a: #eeea;
     --bgc2: #222;
     --bgc3: #000a;
+    /*! background-clip: border-box; */
+    --bg-top-size: ,6em 4em;
+    --bg-top: ,linear-gradient(to right, #fff2, #0004);
+    --bg-top-pos: ,center center;
 }
 
 .sequencetoggle::after {
@@ -97,7 +98,6 @@
     grid-area: 1/1;
     align-self: start;
     justify-self: center;
-    z-index: 10;
    display: none;
 }
 
@@ -108,7 +108,6 @@
     justify-items: end;
     align-items: start;
     position: relative;
-    pointer-events: none;
     background-size: 3em 4em,3em 4em,2em 3em;
     background-position: left center,right center,center top;
 }
@@ -119,7 +118,6 @@
 }
 
 .sequencetoggle > label:has(> :checked) {
-    z-index: 1;
     background-image: radial-gradient(circle at center,#444 0 30%,#0000 30% 45%,#444 45% 60%,#0000 60%);
 }
 
@@ -127,15 +125,12 @@
 .sequencetoggle:not(:has(label > :checked)):not(:has(label > [checked])) > label:first-of-type,
 .sequencetoggle:not(:has(label > :checked)) > label:has(> [checked]),
 .sequencetoggle > label:has(> :checked) + label {
-    z-index: 2;
-    pointer-events: auto;
-    cursor: pointer;
 }
 
 .sequencetoggle > label::before {
     content: counter(n);
     font-size: 1em;
-    visibility: hidden;
+    /*! visibility: hidden; */
     position: absolute;
     display: flex;
     pointer-events: none;
@@ -157,21 +152,26 @@
     font-family: Menlo,monospace;
 }
 
-.sequencetoggle > label:has(> :checked)::before,
-.sequencetoggle > label:has(> :checked)::after {
+.sequencetoggle > label:has(> :checked)::before {
     visibility: visible;
-    z-index: 10;
     text-align: center;
     letter-spacing: 0;
-    position: absolute;
+    position: static;
     display: flex;
     justify-content: center;
     align-items: center;
     background-size: 3em 2.2em;
     justify-self: center;
     font-size: 1.4em;
+  grid-column: 2;
 }
 
+.sequencetoggle:has(
+  > label:last-of-type > :checked
+  ) > label:first-of-type::after,
+.sequencetoggle > label:has(> :checked) + label {
+  grid-column: 1;
+}
 .sequencetoggle:has(
   > label:last-of-type > :checked
   ) > label:first-of-type::after,
@@ -179,11 +179,101 @@
     visibility: visible;
     z-index: 10;
     justify-self: start;
+  grid-column: 3;
 }
 
 .sequencetoggle > label,
 .sequencetoggle > label:has(> :checked) {
     background-image: none;
 }
+
+
+
+.sequencetoggle > label {
+  grid-template: 1fr/1fr 1fr 1fr;
+  pointer-events: none;
+}
+.sequencetoggle:hover > label {
+/*   box-shadow: inset 0 0 26px -6px #880a; */
+}
+.sequencetoggle > label::before {
+/*   pointer-events: none; */
+  grid-column: 2;
+  position: static;
+  visibility: hidden;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  width: 100%;
+}
+
+.sequencetoggle > label:has(:checked)::before {
+  pointer-events: auto;
+  cursor: pointer;
+  grid-column: 2;
+  z-index: 5;
+}
+.sequencetoggle > label:has(:checked)::before:hover {
+  pointer-events: auto;
+}
+.sequencetoggle > label:has(~ label :checked)::before {
+  grid-column: 1;
+}
+
+.sequencetoggle > label:has(+ label :checked)::before {
+  pointer-events: auto;
+  cursor: pointer;
+  grid-column: 1/span 2;
+  visibility: visible;
+  z-index: 10;
+  padding: 0 0 0 0.4ch;
+  margin: 0 50% 0 0;
+}
+.sequencetoggle > label:has(+ label :checked)::before:hover {
+  pointer-events: auto;
+}
+
+.sequencetoggle > label:has(:checked) ~ label::before {
+  grid-column: 3;
+}
+.sequencetoggle > label:has(:checked) + label::before {
+  pointer-events: auto;
+  cursor: pointer;
+  grid-column: 2/span 2;
+  visibility: visible;
+  z-index: 10;
+  padding: 0 0.4ch 0 0;
+  margin: 0 0 0 50%;
+}
+.sequencetoggle > label:has(:checked) + label::before:hover {
+  pointer-events: auto;
+}
+
+
+
+
+.debug .sequencetoggle > label:hover::before {
+  box-shadow: inset 0 0 10px 20px #800a;
+}
+.debug .sequencetoggle > label:has(:checked)::before {
+  outline: 2px dashed #f8f;
+}
+.debug .sequencetoggle > label:has(:checked)::before:hover {
+  outline: 2px solid #f0f;
+}
+.debug .sequencetoggle > label:has(+ label :checked)::before {
+  outline: 1px solid #f88;
+}
+.debug .sequencetoggle > label:has(+ label :checked)::before:hover {
+  outline: 2px solid #f00;
+}
+.debug .sequencetoggle > label:has(:checked) + label::before {
+  outline: 1px solid #88f;
+}
+.debug .sequencetoggle > label:has(:checked) + label::before:hover {
+  outline: 2px solid #00f;
+}
 /*!}}}1*/
+
 

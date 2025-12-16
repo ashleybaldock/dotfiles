@@ -1,5 +1,6 @@
 :root {
   text-shadow: unset;
+  margin: 0 1em;
 }
 .labels {
   display: flex;

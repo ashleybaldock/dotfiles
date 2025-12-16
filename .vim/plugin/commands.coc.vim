@@ -223,7 +223,7 @@ let s:modechangemap = [
       \ ['silent DoUserAutocmd MayhemDiagnosticsUpdated',  'CocDiagnosticChange'],
       \ ['silent call CocActionAsync("showSignatureHelp")', 'CocJumpPlaceholder'],
       \ ['silent call s:OnCocOpenFloat()',                        'CocOpenFloat'],
-      \ ['silent echom "---CocNvimInit---"',                              'CocNvimInit'],
+      \ ['silent echom "---CocNvimInit---"',                       'CocNvimInit'],
       \ ['silent call s:OnCocLocationsChange()',            'CocLocationsChange'],
       \]
 

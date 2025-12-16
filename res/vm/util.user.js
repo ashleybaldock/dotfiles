@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.117
+// @version     1.1.119
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -136,6 +136,20 @@ const trackPageFocus = (
     };
   }
 )({ window: unsafeWindow, notify: console });
+
+class DefaultedMap extends Map {
+  #defaultValue;
+  constructor(defaultValue, entries) {
+    super(entries);
+    this.#defaultValue = defaultValue;
+  }
+  get(key) {
+    const valueOrUndefined = super.get(key);
+    return valueOrUndefined === undefined
+      ? this.#defaultValue
+      : valueOrUndefined;
+  }
+}
 
 /*{{{2 Logging */
 

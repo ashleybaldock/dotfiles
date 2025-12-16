@@ -878,8 +878,9 @@ nnoremap ∂   :call CocAction('jumpDefinition')<CR>
 
 "nnoremap <silent>   :call CocAction('declarations')<CR>
 "nnoremap <silent>   :call CocAction('jumpDeclaration')<CR>
-"nnoremap <silent>   :call CocAction('implementations')<CR>
-"nnoremap <silent>   :call CocAction('jumpImplementation')<CR>
+" nnoremap <silent> ‰ :call CocAction('implementations')<CR>
+" ▌️􀆝􀆕 E▐️──▷ 
+nnoremap <silent> ‰ :call CocAction('jumpImplementation')<CR>
 "nnoremap <silent>   :call CocAction('typeDefinitions')<CR>
 nnoremap <silent> <C-g><C-t> :call CocAction('jumpTypeDefinition')<CR>
 " >⇧⃣ -⌥⃣ ‑R⃣ < ▬▶︎ Â

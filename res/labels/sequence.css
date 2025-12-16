@@ -28,7 +28,7 @@
     grid-template: 1fr/1fr 1fr 1fr;
     background-image: radial-gradient(circle at 75% 50%,#0000 0 40%,#444 40% 60%,#0000 60%),radial-gradient(circle at 25% 50%,#0000 0 40%,#444 40% 60%,#0000 60%),radial-gradient(circle at 50% 50%,#0000 0 40%,#444 40% 60%,#0000 60%);
     width: 6em;
-    height: 6em;
+    height: 4em;
 }
 
 .sequencetoggle {
@@ -98,23 +98,12 @@
     grid-area: 1/1;
     align-self: start;
     justify-self: center;
-   display: none;
+    display: none;
 }
 
 .sequencetoggle > label {
     counter-increment: n;
     grid-area: 1/1/1/1;
-    background-origin: content-box;
-    justify-items: end;
-    align-items: start;
-    position: relative;
-    background-size: 3em 4em,3em 4em,2em 3em;
-    background-position: left center,right center,center top;
-}
-
-.sequencetoggle > label > [type=radio] {
-    z-index: -10;
-    visibility: hidden;
 }
 
 .sequencetoggle > label:has(> :checked) {
@@ -129,41 +118,27 @@
 
 .sequencetoggle > label::before {
     content: counter(n);
-    font-size: 1em;
-    /*! visibility: hidden; */
     position: absolute;
     display: flex;
     pointer-events: none;
     place-self: center;
-    letter-spacing: 0;
     margin: 0;
     overflow: visible;
-    width: 1em;
-    height: 2em;
-    background-image: radial-gradient(circle at 50% 50%,#000 0 40%,#444 40% 60%,#0000 60%);
+    background-image: radial-gradient(circle at 50% 50%,#0006 0 40%,#4448 40% 60%,#0000 60%);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 3em 2.2em;
-    background: 0 0;
     text-align: center;
     justify-content: center;
     align-items: center;
-    padding: .2em;
     font-family: Menlo,monospace;
 }
 
 .sequencetoggle > label:has(> :checked)::before {
     visibility: visible;
-    text-align: center;
     letter-spacing: 0;
     position: static;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: 3em 2.2em;
-    justify-self: center;
-    font-size: 1.4em;
-  grid-column: 2;
+    font-size: 1.2em;
+    grid-column: 2;
 }
 
 .sequencetoggle:has(
@@ -201,7 +176,7 @@
   width: 100%;
   border: none;
   place-items: center center;
-  outline: 1px solid cyan;
+  place-content: center center;
 }
 .sequencetoggle > label::before {
   pointer-events: none;
@@ -209,7 +184,12 @@
   margin-left: 0ch;
   width: 2ch;
   height: 1lh;
-  outline: 1px solid red;
+  text-align: center;
+  font-size: 0.9em;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .sequencetoggle > label:has(:checked) {
@@ -223,7 +203,6 @@
 }
 .sequencetoggle > label:has(~ label :checked) {
   grid-column: 1;
-/*   transform: translateX(-0.14ch); */
 }
 
 .sequencetoggle > label:has(+ label :checked) {
@@ -233,13 +212,10 @@
   z-index: 10;
   visibility: visible;
 }
-.sequencetoggle > label:has(+ label :checked):hover {
-  pointer-events: auto;
-}
 .sequencetoggle > label:has(+ label :checked)::before {
-  margin-left: 33%;
-  font-size: 0.9em;
-  letter-spacing: -0.12ch;
+  margin-left: -11%;
+  font-size: 0.8em;
+  letter-spacing: -0.08ch;
 }
 
 .sequencetoggle > label:has(:checked) ~ label {
@@ -253,21 +229,26 @@
   visibility: visible;
   z-index: 10;
 }
-.sequencetoggle > label:has(:checked) + label:hover {
-  pointer-events: auto;
-}
 .sequencetoggle > label:has(:checked) + label::before {
-  padding: 0;
-  margin: 0;
-  justify-content: end;
-  margin-right: 38%;
-  font-size: 0.9em;
-  letter-spacing: -0.12ch;
+  margin-right: -9%;
+  font-size: 0.8em;
+  letter-spacing: -0.08ch;
 }
 
 
 
-
+.debug .sequencetoggle > label {
+  outline: 1px solid cyan;
+}
+.debug .sequencetoggle > label::before {
+  outline: 1px solid red;
+}
+.debug .sequencetoggle > label:has(+ label :checked):hover::before {
+  box-shadow: inset 0 0 10px 20px #800a;
+}
+.debug .sequencetoggle > label:has(:checked) + label:hover::before {
+  box-shadow: inset 0 0 10px 20px #800a;
+}
 .debug .sequencetoggle > label:hover::before {
   box-shadow: inset 0 0 10px 20px #800a;
 }

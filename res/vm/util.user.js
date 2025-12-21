@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.120
+// @version     1.1.121
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -32,8 +32,8 @@ const cssOQN = (el) =>
   ].join('.')}`;
 
 const setRegisteredCSSProp = (
-  ({ window }) =>
-  ({ on, name: _name, value, syntax }) => {
+  ({ window: { document } }) =>
+  ({ on = document.documentElement, name: _name, value, syntax }) => {
     const name = /^--/.test(_name) ? _name : `--${_name}`;
     const s_name = `--s-${name.slice(2)}`;
 

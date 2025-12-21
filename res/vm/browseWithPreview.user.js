@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.302
+// @version     1.0.309
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -359,8 +359,9 @@ const initBrowsePreview = ({ document: { body } }) => {
           notify();
           return _val;
         },
-        subscribe: (callback) => {
+        subscribe: (callback, updateNow = true) => {
           subs.add(callback);
+          updateNow && callback(_val);
           return () => subs.remove(callback);
         },
       };
@@ -386,8 +387,9 @@ const initBrowsePreview = ({ document: { body } }) => {
           notify();
           return _val;
         },
-        subscribe: (callback) => {
+        subscribe: (callback, updateNow = true) => {
           subs.add(callback);
+          updateNow && callback(_val);
           return () => subs.remove(callback);
         },
       };
@@ -419,8 +421,9 @@ const initBrowsePreview = ({ document: { body } }) => {
           notify();
           return _val;
         },
-        subscribe: (callback) => {
+        subscribe: (callback, updateNow = true) => {
           subs.add(callback);
+          updateNow && callback(_val);
           return () => subs.remove(callback);
         },
       };
@@ -432,8 +435,9 @@ const initBrowsePreview = ({ document: { body } }) => {
       const notify = () => {
         subs.forEach((sub) => sub(_val));
       };
-      const subscribe = (callback) => {
+      const subscribe = (callback, updateNow = true) => {
         subs.add(callback);
+        updateNow && callback(_val);
         return () => subs.remove(callback);
       };
 
@@ -479,17 +483,23 @@ const initBrowsePreview = ({ document: { body } }) => {
     };
   })({});
 
-  (({ document: { body }, config: { max_interleaved, interleave_delay } }) => {
+  (({ config: { max_interleaved, interleave_delay } }) => {
     /* TODO - set up @property automatically */
     max_interleaved.subscribe((newValue) => {
-      body.style.setAttribute('--playerCount', `${newValue}`);
-      body.style.setAttribute('--s-playerCount', `'${newValue}'`);
+      setRegisteredCSSProp({
+        name: 'playerCount',
+        value: newValue,
+        syntax: '<integer>',
+      });
     });
     interleave_delay.subscribe((newValue) => {
-      body.style.setAttribute('--interleave-delay', `${newValue}ms`);
-      body.style.setAttribute('--s-interleave-delay', `'${newValue}ms'`);
+      setRegisteredCSSProp({
+        name: 'interleave-delay',
+        value: `${newValue}ms`,
+        syntax: '<time>',
+      });
     });
-  })({ document, config });
+  })({ config });
 
   (({
     to,
@@ -792,7 +802,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     const filelist = getFileList();
     const nextFile = async () => decodeURI(await filelist.next());
 
-    const updateMediaPlayers = async (count = 4) => {
+    const updateMediaPlayers = async (count = 9) => {
       const newPlayerCount = Math.max(Math.min(filelist.length, count), 1);
       const container = document.querySelector('.player.interleave');
       const existingPlayers = container.querySelectorAll('.vidwrap');

@@ -1,3 +1,6 @@
+/*  */
+/* Sun Dec 21 2025 02:45:44 GMT+0000 (Greenwich Mean Time) */
+
 :where(table) {
   /* --playback-status-played: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 448 512%22%3E\ */
   /* %3Cpath fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E\ */
@@ -334,26 +337,42 @@
   background-image: var(--icon-play-prev);
 }
 
-.sequence > [data-name='playpause'][data-value='playing'] {
-  --icon: var(--icon-play);
+.vidwrap > label[for='playpause_paused'],
+.vidwrap > label[for='playpause_playing'] {
+  z-index: var(--z-other-playpause-overlay);
+  pointer-events: none;
 }
-:root:has([name='playpause'][value='playing']:checked)
-  :where(.player, .vidwrap)
-  > label[for='toggle_paused'] {
-  z-index: var(--z-topmost-sequencetoggle-label);
-  background-image: var(--icon-play);
+:root:has([id='playpause_playing']:checked)
+  .vidwrap
+  > label[for='playpause_playing'] {
+  /* background-image: var(--icon-play); */
+  background-image: none;
 }
-.sequence > [data-name='playpause'][data-value='paused'] {
-  --icon: var(--icon-pause);
-}
-:root:has([name='playpause'][value='paused']:checked)
-  :where(.player, .vidwrap)
-  > label[for='toggle_playing'] {
+:root:has([id='playpause_paused']:checked)
+  .vidwrap
+  > label[for='playpause_playing'],
+:root:has([id='playpause_playing']:checked)
+  .vidwrap
+  > label[for='playpause_paused'] {
   z-index: var(--z-topmost-playpause-overlay);
+  pointer-events: auto;
+}
+:root:has([id='playpause_paused']:checked)
+  .vidwrap
+  > label[for='playpause_playing'] {
   background-image: var(--icon-pause);
-  --icon: var(--icon-pause);
+  /* --icon: var(--icon-pause); */
+  --icon: var(--icon-play-circle);
   background-color: #4442;
 }
+
+label:has([id='playpause_playing']) {
+  --icon: var(--icon-play);
+}
+label:has([id='playpause_paused']) {
+  --icon: var(--icon-pause);
+}
+
 :root {
   margin: 0;
   padding: 0;
@@ -446,8 +465,7 @@
   --cursor-fallback: default;
 }
 
-:root:has([name='playpause'][value='playing']:checked)
-  :where(.vidwrap, .player),
+:root:has([id='playpause_playing']:checked) .vidwrap,
 .playing,
 [data-cursor='media-default-pause'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E\
@@ -461,7 +479,7 @@
   --cursor-hotspot-y: 2;
 }
 
-:root:has([name='playpause'][value='paused']:checked) :where(.vidwrap, .player),
+:root:has([id='playpause_paused']:checked) .vidwrap,
 .paused,
 [data-cursor='media-default-play'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E\
@@ -562,7 +580,7 @@ body::before {
   pointer-events: none;
 }
 
-body > section:has(> video, > .vidwrap) {
+body > section:has(.vidwrap) {
   height: var(--playerHeight);
   min-height: var(--playerHeight);
   overflow: visible;
@@ -607,11 +625,8 @@ body > h1 {
 .vidwrap {
   display: grid;
   align-items: center;
-  grid-area: preview;
   height: var(--playerHeight);
   justify-content: center;
-  width: auto;
-  grid-row: auto/span preview-end;
   overflow: visible;
   width: var(--playerWidth);
   grid-area: unset;
@@ -622,7 +637,7 @@ body > h1 {
 
 .vidwrap > * {
   grid-column: 1/-1;
-  grid-row: 1;
+  grid-row: 1/1;
 }
 
 .vidwrap .overlay {
@@ -640,15 +655,17 @@ body > h1 {
 .vidwrap + .vidwrap + .vidwrap + .vidwrap .overlay {
   --t: 'Overlay i4';
 }
-:where(.player, .vidwrap) > label {
+.vidwrap > label {
   grid-column: 1/-1;
-  grid-row: 11;
+  grid-row: 1/1;
   z-index: var(--z-other-playpause-overlay);
   background-position: 50% 50%;
   background-size: contain;
   background-color: #2224;
 }
 .vidwrap > video {
+  grid-column: 1/-1;
+  grid-row: 1/1;
   width: auto;
   height: auto;
   max-width: min(100%, 100vw);
@@ -727,13 +744,13 @@ body > h1 {
 @property --playerCount {
   syntax: '<integer>';
   inherits: true;
-  initial-value: 1;
+  initial-value: 4;
 }
 
 @property --s-playerCount {
   syntax: '<string>';
   inherits: true;
-  initial-value: '1';
+  initial-value: '4';
 }
 /*!}}}2*/
 
@@ -746,6 +763,7 @@ video {
   display: contents;
 }
 .player {
+  /* transform: scale(0.3) !important; */
   position: fixed;
   z-index: var(--z-player);
   inset: var(--inset-player);
@@ -760,42 +778,19 @@ video {
 body > section:has(> video, > .vidwrap) {
   width: calc(var(--playerWidth) * var(--playerCount));
 }
-:root:has([name='playpause'][value='paused'][checked]):not(
-    :has([name='playpause'][value='playing']:checked)
-  )
-  .player,
-:root:has([name='playpause'][value='paused']:checked) .player {
+:root:has([id='playpause_paused']:checked) .player {
   animation-play-state: paused;
 }
-:root:has([name='playpause'][value='paused'][checked]):not(
-    :has([name='playpause'][value='playing']:checked)
-  )
-  .vidwrap,
-:root:has([name='playpause'][value='paused']:checked) .vidwrap {
-  transform: none;
-}
+/* :root:has([id='playpause_paused']:checked) .vidwrap { */
+/*   transform: none; */
+/* } */
 
-:root:has([name='playpause'][value='playing'][checked]):not(
-    :has([name='playpause'][value='paused']:checked)
-  )
-  .player,
-:root:has([name='playpause'][value='playing']:checked) .player {
+:root:has([id='playpause_playing']:checked) .player {
   animation-play-state: running;
 }
-:root:has([name='playpause'][value='playing'][checked]):not(
-    :has([name='playpause'][value='paused']:checked)
-  )
-  .vidwrap,
-:root:has([name='playpause'][value='playing']:checked) .vidwrap {
-  transform: var(--ani-transform);
-}
-
-:root:has([name='playpause'][value='paused']:checked)
-  :where(.player, .vidwrap)
-  > label[for='toggle_playing'] {
-  z-index: var(--z-topmost-playpause-overlay);
-  --icon: var(--icon-play-circle);
-}
+/* :root:has([id='playpause_playing']:checked) .vidwrap { */
+/*   transform: var(--ani-transform); */
+/* } */
 
 /*{{{2 Linear Player */
 :root:has([name='player'][value='linear']:checked) .linear {
@@ -864,14 +859,9 @@ body > section:has(> video, > .vidwrap) {
   transform: unset;
   display: none;
 }
-:root:has([name='player'][value='interleave']:checked) .interleave,
-:root:has([name='player'][value='interleave'][checked]):not(
-    :has([name='player'][value='linear']:checked)
-  )
-  .interleave,
-:root:has([name='playpause'][value='playing']:checked) .interleave,
-:root:has([name='playpause'][value='playing'][checked]):not(
-    :has([name='playpause'][value='paused']:checked)
+:root:has(
+    [name='player'][value='interleave']:checked,
+    [id='playpause_playing']:checked
   )
   .interleave {
   display: grid;
@@ -949,13 +939,7 @@ body > section:has(> video, > .vidwrap) {
 
 .interleave > .vidwrap > label {
   height: var(--playerHeight);
-  width: var(--playerWidth);
-  mask-image: var(--icon);
-  background-image: var(--icon);
-  mask-size: 10vmax;
-  background-size: 10vmax;
   z-index: var(--z-other-playpause-overlay);
-  background-color: #f8f2;
   width: var(--playerWidth);
   background-position: 50% 50%;
   background-image: var(--icon);
@@ -965,6 +949,9 @@ body > section:has(> video, > .vidwrap) {
   mask-repeat: round repeat-y;
   mask-position: 50% 50%;
   mask-size: 15vmax;
+}
+.interleave > .vidwrap > label:hover {
+  background-color: #f8f2;
 }
 
 .interleave > .vidwrap::before,
@@ -1303,19 +1290,19 @@ td:not(:first-child) {
   content: 'ts';
 }
 
-:root:has([name='images']:not(:checked))
-.file:has(
-  [src="moz-icon://.jpeg?size=16"],
-  [src="moz-icon://.jpg?size=16"],
-  [src="moz-icon://.png?size=16"]
+:root:not(:has([name='images'] :checked))
+body > table > :where(tbody, thead) > tr:has(
+    [src="moz-icon://.jpeg?size=16"],
+    [src="moz-icon://.jpg?size=16"],
+    [src="moz-icon://.png?size=16"]
 ),
-:root:has([name='video']:not(:checked))
-.file:has(
+:root:not(:has([name='video'] :checked))
+body > table > :where(tbody, thead) > tr:has(
   [src="moz-icon://.mp4?size=16"],
   [src="moz-icon://.gif?size=16"]
 ),
-:root:has([name='other']:not(:checked))
-.file:not(:has(
+:root:not(:has([name='other'] :checked))
+body > table > :where(tbody, thead) > tr:not(:has(
   [src="moz-icon://.jpeg?size=16"],
   [src="moz-icon://.jpg?size=16"],
   [src="moz-icon://.png?size=16"],
@@ -1687,9 +1674,7 @@ body > table > thead > tr::before {
 .grouping {
   display: grid;
   grid-template-rows: 1fr;
-  outline: 1px solid #333;
   grid-row: options;
-  grid-column-end: span var(--span);
   --span: calc(var(--n-children, 1) + var(--span-extra, 0));
   --n-children: calc(
     var(--n1-children, 0) + var(--n2-children, 0) + var(--n4-children, 0) +

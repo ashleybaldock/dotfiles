@@ -24,20 +24,20 @@ DynamicToolBar
 "      $VIMRUNTIME/../../Actions.plist
 
 "  <D-n>
-" macm File.New\ Window                             key=<Nop>
+" macm File.New\ Window                           key=<Nop>
 "  <D-N>
-" macm File.New\ Clean\ Window                      key=<Nop>
+" macm File.New\ Clean\ Window                    key=<Nop>
 "  <D-M-N>
-" macm File.New\ Clean\ Window\ (No\ Defaults)      key=<Nop>
+" macm File.New\ Clean\ Window\ (No\ Defaults)    key=<Nop>
 
-"                                                             - Unbind <D-t>
-macm File.New\ Tab                                key=<Nop>
+" Unbind <D-t>
+exec 'macm File.New\ Tab                          key=<Nop>'
 
-"                                                             - Unbind <D-o>
-macm File.Open…                                   key=<Nop>
+" Unbind <D-o>
+exec 'macm File.Open…                             key=<Nop>'
 
-"                                                             - Unbind <D-T>
-macm File.Open\ Tab\.\.\.<Tab>:tabnew             key=<Nop>
+" Unbind <D-T>
+exec 'macm File.Open\ Tab\.\.\.<Tab>:tabnew       key=<Nop>'
 
 " macm File.Open\ Recent
 "  <D-W>
@@ -50,13 +50,13 @@ macm File.Open\ Tab\.\.\.<Tab>:tabnew             key=<Nop>
 "  <D-S>
 " macm File.Save\ As…<Tab>:sav                    key=<Nop>
 
-"                                                             - Unbind <D-p> -
-macm File.Print                                   key=<Nop>
+" Unbind <D-p>
+exec 'macm File.Print                             key=<Nop>'
 
-"                                                             - Unbind <D-z>
-macm Edit.Undo<Tab>u                              key=<Nop>
-"                                                             - Unbind <D-Z>
-macm Edit.Redo<Tab>^R                             key=<Nop>
+" Unbind <D-z>
+exec 'macm Edit.Undo<Tab>u                        key=<Nop>'
+" Unbind <D-Z>
+exec 'macm Edit.Redo<Tab>^R                       key=<Nop>'
 
 " " key=<D-x>
 " macm Edit.Cut<Tab>"+x                           key=<Nop>
@@ -69,86 +69,87 @@ macm Edit.Redo<Tab>^R                             key=<Nop>
 "  <D-a>
 " macm Edit.Select\ All<Tab>ggVG                  key=<Nop>
 
-"                                                             - Unbind <D-f>
-macm Edit.Find.Find…                              key=<Nop>
+" Unbind <D-f>
+exec 'macm Edit.Find.Find…                        key=<Nop>'
 
-"                                                             - Unbind <D-g>
-macm Edit.Find.Find\ Next                         key=<Nop>
+" Unbind <D-g>
+exec 'macm Edit.Find.Find\ Next                   key=<Nop>'
 
-"                                                             - Unbind <D-G>
-macm Edit.Find.Find\ Previous                     key=<Nop>
+" Unbind <D-G>
+exec 'macm Edit.Find.Find\ Previous               key=<Nop>'
 
-"                                                             - Unbind <D-e>
-macm Edit.Find.Use\ Selection\ for\ Find          key=<Nop>
+" Unbind <D-e>
+exec 'macm Edit.Find.Use\ Selection\ for\ Find    key=<Nop>'
 
 " macm Edit.Font.Show\ Fonts
-"                                                             - Unbind <D-=>
-macm Edit.Font.Bigger                             key=<Nop>
-"                                                             - Unbind <D-->
-macm Edit.Font.Smaller                            key=<Nop>
-"                                                             - Unbind <D-;>
-macm Tools.Spelling.To\ Next\ Error<Tab>]s        key=<Nop>
-"                                                             - Unbind <D-:>
-macm Tools.Spelling.Suggest\ Corrections<Tab>z=   key=<Nop>
-"                                                             - Unbind <D-b>
-macm Tools.Make<Tab>:make                         key=<Nop>
-"                                                             - Unbind <D-l>
-macm Tools.List\ Errors<Tab>:cl                   key=<Nop>
-"                                                             - Unbind <D-C-Right>
-macm Tools.Next\ Error<Tab>:cn                    key=<Nop>
-"                                                             - Unbind <D-C-Left>
-macm Tools.Previous\ Error<Tab>:cp                key=<Nop>
-"                                                             - Unbind <D-C-Up>
-macm Tools.Older\ List<Tab>:cold                  key=<Nop>
-"                                                             - Unbind <D-C-Down>
-macm Tools.Newer\ List<Tab>:cnew                  key=<Nop>
+" Unbind <D-=>
+exec 'macm Edit.Font.Bigger                       key=<Nop>'
+" Unbind <D-->
+exec 'macm Edit.Font.Smaller                      key=<Nop>'
+" Unbind <D-;>
+exec 'macm Tools.Spelling.To\ Next\ Error<Tab>]s  key=<Nop>'
+" Unbind <D-:>
+exec 'macm Tools.Spelling.Suggest\ Corrections<Tab>z=   key=<Nop>'
+" Unbind <D-b>
+exec 'macm Tools.Make<Tab>:make                   key=<Nop>'
+" Unbind <D-l>
+exec 'macm Tools.List\ Errors<Tab>:cl             key=<Nop>'
+" Unbind <D-C-Right>
+exec 'macm Tools.Next\ Error<Tab>:cn              key=<Nop>'
+" Unbind <D-C-Left>
+exec 'macm Tools.Previous\ Error<Tab>:cp          key=<Nop>'
+" Unbind <D-C-Up>
+exec 'macm Tools.Older\ List<Tab>:cold            key=<Nop>'
+" Unbind <D-C-Down>
+exec 'macm Tools.Newer\ List<Tab>:cnew            key=<Nop>'
 
 "  <D-m>
-" macm Window.Minimize                            key=<Nop
+" macm Window.Minimize                            key=<Nop>
 "  <D-M-m>
 " macm Window.Minimize\ All                       key=<Nop>
 "  <D-C-z>
 " macm Window.Zoom                                key=<Nop>
 "  <D-M-C-z>
 " macm Window.Zoom\ All                           key=<Nop>
-"                                                             - Unbind <D-C-f>
-macm Window.Toggle\ Full\ Screen\ Mode            key=<Nop>
-"                                                             - Unbind <D-}>
-macm Window.Show\ Next\ Tab                       key=<Nop>
-"                                                             - Unbind <D-{>
-macm Window.Show\ Previous\ Tab                   key=<Nop>
+" Unbind <D-C-f>
+exec 'macm Window.Toggle\ Full\ Screen\ Mode      key=<Nop>'
+" Unbind <D-}>
+exec 'macm Window.Show\ Next\ Tab                 key=<Nop>'
+" Unbind <D-{>
+exec 'macm Window.Show\ Previous\ Tab             key=<Nop>'
 " macm Window.Bring\ All\ To\ Front
 " macm Window.Stay\ in\ Front
 " macm Window.Stay\ in\ Back
 " macm Window.Stay\ Level\ Normal
 
-"                                                             - Unbind <D-?>
-macm Help.MacVim\ Help                            key=<Nop>
+" Unbind <D-?>
+exec 'macm Help.MacVim\ Help                      key=<Nop>'
 " macm Help.MacVim\ Website
 " macm Help.What's\ New
 
 
 " ------------------------------------ Add new or replacement bindings for ⌘⃣  --
 
-"                                                             - Bind <D-C>
+" Bind <D-C>
 nnoremenu 20.355 Edit.Copy\ All<Tab>ggVG"+y       ggVG"+y
-macm Edit.Copy\ All                               key=<D-C>
+exec 'macm Edit.Copy\ All                         key=<D-C>'
 
-"                                                             - Bind <D-V>
+" Bind <D-V>
 an 20.360 &Edit.&Paste\ VSplit<Tab>^Wv"+gP        <C-W>v"+gP
-macm Edit.Paste\ VSplit                           key=<D-V>
+exec 'macm Edit.Paste\ VSplit                     key=<D-V>'
 
-"                                                             - Bind <D-t>
+" Bind <D-t>
 nmap <D-t> :sp .<CR>
 
 " commenting
-" toggle current line                                         - Bind <D-/>
+" Bind <D-/>   toggle current line
 nmap <D-/> gc
-" toggle current visual selection                             - Bind <D-/>
+" Bind <D-/>   toggle current visual selection
 xmap <D-/> gc
-" current line:                                               - Bind <D-M-/>
+" current line:
 "  is comment: uncomment surrounding block
 "  else: comment line
+" Bind <D-M-/>
 nmap <D-M-/> gcgc
 
 
@@ -156,7 +157,7 @@ nmap <D-M-/> gcgc
 "
 " Extra Tools Menu:
 "
-"􀥖􀩉􀥗􀩊􀥘
+" 􀥖􀩉􀥗􀩊􀥘
 " aunmenu Tools2
 exec 'an' SfIcon('􀅌') '100.310.100' 'Tools2.􀽴\ \ Columns.Transpose'
       \ '<Cmd>TransposeRowCol<CR>'
@@ -211,14 +212,14 @@ exec 'an' '100.530.130' 'Tools2.Enable\ Syntax\ Reload\ On\ Write'
 an 100.600 Tools2.-sep3-	<Nop>
 exec 'an' SfIcon('􀲳') '100.630.130' 'Tools2.SynFo.Toggle\ In\ Current\ Window'
       \ '<Cmd>SynFoWindowToggle<CR>'
-macm Tools2.SynFo.Toggle\ In\ Current\ Window key=<D-I>
+exec 'macm Tools2.SynFo.Toggle\ In\ Current\ Window key=<D-I>'
 " an 100.530.150 Tools2.SynFo.Enable\ In\ Current\ Window <Cmd>SynFoWindowOn<CR>
 " an 100.530.150 Tools2.SynFo.Disable\ In\ Current\ Window <Cmd>SynFoWindowOff<CR>
 an 100.530.170 Tools2.SynFo.Disable\ In\ All\ Windows	<Cmd>SynFoAllOff<CR>
 " macm Tools2.SynFo.Disable\ In\ All\ Windows
 an 100.530.200 Tools2.SynFo.-sep1-		<Nop>
 an 100.530.230 Tools2.SynFo.Show\ At\ Cursor	<Cmd>SynFo<CR>
-macm Tools2.SynFo.Show\ At\ Cursor key=<D-i>
+exec 'macm Tools2.SynFo.Show\ At\ Cursor key=<D-i>'
 
 an 100.600 Tools2.-sep4-	<Nop>
 an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
@@ -373,8 +374,8 @@ an <silent> 10.327.130 &File.Open\ Related.Runtime\ Autoload	    <Nop>
 
 an <silent> 10.326 &File.Open\ In\ New\ Window	    <Nop>
 an <silent> 10.326 &File.Move\ To\ New\ Window	    <Nop>
-macm File.Open\ In\ New\ Window
-macm File.Move\ To\ New\ Window	alt=YES
+exec 'macm File.Open\ In\ New\ Window'
+exec 'macm File.Move\ To\ New\ Window	alt=YES'
 
 "􁒺􁒻  􁏮􁏻􁏯􁏼􁕳􁘀􀠩􀠪 􀰬􂀙􃋮􃋯
 "
@@ -467,7 +468,8 @@ endif
 
 
 " if has("gui_macvim")
-  " Shift + special movement key (<S-Left>, etc.) and mouse starts insert mode
+  " Shift + special movement key (<S-Left>, etc.)
+  " and mouse starts insert mode
   " set selectmode=mouse,key
   " set keymodel=startsel,stopsel
 
@@ -494,87 +496,4 @@ endif
   " ino  <S-D-Down>     <S-C-End>
 " endif
 
-"
-"{{{1 Test menu, please ignore
-"
-exec 'an 200.101.100 Test.Test1.' .. format#session(printf("%14S", '0123456789')) .. '⏐ <Nop>'
-exec 'an 200.101.110 Test.Test1.' .. format#session(printf("%14S", 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')) .. '⏐ <Nop>'
-exec 'an 200.101.120 Test.Test1.a️b️c️d️e️f️g️h️i️j️k️l️m️n️o️p️q️r️s️t️u️v️w️xy️z️⏐ <Nop>'
-exec 'an 200.101.130 Test.Test1.' .. format#session(printf("%14S", 'No Session')) .. '⏐ <Nop>'
-exec 'an 200.101.140 Test.Test1.' .. format#session(printf("%14S", 'no session')) .. '⏐ <Nop>'
-exec 'an 200.101.150 Test.Test1.1︎a︎2︎b︎i︎j︎3︎c︎4︎d︎5︎e︎6f︎⏐ <Nop>'
-exec 'an 200.101.160 Test.Test1.' .. format#session(printf("%14S", 'A0B0C0    ZZ')) .. '⏐ <Nop>'
-exec 'an 200.101.170 Test.Test1.ＡＢＣＤＥＦZZ⏐ <Nop>'
-
-let s:g = '𝚐'
-let s:gh = '𝚐 '
-let s:gt = '𝚐 '
-let s:G = '𝙶'
-let s:Gh = '𝙶 '
-let s:tab = "\\	\\	"
-
-" let s:tests = [
-"       \ s:gh->repeat(1)
-"       \ s:gh->repeat(2)
-"       \ s:gh->repeat(3)
-"       \ s:gh->repeat(4)
-"       \ s:gh->repeat(5)
-"       \ s:gh->repeat(6)
-"       \]
-let s:r = 14
-let s:GN = s:G->repeat(s:r)..s:Gh
-let s:Gn = s:G->repeat(s:r + 1)
-let s:gN = s:gh->repeat(s:r + 1)
-let s:gn = s:gh->repeat(s:r)..s:g
-for [i, t] in [
-      \ s:GN->repeat(1), s:gN->repeat(1),
-      \ s:GN->repeat(2), s:gN->repeat(2),
-      \ s:GN->repeat(3), s:gN->repeat(3),
-      \ s:GN->repeat(4), s:gN->repeat(4),
-      \ s:GN->repeat(5), s:gN->repeat(5),
-      \ s:Gn->repeat(1), s:gn->repeat(1),
-      \ s:Gn->repeat(2), s:gn->repeat(2),
-      \ s:Gn->repeat(3), s:gn->repeat(3),
-      \ s:Gn->repeat(4), s:gn->repeat(4),
-      \ s:Gn->repeat(5), s:gn->repeat(5),
-      \]->items()
-  exec printf("an 200.102.%03S ", i + 100) .. 'Test.Test2' .. t .. '\ ⏐ <Nop>'
-endfor
-
-for [i, t] in [
-      \ s:G->repeat(1),  s:gh->repeat(1),
-      \ s:G->repeat(2),  s:gh->repeat(2),
-      \ s:G->repeat(3),  s:gh->repeat(3), 
-      \ s:G->repeat(4),  s:gh->repeat(4), 
-      \ s:G->repeat(5),  s:gh->repeat(5), 
-      \ s:G->repeat(6),  s:gh->repeat(6), 
-      \ s:G->repeat(7),  s:gh->repeat(7), 
-      \ s:G->repeat(8),  s:gh->repeat(8), 
-      \ s:G->repeat(9),  s:gh->repeat(9), 
-      \ s:G->repeat(10), s:gh->repeat(10),
-      \ s:G->repeat(11), s:gh->repeat(11),
-      \ s:G->repeat(12), s:gh->repeat(12),
-      \ s:G->repeat(13), s:gh->repeat(13),
-      \ s:G->repeat(14), s:gh->repeat(14),
-      \]->items()
-  exec printf("an 200.203.%03S ", i + 100) .. 'Test.Test3.' .. t .. '\ ⏐ <Nop>'
-endfor
-for [i, t] in [
-      \ s:G->repeat(2),  s:G..s:gh->repeat(1),  s:gh->repeat(2),
-      \ s:G->repeat(3),  s:G..s:gh->repeat(2),  s:gh->repeat(3), 
-      \ s:G->repeat(4),  s:G..s:gh->repeat(3),  s:gh->repeat(4), 
-      \ s:G->repeat(5),  s:G..s:gh->repeat(4),  s:gh->repeat(5), 
-      \ s:G->repeat(6),  s:G..s:gh->repeat(5),  s:gh->repeat(6), 
-      \ s:G->repeat(7),  s:G..s:gh->repeat(6),  s:gh->repeat(7), 
-      \ s:G->repeat(8),  s:G..s:gh->repeat(7),  s:gh->repeat(8), 
-      \ s:G->repeat(9),  s:G..s:gh->repeat(8),  s:gh->repeat(9), 
-      \ s:G->repeat(10), s:G..s:gh->repeat(9),  s:gh->repeat(10),
-      \ s:G->repeat(11), s:G..s:gh->repeat(10), s:gh->repeat(11),
-      \ s:G->repeat(12), s:G..s:gh->repeat(11), s:gh->repeat(12),
-      \ s:G->repeat(13), s:G..s:gh->repeat(12), s:gh->repeat(13),
-      \ s:G->repeat(14), s:G..s:gh->repeat(13), s:gh->repeat(14),
-      \]->items()
-  exec printf("an 200.204.%03S ", i + 100) .. 'Test.Test4.' .. t .. '\ ⏐ <Nop>'
-endfor
-"}}}1
 

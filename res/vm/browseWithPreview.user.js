@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.244
+// @version     1.0.302
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -85,6 +85,7 @@ const addToggle = ({
   const input = GM_addElement(label, tag, {
     type,
     id,
+    name,
     ...(checked ? { checked: '' } : {}),
   });
   input.addEventListener(
@@ -126,6 +127,7 @@ const addSequenceToggle = ({
         'data-name': name,
         'data-value': value,
         'data-text': textContent,
+        for: `${name}_${value}`,
       });
       GM_addElement(label, 'span', {
         class: 'tip',
@@ -136,6 +138,7 @@ const addSequenceToggle = ({
         ...(checked ? { checked: '' } : {}),
         name,
         value,
+        id: `${name}_${value}`,
       });
       input.addEventListener(
         'change',
@@ -154,24 +157,41 @@ const addSequenceToggle = ({
   return div;
 };
 
-const addWrappedVideo = (
-  options = {
-    to,
-    class: `i${[...to.querySelectorAll('.vidwrap')].length + 1}`,
-    autoplay: '',
-    muted: '',
-  },
-) => {
-  const wrapper = GM_addElement(to, 'div', { class: 'vidwrap' });
-  const playLabel = GM_addElement(wrapper, 'label', { for: 'toggle_playing' });
-  const pauseLabel = GM_addElement(wrapper, 'label', { for: 'toggle_paused' });
-  const idx = () => wrapper.style.getPropertyValue('--playerIdx');
-  const video = GM_addElement(wrapper, 'video', options);
+const addWrappedVideo = ({
+  to,
+  idx,
+  nextFile,
+  autoplay = true,
+  muted = true,
+  ...attrs
+} = {}) => {
+  const wrapper = GM_addElement(to, 'div', { class: `vidwrap i${idx}` });
+  wrapper.style.setProperty('--playerIdx', idx);
+  wrapper.style.setProperty('--s-playerIdx', `'${idx}'`);
+  const playLabel = GM_addElement(wrapper, 'label', {
+    for: 'playpause_playing',
+  });
+  const pauseLabel = GM_addElement(wrapper, 'label', {
+    for: 'playpause_paused',
+  });
+  const video = GM_addElement(wrapper, 'video', {
+    autoplay,
+    muted,
+    ...attrs,
+  });
+
+  const playNext = async () => {
+    video.src = (await nextFile()) ?? video.src;
+  };
+  let _playbackErrors = 0;
+  const maxErrorCount = 10,
+    addToCountOnError = 1,
+    addToCountOnSuccess = -2;
 
   video.addEventListener(
     'play',
     () => {
-      console.info(`${idx()} playing '${decodeURI(video.src)}'`);
+      console.info(`${idx} playing '${decodeURI(video.src)}'`);
 
       video.classList.remove('paused');
       video.classList.add('playing');
@@ -183,8 +203,8 @@ const addWrappedVideo = (
         .forEach((tr) => {
           tr.classList.remove('paused');
           tr.classList.add('playing');
-          tr.style.setProperty('--playerIdx', idx());
-          tr.style.setProperty('--s-playerIdx', `'${idx()}'`);
+          tr.style.setProperty('--playerIdx', idx);
+          tr.style.setProperty('--s-playerIdx', `'${idx}'`);
 
           const undo = (() => {
             let undone = false;
@@ -212,7 +232,7 @@ const addWrappedVideo = (
   video.addEventListener(
     'pause',
     () => {
-      console.info(`${idx()} paused '${decodeURI(video.src)}'`);
+      console.info(`${idx} paused '${decodeURI(video.src)}'`);
 
       video.classList.remove('playing');
       video.classList.add('paused');
@@ -224,8 +244,8 @@ const addWrappedVideo = (
         .forEach((tr) => {
           tr.classList.remove('playing');
           tr.classList.add('paused');
-          tr.style.setProperty('--playerIdx', idx());
-          tr.style.setProperty('--s-playerIdx', `'${idx()}'`);
+          tr.style.setProperty('--playerIdx', idx);
+          tr.style.setProperty('--s-playerIdx', `'${idx}'`);
         });
     },
     {},
@@ -233,65 +253,81 @@ const addWrappedVideo = (
 
   /* Playback */
   video.addEventListener('volumechange', () => {
-    // console.debug(`${idx()} volumechange '${decodeURI(video.src)}'`);
+    // console.debug(`${idx} volumechange '${decodeURI(video.src)}'`);
   });
 
   video.addEventListener('canplay', () => {
-    console.info(`${idx()} canplay '${decodeURI(video.src)}'`);
+    console.info(`${idx} canplay '${decodeURI(video.src)}'`);
   });
   video.addEventListener('canplaythrough', () => {
-    console.info(`${idx()} canplaythrough '${decodeURI(video.src)}'`);
+    console.info(`${idx} canplaythrough '${decodeURI(video.src)}'`);
     video.volume = 0;
     video.muted = true;
     video.play();
   });
   video.addEventListener('seeked', () => {
-    console.info(`${idx()} seeked '${decodeURI(video.src)}'`);
+    console.info(`${idx} seeked '${decodeURI(video.src)}'`);
   });
   video.addEventListener('seeking', () => {
-    // console.debug(`${idx()} seeking '${decodeURI(video.src)}'`);
+    // console.debug(`${idx} seeking '${decodeURI(video.src)}'`);
   });
   video.addEventListener('timeupdate', () => {
-    // console.debug(`${idx()} timeupdate '${decodeURI(video.src)}'`);
+    // console.debug(`${idx} timeupdate '${decodeURI(video.src)}'`);
   });
   video.addEventListener('durationchange', () => {
-    console.debug(`${idx()} durationchange '${decodeURI(video.src)}'`);
+    console.debug(`${idx} durationchange '${decodeURI(video.src)}'`);
   });
   video.addEventListener('ratechange', () => {
-    console.debug(`${idx()} ratechange '${decodeURI(video.src)}'`);
+    console.debug(`${idx} ratechange '${decodeURI(video.src)}'`);
   });
   video.addEventListener('ended', () => {
-    console.info(`${idx()} ended '${decodeURI(video.src)}'`);
+    console.info(`${idx} ended '${decodeURI(video.src)}'`);
+
+    _playbackErrors = Math.max(0, _playbackErrors + addToCountOnSuccess);
+
+    playNext();
   });
   video.addEventListener('emptied', () => {
-    console.info(`${idx()} emptied '${decodeURI(video.src)}'`);
+    console.info(`${idx} emptied '${decodeURI(video.src)}'`);
   });
 
   /* Loading */
   video.addEventListener('loadstart', () => {
-    console.debug(`${idx()} loadstart '${decodeURI(video.src)}'`);
+    console.debug(`${idx} loadstart '${decodeURI(video.src)}'`);
   });
   video.addEventListener('loadeddata', () => {
-    console.debug(`${idx()} loadeddata '${decodeURI(video.src)}'`);
+    console.debug(`${idx} loadeddata '${decodeURI(video.src)}'`);
   });
   video.addEventListener('loadedmetadata', () => {
-    console.debug(`${idx()} loadedmetadata '${decodeURI(video.src)}'`);
+    console.debug(`${idx} loadedmetadata '${decodeURI(video.src)}'`);
   });
   video.addEventListener('progress', () => {
-    // console.debug(`${idx()} progress '${decodeURI(video.src)}'`);
+    // console.debug(`${idx} progress '${decodeURI(video.src)}'`);
   });
   video.addEventListener('waiting', () => {
-    console.info(`${idx()} waiting '${decodeURI(video.src)}'`);
+    console.info(`${idx} waiting '${decodeURI(video.src)}'`);
   });
   video.addEventListener('stalled', () => {
-    console.info(`${idx()} stalled '${decodeURI(video.src)}'`);
+    console.info(`${idx} stalled '${decodeURI(video.src)}'`);
   });
   video.addEventListener('suspend', () => {
-    console.info(`${idx()} suspend '${decodeURI(video.src)}'`);
+    console.info(`${idx} suspend '${decodeURI(video.src)}'`);
   });
   video.addEventListener('error', () => {
-    console.warn(`${idx()} error loading '${decodeURI(video.src)}'`);
+    console.warn(`${idx} error loading '${decodeURI(video.src)}'`);
+
+    if ((_playbackErrors += addToCountOnError) > maxErrorCount) {
+      video.pause();
+      video.classList.add('error');
+      console.warn(`${idx} exceeded max error count`);
+    } else {
+      playNext();
+    }
   });
+
+  if (autoplay !== false) {
+    playNext();
+  }
   return { wrapper, player: video };
 };
 
@@ -436,6 +472,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       max_interleaved: defineNumber(8),
       interleave_delay: defineNumber(500),
       repeat: defineToggle(true),
+      shuffle_on_load: defineToggle(true),
       shuffle_on_repeat: defineToggle(true),
       reload_on_repeat: defineToggle(true),
       filter: defineString('.*\.mp4$'),
@@ -469,6 +506,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       playpause,
       player,
       repeat,
+      shuffle_on_load,
       shuffle_on_repeat,
       reload_on_repeat,
     },
@@ -478,6 +516,12 @@ const initBrowsePreview = ({ document: { body } }) => {
       textContent: 'Repeat playlist',
       bindTo: repeat,
       name: 'repeat',
+      to: repeatGrouping,
+    });
+    addToggle({
+      textContent: 'Shuffle playlist on load',
+      bindTo: shuffle_on_load,
+      name: 'shuffle_on_load',
       to: repeatGrouping,
     });
     addToggle({
@@ -591,6 +635,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     ({
       config: {
         repeat,
+        shuffle_on_load,
         shuffle_on_repeat,
         reload_on_repeat,
         filter,
@@ -604,40 +649,6 @@ const initBrowsePreview = ({ document: { body } }) => {
       let files = null,
         filesOriginalOrder = [],
         filesIter;
-      let _shuffled = false,
-        _filter = null,
-        _filtered_length = null;
-
-      function* filteredFiles() {
-        yield* files.filter((x) => x.match(_filter));
-        // yield* files.filter((x) => x.match(filter.value));
-      }
-
-      const load = () => {
-        files = [...document.querySelectorAll('a.file')].map((file) =>
-          file.getAttribute('href'),
-        );
-        filesOriginalOrder = [...files];
-        _shuffled = false;
-        _filtered_length = null;
-        filesIter = filteredFiles();
-      };
-
-      const shuffle = () => {
-        files ?? load();
-        shuffleArray(files);
-        /* shuffling ought not to change the filtered length */
-        filesIter = filteredFiles();
-        _shuffled = true;
-      };
-
-      const reset = () => {
-        files ?? load();
-        files = [...filesOriginalOrder];
-        /* unshuffling ought not to change the filtered length */
-        filesIter = filteredFiles();
-        _shuffled = false;
-      };
 
       const updateFilter = () => {
         const exts = {
@@ -649,51 +660,95 @@ const initBrowsePreview = ({ document: { body } }) => {
         const matchVideo = `^.*\.(?:${exts.video.join('|')})`;
         const matchImage = `^.*\.(?:${exts.image.join('|')})`;
         const matchOther = `^.*(?<!\.(?:${[...exts.video, ...exts.image].join('|')}))$`;
-        _filter = [
-          includeImageFiles.value ? matchImage : [],
-          includeVideoFiles.value ? matchVideo : [],
-          includeOtherFiles.value ? matchOther : [],
-        ]
-          .flat()
-          .join('|');
+        return new RegExp(
+          [
+            includeImageFiles.value ? matchImage : [],
+            includeVideoFiles.value ? matchVideo : [],
+            includeOtherFiles.value ? matchOther : [],
+          ]
+            .flat()
+            .join('|'),
+        );
       };
+
+      let _shuffled = false,
+        _filter = updateFilter(),
+        _filtered_length = null;
+
+      const load = () => {
+        files = [...document.querySelectorAll('a.file')].map((file) =>
+          file.getAttribute('href'),
+        );
+        filesOriginalOrder = [...files];
+        _shuffled = false;
+        _filtered_length = null;
+
+        if (shuffle_on_load.value) {
+          shuffle();
+        }
+      };
+
+      const shuffle = () => {
+        files ?? load();
+        shuffleArray(files);
+        /* shuffling ought not to change the filtered length */
+        filesIter = filteredFiles();
+        _shuffled = true;
+      };
+
+      const unshuffle = () => {
+        files ?? load();
+        files = [...filesOriginalOrder];
+        /* unshuffling ought not to change the filtered length */
+        // filesIter = filteredFiles();
+        _shuffled = false;
+      };
+
+      async function* filteredFiles() {
+        files ?? load();
+
+        while (true) {
+          for (const file of files.filter((x) => _filter.test(x))) {
+            // yield Promise.resolve({ done: false, value: file });
+            yield Promise.resolve(file);
+          }
+          if (reload_on_repeat.value) {
+            load();
+          } else {
+            if (shuffle_on_repeat.value) {
+              shuffle();
+            }
+          }
+        }
+      }
 
       const unsubs = [
         // repeat.subscribe((newValue) => ),
         // shuffle_on_repeat.subscribe(() => ),
         // reload_on_repeat.subscribe(() => ),
         // filter.subscribe(() => ),
-        includeImageFiles.subscribe(() => updateFilter()),
-        includeVideoFiles.subscribe(() => updateFilter()),
-        includeOtherFiles.subscribe(() => updateFilter()),
+        includeImageFiles.subscribe(() => {
+          _filter = updateFilter();
+          _filtered_length = null;
+        }),
+        includeVideoFiles.subscribe(() => {
+          _filter = updateFilter();
+          _filtered_length = null;
+        }),
+        includeOtherFiles.subscribe(() => {
+          _filter = updateFilter();
+          _filtered_length = null;
+        }),
       ];
 
+      filesIter = filteredFiles();
+
       return {
-        next: () => {
-          files ?? load();
-          const { done, value } = filesIter.next();
-          if (done) {
-            if (repeat.value) {
-              if (reload_on_repeat.value) {
-                load();
-              }
-              if (shuffle_on_repeat.value) {
-                shuffle();
-              }
-              filesIter = filteredFiles();
-              return filesIter.next();
-            } else {
-              return { done: true };
-            }
-          } else {
-            return { done: false, value };
-          }
+        async next() {
+          return (await filesIter.next()).value;
         },
-        // [Symbol.iterator]() {
-        //   return this;
-        // },
         async *[Symbol.asyncIterator]() {
-          return this;
+          return filesIter;
         },
         /**
          *  If a filter is set, this returns the filtered count
@@ -702,7 +757,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         get length() {
           files ?? load();
           return (_filtered_length ??= [
-            ...files.filter((x) => x.match(filter.value)),
+            ...files.filter((x) => x.match(_filter)),
           ].length);
         },
         /**
@@ -716,35 +771,8 @@ const initBrowsePreview = ({ document: { body } }) => {
           return _shuffled;
         },
         shuffle,
-        reset,
+        unshuffle,
         reload: () => load(),
-        get repeat() {
-          return repeat.value;
-        },
-        set repeat(newValue) {
-          repeat.value = newValue;
-        },
-        get filter() {
-          return filter.value;
-        },
-        set filter(newValue) {
-          if (filter.value !== newValue) {
-            _filtered_length = null;
-          }
-          filter.value = newValue;
-        },
-        get shuffle_on_repeat() {
-          return shuffle_on_repeat.value;
-        },
-        set shuffle_on_repeat(newValue) {
-          shuffle_on_repeat.value = newValue;
-        },
-        get reload_on_repeat() {
-          return reload_on_repeat.value;
-        },
-        set reload_on_repeat(newValue) {
-          reload_on_repeat.value = newValue;
-        },
       };
     }
   )({ config, shuffleArray: shuffle });
@@ -754,91 +782,44 @@ const initBrowsePreview = ({ document: { body } }) => {
       class: 'player interleave paused',
     });
 
-    const resetHandlers = [];
-    const reset = () => {
-      resetHandlers.forEach((f) => f?.());
-    };
-
     const mediaPlayers = [];
+    const activeMediaPlayers = () => [
+      ...document.querySelectorAll(
+        '.player.interleave > .vidwrap:not(:has(.off))',
+      ),
+    ];
 
-    /**
-     * Track count of player errors to avoid infinite fail loops
-     */
-    const playerErrors = new WeakMap();
-    const maxErrorCount = 10,
-      addToCountOnError = 1,
-      addToCountOnSuccess = -2;
+    const filelist = getFileList();
+    const nextFile = async () => decodeURI(await filelist.next());
 
-    const filelist = getFileList({
-      repeat: true,
-      shuffle: true,
-      shuffle_on_repeat: true,
-      include: {
-        all: false,
-        videos: true,
-        images: false,
-        match: '',
-      },
-    });
+    const updateMediaPlayers = async (count = 4) => {
+      const newPlayerCount = Math.max(Math.min(filelist.length, count), 1);
+      const container = document.querySelector('.player.interleave');
+      const existingPlayers = container.querySelectorAll('.vidwrap');
 
-    const playNext = (video) => {
-      video.src = decodeURI(filelist?.next().value ?? '');
-    };
-    const onEndedPlayNext = ({ target }) => {
-      playerErrors.set(
-        target,
-        Math.max(0, (playerErrors.get(target) ?? 0) + addToCountOnSuccess),
-      );
-      playNext(target);
-    };
-    const onErrorPlayNext = ({ target }) => {
-      playerErrors.set(
-        target,
-        (playerErrors.get(target) ?? 0) + addToCountOnError,
-      );
-      if ((playerErrors.get(target) ?? 0) > maxErrorCount) {
-        target.pause();
-        target.classList.add('error');
-        console.warn(`player '${target.id}' exceeded max error count`);
-      } else {
-        playNext(target);
+      for (let i = 0; i < existingPlayers.length; i++) {
+        if (i < newPlayerCount) {
+          existingPlayers[i].classList.remove('off');
+        } else {
+          existingPlayers[i].src = '';
+          existingPlayers[i].pause();
+          existingPlayers[i].classList.add('off');
+        }
       }
-    };
 
-    const updateMediaPlayerCount = (count = 4) => {
-      const newPlayerCount = Math.min(filelist.length, count);
-      for (let i = mediaPlayers.length; i < newPlayerCount; i++) {
+      for (let i = existingPlayers.length; i < newPlayerCount; i++) {
         const { wrapper, player } = addWrappedVideo({
           to: container,
           class: `i${i}`,
           id: `i${i}`,
+          idx: i,
+          src: await nextFile(),
+          nextFile,
         });
-        wrapper.style.setProperty('--playerIdx', i);
-        wrapper.style.setProperty('--s-playerIdx', `'${i}'`);
-
-        player.addEventListener('ended', onEndedPlayNext, {});
-        player.addEventListener('error', onErrorPlayNext, {});
-        resetHandlers.push(() => {
-          player.removeEventListener('ended', onEndedPlayNext, {});
-          player.removeEventListener('error', onErrorPlayNext, {});
-        });
-        mediaPlayers.push(player);
       }
-      mediaPlayers.forEach((mediaPlayer, i) => {
-        if (i < newPlayerCount) {
-          mediaPlayer.classList.remove('off');
-          if (!mediaPlayer.playing) {
-            playNext(mediaPlayer);
-          }
-        } else {
-          mediaPlayer.pause();
-          mediaPlayer.classList.add('off');
-        }
-      });
     };
 
-    const unsub = config.max_interleaved.subscribe(updateMediaPlayerCount);
-    updateMediaPlayerCount(config.max_interleaved.value);
+    const unsub = config.max_interleaved.subscribe(updateMediaPlayers);
 
     // const grid = (showAsGrid = !_showAsGrid) => {
     //   if (_showAsGrid !== showAsGrid) {
@@ -852,21 +833,17 @@ const initBrowsePreview = ({ document: { body } }) => {
     // };
 
     const play = () => {
-      reset();
-      mediaPlayers
-        .filter((mediaPlayer) => !mediaPlayer.classList.contains('off'))
-        .forEach((mediaPlayer) => {
-          playNext(mediaPlayer);
-        });
+      updateMediaPlayers();
+      activeMediaPlayers().forEach((mediaPlayer) => {
+        mediaPlayer.querySelector('video').play();
+      });
       container.classList.add('playing');
       container.classList.remove('paused');
     };
     const pause = () => {
-      mediaPlayers
-        .filter((mediaPlayer) => !mediaPlayer.classList.contains('off'))
-        .forEach((mediaPlayer) => {
-          mediaPlayer.pause();
-        });
+      activeMediaPlayers().forEach((mediaPlayer) => {
+        mediaPlayer.querySelector('video').pause();
+      });
       container.classList.add('paused');
       container.classList.remove('playing');
     };
@@ -883,39 +860,38 @@ const initBrowsePreview = ({ document: { body } }) => {
     return {
       play,
       pause,
-      reset,
     };
   })({ to: players, config });
 
-  const linearPlayer = (({ to, config }) => {
-    const container = GM_addElement(to, 'section', {
-      class: 'player linear paused',
-    });
+  // const linearPlayer = (({ to, config }) => {
+  //   const container = GM_addElement(to, 'section', {
+  //     class: 'player linear paused',
+  //   });
 
-    ['last', 'cue-prev', 'current', 'cue-next'].forEach((cl) =>
-      addWrappedVideo({ to: container, class: cl }),
-    );
+  //   ['last', 'cue-prev', 'current', 'cue-next'].forEach((cl) =>
+  //     addWrappedVideo({ to: container, class: cl }),
+  //   );
 
-    const filelist = getFileList({ repeat: true, shuffle: false });
+  //   const filelist = getFileList({ repeat: true, shuffle: false });
 
-    return {
-      play: () => {
-        container.querySelectorAll('current').forEach((video) => {
-          video.src = filelist?.next().value;
-          video.play();
-        });
-        container.classList.add('playing');
-        container.classList.remove('paused');
-      },
-      pause: () => {
-        container.querySelectorAll('current').forEach((video) => {
-          video.pause();
-        });
-        container.classList.add('paused');
-        container.classList.remove('playing');
-      },
-    };
-  })({ to: players, config });
+  //   return {
+  //     play: () => {
+  //       container.querySelectorAll('current').forEach((video) => {
+  //         video.src = filelist?.next().value;
+  //         video.play();
+  //       });
+  //       container.classList.add('playing');
+  //       container.classList.remove('paused');
+  //     },
+  //     pause: () => {
+  //       container.querySelectorAll('current').forEach((video) => {
+  //         video.pause();
+  //       });
+  //       container.classList.add('paused');
+  //       container.classList.remove('playing');
+  //     },
+  //   };
+  // })({ to: players, config });
 
   document.querySelectorAll('a.file').forEach((file) =>
     file.addEventListener('click', (e) => {
@@ -967,9 +943,13 @@ const browsePreviewToggleIds = addStyleToggles([
     .then(({ window, unsafeWindow }) => {
       console.debug('document ready');
 
-      if (isDirectory) {
-        initBrowsePreview(unsafeWindow);
-      }
+      return Promise.all([
+        matchExistsFor('a.file').then((node) => {
+          if (isDirectory) {
+            initBrowsePreview(unsafeWindow);
+          }
+        }),
+      ]);
     })
     .catch((e) => console.warn(e)),
 );

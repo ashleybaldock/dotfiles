@@ -71,7 +71,7 @@ echo matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\(\s*\)\zs"\ze.*\n\1"', 10, -1, #{
 " Blank first line
 echo matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\(\s*\)\zs"\ze\s*\n\1"', 10, -1, #{conceal: s:parts.fb})
 " Non-blank last line
-echo matchadd('Conceal', '^\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: s:parts.ll})
+echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: s:parts.ll})
 " Blank last line
 echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze\s*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: s:parts.lb})
 

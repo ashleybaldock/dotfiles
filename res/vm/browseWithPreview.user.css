@@ -692,12 +692,6 @@ body > h1 {
 /*!}}}2*/
 
 /*!{{{2 @property */
-@property --interleave-delay {
-  syntax: '<time>';
-  inherits: true;
-  initial-value: 500ms;
-}
-
 @property --interleave-duration-per {
   syntax: '<time>';
   inherits: true;
@@ -839,10 +833,8 @@ body > section:has(> video, > .vidwrap) {
   animation-fill-mode: initial;
   animation-iteration-count: infinite;
   animation-name: translate;
-  animation-duration: calc(
-    var(--interleave-duration-per, 500ms) * (var(--playerCount, 4) - 1)
-  );
-  animation-timing-function: steps(calc(var(--playerCount) + 0), jump-end);
+  animation-duration: calc(var(--interleave-duration-per) * var(--playerCount));
+  animation-timing-function: steps(var(--playerCount), jump-both);
   height: var(--playerHeight);
   min-height: var(--playerHeight);
   min-width: var(--playerWidth);

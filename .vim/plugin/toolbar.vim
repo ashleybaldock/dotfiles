@@ -343,6 +343,7 @@ endfunc
 
 function! GetGitInfo()
   " TODO get real git info
+  " git --no-optional-locks status --porcelain=2 -z
   return #{
         \ lastSynced: localtime(),
         \ unsynced: 1,

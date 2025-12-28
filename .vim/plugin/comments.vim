@@ -53,28 +53,40 @@ let s:parts = #{
       \ ml: '│', mb: '┊',
       \ ll: '⎩', lb: '╰',
       \ ol: 'ᩕ', ob: '⁞',
+      \ bl: '>', bb: '+',
+      \ sl: '<', sb: '-',
       \}
 
-"
-" Multi-line comments
-"
-" Non-blank middle line
-echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze.*\n\1"', 10, -1, #{conceal: s:parts.ml})
-" Blank middle line
-echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze\s*\n\1"', 10, -1, #{conceal: s:parts.mb})
-" Non-blank first line
-echo matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\(\s*\)\zs"\ze.*\n\1"', 10, -1, #{conceal: s:parts.fl})
-" Blank first line
-echo matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\(\s*\)\zs"\ze\s*\n\1"', 10, -1, #{conceal: s:parts.fb})
-" Non-blank last line
-echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: s:parts.ll})
-" Blank last line
-echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze\s*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: s:parts.lb})
 
 "
 " Single-line comments
 "
 " Non-blank single line
-echo matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: s:parts.ol})
+echo matchadd('Conceal', '^\s*\%([^" ].*\)\?\n\s*\zs"\ze.*\n\s*\%([^" ].*\)\?$', 10, -1, #{conceal: s:parts.ol})
 " Blank single line
-echo matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze\s*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: s:parts.ob})
+echo matchadd('Conceal', '^\s*\%([^" ].*\)\?\n\s*\zs"\ze\s*\n\s*\%([^" ].*\)\?$', 10, -1, #{conceal: s:parts.ob})
+
+"
+" Multi-line comments
+"
+" Non-blank first line
+echo matchadd('Conceal', '^\s*\%([^" ]\|$\).*\n\(\s*\)\zs"\ze.*\n\1"', 10, -1, #{conceal: s:parts.fl})
+" Blank first line
+echo matchadd('Conceal', '^\s*\%([^" ]\|$\).*\n\(\s*\)\zs"\ze\s*\n\1"', 10, -1, #{conceal: s:parts.fb})
+" Non-blank last line
+echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze.*\n\s*\%([^" ]\|$\)', 10, -1, #{conceal: s:parts.ll})
+" Blank last line
+echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze\s*\n\s*\%([^" ]\|$\)', 10, -1, #{conceal: s:parts.lb})
+" Non-blank middle line
+echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze.*\n\1"', 10, -1, #{conceal: s:parts.ml})
+" Blank middle line
+echo matchadd('Conceal', '^\(\s*\)".*\n\1\zs"\ze\s*\n\1"', 10, -1, #{conceal: s:parts.mb})
+
+" Non-blank middle line, bigger indent
+echo matchadd('Conceal', '^\(\s*\)".*\n\(\1\s\+\)\zs"\ze.*\n\2"', 10, -1, #{conceal: s:parts.bl})
+" Blank middle line, bigger indent
+echo matchadd('Conceal', '^\(\s*\)".*\n\(\1\s\+\)\zs"\ze\s*\n\2"', 10, -1, #{conceal: s:parts.bb})
+" Non-blank middle line, smaller indent
+" echo matchadd('Conceal', '^\(\s*\)".*\n\(\1\s\+\)\zs"\ze.*\n\2"', 10, -1, #{conceal: s:parts.sl})
+
+" echo matchadd('Conceal', '^\(\s*\)".*\n\(\s*\)\zs"\ze.*\n\2\s\+"', 10, -1, #{conceal: s:parts.sb})

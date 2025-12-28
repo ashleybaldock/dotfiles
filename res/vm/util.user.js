@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.121
+// @version     1.1.123
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -109,12 +109,31 @@ const trackVisibility = (
   }
 )({ window: unsafeWindow, notify: console });
 
-const trackPageFocus = (
-  ({ window, window: { document }, notify }) =>
-  () => {
-    const hide_focused = () => delete document.documentElement.dataset.focused;
-    const show_focused = () => (document.documentElement.dataset.focused = '');
+const trackPageFocus = (({ window, window: { document }, notify, signal }) => {
+  const hide_focused = () => delete document.documentElement.dataset.focused;
+  const show_focused = () => (document.documentElement.dataset.focused = '');
 
+  async function* focusGenerator() {
+    signal?.throwIfAborted();
+
+    const on_focus = () => {
+      notify.info('page gained focus');
+      show_focused();
+    };
+
+    window.addEventListener('focus', on_focus);
+
+    signal?.addEventListener(
+      'abort',
+      () => {
+        reject?.(signal.reason);
+        window.removeEventListener('focus', on_focus);
+      },
+      { once: true },
+    );
+  }
+
+  return () => {
     const on_blur = () => {
       notify.info('page lost focus');
       hide_focused();
@@ -130,12 +149,18 @@ const trackPageFocus = (
     document.hasFocus() ? show_focused() : hide_focused();
 
     return () => {
-      window.removeEventListener('blur', on_blur);
-      window.removeEventListener('focus', on_focus);
-      hide_focused();
+      return {
+        abort: () => {
+          hide_focused();
+          window.removeEventListener('blur', on_blur);
+          window.removeEventListener('focus', on_focus);
+        },
+      };
     };
-  }
-)({ window: unsafeWindow, notify: console });
+  };
+})({ window: unsafeWindow, notify: console });
+
+const blurOnBlur = () => {};
 
 class DefaultedMap extends Map {
   #defaultValue;

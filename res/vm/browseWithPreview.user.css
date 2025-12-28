@@ -1944,3 +1944,160 @@ body > table > thead > tr::before {
   --radius: 18vw;
   inset: auto 5vw -30vh auto;
 }
+
+body {
+  grid-template-columns:
+    [left spacer-start preview-start files-start filestatus-start] 4ch 1ch [filestatus-end options-start filename-start] repeat(
+      var(--main-layout-column-count),
+      100fr
+    )
+    [filename-end filesize-start] auto [filesize-end filedate-start] auto [filedate-end files-end options-end preview-end spacer-end right];
+  grid-template-columns:
+    [left spacer-start preview-start filestatus-start] 5ch 2ch [filestatus-end options-start filename-start] repeat(
+      var(--main-layout-column-count),
+      100fr
+    )
+    [filename-end filesize-start] auto [filesize-end filedate-start] auto [filedate-end options-end preview-end spacer-end right];
+  grid-template-rows: [top spacer-start]auto[spacer-end options-start]3em[options-end fhead-start]2em[fhead-end files-start]auto[ bottom];
+}
+td:first-child > a {
+  grid-column: 3/-5;
+}
+body
+  > table
+  > :where(tbody, thead)
+  > tr
+  > :where(td:first-child + td + td, th:first-child + th + th) {
+  grid-column: filedate;
+}
+body
+  > table
+  > :where(tbody, thead)
+  > tr
+  > :where(td:first-child + td, th:first-child + th) {
+  grid-column: filesize;
+}
+body > table > tbody > tr {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: 1fr;
+  grid-column: files-start/files-end;
+  align-content: center;
+  align-items: center;
+}
+td:first-child > a {
+  grid-column: filename-start/filename-end;
+}
+body > table > tbody > tr::before {
+  grid-column: filestatus-start/span 1;
+  grid-row: 1;
+  place-self: center stretch;
+}
+body > table > tbody > tr > td > table > tbody > tr::before {
+  grid-column: filestatus-start/filestatus-end;
+  grid-row: 1;
+  place-self: start end;
+  z-index: 10;
+  inset: var(--inset-files);
+  --bg: hsl(
+    calc(360deg / var(--playerCount) * var(--playerIdx)) 80% 50% / 100%
+  );
+  --angle: calc(360deg / var(--playerCount) * var(--playerIdx));
+  --h: calc(var(--angle), 90deg);
+  --s: 60deg;
+  --l: 50%;
+  --a: 20%;
+  mask-composite: add;
+  mask-position: center center;
+  mask-size: contain;
+  mask-origin: content-box;
+  mask-clip: content-box;
+  text-align: center;
+  /*   white-space: preserve-spaces; */
+  color: #fff;
+  padding: 2px;
+  /*   padding: 0; */
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  display: flex;
+  line-height: normal;
+  font-size: 1em;
+  aspect-ratio: 1;
+  width: auto;
+  opacity: 1;
+  visibility: visible;
+  mask-repeat: no-repeat;
+  z-index: 60;
+
+  overflow: visible;
+  background-clip: padding-box;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-blend-mode: normal;
+  background-image:
+    radial-gradient(
+      farthest-corner circle at center,
+      var(--c1),
+      var(--c2) 50% 57%,
+      #fffa 60% 62%,
+      #000 65%,
+      #0000 68%
+    ),
+    radial-gradient(
+      farthest-side circle at center,
+      #fdd8 30%,
+      #fff2 60% 70%,
+      #00000050 120%,
+      #0008 180%,
+      #0000 0
+    ),
+    radial-gradient(
+      farthest-side circle at center,
+      #fff0 22%,
+      #fff8 50% 56%,
+      #fff4 58%,
+      #fff0 61%
+    ),
+    radial-gradient(
+      farthest-corner circle at center,
+      #0001 55%,
+      #0002 60%,
+      #000 60%,
+      #0000 63%
+    );
+  --c1: hsl(from var(--bg) h s l / 100%);
+  --c2: hsl(from var(--bg) h s calc(l * 0.66) / 100%);
+  background-size: contain;
+
+  font-family: SF Pro;
+
+  --text-shadow:
+    var(--tot－) var(--tot０) var(--tob) var(--toc-l),
+    var(--tot＋) var(--tot０) var(--tob) var(--toc-r),
+    var(--tot０) var(--tot＋) var(--tob) var(--toc-b),
+    var(--tot０) var(--tot－) var(--tob) var(--toc-t),
+    var(--tot－) var(--tot－) var(--tob) var(--toc-tl),
+    var(--tot＋) var(--tot－) var(--tob) var(--toc-tr),
+    var(--tot＋) var(--tot＋) var(--tob) var(--toc-br),
+    var(--tot－) var(--tot＋) var(--tob) var(--toc-bl);
+  text-shadow: var(--text-shadow);
+  --tot＋: calc(var(--text-outline-thickness) * 0.5);
+  --tot－: calc(var(--text-outline-thickness) * -0.5);
+  --tot０: 0;
+  --tob: 0.1px;
+  --toc: var(--text-outline-color, #000);
+  --toc-l: var(--toc);
+  --toc-r: var(--toc);
+  --toc-t: var(--toc);
+  --toc-b: var(--toc);
+  --toc-tl: var(--toc);
+  --toc-tr: var(--toc);
+  --toc-br: var(--toc);
+  --toc-bl: var(--toc);
+
+  --text-outline-color: #000a;
+  --text-outline-thickness: 0.06em;
+  --text-outline-blur: 0.5px;
+}

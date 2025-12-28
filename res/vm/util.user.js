@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.130
+// @version     1.1.133
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -189,10 +189,12 @@ const logFocus = (
 )({ unsafeWindow });
 
 /**
- * Blurs elements matching selector when window loses focus
+ * Hides elements matching selector when window loses focus
  * Adds full-screen modal requiring a click to unblur
+ *
+ * @param timeout: time to wait after losing focus before obscuring
  */
-const blurOnBlur = async ({ selector = 'video' }) => {
+const bluronblur = async ({ selector = 'video', timeout = 30 }) => {
   const modal = mu.makeElement({ tagName: 'dialog', styles: {} });
 
   for await (focusEvent of pageFocusTracker.track()) {
@@ -1172,6 +1174,13 @@ const mu = (({ document, console }) => {
     return el;
   };
 
+  const addDataTo = (data = {}, el) => {
+    for (const [name, value] of Object.entries(data)) {
+      el.data[name] = value;
+    }
+    return el;
+  };
+
   const addStylesTo = (styles = {}, el) => {
     for (const [name, value] of Object.entries(styles)) {
       el.style.setProperty(name, value);
@@ -1187,13 +1196,27 @@ const mu = (({ document, console }) => {
   } = {}) =>
     addStylesTo(
       styles,
-      addAttributesTo(attributes, document.createElement(name)),
+      addDataTo(
+        data,
+        addAttributesTo(attributes, document.createElement(name)),
+      ),
     );
 
-  const makeSvgElement = ({ name, attributes = {}, data = {} } = {}) =>
-    addAttributesTo(
-      document.createElementNS('http://www.w3.org/2000/svg', name),
-      attributes,
+  const makeSvgElement = ({
+    name,
+    styles = {},
+    attributes = {},
+    data = {},
+  } = {}) =>
+    addStylesTo(
+      styles,
+      addDataTo(
+        data,
+        addAttributesTo(
+          attributes,
+          document.createElementNS('http://www.w3.org/2000/svg', name),
+        ),
+      ),
     );
 
   // const splitSvgPath = (...pathElements) =>

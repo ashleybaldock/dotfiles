@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.317
+// @version     1.0.319
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -957,6 +957,15 @@ const browsePreviewToggleIds = addStyleToggles([
       },
     ],
   },
+  {
+    title: 'blur on blur',
+    enabled: true,
+    sources: [
+      {
+        baseName: 'bluronblur',
+      },
+    ],
+  },
 ]).then(() =>
   Promise.race([timeout({ s: 30 }), readyStateComplete()])
     .catch(() => console.debug('timed out waiting for readyStateComplete'))
@@ -967,6 +976,8 @@ const browsePreviewToggleIds = addStyleToggles([
         matchExistsFor('a.file').then((node) => {
           if (isDirectory) {
             initBrowsePreview(unsafeWindow);
+
+            bluronblur({ timeout: 10 });
           }
         }),
       ]);

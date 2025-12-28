@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.310
+// @version     1.0.315
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -328,7 +328,7 @@ const addWrappedVideo = ({
   if (autoplay !== false) {
     playNext();
   }
-  return { wrapper, player: video };
+  return { wrapper, player: video, play: video.play(), pause: video.pause() };
 };
 
 const initBrowsePreview = ({ document: { body } }) => {
@@ -342,102 +342,104 @@ const initBrowsePreview = ({ document: { body } }) => {
     const defineString = (_val = '') => {
       const subs = new Set();
 
-      const notify = () => {
-        subs.forEach((sub) => sub(_val));
+      const notify = () =>
+        Promise.allSettled(subs.map((sub) => Promise.resolve(sub(_val))));
+
+      const subscribe = (callback) => {
+        subs.add(callback);
+        Promise.resolve(_val).then(callback);
+        return () => subs.remove(callback);
       };
+
+      const set = (newValue) => {
+        _val = newValue;
+        notify();
+        return _val;
+      };
+
       return {
         get value() {
           return _val;
         },
         set value(newValue) {
-          _val = newValue;
-          notify();
-          return _val;
+          return set(newValue);
         },
-        set: (newValue) => {
-          _val = newValue;
-          notify();
-          return _val;
-        },
-        subscribe: (callback, updateNow = true) => {
-          subs.add(callback);
-          updateNow && callback(_val);
-          return () => subs.remove(callback);
-        },
+        set,
+        subscribe,
       };
     };
 
     const defineNumber = (_val = 0) => {
       const subs = new Set();
 
-      const notify = () => {
-        subs.forEach((sub) => sub(_val));
+      const notify = () =>
+        Promise.allSettled(subs.map((sub) => Promise.resolve(sub(_val))));
+
+      const subscribe = (callback) => {
+        subs.add(callback);
+        Promise.resolve(_val).then(callback);
+        return () => subs.remove(callback);
       };
+
+      const set = (newValue) => {
+        _val = newValue;
+        notify();
+        return _val;
+      };
+
       return {
         get value() {
           return _val;
         },
         set value(newValue) {
-          _val = newValue;
-          notify();
-          return _val;
+          return set(newValue);
         },
-        set: (newValue) => {
-          _val = newValue;
-          notify();
-          return _val;
-        },
-        subscribe: (callback, updateNow = true) => {
-          subs.add(callback);
-          updateNow && callback(_val);
-          return () => subs.remove(callback);
-        },
+        set,
+        subscribe,
       };
     };
 
     const defineToggle = (_val = false) => {
       const subs = new Set();
 
-      const notify = () => {
-        subs.forEach((sub) => sub(_val));
+      const notify = () =>
+        Promise.allSettled(subs.map((sub) => Promise.resolve(sub(_val))));
+
+      const subscribe = (callback) => {
+        subs.add(callback);
+        Promise.resolve(_val).then(callback);
+        return () => subs.remove(callback);
       };
+
+      const set = (newValue) => {
+        _val = newValue;
+        notify();
+        return _val;
+      };
+      const toggle = () => set(!_val);
 
       return {
         get value() {
           return _val;
         },
         set value(newValue) {
-          _val = newValue;
-          notify();
-          return _val;
+          return set(newValue);
         },
-        set: (newValue) => {
-          _val = newValue;
-          notify();
-          return _val;
-        },
-        toggle: () => {
-          _val = !_val;
-          notify();
-          return _val;
-        },
-        subscribe: (callback, updateNow = true) => {
-          subs.add(callback);
-          updateNow && callback(_val);
-          return () => subs.remove(callback);
-        },
+        set,
+        toggle,
+        subscribe,
       };
     };
 
     const defineSequence = (_vals = ['a', 'b', 'c'], _val = _vals[0]) => {
       const subs = new Set();
 
-      const notify = () => {
-        subs.forEach((sub) => sub(_val));
-      };
-      const subscribe = (callback, updateNow = true) => {
+      const notify = () =>
+        Promise.allSettled(subs.map((sub) => Promise.resolve(sub(_val))));
+
+      const subscribe = (callback) => {
         subs.add(callback);
-        updateNow && callback(_val);
+        Promise.resolve(_val).then(callback);
         return () => subs.remove(callback);
       };
 

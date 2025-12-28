@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.126
+// @version     1.1.128
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -113,82 +113,90 @@ const pageFocusTracker = (({ window, window: { document }, notify }) => {
   const hide_focused = () => delete document.documentElement.dataset.focused;
   const show_focused = () => (document.documentElement.dataset.focused = '');
 
-  const track = async ({callback, signal}) => {
-    async function* focusGenerator() {
-      signal?.throwIfAborted();
+  return {
+    track: async ({ callback, signal }) => {
+      async function* focusGenerator() {
+        signal?.throwIfAborted();
 
-      let { promise, resolve, reject } = Promise.withResolvers();
+        let { promise, resolve, reject } = Promise.withResolvers();
 
-      const on_focus = () => resolve('focus');
-      const on_blur = () => resolve('blur');
+        const on_focus = () => resolve('focus');
+        const on_blur = () => resolve('blur');
 
-      window.addEventListener('focus', on_focus);
-      window.addEventListener('blur', on_blur);
+        window.addEventListener('focus', on_focus);
+        window.addEventListener('blur', on_blur);
 
-      signal?.addEventListener(
-        'abort',
-        () => {
-          reject?.(signal.reason);
+        signal?.addEventListener(
+          'abort',
+          () => {
+            reject?.(signal.reason);
+            window.removeEventListener('focus', on_focus);
+            window.removeEventListener('blur', on_blur);
+          },
+          { once: true },
+        );
+
+        try {
+          while (true) {
+            signal?.throwIfAborted();
+            yield await promise;
+            ({ promise, resolve, reject } = Promise.withResolvers());
+          }
+        } finally {
           window.removeEventListener('focus', on_focus);
           window.removeEventListener('blur', on_blur);
-        },
-        { once: true },
-      );
-
-      try {
-        while (true) {
-          signal?.throwIfAborted();
-          yield await promise;
-          ({ promise, resolve, reject } = Promise.withResolvers());
         }
-      } finally {
-        window.removeEventListener('focus', on_focus);
-        window.removeEventListener('blur', on_blur);
       }
-    }
 
-    // window.addEventListener('blur', on_blur);
-    // window.addEventListener('focus', on_focus);
+      // window.addEventListener('blur', on_blur);
+      // window.addEventListener('focus', on_focus);
 
-    // document.hasFocus() ? show_focused() : hide_focused();
+      // document.hasFocus() ? show_focused() : hide_focused();
 
-    // return () => {
-    //   return {
-    //     abort: () => {
-    //       hide_focused();
-    //       window.removeEventListener('blur', on_blur);
-    //       window.removeEventListener('focus', on_focus);
-    //     },
-    //   };
-    // };
-    if (callback !== undefined) {
-      for await (focusEvent of focusGenerator()) {
-        callback(focusEvent);
+      // return () => {
+      //   return {
+      //     abort: () => {
+      //       hide_focused();
+      //       window.removeEventListener('blur', on_blur);
+      //       window.removeEventListener('focus', on_focus);
+      //     },
+      //   };
+      // };
+      if (callback !== undefined) {
+        for await (focusEvent of focusGenerator()) {
+          callback(focusEvent);
+        }
+        return Promise.reject('Aborted');
+      } else {
+        return {
+          async *[Symbol.asyncIterator]() {
+            return focusGenerator();
+          },
+        };
       }
-      return Promise.reject('Aborted');
-    } else {
-      return {
-        async *[Symbol.asyncIterator]() {
-          return focusGenerator();
-        },
-      };
-    }
+    },
   };
-  if (undefined !== notify) {
-    for await (focusEvent of track()) {
+})({ window: unsafeWindow });
+
+const logFocus = (
+  ({ console }) =>
+  async ({ notify = console }) => {
+    for await (focusEvent of pageFocusTracker.track()) {
       focusEvent === 'focus' && notify.info('page gained focus');
       focusEvent === 'blur' && notify.info('page lost focus');
     }
   }
-  return {
-    track,
-  };
-})({ window: unsafeWindow, notify: console });
+)({ unsafeWindow });
 
-const blurOnBlur = () => {
+/**
+ * Blurs elements matching selector when window loses focus
+ * Adds full-screen modal requiring a click to unblur
+ */
+const blurOnBlur = async ({ selector = 'video' }) => {
   for await (focusEvent of pageFocusTracker.track()) {
-    focusEvent === 'focus' && notify.info('page gained focus');
-    focusEvent === 'blur' && notify.info('page lost focus');
+    if (focusEvent === 'blur') {
+      // qs`${selector}`.all.
+    }
   }
 };
 

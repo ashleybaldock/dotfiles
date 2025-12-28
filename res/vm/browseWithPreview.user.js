@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.309
+// @version     1.0.310
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -480,6 +480,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       shuffle_on_repeat: defineToggle(true),
       reload_on_repeat: defineToggle(true),
       filter: defineString('.*\.mp4$'),
+      debug: defineToggle(false),
     };
   })({});
 
@@ -519,6 +520,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       shuffle_on_load,
       shuffle_on_repeat,
       reload_on_repeat,
+      debug,
     },
   }) => {
     const repeatGrouping = addGrouping({ to });
@@ -638,6 +640,12 @@ const initBrowsePreview = ({ document: { body } }) => {
         textContent: `File List: ${v}`,
       })),
       to: filesGrouping,
+    });
+    addToggle({
+      textContent: 'Debug Mode',
+      bindTo: debug,
+      name: 'debug',
+      to,
     });
   })({ to: toggles, config });
 

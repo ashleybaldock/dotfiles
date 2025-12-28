@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.123
+// @version     1.1.126
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -109,58 +109,88 @@ const trackVisibility = (
   }
 )({ window: unsafeWindow, notify: console });
 
-const trackPageFocus = (({ window, window: { document }, notify, signal }) => {
+const pageFocusTracker = (({ window, window: { document }, notify }) => {
   const hide_focused = () => delete document.documentElement.dataset.focused;
   const show_focused = () => (document.documentElement.dataset.focused = '');
 
-  async function* focusGenerator() {
-    signal?.throwIfAborted();
+  const track = async ({callback, signal}) => {
+    async function* focusGenerator() {
+      signal?.throwIfAborted();
 
-    const on_focus = () => {
-      notify.info('page gained focus');
-      show_focused();
-    };
+      let { promise, resolve, reject } = Promise.withResolvers();
 
-    window.addEventListener('focus', on_focus);
+      const on_focus = () => resolve('focus');
+      const on_blur = () => resolve('blur');
 
-    signal?.addEventListener(
-      'abort',
-      () => {
-        reject?.(signal.reason);
-        window.removeEventListener('focus', on_focus);
-      },
-      { once: true },
-    );
-  }
+      window.addEventListener('focus', on_focus);
+      window.addEventListener('blur', on_blur);
 
-  return () => {
-    const on_blur = () => {
-      notify.info('page lost focus');
-      hide_focused();
-    };
-
-    const on_focus = () => {
-      notify.info('page gained focus');
-      show_focused();
-    };
-    window.addEventListener('blur', on_blur);
-    window.addEventListener('focus', on_focus);
-
-    document.hasFocus() ? show_focused() : hide_focused();
-
-    return () => {
-      return {
-        abort: () => {
-          hide_focused();
-          window.removeEventListener('blur', on_blur);
+      signal?.addEventListener(
+        'abort',
+        () => {
+          reject?.(signal.reason);
           window.removeEventListener('focus', on_focus);
+          window.removeEventListener('blur', on_blur);
+        },
+        { once: true },
+      );
+
+      try {
+        while (true) {
+          signal?.throwIfAborted();
+          yield await promise;
+          ({ promise, resolve, reject } = Promise.withResolvers());
+        }
+      } finally {
+        window.removeEventListener('focus', on_focus);
+        window.removeEventListener('blur', on_blur);
+      }
+    }
+
+    // window.addEventListener('blur', on_blur);
+    // window.addEventListener('focus', on_focus);
+
+    // document.hasFocus() ? show_focused() : hide_focused();
+
+    // return () => {
+    //   return {
+    //     abort: () => {
+    //       hide_focused();
+    //       window.removeEventListener('blur', on_blur);
+    //       window.removeEventListener('focus', on_focus);
+    //     },
+    //   };
+    // };
+    if (callback !== undefined) {
+      for await (focusEvent of focusGenerator()) {
+        callback(focusEvent);
+      }
+      return Promise.reject('Aborted');
+    } else {
+      return {
+        async *[Symbol.asyncIterator]() {
+          return focusGenerator();
         },
       };
-    };
+    }
+  };
+  if (undefined !== notify) {
+    for await (focusEvent of track()) {
+      focusEvent === 'focus' && notify.info('page gained focus');
+      focusEvent === 'blur' && notify.info('page lost focus');
+    }
+  }
+  return {
+    track,
   };
 })({ window: unsafeWindow, notify: console });
 
-const blurOnBlur = () => {};
+const blurOnBlur = () => {
+  for await (focusEvent of pageFocusTracker.track()) {
+    focusEvent === 'focus' && notify.info('page gained focus');
+    focusEvent === 'blur' && notify.info('page lost focus');
+  }
+};
 
 class DefaultedMap extends Map {
   #defaultValue;

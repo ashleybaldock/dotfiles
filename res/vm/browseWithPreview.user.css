@@ -1914,3 +1914,22 @@ body > table > thead > tr::before {
 :root:has([name='filelist'][value='hide']:checked) body > table {
   display: none;
 }
+
+:root:has([id='toggle_debug']:checked) .interleave {
+  transform: scale(calc(1 / var(--playerCount))) var(--ani-transform);
+  background-image: linear-gradient(#f22 0 0);
+  box-shadow:
+    0 6vh 0 -2vh #f0f,
+    0 -6vh 0 -2vh #f0f;
+}
+
+:root:has([id='toggle_debug']:checked) .interleave .vidwrap {
+  background-image: linear-gradient(#22aa 0 0);
+  /*   outline: 2vh solid #000; */
+  box-shadow: 0 0 0 2vh #000;
+}
+
+:root:has([id='toggle_debug']:checked) .interleave .vidwrap::after {
+  --radius: 18vw;
+  inset: auto 5vw -30vh auto;
+}

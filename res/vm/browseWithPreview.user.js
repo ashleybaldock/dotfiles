@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.315
+// @version     1.0.317
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -471,7 +471,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       includeVideoFiles: defineToggle(true),
       includeOtherFiles: defineToggle(false),
       includeHiddenFiles: defineToggle(false),
-      playpause: defineSequence(sequences.playpause, 'paused'),
+      playpause: defineSequence(sequences.playpause, 'playing'),
       showGrid: defineToggle(false),
       grid_fit: defineSequence(sequences.fit),
       player: defineSequence(sequences.player, 'interleave'),
@@ -822,7 +822,7 @@ const initBrowsePreview = ({ document: { body } }) => {
           existingPlayers[i].classList.remove('off');
         } else {
           existingPlayers[i].src = '';
-          existingPlayers[i].pause();
+          existingPlayers[i].querySelector('video').pause();
           existingPlayers[i].classList.add('off');
         }
       }

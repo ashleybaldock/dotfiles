@@ -393,15 +393,33 @@ label:has([id='playpause_paused']) {
 
   --main-layout-column-count: 24;
 
+  --margin-top: 0 0 0 0;
+  --margin-options: 0 0 0 0;
+
+  --inset-body: 0 auto 0 auto;
+  --inset-top: 0 auto auto auto;
   --inset-player: 0 0 0 0;
 
-  --inset-top: 0 auto auto auto;
-  --margin-top: 0 0 0 0;
-  --inset-options: 68vh auto auto auto;
-  --margin-options: 0 0 0 0;
-  --inset-files: 60vh auto auto auto;
-  --inset-spacer: auto auto 100vh auto;
-  --margin-spacer: 0 0 74vh 0;
+  /* --margin-spacer: 0 0 74vh 0; */
+  /* --inset-spacer: auto auto 100vh auto; */
+  /* --inset-options: 66vh auto auto auto; */
+  /* --inset-files: 67vh auto auto auto; */
+
+  --options-from-top: 76vh;
+  --files-from-top: 78vh;
+
+  --inset-player: -20vh auto 20vh auto;
+  --inset-player-fixed: 0 0 0 0;
+  --margin-player-fixed: 0 0 0 0;
+  --margin-player: 20vh 0 20vh 0;
+
+  --margin-spacer: 0 0 var(--options-from-top) 0;
+  --inset-spacer: auto auto calc(var(--options-from-top) * -1) auto;
+
+  --inset-options: var(--options-from-top) auto auto auto;
+  --inset-files: var(--files-from-top) auto auto auto;
+
+  --c-bg: #090909;
 
   --z-spacer: 0;
   --z-linear-last: 1;
@@ -412,8 +430,6 @@ label:has([id='playpause_paused']) {
   --z-linear-cue-next-playing: 12;
   --z-linear-current-playing: 10;
   --z-player: 30;
-  --z-other-playpause-overlay: 33;
-  --z-topmost-playpause-overlay: 34;
   --z-toggles: 35;
   --z-other-labels: 39;
   --z-topmost-sequencetoggle-label: 40;
@@ -421,6 +437,9 @@ label:has([id='playpause_paused']) {
   --z-options: 55;
   --z-files-header: 60;
   --z-player-diag: 100;
+  --z-other-playpause-overlay: 130;
+  --z-topmost-playpause-overlay: 140;
+  --z-debug-top: 100000;
 }
 
 /*!{{{1 Cursors */
@@ -548,7 +567,7 @@ body {
   min-height: fit-content;
   height: min-content;
   overflow: visible;
-  inset: 0 auto 0 auto;
+  inset: var(--inset-body);
   grid-auto-rows: auto;
   column-gap: 0;
   row-gap: 0;
@@ -632,6 +651,7 @@ body > h1 {
   grid-row: 1;
   grid-column: 1/-1;
   place-items: center;
+  background-color: var(--c-bg);
 }
 
 .vidwrap > * {
@@ -756,11 +776,11 @@ video {
   display: contents;
 }
 .player {
-  /* transform: scale(0.3) !important; */
   position: fixed;
   z-index: var(--z-player);
-  inset: var(--inset-player);
+  inset: var(--inset-player-fixed);
   overflow: visible !important;
+  margin: var(--margin-player-fixed);
 }
 
 .player::before {
@@ -774,16 +794,20 @@ body > section:has(> video, > .vidwrap) {
 :root:has([id='playpause_paused']:checked) .player {
   animation-play-state: paused;
 }
-/* :root:has([id='playpause_paused']:checked) .vidwrap { */
-/*   transform: none; */
-/* } */
+label:has([id='playpause_paused']:checked)::after {
+  contents: 'paused';
+  display: flex;
+  outline: 2px solid #f00;
+}
 
 :root:has([id='playpause_playing']:checked) .player {
   animation-play-state: running;
 }
-/* :root:has([id='playpause_playing']:checked) .vidwrap { */
-/*   transform: var(--ani-transform); */
-/* } */
+label:has([id='playpause_playing']:checked)::after {
+  contents: 'playing';
+  display: flex;
+  outline: 2px solid #0f0;
+}
 
 /*{{{2 Linear Player */
 :root:has([name='player'][value='linear']:checked) .linear {
@@ -924,14 +948,14 @@ body > section:has(> video, > .vidwrap) {
 }
 
 .interleave:not(.grid) > .vidwrap {
+  grid-area: unset;
+  grid-column: auto;
   grid-row: interleave;
   transform: var(--ani-transform);
 }
 
 .interleave > .vidwrap > label {
-  height: var(--playerHeight);
   z-index: var(--z-other-playpause-overlay);
-  width: var(--playerWidth);
   background-position: 50% 50%;
   background-image: var(--icon);
   background-size: 15vmax;
@@ -1024,8 +1048,7 @@ td:first-child > a {
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
-  grid-column: 4/-6;
-  grid-column: 3/-6;
+  grid-column: filename;
   inset: var(--inset-files);
   grid-row: span files-start;
   position: sticky;
@@ -1073,7 +1096,6 @@ tbody > ::before {
   --s: 60%;
   --l: 50%;
   --a: 20%;
-  display: table-cell;
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E\
     %3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E\
     %3C/path%3E\
@@ -1395,7 +1417,7 @@ body > table > tbody > tr > td[sortable-data] {
 
 body > table > :where(tbody, thead) > tr > td:first-child,
 body > table > :where(tbody, thead) > tr > th:first-child {
-  grid-column: 3/-6;
+  grid-column: filename;
   inset: var(--inset-files);
   grid-row: span files-start;
   position: sticky;
@@ -1421,7 +1443,16 @@ body > table > thead > ::before {
   z-index: var(--z-files);
   background-color: #222;
   width: 100%;
-  grid-column: 1/3;
+  grid-column: filestatus-start/span 1;
+  grid-row: 1;
+  place-self: center stretch;
+}
+
+body > table > tbody > tr > td > table > tbody > tr::before {
+  grid-column: filestatus-start/filestatus-end;
+  grid-row: 1;
+  place-self: start end;
+  z-index: 10;
 }
 
 body > table > :where(tbody, thead) > tr > :where(td, th) {
@@ -1944,20 +1975,19 @@ body > table > thead > tr::before {
   --radius: 18vw;
   inset: auto 5vw -30vh auto;
 }
+:root:has([id='toggle_debug']:checked) body::before {
+  outline: 2px dashed red;
+  z-index: var(--z-debug-top);
+}
 
 body {
   grid-template-columns:
-    [left spacer-start preview-start files-start filestatus-start] 4ch 1ch [filestatus-end options-start filename-start] repeat(
+    [left spacer-start preview-start files-start filestatus-start] 5ch 2ch [filestatus-end options-start filename-start] repeat(
       var(--main-layout-column-count),
       100fr
     )
     [filename-end filesize-start] auto [filesize-end filedate-start] auto [filedate-end files-end options-end preview-end spacer-end right];
-  grid-template-columns:
-    [left spacer-start preview-start filestatus-start] 5ch 2ch [filestatus-end options-start filename-start] repeat(
-      var(--main-layout-column-count),
-      100fr
-    )
-    [filename-end filesize-start] auto [filesize-end filedate-start] auto [filedate-end options-end preview-end spacer-end right];
+
   grid-template-rows: [top spacer-start]auto[spacer-end options-start]3em[options-end fhead-start]2em[fhead-end files-start]auto[ bottom];
 }
 td:first-child > a {
@@ -1977,13 +2007,16 @@ body
   > :where(td:first-child + td, th:first-child + th) {
   grid-column: filesize;
 }
-body > table > tbody > tr {
+
+:not(#u#n#i) body > table > tbody > tr {
   display: grid;
   grid-template-columns: subgrid;
   grid-template-rows: 1fr;
   grid-column: files-start/files-end;
   align-content: center;
   align-items: center;
+  inset: var(--inset-files);
+  position: sticky;
 }
 td:first-child > a {
   grid-column: filename-start/filename-end;
@@ -1997,7 +2030,6 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   grid-column: filestatus-start/filestatus-end;
   grid-row: 1;
   place-self: start end;
-  z-index: 10;
   inset: var(--inset-files);
   --bg: hsl(
     calc(360deg / var(--playerCount) * var(--playerIdx)) 80% 50% / 100%
@@ -2013,16 +2045,12 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   mask-origin: content-box;
   mask-clip: content-box;
   text-align: center;
-  /*   white-space: preserve-spaces; */
   color: #fff;
-  padding: 2px;
-  /*   padding: 0; */
   align-content: center;
   justify-content: center;
   justify-items: center;
   display: flex;
   line-height: normal;
-  font-size: 1em;
   aspect-ratio: 1;
   width: auto;
   opacity: 1;
@@ -2030,6 +2058,9 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   mask-repeat: no-repeat;
   z-index: 60;
 
+  padding: 1px;
+  font-size: 1.4em;
+  height: calc(var(--row-h) * 0.75);
   overflow: visible;
   background-clip: padding-box;
   background-origin: content-box;

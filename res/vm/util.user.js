@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.128
+// @version     1.1.130
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -193,9 +193,10 @@ const logFocus = (
  * Adds full-screen modal requiring a click to unblur
  */
 const blurOnBlur = async ({ selector = 'video' }) => {
+  const modal = mu.makeElement({ tagName: 'dialog', styles: {} });
+
   for await (focusEvent of pageFocusTracker.track()) {
     if (focusEvent === 'blur') {
-      // qs`${selector}`.all.
     }
   }
 };
@@ -1158,7 +1159,7 @@ const mu = (({ document, console }) => {
 
   const ambiguousTags = intersectSets(svgTags, htmlTags);
 
-  const addAttributesTo = (el, attributes = {}) => {
+  const addAttributesTo = (attributes = {}, el) => {
     for (const [name, value] of Object.entries(attributes)) {
       if (undefined === value || null === value || false === value) {
         continue;
@@ -1171,12 +1172,23 @@ const mu = (({ document, console }) => {
     return el;
   };
 
+  const addStylesTo = (styles = {}, el) => {
+    for (const [name, value] of Object.entries(styles)) {
+      el.style.setProperty(name, value);
+    }
+    return el;
+  };
+
   const makeHtmlElement = ({
     name,
     attributes = {},
     data = {},
-    style = {},
-  } = {}) => addAttributesTo(document.createElement(name), attributes);
+    styles = {},
+  } = {}) =>
+    addStylesTo(
+      styles,
+      addAttributesTo(attributes, document.createElement(name)),
+    );
 
   const makeSvgElement = ({ name, attributes = {}, data = {} } = {}) =>
     addAttributesTo(

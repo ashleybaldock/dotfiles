@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.319
+// @version     1.0.322
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -31,24 +31,23 @@ const sequences = {
   filelist: ['below', 'beside', 'hide'],
   playpause: ['playing', 'paused'],
   player: ['interleave', 'linear'],
-  interleave_delay: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-  max_interleaved: [2, 3, 4, 6, 9, 12, 16],
+  interleave_duration_ms: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  interleave_active_player_count: [2, 3, 4, 6, 9, 12, 16],
 };
 
-const isDirectory = (({ document }) =>
+const isDirectory = (({ qs }) =>
   qs`:has([href="chrome://global/skin/dirListing/dirListing.css"])`.hasSome)(
   unsafeWindow,
 );
 
-const overrideFileListClicks = () => {
+const overrideFileListClicks = (({ qs }) =>
   qs`a.file`.all.forEach((link) =>
     link.addEventListener('click', (e) => {
       qs`video`.all.setAttribute('src', link.getAttribute('href'));
       e.preventDefault();
       return false;
     }),
-  );
-};
+  ))(unsafeWindow);
 
 const addGrouping = ({ to, ...attrs } = {}) => {
   const div = GM_addElement(to, 'div', {
@@ -475,8 +474,8 @@ const initBrowsePreview = ({ document: { body } }) => {
       showGrid: defineToggle(false),
       grid_fit: defineSequence(sequences.fit),
       player: defineSequence(sequences.player, 'interleave'),
-      max_interleaved: defineNumber(8),
-      interleave_delay: defineNumber(500),
+      interleave_active_player_count: defineNumber(8),
+      interleave_duration_ms: defineNumber(500),
       repeat: defineToggle(true),
       shuffle_on_load: defineToggle(true),
       shuffle_on_repeat: defineToggle(true),
@@ -486,18 +485,18 @@ const initBrowsePreview = ({ document: { body } }) => {
     };
   })({});
 
-  (({ config: { max_interleaved, interleave_delay } }) => {
+  (({ config: { interleave_active_player_count, interleave_duration_ms } }) => {
     /* TODO - set up @property automatically */
-    max_interleaved.subscribe((newValue) => {
+    interleave_active_player_count.subscribe((newValue) => {
       setRegisteredCSSProp({
-        name: 'playerCount',
+        name: '--interleave-active-player-count',
         value: newValue,
         syntax: '<integer>',
       });
     });
-    interleave_delay.subscribe((newValue) => {
+    interleave_duration_ms.subscribe((newValue) => {
       setRegisteredCSSProp({
-        name: 'interleave-delay',
+        name: '--interleave-duration-ms',
         value: `${newValue}ms`,
         syntax: '<time>',
       });
@@ -512,8 +511,8 @@ const initBrowsePreview = ({ document: { body } }) => {
       includeVideoFiles,
       includeOtherFiles,
       includeHiddenFiles,
-      max_interleaved,
-      interleave_delay,
+      interleave_active_player_count,
+      interleave_duration_ms,
       showGrid,
       grid_fit,
       playpause,
@@ -574,18 +573,18 @@ const initBrowsePreview = ({ document: { body } }) => {
     const interleaveGrouping = addGrouping({ to: playerGrouping });
     addSequenceToggle({
       textContent: 'Max # of interleaved videos',
-      bindTo: max_interleaved,
-      name: 'max_interleaved',
-      sequence: sequences.max_interleaved.map((n) => ({
+      bindTo: interleave_active_player_count,
+      name: 'interleave_active_player_count',
+      sequence: sequences.interleave_active_player_count.map((n) => ({
         value: n,
       })),
       to: interleaveGrouping,
     });
     addSequenceToggle({
       textContent: 'Show each video for',
-      bindTo: interleave_delay,
-      name: 'interleave_delay',
-      sequence: sequences.interleave_delay.map((n) => ({
+      bindTo: interleave_duration_ms,
+      name: 'interleave_duration_ms',
+      sequence: sequences.interleave_duration_ms.map((n) => ({
         value: n,
         textContent: `Show each video for ${n}ms`,
       })),
@@ -802,44 +801,50 @@ const initBrowsePreview = ({ document: { body } }) => {
       class: 'player interleave paused',
     });
 
-    const mediaPlayers = [];
-    const activeMediaPlayers = () => [
-      ...document.querySelectorAll(
-        '.player.interleave > .vidwrap:not(:has(.off))',
-      ),
-    ];
+    const maxPlayerCount = () =>
+      document.documentElement.style.getPropertyValue(
+        '--interleave-max-player-count',
+      );
+    const activePlayerCount = () =>
+      document.documentElement.style.getPropertyValue(
+        '--interleave-max-player-count',
+      );
 
     const filelist = getFileList();
+
     const nextFile = async () => decodeURI(await filelist.next());
 
-    const updateMediaPlayers = async (count = 9) => {
-      const newPlayerCount = Math.max(Math.min(filelist.length, count), 1);
-      const container = document.querySelector('.player.interleave');
-      const existingPlayers = container.querySelectorAll('.vidwrap');
-
-      for (let i = 0; i < existingPlayers.length; i++) {
-        if (i < newPlayerCount) {
-          existingPlayers[i].classList.remove('off');
-        } else {
-          existingPlayers[i].src = '';
-          existingPlayers[i].querySelector('video').pause();
-          existingPlayers[i].classList.add('off');
-        }
-      }
-
-      for (let i = existingPlayers.length; i < newPlayerCount; i++) {
-        const { wrapper, player } = addWrappedVideo({
+    const mediaPlayers = [
+      ...mapIter(rangeIter({ start: 0, count: maxPlayerCount }), (i) =>
+        addWrappedVideo({
           to: container,
           class: `i${i}`,
           id: `i${i}`,
           idx: i,
-          src: await nextFile(),
+          src: '',
           nextFile,
-        });
-      }
+        }),
+      ),
+    ];
+    const activeMediaPlayers = () => [
+      ...takeIter(mediaPlayers.values(), activePlayerCount()),
+    ];
+
+    const updateMediaPlayers = () => {
+      const activePlayerCount = activePlayerCount();
+      mediaPlayers.forEach((mediaPlayer, i) => {
+        if (i < activePlayerCount) {
+          mediaPlayer.classList.remove('off');
+        } else {
+          mediaPlayer.pause();
+          mediaPlayer.src = '';
+          mediaPlayer.classList.add('off');
+        }
+      });
     };
 
-    const unsub = config.max_interleaved.subscribe(updateMediaPlayers);
+    const unsub =
+      config.interleave_active_player_count.subscribe(updateMediaPlayers);
 
     // const grid = (showAsGrid = !_showAsGrid) => {
     //   if (_showAsGrid !== showAsGrid) {
@@ -861,21 +866,22 @@ const initBrowsePreview = ({ document: { body } }) => {
       container.classList.remove('paused');
     };
     const pause = () => {
-      activeMediaPlayers().forEach((mediaPlayer) => {
-        mediaPlayer.querySelector('video').pause();
+      updateMediaPlayers();
+      mediaPlayers.forEach((mediaPlayer) => {
+        mediaPlayer.pause();
       });
       container.classList.add('paused');
       container.classList.remove('playing');
     };
 
-    const onClickContainer = () => {
-      if (container.classList.contains('playing')) {
-        pause();
-      } else if (container.classList.contains('paused')) {
-        play();
-      }
-    };
-    container.addEventListener('click', onClickContainer, {});
+    // const onClickContainer = () => {
+    //   if (container.classList.contains('playing')) {
+    //     pause();
+    //   } else if (container.classList.contains('paused')) {
+    //     play();
+    //   }
+    // };
+    // container.addEventListener('click', onClickContainer, {});
 
     return {
       play,

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.322
+// @version     1.0.324
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -32,6 +32,9 @@ const sequences = {
   playpause: ['playing', 'paused'],
   player: ['interleave', 'linear'],
   interleave_duration_ms: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  interleave_bpm: [
+    60, 70, 80, 90, 100, 110, 120, 140, 150, 160, 170, 180, 190, 200,
+  ],
   interleave_active_player_count: [2, 3, 4, 6, 9, 12, 16],
 };
 

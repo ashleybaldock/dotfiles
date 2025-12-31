@@ -141,12 +141,23 @@ hi link typescriptBOMWindowMethod typescriptMethod
 hi link typescriptCacheMethod typescriptMethod
 hi link typescriptCryptoMethod typescriptMethod
 hi link typescriptDOMDocMethod typescriptMethod
+" typescriptDOMDocProp typescriptProp
+" typescriptDOMElemAttrs
+" typescriptDOMElemFuncs
 hi link typescriptDOMEventMethod typescriptMethod
 hi link typescriptDOMEventTargetMethod typescriptMethod
+" typescriptDOMEventProp typescriptProp
+" typescriptDOMEventCons
 hi link typescriptDOMFormMethod typescriptMethod
 hi link typescriptDOMFormProp typescriptProp
+" typescriptDOMMutationEvent
 hi link typescriptDOMNodeMethod typescriptMethod
+" typescriptDOMNodeProp typescriptProp
+" typescriptDOMNodeType
 hi link typescriptDOMStorageMethod typescriptMethod
+" typescriptDOMStorage
+" typescriptDOMStorageProp typescriptProp
+" typescriptDOMStyle
 hi link typescriptES6MapProp typescriptProp
 hi link typescriptES6MapMethod typescriptMethod
 hi link typescriptES6SetProp typescriptProp
@@ -245,7 +256,6 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptAbstract
 " typescriptAccessibilityModifier
 " typescriptAmbientDeclaration
-" typescriptAni󠅙mationEvent
 " typescriptArrowFunc
 " typescriptArrowFuncArg
 " typescript󠅀A󠅀r󠅀r󠅀owF󠅚uncDef
@@ -260,7 +270,6 @@ hi link typescriptXHRGlobal typescriptGlobal
 
 " typescriptBlock
 " typescriptBranch
-" typescriptCSSEvent
 " typescriptCall
 " typescriptCastKeyword
 
@@ -275,134 +284,12 @@ hi link typescriptXHRGlobal typescriptGlobal
 
 " typescriptComment
 " typescriptCommentTodo
-
-" typescriptConstructSignature
-" typescriptConstructor
-" typescriptConstructorType
-
-" typescriptCryptoProp
-
-" typescriptDOMDocProp
-" typescriptDOMElemAttrs
-" typescriptDOMElemFuncs
-" typescriptDOMEventCons
-" typescriptDOMEventProp
-" typescriptDOMFormProp
-" typescriptDOMMutationEvent
-" typescriptDOMNodeProp
-" typescriptDOMNodeType
-" typescriptDOMStorage
-" typescriptDOMStorageProp
-" typescriptDOMStyle
-
-" typescriptDatabaseEvent
-" typescriptDebugger
-" typescriptDecorator
-
-
-
-" typescriptDragEvent
-" typescriptElementEvent
-" typescriptEncodingProp
-" typescriptEnum
-" typescriptEnumKeyword
-" typescriptEventFuncCallArg
-" typescriptEventString
-" typescriptExceptions
-" typescriptFileReaderProp
-" typescriptFocusEvent
-" typescriptFormEvent
-" typescriptFrameEvent
-" typescriptFuncCallArg
-" typescriptFuncImpl
-" typescriptFuncKeyword
-" typescriptFuncName
-" typescriptFuncType
-" typescriptFuncTypeArrow
-" typescriptFunctionType
-" typescriptGenericCall
-" typescriptGenericDefault
-" typescriptGenericFunc
-" typescriptGenericImpl
-" typescriptIdentifier
-" typescriptIdentifierName
-" typescriptIndexExpr
-" typescriptIndexSignature
-" typescriptInputDeviceEvent
-" typescriptInterfaceExtends
-" typescriptInterfaceHeritage
-" typescriptInterfaceKeyword
-" typescriptInterfaceName
-" typescriptInterfaceTypeArguments
-" typescriptInterfaceTypeParameter
-" typescriptLabel
 " typescriptLineComment
-" typescriptLoopParen
 " typescriptMagicComment
-" typescriptMappedIn
-" typescriptMediaEvent
-" typescriptMenuEvent
-" typescriptMessage
-" typescriptModule
-" typescriptNetworkEvent
-" typescriptNull
-" typescriptObjectAsyncKeyword
-" typescriptObjectLabel
-" typescriptObjectLiteral
-" typescriptObjectType
-" typescriptOperator
-" typescriptOptionalMark
-" typescriptParamImpl
-" typescriptParenExp
-" typescriptParens
-" typescriptParenthesizedType
-" typescriptPaymentAddressProp
-" typescriptPaymentEvent
-" typescriptPaymentProp
-" typescriptPaymentResponseProp
-" typescriptPaymentShippingOptionProp
-" typescriptPredefinedType
-" typescriptProgressEvent
-" typescriptProp
-" typescriptProperty
-" typescriptPrototype
-" typescriptProxyAPI
-" typescriptRef
-" typescriptRepeat
-" typescriptRequestProp
-" typescriptReserved
-" typescriptResourceEvent
-" typescriptResponseProp
-" typescriptReturnAnnotation
-" typescriptSVGEvent
-" typescriptScriptEvent
-" typescriptSensorEvent
-" typescriptServiceWorkerEvent
-" typescriptServiceWorkerProp
-" typescriptSessionHistoryEvent
-" typescriptSpecial
-" typescriptStatementKeyword
-" typescriptStorageEvent
-" typescriptSymbolStaticProp
-" typescriptSymbols
-" typescriptTabEvent
-" typescriptTextEvent
-" typescriptTouchEvent
-" typescriptURLUtilsProp
-" typescriptUncategorizedEvent
-" typescriptUpdateEvent
-" typescriptUsing
-" typescriptValueChangeEvent
-" typescriptVariable
-" typescriptVariableDeclaration
-" typescriptViewEvent
-" typescriptWebsocketEvent
-" typescriptWindowEvent
-" typescriptXHRProp
+" typescriptDocComment
 " typescriptDocA
 " typescriptDocAs
 " typescriptDocB
-" typescriptDocComment
 " typescriptDocDesc
 " typescriptDocEventRef
 " typescriptDocLinkTag
@@ -417,4 +304,128 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptDocParamType
 " typescriptDocRef
 " typescriptDocTags
+
+" typescriptConstructSignature
+" typescriptConstructor
+" typescriptConstructorType
+
+" typescriptCryptoProp typescriptProp
+
+
+" typescriptDebugger
+" typescriptDecorator
+
+
+
+" typescriptEncodingProp typescriptProp
+" typescriptEnum
+" typescriptEnumKeyword
+" typescriptExceptions
+" typescriptFileReaderProp typescriptProp
+"
+" typescriptEventFuncCallArg
+" typescriptEventString
+" typescriptAni󠅙mationEvent
+" typescriptCSSEvent
+" typescriptDatabaseEvent
+" typescriptDragEvent
+" typescriptElementEvent
+" typescriptFocusEvent
+" typescriptFormEvent
+" typescriptFrameEvent
+" typescriptInputDeviceEvent
+" typescriptMediaEvent
+" typescriptMenuEvent
+" typescriptNetworkEvent
+" typescriptProgressEvent
+" typescriptResourceEvent
+" typescriptSVGEvent
+" typescriptScriptEvent
+" typescriptSensorEvent
+" typescriptServiceWorkerEvent
+" typescriptSessionHistoryEvent
+" typescriptStorageEvent
+" typescriptTabEvent
+" typescriptTextEvent
+" typescriptTouchEvent
+" typescriptUncategorizedEvent
+" typescriptUpdateEvent
+" typescriptValueChangeEvent
+" typescriptViewEvent
+" typescriptWebsocketEvent
+" typescriptWindowEvent
 " typescriptDocumentEvent
+"
+" typescriptFuncImpl
+" typescriptFuncKeyword
+" typescriptFuncName
+" typescriptFuncType
+" typescriptFuncTypeArrow
+" typescriptFunctionType
+"
+" typescriptGenericCall
+" typescriptGenericDefault
+" typescriptGenericFunc
+" typescriptGenericImpl
+"
+" typescriptIdentifier
+" typescriptIdentifierName
+" typescriptIndexExpr
+" typescriptIndexSignature
+"
+" typescriptInterfaceExtends
+" typescriptInterfaceHeritage
+" typescriptInterfaceKeyword
+" typescriptInterfaceName
+" typescriptInterfaceTypeArguments
+" typescriptInterfaceTypeParameter
+"
+" typescriptLabel
+" typescriptLoopParen
+" typescriptMappedIn
+"
+" typescriptObjectAsyncKeyword
+" typescriptObjectLabel
+" typescriptObjectLiteral
+" typescriptObjectType
+"
+" typescriptOperator
+" typescriptOptionalMark
+"
+" typescriptParamImpl
+"
+" typescriptParenExp
+" typescriptParens
+"
+" typescriptPaymentAddressProp typescriptProp
+" typescriptPaymentEvent
+" typescriptPaymentProp typescriptProp
+" typescriptPaymentResponseProp typescriptProp
+" typescriptPaymentShippingOptionProp typescriptProp
+"
+" typescriptRequestProp typescriptProp
+" typescriptResponseProp typescriptProp
+" typescriptServiceWorkerProp typescriptProp
+" typescriptSymbolStaticProp typescriptProp
+" typescriptURLUtilsProp typescriptProp
+" typescriptXHRProp typescriptProp
+"
+" typescriptMessage
+" typescriptModule
+" typescriptNull
+" typescriptParenthesizedType
+" typescriptPredefinedType
+" typescriptProperty
+" typescriptPrototype
+" typescriptProxyAPI
+" typescriptRef
+" typescriptRepeat
+" typescriptSpecial
+" typescriptStatementKeyword
+" typescriptReserved
+" typescriptReturnAnnotation
+" typescriptSymbols
+" typescriptUsing
+" typescriptVariable
+" typescriptVariableDeclaration
+"

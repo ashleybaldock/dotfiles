@@ -1,5 +1,5 @@
 :where(table) {
---playback-status-played: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22\
+  --playback-status-played: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22\
   height=%221em%22 viewBox=%220 0 640 640%22%3E%3Cpath \
   fill=%22%23ffffff%22 stroke=%22%23000000%22 stroke-width=%2220%22 \
   d=%22M530.8 134.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z%22/%3E%3C/svg%3E');
@@ -705,7 +705,7 @@ body > h1 {
 @property --interleave-bpm {
   syntax: '<time>';
   inherits: true;
-  initial-value: 500ms;
+  initial-value: 120;
 }
 
 @property --interleave-duration-ms {
@@ -857,6 +857,7 @@ label:has([id='playpause_playing']:checked)::after {
   --ani-transform-inverse: translateX(
     calc(var(--ani-step) * 1 * var(--playerWidth))
   );
+  --interleave-duration-per: calc(60000 / var(--interleave-bpm) * 1ms);
   animation-composition: initial;
   animation-delay: 0s;
   animation-direction: normal;
@@ -2045,7 +2046,7 @@ body
 }
 :not(#u#n#i) body > table > tbody > tr:hover {
   outline: 1px solid #fff3;
-  outline-offset: -4px; 
+  outline-offset: -4px;
 }
 td:first-child > a {
   grid-column: filename-start/filename-end;
@@ -2055,7 +2056,7 @@ body > table > tbody > tr::before {
   grid-row: 1;
   border-radius: 1lh;
   background-color: #0000;
-  place-self: end center;
+  place-self: end stretch;
 }
 body > table > tbody > tr > td > table > tbody > tr::before {
   grid-column: filestatus-start/filestatus-end;
@@ -2090,7 +2091,6 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   mask-repeat: no-repeat;
   z-index: 60;
 
-  padding: 1px;
   font-size: 1.4em;
   height: calc(var(--row-h) * 0.75);
   overflow: visible;

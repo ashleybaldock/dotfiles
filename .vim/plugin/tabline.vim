@@ -54,39 +54,73 @@ function! GuiTabLabel() abort
   let modified = tabpagebuflist(v:lnum)
         \->reduce({acc, bufnr -> acc + getbufvar(bufnr, "&modified", 0)}, 0)
 
-  if tabpagenr() == v:lnum
-    return [
-          \printf("   %s", modified ? " ̵̩̩" : " "),
-          \printf("%d	%-32.32s   %s", modified, s:FormatBufferName(), ChDiag()),
-          \printf("%s", "▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ ")
-          \]->join("\n")
-  else
-    return [
-          \printf("   %s", modified ? " ̵̩̩" : " "),
-          \printf("%d	%-32.32s", modified, s:FormatBufferName())
-          \]->join("\n")
-  endif
-    " return printf("\n%d․  ⦁%d․-⃤    -⃤ %%<%%=%-26.26s%d+\n▄▄̍̍̍̍̍̍̍▄▆̍̍̍̍̍̍̍▄▄ ̊̊̊̊̊̊▄▄ ̈̈̈̈̈̈̈▄▄▄ˈ▄▄|̩̲▄▄ ̥̥̥̥̥̥▄▄", tabpagenr(), bufname(), modified)
-  " return printf("█   _⃤ _̲⃤ _̳⃤    _⃤ _̅⃤ _̿⃤  ‾⃜⃜⃜⃜⃜⃜⃜⃜⃜⃜⃜  _̲̲̲̲̲̲̲̲⃤ 3̩⃤ 3̩̍⃤ 3̍⃤ 3̩̍⃤ 3 ₂̍̍⃤̍⃤̩̩⃤̩̩⃤ ₂̊̊̊̊̊̊⃤̍̍̍⃤ ₂̍⃤̍⃤̍⃤̍⃤̍⃤⃟  3̍̍̍⃤
-  
-  "  ⁄   𝟭ℴ𝒻𝟯 
-  " _⃯   v̲͎  ‡    ‸ ▪︎ ⚬ _̩̩̩̩̩̩__̻̻̻_̩̻̩̻_̩̩_⃓̶̩̩̩  ˌ̵⃒̩ ˌ̵⃒̩̣   ̵⃒̵̵⃒⃒⃒̣̩̣  ˌ̵⃒̩̩  ˌ̵⃒̩     ̵̩̩    ╷̵̵̵⃒⃒      ̤̤̤̤̤̤̤̤̤    ̬̬̬̬̬̬̬   ̩̩̩̩̩    ̣̣̣̣̣̣̣̣ |̶̲‖ˌˌˌ ˇ̑̑ˆ̴̬̬̬̬̬̬̬‸̣̣̣̣̣̣̣̣˖̩̩̣̣̣̣̩̩⸋̣     %%=\n  %d %-40.40s\n▄ ▇▇▇▇▇▇▇▇▇▇▇▇▇▆▆▆▆▆▆▆▆⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺%%=", tabpagenr(), bufname())
-          "\printf("%s", ▆▆͘͘͘͘͘͘͘⃤▆▆▆⃤▆̩̩⃤▆▆▆̍̍⃤ 3 3⃤  3̩⃤  3̩̩⃤ 3̩̩⃤ 3⃤  3̍⃤  3̍̍⃤ 3̍̍̍⃤ 3̍̍̍̍⃤ ▆▆▆▆▆▆▆▆▆▆▆ )
+  let errorCount = tabpagebuflist(v:lnum)
+        \->reduce({acc, bufnr -> acc + getbufvar(bufnr, "coc_diagnostic_info", {})
+        \->get('error', 0)
+        \}, 0)
+
+  let errorMsg = errorCount > 0 ? printf("%s", symbols#get('diag.inline.error')) : ""
+
+  let l:actual_curtab = get(g:, 'actual_curtab', 0)
+
+      " \printf("%d %s	%-32.32s", modified, errorMsg, s:FormatBufferName()),
+  return [
+      \printf("  %s", modified ? " ̵̩̩" : " "),
+      \printf("%s %-32.32s", errorMsg, s:FormatBufferName()),
+      \printf("%s", l:actual_curtab == tabpagenr() 
+      \ ? "▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ "
+      \ : "▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ ")
+      \]->join("\n")
 endfunction
 
 set guitablabel=%{%GuiTabLabel()%}
 
 
 function! GuiTabToolTip() abort
-  return printf("%s ℴ𝒻 %s\n%d window%s:\n%s%%<",
-        \ format#numbers(tabpagenr()->string(), 'sansb'),
+
+  let warningCount = tabpagebuflist(v:lnum)
+        \->reduce({acc, bufnr -> acc + getbufvar(bufnr, "coc_diagnostic_info", {})
+        \->get('warning', 0)
+        \}, 0)
+
+  let errorCount = tabpagebuflist(v:lnum)
+        \->reduce({acc, bufnr -> acc + getbufvar(bufnr, "coc_diagnostic_info", {})
+        \->get('error', 0)
+        \}, 0)
+
+  return [
+        \printf("%s ℴ𝒻 %s %s%s",
         \ format#numbers(tabpagenr('$')->string(), 'sansb'),
+        \ format#numbers(tabpagenr()->string(), 'sansb'),
+        \ errorCount > 0 ? printf("%s%s", symbols#get('diag.inline.error'), errorCount) : "",
+        \ warningCount > 0 ? printf("%s%s", symbols#get('diag.inline.warning'), warningCount) : ""
+        \),
+        \printf("%d window%s:",
         \ tabpagewinnr(v:lnum, '$'),
-        \ tabpagewinnr(v:lnum, '$') > 1 ? 's' : '',
-        \ tabpagebuflist(tabpagenr())
-        \ ->map({i, bufnr -> s:FormatBufferName(bufnr)})
-        \ ->join("\n"))
+        \ tabpagewinnr(v:lnum, '$') > 1 ? 's' : ''
+        \),
+        \printf("%s",
+        \ tabpagebuflist(tabpagenr())->map({i, bufnr -> s:FormatBufferName(bufnr)})->join("\n")
+        \),
+        \ printf("%%<")
+        \]->join("\n")
 endfunction
 
 set guitabtooltip=%.400{%GuiTabToolTip()%}
+
+
+call autocmd_add([
+      \#{
+      \ event: ['TabEnter'],
+      \ pattern: '*', cmd: 'let g:actual_curtab = tabpagenr()',
+      \ group: 'mayhem_tl_curtab', replace: v:true,
+      \}
+      \])
+
+" return printf("\n%d․  ⦁%d․-⃤    -⃤ %%<%%=%-26.26s%d+\n▄▄̍̍̍̍̍̍̍▄▆̍̍̍̍̍̍̍▄▄ ̊̊̊̊̊̊▄▄ ̈̈̈̈̈̈̈▄▄▄ˈ▄▄|̩̲▄▄ ̥̥̥̥̥̥▄▄", tabpagenr(), bufname(), modified)
+" return printf("█   _⃤ _̲⃤ _̳⃤    _⃤ _̅⃤ _̿⃤  ‾⃜⃜⃜⃜⃜⃜⃜⃜⃜⃜⃜  _̲̲̲̲̲̲̲̲⃤ 3̩⃤ 3̩̍⃤ 3̍⃤ 3̩̍⃤ 3 ₂̍̍⃤̍⃤̩̩⃤̩̩⃤ ₂̊̊̊̊̊̊⃤̍̍̍⃤ ₂̍⃤̍⃤̍⃤̍⃤̍⃤⃟  3̍̍̍⃤
+
+"  ⁄   𝟭ℴ𝒻𝟯 
+" _⃯   v̲͎  ‡    ‸ ▪︎ ⚬ _̩̩̩̩̩̩__̻̻̻_̩̻̩̻_̩̩_⃓̶̩̩̩  ˌ̵⃒̩ ˌ̵⃒̩̣   ̵⃒̵̵⃒⃒⃒̣̩̣  ˌ̵⃒̩̩  ˌ̵⃒̩     ̵̩̩    ╷̵̵̵⃒⃒      ̤̤̤̤̤̤̤̤̤    ̬̬̬̬̬̬̬   ̩̩̩̩̩    ̣̣̣̣̣̣̣̣ |̶̲‖ˌˌˌ ˇ̑̑ˆ̴̬̬̬̬̬̬̬‸̣̣̣̣̣̣̣̣˖̩̩̣̣̣̣̩̩⸋̣     %%=\n  %d %-40.40s\n▄ ▇▇▇▇▇▇▇▇▇▇▇▇▇▆▆▆▆▆▆▆▆⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺⎺%%=", tabpagenr(), bufname())
+"\printf("%s", ▆▆͘͘͘͘͘͘͘⃤▆▆▆⃤▆̩̩⃤▆▆▆̍̍⃤ 3 3⃤  3̩⃤  3̩̩⃤ 3̩̩⃤ 3⃤  3̍⃤  3̍̍⃤ 3̍̍̍⃤ 3̍̍̍̍⃤ ▆▆▆▆▆▆▆▆▆▆▆ )
 

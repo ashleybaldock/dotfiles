@@ -131,7 +131,7 @@ function s:VisualBlockOutline() abort
         \' ╱ char:'..dx_char..' ('..x1_char..','..y1..')->('..x2_char..','..y2..')'..
         \' ╱ byte:'..dx_byte..' ('..x1_byte..','..y1..')->('..x2_byte..','..y2..')'
 
-  exec 'setlocal colorcolumn='..x1_virt..','..x2_virt
+  exec 'setlocal colorcolumn=' .. x1_virt .. ',' .. x2_virt
 
   let aSign = sign_define('linevistop', #{
         \ linehl: 'SignVisTop',
@@ -223,7 +223,7 @@ endfunc
 " Startup for visual block highlighting
 "
 function s:OnEnterVisualBlock() abort
-  let &mouseshape = Remember('vV^V', '&mouseshape')..',v:crosshair'
+  let &mouseshape = Remember('vV^V', '&mouseshape') .. ',v:crosshair'
   call Remember('^V', '&l:colorcolumn')
   call Remember('^V', '&l:cursorcolumn')
   let &l:cursorcolumn = 0

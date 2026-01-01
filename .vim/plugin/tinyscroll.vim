@@ -28,10 +28,7 @@ let g:mayhem.symbols_A.scroll = {
       \ 'top':'¯', 'full':']', 'bot':'_', 'none': '=',
       \ }
 
-let s:symbols = GetBestSymbols()
-
 function! ScrollHint() abort
-  let scrollsymbols = get(s:symbols, 'scroll', {})
   let line_cursor = line('.')
   let line_wintop = line('w0')
   let line_winbot = line('w$')
@@ -40,25 +37,26 @@ function! ScrollHint() abort
   let lines_visible = line('w$') - line('w0') + 1
 
   if winheight < 1 || lines_visible < 1
-    return scrollsymbols.none
+    return symbols#get('scroll.none')
   endif
   if line_wintop == 1
     if line_winbot == line_count
-      return scrollsymbols.full
+      return symbols#get('scroll.full')
     endif
-    return scrollsymbols.top
+    return symbols#get('scroll.top')
   endif
   if line_winbot == line_count
-    return scrollsymbols.bot
+    return symbols#get('scroll.bot')
   endif
 
-  let position = (line_cursor * len(scrollsymbols.steps) - 1) / line_count
+  let steps = symbols#get('scroll.steps', [])
+  let position = (line_cursor * len(steps) - 1) / line_count
 
   let top    = line('w0')
   let height = line('w$') - top + 1
 
   " echo printf('%i, %i, %i, %s',
   "\ line_cursor, line_count, position, scrollsymbols.steps[position])
-  return scrollsymbols.steps[position]
+  return steps[position]
 endfunc
 

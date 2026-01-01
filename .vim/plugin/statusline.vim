@@ -38,81 +38,26 @@ function FDotExt()
 endfunc
 
 
-function! GetBestSymbols()
-   return has("gui_macvim")
-         \ ? get(g:mayhem, 'symbols_S',
-         \     get(g:mayhem, 'symbols_8',
-         \       get(g:mayhem, 'symbols_A', {})))
-         \ : has("multi_byte_encoding") && &encoding == "utf-8"
-         \   ? get(g:mayhem, 'symbols_8',
-         \       get(g:mayhem, 'symbols_A', {}))
-         \   : get(g:mayhem, 'symbols_A', {})
-endfunc
-
-let s:symbols = GetBestSymbols()
-
-" TODO extend this to allow symbol lookup with list index e.g. for numbers
-function! GetSymbol(symbolpath, fallback = 'X!')
-  let lookup = split(a:symbolpath, '\.')->reduce(
-        \{ acc, val -> get(acc, val, {})}, s:symbols)
-  return empty(lookup) ? a:fallback : l:lookup
-endfunc
-
 function ChDiag()
-  return get(get(b:, 'mayhem', {}), 'sl_cache_diag', ['D?','DN'])[NC()]
+  return get(b:, 'mayhem', {})->get('sl_cache_diag', ['D?','DN'])[NC()]
 endfunc
-
-" AddSymbols('diag.numbers.S', ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ])
-" AddSymbols('diag.error.S'  , '⚑⃝ ')
-" AddSymbols('diag.warning.S', '!⃝ ')
-" AddSymbols('diag.ok.S'     , '✓⃝ ')
-" AddSymbols('diag.off.S'    , '?⃣ ')
-
-" AddSymbols('diag.numbers.8', ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ])
-" AddSymbols('diag.error.8'  , '⚑⃝ ')
-" AddSymbols('diag.warning.8', '!⃝ ')
-" AddSymbols('diag.ok.8'     , '✓⃝ ')
-" AddSymbols('diag.off.8'    , '?⃣ ')
-
-" Sym range def 'numbers.double'
-"       \ sf=􀔩􀔪􀔫􀔬􀔭􀔮􀔯􀔰􀔱􀔲􀔳􀔴􀔵􀔶􀔷􀔸􀔹􀔺􀔻􀔼􀔽􀔾􀔿􀕀􀕁􀕂􀕃􀕄􀕅􀕆􀕇􀘢􀚽􀚿􀛁􀛃􀛅􀛇􀛉􀛋􀛍􀛏􀛑􀛓􀛕􀛗􀛙􀛛􀛝􀛟􀛡
-"       \ u8=
-"       \ as=
-" Sym range def 'numbers.wide'
-"       \ sf=􀃈􀃊􀃌􀃎􀃐􀃒􀑵􀃖􀃘􀑷􀔳􀔴􀔵􀔶􀔷􀔸􀔹􀔺􀔻􀔼􀔽􀔾􀔿􀕀􀕁􀕂􀕃􀕄􀕅􀕆􀕇􀘢􀚽􀚿􀛁􀛃􀛅􀛇􀛉􀛋􀛍􀛏􀛑􀛓􀛕􀛗􀛙􀛛􀛝􀛟􀛡
-"       \ u8=0⃝ 1⃝ 2⃝ 3⃝ 4⃝ 5⃝ 6⃝ 7⃝ 8⃝ 9⃝ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳
-"       \ u8=⓪ ① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳
-"       \ u8=０⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛
-"       \ u8=〇⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇
-"       \ as=０１２３４５６７８９
-" ['', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-" Sym def diag.error   sf=􀋊️⃝ u8=⚑⃝  as=E   􀋉️⃝  􀋊️⃝ 􀋉⃝   
-" Sym def diag.warning sf=􀢒️⃝ u8=!⃝  as=W  􀋍️⃝  􀋎️⃝  􀋍 􀋎⃤︎
-" Sym def diag.ok      sf=􀆅️⃝ u8=✓⃝  as=O  􀤔􀤔⃝ 􀤔️⃝ 􀤔︎⃝  􀤕􀤕⃝ 􀤕️⃝ 􀤕︎⃝  
-" Sym def diag.off     sf=􀅍️⃝ u8=?⃣  as=X
-"
-" 􀆅️⃝  􀁢️⃝ 􀋙️⃝ 􀋝️⃝ 􀋚️⃝ 􀋞️⃝
-"
-" 􁑣️⃝  􀅍️⃝  􀢒️⃝
-"
-" AddSymbols('warning' '',
-" AddSymbols('ok'      'Ø',
-" AddSymbols('off'     '¿',
 "
 " 􀋙⃞︎   􀋝⃞︎  􀋙️⃝ 􀋝️⃝ 􁄤️⃝
+"
+" 􀋙􀃲     􀋝⃞︎         􀋙️⃝ 􀋝️⃝ 􁄤️⃝
 "   
 " 􀋚︎􀋞︎ 􀋚️⃝ 􀋞️⃝ 􁄠️⃝
-" 􀃮􀃯􀃬􀃭􀃰 􀃱􀃲􀃳􀤘⃞︎ 􀤙 
+" 􀃮􀃯􀃬􀃭􀃰 􀃱􀃲􀃳􀤘⃞︎  􀤙 
 " 
 " 􀀹️⃝􀀻️⃝􀀽️⃝􀀿️⃝􀁁️⃝􀘘️⃝􀁃️⃝􀁅️⃝􀔊️⃝􀔋️⃝􀔌️⃝􀔍️⃝􀔎️⃝􀔏️⃝􀔐️⃝􀔑️⃝􀔒️⃝􀔓️⃝􀔔️⃝
 " 􀀸️⃝􀀺️⃝􀀼️⃝􀀾️⃝􀁀️⃝􀘗️⃝􀁂️⃝􀁄️⃝􀓫️⃝􀓬️⃝􀓭️⃝􀓮️⃝􀓯️⃝􀓰️⃝􀓱️⃝􀓲️⃝􀓳️⃝􀓴️⃝􀓵️⃝
 " 􀃈️⃝􀃊️⃝􀃌️⃝􀃎️⃝􀃐️⃝􀘙️⃝􀃒️⃝􀃔️⃝􀔩️⃝􀔪️⃝􀔫️⃝􀔬️⃝􀔭️⃝􀔮️⃝􀔯️⃝􀔰️⃝􀔱️⃝􀔲️⃝􀔳️⃝
 " 􀃋️⃝􀃍️⃝􀃏️⃝􀃑️⃝􀘚️⃝􀃓️⃝􀃕️⃝􀕈️⃝􀕉️⃝􀕊️⃝􀕋️⃝􀕌️⃝􀕍️⃝􀕎️⃝􀕏️⃝􀕐️⃝􀕑️⃝􀕒️⃝
 
-"  􀓄️⃝  􀄦️⃝  􀖄️⃝  􀅈️⃝      􀧐️⃝ 􀄪️⃝ 􀅎️⃝ 􀅍️⃝ 􀒆️⃝ 􀅼️⃝ 􀅽️⃝ 􀅬️⃝ 
-"    􀓅️⃝  􀄧️⃝  􀖅️⃝     􀅉️⃝ 􀬑️⃝        􀢒️⃝  􀅳️⃝     􀥋⃝ 
-"           􀙠️⃝ 􀅊️⃝ 􀄾️⃝     􀄫️⃝     􀣴️⃝   􀅷️⃝     􀘽⃝ 
-"  􀓂️⃝  􀄤️⃝ 􀙡️⃝ 􀱶️⃝     􀑹️⃝                􀘾️⃝  
+"  􀓄️⃝  􀄦️⃝      􀅈️⃝      􀧐️⃝ 􀄪️⃝ 􀅎️⃝ 􀅍️⃝ 􀒆️⃝ 􀅼️⃝ 􀅽️⃝ 􀅬️⃝ 
+"    􀓅️⃝             􀅉️⃝ 􀬑️⃝        􀢒️⃝  􀅳️⃝     􀥋⃝ 
+"           􀱶️⃝    􀅊️⃝ 􀄾️⃝     􀄫️⃝     􀣴️⃝   􀅷️⃝     􀘽⃝ 
+"  􀓂️⃝  􀄤️⃝           􀑹️⃝                􀘾️⃝  
 "  􀓃️⃝  􀄥️⃝   􂄝️⃝ 􀄿️⃝        􀄨️⃝           􀅮️⃝  
 "                􀅃️⃝        􀄩️⃝ 􀆐️⃝ 
 "         􀅋️⃝   􀅀️⃝        􀄮️⃝     􀆑️⃝ 􀛺️⃝   􀆃️⃝   
@@ -135,38 +80,52 @@ endfunc
 "   􀓾️⃝  􀔝️⃝  􀔼️⃝  􀕛️⃝ 
 " 􀓿️⃝  􀔞️⃝  􀔽️⃝  􀕜️⃝ 
 "
-let g:mayhem.symbols_S.diag = {
-      \ 'numbers': ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ],
-      \ 'error'  : '⚑⃝ ',
-      \ 'warning': '!⃝ ',
-      \ 'ok'     : '✓⃝ ',
-      \ 'off'    : '?⃣ ',
+let g:mayhem.symbols_S.diag = #{
+      \ numbers  : ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ],
+      \ error    : '⚑⃝ ',
+      \ warning  : '!⃝ ',
+      \ ok       : '✓⃝ ',
+      \ off      : '?⃣ ',
+      \ inline   : #{
+      \  error   : '􀋊',
+      \  warning : '􀇾',
+      \  ok      : '􀆅',
+      \  off     : '􂟦',
       \ }
-let g:mayhem.symbols_8.diag = {
-      \ 'numbers': ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ],
-      \ 'error'  : '⚑⃝ ',
-      \ 'warning': '!⃝ ',
-      \ 'ok'     : '✓⃝ ',
-      \ 'off'    : '?⃣ ',
+      \}
+let g:mayhem.symbols_8.diag = #{
+      \ numbers  : ['', '1⃝ ', '2⃝ ', '3⃝ ', '4⃝ ', '5⃝ ', '6⃝ ', '7⃝ ', '8⃝ ', '9⃝ ' ],
+      \ error    : '⚑⃝ ',
+      \ warning  : '!⃝ ',
+      \ ok       : '✓⃝ ',
+      \ off      : '?⃣ ',
+      \ inline   : #{
+      \  error   : '⚑️',
+      \  warning : '!',
+      \  ok      : '✓️',
+      \  off     : '?',
       \ }
-let g:mayhem.symbols_A.diag = {
-      \ 'numbers': ['', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-      \ 'error'  : 'E',
-      \ 'warning': 'W',
-      \ 'ok'     : 'Ø',
-      \ 'off'    : '¿',
+      \}
+let g:mayhem.symbols_A.diag = #{
+      \ numbers  : ['', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+      \ error    : 'E',
+      \ warning  : 'W',
+      \ ok       : 'Ø',
+      \ off      : '¿',
+      \ inline   : #{
+      \  error   : 'E',
+      \  warning : 'W',
+      \  ok      : 'Ø',
+      \  off     : '¿',
       \ }
+      \}
 
 " TODO - Add gutter display of errors elsewhere in file
 function s:Update_Diag()
-  " let symbols = has("multi_byte_encoding") && &encoding == "utf-8" ?
-  "       \ g:mayhem.symbols_diag8 : g:mayhem.symbols_diagA
-  " let symbols = get(s:symbols, 'diag', {})
-
   if !exists('g:did_coc_loaded')
     let b:mayhem.sl_cache_diag = [
-          \ '%#SlSynOffC#' .. GetSymbol('diag.off') .. '%*',
-          \ '%#SlSynOffN#' .. GetSymbol('diag.off') .. '%*']
+          \ '%#SlSynOffC#' .. symbols#get('diag.off') .. '%*',
+          \ '%#SlSynOffN#' .. symbols#get('diag.off') .. '%*']
     return
   endif
 
@@ -179,8 +138,9 @@ function s:Update_Diag()
   let errorCount = get(diaginfo, 'error',       0)
 
   if errorCount > 0
-    " TODO symbol lookup with list index
-    let symbol = get(s:symbols.diag.numbers, errorCount, get(s:symbols.diag, 'error', 'X!'))
+    let symbol = symbols#get('diag.numbers', [])
+          \->get(errorCount, symbols#get('diag.error', 'X!'))
+
     let b:mayhem.sl_cache_diag = [
         \ ['%#SlSynErrC#',symbol,'%*']->join(''),
         \ ['%#SlSynErrN#',symbol,'%*']->join(''),
@@ -189,7 +149,8 @@ function s:Update_Diag()
   endif
 
   if warnCount > 0
-    let symbol = get(s:symbols.diag.numbers, warnCount, get(s:symbols.diag, 'warning', 'X!'))
+    let symbol = symbols#get('diag.numbers', [])
+          \->get(warnCount, symbols#get('diag.warning', 'X!'))
     let b:mayhem.sl_cache_diag = [
         \ ['%#SlSynWarnC#',symbol,'%*']->join(''),
         \ ['%#SlSynWarnN#',symbol,'%*']->join(''),
@@ -198,8 +159,8 @@ function s:Update_Diag()
   endif
 
   let b:mayhem.sl_cache_diag = [
-        \ ['%#SlSynOkC#', GetSymbol('diag.ok'), '%*']->join(''),
-        \ ['%#SlSynOkN#', GetSymbol('diag.ok'), '%*']->join(''),
+        \ ['%#SlSynOkC#', symbols#get('diag.ok'), '%*']->join(''),
+        \ ['%#SlSynOkN#', symbols#get('diag.ok'), '%*']->join(''),
         \]
   return
 endfunc
@@ -248,6 +209,7 @@ let g:mayhem.symbols_A.git = {
       \ 'unstaged': '*',
       \ 'staged':   '+'
       \}
+"  􀖄️⃝ 􀖅️⃝ 􀙠️⃝ 􀙡️⃝
 "   $   stashes          􀐆️⃞   􀫝️⃞   􀠧︎⃝  􀓔⃞️  􁊓⃞︎  􀼳 􀴨 
 "                                             􀖄️⃞ 􀖄️⃝ 􀖄️⃤ 
 "                                             􀖅️⃞ 􀖅️⃝ 􀖅️⃤ 
@@ -271,7 +233,7 @@ let g:mayhem.symbols_A.git = {
 
 " Get latest cached git status
 function ChGit()
-  return get(get(b:, 'mayhem', {}), 'sl_cache_git', ['G?','GN'])[NC()]
+  return get(b:, 'mayhem', {})->get('sl_cache_git', ['G?','GN'])[NC()]
 endfunc
 
 " Update cached git status
@@ -279,8 +241,8 @@ endfunc
 function s:Update_Git()
   if !exists('g:loaded_fugitive')
     let b:mayhem.sl_cache_git = [
-          \ '%#SlGitOffC#' .. GetSymbol('git.gitoff') .. '%*',
-          \ '%#SlGitOffN#'  .. GetSymbol('git.gitoff') .. '%*'
+          \ '%#SlGitOffC#' .. symbols#get('git.gitoff') .. '%*',
+          \ '%#SlGitOffN#'  .. symbols#get('git.gitoff') .. '%*'
           \]
     return
   endif
@@ -288,14 +250,14 @@ function s:Update_Git()
   let head = FugitiveHead()
   if empty(head)
     let b:mayhem.sl_cache_git =  [
-          \ '%#SlNotGitC#' .. GetSymbol('git.notgit') .. '%*',
-          \ '%#SlNotGitN#' .. GetSymbol('git.notgit') .. '%*'
+          \ '%#SlNotGitC#' .. symbols#get('git.notgit') .. '%*',
+          \ '%#SlNotGitN#' .. symbols#get('git.notgit') .. '%*'
           \]
     return
   else
     let b:mayhem.sl_cache_git =  [
-          \ '%#SlGitC#'  ..  GetSymbol('git.isgit')  ..  '%*',
-          \ '%#SlGitN#'  ..  GetSymbol('git.isgit' ) ..  '%*'
+          \ '%#SlGitC#'  ..  symbols#get('git.isgit')  ..  '%*',
+          \ '%#SlGitN#'  ..  symbols#get('git.isgit' ) ..  '%*'
           \]
     return
   endif
@@ -349,42 +311,49 @@ let g:mayhem.symbols_A.status = {
       \ }
 
 function RO() abort
-  return &readonly ? GetSymbol('status.readonly') : ""
+  return &readonly ? symbols#get('status.readonly') : ""
 endfunc
+
 function Modified() abort
   return ['%{&modifiable?&modified?"',
-        \ GetSymbol('status.modified') .. ' ',
+        \ symbols#get('status.modified') .. ' ',
         \ '":"":"',
-        \ GetSymbol('status.nomodifiable') .. ' ',
+        \ symbols#get('status.nomodifiable') .. ' ',
         \ '"}']->join('')
 endfunc
+
 function CheckUtf8() abort
-  return &fenc !~ "^$\\|utf-8" || &bomb ? GetSymbol('status.fencnot8') : ""
+  return &fenc !~ "^$\\|utf-8" || &bomb ? symbols#get('status.fencnot8') : ""
 endfunc
+
 function CheckScb() abort
-  return &scrollbind ? GetSymbol('status.scrollbind') : ""
+  return &scrollbind ? symbols#get('status.scrollbind') : ""
 endfunc
+
 function CheckFF() abort
-  return &fileformat == "unix" ? "" : GetSymbol('status.ffnotnix')
+  return &fileformat == "unix" ? "" : symbols#get('status.ffnotnix')
 endfunc
+
 function TermPaused() abort
-  return mode() =~# 'n' ?  GetSymbol('status.termpause') : GetSymbol('status.termplay')
+  return mode() =~# 'n' ?  symbols#get('status.termpause') : symbols#get('status.termplay')
 endfunc
+
 function Diffing() abort
   let diff_left = getbufvar(bufnr(), 'mayhem_diff_left', 0)
   let diff_right = getbufvar(bufnr(), 'mayhem_diff_right', 0)
   if &diff
     if diff_left
-      return GetSymbol('status.diffingleft')
+      return symbols#get('status.diffingleft')
     elseif diff_right
-      return GetSymbol('status.diffingright')
+      return symbols#get('status.diffingright')
     else
-      return GetSymbol('status.diffing')
+      return symbols#get('status.diffing')
     endif
   else
     return ''
   endif
 endfunc
+
 " 0/anything and 2/n are usual
 function Conceal() abort
   return (&conceallevel == 0 || (&conceallevel == 2 && &concealcursor !~ "[vic]")) ? ""
@@ -403,8 +372,7 @@ endfunc
 
 " Get cached filename info for statusline
 function ChFInfo() abort
-  return get(get(b:, 'mayhem', {}), 'sl_cached_fileinfo',
-        \ ['',''])[NC()]
+  return get(b:, 'mayhem', {})->get('sl_cached_fileinfo', ['',''])[NC()]
 endfunc
 
 function s:Update_WinSize() abort
@@ -412,17 +380,15 @@ function s:Update_WinSize() abort
 
   if toggle#get('g:mayhem_sl_show_winsize')
     let b:mayhem.sl_cached_winsize = [
-        \['%#SlDebugC#', '%{%winwidth(0)%}', GetSymbol('status.multx'), '%{%winheight(0)%}','%*']->join(''),
-        \['%#SlDebugN#', '%{%winwidth(0)%}', GetSymbol('status.multx'), '%{%winheight(0)%}','%*']->join(''),
+        \['%#SlDebugC#', '%{%winwidth(0)%}', symbols#get('status.multx'), '%{%winheight(0)%}','%*']->join(''),
+        \['%#SlDebugN#', '%{%winwidth(0)%}', symbols#get('status.multx'), '%{%winheight(0)%}','%*']->join(''),
         \]
   else
     let b:mayhem.sl_cached_winsize = ['','']
   endif
 endfunc
 function ChWinSz() abort
-  return get(get(b:, 'mayhem', {}), 'sl_cached_winsize',
-        \ ['',''])[NC()]
-  return winwidth(0) .. GetSymbol('status.multx') .. winheight(0)
+  return get(b:, 'mayhem', {})->get('sl_cached_winsize', ['',''])[NC()]
 endfunc
 
 function s:Update_FileInfo() abort
@@ -487,7 +453,6 @@ function s:SetStatusVars() abort
 
   let b:mayhem.f_projroot = get(ProjectRoot(), 'path')
   let b:mayhem.projname = fnamemodify(b:mayhem.f_projroot,':p:h:t')
-  " let b:mayhem.f_full = expand('%')
   let b:mayhem.f_tail = expand('%:t')
   let b:mayhem.f_head = expand('%:p:h')
   let b:mayhem.f_ext = expand('%:e')
@@ -661,24 +626,24 @@ endfunc
 " Related: WinColorUpdate in ./wincolor.vim
 function CustomStatusline()
   if &buftype == 'help'
-    return get(get(g:, 'mayhem', {}), 'sl_help', ['sl_helpC', 'sl_helpN'])[NC()]
+    return get(g:, 'mayhem', {})->get('sl_help', ['sl_helpC', 'sl_helpN'])[NC()]
   elseif &buftype == 'quickfix'
-    return get(get(g:, 'mayhem', {}), 'sl_qfix', ['sl_qfixC', 'sl_qfixN'])[NC()]
+    return get(g:, 'mayhem', {})->get('sl_qfix', ['sl_qfixC', 'sl_qfixN'])[NC()]
   elseif &buftype == 'preview'
-    return get(get(g:, 'mayhem', {}), 'sl_prev', ['sl_prevC', 'sl_prevN'])[NC()]
+    return get(g:, 'mayhem', {})->get('sl_prev', ['sl_prevC', 'sl_prevN'])[NC()]
   elseif &buftype == 'terminal'
-    return get(get(g:, 'mayhem', {}), 'sl_term', ['sl_termC', 'sl_termN'])[NC()]
+    return get(g:, 'mayhem', {})->get('sl_term', ['sl_termC', 'sl_termN'])[NC()]
   endif
 
   if &ft == 'netrw'
-    return get(get(g:, 'mayhem', {}), 'sl_dir', ['sl_dirC', 'sl_dirN'])[NC()]
+    return get(g:, 'mayhem', {})->get('sl_dir', ['sl_dirC', 'sl_dirN'])[NC()]
   elseif &ft == 'vimmessages'
-    return get(get(g:, 'mayhem', {}), 'sl_messages', ['sl_messagesC', 'sl_messagesN'])[NC()]
+    return get(g:, 'mayhem', {})->get('sl_messages', ['sl_messagesC', 'sl_messagesN'])[NC()]
   elseif &ft == 'mayhemhome'
-    return get(get(g:, 'mayhem', {}), 'sl_home', ['sl_homeC', 'sl_homeN'])[NC()]
+    return get(g:, 'mayhem', {})->get('sl_home', ['sl_homeC', 'sl_homeN'])[NC()]
   endif
 
-  return get(get(g:, 'mayhem', {}), 'sl_norm', ['sl_normC', 'sl_normN'])[NC()]
+  return get(g:, 'mayhem', {})->get('sl_norm', ['sl_normC', 'sl_normN'])[NC()]
 endfunc
 
 

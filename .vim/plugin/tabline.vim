@@ -7,91 +7,33 @@ let g:mayhem_loaded_tabline = 1
 " au BufWritePost <buffer> :silent UnsetAndReload
 "
 
-
-let s:abbrpaths = [
-      \ ":~:s?\\~\/dotfiles\/\.vim\/after/ftplugin?𝙫∕𝙖/𝙛⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/after/plugin?𝙫∕𝙖/𝙥⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/after/syntax?𝙫∕𝙖/𝙨⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/autoload?𝙫∕𝙖𝙪⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/colors?𝙫∕𝙘𝙡⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/ftplugin?𝙫∕𝙛⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/plugin\/?𝙫∕𝙥⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/syntax?𝙫∕𝙨⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/templates?𝙫∕𝙩𝙥𝙡⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/notes?𝙫∕𝙣𝙤𝙩𝙚𝙨⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/?𝙫⋮?",
-      \ ":p:s?"..$VIMRUNTIME.."\/syntax?$𝘝𝘙∕𝘴⋮?",
-      \ ":p:s?"..$VIMRUNTIME.."\/?$𝘝𝘙⋮?",
-      \ ":~:s?\\~\/googledrive\/projects\/?𝒈𝑷⋮?",
-      \]->join('')
-" 𝙪𝙣𝙣𝙖𝙢𝙚𝙙
-" 𝘶𝘯𝘯𝘢𝘮𝘦𝘥
-" 𝓊𝓃𝓃𝒶𝓂ℯ𝒹
-" 𝑢𝑛𝑛𝑎𝑚𝑒𝑑
-" 𝖚𝖓𝖓𝖆𝖒𝖊𝖉
-" 𝘶𝘯𝘯𝘢𝘮𝘦𝘥
-" 𝚞𝚗𝚗𝚊𝚖𝚎𝚍
-"
-"
-
-function! s:FormatBufferName(bufnr = bufnr()) abort
-  let bufname = bufname(a:bufnr)
-  if empty(bufname)
-    return "𝑢𝑛𝑛𝑎𝑚𝑒𝑑"
-  else
-    return printf("%s %s",
-          \ fnamemodify(bufname, s:abbrpaths),
-          \ getbufvar(a:bufnr, "&modified")
-          \  ? '+'
-          \  : getbufvar(a:bufnr, "&modifiable") == 0 
-          \    ? '-'
-          \    : ''
-          \)
-  endif
-endfunc
-
 function! GuiTabLabel() abort
+  let bufname = get(b:, 'mayhem_tl_cached_filename', tabline#bufname())
   let modified = tabpagebuflist(v:lnum)
         \->reduce({acc, bufnr -> acc + getbufvar(bufnr, "&modified", 0)}, 0)
 
-  let errorCount = tabpagebuflist(v:lnum)
-        \->reduce({acc, bufnr -> acc + getbufvar(bufnr, "coc_diagnostic_info", {})
-        \->get('error', 0)
-        \}, 0)
+  let current = get(g:, 'actual_curtab', 0) == tabpagenr()
 
-  let errorMsg = errorCount > 0 ? printf("%s", symbols#get('diag.inline.error')) : ""
-
-  let l:actual_curtab = get(g:, 'actual_curtab', 0)
-
-      " \printf("%d %s	%-32.32s", modified, errorMsg, s:FormatBufferName()),
   return [
-      \printf("  %s", modified ? " ̵̩̩" : " "),
-      \printf("%s %-32.32s", errorMsg, s:FormatBufferName()),
-      \printf("%s", l:actual_curtab == tabpagenr() 
-      \ ? "▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ "
-      \ : "▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ ")
+      \printf(" %s", modified ? " ̵̩̩" : " "),
+      \printf("%s %-32.32s", t:mayhem_tl_cached_diagnostics, bufname),
+      \printf("%s", current ? "█▇▆▆▆▆▆▆▆▆▆▆▆▆▆" : "▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅")
       \]->join("\n")
 endfunction
+       " \ ? '▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ '
 
 set guitablabel=%{%GuiTabLabel()%}
 
 
 function! GuiTabToolTip() abort
-
-  let warningCount = tabpagebuflist(v:lnum)
-        \->reduce({acc, bufnr -> acc + getbufvar(bufnr, "coc_diagnostic_info", {})
-        \->get('warning', 0)
-        \}, 0)
-
-  let errorCount = tabpagebuflist(v:lnum)
-        \->reduce({acc, bufnr -> acc + getbufvar(bufnr, "coc_diagnostic_info", {})
-        \->get('error', 0)
-        \}, 0)
+  let diagnostics = get(t:, 'mayhem_tl_cached_diagnostics', {})
+  let warningCount = get(diagnostics, 'warning', 0)
+  let errorCount = get(diagnostics, 'error', 0)
 
   return [
         \printf("%s ℴ𝒻 %s %s%s",
-        \ format#numbers(tabpagenr('$')->string(), 'sansb'),
-        \ format#numbers(tabpagenr()->string(), 'sansb'),
+        \ format#numbers(tabpagenr('$')->string(), 'sans'),
+        \ format#numbers(tabpagenr()->string(), 'sans'),
         \ errorCount > 0 ? printf("%s%s", symbols#get('diag.inline.error'), errorCount) : "",
         \ warningCount > 0 ? printf("%s%s", symbols#get('diag.inline.warning'), warningCount) : ""
         \),
@@ -100,7 +42,7 @@ function! GuiTabToolTip() abort
         \ tabpagewinnr(v:lnum, '$') > 1 ? 's' : ''
         \),
         \printf("%s",
-        \ tabpagebuflist(tabpagenr())->map({i, bufnr -> s:FormatBufferName(bufnr)})->join("\n")
+        \ tabpagebuflist(tabpagenr())->map({i, bufnr -> getbufvar(bufnr, 'mayhem_tl_cached_filename')})->join("\n")
         \),
         \ printf("%%<")
         \]->join("\n")
@@ -114,6 +56,11 @@ call autocmd_add([
       \ event: ['TabEnter'],
       \ pattern: '*', cmd: 'let g:actual_curtab = tabpagenr()',
       \ group: 'mayhem_tl_curtab', replace: v:true,
+      \},
+      \#{
+      \ event: ['WinEnter','TabNew','TabEnter','TabClosed','WinNew','WinClosed','BufFilePost','BufWinEnter'],
+      \ pattern: '*', cmd: 'call tabline#updateCachedBufferName()',
+      \ group: 'mayhem_tl_update', replace: v:true,
       \}
       \])
 

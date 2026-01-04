@@ -366,8 +366,7 @@ endfunc
 
 " Get cached filename for statusline
 function ChFName() abort
-  return get(get(b:, 'mayhem', {}), 'sl_cached_filename',
-        \ [expand('%'),expand('%')])[NC()]
+  return get(b:, 'mayhem', {})->get('sl_cached_filename', [expand('%'),expand('%')])[NC()]
 endfunc
 
 " Get cached filename info for statusline

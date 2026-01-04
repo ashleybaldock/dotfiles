@@ -19,7 +19,7 @@ var sfrange_valid = printf('[U%08X-U%08X]', sfrange_start, sfrange_end)
 
 # Set all SF Symbol codepoints to be 2 chars wide
 # (the majority of them are at least that wide)
-setcellwidths([[sfrange_start, sfrange_end, 2]])
+call setcellwidths([[sfrange_start, sfrange_end, 2]])
 
 # TODO
 # This has to be done as non-overlapping parts of the sequence, bit tedious
@@ -28,7 +28,7 @@ setcellwidths([[sfrange_start, sfrange_end, 2]])
 #﹪
 # if charclass(cs) == 3
 #     setline(lnum, '0x' .. printf("%06x", c) .. ' '
-#     \ .. charclass(cs) .. ' ' .. strwidth(cs) .. ' |' .. cs .. '| ' )
+#"     \ .. charclass(cs) .. ' ' .. strwidth(cs) .. ' |' .. cs .. '| ' )
 
 #
 # This is derived from $VIMRUNTIME/tools/emoji_list.vim

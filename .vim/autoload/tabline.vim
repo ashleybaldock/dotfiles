@@ -4,7 +4,8 @@ endif
 let g:mayhem_autoloaded_tabline = 1
 
 "
-" See: ../plugin/tabline.vim
+" See Also: ../plugin/tabline.vim
+"           ../plugin/statusline.vim
 "
 
 let s:abbrpaths = [

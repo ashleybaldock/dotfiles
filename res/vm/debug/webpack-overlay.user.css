@@ -1,0 +1,35 @@
+:not(#u#n#i#m#p#o#r#t#a#n#t) #webpack-dev-server-client-overlay-div {
+  --cfg: #f00;
+  --cbg: #000;
+  position: fixed !important;
+  width: 1em !important;
+  height: 1em !important;
+  border: none !important;
+  z-index: unset !important;
+  max-height: 1em !important;
+  max-width: 1em !important;
+  padding: 0 !important;
+  inset: auto auto 0 0 !important;
+  outline: 1px solid var(--cfg);
+  overflow: visible !important;
+}
+:not(#u#n#i#m#p#o#r#t#a#n#t) #webpack-dev-server-client-overlay-div:hover {
+  max-height: 50vh !important;
+  max-width: 100vw !important;
+  inset: auto auto 0 0 !important;
+}
+:not(#u#n#i#m#p#o#r#t#a#n#t) #webpack-dev-server-client-overlay-div::after {
+  content: '!';
+  color: var(--cfg);
+  position: absolute;
+  inset: -50% -50% auto auto;
+  aspect-ratio: 1;
+  width: auto;
+  height: 1lh;
+  display: flex;
+  outline: 1px solid var(--cfg);
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cbg);
+}

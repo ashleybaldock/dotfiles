@@ -7,6 +7,10 @@ let g:mayhem_loaded_tabline = 1
 " au BufWritePost <buffer> :silent UnsetAndReload
 "
 
+"
+" See Also: ../autoload/tabline.vim
+"
+
 function! GuiTabLabel() abort
   let bufname = get(b:, 'mayhem_tl_cached_filename', tabline#bufname())
   let modified = tabpagebuflist(v:lnum)
@@ -19,7 +23,10 @@ function! GuiTabLabel() abort
     let reportErrors = symbols#get('diag.inline.off')
   else
     let errors = diagnostics->get('error', 0)
-    let reportErrors = errors > 0 ? printf("%s%s", symbols#get('diag.inline.error'), errors) : ""
+    let reportErrors = errors > 0 ? printf("%s%s",
+          \ errors,
+          \ symbols#get('diag.inline.error')
+          \) : ""
   endif
 
   return [

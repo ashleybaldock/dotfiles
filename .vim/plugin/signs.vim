@@ -346,10 +346,20 @@ command! OurTextPropsInThisBuffer echo <SID>ListTextsOfMayhemInCurrentBuffer()
 " TODO caching
 " TODO async
 function! s:FetchDiagnostics(fresh = 0) abort
-  return CocAction('diagnosticList')
-        \->reduce({acc, cur -> has_key(acc, cur['file'])
-        \ ? add(acc[cur['file']], cur)
-        \ : extend(acc, { cur['file']: [cur]})}, {})
+  let grouped = {}
+
+  for diagnostic in CocAction('diagnosticList')
+    let file = get(diagnostic, 'file', v:null)
+    if !empty(file) 
+      if has_key(grouped, file)
+        call add(grouped[file], diagnostic)
+      else
+        let grouped[file] = [diagnostic]
+      endif
+    endif
+  endfor
+
+  return grouped
 endfunc
 
 function! s:UpdateDiagnosticSummary(bufnr = bufnr()) abort
@@ -369,13 +379,13 @@ function! s:UpdateDiagnosticSummary(bufnr = bufnr()) abort
 
   for diag in bufferDiagnostics
     if diag.lnum < lnum_wintop
-      let summary.above[diag.severity] += 1
+      let summary.above[tolower(diag.severity)] += 1
     elseif diag.lnum > lnum_winbot
-      let summary.below[diag.severity] += 1
+      let summary.below[tolower(diag.severity)] += 1
     endif
   endfor
 
-  call setbufvar(bufnr, 'mayhem_diagnostic_summary', summary)
+  call setbufvar(a:bufnr, 'mayhem_diagnostic_summary', summary)
   " let bufname = fnamemodify(bufname, s:abbrpaths)
   " return printf("%s %s", bufname, tabline#modstatus(a:bufnr))
 endfunction

@@ -14,14 +14,14 @@ let s:abbrpaths = [
       \ ":~:s?\\~\/dotfiles\/\.vim\/autoload?𝙫∕𝙖𝙪⋮?",
       \ ":~:s?\\~\/dotfiles\/\.vim\/colors?𝙫∕𝙘𝙡⋮?",
       \ ":~:s?\\~\/dotfiles\/\.vim\/ftplugin?𝙫∕𝙛⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/plugin\/?𝙫∕𝙥⋮?",
+      \ ":~:s?\\~\/dotfiles\/\.vim\/plugin?𝙫∕𝙥⋮?",
       \ ":~:s?\\~\/dotfiles\/\.vim\/syntax?𝙫∕𝙨⋮?",
       \ ":~:s?\\~\/dotfiles\/\.vim\/templates?𝙫∕𝙩𝙥𝙡⋮?",
       \ ":~:s?\\~\/dotfiles\/\.vim\/notes?𝙫∕𝙣𝙤𝙩𝙚𝙨⋮?",
       \ ":~:s?\\~\/dotfiles\/\.vim\/?𝙫⋮?",
       \ ":p:s?"..$VIMRUNTIME.."\/syntax?$𝘝𝘙∕𝘴⋮?",
       \ ":p:s?"..$VIMRUNTIME.."\/?$𝘝𝘙⋮?",
-      \ ":~:s?\\~\/googledrive\/projects\/?𝒈𝑷⋮?",
+      \ ":~:s?\\~\/googledrive\/projects?𝒈𝑷⋮?",
       \]->join('')
 
 function! tabline#modstatus(bufnr = bufnr()) abort

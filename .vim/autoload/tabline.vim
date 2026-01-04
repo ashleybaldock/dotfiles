@@ -8,28 +8,30 @@ let g:mayhem_autoloaded_tabline = 1
 "
 
 let s:abbrpaths = [
-      \ ":~:s?\\~\/dotfiles\/\.vim\/after/ftplugin?𝙫∕𝙖/𝙛⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/after/plugin?𝙫∕𝙖/𝙥⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/after/syntax?𝙫∕𝙖/𝙨⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/autoload?𝙫∕𝙖𝙪⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/colors?𝙫∕𝙘𝙡⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/ftplugin?𝙫∕𝙛⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/plugin?𝙫∕𝙥⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/syntax?𝙫∕𝙨⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/templates?𝙫∕𝙩𝙥𝙡⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/notes?𝙫∕𝙣𝙤𝙩𝙚𝙨⋮?",
-      \ ":~:s?\\~\/dotfiles\/\.vim\/?𝙫⋮?",
       \ ":p:s?"..$VIMRUNTIME.."\/syntax?$𝘝𝘙∕𝘴⋮?",
       \ ":p:s?"..$VIMRUNTIME.."\/?$𝘝𝘙⋮?",
-      \ ":~:s?\\~\/googledrive\/projects?𝒈𝑷⋮?",
+      \ ":~",
+      \ ":s?\\~\/dotfiles\/\.vim\/after\/ftplugin?𝙫∕𝙖/𝙛⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/after\/plugin?𝙫∕𝙖/𝙥⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/after\/syntax?𝙫∕𝙖/𝙨⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/autoload?𝙫∕𝙖𝙪⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/colors?𝙫∕𝙘𝙡⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/ftplugin?𝙫∕𝙛⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/plugin?𝙫∕𝙥⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/syntax?𝙫∕𝙨⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/templates?𝙫∕𝙩𝙥𝙡⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/notes?𝙫∕𝙣𝙤𝙩𝙚𝙨⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim?𝙫⋮?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/?𝒲⋮?",
+      \ ":s?\\~\/projects?𝑷⋮?",
       \]->join('')
 
 function! tabline#modstatus(bufnr = bufnr()) abort
   return getbufvar(a:bufnr, "&modified")
-        \  ? '+'
-        \  : getbufvar(a:bufnr, "&modifiable") == 0 
+        \  ? getbufvar(a:bufnr, "&modifiable")
+        \    : '+'
         \    ? '-'
-        \    : ''
+        \  : ''
 endfunction
 
 function! tabline#bufname(bufnr = bufnr()) abort
@@ -53,11 +55,13 @@ function! tabline#updateDiagnostics() abort
     let warningCount = 0
     let errorCount = 0
 
-    for bufnr in tabpagebuflist(v:lnum)
-        let diaginfo = getbufvar(bufnr, "coc_diagnostic_info", {})
+    if exists('g:did_coc_loaded')
+      for bufnr in tabpagebuflist(i)
+        let diaginfo = getbufvar(bufnr, 'coc_diagnostic_info', {})
         let warningCount += get(diaginfo, 'warning', 0)
         let errorCount += get(diaginfo, 'error', 0)
-    endfor
+      endfor
+    endif
 
     call settabvar(i, 'mayhem_tl_cached_diagnostics', #{
           \ error: errorCount,

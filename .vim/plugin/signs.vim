@@ -355,7 +355,9 @@ endfunc
 " TODO caching
 " TODO async
 function! s:FetchDiagnostics(fresh = 0)
-  return reduce(CocAction('diagnosticList'), {acc, cur -> s:GroupByFile(acc, cur)}, {})
+  return CocAction('diagnosticList')->reduce(
+        \ {acc, cur -> has_key(acc, val['file']) ? add(acc[val['file']], val) : acc[val['file']] = [val]}, {})
+        " \ {acc, cur -> s:GroupByFile(acc, cur)}, {})
 endfunc
 
 

@@ -149,14 +149,14 @@ inoremap <silent><expr> <CR>
 " Events And Autocommands:
 "
 
-function s:OnCocDiagnosticChange()
-  if exists('#User#MayhemEnterVisual')
-    doautocmd User MayhemEnterVisual
-  endif
-endfunc
+" function s:OnCocDiagnosticChange()
+"   if exists('#User#MayhemEnterVisual')
+"     doautocmd User MayhemEnterVisual
+"   endif
+" endfunc
 
-function s:OnCocLocationsChange() abort
 "   new list in: g:coc_jump_locations
+function s:OnCocLocationsChange() abort
    let g:last_coc_jump_locations = g:coc_jump_locations
    " call setloclist(0, g:coc_jump_locations) | lwindow
    CocList --normal -A location
@@ -165,9 +165,13 @@ endfunc
 
 function s:OnCocOpenFloat() abort
   " w:preview_window = 1
-  let cocbufnr = get(get(getwininfo(g:coc_last_float_win), 0, {}), 'bufnr', -1)
-  " let name = get(get(getbufinfo(get(get(getwininfo(g:coc_last_float_win), 0, {}), 'bufnr', -1)), 0, {}), 'name', 'unknown')
-  let name = getwininfo(g:coc_last_float_win)->get(0, {})->get('bufnr', -1)->getbufinfo()->get(0, {})->get('name', 'unknown')
+  let cocbufnr = getwininfo(g:coc_last_float_win)
+        \->get(0, {})
+        \->get('bufnr', -1)
+
+  let name = getbufinfo(cocbufnr)
+        \->get(0, {})
+        \->get('name', 'unknown')
 
   let popOpts = popup_getoptions(g:coc_last_float_win)
   let highlight = get(popOpts, 'highlight', 'unknown')
@@ -223,6 +227,7 @@ let s:modechangemap = [
       \ ['silent DoUserAutocmd MayhemDiagnosticsUpdated',  'CocDiagnosticChange'],
       \ ['silent call CocActionAsync("showSignatureHelp")', 'CocJumpPlaceholder'],
       \ ['silent call s:OnCocOpenFloat()',                        'CocOpenFloat'],
+      \ ['silent call s:OnCocTerminalOpen()',                  'CocTerminalOpen'],
       \ ['silent echom "---CocNvimInit---"',                       'CocNvimInit'],
       \ ['silent call s:OnCocLocationsChange()',            'CocLocationsChange'],
       \]
@@ -241,66 +246,3 @@ call autocmd_add([
       \},
       \])
 
-      " \#{
-      " \ event: 'User', pattern: ['CocStatusChange','CocDiagnosticChange'],
-      " \ cmd: 'silent DoUserAutocmd MayhemDiagnosticsUpdated',
-      " \ group: 'mayhem_coc', replace: v:true,
-      " \},
-      " \#{
-      " \ event: 'User', pattern: 'CocJumpPlaceholder',
-      " \ cmd: 'silent call CocActionAsync("showSignatureHelp")',
-      " \ group: 'mayhem_coc', replace: v:true,
-      " \},
-      " \#{
-      " \ event: 'User', pattern: 'CocOpenFloat',
-      " \ cmd: 'silent call s:OnCocOpenFloat()',
-      " \ group: 'mayhem_coc', replace: v:true,
-      " \},
-      " \#{
-      " \ event: 'User', pattern: 'CocNvimInit',
-      " \ cmd: 'echom \"---CocNvimInit---"',
-      " \ group: 'mayhem_coc', replace: v:true,
-      " \},
-      " \#{
-      " \ event: 'User', pattern: 'CocLocationsChange',
-      " \ cmd: 'silent call s:OnCocLocationsChange()',
-      " \ group: 'mayhem_coc', replace: v:true,
-      " \},
-      " \])
-
-" augroup CocEvents
-"   autocmd!
-  " Highlight symbol under cursor on CursorHold
-  " au CursorHold * silent call CocActionAsync('highlight')
-
-  " on startup
-  " au User CocNvimInit echom \"---CocNvimInit---"
-
-  " On diagnostics changed
-  "au User CocStatusChange,CocDiagnosticChange call dostuff()
-  " au User CocStatusChange echom \"---CocStatusChange---"
-  " au User CocDiagnosticChange echom \"---CocDiagnosticChange---"
-  " au User CocStatusChange,CocDiagnosticChange silent DoUserAutocmd MayhemDiagnosticsUpdated
-
-  " Triggered on jump to placeholder during snippet completion (in insert mode)
-  " au User CocJumpPlaceholder echom \"---CocJumpPlaceholder---"
-  " au User CocJumpPlaceholder silent call CocActionAsync('showSignatureHelp')
-
-  "Triggered when a floating window is opened.  The window is not
-  "focused, use |g:coc_last_float_win| to get window id.
-  " au User CocOpenFloat silent call s:OnCocOpenFloat()
-  " au User CocOpenFloatPrompt silent call s:OnCocOpenFloatPrompt()
-
-  "Triggered when terminal shown (e.g. for adjusting window height)
-  " au User CocTerminalOpen echom '---CocTerminalOpen---'
-
-  "Triggered on location list change,
-  "   new list in: g:coc_jump_locations
-  " 'filename': full file path.
-  " 'lnum': line number (1 based).
-  " 'col': column number(1 based).
-  " 'text':  line content of location.
-  " let g:coc_enable_locationlist = 0
-  " au User CocLocationsChange echom '---CocLocationsChange---'
-  " au User CocLocationsChange silent call s:OnCocLocationsChange()
-" augroup END

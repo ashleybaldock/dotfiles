@@ -14,9 +14,13 @@ function! GuiTabLabel() abort
 
   let current = get(g:, 'actual_curtab', 0) == tabpagenr()
 
+  let errorCount = get(t:, 'mayhem_tl_cached_diagnostics', {})
+        \->get('error', 0)
+  let diagnostics = errorCount > 0 ? printf("%s%s", symbols#get('diag.inline.error'), errorCount) : ""
+
   return [
       \printf(" %s", modified ? " ̵̩̩" : " "),
-      \printf("%s %-32.32s", t:mayhem_tl_cached_diagnostics, bufname),
+      \printf("%s %-32.32s", diagnostics, bufname),
       \printf("%s", current ? "█▇▆▆▆▆▆▆▆▆▆▆▆▆▆" : "▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅")
       \]->join("\n")
 endfunction

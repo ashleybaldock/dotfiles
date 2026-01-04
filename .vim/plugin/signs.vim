@@ -343,56 +343,67 @@ command! OurTextPropsInThisBuffer echo <SID>ListTextsOfMayhemInCurrentBuffer()
 " prop_remove({props} [, {lnum} [, {lnum-end}]])
 
 
-function! s:GroupByFile(acc, val)
-  if ( has_key(a:acc, a:val['file']) ) 
-    call add(a:acc[a:val['file']], a:val)
-  else
-    let a:acc[a:val['file']] = [ a:val ]
-  endif
-  return a:acc
-endfunc
-
 " TODO caching
 " TODO async
-function! s:FetchDiagnostics(fresh = 0)
+function! s:FetchDiagnostics(fresh = 0) abort
   return CocAction('diagnosticList')
         \->reduce({acc, cur -> has_key(acc, cur['file'])
         \ ? add(acc[cur['file']], cur)
         \ : extend(acc, { cur['file']: [cur]})}, {})
 endfunc
 
+function! s:UpdateDiagnosticSummary(bufnr = bufnr()) abort
+  let summary = #{
+        \ above: #{ error: 0, warning: 0, hint: 0, info: 0 },
+        \ below: #{ error: 0, warning: 0, hint: 0, info: 0 },
+        \}
+  if empty(bufname(a:bufnr))
+    return summary
+  endif
+  
+  let bufpath = bufname(a:bufnr)->expand()->fnamemodify(':p')
+  let bufferDiagnostics = get(s:diagCache, bufpath, [])
+
+  let lnum_wintop = line('w0')
+  let lnum_winbot = line('w$')
+
+  for diag in bufferDiagnostics
+    if diag.lnum < lnum_wintop
+      let summary.above[diag.severity] += 1
+    elseif diag.lnum > lnum_winbot
+      let summary.below[diag.severity] += 1
+    endif
+  endfor
+
+  call setbufvar(bufnr, 'mayhem_diagnostic_summary', summary)
+  " let bufname = fnamemodify(bufname, s:abbrpaths)
+  " return printf("%s %s", bufname, tabline#modstatus(a:bufnr))
+endfunction
+
 function! s:updateCache() abort
   let s:diagCache = s:FetchDiagnostics()
+
+  " TODO
+  " make this async with a callback
+  " - to update the cache
+  " - to update summary for all matching buffers
+
+  for [filepath, diagnostics] in items(s:diagCache)
+    let b = bufnr(filepath)
+    if !empty(b)
+      call s:UpdateDiagnosticSummary(b)
+    endif
+  endfor
 endfunc
 
 
-function! s:DiagnosticSummary(bufnr = bufnr())
-  let bufname = bufname(a:bufnr)
-
-  let l:summary = #{
-        \ bufname: bufname(a:bufnr),
-        \ above: { 'error': 0, 'warning': 0, 'hint': 0, 'info': 0 },
-        \ below: { 'error': 0, 'warning': 0, 'hint': 0, 'info': 0 },
-        \}
-  if empty(l:summary.bufname)
-    return l:summary
-  else
-    let bufname = fnamemodify(bufname, s:abbrpaths)
-  endif
-  return printf("%s %s", bufname, tabline#modstatus(a:bufnr))
-
-  let l:diagnostics = s:forFile()
-
-  let l:wintop = line('w0')
-  let l:winbot = line('w$')
-endfunc
 
 
 function! s:DebugDiagnostics()
   let grouped = s:FetchDiagnostics(1)
   vsp
   enew
-  call append('$', FormatJSON(json_encode(grouped)))
+  call append('$', format#dict2json(grouped))
   setlocal filetype=json
   setlocal nomodifiable nomodified 
 endfunc

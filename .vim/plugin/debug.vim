@@ -3,40 +3,7 @@ if exists("g:mayhem_loaded_debug")
 endif
 let g:mayhem_loaded_debug = 1
 
-
 "
-" Turn a Vim dict into a JSON, taking care of any pesky Funcrefs
-"
-let s:replace = {_, v -> '['..typename(v)..']'}
-let s:identity = {_, v -> v}
-function s:Lookup(key, val)
-  return get(s:typemap, string(type(a:val)), s:replace)(a:key, a:val)
-endfunc
-let s:lookup = function('s:Lookup')
-let s:typemap = {
-      \  string(v:t_number): s:identity
-      \, string(v:t_string): {_, v -> substitute(v, '\n', '\\n', 'g')}
-      \, string(v:t_func): s:replace
-      \, string(v:t_list): {_, v -> v->map(s:lookup)}
-      \, string(v:t_dict): {_, v -> v->map(s:lookup)}
-      \, string(v:t_float): s:identity
-      \, string(v:t_bool): s:identity
-      \, string(v:t_none): {_, v -> 'null'}
-      \, string(v:t_job): s:replace
-      \, string(v:t_channel): s:replace
-      \, string(v:t_blob): s:replace
-      \, string(v:t_class): s:replace
-      \, string(v:t_object): s:replace
-      \, string(v:t_typealias): s:replace
-      \, string(v:t_enum): s:replace
-      \, string(v:t_enumvalue): s:replace
-      \ }
-function s:DictToJson(someDict)
-  let json = deepcopy(a:someDict)->map(s:lookup)
-  echom json
-  return json_encode(json)
-endfunc
-
 " Window & Buffer debug info
 "
 function s:FormatInfo()
@@ -52,7 +19,7 @@ command! FormatInfo call <SID>FormatInfo()
 
 function s:WindowInfo(winid = win_getid())
   let wInfo = getwininfo(a:winid)[0]
-  let float = get(get(wInfo, 'variables', {}), 'float', 0)
+  let float = get(wInfo, 'variables', {})->get('float', 0)
   let isFloat = float ? 'Yes' : 'No'
   let bufnr = get(wInfo, 'bufnr', 0)
   let winType = win_gettype(a:winid)
@@ -90,7 +57,7 @@ function s:WindowInfo(winid = win_getid())
         \}}
   vsp
   enew
-  call append('$', FormatJSON(s:DictToJson(w)))
+  call append('$', format#dict2json(w))
   setlocal filetype=json
   setlocal nomodifiable nomodified 
 endfunc

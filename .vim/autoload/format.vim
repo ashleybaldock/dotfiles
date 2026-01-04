@@ -60,11 +60,49 @@ function! format#session(str) abort
   return a:str->split('\zs')->map({i, c -> get(s:f_session_lookup, c, '⍰')})->join('')
 endfunc
 
+
+let s:replace = {_, v -> '['..typename(v)..']'}
+let s:identity = {_, v -> v}
+let s:typemap = {
+      \  string(v:t_number): s:identity
+      \, string(v:t_string): {_, v -> substitute(v, '\n', '\\n', 'g')}
+      \, string(v:t_func): s:replace
+      \, string(v:t_list): {_, v -> v->map(s:lookup)}
+      \, string(v:t_dict): {_, v -> v->map(s:lookup)}
+      \, string(v:t_float): s:identity
+      \, string(v:t_bool): s:identity
+      \, string(v:t_none): {_, v -> 'null'}
+      \, string(v:t_job): s:replace
+      \, string(v:t_channel): s:replace
+      \, string(v:t_blob): s:replace
+      \, string(v:t_class): s:replace
+      \, string(v:t_object): s:replace
+      \, string(v:t_typealias): s:replace
+      \, string(v:t_enum): s:replace
+      \, string(v:t_enumvalue): s:replace
+      \ }
+function s:Lookup(key, val)
+  return get(s:typemap, string(type(a:val)), s:replace)(a:key, a:val)
+endfunc
+let s:lookup = function('s:Lookup')
+
+"
+" Turn a Vim dict into a JSON, taking care of any pesky Funcrefs
+"
+function s:DictToJson(someDict) abort
+  return deepcopy(a:someDict)->map(s:lookup)->json_encode()
+endfunc
 "
 " Runs prettier on the input JSON string
 "
-function format#JSON(jsonString) abort
+function format#json(jsonString) abort
   return systemlist('npx prettier --stdin-filepath nameless.json', a:jsonString)
+endfunc
+"
+" Turn dict into JSON and then prettier it
+"
+function format#dict2json(dict) abort
+  return format#json(s:DictToJson(a:dict))
 endfunc
 "
 " Apply code beautification to the contents of a buffer (or part thereof)

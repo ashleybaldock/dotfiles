@@ -92,28 +92,82 @@ command! TestSign echo <SID>PlaceSign()
 "┃ console.log(a())            
 "╹────────────────────────────────
 let s:styles = #{
-      \ curl: #{s:' ⎧', m:' ⎪', e:' ⎩', se: ' {' },
-      \ round: #{s:' ╭', m:' │', e:' ╰', se: ' (️' },
-      \ squares: #{s:' ⌈', m:' |', e:' ⌊', se: ' [' },
-      \ square: #{s:' ⎡', m:' ⎜', e:' ⎣', se: ' [️' },
-      \ bracket: #{s:' ⎛', m:' ⎢', e:' ⎝', se: ' (' },
-      \ solidus: #{s:' /', m:' ⎢', e:' \', se: ' ❮' },
+      \ curl: #{ se: ' {',
+      \    s:' ⎧',
+      \    m:' ⎪',
+      \    e:' ⎩', },
+      \ round: #{
+      \    s:' ╭',
+      \    m:' │',
+      \    e:' ╰', se: ' (️' },
+      \ squares: #{
+      \    s:' ⌈',
+      \    m:' |',
+      \    e:' ⌊', se: ' [' },
+      \ square: #{
+      \    s:' ⎡',
+      \    m:' ⎜',
+      \    e:' ⎣', se: ' [️' },
+      \ bracket: #{
+      \    s:' ⎛',
+      \    m:' ⎢',
+      \    e:' ⎝', se: ' (' },
+      \ solidus: #{
+      \    s:' /',
+      \    m:' ⎢',
+      \    e:' \', se: ' ❮' },
       \
-      \ short: #{s:' ┌', m:' │', e:' └', se: ' ⌶' },
-      \ xshort: #{s:' _', m:' │', e:' ‾', se: ' |̲̅' },
+      \ short: #{
+      \   s:' ┌', 
+      \   m:' │', 
+      \   e:' └', se: ' ⌶' },
+      \ xshort: #{
+      \   s:' _', 
+      \   m:' │', 
+      \   e:' ‾', se: ' |̲̅' },
       \
-      \ xlong: #{s:' │̅', m:' │', e:' │̲', se: ' │̲̅' },
-      \ xlongh: #{s:' ┃̅', m:' ┃', e:' ┃̲', se: ' ┃̲̅' },
-      \ xlongdb: #{s:' ║̅', m:' ║', e:' ║̲', se: ' ║̲̅' },
+      \ xlong: #{
+      \   s:' │̅', 
+      \   m:' │', 
+      \   e:' │̲', se: ' │̲̅' },
+      \ xlongh: #{
+      \   s:' ┃̅', 
+      \   m:' ┃', 
+      \   e:' ┃̲', se: ' ┃̲̅' },
+      \ xlongdb: #{
+      \   s:' ║̅', 
+      \   m:' ║', 
+      \   e:' ║̲', se: ' ║̲̅' },
       \
-      \ dash2s: #{s:' ¦', m:' ¦', e:' ¦', se:' ¦' },
-      \ dash2l: #{s:' ╷', m:' ╎', e:' ╵', se: ' ¦' },
-      \ dash3l: #{s:' ╷', m:' ┆', e:' ╵', se:  ' ┆' },
-      \ dash4l: #{s:' ╷', m:' ┊', e:' ╵', se:   ' ┊' },
+      \ dash2s: #{
+      \   s:' ¦', 
+      \   m:' ¦', 
+      \   e:' ¦', se: ' ¦' },
+      \ dash2l: #{
+      \   s:' ╷', 
+      \   m:' ╎', 
+      \   e:' ╵', se: ' ¦' },
+      \ dash3l: #{
+      \   s:' ╷', 
+      \   m:' ┆', 
+      \   e:' ╵', se: ' ┆' },
+      \ dash4l: #{
+      \   s:' ╷', 
+      \   m:' ┊', 
+      \   e:' ╵', se: ' ┊' },
       \
-      \ dash2h: #{s:' ╻', m:' ╏', e:' ╹', se: ' ╏' },
-      \ dash3h: #{s:' ╻', m:' ┇', e:' ╹', se:  ' ┇' },
-      \ dash4h: #{s:' ╻', m:' ┋', e:' ╹', se:   ' ┋' },
+      \ dash2h: #{
+      \   s:' ╻', 
+      \   m:' ╏', 
+      \   e:' ╹', se: ' ╏' },
+      \ dash3h: #{
+      \   s:' ╻', 
+      \   m:' ┇', 
+      \   e:' ╹', se: ' ┇' },
+      \ dash4h: #{
+      \   s:' ╻', 
+      \   m:' ┋', 
+      \   e:' ╹', se: ' ┋' },
       \}
 function! s:CodeBlockBackground(from, to, style = 'xshort')
   let group = s:prefix .. 'codeblock1_'
@@ -343,23 +397,11 @@ command! OurTextPropsInThisBuffer echo <SID>ListTextsOfMayhemInCurrentBuffer()
 " prop_remove({props} [, {lnum} [, {lnum-end}]])
 
 
+
 " TODO caching
 " TODO async
 function! s:FetchDiagnostics(fresh = 0) abort
-  let grouped = {}
-
-  for diagnostic in CocAction('diagnosticList')
-    let file = get(diagnostic, 'file', v:null)
-    if !empty(file) 
-      if has_key(grouped, file)
-        call add(grouped[file], diagnostic)
-      else
-        let grouped[file] = [diagnostic]
-      endif
-    endif
-  endfor
-
-  return grouped
+  return mayhem#groupby(CocAction('diagnosticList'), 'file')
 endfunc
 
 function! s:UpdateDiagnosticSummary(bufnr = bufnr()) abort

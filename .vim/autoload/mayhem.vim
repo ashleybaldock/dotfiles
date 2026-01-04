@@ -6,15 +6,6 @@ let g:autoloaded_mayhem = 1
 scriptencoding utf-8
 
 
-"
-" Do User Autocmd (but only if anything is listening)
-"
-function! mayhem#doUserAutocmd(name) abort
-  if exists('#User#' .. a:name)
-    exec 'doautocmd User ' .. a:name
-  endif
-endfunc
-
 
 " let acmd = #{
 "       \bufnr:   '',
@@ -27,6 +18,34 @@ endfunc
 "       \replace: '', 
 "       \}
 
+"
+" Do User Autocmd (but only if anything is listening)
+"
+function! mayhem#doUserAutocmd(name) abort
+  if exists('#User#' .. a:name)
+    exec 'doautocmd User ' .. a:name
+  endif
+endfunc
+
+
+"
+" Turn an array of dicts into a dict of arrays of dicts
+" that have the same value for the grouping key
+"
+function! mayhem#groupby(array, keyToGroupBy) abort
+  let grouped = {}
+  for item in array
+    if has_key(item, keyToGroupBy)
+      let group = get(a:array, a:keyToGroupBy, '')
+      if has_key(grouped, group)
+        call add(grouped[group], item)
+      else
+        let grouped[group] = [item]
+      endif
+    endif
+  endfor
+  return grouped
+endfunc
 
 " show hint for files in these folders
 " most specific is used
@@ -38,10 +57,13 @@ if !exists('g:mayhem_type_ext_map')
 endif
 
 function! mayhem#getHintForPath(path)
-  return get(g:mayhem_path_hints, fnamemodify(expand(a:path), ':p:h'), {})->get('hint', '')
+  return get(g:mayhem_path_hints, expand(a:path)->fnamemodify(':p:h'), {})
+        \->get('hint', '')
 endfunc
+
 function! mayhem#getSubtypeForPath(path)
-  return get(g:mayhem_path_hints, fnamemodify(expand(a:path), ':p:h'), {})->get('subtype', '')
+  return get(g:mayhem_path_hints, expand(a:path)->fnamemodify(':p:h'), {})
+        \->get('subtype', '')
 endfunc
 
 function mayhem#fileTypeMatchesExt(type, filename)

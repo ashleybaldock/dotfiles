@@ -355,15 +355,36 @@ endfunc
 " TODO caching
 " TODO async
 function! s:FetchDiagnostics(fresh = 0)
-  return CocAction('diagnosticList')->reduce(
-        \ {acc, cur -> has_key(acc, val['file']) ? add(acc[val['file']], val) : acc[val['file']] = [val]}, {})
-        " \ {acc, cur -> s:GroupByFile(acc, cur)}, {})
+  return CocAction('diagnosticList')
+        \->reduce({acc, cur -> has_key(acc, cur['file'])
+        \ ? add(acc[cur['file']], cur)
+        \ : extend(acc, { cur['file']: [cur]})}, {})
+endfunc
+
+function! s:updateCache() abort
+  let s:diagCache = s:FetchDiagnostics()
 endfunc
 
 
-function! s:DiagnosticSummary()
-  let l:above = { 'error': 0, 'warning': 0, 'hint': 0, 'info': 0 }
-  let l:below = { 'error': 0, 'warning': 0, 'hint': 0, 'info': 0 }
+function! s:DiagnosticSummary(bufnr = bufnr())
+  let bufname = bufname(a:bufnr)
+
+  let l:summary = #{
+        \ bufname: bufname(a:bufnr),
+        \ above: { 'error': 0, 'warning': 0, 'hint': 0, 'info': 0 },
+        \ below: { 'error': 0, 'warning': 0, 'hint': 0, 'info': 0 },
+        \}
+  if empty(l:summary.bufname)
+    return l:summary
+  else
+    let bufname = fnamemodify(bufname, s:abbrpaths)
+  endif
+  return printf("%s %s", bufname, tabline#modstatus(a:bufnr))
+
+  let l:diagnostics = s:forFile()
+
+  let l:wintop = line('w0')
+  let l:winbot = line('w$')
 endfunc
 
 
@@ -377,3 +398,12 @@ function! s:DebugDiagnostics()
 endfunc
 
 command! -bar DebugDiagnostics call <SID>DebugDiagnostics()
+
+call autocmd_add([
+      \#{
+      \ event: 'User', pattern: 'MayhemDiagnosticsUpdated',
+      \ cmd: 'call s:updateCache()',
+      \ group: 'mayhem_signs_update', replace: v:true,
+      \},
+      \])
+

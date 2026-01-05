@@ -158,56 +158,37 @@ let s:styles = #{
       \ se:  ' ┋',m:' ┋', 
       \           e:' ╹',},
       \}
-  " let signDefs = [
-  "       \ sign_define(group .. 's', #{
-  "       \ text: sp.s,
-  "       \ linehl: 'markdownHighlight_sh', 
-  "       \ culhl: 'markdownHighlight_sh',
-  "       \}),
-  "       \ sign_define(group .. 'm', #{
-  "       \ text: sp.m,
-  "       \ linehl: 'markdownHighlight_sh', 
-  "       \}),
-  "       \ sign_define(group .. 'e', #{
-  "       \ text: sp.e,
-  "       \ linehl: 'markdownHighlight_sh', 
-  "       \}),
-  "       \ sign_define(group .. 'se', #{
-  "       \ text: sp.se,
-  "       \ linehl: 'markdownHighlight_sh', 
-  "       \}),
-  "       \]
 let s:definedSigns = {}
 
-function! s:CodeBlockBackground(fromLineNr, toLineNr, bufnr = bufnr(), style = 'xshort')
+function! s:CodeBlockBackground(fromLineNr, toLineNr, style = 'xshort', bufnr = bufnr())
   let parts = {}
+  let bufnr = a:bufnr
+  let startLine = a:fromLineNr
+  let endLine = a:toLineNr
 
   " lazily define these as needed when first used
   for part in keys(s:styles[a:style])
-    let name = printf("%s_codeblock_%s_%s", s:prefix, style, part)
+    let name = printf("%s_codeblock_%s_%s", s:prefix, a:style, part)
 
     let s:definedSigns[name] = sign_define(name, #{
-        \ text: get(s:styles, style, {})->get(part, '?s'),
+        \ text: get(s:styles, a:style, {})->get(part, '?s'),
         \ linehl: 'markdownHighlight_sh', 
         \ culhl: 'markdownHighlight_sh',
         \})
     let parts[part] = s:definedSigns[name]
   endfor
 
-  let startLine = a:fromLineNr
-  let endLine = a:toLineNr
-
   if startLine == endLine
     let signs =
-          \ [ sign_place(0, s:group, parts.se, a:bufnr, #{ lnum: startLine }) ]
+          \ [ sign_place(0, s:group, parts.se, bufnr, #{ lnum: startLine }) ]
   else
     let midStart = startLine + 1
     let midEnd = endLine - 1
     let signs = 
-          \ [ sign_place(0, s:group, parts.s, a:bufnr, #{ lnum: startLine }) ] +
+          \ [ sign_place(0, s:group, parts.s, bufnr, #{ lnum: startLine }) ] +
           \ range(midStart, midEnd, 1)->map({_, val -> 
-          \   sign_place(0, s:group, parts.m, a:bufnr, #{ lnum: val }) }) +
-          \ [ sign_place(0, s:group, parts.e, a:bufnr, #{ lnum: endLine }) ]
+          \   sign_place(0, s:group, parts.m, bufnr, #{ lnum: val }) }) +
+          \ [ sign_place(0, s:group, parts.e, bufnr, #{ lnum: endLine }) ]
   endif
   return signs
 endfunc

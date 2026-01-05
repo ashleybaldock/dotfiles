@@ -179,9 +179,8 @@ let s:styles = #{
   "       \]
 let s:definedSigns = {}
 
-function! s:CodeBlockBackground(fromLineNr, toLineNr, bufnr = bufnr() style = 'xshort')
-  " let group = printf("%s_codeblock_%s", s:prefix, style)
-  " let sp = get(s:styles, a:style, #{s: '?s', m: '?m', e: '?e', se: '?S'})
+function! s:CodeBlockBackground(fromLineNr, toLineNr, bufnr = bufnr(), style = 'xshort')
+  let parts = {}
 
   " lazily define these as needed when first used
   for part in keys(s:styles[a:style])
@@ -192,20 +191,23 @@ function! s:CodeBlockBackground(fromLineNr, toLineNr, bufnr = bufnr() style = 'x
         \ linehl: 'markdownHighlight_sh', 
         \ culhl: 'markdownHighlight_sh',
         \})
+    let parts[part] = s:definedSigns[name]
   endfor
 
   let startLine = a:fromLineNr
   let endLine = a:toLineNr
 
   if startLine == endLine
-    let signs = [ sign_place(0, s:group, group..'se', bufnr(), #{ lnum: startLine }) ]
+    let signs =
+          \ [ sign_place(0, s:group, parts.se, a:bufnr, #{ lnum: startLine }) ]
   else
     let midStart = startLine + 1
     let midEnd = endLine - 1
     let signs = 
-          \ [ sign_place(0, s:group, group..'s', bufnr(), #{ lnum: startLine }) ] +
-          \ range(midStart, midEnd, 1)->map({_, val -> sign_place(0, s:group, group..'m', bufnr(), #{ lnum: val }) }) +
-          \ [ sign_place(0, s:group, group..'e',  bufnr(), #{ lnum: endLine }) ]
+          \ [ sign_place(0, s:group, parts.s, a:bufnr, #{ lnum: startLine }) ] +
+          \ range(midStart, midEnd, 1)->map({_, val -> 
+          \   sign_place(0, s:group, parts.m, a:bufnr, #{ lnum: val }) }) +
+          \ [ sign_place(0, s:group, parts.e, a:bufnr, #{ lnum: endLine }) ]
   endif
   return signs
 endfunc
@@ -214,13 +216,12 @@ function! s:SignBracketComplete(ArgLead, CmdLine, CursorPos)
   return keys(s:styles)->join("\n")
 endfunc
 
-command! -range -nargs=? -complete=custom,<SID>SignBracketComplete SignBracket call <SID>CodeBlockBackground(<line1>, <line2>, <q-args>)
+command! -range -nargs=? -complete=custom,<SID>SignBracketComplete
+      \ SignBracket call <SID>CodeBlockBackground(<line1>, <line2>, <q-args>)
 
 command! CodeLine echo <SID>CodeBlockLine()
 
 
-" TODO place signs showing if there are more above/below current window
-" position
 
 "
 " group:
@@ -452,7 +453,7 @@ endfunc
 
 
 
-ssssssssssssx<D-z><D-z>qqqqqqqqqqqqqqqunction! s:DebugDiagnostics()
+function! s:DebugDiagnostics()
   let grouped = s:FetchDiagnostics(1)
   vsp
   enew

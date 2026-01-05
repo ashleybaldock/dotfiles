@@ -5,6 +5,11 @@ let g:mayhem_loaded_statusline = 1
 
 scriptencoding utf-8
 
+"
+" See Also: ../autoload/tabline.vim
+"             ../plugin/statusline.vim
+"
+
 "{{{1 TODO Statusline for narrow windows (<16)
 " fi⠒me.vim
 " fi⠤me.vim

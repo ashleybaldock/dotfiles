@@ -10,12 +10,12 @@ let g:mayhem_autoloaded_tabline = 1
 
 let s:abbrpaths = [
       \ ":p:s?"..$VIMRUNTIME.."\/syntax?$𝘝𝘙∕𝘴⋮?",
-      \ ":p:s?"..$VIMRUNTIME.."\/?$𝘝𝘙⋮?",
+      \ ":s?"..$VIMRUNTIME.."\/?$𝘝𝘙⋮?",
       \ ":~",
       \ ":s?\\~\/dotfiles\/\.vim\/after\/ftplugin?𝙫∕𝙖/𝙛⋮?",
       \ ":s?\\~\/dotfiles\/\.vim\/after\/plugin?𝙫∕𝙖/𝙥⋮?",
       \ ":s?\\~\/dotfiles\/\.vim\/after\/syntax?𝙫∕𝙖/𝙨⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/autoload?𝙫∕𝙖𝙪⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/autoload?𝙫∕ⳇⳆⲺⳇⲻ𐝆𐕆𐝆Ⴟ ჿჿ𐝆𐙟 𐙾𐚞𐚐𐃴 𝙖𝙪⋮?",
       \ ":s?\\~\/dotfiles\/\.vim\/colors?𝙫∕𝙘𝙡⋮?",
       \ ":s?\\~\/dotfiles\/\.vim\/ftplugin?𝙫∕𝙛⋮?",
       \ ":s?\\~\/dotfiles\/\.vim\/plugin?𝙫∕𝙥⋮?",
@@ -23,7 +23,10 @@ let s:abbrpaths = [
       \ ":s?\\~\/dotfiles\/\.vim\/templates?𝙫∕𝙩𝙥𝙡⋮?",
       \ ":s?\\~\/dotfiles\/\.vim\/notes?𝙫∕𝙣𝙤𝙩𝙚𝙨⋮?",
       \ ":s?\\~\/dotfiles\/\.vim?𝙫⋮?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/?𝒲⋮?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/components\/?𝓦⋮𝓈⸍𝒶⁝𝒸?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/?𝓦⋮𝓈𐑢𝒶⋮?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/?𝓦⋮𝘴ⳇ?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/?𝓦⋮?",
       \ ":s?\\~\/projects?𝑷⋮?",
       \]->join('')
 

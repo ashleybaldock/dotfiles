@@ -9,58 +9,18 @@ let g:mayhem_loaded_tabline = 1
 
 "
 " See Also: ../autoload/tabline.vim
+"             ../plugin/statusline.vim
 "
 
 function! GuiTabLabel() abort
-  let bufname = get(b:, 'mayhem_tl_cached_filename', tabline#bufname())
-  let modified = tabpagebuflist(v:lnum)
-        \->reduce({acc, bufnr -> acc + getbufvar(bufnr, "&modified", 0)}, 0)
-
-  let current = get(g:, 'actual_curtab', 0) == tabpagenr()
-
-  let diagnostics = get(t:, 'mayhem_tl_cached_diagnostics', #{off:1})
-  if get(diagnostics, 'off', 0)
-    let reportErrors = symbols#get('diag.inline.off')
-  else
-    let errors = diagnostics->get('error', 0)
-    let reportErrors = errors > 0 ? printf("%s%s",
-          \ errors,
-          \ symbols#get('diag.inline.error')
-          \) : ""
-  endif
-
-  return [
-      \printf(" %s", modified ? " ̵̩̩" : " "),
-      \printf("%s %-32.32s", reportErrors , bufname),
-      \printf("%s", current ? "█▇▆▆▆▆▆▆▆▆▆▆▆▆▆" : "▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅")
-      \]->join("\n")
-endfunction
-       " \ ? '▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ '
+  return get(t:, 'mayhem_cache_guitablabel', [])->get(tabpagenr(), '𝘯𝘦𝘸 𝘵𝘢𝘣')
+endfunc
 
 set guitablabel=%{%GuiTabLabel()%}
 
-
 function! GuiTabToolTip() abort
-  let diagnostics = get(t:, 'mayhem_tl_cached_diagnostics', {})
-  let warnings = get(diagnostics, 'warning', 0)
-  let errors = get(diagnostics, 'error', 0)
-
-  return [
-        \printf("%s ℴ𝒻 %s%%= %s%s",
-        \ format#numbers(tabpagenr('$')->string(), 'sans'),
-        \ format#numbers(tabpagenr()->string(), 'sans'),
-        \ errors > 0 ? printf("%s%s", symbols#get('diag.inline.error'), errors) : "",
-        \ warnings > 0 ? printf("%s%s", symbols#get('diag.inline.warning'), warnings) : ""
-        \),
-        \printf("%d window%s:",
-        \ tabpagewinnr(v:lnum, '$'),
-        \ tabpagewinnr(v:lnum, '$') > 1 ? 's' : ''
-        \),
-        \printf("%s%%<",
-        \ tabpagebuflist(tabpagenr())->map({i, bufnr -> getbufvar(bufnr, 'mayhem_tl_cached_filename')})->join("\n")
-        \),
-        \]->join("\n")
-endfunction
+  return get(t:, 'mayhem_cache_guitabtooltip', [])->get(tabpagenr(), '')
+endfunc
 
 set guitabtooltip=%.400{%GuiTabToolTip()%}
 

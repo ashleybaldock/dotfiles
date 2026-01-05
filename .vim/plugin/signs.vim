@@ -160,6 +160,11 @@ let s:styles = #{
       \}
 let s:definedSigns = {}
 
+"
+" Add a multi-part sign spanning the rows specified
+" Each sign style can have a start, middle and end part
+" Returns a list of the ids of the signs created
+"
 function! s:CodeBlockBackground(fromLineNr, toLineNr, style = 'xshort', bufnr = bufnr())
   let parts = {}
   let bufnr = a:bufnr
@@ -179,18 +184,16 @@ function! s:CodeBlockBackground(fromLineNr, toLineNr, style = 'xshort', bufnr = 
   endfor
 
   if startLine == endLine
-    let signs =
-          \ [ sign_place(0, s:group, parts.se, bufnr, #{ lnum: startLine }) ]
+    return [ sign_place(0, s:group, parts.se, bufnr, #{ lnum: startLine }) ]
   else
     let midStart = startLine + 1
     let midEnd = endLine - 1
-    let signs = 
-          \ [ sign_place(0, s:group, parts.s, bufnr, #{ lnum: startLine }) ] +
+    return extend(
+          \ [ sign_place(0, s:group, parts.s, bufnr, #{ lnum: startLine }) ],
           \ range(midStart, midEnd, 1)->map({_, val -> 
-          \   sign_place(0, s:group, parts.m, bufnr, #{ lnum: val }) }) +
-          \ [ sign_place(0, s:group, parts.e, bufnr, #{ lnum: endLine }) ]
+          \   sign_place(0, s:group, parts.m, bufnr, #{ lnum: val }) }),
+          \ [ sign_place(0, s:group, parts.e, bufnr, #{ lnum: endLine }) ])
   endif
-  return signs
 endfunc
 
 function! s:SignBracketComplete(ArgLead, CmdLine, CursorPos)

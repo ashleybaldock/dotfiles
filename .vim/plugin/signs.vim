@@ -170,12 +170,12 @@ function! s:CodeBlockBackground(fromLineNr, toLineNr, style = 'xshort', bufnr = 
   for part in keys(s:styles[a:style])
     let name = printf("%s_codeblock_%s_%s", s:prefix, a:style, part)
 
-    let s:definedSigns[name] = sign_define(name, #{
+    call sign_define(name, #{
         \ text: get(s:styles, a:style, {})->get(part, '?s'),
         \ linehl: 'markdownHighlight_sh', 
         \ culhl: 'markdownHighlight_sh',
         \})
-    let parts[part] = s:definedSigns[name]
+    let parts[part] = name
   endfor
 
   if startLine == endLine

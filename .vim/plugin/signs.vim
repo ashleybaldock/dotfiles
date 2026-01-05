@@ -92,43 +92,48 @@ command! TestSign echo <SID>PlaceSign()
 "┃ console.log(a())            
 "╹────────────────────────────────
 let s:styles = #{
-      \ curl: #{s:' ⎧',
-      \ se:' {',m:' ⎪',
-      \         e:' ⎩', },
-      \ round: #{s:' ╭',
-      \ se: ' (️',m:' │',
-      \          e:' ╰',},
+      \ curl:   #{s:' ⎧',
+      \ se:  ' {',m:' ⎪',
+      \           e:' ⎩',},
+      \
+      \ round:  #{s:' ╭',
+      \ se:  ' (️',m:' │',
+      \           e:' ╰',},
       \
       \ square: #{s:' ⎡',
       \ se:  ' [️',m:' ⎜',
       \           e:' ⎣',},
-      \ bracket: #{s:' ⎛',
-      \  se:  ' (',m:' ⎢',
-      \            e:' ⎝',},
       \
-      \ solidus: #{s:' /',
-      \ se:   ' ❮',m:' ⎢',
-      \            e:' \',},
-      \ squares: #{s:' ⌈',
-      \ se:   ' [',m:' |',
-      \            e:' ⌊',},
+      \ bracket:#{s:' ⎛',
+      \  se: ' (',m:' ⎢',
+      \           e:' ⎝',},
       \
-      \ short: #{s:' ┌', 
-      \ se: ' ⌶',m:' │', 
-      \          e:' └',},
+      \ solidus:#{s:' /',
+      \ se:  ' ❮',m:' ⎢',
+      \           e:' \',},
+      \
+      \ squares:#{s:' ⌈',
+      \ se:  ' [',m:' |',
+      \           e:' ⌊',},
+      \
+      \ short:  #{s:' ┌', 
+      \ se:  ' ⌶',m:' │', 
+      \           e:' └',},
       \ xshort: #{s:' _', 
       \ se:  ' |̲̅',m:' │', 
       \           e:' ‾',},
       \
-      \ xlong: #{s:' │̅', 
-      \ se: ' │̲̅',m:' │', 
-      \          e:' │̲',},
-      \ xlongh: #{s:' ┃̅', 
+      \ xlong:  #{s:' │̅', 
+      \ se:  ' │̲̅',m:' │', 
+      \           e:' │̲',},
+      \
+      \ xlonghv:#{s:' ┃̅', 
       \ se:  ' ┃̲̅',m:' ┃', 
       \           e:' ┃̲',},
-      \ xlongdb: #{s:' ║̅', 
-      \ se:   ' ║̲̅',m:' ║', 
-      \            e:' ║̲',},
+      \
+      \ xlongdb:#{s:' ║̅', 
+      \ se:  ' ║̲̅',m:' ║', 
+      \           e:' ║̲',},
       \
       \ dash2s: #{s:' ¦', 
       \ se:  ' ¦',m:' ¦', 
@@ -153,38 +158,50 @@ let s:styles = #{
       \ se:  ' ┋',m:' ┋', 
       \           e:' ╹',},
       \}
-function! s:CodeBlockBackground(from, to, style = 'xshort')
-  let group = s:prefix .. 'codeblock1_'
-  let sp = get(s:styles, a:style, #{s: '?s', m: '?m', e: '?e', se: '?S'})
-  let signDefs = [
-        \ sign_define(group .. 's', #{
-        \ text: sp.s,
+  " let signDefs = [
+  "       \ sign_define(group .. 's', #{
+  "       \ text: sp.s,
+  "       \ linehl: 'markdownHighlight_sh', 
+  "       \ culhl: 'markdownHighlight_sh',
+  "       \}),
+  "       \ sign_define(group .. 'm', #{
+  "       \ text: sp.m,
+  "       \ linehl: 'markdownHighlight_sh', 
+  "       \}),
+  "       \ sign_define(group .. 'e', #{
+  "       \ text: sp.e,
+  "       \ linehl: 'markdownHighlight_sh', 
+  "       \}),
+  "       \ sign_define(group .. 'se', #{
+  "       \ text: sp.se,
+  "       \ linehl: 'markdownHighlight_sh', 
+  "       \}),
+  "       \]
+let s:definedSigns = {}
+
+function! s:CodeBlockBackground(fromLineNr, toLineNr, bufnr = bufnr() style = 'xshort')
+  " let group = printf("%s_codeblock_%s", s:prefix, style)
+  " let sp = get(s:styles, a:style, #{s: '?s', m: '?m', e: '?e', se: '?S'})
+
+  " lazily define these as needed when first used
+  for part in keys(s:styles[a:style])
+    let name = printf("%s_codeblock_%s_%s", s:prefix, style, part)
+
+    let s:definedSigns[name] = sign_define(name, #{
+        \ text: get(s:styles, style, {})->get(part, '?s'),
         \ linehl: 'markdownHighlight_sh', 
         \ culhl: 'markdownHighlight_sh',
-        \}),
-        \ sign_define(group .. 'm', #{
-        \ text: sp.m,
-        \ linehl: 'markdownHighlight_sh', 
-        \}),
-        \ sign_define(group .. 'e', #{
-        \ text: sp.e,
-        \ linehl: 'markdownHighlight_sh', 
-        \}),
-        \ sign_define(group .. 'se', #{
-        \ text: sp.se,
-        \ linehl: 'markdownHighlight_sh', 
-        \}),
-        \]
+        \})
+  endfor
 
-  let startLine = a:from
-  let endLine = a:to
+  let startLine = a:fromLineNr
+  let endLine = a:toLineNr
 
   if startLine == endLine
     let signs = [ sign_place(0, s:group, group..'se', bufnr(), #{ lnum: startLine }) ]
   else
     let midStart = startLine + 1
     let midEnd = endLine - 1
-
     let signs = 
           \ [ sign_place(0, s:group, group..'s', bufnr(), #{ lnum: startLine }) ] +
           \ range(midStart, midEnd, 1)->map({_, val -> sign_place(0, s:group, group..'m', bufnr(), #{ lnum: val }) }) +
@@ -435,7 +452,7 @@ endfunc
 
 
 
-function! s:DebugDiagnostics()
+ssssssssssssx<D-z><D-z>qqqqqqqqqqqqqqqunction! s:DebugDiagnostics()
   let grouped = s:FetchDiagnostics(1)
   vsp
   enew

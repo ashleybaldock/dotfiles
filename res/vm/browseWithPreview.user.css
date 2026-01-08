@@ -243,7 +243,6 @@
   padding: 0;
   margin: 0;
 }
-.toggle > label,
 .toggle > label::after {
   --icon-composite:
     var(--icon, var(--icon-default)),
@@ -256,7 +255,6 @@
   mask-composite: intersect;
 }
 
-.toggle:not(:has(:checked)) > label,
 .toggle:not(:has(:checked)) > label::after {
   --icon-composite:
     var(--icon-slash-overlay), var(--icon, var(--icon-default)),
@@ -269,7 +267,6 @@
     left -0.5px top 0.5px;
   background-color: #626;
 }
-.toggle:has(:checked) > label,
 .toggle:has(:checked) > label::after {
   --icon-composite: var(--icon, var(--icon-default));
   mask-composite: add;
@@ -703,9 +700,14 @@ body > h1 {
 
 /*!{{{2 @property */
 @property --interleave-bpm {
-  syntax: '<time>';
+  syntax: '<number>';
   inherits: true;
   initial-value: 120;
+}
+@property --s-interleave-bpm {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '120';
 }
 
 @property --interleave-duration-ms {
@@ -713,17 +715,21 @@ body > h1 {
   inherits: true;
   initial-value: 500ms;
 }
-
-@property --interleave-steps {
-  syntax: '<integer>';
+@property --s-interleave-duration-ms {
+  syntax: '<string>';
   inherits: true;
-  initial-value: 8;
+  initial-value: '500ms';
 }
 
 @property --ani-translate-progress {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
+}
+@property --s-ani-translate-progress {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '0';
 }
 
 @property --ani-transform {
@@ -743,7 +749,6 @@ body > h1 {
   inherits: true;
   initial-value: 0;
 }
-
 @property --s-playerIdx {
   syntax: '<string>';
   inherits: true;
@@ -801,7 +806,7 @@ body > section:has(> video, > .vidwrap) {
   animation-play-state: paused;
 }
 label:has([id='playpause_paused']:checked)::after {
-  contents: 'paused';
+  content: 'paused';
   display: flex;
   outline: 2px solid #f00;
 }
@@ -810,7 +815,7 @@ label:has([id='playpause_paused']:checked)::after {
   animation-play-state: running;
 }
 label:has([id='playpause_playing']:checked)::after {
-  contents: 'playing';
+  content: 'playing';
   display: flex;
   outline: 2px solid #0f0;
 }
@@ -1566,7 +1571,6 @@ body > table > tbody > ::before {
   line-height: normal;
   height: 2em;
   grid-column: 1/2;
-  z-index: var(--z-files);
   width: auto;
   opacity: 1;
   visibility: visible;
@@ -1586,7 +1590,7 @@ body > table > tbody > ::before {
   background-repeat: no-repeat;
   mask-repeat: no-repeat;
   mask-image: linear-gradient(#ffff);
-  z-index: 10;
+  z-index: var(--z-linear-current-playing);
 }
 
 body > table > tbody > :where(.playing, .paused, .played)::before {
@@ -1699,19 +1703,19 @@ body > table > thead > tr::before {
   display: grid;
   grid-template-rows: 1fr;
   grid-row: options;
-  --span: calc(var(--n-children, 1) + var(--span-extra, 0));
   --n-children: calc(
     var(--n1-children, 0) + var(--n2-children, 0) + var(--n4-children, 0) +
       var(--n8-children, 0) + var(--n16-children, 0)
   );
-  grid-template-columns: repeat(var(--n-children, 1), 1fr);
-  /*! grid-template-columns: subgrid; */
   position: sticky;
   inset: var(--inset-options);
-  /*! outline: 1px solid #626; */
   outline-offset: 0;
   grid-column: auto;
-  grid-column-end: span var(--n-children);
+
+  border: 0.5px solid #0000;
+  grid-column-end: span var(--span);
+  --span: calc(var(--n-children, 1) + var(--span-extra, 1));
+  grid-template-columns: repeat(calc(var(--n-children, 0) + 1), 1fr);
 }
 .grouping:has(> :nth-child(odd):nth-last-child(-n + 1)) {
   --n1-children: 1;
@@ -1875,7 +1879,7 @@ body > table > thead > tr::before {
   display: grid;
   mask-image: var(--icon);
   font-size: 1rem;
-  /*! content: ''; */
+  content: '';
   margin: 0;
   height: 2rem;
   width: auto;
@@ -2168,4 +2172,59 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   mask-size: calc(1em + 1px);
   padding: 0;
   letter-spacing: 0.06ch;
+}
+.toggle > label::after {
+  background-color: #828;
+  mask-image: var(--icon-composite);
+}
+:root:has([id='toggle_debug']:checked) .toggle {
+  grid-template-columns: 1fr;
+  height: auto;
+  width: auto;
+  position: relative;
+  top: -100%;
+  grid-auto-rows: 1fr;
+  align-items: end;
+  outline: 1px solid #f0fa;
+  border-radius: 100vw;
+}
+:root:has([id='toggle_debug']:checked) .toggle > label {
+  grid-row: auto;
+  mask-image: none;
+  mask-size:
+    contain,
+    100vw 100vh;
+  mask-origin: border-box;
+  mask-repeat: no-repeat, repeat;
+}
+:root:has([id='toggle_debug']:checked) .toggle > label > span {
+  /*! display: flex; */
+  position: absolute;
+  left: 100%;
+  white-space: nowrap;
+}
+:root:has([id='toggle_debug']:checked) .toggle label:has(:checked) {
+  outline: 1px dashed #f0f;
+  border-radius: 100vw;
+  outline-offset: -1px;
+  background-color: #000;
+}
+:root:has([id='toggle_debug']:checked) .toggle label:has(:checked)::after {
+  background-color: #f0fd;
+}
+:root:has([id='toggle_debug']:checked) .toggle label::before {
+  content: attr(data-value);
+  position: absolute;
+  inset: auto auto auto calc(100% + 1px);
+  background-color: #000;
+  border: 0 hidden #0000;
+  padding: 0.1em 0.5ch 0.2em 0.5ch;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: -1;
+  box-shadow: 1.5px 1.5px 0px -0.5px #f0f;
+  border-radius: 0 4px 1ch 3px / 1.4ch;
 }

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Global Util
 // @namespace   mayhem
-// @version     1.2.160
+// @version     1.2.161
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/global.user.js
 // @match       *://*/*
@@ -85,7 +85,7 @@ const styleToggleIds = addStyleToggles([
     enabled: false,
     sources: [
       {
-        name: 'webpack-overlay',
+        baseName: 'webpack-overlay',
         path: 'debug/',
       },
     ],

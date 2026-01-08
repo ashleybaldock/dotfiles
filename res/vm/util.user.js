@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.133
+// @version     1.1.134
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -598,7 +598,7 @@ function* rangeIter({
 }) {
   for (
     let next = start, i = 0;
-    i < count && step > 0 ? next < end : step < 0 ? next > end : true;
+    (i < count && step > 0 && next < end) || (step < 0 && next > end);
     i++, next += step
   ) {
     yield next;

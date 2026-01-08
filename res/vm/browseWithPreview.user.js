@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.324
+// @version     1.0.334
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -31,6 +31,7 @@ const sequences = {
   filelist: ['below', 'beside', 'hide'],
   playpause: ['playing', 'paused'],
   player: ['interleave', 'linear'],
+  interleave_timing: ['bpm', 'span'],
   interleave_duration_ms: [100, 200, 300, 400, 500, 600, 700, 800, 900],
   interleave_bpm: [
     60, 70, 80, 90, 100, 110, 120, 140, 150, 160, 170, 180, 190, 200,
@@ -477,8 +478,10 @@ const initBrowsePreview = ({ document: { body } }) => {
       showGrid: defineToggle(false),
       grid_fit: defineSequence(sequences.fit),
       player: defineSequence(sequences.player, 'interleave'),
-      interleave_active_player_count: defineNumber(8),
+      interleave_active_player_count: defineNumber(6),
       interleave_duration_ms: defineNumber(500),
+      interleave_bpm: defineNumber(120),
+      interleave_timing: defineSequence(sequences.interleave_timing, 'bpm'),
       repeat: defineToggle(true),
       shuffle_on_load: defineToggle(true),
       shuffle_on_repeat: defineToggle(true),
@@ -488,13 +491,26 @@ const initBrowsePreview = ({ document: { body } }) => {
     };
   })({});
 
-  (({ config: { interleave_active_player_count, interleave_duration_ms } }) => {
+  (({
+    config: {
+      interleave_active_player_count,
+      interleave_duration_ms,
+      interleave_bpm,
+    },
+  }) => {
     /* TODO - set up @property automatically */
     interleave_active_player_count.subscribe((newValue) => {
       setRegisteredCSSProp({
         name: '--interleave-active-player-count',
         value: newValue,
         syntax: '<integer>',
+      });
+    });
+    interleave_bpm.subscribe((newValue) => {
+      setRegisteredCSSProp({
+        name: '--interleave-bpm',
+        value: `${newValue}`,
+        syntax: '<number>',
       });
     });
     interleave_duration_ms.subscribe((newValue) => {
@@ -516,6 +532,8 @@ const initBrowsePreview = ({ document: { body } }) => {
       includeHiddenFiles,
       interleave_active_player_count,
       interleave_duration_ms,
+      interleave_timing,
+      interleave_bpm,
       showGrid,
       grid_fit,
       playpause,
@@ -575,11 +593,32 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
     const interleaveGrouping = addGrouping({ to: playerGrouping });
     addSequenceToggle({
+      textContent: 'Interleave timing method',
+      bindTo: interleave_timing,
+      name: 'interleave_timing',
+      sequence: sequences.interleave_timing.map((n) => ({
+        value: n,
+        textContent: `Interleave timing: ${n}`,
+      })),
+      to: interleaveGrouping,
+    });
+    addSequenceToggle({
       textContent: 'Max # of interleaved videos',
       bindTo: interleave_active_player_count,
       name: 'interleave_active_player_count',
       sequence: sequences.interleave_active_player_count.map((n) => ({
         value: n,
+        textContent: `Max of ${n} interleaved videos`,
+      })),
+      to: interleaveGrouping,
+    });
+    addSequenceToggle({
+      textContent: 'Change video to match bpm',
+      bindTo: interleave_bpm,
+      name: 'interleave_bpm',
+      sequence: sequences.interleave_bpm.map((n) => ({
+        value: n,
+        textContent: `Change video to match ${n}bpm`,
       })),
       to: interleaveGrouping,
     });
@@ -799,42 +838,40 @@ const initBrowsePreview = ({ document: { body } }) => {
     }
   )({ config, shuffleArray: shuffle });
 
-  const interleavePlayer = (({ to, config }) => {
+  const interleavePlayer = (({
+    to,
+    config: { interleave_active_player_count },
+  }) => {
     const container = GM_addElement(to, 'section', {
       class: 'player interleave paused',
     });
-
-    const maxPlayerCount = () =>
-      document.documentElement.style.getPropertyValue(
-        '--interleave-max-player-count',
-      );
-    const activePlayerCount = () =>
-      document.documentElement.style.getPropertyValue(
-        '--interleave-max-player-count',
-      );
 
     const filelist = getFileList();
 
     const nextFile = async () => decodeURI(await filelist.next());
 
     const mediaPlayers = [
-      ...mapIter(rangeIter({ start: 0, count: maxPlayerCount }), (i) =>
-        addWrappedVideo({
-          to: container,
-          class: `i${i}`,
-          id: `i${i}`,
-          idx: i,
-          src: '',
-          nextFile,
+      ...mapIter(
+        rangeIter({
+          start: 0,
+          count: Math.max(...sequences.interleave_active_player_count),
         }),
+        (i) =>
+          addWrappedVideo({
+            to: container,
+            class: `i${i}`,
+            id: `i${i}`,
+            idx: i,
+            src: '',
+            nextFile,
+          }),
       ),
     ];
     const activeMediaPlayers = () => [
-      ...takeIter(mediaPlayers.values(), activePlayerCount()),
+      ...takeIter(mediaPlayers.values(), interleave_active_player_count.value),
     ];
 
-    const updateMediaPlayers = () => {
-      const activePlayerCount = activePlayerCount();
+    const updateMediaPlayers = (activePlayerCount) => {
       mediaPlayers.forEach((mediaPlayer, i) => {
         if (i < activePlayerCount) {
           mediaPlayer.classList.remove('off');
@@ -846,8 +883,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       });
     };
 
-    const unsub =
-      config.interleave_active_player_count.subscribe(updateMediaPlayers);
+    interleave_active_player_count.subscribe(updateMediaPlayers);
 
     // const grid = (showAsGrid = !_showAsGrid) => {
     //   if (_showAsGrid !== showAsGrid) {
@@ -861,7 +897,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     // };
 
     const play = () => {
-      updateMediaPlayers();
+      // updateMediaPlayers();
       activeMediaPlayers().forEach((mediaPlayer) => {
         mediaPlayer.querySelector('video').play();
       });
@@ -869,7 +905,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       container.classList.remove('paused');
     };
     const pause = () => {
-      updateMediaPlayers();
+      // updateMediaPlayers();
       mediaPlayers.forEach((mediaPlayer) => {
         mediaPlayer.pause();
       });

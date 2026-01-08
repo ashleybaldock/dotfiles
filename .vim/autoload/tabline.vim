@@ -8,27 +8,7 @@ let g:mayhem_autoloaded_tabline = 1
 "           ../plugin/statusline.vim
 "
 
-let s:abbrpaths = [
-      \ ":p:s?"..$VIMRUNTIME.."\/syntax?$𝘝𝘙∕𝘴⋮?",
-      \ ":s?"..$VIMRUNTIME.."\/?$𝘝𝘙⋮?",
-      \ ":~",
-      \ ":s?\\~\/dotfiles\/\.vim\/after\/ftplugin?𝙫∕𝙖/𝙛⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/after\/plugin?𝙫∕𝙖/𝙥⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/after\/syntax?𝙫∕𝙖/𝙨⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/autoload?𝙫∕ⳇⳆⲺⳇⲻ𐝆𐕆𐝆Ⴟ ჿჿ𐝆𐙟 𐙾𐚞𐚐𐃴 𝙖𝙪⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/colors?𝙫∕𝙘𝙡⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/ftplugin?𝙫∕𝙛⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/plugin?𝙫∕𝙥⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/syntax?𝙫∕𝙨⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/templates?𝙫∕𝙩𝙥𝙡⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/notes?𝙫∕𝙣𝙤𝙩𝙚𝙨⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim?𝙫⋮?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/components\/?𝓦⋮𝓈⸍𝒶⁝𝒸?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/?𝓦⋮𝓈𐑢𝒶⋮?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/?𝓦⋮𝘴ⳇ?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/?𝓦⋮?",
-      \ ":s?\\~\/projects?𝑷⋮?",
-      \]->join('')
+":s?\\~\/dotfiles\/\.vim\/autoload?𝙫∕ⳇⳆⲺⳇⲻ𐝆𐕆𐝆Ⴟ ჿჿ𐝆𐙟 𐙾𐚞𐚐𐃴 𝙖𝙪⋮?",
 
 function! tabline#modstatus(bufnr = bufnr()) abort
   return getbufvar(a:bufnr, "&modified")
@@ -36,7 +16,7 @@ function! tabline#modstatus(bufnr = bufnr()) abort
         \    : '+'
         \    ? '-'
         \  : ''
-endfunction
+endfunc
 
 function! tabline#bufname(bufnr = bufnr()) abort
   let bufname = bufname(a:bufnr)
@@ -44,15 +24,15 @@ function! tabline#bufname(bufnr = bufnr()) abort
     " 𝙪𝙣𝙣𝙖𝙢𝙚𝙙 𝘶𝘯𝘯𝘢𝘮𝘦𝘥 𝓊𝓃𝓃𝒶𝓂ℯ𝒹 𝑢𝑛𝑛𝑎𝑚𝑒𝑑 𝖚𝖓𝖓𝖆𝖒𝖊𝖉 𝘶𝘯𝘯𝘢𝘮𝘦𝘥 𝚞𝚗𝚗𝚊𝚖𝚎𝚍
     let bufname = "𝑢𝑛𝑛𝑎𝑚𝑒𝑑"
   else
-    let bufname = fnamemodify(bufname, s:abbrpaths)
+    let bufname = fnamemodify(bufname, get(g:, 'mayhem_abbrpaths', ''))
   endif
-  return printf("%s %s", bufname, tabline#modstatus(a:bufnr))
-endfunction
+  return printf("%-32.32s %s", bufname, tabline#modstatus(a:bufnr))
+endfunc
 
 function! tabline#updateCachedBufferName(bufnr = bufnr()) abort
   call setbufvar(a:bufnr, 'mayhem_tl_cached_filename',
         \ tabline#bufname(a:bufnr))
-endfunction
+endfunc
 
 function! tabline#updateDiagnostics() abort
   for i in range(tabpagenr('$'))
@@ -65,12 +45,70 @@ function! tabline#updateDiagnostics() abort
         let warningCount += get(diaginfo, 'warning', 0)
         let errorCount += get(diaginfo, 'error', 0)
       endfor
-    endif
-
-    call settabvar(i, 'mayhem_tl_cached_diagnostics', #{
+      call settabvar(i, 'mayhem_tl_cached_diagnostics', #{
           \ error: errorCount,
           \ warning: warningCount,
           \})
-  endfor
-endfunction
+      call settabvar(i, 'mayhem_tl_cached_diag_label',
+            \ errorCount > 0 ? printf("%s%s ",
+            \ errorCount,
+            \ symbols#get('diag.inline.error')
+            \) : "")
+      call settabvar(i, 'mayhem_tl_cached_diag_tip', printf("%s%s",
+        \ errorCount > 0 ? printf("%s%s",
+        \   symbols#get('diag.inline.error'), errorCount) : "",
+        \ warningCount > 0 ? printf("%s%s",
+        \   symbols#get('diag.inline.warning'), warningCount) : ""))
+    else
+      call settabvar(i, 'mayhem_tl_cached_diagnostics', #{
+          \ off: v:true,
+          \})
+      call settabvar(i, 'mayhem_tl_cached_diag_label',
+            \ symbols#get('diag.inline.off'))
+      call settabvar(i, 'mayhem_tl_cached_diag_tip',
+            \ symbols#get('diag.inline.off'))
+    endif
 
+  endfor
+endfunc
+
+function! tabline#gen_guitablabel_cache() abort
+  for i in range(tabpagenr('$'))
+    let bufname = get(b:, 'mayhem_tl_cached_filename', tabline#bufname())
+
+    let modified = tabpagebuflist(i)
+        \->reduce({acc, bufnr -> acc + getbufvar(bufnr, "&modified", 0)}, 0)
+
+    let current = get(g:, 'actual_curtab', 0) == i
+
+    call settabvar(i, 'mayhem_cache_guitablabel', [
+      \printf(" %s", modified ? " ̵̩̩" : " "),
+      \printf("%%{%%GuiTabLabelErrors()%%}%%{%%GuiTabLabelName()%%}"),
+      \printf("%s", current ? "█▇▆▆▆▆▆▆▆▆▆▆▆▆▆" : "▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅")
+      \]->join("\n"))
+  endfor
+endfunc
+
+function! tabline#gen_guitabtooltip_cache() abort
+  for i in range(tabpagenr('$'))
+    call settabvar(i, 'mayhem_cache_guitabtooltip', [
+        \printf("%s ℴ𝒻 %s		 %%{%%GuiTabToolTipErrors()%%}",
+        \ format#numbers(tabpagenr('$')->string(), 'sans'),
+        \ format#numbers(string(i), 'sans')),
+        \printf("%d window%s:",
+        \ tabpagewinnr(i, '$'),
+        \ tabpagewinnr(i, '$') > 1 ? 's' : ''
+        \),
+        \printf("%s%%<",
+        \ tabpagebuflist(i)
+        \  ->map({j, bufnr -> getbufvar(bufnr, 'mayhem_tl_cached_filename')})
+        \  ->join("\n")
+        \),
+        \]->join("\n"))
+  endfor
+endfunc
+
+function! tabline#gen_guitab_caches() abort
+  call tabline#gen_guitablabel_cache()
+  call tabline#gen_guitabtooltip_cache()
+endfunc

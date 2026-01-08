@@ -26,7 +26,7 @@ function! tabline#bufname(bufnr = bufnr()) abort
   else
     let bufname = fnamemodify(bufname, get(g:, 'mayhem_abbrpaths', ''))
   endif
-  return printf("%-32.32s %s", bufname, tabline#modstatus(a:bufnr))
+  return printf(g:mayhem_tl_name_tpl, bufname, tabline#modstatus(a:bufnr))
 endfunc
 
 function! tabline#updateCachedBufferName(bufnr = bufnr()) abort

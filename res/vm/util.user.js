@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.134
+// @version     1.1.135
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -227,11 +227,18 @@ const concept = (({ window }) => {
   const _console = window.console;
   const _concept = new Proxy(_console, {
     get: (target, key) => {
-      return target[key];
+      if (key in target || target.hasOwnProperty(key)) {
+        if ('function' === typeof target[key]) {
+          return target[key].bind(target);
+        }
+        return target[key];
+      }
       // return (...args) => _console.log('proxy!', ...args);
     },
   });
+
   window.console = _concept;
+
   return {
     deconceptualise: () => (window.console = _console),
     reconceptualise: () => (window.console = _concept),

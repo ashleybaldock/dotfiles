@@ -54,6 +54,10 @@ function! Gather(pat, bufnr = bufnr(), to = '$') range abort
   " let @l = l
 endfunc
 
+"
+" go to character offset from start of file
+"
+command! -nargs=1 GoToChar execute 'normal! 0go' .. (<args> - 1) .. ' '
 
 " yank all matching lines to register
 "> :let @a=""

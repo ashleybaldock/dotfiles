@@ -1,0 +1,62 @@
+
+
+.interference {
+  border-bottom: 3px dotted #222;
+  border-bottom: 3px dotted #f0f;
+  background-blend-mode: overlay,
+    color-dodge,
+    color-dodge,
+    color-dodge,
+    hard-light,
+    soft-light,
+    soft-light,
+    soft-light
+    ;
+/*   background-blend-mode:  color-dodge; */
+  background-image: var(--null)
+    var(--r)
+    var(--b)
+    var(--g)
+    var(--grey)
+    var(--black)
+/*     var(--white) */
+    ;
+    
+  
+  --rw: 300;
+  --rv: 30;
+  --rx: 25%;
+  --ry: 25%;
+  
+  --gw: 600;
+  --gv: 100;
+  --gx: 100%;
+  --gy: 75%;
+  
+  --bw: 1000;
+  --bv: 40;
+  --bx: 10%;
+  --by: 40%;
+
+  --u: 0.01px;
+  
+  --white: ,linear-gradient(#fff 0 0);
+  --black: ,linear-gradient(#000 0 0);
+  --grey: ,linear-gradient(#888 0 0);
+  --null: linear-gradient(#0000 0 0);
+  --r:  ,repeating-radial-gradient(
+      farthest-corner ellipse at var(--rx) var(--ry),
+    #f00a calc(var(--u) * var(--rv)),
+    #f000 calc(var(--u) * (var(--rv) + var(--rw))));
+  --g:  ,repeating-radial-gradient(
+      farthest-corner ellipse at var(--gx) var(--gy),
+    #0f0a calc(var(--u) * var(--gv)),
+    #0f00 calc(var(--u) * (var(--gv) + var(--gw))));
+  --b:  ,repeating-radial-gradient(
+      farthest-corner ellipse at var(--b1x) var(--by),
+    #00f calc(var(--u) * var(--bv)),
+    #00f0 calc(var(--u) * (var(--bv) + var(--bw))));
+  
+  background-image: repeating-radial-gradient(
+      farthest-corner ellipse at 25% 25%, #00f 2.1px, #00f0 2.15px);
+}

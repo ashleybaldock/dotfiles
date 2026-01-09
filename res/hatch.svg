@@ -1,0 +1,71 @@
+<svg height="0" width="0">
+  <defs>
+    <clipPath id="hatch5">
+      <rect x="0"    y="0"    width="20vw" height="20vh"></rect>
+      <rect x="40vw" y="0"    width="20vw" height="20vh"></rect>
+      <rect x="80vw" y="0"    width="20vw" height="20vh"></rect>
+      <rect x="20vw" y="20vh" width="20vw" height="20vh"></rect>
+      <rect x="60vw" y="20vh" width="20vw" height="20vh"></rect>
+      <rect x="0"    y="40vh" width="20vw" height="20vh"></rect>
+      <rect x="40vw" y="40vh" width="20vw" height="20vh"></rect>
+      <rect x="80vw" y="40vh" width="20vw" height="20vh"></rect>
+      <rect x="20vw" y="60vh" width="20vw" height="20vh"></rect>
+      <rect x="60vw" y="60vh" width="20vw" height="20vh"></rect>
+      <rect x="0"    y="80vh" width="20vw" height="20vh"></rect>
+      <rect x="40vw" y="80vh" width="20vw" height="20vh"></rect>
+      <rect x="80vw" y="80vh" width="20vw" height="20vh"></rect>
+    </clipPath>
+    <clipPath id="hatch10">
+      <rect x="0"    y="0"    width="10vw" height="10vh"></rect>
+      <rect x="20vw" y="0"    width="10vw" height="10vh"></rect>
+      <rect x="40vw" y="0"    width="10vw" height="10vh"></rect>
+      <rect x="60vw" y="0"    width="10vw" height="10vh"></rect>
+      <rect x="80vw" y="0"    width="10vw" height="10vh"></rect>
+      <rect x="10vw" y="10vh" width="10vw" height="10vh"></rect>
+      <rect x="30vw" y="10vh" width="10vw" height="10vh"></rect>
+      <rect x="50vw" y="10vh" width="10vw" height="10vh"></rect>
+      <rect x="70vw" y="10vh" width="10vw" height="10vh"></rect>
+      <rect x="90vw" y="10vh" width="10vw" height="10vh"></rect>
+      <rect x="0"    y="20vh" width="10vw" height="10vh"></rect>
+      <rect x="20vw" y="20vh" width="10vw" height="10vh"></rect>
+      <rect x="40vw" y="20vh" width="10vw" height="10vh"></rect>
+      <rect x="60vw" y="20vh" width="10vw" height="10vh"></rect>
+      <rect x="80vw" y="20vh" width="10vw" height="10vh"></rect>
+      <rect x="10vw" y="30vh" width="10vw" height="10vh"></rect>
+      <rect x="30vw" y="30vh" width="10vw" height="10vh"></rect>
+      <rect x="50vw" y="30vh" width="10vw" height="10vh"></rect>
+      <rect x="70vw" y="30vh" width="10vw" height="10vh"></rect>
+      <rect x="90vw" y="30vh" width="10vw" height="10vh"></rect>
+      <rect x="0"    y="40vh" width="10vw" height="10vh"></rect>
+      <rect x="20vw" y="40vh" width="10vw" height="10vh"></rect>
+      <rect x="40vw" y="40vh" width="10vw" height="10vh"></rect>
+      <rect x="60vw" y="40vh" width="10vw" height="10vh"></rect>
+      <rect x="80vw" y="40vh" width="10vw" height="10vh"></rect>
+      <rect x="10vw" y="50vh" width="10vw" height="10vh"></rect>
+      <rect x="30vw" y="50vh" width="10vw" height="10vh"></rect>
+      <rect x="50vw" y="50vh" width="10vw" height="10vh"></rect>
+      <rect x="70vw" y="50vh" width="10vw" height="10vh"></rect>
+      <rect x="90vw" y="50vh" width="10vw" height="10vh"></rect>
+      <rect x="0"    y="60vh" width="10vw" height="10vh"></rect>
+      <rect x="20vw" y="60vh" width="10vw" height="10vh"></rect>
+      <rect x="40vw" y="60vh" width="10vw" height="10vh"></rect>
+      <rect x="60vw" y="60vh" width="10vw" height="10vh"></rect>
+      <rect x="80vw" y="60vh" width="10vw" height="10vh"></rect>
+      <rect x="10vw" y="70vh" width="10vw" height="10vh"></rect>
+      <rect x="30vw" y="70vh" width="10vw" height="10vh"></rect>
+      <rect x="50vw" y="70vh" width="10vw" height="10vh"></rect>
+      <rect x="70vw" y="70vh" width="10vw" height="10vh"></rect>
+      <rect x="90vw" y="70vh" width="10vw" height="10vh"></rect>
+      <rect x="0"    y="80vh" width="10vw" height="10vh"></rect>
+      <rect x="20vw" y="80vh" width="10vw" height="10vh"></rect>
+      <rect x="40vw" y="80vh" width="10vw" height="10vh"></rect>
+      <rect x="60vw" y="80vh" width="10vw" height="10vh"></rect>
+      <rect x="80vw" y="80vh" width="10vw" height="10vh"></rect>
+      <rect x="10vw" y="90vh" width="10vw" height="10vh"></rect>
+      <rect x="30vw" y="90vh" width="10vw" height="10vh"></rect>
+      <rect x="50vw" y="90vh" width="10vw" height="10vh"></rect>
+      <rect x="70vw" y="90vh" width="10vw" height="10vh"></rect>
+      <rect x="90vw" y="90vh" width="10vw" height="10vh"></rect>
+    </clipPath>
+  </defs>
+</svg>

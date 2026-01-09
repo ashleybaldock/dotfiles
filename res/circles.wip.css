@@ -1,0 +1,39 @@
+.circles {
+  border-bottom: 3px dotted #f0f;
+  --bgt: radial-gradient(
+    var(--w) circle at 20% 50%,
+    #f00 calc(100% - min(20%, 0.2px)),
+    #0000 calc(100% + max(20%, 0.2px))
+  );
+  background-image:
+    radial-gradient(
+      1px circle at 20% 50%,
+      #f00 calc(100% - min(20%, 0.2px)),
+      #0000 calc(100% + max(20%, 0.2px))
+    ),
+    radial-gradient(
+      2px circle at 30% 50%,
+      #f00 calc(100% - min(20%, 0.2px)),
+      #0000 calc(100% + max(20%, 0.2px))
+    ),
+    radial-gradient(
+      3px circle at 40% 50%,
+      #f00 calc(100% - min(20%, 0.2px)),
+      #0000 calc(100% + max(20%, 0.2px))
+    ),
+    radial-gradient(
+      1px circle at 20% 80%,
+      #ff0 calc(100% - 0.2px),
+      #0000 calc(100% + 0.2px)
+    ),
+    radial-gradient(
+      2px circle at 30% 80%,
+      #ff0 calc(100% - 0.2px),
+      #0000 calc(100% + 0.2px)
+    ),
+    radial-gradient(
+      3px circle at 40% 80%,
+      #ff0 calc(100% - 0.2px),
+      #0000 calc(100% + 0.2px)
+    );
+}

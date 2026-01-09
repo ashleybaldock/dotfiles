@@ -2225,6 +2225,18 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   justify-content: center;
   text-align: center;
   z-index: -1;
-  box-shadow: 1.5px 1.5px 0px -0.5px #f0f;
+  box-shadow: 1.5px 1.5px 0 -0.5px #f0f;
   border-radius: 0 4px 1ch 3px / 1.4ch;
+}
+
+:is(:root:hover, :root:has([id='toggle_debug']:checked)) :is(h1, .toggles) {
+  opacity: 1;
+}
+h1,
+.toggles,
+.player::before,
+.vidwrap::before {
+  opacity: 0;
+}
+.vidwrap.off {
 }

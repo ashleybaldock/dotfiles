@@ -75,10 +75,10 @@ on run argv
       set out to out & "(" & progressTime & ")"
     set out to out & "\n"
     set out to out & "\n    Artist  : " & trackArtist
-    set out to out & "\n    Track 􀑬: " & trackName & " "
-    set out to out & "\n    Album 􀢸: " & trackAlbum
-    set out to out & "\n Duration 􃃂: " & formattedTrackDuration
-    set out to out & "\n      URI 􀉣: " & spotify url of current track
+    set out to out & "\n    Track 􀑬  " & trackName & " "
+    set out to out & "\n    Album 􀢸  " & trackAlbum
+    set out to out & "\n Duration 􃃂  " & formattedTrackDuration
+    set out to out & "\n      URI 􀉣  " & spotify url of current track
   end if 
 
   if command is "data"

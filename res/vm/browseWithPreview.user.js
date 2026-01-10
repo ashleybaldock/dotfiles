@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.334
+// @version     1.0.335
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -160,179 +160,180 @@ const addSequenceToggle = ({
   return div;
 };
 
-const addWrappedVideo = ({
-  to,
-  idx,
-  nextFile,
-  autoplay = true,
-  muted = true,
-  ...attrs
-} = {}) => {
-  const wrapper = GM_addElement(to, 'div', { class: `vidwrap i${idx}` });
-  wrapper.style.setProperty('--playerIdx', idx);
-  wrapper.style.setProperty('--s-playerIdx', `'${idx}'`);
-  const playLabel = GM_addElement(wrapper, 'label', {
-    for: 'playpause_playing',
-  });
-  const pauseLabel = GM_addElement(wrapper, 'label', {
-    for: 'playpause_paused',
-  });
-  const video = GM_addElement(wrapper, 'video', {
-    autoplay,
-    muted,
-    ...attrs,
-  });
+const addWrappedVideo = (
+  ({
+    window: {
+      notify: { log, info },
+    },
+  }) =>
+  ({ to, idx, nextFile, autoplay = true, muted = true, ...attrs } = {}) => {
+    const wrapper = GM_addElement(to, 'div', { class: `vidwrap i${idx}` });
+    wrapper.style.setProperty('--playerIdx', idx);
+    wrapper.style.setProperty('--s-playerIdx', `'${idx}'`);
 
-  const playNext = async () => {
-    video.src = (await nextFile()) ?? video.src;
-  };
-  let _playbackErrors = 0;
-  const maxErrorCount = 10,
-    addToCountOnError = 1,
-    addToCountOnSuccess = -2;
+    const playLabel = GM_addElement(wrapper, 'label', {
+      for: 'playpause_playing',
+    });
+    const pauseLabel = GM_addElement(wrapper, 'label', {
+      for: 'playpause_paused',
+    });
+    const video = GM_addElement(wrapper, 'video', {
+      autoplay,
+      muted,
+      ...attrs,
+    });
 
-  video.addEventListener(
-    'play',
-    () => {
-      console.info(`${idx} playing '${decodeURI(video.src)}'`);
+    const playNext = async () => {
+      video.src = (await nextFile()) ?? video.src;
+    };
+    let _playbackErrors = 0;
+    const maxErrorCount = 10,
+      addToCountOnError = 1,
+      addToCountOnSuccess = -2;
 
-      video.classList.remove('paused');
-      video.classList.add('playing');
+    video.addEventListener(
+      'play',
+      () => {
+        info(`${idx} playing '${decodeURI(video.src)}'`);
 
-      document
-        .querySelectorAll(
-          `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
-        )
-        .forEach((tr) => {
-          tr.classList.remove('paused');
-          tr.classList.add('playing');
-          tr.style.setProperty('--playerIdx', idx);
-          tr.style.setProperty('--s-playerIdx', `'${idx}'`);
+        video.classList.remove('paused');
+        video.classList.add('playing');
 
-          const undo = (() => {
-            let undone = false;
-            return () => {
-              if (!undone) {
-                undone = true;
+        document
+          .querySelectorAll(
+            `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
+          )
+          .forEach((tr) => {
+            tr.classList.remove('paused');
+            tr.classList.add('playing');
+            tr.style.setProperty('--playerIdx', idx);
+            tr.style.setProperty('--s-playerIdx', `'${idx}'`);
+
+            const undo = (() => {
+              let undone = false;
+              return () => {
+                if (!undone) {
+                  undone = true;
+                  tr.classList.remove('playing');
+                  tr.classList.add('played');
+                }
+              };
+            })();
+            video.addEventListener(
+              'ended',
+              () => {
                 tr.classList.remove('playing');
                 tr.classList.add('played');
-              }
-            };
-          })();
-          video.addEventListener(
-            'ended',
-            () => {
-              tr.classList.remove('playing');
-              tr.classList.add('played');
-            },
-            { once: true },
-          );
-          video.addEventListener('loadstart', undo, { once: true });
-        });
-    },
-    {},
-  );
-  video.addEventListener(
-    'pause',
-    () => {
-      console.info(`${idx} paused '${decodeURI(video.src)}'`);
+              },
+              { once: true },
+            );
+            video.addEventListener('loadstart', undo, { once: true });
+          });
+      },
+      {},
+    );
+    video.addEventListener(
+      'pause',
+      () => {
+        info`${idx} paused '${decodeURI(video.src)}'`;
 
-      video.classList.remove('playing');
-      video.classList.add('paused');
+        video.classList.remove('playing');
+        video.classList.add('paused');
 
-      document
-        .querySelectorAll(
-          `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
-        )
-        .forEach((tr) => {
-          tr.classList.remove('playing');
-          tr.classList.add('paused');
-          tr.style.setProperty('--playerIdx', idx);
-          tr.style.setProperty('--s-playerIdx', `'${idx}'`);
-        });
-    },
-    {},
-  );
+        document
+          .querySelectorAll(
+            `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
+          )
+          .forEach((tr) => {
+            tr.classList.remove('playing');
+            tr.classList.add('paused');
+            tr.style.setProperty('--playerIdx', idx);
+            tr.style.setProperty('--s-playerIdx', `'${idx}'`);
+          });
+      },
+      {},
+    );
 
-  /* Playback */
-  video.addEventListener('volumechange', () => {
-    // console.debug(`${idx} volumechange '${decodeURI(video.src)}'`);
-  });
+    /* Playback */
+    video.addEventListener('volumechange', () => {
+      // notify.debug(`${idx} volumechange '${decodeURI(video.src)}'`);
+    });
 
-  video.addEventListener('canplay', () => {
-    console.info(`${idx} canplay '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('canplaythrough', () => {
-    console.info(`${idx} canplaythrough '${decodeURI(video.src)}'`);
-    video.volume = 0;
-    video.muted = true;
-    video.play();
-  });
-  video.addEventListener('seeked', () => {
-    console.info(`${idx} seeked '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('seeking', () => {
-    // console.debug(`${idx} seeking '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('timeupdate', () => {
-    // console.debug(`${idx} timeupdate '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('durationchange', () => {
-    console.debug(`${idx} durationchange '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('ratechange', () => {
-    console.debug(`${idx} ratechange '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('ended', () => {
-    console.info(`${idx} ended '${decodeURI(video.src)}'`);
+    video.addEventListener('canplay', () => {
+      info`${idx} canplay '${decodeURI(video.src)}'`;
+    });
+    video.addEventListener('canplaythrough', () => {
+      info`${idx} canplaythrough '${decodeURI(video.src)}'`;
+      video.volume = 0;
+      video.muted = true;
+      video.play();
+    });
+    video.addEventListener('seeked', () => {
+      info`${idx} seeked '${decodeURI(video.src)}'`;
+    });
+    video.addEventListener('seeking', () => {
+      // debug`${idx} seeking '${decodeURI(video.src)}'`;
+    });
+    video.addEventListener('timeupdate', () => {
+      // debug`${idx} timeupdate '${decodeURI(video.src)}'`;
+    });
+    video.addEventListener('durationchange', () => {
+      debug`${idx} durationchange '${decodeURI(video.src)}'`;
+    });
+    video.addEventListener('ratechange', () => {
+      debug`${idx} ratechange '${decodeURI(video.src)}'`;
+    });
+    video.addEventListener('ended', () => {
+      info`${idx} ended '${decodeURI(video.src)}'`;
 
-    _playbackErrors = Math.max(0, _playbackErrors + addToCountOnSuccess);
+      _playbackErrors = Math.max(0, _playbackErrors + addToCountOnSuccess);
 
-    playNext();
-  });
-  video.addEventListener('emptied', () => {
-    console.info(`${idx} emptied '${decodeURI(video.src)}'`);
-  });
+      playNext();
+    });
+    video.addEventListener('emptied', () => {
+      info(`${idx} emptied '${decodeURI(video.src)}'`);
+    });
 
-  /* Loading */
-  video.addEventListener('loadstart', () => {
-    console.debug(`${idx} loadstart '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('loadeddata', () => {
-    console.debug(`${idx} loadeddata '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('loadedmetadata', () => {
-    console.debug(`${idx} loadedmetadata '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('progress', () => {
-    // console.debug(`${idx} progress '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('waiting', () => {
-    console.info(`${idx} waiting '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('stalled', () => {
-    console.info(`${idx} stalled '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('suspend', () => {
-    console.info(`${idx} suspend '${decodeURI(video.src)}'`);
-  });
-  video.addEventListener('error', () => {
-    console.warn(`${idx} error loading '${decodeURI(video.src)}'`);
+    /* Loading */
+    video.addEventListener('loadstart', () => {
+      debug(`${idx} loadstart '${decodeURI(video.src)}'`);
+    });
+    video.addEventListener('loadeddata', () => {
+      debug(`${idx} loadeddata '${decodeURI(video.src)}'`);
+    });
+    video.addEventListener('loadedmetadata', () => {
+      debug(`${idx} loadedmetadata '${decodeURI(video.src)}'`);
+    });
+    video.addEventListener('progress', () => {
+      // debug(`${idx} progress '${decodeURI(video.src)}'`);
+    });
+    video.addEventListener('waiting', () => {
+      info(`${idx} waiting '${decodeURI(video.src)}'`);
+    });
+    video.addEventListener('stalled', () => {
+      info(`${idx} stalled '${decodeURI(video.src)}'`);
+    });
+    video.addEventListener('suspend', () => {
+      info(`${idx} suspend '${decodeURI(video.src)}'`);
+    });
+    video.addEventListener('error', () => {
+      warn(`${idx} error loading '${decodeURI(video.src)}'`);
 
-    if ((_playbackErrors += addToCountOnError) > maxErrorCount) {
-      video.pause();
-      video.classList.add('error');
-      console.warn(`${idx} exceeded max error count`);
-    } else {
+      if ((_playbackErrors += addToCountOnError) > maxErrorCount) {
+        video.pause();
+        video.classList.add('error');
+        warn`${idx} exceeded max error count`;
+      } else {
+        playNext();
+      }
+    });
+
+    if (autoplay !== false) {
       playNext();
     }
-  });
-
-  if (autoplay !== false) {
-    playNext();
+    return { wrapper, player: video, play: video.play(), pause: video.pause() };
   }
-  return { wrapper, player: video, play: video.play(), pause: video.pause() };
-};
+)({ window });
 
 const initBrowsePreview = ({ document: { body } }) => {
   const players = GM_addElement(body, 'section', { class: 'players' });
@@ -1013,9 +1014,9 @@ const browsePreviewToggleIds = addStyleToggles([
   },
 ]).then(() =>
   Promise.race([timeout({ s: 30 }), readyStateComplete()])
-    .catch(() => console.debug('timed out waiting for readyStateComplete'))
+    .catch(() => notify.debug('timed out waiting for readyStateComplete'))
     .then(({ window, unsafeWindow }) => {
-      console.debug('document ready');
+      notify.debug('document ready');
 
       return Promise.all([
         matchExistsFor('a.file').then((node) => {
@@ -1027,7 +1028,7 @@ const browsePreviewToggleIds = addStyleToggles([
         }),
       ]);
     })
-    .catch((e) => console.warn(e)),
+    .catch((e) => notify.warn(e)),
 );
 
 //     Object.defineProperties(target, {

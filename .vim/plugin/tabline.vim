@@ -27,9 +27,9 @@ let g:mayhem_abbrpaths = [
       \ ":s?\\~\/dotfiles\/\.vim\/templates\/?𝙫∕𝙩𝙥𝙡⋮?",
       \ ":s?\\~\/dotfiles\/\.vim\/notes\/?𝙫∕𝙣𝙤𝙩𝙚𝙨⋮?",
       \ ":s?\\~\/dotfiles\/\.vim\/?𝙫⋮?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/components\/?𝓦∕𝙨∕𝙖∕𝙘⋮?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/?𝓦∕𝙨∕𝙖⋮?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/?𝓦∕𝙨⋮?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/components\/?𝓦𝙨𝙖𝙘⋮?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/?𝓦𝙨𝙖⋮?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/?𝓦𝙨⋮?",
       \ ":s?\\~\/projects\/noita-wand-simulator\/?𝓦⋮?",
       \ ":s?\\~\/projects\/?𝑷⋮?",
       \]->join('')

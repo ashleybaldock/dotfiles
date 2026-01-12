@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.149
+// @version     1.1.150
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -163,7 +163,7 @@ const pageFocusTracker = (({ window, window: { document }, notify }) => {
       //   };
       // };
       if (callback !== undefined) {
-        for await (focusEvent of focusGenerator()) {
+        for await (const focusEvent of focusGenerator()) {
           callback(focusEvent);
         }
         return Promise.reject('Aborted');
@@ -181,7 +181,7 @@ const pageFocusTracker = (({ window, window: { document }, notify }) => {
 const logFocus = (
   ({ console }) =>
   async ({ notify = console }) => {
-    for await (focusEvent of pageFocusTracker.track()) {
+    for await (const focusEvent of pageFocusTracker.track()) {
       focusEvent === 'focus' && notify.info('page gained focus');
       focusEvent === 'blur' && notify.info('page lost focus');
     }
@@ -770,7 +770,7 @@ const waitForMatches = async (
   }
 
   if (callback !== undefined) {
-    for await (match of matchGenerator()) {
+    for await (const match of matchGenerator()) {
       callback(match);
     }
     return Promise.reject('Aborted');

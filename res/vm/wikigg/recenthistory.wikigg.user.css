@@ -1958,3 +1958,23 @@ span:has(> .mw-usertoollinks-block) {
   border-bottom: 1px solid grey;
   display: flex;
 }
+
+.mw-changeslist-diff-cur {
+  white-space: nowrap;
+}
+
+.mw-changeslist {
+  grid-template-columns: [ left uihl-start] 10px [ uihl-end time-start] min-content [ time-end cur-start history-start] auto [ cur-end history-end diff-start prev-start changed-start] auto [diff-end prev-end title-start] 40fr [ title-end user-start] auto [ user-end talk-start] auto [ talk-end changed-end contrib-start] auto [ contrib-end comment-start] 100fr [ comment-end rollback-start] auto [ rollback-end tags-start] auto [ tags-end thank-start] auto [ thank-end watching-start] auto [ watching-end right];
+}
+
+.mw-enhanced-rc-time > a {
+  font-size: 0.7em;
+  margin-right: 1.3ch;
+  letter-spacing: 0.05ch;
+  font-size: 0.62em;
+  margin-right: 1.3ch;
+}
+.mw-title {
+  margin: 0;
+  line-height: normal;
+}

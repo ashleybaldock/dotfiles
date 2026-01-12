@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.136
+// @version     1.1.149
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -114,7 +114,7 @@ const pageFocusTracker = (({ window, window: { document }, notify }) => {
   const show_focused = () => (document.documentElement.dataset.focused = '');
 
   return {
-    track: async ({ callback, signal }) => {
+    track: async ({ callback, signal } = {}) => {
       async function* focusGenerator() {
         signal?.throwIfAborted();
 
@@ -187,21 +187,6 @@ const logFocus = (
     }
   }
 )({ unsafeWindow });
-
-/**
- * Hides elements matching selector when window loses focus
- * Adds full-screen modal requiring a click to unblur
- *
- * @param timeout: time to wait after losing focus before obscuring
- */
-const bluronblur = async ({ selector = 'video', timeout = 30 }) => {
-  const modal = mu.makeElement({ tagName: 'dialog', styles: {} });
-
-  for await (focusEvent of pageFocusTracker.track()) {
-    if (focusEvent === 'blur') {
-    }
-  }
-};
 
 class DefaultedMap extends Map {
   #defaultValue;
@@ -322,23 +307,22 @@ const pad =
  *  - match regex pattern, severity level etc.
  *  - change logging severity, group into hidden streams
  */
-const concept = (({ window }) => {
+const concept = (({ window, unsafeWindow }) => {
   // const preBind = ['log', 'info', 'warn', 'error', 'debug'];
-  const _console = window.console;
+  const _console = unsafeWindow.console;
 
-  const boundMethods = Object.fromEntries(
+  _console.log(window, unsafeWindow);
+
+  const boundMethods = new Map(
     ['log', 'info', 'warn', 'error', 'debug'].map((methodName) => [
       methodName,
-      Function.prototype.call.bind(window.console[methodName], window),
+      Function.prototype.call.bind(_console[methodName], window, 'concept'),
     ]),
   );
-  const parserMethods = Object.fromEntries(
+  const boundParserMethods = new Map(
     ['log', 'info', 'warn', 'error', 'debug'].map((methodName) => {
-      const bound = Function.prototype.call.bind(
-        window.console[methodName],
-        window,
-      );
-      [methodName, (...args) => bound(parseTag(...args))];
+      const bound = Function.prototype.call.bind(_console[methodName], window);
+      return [methodName, (...args) => bound(parseTag(...args))];
     }),
   );
 
@@ -346,7 +330,7 @@ const concept = (({ window }) => {
     get: (target, key) => {
       if (key in target || target.hasOwnProperty(key)) {
         if ('function' === typeof target[key]) {
-          if (Object.hasOwn(parserMethods, key)) {
+          if (Object.hasOwn(boundParserMethods, key)) {
             return parserMethods[key];
           }
           if (Object.hasOwn(boundMethods, key)) {
@@ -371,7 +355,7 @@ const concept = (({ window }) => {
       return `window.console === _concept: ${window.console === _concept} | window.console === _console: ${window.console === _console}`;
     },
   };
-})({ window });
+})({ window, unsafeWindow });
 
 const tee = (({ console }) => {
   const immediate = ['error'];
@@ -1474,6 +1458,31 @@ const getDownloader = (x) => () =>
   );
 
 /**
+ * Hides elements matching selector when window loses focus
+ * Adds full-screen modal requiring a click to unblur
+ *
+ * @param timeout: time to wait after losing focus before obscuring
+ */
+const bluronblur = async ({ selector = 'video', timeout = 30 } = {}) => {
+  let blurTimeout;
+  const modal = GM_addElement(document.body, 'dialog', { class: 'bluronblur' });
+  for await (focusEvent of pageFocusTracker.track()) {
+    if (focusEvent === 'blur') {
+      blurTimeout = setTimeout(() => {
+        modal.classList.add('blur');
+        blurTimeout = null;
+      }, timeout * 1000);
+    }
+    if (focusEvent === 'focus') {
+      if (blurTimeout) {
+        clearTimeout(blurTimeout);
+        blurTimeout = null;
+      }
+    }
+  }
+};
+
+/**
  * Result Utility functions
  */
 const injectRES = (x) => {
@@ -1490,12 +1499,7 @@ const injectRES = (x) => {
  * IterableQueryBuilder chainable wrapper
  */
 const IterableQueryBuilder = ({
-  window: {
-    document,
-    qsAll = document.querySelectorAll.bind(document),
-    console,
-  },
-  notify = Function.prototype.call.bind(window, window, console.log),
+  window: { document, qsAll = document.querySelectorAll.bind(document) },
 }) => {
   return (...args) => {
     let gone = 0;

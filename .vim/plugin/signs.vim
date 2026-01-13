@@ -131,11 +131,11 @@ let s:styles = #{
       \           e:'⎝⎠',},
       \
       \
-      \ solidus:#{s:'╲',
+      \ solidin:#{s:'╲',
       \ se:  ' ❱',m:'⦉⦊',
       \           e:'╱',},
       \
-      \ solidus:#{s:' ╱',
+      \ solidot:#{s:' ╱',
       \ se:  ' ❮',m:'⦉⦊',
       \           e:' ╲',},
       \

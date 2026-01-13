@@ -85,6 +85,10 @@ if !hasmapto('<ScriptCmd>echom VisualOutline()<CR>')
   xnoremap <unique> <script> <Plug>Mayhem_VisualOutline <ScriptCmd>echom VisualOutline()<CR>
 endif
 
+let s:augroup = 'mayhem_visual_outline'
+let s:group = 'mayhem_visual_outline_signs'
+let s:prefix = 'mayhem_visual_outline_sign_'
+
 function! s:VisualOutline() abort
   if mode() == ''
     return s:VisualBlockOutline()
@@ -133,89 +137,104 @@ function s:VisualBlockOutline() abort
 
   exec 'setlocal colorcolumn=' .. x1_virt .. ',' .. x2_virt
 
-  let aSign = sign_define('linevistop', #{
+  call sign_define([
+        \#{
+        \ name: s:prefix .. 'top',
         \ linehl: 'SignVisTop',
         \ culhl: 'SignVisTop',
-        \})
-  let aSign = sign_define('linevisbot', #{
+        \},
+        \#{
+        \ name: s:prefix .. 'bot', 
         \ linehl: 'SignVisTop',
         \ culhl: 'SignVisTop',
-        \})
+        \},
+        \])
 
   if predicate#addingSignWillShiftSignColumn()
     return
   endif
 
-  let aSign = sign_define('signvisualleft', #{
-        \ text: '􀆒',
-        \ linehl: 'ColorColNormal',
-        \})
-  let aSign = sign_define('signvisualright', #{
-        \ text: '􀆓',
-        \ linehl: 'ColorColNormal',
-        \})
         " \ text: '􀆐',
         " 􂨧  􂨨  􂪏  􂪑    􀄿􀅀􀄨􀄩
         \ text: '＿',
         " \ text: '⌃^vᵛᵥⅴⅴⅤＶｖ𝗏𝗏＾ˇ ̬ᘁ∧∨',
-  let aSign = sign_define('signvistop1', #{
+  let aSign = sign_define([
+        \#{
+        \ name: s:prefix .. 'left',
+        \ text: '􀆒',
+        \ linehl: 'ColorColNormal',
+        \},
+        \#{
+        \ name: s:prefix .. 'right',
+        \ text: '􀆓',
+        \ linehl: 'ColorColNormal',
+        \},
+        \#{
+        \ name: s:prefix .. 'top1',
         \ text: ' ',
         \ linehl: 'SignVisTop',
         \ numhl: 'SignVisTop',
         \ texthl: 'SignVisTop',
         \ culhl: 'SignVisTop',
-        \})
-  let aSign = sign_define('signvistop', #{
+        \},
+        \#{
+        \ name: s:prefix .. 'top',
         \ text: '𐰯',
         \ linehl: 'SignVisBody',
         \ numhl: 'SignVisBody',
         \ texthl: 'SignVisBody',
         \ culhl: 'SignVisBody',
-        \})
-  let aSign = sign_define('signvisabove', #{
+        \},
+        \#{
+        \ name: s:prefix .. 'above',
         \ text: '︾',
         \ linehl: 'SignVisBody',
         \ numhl: 'SignVisBody',
         \ texthl: 'SignVisBody',
         \ culhl: 'SignVisBody',
-        \})
-  let aSign = sign_define('signvisbelow', #{
+        \},
+        \#{
+        \ name: s:prefix .. 'below',
         \ text: '︽',
         \ linehl: 'SignVisTop',
         \ numhl: 'SignVisTop',
         \ texthl: 'SignVisTop',
         \ culhl: 'SignVisTop',
-        \})
-  let aSign = sign_define('signvisbot', #{
+        \},
+        \#{
+        \ name: s:prefix .. 'bot',
         \ text: '𐰞',
         \ linehl: 'SignVisTop',
         \ numhl: 'SignVisTop',
         \ texthl: 'SignVisTTop',
         \ culhl: 'SignVisTop',
-        \})
-  let aSign = sign_define('signvissame', #{
+        \},
+        \#{
+        \ name: s:prefix .. 'same',
         \ text: ' ',
         \ linehl: 'SignVisTop',
         \ numhl: 'SignVisTop',
         \ texthl: 'SignVisTop',
         \ culhl: 'SignVisTop',
-        \})
-  call sign_unplace('visualextentsigns')
+        \}
+        \])
+
+  call sign_unplace(s:group)
  
   let linebefore = min([y1,y2]) - 1
   if linebefore > 0
-  call sign_place(0, 'visualextentsigns', 'signvistop1',
-        \ bufnr(), { 'lnum': min([y1,y2]) - 1, 'priority': 11 })
+    call sign_place(0, s:group, s:prefix .. 'top1',
+        \ bufnr(), #{ lnum: linebefore, priority: 11 })
   endif
 
   if y1 == y2
-    call sign_place(0, 'visualextentsigns', 'signvissame',
-          \ bufnr(), { 'lnum': y1, 'priority': 11 })
+    call sign_place(0, s:group, s:prefix .. 'same',
+          \ bufnr(), #{ lnum: y1, priority: 11 })
   else
-    call sign_place(0, 'visualextentsigns', 'signvistop',
-          \ bufnr(), { 'lnum': min([y1,y2]), 'priority': 11 })
-    call sign_place(0, 'visualextentsigns', 'signvisbot',
-          \ bufnr(), { 'lnum': max([y1,y2]), 'priority': 101 })
+    call sign_place(0, s:group, s:prefix .. 'top',
+          \ bufnr(), #{ lnum: min([y1,y2]), priority: 11 })
+    call sign_place(0, s:group, s:prefix .. 'bot',
+          \ bufnr(), #{ lnum: max([y1,y2]), priority: 101 })
   endif
 endfunc
 
@@ -233,7 +252,7 @@ function s:OnEnterVisualBlock() abort
   call autocmd_add([
         \#{
         \ cmd: 'call s:VisualBlockOutline()',
-        \ group: 'mayhem_visual_outline',
+        \ group: s:augroup,
         \ event: 'CursorMoved',
         \ pattern: '*',
         \ replace: v:true
@@ -242,17 +261,16 @@ function s:OnEnterVisualBlock() abort
 
   call s:VisualBlockOutline()
 endfunc
-
 "
 " Shutdown for visual block highlighting
 "
 function! s:OnLeaveVisualBlock() abort
   call autocmd_delete([{
-        \ 'group': 'mayhem_visual_outline',
+        \ 'group': s:augroup,
         \ 'event': 'CursorMoved',
         \}])
 
-  call sign_unplace('visualextentsigns')
+  call sign_unplace(s:group)
 
   call Restore('^V')
 endfunc

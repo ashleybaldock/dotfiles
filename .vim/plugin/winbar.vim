@@ -69,10 +69,10 @@ function! s:WinBarUpdate()
     if 'is Ack'
 
       "    go  ╎ 􀬸 preview (maintain focus on results).
-      " o / O  ╷ 􀂒􀂓􀾘􀤳 open file / 􀏍􀃰 and close qf  
-      " t / T  ╎ 􀏩 􀏪 … in a new tab / without moving to it  􀾮􀾯􀤴􀤵􀥞􀥟􀶣􀉘􀒐
-      " h / H  ╎ 􀕰􀧊􀕱􀧋  … in horizontal split / without moving to it
-      " v / gv ╎ 􀏠􀧈􀘜􀧉  … in vertical split / without moving to it
+      " o / O  ╷ 􀂒􀂓􀾘􀤳 open file / 􀏍􀃰 and close qf 􀆓􀄫 􀆊􂚨􀏠􀆌􀏠 
+      " t / T  ╎ 􀏩 􀏪 … in a new tab / without moving to it  􀾮􀾯􀤴􀤵􀥞􀥟􀉘􀶣􀒐
+      " h / H  ╎ 􀧊  … in horizontal split / without moving to it               􀕰􀕱􀧋
+      " v / gv ╎ 􂨪􀏠 / ⃠⃯ →︎⃠ 􀏠  … in vertical split / without moving to it            􀧈􀘜􀧉
       "     q  ╵ 􀃱􀏎 close the quickfix window.
       silent nnoremenu 1.20 WinBar.􀱢\ ‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️ <nop>
     endif

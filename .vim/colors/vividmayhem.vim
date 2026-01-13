@@ -293,7 +293,7 @@ hi ColorColBright guifg=NONE    guibg=#292243 gui=none
 
 hi ColorColumn none | hi link ColorColumn ColorColNormal
 
-hi SignVisTop     guifg=NONE    guibg=ysignsb gui=underdotted guisp=#8888ff
+hi SignVisLine    guifg=NONE    guibg=ysignsb gui=underdotted guisp=#8888ff
 hi SignVisBody    guifg=NONE    guibg=ysignsb gui=none
 
 "

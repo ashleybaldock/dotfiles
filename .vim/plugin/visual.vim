@@ -109,10 +109,13 @@ function s:VisualBlockOutline() abort
   " Screen position (including sign column etc.)
   let x_win = wincol()
 
+  let y_win_0 = getpos('w0')[1]
+  let y_win_last = getpos('w$')[1]
+
   " Byte positions
-  let [_, y1, vcol_byte, voff_byte] = getpos('v')
+  let [_, y_oth, vcol_byte, voff_byte] = getpos('v')
   let x1_byte = vcol_byte + voff_byte
-  let [_, y2, ccol_byte, coff_byte, _] = getcurpos()
+  let [_, y_cur, ccol_byte, coff_byte, _] = getcurpos()
   let x2_byte = ccol_byte + coff_byte
   let dx_byte = abs(x1_byte - x2_byte)
 
@@ -128,25 +131,25 @@ function s:VisualBlockOutline() abort
   let x2_virt = virtcol('.')
   let dx_virt = abs(x1_virt - x2_virt)
 
-  let dy = abs(y1 - y2)
+  let dy = abs(y_oth - y_cur)
 
   echom 'wincol: ('..x_win..')'..
-        \' ╱ virt:'..dx_virt..' ('..x1_virt..','..y1..')->('..x2_virt..','..y2..')'..
-        \' ╱ char:'..dx_char..' ('..x1_char..','..y1..')->('..x2_char..','..y2..')'..
-        \' ╱ byte:'..dx_byte..' ('..x1_byte..','..y1..')->('..x2_byte..','..y2..')'
+        \' ╱ virt:'..dx_virt..' ('..x1_virt..','..y_oth..')->('..x2_virt..','..y_cur..')'..
+        \' ╱ char:'..dx_char..' ('..x1_char..','..y_oth..')->('..x2_char..','..y_cur..')'..
+        \' ╱ byte:'..dx_byte..' ('..x1_byte..','..y_oth..')->('..x2_byte..','..y_cur..')'
 
   exec 'setlocal colorcolumn=' .. x1_virt .. ',' .. x2_virt
 
   call sign_define([
         \#{
         \ name: s:prefix .. 'top',
-        \ linehl: 'SignVisTop',
-        \ culhl: 'SignVisTop',
+        \ linehl: 'SignVisLine',
+        \ culhl: 'SignVisLine',
         \},
         \#{
         \ name: s:prefix .. 'bot', 
-        \ linehl: 'SignVisTop',
-        \ culhl: 'SignVisTop',
+        \ linehl: 'SignVisLine',
+        \ culhl: 'SignVisLine',
         \},
         \])
 
@@ -154,10 +157,60 @@ function s:VisualBlockOutline() abort
     return
   endif
 
-        " \ text: '􀆐',
-        " 􂨧  􂨨  􂪏  􂪑    􀄿􀅀􀄨􀄩
-        \ text: '＿',
-        " \ text: '⌃^vᵛᵥⅴⅴⅤＶｖ𝗏𝗏＾ˇ ̬ᘁ∧∨',
+  " 􀆐 𐰯𐰞
+  " 􂨧  􂨨  􂪏  􂪑    􀄨􀄿􀅃􀄩􀅀􀅄
+  " 􂪓 􂪔 􂨧 􂨨 􂦪 􀆏 􂦩 􂦪 􂦫 􂦬 􂦭  􀣊􀢣􀆎 􁍂􁍃
+  " 􀫰􃑪 􃑫 􀫱􃏠 
+  " 􀫰︎⃝ 􃑪︎⃝  􃑫︎⃝  􀫱︎⃝ 􃏠︎⃝  
+  " 􀫰️⃝ 􃑪️⃝  􃑫️⃝  􀫱️⃝ 􃏠️⃝  
+  "
+  \ text: '＿',
+  " \ text: '⌃^vᵛᵥⅴⅴⅤＶｖ𝗏𝗏＾ˇ ̬ᘁ∧∨',
+        \ text: '﹍̲̅﹍̲̅',
+        \ text: '︰',
+        \ text: '﹉̲̅',
+        \ text: '﹎',
+        \ text: '︙̲̅',
+        \ text: '﹊',
+        \ text: '__',
+        \ text: '︲',
+        \ text: '‾‾',
+        \ text: '––',
+        \ text: '︱',
+        \ text: '︕',
+        \ text: '︖',
+        \ text: '︒',
+        \ text: '︳̲̅',
+        \ text: '︴',
+        \ text: '﹏',
+        \ text: '﹋',
+        \ text: '﹌',
+        \ text: '',
+        \ text: '',
+        \ text: '    ⬇︎̲⬇︎̲ ⬇︎̲⬆︎̅ ⬆︎̅⬆︎̅   ⬇⬇ ⬇︎̲⬆︎̅⬆︎̅⬆︎̅  ',
+        \ text: '△̲',
+        \ text: '⸏▽̅',
+        \ text: '⸏ ',
+        \ text: '▿̲̅▵̲̅̅',
+        \ text: '︵',
+        \ text: '︶',
+        \ text: '︷',
+        \ text: '︸',
+        \ text: '︹',
+        \ text: '︺',
+        \ text: '︻',
+        \ text: '︼',
+        \ text: '︗',
+        \ text: '︘',
+        \ text: '︽',
+        \ text: '︾',
+        \ text: '︿',
+        \ text: '﹀',
+        \ text: '﹇',
+        \ text: '﹈',
+        \ text: '︽',
+        \ text: '︾',
+        \ text: '⸏ ',
   let aSign = sign_define([
         \#{
         \ name: s:prefix .. 'left',
@@ -170,16 +223,24 @@ function s:VisualBlockOutline() abort
         \ linehl: 'ColorColNormal',
         \},
         \#{
-        \ name: s:prefix .. 'top1',
-        \ text: ' ',
-        \ linehl: 'SignVisTop',
-        \ numhl: 'SignVisTop',
-        \ texthl: 'SignVisTop',
-        \ culhl: 'SignVisTop',
+        \ name: s:prefix .. 'top_oth',
+        \ text: '__',
+        \ linehl: 'SignVisLine',
+        \ numhl: 'SignVisLine',
+        \ texthl: 'SignVisBody',
+        \ culhl: 'SignVisLine',
         \},
         \#{
-        \ name: s:prefix .. 'top',
-        \ text: '𐰯',
+        \ name: s:prefix .. 'top_cur',
+        \ text: '︿',
+        \ linehl: 'SignVisLine',
+        \ numhl: 'SignVisLine',
+        \ texthl: 'SignVisBody',
+        \ culhl: 'SignVisLine',
+        \},
+        \#{
+        \ name: s:prefix .. 'top_cur1',
+        \ text: '﹀',
         \ linehl: 'SignVisBody',
         \ numhl: 'SignVisBody',
         \ texthl: 'SignVisBody',
@@ -187,7 +248,7 @@ function s:VisualBlockOutline() abort
         \},
         \#{
         \ name: s:prefix .. 'above',
-        \ text: '︾',
+        \ text: '︙',
         \ linehl: 'SignVisBody',
         \ numhl: 'SignVisBody',
         \ texthl: 'SignVisBody',
@@ -195,46 +256,93 @@ function s:VisualBlockOutline() abort
         \},
         \#{
         \ name: s:prefix .. 'below',
-        \ text: '︽',
-        \ linehl: 'SignVisTop',
-        \ numhl: 'SignVisTop',
-        \ texthl: 'SignVisTop',
-        \ culhl: 'SignVisTop',
+        \ text: '︙',
+        \ linehl: 'SignVisBody',
+        \ numhl: 'SignVisBody',
+        \ texthl: 'SignVisBody',
+        \ culhl: 'SignVisBody',
         \},
         \#{
-        \ name: s:prefix .. 'bot',
-        \ text: '𐰞',
-        \ linehl: 'SignVisTop',
-        \ numhl: 'SignVisTop',
-        \ texthl: 'SignVisTTop',
-        \ culhl: 'SignVisTop',
+        \ name: s:prefix .. 'bot_oth',
+        \ text: '__',
+        \ linehl: 'SignVisLine',
+        \ numhl: 'SignVisLine',
+        \ texthl: 'SignVisBody',
+        \ culhl: 'SignVisLine',
+        \},
+        \#{
+        \ name: s:prefix .. 'bot_cur',
+        \ text: '︿̲',
+        \ linehl: 'SignVisLine',
+        \ numhl: 'SignVisLine',
+        \ texthl: 'SignVisBody',
+        \ culhl: 'SignVisLine',
+        \},
+        \#{
+        \ name: s:prefix .. 'bot_cur1',
+        \ text: '﹀̅',
+        \ linehl: 'SignVisBody',
+        \ numhl: 'SignVisBody',
+        \ texthl: 'SignVisBody',
+        \ culhl: 'SignVisBody',
         \},
         \#{
         \ name: s:prefix .. 'same',
         \ text: ' ',
-        \ linehl: 'SignVisTop',
-        \ numhl: 'SignVisTop',
-        \ texthl: 'SignVisTop',
-        \ culhl: 'SignVisTop',
-        \}
+        \ linehl: 'SignVisLine',
+        \ numhl: 'SignVisLine',
+        \ texthl: 'SignVisLine',
+        \ culhl: 'SignVisLine',
+        \},
         \])
 
   call sign_unplace(s:group)
  
-  let linebefore = min([y1,y2]) - 1
+  let linebefore = min([y_oth,y_cur]) - 1
   if linebefore > 0
     call sign_place(0, s:group, s:prefix .. 'top1',
         \ bufnr(), #{ lnum: linebefore, priority: 11 })
   endif
 
-  if y1 == y2
+  if y_oth == y_cur
     call sign_place(0, s:group, s:prefix .. 'same',
-          \ bufnr(), #{ lnum: y1, priority: 11 })
+          \ bufnr(), #{ lnum: y_oth, priority: 11 })
   else
-    call sign_place(0, s:group, s:prefix .. 'top',
-          \ bufnr(), #{ lnum: min([y1,y2]), priority: 11 })
-    call sign_place(0, s:group, s:prefix .. 'bot',
-          \ bufnr(), #{ lnum: max([y1,y2]), priority: 101 })
+    if y_oth < y_cur
+      if y_oth < y_win_0
+        call sign_place(0, s:group, s:prefix .. 'above',
+            \ bufnr(), #{ lnum: y_win_0, priority: 11 })
+      else
+        call sign_place(0, s:group, s:prefix .. 'top' .. '_oth',
+            \ bufnr(), #{ lnum: y_oth - 1, priority: 11 })
+      endif
+      call sign_place(0, s:group, s:prefix .. 'bot' .. '_cur',
+            \ bufnr(), #{ lnum: y_cur, priority: 101 })
+      call sign_place(0, s:group, s:prefix .. 'bot' .. '_cur1',
+            \ bufnr(), #{ lnum: y_cur + 1, priority: 101 })
+      " if y_cur >= y_win_last
+      "   call sign_place(0, s:group, s:prefix .. 'below' .. '_cur',
+      "       \ bufnr(), #{ lnum: y_win_last, priority: 11 })
+      " else
+      " endif
+    else
+      " if y_cur < y_win_0
+      "   call sign_place(0, s:group, s:prefix .. 'above' .. '_cur',
+      "       \ bufnr(), #{ lnum: y_win_0, priority: 11 })
+      " else
+      " endif
+      call sign_place(0, s:group, s:prefix .. 'top' .. '_cur',
+            \ bufnr(), #{ lnum: y_cur - 1, priority: 11 })
+      call sign_place(0, s:group, s:prefix .. 'top' .. '_cur1',
+            \ bufnr(), #{ lnum: y_cur, priority: 11 })
+      if y_oth >= y_win_last
+        call sign_place(0, s:group, s:prefix .. 'below',
+            \ bufnr(), #{ lnum: y_win_last, priority: 11 })
+      else
+        call sign_place(0, s:group, s:prefix .. 'bot' .. '_oth',
+            \ bufnr(), #{ lnum: y_oth, priority: 101 })
+      endif
+    endif
   endif
 endfunc
 
@@ -253,7 +361,7 @@ function s:OnEnterVisualBlock() abort
         \#{
         \ cmd: 'call s:VisualBlockOutline()',
         \ group: s:augroup,
-        \ event: 'CursorMoved',
+        \ event: ['CursorMoved','VimResized','FocusGained','FocusLost','WinScrolled'],
         \ pattern: '*',
         \ replace: v:true
         \}
@@ -261,10 +369,11 @@ function s:OnEnterVisualBlock() abort
 
   call s:VisualBlockOutline()
 endfunc
+
 "
 " Shutdown for visual block highlighting
 "
-function! s:OnLeaveVisualBlock() abort
+function s:OnLeaveVisualBlock() abort
   call autocmd_delete([{
         \ 'group': s:augroup,
         \ 'event': 'CursorMoved',

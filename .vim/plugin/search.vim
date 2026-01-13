@@ -5,7 +5,8 @@ let g:mayhem_loaded_search = 1
 
 " === Ack / Search ===
 "
-" See: ../../../.agignore
+" See Also:
+"      ../../../.agignore
 "         ../../.ignore
 "         ../../.gitignore
 "

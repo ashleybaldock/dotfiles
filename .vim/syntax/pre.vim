@@ -169,6 +169,42 @@ hi def vs9F guifg=#ff88ff  guibg=#ffaaff
 " hi def Tag99 guifg=#888888
 " hi def Tag9A guifg=#ffffff
 
+syn match vsA0 +󠅠+
+syn match vsA1 +󠅡+
+syn match vsA2 +󠅢+
+syn match vsA3 +󠅣+
+syn match vsA4 +󠅤+
+syn match vsA5 +󠅥+
+syn match vsA6 +󠅦+
+syn match vsA7 +󠅧+
+syn match vsA8 +󠅨+
+syn match vsA9 +󠅩+
+syn match vsAA +󠅪+
+syn match vsAB +󠅫+
+syn match vsAC +󠅬+
+syn match vsAD +󠅭+
+syn match vsAE +󠅮+
+syn match vsAF +󠅯+
+
+hi def vsA0 guisp=#000000 gui=underline
+hi def vsA1 guisp=#ff0000 gui=underline
+hi def vsA2 guisp=#ff8800 gui=underline
+hi def vsA3 guisp=#ffff00 gui=underline
+hi def vsA4 guisp=#88ff00 gui=underline
+hi def vsA5 guisp=#00ff00 gui=underline
+hi def vsA6 guisp=#00ff88 gui=underline
+hi def vsA7 guisp=#00ffff gui=underline
+hi def vsA8 guisp=#0088ff gui=underline
+hi def vsA9 guisp=#0000ff gui=underline
+hi def vsAA guisp=#8800ff gui=underline
+hi def vsAB guisp=#ff00ff gui=underline
+hi def vsAC guisp=#ff0088 gui=underline
+hi def vsAD guisp=#ffffff gui=underline
+hi def vsAE guisp=#8844ff gui=underline
+hi def vsAF guisp=#ff44ff gui=underline
+
+
+
 syn match preEqVar /\%(\_^\|\s\)\@1<=[𝝼𝞶𝝂𝜈ʋ𝛼𝛽𝓍𝓎]\+.\{-}\ze\%(\_$\|\s\)/ contains=NONE
 " syn match preEqVar /\%(\_^\|\s\)\@1<=\S\{-}[ᵪᵥₓᘁᘁᵥᕽᴴᵂᶹᑋʰˣʸ]\{-}\ze\%(\_$\|\s\)/ contains=NONE
 

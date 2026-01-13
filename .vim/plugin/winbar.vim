@@ -64,6 +64,20 @@ function! s:WinBarUpdate()
     return
   endif
 
+  if &buftype == 'quickfix'
+    silent nunmenu WinBar
+    if 'is Ack'
+
+      "    go  ╎ 􀬸 preview (maintain focus on results).
+      " o / O  ╷ 􀂒􀂓􀾘􀤳 open file / 􀏍􀃰 and close qf  
+      " t / T  ╎ 􀏩 􀏪 … in a new tab / without moving to it  􀾮􀾯􀤴􀤵􀥞􀥟􀶣􀉘􀒐
+      " h / H  ╎ 􀕰􀧊􀕱􀧋  … in horizontal split / without moving to it
+      " v / gv ╎ 􀏠􀧈􀘜􀧉  … in vertical split / without moving to it
+      "     q  ╵ 􀃱􀏎 close the quickfix window.
+      silent nnoremenu 1.20 WinBar.􀱢\ ‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️ <nop>
+    endif
+  endif
+
   if &diff
     silent nunmenu WinBar
     " nnoremenu 1.10 WinBar.􀆧\ $dx\ \ 􀈄\ §de\ 􀈂\ §dt▕\ 􀆇\ [c▕\ 􀆈\ ]c▕\ 􀅌\ §dr <nop>

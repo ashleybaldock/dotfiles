@@ -157,60 +157,6 @@ function s:VisualBlockOutline() abort
     return
   endif
 
-  " 􀆐 𐰯𐰞
-  " 􂨧  􂨨  􂪏  􂪑    􀄨􀄿􀅃􀄩􀅀􀅄
-  " 􂪓 􂪔 􂨧 􂨨 􂦪 􀆏 􂦩 􂦪 􂦫 􂦬 􂦭  􀣊􀢣􀆎 􁍂􁍃
-  " 􀫰􃑪 􃑫 􀫱􃏠 
-  " 􀫰︎⃝ 􃑪︎⃝  􃑫︎⃝  􀫱︎⃝ 􃏠︎⃝  
-  " 􀫰️⃝ 􃑪️⃝  􃑫️⃝  􀫱️⃝ 􃏠️⃝  
-  "
-  \ text: '＿',
-  " \ text: '⌃^vᵛᵥⅴⅴⅤＶｖ𝗏𝗏＾ˇ ̬ᘁ∧∨',
-        \ text: '﹍̲̅﹍̲̅',
-        \ text: '︰',
-        \ text: '﹉̲̅',
-        \ text: '﹎',
-        \ text: '︙̲̅',
-        \ text: '﹊',
-        \ text: '__',
-        \ text: '︲',
-        \ text: '‾‾',
-        \ text: '––',
-        \ text: '︱',
-        \ text: '︕',
-        \ text: '︖',
-        \ text: '︒',
-        \ text: '︳̲̅',
-        \ text: '︴',
-        \ text: '﹏',
-        \ text: '﹋',
-        \ text: '﹌',
-        \ text: '',
-        \ text: '',
-        \ text: '    ⬇︎̲⬇︎̲ ⬇︎̲⬆︎̅ ⬆︎̅⬆︎̅   ⬇⬇ ⬇︎̲⬆︎̅⬆︎̅⬆︎̅  ',
-        \ text: '△̲',
-        \ text: '⸏▽̅',
-        \ text: '⸏ ',
-        \ text: '▿̲̅▵̲̅̅',
-        \ text: '︵',
-        \ text: '︶',
-        \ text: '︷',
-        \ text: '︸',
-        \ text: '︹',
-        \ text: '︺',
-        \ text: '︻',
-        \ text: '︼',
-        \ text: '︗',
-        \ text: '︘',
-        \ text: '︽',
-        \ text: '︾',
-        \ text: '︿',
-        \ text: '﹀',
-        \ text: '﹇',
-        \ text: '﹈',
-        \ text: '︽',
-        \ text: '︾',
-        \ text: '⸏ ',
   let aSign = sign_define([
         \#{
         \ name: s:prefix .. 'left',
@@ -272,7 +218,7 @@ function s:VisualBlockOutline() abort
         \},
         \#{
         \ name: s:prefix .. 'bot_cur',
-        \ text: '︿̲',
+        \ text: '_͡_',
         \ linehl: 'SignVisLine',
         \ numhl: 'SignVisLine',
         \ texthl: 'SignVisBody',
@@ -280,7 +226,7 @@ function s:VisualBlockOutline() abort
         \},
         \#{
         \ name: s:prefix .. 'bot_cur1',
-        \ text: '﹀̅',
+        \ text: '  ',
         \ linehl: 'SignVisBody',
         \ numhl: 'SignVisBody',
         \ texthl: 'SignVisBody',

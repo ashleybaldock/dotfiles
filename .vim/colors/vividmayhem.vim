@@ -33,15 +33,18 @@ let g:colors_name = "vividmayhem"
 " echom filter(copy(v:colornames), {key -> key =~ '^y'})
 "
 let g:colornames = #{
-      \ yormalb: '#0f0f0f', yormalf: '#f2f2f2',
-      \ ywreadb: '#090909',
-      \ ywnormb: '#060606', ywnormf: '#dedede',
-      \ ywhelpb: '#020922', ywhelpf: '#e5e5ff',
-      \ yunsavb: '#440000', yunsavf: '#f5f5f5',
-      \ ysignsb: '#10101f',
-      \ yslcccb: '#202020',
-      \ yslnnnb: '#151515',
-      \                     ycsealf: '#33aadd',
+      \ yormalf: '#f2f2f2', yormalb: '#0f0f0f',
+      \                     ywreadb: '#090909',
+      \ ywnormf: '#dedede', ywnormb: '#060606',
+      \ ywhelpf: '#e5e5ff', ywhelpb: '#020922',
+      \ yunsavf: '#f5f5f5', yunsavb: '#440000',
+      \ ysignsf: '#f0f0f0', ysignsb: '#10101f',
+      \ ynumbrf: '#6d008d', ynumbrb: '#100020',
+      \ ynumabf: '#6d448d', ynumabb: '#100020',
+      \ ynumlwf: '#6d008d', ynumlwb: '#101120',
+      \                     yslcccb: '#202020',
+      \                     yslnnnb: '#151515',
+      \ ycsealf: '#33aadd',                    
       \}
 call extend(v:colornames, g:colornames, 'force')
 
@@ -63,9 +66,9 @@ hi WinDiff        guifg=#555533 guibg=#111111 gui=italic
 
 "════════════════════════════════════════════════════════╡ Cursor
 "
-hi LineNr         guifg=#400060 guibg=#100020
-hi LineNrAbove    guifg=#6d008d guibg=#100020 gui=none
-hi LineNrBelow    guifg=#6d448d guibg=#101120 gui=none
+hi LineNr         guifg=ynumbrf guibg=ynumbrb
+hi LineNrAbove    guifg=ynumabf guibg=ynumabb gui=none
+hi LineNrBelow    guifg=ynumlwf guibg=ynumlwb gui=none
 
 hi Cursor none | hi Cursor guifg=#000000 guibg=#ffffff gui=none
 hi lCursor none | hi lCursor guifg=#000000 guibg=#ccffcc gui=none
@@ -293,8 +296,18 @@ hi ColorColBright guifg=NONE    guibg=#292243 gui=none
 
 hi ColorColumn none | hi link ColorColumn ColorColNormal
 
-hi SignVisLine    guifg=NONE    guibg=ysignsb gui=underdotted guisp=#8888ff
-hi SignVisBody    guifg=NONE    guibg=ysignsb gui=none
+hi SgVisLine      guifg=NONE    guibg=ysignsb gui=underdotted guisp=#8888ff
+hi SgVisLineLnrB  guifg=ysignsf guibg=ynumabb gui=underdashed guisp=#8888ff
+hi SgVisLineLnrA  guifg=ynumabf guibg=ynumabb gui=underdashed guisp=#8888ff
+hi SgVisBody      guifg=NONE    guibg=NONE    gui=none
+hi SgVisBodyLnr   guifg=ynumlwf guibg=ynumlwb gui=none
+hi SgVisLrLn      guifg=#6d008d guibg=#100020 gui=none
+
+hi SgHzLnUnLine   guifg=NONE    guibg=NONE    gui=underline   guisp=#ffff00
+hi SgHzLnUnDash   guifg=NONE    guibg=NONE    gui=underdashed guisp=#ffff00
+hi SgHzLnUnDot    guifg=NONE    guibg=NONE    gui=underdotted guisp=#ffff00
+hi SgHzLnUnCurl   guifg=NONE    guibg=NONE    gui=undercurl   guisp=#ffff00
+hi SgHzLnUnDbl    guifg=NONE    guibg=NONE    gui=underdouble guisp=#ffff00
 
 "
 "════════════════════════════════════════════════════════╡ Diffs

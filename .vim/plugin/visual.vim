@@ -70,13 +70,31 @@ function! GetVisualSelection() abort
   endif
 endfunc
 
+function! s:PlaceHorizontalMarker(bufnr = bufnr(), lnum = line('.'), style = {})
+  let line = get(a:style, 'line', 'underdashed')
+  let rgb = get(a:style, 'rgb', '#ffff00')
+  let text = get(a:style, 'text', '__')
+
+  let group = 'hzmarkers'
+
+  let sgid = [prefix, line, rgb, text].join('_')
+
+  call sign_define([
+      \#{
+      \ name: sgid,
+      \ text: text,
+      \ linehl: 'SgHzLnUnLine',
+      \},
+      \])
+
+  call sign_place(0, group, sgid, a:bufnr, #{ a:lnum, priority: 8 })
+endfunc
 
 "
 " vmap §o <ScriptCmd>call s:VisualOutline()<CR>
 "
 " Vertical (ColorColumn) for first and last column
 " Horizontal (Sign w/ line highlight) for top and bottom row
-" TODO replace with <plug> and move keybind to shortcuts
 "
 if !hasmapto('<ScriptCmd>echom VisualOutline()<CR>')
   if !maparg('<Plug>Mayhem_VisualOutline', 'x') == ''
@@ -88,6 +106,11 @@ endif
 let s:augroup = 'mayhem_visual_outline'
 let s:group = 'mayhem_visual_outline_signs'
 let s:prefix = 'mayhem_visual_outline_sign_'
+
+" echom 'wincol: ('..x_win..')'..
+"       \' ╱ virt:'..dx_virt..' ('..x1_virt..','..y_oth..')->('..x2_virt..','..y_cur..')'..
+"       \' ╱ char:'..dx_char..' ('..x1_char..','..y_oth..')->('..x2_char..','..y_cur..')'..
+"       \' ╱ byte:'..dx_byte..' ('..x1_byte..','..y_oth..')->('..x2_byte..','..y_cur..')'
 
 function! s:VisualOutline() abort
   if mode() == ''
@@ -133,23 +156,18 @@ function s:VisualBlockOutline() abort
 
   let dy = abs(y_oth - y_cur)
 
-  echom 'wincol: ('..x_win..')'..
-        \' ╱ virt:'..dx_virt..' ('..x1_virt..','..y_oth..')->('..x2_virt..','..y_cur..')'..
-        \' ╱ char:'..dx_char..' ('..x1_char..','..y_oth..')->('..x2_char..','..y_cur..')'..
-        \' ╱ byte:'..dx_byte..' ('..x1_byte..','..y_oth..')->('..x2_byte..','..y_cur..')'
-
   exec 'setlocal colorcolumn=' .. x1_virt .. ',' .. x2_virt
 
   call sign_define([
         \#{
         \ name: s:prefix .. 'top',
-        \ linehl: 'SignVisLine',
-        \ culhl: 'SignVisLine',
+        \ linehl: 'SgVisLine',
+        \ culhl: 'SgVisLine',
         \},
         \#{
         \ name: s:prefix .. 'bot', 
-        \ linehl: 'SignVisLine',
-        \ culhl: 'SignVisLine',
+        \ linehl: 'SgVisLine',
+        \ culhl: 'SgVisLine',
         \},
         \])
 
@@ -169,86 +187,79 @@ function s:VisualBlockOutline() abort
         \ linehl: 'ColorColNormal',
         \},
         \#{
-        \ name: s:prefix .. 'top_oth',
+        \ name: s:prefix .. 'top_oth-1',
         \ text: '__',
-        \ linehl: 'SignVisLine',
-        \ numhl: 'SignVisLine',
-        \ texthl: 'SignVisBody',
-        \ culhl: 'SignVisLine',
+        \ linehl: 'SgVisLine',
+        \ numhl: 'SgVisLineLnrA',
+        \ texthl: 'SgVisBody',
+        \ culhl: 'SgVisLine',
+        \},
+        \#{
+        \ name: s:prefix .. 'top_oth',
+        \ text: '  ',
+        \ texthl: 'SgVisBody',
+        \},
+        \#{
+        \ name: s:prefix .. 'top_cur-1',
+        \ text: '⏶⏷',
+        \ linehl: 'SgVisLine',
+        \ numhl: 'SgVisLineLnrA',
+        \ texthl: 'SgVisBody',
         \},
         \#{
         \ name: s:prefix .. 'top_cur',
-        \ text: '︿',
-        \ linehl: 'SignVisLine',
-        \ numhl: 'SignVisLine',
-        \ texthl: 'SignVisBody',
-        \ culhl: 'SignVisLine',
-        \},
-        \#{
-        \ name: s:prefix .. 'top_cur1',
-        \ text: '﹀',
-        \ linehl: 'SignVisBody',
-        \ numhl: 'SignVisBody',
-        \ texthl: 'SignVisBody',
-        \ culhl: 'SignVisBody',
+        \ text: '⏶⏷',
+        \ texthl: 'SgVisBody',
         \},
         \#{
         \ name: s:prefix .. 'above',
         \ text: '︙',
-        \ linehl: 'SignVisBody',
-        \ numhl: 'SignVisBody',
-        \ texthl: 'SignVisBody',
-        \ culhl: 'SignVisBody',
+        \ linehl: 'SgVisBody',
+        \ numhl: 'SgVisBody',
+        \ texthl: 'SgVisBody',
+        \ culhl: 'SgVisBody',
         \},
         \#{
         \ name: s:prefix .. 'below',
         \ text: '︙',
-        \ linehl: 'SignVisBody',
-        \ numhl: 'SignVisBody',
-        \ texthl: 'SignVisBody',
-        \ culhl: 'SignVisBody',
+        \ linehl: 'SgVisBody',
+        \ numhl: 'SgVisBody',
+        \ texthl: 'SgVisBody',
+        \ culhl: 'SgVisBody',
         \},
         \#{
         \ name: s:prefix .. 'bot_oth',
         \ text: '__',
-        \ linehl: 'SignVisLine',
-        \ numhl: 'SignVisLine',
-        \ texthl: 'SignVisBody',
-        \ culhl: 'SignVisLine',
+        \ linehl: 'SgVisLine',
+        \ numhl: 'SgVisLineLnrB',
+        \ texthl: 'SgVisBody',
+        \ culhl: 'SgVisLine',
         \},
         \#{
         \ name: s:prefix .. 'bot_cur',
-        \ text: '_͡_',
-        \ linehl: 'SignVisLine',
-        \ numhl: 'SignVisLine',
-        \ texthl: 'SignVisBody',
-        \ culhl: 'SignVisLine',
-        \},
-        \#{
-        \ name: s:prefix .. 'bot_cur1',
-        \ text: '  ',
-        \ linehl: 'SignVisBody',
-        \ numhl: 'SignVisBody',
-        \ texthl: 'SignVisBody',
-        \ culhl: 'SignVisBody',
+        \ text: '__',
+        \ linehl: 'SgVisLine',
+        \ numhl: 'SgVisLineLnrB',
+        \ texthl: 'SgVisBody',
+        \ culhl: 'SgVisLine',
         \},
         \#{
         \ name: s:prefix .. 'same',
         \ text: ' ',
-        \ linehl: 'SignVisLine',
-        \ numhl: 'SignVisLine',
-        \ texthl: 'SignVisLine',
-        \ culhl: 'SignVisLine',
+        \ linehl: 'SgVisLine',
+        \ numhl: 'SgVisLine',
+        \ texthl: 'SgVisLine',
+        \ culhl: 'SgVisLine',
         \},
         \])
 
   call sign_unplace(s:group)
  
-  let linebefore = min([y_oth,y_cur]) - 1
-  if linebefore > 0
-    call sign_place(0, s:group, s:prefix .. 'top1',
-        \ bufnr(), #{ lnum: linebefore, priority: 11 })
-  endif
+  " let linebefore = min([y_oth,y_cur]) - 1
+  " if linebefore > 0
+    " call sign_place(0, s:group, s:prefix .. 'top1',
+        " \ bufnr(), #{ lnum: linebefore, priority: 11 })
+  " endif
 
   if y_oth == y_cur
     call sign_place(0, s:group, s:prefix .. 'same',
@@ -259,27 +270,19 @@ function s:VisualBlockOutline() abort
         call sign_place(0, s:group, s:prefix .. 'above',
             \ bufnr(), #{ lnum: y_win_0, priority: 11 })
       else
-        call sign_place(0, s:group, s:prefix .. 'top' .. '_oth',
+        call sign_place(0, s:group, s:prefix .. 'top' .. '_oth-1',
             \ bufnr(), #{ lnum: y_oth - 1, priority: 11 })
+        call sign_place(0, s:group, s:prefix .. 'top' .. '_oth',
+            \ bufnr(), #{ lnum: y_oth, priority: 11 })
       endif
       call sign_place(0, s:group, s:prefix .. 'bot' .. '_cur',
             \ bufnr(), #{ lnum: y_cur, priority: 101 })
-      call sign_place(0, s:group, s:prefix .. 'bot' .. '_cur1',
-            \ bufnr(), #{ lnum: y_cur + 1, priority: 101 })
-      " if y_cur >= y_win_last
-      "   call sign_place(0, s:group, s:prefix .. 'below' .. '_cur',
-      "       \ bufnr(), #{ lnum: y_win_last, priority: 11 })
-      " else
-      " endif
+      " call sign_place(0, s:group, s:prefix .. 'bot' .. '_cur+1',
+      "       \ bufnr(), #{ lnum: y_cur + 1, priority: 101 })
     else
-      " if y_cur < y_win_0
-      "   call sign_place(0, s:group, s:prefix .. 'above' .. '_cur',
-      "       \ bufnr(), #{ lnum: y_win_0, priority: 11 })
-      " else
-      " endif
-      call sign_place(0, s:group, s:prefix .. 'top' .. '_cur',
+      call sign_place(0, s:group, s:prefix .. 'top' .. '_cur-1',
             \ bufnr(), #{ lnum: y_cur - 1, priority: 11 })
-      call sign_place(0, s:group, s:prefix .. 'top' .. '_cur1',
+      call sign_place(0, s:group, s:prefix .. 'top' .. '_cur',
             \ bufnr(), #{ lnum: y_cur, priority: 11 })
       if y_oth >= y_win_last
         call sign_place(0, s:group, s:prefix .. 'below',
@@ -287,6 +290,8 @@ function s:VisualBlockOutline() abort
       else
         call sign_place(0, s:group, s:prefix .. 'bot' .. '_oth',
             \ bufnr(), #{ lnum: y_oth, priority: 101 })
+        " call sign_place(0, s:group, s:prefix .. 'bot' .. '_oth+1',
+        "     \ bufnr(), #{ lnum: y_oth + 1, priority: 101 })
       endif
     endif
   endif

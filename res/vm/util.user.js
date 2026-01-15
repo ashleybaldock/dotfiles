@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.150
+// @version     1.1.151
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1352,6 +1352,18 @@ const csvGroupCols = (csvString) => {
     }),
   );
   return ol;
+};
+
+const imgurl2img = () => {
+  [
+    ...qs`body > pre`.one.innerText.matchAll(
+      /(--[^:;]+):\s*(url\((['"])(data:.*)\3\))/g,
+    ),
+  ].map(([, varname, url, , src]) => {
+    const n = document.createElement('img');
+    n.src = src;
+    qs`body`.one.appendChild(n);
+  });
 };
 
 /**

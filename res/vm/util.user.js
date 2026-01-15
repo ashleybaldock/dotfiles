@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.151
+// @version     1.1.152
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1362,6 +1362,18 @@ const imgurl2img = () => {
   ].map(([, varname, url, , src]) => {
     const n = document.createElement('img');
     n.src = src;
+    qs`body`.one.appendChild(n);
+  });
+  [
+    ...qs`body > pre`.one.innerText.matchAll(
+      /(--[^:;]+):\s*(url\((['"])(data:.*)\3\))/g,
+    ),
+  ].map(([, varname, url, , src]) => {
+    const n = document.createElement('div');
+    n.classList.add('imgurl');
+    n.style.setProperty('--name', varname);
+    n.style.setProperty('--url', url);
+    n.style.setProperty('--src', src);
     qs`body`.one.appendChild(n);
   });
 };

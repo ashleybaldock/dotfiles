@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.169
+// @version     1.1.170
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1412,15 +1412,17 @@ const imgurl2img = () => {
       width: auto;
       image-rendering: pixelated;
       transition: transform 120ms ease 0ms;
+      transform: scale(1) translateX(0px);
     }
     .imgurl:hover > img {
-      transform: scale(1.5);
+      transform: translateX(-50%) scale(2);
       transition: transform 80ms ease 100ms;
     }
     .imgurl > img:hover,
     .imgurl:hover > img:hover {
-      transform: scale(4);
+      transform: translateX(-200%) scale(5);
       transition: transform 80ms ease 100ms;
+      z-index: 1;
     }
 
     .line {

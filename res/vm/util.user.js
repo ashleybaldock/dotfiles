@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.157
+// @version     1.1.161
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1361,17 +1361,53 @@ const imgurl2img = () => {
       display: inline-flex;
       align-content: center;
       align-items: center;
-      column-gap: 1ch;
+      column-gap: 0.5ch;
       margin: 0 0.5ch;
       font-size: 1em;
       line-height: normal;
     }
-    .imgurl::before {
+    .imgurl > .text {
       display: flex;
       content: var(--s-name) ':';
-      user-select: text;
-      pointer-events: all;
-      font-size: 0.9em;
+      font-size: 0.8em;
+      letter-spacing: -0.02ch;
+      font-family:
+        SF Mono,
+        monospace;
+      user-select: all;
+      font-weight: 300;
+      color: #fff;
+    }
+    .imgurl > .text:first-of-type::after {
+      content: ':';
+      display: flex;
+    }
+    .imgurl > img {
+      border-radius: 0 1.5px 0 1.5px;
+      background-color: #222;
+      box-shadow:
+        2px 2px 0 -1.5px #444,
+        -2px -2px 0 -1.5px #444,
+        1px 1px 0 -0.5px #000,
+        -1px -1px 0 -0.5px #000,
+        -2.5px 2.5px 0 -2px #666,
+        2.5px -2.5px 0 -2px #666,
+        0 0 0px 1px #000;
+      min-height: calc(1lh - 4px);
+      max-height: 1lh;
+      padding: 1px;
+      width: auto;
+      image-rendering: pixelated;
+      transition: transform 120ms ease 0ms;
+    }
+    .imgurl:hover > img {
+      transform: scale(1.5);
+      transition: transform 80ms ease 100ms;
+    }
+    .imgurl > img:hover,
+    .imgurl:hover > img:hover {
+      transform: scale(4);
+      transition: transform 80ms ease 100ms;
     }
     .imgurl::after {
       display: flex;
@@ -1418,13 +1454,14 @@ const imgurl2img = () => {
   //   });
   [
     ...qs`body > pre`.one.innerText.split(
-      /(--[^:;]+:\s*url\(['"]data:.*['"]\))/g,
+      /(--[^:;]+:\s*url\(['"]data:.*['"]\);)/g,
     ),
   ].map((m) => {
-    const r = /(?<var>--[^:;]+):\s*(?<url>url\((['"])(?<src>data:.*)\3\))/;
+    const r =
+      /(?<var>--[^:;]+):\s*(?<url>url\((['"])(?<src>data:.*)\3\)(?<semi>;)?)/;
     const mm = r.exec(m);
     if (mm !== null) {
-      const { var: cssvar, url, src } = mm.groups;
+      const { var: cssvar, url, src, semi } = mm.groups;
       const n = document.createElement('span');
       n.classList.add('imgurl');
       n.style.setProperty('--name', cssvar);
@@ -1438,6 +1475,15 @@ const imgurl2img = () => {
       tn.classList.add('text');
       tn.style.setProperty('--text', `'${cssvar}'`);
       n.appendChild(tn);
+      const i = document.createElement('img');
+      i.src = src;
+      n.appendChild(i);
+      if (semi) {
+        const s = document.createElement('span');
+        s.innerText = semi;
+        s.classList.add('text');
+        n.appendChild(s);
+      }
       qs`body`.one.appendChild(n);
     } else {
       const t = document.createElement('span');

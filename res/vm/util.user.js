@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.161
+// @version     1.1.162
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1356,15 +1356,20 @@ const csvGroupCols = (csvString) => {
 
 const imgurl2img = () => {
   const stylesheet = css`
+    .text {
+      display: inline-flex;
+      white-space: collapse;
+    }
     .imgurl {
-      /*   padding: 0 1em 0 0; */
       display: inline-flex;
       align-content: center;
       align-items: center;
-      column-gap: 0.5ch;
+      justify-content: end;
+      column-gap: 0.25ch;
       margin: 0 0.5ch;
       font-size: 1em;
       line-height: normal;
+      break-inside: avoid;
     }
     .imgurl > .text {
       display: flex;
@@ -1408,25 +1413,6 @@ const imgurl2img = () => {
     .imgurl:hover > img:hover {
       transform: scale(4);
       transition: transform 80ms ease 100ms;
-    }
-    .imgurl::after {
-      display: flex;
-      content: '';
-      height: 1lh;
-      width: auto;
-      aspect-ratio: 1;
-      background-size: contain;
-      image-rendering: pixelated;
-      background-image: var(--url);
-      background-position: center;
-      background-repeat: no-repeat;
-      user-select: text;
-      pointer-events: all;
-      transform: scale(1.4);
-    }
-    .text {
-      display: inline-flex;
-      white-space: pre;
     }
   `;
   // [

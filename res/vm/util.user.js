@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.156
+// @version     1.1.157
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1425,7 +1425,7 @@ const imgurl2img = () => {
     const mm = r.exec(m);
     if (mm !== null) {
       const { var: cssvar, url, src } = mm.groups;
-      const n = document.createElement('div');
+      const n = document.createElement('span');
       n.classList.add('imgurl');
       n.style.setProperty('--name', cssvar);
       n.style.setProperty('--s-name', `'${cssvar}'`);
@@ -1433,6 +1433,11 @@ const imgurl2img = () => {
       n.style.setProperty('--s-url', `'${url}'`);
       n.style.setProperty('--src', src);
       n.style.setProperty('--s-src', `'${src}'`);
+      const tn = document.createElement('span');
+      tn.innerText = cssvar;
+      tn.classList.add('text');
+      tn.style.setProperty('--text', `'${cssvar}'`);
+      n.appendChild(tn);
       qs`body`.one.appendChild(n);
     } else {
       const t = document.createElement('span');

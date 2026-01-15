@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.152
+// @version     1.1.156
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1355,26 +1355,92 @@ const csvGroupCols = (csvString) => {
 };
 
 const imgurl2img = () => {
+  const stylesheet = css`
+    .imgurl {
+      /*   padding: 0 1em 0 0; */
+      display: inline-flex;
+      align-content: center;
+      align-items: center;
+      column-gap: 1ch;
+      margin: 0 0.5ch;
+      font-size: 1em;
+      line-height: normal;
+    }
+    .imgurl::before {
+      display: flex;
+      content: var(--s-name) ':';
+      user-select: text;
+      pointer-events: all;
+      font-size: 0.9em;
+    }
+    .imgurl::after {
+      display: flex;
+      content: '';
+      height: 1lh;
+      width: auto;
+      aspect-ratio: 1;
+      background-size: contain;
+      image-rendering: pixelated;
+      background-image: var(--url);
+      background-position: center;
+      background-repeat: no-repeat;
+      user-select: text;
+      pointer-events: all;
+      transform: scale(1.4);
+    }
+    .text {
+      display: inline-flex;
+      white-space: pre;
+    }
+  `;
+  // [
+  //   ...qs`body > pre`.one.innerText.matchAll(
+  //     /(--[^:;]+):\s*(url\((['"])(data:.*)\3\))/g,
+  //   ),
+  // ].map(([, varname, url, , src]) => {
+  //   const n = document.createElement('img');
+  //   n.src = src;
+  //   qs`body`.one.appendChild(n);
+  // });
+  // [
+  //   ...qs`body > pre`.one.innerText.matchAll(
+  //     /(?<var>--[^:;]+):\s*(?<url>url\((['"])(?<src>data:.*)\3\))/g,
+  //   ),
+  // ]
+  //   .map((m) => m.groups)
+  //   .map(({ var: cssvar, url, src }) => {
+  //     const n = document.createElement('div');
+  //     n.classList.add('imgurl');
+  //     n.style.setProperty('--name', cssvar);
+  //     n.style.setProperty('--url', url);
+  //     n.style.setProperty('--src', src);
+  //     qs`body`.one.appendChild(n);
+  //   });
   [
-    ...qs`body > pre`.one.innerText.matchAll(
-      /(--[^:;]+):\s*(url\((['"])(data:.*)\3\))/g,
+    ...qs`body > pre`.one.innerText.split(
+      /(--[^:;]+:\s*url\(['"]data:.*['"]\))/g,
     ),
-  ].map(([, varname, url, , src]) => {
-    const n = document.createElement('img');
-    n.src = src;
-    qs`body`.one.appendChild(n);
-  });
-  [
-    ...qs`body > pre`.one.innerText.matchAll(
-      /(--[^:;]+):\s*(url\((['"])(data:.*)\3\))/g,
-    ),
-  ].map(([, varname, url, , src]) => {
-    const n = document.createElement('div');
-    n.classList.add('imgurl');
-    n.style.setProperty('--name', varname);
-    n.style.setProperty('--url', url);
-    n.style.setProperty('--src', src);
-    qs`body`.one.appendChild(n);
+  ].map((m) => {
+    const r = /(?<var>--[^:;]+):\s*(?<url>url\((['"])(?<src>data:.*)\3\))/;
+    const mm = r.exec(m);
+    if (mm !== null) {
+      const { var: cssvar, url, src } = mm.groups;
+      const n = document.createElement('div');
+      n.classList.add('imgurl');
+      n.style.setProperty('--name', cssvar);
+      n.style.setProperty('--s-name', `'${cssvar}'`);
+      n.style.setProperty('--url', url);
+      n.style.setProperty('--s-url', `'${url}'`);
+      n.style.setProperty('--src', src);
+      n.style.setProperty('--s-src', `'${src}'`);
+      qs`body`.one.appendChild(n);
+    } else {
+      const t = document.createElement('span');
+      t.innerText = m;
+      t.classList.add('text');
+      t.style.setProperty('--text', `'${m}'`);
+      qs`body`.one.appendChild(t);
+    }
   });
 };
 

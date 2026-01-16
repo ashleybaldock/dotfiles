@@ -798,3 +798,93 @@ input[type='range']:focus::-moz-range-thumb {
     inset 40px -30px 0 10px #500;
   border-radius: 0 0 0 50% / 0 0 0 60%;
 }
+
+.fancy:nth-of-type(12),
+.fancy:nth-of-type(13),
+.fancy:nth-of-type(14),
+.fancy:nth-of-type(15) {
+  --size: 0.25em;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  display: grid;
+  grid-row: auto;
+  box-sizing: content-box;
+  border-color: #666;
+  border-style: solid;
+  border-width: calc(var(--size) * 0.5);
+  margin: calc(var(--size) * -0.5);
+  box-shadow:
+    inset 1px 1px 2px -1px #000,
+    var(--j) var(--j) 0 var(--j) #044,
+    var(--i) var(--j) 0 var(--j) #440,
+    var(--i) var(--i) 0 var(--j) #404,
+    var(--j) var(--i) 0 var(--j) #400,
+    inset var(--j) var(--j) 0 var(--j) #606,
+    inset var(--i) var(--j) 0 var(--j) #600,
+    inset var(--i) var(--i) 0 var(--j) #066,
+    inset var(--j) var(--i) 0 var(--j) #666c00,
+    inset var(--j) var(--i－) 0 var(--j) #055,
+    inset var(--j) var(--i) 2px var(--j) #550;
+  --i: calc(var(--size) * 6);
+  --j: calc(var(--i) * -1);
+  border-radius: 10ch / 1ch;
+  --j－: calc(var(--j) * 0.9);
+  --j＋: calc(var(--j) * 1.1);
+  --i－: calc(var(--i) * 0.9);
+  --i＋: calc(var(--i) * 1.1);
+}
+
+.fancy:nth-of-type(13) {
+  border-color: #8882 #6662 #6662 #8882;
+  border-width: calc(var(--size) * 0.2);
+  box-shadow:
+    inset 1px 1px 2px -1px #000,
+    inset -2px -2px 1px -1.5px #fff2,
+    var(--j) var(--j) 0 var(--j) #044,
+    var(--i) var(--j) 0 var(--j) #440,
+    var(--i) var(--i) 0 var(--j) #404,
+    var(--j) var(--i) 0 var(--j) #400,
+    inset var(--j) var(--j) 0 var(--j) #606,
+    inset var(--i) var(--j) 0 var(--j) #600,
+    inset var(--i) var(--i) 0 var(--j) #066,
+    inset var(--j) var(--i) 0 var(--j) #666c00,
+    inset var(--i＋) var(--j－) 0 var(--j－) #a00,
+    inset var(--j＋) var(--i－) 0 var(--j－) #aa0,
+    inset var(--i＋) var(--i－) 0 var(--j－) #0aa,
+    inset var(--j＋) var(--j－) 0 var(--j－) #a0a;
+}
+
+.fancy:nth-of-type(14) {
+  border-style: hidden;
+  box-shadow:
+    inset 0.5px 0.5px 2px -0.5px #fff8,
+    inset -2px -2px 2px -1px #0008,
+    var(--j) var(--j) 0 var(--j) #044,
+    var(--i) var(--j) 0 var(--j) #440,
+    var(--i) var(--i) 0 var(--j) #404,
+    var(--j) var(--i) 0 var(--j) #400,
+    inset var(--j) var(--j) 0 var(--j) #6066,
+    inset var(--i) var(--j) 0 var(--j) #6006,
+    inset var(--i) var(--i) 0 var(--j) #0666,
+    inset var(--j) var(--i) 0 var(--j) #6666,
+    inset var(--i＋) var(--j－) 0 var(--j－) #a00a,
+    inset var(--j＋) var(--i－) 0 var(--j－) #aa0a,
+    inset var(--i＋) var(--i－) 0 var(--j－) #0aaa,
+    inset var(--j＋) var(--j－) 0 var(--j－) #a0aa;
+}
+.fancy:nth-of-type(15) {
+  border-color: #8882 #6662 #6662 #8882;
+  border-width: calc(var(--size) * 0.4);
+  box-shadow:
+    inset 1px 1px 2px -1px #000,
+    inset -2px -2px 1px -1.5px #fff2,
+    inset var(--j) var(--j) 0 var(--j) #66f6,
+    inset var(--i) var(--j) 0 var(--j) #0006,
+    inset var(--i) var(--i) 0 var(--j) #0006,
+    inset var(--j) var(--i) 0 var(--j) #0006,
+    inset var(--i＋) var(--j－) 0 var(--j－) #a00,
+    inset var(--j＋) var(--i－) 0 var(--j－) #fff6,
+    inset var(--i＋) var(--i－) 0 var(--j－) #0006,
+    inset var(--j＋) var(--j－) 0 var(--j－) #00f;
+  border-radius: 4ch 8ch 3ch 10ch / 10ch 4ch 8ch 3ch;
+}

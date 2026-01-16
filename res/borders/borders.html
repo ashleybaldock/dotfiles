@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="/common.css"/>
     <link rel="stylesheet" href="borders.css"/>
     <link rel="stylesheet" href="borders-buttons.css"/>
-    <link rel="stylesheet" href="spells-1.css"/>
+    <link rel="stylesheet" href="borders-fancy.css"/>
     <link rel="stylesheet" href="borders-fieldset.css"/>
 
-    <script type="application/javascript" src="entanglement.js"></script>
+    <script type="application/javascript" src="/entanglement.js"></script>
 
     <script>
       entanglement().then((untangle) => {
@@ -45,41 +45,36 @@
           </div>
   <div class="slider-wrapper" data-sink="bd1_A">
     <label for="bd1_A">left-top</label>
-    <input data-source class="reversed" id="bd1_A" type="range" value="0" min="0" max="200" orient="vertical">
+    <input data-source class="vertical reversed" id="bd1_A" type="range" value="0" min="0" max="200">
   </div>
   <div class="slider-wrapper" data-sink="bd1_a">
     <label for="bd1_a">top-left</label>
-    <input data-source id="bd1_a" type="range" value="0" min="0" max="200" orient="horizontal">
+    <input data-source id="bd1_a" type="range" value="0" min="0" max="200">
   </div>
   <div class="slider-wrapper" data-sink="bd1_b">
     <label for="bd1_b">top-right</label>
-    <input data-source class="reversed" id="bd1_b" type="range" value="0" min="0" max="200" orient="horizontal">
+    <input data-source class="reversed" id="bd1_b" type="range" value="0" min="0" max="200">
   </div>
   <div class="slider-wrapper" data-sink="bd1_B">
     <label for="bd1_B">right-top</label>
-    <input data-source class="reversed" id="bd1_B" type="range" value="0" min="0" max="200" orient="vertical">
+    <input data-source class="vertical reversed" id="bd1_B" type="range" value="0" min="0" max="200">
   </div>
   <div class="slider-wrapper" data-sink="bd1_C">
     <label for="bd1_C">right-bot</label>
-    <input data-source id="bd1_C" type="range" value="0" min="0" max="200" orient="vertical">
+    <input data-source class="vertical" id="bd1_C" type="range" value="0" min="0" max="200">
   </div>
   <div class="slider-wrapper" data-sink="bd1_c">
     <label for="bd1_c">bot-right</label>
-    <input data-source class="reversed" id="bd1_c" type="range" value="0" min="0" max="200" orient="horizontal">
+    <input data-source class="reversed" id="bd1_c" type="range" value="0" min="0" max="200">
   </div>
   <div class="slider-wrapper" data-sink="bd1_d">
     <label for="bd1_d">bot-left</label>
-    <input data-source id="bd1_d" type="range" value="0" min="0" max="200" orient="horizontal">
+    <input data-source id="bd1_d" type="range" value="0" min="0" max="200">
   </div>
   <div class="slider-wrapper" data-sink="bd1_D">
     <label for="bd1_D">left-bot</label>
-    <input data-source id="bd1_D" type="range" value="0" min="0" max="200" orient="vertical">
+    <input data-source class="vertical" id="bd1_D" type="range" value="0" min="0" max="200">
   </div>
-
-  <!-- <label for="bd1_a">top-left-horizontal</label> -->
-  <!-- <input id="bd1_a" type="range" min="0" max="100" orient="horizontal"> -->
-  <!-- <input type="range" min="0" max="100" orient="vertical"> -->
-  <!--         </div> -->
         </div>
 </section>
 <section>

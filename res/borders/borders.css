@@ -9,11 +9,12 @@
 
 body {
   font-size: 14px;
-  line-height: 14px;
+  line-height: normal;
   display: flex;
   flex-direction: column;
-  margin: 0.6em;
-  gap: 0.6em;
+  margin: 0;
+  row-gap: 0.6em;
+  column-gap: 0;
   padding: 0;
   background-color: #222222;
   color: #ffffff;
@@ -24,7 +25,8 @@ section {
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: stretch;
-  gap: 1em;
+  row-gap: 1em;
+  column-gap: 0;
 }
 
 .container {
@@ -44,7 +46,7 @@ svg {
   color: black;
 }
 
-.curve.topleft.stest {
+.curve.topleft.stest .preview {
   border-radius: var(--tl) var(--tr) var(--br) var(--bl) / var(--tl2) var(--tr2)
     var(--br2) var(--bl2);
   --tl: 100%;
@@ -56,7 +58,7 @@ svg {
   --br2: 0%;
   --bl2: 0%;
 }
-:root:has(#link-none:checked) .stest {
+:root:has(#link-none:checked) .stest .preview {
   --ax: 20%;
   --bx: 20%;
   --cx: 20%;
@@ -82,7 +84,7 @@ svg {
   --cc: 20%;
   --dd: 0%;
 }
-:root:has(#link-corner-xy:checked) .stest {
+:root:has(#link-corner-xy:checked) .stest .preview {
   /* corner pairs identical (circular corners) */
   --ax: var(--ax＝ay);
   --ay: var(--ax＝ay);
@@ -97,11 +99,11 @@ svg {
   --cx＝cy: 100%;
   --dx＝dy: 10%;
 }
-:root:has(#link-all:checked) .stest {
+:root:has(#link-all:checked) .stest .preview {
   /* all 4 corners same x & y (equal circular corners) */
   --ax＝bx＝cx＝dx＝ay＝by＝cy＝dy: 50%;
 }
-:root:has(#link-all-x:checked) .stest {
+:root:has(#link-all-x:checked) .stest .preview {
   /* all 4 corners same x value */
   --ax: var(--ax＝bx＝cx＝dx);
   --bx: var(--ax＝bx＝cx＝dx);
@@ -109,7 +111,7 @@ svg {
   --dx: var(--ax＝bx＝cx＝dx);
   --ax＝bx＝cx＝dx: 30%;
 }
-:root:has(#link-all-y:checked) .stest {
+:root:has(#link-all-y:checked) .stest .preview {
   /* all 4 corners same y value */
   --ay: var(--ay＝by＝cy＝dy);
   --by: var(--ay＝by＝cy＝dy);
@@ -117,7 +119,7 @@ svg {
   --dy: var(--ay＝by＝cy＝dy);
   --ay＝by＝cy＝dy: 30%;
 }
-:root:has(#link-circle:checked) .stest {
+:root:has(#link-circle:checked) .stest .preview {
   /* circular pairings */
   --ax: var(--ax＝dy);
   --bx: var(--bx＝ay);
@@ -132,20 +134,16 @@ svg {
   --cx＝dx: 100%;
   --dx＝ay: 10%;
 }
-:root:has(#rotate-0:checked) .stest,
-.stest .bdr0 {
+:root:has(#rotate-0:checked) .stest .preview {
   border-radius: var(--bdr-r0);
 }
-:root:has(#rotate-1:checked) .stest,
-.stest .bdr1 {
+:root:has(#rotate-1:checked) .stest .preview {
   border-radius: var(--bdr-r1);
 }
-:root:has(#rotate-2:checked) .stest,
-.stest .bdr2 {
+:root:has(#rotate-2:checked) .stest .preview {
   border-radius: var(--bdr-r2);
 }
-:root:has(#rotate-3:checked) .stest,
-.stest .bdr3 {
+:root:has(#rotate-3:checked) .stest .preview {
   border-radius: var(--bdr-r3);
 }
 .stest {
@@ -163,8 +161,8 @@ svg {
   border: 4px solid orchid;
   position: relative;
   box-sizing: border-box;
-  width: 80vw;
-  height: 80vh;
+  width: 96vw;
+  height: 92vh;
   display: grid;
   background-color: #8870de;
   grid-template-rows: 1fr 1fr 3fr 3fr 1fr 1fr;
@@ -197,6 +195,8 @@ svg {
   align-items: center;
   justify-content: center;
   position: relative;
+  contain: size;
+  container-type: size;
 
   --ax: calc(max(0, var(--bdata-bd1_ax, 20)) * var(--u));
   --bx: calc(max(0, var(--bdata-bd1_bx, 20)) * var(--u));
@@ -227,8 +227,10 @@ svg {
   position: relative;
   display: block;
   content: '';
-  width: 160px;
-  height: 160px;
+  width: 80cqmin;
+  height: auto;
+  overflow: visible;
+  aspect-ratio: 1;
   border: 2px solid orange;
   border-width: var(--bdw);
   border-style: var(--style-top) var(--style-right) var(--style-bottom)
@@ -434,8 +436,8 @@ svg {
   border-style: solid solid dotted dotted;
   /* width: calc(50% - var(--ibdw＋) * 0.5); */
   /* height: calc(50% - var(--ibdw＋) * 0.5); */
-  outline: var(--ibdw＋) solid #fff8;
-  outline-offset: var(--ibdw－);
+  /* outline: var(--ibdw＋) solid #fff8; */
+  /* outline-offset: var(--ibdw－); */
   width: 50%;
   height: 50%;
 }
@@ -482,7 +484,7 @@ svg {
   left: var(--ibdw－);
   bottom: var(--ibdw－);
 }
-.bd1_dxy::after {
+.bd1_dxy > .radii {
   border-color: purple blue transparent transparent;
   bottom: 0;
   left: 0;
@@ -627,12 +629,12 @@ input[type='range']:focus::-moz-range-thumb {
 }
 
 .stest .preview {
-  --bdata-bd1_ax: 31;
-  --bdata-bd1_bx: 26;
-  --bdata-bd1_cx: 100;
-  --bdata-bd1_dx: 48;
-  --bdata-bd1_ayAy: 14;
-  --bdata-bd1_byBy: 50;
-  --bdata-bd1_cyCy: 50;
-  --bdata-bd1_dyDy: 50;
+  --bdata-bd1_ax: 20;
+  --bdata-bd1_bx: 40;
+  --bdata-bd1_cx: 20;
+  --bdata-bd1_dx: 40;
+  --bdata-bd1_ayAy: 20;
+  --bdata-bd1_byBy: 30;
+  --bdata-bd1_cyCy: 20;
+  --bdata-bd1_dyDy: 30;
 }

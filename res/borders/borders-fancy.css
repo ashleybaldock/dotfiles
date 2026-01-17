@@ -334,3 +334,27 @@
     inset var(--j＋) var(--j－) 0 var(--j－) #00f;
   border-radius: 4ch 8ch 3ch 10ch / 10ch 4ch 8ch 3ch;
 }
+
+.fancy:nth-of-type(16) {
+  border-width: var(--border-width);
+  box-shadow:
+    var(--j) var(--j) 0 var(--j) #044,
+    var(--i) var(--j) 0 var(--j) #440,
+    10ch calc(var(--j) * -3) 0 calc(var(--i) * -3) #606,
+    calc(var(--i) * 3) calc(var(--j) * -3) 0 calc(var(--i) * -3) #606,
+    calc(var(--j) * 1) var(--i) 0 var(--j) #f00,
+    inset calc(var(--j) * -1) var(--j) 0 var(--j) #606,
+    inset var(--i) var(--j) 0 var(--j) #600,
+    inset var(--i) var(--i) 0 var(--j) #066,
+    inset var(--j) var(--i) 0 var(--j) #660;
+  --i: calc(var(--border-width) * 6);
+  --j: calc(var(--i) * -1);
+  border-radius: 10ch / 1ch;
+  --j－: calc(var(--j) * 0.9);
+  --j＋: calc(var(--j) * 1.1);
+  --i－: calc(var(--i) * 0.9);
+  --i＋: calc(var(--i) * 1.1);
+  --border-width: 2px;
+  border-color: #000;
+  border-style: solid;
+}

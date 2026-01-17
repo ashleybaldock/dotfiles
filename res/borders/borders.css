@@ -258,7 +258,7 @@ svg {
       calc(var(--radius) * -0.25) #fff8,
     calc(var(--radius) * 0) calc(var(--radius) * 0) 0 calc(var(--radius) * 0.25)
       #0008,
-    var(--tracks,) 0 0 0 0 #0000;
+    var(--tracks, 0 0 0 0 #0000);
   --track-right:
     calc(var(--radius) * 1.5) 0 0 calc(var(--radius) * -0.5)
       rgba(from var(--color) r g b / 70%),
@@ -279,60 +279,54 @@ svg {
 }
 
 .stest .preview .bd1_ax {
-  content: 'ax';
   --color: red;
   top: var(--top);
   left: calc(var(--ax) - var(--radius));
-  --tracks: var(--track-left) var(--track-right);
+  --tracks: var(--track-left), var(--track-right);
 }
 .stest .preview .bd1_bx {
-  content: 'bx';
   --color: red;
   top: var(--top);
   right: calc(var(--bx) - var(--radius));
-  --tracks: var(--track-left) var(--track-right);
+  --tracks: var(--track-left), var(--track-right);
 }
 .stest .preview .bd1_by {
   content: 'by';
   --color: green;
   top: calc(var(--by) - var(--radius));
   right: var(--right);
-  --tracks: var(--track-top) var(--track-bottom);
+  --tracks: var(--track-top), var(--track-bottom);
 }
 .stest .preview .bd1_cy {
   content: 'cy';
   --color: green;
   bottom: calc(var(--cy) - var(--radius));
   right: var(--right);
-  --tracks: var(--track-top) var(--track-bottom);
+  --tracks: var(--track-top), var(--track-bottom);
 }
 .stest .preview .bd1_cx {
-  content: 'cx';
   --color: blue;
   bottom: var(--bottom);
   right: calc(var(--cx) - var(--radius));
-  --tracks: var(--track-left) var(--track-right);
+  --tracks: var(--track-left), var(--track-right);
 }
 .stest .preview .bd1_dx {
-  content: 'dx';
   --color: blue;
   bottom: var(--bottom);
   left: calc(var(--dx) - var(--radius));
-  --tracks: var(--track-left) var(--track-right);
+  --tracks: var(--track-left), var(--track-right);
 }
 .stest .preview .bd1_dy {
-  content: 'dy';
   --color: purple;
   bottom: calc(var(--dy) - var(--radius));
   left: var(--left);
-  --tracks: var(--track-top) var(--track-bottom);
+  --tracks: var(--track-top), var(--track-bottom);
 }
 .stest .preview .bd1_ay {
-  content: 'ay';
   --color: purple;
   top: calc(var(--ay) - var(--radius));
   left: var(--left);
-  --tracks: var(--track-top) var(--track-bottom);
+  --tracks: var(--track-top), var(--track-bottom);
 }
 
 .stest .preview .coord {
@@ -428,6 +422,9 @@ svg {
   border-width: var(--ibdw＋);
   --ibdw＋: calc(var(--bdw) / 3);
   --ibdw－: calc(var(--ibdw＋) * -1);
+  box-shadow:
+    inset 0 0 0 calc(var(--bdw) * 0.5) #191919,
+    0 0 0 calc(var(--bdw) * 0.5) #191919;
 }
 .oval > .radii {
   content: '';

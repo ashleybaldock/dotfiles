@@ -121,3 +121,63 @@ section.squares:nth-child(2) {
   height: fit-content;
   padding: 0.1em 0.5ch;
 }
+.squares > .square,
+.squares > .group > .square,
+.squares > .group {
+  --xa: var(--x1) / var(--x2);
+  --xb: var(--x) / calc(var(--x) + var(--w));
+  --xx: var(--xa, var(--xb));
+  --ya: var(--y1) / var(--y2);
+  --yb: var(--y) / calc(var(--y) + var(--h));
+  --yy: var(--ya, var(--yb));
+}
+.squares > .group {
+  --oo: -1px;
+  --br: 3px;
+  --ow: 3px;
+  grid-column: var(--xx);
+  grid-row: var(--yy);
+  --a: 10%;
+  --border-radius: max(var(--br) - var(--oo) - var(--ow), var(--br));
+
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-template-columns: subgrid;
+  pointer-events: none;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  contain: size;
+  container-type: size;
+  background-color: hsl(from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--a));
+  box-shadow:
+    inset -3px -3px 1px -2px
+      hsl(from var(--c) h calc(s * 0.25) calc(l * 0.2) / var(--ao)),
+    inset 2.5px 2.5px 2px -2px
+      hsl(from var(--c) h calc(s * 0.75) calc(l * 1.2) / var(--ao));
+  border-radius: var(--border-radius);
+}
+
+.squares > .group > .square {
+  width: 100%;
+  height: 100%;
+  --a: 80%;
+  background-color: hsl(
+    from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--ao)
+  );
+  box-shadow:
+    inset -3px -3px 1px -2px
+      hsl(from var(--c) h calc(s * 0.25) calc(l * 0.2) / var(--ao)),
+    inset 2.5px 2.5px 2px -2px
+      hsl(from var(--c) h calc(s * 0.75) calc(l * 1.2) / var(--ao));
+  --ao: calc(var(--a) * 1);
+  border-radius: var(--border-radius);
+}
+.squares > .group > .square:hover {
+  --a: 80%;
+}
+.squares > .group:has(:hover) {
+  --a: 20%;
+  outline: var(--ow) double var(--c);
+  outline-offset: var(--oo);
+}

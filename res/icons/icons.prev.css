@@ -47,8 +47,11 @@ body {
 }
 
 fieldset::before {
+  height: 100%;
   display: flex;
+  width: 70px;
   mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z%22%3E%3C/path%3E%3C/svg%3E');
+  background-image: var(--icon-bg-preview);
   mask-position: center;
   mask-repeat: no-repeat;
   mask-origin: content-box;
@@ -56,15 +59,6 @@ fieldset::before {
   background-color: #0000;
   mask-size: contain;
   margin: 0 2ch 0 1ch;
-  content: '';
-  width: 70px;
-  height: auto;
-  background-image: var(--icon-doc);
-  display: block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  aspect-ratio: 1;
-  filter: brightness(0.5) hue-rotate(210deg) saturate(5);
 }
 
 h2 {
@@ -110,6 +104,18 @@ section {
 
 fieldset {
   align-items: center;
+}
+
+fieldset::before {
+  content: '';
+  width: 70px;
+  height: auto;
+  background-image: var(--icon-doc);
+  display: block;
+  background-repeat: no-repeat;
+  background-size: contain;
+  aspect-ratio: 1;
+  filter: brightness(0.5) hue-rotate(210deg) saturate(5);
 }
 
 fieldset label {
@@ -320,6 +326,7 @@ svg {
     80% 30%;
 }
 /*!}}}1*/
+
 /*!{{{1Drop target */
 #droptarget {
   min-height: 20vh;
@@ -351,7 +358,9 @@ svg {
     0 0 12px -2px #000;
 }
 /*!}}}1*/
+
 /*!{{{1 SVG Combiner Controls */
+
 .svgCombiner {
   display: flex;
   flex-direction: row;
@@ -372,7 +381,6 @@ svg {
   align-self: center;
   flex: 1 auto;
 }
-
 .svgCombiner label {
   background: 0 0;
 }
@@ -518,15 +526,6 @@ svg {
   flex-direction: column;
   width: 100%;
   align-items: start;
-  --bg-bg:
-    linear-gradient(45deg, #0002, 50%, #0008, 90%, #000a),
-    linear-gradient(-45deg, #0006, #000a, #4448),
-    linear-gradient(#000, #222, #444);
-  --bg-bg-size: 100% 100%, 100% 100%, 100% 100%;
-  --bg-bg-pos: 0 0, 0 0, 0 0;
-  --bg0: linear-gradient(#0000);
-  --bg0-size: 0;
-  --bg0-pos: 0 0;
 }
 
 .combineList label:has(> [type='radio']) {
@@ -546,7 +545,17 @@ svg {
   --bg-2-size: 40%;
   --bg-2-pos: 50% 90%;
 }
-
+.combineList {
+  --bg-bg:
+    linear-gradient(45deg, #0002, 50%, #0008, 90%, #000a),
+    linear-gradient(-45deg, #0006, #000a, #4448),
+    linear-gradient(#000, #222, #444);
+  --bg-bg-size: 100% 100%, 100% 100%, 100% 100%;
+  --bg-bg-pos: 0 0, 0 0, 0 0;
+  --bg0: linear-gradient(#0000);
+  --bg0-size: 0;
+  --bg0-pos: 0 0;
+}
 .sourceBase {
   display: flex;
   flex-direction: row;
@@ -615,7 +624,6 @@ svg {
   margin: auto 0.4em;
 }
 
-.controlgroup .control > [type='radio'],
 .controlgroup.overlap > .controlgroup ~ .controlgroup > .control > span {
   display: none;
 }
@@ -641,6 +649,10 @@ svg {
 
 section {
   margin: 0;
+}
+
+.controlgroup .control > [type='radio'] {
+  display: none;
 }
 
 .controlgroup.fill,
@@ -1054,19 +1066,12 @@ section {
   width: calc(100% + var(--icon-inset) * 2.4);
   height: calc(100% + var(--icon-inset) * 2.4);
 }
-
-.iconRow,
 .inner,
-.inner:hover,
-.outer {
+.inner:hover {
   display: grid;
   grid-template-rows: subgrid;
   place-items: center;
   align-self: center;
-}
-
-.inner,
-.inner:hover {
   width: 100%;
   column-gap: 2ch;
   grid-template-columns: 3em 3em 1em;
@@ -1074,14 +1079,16 @@ section {
 
 .iconRow,
 .outer {
+  display: grid;
+  grid-template-rows: subgrid;
   grid-template-columns: subgrid;
+  place-items: center;
+  align-self: center;
 }
-
 .wrappedSVG {
   width: auto;
   aspect-ratio: 1;
 }
-
 .wrappedSVG.duplicate {
   height: auto;
   width: 100%;
@@ -1109,8 +1116,6 @@ section {
   display: grid;
   grid-template-rows: subgrid;
   grid-template-columns: subgrid;
-  max-height: unset;
-  place-self: center;
 }
 
 svg[viewBox='0 0 640 640'] {
@@ -1139,6 +1144,10 @@ svg[viewBox='0 0 640 640'] {
 
 .iconRow:hover .wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
   transform: scale(1.4) translate(4px, -4px);
+}
+.wrappedSVG:has(> [viewBox='0 0 640 640']) {
+  max-height: unset;
+  place-self: center;
 }
 
 .wrappedSVG,
@@ -1220,7 +1229,6 @@ ul {
 .sourceOverlay {
   counter-increment: srcidx;
 }
-
 .sourceBase {
   counter-reset: srcidx;
   padding: 0.4em 0.6em;
@@ -1316,7 +1324,6 @@ section label {
   position: sticky;
   background-color: #222;
 }
-
 :is(section, .svgListing):has(> h2) {
   position: sticky;
   border-top-right-radius: 0;
@@ -1346,33 +1353,28 @@ section label {
   height: var(--item-size);
   grid-row: auto;
 }
-
 .svgCombiner > h3 {
   display: grid;
   place-content: center;
   place-items: center;
   grid-template-rows: 1fr auto 1fr;
 }
-
 :is(.sourceBase, .sourceOverlay) > h3 > span {
   font-size: 1.1em;
   visibility: hidden;
   display: none;
 }
-
 :is(.sourceBase, .sourceOverlay) > h3 > span::first-line {
   font-size: 0.8em;
   word-spacing: 10em;
   text-align: center;
 }
-
 .sourceOverlay > h3::after {
   content: '#' counter(srcidx);
   font-size: 1.2em;
   grid-row: 3 / span 1;
   align-self: end;
 }
-
 .sourceOverlay > h3::before {
   content: '+';
   font-size: 2em;
@@ -1386,7 +1388,6 @@ section label {
   height: 6em;
   grid-row: 2 / span 1;
 }
-
 .sourceBase > h3 > svg {
   font-size: 6em;
 }
@@ -1401,7 +1402,6 @@ section label {
   place-items: center;
   grid-template: 1fr 1fr/1fr;
 }
-
 .controlgroup > h5 > svg {
   font-size: 1.6em;
 }
@@ -1448,19 +1448,6 @@ body {
     1
   );
   row-gap: calc(var(--item-gap) * 4);
-  grid-template-columns:
-    repeat(auto-fit, [item-start]var(--item-size) [item-end])
-    [label-start]auto[label-end];
-  --rightgutter: 11vw;
-  --width: round(
-    down,
-    calc((100vw - var(--leftmargin))),
-    calc(var(--item-size) + var(--row-gap))
-  );
-  --row-gap: calc(var(--item-gap) * 4);
-  row-gap: var(--row-gap);
-  background-color: #111;
-  width: var(--width);
 }
 
 .subsection {
@@ -1498,18 +1485,17 @@ section {
   margin: 0 max(10vw, 100px) 0 0;
   height: auto;
 }
-
 .svgListing:not(:has(> h2))::before {
   inset: 20vh auto auto auto;
   content: 'nameless';
   font-style: italic;
   letter-spacing: 0.2ch;
 }
-
 .svgListing:not(:has(> h2))::before,
 :not(#a#b) :is(section, .svgListing) > h2 {
   inset: var(--voff) auto calc(var(--voff) * -1) auto;
   margin: calc(var(--voff) * -1) 0 var(--voff) 0;
+  grid-column: -1;
   min-width: var(--item-size);
   height: var(--item-size);
   grid-row: auto;
@@ -1530,8 +1516,7 @@ section {
   grid-template: 1fr/1fr;
 }
 
-.iconRow .wrappedSVG,
-.svgActions {
+.iconRow .wrappedSVG {
   place-self: center;
   place-content: center;
   place-items: center;
@@ -1540,6 +1525,8 @@ section {
 .svgActions {
   grid-area: 1/-1/1/-1;
   place-self: start center;
+  place-content: center;
+  place-items: center;
 }
 
 .iconRow {
@@ -1548,20 +1535,36 @@ section {
   inset: auto auto auto auto;
 }
 
+/* icons.css | http://localhost:3333/icons/icons.css */
+
 :is(section, .svgListing),
 :is(section, .svgListing):has(> h2) {
   display: contents;
 }
-
 .svgListing.imported {
   grid-column: -2/-1;
   grid-template-columns: 1fr 1fr;
 }
-
 .svgListing.imported > .iconRow {
   --item-size: 6rem;
   inset: unset;
   outline: unset;
+}
+
+body {
+  grid-template-columns:
+    repeat(auto-fit, [item-start]var(--item-size) [item-end])
+    [label-start]auto[label-end];
+  --rightgutter: 11vw;
+  --width: round(
+    down,
+    calc((100vw - var(--leftmargin))),
+    calc(var(--item-size) + var(--row-gap))
+  );
+  --row-gap: calc(var(--item-gap) * 4);
+  row-gap: var(--row-gap);
+  background-color: #111;
+  width: var(--width);
 }
 
 .svgListing:not(:has(> h2))::before {
@@ -1571,6 +1574,8 @@ section {
   position: sticky;
   flex-wrap: nowrap;
 }
+
+/* Inline | http://localhost:3333/icons/icons.html */
 
 .svgListing:not(:has(> h2))::before,
 :not(#a#b) :is(section, .svgListing) > h2 {
@@ -1592,12 +1597,32 @@ section {
   font-size: 3em;
   height: 3em !important;
 }
+
+.svgListing:not(:has(> h2))::before,
+:not(#a#b) :is(section, .svgListing) > h2 {
+  grid-column: -1/-2;
+  width: 100%;
+  --voff: 0;
+  --off-top: 5vh;
+  --off-bot: 10vh;
+  place-content: center;
+  place-items: center;
+  place-self: center start;
+  width: var(--item-size);
+  display: flex;
+  position: sticky;
+  inset: var(--off-top) auto var(--off-bot) auto;
+}
+:is(section, .svgListing) > svg {
+  font-size: 3em;
+  height: 3em !important;
+}
+
 /*!{{{1 Debug */
 .svgListing:not(:has(> h2))::before {
   outline: 3px double #00f;
   outline-offset: 1px;
 }
-
 :root:has(#toggle_debug:checked) .svgListing > h2 {
   outline: 3px dashed #f0f;
   outline-offset: 1px;
@@ -1616,30 +1641,27 @@ section {
   outline: 1px dashed #aa0;
 }
 /*!}}}1*/
+
 .edit > section {
   display: grid;
   grid-column: -1;
 }
-
 .edit {
   display: flex;
   flex-direction: column;
+  /*! position: sticky; */
   inset: 0 auto auto auto;
 }
-
 section {
   container-type: unset;
   contain: unset;
 }
-
 body > section {
   grid-column: 1/-1 !important;
 }
-
 h2:hover + .svgListing {
   z-index: 10000;
 }
-
 h2 ~ section > .iconRow:first-of-type {
   margin: 0 0 0 calc(var(--item-gap) + var(--item-size) * -2);
   inset: auto auto auto auto;

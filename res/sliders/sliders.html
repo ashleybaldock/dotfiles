@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Sliders</title>
+    <!--{{{-->
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="icon" href="favicon.ico" />
+
+    <link rel="stylesheet" href="/common.css" />
+    <link rel="stylesheet" href="sliders.css" />
+
+    <!--<script type="application/javascript" src="/entanglement.js"></script>-->
+    <!--}}}-->
+  </head>
+  <body>
+    <h1>Sliders</h1>
+
+    <section class="">
+      <fieldset>
+        <label for="testglass" data-sink="testglass">
+          <span>test:glass</span>
+          <output for="testglass" />
+          <input
+            type="range"
+            list="markersglass"
+            min="-30"
+            max="30"
+            step="3"
+            class="glass"
+            id="testglass"
+          />
+          <datalist id="markersglass" class="text-outline-thick">
+            <option value="-30"></option>
+            <option value="0"></option>
+            <option value="30"></option>
+          </datalist>
+        </label>
+      </fieldset>
+      <fieldset>
+        <label for="testmetal" data-sink="testmetal">
+          <span>test:metal</span>
+          <output for="testmetal" />
+          <input
+            type="range"
+            list="markersmetal"
+            min="0"
+            max="6"
+            step="1"
+            class="metal"
+            id="testmetal"
+          />
+          <datalist id="markersmetal" class="text-outline-thick">
+            <option value="0"></option>
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value="3"></option>
+            <option value="4"></option>
+            <option value="5"></option>
+            <option value="6"></option>
+          </datalist>
+        </label>
+      </fieldset>
+      <fieldset>
+        <label for="stroke-width" data-sink="stroke-width">
+          <span>SVG::stroke-width</span>
+          <output for="stroke-width" />
+          <input
+            type="range"
+            list="markers"
+            min="0"
+            max="64"
+            step="1"
+            id="stroke-width"
+            data-source="stroke-width"
+          />
+          <datalist
+            id="markers"
+            class="text-outline-thick"
+            data-sink="stroke-width"
+          >
+            <option value="0"></option>
+            <option value="8"></option>
+            <option value="16"></option>
+            <option value="24"></option>
+            <option value="32"></option>
+            <option value="40"></option>
+            <option value="48"></option>
+            <option value="56"></option>
+            <option value="64"></option>
+          </datalist>
+        </label>
+      </fieldset>
+    </section>
+  </body>
+</html>

@@ -80,10 +80,6 @@ hi typescriptTypeReference    guifg=#77aaff
 hi typescriptReadonlyArrayKeyword guifg=#ff6600
 hi typescriptReadonlyModifier     guifg=#ff6600
 
-hi typescriptIdentifier       guifg=#ffaa00
-hi typescriptIdentifierName   guifg=#ffaa00
-hi typescriptDefaultParam     guifg=#ffaa00
-
 hi link typescriptType Type
 hi clear typescriptTypeBlock
 hi clear typescriptTypeOperator
@@ -92,12 +88,16 @@ hi clear typescriptTypeParameters
 hi typescriptVariable         guifg=#aabcc7 gui=italic
 hi typescriptKeywordOp        guifg=#ffaa00
 
+hi typescriptIdentifier       guifg=#ffaa00
+hi typescriptIdentifierName   guifg=#ffaa00
+hi typescriptDefaultParam     guifg=#ffaa00
+
 hi typescriptStringLiteralType        guifg=#66fa00 gui=italic
 hi typescriptTemplateLiteralType      guifg=#ffaa00
 hi typescriptTemplateSubstitutionType guifg=#ffaa00
-hi typescriptTemplate                 guifg=#ffaa00
+hi typescriptTemplate                 guifg=#66fa00
 hi typescriptTemplateSubstitution     guifg=#ffaa00
-hi typescriptTemplateSB               guifg=#ffaa00
+hi typescriptTemplateSB               guifg=#ffff00
 
 hi typescriptBOM              guifg=#ffaa00
 hi typescriptBOMHistoryProp   guifg=#ffaa00
@@ -368,8 +368,6 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptGenericFunc
 " typescriptGenericImpl
 "
-" typescriptIdentifier
-" typescriptIdentifierName
 " typescriptIndexExpr
 " typescriptIndexSignature
 "

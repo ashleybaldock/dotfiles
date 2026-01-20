@@ -181,3 +181,189 @@ section.squares:nth-child(2) {
   outline: var(--ow) double var(--c);
   outline-offset: var(--oo);
 }
+section.squares {
+  width: auto;
+  margin: 0 auto 0 1vw;
+  max-width: calc(100% - 2vw);
+  max-height: 45vh;
+  flex: 1 auto;
+}
+
+section.squares:nth-child(3) {
+  aspect-ratio: 1;
+}
+
+h1 {
+  margin: 0;
+  padding: 0.4em 1ch 0 0;
+  text-align: end;
+}
+
+@property --c {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: initial;
+}
+@property --t {
+  syntax: '<text>';
+  inherits: false;
+  initial-value: initial;
+}
+@property --x {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: initial;
+}
+@property --y {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: initial;
+}
+@property --w {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: initial;
+}
+@property --h {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: initial;
+}
+
+@property --x1 {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: initial;
+}
+@property --y1 {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: initial;
+}
+@property --x2 {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: initial;
+}
+@property --y2 {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: initial;
+}
+
+section.squares {
+  width: auto;
+  margin: 0 auto 0 1vw;
+  max-width: calc(100% - 2vw);
+  max-height: 45vh;
+  flex: 1 auto;
+}
+
+section.squares:nth-child(3) {
+  aspect-ratio: 1;
+}
+
+h1 {
+  margin: 0;
+  padding: 0.4em 1ch 0 0;
+  text-align: end;
+}
+
+.squares > .square,
+.squares > .group,
+.squares > .group > .square {
+  --xa: var(--x1) / var(--x2);
+  --xb: var(--x) / calc(var(--x) + var(--w));
+  --ya: var(--y1) / var(--y2);
+  --yb: var(--y) / calc(var(--y) + var(--h));
+  --cc: var(--c, #fff);
+  background-color: hsl(
+    from var(--cc) h calc(s * 0.6) calc(l * 0.6) / var(--a)
+  );
+}
+.squares > .square {
+  grid-column: var(--xa, var(--xb, auto / span 1));
+  grid-row: var(--ya, var(--yb, auto / span 1));
+}
+.squares > .group {
+  --xp: var(--xa, var(--xb));
+  grid-column: var(--xp, 1 / var(--nw));
+  --yp: var(--ya, var(--yb));
+  grid-row: var(--yp, 1 / var(--nh));
+  --cc: ;
+  --tg: 'group ';
+}
+.squares > .group::after {
+  content: var(--tg, '') var(--t, '');
+  white-space: normal;
+  display: flex;
+  grid-column: 1/-1;
+  grid-row: 1/-1;
+  place-self: start end;
+  padding: 0 0.5ch;
+  opacity: 0.2;
+  visibility: hidden;
+  color: var(--cc);
+}
+.squares > .group:has(:hover)::after {
+  visibility: visible;
+}
+.squares > .group > .square {
+  --c: inherit;
+  --t: inherit;
+  --t: '?';
+  grid-column: var(--xa, var(--xb, var(--xp, 1 / span 1)));
+  grid-row: var(--ya, var(--yb, var(--yp, 1 / span 1)));
+}
+
+.squares {
+  background-color: #1a1a1a;
+  background-image:
+    linear-gradient(90deg, #f000 0.25px, #fff 0.75px, #f000 1px),
+    linear-gradient(0deg, #fff0 0.25px, #fff 0.75px, #fff0 1px);
+  background-size: calc(100% / var(--nw)) calc(100% / var(--nh));
+  background-origin: content-box;
+  box-shadow:
+    inset -1px -1px 3px -2px #fff,
+    inset 1px 1px 3px -2px #000;
+  background-size:
+    var(--i) 100%,
+    100% var(--i);
+  background-repeat: repeat-x, repeat-y;
+  background-position:
+    top left,
+    bottom,
+    left;
+  --i: 10px;
+  background-image:
+    linear-gradient(90deg, #fff0 var(--cs1), #fff var(--cs2), #fff0 var(--cs3)),
+    linear-gradient(0deg, #fff0 var(--cs1), #fff var(--cs2), #fff0 var(--cs3));
+  --cs1: 0.5px;
+  --cs2: 0.6px;
+  --cs3: 1px;
+  --csm: 2.25px;
+  --csr: 0.1px;
+  --cs1: calc(var(--csm) - var(--csr));
+  --cs2: var(--csm);
+  --cs3: calc(var(--csm) + var(--csr));
+
+  --cv: #fff;
+  --ch: #f00;
+  background-image:
+    linear-gradient(
+      90deg,
+      var(--cvp) var(--cs1),
+      var(--cv) var(--cs2),
+      var(--cva) var(--cs3)
+    ),
+    linear-gradient(
+      0deg,
+      var(--chp) var(--cs1),
+      var(--ch) var(--cs2),
+      var(--cha) var(--cs3)
+    );
+  --cvp: #0000;
+  --cva: #0000;
+  --chp: #0000;
+  --cha: #0000;
+}

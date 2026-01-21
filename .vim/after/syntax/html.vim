@@ -39,7 +39,26 @@ syn region htmlDoctype keepend
       \ start=+<!DOCTYPE+
       \ end=+>+
 
+syn match htmlHTag +<h1\>\s*\|</h1\_s*>+ contained
+      \ containedin=htmlH1,htmlH2,htmlH3,htmlH4,htmlH5,htmlH6
+      \ contains=htmlTagNoise
+      \ nextgroup=htmlPropName,htmlPropBool,htmlTagNoise skipwhite skipempty
 
+syn match htmlPropBool +\%(\w\+-\?\)\+\%(=\)\@!=+ contained contains=NONE
+      \ nextgroup=htmlPropName,htmlPropBool,htmlTagNoise skipwhite skipempty
+syn match htmlPropName +\%(\w\+-\?\)\+\%(="[^"]*"\)\@=+ contained contains=NONE
+      \ nextgroup=htmlPropSep
+syn match htmlPropSep +=+ contained contains=NONE nextgroup=htmlPropValue
+syn match htmlPropValue +"[^"]*"+ contained nextgroup=htmlPropName,htmlPropBool,htmlTagNoise skipwhite skipempty
+
+syn match htmlTagNoise +[</>]+ contained contains=NONE
+
+
+hi def htmlHTag     guifg=#ff00ff
+hi def htmlPropSep  guifg=#880088
+hi def htmlTagNoise guifg=#880088
+hi def htmlPropName guifg=#cc33ff
+hi def link htmlPropValue String
 
 hi link htmlDoctype Commented
 hi link htmlComment CommentSubtle

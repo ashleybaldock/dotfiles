@@ -56,11 +56,11 @@ hi link htmlSvgTagName Conceal
 hi link htmlValue String
 hi link htmlSpecialChar Special
 
-hi htmlH1  guifg=#ffafff guisp=#ff00ff gui=underline
-hi htmlH2  guifg=#efbfff guisp=#fa08fa gui=underline
-hi htmlH3  guifg=#dfcff8 guisp=#ee10ee gui=underline
-hi htmlH4  guifg=#c8bff8 guisp=#ea18ea gui=underdashed
-hi htmlH5  guifg=#bfcfef guisp=#dd20dd gui=underdotted
-hi htmlH6  guifg=#a8dfef guisp=#cc28cc gui=underdotted
+hi htmlH1  guifg=#ff98d8 guisp=#ff22ff gui=underline
+hi htmlH2  guifg=#ef9fd8 guisp=#ff11ff gui=underdashed
+hi htmlH3  guifg=#efa8e8 guisp=#ff00ff gui=underdotted
+hi htmlH4  guifg=#dfafe8 guisp=#dd22dd gui=underdotted
+hi htmlH5  guifg=#dfb8f8 guisp=#dd11dd gui=underdotted
+hi htmlH6  guifg=#cfbff8 guisp=#dd00dd gui=underdotted
 hi link htmlHead  PreProc
-hi link htmlTitle Title
+hi htmlTitle guifg=#ff44ff guisp=#dd00dd gui=underline

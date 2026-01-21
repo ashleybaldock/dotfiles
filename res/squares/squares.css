@@ -258,15 +258,17 @@ h1 {
   initial-value: initial;
 }
 
-section.squares {
+.squares {
   width: auto;
   margin: 0 auto 0 1vw;
   max-width: calc(100% - 2vw);
   max-height: 45vh;
   flex: 1 auto;
+  aspect-ratio: var(--cq-ratio);
+  --cq-ratio: calc(var(--nw) / var(--nh));
 }
 
-section.squares:nth-child(3) {
+.squares:nth-child(3) {
   aspect-ratio: 1;
 }
 

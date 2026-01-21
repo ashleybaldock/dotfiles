@@ -478,6 +478,7 @@ hi CommentTitle   guifg=#33eeff guibg=bg      gui=underline,italic guisp=#7744ff
 hi CommentLink    guifg=#22aadd guibg=NONE    gui=underdashed
 hi CommentSubtle  guifg=#999999 guibg=#111111 gui=italic
 hi def link CommentHidden  CommentSubtle
+hi def Commented  guifg=#5e5e5e guibg=NONE    gui=italic
 hi CommentNoise   guifg=#000000 guibg=#222222 gui=reverse
 hi def link CommentError Error
 hi link SpecialComment Special

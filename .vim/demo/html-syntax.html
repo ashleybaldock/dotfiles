@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+  <!--!Font Awesome Free v7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+  <head>
+    <title>Icons</title><!--{{{-->
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="icon" href="favicon.ico" />
+
+    <link rel="stylesheet" href="/common.css" />
+    <link rel="stylesheet" href="icons.css" />
+    <!-- <link rel="stylesheet" href="icons-sticky-cascade.wip.css" /> -->
+    <link rel="stylesheet" href="icons.dashed-circles.wip.css" />
+    <link rel="stylesheet" href="icons.winding.wip.css" />
+    <!-- <link rel="stylesheet" href="tooltips.css"/> -->
+
+    <script type="application/javascript" src="/js/util.js"></script>
+
+    <!-- <script type="application/javascript" src="/entanglement.js"></script> -->
+    <script>
+      /* entanglement().then((untangle) => console.log(untangle)); */
+    </script>
+
+    <script type="application/javascript" src="icons.js"></script>
+  <!--}}}--></head>
+
+  <body data-sink-all data-sink="*">
+    <section>
+      <h1>Page Heading</h1>
+      <h2>Section Heading</h2>
+      <h3>Sub-section Heading</h3>
+      <h4>Sub-sub-section Heading</h4>
+      <h5>Sub-sub-sub-section-heading</h5>
+      <h6>Not really a heading tbh</h6>
+    </section>
+    <section class="edit"><!--{{{-->
+      <h2>Edit</h2>
+      <fieldset>
+        <label data-value="debug">
+          <span>debug</span>
+          <input
+            value="debug"
+            type="checkbox"
+            id="toggle_debug"
+            name="debug"
+          />
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <h2>Split</h2>
+        <div class="splitList">
+          <div class="svgSplitter sourceBase">
+            <div class="title">
+              <span>Base</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M500.3 7.3C507.7 13.3 512 22.4 512 32V176c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V71L352 90.2V208c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V64c0-15.3 10.8-28.4 25.7-31.4l160-32c9.4-1.9 19.1 .6 26.6 6.6zM74.7 304l11.8-17.8c5.9-8.9 15.9-14.2 26.6-14.2h61.7c10.7 0 20.7 5.3 26.6 14.2L213.3 304H240c26.5 0 48 21.5 48 48V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V352c0-26.5 21.5-48 48-48H74.7zM192 408a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM478.7 278.3L440.3 368H496c6.7 0 12.6 4.1 15 10.4s.6 13.3-4.4 17.7l-128 112c-5.6 4.9-13.9 5.3-19.9 .9s-8.2-12.4-5.3-19.2L391.7 400H336c-6.7 0-12.6-4.1-15-10.4s-.6-13.3 4.4-17.7l128-112c5.6-4.9 13.9-5.3 19.9-.9s8.2 12.4 5.3 19.2zm-339-59.2c-6.5 6.5-17 6.5-23 0L19.9 119.2c-28-29-26.5-76.9 5-103.9c27-23.5 68.4-19 93.4 6.5l10 10.5 9.5-10.5c25-25.5 65.9-30 93.9-6.5c31 27 32.5 74.9 4.5 103.9l-96.4 99.9z"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <span></span>
+              <label><span>Split tags</span><input type="checkbox" /></label>
+              <label><span>Split paths</span><input type="checkbox" /></label>
+            </div>
+          </div>
+          <div class="splitResultList">
+            <div class="sourceSplit svgSplitter">
+              <div class="title">
+                <span>Part 1</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1em"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    d="M500.3 7.3C507.7 13.3 512 22.4 512 32V176c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V71L352 90.2V208c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48V64c0-15.3 10.8-28.4 25.7-31.4l160-32c9.4-1.9 19.1 .6 26.6 6.6z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div class="sourceSplit svgSplitter">
+              <div class="title">
+                <span>Part 2</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1em"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    d="M74.7 304l11.8-17.8c5.9-8.9 15.9-14.2 26.6-14.2h61.7c10.7 0 20.7 5.3 26.6 14.2L213.3 304H240c26.5 0 48 21.5 48 48V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V352c0-26.5 21.5-48 48-48H74.7zM192 408a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div class="sourceSplit svgSplitter">
+              <div class="title">
+                <span>Part 3</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1em"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    d="M192 408a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div class="sourceSplit svgSplitter">
+              <div class="title">
+                <span>Part 4</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1em"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    d="M478.7 278.3L440.3 368H496c6.7 0 12.6 4.1 15 10.4s.6 13.3-4.4 17.7l-128 112c-5.6 4.9-13.9 5.3-19.9 .9s-8.2-12.4-5.3-19.2L391.7 400H336c-6.7 0-12.6-4.1-15-10.4s-.6-13.3 4.4-17.7l128-112c5.6-4.9 13.9-5.3 19.9-.9s8.2 12.4 5.3 19.2z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div class="sourceSplit svgSplitter">
+              <div class="title">
+                <span>Part 5</span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1em"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    d="M139.7 219.1c-6.5 6.5-17 6.5-23 0L19.9 119.2c-28-29-26.5-76.9 5-103.9c27-23.5 68.4-19 93.4 6.5l10 10.5 9.5-10.5c25-25.5 65.9-30 93.9-6.5c31 27 32.5 74.9 4.5 103.9l-96.4 99.9z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <h2>Combine</h2>
+        <ol class="combineList">
+          <li class="svgCombiner sourceBase">
+            <h3>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 384 512"
+              >
+                <path
+                  d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z"
+                ></path>
+              </svg>
+              <span>Base</span>
+            </h3>
+          </li>
+          <li class="svgCombiner sourceOverlay">
+            <h3>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M105.1 202.6c7.7-21.8 20.2-42.3 37.8-59.8c62.5-62.5 163.8-62.5 226.3 0L386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H463.5c0 0 0 0 0 0h.4c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0C73.2 122 55.6 150.7 44.8 181.4c-5.9 16.7 2.9 34.9 19.5 40.8s34.9-2.9 40.8-19.5zM39 289.3c-5 1.5-9.8 4.2-13.7 8.2c-4 4-6.7 8.8-8.1 14c-.3 1.2-.6 2.5-.8 3.8c-.3 1.7-.4 3.4-.4 5.1V448c0 17.7 14.3 32 32 32s32-14.3 32-32V396.9l17.6 17.5 0 0c87.5 87.4 229.3 87.4 316.7 0c24.4-24.4 42.1-53.1 52.9-83.7c5.9-16.7-2.9-34.9-19.5-40.8s-34.9 2.9-40.8 19.5c-7.7 21.8-20.2 42.3-37.8 59.8c-62.5 62.5-163.8 62.5-226.3 0l-.1-.1L125.6 352H176c17.7 0 32-14.3 32-32s-14.3-32-32-32H48.4c-1.6 0-3.2 .1-4.8 .3s-3.1 .5-4.6 1z"
+                ></path>
+              </svg>
+              <span>Overlay 1</span>
+            </h3>
+            <div class="controlgroup overlay">
+              <div class="controlgroup overlap">
+                <h4><span>Overlap</span></h4>
+                <ol class="colnames">
+                  <li>None</li>
+                  <li>Subtract</li>
+                  <li>Intersect</li>
+                  <li>Union</li>
+                </ol>
+                <div class="controlgroup outline">
+                  <h5>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M418.4 157.9c35.3-8.3 61.6-40 61.6-77.9c0-44.2-35.8-80-80-80c-43.4 0-78.7 34.5-80 77.5L136.2 151.1C121.7 136.8 101.9 128 80 128c-44.2 0-80 35.8-80 80s35.8 80 80 80c12.2 0 23.8-2.7 34.1-7.6L259.7 407.8c-2.4 7.6-3.7 15.8-3.7 24.2c0 44.2 35.8 80 80 80s80-35.8 80-80c0-27.7-14-52.1-35.4-66.4l37.8-207.7zM156.3 232.2c2.2-6.9 3.5-14.2 3.7-21.7l183.8-73.5c3.6 3.5 7.4 6.7 11.6 9.5L317.6 354.1c-5.5 1.3-10.8 3.1-15.8 5.5L156.3 232.2z"
+                      ></path>
+                    </svg>
+                    <span>Line</span>
+                  </h5>
+                  <ol class="radiorow" data-name="stroke" data-idx="1">
+                    <li>
+                      <label data-value="none"
+                        ><input
+                          value="none"
+                          type="radio"
+                          id="stroke1none"
+                          name="stroke1"
+                      /></label>
+                    </li>
+                    <li>
+                      <label data-value="subtract"
+                        ><input
+                          value="subtract"
+                          type="radio"
+                          id="stroke1subtract"
+                          name="stroke1"
+                      /></label>
+                    </li>
+                    <li>
+                      <label data-value="intersect"
+                        ><input
+                          value="intersect"
+                          type="radio"
+                          id="stroke1intersect"
+                          name="stroke1"
+                      /></label>
+                    </li>
+                    <li>
+                      <label data-value="union"
+                        ><input
+                          value="union"
+                          type="radio"
+                          id="stroke1union"
+                          name="stroke1"
+                      /></label>
+                    </li>
+                  </ol>
+                </div>
+                <div class="controlgroup fill">
+                  <h5>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M86.6 9.4C74.1-3.1 53.9-3.1 41.4 9.4s-12.5 32.8 0 45.3L122.7 136 30.6 228.1c-37.5 37.5-37.5 98.3 0 135.8L148.1 481.4c37.5 37.5 98.3 37.5 135.8 0L474.3 290.9c28.1-28.1 28.1-73.7 0-101.8L322.9 37.7c-28.1-28.1-73.7-28.1-101.8 0L168 90.7 86.6 9.4zM168 181.3l49.4 49.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L213.3 136l53.1-53.1c3.1-3.1 8.2-3.1 11.3 0L429.1 234.3c3.1 3.1 3.1 8.2 0 11.3L386.7 288H67.5c1.4-5.4 4.2-10.4 8.4-14.6L168 181.3z"
+                      ></path>
+                    </svg>
+                    <span>Fill</span>
+                  </h5>
+                  <ol class="radiorow" data-name="fill" data-idx="1">
+                    <li>
+                      <label data-value="none"
+                        ><input
+                          value="none"
+                          type="radio"
+                          id="fill1none"
+                          name="fill1"
+                      /></label>
+                    </li>
+                    <li>
+                      <label data-value="subtract"
+                        ><input
+                          value="subtract"
+                          type="radio"
+                          id="fill1subtract"
+                          name="fill1"
+                      /></label>
+                    </li>
+                    <li>
+                      <label data-value="intersect"
+                        ><input
+                          value="intersect"
+                          type="radio"
+                          id="fill1intersect"
+                          name="fill1"
+                      /></label>
+                    </li>
+                    <li>
+                      <label data-value="union"
+                        ><input
+                          value="union"
+                          type="radio"
+                          id="fill1union"
+                          name="fill1"
+                      /></label>
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </fieldset>
+    </section><!--}}} /edit -->
+
+    <section>
+      <h2>Preview</h2>
+      <div id="droptarget"></div>
+      <div id="droppedpreview"></div>
+    </section>
+
+      <section>
+        <h2>Testing</h2>
+        <svg
+          viewBox="-1 -1 40 30"
+          xmlns="http://www.w3.org/2000/svg"
+          style="overflow: visible; background: none"
+        >
+          <defs>
+            <marker
+              markerUnits="userSpaceOnUse"
+              orient="auto"
+              refX="2.5"
+              refY="2.5"
+              viewBox="0 0 8 8"
+              id="coordstart"
+            >
+              <path
+                d="M 0 0 L 0.2 2.8 L 1.4 2.6 A 1 1 0 0 1 2.6 1.4 L 2.8 0.2 Z"
+              ></path>
+              <circle cy="2.5" cx="2.5" r="1.8"></circle>
+              <circle
+                cy="2.5"
+                cx="2.5"
+                r="0.2"
+                style="fill-opacity: 1; r: 0.2px; stroke-width: 0; fill: orange"
+              ></circle>
+            </marker>
+            <marker
+              markerUnits="userSpaceOnUse"
+              orient="auto"
+              refX="2.5"
+              refY="2.5"
+              viewBox="0 0 8 8"
+              id="coordmid"
+            >
+              <path
+                d="M 0 0 L 0.2 2.8 L 1.4 2.6 A 1 1 0 0 1 2.6 1.4 L 2.8 0.2 Z"
+              ></path>
+              <circle cy="2.5" cx="2.5" r="1.8"></circle>
+              <circle cy="2.5" cx="2.5" class="dashed-circle"></circle>
+            </marker>
+            <marker
+              markerUnits="userSpaceOnUse"
+              orient="auto"
+              refX="2.5"
+              refY="2.5"
+              viewBox="0 0 8 8"
+              id="coordend"
+            >
+              <path
+                d="M 0 0 L 0.2 2.8 L 1.4 2.6 A 1 1 0 0 1 2.6 1.4 L 2.8 0.2 Z"
+              ></path>
+              <circle cy="2.5" cx="2.5" r="1.8"></circle>
+              <circle cy="2.5" cx="2.5"></circle>
+            </marker>
+          </defs>
+          <path d="M0 8h8v-8h-8zm1-1h6v-6h-6z" class="skel"></path>
+          <path d="M10 8h8v-8h-8zm1-1h6v-6h-6z" class="winding-evenodd"></path>
+          <path d="M20 8h8v-8h-8zm1-1h6v-6h-6z" class="winding-nonzero"></path>
+
+          <path class="skel" d="M0 18h8v-8h-8zm1-1v-6h6v6z"></path>
+          <path d="M10 18h8v-8h-8zm1-1v-6h6v6z" class="winding-evenodd"></path>
+          <path d="M20 18h8v-8h-8zm1-1v-6h6v6z" class="winding-nonzero"></path>
+        </svg>
+      </section>
+    </section>
+
+    <section class="svgListing imported">
+      <h2>Imported</h2>
+      <svg
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        width="28.3155"
+        height="29.6873"
+      >
+        <g>
+          <rect height="29.6873" opacity="0" width="28.3155" x="0" y="0" />
+          <path
+            d="M21.5489 3.35771L6.76661 3.35771C6.81149 2.40602 7.41098 1.85792 8.4068 1.85792L19.9087 1.85792C20.9046 1.85792 21.5041 2.40602 21.5489 3.35771Z"
+            fill="#ffffff"
+            fill-opacity="0.85"
+          />
+          <path
+            d="M23.9459 6.70669C23.5713 6.64709 23.174 6.61762 22.7565 6.61762L5.57149 6.61762C5.14935 6.61762 4.74796 6.64745 4.36958 6.7075C4.49513 5.57414 5.2494 4.94394 6.49208 4.94394L21.8235 4.94394C23.0658 4.94394 23.8201 5.57384 23.9459 6.70669Z"
+            fill="#ffffff"
+            fill-opacity="0.85"
+          />
+          <path
+            d="M5.57149 27.7896L22.7565 27.7896C25.1997 27.7896 26.4302 26.5763 26.4302 24.1629L26.4302 12.1295C26.4302 9.72605 25.1997 8.50291 22.7565 8.50291L5.57149 8.50291C3.1158 8.50291 1.89772 9.70857 1.89772 12.1295L1.89772 24.1629C1.89772 26.5814 3.1158 27.7896 5.57149 27.7896Z"
+            fill="#ffffff"
+            fill-opacity="0.85"
+          />
+          <path
+            d="M10.8369 24.1784C11.0458 24.1784 11.3514 24.0111 11.614 23.8356C15.4621 21.3495 17.9317 18.4124 17.9317 15.4413C17.9317 12.8094 16.104 11.0043 13.8687 11.0043C12.4675 11.0043 11.4542 11.7747 10.8369 12.9058C10.2252 11.7803 9.20636 11.0043 7.80514 11.0043C5.5699 11.0043 3.74212 12.8094 3.74212 15.4413C3.74212 18.4124 6.21129 21.3495 10.0598 23.8356C10.3219 24.0111 10.6337 24.1784 10.8369 24.1784Z"
+            fill="#ffffff"
+          />
+        </g>
+      </svg>
+      <svg
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        width="39.5718"
+        height="32.3905"
+      >
+        <g>
+          <rect height="32.3905" opacity="0" width="39.5718" x="0" y="0" />
+          <path
+            d="M27.1771 4.70932L12.3947 4.70932C12.4396 3.75763 13.0391 3.20953 14.0349 3.20953L25.5369 3.20953C26.5327 3.20953 27.1322 3.75763 27.1771 4.70932Z"
+            fill="#ffffff"
+            fill-opacity="0.85"
+          />
+          <path
+            d="M29.574 8.0583C29.1994 7.9987 28.8021 7.96923 28.3846 7.96923L11.1996 7.96923C10.7775 7.96923 10.3761 7.99906 9.99771 8.05911C10.1232 6.92575 10.8775 6.29555 12.1202 6.29555L27.4516 6.29555C28.694 6.29555 29.4482 6.92545 29.574 8.0583Z"
+            fill="#ffffff"
+            fill-opacity="0.85"
+          />
+          <path
+            d="M32.0584 13.4811L32.0584 17.2919C32.0464 17.29 32.0339 17.29 32.0215 17.29C27.8715 17.29 24.4687 20.7027 24.4687 24.8403C24.4687 26.4363 24.9714 27.9209 25.8296 29.1412L11.1996 29.1412C8.74392 29.1412 7.52584 27.933 7.52584 25.5145L7.52584 13.4811C7.52584 11.0602 8.74392 9.85452 11.1996 9.85452L28.3846 9.85452C30.8279 9.85452 32.0584 11.0777 32.0584 13.4811ZM16.4651 14.2574C15.8533 13.1319 14.8345 12.3559 13.4333 12.3559C11.198 12.3559 9.37024 14.161 9.37024 16.7929C9.37024 19.764 11.8394 22.7011 15.688 25.1872C15.9501 25.3627 16.2618 25.53 16.4651 25.53C16.6739 25.53 16.9796 25.3627 17.2421 25.1872C21.0902 22.7011 23.5599 19.764 23.5599 16.7929C23.5599 14.161 21.7321 12.3559 19.4968 12.3559C18.0956 12.3559 17.0824 13.1263 16.4651 14.2574Z"
+            fill="#ffffff"
+            fill-opacity="0.85"
+          />
+          <path
+            d="M37.9691 24.8403C37.9691 28.092 35.2433 30.7878 32.0215 30.7878C28.7599 30.7878 26.0589 28.1168 26.0589 24.8403C26.0589 21.5787 28.7599 18.8927 32.0215 18.8927C35.283 18.8927 37.9691 21.5761 37.9691 24.8403ZM31.2997 21.8317L31.2997 24.1184L29.0079 24.1184C28.5848 24.1184 28.2885 24.4071 28.2885 24.8403C28.2885 25.2734 28.5848 25.5596 29.0079 25.5596L31.2997 25.5596L31.2997 27.8514C31.2997 28.2795 31.5759 28.5732 32.0215 28.5732C32.4521 28.5732 32.7408 28.2795 32.7408 27.8514L32.7408 25.5596L35.03 25.5596C35.4557 25.5596 35.7369 25.2734 35.7369 24.8403C35.7369 24.4071 35.4557 24.1184 35.03 24.1184L32.7408 24.1184L32.7408 21.8317C32.7408 21.4061 32.4521 21.1098 32.0215 21.1098C31.5759 21.1098 31.2997 21.4061 31.2997 21.8317Z"
+            fill="#ffffff"
+            fill-opacity="0.85"
+          />
+        </g>
+      </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="1em"
+        viewBox="0 0 384 512"
+      >
+        <path
+          d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z"
+        ></path></svg
+      ><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 10 10">
+        <path
+          fill-rule="evenodd"
+          style="fill: #ffffff; stroke: #fff; stroke-width: 0"
+          d="M0 8h8v-8h-8zm1-1h6v-6h-6z"
+        ></path></svg
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="1em"
+        viewBox="0 0 100 100"
+      >
+        <g class="decaying-circles">
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+          <circle class="dashed-circle" cy="50" cx="50"></circle>
+        </g></svg
+      ><svg
+        viewBox="-1 -1 30 30"
+        xmlns="http://www.w3.org/2000/svg"
+        style="overflow: visible; background: none"
+      >
+        <defs>
+          <!-- A marker to be used as an arrowhead -->
+          <marker
+            viewBox="0 0 10 10"
+            refY="5"
+            refX="0"
+            orient="0deg"
+            id="coordend"
+            markerUnits="userSpaceOnUse"
+            style="fill-opacity: 1; stroke: blue; fill: goldenrod"
+          >
+            <circle cx="5" cy="5" r="3" style="fill: #0000"></circle>
+            <circle cy="0" cx="0" r="3"></circle>
+          </marker>
+          <marker
+            markerUnits="userSpaceOnUse"
+            orient="auto"
+            refX="2.5"
+            refY="2.5"
+            viewBox="0 0 8 8"
+            style=""
+            id="coordmid"
+          >
+            <path
+              d="M 0 0 L 0.5 3 L 1 3 A 2 2 0 0 1 3 1 L 3 0.5 Z M 3 0.5 L 3 1 A 2 2 0 0 1 1 3 L 0.5 3 A 2 2 0 1 0 3 0.5 Z"
+              style="
+                d: path(
+                  'M 0 0 L 0.2 2.8 L 1.4 2.6 A 1 1 0 0 1 2.6 1.4 L 2.8 0.2 Z'
+                );
+              "
+            ></path>
+            <circle cy="2.5" cx="2.5" r="1.8" style="fill-opacity: 1"></circle>
+            <circle
+              cy="2.5"
+              cx="2.5"
+              r="0.2"
+              style="
+                fill-opacity: 1;
+                r: 0.2px !important;
+                stroke-width: 0;
+                fill: orange;
+              "
+            ></circle>
+          </marker>
+          <marker
+            markerUnits="userSpaceOnUse"
+            orient="auto"
+            refX="2.5"
+            refY="2.5"
+            viewBox="0 0 8 8"
+            style=""
+            id="coordstart"
+          >
+            <path
+              d="M0 0
+L0.5 3
+L1 3
+A2 2 0 0 1 3 1
+L3 0.5
+z
+M3 0.5
+L3 1
+A2 2 0 0 1 1 3
+L0.5 3
+A2 2 0 1 0 3 0.5
+z"
+              style="
+                d: path(
+                  'M 0 0 L 0.2 2.8 L 1.4 2.6 A 1 1 0 0 1 2.6 1.4 L 2.8 0.2 Z'
+                );
+              "
+            ></path>
+            <circle cy="2.5" cx="2.5" r="1.8" style="fill-opacity: 1"></circle>
+            <circle
+              cy="2.5"
+              cx="2.5"
+              r="0.2"
+              style="
+                fill-opacity: 1;
+                r: 0.2px !important;
+                stroke-width: 0;
+                fill: orange;
+              "
+            ></circle>
+          </marker>
+          <marker
+            markerUnits="userSpaceOnUse"
+            orient="auto"
+            refX="2.5"
+            refY="2.5"
+            viewBox="0 0 8 8"
+            style=""
+            id="coordstart2"
+          >
+            <path
+              d="M0 0
+L0.5 3
+L1 3
+A2 2 0 0 1 3 1
+L3 0.5
+z
+M3 0.5
+L3 1
+A2 2 0 0 1 1 3
+L0.5 3
+A2 2 0 1 0 3 0.5
+z"
+              style="
+                fill: orange;
+                stroke: orangered;
+                stroke-width: 0;
+                d: path(
+                  'M 0 0 L 0.2 2.8 L 1.4 2.6 A 1 1 0 0 1 2.6 1.4 L 2.8 0.2 Z'
+                );
+              "
+            ></path>
+            <circle cy="2.5" cx="2.5" r="1.8" style="fill-opacity: 1"></circle>
+            <circle
+              cy="2.5"
+              cx="2.5"
+              r="0.2"
+              style="
+                fill-opacity: 1;
+                r: 0.2px !important;
+                stroke-width: 0;
+                fill: orange;
+              "
+            ></circle>
+          </marker>
+          <marker
+            refX="5"
+            refY="5"
+            orient="auto"
+            viewBox="0 0 40 40"
+            style="fill-opacity: 1; stroke: blue; fill: blue"
+            markerWidth="5"
+            markerHeight="5"
+            id="line"
+          >
+            <path d="M 0 0 L 20 5 L 0 20 z"></path>
+          </marker>
+        </defs>
+        <path d="M0 8h8v-8h-8zm1-1h6v-6h-6z" class="skel"></path>
+        <path
+          d="M10 8h8v-8h-8zm1-1h6v-6h-6z"
+          style="fill: #fff; stroke: #fff; stroke-width: 1; fill-rule: evenodd"
+        ></path>
+        <path
+          d="M20 8h8v-8h-8zm1-1h6v-6h-6z"
+          style="fill: #fff; stroke: #fff; fill-rule: nonzero"
+        ></path>
+
+        <path class="skel" d="M0 18h8v-8h-8zm1-1v-6h6v6z"></path>
+        <path
+          style="fill: #fff; stroke: #fff; stroke-width: 1; fill-rule: evenodd"
+          d="M10 18h8v-8h-8zm1-1v-6h6v6z"
+        ></path>
+        <path
+          style="fill: #fff; stroke: #fff; fill-rule: nonzero"
+          d="M20 18h8v-8h-8zm1-1v-6h6v6z"
+        ></path></svg
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="1em"
+        viewBox="-10 -10 660 660"
+      >
+        <defs>
+          <!-- A marker to be used as an arrowhead -->
+          <marker
+            id="arrow"
+            style="fill-opacity: 1; stroke: blue; fill: goldenrod"
+            refY="5"
+            orient="auto"
+            markerWidth="15"
+            markerHeight="15"
+            refX="5"
+            viewBox="0 0 40 40"
+          >
+            <path d="M 0 0 L 20 5 L 0 20 z"></path>
+          </marker>
+          <marker
+            style="fill-opacity: 1; stroke: red; fill: goldenrod"
+            id="dot"
+            orient="auto"
+            markerWidth="40"
+            markerHeight="40"
+            viewBox="0 0 40 40"
+            refY="20"
+            refX="20"
+          >
+            <circle cx="20" cy="20" r="10"></circle>
+          </marker>
+        </defs>
+        <g style="">
+          <path
+            style="
+              fill-rule: evenodd;
+              marker-end: url(#arrow);
+              marker-mid: url(#arrow);
+              marker-start: url(#arrow);
+            "
+            d="M320 320V640H0V320zM240 400V560H80V400z"
+          ></path>
+          <path d="M100 100V100H540V540H100z" style="display: none"></path>
+          <path d="M480 160H160V480H480z" style="display: none"></path>
+          <path
+            style="fill-rule: nonzero; fill-rule: evenodd"
+            d="M100 100V100H540V540H100zM480 160H160V480H480z"
+          ></path>
+          <path d="M320 320V0H640V320z" style=""></path>
+          <g style="stroke-width: 0; /*! fill: red; */ display: none">
+            <line
+              x2="320"
+              y1="320"
+              y2="0"
+              stroke="orange"
+              x1="320"
+              stroke-width="10"
+              style="
+                stroke: blue;
+                fill: orange;
+                marker-end: url(#arrow);
+                stroke-width: 10; /*! marker-start: url(#arrow); */
+              "
+            ></line>
+
+            <circle cx="320" cy="320" r="10"></circle>
+            <circle cx="320" cy="0" r="10"></circle>
+            <circle cx="640" cy="0" r="10"></circle>
+            <circle cx="640" cy="320" r="10"></circle>
+          </g>
+        </g>
+      </svg>
+    </section>
+
+    <section class=""></section>
+  </body>
+</html>
+

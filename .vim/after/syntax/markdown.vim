@@ -8,8 +8,6 @@
 " Test Doc:   ../../demo/markdown.md
 "
 
-hi link htmlComment CommentSubtle
-
 " HlMkDnCode 
 " HlMkDnCdDelim
 "

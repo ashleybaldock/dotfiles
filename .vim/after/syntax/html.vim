@@ -39,22 +39,22 @@ syn region htmlDoctype keepend
       \ start=+<!DOCTYPE+
       \ end=+>+
 
-syn match htmlHTag +<h1\>\s*\|</h1\_s*>+ contained
+syn region htmlH start="<h\z(1\)\>" end="</h\z1\_s*>"me=s-1 contains=htmlTagNoise,@htmlTop
       \ containedin=htmlH1,htmlH2,htmlH3,htmlH4,htmlH5,htmlH6
-      \ contains=htmlTagNoise
-      \ nextgroup=htmlPropName,htmlPropBool,htmlTagNoise skipwhite skipempty
 
 syn match htmlPropBool +\%(\w\+-\?\)\+\%(=\)\@!=+ contained contains=NONE
       \ nextgroup=htmlPropName,htmlPropBool,htmlTagNoise skipwhite skipempty
 syn match htmlPropName +\%(\w\+-\?\)\+\%(="[^"]*"\)\@=+ contained contains=NONE
-      \ nextgroup=htmlPropSep
+      \ nextgroup=htmlPropSep skipwhite skipempty
 syn match htmlPropSep +=+ contained contains=NONE nextgroup=htmlPropValue
 syn match htmlPropValue +"[^"]*"+ contained nextgroup=htmlPropName,htmlPropBool,htmlTagNoise skipwhite skipempty
 
-syn match htmlTagNoise +[</>]+ contained contains=NONE
+syn match htmlTagNoise +<+ contained contains=NONE
+      \ nextgroup=htmlPropName,htmlPropBool skipwhite skipempty
+syn match htmlTagNoise +[/>]+ contained contains=NONE
 
 
-hi def htmlHTag     guifg=#ff00ff
+hi def htmlH        guifg=#ff00ff
 hi def htmlPropSep  guifg=#880088
 hi def htmlTagNoise guifg=#880088
 hi def htmlPropName guifg=#cc33ff
@@ -75,11 +75,11 @@ hi link htmlSvgTagName Conceal
 hi link htmlValue String
 hi link htmlSpecialChar Special
 
-hi htmlH1  guifg=#ff98d8 guisp=#ff22ff gui=underline
-hi htmlH2  guifg=#ef9fd8 guisp=#ff11ff gui=underdashed
-hi htmlH3  guifg=#efa8e8 guisp=#ff00ff gui=underdotted
-hi htmlH4  guifg=#dfafe8 guisp=#dd22dd gui=underdotted
-hi htmlH5  guifg=#dfb8f8 guisp=#dd11dd gui=underdotted
-hi htmlH6  guifg=#cfbff8 guisp=#dd00dd gui=underdotted
+hi htmlH1  guifg=#ff98d8
+hi htmlH2  guifg=#ef9fd8
+hi htmlH3  guifg=#efa8e8
+hi htmlH4  guifg=#dfafe8
+hi htmlH5  guifg=#dfb8f8
+hi htmlH6  guifg=#cfbff8
 hi link htmlHead  PreProc
-hi htmlTitle guifg=#ff44ff guisp=#dd00dd gui=underline
+hi htmlTitle guifg=#dd00dd

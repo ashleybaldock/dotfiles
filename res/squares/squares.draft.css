@@ -135,6 +135,7 @@ section.squares:nth-child(2) {
   --oo: -1px;
   --br: 3px;
   --ow: 3px;
+  position: relative;
 }
 
 .squares > .group {
@@ -185,10 +186,12 @@ section.squares:nth-child(2) {
 }
 section.squares {
   width: auto;
-  margin: 0 auto 0 1vw;
-  max-width: calc(100% - 2vw);
-  max-height: 45vh;
+  margin: 0 auto 0 round(down, 1cqw / var(--nw), 1px);
+  max-width: round(down, calc(100% - 2vw), 1px);
+  max-height: round(down, 45vh, 1px);
   flex: 1 auto;
+  margin: 0 auto auto 5px;
+  margin:;
 }
 
 section.squares:nth-child(3) {
@@ -346,22 +349,20 @@ h1 {
   background-repeat: repeat-x, repeat-y;
   background-position:
     top left,
-    bottom left;
+    top left;
   --i: 10px;
-  background-image:
-    linear-gradient(90deg, #fff0 var(--cs1), #fff var(--cs2), #fff0 var(--cs3)),
-    linear-gradient(0deg, #fff0 var(--cs1), #fff var(--cs2), #fff0 var(--cs3));
+  --i: var(--cqpxh);
   --cs1: 0.5px;
   --cs2: 0.6px;
   --cs3: 1px;
-  --csm: 2.25px;
+  --csm: 0.3px;
   --csr: 0.1px;
   --cs1: calc(var(--csm) - var(--csr));
   --cs2: var(--csm);
   --cs3: calc(var(--csm) + var(--csr));
 
   --cv: #fff;
-  --ch: #f00;
+  --ch: #fff;
   background-image:
     linear-gradient(
       90deg,
@@ -383,10 +384,14 @@ h1 {
   width: auto;
   --maxh: 45vh;
   background-position:
-    top left,
-    bottom left;
-  --cv: #000;
-  --ch: #000;
+    top 0 left 0,
+    top 0 left calc((var(--cqpxh) * var(--nw)) + -265px);
+  /*! --cv: #000; */
+  /*! --ch: #000; */
+  --csm: calc(0.01px * var(--cper));
+  --cper: 25;
+  --csr: calc(0.01px * var(--csrper));
+  --csrper: 1;
 }
 .square {
   --border-radius: max(var(----br));
@@ -432,8 +437,9 @@ h1 {
   --cqpxmax: round(down, calc(100cqmax / max(var(--nw), var(--nh))), 1px);
   --cqpxmin: round(down, calc(100cqmin / min(var(--nw), var(--nh))), 1px);
   --cqpxh: round(down, calc(100cqh / var(--nh)), 1px);
-  --cqpxh: round(down, calc(100cqh / var(--nh)), 1px);
   --cqpxw: round(down, calc(100cqw / var(--nw)), 1px);
+  container-type: size;
+  contain: size;
 }
 /* body > .squares { */
 /*   --intop: 0vh; */
@@ -508,4 +514,156 @@ h1 {
     calc(var(--x) - max(0, var(--xr, 0)) + var(--w));
   --xa: calc(var(--x1) + min(0, var(--xl, 0))) /
     calc(var(--x2) - max(0, var(--xr, 0)));
+}
+
+/* Element | http://localhost:3333/squares/squares.html */
+
+div.gridsizer:nth-child(3)
+  > section:nth-child(1)
+  > div:nth-child(6)
+  > div:nth-child(2) {
+  /* --w: 3; */
+  --w: 2;
+}
+
+/* Element | http://localhost:3333/squares/squares.html */
+
+div.gridsizer:nth-child(3)
+  > section:nth-child(1)
+  > div:nth-child(6)
+  > div:nth-child(3) {
+  /* --h: 3; */
+  --h: 2;
+}
+
+/* Element | http://localhost:3333/squares/squares.html */
+
+div.oc-topleft:nth-child(4) {
+  /* --x: 6; */
+  --x: 5;
+}
+
+/* Element | http://localhost:3333/squares/squares.html */
+
+div.square:nth-child(5) {
+  /* --x: 6; */
+  /* --y: 6; */
+  --x: 5;
+  --y: 5;
+}
+
+/* Element | http://localhost:3333/squares/squares.html */
+
+div.square:nth-child(6) {
+  /* --y: 7; */
+  /* --w: 3; */
+  --y: 6;
+  --w: 2;
+}
+
+/* Element | http://localhost:3333/squares/squares.html */
+
+div.square:nth-child(7) {
+  /* --y: 6; */
+  --y: 5;
+}
+
+/* Element | http://localhost:3333/squares/squares.html */
+
+div.square:nth-child(8) {
+  /* --h: 3; */
+  --h: 2;
+}
+
+/* squares.css | http://localhost:3333/squares/squares.css */
+
+.gridsizer > * {
+  --cqpxmax: round(down, calc(100cqmax / max(var(--nw), var(--nh))), 1px);
+  --cqpxmin: round(down, calc(100cqmin / min(var(--nw), var(--nh))), 1px);
+  --cqpxh: round(down, calc(100cqh / var(--nh)), 1px);
+  --cqpxw: round(down, calc(100cqw / var(--nw)), 1px);
+  container-type: size;
+  contain: size;
+}
+
+.squares {
+  position: relative;
+}
+
+.squares {
+  /* background-position: top left, bottom left; */
+  /* background-image: linear-gradient(90deg, #fff0 var(--cs1), #fff var(--cs2), #fff0 var(--cs3)), linear-gradient(0deg, #fff0 var(--cs1), #fff var(--cs2), #fff0 var(--cs3)); */
+  /* --csm: 2.25px; */
+  /* --ch: #f00; */
+  /* background-position: top left, bottom left; */
+  /* --cv: #000; */
+  /* --ch: #000; */
+  background-position:
+    top left,
+    top left;
+  --i: var(--cqpxh);
+  --csm: 0.3px;
+  --ch: #fff;
+  background-position:
+    top 0 left 0,
+    top 0 left calc((var(--cqpxh) * var(--nw)) + -265px);
+  --csm: calc(0.01px * var(--cper));
+  --cper: 25;
+  --csr: calc(0.01px * var(--csrper));
+  --csrper: 1;
+}
+
+section.squares {
+  /* margin: 0 auto 0 1vw; */
+  /* max-width: calc(100% - 2vw); */
+  /* max-height: 45vh; */
+  margin: 0 auto 0 round(down, 1cqw / var(--nw), 1px);
+  max-width: round(down, calc(100% - 2vw), 1px);
+  max-height: round(down, 45vh, 1px);
+  margin: 0 auto auto 5px;
+  margin:;
+}
+
+/* Inline | http://localhost:3333/squares/squares.html */
+
+.squares::after {
+  content: '';
+  display: flex;
+  width: var(--cqpxmin);
+  height: 10cqmin;
+  outline: 1px solid white;
+  position: absolute;
+  inset: 5cqmin auto auto 5cqmax;
+  height: var(--cqpxmax);
+}
+
+.gridsizer > .squares {
+  font-size: var(--cqpxh);
+  line-height: var(--cqpxh);
+  grid-template-columns: repeat(var(--nw), var(--cqpxh));
+  grid-template-rows: repeat(var(--nh), var(--cqpxh));
+}
+
+.squares::after {
+  /* inset: 5cqmin auto auto 5cqmax; */
+  /* height: var(--cqpxmax); */
+  inset: var(--cqpxh) auto auto var(--cqpxh);
+  height: var(--cqpxh);
+}
+
+.squares::after {
+  content: '';
+  display: flex;
+  width: var(--cqpxmin);
+  height: 10cqmin;
+  outline: 1px solid white;
+  position: absolute;
+  inset: var(--cqpxh) auto auto var(--cqpxh);
+  height: var(--cqpxh);
+}
+.gridsizer > .squares {
+  font-size: var(--cqpxh);
+  line-height: var(--cqpxh);
+  grid-template-columns: repeat(var(--nw), var(--cqpxh));
+  grid-template-rows: repeat(var(--nh), var(--cqpxh));
 }

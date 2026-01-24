@@ -369,11 +369,12 @@ an <silent> 10.327.110 &File.Open\ Related.Runtime\ FT\ Plugin	    <Nop>
 an <silent> 10.327.120 &File.Open\ Related.Runtime\ Plugin	    <Nop>
 an <silent> 10.327.130 &File.Open\ Related.Runtime\ Autoload	    <Nop>
 
-an <silent> 10.327.130 &File.Open\ Related.Runtime\ Autoload	    <Nop>
+an <silent> 10.327.230 &File.Open\ Related\ Test<Nop>
+an <silent> 10.327.231 &File.Open\ Related\ Test\ 2	    <Nop>
 
 
 an <silent> 10.326 &File.Open\ In\ New\ Window	    <Nop>
-an <silent> 10.326 &File.Move\ To\ New\ Window	    <Nop>
+an <silent> 10.326.100 &File.Move\ To\ New\ Window	    <Nop>
 exec 'macm File.Open\ In\ New\ Window'
 exec 'macm File.Move\ To\ New\ Window	alt=YES'
 

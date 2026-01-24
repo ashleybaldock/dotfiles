@@ -1,28 +1,3 @@
-.squares {
-  display: grid;
-  width: auto;
-  column-gap: 0;
-  row-gap: 0;
-  --size: calc(100cqw / var(--nw));
-  --nw: 22;
-  grid-template-columns: repeat(var(--nw), 1fr);
-  grid-template-rows: repeat(var(--nh), 1fr);
-  --nh: 30;
-  height: auto;
-  aspect-ratio: calc(var(--nw) / var(--nh));
-  min-height: unset;
-  min-width: unset;
-  margin: 0 8px;
-  background-color: #1a1a1a;
-  background-image:
-    repeating-linear-gradient(90deg, #111 0 1px, #1110 1px var(--size)),
-    repeating-linear-gradient(0deg, #111 0 1px, #1110 1px var(--size));
-  background-size: calc(100% / var(--nw)) calc(100% / var(--nh));
-  background-origin: content-box;
-  box-shadow:
-    inset -1px -1px 3px -2px #fff,
-    inset 1px 1px 3px -2px #000;
-}
 :root,
 body {
   margin: 0;
@@ -30,6 +5,12 @@ body {
   width: 100vw;
   max-width: 100vw;
 }
+h1 {
+  margin: 0;
+  padding: 0.4em 1ch 0 0;
+  text-align: end;
+}
+
 @property --a {
   syntax: '<percentage>';
   inherits: true;
@@ -41,103 +22,48 @@ body {
   initial-value: '';
 }
 
-.group {
-  grid-column: 1/-1;
-  grid-row: 1/-1;
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-template-columns: subgrid;
-  pointer-events: none;
-  position: relative;
-}
 .squares label {
   padding: 0 1ch;
   --c: #555a;
-  white-space: nowrap;
   height: var(--size);
   width: fit-content;
   place-self: center start;
-}
-.squares label.end {
-  place-self: center end;
-}
-.squares > .square,
-.squares > .group > .square,
-.squares > .group > label {
-  --a: 60%;
-  --xa: var(--x1) / var(--x2);
-  --xb: var(--x) / calc(var(--x) + var(--w));
-  --xx: var(--xa, var(--xb));
-  grid-column: var(--xx);
-
-  --ya: var(--y1) / var(--y2);
-  --yb: var(--y) / calc(var(--y) + var(--h));
-  --yy: var(--ya, var(--yb));
-  grid-row: var(--yy);
-  display: grid;
-  background-color: hsl(from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--a));
-  border-radius: 3px;
-  align-items: center;
-  justify-items: center;
-  line-height: normal;
-  text-shadow: var(--text-outline-thick);
-  box-shadow:
-    inset 1px 1px 3px -2px hsl(from #fff h s l / calc(var(--a) * 0.6)),
-    inset -1px -1px 3px -2px hsl(from #000 h s l / calc(var(--a) * 0.6));
-  pointer-events: all;
-}
-.square::after {
-  content: var(--t, '');
-}
-.squares > .square:hover,
-.squares > .group:has(> .square:hover, > label:hover) > :is(.square, label) {
-  --a: 100%;
-}
-
-.squares label {
   overflow: visible;
   position: absolute;
   text-align: left;
   left: 0;
   visibility: hidden;
-}
-.squares label {
-  padding: 0 1ch;
   --c: #555a;
   white-space: nowrap;
   width: fit-content;
   place-self: center start;
   font-size: 0.8em;
-}
-
-section.squares:nth-child(2) {
-  width: 30%;
-}
-
-.square:hover ~ label {
-  visibility: visible;
-}
-.squares label {
   height: fit-content;
   padding: 0.1em 0.5ch;
-}
-.squares > .square,
-.squares > .group > .square,
-.squares > .group {
-  --xa: var(--x1) / var(--x2);
-  --xb: var(--x) / calc(var(--x) + var(--w));
-  --xx: var(--xa, var(--xb));
-  --ya: var(--y1) / var(--y2);
-  --yb: var(--y) / calc(var(--y) + var(--h));
-  --yy: var(--ya, var(--yb));
-}
-.squares {
   --oo: -1px;
   --br: 3px;
   --ow: 3px;
 }
+.squares label.end {
+  place-self: center end;
+}
+.square,
+.group > .square {
+}
+.square::after {
+  content: var(--t, '');
+}
 
-.squares > .group {
+.squares > .square:hover,
+.squares > .group:has(> .square:hover, > label:hover) > :is(.square, label) {
+  --a: 100%;
+}
+
+.squares:nth-child(2) {
+  width: 30%;
+}
+
+.group {
   --a: 10%;
   --border-radius: max(var(--br) - var(--oo) - var(--ow), var(--br));
   grid-column: var(--xx);
@@ -159,60 +85,58 @@ section.squares:nth-child(2) {
       hsl(from var(--c) h calc(s * 0.75) calc(l * 1.2) / var(--ao));
   border-radius: var(--border-radius);
 }
-
-.squares > .group > .square {
-  width: 100%;
-  height: 100%;
-  --a: 80%;
-  background-color: hsl(
-    from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--ao)
-  );
-  box-shadow:
-    inset -3px -3px 1px -2px
-      hsl(from var(--c) h calc(s * 0.25) calc(l * 0.2) / var(--ao)),
-    inset 2.5px 2.5px 2px -2px
-      hsl(from var(--c) h calc(s * 0.75) calc(l * 1.2) / var(--ao));
-  --ao: calc(var(--a) * 1);
-  border-radius: var(--border-radius);
-}
-.squares > .group > .square:hover {
-  --a: 80%;
-}
-.squares > .group:has(:hover) {
+.group:has(:hover) {
   --a: 20%;
   outline: var(--ow) double var(--c);
   outline-offset: var(--oo);
 }
-section.squares {
-  width: auto;
-  margin: 0 auto 0 1vw;
+.group > label {
+  --a: 60%;
+  display: grid;
+  background-color: hsl(from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--a));
+  border-radius: 3px;
+  align-items: center;
+  justify-items: center;
+  line-height: normal;
+  text-shadow: var(--text-outline-thick);
+  box-shadow:
+    inset 1px 1px 3px -2px hsl(from #fff h s l / calc(var(--a) * 0.6)),
+    inset -1px -1px 3px -2px hsl(from #000 h s l / calc(var(--a) * 0.6));
+  pointer-events: all;
+}
+.gridsizer {
   max-width: calc(100% - 2vw);
   max-height: 45vh;
   flex: 1 auto;
-}
-
-section.squares:nth-child(3) {
+  contain: size;
+  container-type: size;
+  container-name: gridsizer;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  gap: 1em;
   aspect-ratio: 1;
-  max-width: 100%;
-  width: auto;
-  margin-right: auto;
-  height: 100%;
-  flex: 1 auto;
+  --cq-ratio: calc(var(--nw) / var(--nh));
 }
-
-h1 {
-  margin: 0;
-  padding: 0.4em 1ch 0 0;
-  text-align: end;
+.gridsizer > * {
+  aspect-ratio: var(--cq-ratio);
+  --cqpxmax: round(down, calc(100cqmax / max(var(--nw), var(--nh))), 1px);
+  --cqpxmin: round(down, calc(100cqmin / min(var(--nw), var(--nh))), 1px);
+  --cqpxh: round(down, calc(100cqh / var(--nh)), 1px);
+  --cqpxw: round(down, calc(100cqw / var(--nw)), 1px);
+  --cqpxrowh: var(--cqpxh);
+  --cqpxcolw: var(--cqpxw);
 }
-
+/*{{{ @property */
 @property --c {
   syntax: '<color>';
   inherits: false;
   initial-value: initial;
 }
 @property --t {
-  syntax: '<text>';
+  syntax: '<string>';
   inherits: false;
   initial-value: initial;
 }
@@ -268,8 +192,10 @@ h1 {
   inherits: false;
   initial-value: initial;
 }
+/*}}} @property */
 
 .squares {
+  display: grid;
   width: auto;
   margin: 0 auto 0 1vw;
   max-width: calc(100% - 2vw);
@@ -279,16 +205,48 @@ h1 {
   --cq-ratio: calc(var(--nw) / var(--nh));
 }
 
-.squares:nth-child(3) {
-  aspect-ratio: 1;
+.square {
+  --a: 60%;
+  display: grid;
+  border-radius: 3px;
+  align-items: center;
+  justify-items: center;
+  line-height: normal;
+  text-shadow: var(--text-outline-thick);
+  box-shadow:
+    inset 1px 1px 3px -2px hsl(from #fff h s l / calc(var(--a) * 0.6)),
+    inset -1px -1px 3px -2px hsl(from #000 h s l / calc(var(--a) * 0.6));
+  pointer-events: all;
+  --cc: var(--c, #fff);
+  background-color: hsl(
+    from var(--cc) h calc(s * 0.6) calc(l * 0.6) / var(--a)
+  );
+  --border-radius: max(var(----br));
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  grid-column: var(--xa, var(--xb, auto / span 1));
+  grid-row: var(--ya, var(--yb, auto / span 1));
 }
-
-h1 {
-  margin: 0;
-  padding: 0.4em 1ch 0 0;
-  text-align: end;
+.square:hover ~ label {
+  visibility: visible;
 }
-
+.square::after {
+  font-size: calc(var(--cqi));
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  place-content: center;
+  place-items: center;
+  text-align: center;
+  grid-column: 1;
+  grid-row: -1;
+  /* outline: var(--ow) double #000; */
+  outline-offset: var(--oo);
+  border-radius: var(--border-radius);
+  --border-radius: max(var(--br) - var(--oo) - var(--ow), var(--br));
+  --oo: -0.5px;
+  --ow: 1.5px;
+}
 .square.xywh {
   grid-column: var(--x) / calc(var(--x) + var(--w));
   grid-row: var(--y) / calc(var(--y) + var(--h));
@@ -297,63 +255,49 @@ h1 {
   grid-column: var(--x1) / var(--x2);
   grid-row: var(--y1) / var(--y2);
 }
+.squares:nth-child(3) {
+  aspect-ratio: 1;
+}
+
+/** groups **/
 .group {
-  grid-column: var(--xa, var(--xb, 1 / var(--nw)));
-  grid-row: var(--ya, var(--yb, 1 / var(--nh)));
+  --parentx: max(1, var(--x, -infinity), var(--x1, -infinity));
+  --parenty: max(1, var(--y, -infinity), var(--y1, -infinity));
+  --parentx2:
+    max(max(-1, var(--x, -infinity)) + max(-1, var(--w, -infinity))),
+    max(-1, var(--x2, -infinity));
+  --parenty2:
+    max(max(-1, var(--y, -infinity)) + max(-1, var(--h, -infinity))),
+    max(-1, var(--y2, -infinity));
+
+  display: grid;
+  grid-column: var(--parentx) / var(--parentx2);
+  grid-row: var(--parenty) / var(--parenty2);
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  container-name: group;
+
+  --cc: var(--c, #fff);
+  background-color: hsl(
+    from var(--cc) h calc(s * 0.6) calc(l * 0.6) / var(--a)
+  );
+  --border-radius: max(var(----br));
+  --cc: ;
+  --tg: 'group ';
 }
 .group.xywh {
   --parentx: var(--x);
   --parentx2: calc(var(--x) + var(--w));
   --parenty: var(--y);
   --parenty2: calc(var(--y) + var(--h));
-  grid-column: var(--parentx) / var(--parentx2);
-  grid-row: var(--parenty) / var(--parenty2);
 }
 .group.xyxy {
   --parentx: var(--x1);
   --parentx2: var(--x2);
   --parenty: var(--y1);
   --parenty2: var(--y2);
-  grid-column: var(--parentx) / var(--parentx2);
-  grid-row: var(--parenty) / var(--parenty2);
 }
-.group > .square.xywh {
-}
-.group > .square.xyxy {
-}
-
-.squares > .square,
-.squares > .group,
-.squares > .group > .square {
-  --xa: calc(var(--x1) + min(0, var(--xl, 0))) /
-    calc(var(--x2) - max(0, var(--xr, 0)));
-  --xb: calc(var(--x) + min(0, var(--xl, 0))) /
-    calc(var(--x) - max(0, var(--xr, 0)) + var(--w));
-  --ya: var(--y1) / var(--y2);
-  --yb: var(--y) / calc(var(--y) + var(--h));
-  --cc: var(--c, #fff);
-  background-color: hsl(
-    from var(--cc) h calc(s * 0.6) calc(l * 0.6) / var(--a)
-  );
-  --border-radius: max(var(----br));
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-template-rows: subgrid;
-}
-.squares > .square {
-  grid-column: var(--xa, var(--xb, auto / span 1));
-  grid-row: var(--ya, var(--yb, auto / span 1));
-}
-.squares > .group {
-  container-name: group;
-  --xp: var(--xa, var(--xb));
-  grid-column: var(--xp, 1 / var(--nw));
-  --yp: var(--ya, var(--yb));
-  grid-row: var(--yp, 1 / var(--nh));
-  --cc: ;
-  --tg: 'group ';
-}
-.squares > .group::after {
+.group::after {
   content: var(--tg, '') var(--t, '');
   white-space: normal;
   display: flex;
@@ -365,17 +309,80 @@ h1 {
   visibility: hidden;
   color: var(--cc);
 }
-.squares > .group:has(:hover)::after {
+.group:has(:hover)::after {
   visibility: visible;
 }
-.squares > .group > .square {
-  --c: inherit;
-  --t: '';
-  grid-column: var(--xa, var(--xb, var(--xp, 1 / span 1)));
-  grid-row: var(--ya, var(--yb, var(--yp, 1 / span 1)));
+
+/** grouped squares **/
+
+.group > .square {
+  width: 100%;
+  height: 100%;
+  --a: 80%;
+  background-color: hsl(
+    from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--ao)
+  );
+  box-shadow:
+    inset -3px -3px 1px -2px
+      hsl(from var(--c) h calc(s * 0.25) calc(l * 0.2) / var(--ao)),
+    inset 2.5px 2.5px 2px -2px
+      hsl(from var(--c) h calc(s * 0.75) calc(l * 1.2) / var(--ao));
+  --ao: calc(var(--a) * 1);
+  border-radius: var(--border-radius);
+}
+.group > .square:hover {
+  --a: 80%;
 }
 
+.group > .square {
+  --parentx: max(1, var(--x, -infinity), var(--x1, -infinity));
+  --parenty: max(1, var(--y, -infinity), var(--y1, -infinity));
+  --parentx2:
+    max(max(-1, var(--x, -infinity)) + max(-1, var(--w, -infinity))),
+    max(-1, var(--x2, -infinity));
+  --parenty2:
+    max(max(-1, var(--y, -infinity)) + max(-1, var(--h, -infinity))),
+    max(-1, var(--y2, -infinity));
+
+  display: grid;
+  grid-column: var(--parentx) / var(--parentx2);
+  grid-row: var(--parenty) / var(--parenty2);
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  container-name: group;
+  --cc: var(--c, #fff);
+  background-color: hsl(
+    from var(--cc) h calc(s * 0.6) calc(l * 0.6) / var(--a)
+  );
+  --border-radius: max(var(----br));
+  --c: inherit;
+  --t: '';
+  /* grid-column: var(--xa, var(--xb, var(--xp, 1 / span 1))); */
+  /* grid-row: var(--ya, var(--yb, var(--yp, 1 / span 1))); */
+}
+.group > .square.xywh {
+  grid-column: var(--x) / calc(var(--x) + var(--w));
+  grid-row: var(--y) / calc(var(--y) + var(--h));
+}
+.group > .square.xyxy {
+  grid-column: var(--x1) / var(--x2);
+  grid-row: var(--y1) / var(--y2);
+}
+
+/** squares **/
+
+.squares:nth-child(3) {
+  aspect-ratio: 1;
+  max-width: 100%;
+  margin-right: auto;
+  height: 100%;
+}
 .squares {
+  width: auto;
+  margin: 0 auto 0 1vw;
+  max-width: calc(100% - 2vw);
+  max-height: 45vh;
+  flex: 1 auto;
   background-origin: content-box;
   box-shadow:
     inset -1px -1px 3px -2px #fff,
@@ -409,7 +416,6 @@ h1 {
   --chp: #0000;
   --cha: #0000;
   --br: 3px;
-  width: auto;
   --maxh: 45vh;
   background-position:
     top left,
@@ -417,64 +423,6 @@ h1 {
   --cv: #000;
   --ch: #000;
 }
-.square {
-}
-.square::after {
-  font-size: calc(var(--cqi));
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-template-rows: subgrid;
-  place-content: center;
-  place-items: center;
-  text-align: center;
-  grid-column: 1;
-  grid-row: -1;
-  /* outline: var(--ow) double #000; */
-  outline-offset: var(--oo);
-  border-radius: var(--border-radius);
-  --border-radius: max(var(--br) - var(--oo) - var(--ow), var(--br));
-  --oo: -0.5px;
-  --ow: 1.5px;
-}
-.gridsizer {
-  max-width: calc(100% - 2vw);
-  max-height: 45vh;
-  flex: 1 auto;
-  contain: size;
-  container-type: size;
-  container-name: gridsizer;
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: stretch;
-  gap: 1em;
-  aspect-ratio: 1;
-  --cq-ratio: calc(var(--nw) / var(--nh));
-}
-.gridsizer > * {
-  aspect-ratio: var(--cq-ratio);
-  --cqpxmax: round(down, calc(100cqmax / max(var(--nw), var(--nh))), 1px);
-  --cqpxmin: round(down, calc(100cqmin / min(var(--nw), var(--nh))), 1px);
-  --cqpxh: round(down, calc(100cqh / var(--nh)), 1px);
-  --cqpxh: round(down, calc(100cqh / var(--nh)), 1px);
-  --cqpxw: round(down, calc(100cqw / var(--nw)), 1px);
-}
-/* body > .squares { */
-/*   --intop: 0vh; */
-/*   position: sticky; */
-/*   inset: var(--intop) auto auto auto; */
-/*   margin: calc(var(--intop) * -1) auto calc(var(--intop) * -2) 0; */
-/*   max-height: calc(var(--maxh) + var(--intop)); */
-/*   overflow-y: hidden; */
-/*   width: 50%; */
-/* } */
-
-/* --bstop: inset 4px 4px 0 -4px var(--c2); */
-/* --bsbot: 0 0 0 0 var(--c2); */
-/* --brtop: var(--br) var(--br) 0; */
-/* --brbot: 0 0 var(--br) var(--br); */
-/* --c2: hsla(from var(--c) h s calc(l * 1) / 1); */
 
 :is(.oc-topleft, .oc-topright, .oc-botleft, .oc-botright)::before {
   content: '';
@@ -527,3 +475,26 @@ h1 {
   --xr: -1;
   --ocbs-br: var(--br) calc(var(--br) * -1) 0 calc(var(--br) * -1) var(--c);
 }
+
+/** new */
+
+.new {
+  grid-template-columns: repeat(var(--nw), var(--cqpxcolw));
+  grid-template-rows: repeat(var(--nh), var(--cqpxrowh));
+  --i: var(--size, round(down, 100cqmin / var(--nw), 1px));
+}
+/* body > .squares { */
+/*   --intop: 0vh; */
+/*   position: sticky; */
+/*   inset: var(--intop) auto auto auto; */
+/*   margin: calc(var(--intop) * -1) auto calc(var(--intop) * -2) 0; */
+/*   max-height: calc(var(--maxh) + var(--intop)); */
+/*   overflow-y: hidden; */
+/*   width: 50%; */
+/* } */
+
+/* --bstop: inset 4px 4px 0 -4px var(--c2); */
+/* --bsbot: 0 0 0 0 var(--c2); */
+/* --brtop: var(--br) var(--br) 0; */
+/* --brbot: 0 0 var(--br) var(--br); */
+/* --c2: hsla(from var(--c) h s calc(l * 1) / 1); */

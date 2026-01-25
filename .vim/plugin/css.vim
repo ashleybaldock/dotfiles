@@ -332,9 +332,9 @@ function! s:formatSVGcoord(n)
         \ '^\(-\?\)0*\([1-9]\d*\|0\)\%(\(\.\d*[1-9]\)\|\.\?\)0*$', '\1\2\3', 'g')
 endfunc
 
-let every1 = '\s*\(-\?\d*\(\d\|\.\d\)\d*\)'
-let every2 = every1 .. every1
-let every7 = every2 .. every1 .. '\s*\(0\|1\)\s*\(\0\|\1\)' .. every2
+let s:every1 = '\s*\(-\?\d*\(\d\|\.\d\)\d*\)'
+let s:every2 = s:every1 .. s:every1
+let s:every7 = s:every2 .. s:every1 .. '\s*\(0\|1\)\s*\(\0\|\1\)' .. s:every2
 
 function! s:add(i, j)
   return a:i + a:j
@@ -343,17 +343,17 @@ function! s:mul(i, j)
   return a:i * a:j
 endfunc
 
-function! s:do1(s, f)
-  return substitute(a:s, every1,
-        \     {n -> s:formatSVGcoord(a:f(str2float(n[1])))}, 'g' )
+function! s:do1(part, f, fargs)
+  return substitute(a:part, every1,
+        \     {n -> mapnew(n, str2float)->s:formatSVGcoord(a:f(str2float(n[1])))}, 'g' )
 endfunc
-function! s:do2(s, f)
-  return substitute(a:s, every2,
+function! s:do2(part, f)
+  return substitute(a:part, every2,
         \     {n -> s:formatSVGcoord(a:f(str2float(n[1]) + a:x)) ..
         \           s:formatSVGcoord(a:f(str2float(n[2]) + a:y))}, 'g' )
 endfunc
-function! s:do7(s, f)
-  return substitute(a:s, every2,
+function! s:do7(part, f)
+  return substitute(a:part, every7,
         \     {n -> s:formatSVGcoord(a:f(str2float(n[1]), a:x)) ..
         \           s:formatSVGcoord(a:f(str2float(n[2]), a:y)) ..
         \           s:formatSVGcoord(a:f(str2float(n[3]))) ..
@@ -364,10 +364,13 @@ function! s:do7(s, f)
 endfunc
 " Scale:
 "
-" TODO needs special cast for A/a to avoid scaling flags/angle
+" TODO needs special case for A/a to avoid scaling flags/angle
 "
 " path: contents of a d="" attribute
 " factor: scaling factor to multiply by
+"
+" Multiply all coordinates by a constant scaling factor
+"
 function! ScaleSVGPath(path, x = 1, y = x)
   let lookup = #{
         \ default: {s -> substitute(s, '\s*\zs\(-\?\d*\(\d\|\.\d\)\d*\)',
@@ -379,8 +382,11 @@ function! ScaleSVGPath(path, x = 1, y = x)
         \ {m -> m[1] .. (get(lookup, m[1], get(lookup, 'default')))(m[2])}, 'g')
 endfunc
 
+let s:splitPathParts = '\([MLVCSQTAZmlhvcsqtaz]\)\([0-9. -]*\)'
 "
 " Translate:
+"
+" Adds an offset to all absolute x and y coordinates
 "
 function! TranslateSVGPath(path, x = 0, y = 0)
   let lookup = #{
@@ -395,6 +401,8 @@ function! TranslateSVGPath(path, x = 0, y = 0)
         \ S: {n -> s:do2(n, [x,y], s:add)},
         \ A: {n -> s:do7(n, [x,y,0,0,0,x,y], s:add)},
         \}
+  return substitute(a:path, s:splitPathParts, 
+        \ {m -> m[1] .. (get(lookup, m[1], get(lookup, 'default')))(m[2])}, 'g')
 endfunc
 "
 " list of matches

@@ -1,0 +1,44 @@
+:root {
+  --sp: ' ';
+  --spnb: '\a0'; /*! ' ' */
+  --spnn: '\202f'; /*! ' ' */
+  --spen: ' '; /*! ' ' */
+  --spem: ' '; /*! ' ' */
+  --sp3p: ' '; /*! ' ' */
+  --sp4p: ' '; /*! ' ' */
+  --sp6p: ' '; /*! ' ' */
+  --spfg: ' '; /*! ' ' */
+  --sppn: ' '; /*! ' ' */
+  --sptn: ' '; /*! ' ' */
+  --sphr: ' '; /*! ' ' */
+  --spzw: '​';
+  --spmm: ' ';
+  --spid: '　';
+  --sphi: '〿';
+
+  --⧵n: '\0a';
+  --splf: '\0a';
+  --sptb: '\09';
+  --spcr: '\0d';
+}
+/* < ≤ ≥ > */
+@media screen and (width > 800px) {
+  body {
+    --s-break: '>' var(--sp-prefix, ' ') '800px';
+  }
+}
+@media screen and (width >= 800px) {
+  body {
+    --s-break: '≥' var(--sp-prefix, ' ') '800px';
+  }
+}
+@media screen and (width < 800px) {
+  body {
+    --s-break: '<' var(--sp-prefix, ' ') '800px';
+  }
+}
+@media screen and (width <= 800px) {
+  body {
+    --s-break: '≤' var(--sp-prefix, ' ') '800px';
+  }
+}

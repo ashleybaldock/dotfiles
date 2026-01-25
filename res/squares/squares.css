@@ -11,125 +11,12 @@ h1 {
   text-align: end;
 }
 
+/*{{{ @property */
 @property --a {
   syntax: '<percentage>';
   inherits: true;
   initial-value: 0%;
 }
-@property --t {
-  syntax: '<string>';
-  inherits: true;
-  initial-value: '';
-}
-
-.squares label {
-  padding: 0 1ch;
-  --c: #555a;
-  height: var(--size);
-  width: fit-content;
-  place-self: center start;
-  overflow: visible;
-  position: absolute;
-  text-align: left;
-  left: 0;
-  visibility: hidden;
-  --c: #555a;
-  white-space: nowrap;
-  width: fit-content;
-  place-self: center start;
-  font-size: 0.8em;
-  height: fit-content;
-  padding: 0.1em 0.5ch;
-  --oo: -1px;
-  --br: 3px;
-  --ow: 3px;
-}
-.squares label.end {
-  place-self: center end;
-}
-.square,
-.group > .square {
-}
-.square::after {
-  content: var(--t, '');
-}
-
-.squares > .square:hover,
-.squares > .group:has(> .square:hover, > label:hover) > :is(.square, label) {
-  --a: 100%;
-}
-
-.squares:nth-child(2) {
-  width: 30%;
-}
-
-.group {
-  --a: 10%;
-  --border-radius: max(var(--br) - var(--oo) - var(--ow), var(--br));
-  grid-column: var(--xx);
-  grid-row: var(--yy);
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-template-columns: subgrid;
-  pointer-events: none;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  contain: size;
-  container-type: size;
-  background-color: hsl(from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--a));
-  box-shadow:
-    inset -3px -3px 1px -2px
-      hsl(from var(--c) h calc(s * 0.25) calc(l * 0.2) / var(--ao)),
-    inset 2.5px 2.5px 2px -2px
-      hsl(from var(--c) h calc(s * 0.75) calc(l * 1.2) / var(--ao));
-  border-radius: var(--border-radius);
-}
-.group:has(:hover) {
-  --a: 20%;
-  outline: var(--ow) double var(--c);
-  outline-offset: var(--oo);
-}
-.group > label {
-  --a: 60%;
-  display: grid;
-  background-color: hsl(from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--a));
-  border-radius: 3px;
-  align-items: center;
-  justify-items: center;
-  line-height: normal;
-  text-shadow: var(--text-outline-thick);
-  box-shadow:
-    inset 1px 1px 3px -2px hsl(from #fff h s l / calc(var(--a) * 0.6)),
-    inset -1px -1px 3px -2px hsl(from #000 h s l / calc(var(--a) * 0.6));
-  pointer-events: all;
-}
-.gridsizer {
-  max-width: calc(100% - 2vw);
-  max-height: 45vh;
-  flex: 1 auto;
-  contain: size;
-  container-type: size;
-  container-name: gridsizer;
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: stretch;
-  gap: 1em;
-  aspect-ratio: 1;
-  --cq-ratio: calc(var(--nw) / var(--nh));
-}
-.gridsizer > * {
-  aspect-ratio: var(--cq-ratio);
-  --cqpxmax: round(down, calc(100cqmax / max(var(--nw), var(--nh))), 1px);
-  --cqpxmin: round(down, calc(100cqmin / min(var(--nw), var(--nh))), 1px);
-  --cqpxh: round(down, calc(100cqh / var(--nh)), 1px);
-  --cqpxw: round(down, calc(100cqw / var(--nw)), 1px);
-  --cqpxrowh: var(--cqpxh);
-  --cqpxcolw: var(--cqpxw);
-}
-/*{{{ @property */
 @property --c {
   syntax: '<color>';
   inherits: false;
@@ -194,6 +81,73 @@ h1 {
 }
 /*}}} @property */
 
+.squares label {
+  overflow: visible;
+  position: absolute;
+  text-align: left;
+  left: 0;
+  visibility: hidden;
+  --c: #555a;
+  white-space: nowrap;
+  width: fit-content;
+  place-self: center start;
+  font-size: 0.8em;
+  height: fit-content;
+  padding: 0.1em 0.5ch;
+  --oo: -1px;
+  --br: 3px;
+  --ow: 3px;
+}
+.squares label.end {
+  place-self: center end;
+}
+.squares > .square:hover,
+.squares > .group:has(> .square:hover, > label:hover) > :is(.square, label) {
+  --a: 100%;
+}
+
+.squares:nth-child(2) {
+  width: 30%;
+}
+
+/**{{{ gridsizer **/
+.gridsizer {
+  max-width: calc(100% - 2vw);
+  max-height: 45vh;
+  flex: 1 auto;
+  contain: size;
+  container-type: size;
+  container-name: gridsizer;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  gap: 1em;
+  aspect-ratio: 1;
+  --cq-ratio: calc(var(--nw) / var(--nh));
+}
+.gridsizer > * {
+  aspect-ratio: var(--cq-ratio);
+  --cqpxmax: round(down, calc(100cqmax / max(var(--nw), var(--nh))), 1px);
+  --cqpxmin: round(down, calc(100cqmin / min(var(--nw), var(--nh))), 1px);
+  --cqpxh: round(down, calc(100cqh / var(--nh)), 1px);
+  --cqpxw: round(down, calc(100cqw / var(--nw)), 1px);
+  --cqpxrowh: var(--cqpxh);
+  --cqpxcolw: var(--cqpxw);
+}
+.gridsizer > * > .group {
+  --cqpxmax: inherit;
+  --cqpxmin: inherit;
+  --cqpxh: inherit;
+  --cqpxw: inherit;
+  --cqpxrowh: inherit;
+  --cqpxcolw: inherit;
+  --nh: var(--h);
+  --nw: var(--w);
+}
+/**}}} gridsizer **/
+
 .squares {
   display: grid;
   width: auto;
@@ -205,6 +159,7 @@ h1 {
   --cq-ratio: calc(var(--nw) / var(--nh));
 }
 
+/**{{{ square **/
 .square {
   --a: 60%;
   display: grid;
@@ -226,11 +181,34 @@ h1 {
   grid-template-rows: subgrid;
   grid-column: var(--xa, var(--xb, auto / span 1));
   grid-row: var(--ya, var(--yb, auto / span 1));
+  counter-set: x1 var(--x1) x2 var(--x2) y1 var(--y1) y2 var(--y2) x
+    var(--x, var(--x1)) y var(--y, var(--y1)) w
+    var(--w, calc(var(--x2) - var(--x1))) h 0;
+  --cgpxrowh: inherit;
+  font-size: var(--cqpxrowh);
 }
 .square:hover ~ label {
   visibility: visible;
 }
+.square::before {
+  content: '◤ ' counter(x1) ' , ' counter(y1) '\0a ▔⊹⸌ \0a▘ ⸀⸌ ❪ ' counter(x1)
+    ' , ' counter(y1) ' ❫\0a\0a  ❫ ¯⸌᛫◆⸜_\0a𝒙₂ 𝒚₂\0a\0a' counter(x2) ' , '
+    counter(y2) ' \0a◢';
+  font-size: 0.6em;
+  display: flex;
+  position: absolute;
+  white-space: pre;
+  inset: -1ch auto auto -1ch;
+  outline: 0.5px solid var(--c);
+  outline-offset: var(--oo);
+  border-radius: var(--border-radius);
+  --border-radius: max(var(--br) - var(--oo) - var(--ow), var(--br));
+  --oo: 2.5px;
+  --ow: 1.5px;
+  font-weight: 400;
+}
 .square::after {
+  content: var(--t, '');
   font-size: calc(var(--cqi));
   display: grid;
   grid-template-columns: subgrid;
@@ -255,11 +233,33 @@ h1 {
   grid-column: var(--x1) / var(--x2);
   grid-row: var(--y1) / var(--y2);
 }
-.squares:nth-child(3) {
-  aspect-ratio: 1;
+
+/**}}} square **/
+
+/**{{{ groups **/
+.group {
+  --a: 10%;
+  --border-radius: max(var(--br) - var(--oo) - var(--ow), var(--br));
+  grid-column: var(--xx);
+  grid-row: var(--yy);
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-template-columns: subgrid;
+  pointer-events: none;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  contain: size;
+  container-type: size;
+  background-color: hsl(from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--a));
+  box-shadow:
+    inset -3px -3px 1px -2px
+      hsl(from var(--c) h calc(s * 0.25) calc(l * 0.2) / var(--ao)),
+    inset 2.5px 2.5px 2px -2px
+      hsl(from var(--c) h calc(s * 0.75) calc(l * 1.2) / var(--ao));
+  border-radius: var(--border-radius);
 }
 
-/** groups **/
 .group {
   --parentx: max(1, var(--x, -infinity), var(--x1, -infinity));
   --parenty: max(1, var(--y, -infinity), var(--y1, -infinity));
@@ -309,8 +309,27 @@ h1 {
   visibility: hidden;
   color: var(--cc);
 }
+.group:has(:hover) {
+  --a: 20%;
+  outline: var(--ow) double var(--c);
+  outline-offset: var(--oo);
+}
 .group:has(:hover)::after {
   visibility: visible;
+}
+.group > label {
+  --a: 60%;
+  display: grid;
+  background-color: hsl(from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--a));
+  border-radius: 3px;
+  align-items: center;
+  justify-items: center;
+  line-height: normal;
+  text-shadow: var(--text-outline-thick);
+  box-shadow:
+    inset 1px 1px 3px -2px hsl(from #fff h s l / calc(var(--a) * 0.6)),
+    inset -1px -1px 3px -2px hsl(from #000 h s l / calc(var(--a) * 0.6));
+  pointer-events: all;
 }
 
 /** grouped squares **/
@@ -498,3 +517,51 @@ h1 {
 /* --brtop: var(--br) var(--br) 0; */
 /* --brbot: 0 0 var(--br) var(--br); */
 /* --c2: hsla(from var(--c) h s calc(l * 1) / 1); */
+
+.square::before,
+.square::after {
+  outline: 0;
+  content: '◤⋱⋮⋰⋰  [' counter(x1) ' , ' counter(y1)
+    '\0a  ▔ ⊹⸌⨯⩗⩘⩗⫶⋱ \0a▘  ⸀⸌ ❪ ' counter(x1) ' , ' counter(y1)
+    ' ❫\0a\0a  ❫ ¯ ⸌̵̶͟ ∕̅ ⸜̵̶_꛱ _꛱  ⨌¯⸌⋅⋅⋅⋄⊸∣∖∘∙∗∙⸜_\0a𝒙₂ 𝒚₂   ⊞⊟⊠⊡⊓⊗⊢⊣⅋⋅⋅⋅⊱⩉⨳⩟⪡⟐⟗⟑⫯⫰⫱⫮⫽⫾⟠⩇⊰⋅⋅⋅\0a⟜⟝⧼⧽⧾₋₎⁽⁺⁾₍⁾⁽₊₎    ₍₍⁾⁽₎⁾⁻⟞⟔⟓⟠⟣⟡⟢⟣⟥⟤⟛⟠⟡⦀⟪⟨⦂⦁⟪⦊⧄⧅⧈⧈⧇⧆⧉⧂⁽⁾₍₎⦉⦙⦊⦇⦀⦈\0a'
+    counter(x2) ' , ' counter(y2)
+    ' ▫︎▪︎▫︎▫︎▪︎▪︎▫︎○●◦◦◦◦▘▝▘▘\0a▁▁▁◹◸◿◺◹◺◿◸◥◣◢◤▛\0a▔▔▔◿◺◹◸◿◸◹◺◢◤◥◣▙▟▚▞\0a▛▞▞▟▉▊▋▌▍▎▏▐▕▮▗▖▝▘⸜';
+  line-height: normal;
+  position: relative;
+  inset: 0 0 0 0;
+  align-content: baseline;
+  align-items: baseline;
+  vertical-align: baseline;
+  content: ' ⸌ ' counter(x1) ' , ' counter(y1);
+  letter-spacing: normal;
+  justify-content: start;
+  grid-column: 1/-1;
+  box-shadow:
+    inset 12px 30px 0 -10px #191919,
+    2px -1px 1px -0.5px #191919;
+  font-size: var(--cqpxrowh);
+  --cgpxrowh: inherit;
+}
+
+.square::before {
+  inset: 0 auto auto 0;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  height: 100%;
+  content: ' ⸌ ' counter(x1) ' , ' counter(y1);
+}
+.square::after {
+  inset: auto 0 0 auto;
+  display: flex;
+  justify-content: end;
+  align-items: baseline;
+  margin-top: auto;
+  height: 100%;
+  content: counter(x2) ' , ' counter(y2) ' ⸜';
+  align-content: end;
+  grid-row: -1;
+  grid-column: auto/-1;
+  width: auto;
+  height: 100%;
+}

@@ -239,11 +239,13 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 " 􃈑  􀏭 􃑷  􀏯 􂂼  􀲳 􀢱  􀡜 􃐹           
 " 􃈒  􀏮    􀏰 􂂽  􀲴 􀢲  􀡝 􃐺
 "           
+" 􀍿􀘨􃇼􃇽􀎀􃇿􀘩􁣛􂣼􂣽􂝔􁹠􀶰􀎁􀎃􀎅􀎇􀎉􀘤􀘦􀶱􀎂􀎄􀎆􀎈􀎊􀘥􀘧􀣔􀱨􀊯􀢤􁐂􂣾􀯛
+"
 " 􁕜􀼏􀹲􁕍􃓿 􁕝􀼐􀹳  􃔀 
 "
 " 􀧸 􀧹 􀩄 􀩅 􀩆 􀩇 􀞾 􀞿 􂿪   􀇸􀇹 􀙢􀙣 􀬎􀬏
 " 􃐥                                                     
-" 􀝜 􀍷 􀕩 􀕪 􀕫 􀢊 􁅃 􀓞 􀧒 􂞶  􂞷  􀧙􀫲  
+" 􀝜 􀍷 􀕩 􀕪 􀕫 􀢊 􁅃 􀓞 􀧒 􂞶  􂞷  􀧙􀫲 
 " 􀾘 􀕴 􀕵 􀧺 􀧻    􁊓 􀓔 􀧑 􀴥 􀭉 􀜞􀣽
 " 􀻃 􀻄 􀀂 􀀃 􀪗 􀪖   􁹪
 " 􀀀 􀀁 􁹭  􁹮  􁹯  􁹰    􁹢   
@@ -258,8 +260,8 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 " 􀶺 􀶻 􁀋 􁀌 􁀺 􁀻
 " 􀟆 􀟇 􀇺 􀇻 􀇼 􀇽
 "
-" 􀣦 􀣧  􀪛 􀚔 􀪚 􀚓  􀏠 􀕰 􀕮 􀕲 􀡗
-" 􀂒 􀂓  􁒠 􁒣 􁒡 􁒢  􀘜 􀕱 􀕯 􀕳 􀡘 
+" 􀣦 􀣧  􀪛 􀚔 􀪚 􀚓  􀏠 􀕰 􀕮 􀕲 􀡗  􁊓􀓔􀴥􀭉􀧑􀕴􀕵􀧺􀧻􀣮􀣯􀪵􀪶􀩢􀫴
+" 􀂒 􀂓  􁒠 􁒣 􁒡 􁒢  􀘜 􀕱 􀕯 􀕳 􀡘 􀿫
 "                                  
 "          􃆭  􃒜  􃒞        􃒠  
 "             􀋲 􀋱 􀢽 􀣩 􀋴 􀋳 􀑬 􃑓
@@ -276,21 +278,35 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 " 􀊫 􀬸 􀒒 􀒓 􀊬 􀊭 􂈂  􀊮 􀥩 􀭥 􁇥 􁈟
 "
 "                                 􂷸
-" 􀙚  􀸏 􀡅 􁇵 􀅮   􀆄 􀆅 􀸓 􀆃 􃑪 􃑫
+" 􀙚  􀸏 􀡅 􁇵 􀅮   􀆄 􀆅 􀸓 􀆃 􃑪 􃑫 􀫰􃑪􀫱􃏠􁹫􁹬􀍸􀍹
 "                                          
 " 􀫕 􀤏 􀙊 􀍠 􀍡 􃈗  􀠩 􀟂 􀟀 􀉈  􀍳 􀍴    
-" 􀫖 􀤐 􀙋       􃈘  􀠪 􀟃             
+" 􀫖 􀤐 􀙋       􃈘  􀠪 􀟃  􁖆􁖇           
 "                                              
-" 􀍺􁎴􀪐 􀍻􁎵􀪑  􀎐  􃊸 􃊹  
+" 􀍺􁎴􀪐 􀍻􁎵􀪑  􀎐  􃊸 􃊹  􀉣􀥕  􀋡􀋢􀦫􀦬􂲯􀓪
 "
-" 􀣶􀣷   􀰬 􂀙  􃋮 􃋯   􀐩 􂇏  􀐪 􀐫 􀐬    
+" 􀣶􀣷   􀰬 􂀙  􃋮 􃋯    􀐩 􂇏  􀐪 􀐫 􀐬    
+"
+" 􀈂􀈃􀈄􀈅􀈆􀈇􀈈􀈉􀻵􀻶  􀐅􀐆􀫝􁚍􁚎􀰙􀯇􁄻􀐇􀐈􀐉􀐊
+"
+" 􀈷􀈸􀣗􀣘􁙡􁙢􀩴􀩵􀫾􀫿􀩚􀩛􀢍􀢎􀈻􀈼􀈽􀈾􀈿􀉀􀉁􀉂􀉃􀉄
+"
+" 􀉆􀥨􂱑􂱒􂽱􂽴􀹲􀹳􀕹􀩳􀺿􀹆􃈩
+"
+" 􀧵􀓕􃏝
+" 􃌦􃌧􃌨􃌩􃌪􃌫􃌬􃌭􃌮􃌯􃌰􃌱􃌲􃌳􃌴􃌵􃌶􃌷􃌸􃌹􃌺􃌻􃌼􃌽􃌾􃌿􃍀􃍁􃍂􃍃􃍄
+" 􀻤􀻣
+" 􀴽􀇯􀇰􀇱􀇲􀫌􀭅􁚀􁷁􀣠􀣡􀭆􀭇􂇓􀭈􀯪􀮐􀱢􀺪􀫍
+" 􀩽􀩾􀉞􀉟􀉠􀉡􀼹􀼺􀟍􀟎
 "
 " 􁙪 􁙫  􁅊 􀏞 􀣾 􀣿 􀦍 􀣰 􀤀 􀤁 􁽸 􁽺 􁽼􁽾 
 " 􃐯 􃀧 􃀩  
-" 􃐰 􃀨 􃀪  􀥯               􂆅      􁂸    􀺿    􃐶
+" 􃐰 􃀨 􃀪 􀈕􀈖􀈙􀈚􀈛􀈜􀧆􀧇􀬔􀬕 􀉢􀒖􀥪
+"
+"        􀥯               􂆅      􁂸    􀺿    􃐶
 "             􀏛 􀏚       􁚬  􀬸 􁂷 􀅶 􀩳 􀹆 􃐵
-" 􀏇 􀏉 􀏗 􀏡 􀱥 􀱤 􀏝    􃇐  􃈃 
-"    􀏍 􀏗 􂬏  􂬗  􂧮  􂧯  􀤳 􂬑  􂧭  􂧰  􀚅
+" 􀏇 􀏉 􀏗 􀏡 􀱥 􀱤 􀏝    􃇐  􃈃 􀴊􀨨􀨱􀨩
+"    􀏍 􀏗 􂬏  􂬗  􂧮  􂧯  􀤳 􂬑  􂧭  􂧰  􀚅  
 " 􀥁 􀏃 􀣤 􀿯 􀤷 􀤶 􀿰 􁎽 􀧈 􀧊 􀧌 􀇴 􃑊
 "    􀏋 􀏑 􀾮 􀤵 􀤴 􀾯    􀾊       
 " 􃐭  􀢈       􀥟 􀥞    􀥝 􀏟    􀏣 􀏥 􀏢    
@@ -299,8 +315,12 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 "          􁼁  􁼅  􁼉  􁻽  􂂟  􂂣  􂬜  􀢿 􀠹 􁁀
 "    􀠳 􀠴 􀑧 􀑨 􀭱 􀭲 􀫹􁽾 􁽺 􀫺 􀫻 􁽼 􁽸 􀫼 
 " 
-" 􀏧 􀥀 􀏩 􀾬 􀢳 􂠗  􀏫 􀑯 􀣵   􀣂  
+" 􀏧 􀥀 􀏩 􀾬 􀢳 􂠗  􀏫 􀑯 􀣵   􀣂    􂃕􂇕
 " 􀶣             􂠘  
+"
+" 􀏜 􀥃 􃑷 􁝸 􀢌 􀣚 􀤯 􀏝
+"
+" 􀦲􀦳􀦴􀦵􀦶􀦷􀦸􀦹􀦺􀦻􀦼􂶯􂶰􀓙􀤲􀓚
 
 " 􃇼  􃇽  􃃂  􃇿
 "
@@ -309,9 +329,25 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 " 
 " 􀑂 􀘞 􀜟 􀑃 􀙫 􁆬 􁅥  􀭭 􀭮 􁑡
 "
+" 􀆔􀪁􀪂􁁺􀆕􀆖􀆍􀆎􁍂􁍃􀆧􀯆􀜚􀪒􀥌
+" 􀇭􀇮􀆨􀷃􀷄􀆩􀥣􀥤􀥥􀥦􀆙􀆚􀆛􀆜􀆗􀆘
+" 􀆝􀆞􀆡􀆢􀆥􀆦􀣊􀢣
+"
 "
 
+exec 'an' SfIcon('􀏇') '10.290' '&File.New\ Window' '<Nop>'
+exec 'an' SfIcon('􀥁') '10.291' '&File.New\ Clean\ Window' '<Nop>'
+exec 'an' SfIcon('') '10.292' '&File.New\ Clean\ Window\ (No\ Defaults)' '<Nop>'
+exec 'an' SfIcon('􀏩') '10.292' '&File.New\ Tab' '<Nop>'
 
+an <silent> 10.290 &File.New\ Window                          <Nop>
+an <silent> 10.291 &File.New\ Clean\ Window		        <Nop>
+an <silent> 10.292 &File.New\ Clean\ Window\ (No\ Defaults)   <Nop>
+an  10.295 &File.New\ Tab			    :tabnew<CR>
+an <silent> 10.310 &File.Open…		    <Nop>
+an <silent> 10.325 &File.Open\ Recent		    <Nop>
+an 10.328 &File.-SEP0-			    <Nop>
+an <silent> 10.330 &File.Close\ Window<Tab>:qa    :conf qa<CR>
 "
 " View Menu:
 "
@@ -373,8 +409,9 @@ an <silent> 10.327.230 &File.Open\ Related\ Test<Nop>
 an <silent> 10.327.231 &File.Open\ Related\ Test\ 2	    <Nop>
 
 
-an <silent> 10.326 &File.Open\ In\ New\ Window	    <Nop>
-an <silent> 10.326.100 &File.Move\ To\ New\ Window	    <Nop>
+an <silent> 10.326.100 &File.Open\ In\ New\ Window	    <Nop>
+an <silent> 10.326.110 &File.Move\ File\ To\ New\ Window	    <Nop>
+an <silent> 10.326.210 &File.Move\ Tab\ To\ New\ Window	    <Nop>
 exec 'macm File.Open\ In\ New\ Window'
 exec 'macm File.Move\ To\ New\ Window	alt=YES'
 

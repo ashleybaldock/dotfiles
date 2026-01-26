@@ -64,7 +64,7 @@ exec 'macm Edit.Redo<Tab>^R                       key=<Nop>'
 " macm Edit.Copy<Tab>"+y                          key=<Nop>
 
 "  <D-v>
-" macm Edit.Paste<Tab>"+gP                        key=<Nop>
+exec 'macm Edit.Paste<Tab>"+gP                    key=<Nop>'
 
 "  <D-a>
 " macm Edit.Select\ All<Tab>ggVG                  key=<Nop>
@@ -131,11 +131,13 @@ exec 'macm Help.MacVim\ Help                      key=<Nop>'
 " ------------------------------------ Add new or replacement bindings for ⌘⃣  --
 
 " Bind <D-C>
-nnoremenu 20.355 Edit.Copy\ All<Tab>ggVG"+y       ggVG"+y
+nnoremenu 20.355 &Edit.Copy\ All<Tab>ggVG"+y      ggVG"+y
 exec 'macm Edit.Copy\ All                         key=<D-C>'
 
+nnoremenu 20.360 &Edit.&Paste<Tab>"+gP            <Plug>(mayhem_paste)
+exec 'macm Edit.Paste<Tab>"+gP                    key=<D-v>'
 " Bind <D-V>
-an 20.360 &Edit.&Paste\ VSplit<Tab>^Wv"+gP        <C-W>v"+gP
+an 20.360 &Edit.Paste\ VSplit<Tab>^Wv"+gP        <C-W>v"+gP
 exec 'macm Edit.Paste\ VSplit                     key=<D-V>'
 
 " Bind <D-t>
@@ -258,7 +260,7 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 " 􀟊 􀟋 􁀇 􁀈 􁀼 􁀽
 " 􀝝 􀝞 􁀉 􁀊 􁀾 􁀿
 " 􀶺 􀶻 􁀋 􁀌 􁀺 􁀻
-" 􀟆 􀟇 􀇺 􀇻 􀇼 􀇽
+" 􀟆 􀟇 􀇺 􀇻 􀇼 􀇽   􀺴􀺵􀧣􀧤􀧥􀧦􀧧􀧨􀧩􀧪􀧫􀧬􀧭􀧮􀫐
 "
 " 􀣦 􀣧  􀪛 􀚔 􀪚 􀚓  􀏠 􀕰 􀕮 􀕲 􀡗  􁊓􀓔􀴥􀭉􀧑􀕴􀕵􀧺􀧻􀣮􀣯􀪵􀪶􀩢􀫴
 " 􀂒 􀂓  􁒠 􁒣 􁒡 􁒢  􀘜 􀕱 􀕯 􀕳 􀡘 􀿫
@@ -337,10 +339,10 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 
 exec 'an' SfIcon('􀏇') '10.290' '&File.New\ Window' '<Nop>'
 exec 'an' SfIcon('􀥁') '10.291' '&File.New\ Clean\ Window' '<Nop>'
-exec 'an' SfIcon('') '10.292' '&File.New\ Clean\ Window\ (No\ Defaults)' '<Nop>'
+exec 'an' SfIcon('')   '10.292' '&File.New\ Clean\ Window\ (No\ Defaults)' '<Nop>'
 exec 'an' SfIcon('􀏩') '10.292' '&File.New\ Tab' '<Nop>'
 
-an <silent> 10.290 &File.New\ Window                          <Nop>
+" an <silent> 10.290 &File.New\ Window                          <Nop>
 an <silent> 10.291 &File.New\ Clean\ Window		        <Nop>
 an <silent> 10.292 &File.New\ Clean\ Window\ (No\ Defaults)   <Nop>
 an  10.295 &File.New\ Tab			    :tabnew<CR>
@@ -400,20 +402,21 @@ exec 'an' SfIcon() '120.300.150' 'View.􂟦\ \ Debug.WinSize'
 "
 " Add items to File menu
 "
-an <silent> 10.327.100 &File.Open\ Related.Runtime\ Syntax	    <Nop>
-an <silent> 10.327.110 &File.Open\ Related.Runtime\ FT\ Plugin	    <Nop>
-an <silent> 10.327.120 &File.Open\ Related.Runtime\ Plugin	    <Nop>
-an <silent> 10.327.130 &File.Open\ Related.Runtime\ Autoload	    <Nop>
+exec 'an' '<silent>' '10.327.100' '&File.Open\ Related.Runtime\ Syntax'	    '<Nop>'
+exec 'an' '<silent>' '10.327.110' '&File.Open\ Related.Runtime\ FT\ Plugin'	    '<Nop>'
+exec 'an' '<silent>' '10.327.120' '&File.Open\ Related.Runtime\ Plugin'	    '<Nop>'
+exec 'an' '<silent>' '10.327.130' '&File.Open\ Related.Runtime\ Autoload'	    '<Nop>'
 
-an <silent> 10.327.230 &File.Open\ Related\ Test<Nop>
-an <silent> 10.327.231 &File.Open\ Related\ Test\ 2	    <Nop>
+exec 'an' '<silent>' '10.327.230' '&File.Open\ Related\ Test' '<Nop>'
+exec 'an' '<silent>' '10.327.231' '&File.Open\ Related\ Test\ 2' '<Nop>'
 
 
-an <silent> 10.326.100 &File.Open\ In\ New\ Window	    <Nop>
-an <silent> 10.326.110 &File.Move\ File\ To\ New\ Window	    <Nop>
-an <silent> 10.326.210 &File.Move\ Tab\ To\ New\ Window	    <Nop>
+exec 'an' '<silent>' '10.326.100' '&File.Open\ In\ New\ Window'	    '<Nop>'
+exec 'an' '<silent>' '10.326.110' '&File.Move\ File\ To\ New\ Window'	    '<Nop>'
+exec 'an' '<silent>' '10.326.210' '&File.Move\ Tab\ To\ New\ Window'	    '<Nop>'
 exec 'macm File.Open\ In\ New\ Window'
-exec 'macm File.Move\ To\ New\ Window	alt=YES'
+exec 'macm File.Move\ File\ To\ New\ Window	alt=YES'
+exec 'macm File.Move\ Tab\ To\ New\ Window	alt=YES'
 
 "􁒺􁒻  􁏮􁏻􁏯􁏼􁕳􁘀􀠩􀠪 􀰬􂀙􃋮􃋯
 "

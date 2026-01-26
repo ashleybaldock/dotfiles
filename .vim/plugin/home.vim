@@ -4,23 +4,18 @@ endif
 let g:mayhem_loaded_home = 1
 
 
-  call autocmd_add([
-        \#{
-        \ event: 'VimEnter', pattern: '*',
-        \ cmd: 'call s:OnVimEnter()',
-        \ group: 'mayhem_home', replace: v:true,
-        \},
-        \#{
-        \ event: 'VimLeavePre', pattern: '*',
-        \ cmd: 'call s:OnVimLeavePre()',
-        \ group: 'mayhem_home', replace: v:true,
-        \},
-        \])
-
-augroup home
-  autocmd VimEnter    * nested call s:OnVimEnter()
-  autocmd VimLeavePre * nested call s:OnVimLeavePre()
-augroup END
+call autocmd_add([
+      \#{
+      \ event: 'VimEnter', pattern: '*',
+      \ cmd: 'call s:OnVimEnter()',
+      \ group: 'mayhem_home', once: v:true,
+      \},
+      \#{
+      \ event: 'VimLeavePre', pattern: '*',
+      \ cmd: 'call s:OnVimLeavePre()',
+      \ group: 'mayhem_home', replace: v:true,
+      \},
+      \])
 
 function! s:RenderHeader()
   call append('$', [
@@ -167,9 +162,10 @@ function! s:BindKeys()
   nnoremap <buffer><nowait><silent> r        :enew <bar> startinsert<CR>
   nnoremap <buffer><nowait><silent> R        :enew <bar> startinsert<CR>
 
+  " <D-v> (paste) is handled via a binding to <Plug>(mayhem_paste)
+  " see: ../gvimrc  ../plugin/#mayhem.vim ../autoload/mayhem.vim
   nnoremap <buffer><nowait><silent> p        :enew <bar> startinsert<CR>
   nnoremap <buffer><nowait><silent> P        :enew <bar> startinsert<CR>
-  nnoremap <buffer><nowait><silent> <D-v>    :enew <bar> "+gP<CR>
   nnoremap <buffer><nowait><silent> q1 :call <SID>OpenQuick(1)<CR>
   nnoremap <buffer><nowait><silent> q2 :call <SID>OpenQuick(2)<CR>
   nnoremap <buffer><nowait><silent> q3 :call <SID>OpenQuick(3)<CR>
@@ -218,7 +214,6 @@ function s:OnVimEnter() abort
   endif
 
   call autocmd_delete([#{ event: '*', group: 'mayhem_home'}])
-  
 endfunc
 
 function s:ShowHome() abort
@@ -231,7 +226,10 @@ function s:ShowHome() abort
     noautocmd enew
   endif
 
+  let b:mayhem_home = 1
+
   silent! setlocal
+        \ buftype=nofile
         \ bufhidden=wipe
         \ colorcolumn=
         \ foldcolumn=0
@@ -256,8 +254,6 @@ function s:ShowHome() abort
   silent! setlocal modifiable noreadonly
 
   call map(v:oldfiles, 'fnamemodify(v:val, ":p")')
-  au BufNewFile,BufRead,BufFilePre *
-        \ call s:UpdateRecentlyEdited(expand('<afile>:p'))
 
   MessagesSplit
 
@@ -280,6 +276,17 @@ function s:ShowHome() abort
   " Finalise buffer contents
   silent! setlocal nomodified nomodifiable
 
-  au BufWinLeave,BufUnload <buffer> MessagesClose
-endfunction
+  call autocmd_add([
+        \#{
+        \ event: ['BufNewFile','BufRead','BufFilePre'], replace: v:true,
+        \ cmd: 'call s:UpdateRecentlyEdited(expand(''<afile>:p''))',
+        \ group: 'mayhem_messages_recent_edit',
+        \},
+        \#{
+        \ event: ['BufWinLeave','BufUnload'], replace: v:true,
+        \ cmd: 'MessagesClose', bufnr: bufnr(),
+        \ group: 'mayhem_messages_exit',
+        \},
+        \])
+endfunc
 

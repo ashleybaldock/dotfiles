@@ -27,6 +27,12 @@ function! mayhem#doUserAutocmd(name) abort
   endif
 endfunc
 
+function! mayhem#paste() abort
+  if exists('b:mayhem_home')
+    exec 'enew'
+  endif
+  exec 'normal "+gP' 
+endfunc
 
 "
 " Turn an array of dicts into a dict of arrays of dicts

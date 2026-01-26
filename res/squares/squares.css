@@ -51,34 +51,24 @@ h1 {
 @property --x1 {
   syntax: '<integer>';
   inherits: false;
-  initial-value: initial;
+  initial-value: -infinity;
 }
 @property --y1 {
   syntax: '<integer>';
   inherits: false;
-  initial-value: initial;
+  initial-value: -infinity;
 }
 @property --x2 {
   syntax: '<integer>';
   inherits: false;
-  initial-value: initial;
+  initial-value: infinity;
 }
 @property --y2 {
   syntax: '<integer>';
   inherits: false;
-  initial-value: initial;
+  initial-value: infinity;
 }
 
-@property --x1 {
-  syntax: '<integer>';
-  inherits: false;
-  initial-value: initial;
-}
-@property --y1 {
-  syntax: '<integer>';
-  inherits: false;
-  initial-value: initial;
-}
 /*}}} @property */
 
 .squares label {
@@ -164,8 +154,8 @@ h1 {
   --a: 60%;
   display: grid;
   border-radius: 3px;
-  align-items: center;
-  justify-items: center;
+  align-items: stretch;
+  justify-items: stretch;
   line-height: normal;
   text-shadow: var(--text-outline-thick);
   box-shadow:
@@ -179,26 +169,27 @@ h1 {
   --border-radius: max(var(----br));
   grid-template-columns: subgrid;
   grid-template-rows: subgrid;
-  grid-column: var(--xa, var(--xb, auto / span 1));
+  grid-column: var(--x1, var(--xb, auto / span 1));
   grid-row: var(--ya, var(--yb, auto / span 1));
   counter-set: x1 var(--x1) x2 var(--x2) y1 var(--y1) y2 var(--y2) x
     var(--x, var(--x1)) y var(--y, var(--y1)) w
     var(--w, calc(var(--x2) - var(--x1))) h 0;
   --cgpxrowh: inherit;
-  font-size: var(--cqpxrowh);
+  font-size: 1em;
+  position: relative;
 }
 .square:hover ~ label {
   visibility: visible;
 }
 .square::before {
-  content: '◤ ' counter(x1) ' , ' counter(y1) '\0a ▔⊹⸌ \0a▘ ⸀⸌ ❪ ' counter(x1)
-    ' , ' counter(y1) ' ❫\0a\0a  ❫ ¯⸌᛫◆⸜_\0a𝒙₂ 𝒚₂\0a\0a' counter(x2) ' , '
-    counter(y2) ' \0a◢';
+  /*   content: '◤ ' counter(x1) ' , ' counter(y1) '\0a ▔⊹⸌ \0a▘ ⸀⸌ ❪ ' counter(x1) */
+  /*     ' , ' counter(y1) ' ❫\0a\0a  ❫ ¯⸌᛫◆⸜_\0a𝒙₂ 𝒚₂\0a\0a' counter(x2) ' , ' */
+  /*     counter(y2) ' \0a◢'; */
   font-size: 0.6em;
   display: flex;
   position: absolute;
   white-space: pre;
-  inset: -1ch auto auto -1ch;
+  /*   inset: -1ch auto auto -1ch; */
   outline: 0.5px solid var(--c);
   outline-offset: var(--oo);
   border-radius: var(--border-radius);
@@ -226,12 +217,12 @@ h1 {
   --ow: 1.5px;
 }
 .square.xywh {
-  grid-column: var(--x) / calc(var(--x) + var(--w));
-  grid-row: var(--y) / calc(var(--y) + var(--h));
+  grid-column: var(--x, 1) / calc(var(--x) + var(--w, var(--h, infinity)));
+  grid-row: var(--y, 1) / calc(var(--y) + var(--h, var(--w, infinity)));
 }
 .square.xyxy {
-  grid-column: var(--x1) / var(--x2);
-  grid-row: var(--y1) / var(--y2);
+  grid-column: var(--x1, 1) / var(--x2, -1);
+  grid-row: var(--y1, 1) / var(--y2, -1);
 }
 
 /**}}} square **/
@@ -239,30 +230,20 @@ h1 {
 /**{{{ groups **/
 .group {
   --a: 10%;
-  --border-radius: max(var(--br) - var(--oo) - var(--ow), var(--br));
-  grid-column: var(--xx);
-  grid-row: var(--yy);
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-template-columns: subgrid;
   pointer-events: none;
   position: relative;
   width: 100%;
   height: 100%;
   contain: size;
   container-type: size;
-  background-color: hsl(from var(--c) h calc(s * 0.6) calc(l * 0.6) / var(--a));
   box-shadow:
     inset -3px -3px 1px -2px
       hsl(from var(--c) h calc(s * 0.25) calc(l * 0.2) / var(--ao)),
     inset 2.5px 2.5px 2px -2px
       hsl(from var(--c) h calc(s * 0.75) calc(l * 1.2) / var(--ao));
   border-radius: var(--border-radius);
-}
-
-.group {
-  --parentx: max(1, var(--x, -infinity), var(--x1, -infinity));
-  --parenty: max(1, var(--y, -infinity), var(--y1, -infinity));
+  --parentx1: max(1, var(--x, -infinity), var(--x1, -infinity));
+  --parenty1: max(1, var(--y, -infinity), var(--y1, -infinity));
   --parentx2:
     max(max(-1, var(--x, -infinity)) + max(-1, var(--w, -infinity))),
     max(-1, var(--x2, -infinity));
@@ -271,8 +252,8 @@ h1 {
     max(-1, var(--y2, -infinity));
 
   display: grid;
-  grid-column: var(--parentx) / var(--parentx2);
-  grid-row: var(--parenty) / var(--parenty2);
+  grid-column: var(--parentx1) / var(--parentx2);
+  grid-row: var(--parenty1) / var(--parenty2);
   grid-template-columns: subgrid;
   grid-template-rows: subgrid;
   container-name: group;
@@ -286,15 +267,15 @@ h1 {
   --tg: 'group ';
 }
 .group.xywh {
-  --parentx: var(--x);
+  --parentx1: var(--x);
   --parentx2: calc(var(--x) + var(--w));
-  --parenty: var(--y);
+  --parenty1: var(--y);
   --parenty2: calc(var(--y) + var(--h));
 }
 .group.xyxy {
-  --parentx: var(--x1);
+  --parentx1: var(--x1);
   --parentx2: var(--x2);
-  --parenty: var(--y1);
+  --parenty1: var(--y1);
   --parenty2: var(--y2);
 }
 .group::after {
@@ -354,18 +335,18 @@ h1 {
 }
 
 .group > .square {
-  --parentx: max(1, var(--x, -infinity), var(--x1, -infinity));
-  --parenty: max(1, var(--y, -infinity), var(--y1, -infinity));
-  --parentx2:
+  --childx1: max(1, var(--x, -infinity), var(--x1, -infinity));
+  --childy1: max(1, var(--y, -infinity), var(--y1, -infinity));
+  --childx2:
     max(max(-1, var(--x, -infinity)) + max(-1, var(--w, -infinity))),
     max(-1, var(--x2, -infinity));
-  --parenty2:
+  --childy2:
     max(max(-1, var(--y, -infinity)) + max(-1, var(--h, -infinity))),
     max(-1, var(--y2, -infinity));
 
   display: grid;
-  grid-column: var(--parentx) / var(--parentx2);
-  grid-row: var(--parenty) / var(--parenty2);
+  grid-column: var(--childx1) / var(--childx2);
+  grid-row: var(--childy1) / var(--childy2);
   grid-template-columns: subgrid;
   grid-template-rows: subgrid;
   container-name: group;
@@ -376,16 +357,18 @@ h1 {
   --border-radius: max(var(----br));
   --c: inherit;
   --t: '';
-  /* grid-column: var(--xa, var(--xb, var(--xp, 1 / span 1))); */
-  /* grid-row: var(--ya, var(--yb, var(--yp, 1 / span 1))); */
+  /*   grid-column: var(--xa, var(--xb, var(--xp, 1 / span 1))); */
+  /*   grid-row: var(--ya, var(--yb, var(--yp, 1 / span 1))); */
 }
 .group > .square.xywh {
   grid-column: var(--x) / calc(var(--x) + var(--w));
   grid-row: var(--y) / calc(var(--y) + var(--h));
 }
 .group > .square.xyxy {
-  grid-column: var(--x1) / var(--x2);
-  grid-row: var(--y1) / var(--y2);
+  grid-column: max(var(--parentx1, -infinity), var(--childx1)) /
+    max(var(--parentx2, -infinity), var(--childx2));
+  grid-row: max(var(--parenty1, -infinity), var(--childy1)) /
+    max(var(--parenty2, -infinity), var(--childy2));
 }
 
 /** squares **/
@@ -520,48 +503,47 @@ h1 {
 
 .square::before,
 .square::after {
-  outline: 0;
-  content: '◤⋱⋮⋰⋰  [' counter(x1) ' , ' counter(y1)
-    '\0a  ▔ ⊹⸌⨯⩗⩘⩗⫶⋱ \0a▘  ⸀⸌ ❪ ' counter(x1) ' , ' counter(y1)
-    ' ❫\0a\0a  ❫ ¯ ⸌̵̶͟ ∕̅ ⸜̵̶_꛱ _꛱  ⨌¯⸌⋅⋅⋅⋄⊸∣∖∘∙∗∙⸜_\0a𝒙₂ 𝒚₂   ⊞⊟⊠⊡⊓⊗⊢⊣⅋⋅⋅⋅⊱⩉⨳⩟⪡⟐⟗⟑⫯⫰⫱⫮⫽⫾⟠⩇⊰⋅⋅⋅\0a⟜⟝⧼⧽⧾₋₎⁽⁺⁾₍⁾⁽₊₎    ₍₍⁾⁽₎⁾⁻⟞⟔⟓⟠⟣⟡⟢⟣⟥⟤⟛⟠⟡⦀⟪⟨⦂⦁⟪⦊⧄⧅⧈⧈⧇⧆⧉⧂⁽⁾₍₎⦉⦙⦊⦇⦀⦈\0a'
-    counter(x2) ' , ' counter(y2)
-    ' ▫︎▪︎▫︎▫︎▪︎▪︎▫︎○●◦◦◦◦▘▝▘▘\0a▁▁▁◹◸◿◺◹◺◿◸◥◣◢◤▛\0a▔▔▔◿◺◹◸◿◸◹◺◢◤◥◣▙▟▚▞\0a▛▞▞▟▉▊▋▌▍▎▏▐▕▮▗▖▝▘⸜';
   line-height: normal;
-  position: relative;
-  inset: 0 0 0 0;
-  align-content: baseline;
-  align-items: baseline;
-  vertical-align: baseline;
-  content: ' ⸌ ' counter(x1) ' , ' counter(y1);
   letter-spacing: normal;
-  justify-content: start;
-  grid-column: 1/-1;
   box-shadow:
-    inset 12px 30px 0 -10px #191919,
-    2px -1px 1px -0.5px #191919;
+    -1cqh 0 0 0 #19191980,
+    -1cqw 1cqh 0 -1cqh #19191980;
   font-size: var(--cqpxrowh);
   --cgpxrowh: inherit;
+  outline: var(--ow) double #000;
+  outline-offset: var(--oo);
+  --ow: 0px;
+  --oo: -16px;
+  --bs-topleft:
+    inset -17px 30px 0 -0.1px #89191980, 5px -1px 0 -0.5px #19191980;
+  transform: scale(1);
+  display: grid;
+  grid-row: -1/1;
+  grid-column: -1/1;
+  grid-template: 1fr/1fr;
+  width: 100%;
+  height: 100%;
 }
 
 .square::before {
-  inset: 0 auto auto 0;
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  height: 100%;
+  place-self: start;
+  place-items: start;
   content: ' ⸌ ' counter(x1) ' , ' counter(y1);
 }
 .square::after {
-  inset: auto 0 0 auto;
-  display: flex;
-  justify-content: end;
-  align-items: baseline;
-  margin-top: auto;
-  height: 100%;
+  place-self: end;
+  place-items: end;
   content: counter(x2) ' , ' counter(y2) ' ⸜';
-  align-content: end;
-  grid-row: -1;
-  grid-column: auto/-1;
-  width: auto;
-  height: 100%;
+}
+
+.square:hover {
+  opacity: 0.9;
+}
+.square::before,
+.square::after {
+  opacity: 0.5;
+}
+.square:hover::before,
+.square:hover::after {
+  opacity: 1;
 }

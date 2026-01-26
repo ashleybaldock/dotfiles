@@ -9,10 +9,10 @@ let g:mayhem_loaded_messages = 1
 "  Scriptnames: ../syntax/vimscriptnames.vim
 "
 
-" let s:mayhem_winid_messages
-" let s:mayhem_winid_popupmessages
-" let s:mayhem_winid_scriptnames
-" let s:mayhem_winid_runtime
+" let s:winid_messages
+" let s:popid_messages
+" let s:winid_scriptnames
+" let s:winid_runtime
 
 function s:GetRuntimeList() abort
   return split(&rtp, ',')[1:-1]
@@ -30,14 +30,14 @@ endfunc
 
 function s:SplitWithRuntime() abort
   :8new
-  let s:mayhem_winid_runtime = win_getid(winnr())
+  let s:winid_runtime = win_getid(winnr())
   call append('$', s:GetRuntimeList())
   setlocal filetype=vimmessages nomodified nomodifiable
 endfunc
 
 function s:SplitWithScriptnames() abort
   :9new
-  let s:mayhem_winid_scriptnames = win_getid(winnr())
+  let s:winid_scriptnames = win_getid(winnr())
   call append('$', s:GetScriptnamesList())
   setlocal filetype=vimmessages nomodified nomodifiable
 endfunc
@@ -51,8 +51,10 @@ command! Runtime call s:SplitWithRuntime()
 "
 function s:ExpandMessages(messages) abort
   let replaceSNR = mapnew(a:messages,
-        \ {i, v -> substitute(v, '\%(\.\.\(function\|script\)\?\)\?<SNR>\(\d\+\)_\([^.[]\+\)\[\(\d*\)]',
-        \   {m -> "  " .. m[3] .. "		" .. m[1] .. getscriptinfo(#{sid: str2nr(m[2], 10)})[0].name .. ':' .. m[4] .. "\n" }, 'g')->split("\n")})->flatten(1)
+        \{i, v -> substitute(v,
+        \ '\%(\.\.\(function\|script\)\?\)\?<SNR>\(\d\+\)_\([^.[]\+\)\[\(\d*\)]',
+        \   {m -> "  " .. m[3] .. "		" .. m[1] .. getscriptinfo(#{
+        \ sid: str2nr(m[2], 10)})[0].name .. ':' .. m[4] .. "\n" }, 'g')->split("\n")})->flatten(1)
   "let replaceHome = map(replaceSNR,
    "     \ {_, p -> substitute(p, expand('$VIMHOME') .. '[]', 'g')
   return replaceSNR
@@ -63,11 +65,13 @@ function s:OnVimEnter(when) abort
     let s:startup_messages = s:GetMessagesList()
   else
 
-  call autocmd_add([#{
+  call autocmd_add([
+        \#{
         \ event: 'QuitPre', replace: v:true,
         \ cmd: 'call s:CloseMessages()',
         \ group: 'mayhem_messages_exit',
-          \}])
+        \},
+        \])
   endif 
 endfunc
 
@@ -75,11 +79,13 @@ if v:vim_did_enter
   call s:OnVimEnter('direct')
                                                                              
   echom 'messages did enter auto'
-  call autocmd_add([#{
+  call autocmd_add([
+        \#{
         \ event: 'VimEnter', once: v:true,
         \ cmd: 'call s:OnVimEnter("auto")',
         \ group: 'mayhem_messages_init', replace: v:true,
-        \}])
+        \},
+        \])
 endif
 
 function s:WriteMessagesToBufferInWindow(winid) abort
@@ -90,15 +96,15 @@ function s:WriteMessagesToBufferInWindow(winid) abort
     call appendbufline(bufnr, 0, messages)
   else
     silent call deletebufline(bufnr, 1, '$')
-    call appendbufline(bufnr, '$', '-- Startup Messages --')
+    call appendbufline(bufnr, '$', '╺┅╸ Startup Messages ╺┅╸')
     call appendbufline(bufnr, '$', '')
     call appendbufline(bufnr, '$', get(s:, 'startup_messages', []))
     call appendbufline(bufnr, '$', '')
-    call appendbufline(bufnr, '$', '-- Recent Messages --')
+    call appendbufline(bufnr, '$', '╺╱╸ Recent Messages ╺╲╸╺')
     call appendbufline(bufnr, '$', '')
     call appendbufline(bufnr, '$', messages)
     call appendbufline(bufnr, '$', '')
-    call appendbufline(bufnr, '$', '⁓ Fin ⁓')
+    call appendbufline(bufnr, '$', '╰┄╮ Fin ╟︎⟩︎╳︎⟨︎╢︎')
     call win_execute(a:winid, ['call cursor(''$'', 0)', 'redraw'])
   endif
 endfunc
@@ -107,9 +113,9 @@ endfunc
 " Open a split with output of :messages
 "
 function s:SplitWithMessages() abort
-  if !exists('s:mayhem_winid_messages')
+  if !exists('s:winid_messages')
     vnew
-    let s:mayhem_winid_messages = win_getid(winnr())
+    let s:winid_messages = win_getid(winnr())
 
     nnoremap <buffer> <nowait> r <ScriptCmd>call s:RefreshMessages()<CR>
     nnoremap <buffer> <nowait> p <ScriptCmd>call s:SplitWithScriptnames()<CR>
@@ -121,28 +127,28 @@ function s:SplitWithMessages() abort
 endfunc
 
 function s:RefreshMessages() abort
-  call setbufvar(winbufnr(s:mayhem_winid_messages), '&filetype', 'vimmessages')
-  call setwinvar(s:mayhem_winid_messages, '&modifiable', 1)
-  call s:WriteMessagesToBufferInWindow(s:mayhem_winid_messages)
-  call setwinvar(s:mayhem_winid_messages, '&modifiable', 0)
-  call setwinvar(s:mayhem_winid_messages, '&modified', 0)
-  call win_execute(s:mayhem_winid_messages, ['call cursor(''$'', 0)', 'redraw'])
+  call setbufvar(winbufnr(s:winid_messages), '&filetype', 'vimmessages')
+  call setwinvar(s:winid_messages, '&modifiable', 1)
+  call s:WriteMessagesToBufferInWindow(s:winid_messages)
+  call setwinvar(s:winid_messages, '&modifiable', 0)
+  call setwinvar(s:winid_messages, '&modified', 0)
+  call win_execute(s:winid_messages, ['call cursor(''$'', 0)', 'redraw'])
 endfunc
 
 function s:CloseMessages() abort
   call s:CloseMessagesPopup()
   
-  if exists('s:mayhem_winid_messages')
-    call win_execute(s:mayhem_winid_messages, 'close')
-    unlet s:mayhem_winid_messages
+  if exists('s:winid_messages')
+    call win_execute(s:winid_messages, 'close')
+    unlet s:winid_messages
   endif
 endfunc
 
 
 function s:CloseMessagesPopup() abort
-  if exists('s:mayhem_winid_popupmessages')
-    call popup_close(s:mayhem_winid_popupmessages)
-    unlet s:mayhem_winid_popupmessages
+  if exists('s:popid_messages')
+    call popup_close(s:popid_messages)
+    unlet s:popid_messages
   endif
 endfunc
 
@@ -161,7 +167,7 @@ endfunc
 " Open a popup with recent output of :messages
 "
 function s:PopupWithMessages() abort
-  let s:mayhem_winid_popupmessages = popup_create('', #{
+  let s:popid_messages = popup_create('', #{
         \ title: 'Messages',
         \ pos: 'topleft',
         \ minwidth: 40,
@@ -179,13 +185,13 @@ function s:PopupWithMessages() abort
         \ filtermode: 'n'
         \ })
 
-  call s:WriteMessagesToBufferInWindow(s:mayhem_winid_popupmessages)
+  call s:WriteMessagesToBufferInWindow(s:popid_messages)
 
-  call setbufvar(winbufnr(s:mayhem_winid_popupmessages), '&filetype', 'vimmessages')
+  call setbufvar(winbufnr(s:popid_messages), '&filetype', 'vimmessages')
 endfunc
 
 " function s:Messages() abort
-"   if exists('s:mayhem_winid_messages')
+"   if exists('s:winid_messages')
 "   else
 "   endif
 " endfunc

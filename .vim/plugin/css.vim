@@ -485,9 +485,10 @@ command! -bar -range=% CssLowercaseHex
 command! -bar -range=% CssExpandHex
       \ <line1>,<line2> s/\<#\(\x\)\(\x\)\(\x\)\(\x\)\?\>/#\1\1\2\2\3\3\4\4/g
 
-" Compact long hex codes (#FF00EE ▬▶︎ #FOE, #FFBB33AA ▬▶︎ #FB3A)   TODO
-command! -bar -range=% CssCompactHex <Nop>
- 
+" Compact long hex codes (#FF00EE ▬▶︎ #FOE, #FFBB33AA ▬️▶︎ #FB3A, #112233ff #123)
+command! -bar -range=% CssCompactHex
+      \ <line1>,<line2> s/\%(\<#\|#\<\)\(\x\)\1\(\x\)\2\(\x\)\3\%(\([0-9a-eA-E]\)\4\|[fF]\{2}\)\?\>/#\1\2\3\4/g
+
 
 "
 " Parse Hex Codes:

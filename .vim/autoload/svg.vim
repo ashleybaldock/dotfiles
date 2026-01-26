@@ -27,5 +27,10 @@ let g:mayhem_autoloaded_svg = 1
 "
 function! svg#selectClosestSvg() abort
 
-endfunction
+endfunc
 
+
+function! svg#formatCoord(n)
+  return printf("%.3f", a:n)->substitute(
+        \ '^\(-\?\)0*\([1-9]\d*\|0\)\%(\(\.\d*[1-9]\)\|\.\?\)0*$', '\1\2\3', 'g')
+endfunc

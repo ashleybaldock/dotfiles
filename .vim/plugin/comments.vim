@@ -1,3 +1,7 @@
+if exists("g:mayhem_loaded_comments")
+  finish
+endif
+let g:mayhem_loaded_comments = 1
 
 
 hi def CommentSt guifg=#cf28df guibg=#cf28df gui=none
@@ -26,38 +30,49 @@ syn region CommentMultiLn
 " echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '┃'})
 " echo matchadd('CommentSt', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '┃'})
 
+"
+"
+" ol / ob : o̲nly   l̲ine / b̲lank
+" fl / fb : f̲irst  l̲ine / b̲lank
+" ml / mb : m̲iddle l̲ine / b̲lank
+" ll / lb : l̲ast   l̲ine / b̲lank
+"
 let s:parts = #{
-      \ fl: '│',
-      \ fb: '╷',
-      \ ml: '│',
-      \ mb: '│',
-      \ lb: '╵',
-      \ ll: '│',
-      \ ol: '│',
-      \ ob: '╎',
+      \line: #{
+      \  fl: '│⎖', fb: '⎝️⌢️⌜⎝⌢⌜⌐⌈⌃⁝¦️¦',
+      \  ml: '⍭│', mb: '⎨️  ⎨  |⎮¦️|️|⁝',
+      \  ll: '│', lb:  '⎛️⌣️⌞⎛⌣⌞⌙⌊⌄⁝¦',
+      \ 
+      \ 
+      \ 
+      \  ol: '│⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐',
+      \  ol: '│⎯⏐⎯⏐⎯▛️▀️▜️⎯⏐⎯⏐⎯⏐⎯⏐',
+      \  ol: '│⎯⏐⎯⏐⎯   ⎯⏐⎯⏐⎯⏐⎯⏐',
+      \  ob: '╎',
+      \ },
+      \ lcurl: #{
+      \  fl: '⎫',
+      \  fb: '╮',
+      \  ml: '│',
+      \  mb: '│',
+      \  lb: '╯',
+      \  ll: '⎭',
+      \  ol: 'ᩕ',
+      \  ob: '╎',
+      \ },
+      \ rcurl: #{
+      \  fl: '⎧', fb: '╭',
+      \  ml: '│', mb: '┊',
+      \  ll: '⎩', lb: '╰',
+      \  ol: 'ᩕ', ob: '⁞',
+      \  bl: '>', bb: '+',
+      \  sl: '<', sb: '-',
+      \ },
       \}
 
-let s:parts = #{
-      \ fl: '⎫',
-      \ fb: '╮',
-      \ ml: '│',
-      \ mb: '│',
-      \ lb: '╯',
-      \ ll: '⎭',
-      \ ol: 'ᩕ',
-      \ ob: '╎',
-      \}
-
-let s:parts = #{
-      \ fl: '⎧', fb: '╭',
-      \ ml: '│', mb: '┊',
-      \ ll: '⎩', lb: '╰',
-      \ ol: 'ᩕ', ob: '⁞',
-      \ bl: '>', bb: '+',
-      \ sl: '<', sb: '-',
-      \}
 
 
+function! comments#blockConceal(parts = get(s:parts, 'line'))
 "
 " Single-line comments
 "
@@ -90,3 +105,4 @@ echo matchadd('Conceal', '^\(\s*\)".*\n\(\1\s\+\)\zs"\ze\s*\n\2"', 10, -1, #{con
 " echo matchadd('Conceal', '^\(\s*\)".*\n\(\1\s\+\)\zs"\ze.*\n\2"', 10, -1, #{conceal: s:parts.sl})
 
 " echo matchadd('Conceal', '^\(\s*\)".*\n\(\s*\)\zs"\ze.*\n\2\s\+"', 10, -1, #{conceal: s:parts.sb})
+endfunc

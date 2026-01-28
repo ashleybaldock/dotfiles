@@ -7,7 +7,8 @@ let g:mayhem_loaded_toolbar = 1
 " See Also:
 "            ./sfsymbols.vim
 "  ../autoload/symbols.vim
-"
+"    ../plugin/toggle.vim
+"  ../autoload/toggle.vim
 
 " SF icons can be suffixed with:
 " :monochrome

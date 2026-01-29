@@ -35,19 +35,27 @@ syn region CommentMultiLn
 " ol / ob : o̲nly   l̲ine / b̲lank
 " fl / fb : f̲irst  l̲ine / b̲lank
 " ml / mb : m̲iddle l̲ine / b̲lank
+"   bl / bb : b̲igger  indent l̲ine / b̲lank
+" sl / sb : s̲maller indent l̲ine / b̲lank
 " ll / lb : l̲ast   l̲ine / b̲lank
 "
+" fl: '│⎖', fb: '⎝️⌢️⌜⎝⌢⌜⌐⌈⌃⁝¦️¦',
+" ml: '⍭│', mb: '⎨️  ⎨  |⎮¦️|️|⁝',
+" ll: '│', lb:  '⎛️⌣️⌞⎛⌣⌞⌙⌊⌄⁝¦',
+"
+"
+"
+" ol: '│⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐',
+" ol: '│⎯⏐⎯⏐⎯▛️▀️▜️⎯⏐⎯⏐⎯⏐⎯⏐',
+" ol: '│⎯⏐⎯⏐⎯   ⎯⏐⎯⏐⎯⏐⎯⏐',
+" ob: '╎',
 let s:parts = #{
       \line: #{
-      \  fl: '│⎖', fb: '⎝️⌢️⌜⎝⌢⌜⌐⌈⌃⁝¦️¦',
-      \  ml: '⍭│', mb: '⎨️  ⎨  |⎮¦️|️|⁝',
-      \  ll: '│', lb:  '⎛️⌣️⌞⎛⌣⌞⌙⌊⌄⁝¦',
+      \  fl: '│', fb: '⎝️⌢️⌜⎝⌢⌜⌐⌈⌃⁝¦️¦',
+      \  ml: '│', mb: '⎨️  ⎨  |⎮¦️|️|⁝',
+      \  ll: '│', lb: '⎛️⌣️⌞⎛⌣⌞⌙⌊⌄⁝¦',
       \ 
-      \ 
-      \ 
-      \  ol: '│⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐⎯⏐',
-      \  ol: '│⎯⏐⎯⏐⎯▛️▀️▜️⎯⏐⎯⏐⎯⏐⎯⏐',
-      \  ol: '│⎯⏐⎯⏐⎯   ⎯⏐⎯⏐⎯⏐⎯⏐',
+      \  ol: '⏐',
       \  ob: '╎',
       \ },
       \ lcurl: #{

@@ -50,8 +50,8 @@ function! toggle#observe(togglename, togglestates) abort
   call autocmd_add([
         \#{
         \ event: 'User', pattern: tgl.aupat,
-        \ cmd: a:callback,
-        \ group: tgl.augroup, replace: v:true,
+        \ cmd: 'exec ''get(a:togglestates, toggle#get(tgl.name))''',
+        \ group: tgl.augroup,
         \},
         \])
 endfunc

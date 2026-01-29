@@ -267,10 +267,10 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 " 􀺴 􀧣􀧥􀧧􀧩􀧫􀧭 􀫐
 " 􀺵 􀧤􀧦􀧨􀧪􀧬􀧮
 "
-" 􀣦 􀣧  􀪛 􀚔 􀪚 􀚓  􀏠 􀕰 􀕮 􀕲 􀡗  􁊓􀓔􀴥􀭉􀧑􀕴􀕵􀧺􀧻􀣮􀣯􀪵􀪶􀩢􀫴
+" 􀣦 􀣧  􀪛 􀚔 􀪚 􀚓  􀏠 􀕰 􀕮 􀕲 􀡗 􁊓􀓔􀴥􀭉􀧑􀕴􀕵􀧺􀧻􀣮􀣯􀪵􀪶􀩢􀫴
 " 􀂒 􀂓  􁒠 􁒣 􁒡 􁒢  􀘜 􀕱 􀕯 􀕳 􀡘 􀿫
 "                                  
-"          􃆭  􃒜  􃒞        􃒠  
+"          􃆭 􃒜 􃒞       􃒠  
 "             􀋲 􀋱 􀢽 􀣩 􀋴 􀋳 􀑬 􃑓
 " 􁙠 􀷾 􁙕 􀭞 􀋲 􀋱 􀢽 􀣩 􀋴 􀋳 􀋵 􀋶 􀵬 􁖭 􀲱 􀲲
 "                                                       
@@ -302,7 +302,7 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 "
 " 􀈷􀈸􀣗􀣘􁙡􁙢􀩴􀩵􀫾􀫿􀩚􀩛􀢍􀢎􀈻􀈼􀈽􀈾􀈿􀉀􀉁􀉂􀉃􀉄
 "
-" 􀉆􀥨􂱑􂱒􂽱􂽴􀹲􀹳􀕹􀩳􀺿􀹆􃈩
+" 􀉆􀥨􂱑􂱒􂽱􂽴􀹲􀹳􀕹
 "
 "  􀧵 􀓕 􃏝    􀻤 􀻣
 " 􃌦 􃌧 􃌨 􃌩 􃌪 􃌫 􃌬
@@ -311,22 +311,24 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 " 􃌻 􃌼 􃌽 􃌾 􃌿 􃍀 􃍁
 " 􃍂 􃍃 􃍄
 "
-" 􀴽􀇯􀇰􀇱􀇲􀫌􀭅􁚀􁷁􀣠􀣡􀭆􀭇   􀭈 􀯪 􀮐 􀱢 􀺪 􀫍  􀣂  􃕵 􃂲 􃂳 􃐉
+" 􀴽 􀇯 􀇰 􀇱 􀇲  􀭅 􁚀  􀫌 􁷁 􀣠 􀣡 􀭆 􀭇
+" 
+" 􀭈 􀯪  􀮐 􀱢 􀺪 􀫍    􀣂  􃕵 􃂲 􃂳 􃐉
 " 􀩽􀩾􀉞􀉟􀉠􀉡􀼹􀼺􀟍􀟎
 "
 " 􁙪 􁙫 􁅊 􀏞 􀣾 􀣿 􀦍 􀣰 􀤀 􀤁 􁽸 􁽺 􁽼􁽾 
 " 􃐯 􃀧 􃀩 􀈕 􀈙 􀈛 􀧆 􀬔
 " 􃐰 􃀨 􃀪 􀈖 􀈚 􀈜 􀧇 􀬕   􀉢 􀒖 􀥪 
 "
-"        􀥯               􂆅     􁂸    􀺿    􃐶
+"        􀥯               􂆅     􁂸    􀺿 􃈩 􃐶
 "             􀏛 􀏚       􁚬  􀬸 􁂷 􀅶 􀩳 􀹆 􃐵
-" 􀏇 􀏉 􀏗 􀏡 􀱥 􀱤 􀏝    􃇐 􃈃 􀴊􀨨􀨱􀨩􃗟 􃗞
+" 􀏇 􀏉 􀏗 􀏡 􀱥 􀱤 􀏝    􃇐 􃈃 
 "    􀏍 􀏗 􂬏 􂬗 􂧮 􂧯 􀤳 􂬑 􂧭 􂧰 􀚅  
 " 􀥁 􀏃 􀣤 􀿯 􀤷 􀤶 􀿰 􁎽 􀧈 􀧊 􀧌 􀇴 􃑊
 "    􀏋 􀏑 􀾮 􀤵 􀤴 􀾯    􀾊       
-" 􃐭 􀢈       􀥟 􀥞    􀥝 􀏟    􀏣 􀏥 􀏢    
+" 􃐭 􀢈    􃗟 􀥞 􃗞 􀥟 􀥝 􀏟    􀏣 􀏥 􀏢    
 " 􂠘 􀢉    􀴊 􀨩 􀨱 􀨨       􀓛 􀛦 􂫑  􀇶
-"          􀭳 􀭴 􀭶 􀭵       􃑼            􃑽􃑼􃑽  􃑼􃑽􃑼
+"          􀭳 􀭴 􀭶 􀭵 􃐷    􃑼            􃑽􃑼􃑽  􃑼􃑽􃑼
 "          􁼁 􁼅 􁼉 􁻽 􂂟 􂂣 􂬜 􀢿 􀠹 􁁀
 "    􀠳 􀠴 􀑧 􀑨 􀭱 􀭲 􀫹􁽾 􁽺 􀫺 􀫻 􁽼 􁽸 􀫼 
 " 
@@ -336,11 +338,11 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 " 􀏜 􀥃 􃑷 􁝸 􀢌 􀣚 􀤯 􀏝
 "
 " 􃖦 􃖑
-" 􃖧 􃖒  􃐷 􃑼 􃑽   􃔵 􃔲 􃈑 􃈒 
+" 􃖧 􃖒   􃑼 􃑽   􃔵 􃔲 􃈑 􃈒 
 "
 " 􀦲􀦳􀦴􀦵􀦶􀦷􀦸􀦹􀦺􀦻􀦼􂶯􂶰􀓙􀤲􀓚
 
-" 􃇼  􃇽  􃃂  􃇿 􀙝
+"  􀙝
 "
 " 􀎠 􀎢 􀎤 􀟕 􂅦   􀙇 􀙈 􀙥 􀖀 􁅒 
 " 􀎡 􀎣 􀎥 􀟖 􂅧 
@@ -364,14 +366,14 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 "
 
 exec 'an' SfIcon('􀏇') '10.290' '&File.New\ Window' '<Nop>'
-exec 'an' SfIcon('􀥁') '10.291' '&File.New\ Clean\ Window' '<Nop>'
-exec 'an' SfIcon('')   '10.292' '&File.New\ Clean\ Window\ (No\ Defaults)' '<Nop>'
+exec 'an' SfIcon('􃖦') '10.291' '&File.New\ Clean\ Window' '<Nop>'
+exec 'an' SfIcon('􀥁')   '10.292' '&File.New\ Clean\ Window\ (No\ Defaults)' '<Nop>'
 exec 'an' SfIcon('􀏩') '10.292' '&File.New\ Tab' '<Nop>'
 
 " an <silent> 10.290 &File.New\ Window                          <Nop>
-an <silent> 10.291 &File.New\ Clean\ Window		        <Nop>
-an <silent> 10.292 &File.New\ Clean\ Window\ (No\ Defaults)   <Nop>
-an  10.295 &File.New\ Tab			    :tabnew<CR>
+" an <silent> 10.291 &File.New\ Clean\ Window		        <Nop>
+" an <silent> 10.292 &File.New\ Clean\ Window\ (No\ Defaults)   <Nop>
+" an  10.295 &File.New\ Tab			    :tabnew<CR>
 an <silent> 10.310 &File.Open…		    <Nop>
 an <silent> 10.325 &File.Open\ Recent		    <Nop>
 an 10.328 &File.-SEP0-			    <Nop>
@@ -381,16 +383,10 @@ an <silent> 10.330 &File.Close\ Window<Tab>:qa    :conf qa<CR>
 "
 " aunmenu View
 " an icon=text.badge.checkmark:hierarchical 120.200.100 View.Chars <Nop>
-function! s:UpdateMenuToggle_AutoCharInfo() abort
-  silent! exec 'aunmenu' 'View.Chars.Auto\ Char\ Info'
-  exec 'an' toggle#get('g:mayhem_auto_charinfo')
-        \ ? SfIcon('􀆅') : SfIcon() 
-        \ '120.200.110'
-        \ 'View.Chars.Auto\ Char\ Info'
-        \ '<Cmd>Toggle g:mayhem_auto_charinfo<CR>'
-endfunc
-call toggle#observe('g:mayhem_auto_charinfo', function('s:UpdateMenuToggle_AutoCharInfo()'))
-call s:UpdateMenuToggle_AutoCharInfo()
+call toggle#observe('g:mayhem_auto_charinfo', #{
+      \  0: #{ cmd: 'an ' .. SfIcon() .. ' 120.200.110 View.Chars.Auto\ Char\ Info <Cmd>Toggle g:mayhem_auto_charinfo<CR>' },
+      \  1: #{ cmd: 'an ' .. SfIcon('􀆅') .. ' 120.200.110 View.Chars.Auto\ Char\ Info <Cmd>Toggle g:mayhem_auto_charinfo<CR>' }
+      \})
 
 an 120.200.200 View.Chars.-sep1-		<Nop>
 

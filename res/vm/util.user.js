@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.170
+// @version     1.1.174
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -309,9 +309,13 @@ const pad =
  */
 const concept = (({ window, unsafeWindow }) => {
   // const preBind = ['log', 'info', 'warn', 'error', 'debug'];
-  const _console = unsafeWindow.console;
+  const _console = window.console;
 
-  _console.log(window, unsafeWindow);
+  _console.log(
+    `concept#start ${window === unsafeWindow ? 'w≡w' : 'w≢w'} ${window.console === unsafeWindow.console ? 'c≡c' : 'c≢c'}`,
+    window,
+    unsafeWindow,
+  );
 
   const boundMethods = new Map(
     ['log', 'info', 'warn', 'error', 'debug'].map((methodName) => [
@@ -327,27 +331,85 @@ const concept = (({ window, unsafeWindow }) => {
   );
 
   const _concept = new Proxy(_console, {
-    get: (target, key) => {
-      if (key in target || target.hasOwnProperty(key)) {
-        if ('function' === typeof target[key]) {
-          if (Object.hasOwn(boundParserMethods, key)) {
-            return parserMethods[key];
+    construct: (target, argumentsList, newTarget) => {
+      _console.info(`concept#construct with arguments '${argumentsList}'`);
+      return Reflect.construct(target, argumentsList);
+    },
+    get: (target, prop) => {
+      _console.info(
+        `concept#get ${prop in target || target.hasOwnProperty(prop) ? 'existing' : 'new'} property '${prop}'`,
+      );
+      if (prop in target || target.hasOwnProperty(prop)) {
+        if ('function' === typeof target[prop]) {
+          if (Object.hasOwn(boundParserMethods, prop)) {
+            return parserMethods[prop];
           }
-          if (Object.hasOwn(boundMethods, key)) {
-            return boundMethods[key];
+          if (Object.hasOwn(boundMethods, prop)) {
+            return boundMethods[prop];
           }
-          return target[key].bind(target);
+          return target[prop].bind(target);
         }
-        return target[key];
+        return target[prop];
       }
+    },
+    has: (target, property) => {
+      _console.info(
+        `concept#has ${property in target || target.hasOwnProperty(property) ? 'existing' : 'missing'} property '${property}'`,
+      );
+      return Reflect.has(target, property);
+    },
+    isExtensible: (target) => {
+      _console.info(`concept#isExtensible`);
+      return Reflect.isExtensible(target);
+    },
+    ownKeys: (target) => {
+      _console.info(`concept#ownKeys`);
+      return Reflect.ownKeys(target);
+    },
+    preventExtensions: (target) => {
+      _console.info(`concept#preventExtensions`);
+      Object.preventExtensions(target);
+      return true;
+    },
+    set: (target, prop, newValue, receiver) => {
+      _console.info(
+        `concept#set ${prop in target || target.hasOwnProperty(prop) ? 'existing' : 'new'} property '${prop}' to v: '${newValue}'`,
+      );
+      return true;
+    },
+    defineProperty: (target, property, descriptor) => {
+      _console.info(
+        `concept#define ${property in target || target.hasOwnProperty(property) ? 'existing' : 'new'} property '${property}' to v: '${descriptor}'`,
+      );
+      return true;
+    },
+    deleteProperty: (target, property) => {
+      _console.info(
+        `concept#delete ${property in target || target.hasOwnProperty(property) ? 'existing' : 'missing'} property '${property}'`,
+      );
+      return true;
+    },
+    getOwnPropertyDescriptor: (target, property) => {
+      _console.info(
+        `concept#describe ${property in target || target.hasOwnProperty(property) ? 'existing' : 'missing'} property '${property}'`,
+      );
+      return Reflect.getOwnPropertyDescriptor(target, property);
+    },
+    getPrototypeOf: (target) => {
+      _console.info(`concept#get prototype`);
+      return Reflect.getPrototypeOf(target);
+    },
+    setPrototypeOf: (target) => {
+      _console.info(`concept#set prototype`);
+      return Reflect.setPrototypeOf(target);
     },
   });
 
-  window.console = _concept;
+  unsafeWindow.console = _concept;
 
   return {
-    deconceptualise: () => (window.console = _console),
-    reconceptualise: () => (window.console = _concept),
+    deconceptualise: () => (unsafeWindow.console = _console),
+    reconceptualise: () => (unsafeWindow.console = _concept),
     get console() {
       return _console;
     },

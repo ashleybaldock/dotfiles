@@ -149,3 +149,68 @@ h1 {
   > [data-n]:nth-child(1024n):not(:nth-child(2048n)):nth-last-child(-n + 1024) {
   --n1024: 1024;
 }
+
+.precession2 {
+  counter-increment: nth 1;
+  position: fixed;
+  width: 50vw;
+  height: 50vh;
+  background-color: #0000;
+  margin: 0 auto;
+  --n: 19;
+  --line-thickness: 4px;
+  --line-fade: min(3px, max(1px, var(--line-thickness) * 0.1));
+  --l－: calc(var(--line-thickness) * -0.5);
+  --lo－: calc(var(--lm) + var(--l－));
+  --li－: calc(
+    var(--lm) + min(0px, max(var(--l－), var(--l－) + var(--line-fade)))
+  );
+  --l＋: calc(var(--line-thickness) * 0.5);
+  --li＋: calc(
+    var(--lm) + max(0px, min(var(--l＋), var(--l＋) - var(--line-fade)))
+  );
+  --lo＋: calc(var(--lm) + var(--l＋));
+  --lm: 50%;
+  background-repeat: repeat;
+  background-position: 0vw 0vh;
+  /*   background-origin:  border-box, padding-box, content-box;
+  background-clip: content-box,padding-box,content-box; */
+  padding: 0 0 50vh 50vw;
+  background-size: 100vw 100vh;
+  --cc: 50% 50%;
+  --ff: 100% 100%;
+
+  background-image:
+    linear-gradient(
+      calc(90deg + 1 * 0.33rad),
+      #0000 var(--lo－),
+      #fff var(--li－) var(--li＋),
+      #0000 var(--lo＋)
+    ),
+    linear-gradient(
+      calc(90deg + 1 * 0.33rad),
+      #0000 var(--lo－),
+      #f0f var(--li－) var(--li＋),
+      #0000 var(--lo＋)
+    ),
+    linear-gradient(
+      calc(90deg + 2 * 0.33rad),
+      #0000 var(--lo－),
+      #ff0 var(--li－) var(--li＋),
+      #0000 var(--lo＋)
+    ),
+    linear-gradient(
+      calc(90deg + 3 * 0.33rad),
+      #0000 var(--lo－),
+      #ff0 var(--li－) var(--li＋),
+      #0000 var(--lo＋)
+    ),
+    linear-gradient(
+      calc(90deg + var(--n) * 0.33rad),
+      #0000 var(--lo－),
+      #0ff var(--li－) var(--li＋),
+      #0000 var(--lo＋)
+    ),
+    linear-gradient(#0000);
+  inset: 0 0 0 0;
+}

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.306
+// @version     1.2.310
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -261,6 +261,7 @@ const initStandaloneImage = ({
 
   (({ document: { body }, eventLayer, console: { log, debug } }) => {
     const selecting = () => body.dataset.selecting !== undefined;
+    const dragging = () => body.dataset.dragging !== undefined;
     const selection = () => body.dataset.selection !== undefined;
     const vertical = () => body.dataset.selectingVertical !== undefined;
     const horizontal = () => body.dataset.selectingHorizontal !== undefined;
@@ -293,6 +294,11 @@ const initStandaloneImage = ({
       body.style.removeProperty('--selectXend');
       body.style.removeProperty('--selectYend');
     };
+    const endDragSelection = (e) => {
+      updateDragSelection(e);
+      delete body.dataset.dragging;
+      eventLayer.removeEventListener('mousemove', mousemove, {});
+    };
     const endSelection = (e) => {
       updateSelection(e);
       delete body.dataset.selecting;
@@ -302,6 +308,12 @@ const initStandaloneImage = ({
     const cancelSelection = () => {
       delete body.dataset.selecting;
       eventLayer.removeEventListener('mousemove', mousemove, {});
+    };
+    const beginDragSelection = ({ clientX, clientY }) => {
+      body.dataset.dragging = 'selection';
+      body.style.setProperty('--dragSelectXstart', clientX);
+      body.style.setProperty('--dragSelectYstart', clientY);
+      eventLayer.addEventListener('mousemove', mousemove, {});
     };
     const beginSelection = ({ clientX, clientY }) => {
       body.dataset.selecting = 'begin';
@@ -396,6 +408,12 @@ viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
         } else {
           endSelection(e);
         }
+      } else if (dragging()) {
+        if (pressed.left) {
+          updateDragSelection(e);
+        } else {
+          endDragSelection(e);
+        }
       }
     };
 
@@ -406,6 +424,9 @@ viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
         if (e.target.classList.contains('handle')) {
           e.stopPropagation();
           resumeSelection(e);
+        } else if (e.target.classList.contains('selection')) {
+          e.stopPropagation();
+          beginMoveSelection(e);
         } else {
           clearSelection();
           beginSelection(e);

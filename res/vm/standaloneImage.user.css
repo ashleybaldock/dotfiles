@@ -1236,6 +1236,9 @@
     :is(.selection, .selection > .handle) {
     visibility: visible;
   }
+  .selection:not(:has(> :hover)):hover {
+    background-color: #08f3;
+  }
   .selection > .handle {
     z-index: var(--z-selection-handle);
     pointer-events: auto;
@@ -1315,4 +1318,66 @@
     z-index: var(--z-selection-corner);
     cursor: nwse-resize;
   }
+
+
+
+  
+
+@media not print {
+  .selection > .handle::before {
+    --c-drag: #0ff;
+    --c-drag-2nd: #088;
+    --c-nodrag: #0888;
+    --c-nodrag-2nd: #0448;
+    width: var(--w);
+    box-shadow: 0 0 #0000 var(--bs-corners, ), 0 0 0 2px #0006 ;
+    outline: none;
+
+    --w: max(calc(var(--size) * 3), calc(var(--px-pixelw) * 2));
+    --w－: calc(var(--w) * -1);
+    --bs-tl: calc(0px + var(--w) * -0.4) calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25) var(--c-drag),
+        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
+    --bs-tr: calc(0px + var(--w) * 0.4)   calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25) var(--c-drag),
+        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
+    --bs-bl: calc(-1px + var(--w) * -0.25) calc(1px + var(--w) * 0.25) 0 calc(var(--w) * -0.25) var(--c-drag),
+        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
+    --bs-br: calc(2px + var(--w) * 0.33) calc(2px + var(--w) * 0.33) 0 calc(var(--w) * -0.33) var(--c-drag),
+        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
+    
+    --bs-notl: calc(-3px + var(--w) * -0.25) calc(-3px + var(--w) * -0.25) 0 calc(var(--w) * -0.25) var(--c-nodrag),
+        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
+    --bs-notr: calc(4px + var(--w) * 0.2)   calc(-4px + var(--w) * -0.2) 0 calc(var(--w) * -0.25) var(--c-nodrag),
+        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
+    --bs-nobl: calc(-1px + var(--w) * -0.25) calc(1px + var(--w) * 0.25) 0 calc(var(--w) * -0.25) var(--c-nodrag),
+        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
+    --bs-nobr: calc(2px + var(--w) * 0.33) calc(2px + var(--w) * 0.33) 0 calc(var(--w) * -0.33) var(--c-nodrag),
+        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
+    border-radius: 30%;
+  }
+}
+
+.selection > .handle.top::before {
+  --bs-corners: , var(--bs-tl), var(--bs-tr);
+}
+.selection > .handle.right::before {
+  --bs-corners: , var(--bs-tr), var(--bs-br);
+}
+.selection > .handle.left::before {
+  --bs-corners: , var(--bs-tl), var(--bs-bl);
+}
+.selection > .handle.bottom::before {
+  --bs-corners: , var(--bs-bl), var(--bs-br);
+}
+.selection > .handle.top.right::before {
+  --bs-corners: , var(--bs-notl), var(--bs-tr), var(--bs-nobr);
+}
+.selection > .handle.bottom.right::before {
+  --bs-corners: ,  var(--bs-notr), var(--bs-br), var(--bs-nobl);
+}
+.selection > .handle.bottom.left::before {
+  --bs-corners: ,  var(--bs-notl), var(--bs-bl), var(--bs-nobr);
+}
+.selection > .handle.top.left::before {
+  --bs-corners: , var(--bs-tl), var(--bs-notr), var(--bs-nobl);
+}
 }

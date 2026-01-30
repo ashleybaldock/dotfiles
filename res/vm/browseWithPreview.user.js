@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.335
+// @version     1.0.338
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -1014,9 +1014,9 @@ const browsePreviewToggleIds = addStyleToggles([
   },
 ]).then(() =>
   Promise.race([timeout({ s: 30 }), readyStateComplete()])
-    .catch(() => notify.debug('timed out waiting for readyStateComplete'))
+    .catch(() => console.debug('timed out waiting for readyStateComplete'))
     .then(({ window, unsafeWindow }) => {
-      notify.debug('document ready');
+      console.debug('document ready');
 
       return Promise.all([
         matchExistsFor('a.file').then((node) => {
@@ -1028,7 +1028,7 @@ const browsePreviewToggleIds = addStyleToggles([
         }),
       ]);
     })
-    .catch((e) => notify.warn(e)),
+    .catch((e) => console.warn(e)),
 );
 
 //     Object.defineProperties(target, {

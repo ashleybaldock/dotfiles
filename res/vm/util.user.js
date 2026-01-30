@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.174
+// @version     1.1.177
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -76,7 +76,7 @@ const addRegisteredCSSProp = (({ window }) => {
 })({ document });
 
 const trackVisibility = (
-  ({ window, window: { document }, notify }) =>
+  ({ window, window: { document }, console }) =>
   () => {
     const show_visible = () => (document.documentElement.dataset.visible = '');
     const hide_visible = () => delete document.documentElement.dataset.visible;
@@ -85,12 +85,12 @@ const trackVisibility = (
 
     const on_visibilitychange = () => {
       if (document.visibilityState === 'visible') {
-        notify.info('page became visible');
+        console.info('page became visible');
         show_visible();
         hide_hidden();
       }
       if (document.visibilityState === 'hidden') {
-        notify.info('page became hidden');
+        console.info('page became hidden');
         hide_visible();
         show_hidden();
       }
@@ -107,9 +107,9 @@ const trackVisibility = (
       hide_visible();
     };
   }
-)({ window: unsafeWindow, notify: console });
+)({ window: unsafeWindow, console });
 
-const pageFocusTracker = (({ window, window: { document }, notify }) => {
+const pageFocusTracker = (({ window, window: { document }, console }) => {
   const hide_focused = () => delete document.documentElement.dataset.focused;
   const show_focused = () => (document.documentElement.dataset.focused = '');
 
@@ -176,17 +176,17 @@ const pageFocusTracker = (({ window, window: { document }, notify }) => {
       }
     },
   };
-})({ window: unsafeWindow });
+})({ window: unsafeWindow, console });
 
 const logFocus = (
   ({ console }) =>
-  async ({ notify = console }) => {
+  async () => {
     for await (const focusEvent of pageFocusTracker.track()) {
-      focusEvent === 'focus' && notify.info('page gained focus');
-      focusEvent === 'blur' && notify.info('page lost focus');
+      focusEvent === 'focus' && console.info('page gained focus');
+      focusEvent === 'blur' && console.info('page lost focus');
     }
   }
-)({ unsafeWindow });
+)({ unsafeWindow, console });
 
 class DefaultedMap extends Map {
   #defaultValue;

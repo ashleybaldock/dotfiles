@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.299
+// @version     1.2.306
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -259,9 +259,12 @@ const initStandaloneImage = ({
     }),
   }))(viewmenu);
 
-  (({ document: { body }, eventLayer }) => {
+  (({ document: { body }, eventLayer, console: { log, debug } }) => {
     const selecting = () => body.dataset.selecting !== undefined;
     const selection = () => body.dataset.selection !== undefined;
+    const vertical = () => body.dataset.selectingVertical !== undefined;
+    const horizontal = () => body.dataset.selectingHorizontal !== undefined;
+    const begin = (clear) => body.dataset.selectingBegin !== undefined;
     /* Minimum distance mouse needs to move for selection to be considered to have started */
     const beginThreshold = 4;
 
@@ -276,13 +279,11 @@ const initStandaloneImage = ({
     };
 
     const updateSelection = ({ clientX, clientY }) => {
-      body.dataset.selectingVertical === undefined &&
-        body.style.setProperty('--selectXend', clientX);
-      body.dataset.selectingHorizontal === undefined &&
-        body.style.setProperty('--selectYend', clientY);
-      body.dataset.selectingBegin !== undefined &&
+      !vertical() && body.style.setProperty('--selectXend', clientX);
+      !horizontal() && body.style.setProperty('--selectYend', clientY);
+      begin() &&
         selectionDisplacement().taxicab > beginThreshold &&
-        delete body.dataset.selectingBegin;
+        clearSelecting('begin');
     };
     const clearSelection = () => {
       delete body.dataset.selecting;
@@ -303,7 +304,7 @@ const initStandaloneImage = ({
       eventLayer.removeEventListener('mousemove', mousemove, {});
     };
     const beginSelection = ({ clientX, clientY }) => {
-      body.dataset.selectingBegin = '';
+      body.dataset.selecting = 'begin';
       body.style.setProperty('--selectXstart', clientX);
       body.style.setProperty('--selectYstart', clientY);
       body.style.setProperty('--selectXend', clientX);
@@ -379,8 +380,8 @@ const initStandaloneImage = ({
 
       const pageSame = viewportX === pageX && viewportY === pageY;
 
-      // console.log(pad([ ['s', 4], ['e', 4], ])`
-      console.log(padAlternateEndStart(4)`
+      // log(pad([ ['s', 4], ['e', 4], ])`
+      log(padAlternateEndStart(4)`
 viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
   screen: ${screenX},${screenY} (${screenW}×${screenH})
    delta: ${deltaX},${deltaY}
@@ -413,7 +414,7 @@ viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
     };
     const mouseup = (e) => {
       const { trigger, pressed } = buttonsPressed(e);
-      // console.debug(buttonsPressed(e));
+      // debug(buttonsPressed(e));
       if (selecting() && (trigger === 'left' || !pressed.left)) {
         // e.stopPropagation();
         e.preventDefault();
@@ -449,7 +450,7 @@ viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
     eventLayer.addEventListener('mouseup', mouseup, {});
     // eventLayer.addEventListener('click', click, {});
     body.addEventListener('keydown', keydown, {});
-  })({ img: qs`img`.one, document, eventLayer: selecting });
+  })({ img: qs`img`.one, document, eventLayer: selecting, console });
 };
 
 const isStandaloneImage = (({ document }) => {

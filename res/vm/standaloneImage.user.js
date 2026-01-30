@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.300
+// @version     1.2.299
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -272,7 +272,7 @@ const initStandaloneImage = ({
       const eY = body.style.getPropertyValue('--selectYend');
       const dX = Math.max(sX, eX) - Math.min(sX, eX);
       const dY = Math.max(sY, eY) - Math.min(sY, eY);
-      return {taxicab: dX + dY, euclidian: Math.sqrt(dX * dX + dY * dY)};
+      return { taxicab: dX + dY, euclidian: Math.sqrt(dX * dX + dY * dY) };
     };
 
     const updateSelection = ({ clientX, clientY }) => {
@@ -280,7 +280,9 @@ const initStandaloneImage = ({
         body.style.setProperty('--selectXend', clientX);
       body.dataset.selectingHorizontal === undefined &&
         body.style.setProperty('--selectYend', clientY);
-      body.dataset.selectingBegin !== undefined && selectionDisplacement().taxicab > beginThreshold && delete body.dataset.selectingBegin;
+      body.dataset.selectingBegin !== undefined &&
+        selectionDisplacement().taxicab > beginThreshold &&
+        delete body.dataset.selectingBegin;
     };
     const clearSelection = () => {
       delete body.dataset.selecting;
@@ -333,8 +335,7 @@ const initStandaloneImage = ({
       if (top) {
         body.style.setProperty('--selectYstart', maxY);
         body.style.setProperty('--selectYend', minY);
-        body.dataset.selecting = '';
-        (left || right) && body.dataset.selectingVertical = '';
+        body.dataset.selecting = left || right ? '' : 'vertical';
       }
       if (bottom) {
         body.style.setProperty('--selectYstart', minY);

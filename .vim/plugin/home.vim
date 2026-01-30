@@ -282,11 +282,11 @@ function s:ShowHome() abort
         \ cmd: 'call s:UpdateRecentlyEdited(expand(''<afile>:p''))',
         \ group: 'mayhem_messages_recent_edit',
         \},
-        \#{
-        \ event: ['BufWinLeave','BufUnload'], replace: v:true,
-        \ cmd: 'MessagesClose', bufnr: bufnr(),
-        \ group: 'mayhem_messages_exit',
-        \},
         \])
+        " \#{
+        " \ event: ['BufWinLeave','BufUnload'], replace: v:true,
+        " \ cmd: 'MessagesClose', bufnr: bufnr(),
+        " \ group: 'mayhem_messages_exit',
+        " \},
 endfunc
 

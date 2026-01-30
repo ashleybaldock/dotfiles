@@ -20,7 +20,7 @@ function! s:CursorInfoUpdate()
 
 endfunc
 
-s:cursor_events_group = 'mayhem_debug_cursor_events'
+let s:cursor_events_group = 'mayhem_debug_cursor_events'
 
 function! s:CursorInfoOff() abort
   unlet s:cursor_info_enabled
@@ -59,7 +59,7 @@ function! s:CursorInfoToggle(action) abort
   endif
 endfunc
 
-s:ToggleLookup = #{
+let s:ToggleLookup = #{
       \     on: function(s:CursorInfoOn),
       \    off: function(s:CursorInfoOff),
       \ toggle: function(s:CursorInfoToggle),

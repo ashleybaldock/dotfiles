@@ -21,11 +21,34 @@ endfunc
 
 let s:symbols = symbols#best()
 
+function symbols#lookup(symbolpath) abort
+  return split(a:symbolpath, '\.')->reduce(
+        \{ acc, val -> get(acc, val, {})}, s:symbols)
+endfunc
+
 " TODO extend this to allow symbol lookup with list index e.g. for numbers
 function symbols#get(symbolpath, fallback = 'X!') abort
-  let lookup = split(a:symbolpath, '\.')->reduce(
-        \{ acc, val -> get(acc, val, {})}, s:symbols)
-  return empty(lookup) ? a:fallback : l:lookup
+  let lookup = symbols#lookup(a:symbolpath)
+  return empty(lookup) ? a:fallback : lookup
+endfunc
+
+function symbols#getn(symbolpath, fallback = 'X!') abort
+  let lookup = symbols#lookup(a:symbolpath)
+  return  type(lookup) == v:t_dict
+        \ ? get(lookup, 'n', get(lookup, 'c', get(lookup, 'i', a:fallback)))
+        \ : lookup
+endfunc
+function symbols#getc(symbolpath, fallback = 'X!') abort
+  let lookup = symbols#lookup(a:symbolpath)
+  return  type(lookup) == v:t_dict
+        \ ? get(lookup, 'c', get(lookup, 'n', get(lookup, 'i', a:fallback)))
+        \ : lookup
+endfunc
+function symbols#inline(symbolpath, fallback = 'X!') abort
+  let lookup = symbols#lookup(a:symbolpath)
+  return  type(lookup) == v:t_dict
+        \ ? get(lookup, 'i', get(lookup, 'n', get(lookup, 'c', a:fallback)))
+        \ : lookup
 endfunc
 
 

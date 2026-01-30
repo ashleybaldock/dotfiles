@@ -53,21 +53,21 @@ function! tabline#updateDiagnostics() abort
       call settabvar(i, 'mayhem_tl_cached_diag_label',
             \ errorCount > 0 ? printf("%s%s ",
             \ errorCount,
-            \ symbols#get('diag.inline.error')
+            \ symbols#inline('diag.error')
             \) : "")
       call settabvar(i, 'mayhem_tl_cached_diag_tip', printf("%s%s",
         \ errorCount > 0 ? printf("%s%s",
-        \   symbols#get('diag.inline.error'), errorCount) : "",
+        \   symbols#inline('diag.error'), errorCount) : "",
         \ warningCount > 0 ? printf("%s%s",
-        \   symbols#get('diag.inline.warning'), warningCount) : ""))
+        \   symbols#inline('diag.warning'), warningCount) : ""))
     else
       call settabvar(i, 'mayhem_tl_cached_diagnostics', #{
           \ off: v:true,
           \})
       call settabvar(i, 'mayhem_tl_cached_diag_label',
-            \ symbols#get('diag.inline.off'))
+            \ symbols#inline('diag.off'))
       call settabvar(i, 'mayhem_tl_cached_diag_tip',
-            \ symbols#get('diag.inline.off'))
+            \ symbols#inline('diag.off'))
     endif
 
   endfor

@@ -32,14 +32,14 @@ function s:SplitWithRuntime() abort
   :8new
   let s:winid_runtime = win_getid(winnr())
   call append('$', s:GetRuntimeList())
-  setlocal filetype=vimmessages nomodified nomodifiable
+  setlocal filetype=vimmessages buftype=nofile bufhidden=wipe nobuflisted nomodified nomodifiable
 endfunc
 
 function s:SplitWithScriptnames() abort
   :9new
   let s:winid_scriptnames = win_getid(winnr())
   call append('$', s:GetScriptnamesList())
-  setlocal filetype=vimmessages nomodified nomodifiable
+  setlocal filetype=vimmessages buftype=nofile bufhidden=wipe nobuflisted nomodified nomodifiable
 endfunc
 
 
@@ -65,14 +65,14 @@ function s:OnVimEnter(when) abort
     let s:startup_messages = s:GetMessagesList()
   else
 
-  call autocmd_add([
-        \#{
-        \ event: 'QuitPre', replace: v:true,
-        \ cmd: 'call s:CloseMessages()',
-        \ group: 'mayhem_messages_exit',
-        \},
-        \])
-  endif 
+  " call autocmd_add([
+  "       \#{
+  "       \ event: 'QuitPre', replace: v:true,
+  "       \ cmd: 'call s:CloseMessages()',
+  "       \ group: 'mayhem_messages_exit',
+  "       \},
+  "       \])
+  " endif 
 endfunc
 
 if v:vim_did_enter
@@ -128,6 +128,8 @@ endfunc
 
 function s:RefreshMessages() abort
   call setbufvar(winbufnr(s:winid_messages), '&filetype', 'vimmessages')
+  call setbufvar(winbufnr(s:winid_messages), '&buftype', 'nofile')
+  call setbufvar(winbufnr(s:winid_messages), '&bufhidden', 'wipe')
   call setwinvar(s:winid_messages, '&modifiable', 1)
   call s:WriteMessagesToBufferInWindow(s:winid_messages)
   call setwinvar(s:winid_messages, '&modifiable', 0)

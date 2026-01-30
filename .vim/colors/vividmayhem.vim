@@ -95,11 +95,11 @@ hi CocHoverRange                guibg=#502a2a gui=none
 
 " Document Highlights:
 " Matching Symbols: in the buffer at cursor position
-" default symbol highlight
+"
 hi CocHighlightText       guifg=NONE gui=none guibg=#022c2c
-" Read kind of document symbol
+"
 hi CocHighlightRead       guifg=NONE gui=none guibg=#021602
-" Write kind of document symbol
+"
 hi CocHighlightWrite      guifg=NONE gui=none guibg=#2c0202
 
 " CocLink                " document links

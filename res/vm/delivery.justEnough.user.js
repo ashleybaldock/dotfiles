@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        justEnough(Delivery)
 // @namespace   mayhem
-// @version     1.0.126
+// @version     1.0.142
 // @description Deliver me the content, the whole content, and nothing but the content.
 // @downloadURL http://localhost:3333/vm/delivery.justEnough.user.js
 // @match       *://i.redd.it/*
@@ -9,6 +9,7 @@
 // @match       *://external-preview.redd.it/*
 // @match       *://i.imgur.com/*
 // @match       *://www.reddit.com/media*
+// @run-at      document-start
 // @grant       window.close
 // @grant       GM_info
 // @grant       GM_addStyle
@@ -200,98 +201,95 @@ const overlayText = (
   canvas.toBlob(wrapBlob, 'image/png');
 };
 
+const videoSelector = `main video, video[src^="https://preview.redd.it"], video[poster^="//i.imgur.com"]`;
+const imageSelector = `#main-content img, main img, img[src^="https://i.redd.it"], img[src^="https://preview.redd.it"]`;
+
 /**
  * These CDNs serve different things based on referrer headers, fun.
  */
-const { sourceInfo } = (({
-  window: {
-    document: { body },
-  },
-  qs,
-}) => {
-  // console.debug(qs`body`.one.innerHTML.trim());
+const getSourceInfo = (
+  ({ window, qs }) =>
+  (node) => {
+    // console.debug(qs`body`.one.innerHTML.trim());
 
-  const isPlainImage = qs`body > img:only-child:not(:has(> *))`.all.length > 0;
+    const isPlainImage =
+      qs`body > img:only-child:not(:has(> *))`.all.length > 0;
 
-  let video =
-    qs`main video, video[src^="https://preview.redd.it"], video[poster^="//i.imgur.com"]`
-      .one;
-  video?.parentElement
-    .querySelectorAll('source')
-    .forEach((source) => video?.appendChild(source));
+    let video = qs`${videoSelector}`.one;
+    video?.parentElement
+      .querySelectorAll('source')
+      .forEach((source) => video?.appendChild(source));
 
-  let img =
-    qs`#main-content img, main img, img[src^="https://i.redd.it"], img[src^="https://preview.redd.it"]`
-      .one;
+    let img = qs`${imageSelector}`.one;
 
-  const sourceInfo = {
-    imgsrc: img?.getAttribute?.('src') ?? '',
-    link: qs`post-bottom-bar`.one?.getAttribute('permalink') ?? '',
-    name: qs`post-bottom-bar`.one?.getAttribute('source-name') ?? '',
-    title: qs`post-bottom-bar`.one?.getAttribute('title') ?? '',
-  };
+    const sourceInfo = {
+      imgsrc: img?.getAttribute?.('src') ?? '',
+      link: qs`post-bottom-bar`.one?.getAttribute('permalink') ?? '',
+      name: qs`post-bottom-bar`.one?.getAttribute('source-name') ?? '',
+      title: qs`post-bottom-bar`.one?.getAttribute('title') ?? '',
+    };
 
-  if (isPlainImage) {
-    console.debug(`Plain image with src: '${sourceInfo.imgsrc}'`);
+    if (isPlainImage) {
+      console.debug(`Plain image with src: '${sourceInfo.imgsrc}'`);
 
-    qs`body > img:only-child`.one?.setAttribute(
-      'src',
-      window.location.toString(),
-    );
-  } else {
-    console.debug(`Embedded image with src: '${sourceInfo.imgsrc}'`);
+      qs`body > img:only-child`.one?.setAttribute(
+        'src',
+        window.location.toString(),
+      );
+    } else {
+      console.debug(`Embedded image with src: '${sourceInfo.imgsrc}'`);
 
-    const abortRequest = GM_xmlhttpRequest({
-      url: sourceInfo.imgsrc,
-      method: 'GET',
-      // overrideMimeType: '',
-      headers: {
-        Cookie: '',
-        Host: 'i.redd.it',
-        // Origin: '',
-        Referer: 'https://www.reddit.com/',
-        // 'User-Agent': '',
+      const abortRequest = GM_xmlhttpRequest({
+        url: sourceInfo.imgsrc,
+        method: 'GET',
+        // overrideMimeType: '',
+        headers: {
+          Cookie: '',
+          Host: 'i.redd.it',
+          // Origin: '',
+          Referer: 'https://www.reddit.com/',
+          // 'User-Agent': '',
 
-        Accept:
-          'image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5',
-        'Sec-Fetch-Dest': 'image',
-        'Sec-Fetch-Mode': 'no-cors',
-        'Sec-Fetch-Site': 'cross-site',
-      },
-      responseType:
-        /* 'text' | 'json' | 'blob' | 'arraybuffer' | 'document' */ 'blob',
-      // timeout: 20,
-      // data: '' /* string | ArrayBuffer | Blob | DataView | FormData | ReadableStream | TypedArray | URLSearchParams */,
-      // binary: false /* Send the data string as a blob */,
-      context: sourceInfo,
-      anonymous: false,
-
-      onabort: (err) /*:void*/ => console.log('onabort', err),
-      onerror: (err) /*:void*/ => console.log('onerror', err),
-      ontimeout: (err) /*:void*/ => console.log('ontimeout', err),
-
-      onload: ({
-        status,
-        statusText,
-        readyState,
-        finalUrl,
-        responseHeaders,
-        response,
+          Accept:
+            'image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5',
+          'Sec-Fetch-Dest': 'image',
+          'Sec-Fetch-Mode': 'no-cors',
+          'Sec-Fetch-Site': 'cross-site',
+        },
+        responseType:
+          /* 'text' | 'json' | 'blob' | 'arraybuffer' | 'document' */ 'blob',
+        // timeout: 20,
+        // data: '' /* string | ArrayBuffer | Blob | DataView | FormData | ReadableStream | TypedArray | URLSearchParams */,
+        // binary: false /* Send the data string as a blob */,
         context: sourceInfo,
-      }) /*:void*/ =>
-        wrapBlob(response, {
-          onload: ({ target }) => {
-            console.debug(`load, src: ${target.src}`);
-            overlayText(sourceInfo.title, target);
-          },
-        }),
+        anonymous: false,
 
-      onloadstart: () /*:void*/ => console.debug('onloadstart'),
-      onloadend: () /*:void*/ => console.debug('onloadend'),
-      onprogress: () /*:void*/ => console.debug('onprogress'),
-      onreadystatechange: () /*:void*/ => console.debug('onreadystatechange'),
+        onabort: (err) /*:void*/ => console.log('onabort', err),
+        onerror: (err) /*:void*/ => console.log('onerror', err),
+        ontimeout: (err) /*:void*/ => console.log('ontimeout', err),
 
-      /* Response: {
+        onload: ({
+          status,
+          statusText,
+          readyState,
+          finalUrl,
+          responseHeaders,
+          response,
+          context: sourceInfo,
+        }) /*:void*/ =>
+          wrapBlob(response, {
+            onload: ({ target }) => {
+              console.debug(`load, src: ${target.src}`);
+              overlayText(sourceInfo.title, target);
+            },
+          }),
+
+        onloadstart: () /*:void*/ => console.debug('onloadstart'),
+        onloadend: () /*:void*/ => console.debug('onloadend'),
+        onprogress: () /*:void*/ => console.debug('onprogress'),
+        onreadystatechange: () /*:void*/ => console.debug('onreadystatechange'),
+
+        /* Response: {
         context: any          // the same context object you specified in details
         status: number
         statusText: string
@@ -306,124 +304,131 @@ const { sourceInfo } = (({
         loaded: number
         total: number
     } */
+      });
+
+      qs`head > :not(style), body > *`.all.forEach((node) => node.remove());
+
+      // qs`window`.at('class','reset');
+      // qs`window:mu(:has(.reset))`
+      qs`:root`.one.setAttribute('class', 'reset');
+
+      img?.setAttribute?.('class', 'width fitCover');
+      video?.setAttribute?.('class', 'width fitCover');
+
+      img && qs`body`.one.appendChild(img);
+      video && qs`body`.one.appendChild(video);
+    }
+    return {
+      sourceInfo,
+    };
+  }
+)({ window: unsafeWindow, qs: uqs });
+
+const deliver = (
+  ({ window, qs }) =>
+  ({ sourceInfo }) => {
+    const config = GM_addElement('div', {
+      class: 'config',
+    });
+    const notify = GM_addElement('div', {
+      class: 'notify',
     });
 
-    qs`head > :not(style), body > *`.all.forEach((node) =>
-      node.parentNode.removeChild(node),
-    );
+    const info = GM_addElement('div', {
+      class: 'info',
+      'data-title': sourceInfo.title,
+      'data-link': sourceInfo.link,
+      'data-name': sourceInfo.name,
+    });
 
-    // qs`window`.at('class','reset');
-    // qs`window:mu(:has(.reset))`
-    qs`:root`.one.setAttribute('class', 'reset');
+    const link = GM_addElement(info, 'a', {
+      class: 'link',
+      href: sourceInfo.link,
+      textContent: `/r/${sourceInfo.name}/…`,
+    });
 
-    img?.setAttribute?.('class', 'width fitCover');
-    video?.setAttribute?.('class', 'width fitCover');
+    const title = GM_addElement(info, 'span', {
+      class: 'title',
+      textContent: sourceInfo.title,
+    });
 
-    img && body.appendChild(img);
-    video && body.appendChild(video);
+    // const triggerDownload = (src, fileame) => {
+    //   notify.innerHTML = 'downloading...';
+    //   return fetch(src, {})
+    //     .then((res) => res.blob())
+    //     .then((blob) => {
+    //       notify.innerHTML = 'saving...';
+    //       const tempUrl = window.URL.createObjectURL(blob);
+    //       // console.log(tempUrl);
+    //       const a = document.createElement('a');
+    //       a.setAttribute('download', filename);
+    //       a.href = tempUrl;
+    //       a.click();
+    //       window.URL.revokeObjectURL(tempUrl);
+    //       notify.innerHTML = 'saved ✔︎';
+    //       return 'success';
+    //     });
+    // };
+
+    const toggles = {
+      fit: cyclicToggle('fit', sequences.fit),
+
+      placeTextX: cyclicToggle('placeTextX', sequences.placeX),
+      placeTextY: cyclicToggle('placeTextY', sequences.placeY),
+    };
+
+    /* Initial state */
+    Object.values(toggles).forEach((toggle) => toggle.update());
+
+    const keydownEventHandler = (e) => {
+      const {
+        pressed: { shift, ctrl, command, option },
+        trigger,
+      } = buttonsPressed(e);
+      console.groupCollapsed(
+        `keydown[${trigger}] <shift ${shift ? '✔' : '✘'}, ctrl ${
+          ctrl ? '✔' : '✘'
+        }, meta ${option ? '✔' : '✘'}>`,
+      );
+      console.log(
+        `trigger: '${trigger}', shift: '${shift}', ctrl: '${ctrl}', meta: '${option}'`,
+      );
+      console.groupEnd();
+
+      if (trigger === 'e' && !shift && !ctrl && !option && !command) {
+        toggles.fit.next();
+      }
+
+      if (trigger === 'q' && !shift && !ctrl && !option && !command) {
+        window.close();
+      }
+
+      if (trigger === 'p' && !shift && !ctrl && !option && !command) {
+        overlayText(sourceInfo.title);
+      }
+
+      if (trigger === 'g' && !shift && !ctrl && !option && !command) {
+        placeTextX.next();
+        overlayText(sourceInfo.title);
+      }
+
+      if (trigger === 't' && !shift && !ctrl && !option && !command) {
+        placeTextY.next();
+        overlayText(sourceInfo.title);
+      }
+
+      if (trigger === 'd' && !ctrl && !option && !command) {
+        qs`label:has(> [name="selected"]:checked) ~ [download]`.forEach((a) => {
+          a.click();
+          a.classList.add('clicked');
+        }).all;
+
+        shift && window.close();
+      }
+    };
+    window.document.addEventListener('keydown', keydownEventHandler);
   }
-  return {
-    sourceInfo,
-  };
-})({ window: unsafeWindow, qs: uqs });
-
-const deliver = ({ window: { document }, qs, sourceInfo }) => {
-  const config = GM_addElement('div', {
-    class: 'config',
-  });
-  const notify = GM_addElement('div', {
-    class: 'notify',
-  });
-
-  const source = GM_addElement('a', {
-    class: 'source',
-    href: sourceInfo.href,
-    name: sourceInfo.name,
-    textContent: '',
-  });
-
-  const title = GM_addElement('div', {
-    class: 'title',
-    'data-title': sourceInfo.title,
-    textContent: sourceInfo.title,
-  });
-
-  // const triggerDownload = (src, fileame) => {
-  //   notify.innerHTML = 'downloading...';
-  //   return fetch(src, {})
-  //     .then((res) => res.blob())
-  //     .then((blob) => {
-  //       notify.innerHTML = 'saving...';
-  //       const tempUrl = window.URL.createObjectURL(blob);
-  //       // console.log(tempUrl);
-  //       const a = document.createElement('a');
-  //       a.setAttribute('download', filename);
-  //       a.href = tempUrl;
-  //       a.click();
-  //       window.URL.revokeObjectURL(tempUrl);
-  //       notify.innerHTML = 'saved ✔︎';
-  //       return 'success';
-  //     });
-  // };
-
-  const toggles = {
-    fit: cyclicToggle('fit', sequences.fit),
-
-    placeTextX: cyclicToggle('placeTextX', sequences.placeX),
-    placeTextY: cyclicToggle('placeTextY', sequences.placeY),
-  };
-
-  /* Initial state */
-  Object.values(toggles).forEach((toggle) => toggle.update());
-
-  const keydownEventHandler = (e) => {
-    const {
-      pressed: { shift, ctrl, command, option },
-      trigger,
-    } = buttonsPressed(e);
-    console.groupCollapsed(
-      `keydown[${trigger}] <shift ${shift ? '✔' : '✘'}, ctrl ${
-        ctrl ? '✔' : '✘'
-      }, meta ${option ? '✔' : '✘'}>`,
-    );
-    console.log(
-      `trigger: '${trigger}', shift: '${shift}', ctrl: '${ctrl}', meta: '${option}'`,
-    );
-    console.groupEnd();
-
-    if (trigger === 'e' && !shift && !ctrl && !option && !command) {
-      toggles.fit.next();
-    }
-
-    if (trigger === 'q' && !shift && !ctrl && !option && !command) {
-      window.close();
-    }
-
-    if (trigger === 'p' && !shift && !ctrl && !option && !command) {
-      overlayText(sourceInfo.title);
-    }
-
-    if (trigger === 'g' && !shift && !ctrl && !option && !command) {
-      placeTextX.next();
-      overlayText(sourceInfo.title);
-    }
-
-    if (trigger === 't' && !shift && !ctrl && !option && !command) {
-      placeTextY.next();
-      overlayText(sourceInfo.title);
-    }
-
-    if (trigger === 'd' && !ctrl && !option && !command) {
-      qs`label:has(> [name="selected"]:checked) ~ [download]`.forEach((a) => {
-        a.click();
-        a.classList.add('clicked');
-      }).all;
-
-      shift && window.close();
-    }
-  };
-  window.document.addEventListener('keydown', keydownEventHandler);
-};
+)({ window: unsafeWindow, qs: uqs });
 
 const styleToggleIds = addStyleToggles([
   {
@@ -438,7 +443,12 @@ const styleToggleIds = addStyleToggles([
       .then(({ window, unsafeWindow }) => {
         console.debug('document ready');
 
-        deliver({ window: unsafeWindow, qs: uqs, sourceInfo });
+        return Promise.all([
+          waitForImagesToAddInfoTo(),
+          matchExistsFor(`${imageSelector}, ${videoSelector}`).then((node) => {
+            deliver(getSourceInfo(node));
+          }),
+        ]);
       }),
   )
   .catch((e) => console.warn(e));

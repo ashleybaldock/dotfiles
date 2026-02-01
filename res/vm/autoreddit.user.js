@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        AutoReddit
 // @namespace   mayhem
-// @version     1.0.79
+// @version     1.0.86
 // @author      flowsINtomAyHeM
 // @description Make reddit's UI suck less
 // @downloadURL http://localhost:3333/vm/autoreddit.user.js
@@ -21,103 +21,6 @@
 // @cssBaseName reddit
 // ==/UserScript==
 
-/*
-
- qs('[data-click-id="media"] ul figure img, [data-click-id="media"] video, [data-click-id="media"] img.ImageBox-image')
-
-
-[...qs`#post-image`][0].src
-
-qs`[slot="post-media-container"]`[0].addEventListener('click', () => window.location = qs`#post-image`[0].src, {capture: true})
- 
-  */
-
-/*
- * 
-__applyFeedsSimplification: false
-__archived: false
-__areReportsExpandable: false
-__authorId: "t2_14xskqqt6y"
-__commentCount: 4
-__contentHref: "https://i.redd.it/amnb9mm9r4sf1.jpeg"
-__createdTimestamp: "2025-09-29T16:27:21.206000+0000"
-__deleted: false
-__disabled: false
-__displayPostAnalytics: false
-__domain: "i.redd.it"
-__eligibleCrosspostingSubreddit: undefined
-__game: false
-__hasMTSEOTranslationInterruption: false
-__hidden: false
-__hideButtonIcon: false
-__hideButtonText: false
-__id: "t3_1ntmn3h"
-__interactionFromHotkey: false
-__isAma: false
-__isBanned: false
-__isCompactUIExp: false
-__isContestMode: false
-__isCrosspost: false
-__isCrosspostable: true
-__isCrosspostingCoachmarkOpen: false
-__isDesktopViewport: true
-__isEmbed: false
-__isEmbeddable: true
-__isLinkPost: false
-__isLocked: false
-__isMTSEOUserPage: false
-__isNotBrandSafe: false
-__isPdpSeekerM1LO: false
-__isPostBodyTranslated: false
-__isPostCommentTapExp: true
-__isPostLeaveEventsEnabled: false
-__isPostTranslated: false
-__isPromoteablePost: false
-__isReportingEnabled: false
-__isSlimCard: false
-__isSubscribed: true
-__isThumbnailSet: false
-__isTranslatable: false
-__isTranslationFetched: false
-__isTranslationOn: false
-__isUpdatingPostBody: false
-__isUserLoggedIn: true
-__itemState: "UNMODERATED"
-__moderationVerdict: ""
-__morePostsCursor: undefined
-__nsfw: true
-__pdpTarget: "_self"
-__permalink: "/r/RileyReid/comments/1ntmn3h/good_work_in_the_gym/"
-__postLanguage: "en"
-__postScore: 539
-__postTitle: "good work in the gym"
-__postType: "image"
-__postVoteType: undefined
-__previousActionsFeature: true
-__promoted: false
-__score: 539
-__shareButtonSSR: true
-__shareMenuFeatureName: "ShareMenu_tv6gfD"
-__shareMenuTemplateId: "share-menu-template"
-__shouldAllowPropagation: false
-__showExpando: false
-__showFullContent: true
-__showPostRemovalBanner: true
-__showShareMenuProfileCoachmark: false
-__source: undefined
-__sourceId: ""
-__spoiler: false
-__subredditId: "t5_2uwys"
-__subredditName: "RileyReid"
-__subredditPrefixedName: "r/RileyReid"
-__translationLanguage: ""
-__updateAnimation: undefined
-__useShortHiddenPostForm: false
-__userId: "t2_a241f9xd"
-__viewContext: "CommentsPage"
-__viewType: "cardView"
- */
-
 (() => {
   let {
     alt,
@@ -129,18 +32,6 @@ __viewType: "cardView"
   console.log(alt, tagName, src, baseURI, href);
 })();
 
-const updateImageInfo = ({
-  naturalWidth: natW,
-  naturalHeight: natH,
-  style,
-}) => {
-  style?.setProperty('--natW', natW);
-  style?.setProperty('--natH', natH);
-  style?.setProperty('--natRatio', natW / natH);
-  style?.setProperty('--isPortrait', natW < natH);
-  style?.setProperty('--isLandscape', natW > natH);
-  style?.setProperty('--isSquareish', natW / natH < 1.1 && natW / natH > 0.9);
-};
 
 const removeCarousel = (ul) => {
   [...ul.querySelectorAll('li > img')].forEach((img) => {
@@ -279,24 +170,17 @@ const autoRedditToggleIds = addStyleToggles([
       console.debug('document ready');
 
       initAutoReddit(unsafeWindow);
-      // qs`:root > body:has(> .title):has(> .footer)`.mu(
-      //   ({ n, has: [title, footer], addEl }) =>
-      //     n.append(
-      //       addEl({
-      //         name: 'div',
-      //         data: { title: title.innerText, footer: footer.innerText },
-
-      //       }),
-      //     ),
-      // );
 
       return Promise.all([
-        waitForMatches('img', {
-          callback: (img) => {
-            updateImageInfo(img);
-            img.addEventListener('load', (e) => updateImageInfo(img));
-          },
+          waitForImagesToAddInfoTo()
+        ,
+        waitForMatches('[bundlename="gallery_carousel"] > * > ul', {
+          callback: (ul) => removeCarousel(ul),
         }),
+        waitForMatches('.gifQualityButton', {
+          callback: (el) => el.click(),
+        }),
+
         // waitForMatches(
         //   'shreddit-post shreddit-media-lightbox-listener #post-image',
         //   {
@@ -315,12 +199,6 @@ const autoRedditToggleIds = addStyleToggles([
         //     },
         //   },
         // ),
-        waitForMatches('[bundlename="gallery_carousel"] > * > ul', {
-          callback: (ul) => removeCarousel(ul),
-        }),
-        waitForMatches('.gifQualityButton', {
-          callback: (el) => el.click(),
-        }),
       ]);
     })
     .catch((e) => console.warn(e)),

@@ -43,8 +43,7 @@ body {
 
 .config,
 .notify,
-.source,
-.title {
+.info {
   display: block;
   color: #fff;
   --outline-color: #000;

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.179
+// @version     1.1.186
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -31,7 +31,7 @@ const cssOQN = (el) =>
     ...el.classList,
   ].join('.')}`;
 
-const setRegisteredCSSProp = (
+const setRegisteredCSSProperty = (
   ({ window: { document } }) =>
   ({ on = document.documentElement, name: _name, value, syntax }) => {
     const name = /^--/.test(_name) ? _name : `--${_name}`;
@@ -41,8 +41,9 @@ const setRegisteredCSSProp = (
     on.style.setProperty(s_name, `'${value}'`);
   }
 )({ window: unsafeWindow });
+const setRegisteredCSSProp = setRegisteredCSSProperty;
 
-const addRegisteredCSSProp = (({ window }) => {
+const addRegisteredCSSProperty = (({ window }) => {
   const registeredCSSProps = new Set();
   return ({ name, syntax = '*', inherits = false, initialValue = 'none' }) => {
     if (registeredCSSProps.has(name)) {
@@ -62,6 +63,7 @@ const addRegisteredCSSProp = (({ window }) => {
     }
   };
 })({ window: unsafeWindow });
+const addRegisteredCSSProp = addRegisteredCSSProperty;
 
 (({ document: { body } }) => {
   const checkNode = (el) => {
@@ -546,6 +548,36 @@ const intersectSets = (set1, set2) => {
     new Set(),
   );
 };
+
+/*{{{2 Images */
+
+const updateImageInfo = (img) => {
+  const { naturalHeight: natH, naturalWidth: natW, style } = img;
+  addRegisteredCSSProp({ name: '--natW', syntax: '<number>', initialValue: 0 });
+  addRegisteredCSSProp({ name: '--natH', syntax: '<number>', initialValue: 0 });
+  addRegisteredCSSProp({
+    name: '--natRatio',
+    syntax: '<number>',
+    initialValue: 1,
+  });
+  setRegisteredCSSProperty({ on: img, name: '--natW', value: natW });
+  setRegisteredCSSProperty({ on: img, name: '--natH', value: natH });
+  setRegisteredCSSProperty({
+    on: img,
+    name: '--natRatio',
+    value: natW / natH,
+  });
+  style?.setProperty('--isPortrait', natW < natH);
+  style?.setProperty('--isLandscape', natW > natH);
+  style?.setProperty('--isSquareish', natW / natH < 1.1 && natW / natH > 0.9);
+};
+const waitForImagesToAddInfoTo = () =>
+  waitForMatches('img', {
+    callback: (img) => {
+      updateImageInfo(img);
+      img.addEventListener('load', () => updateImageInfo(img));
+    },
+  });
 
 /*{{{2 Media Players */
 /* Retrieve all range stats at once */

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.177
+// @version     1.1.179
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -320,7 +320,11 @@ const concept = (({ window, unsafeWindow }) => {
   const boundMethods = new Map(
     ['log', 'info', 'warn', 'error', 'debug'].map((methodName) => [
       methodName,
-      Function.prototype.call.bind(_console[methodName], window, 'concept'),
+      Function.prototype.call.bind(
+        _console[methodName],
+        window,
+        `concept.${methodName}`,
+      ),
     ]),
   );
   const boundParserMethods = new Map(
@@ -330,27 +334,28 @@ const concept = (({ window, unsafeWindow }) => {
     }),
   );
 
+  const instanceMap =
+    new WeakMap /*<WeakKey, {overrides: Map<string | Symbol, ()>}>*/();
+
   const _concept = new Proxy(_console, {
     construct: (target, argumentsList, newTarget) => {
       _console.info(`concept#construct with arguments '${argumentsList}'`);
-      return Reflect.construct(target, argumentsList);
+      return Reflect.construct(target, argumentsList, newTarget);
     },
-    get: (target, prop) => {
+    get: (target, property, receiver) => {
       _console.info(
-        `concept#get ${prop in target || target.hasOwnProperty(prop) ? 'existing' : 'new'} property '${prop}'`,
+        `concept#get ${property in target || target.hasOwnProperty(property) ? 'existing' : 'new'} property '${property}'`,
       );
-      if (prop in target || target.hasOwnProperty(prop)) {
-        if ('function' === typeof target[prop]) {
-          if (Object.hasOwn(boundParserMethods, prop)) {
-            return parserMethods[prop];
-          }
-          if (Object.hasOwn(boundMethods, prop)) {
-            return boundMethods[prop];
-          }
-          return target[prop].bind(target);
-        }
-        return target[prop];
-      }
+      return Reflect.get(target, property, receiver);
+      // if (boundMethods.has(property)) {
+      //   return boundMethods.get(property);
+      // }
+      // if (property in target || target.hasOwnProperty(property)) {
+      //   if ('function' === typeof target[property]) {
+      //     return target[property].bind(target);
+      //   }
+      //   return target[property];
+      // }
     },
     has: (target, property) => {
       _console.info(
@@ -368,26 +373,26 @@ const concept = (({ window, unsafeWindow }) => {
     },
     preventExtensions: (target) => {
       _console.info(`concept#preventExtensions`);
-      Object.preventExtensions(target);
-      return true;
+      // Object.preventExtensions(target);
+      return Reflect.preventExtensions(target);
     },
-    set: (target, prop, newValue, receiver) => {
+    set: (target, property, newValue, receiver) => {
       _console.info(
-        `concept#set ${prop in target || target.hasOwnProperty(prop) ? 'existing' : 'new'} property '${prop}' to v: '${newValue}'`,
+        `concept#set ${property in target || target.hasOwnProperty(property) ? 'existing' : 'new'} property '${property}' to v: '${newValue}'`,
       );
-      return true;
+      return Reflect.set(target, property, newValue, receiver);
     },
     defineProperty: (target, property, descriptor) => {
       _console.info(
         `concept#define ${property in target || target.hasOwnProperty(property) ? 'existing' : 'new'} property '${property}' to v: '${descriptor}'`,
       );
-      return true;
+      return Reflect.defineProperty(target, property, descriptor);
     },
     deleteProperty: (target, property) => {
       _console.info(
         `concept#delete ${property in target || target.hasOwnProperty(property) ? 'existing' : 'missing'} property '${property}'`,
       );
-      return true;
+      return Reflect.deleteProperty(target, property);
     },
     getOwnPropertyDescriptor: (target, property) => {
       _console.info(

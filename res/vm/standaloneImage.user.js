@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.310
+// @version     1.2.313
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -420,11 +420,10 @@ viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
     const mousedown = (e) => {
       const { trigger } = buttonsPressed(e);
       if (trigger === 'left') {
-        e.preventDefault();
         if (e.target.classList.contains('handle')) {
-          e.stopPropagation();
           resumeSelection(e);
         } else if (e.target.classList.contains('selection')) {
+          e.preventDefault();
           e.stopPropagation();
           beginMoveSelection(e);
         } else {

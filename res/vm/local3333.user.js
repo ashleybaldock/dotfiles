@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        serve3333
 // @namespace   mayhem
-// @version     1.0.1
+// @version     1.0.2
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/local3333.user.js
 // @match       *://localhost:3333/*

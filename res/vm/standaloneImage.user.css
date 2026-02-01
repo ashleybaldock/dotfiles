@@ -1335,23 +1335,23 @@
 
     --w: max(calc(var(--size) * 3), calc(var(--px-pixelw) * 2));
     --w－: calc(var(--w) * -1);
-    --bs-tl: calc(0px + var(--w) * -0.4) calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25) var(--c-drag),
+    --bs-tl: calc(var(--w) * -0.4) calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25) var(--c-drag),
         inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
-    --bs-tr: calc(0px + var(--w) * 0.4)   calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25) var(--c-drag),
+    --bs-tr: calc(var(--w) * 0.4)   calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25) var(--c-drag),
         inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
-    --bs-bl: calc(-1px + var(--w) * -0.25) calc(1px + var(--w) * 0.25) 0 calc(var(--w) * -0.25) var(--c-drag),
+    --bs-bl: calc(var(--w) * -0.25) calc(1px + var(--w) * 0.25) 0 calc(var(--w) * -0.25) var(--c-drag),
         inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
-    --bs-br: calc(2px + var(--w) * 0.33) calc(2px + var(--w) * 0.33) 0 calc(var(--w) * -0.33) var(--c-drag),
+    --bs-br: calc(var(--w) * 0.33) calc(2px + var(--w) * 0.33) 0 calc(var(--w) * -0.33) var(--c-drag),
         inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
     
-    --bs-notl: calc(-3px + var(--w) * -0.25) calc(-3px + var(--w) * -0.25) 0 calc(var(--w) * -0.25) var(--c-nodrag),
-        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
-    --bs-notr: calc(4px + var(--w) * 0.2)   calc(-4px + var(--w) * -0.2) 0 calc(var(--w) * -0.25) var(--c-nodrag),
-        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
-    --bs-nobl: calc(-1px + var(--w) * -0.25) calc(1px + var(--w) * 0.25) 0 calc(var(--w) * -0.25) var(--c-nodrag),
-        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
-    --bs-nobr: calc(2px + var(--w) * 0.33) calc(2px + var(--w) * 0.33) 0 calc(var(--w) * -0.33) var(--c-nodrag),
-        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
+    --bs-notl: calc(var(--w) * -0.25) calc(var(--w) * -0.25) 0 calc(var(--w) * -0.25) var(--c-nodrag),
+        inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
+    --bs-notr: calc(var(--w) * 0.2)  calc(var(--w) * -0.2) 0 calc(var(--w) * -0.25) var(--c-nodrag),
+        inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
+    --bs-nobl: calc(var(--w) * -0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.25) var(--c-nodrag),
+        inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
+    --bs-nobr: calc(var(--w) * 0.33) calc(var(--w) * 0.33) 0 calc(var(--w) * -0.33) var(--c-nodrag),
+        inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
     border-radius: 30%;
   }
 }
@@ -1379,5 +1379,73 @@
 }
 .selection > .handle.top.left::before {
   --bs-corners: , var(--bs-tl), var(--bs-notr), var(--bs-nobl);
+}
+--animated-offset {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+.selection > .handle::before {
+  --c-nodrag: #0880;
+  --c-nodrag-2nd: #0440;
+  --bs-t: calc(var(--w) * -0.1) calc(var(--w) * -0.4) 0 calc(var(--w－) * 0.2) var(--c-drag);
+  --bs-b: calc(var(--w) * 0) calc(var(--w) * 0.4) 0 calc(var(--w－) * 0.2) var(--c-drag);
+}
+.selection > .handle.top.right::before {
+  --bs-corners: , var(--bs-tr), var(--bs-bl);
+}
+.selection > .handle.top::before {
+  --bs-corners: , var(--bs-t), var(--bs-b);
+  border-radius: 240px / 200px;
+}
+.selection:not(:has(> :hover)):hover {
+  transition: background 40ms ease 40ms;
+}
+.selection:not(:has(> :hover)) {
+  transition: background 120ms ease 60ms;
+}
+.selection.ants:hover {
+}
+.handle::before {
+  opacity: 0;
+}
+.handle:hover::before {
+  opacity: 1;
+}
+.handle:active,
+.handle:active::before {
+  opacity: 1;
+  background-color: red;
+}
+.selection:hover:not(:has(> :hover)) > .handle::before {
+  visibility: hidden;
+}
+:is([data-selection], [data-selecting]
+) :is(.selection:hover:not(:has(> :hover)) > handle)::before {
+  visibility: hidden;
+}
+.handle:active {
+  opacity: 1;
+  visibility: visible;
+  box-shadow: none;
+}
+.selection.ants {
+  animation: forwards ants infinite 500ms linear;
+  --bgs: calc(var(--length-ant) + var(--length-gap));
+  --off: calc(var(--bgs) * var(--animated-offset));
+  --scl: var(--color-ant, #fff);
+  --scd: var(--color-gap, #0004);
+  --color-ant: #fff;
+  --color-gap: #0004;
+  --length-ant: 4px;
+  --length-gap: 4px;
+}
+@keyframes ants {
+  0% {
+    --animated-offset: 0;
+  }
+  100% {
+    --animated-offset: 1;
+  }
 }
 }

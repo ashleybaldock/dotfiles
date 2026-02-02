@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.340
+// @version     1.0.345
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -163,7 +163,7 @@ const addSequenceToggle = ({
 const addWrappedVideo = (
   ({
     window: {
-      notify: { log, info },
+      console: { warn, log, info, debug },
     },
   }) =>
   ({ to, idx, nextFile, autoplay = true, muted = true, ...attrs } = {}) => {
@@ -256,11 +256,11 @@ const addWrappedVideo = (
 
     /* Playback */
     video.addEventListener('volumechange', () => {
-      // notify.debug(`${idx} volumechange '${decodeURI(video.src)}'`);
+      // console.debug(`${idx} volumechange '${decodeURI(video.src)}'`);
     });
 
     video.addEventListener('canplay', () => {
-      info`${idx} canplay '${decodeURI(video.src)}'`;
+      // info`${idx} canplay '${decodeURI(video.src)}'`;
     });
     video.addEventListener('canplaythrough', () => {
       info`${idx} canplaythrough '${decodeURI(video.src)}'`;
@@ -296,10 +296,10 @@ const addWrappedVideo = (
 
     /* Loading */
     video.addEventListener('loadstart', () => {
-      debug(`${idx} loadstart '${decodeURI(video.src)}'`);
+      // debug(`${idx} loadstart '${decodeURI(video.src)}'`);
     });
     video.addEventListener('loadeddata', () => {
-      debug(`${idx} loadeddata '${decodeURI(video.src)}'`);
+      // debug(`${idx} loadeddata '${decodeURI(video.src)}'`);
     });
     video.addEventListener('loadedmetadata', () => {
       debug(`${idx} loadedmetadata '${decodeURI(video.src)}'`);
@@ -347,7 +347,9 @@ const initBrowsePreview = ({ document: { body } }) => {
       const subs = new Set();
 
       const notify = () =>
-        Promise.allSettled(subs.map((sub) => Promise.resolve(sub(_val))));
+        Promise.allSettled(
+          subs.values().map((sub) => Promise.resolve(sub(_val))),
+        );
 
       const subscribe = (callback) => {
         subs.add(callback);
@@ -377,7 +379,9 @@ const initBrowsePreview = ({ document: { body } }) => {
       const subs = new Set();
 
       const notify = () =>
-        Promise.allSettled(subs.map((sub) => Promise.resolve(sub(_val))));
+        Promise.allSettled(
+          subs.values().map((sub) => Promise.resolve(sub(_val))),
+        );
 
       const subscribe = (callback) => {
         subs.add(callback);
@@ -407,7 +411,9 @@ const initBrowsePreview = ({ document: { body } }) => {
       const subs = new Set();
 
       const notify = () =>
-        Promise.allSettled(subs.map((sub) => Promise.resolve(sub(_val))));
+        Promise.allSettled(
+          subs.values().map((sub) => Promise.resolve(sub(_val))),
+        );
 
       const subscribe = (callback) => {
         subs.add(callback);
@@ -439,7 +445,9 @@ const initBrowsePreview = ({ document: { body } }) => {
       const subs = new Set();
 
       const notify = () =>
-        Promise.allSettled(subs.map((sub) => Promise.resolve(sub(_val))));
+        Promise.allSettled(
+          subs.values().map((sub) => Promise.resolve(sub(_val))),
+        );
 
       const subscribe = (callback) => {
         subs.add(callback);

@@ -298,8 +298,7 @@ sign define mhsearch text=􀊫 texthl=Directory
 sign define mhtarget text=􂇏 texthl=Directory
 sign define mhring text=􃊌️⃝ texthl=Directory
 sign define mhring text=􃊌️⃝ texthl=Directory
-exec ':sign place 2 line='..getcurpos()[1]..' name=target file='..expand('%:p')
-"
+exec ':sign place 2 line='..getcurpos()[1]..' name=target file='..expand('%:p') "
 "                   􂷸︎⃣ 􂷸︎⃝ 􂷸︎⃞ 􂷸︎⃠ 􂷸︎⃤ 􂷸︎⃟ 􂷸︎⃘ 􂷸︎ 􂷸︎⃦ 􂷸
 " 􀙚  􀸏 􀡅 􁇵 􀅮 
 "

@@ -103,10 +103,10 @@ let g:mayhem.symbols_S.diag = #{
       \}
 let g:mayhem.symbols_8.diag = #{
       \ numbers  : ['','1⃝ ','2⃝ ','3⃝ ','4⃝ ','5⃝ ','6⃝ ','7⃝ ','8⃝ ','9⃝ '],
-      \ error    : #{ n: '⚑️' '', c: '⚑⃝ ', i: '⚑️',},
-      \ warning  : #{ n: '!' '', c: '!⃝ ', i: '!',},
-      \ ok       : #{ n: '✓️' '', c: '✓⃝ ', i: '✓️',},
-      \ off      : #{ n: '?' '', c: '?⃣ ', i: '?',},
+      \ error    : #{ n: '⚑️', c: '⚑⃝ ', i: '⚑️',},
+      \ warning  : #{ n: '!', c: '!⃝ ', i: '!',},
+      \ ok       : #{ n: '✓️', c: '✓⃝ ', i: '✓️',},
+      \ off      : #{ n: '?', c: '?⃣ ', i: '?',},
       \}
 let g:mayhem.symbols_A.diag = #{
       \ numbers  : ['', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
@@ -126,8 +126,9 @@ let g:mayhem.symbols_A.diag = #{
 function s:Update_Diag()
   if !exists('g:did_coc_loaded')
     let b:mayhem.sl_cache_diag = [
-          \ '%#SlSynOffC#' .. symbols#get('diag.off') .. '%*',
-          \ '%#SlSynOffN#' .. symbols#get('diag.off') .. '%*']
+          \ ['%#SlSynOffC#', symbols#getc('diag.off'), '%*']->join(''),
+          \ ['%#SlSynOffN#', symbols#getn('diag.off'), '%*']->join(''),
+          \]
     return
   endif
 

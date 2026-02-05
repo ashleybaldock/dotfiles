@@ -24,6 +24,15 @@ let s:colors = #{
       \linksto: '#994400',
       \}
 
+" Reset index for generating text property ids
+let s:lastAdhocHlGroupId = 1000
+
+" TODO recycle highlight groups & limit number used for adhoc groups
+function! s:nextAdhocHighlightId()
+  let s:lastAdhocHlGroupId = s:lastAdhocHlGroupId + 1
+  return 'hif' .. s:lastAdhocHlGroupId
+endfunc
+
 "
 " Formats character info for display in SynFo popup
 " See: ../autoload/charinfo.vim
@@ -33,6 +42,8 @@ function! s:FormatCharInfoForSynFo(arg = v:null)
 
   return #{text: chfo['characterise_output'], props: []}
 endfunc
+
+" command! -bar -nargs=0 CharInfoToggle Toggle g:mayhem_hl_auto_charinfo<CR>
 
 " Follow links to the end (or until detecting a loop)
 function s:FormatLinkChain(name)
@@ -108,6 +119,8 @@ function! s:ForColor(color)
   return [s:symbols.none, '#333333']
 endfunc
 
+
+
 let s:sectionBreak = #{text: '', props: []}
 
 function! s:FormatColors()
@@ -171,20 +184,21 @@ function! s:LineWithPropsFromParts(parts, bufnr, lineconfig = #{})
     " if any of the ad-hoc highlighting options below are given,
     " then this serves as a base for them to modify
     let hi = get(part, 'hi', v:none)
+    let base = hlget(hi, v:true)->get(0, #{})
+    let adhoc = deepcopy(base)
     " ad-hoc highlighting (creates buffer-local highlight group)
     " if 'hi' is also set, it is copied and these act as overrides
-    let fg = get(part, 'fg', v:none)
-    let bg = get(part, 'bg', v:none)
-    let sp = get(part, 'sp', v:none)
-    let gui = get(part, 'gui', v:none)
+    let adhoc['guifg'] = get(part, 'fg', get(adhoc, 'guifg'))
+    let adhoc['guibg'] = get(part, 'bg', get(adhoc, 'guibg'))
+    let adhoc['guisp'] = get(part, 'sp', get(adhoc, 'guisp'))
+    let adhoc['gui'] = get(part, 'gui', get(adhoc, 'gui'))
 
-    if fg != v:none
-      let s:hlid = s:hlid + 1
-      let id = 'hif' .. s:hlid
+    if base.guifg != adhoc.guibg || base.guibg != adhoc.guibg || base.guisp != adhoc.guisp || base.gui != adhoc.gui
+      let adhocId = s:nextAdhocHighlightId()
 
-      call hlset([#{name: id, guifg: fg}])
-      call prop_type_add(id, #{ bufnr: a:bufnr, highlight: id})
-      let props += [#{col: strlen(line) + 1, length: strlen(text), id: id, type: id}]
+      call hlset([#{name: adhocId, guifg: fg}])
+      call prop_type_add(adhocId, #{ bufnr: a:bufnr, highlight: adhocId})
+      let props += [#{col: strlen(line) + 1, length: strlen(text), id: adhocId, type: adhocId}]
     endif
     let line = line .. text
   endfor
@@ -196,8 +210,6 @@ function! s:UpdateSynFoBuffer(winid)
 
   " Replacement buffer contents
   let lines = []
-  " Reset index for generating text property ids
-  let s:hlid = 1000
 
   "
   " Top Level Highlight Info:

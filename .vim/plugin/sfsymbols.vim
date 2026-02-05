@@ -34,20 +34,21 @@ call setcellwidths([[sfrange_start, sfrange_end, 2]])
 # This is derived from $VIMRUNTIME/tools/emoji_list.vim
 # Uses a compiled Vim9 function for speed
 #
-def GenerateSfSymbolsListing(circled = v:false)
-  setline(1, '══︎═︎═══════════════')
-  setline(2, circled ?
-        \    '  􀣺️⃝  SF Symbols  ' :
-        \    '  􀣺  SF Symbols  ')
-  setline(3, '══︎═︎═══════════════')
+def GenerateSfSymbolsListing()
+  call setline(1, '══︎═︎═══════════════')
+  call setline(2, ' 􀣺􀣺️⃝ 􀣺︎⃣ SF Symbols ')
+  call setline(3, '══︎═︎═══════════════')
   var lnum = 4
-  var modifier = circled ?  '️⃝' : ''
+  var vs15 = '︎'
+  var vs15circle = '️⃝'
+  var vs15button = '︎⃣'
   for c in range(sfrange_start, sfrange_end)
-    var cs = nr2char(c) .. modifier
-    setline(lnum,
-          \ printf("  %s  ⏐%d⏐0x%02x%02x%02x",
-          \ cs,
-          \ strwidth(cs),
+    call setline(lnum,
+          \ printf(" %s %s %s ⏐%d⏐0x%02x%02x%02x",
+          \ nr2char(c) .. vs15,
+          \ nr2char(c) .. vs15circle,
+          \ nr2char(c) .. vs15button,
+          \ strwidth(c),
           \ and(c, 0xff0000) >> 16,
           \ and(c, 0xff00) >> 8,
           \ and(c, 0xff)
@@ -56,17 +57,16 @@ def GenerateSfSymbolsListing(circled = v:false)
   endfor
 enddef
 
-def SymbolsSplit(circled = v:false)
+def SymbolsSplit()
   :19vnew
   setlocal winfixwidth winwidth=19 nowrap
   setlocal colorcolumn=5,8
   setlocal modifiable
-  GenerateSfSymbolsListing(circled)
+  GenerateSfSymbolsListing()
   set nomodified nomodifiable
 enddef
 
 command! -bar SfSymbolSplit call SymbolsSplit()
-command! -bar SfCircledSymbolSplit call SymbolsSplit(v:true)
 
 # First bit of what Characterize does
 def NormalisedChar(arg: string): string

@@ -8,7 +8,7 @@ const StyledDiv = styled.div`
 export const %FILE% = ({
   children,
   style,
-  className = ''
+  className,
 }: {
   style?: CSSProperties;
   className?: string;

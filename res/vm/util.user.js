@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.186
+// @version     1.1.188
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -313,8 +313,10 @@ const concept = (({ window, unsafeWindow }) => {
   // const preBind = ['log', 'info', 'warn', 'error', 'debug'];
   const _console = window.console;
 
+  let _trace = false;
+
   _console.log(
-    `concept#start ${window === unsafeWindow ? 'w≡w' : 'w≢w'} ${window.console === unsafeWindow.console ? 'c≡c' : 'c≢c'}`,
+    `concept#start ${window === unsafeWindow ? 'w ≡ uw' : 'w ≢ uw'} ${window.console === unsafeWindow.console ? 'w.c ≡ uw.c' : 'w.c ≢ uw.c'}`,
     window,
     unsafeWindow,
   );
@@ -336,18 +338,20 @@ const concept = (({ window, unsafeWindow }) => {
     }),
   );
 
-  const instanceMap =
-    new WeakMap /*<WeakKey, {overrides: Map<string | Symbol, ()>}>*/();
-
   const _concept = new Proxy(_console, {
     construct: (target, argumentsList, newTarget) => {
-      _console.info(`concept#construct with arguments '${argumentsList}'`);
+      _trace &&
+        _console.info(`concept#construct with arguments '${argumentsList}'`);
       return Reflect.construct(target, argumentsList, newTarget);
     },
     get: (target, property, receiver) => {
-      _console.info(
-        `concept#get ${property in target || target.hasOwnProperty(property) ? 'existing' : 'new'} property '${property}'`,
-      );
+      _trace &&
+        _console.info(
+          `concept#get ${property in target || target.hasOwnProperty(property) ? 'existing' : 'new'} property '${property}'`,
+        );
+      if (property === 'concept') {
+        return true;
+      }
       return Reflect.get(target, property, receiver);
       // if (boundMethods.has(property)) {
       //   return boundMethods.get(property);
@@ -360,68 +364,80 @@ const concept = (({ window, unsafeWindow }) => {
       // }
     },
     has: (target, property) => {
-      _console.info(
-        `concept#has ${property in target || target.hasOwnProperty(property) ? 'existing' : 'missing'} property '${property}'`,
-      );
+      _trace &&
+        _console.info(
+          `concept#has ${property in target || target.hasOwnProperty(property) ? 'existing' : 'missing'} property '${property}'`,
+        );
+      if (property === 'concept') {
+        return true;
+      }
       return Reflect.has(target, property);
     },
     isExtensible: (target) => {
-      _console.info(`concept#isExtensible`);
+      _trace && _console.info(`concept#isExtensible`);
       return Reflect.isExtensible(target);
     },
     ownKeys: (target) => {
-      _console.info(`concept#ownKeys`);
+      _trace && _console.info(`concept#ownKeys`);
       return Reflect.ownKeys(target);
     },
     preventExtensions: (target) => {
-      _console.info(`concept#preventExtensions`);
+      _trace && _console.info(`concept#preventExtensions`);
       // Object.preventExtensions(target);
       return Reflect.preventExtensions(target);
     },
     set: (target, property, newValue, receiver) => {
-      _console.info(
-        `concept#set ${property in target || target.hasOwnProperty(property) ? 'existing' : 'new'} property '${property}' to v: '${newValue}'`,
-      );
+      _trace &&
+        _console.info(
+          `concept#set ${property in target || target.hasOwnProperty(property) ? 'existing' : 'new'} property '${property}' to v: '${newValue}'`,
+        );
       return Reflect.set(target, property, newValue, receiver);
     },
     defineProperty: (target, property, descriptor) => {
-      _console.info(
-        `concept#define ${property in target || target.hasOwnProperty(property) ? 'existing' : 'new'} property '${property}' to v: '${descriptor}'`,
-      );
+      _trace &&
+        _console.info(
+          `concept#define ${property in target || target.hasOwnProperty(property) ? 'existing' : 'new'} property '${property}' to v: '${descriptor}'`,
+        );
       return Reflect.defineProperty(target, property, descriptor);
     },
     deleteProperty: (target, property) => {
-      _console.info(
-        `concept#delete ${property in target || target.hasOwnProperty(property) ? 'existing' : 'missing'} property '${property}'`,
-      );
+      _trace &&
+        _console.info(
+          `concept#delete ${property in target || target.hasOwnProperty(property) ? 'existing' : 'missing'} property '${property}'`,
+        );
       return Reflect.deleteProperty(target, property);
     },
     getOwnPropertyDescriptor: (target, property) => {
-      _console.info(
-        `concept#describe ${property in target || target.hasOwnProperty(property) ? 'existing' : 'missing'} property '${property}'`,
-      );
+      _trace &&
+        _console.info(
+          `concept#describe ${property in target || target.hasOwnProperty(property) ? 'existing' : 'missing'} property '${property}'`,
+        );
       return Reflect.getOwnPropertyDescriptor(target, property);
     },
     getPrototypeOf: (target) => {
-      _console.info(`concept#get prototype`);
+      _trace && _console.info(`concept#get prototype`);
       return Reflect.getPrototypeOf(target);
     },
     setPrototypeOf: (target) => {
-      _console.info(`concept#set prototype`);
+      _trace && _console.info(`concept#set prototype`);
       return Reflect.setPrototypeOf(target);
     },
   });
 
   unsafeWindow.console = _concept;
+  window.concept = _concept;
 
   return {
     deconceptualise: () => (unsafeWindow.console = _console),
     reconceptualise: () => (unsafeWindow.console = _concept),
+    set trace(newValue) {
+      _trace = newValue;
+    },
     get console() {
       return _console;
     },
     get status() {
-      return `window.console === _concept: ${window.console === _concept} | window.console === _console: ${window.console === _console}`;
+      return `w.c.concept = ${window.console?.concept ?? false} | ${window.console === _concept ? 'w.c ≡ _concept' : 'w.c ≢ _concept'} | ${window.console === _console ? 'w.c ≡ _console' : 'w.c ≢ _console'}`;
     },
   };
 })({ window, unsafeWindow });

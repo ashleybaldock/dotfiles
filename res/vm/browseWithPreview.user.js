@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.345
+// @version     1.0.346
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -194,7 +194,7 @@ const addWrappedVideo = (
     video.addEventListener(
       'play',
       () => {
-        info(`${idx} playing '${decodeURI(video.src)}'`);
+        // info(`${idx} playing '${decodeURI(video.src)}'`);
 
         video.classList.remove('paused');
         video.classList.add('playing');
@@ -235,7 +235,7 @@ const addWrappedVideo = (
     video.addEventListener(
       'pause',
       () => {
-        info`${idx} paused '${decodeURI(video.src)}'`;
+        // info`${idx} paused '${decodeURI(video.src)}'`;
 
         video.classList.remove('playing');
         video.classList.add('paused');
@@ -263,7 +263,7 @@ const addWrappedVideo = (
       // info`${idx} canplay '${decodeURI(video.src)}'`;
     });
     video.addEventListener('canplaythrough', () => {
-      info`${idx} canplaythrough '${decodeURI(video.src)}'`;
+      // info`${idx} canplaythrough '${decodeURI(video.src)}'`;
       video.volume = 0;
       video.muted = true;
       video.play();
@@ -302,7 +302,7 @@ const addWrappedVideo = (
       // debug(`${idx} loadeddata '${decodeURI(video.src)}'`);
     });
     video.addEventListener('loadedmetadata', () => {
-      debug(`${idx} loadedmetadata '${decodeURI(video.src)}'`);
+      // debug(`${idx} loadedmetadata '${decodeURI(video.src)}'`);
     });
     video.addEventListener('progress', () => {
       // debug(`${idx} progress '${decodeURI(video.src)}'`);

@@ -113,6 +113,7 @@ alias gpu="git pull" && __git_complete gpu git_pull
 # alias gpull="git pull" && __git_complete gpull git_pull
 alias gpb='git push -u origin $(git branch | grep \* | cut -d " " -f2)'
 alias gs="gu && git status" && __git_complete gs git_status
+alias gss="gu && git status --short --branch" && __git_complete gs git_status
 alias gm="git merge" && __git_complete gm git_merge
 alias gmm='git checkout $(gitRemoteHeadName) && git pull --commit --no-edit --ff-only && git checkout - && git merge --commit --no-edit $(gitRemoteHeadName)'
 alias ga="git add" && __git_complete ga git_add
@@ -237,5 +238,6 @@ GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWUPSTREAM=auto
-export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
+# export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
+export PS1='\[\033[0;33m\]\u@\h:\[\033[00m\]\w\[\033[0;95m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
 

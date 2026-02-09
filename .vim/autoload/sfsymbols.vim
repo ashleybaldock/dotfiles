@@ -6445,8 +6445,19 @@ let s:symbols = {
       \ '􀣺': 'apple.logo'
    \}
 
+let s:lowest_codepoint = 0xffffffff
+let s:highest_codepoint = 0
+
+function! sfsymbols#getUnicodeRange() abort
+  return [s:lowest_codepoint, s:highest_codepoint]
+endfunction
+
+
 " let s:reversed_symbols = mapnew(s:symbols, {k, v -> {[v]: k}})->reduce({acc, e -> extend(acc, e)})
 let s:reversed_symbols = {}
+
 for k in keys(s:symbols)
   let s:reversed_symbols[s:symbols[k]] = k
+  let s:highest_codepoint = max([char2nr(k), s:highest_codepoint])
+  let s:lowest_codepoint = min([char2nr(k), s:lowest_codepoint])
 endfor

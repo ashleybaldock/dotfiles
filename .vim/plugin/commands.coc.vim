@@ -87,13 +87,26 @@ command! ShowDocumentation call <SID>ShowDocumentation()
 " Jump to a useful location from current cursor position
 "
 function s:JumpSomewhere()
-  try
-    call CocAction('jumpDefinition')
-  catch /^Vim\%((\a\+)\)\=:E605:/
-    echom "caught E605 : " .. v:exception
-  catch /.*/
-    echom "caught : " .. v:exception
-  endtry
+  if CocAction('ensureDocument')
+    try
+      call CocAction('jumpDefinition')
+      " call CocAction('jumpDeclaration')
+      " call CocAction('jumpImplementation')
+      " call CocAction('jumpTypeDefinition')
+      " call CocAction('jumpReferences')
+      " call CocAction('jumpUsed')
+    catch /.*/
+      if v:exception =~# 'E605'
+        echom "caught E605 : " .. v:exception
+      else
+        echom "caught : " .. v:exception
+      endif
+    endtry
+  else
+    if expand('<cfile>')
+      exec "normal gF" 
+    endif
+  endif
 endfunc
 
 command! -bar JumpSomewhere call <SID>JumpSomewhere()

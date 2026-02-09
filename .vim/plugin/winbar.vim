@@ -57,7 +57,7 @@ function! s:WinBarUpdate()
     " tlnoremenu 1.10 WinBar.􀯪􀱢・‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️:・ <nop>
     silent nunmenu WinBar
     if mode() =~# 'n'
-      silent nnoremenu 1.20 WinBar.􀊙\ ‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️ <nop>
+      silent nnoremenu 1.20 WinBar.􀊙\ ‹️i️︎›︎️ <nop>
     else
       silent nnoremenu 1.20 WinBar.􀊛\ ‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️ <nop>
     endif
@@ -74,7 +74,7 @@ function! s:WinBarUpdate()
       " h / H  ╎ 􀧊  … in horizontal split / without moving to it               􀕰􀕱􀧋
       " v / gv ╎ 􂨪􀏠 / ⃠⃯ →︎⃠ 􀏠  … in vertical split / without moving to it            􀧈􀘜􀧉
       "     q  ╵ 􀃱􀏎 close the quickfix window.
-      silent nnoremenu 1.20 WinBar.􀱢\ ‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️ <nop>
+      silent nnoremenu 1.20 WinBar.􀱢\ ‹️§️︎›︎️‹︎️q️︎›️ <nop>
     endif
   endif
 
@@ -82,13 +82,14 @@ function! s:WinBarUpdate()
     silent nunmenu WinBar
     " nnoremenu 1.10 WinBar.􀆧\ $dx\ \ 􀈄\ §de\ 􀈂\ §dt▕\ 􀆇\ [c▕\ 􀆈\ ]c▕\ 􀅌\ §dr <nop>
     "􀤴\ 􀤵\ 
-      silent nnoremenu 1.05 WinBar.􀆧\ $dx <Nop>
+      silent nnoremenu 1.05 WinBar.􀐓\  <Nop>
+      silent nnoremenu 1.10 WinBar.􀆧\ ‹️$️︎›︎d️︎›︎x️︎›︎️ <Nop>
     if exists("b:mayhem_diff_left")
-      silent nnoremenu 1.20 WinBar.􂨪\ \ 􀆝] <Nop>
+      silent nnoremenu 1.20 WinBar.􂨪\ \ ‹️􀆝]›︎️ <Nop>
     elseif exists("b:mayhem_diff_right")
-      silent nnoremenu 1.20 WinBar.􂨩\ \ 􀆝[ <Nop>
+      silent nnoremenu 1.20 WinBar.􂨩\ \ ‹️􀆝[›︎️ <Nop>
     else
-      silent nnoremenu 1.20 WinBar.􀈄\ §de\ ╱\ 􀈂\ §dt <Nop>
+      silent nnoremenu 1.20 WinBar.􀈄\ ‹️§▸▹‣▸▹▻►de›︎️\ ╱\ 􀈂\ ‹️§dt›︎️ <Nop>
     endif
     " silent nnoremenu 1.30 WinBar.􀄶􀄨􀄻􀄲\ [[\ ╱\ 􀄺􀄩􀄷􀄳\ ]] <Nop>
     silent nnoremenu 1.30 WinBar.􀄶\ [[\ ╱\ 􀄳\ ]] <Nop>

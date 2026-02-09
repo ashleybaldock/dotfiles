@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.188
+// @version     1.1.189
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -618,22 +618,20 @@ const overrideVideoClickEvents = (video) => {
       const { trigger } = buttonsPressed(e);
       if (target === video && trigger === 'left') {
         if (videoIsPlaying(target)) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
           target.pause();
-          e.stopImmediatePropagation();
-          e.preventDefault();
         } else if (target.src !== '') {
-          target.play();
           e.stopImmediatePropagation();
           e.preventDefault();
+          target.play();
         }
       }
     },
     { capture: true },
   );
 };
-
-/*{{{2 Iterators/Generators */
-function* dropIter(source, n) {
+/*{{{2 Iterators/Generators */ function* dropIter(source, n) {
   for (
     let done = false, i = 0;
     !done && i < n;
@@ -641,15 +639,12 @@ function* dropIter(source, n) {
   ) {}
   yield* source();
 }
-
 const isIterable = (x) =>
   'object' === typeof x &&
   Symbol.iterator in x &&
   typeof x[Symbol.iterator] === 'function';
-
 const isIterator = (x) =>
   'object' === typeof x && 'next' in x && typeof x['next'] === 'function';
-
 const toIterator = (iterish) => {
   if (isIterable(iterish)) {
     return iterish[Symbol.iterator]();

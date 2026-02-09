@@ -3,6 +3,9 @@ if exists("g:mayhem_loaded_highlight")
 endif
 let g:mayhem_loaded_highlight = 1
 
+"
+" See Also: ../autoload/hi.vim
+"
 
 command! -bar HiHi call hi#hi()
 

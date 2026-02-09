@@ -8,18 +8,21 @@ g:mayhem_loaded_sfsymbols = 1
 # See Also:
 #   ../autoload/sfsymbols.vim
 #      ../notes/sf-symbols.createlist.md
-#       ../demo/
+#       ../notes/sf-symbols-7
 #
-#􀥯
+# 􀥯
 
 # Scope: Script
-var sfrange_start = 0x100000
-var sfrange_end   = 0x103fff
+var [sfrange_start, sfrange_end] = sfsymbols#getUnicodeRange()
+
+echom printf('sfsymbols unicode range: (%s) 0x%08X - 0x%08X (%s)',
+      \ nr2char(sfrange_start), sfrange_start, sfrange_end, nr2char(sfrange_end))
+
 var sfrange_valid = printf('[U%08X-U%08X]', sfrange_start, sfrange_end)
 
 # Set all SF Symbol codepoints to be 2 chars wide
 # (the majority of them are at least that wide)
-call setcellwidths([[sfrange_start, sfrange_end, 2]])
+call setcellwidths([[max([0x80, sfrange_start]), max([0x80, sfrange_end]), 2]])
 
 # TODO
 # This has to be done as non-overlapping parts of the sequence, bit tedious

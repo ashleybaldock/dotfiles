@@ -15,8 +15,9 @@ color.status.<slot>
 black red green yellow blue magenta cyan white
 normal default.
 
+git log --graph --date=relative --abbrev-commit --decorate=short --format="%C(3)%>>|(26)􀉟􀥤%(describe) %C(5)􀉪 %an %C(8)%ar %C(6)%(decorate:prefix=(️,suffix=%x1b[36m%x29️,separator=%x1b[00m%x1b[93m%x2c%x1b[00m,tag=%x1b[0;92m􀋡 ,pointer=􀆌􀄫 ,) %C(10)" --line-prefix="^[[92m  "
 
 
 
-git log --graph --date=relative --abbrev-commit --decorate=short --format="%C(3)%>>|(26)%(describe) %C(5)%an %C(8)%ar %C(6)%(decorate:prefix=❮,suffix=%x1b[36m❯,separator=%x1b[00m%x1b[93m%x2c%x1b[00m,tag=%x1b[0;92m􀋡 ,pointer=􀄫 􀄫 􀁼 􁉂  􁉃 􀉐 􀉑 􀉘 􀒐 􀉙 􀒑 􀆊 􀆌 􂨪 􀄵 􀄹 􀄽 􀄾 􀅂 􀓅 􀄧 􂚨   􀄌 􀄍,) %C(10)" --line-prefix="^[[92m  "
+git log --graph --date=relative --abbrev-commit --decorate=short --format="%C(3)%>>|(26)%(describe) %C(5)%an %C(8)%ar %C(6)%(decorate:prefix=❮,suffix=%x1b[36m❯,separator=%x1b[00m%x1b[93m%x2c%x1b[00m,tag=%x1b[0;92m􀋢,pointer=􀄫 􀄫 􀁼 􁉂  􁉃 􀉐 􀉑 􀉘 􀒐 􀉙 􀒑 􀆊 􀆌 􂨪 􀄵 􀄹 􀄽 􀄾 􀅂 􀓅 􀄧 􂚨   􀄌 􀄍,) %C(10)" --line-prefix="^[[92m  "
 

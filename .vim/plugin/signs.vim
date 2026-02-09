@@ -61,6 +61,16 @@ let s:diagsigns = [
 " ┃􀌨
 
 
+sign define mhsearch text=􀊫 texthl=Directory
+sign define mhtarget text=􂇏 texthl=Directory
+sign define mhring text=􃊌️⃝ texthl=Directory
+sign define mhring text=􃊌️⃝ texthl=Directory
+function! s:MarkThisLine(line = getcurpos()[1])
+  exec ':sign place 2 line=' .. a:line .. ' name=target file=' .. expand('%:p')
+endfunc
+
+command MarkThisLine echo <SID>MarkThisLine()
+
 "
 " -----------------------------------   Signs   -----------
 "

@@ -90,8 +90,9 @@ function s:JumpSomewhere()
   try
     call CocAction('jumpDefinition')
   catch /^Vim\%((\a\+)\)\=:E605:/
-    echo "caught " .. v:exception
-    
+    echom "caught E605 : " .. v:exception
+  catch /.*/
+    echom "caught : " .. v:exception
   endtry
 endfunc
 

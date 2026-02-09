@@ -45,12 +45,12 @@ function! toggle#get(togglename) abort
 endfunc
 
 
-function! toggle#observe(togglename, togglestates) abort
-  let tgl = toggle#parse(a:togglename)
+function! toggle#observe(name, states) abort
+  let tgl = toggle#parse(a:name)
   call autocmd_add([
         \#{
         \ event: 'User', pattern: tgl.aupat,
-        \ cmd: 'exec ''get(a:togglestates, toggle#get(tgl.name))''',
+        \ cmd: 'exec ''get(a:states, toggle#get(tgl.name))''',
         \ group: tgl.augroup,
         \},
         \])

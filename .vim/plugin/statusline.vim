@@ -97,29 +97,23 @@ let g:mayhem.symbols_S.diag = #{
       \  c:['','１⃝︀','２⃝','３⃝','４⃝','５⃝','６⃝','７⃝','８⃝','９⃝'],
       \},
       \ error    : #{ n: '⚑⃝ ', c: '􀋊︎⃣', i: '􀋊', 1:'𝟣⚑️',2:'𝟤⚑️',3:'𝟥⚑️',4:'𝟦⚑️',5:'𝟧⚑️',6:'𝟨⚑️',7:'𝟩⚑️',8:'𝟪⚑️',9:'𝟫⚑️'},
-      \ warning  : #{ n: '􀁞', c: '􀅎︎⃝', i: '􀇾'},
-      \ ok       : #{ n: '􀆅', c: '􀆅︎⃣', i: '􀆅'},
+      \ warning  : #{ n: '􀁞', c: '􀅎︎⃝', i: '􀇾', 1:'𝟣!',2:'𝟤!',3:'𝟥!',4:'𝟦!',5:'𝟧!',6:'𝟨!',7:'𝟩!',8:'𝟪!',9:'𝟫!'},
+      \ ok       : #{ n: '􀆅', c: '􀆅︎', i: '􀆅'},
       \ off      : #{ n: '􂟦', c: '􂟦︎', i: '􂟦'},
       \}
 let g:mayhem.symbols_8.diag = #{
       \ numbers  : ['','1⃝ ','2⃝ ','3⃝ ','4⃝ ','5⃝ ','6⃝ ','7⃝ ','8⃝ ','9⃝ '],
-      \ error    : #{ n: '⚑️', c: '⚑⃝ ', i: '⚑️',},
-      \ warning  : #{ n: '!', c: '!⃝ ', i: '!',},
+      \ error    : #{ n: '⚑️', c: '⚑⃝ ', i: '⚑️', 1:'𝟣⚑️',2:'𝟤⚑️',3:'𝟥⚑️',4:'𝟦⚑️',5:'𝟧⚑️',6:'𝟨⚑️',7:'𝟩⚑️',8:'𝟪⚑️',9:'𝟫⚑️'},
+      \ warning  : #{ n: '!', c: '!⃝ ', i: '!', 1:'𝟣!',2:'𝟤!',3:'𝟥!',4:'𝟦!',5:'𝟧!',6:'𝟨!',7:'𝟩!',8:'𝟪!',9:'𝟫!'},
       \ ok       : #{ n: '✓️', c: '✓⃝ ', i: '✓️',},
       \ off      : #{ n: '?', c: '?⃣ ', i: '?',},
       \}
 let g:mayhem.symbols_A.diag = #{
       \ numbers  : ['', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-      \ error    : 'E',
-      \ warning  : 'W',
+      \ error    : #{n:'E', c:'E', i: 'E', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'},
+      \ warning  : #{n:'W', c:'W', i: 'W', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'},
       \ ok       : 'Ø',
       \ off      : '¿',
-      \ inline   : #{
-      \  error   : 'E',
-      \  warning : 'W',
-      \  ok      : 'Ø',
-      \  off     : '¿',
-      \ }
       \}
 
 " TODO - Add gutter display of errors elsewhere in file
@@ -141,12 +135,13 @@ function s:Update_Diag()
   let errorCount = get(diaginfo, 'error',       0)
 
   if errorCount > 0
-    let symbol = symbols#get('diag.numbers', [])
-          \->get(errorCount, symbols#get('diag.error'))
-
     let b:mayhem.sl_cache_diag = [
-        \ ['%#SlSynErrC#',symbol,'%*']->join(''),
-        \ ['%#SlSynErrN#',symbol,'%*']->join(''),
+        \ ['%#SlSynErrC#',
+        \  get(symbols#get('diag.error'), errorCount, symbols#getc('diag.error')),
+        \ '%*']->join(''),
+        \ ['%#SlSynErrN#',symbol,
+        \  get(symbols#get('diag.error'), errorCount, symbols#getn('diag.error')),
+        \ '%*']->join(''),
         \]
     return
   endif
@@ -157,6 +152,14 @@ function s:Update_Diag()
     let b:mayhem.sl_cache_diag = [
         \ ['%#SlSynWarnC#',symbol,'%*']->join(''),
         \ ['%#SlSynWarnN#',symbol,'%*']->join(''),
+        \]
+    let b:mayhem.sl_cache_diag = [
+        \ ['%#SlSynWarnC#',
+        \  get(symbols#get('diag.warning'), warnCount, symbols#getc('diag.warning')),
+        \ '%*']->join(''),
+        \ ['%#SlSynWarnN#',
+        \  get(symbols#get('diag.warning'), warnCount, symbols#getn('diag.warning')),
+        \ '%*']->join(''),
         \]
     return
   endif

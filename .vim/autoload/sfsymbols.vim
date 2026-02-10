@@ -6444,20 +6444,29 @@ let s:symbols = {
       \ '􀛢': '50.square.fill',
       \ '􀣺': 'apple.logo'
    \}
+" 􃗈\U1035c8
 
-let s:lowest_codepoint = 0xffffffff
-let s:highest_codepoint = 0
-
-function! sfsymbols#getUnicodeRange() abort
-  return [s:lowest_codepoint, s:highest_codepoint]
-endfunction
-
+" Restrict to Supplementary Private Use Area-B (0x00100000 - 0x0010FFFD)
+let s:minB = 0x00100000
+let s:maxB = 0x0010FFFD
+let s:lowest_codepoint = s:maxB
+let s:highest_codepoint = s:minB
 
 " let s:reversed_symbols = mapnew(s:symbols, {k, v -> {[v]: k}})->reduce({acc, e -> extend(acc, e)})
 let s:reversed_symbols = {}
 
 for k in keys(s:symbols)
   let s:reversed_symbols[s:symbols[k]] = k
-  let s:highest_codepoint = max([char2nr(k), s:highest_codepoint])
-  let s:lowest_codepoint = min([char2nr(k), s:lowest_codepoint])
+
+  let codepoint = char2nr(k)
+
+  if codepoint >= s:minB && codepoint <= s:maxB
+    let s:lowest_codepoint = min([codepoint, s:lowest_codepoint])
+    let s:highest_codepoint = max([codepoint, s:highest_codepoint])
+  endif
 endfor
+
+function! sfsymbols#getUnicodeRange() abort
+  return [s:lowest_codepoint, s:highest_codepoint]
+endfunction
+

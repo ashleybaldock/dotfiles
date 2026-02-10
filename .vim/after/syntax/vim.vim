@@ -88,7 +88,21 @@ syn keyword vimCommand macm[enu] skipwhite nextgroup=@vimMenuList
 
 syn keyword vimCommand maca[ction]
 
-" Comment items
+"
+" Escaped Variation Selectors
+"
+" var vs01  = "\ufe00  \Ufe00  \UFE00  \U0000FE00"
+" var vs16  = "\ufe0f  \Ufe0f  \UFE0F  \U0000FE0F"
+" var vs17  = "\Ue0100 \Ue0100 \UE0100 \U000E0100"
+" var vs256 = "\Ue01ff \Ue01ff \UE01FF \U000E01FF"
+"
+syn match VSel /\\u[Ff][Ee]0\x\|\\U0\{0,4}[Ff][Ee]0\x\|\\U0\{0,3}[eE]01\x\x/
+      \ contained containedin=vimString
+hi VSel guifg=#33aa00 guisp=#ffff00 gui=underdotted
+
+"
+" Within Comments
+"
 syn region KeyCombo contained containedin=vimLineComment oneline
       \ matchgroup=KeyComboStart start="▌️"
       \ matchgroup=KeyComboEnd end="▐️"
@@ -119,7 +133,7 @@ hi def DemoCursor       guifg=#000000 guibg=#cc22dd
 
 " syn match CommentStart /^\s*\zs"/ contained contains=NONE containedin=Comment,vimLineComment
  " syn match CommentStart /^\s*\zs"/ contained containedin=Comment,vimLineComment contains=NONE conceal cchar=⎢
- syn match CommentStart /^\s*\zs"/ contained containedin=Comment,vimLineComment contains=NONE conceal cchar=│
+syn match CommentStart /^\s*\zs"/ contained containedin=Comment,vimLineComment contains=NONE conceal cchar=│
 
 hi def CommentStart guifg=#cf28df guibg=#cf28df gui=none
 

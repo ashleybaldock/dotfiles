@@ -72,10 +72,10 @@ function! s:SetupDiffOffAutocmds()
 endfunc
 
 function! s:SetupLeftDiff(diffwith)
-  nnoremap <buffer> [[ [c
-  nnoremap <buffer> ]] ]c
-  nnoremap <buffer> { <Cmd>diffget<CR>
-  nnoremap <buffer> } <Cmd>diffput<CR>
+  nnoremap <buffer> [[ za[c
+  nnoremap <buffer> ]] za]c
+  nnoremap <buffer> { <Cmd>diffget<CR>za
+  nnoremap <buffer> } <Cmd>diffput<CR>za
   let b:mayhem_diff_left = 1
   let b:mayhem_diff_with = a:diffwith
   diffthis

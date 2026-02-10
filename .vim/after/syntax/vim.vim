@@ -103,15 +103,38 @@ hi VSel guifg=#33aa00 guisp=#ffff00 gui=underdotted
 "
 " Within Comments
 "
+"▌️❮️􀆔＋E❯️▐️  
+"
+"▌️􀆁􀆔＋E 􀆂▐️  
+"
+"▌️᎗b ಄ ౼   ヿーᐸムマ〱􀆔＋Eᐳ▐️  
+"
+"▌️<􀆔> <️􀆔+E›︎▐️  
+"
+"▌️<️􀆔>️ + ‹︎E›️️▐️  
+"
+"▌️<️〈􀆔〉>️ + ⼕〱‹︎❰̶̶ ❰̵̶ ❱̵̶ ❱̶ ❰️̶❰️̶❰️̶E❱️̶❱️̶❱️̶❱️❱️❱️❱️❱️❱️❱️›️️▐️  
+"
+"┇️  􀆂⬥ ⬧ ⬨ ⬩ ⬪⬫⬮⬯ⵈⴳⵈⴴⵈⵃⵈⴵⵈⵝⵈ ⵗⵧⵂⵓⵧⵌ   ⵑ⵿᎗⵰ⵦ   «»⟨⟩❬❭⟪⟫❮❮︎❮️ ❯❯︎❯️ᖿᖾ ◢◣◤ ᐸᐳᐳᐸ   ⟨︎⟩︎❬︎❭︎⟪︎⟫︎❯︎‹️›️«️»️⟨️⟩️❬️❭️⟪️⟫️❮️❯️ ┇️
+"┇️   ᒥᒧ ᒪᒣ ᒐᒉ ᒐᔐᒉ ᒐᒉ ᒋᒍ ᒋᔑᒍ ᔐᔐ  ᘂᔐᒉ ᔑᘃ ┇️
+"┇️ ᘇᏁᏗᘄ  Ꮊᑀ ᘂᘃ ᗭᑐ ┇️
+"┇️  ᑕᑐ ᑕᘄ ᘍᗉᗆᗕᗒ ᕮ ᐸᑀ ᑅᑀ ᕮᗒᕼᗕᕭ ᑪᕭ ᑢᕭᕮᑝ ᕮᕭ ᕳᕲ ᑪᑐ ᑕᑓ  ᗡᗞ ᗴᗱ ᗺᗱ ᗺᗷ ᗴᗷ ᙀ ᙁ ᘧᓗ ᖠᖢ ᖤ  ᘈᔈᕈ ᘃ  Ꮣᘉ  Ᏸ┇️
+"┇️ ᘂ ᒐᒍ ᘃ ꭾꮅᏂ Ꮐ ᎵᎩYꭹy ᏓᏃᎯ Ꭻ ᓚᓗ ᓕᓓ ᓕᓗ ᓚᓓ ᓔᓓ  ᓏᓙ 𐑿           ᓇᓗ ᓚᓄ ᓕᓀ ᓂᓓ  ᓱᓕᓴᓱᓪᓓ   ᘇᘤ ᘇᘋ ᘳ ᘰ ᙅ ᙂ ᘓᘤ      ┇️
+"┇️ ꭺ  ꭰ   ꮋꮖ   ꮮꮇ  ꮲ ꭱꮪ   ꮩꮃ  ꮓꮎꮾ Ꮻ ᎰᏆꮩꮑꭹ ᏓꭻᎱᏤᏞᏗ  ┇️
+""
 syn region KeyCombo contained containedin=vimLineComment oneline
-      \ matchgroup=KeyComboStart start="▌️"
-      \ matchgroup=KeyComboEnd end="▐️"
+      \ matchgroup=KeyComboEnds start="▌️"
+      \ matchgroup=KeyComboEnds end="▐️"
+      \ contains=KeyCombiner
 syn region KeyCombo contained containedin=vimLineComment oneline
-      \ matchgroup=KeyComboStart start="┇️"
-      \ matchgroup=KeyComboEnd end="┇️"
+      \ matchgroup=KeyComboEnds start="┇️"
+      \ matchgroup=KeyComboEnds end="┇️"
+      \ contains=KeyCombiner
 syn region KeyCombo contained containedin=vimLineComment oneline
-      \ matchgroup=KeyComboStart start="︙"
-      \ matchgroup=KeyComboEnd end="︙"
+      \ matchgroup=KeyComboEnds start="︙"
+      \ matchgroup=KeyComboEnds end="︙"
+      \ contains=KeyCombiner
+syn match KeyCombiner /\Z[◥+＋<>ᐸᐳ􀆁􀆂ᖼᖽᖾᖿᒐᒉᘂᘃᒋᒍᒣᒪᒧᒥᗭᗪᑉ‹›«»⟨⟩❬❭⟪⟫❮❯◢◣◤]/ contained contains=NONE
 
 syn region DemoCursorRange contained containedin=vimLineComment
       \ concealends
@@ -124,8 +147,8 @@ syn region DemoCursor contained containedin=DemoCursorRange
       \ end="󠁝"
 
 hi def KeyCombo         guifg=#f9f9f9 guibg=#2255cc
-hi def KeyComboEnd      guifg=bg      guibg=#2255cc               gui=bold
-hi def KeyComboStart    guifg=bg      guibg=#2255cc               gui=bold
+hi def KeyComboEnds     guifg=bg      guibg=#2255cc
+hi def KeyCombiner      guifg=#001199 guibg=#2255cc
 hi def DemoCursorRange  guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
 " hi def link DemoCursor Cursor
 hi def DemoCursor       guifg=#000000 guibg=#cc22dd

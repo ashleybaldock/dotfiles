@@ -43,6 +43,8 @@ else
   git submodule add "$1" ".vim/pack/default/start/$2"
 fi
 
+git config -f .gitmodules "submodule..vim/pack/default/start/$2.ignore untracked"
+
 git add .gitmodules ".vim/pack/default/start/$2" || echo "git add .gitmodules failed" >&2 && exit 1
 
 git commit -m"Add vim package '$2'"

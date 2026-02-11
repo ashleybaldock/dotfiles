@@ -1,91 +1,121 @@
 [submodule ".vim/pack/default/start/vim-fugitive"]
 	path = .vim/pack/default/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-gitgutter"]
 	path = .vim/pack/default/start/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-javascript"]
 	path = .vim/pack/default/start/vim-javascript
 	url = https://github.com/pangloss/vim-javascript.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-jsx-pretty"]
 	path = .vim/pack/default/start/vim-jsx-pretty
 	url = https://github.com/MaxMEllon/vim-jsx-pretty.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-prettier"]
 	path = .vim/pack/default/start/vim-prettier
 	url = https://github.com/prettier/vim-prettier.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-qf"]
 	path = .vim/pack/default/opt/vim-qf
 	url = https://github.com/romainl/vim-qf.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-tmux-navigator"]
 	path = .vim/pack/default/start/vim-tmux-navigator
 	url = https://github.com/christoomey/vim-tmux-navigator.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-equinusocio-material"]
 	path = .vim/pack/default/start/vim-equinusocio-material
 	url = https://github.com/chuling/equinusocio-material.vim.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-dispatch"]
 	path = .vim/pack/default/start/vim-dispatch
 	url = https://github.com/tpope/vim-dispatch.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-commentary"]
 	path = .vim/pack/default/start/vim-commentary
 	url = https://github.com/tpope/vim-commentary.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-color-schemes"]
 	path = .vim/pack/default/start/vim-color-schemes
 	url = https://github.com/rodnaph/vim-color-schemes.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/typescript-vim"]
 	path = .vim/pack/default/start/typescript-vim
 	url = https://github.com/leafgarland/typescript-vim.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/ctrlp.vim"]
 	path = .vim/pack/default/start/ctrlp.vim
 	url = https://github.com/ctrlpvim/ctrlp.vim.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/ack.vim"]
 	path = .vim/pack/default/start/ack.vim
 	url = https://github.com/mileszs/ack.vim.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/coc.nvim"]
 	path = .vim/pack/default/start/coc.nvim
 	url = https://github.com/neoclide/coc.nvim.git
+	ignore = untracked
 	branch = release
 [submodule ".vim/pack/default/start/graphql"]
 	path = .vim/pack/default/start/graphql
 	url = https://github.com/jparise/vim-graphql.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/yats.vim"]
 	path = .vim/pack/default/start/yats.vim
 	url = git@github.com:HerringtonDarkholme/yats.vim.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-css-color"]
 	path = .vim/pack/default/start/vim-css-color
 	url = https://github.com/ap/vim-css-color.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/visual-star-search"]
 	path = .vim/pack/default/start/visual-star-search
 	url = https://github.com/bronson/vim-visual-star-search.git
+	ignore = untracked
 [submodule ".vim/pack/default/startvim-surround"]
 	path = .vim/pack/default/startvim-surround
 	url = https://tpope.io/vim/surround.git
+	ignore = untracked
 [submodule ".vim/pack/default/startvim-repeat"]
 	path = .vim/pack/default/startvim-repeat
 	url = https://github.com/tpope/vim-repeat.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-repeat"]
 	path = .vim/pack/default/start/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-surround"]
 	path = .vim/pack/default/start/vim-surround
 	url = https://github.com/tpope/vim-surround.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/quickr-preview"]
 	path = .vim/pack/default/start/quickr-preview
 	url = https://github.com/ronakg/quickr-preview.vim.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/mediawiki.vim"]
 	path = .vim/pack/default/start/mediawiki.vim
 	url = https://github.com/chikamichi/mediawiki.vim.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-styled-components"]
 	path = .vim/pack/default/start/vim-styled-components
 	url = https://github.com/styled-components/vim-styled-components.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-css3-syntax"]
 	path = .vim/pack/default/start/vim-css3-syntax
 	url = https://github.com/hail2u/vim-css3-syntax.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-obsession"]
 	path = .vim/pack/default/start/vim-obsession
 	url = https://github.com/tpope/vim-obsession.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/vim-chracterize"]
 	path = .vim/pack/default/start/vim-chracterize
 	url = https://github.com/tpope/vim-characterize.git
+	ignore = untracked
 [submodule ".vim/pack/default/start/undotree"]
 	path = .vim/pack/default/start/undotree
 	url = https://github.com/mbbill/undotree.git
+	ignore = untracked

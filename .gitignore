@@ -19,7 +19,9 @@ com.apple.Terminal.plist
 *.session.vim*
 *.Session.vim*
 .vim/pack/default/start/tags*
+.vim/pack/default/start/*/doc/tags*
 .vim/pack/default/opt/tags*
+.vim/pack/default/opt/**/doc/
 .vim/node_modules/*
 
 bin/test/*

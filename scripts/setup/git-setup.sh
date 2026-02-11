@@ -11,14 +11,14 @@ git config --global core.pager "delta"
 
 git config --global user.useConfigOnly true
 
-git config --global color.header ""
-git config --global color.untracked "brightred"
-git config --global color.changed "208"
-git config --global color.updated "117"
-git config --global color.added "48"
-git config --global color.branch "86"
-git config --global color.localBranch "86"
-git config --global color.remoteBranch "219"
+git config --global color.status.header "220"
+git config --global color.status.untracked "brightred"
+git config --global color.status.changed "208"
+git config --global color.status.updated "117"
+git config --global color.status.added "48"
+git config --global color.status.branch "86"
+git config --global color.status.localBranch "86"
+git config --global color.status.remoteBranch "219"
 
 git config --global delta.features "decorations"
 

@@ -8,8 +8,13 @@ let g:mayhem_autoloaded_tabline = 1
 "           ../plugin/statusline.vim
 "
 
-"?𝙫∕𐕆ⳇ𐕆Ⳇ𐕆Ⲻ𐕆ⳇ𐕆ⲻ𐕆𐝆𐕆𐝆Ⴟ Ⴟ𐕆 ჿ𐕆ჿ𐝆𐙟𐕆 𐙾𐕆𐚞𐕆𐚐𐕆𐃴𐕆
-"?𝙫𐝆∕𐕆𐝆ⳇ𐕆𐝆Ⳇ𐕆𐝆Ⲻ𐕆𐝆ⳇ𐕆𐝆ⲻ𐕆𐝆𐕆𐝆Ⴟ Ⴟ𐕆 ჿ𐕆𐝆ჿ𐝆𐝆𐙟𐕆 𐝆𐙾𐕆𐝆𐚞𐕆𐝆𐚐𐕆𐝆𐃴𐕆
+"█▇▆▅▆▇█▅█▅▇▆▇▆
+let s:underline_0 = "▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅"
+let s:underline_1 = "▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆"
+let s:underline_2 = "▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇"
+let s:underline_3 = "███████████████"
+let g:mayhem_tab_underline = s:underline_0
+let g:mayhem_curtab_underline = s:underline_1
 
 function! tabline#modstatus(bufnr = bufnr()) abort
   return getbufvar(a:bufnr, "&modified")
@@ -22,7 +27,6 @@ endfunc
 function! tabline#bufname(bufnr = bufnr()) abort
   let bufname = bufname(a:bufnr)
   if empty(bufname)
-    " 𝙪𝙣𝙣𝙖𝙢𝙚𝙙 𝘶𝘯𝘯𝘢𝘮𝘦𝘥 𝓊𝓃𝓃𝒶𝓂ℯ𝒹 𝑢𝑛𝑛𝑎𝑚𝑒𝑑 𝖚𝖓𝖓𝖆𝖒𝖊𝖉 𝘶𝘯𝘯𝘢𝘮𝘦𝘥 𝚞𝚗𝚗𝚊𝚖𝚎𝚍
     let bufname = "𝑢𝑛𝑛𝑎𝑚𝑒𝑑"
   else
     let bufname = fnamemodify(bufname, get(g:, 'mayhem_abbrpaths', ''))
@@ -74,6 +78,8 @@ function! tabline#updateDiagnostics() abort
 endfunc
 
 function! tabline#gen_guitablabel_cache() abort
+  let tabul = get(g:, 'mayhem_tab_underline', '')
+  let curul = get(g:, 'mayhem_curtab_underline', '')
   for i in range(tabpagenr('$'))
     let bufname = get(b:, 'mayhem_tl_cached_filename', tabline#bufname())
 
@@ -85,10 +91,11 @@ function! tabline#gen_guitablabel_cache() abort
     call settabvar(i, 'mayhem_cache_guitablabel', [
       \printf(" %s", modified ? " ̵̩̩" : " "),
       \printf("%%{%%GuiTabLabelErrors()%%}%%{%%GuiTabLabelName()%%}"),
-      \printf("%s", current ? "█▇▆▆▆▆▆▆▆▆▆▆▆▆▆" : "▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅")
+      \printf("%s", current ? curul : tabul)
       \]->join("\n"))
   endfor
 endfunc
+
 
 function! tabline#gen_guitabtooltip_cache() abort
   for i in range(tabpagenr('$'))

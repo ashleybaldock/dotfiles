@@ -24,7 +24,7 @@ DynamicToolBar
 "      $VIMRUNTIME/../../Actions.plist
 
 "  <D-n>
-" macm File.New\ Window                           key=<Nop>
+exec 'macm File.New\ Window                       key=<Nop>'
 "  <D-N>
 " macm File.New\ Clean\ Window                    key=<Nop>
 "  <D-M-N>
@@ -324,8 +324,8 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 " 􀈷􀈿 􀣗􁙡􀩴􀫾􀩚􀢍􀈻􀈽 􀉁 􀉃
 " 􀈸􀉀 􀣘􁙢􀩵􀫿􀩛􀢎􀈼􀈾 􀉂 􀉄
 "
-" 􀉆􂱑􂽱􀹲􀕹
-" 􀥨􂱒􂽴􀹳
+" 􀉆 􂱑  􂽱  􀹲 􀕹
+" 􀥨 􂱒  􂽴  􀹳
 "
 "  􀧵 􀓕 􃏝    􀻤 􀻣
 " 􃌦 􃌧 􃌨 􃌩 􃌪 􃌫 􃌬
@@ -338,32 +338,34 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 " 􀴽 􀇯 􀇰 􀇱 􀇲  􀭅 􁚀 􀫌 􁷁 􀮐  􀣠 􀣡 􀭆 􀭇
 "  􀴽️⃝ 􀇯️⃝ 􀇰️⃝ 􀇱️⃝ 􀇲️⃝  􀭅️⃝ 􁚀️⃝ 􀫌️⃝ 􁷁️⃝ 􀮐️⃝  􀣠️⃝ 􀣡️⃝ 􀭆️⃝ 􀭇️⃝️ 
 " 
-" 􀭈 􀯪   􀱢 􀺪 􀫍    􀣂️  􃕵􃕵️⃝ 􃕵︎̲􃕵︎̅ 􃕵️̲􃕵️̅  􃂲 􃂲️⃝ 􃂳􃂳️⃝ 􃐉 􃐉️⃞ 􃐉️⃝  
-" 􀩽􀩾􀉞􀉟􀉠􀉡􀼹􀼺􀟍􀟎
+" 􀭈 􀯪 􀱢 􀺪 􀫍    􀣂️  􃕵􃕵️⃝ 􃕵︎̲􃕵︎̅ 􃕵️̲􃕵️̅  􃂲 􃂲️⃝ 􃂳􃂳️⃝ 􃐉 􃐉️⃞ 􃐉️⃝  
+" 􀩽 􀉞 􀟍 􀉠 􀼹
+" 􀩾 􀉟 􀟎 􀉡 􀼺
 "
-" 􁙪 􁙫 􁅊 􀏞 􀣾 􀣿 􀦍 􀣰 􀤀 􀤁  􁽸􁽺 􁽼️⃝ 􁽾️⃝  
-" 􃐯 􃀧 􃀩 􀈕 􀈙 􀈛 􀧆 􀬔
-" 􃐰 􃀨 􃀪 􀈖 􀈚 􀈜 􀧇 􀬕   􀉢 􀒖 􀥪     
+" 􁙪 􁙫 􁅊 􀏞 􀣾 􀣿 􀦍 􀣰 􀤀 􀤁 􁽸 􁽺 􁽼️⃝ 􁽾️⃝  
+" 􃐯  􃀧  􃀩  􀈕 􀈙 􀈛 􀧆 􀬔
+" 􃐰  􃀨  􃀪  􀈖 􀈚 􀈜 􀧇 􀬕   􀉢 􀒖 􀥪     
 "
-"        􀥯               􂆅     􁂸    􀺿 􃈩 􃐶
-"             􀏛 􀏚       􁚬  􀬸 􁂷 􀅶 􀩳 􀹆 􃐵
-" 􀏇 􀏉 􀏗 􀏡 􀱥 􀱤 􀏝    􃇐 􃈃 
-"    􀏍 􀏗 􂬏 􂬗 􂧮 􂧯 􀤳 􂬑 􂧭 􂧰 􀚅  
+"        􀥯               􂆅     􁂸    􀺿 􃈩  􃐶
+"             􀏛 􀏚       􁚬 􀬸 􁂷 􀅶 􀩳 􀹆 􃐵
+" 􀏇 􀏉 􀏗 􀏡 􀱥 􀱤 􀏝    􃇐  􃈃 
+"    􀏍 􀏗 􂬏  􂬗  􂧮  􂧯  􀤳 􂬑  􂧭  􂧰  􀚅  
 " 􀥁 􀏃 􀣤 􀿯 􀤷 􀤶 􀿰 􁎽 􀧈 􀧊 􀧌 􀇴 􃑊 
 "    􀏋 􀏑 􀾮 􀤵 􀤴 􀾯    􀾊       
-" 􃐭 􀢈    􃗟 􀥞 􃗞 􀥟 􀥝 􀏟    􀏣 􀏥 􀏢    
-" 􂠘 􀢉    􀴊 􀨩 􀨱 􀨨       􀓛 􀛦 􂫑  􀇶
-"          􀭳 􀭴 􀭶 􀭵 􃐷    􃑼            􃑽􃑼􃑽  􃑼􃑽􃑼
-"          􁼁 􁼅 􁼉 􁻽 􂂟 􂂣 􂬜 􀢿 􀠹 􁁀 
+" 􃐭  􀢈    􃗟  􀥞 􃗞  􀥟 􀥝 􀏟    􀏣 􀏥 􀏢    
+" 􂠘  􀢉    􀴊 􀨩 􀨱 􀨨       􀓛 􀛦 􂫑  􀇶
+"          􀭳 􀭴 􀭶 􀭵 􃐷     􃑼            􃑽􃑼􃑽  􃑼􃑽􃑼
+"          􁼁  􁼅  􂂟  􂂣
+"          􁻽  􁼉  􂬜  􀢿 􀠹 􁁀 
 "    􀠳 􀠴 􀑧 􀑨 􀭱 􀭲 􀫹􁽾 􁽺 􀫺 􀫻 􁽼 􁽸 􀫼 
 " 
-" 􀏧 􀥀 􀏩 􀾬 􀢳 􂠗    􀏫 􀑯 􀣵       􂃕 􂇕
+" 􀏧 􀥀 􀏩 􀾬 􀢳 􂠗    􀏫 􀑯 􀣵       􂃕  􂇕
 " 􀶣                􂇓
 "
 " 􀏜 􀥃 􃑷 􁝸 􀢌 􀣚 􀤯 􀏝
 "
-" 􃖦 􃖑
-" 􃖧 􃖒   􃑼 􃑽   􃔵 􃔲 􃈑 􃈒 
+" 􃖦  􃖑
+" 􃖧  􃖒   􃑼 􃑽   􃔵 􃔲 􃈑 􃈒 
 "
 " 􀦲 􀦳 􀦴 􀦵 􀦶 􀦷 􀦸 􀦹 􀦺 􀦻 􀦼  􂶯 􂶰 􀓙 􀤲 􀓚 
 "
@@ -396,19 +398,57 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 "
 "
 
-exec 'an' SfIcon('􀏇') '10.290' '&File.New\ Window' '<Nop>'
-exec 'an' SfIcon('􃖦') '10.291' '&File.New\ Clean\ Window' '<Nop>'
-exec 'an' SfIcon('􀥁')   '10.292' '&File.New\ Clean\ Window\ (No\ Defaults)' '<Nop>'
-exec 'an' SfIcon('􀏩') '10.292' '&File.New\ Tab' '<Nop>'
+exec 'aun' '&File.New\ Window'
+exec 'tlu' '&File.New\ Window'
+exec 'an' '<silent>' SfIcon('􀏇') '10.290' '&File.New\ Window' '<Nop>'
+exec 'macm' '&File.New\ Window' 'key=<D-n>'
 
-" an <silent> 10.290 &File.New\ Window                          <Nop>
-" an <silent> 10.291 &File.New\ Clean\ Window		        <Nop>
-" an <silent> 10.292 &File.New\ Clean\ Window\ (No\ Defaults)   <Nop>
-" an  10.295 &File.New\ Tab			    :tabnew<CR>
-an <silent> 10.310 &File.Open…		    <Nop>
-an <silent> 10.325 &File.Open\ Recent		    <Nop>
-an 10.328 &File.-SEP0-			    <Nop>
-an <silent> 10.330 &File.Close\ Window<Tab>:qa    :conf qa<CR>
+exec 'aun' '&File.New\ Clean\ Window'
+exec 'tlu' '&File.New\ Clean\ Window'
+exec 'an' '<silent>' SfIcon('􃖦')  '10.291' '&File.New\ Clean\ Window' '<Nop>'
+exec 'macm' '&File.New\ Clean\ Window' 'key=<D-N>'
+
+exec 'aun' '&File.New\ Clean\ Window\ (No\ Defaults)'
+exec 'tlu' '&File.New\ Clean\ Window\ (No\ Defaults)'
+exec 'an' '<silent>' SfIcon('􀥁') '10.292' '&File.New\ Clean\ Window\ (No\ Defaults)' '<Nop>'
+
+exec 'aun' '&File.New\ Tab'
+exec 'tlu' '&File.New\ Tab'
+exec 'an' '<silent>' SfIcon('􀏩') '10.293' '&File.New\ Tab<Tab>:tabnew' ':tabnew<CR>'
+exec 'tln' '<silent>' SfIcon('􀏩') '10.293' '&File.New\ Tab<Tab>:tabnew' '<C-W>:tabnew<CR>'
+exec 'macm' '&File.New\ Tab' 'key=<D-t>'
+
+exec 'aun' '&File.Open…'
+exec 'an' '<silent>' '10.310' '&File.Open…' '<Nop>'
+
+exec 'aun' '&File.Open\ Recent'
+exec 'an' '<silent>' '10.325' '&File.Open\ Recent' '<Nop>'
+
+exec 'aun' '&File.-SEP0-'
+exec 'tlu' '&File.-SEP0-'
+exec 'an' '10.328' '&File.-SEP0-'	'<Nop>'
+
+exec 'aun' '&File.Close\ Window<Tab>:qa'
+exec 'tlu' '&File.Close\ Window<Tab>:qa'
+exec 'an' '<silent>' '10.330' '&File.Close\ Window<Tab>:qa' ':conf qa<CR>'
+exec 'tln' '<silent>' '10.330' '&File.Close\ Window<Tab>:qa' '<C-W>:conf qa<CR>'
+exec 'macm' '&File.Close\ Window<Tab>:qa' 'key=<D-W>'
+
+exec 'aun' '&File.Close<Tab>:q'
+exec 'tlu' '&File.Close<Tab>:q'
+exec 'an' '<silent>' '10.332' '&File.Close<Tab>:q' ':conf q<CR>'
+exec 'tln' '<silent>' '10.332' '&File.Close<Tab>:q' '<C-W>:conf q<CR>'
+exec 'macm' '&File.Close<Tab>:q' 'key=<D-w>' 'alt=YES'
+
+exec 'aun' '&File.Close\ All<Tab>:q'
+exec 'an' '<silent>' '10.332' '&File.Close<Tab>:q' ':conf q<CR>'
+exec 'macm' '&File.Close<Tab>:q' 'key=<D-W>' 'alt=YES'
+
+exec 'aun' '&File.Save\ All'
+exec 'an' '<silent>' '10.341' '&File.Save\ All' ':browse conf wa<CR>'
+
+
+
 "
 " View Menu:
 "

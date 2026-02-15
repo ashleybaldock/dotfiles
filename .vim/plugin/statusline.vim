@@ -139,7 +139,7 @@ function s:Update_Diag()
         \ ['%#SlSynErrC#',
         \  get(symbols#get('diag.error'), errorCount, symbols#getc('diag.error')),
         \ '%*']->join(''),
-        \ ['%#SlSynErrN#',symbol,
+        \ ['%#SlSynErrN#',
         \  get(symbols#get('diag.error'), errorCount, symbols#getn('diag.error')),
         \ '%*']->join(''),
         \]
@@ -147,12 +147,6 @@ function s:Update_Diag()
   endif
 
   if warnCount > 0
-    let symbol = symbols#get('diag.numbers', [])
-          \->get(warnCount, symbols#get('diag.warning'))
-    let b:mayhem.sl_cache_diag = [
-        \ ['%#SlSynWarnC#',symbol,'%*']->join(''),
-        \ ['%#SlSynWarnN#',symbol,'%*']->join(''),
-        \]
     let b:mayhem.sl_cache_diag = [
         \ ['%#SlSynWarnC#',
         \  get(symbols#get('diag.warning'), warnCount, symbols#getc('diag.warning')),

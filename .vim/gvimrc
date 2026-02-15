@@ -399,17 +399,14 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 "
 
 exec 'aun' '&File.New\ Window'
-exec 'tlu' '&File.New\ Window'
 exec 'an' '<silent>' SfIcon('􀏇') '10.290' '&File.New\ Window' '<Nop>'
 exec 'macm' '&File.New\ Window' 'key=<D-n>'
 
 exec 'aun' '&File.New\ Clean\ Window'
-exec 'tlu' '&File.New\ Clean\ Window'
 exec 'an' '<silent>' SfIcon('􃖦')  '10.291' '&File.New\ Clean\ Window' '<Nop>'
 exec 'macm' '&File.New\ Clean\ Window' 'key=<D-N>'
 
 exec 'aun' '&File.New\ Clean\ Window\ (No\ Defaults)'
-exec 'tlu' '&File.New\ Clean\ Window\ (No\ Defaults)'
 exec 'an' '<silent>' SfIcon('􀥁') '10.292' '&File.New\ Clean\ Window\ (No\ Defaults)' '<Nop>'
 
 exec 'aun' '&File.New\ Tab'
@@ -425,7 +422,6 @@ exec 'aun' '&File.Open\ Recent'
 exec 'an' '<silent>' '10.325' '&File.Open\ Recent' '<Nop>'
 
 exec 'aun' '&File.-SEP0-'
-exec 'tlu' '&File.-SEP0-'
 exec 'an' '10.328' '&File.-SEP0-'	'<Nop>'
 
 exec 'aun' '&File.Close\ Window<Tab>:qa'

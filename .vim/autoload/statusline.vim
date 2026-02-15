@@ -29,7 +29,7 @@ function! statusline#updateDiagnostics(...) abort
         \ ['%#SlSynErrC#',
         \  get(symbols#get('diag.error'), errorCount, symbols#getc('diag.error')),
         \ '%*']->join(''),
-        \ ['%#SlSynErrN#',symbol,
+        \ ['%#SlSynErrN#',
         \  get(symbols#get('diag.error'), errorCount, symbols#getn('diag.error')),
         \ '%*']->join(''),
         \]

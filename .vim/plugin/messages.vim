@@ -9,7 +9,7 @@ let g:mayhem_loaded_messages = 1
 "  Scriptnames: ../syntax/vimscriptnames.vim
 "
 
-" let s:winid_messages
+" let s:bufnr_messages
 " let s:popid_messages
 " let s:winid_scriptnames
 " let s:winid_runtime
@@ -63,21 +63,12 @@ endfunc
 function s:OnVimEnter(when) abort
   if !exists('s:startup_messages')
     let s:startup_messages = s:GetMessagesList()
-  else
-
-  " call autocmd_add([
-  "       \#{
-  "       \ event: 'QuitPre', replace: v:true,
-  "       \ cmd: 'call s:CloseMessages()',
-  "       \ group: 'mayhem_messages_exit',
-  "       \},
-  "       \])
-  " endif 
+  endif 
 endfunc
 
 if v:vim_did_enter
   call s:OnVimEnter('direct')
-                                                                             
+
   echom 'messages did enter auto'
   call autocmd_add([
         \#{
@@ -113,36 +104,46 @@ endfunc
 " Open a split with output of :messages
 "
 function s:SplitWithMessages() abort
-  if !exists('s:winid_messages')
+  if exists('s:bufnr_messages')
+    if bufexists(s:bufnr_messages)
+     if exists(winbufnr(s:bufnr_messages))
+        call s:RefreshMessages()
+        exec winbufnr(s:bufnr_messages) .. 'wincmd w'
+     else
+       exec s:bufnr_messages .. 'wincmd ^'
+     endif
+   endif
+  else
     vnew
-    let s:winid_messages = win_getid(winnr())
+    let s:bufnr_messages = bufnr()
 
     nnoremap <buffer> <nowait> r <ScriptCmd>call s:RefreshMessages()<CR>
     nnoremap <buffer> <nowait> p <ScriptCmd>call s:SplitWithScriptnames()<CR>
     nnoremap <buffer> <nowait> t <ScriptCmd>call s:SplitWithRuntime()<CR>
     wincmd h
   endif
-
-  call s:RefreshMessages()
 endfunc
 
 function s:RefreshMessages() abort
-  call setbufvar(winbufnr(s:winid_messages), '&filetype', 'vimmessages')
-  call setbufvar(winbufnr(s:winid_messages), '&buftype', 'nofile')
-  call setbufvar(winbufnr(s:winid_messages), '&bufhidden', 'wipe')
-  call setwinvar(s:winid_messages, '&modifiable', 1)
-  call s:WriteMessagesToBufferInWindow(s:winid_messages)
-  call setwinvar(s:winid_messages, '&modifiable', 0)
-  call setwinvar(s:winid_messages, '&modified', 0)
-  call win_execute(s:winid_messages, ['call cursor(''$'', 0)', 'redraw'])
+  call setbufvar(s:bufnr_messages, '&filetype', 'vimmessages')
+  call setbufvar(s:bufnr_messages, '&buftype', 'nofile')
+  call setbufvar(s:bufnr_messages, '&bufhidden', 'wipe')
+  call setwinvar(winbufnr(s:bufnr_messages), '&modifiable', 1)
+  call s:WriteMessagesToBufferInWindow(winbufnr(s:bufnr_messages))
+  call setwinvar(winbufnr(s:bufnr_messages), '&modifiable', 0)
+  call setwinvar(winbufnr(s:bufnr_messages), '&modified', 0)
 endfunc
 
 function s:CloseMessages() abort
   call s:CloseMessagesPopup()
   
-  if exists('s:winid_messages')
-    call win_execute(s:winid_messages, 'close')
-    unlet s:winid_messages
+  if exists('s:bufnr_messages')
+    if bufexists(s:bufnr_messages)
+      if exists(winbufnr(s:bufnr_messages))
+        call win_execute(winbufnr(s:bufnr_messages), 'close')
+      endif
+    endif
+    unlet s:bufnr_messages
   endif
 endfunc
 
@@ -191,12 +192,6 @@ function s:PopupWithMessages() abort
 
   call setbufvar(winbufnr(s:popid_messages), '&filetype', 'vimmessages')
 endfunc
-
-" function s:Messages() abort
-"   if exists('s:winid_messages')
-"   else
-"   endif
-" endfunc
 
 command! MessagesPopup call s:PopupWithMessages()
 

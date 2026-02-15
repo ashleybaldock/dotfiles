@@ -39,7 +39,9 @@ for (( i = 0; i < "$alt"; i++)) ; do
     x=$(( $from + ($i * $grp) + $j ))
 
     if (( $x >= $from && $x <= $to )) ; then
-      printf "\e[38;5;%sm􀏄%-3d\e[0m" "$x" "$x";
+      # printf "\e[38;5;%sm􀏄%-3d\e[0m" "$x" "$x";
+      # printf "\e[38;5;%sm􁷰􀟐%-3d􀟐 \e[0m" "$x" "$x";
+      printf "\e[38;5;%sm􀟼%-3d \e[0m" "$x" "$x";
     else
       printf "     ";
     fi;
@@ -59,14 +61,17 @@ printf "\n";
 # 34-39 4 a   → b                  40-45
 # 40-45 5  b  → c 28-33
 # 46-51 6   c → c             46-51
-
+#
+# 􁷰 172􁹬􁷲 􁸆  􀩹  􁹬􀂓 􀏄􀏄  􁹬􀟐􀟐􀟐􀟊 􁹬􀝞 􁷰􀟇 􁹬 
+#  􀀁􀮷􀂓 􀾘 􀡘 􀣯 􀏄 􁷰􀉟 􀪫 􂧰  􃇐   􃈃  􀚈􀛧 􀚇 􂫒  􀚉􁷰􀟐  
+#  􁷰􁉖 􀧷  􁷰􀲡􀛤 􀥱 􁷰􀠨  􃖒 􁌣 􁹬􀟼  􀼰 􀼯􀼮     
 exit 0
 
 for i in {1..3} ; do
   for j in {1..12} ; do
     for k in {1..6} ; do
       q=$(( start + (j * i * 6) + k ))
-      printf "\e[38;5;%sm􀏄%-3d\e[0m" "$q" "$q";
+      printf "\e[38;5;􁷰%sm􁷲%-3d\e[0m" "$q" "$q";
     done
     printf "\n";
   done

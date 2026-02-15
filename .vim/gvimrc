@@ -26,9 +26,9 @@ DynamicToolBar
 "  <D-n>
 exec 'macm File.New\ Window                       key=<Nop>'
 "  <D-N>
-" macm File.New\ Clean\ Window                    key=<Nop>
+exec 'macm File.New\ Clean\ Window                    key=<Nop>'
 "  <D-M-N>
-" macm File.New\ Clean\ Window\ (No\ Defaults)    key=<Nop>
+exec 'macm File.New\ Clean\ Window\ (No\ Defaults)    key=<Nop>'
 
 " Unbind <D-t>
 exec 'macm File.New\ Tab                          key=<Nop>'
@@ -400,14 +400,15 @@ an 100.650.100 Tools2.Auto\ Format\ Buffer	<Cmd>FormatBuffer<CR>
 
 exec 'aun' '&File.New\ Window'
 exec 'an' '<silent>' SfIcon('􀏇') '10.290' '&File.New\ Window' '<Nop>'
-exec 'macm' '&File.New\ Window' 'key=<D-n>'
+exec 'macm' '&File.New\ Window' 'key=<D-n>' 'action=newWindow:'
 
 exec 'aun' '&File.New\ Clean\ Window'
 exec 'an' '<silent>' SfIcon('􃖦')  '10.291' '&File.New\ Clean\ Window' '<Nop>'
-exec 'macm' '&File.New\ Clean\ Window' 'key=<D-N>'
+exec 'macm' '&File.New\ Clean\ Window' 'key=<D-N>' 'action=newWindowClean:' 'alt=YES'
 
 exec 'aun' '&File.New\ Clean\ Window\ (No\ Defaults)'
 exec 'an' '<silent>' SfIcon('􀥁') '10.292' '&File.New\ Clean\ Window\ (No\ Defaults)' '<Nop>'
+exec 'macm' '&File.New\ Clean\ Window' 'key=<D-M-N>' 'action=newWindowCleanNoDefaults:' 'alt=YES'
 
 exec 'aun' '&File.New\ Tab'
 exec 'tlu' '&File.New\ Tab'
@@ -436,9 +437,9 @@ exec 'an' '<silent>' '10.332' '&File.Close<Tab>:q' ':conf q<CR>'
 exec 'tln' '<silent>' '10.332' '&File.Close<Tab>:q' '<C-W>:conf q<CR>'
 exec 'macm' '&File.Close<Tab>:q' 'key=<D-w>' 'alt=YES'
 
-exec 'aun' '&File.Close\ All<Tab>:q'
-exec 'an' '<silent>' '10.332' '&File.Close<Tab>:q' ':conf q<CR>'
-exec 'macm' '&File.Close<Tab>:q' 'key=<D-W>' 'alt=YES'
+exec 'aun' '&File.Close\ All'
+exec 'an' '<silent>' '10.332' '&File.Close\ All' ':conf q<CR>'
+exec 'macm' '&File.Close\ All' 'key=<D-W>' 'alt=YES'
 
 exec 'aun' '&File.Save\ All'
 exec 'an' '<silent>' '10.341' '&File.Save\ All' ':browse conf wa<CR>'

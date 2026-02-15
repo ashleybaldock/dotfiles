@@ -4,6 +4,10 @@ if exists("g:mayhem_loaded_quickfix")
 endif
 g:mayhem_loaded_quickfix = 1
 
+#
+# See Also: ../syntax/qf.vim
+#
+
 # const EFM_TYPE = {e: 'error', w: 'warning', i: 'info', n: 'note'}
 const EFM_TYPE = {e: 'E', w: 'W', i: 'i', n: 'n'}
 
@@ -27,6 +31,8 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
     ->map((_, v: number): number => get(EFM_TYPE, qfl[v].type, '')->strlen())->max()
   var err_w: number = range(info.start_idx - 1, info.end_idx - 1)
     ->map((_, v: number): number => qfl[v].nr)->max()->len()
+
+  var lastbufnr: number = 0
   for idx in range(info.start_idx - 1, info.end_idx - 1)
     var e: dict<any> = qfl[idx]
     if !e.valid
@@ -35,16 +41,42 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
       if e.lnum == 0 && e.col == 0
         add(l, bufname(e.bufnr))
       else
+        var bracket: string = '⎪'
+        if e.bufnr != lastbufnr
+          bracket = '⎧'
+        endif
+        if idx >= info.end_idx - 1
+          if e.bufnr == lastbufnr
+            bracket = '⎩'
+          else
+            bracket = '{️'
+          endif
+        else
+          var enext: dict<any> = qfl[idx + 1]
+          if enext.bufnr != e.bufnr
+            if e.bufnr == lastbufnr
+              bracket = '⎩'
+            else
+              bracket = '{️'
+            endif
+          endif
+        endif
+        lastbufnr = e.bufnr
+
+        var name: string = printf('%*S%s ', name_w,
+          (bracket == '⎧' || bracket == '{️')
+           ? bufname(e.bufnr)->fnamemodify(':t')
+           : '', bracket)
         # var fname: string = printf('%-*S', name_w, bufname(e.bufnr)->fnamemodify(':t'))
-        var name: string = printf('%*S', name_w, bufname(e.bufnr)->fnamemodify(':t'))
         var lnum: string = printf('%*d', lnum_w, e.lnum)
-        var col: string = printf('%*d', col_w, e.col)
+        # var col: string = printf('%*d', col_w, e.col)
         var type: string = printf('%-*S', type_w, get(EFM_TYPE, e.type, ''))
         var err = ''
         if e.nr > 0
           err = printf('%*d', err_w + 1, e.nr)
         endif
-        add(l, printf('%s│%s,%s %s%s│ %s', name, lnum, col, type, err, e.text))
+        # add(l, printf('%s│%s,%s %s%s│ %s', name, lnum, col, type, err, e.text))
+        add(l, printf('%s%s %s%s│ %s', name, lnum, type, err, e.text))
       endif
     endif
   endfor

@@ -13,13 +13,16 @@ if exists("b:current_syntax")
   finish
 endif
 
-syn match qfFileName /^[^│]*/
+syn match qfFileName /^[^│{⎧⎪⎩╭╰╮╯]*/
       \ nextgroup=qfSeparator1
-syn match qfSeparator1 /│/ contained
+syn match qfSeparator1 /[│{⎧⎪⎩╭╰╮╯]/ contained
       \ nextgroup=qfLineNr
 syn match qfLineNr /[^│]*/ contained
       \ contains=@qfType
       \ nextgroup=qfSeparator2
+syn region qfFirstLine oneline
+      \ start='^/ze\s*\S\+[⎫╮╯]'
+      \ end='$'
 syn match qfSeparator2 /│/ contained
       \ nextgroup=qfText
 syn match qfText /.*/ contained
@@ -30,10 +33,12 @@ syn cluster qfType contains=qfError
 " syn match qfSameFile /^\([^│]*\).*\n\zs\1\ze/
 
 " The default highlighting.
-hi def link qfFileName  Directory
-hi def link qfLineNr  LineNr
-hi def link qfSeparator1 Delimiter
-hi def link qfSeparator2 Delimiter
+hi def qfFileName  guifg=#ffcc00
+hi def qfLineNr  guifg=ynumbrf guibg=ynumbrb
+hi def qfFirstLine guifg=ynumbrf guibg=ynumbrb guisp=#33a00  gui=underline 
+hi def qfLastLine guifg=ynumbrf guibg=ynumbrb guisp=#33a00  gui=underline 
+hi def qfSeparator1 guifg=#33aa00
+hi def qfSeparator2 guifg=#33aa00
 hi def link qfText  Normal
 
 hi def link qfError  Error

@@ -19,10 +19,65 @@ function! s:SessionNameToPath(name)
   return g:mayhem_dir_session .. '/' .. a:name .. '.session.vim'
 endfunc
 
-function! s:SessionComplete(ArgLead, CmdLine, CursorPos)
+function! s:SessionCompleteOld(ArgLead, CmdLine, CursorPos)
   return map(globpath(g:mayhem_dir_session, a:ArgLead .. "*.session.vim", 0, 1),
         \ {_, val -> fnamemodify(val, ":t:r:r") .. '	|etc'})
 endfunc
+
+"
+" :Session create [<new-session-id>]       (default to auto-generated name)
+"          load <existing-session-id>
+"          delete [<existing-session-id>]  (default to current session)
+"          list                            (all sessions)
+"          info 
+"          pause
+"          resume
+"
+"
+
+" let s:subcommands = ['create', 'load', 'delete', 'list', 'info', 'pause', 'resume']
+
+function s:Session(subcommand, ...)
+  if a:subcommand == 'create'
+    echo 'create!'
+  elseif a:subcommand == 'load'
+    echo 'load!'
+  endif
+endfunc
+
+let s:subcommands = ['create', 'load', 'delete', 'list', 'info', 'pause', 'resume']
+
+let s:match_command = '^Ses\%[sion]\s*'
+
+" e.g. '\(c\%[reate]\|l\%[oad]\|l\%[ist]\|p\%[ause]\|r\%[esume]\|d\%[elete]\|i\%[nfo]\)'
+let s:match_subcommand = '\(' .. 
+      \mapnew(s:subcommands, {k, v -> v[0] .. '\%[' .. v[1:-1] .. ']'})->join('\|') ..
+      \ '\)'
+echom s:match_subcommand
+
+let s:match_session = '\W\+'
+
+" e.g. 'create^Minfo^MList^Mload^Mpause^Mresume^Mdelete^M'
+let s:subcommand_completion = join(s:subcommands, "\n")
+echom s:subcommand_completion
+
+function! s:SessionComplete(ArgLead, CmdLine, CursorPos) abort
+  echom 'a:ArgLead: ''' .. a:ArgLead ..
+        \ ''', a:CmdLine: ''' .. a:CmdLine ..
+        \ ''', a:CursorPos: ''' .. a:CursorPos .. ''''
+
+  if a:CmdLine =~ s:match_command .. s:match_subcommand .. '\s*' .. s:match_session .. '\s*$'
+    return 'a session...'
+  elseif a:CmdLine =~ s:match_command .. s:match_subcommand .. '\s*$'
+    return  'sessions...'
+  elseif a:CmdLine =~ s:match_command .. s:match_subcommand
+      return s:subcommand_completion
+  else
+      return s:subcommand_completion
+  endif
+endfunc
+
+command! -nargs=+ -complete=custom,<SID>SessionComplete Session call s:Session(<f-args>)
 
 function! s:SessionList()
   return expand('$HOME/.vim/session')
@@ -75,15 +130,15 @@ command! SessionInfo echo SessionInfo()
 command! SessionList echo <SID>SessionList()
 
 " TODO - this could have a default for session name
-command! -nargs=1 -bang -complete=customlist,<SID>SessionComplete
+command! -nargs=1 -bang -complete=customlist,<SID>SessionCompleteOld
       \  SessionCreate
       \  mksession<bang> ~/.vim/session/<args>.session.vim
       \| if exists('g:loaded_obsession')
       \|   Obsession<bang> ~/.vim/session/<args>.session.vim
       \| endif
 
-command! -nargs=1 -complete=customlist,<SID>SessionComplete
-      \ SessionLoad
+command! -nargs=1 -complete=customlist,<SID>SessionCompleteOld
+\ SessionLoad
       \ so ~/.vim/session/<args>.session.vim
       \| if exists('g:loaded_obsession') && !exists('g:this_obsession')
       \|  Obsession
@@ -103,7 +158,7 @@ command!
       \ if exists('g:loaded_obsession')
         \ && exists('g:this_session')
         \ && !exists('g:this_obsession')
-      \|  exec 'Obsession' g:this_session
+\|  exec 'Obsession' g:this_session
       \|endif
       \|doautocmd User Obsession
 
@@ -112,7 +167,7 @@ function! s:SessionDelete(session = get(g:, 'this_session', v:null))
   endif
 endfunc
 
-command! -nargs=1 -complete=customlist,<SID>SessionComplete
+command! -nargs=1 -complete=customlist,<SID>SessionCompleteOld
       \ SessionDelete
       \ if exists('g:loaded_obsession')
         \ && exists('g:this_obsession')

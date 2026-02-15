@@ -13,7 +13,7 @@ g:mayhem_loaded_sfsymbols = 1
 # 􀥯
 
 # Scope: Script
-var [sfrange_start, sfrange_end] = sfsymbols#getUnicodeRange()
+const [sfrange_start, sfrange_end] = sfsymbols#getUnicodeRange()
 
 echom printf('sfsymbols unicode range: (%s) 0x%08X - 0x%08X (%s)',
       \ nr2char(sfrange_start), sfrange_start, sfrange_end, nr2char(sfrange_end))
@@ -38,29 +38,26 @@ call setcellwidths([[max([0x80, sfrange_start]), max([0x80, sfrange_end]), 2]])
 # Uses a compiled Vim9 function for speed
 #
 def GenerateSfSymbolsListing()
-  var lnum = 0
-  var lines = [
+  var lnum: number = 0
+  var lines: list<string> = [
         \ '══︎═︎═══════════════',
         \ '    SF Symbols    ',
         \ ' 􀣺 􀣺️⃝ 􀣺︎⃣  0x00   ',
         \ '══︎═︎═══════════════',
         \]
-  var vs15  = "\ufe0e"
-  var vs15circle = "\ufe0f\u20dd"
-  var vs15button = "\ufe0e\u20e3"
-  for c in range(sfrange_start, sfrange_end)
-    let lines += [
-          \ printf(" %s %s %s ⏐%d⏐0x%02x%02x%02x",
-          \ nr2char(c) .. vs15,
-          \ nr2char(c) .. vs15circle,
-          \ nr2char(c) .. vs15button,
-          \ strwidth(c),
-          \ and(c, 0xff0000) >> 16,
-          \ and(c, 0xff00) >> 8,
-          \ and(c, 0xff)
-          \ )]
+  var vs15: string  = "\ufe0e"
+  var vs15circle: string = "\ufe0f\u20dd"
+  var vs15button: string = "\ufe0e\u20e3"
+  for n in range(sfrange_start, sfrange_end)
+    var c: string = nr2char(n)
+    var line: string = printf(" %s\ufe0e %s\ufe0f\u20dd %s\ufe0e\u20e3 ⏐%d⏐0x%02x%02x%02x", c, c, c, strwidth(c), and(n, 0xff0000) >> 16, and(n, 0xff00) >> 8, and(n, 0xff) )
+    add(lines, line)
   endfor
 enddef
+      # nr2char(c) .. vs15,
+      # nr2char(c) .. vs15circle,
+      # nr2char(c) .. vs15button,
+      # strwidth(c),
 
 def SymbolsSplit()
   :19vnew

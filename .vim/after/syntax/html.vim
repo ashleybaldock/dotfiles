@@ -39,15 +39,18 @@ syn region htmlDoctype keepend
       \ start=+<!DOCTYPE+
       \ end=+>+
 
-syn region htmlH start="<h\z(1\)\>" end="</h\z1\_s*>"me=s-1 contains=htmlTagNoise,@htmlTop
+syn region htmlH start="<h\z(1\)\>" end="</h\z1\_s*>"me=s-1 contained
+      \ contains=htmlTagNoise,@htmlTop
       \ containedin=htmlH1,htmlH2,htmlH3,htmlH4,htmlH5,htmlH6
 
 syn match htmlPropBool +\%(\w\+-\?\)\+\%(=\)\@!=+ contained contains=NONE
-      \ nextgroup=htmlPropName,htmlPropBool,htmlTagNoise skipwhite skipempty
+      \ skipwhite skipempty nextgroup=htmlPropName,htmlPropBool,htmlTagNoise
 syn match htmlPropName +\%(\w\+-\?\)\+\%(="[^"]*"\)\@=+ contained contains=NONE
       \ nextgroup=htmlPropSep skipwhite skipempty
-syn match htmlPropSep +=+ contained contains=NONE nextgroup=htmlPropValue
-syn match htmlPropValue +"[^"]*"+ contained nextgroup=htmlPropName,htmlPropBool,htmlTagNoise skipwhite skipempty
+syn match htmlPropSep +=+ contained contains=NONE
+      \ nextgroup=htmlPropValue
+syn match htmlPropValue +"[^"]*"+ contained
+      \ skipwhite skipempty nextgroup=htmlPropName,htmlPropBool,htmlTagNoise
 
 syn match htmlTagNoise +<+ contained contains=NONE
       \ nextgroup=htmlPropName,htmlPropBool skipwhite skipempty

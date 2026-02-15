@@ -32,6 +32,12 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
   var err_w: number = range(info.start_idx - 1, info.end_idx - 1)
     ->map((_, v: number): number => qfl[v].nr)->max()->len()
 
+# '⎧ʅ️⎩'
+
+const s:bracket_start = '⎫'
+const s:bracket_continue = '⎪'
+const s:bracket_end = '⎩'
+const s:bracket_startend = 'ʅ️'
   var lastbufnr: number = 0
   for idx in range(info.start_idx - 1, info.end_idx - 1)
     var e: dict<any> = qfl[idx]
@@ -41,30 +47,30 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
       if e.lnum == 0 && e.col == 0
         add(l, bufname(e.bufnr))
       else
-        var bracket: string = '⎪'
+        var bracket: string = s:bracket_continue
         if e.bufnr != lastbufnr
-          bracket = '⎧'
+          bracket = s:bracket_start
         endif
         if idx >= info.end_idx - 1
           if e.bufnr == lastbufnr
-            bracket = '⎩'
+            bracket = s:bracket_end
           else
-            bracket = '{️'
+            bracket = s:bracket_startend
           endif
         else
           var enext: dict<any> = qfl[idx + 1]
           if enext.bufnr != e.bufnr
             if e.bufnr == lastbufnr
-              bracket = '⎩'
+              bracket = s:bracket_end
             else
-              bracket = '{️'
+              bracket = s:bracket_startend
             endif
           endif
         endif
         lastbufnr = e.bufnr
 
         var name: string = printf('%*S%s ', name_w,
-          (bracket == '⎧' || bracket == '{️')
+          (bracket == s:bracket_start || bracket == s:bracket_startend)
            ? bufname(e.bufnr)->fnamemodify(':t')
            : '', bracket)
         # var fname: string = printf('%-*S', name_w, bufname(e.bufnr)->fnamemodify(':t'))

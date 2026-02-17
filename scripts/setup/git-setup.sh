@@ -10,16 +10,6 @@ git config --global core.editor "vim"
 git config --global core.pager "delta"
 
 git config --global user.useConfigOnly true
-
-git config --global color.status.header "220"
-git config --global color.status.untracked "brightred"
-git config --global color.status.changed "208"
-git config --global color.status.updated "117"
-git config --global color.status.added "48"
-git config --global color.status.branch "86"
-git config --global color.status.localBranch "86"
-git config --global color.status.remoteBranch "219"
-
 git config --global delta.features "decorations"
 
 git config --global delta.interactive.keep-plus-minus-marker "false"
@@ -41,3 +31,30 @@ git config --global interactive.diffFilter "delta --color-only --features=intera
 # git change-commits GIT_AUTHOR_EMAIL "old@email.com" "new@email.com"
 # git change-commits GIT_COMMITTER_EMAIL "old@email.com" "new@email.com" HEAD~10..HEAD
 
+
+git config --global color.status.header = "244"
+git config --global color.status.untracked = "9"
+git config --global color.status.changed = "78"
+git config --global color.status.changed = "220"
+git config --global color.status.updated = "117"
+git config --global color.status.added = "48"
+git config --global color.status.branch = "86"
+git config --global color.status.localBranch = "86"
+git config --global color.status.remoteBranch = "219"
+
+git config --global color.branch.local    = "159"
+git config --global color.branch.remote   = "219"
+git config --global color.branch.upstream = "21"
+git config --global color.branch.plain    = "250"
+git config --global color.branch.current  = "14"
+
+git config --global color.push.error = "203"
+
+git config --global color.transport.rejected = "203"
+
+git config --global color.remote.hint = "68"
+git config --global color.remote.warning = "214"
+git config --global color.remote.success = "118"
+git config --global color.remote.error = "203"
+
+git config --global log.graphColors = "160,161,162,163,164,165,196,197,198,199,200,201"

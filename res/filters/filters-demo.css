@@ -5,6 +5,9 @@
 :is(.demo, .demos) > article > :is(h2, p, svg, img) {
   filter: var(--f);
 }
+:is(.demo, .demos) > article {
+  content: normal;
+}
 
 :is(.demo, .demos) > article::after {
   --size: 4em;
@@ -12,8 +15,10 @@
   content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
   display: flex;
   background: #0000;
+
   background-image:
     var(--demo-svg-three), var(--demo-svg-cat), var(--demo-svg-nine);
+
   --demo-svg-three: url('data:image/svg+xml,\
     %3Csvg height=%221em%22 viewBox=%220 0 512 512%22 xmlns=%22http://www.w3.org/2000/svg%22%3E\
     %3Cpath d=%22\
@@ -21,6 +26,7 @@
       M288 312V456c0 22.1 17.9 40 40 40H472c22.1 0 40-17.9 40-40V312c0-22.1-17.9-40-40-40H328c-22.1 0-40 17.9-40 40z\
       M128 512a128 128 0 1 0 0-256 128 128 0 1 0 0 256z\
     %22%3E%3C/path%3E%3C/svg%3E');
+
   --demo-svg-cat: url('data:image/svg+xml,\
     %3Csvg height=%221em%22 viewBox=%220 0 576 512%22 xmlns=%22http://www.w3.org/2000/svg%22%3E\
     %3Cpath d=%22\
@@ -29,6 +35,7 @@
       M432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0z\
       m48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z\
     %22%3E%3C/path%3E%3C/svg%3E');
+
   --demo-svg-nine: url('data:image/svg+xml,\
     %3Csvg height=%221em%22 viewBox=%220 0 448 512%22 xmlns=%22http://www.w3.org/2000/svg%22%3E\
     %3Cpath d=%22\
@@ -39,6 +46,7 @@
       M160 384v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32V384c0-17.7-14.3-32-32-32H192c-17.7 0-32 14.3-32 32z\
       M32 352c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V384c0-17.7-14.3-32-32-32H32z\
     %22%3E%3C/path%3E%3C/svg%3E');
+
   background-origin: padding-box;
   background-clip: no-clip;
   background-repeat: no-repeat;
@@ -60,5 +68,5 @@
 }
 
 .svgdefs {
-  display: none;
+  visibility: hidden;
 }

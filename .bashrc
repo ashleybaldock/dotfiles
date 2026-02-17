@@ -107,7 +107,7 @@ gitCurrentPathInRepo() {
 
 alias gu='echo "User config: $(git config --get user.name) <$(git config --get user.email)>"'
 alias gl="git log --color --pretty=format:'%C(auto)%h %C(5)􀉩 %<(10,trunc)%aN %Creset%C(auto)%s %Cgreen(%cr,%ar) %Creset%C(auto)%d'" && __git_complete gl git_log
-alias glg="git log --graph --date=relative --abbrev-commit --decorate=short --format='%C(3)%>>|(16)%h%C(5)􀉩 %<(10,trunc)%aN %C(8)􀐫 %ar %C(6)%(decorate:prefix=[,suffix=%x1b[36m],separator=%x1b[00m%x1b[93m%x2c%x1b[00m,tag=%x1b[0;92m􀋡 ,pointer=%x1b[0;96m􂨪􀄫 %x1b[00m,) %C(10)' --line-prefix='[92m  [0m'" && __git_complete glg git_log
+alias glg="git log --graph --date=relative --abbrev-commit --decorate-refs-exclude= --decorate=short --format='%C(3)%>>|(16)%h%C(5)􀉩 %<(10,trunc)%aN %C(8)􀐫 %ar %ah %C(6)%(decorate:prefix=[,suffix=%x1b[36m],separator=%x1b[00m%x1b[93m%x2c%x1b[00m,tag=%x1b[0;92m􀋡 ,pointer=%x1b[0;96m􂨪􀄫 %x1b[00m,) %C(10)' --line-prefix='[92m  [0m'" && __git_complete glg git_log
 alias gb="git branch" && __git_complete gb git_branch
 alias gp="git push" && __git_complete gp git_push
 alias gpu="git pull" && __git_complete gpu git_pull

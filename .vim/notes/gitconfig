@@ -1,3 +1,89 @@
+[color "grep"]
+context       (non-matching text in context lines (when using -A, -B, or -C))
+
+filename      (filename prefix (when not using -h)
+
+function      (function name lines (when using -p)
+
+lineNumber    (line number prefix (when using -n)
+
+column        (column number prefix (when using --column)
+
+match         (matching text (same as setting matchContext and matchSelected)
+
+matchContext  (matching text in context lines
+
+matchSelected (matching text in selected lines
+               git-log(1) subcommands: --grep, --author, and --committer.
+
+selected
+non-matching text in selected lines. Also, used to customize the
+following git-log(1) subcommands: --grep, --author and --committer.
+
+separator
+separators between fields on a line (:, -, and =) and between hunks
+(--)
+
+
+[color "push"]
+  error      (Use customized color for push errors.)
+[color "transport"]
+  rejected   (Use customized color when a push was rejected.)
+
+[color "remote"]
+  hint
+  warning
+  success
+  error
+
+[color "branch"]
+  current   (the current branch)
+  local     (a local branch)
+  remote    (a remote-tracking branch in refs/remotes/)
+  upstream  (upstream tracking branch)
+  plain     (other refs).
+
+
+
+diff
+--output-indicator-new=+
+--output-indicator-old=-
+--output-indicator-context= 
+
+
+[color "diff"]
+  meta (metainformation)
+  commit (commit headers)
+  whitespace (highlighting whitespace errors)
+
+  frag (hunk header)
+  func (function in hunk header)
+
+  context (context text - plain is a historical synonym)
+  contextDimmed
+  contextBold
+
+  new         (added lines)
+  newDimmed
+  newBold     (see git-range-diff(1))
+
+  newMoved (added lines)
+  newMovedDimmed
+  newMovedAlternative
+  newMovedAlternativeDimmed (See <mode> of --color-moved in git-diff(1) for details)
+
+  old           (removed lines)
+  oldDimmed
+  oldBold
+
+  oldMoved             (deleted lines)
+  oldMovedDimmed
+  oldMovedAlternative
+  oldMovedAlternativeDimmed
+
+
+
+
 color.status.<slot>
 [color "status"]
   header        (the header text of the status message)

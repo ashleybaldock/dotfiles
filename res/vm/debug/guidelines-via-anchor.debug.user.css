@@ -1,0 +1,71 @@
+.anchor.viewport {
+  anchor-name: --anchor-viewport;
+  position: fixed;
+  inset: 0 0 0 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  pointer-events: none;
+  z-index: calc(infinity);
+}
+.guide > .vertical {
+  --lw: 0.5px;
+  --c: #ff0;
+  pointer-events: none;
+  content: '';
+  display: flex;
+  box-sizing: border-box;
+  position: fixed;
+  position-anchor: inherit;
+  position-visibility: always;
+  inset: anchor(top, 0) anchor(--anchor-viewport right, 0) anchor(bottom, 0)
+    anchor(--anchor-viewport left, 0);
+  width: anchor-size(width);
+  width: 100vw;
+  height: anchor-size(height);
+  border: var(--lw) dashed magenta;
+  border-style: dashed hidden;
+}
+.guide > .horizontal {
+  pointer-events: none;
+  box-sizing: border-box;
+  display: flex;
+  position: fixed;
+  position-anchor: inherit;
+  position-visibility: always;
+  inset: anchor(--anchor-viewport top, 0) anchor(right, 0)
+    anchor(--anchor-viewport bottom, 0) anchor(left, 0);
+  width: anchor-size(width);
+  height: anchor-size(height);
+  height: 100vh;
+  border: 0.5px solid cyan;
+  border-style: hidden dashed;
+  z-index: calc(infinity - 1);
+}
+
+.guide {
+  pointer-events: none;
+  display: flex;
+  box-sizing: border-box;
+  width: anchor-size(width);
+  height: anchor-size(height);
+  border: 0.5px solid red;
+  position: fixed;
+  position-visibility: always;
+  inset: anchor(top, 0) anchor(right, 0) anchor(bottom, 0) anchor(left, 0);
+  z-index: calc(infinity);
+}
+.guide {
+}
+.guide {
+  position-anchor: --guide1;
+}
+.guide2 {
+  position-anchor: --guide2;
+}
+.guide3 {
+  position-anchor: --guide3;
+}
+.guide3 {
+  position-anchor: --guide4;
+}

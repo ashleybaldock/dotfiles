@@ -265,6 +265,21 @@ svg {
   top: 0;
 }
 
+.demo section > h2 {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+.demo section > h2 > a {
+  text-decoration: 0.5px solid aliceblue underline;
+  font-size: 0.6em;
+  color: aliceblue;
+}
+.demo section > h2 > a:hover {
+  text-decoration: underline;
+}
+
 .text-outline-thin {
   --＋: 0.8px;
   --－: calc(var(--＋) * -1);

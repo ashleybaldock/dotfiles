@@ -57,4 +57,11 @@ git config --global color.remote.warning = "214"
 git config --global color.remote.success = "118"
 git config --global color.remote.error = "203"
 
+git config --global color.decorate.branch = "159"
+git config --global color.decorate.remoteBranch = "219"
+git config --global color.decorate.tag = "10"
+git config --global color.decorate.stash = "95"
+git config --global color.decorate.HEAD = "6"
+git config --global color.decorate.grafted = "138"
+
 git config --global log.graphColors = "160,161,162,163,164,165,196,197,198,199,200,201"

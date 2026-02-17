@@ -20,20 +20,25 @@ syn match qfSeparator1 /[│ʅ️⎫⎧⎪⎩╭╰╮╯]/ contained
 syn match qfLineNr /[^│]*/ contained
       \ contains=@qfType
       \ nextgroup=qfSeparator2
-syn region qfFirstLine oneline
-      \ start='^\zs\ze\s*\S\+[⎫╮]'
-      \ end='$'
-syn region qfLastLine oneline
-      \ start='^\zs\ze\s*\S\+[⎩╰]'
-      \ end='$'
-syn region qfOnlyLine oneline
-      \ start='^\zs\ze\s*\S\+ʅ️'
-      \ end='$'
 syn match qfSeparator2 /│/ contained
       \ nextgroup=qfText
 syn match qfText /.*/ contained
 
+syn region qfFirstLine oneline contains=qfFilename
+      \ start='^\zs\ze\s*\S\+[⎫╮]'
+      \ end='$'
+syn region qfMidLine oneline contains=qfSeparator1
+      \ start='^\zs\ze\s*⎪'
+      \ end='$'
+syn region qfLastLine oneline contains=qfSeparator1
+      \ start='^\zs\ze\s*\S\+[⎩╰]'
+      \ end='$'
+syn region qfOnlyLine oneline contains=qfFilename
+      \ start='^\zs\ze\s*\S\+ʅ️'
+      \ end='$'
+
 syn match qfError  /error/  contained
+syn cluster qfLine contains=qfFileName
 syn cluster qfType contains=qfError
 
 " syn match qfSameFile /^\([^│]*\).*\n\zs\1\ze/

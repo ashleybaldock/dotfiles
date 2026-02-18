@@ -231,8 +231,8 @@ endfunc
 let g:coc_enable_locationlist = 0
 
 let s:modechangemap = [
-      \ ['silent DoUserAutocmd MayhemDiagnosticsUpdated',      'CocStatusChange'],
-      \ ['silent DoUserAutocmd MayhemDiagnosticsUpdated',  'CocDiagnosticChange'],
+      \ ['silent DoUserAutocmd MayhemDiagnosticsNeedUpdate',      'CocStatusChange'],
+      \ ['silent DoUserAutocmd MayhemDiagnosticsNeedUpdate',  'CocDiagnosticChange'],
       \ ['silent call CocActionAsync("showSignatureHelp")', 'CocJumpPlaceholder'],
       \ ['silent call s:OnCocOpenFloat()',                        'CocOpenFloat'],
       \ ['silent call s:OnCocTerminalOpen()',                  'CocTerminalOpen'],

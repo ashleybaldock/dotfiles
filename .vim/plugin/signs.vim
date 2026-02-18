@@ -4,7 +4,9 @@ endif
 let g:mayhem_loaded_signs = 1
 
 "
-" show count of search results above/below view
+" show count of search results above/below current view
+" - after jumping within file, indicate direction jumped from
+" show errors above/below current view
 " make option-a/option-s work with tabs
 " fix option-d
 "  - handle list of options

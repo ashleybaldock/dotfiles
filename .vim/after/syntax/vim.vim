@@ -154,6 +154,14 @@ hi def DemoCursorRange  guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
 " hi def link DemoCursor Cursor
 hi def DemoCursor       guifg=#000000 guibg=#cc22dd
 
+syn region CommentOptional
+      \ matchgroup=CommentOptEnds start=/\%u005b\%ufe0f/
+      \ matchgroup=CommentOptEnds end=/\%u005d\%ufe0f/
+      \ contained containedin=Comment,vimLineComment
+      \ extend keepend oneline contains=CommentOptional
+
+hi def CommentOptional guifg=#af18df gui=italic
+hi def CommentOptEnds  guifg=#8f18bf
 
 " syn match CommentStart /^\s*\zs"/ contained contains=NONE containedin=Comment,vimLineComment
  " syn match CommentStart /^\s*\zs"/ contained containedin=Comment,vimLineComment contains=NONE conceal cchar=⎢

@@ -163,12 +163,6 @@ inoremap <silent><expr> <CR>
 " Events And Autocommands:
 "
 
-" function s:OnCocDiagnosticChange()
-"   if exists('#User#MayhemEnterVisual')
-"     doautocmd User MayhemEnterVisual
-"   endif
-" endfunc
-
 "   new list in: g:coc_jump_locations
 function s:OnCocLocationsChange() abort
    let g:last_coc_jump_locations = g:coc_jump_locations
@@ -208,7 +202,7 @@ function s:OnCocOpenFloat() abort
           \ title:'╸━ Coc: Signature ━╺',
           \ })
   elseif highlight == 'HlCocPuDiagBg'
-    " Coc diagnostic float
+    " Coc float for diagnostic messages
     call popup_setoptions(g:coc_last_float_win, #{
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
           \ padding: [0,1,0,1], 

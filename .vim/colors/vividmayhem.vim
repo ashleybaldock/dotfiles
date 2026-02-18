@@ -327,7 +327,6 @@ hi SignGitDel     guifg=#bb1144 guibg=ysignsb gui=underdotted
 hi SignGitChg     guifg=#cfc040 guibg=ysignsb gui=none
 hi SignGitCgD     guifg=#cfc040 guibg=ysignsb gui=underdotted guisp=#bb0044
 
-hi WarningHint    guifg=NONE    guibg=NONE    gui=underdotted guisp=#ddbb00 
 
 hi SignDgErr      guifg=#dd2222 guibg=#1f0505 gui=none
 hi SignDgWarn     guifg=#ffaa00 guibg=#301e00 gui=none

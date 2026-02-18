@@ -3,6 +3,15 @@ if exists("g:mayhem_loaded_signs")
 endif
 let g:mayhem_loaded_signs = 1
 
+"
+" show count of search results above/below view
+" make option-a/option-s work with tabs
+" fix option-d
+"  - handle list of options
+"  - only call coc when it is available
+"  - jump in split if needed
+"  - open pum with other options
+"
 
 let s:prefix = 'mayhem_'
 let s:group = 'signs_of_mayhem'
@@ -40,7 +49,7 @@ let s:diagsigns = [
 
 " ┃ ╭╴texthl
 " ┃ │  ╭╴numhl   ╭╴linehl (or culhl if cursor on line)
-" ╭─∇┬─∇─┬───────∇────────────────────────────────────────╮   
+" ╭─∇╌─∇─╌───────∇────────────────────────────────────────╮   
 " ╻ ⚑ 123 A Line of the sig̲ns
 " ┃  ╵   ╵
 " ┃  ╵   ╵
@@ -75,14 +84,14 @@ command MarkThisLine echo <SID>MarkThisLine()
 " -----------------------------------   Signs   -----------
 "
 function! s:PlaceSign()
-  let aSign = sign_define(s:prefix..'testsign', { 
+  let aSign = sign_define(s:prefix .. 'testsign', { 
         \ 'text': '✘+',
         \ 'linehl': 'TestHint5', 
         \ 'numhl': '', 
         \ 'texthl': '',
         \ 'culhl': '', 
         \})            
-  let signid = sign_place(0, s:group, s:prefix..'testsign', bufnr(), { 'lnum': line('.') }) 
+  let signid = sign_place(0, s:group, s:prefix .. 'testsign', bufnr(), { 'lnum': line('.') }) 
   return signid        
 endfunc                
                        
@@ -273,30 +282,6 @@ command! CodeLine echo <SID>CodeBlockLine()
 
 
 "
-" group:
-"  '*' = all groups
-"  ''  = global group only  
-"
-function! s:ListSignsInCurrentBuffer()
-  return sign_getplaced(bufnr(), { 'group': '*'})
-endfunc
-function! s:ListSignsOfMayhemInCurrentBuffer()
-  return sign_getplaced(bufnr(), { 'group': s:group })
-endfunc
-
-function! s:ListSignsInCurrentLine()
-  return sign_getplaced(bufnr(), { 'lnum': line('.'), 'group': '*'})
-endfunc
-function! s:ListSignsOfMayhemInCurrentLine()
-  return sign_getplaced(bufnr(), { 'lnum': line('.'), 'group': s:group })
-endfunc
-
-command! AllSignsInThisLine echo <SID>ListSignsInCurrentLine()
-command! AllSignsInThisBuffer echo <SID>ListSignsInCurrentBuffer()
-command! OurSignsInThisLine echo <SID>ListSignsOfMayhemInCurrentLine()
-command! OurSignsInThisBuffer echo <SID>ListSignsOfMayhemInCurrentBuffer()
-
-"
 " ----------------------------------- TextProps -----------
 "
 "  prop_type_add(name, props)
@@ -373,6 +358,12 @@ command! OurTextPropsInThisBuffer echo <SID>ListTextsOfMayhemInCurrentBuffer()
 
 
 
+command! AllSignsInThisLine echo <SID>ListSignsInCurrentLine()
+command! AllSignsInThisBuffer echo <SID>ListSignsInCurrentBuffer()
+command! OurSignsInThisLine echo <SID>ListSignsOfMayhemInCurrentLine()
+command! OurSignsInThisBuffer echo <SID>ListSignsOfMayhemInCurrentBuffer()
+
+
 
 
 " let matchid = matchadd(hlgroup, pattern, priority, id, {conceal = 'X', window = N}]]])
@@ -421,26 +412,6 @@ command! OurTextPropsInThisBuffer echo <SID>ListTextsOfMayhemInCurrentBuffer()
 " \})
 
 " (end_col == col && lnum == end_lnum): zero-width prop
-" call prop_add(lnum, col, {
-" \ id  (auto, or supply specific number)
-" \ bufnr
-" \ type   (same as use for prop_type_add)
-" \ length  (same-line only)(length of prop in byes)
-" \ end_lnum (line nr for end of prop, inclusive)
-" \ end_col (column just after end of prop)
-
-" \ text (to display before col, 
-"          row above/below if col == 0)
-"  \ text_align, (text && col==0) where to display:
-"  " after (eol), right (aligned in window, 1 per line)
-"  " below (next screen line), above (line before)
-" \ text_padding_left (text && col==0) 
-" \ text_wrap (wrap or truncate)
-" \}
-
-
-" prop_add({lnum}, {col}, {props})
-" prop_add_list({props}, [{item}, ...])
 
 " prop_find({props} [, {direction}])
 " prop_list({lnum} [, {props}])
@@ -483,18 +454,16 @@ function! s:UpdateDiagnosticSummary(bufnr = bufnr()) abort
   " return printf("%s %s", bufname, tabline#modstatus(a:bufnr))
 endfunction
 
-function! s:updateCache() abort
-  let s:diagCache = s:FetchDiagnostics()
 
+function! s:updateCache() abort
   " TODO
   " make this async with a callback
   " - to update the cache
   " - to update summary for all matching buffers
 
-  for [filepath, diagnostics] in items(s:diagCache)
-    let b = bufnr(filepath)
-    if !empty(b)
-      call s:UpdateDiagnosticSummary(b)
+  for [bufnr, severities] in items(signs#diagnostics())
+    if !empty(bufnr)
+      call s:UpdateDiagnosticSummary(bufnr)
     endif
   endfor
 endfunc
@@ -503,7 +472,7 @@ endfunc
 
 
 function! s:DebugDiagnostics()
-  let grouped = s:FetchDiagnostics(1)
+  let grouped = signs#Diagnostics()
   vsp
   enew
   call append('$', format#dict2json(grouped))
@@ -513,6 +482,7 @@ endfunc
 
 command! -bar DebugDiagnostics call <SID>DebugDiagnostics()
 
+
 call autocmd_add([
       \#{
       \ event: 'User', pattern: 'MayhemDiagnosticsUpdated',
@@ -521,3 +491,17 @@ call autocmd_add([
       \},
       \])
 
+call autocmd_add([
+      \#{
+      \ event: 'User',
+      \ pattern: 'MayhemDiagnosticsUpdated',
+      \ cmd: 'call signs#diagnosticsPlaceProps()',
+      \ group: 'mayhem_diag', replace: v:true,
+      \},
+      \#{
+      \ event: 'User',
+      \ pattern: 'MayhemDiagnosticsNeedUpdate',
+      \ cmd: 'call signs#diagnosticsUpdate()',
+      \ group: 'mayhem_diag', replace: v:true,
+      \},
+      \])

@@ -100,30 +100,6 @@ function s:WriteMessagesToBufferInWindow(winid) abort
   endif
 endfunc
 
-"
-" Open a split with output of :messages
-"
-function s:SplitWithMessages() abort
-  if exists('s:bufnr_messages')
-    if bufexists(s:bufnr_messages)
-     if exists(winbufnr(s:bufnr_messages))
-        call s:RefreshMessages()
-        exec winbufnr(s:bufnr_messages) .. 'wincmd w'
-     else
-       exec s:bufnr_messages .. 'wincmd ^'
-     endif
-   endif
-  else
-    vnew
-    let s:bufnr_messages = bufnr()
-
-    nnoremap <buffer> <nowait> r <ScriptCmd>call s:RefreshMessages()<CR>
-    nnoremap <buffer> <nowait> p <ScriptCmd>call s:SplitWithScriptnames()<CR>
-    nnoremap <buffer> <nowait> t <ScriptCmd>call s:SplitWithRuntime()<CR>
-    wincmd h
-  endif
-endfunc
-
 function s:RefreshMessages() abort
   call setbufvar(s:bufnr_messages, '&filetype', 'vimmessages')
   call setbufvar(s:bufnr_messages, '&buftype', 'nofile')
@@ -147,6 +123,24 @@ function s:CloseMessages() abort
   endif
 endfunc
 
+"
+" Open a split with output of :messages
+"
+function s:SplitWithMessages() abort
+  if !exists('s:bufnr_messages') || !bufexists(s:bufnr_messages)
+    vnew
+    let s:bufnr_messages = bufnr()
+  endif
+
+  exec s:bufnr_messages .. 'wincmd ^'
+
+  call s:RefreshMessages()
+
+  nnoremap <buffer> <nowait> r <ScriptCmd>call s:RefreshMessages()<CR>
+  nnoremap <buffer> <nowait> p <ScriptCmd>call s:SplitWithScriptnames()<CR>
+  nnoremap <buffer> <nowait> t <ScriptCmd>call s:SplitWithRuntime()<CR>
+  wincmd h
+endfunc
 
 function s:CloseMessagesPopup() abort
   if exists('s:popid_messages')

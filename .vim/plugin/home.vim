@@ -255,8 +255,6 @@ function s:ShowHome() abort
 
   call map(v:oldfiles, 'fnamemodify(v:val, ":p")')
 
-  MessagesSplit
-
   call s:RenderHeader()
 
   call s:RenderQuickLinks()
@@ -275,6 +273,8 @@ function s:ShowHome() abort
 
   " Finalise buffer contents
   silent! setlocal nomodified nomodifiable
+
+  MessagesSplit
 
   call autocmd_add([
         \#{

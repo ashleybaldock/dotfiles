@@ -437,10 +437,6 @@ exec 'an' '<silent>' '10.332' '&File.Close<Tab>:q' ':conf q<CR>'
 exec 'tln' '<silent>' '10.332' '&File.Close<Tab>:q' '<C-W>:conf q<CR>'
 exec 'macm' '&File.Close<Tab>:q' 'key=<D-w>' 'alt=YES'
 
-exec 'aun' '&File.Close\ All'
-exec 'an' '<silent>' '10.332' '&File.Close\ All' ':conf q<CR>'
-exec 'macm' '&File.Close\ All' 'key=<D-W>' 'alt=YES'
-
 exec 'aun' '&File.Save\ All'
 exec 'an' '<silent>' '10.341' '&File.Save\ All' ':browse conf wa<CR>'
 

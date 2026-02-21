@@ -464,7 +464,7 @@ function! s:updateCache() abort
   " - to update summary for all matching buffers
 
   for [bufnr, severities] in items(signs#diagnostics())
-    if !empty(bufnr)
+    if bufexists(bufnr)
       call s:UpdateDiagnosticSummary(bufnr)
     endif
   endfor
@@ -503,7 +503,7 @@ call autocmd_add([
       \#{
       \ event: 'User',
       \ pattern: 'MayhemDiagnosticsNeedUpdate',
-      \ cmd: 'call signs#diagnosticsUpdate()',
+      \ cmd: 'call signs#updateDiagnostics()',
       \ group: 'mayhem_diag', replace: v:true,
       \},
       \])

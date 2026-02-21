@@ -74,7 +74,7 @@ function! signs#cached() abort
   return s:cachedFetch
 endfunc
 
-function! signs#diagnosticsUpdate() abort
+function! signs#updateDiagnostics() abort
   let s:diagnosticsByFileAndSeverity = signs#fetch()
         \->reduce({acc, cur -> has_key(acc, bufnr(cur.file))
         \ ? add(acc[bufnr(cur.file)][cur.severity], cur)
@@ -82,6 +82,7 @@ function! signs#diagnosticsUpdate() abort
         \   bufnr(cur.file): {[cur.severity]: [cur]}
         \  })
         \}, {})
+  exec 'DoUserAutocmd MayhemDiagnosticsUpdated'
 endfunc
 
 function! signs#diagnosticsPlaceProps() abort

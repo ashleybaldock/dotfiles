@@ -10,7 +10,7 @@ let g:mayhem_dir_backup    = $VIMHOME..'/backup'
 let g:mayhem_dir_swap      = $VIMHOME..'/swap'
 let g:mayhem_dir_undo      = $VIMHOME..'/undo'
 let g:mayhem_dir_view      = $VIMHOME..'/view'
-" See: ./plugin/sessions.vim
+" See: ./autoload/session.vim
 let g:mayhem_dir_session   = $VIMHOME..'/session'
 " See: ./plugin/templates.vim
 let g:mayhem_dir_template  = $VIMHOME..'/templates'
@@ -22,9 +22,9 @@ let g:mayhem_dir_template  = $VIMHOME..'/templates'
 "      ./plugin/templates.vim
 "
 " (path)hint: displayed next to file name in statusline
-"    subtype: sets filetype variant based on folder location, used for:
-"             - enabling extended syntax highlighting
-"             - selecting a more specific template
+"    subtype: filetype variant based on location, used for:
+"    - extended syntax highlighting (e.g. ./after/syntax/vim.syntax.vim)
+"    - template selection (see: ./plugin/templates.vim)
 "
 let g:mayhem_path_hints = {
       \ $VIMHOME..'/after/ftplugin': #{ hint: '(️v/️a/️f)️'},
@@ -42,6 +42,7 @@ let g:mayhem_path_hints = {
 "
 " Set up file extension to filetype mappings
 " See: ./autoload/mayhem.vim
+"      ./autoload/format.vim
 "      ./plugin/statusline.vim
 "
 let g:mayhem_type_ext_map = #{

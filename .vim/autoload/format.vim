@@ -107,12 +107,22 @@ endfunc
 "
 " Apply code beautification to the contents of a buffer (or part thereof)
 "
-function format#buffer(bufnr = bufnr()) range abort
-  let l:filetype = &filetype ?? 'html'
-  let l:filename = expand('%') ?? 'nameless'
-  let l:stdinpath = shellescape(l:filename .. '.' .. l:filetype)
+let s:filetypemap = #{
+      \ typescriptreact: 'tsx',
+      \}
+function format#buffer(bufnr = bufnr(), filetype = get(&l, 'filetype', 'html')) range abort
+  let filetypeext = get(g:mayhem_type_ext_map, a:filetype, a:filetype)
+  let filename = expand('%') ?? 'nameless'
+  let stdinpath = shellescape(filename .. '.' .. filetypeext)
 
-  exec a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath ' .. l:stdinpath
+  exec a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath ' .. stdinpath
+endfunc
+
+function format#list(text, filetype = 'html') abort
+  let joined = type(a:text) == type([]) ? join(a:text, "\n") : a:text
+  let filetypeext = get(g:mayhem_type_ext_map, a:filetype, a:filetype)
+
+  return systemlist('npx prettier --stdin-filepath nameless.' .. filetypeext, joined)
 endfunc
 
 function format#FixedWidthFont(text)

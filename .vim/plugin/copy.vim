@@ -47,6 +47,8 @@ command! -bar CopyLastSearch let @+=@/
 " ╰─╴Coc
 " ╎   ├─▶︎ Last diagnostic message
 command! -bar CopyDiagnostic let @+ = CocAction('diagnosticInfo', 'echo')->join("\n").."\n"
+" ╎   ├─▶︎ Contents of coc popup (current/most recent)
+command! -bar CopyCoc let @+ = winbufnr(g:coc_last_float_win)->getbufline(1, '$')->join("\n").."\n"
 " ╎   ├─▶︎ Last hover window message
 command! -bar CopyHoverInfo let @+ = CocAction('getHover')->join("\n").."\n"
 " ╎   ╰─▶︎ Last location jump list

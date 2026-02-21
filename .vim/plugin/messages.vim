@@ -60,16 +60,9 @@ function s:ExpandMessages(messages) abort
   return replaceSNR
 endfunc
 
-function s:OnVimEnter(when) abort
-  if !exists('s:startup_messages')
-    let s:startup_messages = s:GetMessagesList()
-  endif 
-endfunc
-
 if v:vim_did_enter
   call s:OnVimEnter('direct')
 
-  echom 'messages did enter auto'
   call autocmd_add([
         \#{
         \ event: 'VimEnter', once: v:true,

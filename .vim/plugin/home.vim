@@ -274,7 +274,7 @@ function s:ShowHome() abort
   " Finalise buffer contents
   silent! setlocal nomodified nomodifiable
 
-  MessagesSplit
+  " MessagesSplit
 
   call autocmd_add([
         \#{

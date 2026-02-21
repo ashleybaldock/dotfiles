@@ -17,15 +17,14 @@ endfunc
 
 function! s:CursorInfoUpdate()
   let mousepos = getmousepos()
-
 endfunc
 
 let s:cursor_events_group = 'mayhem_debug_cursor_events'
 
 function! s:CursorInfoOff() abort
-  unlet s:cursor_info_enabled
+  silent! unlet s:cursor_info_enabled
 
-  call autocmd_delete([#{group: s:cursor_events_group}])
+  silent! call autocmd_delete([#{group: s:cursor_events_group}])
   
   " remove popup
 endfunc
@@ -51,23 +50,30 @@ function! s:CursorInfoOn() abort
       \])
 endfunc
 
-function! s:CursorInfoToggle(action) abort
-  if s:cursor_info_enabled
-    call s:CursorInfoOff()
-  else
-    call s:CursorInfoOn()
-  endif
+function! s:CursorInfoToggle() abort
+  return exists('s:cursor_info_enabled') ? s:CursorInfoOff() : s:CursorInfoOn()
 endfunc
 
-let s:ToggleLookup = #{
-      \     on: function(s:CursorInfoOn),
-      \    off: function(s:CursorInfoOff),
-      \ toggle: function(s:CursorInfoToggle),
+let s:CursorInfoActionLookup = #{
+      \     on: function('s:CursorInfoOn'),
+      \    off: function('s:CursorInfoOff'),
+      \ toggle: function('s:CursorInfoToggle'),
       \}
 
-function! s:SimpleToggleComplete(ArgLead, CmdLine, CursorPos)
-  return keys(s:toggleLookup)
+function! s:CursorInfoComplete(ArgLead, CmdLine, CursorPos)
+  return keys(s:CursorInfoActionLookup)->join("\n")
 endfunc
 
-command! -nargs=1 CursorInfo call <SID>ToggleLookup[<f-args>]()
+" function! s:Dispatch(action = 'toggle') abort
+"   return get(s:CursorInfoActionLookup, action)
+
+"   if a:action == 'off' || exists(s:cursor_info_enabled) && a:action == 'toggle'
+"     call s:CursorInfoOff()
+"   else
+"     call s:CursorInfoOn()
+"   endif
+" endfunc
+
+command! -nargs=1 -complete=custom,<SID>CursorInfoComplete
+      \ CursorInfo call s:CursorInfoActionLookup[<f-args>]()
 

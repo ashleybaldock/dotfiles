@@ -266,12 +266,12 @@ nnoremap <leader>p   :CtrlP<CR>
 " Sessions And Splits: §s
 " See: ./sessions.vim
 "
-nnoremap §sq <Cmd>SessionInfo<CR>
-nnoremap <expr> §sc ':SessionCreate '..expand('%:p:h')
-nnoremap §se :SessionLoad 
-" nnoremap §s  :SessionPause<CR>
-" nnoremap §s  :SessionResume<CR>
-" nnoremap §s  :SessionDelete<CR>
+nnoremap §sq <Cmd>Session info<CR>
+nnoremap <expr> §sc ':Session create '..expand('%:p:h')
+nnoremap §se :Session load 
+" nnoremap §s  :Session pause<CR>
+" nnoremap §s  :Session resume<CR>
+" nnoremap §s  :Session delete<CR>
 
 "
 " Window: §w - Windows & Splits

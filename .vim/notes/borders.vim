@@ -34,7 +34,6 @@ highlight:'CursorLineNr',borderhighlight:['CocInlayHintParameter']
 highlight:'CursorLineNr',borderhighlight:['Function']
 
 
-SessionInfo
 :CdProjectRoot | AckInput
 echo popup_create('popped', #{line:'cursor', col:'cursor', pos:'topleft', posinvert:0, fixed:0, flip:1, maxheight:5,minheight:1,maxwidth:10,minwidth:4,title:'up',wrap:1,highlight:'Comment',borderhighlight:['Function'],padding:[1,1,1,1],border:[1,1,1,1],borderchars=[]})
 echo popup_create('popped', #{line:'cursor', col:'cursor', pos:'topleft', posinvert:0, fixed:0, flip:1, maxheight:5,minheight:1,maxwidth:10,minwidth:4,title:'up',wrap:1,highlight:'Comment',borderhighlight:['Function'],padding:[1,1,1,1],border:[1,1,1,1],borderchars:[]})

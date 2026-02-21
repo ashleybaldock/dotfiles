@@ -21,6 +21,8 @@ scriptencoding utf-8
 "
 " Do User Autocmd (but only if anything is listening)
 "
+" See: ../plugin/#mayhem.vim
+"
 function! mayhem#doUserAutocmd(name) abort
   if exists('#User#' .. a:name)
     exec 'doautocmd User ' .. a:name

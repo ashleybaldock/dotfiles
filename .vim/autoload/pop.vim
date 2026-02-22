@@ -39,6 +39,13 @@ let s:borders = #{
 "     \'│ │'..   
 "     \'mmm',    
 
+"􀰬  􂀙 
+" ╭╴ popinfo ╶─╮
+" ⎬            ⎨───────╮          
+" │ 􀫌 evt􂇏 x,y       │
+" │    win􀆃22 􂇏 x,y           │
+" │  􂠹 33   􂠷 22         │
+" ╰────────────────────╯
 func MyFilter(popwid, key)
   if a:key == "\<LeftMouse>"
     let mpos = getmousepos()

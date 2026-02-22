@@ -3,11 +3,11 @@
 "
 " Also make undercurl etc. not show as errors
 "
-" au BufWritePost <buffer> syn on
+" :au BufWritePost <buffer> syn on
 "
-" See Also: $VIMRUNTIME/syntax/vim.vim
-"           ../syntax/vim.statusline.vim
-"           ./common.vim
+" Related: $VIMRUNTIME/syntax/vim.vim
+"          ../syntax/vim.statusline.vim
+"                  ./common.vim
 "
 
 source <script>:p:h/common.vim
@@ -154,6 +154,9 @@ hi def DemoCursorRange  guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
 " hi def link DemoCursor Cursor
 hi def DemoCursor       guifg=#000000 guibg=#cc22dd
 
+syn match CommentLink "\%(~/\|\.\./\|\./\|$[A-Z0-9]\+/\)\%(\S\+/\)*\%(/\|\S*\.*[A-Za-z0-9]*\)\%(\s\|$\)"
+      \ contained containedin=Comment,vimLineComment contains=NONE
+
 syn region CommentOptional
       \ matchgroup=CommentOptEnds start=/\%u005b\%ufe0f/
       \ matchgroup=CommentOptEnds end=/\%u005d\%ufe0f/
@@ -172,6 +175,16 @@ hi def CommentStart guifg=#cf28df guibg=#cf28df gui=none
 syn match Modeline contained /\(^["#]\)\@<=\s\+vim:.*$/ containedin=Comment,vimLineComment
 
 hi def link Modeline CommentHidden
+
+"
+" :highlight commands in commments
+"       \ including those that continue
+"       \ across multiple lines
+"
+syn match CommentCommand /\%(^"\s*\)\@<=:\%(.*\n"\s*\\\)*.*$/
+      \ contained containedin=Comment,vimLineComment contains=NONE
+
+hi def CommentCommand guifg=#eecc00 guibg=#444444
 
 " echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: ''})
 let s:multi_comment_matchids = []

@@ -474,7 +474,7 @@ hi Regexp         guifg=#44b4cc guibg=NONE    gui=none
 hi Comment        guifg=#cf28df guibg=NONE    gui=none
 hi CommentBright  guifg=#dd44ff guibg=NONE    gui=none
 hi CommentTitle   guifg=#33eeff guibg=bg      gui=underline,italic guisp=#7744ff
-hi CommentLink    guifg=#22aadd guibg=NONE    gui=underdashed
+hi CommentLink    guifg=#22aadd guibg=NONE    gui=underdotted
 hi CommentSubtle  guifg=#999999 guibg=#111111 gui=italic
 hi def link CommentHidden  CommentSubtle
 hi def Commented  guifg=#5e5e5e guibg=NONE    gui=italic

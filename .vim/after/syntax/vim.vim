@@ -154,7 +154,7 @@ hi def DemoCursorRange  guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
 " hi def link DemoCursor Cursor
 hi def DemoCursor       guifg=#000000 guibg=#cc22dd
 
-syn match CommentLink "\%(~/\|\.\./\|\./\|$[A-Z0-9]\+/\)\%(\S\+/\)*\%(/\|\S*\.*[A-Za-z0-9]*\)\%(\s\|$\)"
+syn match CommentLink "\%(\~/\|\.\./\|\./\|$[A-Z0-9]\+/\)\%(\S\+/\)*\%(/\|\S*\.*[A-Za-z0-9]*\)\%(\s\|$\)"
       \ contained containedin=Comment,vimLineComment contains=NONE
 
 syn region CommentOptional
@@ -181,10 +181,12 @@ hi def link Modeline CommentHidden
 "       \ including those that continue
 "       \ across multiple lines
 "
-syn match CommentCommand /\%(^"\s*\)\@<=:\%(.*\n"\s*\\\)*.*$/
-      \ contained containedin=Comment,vimLineComment contains=NONE
+syn match CommentCmd /\%(^"\s*\)\@<=:\%(.*\n"\s*\\\)*.*$/
+      \ contained containedin=Comment,vimLineComment contains=CommentStart,CommentCmdPre
+syn match CommentCmdPre /\%(^"\)\@1<=\s*\ze\\/ contained contains=NONE
 
-hi def CommentCommand guifg=#eecc00 guibg=#444444
+hi def CommentCmd guifg=#eecc00 guibg=#444444
+hi def link CommentCmdPre Comment
 
 " echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: ''})
 let s:multi_comment_matchids = []

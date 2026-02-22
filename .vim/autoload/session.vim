@@ -4,11 +4,12 @@ endif
 let g:mayhem_autoloaded_session = 1
 
 "
-" See: ../plugin/session.vim
+" Related: ../plugin/session.vim
 "
 
 "
-" :Session create [<new-session-id>]       (default to auto-generated name)
+" :Session
+"          create [<new-session-id>]       (default to auto-generated name)
 "          load <existing-session-id>
 "          delete [<existing-session-id>]  (default to current session)
 "          list                            (all sessions)

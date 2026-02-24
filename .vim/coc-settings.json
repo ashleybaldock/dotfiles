@@ -61,7 +61,7 @@
   "suggest.maxCompleteItemCount": 256,
   "suggest.removeDuplicateItems": true,
   "suggest.minTriggerInputLength": 1,
-  "suggest.reversePumAboveCursor": true,
+  "suggest.reversePumAboveCursor": false,
   "suggest.triggerCompletionWait": 0,
   "suggest.languageSourcePriority": 99,
   "suggest.lowPrioritySourceLimit": 2,

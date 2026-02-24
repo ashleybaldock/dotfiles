@@ -210,11 +210,21 @@ function s:OnCocOpenFloat() abort
           \ })
           " \ title:'╸━ Coc: Diagnostic ━╺',
   elseif highlight == 'HlCocPuSugsBg'
+    echom popup_getoptions(g:coc_last_float_win)
+    echom popup_getpos(g:coc_last_float_win)
+
     " Coc suggestion float
+    call popup_move(g:coc_last_float_win, #{
+          \ fixed: v:true,
+          \ line: 'cursor-4',
+          \ })
     call popup_setoptions(g:coc_last_float_win, #{
-          \ borderchars: ['─','⎥','━','⎢', '⎛','⎞','⎠','⎝'], 
-          \ padding: [0,0,0,0], 
-          \ border: [1,0,0,0],
+          \ borderchars: ['{','|','━','╰', '⎧','⎞','⎠','⎝'],
+          \ padding: [1,0,0,0],
+          \ border: [1,0,0,1],
+          \ mask: [[2,-1,1,1]],
+          \ posinvert: v:false,
+          \ pos: 'topright',
           \ })
   elseif name =~ '\[List Preview]'
     echom 'preview'
@@ -230,18 +240,18 @@ endfunc
 
 let g:coc_enable_locationlist = 0
 
-let s:modechangemap = [
-      \ ['silent DoUserAutocmd MayhemDiagnosticsNeedUpdate',      'CocStatusChange'],
-      \ ['silent DoUserAutocmd MayhemDiagnosticsNeedUpdate',  'CocDiagnosticChange'],
-      \ ['silent call CocActionAsync("showSignatureHelp")', 'CocJumpPlaceholder'],
-      \ ['silent call s:OnCocOpenFloat()',                        'CocOpenFloat'],
-      \ ['silent call s:OnCocTerminalOpen()',                  'CocTerminalOpen'],
-      \ ['silent echom "---CocNvimInit---"',                       'CocNvimInit'],
-      \ ['silent call s:OnCocLocationsChange()',            'CocLocationsChange'],
+let s:autocmdmap = [
+      \ ['DoUserAutocmd MayhemDiagnosticsNeedUpdate',       'CocStatusChange'],
+      \ ['DoUserAutocmd MayhemDiagnosticsNeedUpdate',   'CocDiagnosticChange'],
+      \ ['call CocActionAsync("showSignatureHelp")',     'CocJumpPlaceholder'],
+      \ ['call s:OnCocOpenFloat()',                            'CocOpenFloat'],
+      \ ['call s:OnCocTerminalOpen()',                      'CocTerminalOpen'],
+      \ ['echom "---CocNvimInit---"',                           'CocNvimInit'],
+      \ ['call s:OnCocLocationsChange()',                'CocLocationsChange'],
       \]
 
-call autocmd_add(mapnew(s:modechangemap, {_, vals -> #{
-      \ cmd: vals[0], pattern: vals[1],
+call autocmd_add(mapnew(s:autocmdmap, {_, vals -> #{
+      \ cmd: 'silent ' .. vals[0], pattern: vals[1],
       \ event: 'User', replace: v:true,
       \ group: 'mayhem_coc',
       \}}))

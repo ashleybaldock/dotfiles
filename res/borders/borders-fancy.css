@@ -449,4 +449,109 @@
     #000 var(--bdo) var(--bdi),
     #0000 var(--bdi)
   );
+
+  .fancy:nth-of-type(17) {
+    outline: 1px dashed #ff04;
+    --bdw: 10px;
+    --bdi: calc(50% + var(--bdw) * 0.5);
+    --bdo: calc(50% - var(--bdw) * 0.5);
+    box-shadow:
+      inset 20px 0 0 -10px #000,
+      inset -20px 0 0 -10px #000,
+      inset 0 20px 0 -10px #000,
+      inset 0 -20px 0 -10px #000;
+    display: grid;
+    place-content: center;
+    place-items: center;
+    border-radius: 0;
+    grid-template-columns: [bdbefore] auto [content] 1fr [bdafter] auto;
+    mask-image:
+      var(--tr), var(--br), var(--bl), var(--tl), linear-gradient(#fff0 0 0);
+    mask-origin: border-box;
+    mask-composite:
+      subtract, intersect, intersect, subtract, subtract, intersect;
+    background-image: var(--tr), var(--br), var(--bl), var(--tl);
+    background-size: 50% 50%;
+    background-position:
+      top right,
+      bottom right,
+      bottom left,
+      top left;
+    background-repeat: no-repeat;
+    background-color: #f00;
+    --cbg: #885599;
+    --bl: linear-gradient(
+      45deg,
+      var(--cbg) 0 var(--bdo),
+      #000 var(--bdo) var(--bdi),
+      #0000 var(--bdi)
+    );
+    --tl: linear-gradient(
+      135deg,
+      var(--cbg) 0 var(--bdo),
+      #000 var(--bdo) var(--bdi),
+      #0000 var(--bdi)
+    );
+    --br: linear-gradient(
+      315deg,
+      var(--cbg) 0 var(--bdo),
+      #000 var(--bdo) var(--bdi),
+      #0000 var(--bdi)
+    );
+    --tr: linear-gradient(
+      225deg,
+      var(--cbg) 0 var(--bdo),
+      #000 var(--bdo) var(--bdi),
+      #0000 var(--bdi)
+    );
+  }
+  .fancy:nth-of-type(18) {
+    outline: 1px dashed #ff04;
+    outline-offset: 2px;
+    --bdw: 10px;
+    --bdi: calc(50% + var(--bdw) * 0.5);
+    --bdo: calc(50% - var(--bdw) * 0.5);
+    box-shadow:
+      inset 20px 0 0 -10px #000,
+      inset -20px 0 0 -10px #000;
+    display: grid;
+    place-content: center;
+    place-items: center;
+    border-radius: 0;
+    grid-template-columns: [bdbefore] auto [content] 1fr [bdafter] auto;
+    background-image: var(--tr), var(--br), var(--bl), var(--tl);
+    background-size: 50% 50%;
+    background-position:
+      top right,
+      bottom right,
+      bottom left,
+      top left;
+    background-repeat: no-repeat;
+    background-color: #0000;
+    --cbg: #885599;
+    --tr: linear-gradient(
+      45deg,
+      var(--cbg) 0 var(--bdo),
+      #000 var(--bdo) var(--bdi),
+      #0000 var(--bdi)
+    );
+    --br: linear-gradient(
+      135deg,
+      var(--cbg) 0 var(--bdo),
+      #000 var(--bdo) var(--bdi),
+      #0000 var(--bdi)
+    );
+    --tl: linear-gradient(
+      315deg,
+      var(--cbg) 0 var(--bdo),
+      #000 var(--bdo) var(--bdi),
+      #0000 var(--bdi)
+    );
+    --bl: linear-gradient(
+      225deg,
+      var(--cbg) 0 var(--bdo),
+      #000 var(--bdo) var(--bdi),
+      #0000 var(--bdi)
+    );
+  }
 }

@@ -2238,5 +2238,45 @@ h1,
 .vidwrap::before {
   opacity: 0;
 }
-.vidwrap.off {
+
+:root:has([id='toggle_debug']:checked) .interleave > .vidwrap:has(> .off) {
+  display: flex;
+  transform: translate(-100vw, 120vh);
+}
+
+:root:has([id='toggle_debug']:checked) .interleave {
+  transform: scale(calc(1 / var(--interleave-active-player-count)))
+    translateY(200px);
+  transform-origin: top;
+}
+
+:root:has([id='toggle_debug']:checked) .interleave > .vidwrap:has(> .off) {
+  background-image: linear-gradient(#a226 0 0);
+  outline: 2vh solid #000;
+  box-shadow: 0 0 0 2vh #000;
+  position: fixed;
+  inset: 0 auto auto 0;
+}
+
+.interleave > .vidwrap:has(> .off) > label::after {
+  content: '';
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0 0 0 0;
+  --xw: 20px;
+  background-image:
+    linear-gradient(
+      30deg,
+      #0000 0 calc(50% - var(--xw) * 0.5),
+      #000 calc(50% - var(--xw) * 0.5) calc(50% + var(--xw) * 0.5),
+      #0000 calc(50% + var(--xw) * 0.5) 100%
+    ),
+    linear-gradient(
+      -30deg,
+      #0000 0 calc(50% - var(--xw) * 0.5),
+      #000 calc(50% - var(--xw) * 0.5) calc(50% + var(--xw) * 0.5),
+      #0000 calc(50% + var(--xw) * 0.5) 100%
+    );
 }

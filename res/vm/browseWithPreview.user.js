@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.346
+// @version     1.0.357
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -81,7 +81,7 @@ const addToggle = ({
   const label = GM_addElement(div, 'label', {
     class: '',
   });
-  const span = GM_addElement(label, 'span', {
+  GM_addElement(label, 'span', {
     class: 'tip',
     textContent,
   });
@@ -161,20 +161,16 @@ const addSequenceToggle = ({
 };
 
 const addWrappedVideo = (
-  ({
-    window: {
-      console: { warn, log, info, debug },
-    },
-  }) =>
-  ({ to, idx, nextFile, autoplay = true, muted = true, ...attrs } = {}) => {
+  ({ window: { console } }) =>
+  ({ to, idx, nextFile, autoplay = false, muted = true, ...attrs } = {}) => {
     const wrapper = GM_addElement(to, 'div', { class: `vidwrap i${idx}` });
     wrapper.style.setProperty('--playerIdx', idx);
     wrapper.style.setProperty('--s-playerIdx', `'${idx}'`);
 
-    const playLabel = GM_addElement(wrapper, 'label', {
+    GM_addElement(wrapper, 'label', {
       for: 'playpause_playing',
     });
-    const pauseLabel = GM_addElement(wrapper, 'label', {
+    GM_addElement(wrapper, 'label', {
       for: 'playpause_paused',
     });
     const video = GM_addElement(wrapper, 'video', {
@@ -194,7 +190,7 @@ const addWrappedVideo = (
     video.addEventListener(
       'play',
       () => {
-        // info(`${idx} playing '${decodeURI(video.src)}'`);
+        // console.info(`${idx} playing '${decodeURI(video.src)}'`);
 
         video.classList.remove('paused');
         video.classList.add('playing');
@@ -235,7 +231,7 @@ const addWrappedVideo = (
     video.addEventListener(
       'pause',
       () => {
-        // info`${idx} paused '${decodeURI(video.src)}'`;
+        // console.info(`${idx} paused '${decodeURI(video.src)}'`);
 
         video.classList.remove('playing');
         video.classList.add('paused');
@@ -260,69 +256,69 @@ const addWrappedVideo = (
     });
 
     video.addEventListener('canplay', () => {
-      // info`${idx} canplay '${decodeURI(video.src)}'`;
+      // console.info(`${idx} canplay '${decodeURI(video.src)}'`);
     });
     video.addEventListener('canplaythrough', () => {
-      // info`${idx} canplaythrough '${decodeURI(video.src)}'`;
+      // console.info(`${idx} canplaythrough '${decodeURI(video.src)}'`);
       video.volume = 0;
       video.muted = true;
       video.play();
     });
     video.addEventListener('seeked', () => {
-      info`${idx} seeked '${decodeURI(video.src)}'`;
+      console.info`${idx} seeked '${decodeURI(video.src)}'`;
     });
     video.addEventListener('seeking', () => {
-      // debug`${idx} seeking '${decodeURI(video.src)}'`;
+      // console.debug(`${idx} seeking '${decodeURI(video.src)}'`);
     });
     video.addEventListener('timeupdate', () => {
-      // debug`${idx} timeupdate '${decodeURI(video.src)}'`;
+      // console.debug(`${idx} timeupdate '${decodeURI(video.src)}'`);
     });
     video.addEventListener('durationchange', () => {
-      debug`${idx} durationchange '${decodeURI(video.src)}'`;
+      // console.debug(`${idx} durationchange '${decodeURI(video.src)}'`);
     });
     video.addEventListener('ratechange', () => {
-      debug`${idx} ratechange '${decodeURI(video.src)}'`;
+      // console.debug(`${idx} ratechange '${decodeURI(video.src)}'`);
     });
     video.addEventListener('ended', () => {
-      info`${idx} ended '${decodeURI(video.src)}'`;
+      console.info`${idx} ended '${decodeURI(video.src)}'`;
 
       _playbackErrors = Math.max(0, _playbackErrors + addToCountOnSuccess);
 
       playNext();
     });
     video.addEventListener('emptied', () => {
-      info(`${idx} emptied '${decodeURI(video.src)}'`);
+      // console.info(`${idx} emptied '${decodeURI(video.src)}'`);
     });
 
     /* Loading */
     video.addEventListener('loadstart', () => {
-      // debug(`${idx} loadstart '${decodeURI(video.src)}'`);
+      // console.debug(`${idx} loadstart '${decodeURI(video.src)}'`);
     });
     video.addEventListener('loadeddata', () => {
-      // debug(`${idx} loadeddata '${decodeURI(video.src)}'`);
+      // console.debug(`${idx} loadeddata '${decodeURI(video.src)}'`);
     });
     video.addEventListener('loadedmetadata', () => {
-      // debug(`${idx} loadedmetadata '${decodeURI(video.src)}'`);
+      // console.debug(`${idx} loadedmetadata '${decodeURI(video.src)}'`);
     });
     video.addEventListener('progress', () => {
-      // debug(`${idx} progress '${decodeURI(video.src)}'`);
+      // console.debug(`${idx} progress '${decodeURI(video.src)}'`);
     });
     video.addEventListener('waiting', () => {
-      info(`${idx} waiting '${decodeURI(video.src)}'`);
+      // console.info(`${idx} waiting '${decodeURI(video.src)}'`);
     });
     video.addEventListener('stalled', () => {
-      info(`${idx} stalled '${decodeURI(video.src)}'`);
+      console.info(`${idx} stalled '${decodeURI(video.src)}'`);
     });
     video.addEventListener('suspend', () => {
-      info(`${idx} suspend '${decodeURI(video.src)}'`);
+      // console.info(`${idx} suspend '${decodeURI(video.src)}'`);
     });
     video.addEventListener('error', () => {
-      warn(`${idx} error loading '${decodeURI(video.src)}'`);
+      console.warn(`${idx} error loading '${decodeURI(video.src)}'`);
 
       if ((_playbackErrors += addToCountOnError) > maxErrorCount) {
         video.pause();
         video.classList.add('error');
-        warn`${idx} exceeded max error count`;
+        console.warn(`${idx} exceeded max error count`);
       } else {
         playNext();
       }
@@ -331,7 +327,18 @@ const addWrappedVideo = (
     if (autoplay !== false) {
       playNext();
     }
-    return { wrapper, player: video, play: video.play(), pause: video.pause() };
+    return {
+      wrapper,
+      player: video,
+      play: () => video.play(),
+      pause: () => video.pause(),
+      enable: () => wrapper.classList.remove('off'),
+      disable: () => {
+        video.pause();
+        video.src = '';
+        video.classList.add('off');
+      },
+    };
   }
 )({ window });
 
@@ -341,8 +348,6 @@ const initBrowsePreview = ({ document: { body } }) => {
   const toggles = GM_addElement(body, 'section', { class: 'toggles' });
 
   const config = (({}) => {
-    const root = {};
-
     const defineString = (_val = '') => {
       const subs = new Set();
 
@@ -704,11 +709,11 @@ const initBrowsePreview = ({ document: { body } }) => {
   const getFileList = (
     ({
       config: {
-        repeat,
+        /* repeat, */
         shuffle_on_load,
         shuffle_on_repeat,
         reload_on_repeat,
-        filter,
+        /* filter, */
         includeImageFiles,
         includeVideoFiles,
         includeOtherFiles,
@@ -792,7 +797,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         }
       }
 
-      const unsubs = [
+      /* const unsubs = */ [
         // repeat.subscribe((newValue) => ),
         // shuffle_on_repeat.subscribe(() => ),
         // reload_on_repeat.subscribe(() => ),
@@ -851,7 +856,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     to,
     config: { interleave_active_player_count },
   }) => {
-    const container = GM_addElement(to, 'section', {
+    const interleavePlayerContainer = GM_addElement(to, 'section', {
       class: 'player interleave paused',
     });
 
@@ -867,7 +872,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         }),
         (i) =>
           addWrappedVideo({
-            to: container,
+            to: interleavePlayerContainer,
             class: `i${i}`,
             id: `i${i}`,
             idx: i,
@@ -880,19 +885,12 @@ const initBrowsePreview = ({ document: { body } }) => {
       ...takeIter(mediaPlayers.values(), interleave_active_player_count.value),
     ];
 
-    const updateMediaPlayers = (activePlayerCount) => {
-      mediaPlayers.forEach((mediaPlayer, i) => {
-        if (i < activePlayerCount) {
-          mediaPlayer.classList.remove('off');
-        } else {
-          mediaPlayer.pause();
-          mediaPlayer.src = '';
-          mediaPlayer.classList.add('off');
-        }
-      });
-    };
+    const updateActivePlayerCount = (activePlayerCount) =>
+      mediaPlayers.forEach((mediaPlayer, i) =>
+        i < activePlayerCount ? mediaPlayer.enable() : mediaPlayer.disable(),
+      );
 
-    interleave_active_player_count.subscribe(updateMediaPlayers);
+    interleave_active_player_count.subscribe(updateActivePlayerCount);
 
     // const grid = (showAsGrid = !_showAsGrid) => {
     //   if (_showAsGrid !== showAsGrid) {
@@ -906,20 +904,18 @@ const initBrowsePreview = ({ document: { body } }) => {
     // };
 
     const play = () => {
-      // updateMediaPlayers();
       activeMediaPlayers().forEach((mediaPlayer) => {
-        mediaPlayer.querySelector('video').play();
+        mediaPlayer.play();
       });
-      container.classList.add('playing');
-      container.classList.remove('paused');
+      interleavePlayerContainer.classList.add('playing');
+      interleavePlayerContainer.classList.remove('paused');
     };
     const pause = () => {
-      // updateMediaPlayers();
       mediaPlayers.forEach((mediaPlayer) => {
         mediaPlayer.pause();
       });
-      container.classList.add('paused');
-      container.classList.remove('playing');
+      interleavePlayerContainer.classList.add('paused');
+      interleavePlayerContainer.classList.remove('playing');
     };
 
     // const onClickContainer = () => {
@@ -977,7 +973,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       const nextFile = file.closest('tr').parentNode.closest('tr');
       next.addEventListener(
         'canplaythrough',
-        (e) => {
+        () => {
           next.play();
           current.pause();
           last.classList.replace('last', 'last2');
@@ -1023,11 +1019,11 @@ const browsePreviewToggleIds = addStyleToggles([
 ]).then(() =>
   Promise.race([timeout({ s: 30 }), readyStateComplete()])
     .catch(() => console.debug('timed out waiting for readyStateComplete'))
-    .then(({ window, unsafeWindow }) => {
+    .then(({ /* window, */ unsafeWindow }) => {
       console.debug('document ready');
 
       return Promise.all([
-        matchExistsFor('a.file').then((node) => {
+        matchExistsFor('a.file').then((/* node */) => {
           if (isDirectory) {
             initBrowsePreview(unsafeWindow);
 

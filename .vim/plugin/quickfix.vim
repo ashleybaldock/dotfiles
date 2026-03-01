@@ -34,11 +34,15 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
 
 # '⎧ʅ️⎩'
 
-  const b_start = get(g:, 'mayhem_qf_bracket_firstline', '⎫')
-  const b_continue = get(g:, 'mayhem_qf_bracket_midline', '⎪')
-  const sep2 = b_continue
-  const b_end = get(g:, 'mayhem_qf_bracket_lastline', '⎩')
-  const b_startend = get(g:, 'mayhem_qf_bracket_oneline', 'ʅ️')
+  const s1l1 = get(g:, 'mayhem_qf_sep1_firstline', '⎫')
+  const s1lm = get(g:, 'mayhem_qf_sep1_midline',   '⎪')
+  const s1le = get(g:, 'mayhem_qf_sep1_lastline',  '⎩')
+  const s1lo = get(g:, 'mayhem_qf_sep1_oneline',   'ʅ️')
+
+  const s2l1 = get(g:, 'mayhem_qf_sep2_firstline', ':️')
+  const s2lm = get(g:, 'mayhem_qf_sep2_midline',   '·️')
+  const s2le = get(g:, 'mayhem_qf_sep2_lastline',  '_')
+  const s2lo = get(g:, 'mayhem_qf_sep2_oneline',   '_')
 
   var lastbufnr: number = 0
   for idx in range(info.start_idx - 1, info.end_idx - 1)
@@ -49,30 +53,30 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
       if e.lnum == 0 && e.col == 0
         add(l, bufname(e.bufnr))
       else
-        var bracket: string = b_continue
+        var bracket: string = s1lm
         if e.bufnr != lastbufnr
-          bracket = b_start
+          bracket = s1l1
         endif
         if idx >= info.end_idx - 1
           if e.bufnr == lastbufnr
-            bracket = b_end
+            bracket = s1le
           else
-            bracket = b_startend
+            bracket = s1lo
           endif
         else
           var enext: dict<any> = qfl[idx + 1]
           if enext.bufnr != e.bufnr
             if e.bufnr == lastbufnr
-              bracket = b_end
+              bracket = s1le
             else
-              bracket = b_startend
+              bracket = s1lo
             endif
           endif
         endif
         lastbufnr = e.bufnr
 
         var name: string = printf('%*S%s ', name_w,
-          (bracket == b_start || bracket == b_startend)
+          (bracket == s1l1 || bracket == s1lo)
            ? bufname(e.bufnr)->fnamemodify(':t')
            : '', bracket)
         # var fname: string = printf('%-*S', name_w, bufname(e.bufnr)->fnamemodify(':t'))
@@ -84,7 +88,7 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
           err = printf('%*d', err_w + 1, e.nr)
         endif
         # add(l, printf('%s│%s,%s %s%s│ %s', name, lnum, col, type, err, e.text))
-        add(l, printf('%s%s %s%s%s %s', name, lnum, type, err, sep2, e.text))
+        add(l, printf('%s%s %s%s%s %s', name, lnum, type, err, s2lm, e.text))
       endif
     endif
   endfor

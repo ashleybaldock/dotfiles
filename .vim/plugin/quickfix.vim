@@ -53,32 +53,38 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
       if e.lnum == 0 && e.col == 0
         add(l, bufname(e.bufnr))
       else
-        var bracket: string = s1lm
+        var sep1: string = s1lm
+        var sep2: string = s2lm
         if e.bufnr != lastbufnr
-          bracket = s1l1
+          sep1 = s1l1
+          sep2 = s2l1
         endif
         if idx >= info.end_idx - 1
           if e.bufnr == lastbufnr
-            bracket = s1le
+            sep1 = s1le
+            sep2 = s2le
           else
-            bracket = s1lo
+            sep1 = s1lo
+            sep2 = s2lo
           endif
         else
           var enext: dict<any> = qfl[idx + 1]
           if enext.bufnr != e.bufnr
             if e.bufnr == lastbufnr
-              bracket = s1le
+              sep1 = s1le
+              sep2 = s2le
             else
-              bracket = s1lo
+              sep1 = s1lo
+              sep2 = s2lo
             endif
           endif
         endif
         lastbufnr = e.bufnr
 
         var name: string = printf('%*S%s ', name_w,
-          (bracket == s1l1 || bracket == s1lo)
+          (sep1 == s1l1 || sep1 == s1lo)
            ? bufname(e.bufnr)->fnamemodify(':t')
-           : '', bracket)
+           : '', sep1)
         # var fname: string = printf('%-*S', name_w, bufname(e.bufnr)->fnamemodify(':t'))
         var lnum: string = printf('%*d', lnum_w, e.lnum)
         # var col: string = printf('%*d', col_w, e.col)
@@ -88,7 +94,7 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
           err = printf('%*d', err_w + 1, e.nr)
         endif
         # add(l, printf('%s│%s,%s %s%s│ %s', name, lnum, col, type, err, e.text))
-        add(l, printf('%s%s %s%s%s %s', name, lnum, type, err, s2lm, e.text))
+        add(l, printf('%s%s %s%s%s %s', name, lnum, type, err, sep2, e.text))
       endif
     endif
   endfor

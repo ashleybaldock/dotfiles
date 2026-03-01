@@ -33,15 +33,16 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
     ->map((_, v: number): number => qfl[v].nr)->max()->len()
 
 # '⎧ʅ️⎩'
+# │ʅ️⎫⎧⎪⎩╭╰╮╯
 
   const s1l1 = get(g:, 'mayhem_qf_sep1_firstline', '⎫')
   const s1lm = get(g:, 'mayhem_qf_sep1_midline',   '⎪')
   const s1le = get(g:, 'mayhem_qf_sep1_lastline',  '⎩')
   const s1lo = get(g:, 'mayhem_qf_sep1_oneline',   'ʅ️')
 
-  const s2l1 = get(g:, 'mayhem_qf_sep2_firstline', ':️')
-  const s2lm = get(g:, 'mayhem_qf_sep2_midline',   '·️')
-  const s2le = get(g:, 'mayhem_qf_sep2_lastline',  '_')
+  const s2l1 = get(g:, 'mayhem_qf_sep2_firstline', '|̅')
+  const s2lm = get(g:, 'mayhem_qf_sep2_midline',   '|')
+  const s2le = get(g:, 'mayhem_qf_sep2_lastline',  '|̲')
   const s2lo = get(g:, 'mayhem_qf_sep2_oneline',   '_')
 
   var lastbufnr: number = 0

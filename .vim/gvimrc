@@ -511,8 +511,12 @@ an 10.404 &File.Diff\ With\ Saved<Tab>§df	<Cmd>DiffWithSaved<CR>
 "
 " Edit Menu:
 "
+an 20.360 &Edit.Diff\ With\ Paste<Tab>§df	<Cmd>DiffWithPaste<CR>
+
+an 20.401	 &Edit.-SEP2A-				<Nop>
 noremenu  20.402 &Edit.&ReSelect\ Paste<Tab>gp	gp
 noremenu  20.403 &Edit.&ReSelect\ Visual<Tab>gv	gv
+
 
 "
 " HIG Cmd And Option Movement Mappings:

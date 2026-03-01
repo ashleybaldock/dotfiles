@@ -34,10 +34,10 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
 
 # '⎧ʅ️⎩'
 
-  const s:b_start = get(g:, 'mayhem_qf_bracket_firstline', '⎫')
-  const s:b_continue = get(g:, 'mayhem_qf_bracket_midline', '⎪')
-  const s:b_end = get(g:, 'mayhem_qf_bracket_lastline', '⎩')
-  const s:b_startend = get(g:, 'mayhem_qf_bracket_oneline', 'ʅ️')
+  const b_start = get(g:, 'mayhem_qf_bracket_firstline', '⎫')
+  const b_continue = get(g:, 'mayhem_qf_bracket_midline', '⎪')
+  const b_end = get(g:, 'mayhem_qf_bracket_lastline', '⎩')
+  const b_startend = get(g:, 'mayhem_qf_bracket_oneline', 'ʅ️')
 
   var lastbufnr: number = 0
   for idx in range(info.start_idx - 1, info.end_idx - 1)
@@ -48,30 +48,30 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
       if e.lnum == 0 && e.col == 0
         add(l, bufname(e.bufnr))
       else
-        var bracket: string = s:b_continue
+        var bracket: string = b_continue
         if e.bufnr != lastbufnr
-          bracket = s:b_start
+          bracket = b_start
         endif
         if idx >= info.end_idx - 1
           if e.bufnr == lastbufnr
-            bracket = s:b_end
+            bracket = b_end
           else
-            bracket = s:b_startend
+            bracket = b_startend
           endif
         else
           var enext: dict<any> = qfl[idx + 1]
           if enext.bufnr != e.bufnr
             if e.bufnr == lastbufnr
-              bracket = s:b_end
+              bracket = b_end
             else
-              bracket = s:b_startend
+              bracket = b_startend
             endif
           endif
         endif
         lastbufnr = e.bufnr
 
         var name: string = printf('%*S%s ', name_w,
-          (bracket == s:b_start || bracket == s:b_startend)
+          (bracket == b_start || bracket == b_startend)
            ? bufname(e.bufnr)->fnamemodify(':t')
            : '', bracket)
         # var fname: string = printf('%-*S', name_w, bufname(e.bufnr)->fnamemodify(':t'))

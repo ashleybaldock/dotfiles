@@ -21,11 +21,11 @@ let s:b_lo = get(g:, 'mayhem_qf_bracket_oneline',   'ʅ️')
 " │ʅ️⎫⎧⎪⎩╭╰╮╯
 
 exec 'syn match qfFileName'
-      \ '/^[^' .. s:b_l1 .. s:b_lm .. s:b_le .. s:b_lo .. ']*/'
-      \ 'nextgroup=qfSeparator1'
+      \ '/[^' .. s:b_l1 .. s:b_lo .. ']*/'
+      \ 'contained nextgroup=qfSeparator1 skipwhite'
 exec 'syn match qfSeparator1'
       \ '/[' .. s:b_l1 .. s:b_lm .. s:b_le .. s:b_lo .. ']/'
-      \ 'contained nextgroup=qfLineNr'
+      \ 'contained nextgroup=qfLineNr skipwhite'
 exec 'syn match qfLineNr'
       \ '/[^' .. s:b_lm .. ']*/'
       \ 'contained contains=@qfType nextgroup=qfSeparator2'
@@ -35,17 +35,16 @@ exec 'syn match qfSeparator2'
 
 syn match qfText /.*/ contained
 exec 'syn region qfFirstLine oneline contains=qfFilename'
-      \ start='^\zs\ze\s*\S\+[⎫╮]'
-      \ end='$'
-syn region qfMidLine oneline contains=qfSeparator1
-      \ start='^\zs\ze\s*⎪'
-      \ end='$'
-syn region qfLastLine oneline contains=qfSeparator1
-      \ start='^\zs\ze\s*\S\+[⎩╰]'
-      \ end='$'
-syn region qfOnlyLine oneline contains=qfFilename
-      \ start='^\zs\ze\s*\S\+ʅ️'
-      \ end='$'
+      \ 'start=/^\ze\s*\S\+[' .. s:b_l1 .. ']/ end=/$/'
+      \ 'nextgroup=qfMidLine,qfLastLine skipwhite skipnl skipempty'
+exec 'syn region qfMidLine oneline contains=qfSeparator1'
+      \ 'start=/^\ze\s*' .. s:b_lm .. '/ end=/$/'
+      \ 'nextgroup=qfMidLine,qfLastLine skipwhite skipnl skipempty'
+exec 'syn region qfLastLine oneline contains=qfSeparator1'
+      \ 'start=/^\ze\s*\S\+[' .. s:b_le .. ']/ end=/$/'
+      \ 'nextgroup=qfFirstLine,qfOnlyLine skipwhite skipnl skipempty'
+exec 'syn region qfOnlyLine oneline contains=qfFilename'
+      \ 'start=/^\ze\s*\S\+' .. s:b_lo .. '/ end=/$/'
 
 syn match qfError  /error/  contained
 syn cluster qfLine contains=qfFileName
@@ -61,7 +60,7 @@ hi def qfMidLine    guifg=NONE     guisp=#33aa00  gui=none
 hi def qfLastLine   guifg=NONE     guisp=#33aa00  gui=underline 
 hi def qfOnlyLine   guifg=NONE     guisp=#33aa00  gui=underline 
 hi def qfSeparator1 guifg=#33aa00
-hi def qfSeparator2 guifg=#33aa00
+hi def qfSeparator2 guifg=#33aa33
 hi def link qfText  Normal
 
 hi def link qfError  Error

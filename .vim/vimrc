@@ -300,6 +300,15 @@ let g:md_fenced_languages = [
       \ 'vim', 'sh', 'bash',
       \ 'pre', 'reg', 'ansi']
 
+"
+" See: ./plugin/quickfix.vim
+"      ./syntax/qf.vim
+"
+let g:mayhem_qf_bracket_firstline = '⎫'
+let g:mayhem_qf_bracket_midline   = '⎪'
+let g:mayhem_qf_bracket_lastline  = '⎩'
+let g:mayhem_qf_bracket_oneline   = 'ʅ️'
+
 
 " 2html script options
 let g:html_line_ids=1

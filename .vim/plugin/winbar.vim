@@ -100,7 +100,7 @@ function! s:WinBarUpdate()
     elseif exists("b:mayhem_diff_right")
       silent nnoremenu 1.20 WinBar.􂨩\ \ ‹️􀆝[›️ <Nop>
     else
-      silent nnoremenu 1.20 WinBar.􀈄\ ‹️§▸▹‣▸▹▻►de›︎️\ ╱\ 􀈂\ ‹️§dt›︎️ <Nop>
+      silent nnoremenu 1.20 WinBar.􀈄\ ‹️§›︎d›︎e›︎️\ ╱\ 􀈂\ ‹️§dt›︎️ <Nop>
     endif
 
     " silent nnoremenu 1.30 WinBar.􀄶􀄨􀄻􀄲\ [[\ ╱\ 􀄺􀄩􀄷􀄳\ ]] <Nop>

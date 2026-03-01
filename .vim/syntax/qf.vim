@@ -13,18 +13,28 @@ if exists("b:current_syntax")
   finish
 endif
 
-syn match qfFileName /^[^│ʅ️⎫⎧⎪⎩╭╰╮╯]*/
-      \ nextgroup=qfSeparator1
-syn match qfSeparator1 /[│ʅ️⎫⎧⎪⎩╭╰╮╯]/ contained
-      \ nextgroup=qfLineNr
-syn match qfLineNr /[^│]*/ contained
-      \ contains=@qfType
-      \ nextgroup=qfSeparator2
-syn match qfSeparator2 /│/ contained
-      \ nextgroup=qfText
-syn match qfText /.*/ contained
+let s:b_l1 = get(g:, 'mayhem_qf_bracket_firstline', '⎫')
+let s:b_lm = get(g:, 'mayhem_qf_bracket_midline',   '⎪')
+let s:b_le = get(g:, 'mayhem_qf_bracket_lastline',  '⎩')
+let s:b_lo = get(g:, 'mayhem_qf_bracket_oneline',   'ʅ️')
 
-syn region qfFirstLine oneline contains=qfFilename
+" │ʅ️⎫⎧⎪⎩╭╰╮╯
+
+exec 'syn match qfFileName'
+      \ '/^[^' .. s:b_l1 .. s:b_lm .. s:b_le .. s:b_lo .. ']*/'
+      \ 'nextgroup=qfSeparator1'
+exec 'syn match qfSeparator1'
+      \ '/[' .. s:b_l1 .. s:b_lm .. s:b_le .. s:b_lo .. ']/'
+      \ 'contained nextgroup=qfLineNr'
+exec 'syn match qfLineNr'
+      \ '/[^' .. s:b_lm .. ']*/'
+      \ 'contained contains=@qfType nextgroup=qfSeparator2'
+exec 'syn match qfSeparator2'
+      \ '/' .. s:b_lm .. '/'
+      \ 'contained nextgroup=qfText'
+
+syn match qfText /.*/ contained
+exec 'syn region qfFirstLine oneline contains=qfFilename'
       \ start='^\zs\ze\s*\S\+[⎫╮]'
       \ end='$'
 syn region qfMidLine oneline contains=qfSeparator1

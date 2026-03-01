@@ -36,6 +36,7 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
 
   const b_start = get(g:, 'mayhem_qf_bracket_firstline', '⎫')
   const b_continue = get(g:, 'mayhem_qf_bracket_midline', '⎪')
+  const sep2 = b_continue
   const b_end = get(g:, 'mayhem_qf_bracket_lastline', '⎩')
   const b_startend = get(g:, 'mayhem_qf_bracket_oneline', 'ʅ️')
 
@@ -83,7 +84,7 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
           err = printf('%*d', err_w + 1, e.nr)
         endif
         # add(l, printf('%s│%s,%s %s%s│ %s', name, lnum, col, type, err, e.text))
-        add(l, printf('%s%s %s%s│ %s', name, lnum, type, err, e.text))
+        add(l, printf('%s%s %s%s%s %s', name, lnum, type, err, sep2, e.text))
       endif
     endif
   endfor

@@ -1246,12 +1246,10 @@ td:not(:first-child) {
   line-height: normal;
   align-items: center;
   color: #fff;
-  margin: 0;
   width: 100%;
   letter-spacing: 0.02ch;
   font-size: 1.1rem;
   border-width: 0;
-  padding: var(--row-pad) 0.5ch;
   /*! height: var(--row-h); */
   align-content: center;
   justify-content: start;
@@ -1486,7 +1484,6 @@ body > table > :where(tbody, thead) > tr > :where(td, th) {
   background-color: --c-bg;
   position: sticky;
   inset: var(--inset-files);
-  z-index: var(--z-files);
   width: 100%;
   height: auto;
   padding: 0;
@@ -1699,9 +1696,44 @@ body > table > thead > tr::before {
 /*!}}}1*/
 
 /*!{{{1 Grouping for toolbar icons */
+@property --n-children {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --n1-children {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --n2-children {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --n4-children {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --n8-children {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --n16-children {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --n32-children {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
 .grouping {
   display: grid;
-  grid-template-rows: 1fr;
+  grid-template-rows: subgrid;
   grid-row: options;
   --n-children: calc(
     var(--n1-children, 0) + var(--n2-children, 0) + var(--n4-children, 0) +
@@ -1733,8 +1765,9 @@ body > table > thead > tr::before {
   --n16-children: 16;
 }
 .grouping:has(> .grouping) {
-  --span-extra: 2;
   /*   grid-template-columns: repeat(var(--n-children, 1fr)); */
+  display: contents;
+  --span-extra: 0;
 }
 .grouping:hover {
   background-image: radial-gradient(
@@ -1747,11 +1780,14 @@ body > table > thead > tr::before {
   border-radius: 10% / 20%;
   border: 0.5px solid #2224;
 }
-.grouping .grouping {
-  outline: 2px dashed #626;
+.grouping > .grouping {
   outline-offset: -1px;
-  border-radius: 10% / 20%;
-  grid-template-columns: repeat(var(--n-children, 1fr));
+  grid-template-rows: 1fr;
+  grid-template-columns: subgrid;
+  --span-extra: 0;
+  outline: 0.5px solid #0ff;
+  border-radius: 0;
+  outline-offset: -2.5px;
 }
 /*!}}}1*/
 
@@ -2182,7 +2218,7 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   height: auto;
   width: auto;
   position: relative;
-  top: -100%;
+  top: 0%;
   grid-auto-rows: 1fr;
   align-items: end;
   outline: 1px solid #f0fa;

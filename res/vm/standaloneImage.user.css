@@ -1132,19 +1132,28 @@
     inherits: true;
     initial-value: 0;
   }
+
+  @property --animated-offset {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
   @keyframes ants {
     0% {
-      --off: 0px;
+      --animated-offset: 0;
     }
     100% {
-      --off: 4px;
+      --animated-offset: 1;
     }
   }
+
 
   .selecting {
     position: absolute;
     width: 100%;
     height: 100%;
+    /*! pointer-events: none; */
+    cursor: crosshair;
   }
 
   .selection {
@@ -1319,7 +1328,7 @@
     cursor: nwse-resize;
   }
 
-
+}
 
   
 
@@ -1420,8 +1429,7 @@
 .selection:hover:not(:has(> :hover)) > .handle::before {
   visibility: hidden;
 }
-:is([data-selection], [data-selecting]
-) :is(.selection:hover:not(:has(> :hover)) > handle)::before {
+:is([data-selection], [data-selecting]) :is(.selection:hover:not(:has(> :hover)) > handle)::before {
   visibility: hidden;
 }
 .handle:active {
@@ -1439,13 +1447,5 @@
   --color-gap: #0004;
   --length-ant: 4px;
   --length-gap: 4px;
-}
-@keyframes ants {
-  0% {
-    --animated-offset: 0;
-  }
-  100% {
-    --animated-offset: 1;
-  }
-}
+  animation-play-state: running;
 }

@@ -14,25 +14,25 @@ if exists("b:current_syntax")
   finish
 endif
 
-let s:s1_1 = get(g:, 'mayhem_qf_sep1_firstline', '⎫')
-let s:s1_m = get(g:, 'mayhem_qf_sep1_midline',   '⎪')
-let s:s1_e = get(g:, 'mayhem_qf_sep1_lastline',  '⎩')
-let s:s1_o = get(g:, 'mayhem_qf_sep1_oneline',   'ʅ️')
+let s:s1_1st = get(g:, 'mayhem_qf_sep1_firstline', '⎫')
+let s:s1_mid = get(g:, 'mayhem_qf_sep1_mididline',   '⎪')
+let s:s1_end = get(g:, 'mayhem_qf_sep1_lastline',  '⎩')
+let s:s1_one = get(g:, 'mayhem_qf_sep1_oneneline',   'ʅ️')
 
-let s:b_s1_1 = char#base(s:s1_1)
-let s:b_s1_m = char#base(s:s1_m)
-let s:b_s1_e = char#base(s:s1_e)
-let s:b_s1_o = char#base(s:s1_o)
+let s:b_s1_1st = char#base(s:s1_1st)
+let s:b_s1_mid = char#base(s:s1_mid)
+let s:b_s1_end = char#base(s:s1_end)
+let s:b_s1_one = char#base(s:s1_one)
 
-let s:s2_1 = get(g:, 'mayhem_qf_sep2_firstline', '|̅')
-let s:s2_m = get(g:, 'mayhem_qf_sep2_midline',   '|')
-let s:s2_e = get(g:, 'mayhem_qf_sep2_lastline',  '|̲')
-let s:s2_o = get(g:, 'mayhem_qf_sep2_oneline',   '_')
+let s:s2_1st = get(g:, 'mayhem_qf_sep2_firstline', '|̅')
+let s:s2_mid = get(g:, 'mayhem_qf_sep2_mididline',   '|')
+let s:s2_end = get(g:, 'mayhem_qf_sep2_lastline',  '|̲')
+let s:s2_one = get(g:, 'mayhem_qf_sep2_oneneline',   '|')
 
-let s:b_s2_1 = char#base(s:s2_1)
-let s:b_s2_m = char#base(s:s2_m)
-let s:b_s2_e = char#base(s:s2_e)
-let s:b_s2_o = char#base(s:s2_o)
+let s:b_s2_1st = char#base(s:s2_1st)
+let s:b_s2_mid = char#base(s:s2_mid)
+let s:b_s2_end = char#base(s:s2_end)
+let s:b_s2_one = char#base(s:s2_one)
 
 
 syn match qfResult     /.*/ contained nextgroup=qfFirstLine,qfMidLine skipnl
@@ -43,53 +43,64 @@ syn cluster qfType contains=qfError
 
 
 exec 'syn match qfFileName'
-      \ '/\S\{-}\ze\%(' .. s:s1_1 .. '\|' .. s:s1_m .. '\)\@>/'
+      \ '/\S\{-}\ze\%(' .. s:s1_1st .. '\)\@>/'
       \ 'contained contains=@qfFileType nextgroup=qfSep1 skipwhite'
 
+exec 'syn match qfFileName'
+      \ '/\S\{-}\ze\%(' .. s:s1_one .. '\)\@>/'
+      \ 'contained contains=@qfFileType nextgroup=qfSep1Last skipwhite'
+
+" column separator between file name and line number
 exec 'syn match qfSep1'
-      \ '/' .. s:s1_1 .. '\|' .. s:s1_m .. '/'
+      \ '/' .. s:s1_1st .. '\|' .. s:s1_mid .. '/'
       \ 'contained nextgroup=qfLineNr skipwhite'
 
 exec 'syn match qfLineNr'
-      \ '/\S\{-}\ze\s\%(' .. s:s2_1 .. '\|' .. s:s2_m .. '\)/'
+      \ '/\S\{-}\ze\s\%(' .. s:s2_1st .. '\|' .. s:s2_mid .. '\)/'
       \ 'contained contains=@qfType nextgroup=qfSep2 skipwhite'
 
+" column separator between line number and result
 exec 'syn match qfSep2 contained contains=NONE'
-      \ '/' .. s:s2_1 .. '\|' .. s:s2_m .. '/'
+      \ '/' .. s:s2_1st .. '\|' .. s:s2_mid .. '/'
 
+" 'last' matching line of a file (which may be the only 'one')
 exec 'syn match qfSep1Last contained contains=NONE'
-      \ '/' .. s:s1_e .. '\|' .. s:s1_o .. '/'
+      \ '/' .. s:s1_end .. '\|' .. s:s1_one .. '/'
       \ 'nextgroup=qfLineNrLast skipwhite'
 
 exec 'syn match qfLineNrLast'
-      \ '/\S\{-}\ze\s\%(' .. s:s2_e .. '\|' .. s:s2_o .. '\)/'
+      \ '/\S\{-}\ze\s\%(' .. s:s2_end .. '\|' .. s:s2_one .. '\)/'
       \ 'contained contains=@qfType nextgroup=qfSep2Last skipwhite'
 
 exec 'syn match qfSep2Last contained contains=NONE'
-      \ '/' .. s:s2_e .. '\|' .. s:s2_o .. '/'
+      \ '/' .. s:s2_end .. '\|' .. s:s2_one .. '/'
       \ 'nextgroup=qfResultLast skipwhite'
 
+" '1st' - first line with a match, of at least two matches
 exec 'syn region qfFirstLine oneline contains=qfFileName'
-      \ 'start=/^\s*\ze.\{-}' .. s:s1_1 .. '/'
-      \ 'matchgroup=qfSep2 end=/\ze' .. s:s2_1 .. '/'
+      \ 'start=/^\s*\ze.\{-}' .. s:s1_1st .. '/'
+      \ 'matchgroup=qfSep2 end=/' .. s:s2_1st .. '/'
       \ 'nextgroup=qfResult skipwhite keepend'
 
+" 'one' - first & last matching lines are the same
 exec 'syn region qfOnlyLine oneline contains=qfFileName'
-      \ 'start=/^\s*\ze.\{-}' .. s:s1_o .. '/'
-      \ 'matchgroup=qfSep2 end=/' .. s:s2_o .. '/'
+      \ 'start=/^\s*\ze.\{-}' .. s:s1_one .. '/'
+      \ 'matchgroup=qfSep2Last end=/' .. s:s2_one .. '/'
       \ 'nextgroup=qfResultLast skipwhite keepend'
 
+" 'mid' - not the first or last matching line
 exec 'syn region qfMidLine oneline contains=qfSep1'
-      \ 'start=/^\s*\ze' .. s:s1_m .. '/'
-      \ 'matchgroup=qfSep2 end=/' .. s:s2_m  .. '/'
+      \ 'start=/^\s*\ze' .. s:s1_mid .. '/'
+      \ 'matchgroup=qfSep2 end=/' .. s:s2_mid  .. '/'
       \ 'nextgroup=qfResult skipwhite keepend'
 
+" 'end' - last matching line, of at least two matches
 exec 'syn region qfLastLine oneline contains=qfSep1Last'
-      \ 'start=/^\s*\ze' .. s:s1_e .. '/'
-      \ 'matchgroup=qfSep2 end=/' .. s:s2_e .. '/'
+      \ 'start=/^\s*\ze' .. s:s1_end .. '/'
+      \ 'matchgroup=qfSep2 end=/' .. s:s2_end .. '/'
       \ 'nextgroup=qfResultLast skipwhite keepend'
 
-" exec 'syn match qfFirstLine /^.*\%(' .. s:s1_1 .. '\).*$/ contains=qfFileName nextgroup=qfResult skipwhite'
+" exec 'syn match qfFirstLine /^.*\%(' .. s:s1_1st .. '\).*$/ contains=qfFileName nextgroup=qfResult skipwhite'
 
 syn match qfFtJS /\S*\.[a-z]\?js\>/ contained contains=NONE
 syn match qfFtJSX /\S*\.jsx\>/ contained contains=NONE

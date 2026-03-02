@@ -43,7 +43,7 @@ def g:QFTFAlignColumns(info: dict<number>): list<string>
   const s2l1 = get(g:, 'mayhem_qf_sep2_firstline', '|̅')
   const s2lm = get(g:, 'mayhem_qf_sep2_midline',   '|')
   const s2le = get(g:, 'mayhem_qf_sep2_lastline',  '|̲')
-  const s2lo = get(g:, 'mayhem_qf_sep2_oneline',   '_')
+  const s2lo = get(g:, 'mayhem_qf_sep2_oneline',   '|')
 
   var lastbufnr: number = 0
   for idx in range(info.start_idx - 1, info.end_idx - 1)

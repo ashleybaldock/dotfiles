@@ -405,9 +405,9 @@ xnoremap <expr> v  mode() ==# "\x16" ? "y<ESC>1vp" : "v"
 nnoremap <M-Up> <Cmd>move -2<CR>
 " ▌️􀆕 􁾳  ▐️────▷ Move line down
 nnoremap <M-Down> <Cmd>move +1<CR>
-" ▌️ 􀆕 w ▐️──▷ Move line up
+" ▌️ 􀆕 w ▐️────▷ Move line up
 nnoremap ∑ <Cmd>move -2<CR>
-" ▌️⇧️ 􀆕 w▐️──▷ Move line down
+" ▌️⇧️ 􀆕 w▐️────▷ Move line down
 nnoremap „ <Cmd>move +1<CR>
 "
 "  Visual: (v/V)
@@ -817,6 +817,7 @@ nnoremap §dv :DiffWithPaste<CR>
 "
 " Coc:
 "
+" ▌️􀆕 r▐️──▷ 
 " <⌥⃣ ‑r> ▬▶︎ ®
 " nmap <silent> ® <Plug>(coc-range-select)
 xmap <silent> ® <Plug>(coc-range-select)

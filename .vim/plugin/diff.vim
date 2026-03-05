@@ -72,8 +72,8 @@ function! s:SetupDiffOffAutocmds()
 endfunc
 
 function! s:SetupLeftDiff(diffwith)
-  nnoremap <buffer> [[ za[c
-  nnoremap <buffer> ]] za]c
+  nnoremap <buffer> [[ za[czz
+  nnoremap <buffer> ]] za]czz
   nnoremap <buffer> { <Cmd>diffget<CR>za
   nnoremap <buffer> } <Cmd>diffput<CR>za
   let b:mayhem_diff_left = 1
@@ -88,8 +88,8 @@ function! s:SetupRightDiff(diffwith, execForContent)
   exec a:execForContent
   let &l:filetype = sourceft
   exec 'nnoremap <buffer> §dx :diffoff!<CR>'
-  nnoremap <buffer> [[ [c
-  nnoremap <buffer> ]] ]c
+  nnoremap <buffer> [[ [czz
+  nnoremap <buffer> ]] ]czz
   nnoremap <buffer> { <Cmd>diffput<CR>
   nnoremap <buffer> } <Cmd>diffget<CR>
   let b:mayhem_diff_right = 1

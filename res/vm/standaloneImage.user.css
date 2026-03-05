@@ -1,3 +1,6 @@
+/*  */
+/* Wed Mar 04 2026 21:34:30 GMT+0000 (Greenwich Mean Time) */
+
 /*{{{1 @property */
 @property --clienthmid {
   syntax: '<number>';
@@ -815,12 +818,19 @@
   .toggles > .tgl label:has(> [type='checkbox']):hover::after {
     --dot-c: #999;
     --dot-r: 0.14;
-    transition: all background-image 100ms ease 50ms;
+/*     transition: all background-image 100ms ease 50ms; */
+    transition-delay: 0s;
+    transition-property: --dot-c, --dot-r;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in;
   }
   .toggles > .tgl label:has(> [type='checkbox']:checked)::after {
     --dot-c: currentColor;
     --dot-r: 0.2;
-    transition: all 100ms ease 50ms;
+    transition-delay: 0s;
+    transition-property: --dot-c, --dot-r;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in;
   }
   .toggles > .tgl.plain label:has(> [type='checkbox']:checked)::after {
     content: '◉';
@@ -828,27 +838,39 @@
   .toggles > .tgl label:has(> [type='checkbox']:checked):hover::after {
     --dot-c: currentColor;
     --dot-r: 0.14;
-    transition: all 100ms ease 50ms;
+    transition-delay: 0s;
+    transition-property: --dot-c, --dot-r;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in;
   }
   .toggles > .tgl label:has(> [type='checkbox']):active::after {
     --dot-c: #fff;
     --dot-r: 0.2;
     --circle-ri: 0.28;
     --circle-ro: 0.42;
-    transition: all 100ms ease 50ms;
+    transition-delay: 0s;
+    transition-property: --dot-c, --dot-r, --circle-ri, --circle-ro;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in;
   }
   .toggles > .tgl label:has(> [type='checkbox']:checked):active::after {
     --dot-c: #fff;
     --dot-r: 0.2;
     --circle-ri: 0.28;
     --circle-ro: 0.42;
-    transition: all 100ms ease 50ms;
+    transition-delay: 0s;
+    transition-property: --dot-c, --dot-r, --circle-ri, --circle-ro;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in;
   }
   .toggles > .tgl label:has(> [type='checkbox']:disabled)::after {
     --circle-c: #aaa;
     --dot-c: #333;
     --dot-r: 0.25;
-    transition: all 100ms ease 50ms;
+    transition-delay: 0s;
+    transition-property: --dot-c, --dot-r, --circle-ri, --circle-ro;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in;
   }
   .toggles > .tgl.plain label:has(> [type='checkbox']:disabled)::after {
     content: '◌';
@@ -861,6 +883,23 @@
   .toggles {
     --tg-is-selecting: ;
   }
+  
+  .tgl.grd {
+    position-anchor: --tgl-pix;
+    position: absolute;
+    inset: anchor(top) auto auto anchor(right);
+    /*! margin: 0 0 0 1ch; */
+  }
+  .tgl.pix {
+    anchor-name: --tgl-pix;
+  }
+  .tgl.grd > label {
+    margin-left: 1ch;
+  }
+  .tgl.pix:not(:has(:checked)) ~ .tgl.grd {
+    display: none;
+  }
+  
   /*}}}1*/
 
   /*{{{1 Breadcrumb navigation */

@@ -292,6 +292,7 @@ set isfname-=,
 if executable('ag')
   let g:ackprg = 'ag --hidden --vimgrep'
 endif
+" let g:ackhighlight = 1
 
 " Syntax highlighting for code blocks inside markdown docs
 let g:md_fenced_languages = [

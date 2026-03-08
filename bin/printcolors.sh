@@ -17,12 +17,13 @@ to=255
 
 # "𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪️𝟫︎ᴬᴮ ᴰᴱᴀʙᴄᴅᴇ𝖠️𝖡︎𝖢𝖣𝖤𝖥𝘈𝘉𝘊𝘋𝘌𝘍𝖺𝖻𝖼𝖽𝖾𝖿 𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿𝙰𝙱𝙲𝙳𝙴𝙵 𝖠𝖡𝖢𝖣𝖤𝖥"
 
+printf "\e[48;5;250m\e[38;5;0m􀾘0  \e[0m";
 for i in {1..16} ; do
-  if (( i <= 16 )); then
-    printf "\e[38;5;%sm􀏄􀾘%-3d\e[0m" "$i" "$i";
+  if (( i <= 15 )); then
+    printf "\e[38;5;%sm􀾘%-2d \e[0m" "$i" "$i";
   fi;
 
-  if (( i % 8 == 0 )); then
+  if (( i % 8 == 7 )); then
     printf "\n";
   fi;
 done
@@ -41,7 +42,11 @@ for (( i = 0; i < "$alt"; i++)) ; do
     if (( $x >= $from && $x <= $to )) ; then
       # printf "\e[38;5;%sm􀏄%-3d\e[0m" "$x" "$x";
       # printf "\e[38;5;%sm􁷰􀟐%-3d􀟐 \e[0m" "$x" "$x";
-      printf "\e[38;5;%sm􀟼%-3d \e[0m" "$x" "$x";
+      if (( $x >= 232 && $x <= 243 || $x == 16 || $x == 17 )) ; then
+        printf "\e[48;5;250m\e[38;5;%sm􀟼%03d \e[0m" "$x" "$x";
+      else
+        printf "\e[38;5;%sm􀟼%03d \e[0m" "$x" "$x";
+      fi
     else
       printf "     ";
     fi;

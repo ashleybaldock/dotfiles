@@ -117,12 +117,13 @@ hi CocInlayHintType       guifg=#ff99bb guibg=ysignsb
 hi Search         guifg=NONE    guibg=#555555 gui=none
 hi IncSearch      guifg=#fefefe guibg=#000000         
 hi CurSearch      guifg=NONE    guibg=#444422 gui=reverse
+hi qfSearch       guifg=#ff99ff guibg=#220055          
 
 hi QuickFixLine   guibg=NONE
 hi link qfError    Error
 hi link qfFileName Directory
 hi qfLineNr       guifg=#999911
-hi qfSeparator    guifg=#999911
+hi qfSeparator    guifg=#33aa00
 
 "
 "════════════════════════════════════════════════════════╡ Visual

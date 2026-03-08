@@ -1053,6 +1053,9 @@
     height: var(--px-imheight);
   }
 
+  /*}}}1*/
+
+  /*{{{1 Overlay Text Info */
   .output:where(
       .imtopleft,
       .imbottomright,
@@ -1127,15 +1130,82 @@
   }
 
   .output.width {
-    top: calc(var(--px-imtop) - 1lh - var(--endlength));
-    left: var(--px-imleft);
+    inset: calc(var(--px-imtop) - 1lh - var(--endlength)) auto auto var(--px-imleft);
     width: var(--px-imwidth);
   }
   .output.height {
-    top: var(--px-imtop);
-    right: var(--px-imright);
+    inset: var(--px-imtop) right var(--px-imright) auto auto;
     height: var(--px-imheight);
   }
+
+  body > img {
+    anchor-name: --image;
+  }
+  .output.height {
+    position-anchor: --image;
+    anchor-name: --height;
+    inset: anchor(top) calc(anchor(left) + 2ch) anchor(bottom) auto;
+    padding: 0;
+    height: anchor-size(height);
+    display: grid;
+    grid-template: 1fr/1fr;
+    place-items: center end;
+    width: var(--endlength);
+    background-position: right top;
+    background-size: var(--endlength) 100%;
+    --t: 1px;
+    background-image:
+      linear-gradient(90deg,
+        #0000 0 calc(50% - var(--t) * 0.5),
+        var(--color) calc(50% - var(--t) * 0.5) calc(50% + var(--t) * 0.5),
+        #0000 calc(50% + var(--t) * 0.5) 100%),
+      linear-gradient(0deg,
+        var(--color) 0 var(--t),
+        #0000 var(--t) calc(100% - var(--t)),
+        var(--color) calc(100% - var(--t)) 100%);
+  }
+  .output.height > output {
+    filter: drop-shadow(0.5px 0.5px 0px #000);
+    position-anchor: --height;
+    position: fixed;
+    inset: auto anchor(left) auto auto;
+    font-size: 0.9em;
+    --prefix: '';
+  }
+
+  .output.width {
+    position-anchor: --image;
+    anchor-name: --width;
+    inset: auto anchor(right) calc(anchor(top) + 2ch) anchor(left);
+    padding: 0;
+    height: var(--endlength);
+    width: anchor-size(width);
+    display: grid;
+    grid-template: 1fr/1fr;
+    place-items: end center;
+    background-position: right top;
+    background-size: 100% var(--endlength);
+    --t: 1px;
+    background-image:
+      linear-gradient(0deg,
+        #0000 0 calc(50% - var(--t) * 0.5),
+        var(--color) calc(50% - var(--t) * 0.5) calc(50% + var(--t) * 0.5),
+        #0000 calc(50% + var(--t) * 0.5) 100%),
+      linear-gradient(90deg,
+        var(--color) 0 var(--t),
+        #0000 var(--t) calc(100% - var(--t)),
+        var(--color) calc(100% - var(--t)) 100%);
+  }
+
+  .output.width > output {
+    filter: drop-shadow(0.5px 0.5px 0px #000);
+    position-anchor: --width;
+    position: fixed;
+    inset: auto auto anchor(top) auto;
+    font-size: 0.9em;
+    --prefix: '';
+  }
+  
   .output.fitw {
     width: calc(var(--w-if-fitw) * 1px);
     height: calc(var(--h-if-fitw) * 1px);
@@ -1144,6 +1214,9 @@
     width: calc(var(--w-if-fith) * 1px);
     height: calc(var(--h-if-fith) * 1px);
   }
+  /*}}}1*/
+
+  /*{{{1 Selection */
 
   /* .selection { */
   /*   outline: var(--px-pixelw) dashed #f00; */
@@ -1175,7 +1248,7 @@
   @property --animated-offset {
     syntax: '<number>';
     inherits: true;
-    initial-value: 0;
+    initial-value: 1;
   }
   @keyframes ants {
     0% {
@@ -1270,14 +1343,19 @@
         var(--scd) calc(var(--xoff) + var(--bgs2))
           calc(var(--xoff) + var(--bgs))
       );
-    animation: forwards ants infinite 300ms linear;
     --bgs2: calc(var(--bgs) * 0.5);
-    --bgs: 4px;
     --xoff: var(--off);
     --yoff: var(--off);
-    --off: 14px;
-    --scl: #fff;
-    --scd: #000;
+    animation: forwards ants infinite 500ms linear;
+    --bgs: calc(var(--length-ant) + var(--length-gap));
+    --off: calc(var(--bgs) * var(--animated-offset));
+    --scl: var(--color-ant, #fff);
+    --scd: var(--color-gap, #0004);
+    --color-ant: #fff;
+    --color-gap: #0004;
+    --length-ant: 4px;
+    --length-gap: 4px;
+    animation-play-state: running;
   }
 
   :is([data-selection], [data-selecting])
@@ -1428,11 +1506,6 @@
 .selection > .handle.top.left::before {
   --bs-corners: , var(--bs-tl), var(--bs-notr), var(--bs-nobl);
 }
---animated-offset {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 1;
-}
 .selection > .handle::before {
   --c-nodrag: #0880;
   --c-nodrag-2nd: #0440;
@@ -1451,8 +1524,6 @@
 }
 .selection:not(:has(> :hover)) {
   transition: background 120ms ease 60ms;
-}
-.selection.ants:hover {
 }
 .handle::before {
   opacity: 0;
@@ -1476,15 +1547,211 @@
   visibility: visible;
   box-shadow: none;
 }
-.selection.ants {
-  animation: forwards ants infinite 500ms linear;
-  --bgs: calc(var(--length-ant) + var(--length-gap));
-  --off: calc(var(--bgs) * var(--animated-offset));
-  --scl: var(--color-ant, #fff);
-  --scd: var(--color-gap, #0004);
-  --color-ant: #fff;
-  --color-gap: #0004;
-  --length-ant: 4px;
-  --length-gap: 4px;
-  animation-play-state: running;
+
+
+
+
+
+
+@media not print {
+  .selection > .handle::before {
+    --w: max(calc(var(--size) * 8), calc(var(--px-pixelw) * 2));
+  }
+}
+
+@property --anispeed {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 200;
+}
+.selection.ants:hover,
+.selection.ants:hover::before {
+/*   animation-play-state: paused; */
+/*   animation-direction:   reverse; */
+  animation-duration: calc(var(--anispeed) * 1ms);
+  mask-image: linear-gradient(#fff 0 0);
+  mask-clip: border-box;
+  --anispeed: 2000;
+  transition: --anispeed 10s linear 120ms, background 200ms ease 40ms;
+}
+.selection.ants:has(:active) {
+  background-color: #f002;
+}
+.selection:not(:has(> :hover)) {
+  transition: --anispeed 10s linear 120ms, background 120ms ease 60ms;
+}
+.selection:not(:has(> :hover)):hover {
+  transition: --anispeed 10s linear 120ms, background 200ms ease 40ms;
+  transition-behavior: normal;
+}
+@media not print {
+  .selection:not(:has(> :hover)):hover {
+    background-color: #08f1;
+  }
+}
+
+@media not print {
+  .selection > .handle {
+/*     mask-clip: border-box; */
+/*     mask-image: linear-gradient(#fff 0 0); */
+    margin: 0px;
+/*     border: 3px solid #0000; */
+    box-shadow:
+      0 0 4px -1px #000,
+      inset 0 0 2px 0 #000;
+    border: 0.5px solid #fff;
+    background-color: #0aa;
+  }
+  .selection > .handle:hover {
+    transform: scale(1);
+    transform-origin: center;
+/*     box-shadow: 0 0 2px 0px #08f3; */
+    box-sizing: content-box;
+    box-shadow:
+      0 0 4px -1px #000,
+      inset 0 0 2px 0 #000,
+      0 0 0.5px 30px #08f3;
+/*     background-color: #08f3; */
+/*     background-color: #0000; */
+  }
+  .selection > .handle:hover::before {
+    /*! content: none; */
+  }
+}
+
+
+@media not print {
+  .selection.ants {
+    --outset: 5px;
+    anchor-name: --selection;
+    padding: var(--outset);
+    margin: 0 calc(var(--outset) * -1) calc(var(--outset) * -1) 0;
+  }
+
+  @keyframes ants {
+    0% {
+      --animated-offset: 0;
+    }
+    100% {
+      --animated-offset: 1;
+    }
+  }
+
+  .ants {
+    background-image: linear-gradient(#0000);
+  }
+  .ants::before {
+    z-index: -1;
+    content: '';
+    display: flex;
+    border-radius: var(--outset);
+    width: calc(anchor-size(width) - var(--linew) * 2 - var(--outset) * 2);
+    height: calc(anchor-size(height) - var(--linew) * 2 - var(--outset) * 2);
+    position: fixed;
+    position-anchor: --selection;
+    inset: calc(anchor(top) + var(--outset)) 
+       calc(anchor(right) + var(--outset))
+       calc(anchor(bottom) + var(--outset))
+       calc(anchor(left) + var(--outset));
+    overflow: clip;
+    content: '';
+    
+    --linew: 0.5px;
+    box-sizing: content-box;
+    box-shadow:
+      0 0 min(var(--px-pixelw), 0.5vw) -1px #000,
+      inset 0 0 min(var(--px-pixelw), 0.5vw) -1px #000;
+    background-origin: border-box;
+    background-clip: border-box;
+    border-radius: 1px;
+    border: var(--linew) solid #0000;
+    background-size:
+      var(--linew) 100%,
+      100% var(--linew),
+      var(--linew) 100%,
+      100% var(--linew);
+    background-position:
+      top left,
+      top left,
+      bottom right,
+      bottom right;
+    background-repeat: no-repeat;
+    --rp: 309%;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        var(--scl) var(--yoff) calc(var(--yoff) + var(--bgs2)),
+        var(--scd) calc(var(--yoff) + var(--bgs2))
+        calc(var(--yoff) + var(--bgs))
+      ),
+      repeating-linear-gradient(
+        90deg,
+        var(--scl) var(--xoff) calc(var(--xoff) + var(--bgs2)),
+        var(--scd) calc(var(--xoff) + var(--bgs2))
+        calc(var(--xoff) + var(--bgs))
+      ),
+      repeating-linear-gradient(
+        180deg,
+        var(--scl) var(--yoff) calc(var(--yoff) + var(--bgs2)),
+        var(--scd) calc(var(--yoff) + var(--bgs2))
+        calc(var(--yoff) + var(--bgs))
+      ),
+      repeating-linear-gradient(
+        270deg,
+        var(--scl) var(--xoff) calc(var(--xoff) + var(--bgs2)),
+        var(--scd) calc(var(--xoff) + var(--bgs2))
+        calc(var(--xoff) + var(--bgs))
+      );
+    animation: forwards ants infinite 300ms linear;
+    --bgs2: calc(var(--bgs) * 0.5);
+    --bgs: 4px;
+    --xoff: var(--off);
+    --yoff: var(--off);
+    --off: 14px;
+    --scl: #fff;
+    --scd: #000;
+    
+    animation-play-state: running;
+  }
+
+  .ants::before {
+
+    animation: forwards ants infinite calc(var(--anispeed) * 1ms) linear;
+    --bgs: calc(var(--length-ant) + var(--length-gap));
+    --off: calc(var(--bgs) * var(--animated-offset));
+    --scl: var(--color-ant, #fff);
+    --scd: var(--color-gap, #0004);
+    --color-ant: #fff;
+    --color-gap: #0004;
+    --length-ant: 4px;
+    --length-gap: 4px;
+    animation-play-state: running;
+  }
+
+
+  .selection > .handle {
+    pointer-events: auto;
+    --size: var(--handle-size);
+    --half: calc(var(--handle-size) * 0.5);
+  }
+
+  .selection > .handle.top {
+    top: calc((var(--half) * -1) - 0.5px + var(--outset));
+    bottom: unset;
+    cursor: ns-resize;
+  }
+  .selection > .handle.right {
+    left: unset;
+    right: calc((var(--half) * -1) - 0.5px + var(--outset));
+    cursor: ew-resize;
+  }
+  .selection > .handle.bottom {
+    top: unset;
+    bottom: calc((var(--half) * -1) - 0.5px + var(--outset));
+    cursor: ns-resize;
+  }
+  .selection > .handle.left {
+    right: unset;
+    left: calc((var(--half) * -1) - 0.5px + var(--outset));
+  }
 }

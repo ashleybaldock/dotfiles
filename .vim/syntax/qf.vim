@@ -145,10 +145,10 @@ hi qfFirstLine  guifg=NONE     guisp=#115511  gui=none
 hi qfMidLine    guifg=NONE     guisp=#115511  gui=none 
 hi qfLastLine   guifg=NONE     guisp=#115511  gui=underline 
 hi qfOnlyLine   guifg=NONE     guisp=#115511  gui=underline 
-hi qfSep1       guifg=#33aa00
-hi qfSep1Last   guifg=#33aa00
-hi qfSep2       guifg=#33aa00
-hi qfSep2Last   guifg=#33aa00
+hi link qfSep1 qfSeparator
+hi link qfSep1Last qfSeparator
+hi link qfSep2 qfSeparator
+hi link qfSep2Last qfSeparator
 hi qfResult     guifg=ywnormf
 hi qfResultLast guifg=ywnormf
 

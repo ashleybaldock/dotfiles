@@ -115,9 +115,9 @@ hi CocInlayHintType       guifg=#ff99bb guibg=ysignsb
 "════════════════════════════════════════════════════════╡ Search
 "
 hi Search         guifg=NONE    guibg=#555555 gui=none
-hi IncSearch      guifg=#fefefe guibg=#000000         
+hi IncSearch      guifg=#fefefe guibg=#000000
 hi CurSearch      guifg=NONE    guibg=#444422 gui=reverse
-hi qfSearch       guifg=#ff99ff guibg=#220055          
+hi qfSearch       guifg=#bb99ff guibg=#440088
 
 hi QuickFixLine   guibg=NONE
 hi link qfError    Error

@@ -7,6 +7,15 @@ setlocal nowrap
 syn on
 
 
+if exists('w:quickfix_title')
+  if w:quickfix_title =~ '^:' .. g:ackprg
+    echo matchlist(w:quickfix_title, '^:' .. g:ackprg .. '\s*--\s*"\(.*\)"$')
+    let searchterm = get(matchlist(w:quickfix_title, '^:' .. g:ackprg .. ' -Q -- "\(.*\)"$'), 1, '')
+    echo matchadd('qfSearch', searchterm, 5)
+    let w:quickfix_title2 = 'ag - search ' .. 'n' .. ' results for "' .. searchterm .. '"'
+  endif
+endif
+
 
 
 

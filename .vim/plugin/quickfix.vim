@@ -104,7 +104,6 @@ enddef
 # helpg foobar
 # copen
 
-echo matchadd('qfSearch', 'syntax', 5)
 
 
 

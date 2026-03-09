@@ -5,10 +5,12 @@ let g:mayhem_loaded_search = 1
 
 " === Ack / Search ===
 "
-" See Also:
-"      ../../../.agignore
-"         ../../.ignore
-"         ../../.gitignore
+" Related:
+"                    ./quickfix.vim
+"             ../after/ftplugin/qf.vim
+"       ../../.ignore
+"       ../../.gitignore
+" ../../../.agignore
 "
 
 
@@ -51,7 +53,7 @@ function MakeSubstitute(text, replacement, options = {})
   let opt = a:options
   let sep = s:FindPatternSeperator(pattern, replacement)
 
-  return 's'..sep..pat..sep..rep..sep..opt
+  return 's' .. sep .. pat .. sep .. rep .. sep .. opt
 endfunc
 
 

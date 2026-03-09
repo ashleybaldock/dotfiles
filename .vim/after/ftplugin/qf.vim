@@ -7,13 +7,45 @@ setlocal nowrap
 syn on
 
 
+" echo matchlist(w:quickfix_title, '^:' .. g:ackprg .. '\s*--\s*"\(.*\)"$')
+
+function s:tally() abort
+  let d = #{counts: {}}
+  function d.count(key)
+    let self.counts[a:key] = get(self.counts, a:key, 0) + 1
+    return self
+  endfunc
+  function d.totals()
+    return self.counts
+  endfunc
+  function d.unique()
+    return keys(self.counts)->len()
+  endfunc
+  return d
+endfunc
+
+let qfl = getqflist(#{size: 0, title: 0, items: 0})
+
+let resultcount = qfl.size
+let filecount = reduce(qfl.items, { acc, item -> acc.count(item.bufnr)}, s:tally()).unique()
+let qftitle = qfl.title
+
 if exists('w:quickfix_title')
-  if w:quickfix_title =~ '^:' .. g:ackprg
-    echo matchlist(w:quickfix_title, '^:' .. g:ackprg .. '\s*--\s*"\(.*\)"$')
-    let searchterm = get(matchlist(w:quickfix_title, '^:' .. g:ackprg .. ' -Q -- "\(.*\)"$'), 1, '')
-    echo matchadd('qfSearch', searchterm, 5)
-    let w:quickfix_title2 = 'ag - search ' .. 'n' .. ' results for "' .. searchterm .. '"'
+  " :Ack results (via ag, literal search)
+  let searchterm = v:null
+  if w:quickfix_title =~ '^:' .. g:ackprg .. ' -Q -- '
+    let searchterm = get(matchlist(w:quickfix_title, '^:' .. g:ackprg .. ' -Q -- "\(.*\)"$'), 1, v:null)
+  " :Ack results (via ag)
+  elseif w:quickfix_title =~ '^:' .. g:ackprg
+    let searchterm = get(matchlist(w:quickfix_title, '^:' .. g:ackprg .. ' \(.*\)$'), 1, v:null)
   endif
+
+  echo matchadd('qfSearch', searchterm, 5)
+
+  let b:mayhem_quickfix_title = '╱╱ 􀊫 "' .. searchterm .. '" ╱ ' .. resultcount .. ' result' .. (resultcount == 1 ? '' : 's') .. ' in ' .. filecount .. ' file' .. (filecount == 1 ? '' : 's') .. ' ╱ ' .. qftitle
+
+  let &l:statusline = '%{%CustomStatusline()%}'
+
 endif
 
 

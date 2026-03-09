@@ -354,6 +354,10 @@ function Diffing() abort
   endif
 endfunc
 
+function ChQuickfix() abort
+  return getbufvar(bufnr(), 'mayhem_quickfix_title', '[Quickfix]')
+endfunc
+
 " 0/anything and 2/n are usual
 function Conceal() abort
   return (&conceallevel == 0 || (&conceallevel == 2 && &concealcursor !~ "[vic]")) ? ""
@@ -585,8 +589,12 @@ function s:UpdateStatuslines() abort
 
   " Quickfix:
   let g:mayhem['sl_qfix'] = [
-        \ '%#SlQfixC#􀩳 %*',
-        \ '%#SlQfixN#􀩳 %*'
+        \['%#SlQfixC#􀩳 %*',
+        \ '%{%ChQuickfix()%}',
+        \ ' %#SlMessIC# %*']->join(''),
+        \['%#SlQfixN#􀩳 %*',
+        \ '%{%ChQuickfix()%}',
+        \ ' %#SlMessIN# %*']->join(''),
         \]
 
   " Netrw:

@@ -263,6 +263,18 @@ function s:Update_Git()
   endif
 endfunc
 
+let g:mayhem.symbols_S.pages = #{
+      \ qf: '𝒬𝒻',
+      \ qfsep: '╱',
+      \}
+let g:mayhem.symbols_8.pages = #{
+      \ qf: '𝒬𝒻',
+      \ qfsep: '╱',
+      \}
+let g:mayhem.symbols_A.pages = #{
+      \ qf: 'Qf',
+      \ qfsep: '/',
+      \}
 
 let g:mayhem.symbols_S.status = {
       \ 'readonly'    : 'ᴿ',
@@ -352,6 +364,19 @@ function Diffing() abort
   else
     return ''
   endif
+endfunc
+
+function ChQfSearch() abort
+  return getbufvar(bufnr(), 'mayhem_quickfix_search', 'search')
+endfunc
+function ChQfCount() abort
+  return getbufvar(bufnr(), 'mayhem_quickfix_count', '?')
+endfunc
+function ChQfFileCount() abort
+  return getbufvar(bufnr(), 'mayhem_quickfix_filecount', '?')
+endfunc
+function ChQfCommand() abort
+  return getbufvar(bufnr(), 'mayhem_quickfix_command', ' :?? ')
 endfunc
 
 function ChQuickfix() abort
@@ -579,21 +604,42 @@ function s:UpdateStatuslines() abort
         \]
 
   let g:mayhem['sl_runtime'] = [
-        \['%#SlMessIC#􀤏%* %#SlMessC#Runtime%*%=',
+        \['%#SlMessIC#􀤏%* %#SlMessC#Runtime%*',
+        \ '%=',
         \ ' %{%ScrollHint()%}',
         \ ' %#SlMessIC# %*']->join(''),
-        \['%#SlMessIN#􀤏%* %#SlMessN#Runtime%*%=',
+        \['%#SlMessIN#􀤏%* %#SlMessN#Runtime%*',
+        \ '%=',
         \ ' %{%ScrollHint()%}',
         \ ' %#SlMessIN# %*']->join(''),
         \]
 
   " Quickfix:
-  let g:mayhem['sl_qfix'] = [
-        \['%#SlQfixC#􀩳 %*',
-        \ '%{%ChQuickfix()%}',
+  " ▌︎⃓ █︎⃓
+  let qf = symbols#get('pages.qf')
+  let qs = symbols#get('pages.qfsep')
+  let g:mayhem['sl_qfix_ag'] = [
+        \[' %#SlQfSepC#' .. qs .. '%#SlQfC#'.. qf .. '%#SlQfSepC#'.. qs .. '%*',
+        \ ' %#SlQfSepC#'.. qs .. '%* ' .. '%{%ChQfSearch()%}',
+        \ ' %#SlQfSepC#'.. qs .. '%* ' .. '%#SlQfCountC#%{%ChQfCount()%}%* results',
+        \ ' in %#SlQfCountC#%{%ChQfFileCount()%}%* files',
+        \ ' %#SlQfSepC#' .. qs .. '%*' .. '%{%ChQfCommand()%}',
+        \ '%=',
+        \ ' %{%ScrollHint()%}',
         \ ' %#SlMessIC# %*']->join(''),
-        \['%#SlQfixN#􀩳 %*',
+        \[' %#SlQfSepN#' .. qs .. '%#SlQfN#'.. qf .. '%#SlQfSepN#'.. qs .. '%*',
         \ '%{%ChQuickfix()%}',
+        \ '%=',
+        \ ' %{%ScrollHint()%}',
+        \ ' %#SlMessIN# %*']->join(''),
+        \]
+
+  let g:mayhem['sl_qfix'] = [
+        \[' %#SlQfSepC#' .. qs .. '%#SlQfC#'.. qf .. '%#SlQfSepC#'.. qs .. '%*',
+        \ '%=',
+        \ ' %#SlMessIC# %*']->join(''),
+        \[' %#SlQfSepN#' .. qs .. '%#SlQfN#'.. qf .. '%#SlQfSepN#'.. qs .. '%*',
+        \ '%=',
         \ ' %#SlMessIN# %*']->join(''),
         \]
 
@@ -635,7 +681,11 @@ function CustomStatusline()
   if &buftype == 'help'
     return get(g:, 'mayhem', {})->get('sl_help', ['sl_helpC', 'sl_helpN'])[NC()]
   elseif &buftype == 'quickfix'
-    return get(g:, 'mayhem', {})->get('sl_qfix', ['sl_qfixC', 'sl_qfixN'])[NC()]
+    if get(b:, 'mayhem_quickfix_subtype') == 'ag'
+      return get(g:, 'mayhem', {})->get('sl_qfix_ag', ['sl_qfix_agC', 'sl_qfix_agN'])[NC()]
+    else
+      return get(g:, 'mayhem', {})->get('sl_qfix', ['sl_qfixC', 'sl_qfixN'])[NC()]
+    endif
   elseif &buftype == 'preview'
     return get(g:, 'mayhem', {})->get('sl_prev', ['sl_prevC', 'sl_prevN'])[NC()]
   elseif &buftype == 'terminal'

@@ -5,7 +5,7 @@
 "                                ╱
 "
 "
-" au BufWritePost <buffer> syn on
+" :au BufWritePost <buffer> syn on
 "
 "   Related:
 "   ./termayhem.vim          - Terminal colorscheme
@@ -45,6 +45,8 @@ let g:colornames = #{
       \                     yslcccb: '#202020',
       \                     yslnnnb: '#151515',
       \ ycsealf: '#33aadd',                    
+      \ yqsepcf: '#33aa00',                    
+      \ yqsepnf: '#229900',                    
       \}
 call extend(v:colornames, g:colornames, 'force')
 
@@ -123,7 +125,7 @@ hi QuickFixLine   guibg=NONE
 hi link qfError    Error
 hi link qfFileName Directory
 hi qfLineNr       guifg=#999911
-hi qfSeparator    guifg=#33aa00
+hi qfSeparator    guifg=yqfsepf
 
 "
 "════════════════════════════════════════════════════════╡ Visual
@@ -592,6 +594,13 @@ hi SlNotGitC      guifg=#660099               gui=none
 hi SlNotGitN      guifg=#550088               gui=none
 hi link SlGitOffC  SlSynOffC
 hi link SlGitOffN  SlSynOffN
+hi SlQfC          guifg=#dd00fd guibg=yslcccb
+hi SlQfN          guifg=#ad00cd guibg=yslnnnb
+hi SlQfSepC       guifg=yqsepcf guibg=yslcccb
+hi SlQfSepN       guifg=yqsepnf guibg=yslnnnb
+hi SlQfCountC     guifg=#00ccff
+hi SlQfCountN     guifg=#00ccff
+
 
 "╔═════════════════════════════════════════════════════╦═╡ Demo
 "║ 	  "  " "   "                            ║

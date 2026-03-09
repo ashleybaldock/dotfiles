@@ -42,7 +42,16 @@ if exists('w:quickfix_title')
 
   echo matchadd('qfSearch', searchterm, 5)
 
-  let b:mayhem_quickfix_title = '╱╱ 􀊫 "' .. searchterm .. '" ╱ ' .. resultcount .. ' result' .. (resultcount == 1 ? '' : 's') .. ' in ' .. filecount .. ' file' .. (filecount == 1 ? '' : 's') .. ' ╱ ' .. qftitle
+  let b:mayhem_quickfix_subtype = 'ag'
+  let b:mayhem_quickfix_search = searchterm
+  let b:mayhem_quickfix_count = resultcount
+  let b:mayhem_quickfix_filecount = filecount
+  let b:mayhem_quickfix_command = qftitle
+
+  " let b:mayhem_quickfix_title = '%#SlQfSepC#╱╱%* 􀊫 "' .. searchterm ..
+  "       \ '" %#SlQfSepC#╱%* ' .. resultcount .. 
+  "       \ ' result' .. (resultcount == 1 ? '' : 's') ..
+  "       \ ' in ' .. filecount .. ' file' .. (filecount == 1 ? '' : 's') .. ' %#SlQfSepC#╱%* ' .. qftitle
 
   let &l:statusline = '%{%CustomStatusline()%}'
 

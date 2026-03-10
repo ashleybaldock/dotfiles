@@ -189,3 +189,9 @@ function format#splitChar(str) abort
         \->flatten()
         \->list2str()
 endfunc 
+
+function format#CN(parts, sub = '⸮')
+  let joined = (type(a:parts) == type([])) ? join(a:parts, '') : a:parts
+  return [substitute(joined, '⸮', 'C', 'g'),substitute(joined, '⸮', 'C', 'g')]
+endfunc
+

@@ -369,10 +369,10 @@ endfunc
 function ChQfSearch() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_search', 'search')
 endfunc
-function ChQfCount() abort
+function ChQfCt() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_count', '?')
 endfunc
-function ChQfFileCount() abort
+function ChQfFCt() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_filecount', '?')
 endfunc
 function ChQfCommand() abort
@@ -616,23 +616,19 @@ function s:UpdateStatuslines() abort
 
   " Quickfix:
   " ▌︎⃓ █︎⃓
-  let qf = symbols#get('pages.qf')
-  let qs = symbols#get('pages.qfsep')
-  let g:mayhem['sl_qfix_ag'] = [
-        \[' %#SlQfSepC#' .. qs .. '%#SlQfC#'.. qf .. '%#SlQfSepC#'.. qs .. '%*',
-        \ ' %#SlQfSepC#'.. qs .. '%* ' .. '%{%ChQfSearch()%}',
-        \ ' %#SlQfSepC#'.. qs .. '%* ' .. '%#SlQfCountC#%{%ChQfCount()%}%* results',
-        \ ' in %#SlQfCountC#%{%ChQfFileCount()%}%* files',
-        \ ' %#SlQfSepC#' .. qs .. '%*' .. '%{%ChQfCommand()%}',
+  let qf = '%#SlQfQf⸮#' .. symbols#get('pages.qf') .. '%*'
+  let qs = '%#SlQfSep⸮#' .. symbols#get('pages.qfsep') .. '%*'
+  let g:mayhem['sl_qfix_ag'] = format#CN(
+        \[qs .. qf .. qs,
+        \ ' %#SlQf⸮#"%#SlQfSearch⸮#%{%ChQfSearch()%}%#SlQf⸮#"%* ',
+        \ qs,
+        \ ' %#SlQfCt⸮#%{%ChQfCt()%}%#SlQf⸮# results in %#SlQfCt⸮#%{%ChQfFCt()%}%#SlQf⸮# files%* ',
+        \ qs,
         \ '%=',
+        \ '%#SlQf⸮#%{%ChQfCommand()%}%* ',
         \ ' %{%ScrollHint()%}',
-        \ ' %#SlMessIC# %*']->join(''),
-        \[' %#SlQfSepN#' .. qs .. '%#SlQfN#'.. qf .. '%#SlQfSepN#'.. qs .. '%*',
-        \ '%{%ChQuickfix()%}',
-        \ '%=',
-        \ ' %{%ScrollHint()%}',
-        \ ' %#SlMessIN# %*']->join(''),
-        \]
+        \ ' %#SlQf⸮# %*']
+        \)
 
   let g:mayhem['sl_qfix'] = [
         \[' %#SlQfSepC#' .. qs .. '%#SlQfC#'.. qf .. '%#SlQfSepC#'.. qs .. '%*',

@@ -45,8 +45,10 @@ let g:colornames = #{
       \                     yslcccb: '#202020',
       \                     yslnnnb: '#151515',
       \ ycsealf: '#33aadd',                    
-      \ yqsepcf: '#33aa00',                    
-      \ yqsepnf: '#229900',                    
+      \ yqfspcf: '#33aa00',                    
+      \ yqfspnf: '#229900',                    
+      \ yqfctcf: '#00ccdd',                    
+      \ yqfctnf: '#00bbcc',                    
       \}
 call extend(v:colornames, g:colornames, 'force')
 
@@ -124,8 +126,8 @@ hi qfSearch       guifg=#bb99ff guibg=#440088
 hi QuickFixLine   guibg=NONE
 hi link qfError    Error
 hi link qfFileName Directory
-hi qfLineNr       guifg=#999911
-hi qfSeparator    guifg=yqfsepf
+hi qfLineNr       guifg=ynumabf
+hi qfSeparator    guifg=yqfspcf
 
 "
 "════════════════════════════════════════════════════════╡ Visual
@@ -594,12 +596,16 @@ hi SlNotGitC      guifg=#660099               gui=none
 hi SlNotGitN      guifg=#550088               gui=none
 hi link SlGitOffC  SlSynOffC
 hi link SlGitOffN  SlSynOffN
-hi SlQfC          guifg=#dd00fd guibg=yslcccb
-hi SlQfN          guifg=#ad00cd guibg=yslnnnb
-hi SlQfSepC       guifg=yqsepcf guibg=yslcccb
-hi SlQfSepN       guifg=yqsepnf guibg=yslnnnb
-hi SlQfCountC     guifg=#00ccff
-hi SlQfCountN     guifg=#00ccff
+hi SlQfC          guifg=#888899 guibg=yslcccb
+hi SlQfN          guifg=#777788 guibg=yslnnnb
+hi SlQfQfC        guifg=#dd00fd guibg=yslcccb
+hi SlQfQfN        guifg=#ad00cd guibg=yslnnnb
+hi SlQfSepC       guifg=yqfspcf guibg=yslcccb
+hi SlQfSepN       guifg=yqfspnf guibg=yslnnnb
+hi SlQfCtC        guifg=yqfctcf guibg=yslcccb
+hi SlQfCtN        guifg=yqfctnf guibg=yslnnnb
+hi SlQfSearchC    guifg=#ddddee guibg=yslcccb
+hi SlQfSearchN    guifg=#ccccdd guibg=yslnnnb
 
 
 "╔═════════════════════════════════════════════════════╦═╡ Demo

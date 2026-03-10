@@ -140,7 +140,7 @@ syn cluster qfFileType contains=
 " The default highlighting.
 hi qfFileName   guifg=#ffcc00
 hi qfLineNr     guifg=ynumabf  guibg=ynumabb guisp=ynumbrf  gui=italic 
-hi qfLineNrLast guifg=ynumabf  guibg=ynumabb guisp=#33aa00  gui=italic 
+hi qfLineNrLast guifg=ynumabf  guibg=ynumabb guisp=yqfspcf  gui=italic 
 hi qfFirstLine  guifg=NONE     guisp=#115511  gui=none 
 hi qfMidLine    guifg=NONE     guisp=#115511  gui=none 
 hi qfLastLine   guifg=NONE     guisp=#115511  gui=underline 

@@ -96,17 +96,17 @@ let g:mayhem.symbols_S.diag = #{
       \  n:['','!️𝟣⃞','!️𝟤⃞','!️𝟥⃞','!️𝟦⃞','!️𝟧⃞','!️𝟨⃞','!️𝟩⃞','!️𝟪⃞','!️𝟫️⃞'],
       \  c:['','１⃝︀','２⃝','３⃝','４⃝','５⃝','６⃝','７⃝','８⃝','９⃝'],
       \},
-      \ error    : #{ n: '⚑⃝ ', c: '􀋊︎⃣', i: '􀋊', 1:'𝟣⚑️',2:'𝟤⚑️',3:'𝟥⚑️',4:'𝟦⚑️',5:'𝟧⚑️',6:'𝟨⚑️',7:'𝟩⚑️',8:'𝟪⚑️',9:'𝟫⚑️'},
-      \ warning  : #{ n: '􀁞', c: '􀅎︎⃝', i: '􀇾', 1:'𝟣!',2:'𝟤!',3:'𝟥!',4:'𝟦!',5:'𝟧!',6:'𝟨!',7:'𝟩!',8:'𝟪!',9:'𝟫!'},
-      \ ok       : #{ n: '􀆅', c: '􀆅︎⃣', i: '􀆅'},
-      \ off      : #{ n: '􂟦', c: '􂟦︎', i: '􂟦'},
+      \ error    : #{n:'⚑⃝ ',c:'􀋊︎⃣',i:'􀋊',1:'𝟣⚑️',2:'𝟤⚑️',3:'𝟥⚑️',4:'𝟦⚑️',5:'𝟧⚑️',6:'𝟨⚑️',7:'𝟩⚑️',8:'𝟪⚑️',9:'𝟫⚑️'},
+      \ warning  : #{n:'􀁞',c:'􀅎︎⃝',i:'􀇾',1:'𝟣!',2:'𝟤!',3:'𝟥!',4:'𝟦!',5:'𝟧!',6:'𝟨!',7:'𝟩!',8:'𝟪!',9:'𝟫!'},
+      \ ok       : #{n:'􀆅',c:'􀆅︎',i:'􀆅'},
+      \ off      : #{n:'􂟦',c:'􂟦︎',i:'􂟦'},
       \}
 let g:mayhem.symbols_8.diag = #{
       \ numbers  : ['','1⃝ ','2⃝ ','3⃝ ','4⃝ ','5⃝ ','6⃝ ','7⃝ ','8⃝ ','9⃝ '],
-      \ error    : #{ n: '⚑️', c: '⚑⃝ ', i: '⚑️', 1:'𝟣⚑️',2:'𝟤⚑️',3:'𝟥⚑️',4:'𝟦⚑️',5:'𝟧⚑️',6:'𝟨⚑️',7:'𝟩⚑️',8:'𝟪⚑️',9:'𝟫⚑️'},
-      \ warning  : #{ n: '!', c: '!⃝ ', i: '!', 1:'𝟣!',2:'𝟤!',3:'𝟥!',4:'𝟦!',5:'𝟧!',6:'𝟨!',7:'𝟩!',8:'𝟪!',9:'𝟫!'},
-      \ ok       : #{ n: '✓️', c: '✓⃝ ', i: '✓️',},
-      \ off      : #{ n: '?', c: '?⃣ ', i: '?',},
+      \ error    : #{n:'⚑️',c:'⚑⃝ ',i:'⚑️',1:'𝟣⚑️',2:'𝟤⚑️',3:'𝟥⚑️',4:'𝟦⚑️',5:'𝟧⚑️',6:'𝟨⚑️',7:'𝟩⚑️',8:'𝟪⚑️',9:'𝟫⚑️'},
+      \ warning  : #{n:'!',c:'!⃝ ',i:'!',1:'𝟣!',2:'𝟤!',3:'𝟥!',4:'𝟦!',5:'𝟧!',6:'𝟨!',7:'𝟩!',8:'𝟪!',9:'𝟫!'},
+      \ ok       : #{n:'✓️',c:'✓⃝ ',i:'✓️',},
+      \ off      : #{n:'?',c:'?⃣ ',i:'?',},
       \}
 let g:mayhem.symbols_A.diag = #{
       \ numbers  : ['', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
@@ -119,10 +119,9 @@ let g:mayhem.symbols_A.diag = #{
 " TODO - Add gutter display of errors elsewhere in file
 function s:Update_Diag()
   if !exists('g:did_coc_loaded')
-    let b:mayhem.sl_cache_diag = [
-          \ ['%#SlSynOffC#', symbols#getc('diag.off'), '%*']->join(''),
-          \ ['%#SlSynOffN#', symbols#getn('diag.off'), '%*']->join(''),
-          \]
+    let b:mayhem.sl_cache_diag = format#CN([
+          \ '%#SlSynOff⸮#' .. symbols#getc('diag.off') .. '%*'
+          \])
     return
   endif
 
@@ -135,33 +134,26 @@ function s:Update_Diag()
   let errorCount = get(diaginfo, 'error',       0)
 
   if errorCount > 0
-    let b:mayhem.sl_cache_diag = [
-        \ ['%#SlSynErrC#',
-        \  get(symbols#get('diag.error'), errorCount, symbols#getc('diag.error')),
-        \ '%*']->join(''),
-        \ ['%#SlSynErrN#',
-        \  get(symbols#get('diag.error'), errorCount, symbols#getn('diag.error')),
-        \ '%*']->join(''),
-        \]
+    let b:mayhem.sl_cache_diag = format#CN([
+        \'%#SlSynErr⸮#',
+        \get(symbols#get('diag.error'), errorCount, symbols#getc('diag.error')),
+        \'%*'
+        \])
     return
   endif
 
   if warnCount > 0
-    let b:mayhem.sl_cache_diag = [
-        \ ['%#SlSynWarnC#',
-        \  get(symbols#get('diag.warning'), warnCount, symbols#getc('diag.warning')),
-        \ '%*']->join(''),
-        \ ['%#SlSynWarnN#',
-        \  get(symbols#get('diag.warning'), warnCount, symbols#getn('diag.warning')),
-        \ '%*']->join(''),
-        \]
+    let b:mayhem.sl_cache_diag = format#CN([
+        \'%#SlSynWarn⸮#',
+        \get(symbols#get('diag.warning'), warnCount, symbols#getc('diag.warning')),
+        \'%*'
+        \])
     return
   endif
 
-  let b:mayhem.sl_cache_diag = [
-        \ ['%#SlSynOkC#', symbols#getc('diag.ok'), '%*']->join(''),
-        \ ['%#SlSynOkN#', symbols#getn('diag.ok'), '%*']->join(''),
-        \]
+  let b:mayhem.sl_cache_diag = format#CN([
+        \'%#SlSynOk⸮#' .. symbols#getc('diag.ok') .. '%*'
+        \])
   return
 endfunc
 
@@ -240,25 +232,22 @@ endfunc
 " TODO - add detailed git status info
 function s:Update_Git()
   if !exists('g:loaded_fugitive')
-    let b:mayhem.sl_cache_git = [
-          \ '%#SlGitOffC#' .. symbols#get('git.gitoff') .. '%*',
-          \ '%#SlGitOffN#'  .. symbols#get('git.gitoff') .. '%*'
-          \]
+    let b:mayhem.sl_cache_git = format#CN([
+          \ '%#SlGitOff⸮#' .. symbols#get('git.gitoff') .. '%*',
+          \])
     return
   endif
 
   let head = FugitiveHead()
   if empty(head)
-    let b:mayhem.sl_cache_git =  [
-          \ '%#SlNotGitC#' .. symbols#get('git.notgit') .. '%*',
-          \ '%#SlNotGitN#' .. symbols#get('git.notgit') .. '%*'
-          \]
+    let b:mayhem.sl_cache_git = format#CN([
+          \ '%#SlNotGit⸮#' .. symbols#get('git.notgit') .. '%*',
+          \])
     return
   else
-    let b:mayhem.sl_cache_git =  [
-          \ '%#SlGitC#'  ..  symbols#get('git.isgit')  ..  '%*',
-          \ '%#SlGitN#'  ..  symbols#get('git.isgit' ) ..  '%*'
-          \]
+    let b:mayhem.sl_cache_git = format#CN([
+          \ '%#SlGit⸮#' .. symbols#get('git.isgit') .. '%*',
+          \])
     return
   endif
 endfunc
@@ -366,6 +355,9 @@ function Diffing() abort
   endif
 endfunc
 
+function ChQfTitle() abort
+  return get(w:, 'quickfix_title', 'quickfix list')
+endfunc
 function ChQfSearch() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_search', 'search')
 endfunc
@@ -407,10 +399,10 @@ function s:Update_WinSize() abort
   call s:SetStatusVars()
 
   if toggle#get('g:mayhem_sl_show_winsize')
-    let b:mayhem.sl_cached_winsize = [
-        \['%#SlDebugC#', '%{%winwidth(0)%}', symbols#get('status.multx'), '%{%winheight(0)%}','%*']->join(''),
-        \['%#SlDebugN#', '%{%winwidth(0)%}', symbols#get('status.multx'), '%{%winheight(0)%}','%*']->join(''),
-        \]
+    let b:mayhem.sl_cached_winsize = format#CN([
+        \'%#SlDebug⸮#',
+        \'%{%winwidth(0)%}' .. symbols#get('status.multx') .. '%{%winheight(0)%}%*'
+        \])
   else
     let b:mayhem.sl_cached_winsize = ['','']
   endif
@@ -434,42 +426,41 @@ function s:Update_FileInfo() abort
 
   if name == ''
     if &diff && diff_right
-      let b:mayhem.sl_cached_filename = [
-        \['%#SlFDfSvNmC#◀︎╸diff,with:', diff_with, '%* ', '%{%Modified()%}']->join(''),
-        \['%#SlFDfSvNmN#◀︎╸diff,with:', diff_with, '%* ', '%{%Modified()%}']->join(''),
-        \]
+      let b:mayhem.sl_cached_filename = format#CN([
+        \'%#SlFDfSvNm⸮#◀︎╸diff,with:' .. diff_with .. '%* ',
+        \'%{%Modified()%}',
+        \])
     else
-      let b:mayhem.sl_cached_filename = [
-        \['%#SlFNoNameC#nameless%* ', '%{%Modified()%}']->join(''),
-        \['%#SlFNoNameN#nameless%* ', '%{%Modified()%}']->join(''),
-        \]
+      let b:mayhem.sl_cached_filename = format#CN([
+        \'%#SlFNoName⸮#nameless%* ',
+        \'%{%Modified()%}'
+        \])
     endif
   else
     if mayhem#fileTypeMatchesExt(type, expand('%'))
-      let b:mayhem.sl_cached_filename = [
-        \['%{%RO()%}%#SlFNameC#', name, '.%#SlFTypExtC#',
-        \ ext, '%* ', '%{%Modified()%}', '%#SlFPathC#', hint, '%*']->join(''),
-        \['%{%RO()%}%#SlFNameN#', name, '.%#SlFTypExtN#',
-        \ ext, '%* ', '%{%Modified()%}', '%#SlFPathN#', hint, '%*']->join('')
-        \]
+      let b:mayhem.sl_cached_filename = format#CN([
+        \'%{%RO()%}',
+        \'%#SlFName⸮#' .. name .. '.%#SlFTypExt⸮#' .. ext .. '%* ',
+        \'%{%Modified()%}',
+        \'%#SlFPath⸮#' .. hint .. '%*',
+        \])
     else
-      let b:mayhem.sl_cached_filename = [
-            \['%{%RO()%}%#SlFNameC#', tail, '%* ', '%{%Modified()%}']->join(''),
-            \['%{%RO()%}%#SlFNameN#', tail, '%* ', '%{%Modified()%}']->join('')
-            \]
+      let b:mayhem.sl_cached_filename = format#CN([
+            \'%{%RO()%}',
+            \'%#SlFName⸮#' .. tail .. '%* ',
+            \'%{%Modified()%}',
+            \])
     endif
   endif
 
   if type == ''
-    let b:mayhem.sl_cached_fileinfo = [
-      \ '%#SlFTyp2C#typeless%*',
-      \ '%#SlFTyp2N#typeless%*',
-      \ '']
+    let b:mayhem.sl_cached_fileinfo = format#CN([
+      \'%#SlFTyp2⸮#typeless%*',
+      \])
   else
-    let b:mayhem.sl_cached_fileinfo = [
-      \['%#SlFTyp2C#', type, subtype == '' ? '' : ':' .. subtype, '%*']->join(''),
-      \['%#SlFTyp2N#', type,  subtype == '' ? '' : ':' .. subtype, '%*']->join('')
-      \]
+    let b:mayhem.sl_cached_fileinfo = format#CN([
+      \'%#SlFTyp2⸮#' .. type .. (subtype == '' ? '' : ':' .. subtype) .. '%*'
+      \])
   endif
 endfunc
 
@@ -490,9 +481,6 @@ endfunc
 " sp|enew|pu=execute('echo getbufvar(bufnr(), "name")')
 
 
-" TODO - change this so that the C/NC distinction doesn't need two
-"         identical strings
-"   - preprocessing step which looks for a marker and replaces with N or C
 " TODO - it would be better to provide a plugin interface
 "       for custom statusbar, winbar, etc. things 
 " TODO - convert to vim9script
@@ -509,141 +497,98 @@ function s:UpdateStatuslines() abort
   " Truncate: %< ║ %-f %< %f ┃ abcdefghi.vim < efghi.vim ┃
   " Separate: %= ║ L%=Mid%=R ┃ L          Mid          R ┃
 
-  let g:mayhem['sl_norm'] = [
-        \['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
-        \'%#SlSepC#%=%*%<',
-        \'%( %#SlFlagC#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
-        \'%( %#SlHintC#%{%Conceal()%}%{%CheckScb()%}%*%)',
+  let g:mayhem['sl_norm'] = format#CN([
+        \'%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
+        \'%#SlSep⸮#%=%*%<',
+        \'%( %#SlFlag⸮#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
+        \'%( %#SlHint⸮#%{%Conceal()%}%{%CheckScb()%}%*%)',
         \' %{%ChFInfo()%}',
         \' %{%ScrollHint()%}',
         \' %{%ChDiag()%}',
         \'%{%Diffing()%}',
-        \]->join(''),
-        \
-        \['%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
-        \'%#SlSepN#%=%*%<',
-        \'%( %#SlFlagN#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
-        \'%( %#SlHintN#%{%Conceal()%}%{%CheckScb()%}%*%)',
-        \' %{%ChFInfo()%}',
-        \' %{%ScrollHint()%}',
-        \' %{%ChDiag()%}',
-        \'%{%Diffing()%}',
-        \]->join('')
-        \]
+        \])
 
 
   " let g:mayhem['sl_prev'] = [
   "   \ '%#SlInfoC#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ',
   "   \ '%#SlInfo#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ']
-  let g:mayhem['sl_prev'] = [
-        \[
-        \'%#SlInfoC#􀬸 %-f%*%<%=%(%n %l,%c%V%) ',
-        \]->join(''),
-        \[
-        \'%#SlInfoN#􀬸 %-f%*%<%=%(%n %l,%c%V%) '
-        \]->join('')
-        \]
+  let g:mayhem['sl_prev'] = format#CN([
+        \'%#SlInfo⸮#􀬸 %-f%*%<%=%(%n %l,%c%V%) ',
+        \])
 
   " let g:mayhem['sl_help'] = [
   "       \ '%#SlInfoC#𝓲⃝  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
   "       \ '%#SlInfoN#𝓲⃝  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
-  let g:mayhem['sl_help'] = [
-        \[
-        \'%#SlInfoC#􀉚 %{%FName()%}',
-        \'%#SlHintC#%{%FDotExt()%}',
+  let g:mayhem['sl_help'] = format#CN([
+        \'%#SlInfo⸮#􀉚 %{%FName()%}',
+        \'%#SlHint⸮#%{%FDotExt()%}',
         \'%<%=',
         \'%(',
-        \'%#SlHintC# help ',
-        \'%#SlFPathC#[️%#SlInfoC#%l%#SlFPathC#/️%#SlInfoC#%L%#SlFPathC#]️',
+        \'%#SlHint⸮# help ',
+        \'%#SlFPath⸮#[️%#SlInfo⸮#%l%#SlFPath⸮#/️%#SlInfo⸮#%L%#SlFPath⸮#]️',
         \'%)',
-        \]->join(''),
-        \[
-        \'%#SlInfoN#􀉚 %{%FName()%}',
-        \'%#SlHintN#%{%FDotExt()%}',
-        \'%<%=',
-        \'%(',
-        \'%#SlHintN# help ',
-        \'%#SlFPathN#[️%#SlInfoN#%l%#SlFPathN#/️%#SlInfoN#%L%#SlFPathN#]️',
-        \'%)',
-        \]->join(''),
-        \]
+        \])
 
-  let g:mayhem['sl_term'] = [
-        \[
-        \'%#SlTermC#%{%TermPaused()%} ',
+  let g:mayhem['sl_term'] = format#CN([
+        \'%#SlTerm⸮#%{%TermPaused()%} ',
         \'%-f%*%<%=%(%l,%c%V%) ',
-        \ ' %{%ScrollHint()%}',
-        \]->join(''),
-        \[
-        \'%#SlTermN#%{%TermPaused()%} ',
-        \'%-f%#SlSepN#%*%<%= %#SlTermN#%(%l,%c%V%) ',
-        \ ' %{%ScrollHint()%}',
-        \]->join(''),
-        \]
-
-  let g:mayhem['sl_messages'] = [
-        \[
-        \'%{%ChWinSz()%}%#SlMessIC#􀤏%* %#SlMessC#Messages%*%=',
+        \'%-f%#SlSep⸮#%*%<%= %#SlTerm⸮#%(%l,%c%V%) ',
         \' %{%ScrollHint()%}',
-        \' %#SlMessIC# %*'
-        \]->join(''),
-        \[
-        \'%{%ChWinSz()%}%#SlMessIN#􀤏%* %#SlMessN#Messages%*%=',
+        \])
+
+  let g:mayhem['sl_messages'] = format#CN([
+        \'%{%ChWinSz()%}%#SlMessI⸮#􀤏%* %#SlMess⸮#Messages%*',
+        \'%=',
         \' %{%ScrollHint()%}',
-        \' %#SlMessIN# %*'
-        \]->join(''),
-        \]
+        \' %#SlMessI⸮# %*'
+        \])
 
-  let g:mayhem['sl_scriptnames'] = [
-        \['%#SlMessIC#􀤏%* %#SlMessC#Scriptnames%*%=',
-        \ ' %{%ScrollHint()%}',
-        \ ' %#SlMessIC# %*']->join(''),
-        \['%#SlMessIN#􀤏%* %#SlMessN#Scriptnames%*%=',
-        \ ' %{%ScrollHint()%}',
-        \ ' %#SlMessIN# %*']->join(''),
-        \]
+  let g:mayhem['sl_scriptnames'] = format#CN([
+        \'%#SlMessI⸮#􀤏%* %#SlMess⸮#Scriptnames%*',
+        \'%=',
+        \' %{%ScrollHint()%}',
+        \' %#SlMessI⸮# %*'
+        \])
 
-  let g:mayhem['sl_runtime'] = [
-        \['%#SlMessIC#􀤏%* %#SlMessC#Runtime%*',
-        \ '%=',
-        \ ' %{%ScrollHint()%}',
-        \ ' %#SlMessIC# %*']->join(''),
-        \['%#SlMessIN#􀤏%* %#SlMessN#Runtime%*',
-        \ '%=',
-        \ ' %{%ScrollHint()%}',
-        \ ' %#SlMessIN# %*']->join(''),
-        \]
+  let g:mayhem['sl_runtime'] = format#CN([
+        \'%#SlMessI⸮#􀤏%* %#SlMess⸮#Runtime%*',
+        \'%=',
+        \' %{%ScrollHint()%}',
+        \' %#SlMessI⸮# %*'
+        \])
 
   " Quickfix:
   " ▌︎⃓ █︎⃓
   let qf = '%#SlQfQf⸮#' .. symbols#get('pages.qf') .. '%*'
   let qs = '%#SlQfSep⸮#' .. symbols#get('pages.qfsep') .. '%*'
-  let g:mayhem['sl_qfix_ag'] = format#CN(
+  let g:mayhem['sl_qfix_ag'] = format#CN([
+        \qs .. qf .. qs,
+        \' %#SlQf⸮#"%#SlQfSearch⸮#%{%ChQfSearch()%}%#SlQf⸮#"%* ',
+        \qs,
+        \' %#SlQfCt⸮#%{%ChQfCt()%}%#SlQf⸮# results in %#SlQfCt⸮#%{%ChQfFCt()%}%#SlQf⸮# files%* ',
+        \qs,
+        \'%=',
+        \'%#SlQf⸮#%{%ChQfCommand()%}%* ',
+        \' %{%ScrollHint()%}',
+        \' %#SlQf⸮# %*'
+        \])
+
+  let g:mayhem['sl_qfix'] = format#CN(
         \[qs .. qf .. qs,
-        \ ' %#SlQf⸮#"%#SlQfSearch⸮#%{%ChQfSearch()%}%#SlQf⸮#"%* ',
-        \ qs,
-        \ ' %#SlQfCt⸮#%{%ChQfCt()%}%#SlQf⸮# results in %#SlQfCt⸮#%{%ChQfFCt()%}%#SlQf⸮# files%* ',
+        \ ' %#SlQf⸮#"%#SlQfSearch⸮#%{%ChQfTitle()%}%#SlQf⸮#"%* ',
         \ qs,
         \ '%=',
-        \ '%#SlQf⸮#%{%ChQfCommand()%}%* ',
         \ ' %{%ScrollHint()%}',
         \ ' %#SlQf⸮# %*']
         \)
 
-  let g:mayhem['sl_qfix'] = [
-        \[' %#SlQfSepC#' .. qs .. '%#SlQfC#'.. qf .. '%#SlQfSepC#'.. qs .. '%*',
-        \ '%=',
-        \ ' %#SlMessIC# %*']->join(''),
-        \[' %#SlQfSepN#' .. qs .. '%#SlQfN#'.. qf .. '%#SlQfSepN#'.. qs .. '%*',
-        \ '%=',
-        \ ' %#SlMessIN# %*']->join(''),
-        \]
-
   " Netrw:
-  let g:mayhem['sl_dir'] = [
-        \ '%#SlDirC#􀈕 %-F%*%<%=%#SlDirInvC#netrw%*',
-        \ '%#SlDirN#􀈕 %-F%*%<%=%#SlDirInvN#netrw%*'
-        \]
+  let g:mayhem['sl_dir'] = format#CN([
+        \'%#SlDir⸮#􀈕 %-F%*',
+        \'%<',
+        \'%=',
+        \'%#SlDirInv⸮#netrw%*',
+        \])
 
   " let test = '%%%=%<%(%{subExpr}%{%subReExpr%} %)'
 
@@ -651,21 +596,20 @@ function s:UpdateStatuslines() abort
   "       \ '%#SlHomeC#HOME Vim Mayhem%*%<%=%#SlHmRtC#%*',
   "       \ '%#SlHomeN#HOME Vim Mayhem%*%<%=%#SlHmRtN#%*']
   " Home:
-  let g:mayhem['sl_home'] = [
-        \[
-        \'%{%ChWinSz()%}%#SlHomeLC#􁘲  Vim Mayhem%*',
-        \'%<','%=','%#SlHomeMC# %*','%=','%#SlHomeRC# %*'
-        \]->join(''),
-        \[
-        \'%{%ChWinSz()%}%#SlHomeLN#􁘱  Vim Mayhem%*',
-        \'%<','%=','%#SlHomeMN# %*','%=','%#SlHomeRN# %*'
-        \]->join(''),
-        \]
+  let g:mayhem['sl_home'] = format#CN([
+        \'%{%ChWinSz()%}%#SlHomeL⸮#􁘲  Vim Mayhem%*',
+        \'%<',
+        \'%=',
+        \'%#SlHomeM⸮# %*',
+        \'%=',
+        \'%#SlHomeR⸮# %*'
+        \])
 
-  let g:mayhem['sl_sfsym'] = [
-        \ ['%#SlHomeLC#SF Symbols%*','%<','%=']->join(''),
-        \ ['%#SlHomeLN#SF Symbols%*','%<','%=']->join(''),
-        \]
+  let g:mayhem['sl_sfsym'] = format#CN([
+        \'%#SlHomeL⸮#SF Symbols%*',
+        \'%<',
+        \'%=',
+        \])
 endfunc
 
 function NC()

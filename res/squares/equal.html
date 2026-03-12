@@ -1,0 +1,83 @@
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User:-flowsINtomAyHeM/common.css - The Noita Wiki</title>
+    <link rel="stylesheet" href="equal.css" />
+  </head>
+  <body>
+    <div class="x">
+      <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 150px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 90px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 200px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 400px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 10px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 50px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 20px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 90px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+    </div>
+    <div class="a">
+      <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 150px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 90px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 200px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 400px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 10px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 50px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 20px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 90px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+    </div>
+
+    <div class="b">
+      <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 150px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 90px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 200px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 400px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 10px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 50px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 20px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 90px; height: 40px; background-color: #00a"></div>
+      <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+    </div>
+    <div class="c-wrapper">
+      <div class="c">
+        <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+        <div style="--width: 150px; height: 40px; background-color: #00a"></div>
+        <div style="--width: 90px; height: 40px; background-color: #00a"></div>
+        <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+        <div style="--width: 200px; height: 40px; background-color: #00a"></div>
+        <div style="--width: 400px; height: 40px; background-color: #00a"></div>
+        <div style="--width: 10px; height: 40px; background-color: #00a"></div>
+        <div style="--width: 50px; height: 40px; background-color: #00a"></div>
+        <div style="--width: 20px; height: 40px; background-color: #00a"></div>
+        <div style="--width: 90px; height: 40px; background-color: #00a"></div>
+        <div style="--width: 100px; height: 40px; background-color: #00a"></div>
+      </div>
+    </div>
+    <div>
+      <p>
+        using flexbox - `.item { min-width: var(--width); flex: 1 0 25%; }` gets
+        you pretty close, `.item { min-width: var(--width); flex: 1 0
+        max(round(nearest, var(--width), 100%), 25%); }` is a little closer.
+        (only works for 1, 2, 3 or 4 items per row, and it'll still break
+        sometimes, e.g. if a row can contain three items, one having a min-width
+        greater than 1/3 of the width, but less than 1/2)
+      </p>
+      <p>
+        for the latter case, you could probably use size containment, calculate
+        a fractional size for each column, divide the width of each item by the
+        calculated column width, round the result up to the nearest integer
+        value and then use that to set the span, e.g. `grid-column: auto/span
+        var(--x)`. (if you don't mind the order of the items changing,
+        `grid-auto-flow: dense;` would backfill any gaps with smaller items that
+        might fit)
+      </p>
+    </div>
+  </body>
+</html>

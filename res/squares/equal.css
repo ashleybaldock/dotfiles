@@ -1,0 +1,250 @@
+:root {
+  max-width: 100vw;
+  overflow-x: scroll;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+:root,
+body {
+  max-width: 100vw;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  background-color: #000;
+  overflow: visible;
+  line-height: normal;
+  --spacing: 3px;
+}
+.a,
+.b,
+.x {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--spacing);
+  margin: var(--spacing);
+}
+@property --n {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 1;
+}
+@property --colw {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 10cqw;
+}
+.c {
+  display: grid;
+  width: 100cqw;
+  --n: 10;
+  --colw: calc(100cqw / var(--n));
+  --colw: 10cqw;
+  grid-template-columns: repeat(var(--n), var(--colw));
+  grid-template-rows: 1fr;
+  grid-auto-rows: 1fr;
+}
+.c-wrapper {
+  /*   margin: 0 20%; */
+  container-type: size;
+  position: relative;
+}
+
+:where(.a, .b, .c-wrapper, .x)::before {
+  display: flex;
+  width: 100%;
+  color: #fff;
+  padding: 2px 2px 0 2px;
+  font-family: Menlo, monospace;
+  font-size: 0.8em;
+  pointer-events: all;
+}
+.a::before {
+  content: '.wrapper\a0>\a0.item\a0{ flex:\a0 1\a0 0\a0 25%; }';
+}
+.b::before {
+  content: '.wrapper\a0>\a0.item\a0{\a0 flex:\a0 1\a0 0 max(25%, round(nearest, var(\2011\2011width),\a0 100%));\0a}';
+}
+.c-wrapper::before {
+  content: '.container > .wrapper > .item {...}';
+}
+.x::before {
+  content: '.wrapper\a0>\a0.item\a0{\a0 flex:\a0 0\a0 0 content\0a}';
+}
+
+@property --width {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+@property --p {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --ppp {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 1px;
+}
+@property --ww {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --int-ww {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --pp {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --int-pp {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+:where(.a, .b, .c, .x) > div::after {
+  content: '--width: ' counter(ww) 'px';
+  display: flex;
+  color: #faf;
+  letter-spacing: 0.05ch;
+  font-size: 0.66em;
+  font-family: Menlo, monospace;
+  white-space: nowrap;
+  width: var(--width);
+  counter-reset: ww var(--int-ww);
+  --ww: tan(atan2(var(--width), 1px));
+  --int-ww: round(up, var(--ww), 1);
+  height: 30px;
+  background-color: #808;
+  justify-content: center;
+  align-items: start;
+  align-self: start;
+  margin: 5px 0 0 0;
+  grid-row: 1/-1;
+  grid-column: 1/-1;
+  outline: 0.5px outset #f0fc;
+  padding: 1px;
+  box-sizing: border-box;
+}
+:where(.a, .b, .c) > div::before {
+  content: '';
+  display: flex;
+  color: #ff0a;
+  font-size: 0.66em;
+  white-space: nowrap;
+  width: var(--pp);
+  height: 10px;
+  background-color: #0000;
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-image: repeating-linear-gradient(45deg, #ff04 -4px 0, #0000 0 4px);
+  box-shadow:
+    inset 1px 0 0 0 #ff0,
+    inset -1px 0 0 0 #ff0;
+  text-align: center;
+  justify-content: center;
+  align-items: end;
+  align-self: center;
+  margin: 0 0 0 0;
+  padding-inline: 2px;
+  grid-row: 1/-1;
+  grid-column: 1/-1;
+  /*   outline: 0.5px solid #ff08; */
+  box-sizing: border-box;
+}
+
+:where(.a, .b, .c, .x) > div {
+  display: grid;
+  grid-template: 1fr/1fr;
+  place-content: center;
+  place-items: center;
+  outline: 0.5px solid #0ff;
+  outline-offset: 0px;
+  /*   max-width: 100%; */
+  min-width: var(--width);
+}
+
+.x > div {
+  flex: 0 0 content;
+}
+.a > div {
+  --p: 25%;
+  --pp: 25vw;
+  flex: 1 0 25%;
+  flex-basis: var(--p);
+  flex: 1 0 25%;
+}
+
+.b > div {
+  --p: max(round(nearest, var(--width), 100%), 25%);
+  --pp: max(
+    round(nearest, var(--width), calc(100vw - var(--spacing) * 2)),
+    calc((100vw - var(--spacing) * 2) * 0.25)
+  );
+  flex: 1 0 var(--p);
+  flex-basis: var(--p);
+  flex: 1 0 max(round(nearest, var(--width), 100%), 25%);
+}
+
+@property --colspan {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 1;
+}
+@property --int-colspan {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 1;
+}
+@property --width-rounded-up-to-colw {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+@property --colw {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+@property --width-rounded-up-divided-by-colw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --width-mod-colw {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+@property --width-div-colw {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --width-div-colw-rounded-up {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.c > div {
+  --width-div-colw: calc(var(--width) / var(--colw));
+  --width-div-colw-rounded-up: round(up, var(--width-div-colw), 1);
+  --width-rounded-up-to-colw: round(up, var(--width), var(--colw));
+  --width-rounded-up-divided-by-colw: calc(
+    var(--width-rounded-up-to-colw) / var(--colw)
+  );
+  grid-column-start: auto;
+  grid-column-end: span var(--colspan);
+  grid-row: auto;
+  width: 100%;
+  --int-colspan: var(--width-rounded-up-divided-by-colw);
+}

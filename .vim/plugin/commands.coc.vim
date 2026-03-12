@@ -3,6 +3,10 @@ if exists("g:mayhem_loaded_coc_commands")
 endif
 let g:mayhem_loaded_coc_commands = 1
 
+"
+" Related: ../autoload/colcol.vim
+"                    ./signs.vim
+"
 
 function ToggleOutline() abort
   let winid = coc#window#find('cocViewId', 'OUTLINE')

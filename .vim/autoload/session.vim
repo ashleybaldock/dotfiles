@@ -33,52 +33,61 @@ function! session#dispatch(subcommand, ...) abort
 endfunc
 
 
-let s:match_command = '^Ses\%[sion]\s*'
+let s:match_command = '^Ses\%[sion]'
 
-" e.g. '\(c\%[reate]\|l\%[oad]\|l\%[ist]\|p\%[ause]\|r\%[esume]\|d\%[elete]\|i\%[nfo]\)'
-let s:match_subcommand = '\(' .. 
-      \mapnew(s:subcommands, {k, v -> v[0] .. '\%[' .. v[1:-1] .. ']'})->join('\|') ..
-      \ '\)'
+" '\(c\%[reate]\|l\%[oad]\|l\%[ist]\|p\%[ause]\|r\%[esume]\|d\%[elete]\|i\%[nfo]\)'
+let s:match_part_subcommand = '\(' .. 
+      \keys(s:subcommands)->mapnew({i, k -> k[0] .. '\%[' .. k[1:-1] .. ']'})
+      \->join('\|') .. '\)'
 
-let s:match_session = '\W\+'
+" '\(create\|load\|list\|pause\|resume\|delete\|info\)'
+let s:match_full_subcommand = '\(' .. 
+      \keys(s:subcommands)->mapnew({i, k -> k})
+      \->join('\|') .. '\)'
 
 " e.g. 'create^Minfo^MList^Mload^Mpause^Mresume^Mdelete^M'
-let s:subcommand_completion = join(s:subcommands, "\n")
+let s:subcommand_completion = keys(s:subcommands)->join(" \n")
+" echom 's:subcommand_completion ''' .. s:subcommand_completion .. ''' | s:match_subcommand ''' .. s:match_subcommand .. ''''
 
-echom s:subcommand_completion
-echom s:match_subcommand
+function! session#name2path(name) abort
+  return g:mayhem_dir_session .. '/' .. a:name .. '.session.vim'
+endfunc
+
+          " \ '     - updated within',
+function! session#list() abort
+  return expand('$HOME/.vim/session')
+        \ ->readdirex({e -> e.name =~ '.session.vim$'})
+        \ ->sort({a, b -> b.time - a.time})
+        \ ->map({i, val -> #{
+          \ name: fnamemodify(val.name, ":t:r:r"),
+          \ updated: format#timeSince(val.time),
+          \ time: strftime("[%H:%M:%S %d-%m-%Y]", val.time),
+          \ }
+          \})
+endfunc
+
+function! session#listcomplete() abort
+  return map(session#list(), {k, v -> v.name})->join("\n")
+endfunc
 
 function! session#complete(ArgLead, CmdLine, CursorPos) abort
   echom 'a:ArgLead: ''' .. a:ArgLead ..
         \ ''', a:CmdLine: ''' .. a:CmdLine ..
         \ ''', a:CursorPos: ''' .. a:CursorPos .. ''''
 
-  if a:CmdLine =~ s:match_command .. s:match_subcommand .. '\s*' .. s:match_session .. '\s*$'
-    return 'a session...'
-  elseif a:CmdLine =~ s:match_command .. s:match_subcommand .. '\s*$'
-    return  'sessions...'
-  elseif a:CmdLine =~ s:match_command .. s:match_subcommand
-      return s:subcommand_completion
+  if a:CmdLine =~ s:match_command .. '\s\+' .. s:match_full_subcommand .. '\s\+\S\+\s\+$'
+    return ''
+  elseif a:CmdLine =~ s:match_command .. '\s\+' .. s:match_full_subcommand .. '\s\+\S*$'
+    return session#listcomplete()
+  elseif a:CmdLine =~ s:match_command .. '\s\+' .. s:match_part_subcommand .. '$'
+    return s:subcommand_completion
+  elseif a:CmdLine =~ s:match_command .. '\s\+$'
+    return s:subcommand_completion
+  elseif a:CmdLine =~ s:match_command .. '$'
+    return ' '
   else
-      return s:subcommand_completion
+      return ''
   endif
-endfunc
-
-function! session#name2path(name) abort
-  return g:mayhem_dir_session .. '/' .. a:name .. '.session.vim'
-endfunc
-
-function! session#list() abort
-  return expand('$HOME/.vim/session')
-        \ ->readdirex({e -> e.name =~ '.session.vim$'})
-        \ ->sort({a, b -> b.time - a.time})
-        \ ->map({i, val -> [
-          \ fnamemodify(val.name, ":t:r:r"),
-          \ '     - updated within',
-          \ format#timeSince(val.time),
-          \ strftime("[%H:%M:%S %d-%m-%Y]", val.time),
-          \ ]})
-        \ ->join()
 endfunc
 
 function! session#info() abort

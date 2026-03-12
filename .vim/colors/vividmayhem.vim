@@ -581,17 +581,17 @@ hi SlFlagN        guifg=#ee0000 guibg=yslnnnb gui=none
 hi SlDebugC       guifg=#bbff00 guibg=yslcccb gui=none
 hi SlDebugN       guifg=#88dd00 guibg=yslcccb gui=none
 " diagnostics
-hi SlSynErrC      guifg=#fc0000 guibg=#000000 gui=none
-hi SlSynErrN      guifg=#cc0000 guibg=#000000 gui=none
-hi SlSynWarnC     guifg=#ffaa00 guibg=#000000 gui=none
-hi SlSynWarnN     guifg=#d08800 guibg=#000000 gui=none
-hi SlSynOkC       guifg=#55cc00 guibg=#000000 gui=none
-hi SlSynOkN       guifg=#229900 guibg=#000000 gui=none
-hi SlSynOffC      guifg=#00ffff guibg=#000000 gui=none
-hi SlSynOffN      guifg=#00dddd guibg=#000000 gui=none
+hi SlSynErrC      guifg=#fc0000 guibg=yslcccb gui=none
+hi SlSynErrN      guifg=#cc0000 guibg=yslnnnb gui=none
+hi SlSynWarnC     guifg=#ffaa00 guibg=yslcccb gui=none
+hi SlSynWarnN     guifg=#d08800 guibg=yslnnnb gui=none
+hi SlSynOkC       guifg=#55cc00 guibg=yslcccb gui=none
+hi SlSynOkN       guifg=#229900 guibg=yslnnnb gui=none
+hi SlSynOffC      guifg=#00ffff guibg=yslcccb gui=none
+hi SlSynOffN      guifg=#00dddd guibg=yslnnnb gui=none
 " git
-hi SlGitC         guifg=#aa00dd guibg=#000000 gui=none
-hi SlGitN         guifg=#9900cc guibg=#000000 gui=none
+hi SlGitC         guifg=#aa00dd guibg=yslcccb gui=none
+hi SlGitN         guifg=#9900cc guibg=yslnnnb gui=none
 hi SlNotGitC      guifg=#660099               gui=none
 hi SlNotGitN      guifg=#550088               gui=none
 hi link SlGitOffC  SlSynOffC

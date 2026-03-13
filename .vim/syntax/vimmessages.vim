@@ -5,9 +5,9 @@ endif
 "
 " Syntax for vim :messages
 "
-" au BufWritePost <buffer> syn on
+" :au BufWritePost <buffer> syn on
 "
-" See Also:
+" Related:
 "     ../plugin/messages.vim
 "
 

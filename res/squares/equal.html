@@ -46,7 +46,7 @@
       <div style="--width: 100px; height: 40px; background-color: #00a"></div>
     </div>
     <div class="c-wrapper">
-      <div class="c">
+      <div class="c prop">
         <div style="--width: 100px; height: 40px; background-color: #00a"></div>
         <div style="--width: 150px; height: 40px; background-color: #00a"></div>
         <div style="--width: 90px; height: 40px; background-color: #00a"></div>
@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="c-wrapper">
-      <div class="c dense">
+      <div class="c dense prop">
         <div style="--width: 100px; height: 40px; background-color: #00a"></div>
         <div style="--width: 150px; height: 40px; background-color: #00a"></div>
         <div style="--width: 90px; height: 40px; background-color: #00a"></div>
@@ -74,25 +74,6 @@
         <div style="--width: 90px; height: 40px; background-color: #00a"></div>
         <div style="--width: 100px; height: 40px; background-color: #00a"></div>
       </div>
-    </div>
-    <div>
-      <p>
-        using flexbox - `.item { min-width: var(--width); flex: 1 0 25%; }` gets
-        you pretty close, `.item { min-width: var(--width); flex: 1 0
-        max(round(nearest, var(--width), 100%), 25%); }` is a little closer.
-        (only works for 1, 2, 3 or 4 items per row, and it'll still break
-        sometimes, e.g. if a row can contain three items, one having a min-width
-        greater than 1/3 of the width, but less than 1/2)
-      </p>
-      <p>
-        for the latter case, you could probably use size containment, calculate
-        a fractional size for each column, divide the width of each item by the
-        calculated column width, round the result up to the nearest integer
-        value and then use that to set the span, e.g. `grid-column: auto/span
-        var(--x)`. (if you don't mind the order of the items changing,
-        `grid-auto-flow: dense;` would backfill any gaps with smaller items that
-        might fit)
-      </p>
     </div>
   </body>
 </html>

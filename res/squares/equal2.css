@@ -131,7 +131,10 @@ body {
   content: '.wrapper\a0>\a0.item\a0{\a0 flex:\a0 1\a0 0 max(25%, round(nearest, var(\2011\2011width),\a0 100%));\0a}';
 }
 .c-wrapper::before {
-  content: '.container > .wrapper > .item {...}';
+  content: '.container > .wrapper { display: grid; }';
+}
+.c-wrapper:has(.dense)::before {
+  content: '.container > .wrapper { grid-auto-flow: row dense; }';
 }
 .x::before {
   content: '.wrapper\a0>\a0.item\a0{\a0 flex:\a0 0\a0 0 content\0a}';

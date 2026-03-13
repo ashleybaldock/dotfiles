@@ -1,0 +1,10 @@
+
+  
+Conversion of type '{ readonly addtrigger: readonly ["ADD_TRIGGER", "ADD_TIMER", "ADD_DEATH_TRIGGER"]; readonly greek: readonly ["ALPHA", "GAMMA", "TAU", "OMEGA", "MU", "PHI", "SIGMA", "ZETA"]; readonly divideby: readonly ["DIVIDE_2", "DIVIDE_3", "DIVIDE_4", "DIVIDE_10"]; ... 63 more ...; readonly explodemod: readonly [...]; }' to type 'SpellFamilyInfoRecord' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Types of property 'addtrigger' are incompatible.
+    The type 'readonly ["ADD_TRIGGER", "ADD_TIMER", "ADD_DEATH_TRIGGER"]' is 'readonly' and cannot be assigned to the mutable type 'ActionId[]'. (tsserver 2352)
+
+
+
+Argument of type 'ActionId' is not assignable to parameter of type '"addtrigger" | "greek" | "divideby" | "random" | "kantele" | "ocarina" | "spark" | "bombs" | "plasma" | "tele" | "saws" | "heal" | "spitter" | "hole" | "arrows" | "mist" | "nature" | ... 49 more ... | "explodemod"'.
+  Type '"ADD_TRIGGER"' is not assignable to type '"addtrigger" | "greek" | "divideby" | "random" | "kantele" | "ocarina" | "spark" | "bombs" | "plasma" | "tele" | "saws" | "heal" | "spitter" | "hole" | "arrows" | "mist" | "nature" | ... 49 more ... | "explodemod"'. Did you mean '"addtrigger"'? (tsserver 2345)

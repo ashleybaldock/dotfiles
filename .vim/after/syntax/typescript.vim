@@ -77,8 +77,8 @@ hi typescriptTypeBrackets     guifg=#ee55ee
 hi typescriptTypeBracket      guifg=#ee55ee
 hi typescriptTypeReference    guifg=#77aaff
 
-hi typescriptReadonlyArrayKeyword guifg=#ff6600
-hi typescriptReadonlyModifier     guifg=#ff6600
+hi typescriptReadonlyArrayKeyword guifg=#dd5522 gui=italic
+hi typescriptReadonlyModifier     guifg=#aa5544 gui=italic
 
 hi link typescriptType Type
 hi clear typescriptTypeBlock

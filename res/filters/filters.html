@@ -17,6 +17,10 @@
         --filter-coloroutline: url(#filter-coloroutline);
         --filter-softoutline: url(#filter-softoutline);
 
+        --filter-pixels: url(#filter-pixels);
+
+        --filter-xray-mask: url(#filter-xray-mask);
+
         --filter-turbulence1: url(#filter-turbulence1);
 
         --filter-luminanceToAlpha: url(#filter-luminanceToAlpha);
@@ -71,6 +75,26 @@
           <circle fill="white" cx="50" cy="50" r="35" />
         </mask>
 
+
+        <filter id="filter-pixels" x="-20%" y="-20%" width="140%" height="140%"
+          filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-color="green" flood-opacity="1" x="0" y="0" width="1" height="1"
+            result="flood"/>
+          <feComposite operator="in" x="0" y="0" width="6" height="6"
+            in="SourceAlpha" in2="flood"
+            result="composite"/>
+          <feTile x="0" y="0" width="1000" height="1000"
+            in="composite" 
+            result="tile1"/>
+          <feComposite operator="in"
+            in="SourceGraphic" in2="tile1"
+            result="composite1"/>
+          <feMorphology operator="dilate" radius="2"
+            in="composite1"
+            result="morphology"/>
+        </filter>
+
+  
         <filter id="filter-turbulence1">
           <feTurbulence result="TURBULENCE" baseFrequency="0.08" numOctaves="1" seed="1" />
           <feDisplacementMap in="SourceGraphic" in2="TURBULENCE" scale="9" />
@@ -245,9 +269,8 @@
             result="OUTLINE"
           ></feComposite>
           <feMerge>
-            <feMergeNode in="OUTLINE-ONLY_"></feMergeNode>
-            <feMergeNode in="SOURCE-RECOLOR-OUT_"></feMergeNode>
-            <feMergeNode in="OUTLINE-ONLY-BLUR"></feMergeNode>
+            <feMergeNode in="OUTLINE-ONLY"></feMergeNode>
+            <feMergeNode in="SOURCE-RECOLOR-OUT"></feMergeNode>
             <feMergeNode in="OUTLINE-ONLY-BLUR"></feMergeNode>
 
             <feMergeNode in="SOURCE-RECOLOR"></feMergeNode>
@@ -261,16 +284,16 @@
 
     <section class="demo">
       <h2>feColorMatrix</h2>
-      <article style="--f: var(--filter-saturate20)">
+      <article style="--f: var(--filter-demo-saturate20)">
         <h3>saturate20</h3>
       </article>
-      <article style="--f: var(--filter-hueRotate180)">
+      <article style="--f: var(--filter-demo-hueRotate180)">
         <h3>hueRotate180</h3>
       </article>
       <article style="--f: var(--filter-luminanceToAlpha)">
         <h3>luminanceToAlpha</h3>
       </article>
-      <article style="--f: var(--filter-filter-xray-mask)">
+      <article style="--f: var(--filter-xray-mask)">
         <h3>filter-xray-mask</h3>
       </article>
     </section>
@@ -280,6 +303,10 @@
 
       <article style="--f: var(--filter-turbulence1)">
         <h3>Turbulence<h3>
+      </article>
+
+      <article style="--f: var(--filter-pixels)">
+        <h3>Pixels<h3>
       </article>
 
       <article style="--f: var(--filter-tinydots)">
@@ -295,12 +322,12 @@
       <article style="--f: var(--filter-outline)">
         <h3>Outline</h3>
       </article>
-      <article style="--f: var(--filter-coloroutline)">
-        <h3>Color Outline</h3>
-      </article>
-      <article style="--f: var(--filter-softoutline)">
-        <h3>Soft Outline</h3>
-      </article>
+      <!-- <article style="--f: var(--filter-coloroutline)"> -->
+      <!--   <h3>Color Outline</h3> -->
+      <!-- </article> -->
+      <!-- <article style="--f: var(--filter-softoutline)"> -->
+      <!--   <h3>Soft Outline</h3> -->
+      <!-- </article> -->
     </section>
 
   </body>

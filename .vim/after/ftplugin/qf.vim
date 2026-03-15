@@ -1,5 +1,9 @@
 
-
+"
+" Related: ../../syntax/qf.vim
+"          ../../plugin/quickfix.vim
+"    $VIMRUNTIME/syntax/qf.vim
+"
 
 set quickfixtextfunc=QFTFAlignColumns
 

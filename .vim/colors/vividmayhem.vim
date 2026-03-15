@@ -596,6 +596,7 @@ hi SlNotGitC      guifg=#660099 guibg=yslcccb gui=none
 hi SlNotGitN      guifg=#550088 guibg=yslnnnb gui=none
 hi link SlGitOffC  SlSynOffC
 hi link SlGitOffN  SlSynOffN
+" quickfix
 hi SlQfC          guifg=#888899 guibg=yslcccb
 hi SlQfN          guifg=#777788 guibg=yslnnnb
 hi SlQfQfC        guifg=#dd00fd guibg=yslcccb

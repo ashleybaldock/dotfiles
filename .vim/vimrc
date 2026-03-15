@@ -302,8 +302,8 @@ let g:md_fenced_languages = [
       \ 'pre', 'reg', 'ansi']
 
 "
-" See: ./plugin/quickfix.vim
-"      ./syntax/qf.vim
+" Related: ./plugin/quickfix.vim
+"          ./syntax/qf.vim
 "
 let g:mayhem_qf_bracket_firstline = '⎫'
 let g:mayhem_qf_bracket_midline   = '⎪'

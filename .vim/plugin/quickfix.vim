@@ -5,8 +5,9 @@ endif
 g:mayhem_loaded_quickfix = 1
 
 #
-# See Also: ../syntax/qf.vim
-#
+# Related: ../syntax/qf.vim
+#          ../plugin/quickfix.vim 
+# $VIMRUNTIME/syntax/qf.vim       
 
 # const EFM_TYPE = {e: 'error', w: 'warning', i: 'info', n: 'note'}
 const EFM_TYPE = {e: 'E', w: 'W', i: 'i', n: 'n'}

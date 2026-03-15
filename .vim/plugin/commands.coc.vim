@@ -91,7 +91,7 @@ command! ShowDocumentation call <SID>ShowDocumentation()
 " Jump to a useful location from current cursor position
 "
 function s:JumpSomewhere()
-  if CocAction('ensureDocument')
+  if CocHasProvider('definition') 
     try
       call CocAction('jumpDefinition')
       " call CocAction('jumpDeclaration')

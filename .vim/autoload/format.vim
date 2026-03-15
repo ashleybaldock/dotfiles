@@ -190,8 +190,8 @@ function format#splitChar(str) abort
         \->list2str()
 endfunc 
 
-function format#CN(parts, sub = '⸮')
+function format#CN(parts, sub = get(g:, 'mayhem_format_CN_token_default', '⸮')) abort
   let joined = (type(a:parts) == type([])) ? join(a:parts, '') : a:parts
-  return [substitute(joined, '⸮', 'C', 'g'),substitute(joined, '⸮', 'C', 'g')]
+  return [substitute(joined, '⸮', 'C', 'g'),substitute(joined, '⸮', 'N', 'g')]
 endfunc
 

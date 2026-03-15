@@ -4,7 +4,8 @@ endif
 let g:mayhem_autoloaded_signs = 1
 
 "
-" See: ../plugin/signs.vim
+" Related:
+"        ../plugin/signs.vim
 "
 
 let s:prefix = 'mayhem_'
@@ -16,10 +17,10 @@ let s:group = 'signs_of_mayhem'
 "  ''  = global group only  
 "
 function! signs#list(bufnr = bufnr()) abort
-  return sign_getplaced(a:bufnr, { 'group': '*'})
+  return sign_getplaced(a:bufnr, {'group': '*'})
 endfunc
 function! signs#groupList(group = s:group, bufnr = bufnr()) abort
-  return sign_getplaced(a:bufnr, { 'group': s:group })
+  return sign_getplaced(a:bufnr, {'group': s:group})
 endfunc
 
 
@@ -62,31 +63,9 @@ let s:types_diag = #{
       \  }),
       \ }
 
-let s:cachedFetch = []
-let s:diagnosticsByFileAndSeverity = #{}
-
-function! signs#fetch() abort
-  let s:cachedFetch = CocAction('diagnosticList')
-  return s:cachedFetch
-endfunc
-
-function! signs#cached() abort
-  return s:cachedFetch
-endfunc
-
-function! signs#updateDiagnostics() abort
-  let s:diagnosticsByFileAndSeverity = signs#fetch()
-        \->reduce({acc, cur -> has_key(acc, bufnr(cur.file))
-        \ ? add(acc[bufnr(cur.file)][cur.severity], cur)
-        \ : extend(acc, {
-        \   bufnr(cur.file): {[cur.severity]: [cur]}
-        \  })
-        \}, {})
-  exec 'DoUserAutocmd MayhemDiagnosticsUpdated'
-endfunc
 
 function! signs#diagnosticsPlaceProps() abort
-  call foreach(get(s:, 'diagnosticsByFileAndSeverity', {}),
+  call foreach(diag#cachedByFile(),
         \ {bufnr, severities -> foreach(severities,
         \  {severity, props -> prop_add_list(#{
         \   bufnr: bufnr,
@@ -96,11 +75,6 @@ function! signs#diagnosticsPlaceProps() abort
         \ )}
         \)
 endfunc
-
-function! signs#diagnostics() abort
-  return s:diagnosticsByFileAndSeverity
-endfunc
-
 
 
 " ->json_encode()->FormatJSON()->append('$')

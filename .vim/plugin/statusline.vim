@@ -364,8 +364,14 @@ endfunc
 function ChQfCt() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_count', '?')
 endfunc
+function ChQfCtPl() abort
+  return (getbufvar(bufnr(), 'mayhem_quickfix_count', 0) == 1) ? '' : 's'
+endfunc
 function ChQfFCt() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_filecount', '?')
+endfunc
+function ChQfFCtPl() abort
+  return (getbufvar(bufnr(), 'mayhem_quickfix_filecount', 0) == 1) ? '' : 's'
 endfunc
 function ChQfCommand() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_command', ' :?? ')
@@ -565,22 +571,23 @@ function s:UpdateStatuslines() abort
         \qs .. qf .. qs,
         \' %#SlQf⸮#"%#SlQfSearch⸮#%{%ChQfSearch()%}%#SlQf⸮#"%* ',
         \qs,
-        \' %#SlQfCt⸮#%{%ChQfCt()%}%#SlQf⸮# results in %#SlQfCt⸮#%{%ChQfFCt()%}%#SlQf⸮# files%* ',
+        \' %#SlQfCt⸮#%{%ChQfCt()%}%#SlQf⸮# result%{%ChQfCtPl()%}',
+        \' in %#SlQfCt⸮#%{%ChQfFCt()%}%#SlQf⸮# file%{%ChQfFCtPl()%}%* ',
         \qs,
         \'%=',
-        \'%#SlQf⸮#%{%ChQfCommand()%}%* ',
+        \'%#SlHint⸮#%{%ChQfCommand()%}%* ',
         \' %{%ScrollHint()%}',
         \' %#SlQf⸮# %*'
         \])
 
-  let g:mayhem['sl_qfix'] = format#CN(
-        \[qs .. qf .. qs,
-        \ ' %#SlQf⸮#"%#SlQfSearch⸮#%{%ChQfTitle()%}%#SlQf⸮#"%* ',
-        \ qs,
-        \ '%=',
-        \ ' %{%ScrollHint()%}',
-        \ ' %#SlQf⸮# %*']
-        \)
+  let g:mayhem['sl_qfix'] = format#CN([
+        \qs .. qf .. qs,
+        \' %#SlQf⸮#"%#SlQfSearch⸮#%{%ChQfTitle()%}%#SlQf⸮#"%* ',
+        \qs,
+        \'%=',
+        \' %{%ScrollHint()%}',
+        \' %#SlQf⸮# %*',
+        \])
 
   " Netrw:
   let g:mayhem['sl_dir'] = format#CN([

@@ -527,16 +527,16 @@ hi StatusLineTermNC none | hi link StatusLineTermNC SlTerminalNC
 hi StatusLine     guifg=#ffffff guibg=yslcccb gui=none
 hi StatusLineNC   guifg=#dddddd guibg=yslnnnb gui=none
 hi SlTermC        guifg=#eeeeff guibg=yslcccb gui=none
-hi SlTermN        guifg=#ccccee guibg=yslcccb gui=none
+hi SlTermN        guifg=#ccccee guibg=yslnnnb gui=none
 hi SlInfoC        guifg=#0088ff guibg=yslcccb gui=none
 hi SlInfoN        guifg=#0066ff guibg=yslnnnb gui=none
 hi SlMessC        guifg=#aa6622 guibg=yslcccb gui=none
 hi SlMessN        guifg=#884422 guibg=yslnnnb gui=none
 hi SlHomeLC       guifg=#aa00dd guibg=yslcccb gui=none
-hi SlHomeMC       guifg=#dd00dd guibg=yslcccb gui=none
+hi SlHomeMC       guifg=#dd00dd guibg=yslnnnb gui=none
 hi SlHomeRC       guifg=#dd00aa guibg=yslcccb gui=none
 hi SlHomeLN       guifg=#9900bb guibg=yslnnnb gui=none
-hi SlHomeMN       guifg=#bb00bb guibg=yslnnnb gui=none
+hi SlHomeMN       guifg=#bb00bb guibg=yslcccb gui=none
 hi SlHomeRN       guifg=#bb0099 guibg=yslnnnb gui=none
 hi SlDirC         guifg=#ddaa33 guibg=yslcccb gui=none
 hi SlDirN         guifg=#bb9933 guibg=yslnnnb gui=none
@@ -568,7 +568,7 @@ hi SlFDfSvNmN     guifg=#bbbbaf guibg=yslnnnb gui=italic,underdotted
 hi SlFNameSvdC    guifg=#ffffff guibg=yslcccb
 hi SlFNameSvdN    guifg=yormalf guibg=yslnnnb
 hi SlFNameModC    guifg=#ffffff guibg=yslcccb gui=italic,underdotted
-hi SlFNameModN    guifg=#ffffff guibg=yslcccb gui=italic,underdotted
+hi SlFNameModN    guifg=#ffffff guibg=yslnnnb gui=italic,underdotted
 hi SlFTypExtC     guifg=#00cc00 guibg=yslcccb gui=bold
 hi SlFTypExtN     guifg=#ddd0dd guibg=yslnnnb gui=bold
 hi SlFTypC        guifg=#eeccff guibg=yslcccb gui=underline
@@ -579,7 +579,7 @@ hi link SlFTyp2N  SlHintN
 hi SlFlagC        guifg=#ff1111 guibg=yslcccb gui=none
 hi SlFlagN        guifg=#ee0000 guibg=yslnnnb gui=none
 hi SlDebugC       guifg=#bbff00 guibg=yslcccb gui=none
-hi SlDebugN       guifg=#88dd00 guibg=yslcccb gui=none
+hi SlDebugN       guifg=#88dd00 guibg=yslnnnb gui=none
 " diagnostics
 hi SlSynErrC      guifg=#fc0000 guibg=yslcccb gui=none
 hi SlSynErrN      guifg=#cc0000 guibg=yslnnnb gui=none
@@ -592,8 +592,8 @@ hi SlSynOffN      guifg=#00dddd guibg=yslnnnb gui=none
 " git
 hi SlGitC         guifg=#aa00dd guibg=yslcccb gui=none
 hi SlGitN         guifg=#9900cc guibg=yslnnnb gui=none
-hi SlNotGitC      guifg=#660099               gui=none
-hi SlNotGitN      guifg=#550088               gui=none
+hi SlNotGitC      guifg=#660099 guibg=yslcccb gui=none
+hi SlNotGitN      guifg=#550088 guibg=yslnnnb gui=none
 hi link SlGitOffC  SlSynOffC
 hi link SlGitOffN  SlSynOffN
 hi SlQfC          guifg=#888899 guibg=yslcccb

@@ -12,6 +12,7 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 
+syn match tssNoise /[:;,]/ contained contains=NONE
 syn match tssUnion / | / contained contains=NONE
 syn match tssReadonly /[Rr]eadonly/ contained contains=NONE
 syn match tssUnAbrvCount /\d\+/ contained contains=NONE
@@ -29,15 +30,16 @@ syn region tssArrayType contained
       \ matchgroup=typescriptBraces start=+\[+
       \ end=+]+
       \ contains=tssStrLitType,tssArrayType,tssObjectType,tssUnion,tssUnAbrv,tssReadonly,tssAbrv
+syn match tssTypeBracket /\[]/ contained contains=NONE
 syn region tssObjectType contained
       \ matchgroup=typescriptBraces start=+{+
       \ end=+}+
-      \ contains=tssStrLitType,tssArrayType,tssObjectType,tssUnion,tssUnAbrv,tssReadonly,tssAbrv
+      \ contains=tssSemi,tssNoise,tssStrLitType,tssArrayType,tssObjectType,tssUnion,tssUnAbrv,tssReadonly,tssAbrv
 " ...of type '...
 syn region tssCiteType keepend
       \ start=+\%([Tt]ype \)\@5<='+
       \ end=+'+
-      \ contains=tssStrLitType,tssArrayType,tssObjectType,tssUnion,tssUnAbrv,tssReadonly,tssAbrv
+      \ contains=tssStrLitType,tssTypeBracket,tssArrayType,tssObjectType,tssUnion,tssUnAbrv,tssReadonly,tssAbrv
 
 " ...of property '...
 syn region tssCiteProp keepend
@@ -47,7 +49,8 @@ syn region tssCiteProp keepend
 
 syn match tssAbrv /\[\.\.\.]/ contained contains=NONE
 
-hi tssCiteType guifg=#88aaaa
+hi link tssCiteType typescriptTypeReference
+hi link tssTypeBracket typescriptTypeBracket
 hi tssCiteProp guifg=#88aaaa
 hi link tssStrLitType typescriptStringLiteralType
 hi link tssUnion typescriptUnion

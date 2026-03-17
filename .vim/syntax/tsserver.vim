@@ -58,7 +58,7 @@ syn region tssCiteProp keepend
       \ contains=tssStrLitType,tssUnion,tssUnAbrv
 
 syn match tssAbrv /\[\.\.\.]/ contained contains=NONE
-syn match tssReadonly /'readonly'/ contains=NONE
+syn match tssReadonly /'\@<=readonly\ze'/ contains=NONE
 
 hi link tssCiteType typescriptTypeReference
 

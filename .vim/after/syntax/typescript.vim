@@ -77,8 +77,22 @@ hi typescriptTypeBrackets     guifg=#ee55ee
 hi typescriptTypeBracket      guifg=#ee55ee
 hi typescriptTypeReference    guifg=#77aaff
 
-hi typescriptReadonlyArrayKeyword guifg=#dd5522 gui=italic
 hi typescriptReadonlyModifier     guifg=#aa5544 gui=italic
+hi tsKeyword guifg=#dd5522 gui=italic
+hi link typescriptReadonlyArrayKeyword tsKeyword
+" typescriptAsyncFunc
+" typescriptAsyncFuncKeyword
+" typescriptFuncKeyword
+" typescriptCastKeyword
+" typescriptClassKeyword
+" typescriptEnumKeyword
+" typescriptInterfaceKeyword
+" typescriptStatementKeyword
+hi link typescriptObjectAsyncKeyword tsKeyword
+hi link typescriptObjectLabel tsKeyword
+" hi typescriptObjectLiteral
+" hi typescriptObjectType
+
 
 hi link typescriptType Type
 hi clear typescriptTypeBlock
@@ -263,20 +277,16 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptAssertType
 " typescriptAssign
 " typescriptAsyncFor
-" typescriptAsyncFunc
-" typescriptAsyncFuncKeyword
 " typescriptAutoAccessor
 
 
 " typescriptBlock
 " typescriptBranch
 " typescriptCall
-" typescriptCastKeyword
 
 " typescriptClassBlock
 " typescriptClassExtends
 " typescriptClassHeritage
-" typescriptClassKeyword
 " typescriptClassName
 " typescriptClassStatic
 " typescriptClassTypeArguments
@@ -319,7 +329,6 @@ hi link typescriptXHRGlobal typescriptGlobal
 
 " typescriptEncodingProp typescriptProp
 " typescriptEnum
-" typescriptEnumKeyword
 " typescriptExceptions
 " typescriptFileReaderProp typescriptProp
 "
@@ -357,7 +366,6 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptDocumentEvent
 "
 " typescriptFuncImpl
-" typescriptFuncKeyword
 " typescriptFuncName
 " typescriptFuncType
 " typescriptFuncTypeArrow
@@ -373,7 +381,6 @@ hi link typescriptXHRGlobal typescriptGlobal
 "
 " typescriptInterfaceExtends
 " typescriptInterfaceHeritage
-" typescriptInterfaceKeyword
 " typescriptInterfaceName
 " typescriptInterfaceTypeArguments
 " typescriptInterfaceTypeParameter
@@ -381,11 +388,6 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptLabel
 " typescriptLoopParen
 " typescriptMappedIn
-"
-" typescriptObjectAsyncKeyword
-" typescriptObjectLabel
-" typescriptObjectLiteral
-" typescriptObjectType
 "
 " typescriptOperator
 " typescriptOptionalMark
@@ -412,14 +414,12 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptModule
 " typescriptNull
 " typescriptParenthesizedType
-" typescriptPredefinedType
 " typescriptProperty
 " typescriptPrototype
 " typescriptProxyAPI
 " typescriptRef
 " typescriptRepeat
 " typescriptSpecial
-" typescriptStatementKeyword
 " typescriptReserved
 " typescriptReturnAnnotation
 " typescriptSymbols

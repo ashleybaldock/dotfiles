@@ -569,7 +569,7 @@ function s:UpdateStatuslines() abort
   let qs = '%#SlQfSep⸮#' .. symbols#get('pages.qfsep') .. '%*'
   let g:mayhem['sl_qfix_ag'] = format#CN([
         \qs .. qf .. qs,
-        \' %#SlQf⸮#"%#SlQfSearch⸮#%{%ChQfSearch()%}%#SlQf⸮#"%* ',
+        \' %#SlQf⸮#″️%#SlQfSearch⸮#%{%ChQfSearch()%}%#SlQf⸮#″️%* ',
         \qs,
         \' %#SlQfCt⸮#%{%ChQfCt()%}%#SlQf⸮# result%{%ChQfCtPl()%}',
         \' in %#SlQfCt⸮#%{%ChQfFCt()%}%#SlQf⸮# file%{%ChQfFCtPl()%}%* ',

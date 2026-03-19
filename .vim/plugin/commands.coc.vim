@@ -217,16 +217,19 @@ function s:OnCocOpenFloat() abort
     echom popup_getoptions(g:coc_last_float_win)
     echom popup_getpos(g:coc_last_float_win)
 
+    " WinfoLastCocFloat
+
     " Coc suggestion float
-    call popup_move(g:coc_last_float_win, #{
-          \ fixed: v:true,
-          \ line: 'cursor-4',
-          \ })
     call popup_setoptions(g:coc_last_float_win, #{
           \ borderchars: ['{','|','━','╰', '⎧','⎞','⎠','⎝'],
           \ padding: [1,0,0,0],
           \ border: [1,0,0,1],
           \ mask: [[2,-1,1,1]],
+          \ })
+    call popup_move(g:coc_last_float_win, #{
+          \ fixed: v:false,
+          \ line: 'cursor',
+          \ col: 'cursor',
           \ posinvert: v:false,
           \ pos: 'topright',
           \ })

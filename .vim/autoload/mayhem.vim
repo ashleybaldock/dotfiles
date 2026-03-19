@@ -37,20 +37,36 @@ function! mayhem#paste() abort
 endfunc
 
 "
-" Turn an array of dicts into a dict of arrays of dicts
-" that have the same value for the grouping key
+" Group dicts by value of a common key
+"  i.e. [a{k:v1}, b{k:v2}, c{k:v1}] -> {v1:[a,c],v2:[b]}
 "
-function! mayhem#groupby(array, keyToGroupBy) abort
+function! mayhem#groupby(arrayOfDicts, key) abort
   let grouped = {}
-  for item in array
-    if has_key(item, keyToGroupBy)
-      let group = get(a:array, a:keyToGroupBy, '')
-      if has_key(grouped, group)
-        call add(grouped[group], item)
-      else
-        let grouped[group] = [item]
-      endif
+  for item in a:arrayOfDicts
+    let group = get(item, a:key, '_ungrouped')
+    if !has_key(grouped, group)
+      let grouped[group] = []
     endif
+    call add(grouped[group], item)
+  endfor
+  return grouped
+endfunc
+"
+" Group and subgroup dicts by value of common keys
+"  i.e. [a{i:1,j:4}, b{i:2,j:4}, c{i:1,j:3}] -> {1:{4:[a],3:[c]},2:{4:[b]}}
+"
+function! mayhem#groupby2(arrayOfDicts, key1, key2) abort
+  let grouped = {}
+  for item in a:arrayOfDicts
+    let group1 = get(item, a:key1, '_ungrouped')
+    let group2 = get(item, a:key2, '_ungrouped')
+    if !has_key(grouped, group1)
+      let grouped[group1] = {}
+    endif
+    if !has_key(grouped[group1], group2)
+      let grouped[group1][group2] = []
+    endif
+    call add(grouped[group1][group2], item)
   endfor
   return grouped
 endfunc

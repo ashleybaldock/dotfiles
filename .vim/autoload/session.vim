@@ -119,7 +119,7 @@ function! session#name() abort
   endif
 endfunc
 
-function! session#create() abort
+function! session#create(sessionname) abort
   exec 'mksession<bang> ~/.vim/session/' .. a:sessionname .. '.session.vim'
 
   if exists('g:loaded_obsession')

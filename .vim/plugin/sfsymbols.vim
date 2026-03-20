@@ -5,9 +5,9 @@ endif
 g:mayhem_loaded_sfsymbols = 1
 
 #
-# See Also:
-#   ../autoload/sfsymbols.vim
-#      ../notes/sf-symbols.createlist.md
+# Related:
+#    ../autoload/sfsymbols.vim
+#       ../notes/sf-symbols.createlist.md
 #       ../notes/sf-symbols-7
 #
 # 􀥯
@@ -70,35 +70,12 @@ enddef
 
 command! -bar SfSymbolSplit call SymbolsSplit()
 
-# First bit of what Characterize does
-def NormalisedChar(arg: string): string
-  var char = arg
-  var nl_is_null = 0
-  if empty(char)
-    char = getline('.')[col('.') - 1 : -1]
-    nl_is_null = 1
-  elseif char =~# '^\\[xuU]\=0\+\x\@!'
-    char = "\n"
-    nl_is_null = 1
-  elseif char =~# '^\\.'
-    try 
-      char = eval('"' .. char .. '"')
-    catch
-    endtry
-  endif
-  # char = matchstr(char, '.')
-  if empty(char)
-    return 'NUL'
-  endif
-
-  return char
-enddef
 
 #
 # Simple codepoint range check
 #
 # def g:IsSfSymbol(arg: string): bool
-#   var char = NormalisedChar(arg)
+#   var char = char#normalised(arg)
 #   var codepoint = char2nr(char)
 #   echo 'char "' char .. '": ' .. printf('U+%04X', codepoint)
 
@@ -128,7 +105,7 @@ export class SfSymbol
   enddef
 
   def newFromString(chars: string)
-    this.codepoint = NormalisedChar(chars)->char2nr()
+    this.codepoint = char#normalised(chars)->char2nr()
   enddef
 
   def newFromCodepoint(codepoint: number)
@@ -143,7 +120,7 @@ export class SfSymbol
   #
   # Simple codepoint range check
   static def Validate(chars: string): bool
-    var codepoint = NormalisedChar(chars)->char2nr()
+    var codepoint = char#normalised(chars)->char2nr()
 
     return codepoint >= SfSymbol.range_start && codepoint <= SfSymbol.range_end
   enddef

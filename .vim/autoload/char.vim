@@ -174,3 +174,28 @@ endfunc
 "
 function char#sort(str = char#fromCursor(), vsel = 16) abort
 endfunc
+
+
+" First bit of what Characterize does
+def char#normalised(arg: string): string
+  var char = arg
+  var nl_is_null = 0
+  if empty(char)
+    char = getline('.')[col('.') - 1 : -1]
+    nl_is_null = 1
+  elseif char =~# '^\\[xuU]\=0\+\x\@!'
+    char = "\n"
+    nl_is_null = 1
+  elseif char =~# '^\\.'
+    try 
+      char = eval('"' .. char .. '"')
+    catch
+    endtry
+  endif
+  # char = matchstr(char, '.')
+  if empty(char)
+    return 'NUL'
+  endif
+
+  return char
+enddef

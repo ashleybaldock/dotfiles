@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        justEnough(Delivery)
 // @namespace   mayhem
-// @version     1.0.143
+// @version     1.0.154
 // @description Deliver me the content, the whole content, and nothing but the content.
 // @downloadURL http://localhost:3333/vm/delivery.justEnough.user.js
 // @match       *://i.redd.it/*
@@ -94,10 +94,18 @@ const getFilename = () => {
    <a download="${filename}" href="${url(blob)}">Download</a>
  </>
 */
-const wrapBlob = () => {
+const wrapBlob = (() => {
   const idGenerator = rangeIter({ start: 1 });
 
-  return (blob, { id = idGenerator.next(), onload = () => null } = {}) => {
+  return (
+    blob,
+    {
+      id = idGenerator.next()?.value,
+      onload = () => null,
+      preview = false,
+      selected = false,
+    } = {},
+  ) => {
     const url = URL.createObjectURL(blob);
 
     const radioId = `radio_preview_${id}`;
@@ -117,6 +125,7 @@ const wrapBlob = () => {
       name: 'preview',
       value: '',
       id: radioId,
+      checked: preview,
     });
     const checklabel = GM_addElement(wrapper, 'label', {
       for: checkId,
@@ -126,6 +135,7 @@ const wrapBlob = () => {
       name: 'selected',
       value: '',
       id: checkId,
+      checked: selected,
     });
     const a = GM_addElement(wrapper, 'a', {
       download: getFilename(),
@@ -133,7 +143,7 @@ const wrapBlob = () => {
       textContent: 'Download',
     });
   };
-};
+})();
 
 const overlayText = (
   text,
@@ -199,6 +209,34 @@ const overlayText = (
   ctx.fillText(text, midw, image.naturalHeight - 50);
 
   canvas.toBlob(wrapBlob, 'image/png');
+};
+
+const makeBlob = (imageresponse) => {
+  let { promise, resolve, reject } = Promise.withResolvers();
+
+  const img = GM_addElement('img', {
+    class: 'hidden',
+  });
+  img.addEventListener(
+    'load',
+    ({ target: image }) => {
+      const canvas = GM_addElement('canvas', {
+        id: 'scratch',
+        class: 'hidden',
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+      });
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(image, 0, 0);
+      canvas.toBlob(
+        (blob) => (blob === null ? reject('null blob') : resolve(blob)),
+        'image/png',
+      );
+    },
+    { once: true },
+  );
+  img.src = URL.createObjectURL(imageresponse);
+  return promise;
 };
 
 const videoSelector = `main video, video[src^="https://preview.redd.it"], video[poster^="//i.imgur.com"]`;
@@ -277,13 +315,16 @@ const getSourceInfo = (
           response,
           context: sourceInfo,
         }) /*:void*/ =>
-          wrapBlob(response, {
-            onload: ({ target }) => {
-              console.debug(`load, src: ${target.src}`);
-              overlayText(sourceInfo.title, target);
-            },
-          }),
-
+          makeBlob(response).then((blob) =>
+            wrapBlob(blob, {
+              preview: true,
+              selected: true,
+              onload: ({ target }) => {
+                console.debug(`load, src: ${target.src}`);
+                overlayText(sourceInfo.title, target);
+              },
+            }),
+          ),
         onloadstart: () /*:void*/ => console.debug('onloadstart'),
         onloadend: () /*:void*/ => console.debug('onloadend'),
         onprogress: () /*:void*/ => console.debug('onprogress'),

@@ -30,7 +30,7 @@ let s:lastAdhocHlGroupId = 1000
 " TODO recycle highlight groups & limit number used for adhoc groups
 function! s:nextAdhocHighlightId()
   let s:lastAdhocHlGroupId = s:lastAdhocHlGroupId + 1
-  return 'hif' .. s:lastAdhocHlGroupId
+  return 'synfo' .. s:lastAdhocHlGroupId
 endfunc
 
 "
@@ -183,22 +183,45 @@ function! s:LineWithPropsFromParts(parts, bufnr, lineconfig = #{})
     " highlighting group to use for this part
     " if any of the ad-hoc highlighting options below are given,
     " then this serves as a base for them to modify
-    let hi = get(part, 'hi', v:none)
+    let hi = get(part, 'hi', '')
     let base = hlget(hi, v:true)->get(0, #{})
-    let adhoc = deepcopy(base)
-    " ad-hoc highlighting (creates buffer-local highlight group)
+    let adhoc = #{}
+    " ad-hoc highlighting
     " if 'hi' is also set, it is copied and these act as overrides
-    let adhoc['guifg'] = get(part, 'fg', get(adhoc, 'guifg'))
-    let adhoc['guibg'] = get(part, 'bg', get(adhoc, 'guibg'))
-    let adhoc['guisp'] = get(part, 'sp', get(adhoc, 'guisp'))
-    let adhoc['gui'] = get(part, 'gui', get(adhoc, 'gui'))
+    let adhoc['guifg'] = get(part, 'fg', get(base, 'guifg', 'NONE'))
+    let adhoc['guibg'] = get(part, 'bg', get(base, 'guibg', 'NONE'))
+    let adhoc['guisp'] = get(part, 'sp', get(base, 'guisp', 'NONE'))
+    " let adhoc['gui'] = get(part, 'gui', get(base, 'gui', 'NONE'))
 
-    if base.guifg != adhoc.guibg || base.guibg != adhoc.guibg || base.guisp != adhoc.guisp || base.gui != adhoc.gui
-      let adhocId = s:nextAdhocHighlightId()
+    if !mayhem#keysMatch(base, adhoc, ['guifg', 'guibg', 'guisp', 'gui'])
+      let name = s:nextAdhocHighlightId()
 
-      call hlset([#{name: adhocId, guifg: fg}])
-      call prop_type_add(adhocId, #{ bufnr: a:bufnr, highlight: adhocId})
-      let props += [#{col: strlen(line) + 1, length: strlen(text), id: adhocId, type: adhocId}]
+      let adhoc['name'] = name
+      call hlset([adhoc])
+      try
+        call prop_type_change(name, #{ bufnr: a:bufnr, highlight: adhoc.name})
+      catch /^Vim\%((\a\+)\)\=:E971:/
+        call prop_type_add(name, #{ bufnr: a:bufnr, highlight: adhoc.name})
+      endtry
+      let props += [#{
+            \ col: strlen(line) + 1,
+            \ length: strlen(text),
+            \ id: name,
+            \ type: name,
+            \}]
+    else
+      let name = 'synfohi' .. base.name
+      try
+        call prop_type_change(name, #{ bufnr: a:bufnr, highlight: base.name})
+      catch /^Vim\%((\a\+)\)\=:E971:/
+        call prop_type_add(name, #{ bufnr: a:bufnr, highlight: base.name})
+      endtry
+      let props += [#{
+            \ col: strlen(line) + 1,
+            \ length: strlen(text),
+            \ id: name,
+            \ type: name,
+            \}]
     endif
     let line = line .. text
   endfor
@@ -245,9 +268,11 @@ function! s:UpdateSynFoBuffer(winid)
     let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
     let [spsymbol, spcolor] = s:ForColor(get(val, 'guisp', ''))
 
-    let lineParts += [#{t: ' '}, #{t: fgsymbol, fg: fgcolor, col: 3}]
-    let lineParts += [#{t: ' '}, #{t: bgsymbol, fg: bgcolor, col: 3}]
-    let lineParts += [#{t: ' '}, #{t: spsymbol, fg: spcolor, col: 3}]
+    let lineParts += [
+          \ #{t: ' '}, #{t: fgsymbol, fg: fgcolor, col: 3},
+          \ #{t: ' '}, #{t: bgsymbol, fg: bgcolor, col: 3},
+          \ #{t: ' '}, #{t: spsymbol, fg: spcolor, col: 3},
+          \]
 
 " 􀣤 􀏃 􀣦􀂒􀃰􀃲   􁄻  
 " ⎢╶─╴wincolor╶────────────────╴𐔥ɢ-️ⲃɢ-️ꮪᴩ╶───╴ɢᴜɪ╶──────╴⎥

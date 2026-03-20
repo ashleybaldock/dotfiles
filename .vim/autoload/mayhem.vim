@@ -71,6 +71,15 @@ function! mayhem#groupby2(arrayOfDicts, key1, key2) abort
   return grouped
 endfunc
 
+function! mayhem#keysMatch(dict1, dict2, keys) abort
+  for key in a:keys
+    if !((has_key(a:dict1, key) && has_key(a:dict2, key) && a:dict1[key] == a:dict2[key]) || (!has_key(a:dict1, key) && !has_key(a:dict2, key)))
+      return v:false
+    endif
+  endfor
+  return v:true
+endfunc
+
 " show hint for files in these folders
 " most specific is used
 if !exists('g:mayhem_path_hints')

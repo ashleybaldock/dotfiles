@@ -1,9 +1,9 @@
 "
 " TypeScript Syntax Extensions
 "
-" au BufWritePost <buffer> syn on
+" :au BufWritePost <buffer> syn on
 "
-" See Also:
+" Related:
 "   $VIMRUNTIME/syntax/shared/typescriptcommon.vim
 "   $VIMRUNTIME/syntax/typescript.vim
 
@@ -75,11 +75,15 @@ hi typescriptInterfaceComma   guifg=#ff6600
 hi typescriptTypeAnnotation   guifg=#dd55dd
 hi typescriptTypeBrackets     guifg=#ee55ee
 hi typescriptTypeBracket      guifg=#ee55ee
+hi typescriptClassTypeArguments guifg=#ee55ee
+hi typescriptClassTypeParameter guifg=#ee55ee
 hi typescriptTypeReference    guifg=#77aaff
 
-hi typescriptReadonlyModifier     guifg=#aa5544 gui=italic
+hi typescriptReadonlyModifier guifg=#aa5544 gui=italic
+hi typescriptAccessibilityModifier guifg=#aaaaaa gui=italic
 hi tsKeyword guifg=#dd5522 gui=italic
 hi link typescriptReadonlyArrayKeyword tsKeyword
+hi link typescriptClassExtends tsKeyword
 " typescriptAsyncFunc
 " typescriptAsyncFuncKeyword
 " typescriptFuncKeyword
@@ -93,6 +97,8 @@ hi link typescriptObjectLabel tsKeyword
 " hi typescriptObjectLiteral
 " hi typescriptObjectType
 
+hi typescriptClassName        guifg=#ffaa00
+hi typescriptClassHeritage    guifg=#ffdd00
 
 hi link typescriptType Type
 hi clear typescriptTypeBlock
@@ -268,7 +274,6 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typeScript
 " typescriptASCII
 " typescriptAbstract
-" typescriptAccessibilityModifier
 " typescriptAmbientDeclaration
 " typescriptArrowFunc
 " typescriptArrowFuncArg
@@ -285,12 +290,9 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptCall
 
 " typescriptClassBlock
-" typescriptClassExtends
 " typescriptClassHeritage
 " typescriptClassName
 " typescriptClassStatic
-" typescriptClassTypeArguments
-" typescriptClassTypeParameter
 
 " typescriptComment
 " typescriptCommentTodo

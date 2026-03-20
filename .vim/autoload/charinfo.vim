@@ -62,8 +62,16 @@ endfunc
 "
 function! charinfo#formatForCommand(arg = v:null) abort
   let chfo = charinfo#get(a:arg)
-  return '◤️ ' .. chfo['base']['char'] .. '◢️ ' .. chfo['characterise_output']
+  return '╱ ' .. chfo['base']['char'] .. ' ╱ ' .. chfo['characterise_output']
        \->trim()
        \->split(', ')
-       \->join(' ◢◤ ') .. '╱️╱️'
+       \->join(' ╱ ') .. '╱'
+endfunc 
+
+function! charinfo#formatForColorCommand(arg = v:null) abort
+  let chfo = charinfo#get(a:arg)
+  return 'echoh CISep | echon '' ╱ '' | echoh None | echon ''' .. chfo['base']['char'] .. ''' | echoh CISep | echon '' ╱ '' | echoh None | echon ''' .. chfo['characterise_output']
+       \->trim()
+       \->split(', ')
+       \->join(''' | echoh CISep | echon '' ╱ '' | echoh None | echon ''') .. ''''
 endfunc 

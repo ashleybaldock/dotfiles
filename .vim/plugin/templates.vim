@@ -38,79 +38,57 @@ function s:InsertTemplate(filename)
   "
   "  %FILE:LC% - lowercase (FileName -> filename)
   "
-  silent! exec '%s/%FILE:LC%/' .. tolower(l:head) .. '/g'
+  silent! exec '%s/%FILE:LC%/' .. format#lowercase(l:head) .. '/g'
 
   "
   "  %FILE:SLC% - spaced lowercase ([fiNm, FiNm, Fi Nm, fi_nm, fi-nm] -> fi nm)
   "
-  silent! exec '%s/%FILE:SLC%/' .. 
-        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
-        \  {_, v -> tolower(v)})->join(' ') .. '/g'
+  silent! exec '%s/%FILE:SLC%/' .. format#spacedlowercase(l:head) .. '/g'
 
   "
   "  %FILE:UC% - UPPERCASE (FileName -> FILENAME)
   "
-  silent! exec '%s/%FILE:UC%/' .. toupper(l:head) .. '/g'
+  silent! exec '%s/%FILE:UC%/' .. format#uppercase(l:head) .. '/g'
 
   "
   "  %FILE:SUC% - SPACED UPPERCASE ([fiNm, FiNm, Fi Nm, fi_nm, fi-nm] -> FI NM)
   "
-  silent! exec '%s/%FILE:SUC%/' .. 
-        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
-        \  {_, v -> toupper(v)})->join(' ') .. '/g'
+  silent! exec '%s/%FILE:SUC%/' .. format#spaceduppercase(l:head) .. '/g'
 
   "
   "  %FILE:TC% - TitleCase (fn -> Fn, [fiNm, Fi Nm] -> FiNm)
   "
-  silent! exec '%s/%FILE:TC%/' .. 
-        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
-        \  {_, v -> substitute(v,'\(.\)\(.*\)', '\u\1\2', 'g')}
-        \)->join('') .. '/g'
+  silent! exec '%s/%FILE:TC%/' .. format#titlecase(l:head) .. '/g'
 
   "
   "  %FILE:STC% - Spaced Title Case (fn -> Fn, [fiNm, Fi Nm] -> Fi Nm)
   "
-  silent! exec '%s/%FILE:STC%/' ..
-        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
-        \  {_, v -> substitute(v,'\(.\)\(.*\)', '\u\1\2', 'g')}
-        \)->join(' ') .. '/g'
+  silent! exec '%s/%FILE:STC%/' .. format#spacedtitlecase(l:head) .. '/g'
 
   "
   "  %FILE:SC% - snake_case (fn -> fn, [fiNm, Fi Nm] -> fi_nm)
   "
-  silent! exec '%s/%FILE:SC%/' .. 
-        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
-        \  {_, v -> tolower(v)})->join('_') .. '/g'
+  silent! exec '%s/%FILE:SC%/' .. format#snakecase(l:head) .. '/g'
  
   "
   "  %FILE:SSC% - SCREAMING_SNAKE_CASE (fn -> FN, [fiNm, Fi Nm] -> FI_NM)
   "
-  silent! exec '%s/%FILE:SSC%/' .. 
-        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
-        \  {_, v -> toupper(v)})->join('_') .. '/g'
+  silent! exec '%s/%FILE:SSC%/' .. format#screamingsnakecase(l:head) .. '/g'
  
   "
   "  %FILE:KC% - kebab-case (fn -> fn, [fiNm, Fi Nm] -> fi-nm)
   "
-  silent! exec '%s/%FILE:KC%/' .. 
-        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
-        \  {_, v -> tolower(v)})->join('-') .. '/g'
+  silent! exec '%s/%FILE:KC%/' .. format#kebabcase(l:head) .. '/g'
 
   "
   "  %FILE:CC% - camelCase ([FiNm, fi nm] -> fiNm)
   "
-  silent! exec '%s/%FILE:CC%/' .. 
-        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
-        \  {i, v -> substitute(v,'\(.\)\(.*\)', i == 0 ? '\l\1\2' : '\u\1\2', 'g')}
-        \)->join('') .. '/g'
+  silent! exec '%s/%FILE:CC%/' .. format#camelcase(l:head) .. '/g'
 
   "
   "  %FILE:PC% - PascalCase ([fiNm, fi nm] -> FiNm)
   "
-  silent! exec '%s/%FILE:PC%/' .. 
-        \ split(l:head, '\([_ .-]\|\ze[A-Z]\)')->map(
-        \  {_, v -> substitute(v,'\(.\)\(.*\)', '\u\1\2', 'g')}
-        \)->join('') .. '/g'
+  silent! exec '%s/%FILE:PC%/' .. format#pascalcase(l:head) .. '/g'
 
 
   " Date And Time:

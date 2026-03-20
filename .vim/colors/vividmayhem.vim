@@ -513,6 +513,7 @@ hi HlStrike       gui=strikethrough
 hi HlInverse      gui=reverse
 hi HlStandout     gui=standout
 
+hi CISep          guifg=yqfspcf 
 
 "
 " Netrw: ../after/syntax/netrw.vim

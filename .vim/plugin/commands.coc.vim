@@ -206,6 +206,9 @@ function s:OnCocOpenFloat() abort
           \ title:'╸━ Coc: Signature ━╺',
           \ })
   elseif highlight == 'HlCocPuDiagBg'
+    " TODO - use last line of diagnostic buffer
+    "        to determine source of message, and apply
+    "        syntax highlighting accordingly
     " Coc float for diagnostic messages
     call popup_setoptions(g:coc_last_float_win, #{
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 

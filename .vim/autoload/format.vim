@@ -61,6 +61,80 @@ function! format#session(str) abort
 endfunc
 
 
+" lowercase (FileName -> filename)
+function! format#lowercase(str) abort
+  return tolower(a:str)
+endfunc
+
+" spaced lowercase ([fiNm, FiNm, Fi Nm, fi_nm, fi-nm] -> fi nm)
+function! format#spacedlowercase(str) abort
+  return split(a:str, '\([_ .-]\|\ze[A-Z]\)')
+        \->map({_, v -> tolower(v)})
+        \->join(' ')
+endfunc
+
+" UPPERCASE (FileName -> FILENAME)
+function! format#uppercase(str) abort
+  return toupper(a:str)
+endfunc
+
+" SPACED UPPERCASE ([fiNm, FiNm, Fi Nm, fi_nm, fi-nm] -> FI NM)
+function! format#spaceduppercase(str) abort
+  return split(a:str,'\([_ .-]\|\ze[A-Z]\)')->map(
+        \  {_, v -> toupper(v)})->join(' ')
+endfunc
+
+" TitleCase (fn -> Fn, [fiNm, Fi Nm] -> FiNm)
+function! format#titlecase(str) abort
+  return split(a:str, '\([_ .-]\|\ze[A-Z]\)')
+        \->map({_, v -> substitute(v,'\(.\)\(.*\)', '\u\1\2', 'g')})
+        \->join('')
+endfunc
+
+" Spaced Title Case (fn -> Fn, [fiNm, Fi Nm] -> Fi Nm)
+function! format#spacedtitlecase(str) abort
+  return split(a:str, '\([_ .-]\|\ze[A-Z]\)')
+        \->map({_, v -> substitute(v,'\(.\)\(.*\)', '\u\1\2', 'g')})
+        \->join(' ')
+endfunc
+
+" snake_case (fn -> fn, [fiNm, Fi Nm] -> fi_nm)
+function! format#snakecase(str) abort
+  return split(a:str, '\([_ .-]\|\ze[A-Z]\)')
+        \->map({_, v -> tolower(v)})
+        \->join('_')
+endfunc
+
+" SCREAMING_SNAKE_CASE (fn -> FN, [fiNm, Fi Nm] -> FI_NM)
+function! format#screamingsnakecase(str) abort
+  return split(a:str, '\([_ .-]\|\ze[A-Z]\)')
+        \->map({_, v -> toupper(v)})
+        \->join('_')
+endfunc
+
+" kebab-case (fn -> fn, [fiNm, Fi Nm] -> fi-nm)
+function! format#kebabcase(str) abort
+  return split(a:str, '\([_ .-]\|\ze[A-Z]\)')
+        \->map({_, v -> tolower(v)})
+        \->join('-')
+endfunc
+
+" camelCase ([FiNm, fi nm] -> fiNm)
+function! format#camelcase(str) abort
+  return split(a:str,  '\([_ .-]\|\ze[A-Z]\)')
+        \->map({i, v -> substitute(v,'\(.\)\(.*\)', i == 0 ? '\l\1\2' : '\u\1\2', 'g')})
+        \->join('')
+endfunc
+
+" PascalCase ([fiNm, fi nm] -> FiNm)
+function! format#pascalcase(str) abort
+  return split(a:str, '\([_ .-]\|\ze[A-Z]\)')
+        \->map({_, v -> substitute(v,'\(.\)\(.*\)', '\u\1\2', 'g')})
+        \->join('')
+endfunc
+
+
+" Used by DictToJson below
 let s:replace = {_, v -> '['..typename(v)..']'}
 let s:identity = {_, v -> v}
 let s:typemap = {

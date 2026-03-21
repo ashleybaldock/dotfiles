@@ -98,7 +98,7 @@ hi link typescriptObjectLabel tsKeyword
 " hi typescriptObjectType
 
 hi typescriptClassName        guifg=#ffaa00
-hi typescriptClassHeritage    guifg=#ffdd00
+hi typescriptClassHeritage    guifg=#ffcc00
 
 hi link typescriptType Type
 hi clear typescriptTypeBlock

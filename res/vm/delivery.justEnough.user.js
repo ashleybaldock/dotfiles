@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        justEnough(Delivery)
 // @namespace   mayhem
-// @version     1.0.154
+// @version     1.0.156
 // @description Deliver me the content, the whole content, and nothing but the content.
 // @downloadURL http://localhost:3333/vm/delivery.justEnough.user.js
 // @match       *://i.redd.it/*
@@ -391,6 +391,20 @@ const deliver = (
     const title = GM_addElement(info, 'span', {
       class: 'title',
       textContent: sourceInfo.title,
+    });
+
+    const downloadall = GM_addElement('a', {
+      class: 'downloadall',
+      download: 'all',
+      href: sourceInfo.link,
+      textContent: `All`,
+    });
+
+    const downloadselected = GM_addElement('a', {
+      class: 'downloadselected',
+      download: 'selected',
+      href: sourceInfo.link,
+      textContent: `Selected`,
     });
 
     // const triggerDownload = (src, fileame) => {

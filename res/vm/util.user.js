@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.189
+// @version     1.1.191
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -569,9 +569,18 @@ const intersectSets = (set1, set2) => {
 
 const updateImageInfo = (img) => {
   const { naturalHeight: natH, naturalWidth: natW, style } = img;
-  addRegisteredCSSProp({ name: '--natW', syntax: '<number>', initialValue: 0 });
-  addRegisteredCSSProp({ name: '--natH', syntax: '<number>', initialValue: 0 });
-  addRegisteredCSSProp({
+  const natRatio = natW / natH;
+  addRegisteredCSSProperty({
+    name: '--natW',
+    syntax: '<number>',
+    initialValue: 0,
+  });
+  addRegisteredCSSProperty({
+    name: '--natH',
+    syntax: '<number>',
+    initialValue: 0,
+  });
+  addRegisteredCSSProperty({
     name: '--natRatio',
     syntax: '<number>',
     initialValue: 1,
@@ -581,11 +590,18 @@ const updateImageInfo = (img) => {
   setRegisteredCSSProperty({
     on: img,
     name: '--natRatio',
-    value: natW / natH,
+    value: natRatio,
   });
-  style?.setProperty('--isPortrait', natW < natH);
-  style?.setProperty('--isLandscape', natW > natH);
-  style?.setProperty('--isSquareish', natW / natH < 1.1 && natW / natH > 0.9);
+  const format =
+    natRatio < 1.1 && natRatio > 0.9
+      ? 'squareish'
+      : natRatio < 1
+        ? 'portrait'
+        : 'landscape';
+  style?.setProperty('--isPortrait', format === 'portrait');
+  style?.setProperty('--isLandscape', format === 'landscape');
+  style?.setProperty('--isSquareish', format === 'squarish');
+  img.dataset.format = format;
 };
 const waitForImagesToAddInfoTo = () =>
   waitForMatches('img', {

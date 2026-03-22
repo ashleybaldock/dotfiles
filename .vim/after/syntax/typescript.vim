@@ -4,6 +4,7 @@
 " :au BufWritePost <buffer> syn on
 "
 " Related:
+"   ../../syntax/tsserver.vim
 "   $VIMRUNTIME/syntax/shared/typescriptcommon.vim
 "   $VIMRUNTIME/syntax/typescript.vim
 

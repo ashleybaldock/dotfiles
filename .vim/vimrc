@@ -95,7 +95,8 @@ set t_Co=256
 set background=dark
 set linespace=0
 set breakindent
-" set breakat= 	!@*-+;:,./?
+set breakindentopt=min:20,shift:0,sbr,list:0
+set breakat=\ \	!@*-+;:,./?
 
 " fallback for ./plugins/chars.vim
 set showbreak=\\
@@ -299,7 +300,7 @@ let g:md_fenced_languages = [
       \ 'javascript', 'typescript', 'css', 'json', 'html', 'svg',
       \ 'python', 'ps1', 'lua',
       \ 'vim', 'sh', 'bash',
-      \ 'pre', 'reg', 'ansi']
+      \ 'pre', 'reg', 'ansi', 'tsserver']
 
 "
 " Related: ./plugin/quickfix.vim

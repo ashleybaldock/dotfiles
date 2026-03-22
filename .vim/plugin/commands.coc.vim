@@ -216,6 +216,12 @@ function s:OnCocOpenFloat() abort
           \ border: [1,1,1,1],
           \ })
           " \ title:'╸━ Coc: Diagnostic ━╺',
+    let cocbuf = winbufnr(g:coc_last_float_win)
+    call setbufvar(cocbuf, "&ft", 'tsserver')
+    call setwinvar(g:coc_last_float_win, "&conceallevel", 2)
+    call setwinvar(g:coc_last_float_win, "&breakindent", 2)
+    call setbufvar(g:coc_last_float_win, "&l:wincolor", 2)
+
   elseif highlight == 'HlCocPuSugsBg'
     echom popup_getoptions(g:coc_last_float_win)
     echom popup_getpos(g:coc_last_float_win)

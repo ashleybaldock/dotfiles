@@ -290,8 +290,6 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptCall
 
 " typescriptClassBlock
-" typescriptClassHeritage
-" typescriptClassName
 " typescriptClassStatic
 
 " typescriptComment

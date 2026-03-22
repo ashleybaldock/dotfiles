@@ -275,10 +275,12 @@ hi link typescriptXHRGlobal typescriptGlobal
 " typescriptASCII
 " typescriptAbstract
 " typescriptAmbientDeclaration
+"
 " typescriptArrowFunc
 " typescriptArrowFuncArg
 " typescript󠅀A󠅀r󠅀r󠅀owF󠅚uncDef
 " typescriptArrowFuncTypeParameter
+"
 " typescriptAssertType
 " typescriptAssign
 " typescriptAsyncFor

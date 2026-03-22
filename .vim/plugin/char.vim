@@ -4,7 +4,8 @@ endif
 let g:mayhem_loaded_char = 1
 
 "
-" See: ../autoload/char.vim
+" Related:
+"     ../autoload/char.vim
 "
 
 " s/\zs\(\%#\)\ze/\=ReplaceBaseCharWith(submatch(0))/n

@@ -4,7 +4,8 @@ endif
 let g:mayhem_autoloaded_char = 1
 
 "
-" See: ../plugin/char.vim
+" Related:
+"      ../plugin/char.vim
 "
 
 "
@@ -159,18 +160,22 @@ endfunc
 " Combine character with the variation selector corresponding to number
 "
 " Notes:
-" - Only the first n (= &mco) combining characters affect the displayed charcter
-"  - However, subsequent characters can still match patterns.
-" - Order can change the output, e.g. 'a'‥'◌⃝ '‥'16' = a⃝️   'a'‥'◌⃝ '‥'16' =  a️⃝ 
+" - Only the first n (= &mco) combining characters affect the shape of the
+"   displayed glyph, but all of them can match patterns.
+" - Order can change the output, e.g. 'a'‥'◌⃝ '‥'16' = a⃝️   but  'a'‥'16'‥'◌⃝ ' =  a️⃝ 
+"  - These combinations and their result are font-dependent.
 "
-" Some variation selectors (see: g:mayhem_hi_vsels) are used for character-wise
-" highlighting. These are placed after any other combining characters.
+" Variation selectors vs17-vs255 are used for per-character highlighting
+"  (see: g:mayhem_hi_vsels). These are placed after any other combining characters.
 "
 function char#vary(str = char#fromCursor(), vsel = 16) abort
 endfunc
 
 "
-" Move the 
+" Move variation selectors that don't affect the glyph shape (vs17-vs255) to
+"  be after those that do.  The relative order of the moved selectors is preserved.
+"
+"  e.g.  'a'‥'66'‥'99'‥'◌⃝ '‥'16' =  a󠄱󠅒️⃝      'a'‥'◌⃝ '‥'16'‥'66'‥'99' =  a⃝️󠄱󠅒  
 "
 function char#sort(str = char#fromCursor(), vsel = 16) abort
 endfunc

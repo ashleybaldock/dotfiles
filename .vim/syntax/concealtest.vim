@@ -3,7 +3,7 @@ if exists("b:current_syntax")
 endif
 
 "
-" au BufWritePost <buffer> syn on
+" :au BufWritePost <buffer> syn on
 "
 " See Demo: ../notes/demo.concealtest
 "

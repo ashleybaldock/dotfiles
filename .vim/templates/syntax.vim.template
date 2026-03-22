@@ -3,11 +3,11 @@ if exists("b:current_syntax")
 endif
 
 "
-" Syntax etc. for '%FILE%' files
+" Syntax highlighting for '%FILE%' files
 "
-" au BufWritePost <buffer> syn on
+" :au BufWritePost <buffer> syn on
 "
-" See Also:
+" Related:
 "     $VIMHOME/ftplugin/%FILE:LC%.vim
 "     $VIMRUNTIME/ftplugin/%FILE:LC%.vim
 "     $VIMRUNTIME/syntax/%FILE:LC%.vim

@@ -4,7 +4,8 @@ endif
 let g:mayhem_autoloaded_charinfo = 1
 
 "
-" See: ../plugin/charinfo.vim
+" Related:
+"      ../plugin/charinfo.vim
 "      ../plugin/highlight.vim
 "              ./sfsymbols.vim
 "

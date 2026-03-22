@@ -2,13 +2,15 @@
 " Syntax rules common to multiple file types
 "  e.g. hiding fold markers
 "
-" au BufWritePost <buffer> syn on
+" :au BufWritePost <buffer> syn on
 "
 
 "
-" See also: ../../plugin/fold.vim
-"    ./vim.vim ./css.vim ./javascript.vim ./typescript.vim
-"
+" Related: ./vim.vim
+"          ./css.vim
+"          ./javascript.vim
+"          ./typescript.vim
+"      ../../plugin/fold.vim
 
 " syn match ConcealMark +{{{\d\?+ conceal contains=NONE containedin=ALL
 " syn match ConcealMark +}}}\d\?+ conceal contains=NONE containedin=ALL

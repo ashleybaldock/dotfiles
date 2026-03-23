@@ -87,3 +87,10 @@ function! diag#debugSplit() abort
   setlocal filetype=json
   setlocal nomodifiable nomodified 
 endfunc
+
+function! diag#getProviderFromBuffer(bufnr = winbufnr(g:coc_last_float_win)) abort
+  let [name,code] = getbufline(bufnr, '$', '$')
+            \->matchstrlist('(\(\S\+\) \(\d\+\))$', #{submatches: v:true})
+  return #{name: name, code: code}
+endfunc
+    

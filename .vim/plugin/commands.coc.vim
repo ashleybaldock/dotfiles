@@ -206,6 +206,9 @@ function s:OnCocOpenFloat() abort
           \ title:'╸━ Coc: Signature ━╺',
           \ })
   elseif highlight == 'HlCocPuDiagBg'
+    let cocbuf = winbufnr(g:coc_last_float_win)
+    let [name,code] = getbufline(cocbuf, '$', '$')
+            \->matchstrlist('(\(\S\+\) \(\d\+\))$', #{submatches: v:true})
     " TODO - use last line of diagnostic buffer
     "        to determine source of message, and apply
     "        syntax highlighting accordingly
@@ -214,9 +217,8 @@ function s:OnCocOpenFloat() abort
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
           \ padding: [0,1,0,1], 
           \ border: [1,1,1,1],
+          \ title:'╸━ ' .. name .. ' ' .. code .. ' ━╺',
           \ })
-          " \ title:'╸━ Coc: Diagnostic ━╺',
-    let cocbuf = winbufnr(g:coc_last_float_win)
     call setbufvar(cocbuf, "&ft", 'tsserver')
     call setwinvar(g:coc_last_float_win, "&conceallevel", 2)
     call setwinvar(g:coc_last_float_win, "&breakindent", 2)

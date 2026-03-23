@@ -125,7 +125,7 @@
     "title": "Coc Diagnostic",
     "highlight": "HlCocPuDiagBg",
     "borderhighlight": "HlCocPuDiagBd",
-    "maxWidth": 80
+    "maxWidth": 100
   },
 
   "signature.enable": true,

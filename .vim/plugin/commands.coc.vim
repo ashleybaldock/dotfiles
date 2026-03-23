@@ -205,21 +205,21 @@ function s:OnCocOpenFloat() abort
           \ border: [1,1,1,1],
           \ title:'╸━ Coc: Signature ━╺',
           \ })
+
+  " Coc float for diagnostic messages
   elseif highlight == 'HlCocPuDiagBg'
-    let cocbuf = winbufnr(g:coc_last_float_win)
-    let [name,code] = getbufline(cocbuf, '$', '$')
-            \->matchstrlist('(\(\S\+\) \(\d\+\))$', #{submatches: v:true})
-    " TODO - use last line of diagnostic buffer
-    "        to determine source of message, and apply
-    "        syntax highlighting accordingly
-    " Coc float for diagnostic messages
+    let cocbufnr = winbufnr(g:coc_last_float_win)
+    let [lspname,errcode] = getbufline(cocbufnr, '$', '$')[0]
+          \->matchlist('(\(\S\+\) \(\d\+\))$')[1:2]
+
     call popup_setoptions(g:coc_last_float_win, #{
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
           \ padding: [0,1,0,1], 
           \ border: [1,1,1,1],
-          \ title:'╸━ ' .. name .. ' ' .. code .. ' ━╺',
+          \ title:'╸━ ' .. lspname .. ' ' .. errcode .. ' ━╺',
           \ })
-    call setbufvar(cocbuf, "&ft", 'tsserver')
+
+    call setbufvar(cocbufnr, "&ft", lspname)
     call setwinvar(g:coc_last_float_win, "&conceallevel", 2)
     call setwinvar(g:coc_last_float_win, "&breakindent", 2)
     call setbufvar(g:coc_last_float_win, "&l:wincolor", 2)

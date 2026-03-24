@@ -10,9 +10,28 @@ hidutil property --set '{"UserKeyMapping":[\
   {"HIDKeyboardModifierMappingSrc":0x700000029,"HIDKeyboardModifierMappingDst":0x700000039}\
 ]}'
 
-# Swap Play/Pause (0xc00cd) with F8 (0x41)
+# Swap...
+#
+# Skip Prev. (0xc000000b4) with F7 (0x40)
+# Play/Pause (0xc000000cd) with F8 (0x41)
+# Skip Next. (0xc000000b3) with F9 (0x42)
 hidutil property --set '{"UserKeyMapping":[\
-  {"HIDKeyboardModifierMappingSrc":0x000c00cd,"HIDKeyboardModifierMappingDst": 0x700000041},\
+  {"HIDKeyboardModifierMappingSrc":0x000c00b4,"HIDKeyboardModifierMappingDst": 0x700000040},\
+  {"HIDKeyboardModifierMappingSrc":0x700000040,"HIDKeyboardModifierMappingDst": 0x000c00b4},\
+  {"HIDKeyboardModifierMappingSrc":0x000c00cd,"HIDKeyboardModifierMappingDst": 0x700000042},\
+  {"HIDKeyboardModifierMappingSrc":0x700000042,"HIDKeyboardModifierMappingDst": 0x000c00cd},\
+  {"HIDKeyboardModifierMappingSrc":0x000c00b3,"HIDKeyboardModifierMappingDst": 0x700000041},\
+  {"HIDKeyboardModifierMappingSrc":0x700000041,"HIDKeyboardModifierMappingDst": 0x000c00cd},\
+    ]}'
+# Override...
+#
+# Skip Prev. (0xc000000b4) does the same as F7 (0x40)
+# Play/Pause (0xc000000cd) does the same as F8 (0x41)
+# Skip Next. (0xc000000b3) does the same as F9 (0x42)
+hidutil property --set '{"UserKeyMapping":[\
+  {"HIDKeyboardModifierMappingSrc":0x000c00b4,"HIDKeyboardModifierMappingDst": 0x700000040},\
+  {"HIDKeyboardModifierMappingSrc":0x000c00cd,"HIDKeyboardModifierMappingDst": 0x700000042},\
+  {"HIDKeyboardModifierMappingSrc":0x000c00b3,"HIDKeyboardModifierMappingDst": 0x700000041},\
   {"HIDKeyboardModifierMappingSrc":0x700000041,"HIDKeyboardModifierMappingDst": 0x000c00cd},\
     ]}'
 
@@ -22,10 +41,10 @@ hidutil property --set '{"UserKeyMapping":[\
 #                  0x700000041
 
 
-#                          0x00000001             0x00000007
-#                          0x0000000c             0x00000007
-#                          0x000000ff             0x00000007
-#                          0x0000ff01             0x00000007
+#                          0x00000001  Generic Desktop          
+#                          0x0000000c  Consumer                                   
+#                          0x000000ff  kHIDUsage_AV_TopCas
+#                          0x0000ff01           
 #  ┌────────────────────────────────┊──────────────────────┊─────────┐
 #  │ 🔅  Screen Brightness Down  0xff00000005   􀆫|▏F1   0x70000003a │
 #  │ 🔆  Screen Brightness Up    0xff00000004   􀆭|▏F2   0x70000003b │
@@ -40,9 +59,9 @@ hidutil property --set '{"UserKeyMapping":[\
 #  │ 🔉  Volume Down              0xc000000ea   􀊤|▏F11  0x700000044 │
 #  │ 🔊  Volume Up                0xc000000e9  􀊨 |▏F12  0x700000045 │
 #  └─────────────────────────────────────────────────────────────────┘
-#        Dashboard               0xff010002        
-#        Brightness_Up           0xff010020  􀆫    
-#        Brightness_Down         0xff010021  􀆭    
+#        Dashboard                0xff010002        
+#        Brightness_Up            0xff010020  􀆫    
+#        Brightness_Down          0xff010021   􀆭    
 
 
 #                        0x00000000             0x00000007

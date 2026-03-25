@@ -17,13 +17,19 @@ to=255
 
 # "𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪️𝟫︎ᴬᴮ ᴰᴱᴀʙᴄᴅᴇ𝖠️𝖡︎𝖢𝖣𝖤𝖥𝘈𝘉𝘊𝘋𝘌𝘍𝖺𝖻𝖼𝖽𝖾𝖿 𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿𝙰𝙱𝙲𝙳𝙴𝙵 𝖠𝖡𝖢𝖣𝖤𝖥"
 
-printf "\e[48;5;250m\e[38;5;0m􀾘0  \e[0m";
-for i in {1..16} ; do
-  if (( i <= 15 )); then
+printf "\n";
+for i in {0..16} ; do
+  if (( i == 0 )); then
+    printf "\e[48;5;007m\e[38;5;%sm􀾘%d \e[0m" "$i" "$i";
+  elif (( i == 1 || i == 8 || i == 9 )); then
+    printf "\e[38;5;%sm􀾘%d \e[0m" "$i" "$i";
+  elif (( i <= 7 )); then
+    printf "\e[38;5;%sm􀾘%-2d \e[0m" "$i" "$i";
+  elif (( i <= 15 )); then
     printf "\e[38;5;%sm􀾘%-2d \e[0m" "$i" "$i";
   fi;
 
-  if (( i % 8 == 7 )); then
+  if (( i == 7 )); then
     printf "\n";
   fi;
 done
@@ -32,9 +38,6 @@ printf "\n";
 align=$(( $col - ($from % $col) ))
 grp=$(( ($to - $from) / $alt ))
 
-# for (( x = 0; x < "$align"; x++)) ; do
-#   printf "____,";
-# done
 for (( i = 0; i < "$alt"; i++)) ; do
   for (( j = 1; j <= "$grp"; j++)) ; do
     x=$(( $from + ($i * $grp) + $j ))
@@ -42,8 +45,11 @@ for (( i = 0; i < "$alt"; i++)) ; do
     if (( $x >= $from && $x <= $to )) ; then
       # printf "\e[38;5;%sm􀏄%-3d\e[0m" "$x" "$x";
       # printf "\e[38;5;%sm􁷰􀟐%-3d􀟐 \e[0m" "$x" "$x";
-      if (( $x >= 232 && $x <= 243 || $x == 16 || $x == 17 )) ; then
-        printf "\e[48;5;250m\e[38;5;%sm􀟼%03d \e[0m" "$x" "$x";
+      # if (( $x >= 16 && $x <= 33 || $x >= 52 && $x <= 69 || $x >= 88 && $x <= 105 || $x >= 124 && $x <= 141 || $x >= 160 && $x <= 177 )) ; then
+      if (( $x >= 16 && $x <= 21 || $x >= 52 && $x <= 57 || $x >= 88 && $x <= 93  || $x >= 124 && $x <= 129 )) ; then
+        printf "\e[48;5;008m\e[38;5;%sm􀟼%03d \e[0m" "$x" "$x";
+     elif (( $x >= 232 && $x <= 237 || $x >= 238 && $x <= 243 )) ; then
+        printf "\e[48;5;007m\e[38;5;%sm􀟼%03d \e[0m" "$x" "$x";
       else
         printf "\e[38;5;%sm􀟼%03d \e[0m" "$x" "$x";
       fi

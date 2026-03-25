@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.193
+// @version     1.1.194
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -611,13 +611,34 @@ const waitForImagesToAddInfoTo = () =>
     },
   });
 const imgDataTransform = (() => {
-  const inverse = (data) => {
-    for (let i = 0; i < data.length; i += 4) {
-      data[i] = 255 - data[i]; // red
-      data[i + 1] = 255 - data[i + 1]; // green
-      data[i + 2] = 255 - data[i + 2]; // blue
+  const inverse = () => (d) => {
+    for (
+      let r = 0, g = 1, b = 2, a = 3;
+      r < d.length;
+      r += 1, g += 1, b += 1, a += 1
+    ) {
+      d[r] = 255 - d[r];
+      d[g] = 255 - d[g];
+      d[b] = 255 - d[b];
     }
   };
+
+  const replace =
+    ([fr, fg, fb, fa], [tr, tg, tb, ta]) =>
+    (d) => {
+      for (
+        let r = 0, g = 1, b = 2, a = 3;
+        r < d.length;
+        r += 1, g += 1, b += 1, a += 1
+      ) {
+        if (d[r] === fr && d[g] === fg && d[b] === fb && d[a] === fa) {
+          d[r] = tr;
+          d[g] = tg;
+          d[b] = tb;
+          d[a] = ta;
+        }
+      }
+    };
 
   return ({ in: img, out: outimg, f }) => {
     const canvas = new OffscreenCanvas(img.naturalWidth, img.naturalHeight);

@@ -1,13 +1,10 @@
-if exists("b:current_syntax")
-  finish
-endif
-
 "
 " Syntax etc. for 'vsel' files
 "
 " :au BufWritePost <buffer> syn on
 "
 " Related:       ./pre.vim
+"          ../demo/pre.md
 "        ../plugin/char.vim
 "      ../autoload/char.vim
 "      ../autoload/charinfo.vim
@@ -17,57 +14,63 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 
-for n in range(17, 255)
-  exec printf("syn match vs%3d +%s+", n, nr2char(n + 0xE0100))
-endfor
+" for n in range(17, 255)
+"   exec printf("syn match vs%d +%s+", n, nr2char(i + 0xE0100 v))
+" endfor
 
-hi def vs80 guifg=#000000
-hi def vs81 guifg=#ff0000
-" hi def vs81 guifg=#ff0000
-hi def vs82 guifg=#ff8800
-hi def vs83 guifg=#ffff00
-" hi def vs83 guifg=#868600
-hi def vs84 guifg=#88ff00
-hi def vs85 guifg=#00ff00
-" hi def vs85 guifg=#00cb00
-hi def vs86 guifg=#00ff88
-hi def vs87 guifg=#00ffff
-" hi def vs87 guifg=#00abab
-hi def vs88 guifg=#0088ff
-hi def vs89 guifg=#0000ff
-" hi def vs89 guifg=#0000ff
-hi def vs90 guifg=#8800ff
-hi def vs91 guifg=#ff00ff
-" hi def vs91 guifg=#ff00ff
-hi def vs92 guifg=#ff0088
-hi def vs93 guifg=#ffffff
+exec range(17,255)
+      \->map({i, n -> printf("vs%d 𐔃%s", n, nr2char(n + 0xE0100))})
+      \->join(' , ')
+" ExecAndPut echo range(17,255)->map({i, n -> printf("vs%d 𐔃%s", n, nr2char(n + 0xE0100))})->join(' , ')
 
-hi def vs88 guifg=#222222
-hi def vs89 guifg=#880000
-hi def vs8A guifg=#808000
-hi def vs8B guifg=#008800
-hi def vs8C guifg=#008888
-hi def vs8D guifg=#000088
-hi def vs8E guifg=#880088
-hi def vs8F guifg=#777777
+hi vs80 guifg=#000000
+hi vs81 guifg=#ff0000
+"hi vs81 guifg=#ff0000
+hi vs82 guifg=#ff8800
+hi vs83 guifg=#ffff00
+"hi vs83 guifg=#868600
+hi vs84 guifg=#88ff00
+hi vs85 guifg=#00ff00
+"hi vs85 guifg=#00cb00
+hi vs86 guifg=#00ff88
+hi vs87 guifg=#00ffff
+"hi vs87 guifg=#00abab
+hi vs88 guifg=#0088ff
+hi vs89 guifg=#0000ff
+"hi vs89 guifg=#0000ff
+hi vs90 guifg=#8800ff
+hi vs91 guifg=#ff00ff
+"hi vs91 guifg=#ff00ff
+hi vs92 guifg=#ff0088
+hi vs93 guifg=#ffffff
 
-hi def vs90 guifg=#ff0088
-hi def vs91 guifg=#ff8800
-hi def vs92 guifg=#ffff44
-hi def vs93 guifg=#88ff44
-hi def vs94 guifg=#44ffff
-hi def vs95 guifg=#0088ff
-hi def vs96 guifg=#8844ff
-hi def vs97 guifg=#ff44ff
+"
+hi vs88 guifg=#222222                                   
+hi vs89 guifg=#880000
+hi vs8A guifg=#808000
+hi vs8B guifg=#008800
+hi vs8C guifg=#008888
+hi vs8D guifg=#000088
+hi vs8E guifg=#880088
+hi vs8F guifg=#777777
 
-hi def vs98 guifg=#ff6688  guibg=#ff88aa
-hi def vs99 guifg=#ff8866  guibg=#ffaa88
-hi def vs9A guifg=#ffff88  guibg=#ffffaa
-hi def vs9B guifg=#88ff88  guibg=#b9ffb9
-hi def vs9C guifg=#88ffff  guibg=#bbffff
-hi def vs9D guifg=#6688ff  guibg=#88aaff
-hi def vs9E guifg=#8866ff  guibg=#aa88ff
-hi def vs9F guifg=#ff88ff  guibg=#ffaaff
+hi vs90 guifg=#ff0088
+hi vs91 guifg=#ff8800
+hi vs92 guifg=#ffff44
+hi vs93 guifg=#88ff44
+hi vs94 guifg=#44ffff
+hi vs95 guifg=#0088ff
+hi vs96 guifg=#8844ff
+hi vs97 guifg=#ff44ff
+
+hi vs98 guifg=#ff6688  guibg=#ff88aa
+hi vs99 guifg=#ff8866  guibg=#ffaa88
+hi vs9A guifg=#ffff88  guibg=#ffffaa
+hi vs9B guifg=#88ff88  guibg=#b9ffb9
+hi vs9C guifg=#88ffff  guibg=#bbffff
+hi vs9D guifg=#6688ff  guibg=#88aaff
+hi vs9E guifg=#8866ff  guibg=#aa88ff
+hi vs9F guifg=#ff88ff  guibg=#ffaaff
 
 "#000000
 "#4400ff

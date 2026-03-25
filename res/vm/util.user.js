@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.197
+// @version     1.1.198
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -610,14 +610,24 @@ const waitForImagesToAddInfoTo = () =>
       img.addEventListener('load', () => updateImageInfo(img));
     },
   });
-const imgDataTransform = () => {
+
+/**
+ * Apply one or more per-pixel transformations to an image
+ *  using Canvas/getImageData and web workers
+ *
+ * Build a pipeline out of individual transforms, and then apply them
+ *  all in one loop through the image pixel data
+ */
+const imageDataTransformer = () => {
   const applyTransform = ({ in: img, out: outimg, f }) => {
     const canvas = new OffscreenCanvas(img.naturalWidth, img.naturalHeight);
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
 
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
     f(imageData.data);
+
     ctx.putImageData(imageData, 0, 0);
 
     canvas.convertToBlob({ type: 'image/png' }).then((blob) => {

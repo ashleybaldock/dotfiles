@@ -9,6 +9,8 @@ endif
 " :au BufWritePost <buffer> syn on
 "
 
+source <script>:p:h/vsel.vim
+
 let s:cpo_save = &cpo
 set cpo&vim
 

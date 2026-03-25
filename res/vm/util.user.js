@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.194
+// @version     1.1.195
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -620,6 +620,16 @@ const imgDataTransform = (() => {
       d[r] = 255 - d[r];
       d[g] = 255 - d[g];
       d[b] = 255 - d[b];
+    }
+  };
+
+  const opaque = () => (d) => {
+    for (
+      let r = 0, g = 1, b = 2, a = 3;
+      r < d.length;
+      r += 1, g += 1, b += 1, a += 1
+    ) {
+      d[a] = 255;
     }
   };
 

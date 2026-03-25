@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.196
+// @version     1.1.197
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -610,47 +610,8 @@ const waitForImagesToAddInfoTo = () =>
       img.addEventListener('load', () => updateImageInfo(img));
     },
   });
-const imgDataTransform = (() => {
-  const inverse = () => (d) => {
-    for (
-      let r = 0, g = 1, b = 2, a = 3;
-      r < d.length;
-      r += 1, g += 1, b += 1, a += 1
-    ) {
-      d[r] = 255 - d[r];
-      d[g] = 255 - d[g];
-      d[b] = 255 - d[b];
-    }
-  };
-
-  const opaque = () => (d) => {
-    for (
-      let r = 0, g = 1, b = 2, a = 3;
-      r < d.length;
-      r += 1, g += 1, b += 1, a += 1
-    ) {
-      d[a] = 255;
-    }
-  };
-
-  const replace =
-    ([fr, fg, fb, fa], [tr, tg, tb, ta]) =>
-    (d) => {
-      for (
-        let r = 0, g = 1, b = 2, a = 3;
-        r < d.length;
-        r += 1, g += 1, b += 1, a += 1
-      ) {
-        if (d[r] === fr && d[g] === fg && d[b] === fb && d[a] === fa) {
-          d[r] = tr;
-          d[g] = tg;
-          d[b] = tb;
-          d[a] = ta;
-        }
-      }
-    };
-
-  return ({ in: img, out: outimg, f }) => {
+const imgDataTransform = () => {
+  const applyTransform = ({ in: img, out: outimg, f }) => {
     const canvas = new OffscreenCanvas(img.naturalWidth, img.naturalHeight);
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
@@ -666,7 +627,48 @@ const imgDataTransform = (() => {
       outimg.src = URL.createObjectURL(blob);
     });
   };
-})();
+
+  return {
+    inverse: () => (d) => {
+      for (
+        let r = 0, g = 1, b = 2, a = 3;
+        r < d.length;
+        r += 1, g += 1, b += 1, a += 1
+      ) {
+        d[r] = 255 - d[r];
+        d[g] = 255 - d[g];
+        d[b] = 255 - d[b];
+      }
+    },
+
+    opaque: () => (d) => {
+      for (
+        let r = 0, g = 1, b = 2, a = 3;
+        r < d.length;
+        r += 1, g += 1, b += 1, a += 1
+      ) {
+        d[a] = 255;
+      }
+    },
+
+    replace:
+      ([fr, fg, fb, fa], [tr, tg, tb, ta]) =>
+      (d) => {
+        for (
+          let r = 0, g = 1, b = 2, a = 3;
+          r < d.length;
+          r += 1, g += 1, b += 1, a += 1
+        ) {
+          if (d[r] === fr && d[g] === fg && d[b] === fb && d[a] === fa) {
+            d[r] = tr;
+            d[g] = tg;
+            d[b] = tb;
+            d[a] = ta;
+          }
+        }
+      },
+  };
+};
 
 // const outimg = document.createElement('img');
 // document.body.append(outimg);

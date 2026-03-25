@@ -131,6 +131,14 @@
           ></feComposite>
         </filter>
 
+        <filter id="filter-monochrome" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix"
+            values="1.00 0 0 0  0 
+                    0.80 0 0 0  0  
+                    0.65 0 0 0  0 
+                      0  0 0 1  0" />
+        </filter>
+
         <filter id="filter-fillandoutline"
           x="-10%" y="-10%" width="120%" height="120%"
           filterUnits="objectBoundingBox" primitiveUnits="objectBoundingBox">

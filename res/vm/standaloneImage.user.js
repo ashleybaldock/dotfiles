@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.316
+// @version     1.2.317
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -215,7 +215,19 @@ const initStandaloneImage = ({
     class: 'viewmenu toggles',
   });
   const toggles = ((to) => ({
-    showImageDims: addToggle({
+    selecting: addToggle({
+      to,
+      class: 'tgl selecting',
+      textContent: 'selecting',
+      checked: false,
+    }),
+    showOverlayInfo: addToggle({
+      to,
+      class: 'tgl info',
+      textContent: 'overlay',
+      checked: false,
+    }),
+    showOverlayImageDimensions: addToggle({
       to,
       class: 'tgl dim',
       textContent: 'dimensions',
@@ -260,7 +272,7 @@ const initStandaloneImage = ({
   }))(viewmenu);
 
   (({ document: { body }, eventLayer, console: { log, debug } }) => {
-    const selecting = () => body.dataset.selecting !== undefined;
+    const selecting = () => qs`.tgl.selecting`;
     const dragging = () => body.dataset.dragging !== undefined;
     const selection = () => body.dataset.selection !== undefined;
     const vertical = () => body.dataset.selectingVertical !== undefined;

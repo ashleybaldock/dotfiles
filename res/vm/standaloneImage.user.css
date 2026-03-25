@@ -337,7 +337,7 @@
     box-sizing: content-box;
     --gridcolor: #1118;
     --gridlinehalfthickness: 0.5px;
-    --gridlinefadeover: 0px;
+    --gridlinefadeover: 0;
     --glt: var(--gridlinehalfthickness);
     --glt2: calc(var(--glt) * 2);
     --glf: var(--gridlinefadeover);
@@ -930,7 +930,7 @@
     --＋: 0.5px;
     --－: calc(var(--＋) * -1);
     --＝: 0;
-    --🔸: 0px #000a;
+    --🔸: 0 #000a;
     --text-outline-thin:
       var(--＋) var(--＝) var(--🔸), var(--＋) var(--＋) var(--🔸),
       var(--＝) var(--＋) var(--🔸), var(--－) var(--＋) var(--🔸),
@@ -1165,7 +1165,7 @@
         var(--color) calc(100% - var(--t)) 100%);
   }
   .output.height > output {
-    filter: drop-shadow(0.5px 0.5px 0px #000);
+    filter: drop-shadow(0.5px 0.5px 0 #000);
     position-anchor: --height;
     position: fixed;
     inset: auto anchor(left) auto auto;
@@ -1198,7 +1198,7 @@
   }
 
   .output.width > output {
-    filter: drop-shadow(0.5px 0.5px 0px #000);
+    filter: drop-shadow(0.5px 0.5px 0 #000);
     position-anchor: --width;
     position: fixed;
     inset: auto auto anchor(top) auto;
@@ -1480,7 +1480,6 @@
         inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
     border-radius: 30%;
   }
-}
 
 .selection > .handle.top::before {
   --bs-corners: , var(--bs-tl), var(--bs-tr);
@@ -1547,23 +1546,24 @@
   visibility: visible;
   box-shadow: none;
 }
-
-
-
-
-
-
-@media not print {
-  .selection > .handle::before {
-    --w: max(calc(var(--size) * 8), calc(var(--px-pixelw) * 2));
-  }
 }
+
+
+
+
+
+
 
 @property --anispeed {
   syntax: '<number>';
   inherits: false;
   initial-value: 200;
 }
+
+@media not print {
+  .selection > .handle::before {
+    --w: max(calc(var(--size) * 8), calc(var(--px-pixelw) * 2));
+  }
 .selection.ants:hover,
 .selection.ants:hover::before {
 /*   animation-play-state: paused; */
@@ -1584,17 +1584,14 @@
   transition: --anispeed 10s linear 120ms, background 200ms ease 40ms;
   transition-behavior: normal;
 }
-@media not print {
   .selection:not(:has(> :hover)):hover {
     background-color: #08f1;
   }
-}
 
-@media not print {
   .selection > .handle {
 /*     mask-clip: border-box; */
 /*     mask-image: linear-gradient(#fff 0 0); */
-    margin: 0px;
+    margin: 0;
 /*     border: 3px solid #0000; */
     box-shadow:
       0 0 4px -1px #000,
@@ -1605,7 +1602,7 @@
   .selection > .handle:hover {
     transform: scale(1);
     transform-origin: center;
-/*     box-shadow: 0 0 2px 0px #08f3; */
+/*     box-shadow: 0 0 2px 0 #08f3; */
     box-sizing: content-box;
     box-shadow:
       0 0 4px -1px #000,
@@ -1613,9 +1610,6 @@
       0 0 0.5px 30px #08f3;
 /*     background-color: #08f3; */
 /*     background-color: #0000; */
-  }
-  .selection > .handle:hover::before {
-    /*! content: none; */
   }
 }
 
@@ -1642,9 +1636,7 @@
   }
   .ants::before {
     z-index: -1;
-    content: '';
     display: flex;
-    border-radius: var(--outset);
     width: calc(anchor-size(width) - var(--linew) * 2 - var(--outset) * 2);
     height: calc(anchor-size(height) - var(--linew) * 2 - var(--outset) * 2);
     position: fixed;
@@ -1755,3 +1747,74 @@
     left: calc((var(--half) * -1) - 0.5px + var(--outset));
   }
 }
+
+
+
+
+
+
+
+
+/*!{{{1 Preview for pixeldata canvas transformations */
+@media not print {
+  .selecting {
+    pointer-events: none;
+  }
+
+body > img:nth-of-type(n+2) {
+  margin: 0;
+  top: var(--px-imtop);
+  left: var(--px-imright);
+  width: calc(var(--px-imwidth) / 5);
+  height: calc(var(--px-imheight) / 5);
+  image-rendering: pixelated;
+  anchor-name: --preview;
+  position: fixed;
+  position-anchor: --image;
+  inset: anchor(--image top) auto auto anchor(--image right);
+  --anchor-scope: --preview;
+}
+
+body > img:nth-of-type(n+3) {
+  inset: calc(anchor(--preview bottom) + var(--offset)) anchor(--preview right) auto auto;
+  anchor-name: --preview;
+  anchor-scope: unset;
+}
+
+body > img:nth-of-type(n+2) {
+  width: calc(anchor-size(--image width, var(--px-imwidth)) * var(--scale));
+  height: calc(anchor-size(--image height, var(--px-imheight)) * var(--scale));
+  anchor-name: --preview;
+  inset: anchor(--image top, var(--px-imtop)) auto auto calc(anchor(--image right, var(--px-imright)) + var(--offset));
+  --scale: 0.2;
+  --offset: 4px;
+  filter: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #fff);
+}
+
+body > img:nth-of-type(n+2) {
+  margin: 0;
+  width: calc(anchor-size(--image width, var(--px-imwidth)) * var(--scale));
+  height: calc(anchor-size(--image height, var(--px-imheight)) * var(--scale));
+  image-rendering: pixelated;
+  position: fixed;
+  anchor-name: --preview;
+  inset: anchor(--image top, var(--px-imtop)) auto auto calc(anchor(--image right, var(--px-imright)) + var(--offset));
+  --scale: 0.2;
+  --offset: 4px;
+  box-shadow: var(--bs-outline-thin-3d);
+  --bs-outline-thin-3d: 0.5px 0.5px 0 0 #000,inset 0.5px 0.5px 0 0 #fff;
+  filter: var(--filter-outline-thin-3d);
+  --filter-outline-thin-3d: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #fff);
+  --filter-outline-thin-dark: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000);
+  --filter-outline-thin-light: drop-shadow(0.2px 0 0 #fff) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff) drop-shadow(0 -0.2px 0 #fff);
+  --filter-outline-thin-lightdark: drop-shadow(0.2px 0 0 #fff) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff) drop-shadow(0 -0.2px 0 #fff) drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000);
+  --filter-outline-thin-darklight: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000) drop-shadow(0.2px 0 0 #fff) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff) drop-shadow(0 -0.2px 0 #fff);
+  --filter-outline-thin-darklightdark: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000) drop-shadow(0.2px 0 0 #fff) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff) drop-shadow(0 -0.2px 0 #fff) drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000);
+}
+body > img:nth-of-type(n+3) {
+  inset: calc(anchor(--preview bottom) + var(--offset)) anchor(--preview right) auto auto;
+  anchor-name: --preview;
+  anchor-scope: unset;
+}
+}
+/*!}}}1 END - Preview for pixeldata canvas transformations */

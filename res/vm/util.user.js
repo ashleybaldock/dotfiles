@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Utils for Userscripts
 // @namespace   mayhem
-// @version     1.1.191
+// @version     1.1.193
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -610,6 +610,36 @@ const waitForImagesToAddInfoTo = () =>
       img.addEventListener('load', () => updateImageInfo(img));
     },
   });
+const imgDataTransform = (() => {
+  const inverse = (data) => {
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = 255 - data[i]; // red
+      data[i + 1] = 255 - data[i + 1]; // green
+      data[i + 2] = 255 - data[i + 2]; // blue
+    }
+  };
+
+  return ({ in: img, out: outimg, f }) => {
+    const canvas = new OffscreenCanvas(img.naturalWidth, img.naturalHeight);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    f(imageData.data);
+    ctx.putImageData(imageData, 0, 0);
+
+    canvas.convertToBlob({ type: 'image/png' }).then((blob) => {
+      outimg.addEventListener('load', () => {
+        console.log('loaded');
+      });
+      outimg.src = URL.createObjectURL(blob);
+    });
+  };
+})();
+
+// const outimg = document.createElement('img');
+// document.body.append(outimg);
+// imgDataTransform({ in: qs`body > img`.one, out: outimg, f: inverse });
 
 /*{{{2 Media Players */
 /* Retrieve all range stats at once */

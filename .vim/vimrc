@@ -300,7 +300,7 @@ let g:md_fenced_languages = [
       \ 'javascript', 'typescript', 'css', 'json', 'html', 'svg',
       \ 'python', 'ps1', 'lua',
       \ 'vim', 'sh', 'bash',
-      \ 'pre', 'reg', 'ansi', 'tsserver']
+      \ 'pre', 'vsel', 'reg', 'ansi', 'tsserver']
 
 "
 " Related: ./plugin/quickfix.vim

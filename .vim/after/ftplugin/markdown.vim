@@ -1,7 +1,7 @@
 "
 " See Also: 
 "          ../../syntax/markdown.vim
-"       ../after/syntax/markdown.vim
+"          ../../syntax/pre.vim
 "    $VIMRUNTIME/syntax/markdown.vim
 "  ../../after/ftplugin/markdown.vim
 "

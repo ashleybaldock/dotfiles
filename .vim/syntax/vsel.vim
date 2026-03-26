@@ -1,10 +1,11 @@
 "
-" Syntax etc. for 'vsel' files
+" Syntax rules for variation selector highlighting
 "
 " :au BufWritePost <buffer> syn on
 "
 " Related:       ./pre.vim
 "          ../demo/pre.md
+"                ./markdown.vim
 "        ../plugin/char.vim
 "      ../autoload/char.vim
 "      ../autoload/charinfo.vim
@@ -13,15 +14,15 @@
 let s:cpo_save = &cpo
 set cpo&vim
 
+" Match each of the extended set of variation selectors
+for n in range(17, 255)
+  exec printf("syn match vs%d +%s+", n, nr2char(n - 17 + 0xE0100))
+endfor
 
-" for n in range(17, 255)
-"   exec printf("syn match vs%d +%s+", n, nr2char(i + 0xE0100 v))
-" endfor
-
-exec range(17,255)
-      \->map({i, n -> printf("vs%d 𐔃%s", n, nr2char(n + 0xE0100))})
-      \->join(' , ')
-" ExecAndPut echo range(17,255)->map({i, n -> printf("vs%d 𐔃%s", n, nr2char(n + 0xE0100))})->join(' , ')
+" exec range(17,255)
+"       \->map({i, n -> printf("vs%d 𐔃%s", n, nr2char(n + 0xE0100))})
+"       \->join(' , ')
+" ExecAndPut echo range(17,255)->map({_, n -> printf("%4d 𐔃%s%s", n, nr2char(n - 17 + 0xE0100), (n % 10 == 0) ? "\n" : '')})->join('')
 
 hi vs80 guifg=#000000
 hi vs81 guifg=#ff0000
@@ -45,32 +46,51 @@ hi vs92 guifg=#ff0088
 hi vs93 guifg=#ffffff
 
 "
-hi vs88 guifg=#222222                                   
-hi vs89 guifg=#880000
-hi vs8A guifg=#808000
-hi vs8B guifg=#008800
-hi vs8C guifg=#008888
-hi vs8D guifg=#000088
-hi vs8E guifg=#880088
-hi vs8F guifg=#777777
+hi vs180 guifg=#222222
+hi vs181 guifg=#880000
+hi vs183 guifg=#808000
+hi vs184 guifg=#008800
+hi vs185 guifg=#008888
+hi vs186 guifg=#000088
+hi vs188 guifg=#880088
+hi vs189 guifg=#777777
 
-hi vs90 guifg=#ff0088
-hi vs91 guifg=#ff8800
-hi vs92 guifg=#ffff44
-hi vs93 guifg=#88ff44
-hi vs94 guifg=#44ffff
-hi vs95 guifg=#0088ff
-hi vs96 guifg=#8844ff
-hi vs97 guifg=#ff44ff
+hi vs191 guifg=#ff0088
+hi vs192 guifg=#ff8800
+hi vs193 guifg=#ffff44
+hi vs194 guifg=#88ff44
+hi vs195 guifg=#44ffff
+hi vs196 guifg=#0088ff
+hi vs197 guifg=#8844ff
+hi vs198 guifg=#ff44ff
 
-hi vs98 guifg=#ff6688  guibg=#ff88aa
-hi vs99 guifg=#ff8866  guibg=#ffaa88
-hi vs9A guifg=#ffff88  guibg=#ffffaa
-hi vs9B guifg=#88ff88  guibg=#b9ffb9
-hi vs9C guifg=#88ffff  guibg=#bbffff
-hi vs9D guifg=#6688ff  guibg=#88aaff
-hi vs9E guifg=#8866ff  guibg=#aa88ff
-hi vs9F guifg=#ff88ff  guibg=#ffaaff
+hi vs211 guifg=#ff6688  guibg=#ff88aa
+hi vs212 guifg=#ff8866  guibg=#ffaa88
+hi vs213 guifg=#ffff88  guibg=#ffffaa
+hi vs214 guifg=#88ff88  guibg=#b9ffb9
+hi vs215 guifg=#88ffff  guibg=#bbffff
+hi vs216 guifg=#6688ff  guibg=#88aaff
+hi vs217 guifg=#8866ff  guibg=#aa88ff
+hi vs218 guifg=#ff88ff  guibg=#ffaaff
+
+hi def vs100 guisp=#000000 gui=underline
+
+hi def vs101 guisp=#ff0000 gui=underline
+hi def vs102 guisp=#ff8800 gui=underline
+hi def vs103 guisp=#ffff00 gui=underline
+hi def vs104 guisp=#88ff00 gui=underline
+hi def vs105 guisp=#00ff00 gui=underline
+hi def vs106 guisp=#00ff88 gui=underline
+hi def vs107 guisp=#00ffff gui=underline
+hi def vs108 guisp=#0088ff gui=underline
+hi def vs109 guisp=#0000ff gui=underline
+hi def vs110 guisp=#8800ff gui=underline
+
+hi def vs111 guisp=#ff00ff gui=underline
+hi def vs112 guisp=#ff0088 gui=underline
+hi def vs113 guisp=#ffffff gui=underline
+hi def vs114 guisp=#8844ff gui=underline
+hi def vs115 guisp=#ff44ff gui=underline
 
 "#000000
 "#4400ff
@@ -126,76 +146,6 @@ hi vs9F guifg=#ff88ff  guibg=#ffaaff
 " hi def Tag99 guifg=#888888
 " hi def Tag9A guifg=#ffffff
 
-hi def vs100 guisp=#000000 gui=underline
-hi def vs101 guisp=#ff0000 gui=underline
-hi def vs102 guisp=#ff8800 gui=underline
-hi def vs103 guisp=#ffff00 gui=underline
-hi def vs104 guisp=#88ff00 gui=underline
-hi def vs105 guisp=#00ff00 gui=underline
-hi def vs106 guisp=#00ff88 gui=underline
-hi def vs107 guisp=#00ffff gui=underline
-hi def vs108 guisp=#0088ff gui=underline
-hi def vs109 guisp=#0000ff gui=underline
-hi def vs110 guisp=#8800ff gui=underline
-hi def vs111 guisp=#ff00ff gui=underline
-hi def vs112 guisp=#ff0088 gui=underline
-hi def vs113 guisp=#ffffff gui=underline
-hi def vs114 guisp=#8844ff gui=underline
-hi def vs115 guisp=#ff44ff gui=underline
-
-
-
-
-" syn match vs80 +󠄿+
-" syn match vs81 +󠅀+
-" syn match vs82 +󠅁+
-" syn match vs83 +󠅂+
-" syn match vs84 +󠅃+
-" syn match vs85 +󠅄+
-" syn match vs86 +󠅅+
-" syn match vs87 +󠅆+
-" syn match vs88 +󠅇+
-" syn match vs89 +󠅈+
-" syn match vs8A +󠅉+
-" syn match vs8B +󠅊+
-" syn match vs8C +󠅋+
-" syn match vs8D +󠅌+
-" syn match vs8E +󠅍+
-" syn match vs8F +󠅎+
-
-" syn match vs90 +󠅏+
-" syn match vs91 +󠅐+
-" syn match vs92 +󠅑+
-" syn match vs93 +󠅒+
-" syn match vs94 +󠅓+
-" syn match vs95 +󠅔+
-" syn match vs96 +󠅕+
-" syn match vs97 +󠅖+
-" syn match vs98 +󠅗+
-" syn match vs99 +󠅘+
-" syn match vs9A +󠅙+
-" syn match vs9B +󠅚+
-" syn match vs9C +󠅛+
-" syn match vs9D +󠅜+
-" syn match vs9E +󠅝+
-" syn match vs9F +󠅞+
-
-" syn match vsA0 +󠅠+
-" syn match vsA1 +󠅡+
-" syn match vsA2 +󠅢+
-" syn match vsA3 +󠅣+
-" syn match vsA4 +󠅤+
-" syn match vsA5 +󠅥+
-" syn match vsA6 +󠅦+
-" syn match vsA7 +󠅧+
-" syn match vsA8 +󠅨+
-" syn match vsA9 +󠅩+
-" syn match vsAA +󠅪+
-" syn match vsAB +󠅫+
-" syn match vsAC +󠅬+
-" syn match vsAD +󠅭+
-" syn match vsAE +󠅮+
-" syn match vsAF +󠅯+
 
 let &cpo = s:cpo_save
 unlet s:cpo_save

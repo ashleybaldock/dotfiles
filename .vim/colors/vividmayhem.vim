@@ -471,6 +471,7 @@ hi Delimiter      guifg=#33aa00 guibg=NONE    gui=none
 hi link Debug	         Special
 
 hi Underlined     guifg=#80a0ff gui=underline 
+hi link Hyperlink Underlined
 
 hi Regexp         guifg=#44b4cc guibg=NONE    gui=none
 
@@ -630,7 +631,7 @@ hi link CocUnderline HlUnderline
 hi link CocStrikeThrough HlStrike
 hi link CocMarkdownCode  HlMkDnCode
 hi link CocMarkdownHeader HlMkDnHeader
-hi link CocMarkdownLink  HlMkDnLink
+hi link CocMarkdownLink  Hyperlink
 
 " hi link CocSymbolDefault  hl-MoreMsg
 " hi link CocSymbolFile

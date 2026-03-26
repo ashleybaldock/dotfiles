@@ -1,16 +1,17 @@
 // ==UserScript==
-// @name        Utils for Userscripts
-// @namespace   mayhem
-// @version     1.1.198
-// @author      flowsINtomAyHeM
-// @downloadURL http://localhost:3333/vm/util.user.js
+// @name          Utils for Userscripts
+// @namespace     mayhem
+// @version       1.1.200
+// @author        flowsINtomAyHeM
+// @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
-// @grant       GM_addStyle
-// @grant       GM_registerMenuCommand
-// @grant       GM_getValue
-// @grant       GM_setValue
-// @grant       GM_addValueChangeListener
-// @description For the avoidance of the perils of copypasta coding.
+// @grant         GM_addStyle
+// @grant         GM_registerMenuCommand
+// @grant         GM_getValue
+// @grant         GM_setValue
+// @grant         GM_addValueChangeListener
+// @require       http://localhost:3333/vm/svg.js
+// @description   For the avoidance of the perils of copypasta coding.
 // ==/UserScript==
 
 /*
@@ -639,6 +640,14 @@ const imageDataTransformer = () => {
   };
 
   return {
+    vectorise: () => (d) => {
+      const shades = new Map();
+      for (
+        let r = 0, g = 1, b = 2, a = 3;
+        r < d.length;
+        r += 1, g += 1, b += 1, a += 1
+      ) {}
+    },
     inverse: () => (d) => {
       for (
         let r = 0, g = 1, b = 2, a = 3;

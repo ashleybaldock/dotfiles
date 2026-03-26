@@ -1,3 +1,7 @@
+if exists("b:current_syntax")
+  finish
+endif
+
 "
 " Markdown syntax++
 "
@@ -10,10 +14,6 @@
 " Test Doc:
 "          ../demo/markdown.md
 "
-
-if exists("b:current_syntax")
-  finish
-endif
 
 if !exists('main_syntax')
   let main_syntax = 'markdown'
@@ -432,19 +432,19 @@ silent call prop_type_add('hr', #{
       \ highlight: 'Delimiter',
       \ combine: v:false,
       \ })
-call prop_add(21, 0, #{
+call prop_add(1, 0, #{
       \ type: 'p',
       \ text: '¶',
       \ text_align: 'after',
       \ text_padding_left: 0,
       \ })
-call prop_add(5, 0, #{
+call prop_add(2, 0, #{
       \ type: 'p',
       \ text: '╺━━━━━━━━━━━━━━━━━━━━━━━╸',
       \ text_align: 'after',
       \ text_padding_left: 0,
       \ })
-call prop_add(17, 0, #{
+call prop_add(3, 0, #{
       \ type: 'p',
       \ text: '╺━━━━━━━━━━━━━━━━━━━━━━━╸',
       \ text_align: 'after',

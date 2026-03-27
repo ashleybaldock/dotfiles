@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.317
+// @version     1.2.318
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -245,6 +245,12 @@ const initStandaloneImage = ({
       textContent: 'grid',
       checked: isTiny,
     }),
+    pixelDetect: addToggle({
+      to,
+      class: 'tgl pxsize',
+      textContent: 'px size',
+      checked: isTiny,
+    }),
     lightDark: addToggle({
       to,
       class: 'tgl sun',
@@ -256,6 +262,12 @@ const initStandaloneImage = ({
       class: 'tgl tch',
       textContent: 'hatch',
       checked: false,
+    }),
+    detectbg: addToggle({
+      to,
+      class: 'tgl detbg',
+      textContent: 'bg−−',
+      checked: tiny,
     }),
     outline: addToggle({
       to,

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.200
+// @version       1.1.201
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -640,6 +640,17 @@ const imageDataTransformer = () => {
   };
 
   return {
+    /* TODO pixel scaling
+     *  - to produce a set of sprites at different resolutions
+     *  - downscale to 1px per px (detect true pixel size)
+     *   */
+
+    /* TODO generate sheet of permutations by overlaying multiple sprites */
+
+    /* TODO downsample colour palette to reduce SVG size */
+
+    /* TODO SVG path editing, split/join/scale/translate/etc. */
+    /* TODO finish pixel to svg conversion */
     vectorise: () => (d) => {
       const shades = new Map();
       for (
@@ -648,6 +659,7 @@ const imageDataTransformer = () => {
         r += 1, g += 1, b += 1, a += 1
       ) {}
     },
+    /* TODO detect & remove background color */
     inverse: () => (d) => {
       for (
         let r = 0, g = 1, b = 2, a = 3;
@@ -659,6 +671,7 @@ const imageDataTransformer = () => {
         d[b] = 255 - d[b];
       }
     },
+    /* TODO remove opacity by overlaying onto solid background */
 
     opaque: () => (d) => {
       for (

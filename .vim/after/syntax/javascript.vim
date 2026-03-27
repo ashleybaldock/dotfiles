@@ -28,7 +28,7 @@ syn match jsUserPre3 +/+ contained conceal cchar=  contains=NONE
 syn match jsUserPre2 +/+ contained conceal cchar=⸱ contains=NONE
       \ nextgroup=jsUserKey skipwhite
 syn match jsUserPre +^/\ze/ +    contained conceal cchar=⎟ nextgroup=jsUserPre2
-syn match jsUserPre +^/\ze/ ==+  contained conceal cchar=Ⳡ nextgroup=jsUserPre3
+syn match jsUserPre +^/\ze/ ==+  contained conceal cchar=⎞ nextgroup=jsUserPre3
 syn match jsUserPre +^/\ze/ ==/+ contained conceal cchar=⎠ nextgroup=jsUserPre3
 
 syn match jsURL +https\?://\w*:\d*\%(/\w\+\)/*\S*+ contained contains=NONE

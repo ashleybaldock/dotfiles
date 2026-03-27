@@ -5,6 +5,10 @@ The type 'readonly ["ADD_TRIGGER", "ADD_TIMER", "ADD_DEATH_TRIGGER"]' is 'readon
 ```
 
 ```tsserver
+Object literal may only specify known properties, but 'cursor7' does not exist in type 'EditMode'. Did you mean to write 'cursor'? (tsserver 2561)
+```
+
+```tsserver
 Argument of type 'ActionId' is not assignable to parameter of type '"addtrigger" | "greek" | "divideby" | "random" | "kantele" | "ocarina" | "spark" | "bombs" | "plasma" | "tele" | "saws" | "heal" | "spitter" | "hole" | "arrows" | "mist" | "nature" | ... 49 more ... | "explodemod"'.
 Type '"ADD_TRIGGER"' is not assignable to type '"addtrigger" | "greek" | "divideby" | "random" | "kantele" | "ocarina" | "spark" | "bombs" | "plasma" | "tele" | "saws" | "heal" | "spitter" | "hole" | "arrows" | "mist" | "nature" | ... 49 more ... | "explodemod"'. Did you mean '"addtrigger"'? (tsserver 2345)
 ```

@@ -1,21 +1,24 @@
-import styled from 'styled-components';
+import styled, {type DataAttributes} from 'styled-components';
 import type { CSSProperties, PropsWithChildren } from 'react';
 
-const StyledDiv = styled.div`
-  display: flex;
-`;
-
-export const %FILE% = ({
+export const _%FILE% = ({
   children,
   style,
   className,
+  dataName = "%FILE%",
 }: {
   style?: CSSProperties;
   className?: string;
+  dataName?: string;
 } & PropsWithChildren) => {
   return (
-    <StyledDiv style={style} className={className} data-name={'%FILE%'}>
+    <div style={style} className={className} data-name={dataName}>
       {children}
     </StyledDiv>
   );
 };
+
+const %FILE% = styled(_%FILE%)`
+  display: flex;
+`;
+

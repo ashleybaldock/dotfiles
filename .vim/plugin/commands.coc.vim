@@ -209,7 +209,8 @@ function s:OnCocOpenFloat() abort
   " Coc float for diagnostic messages
   elseif highlight == 'HlCocPuDiagBg'
     let cocbufnr = winbufnr(g:coc_last_float_win)
-    let [lspname,errcode] = getbufline(cocbufnr, '$', '$')[0]
+    let [lspname, errcode; rest] = getbufline(cocbufnr, '$', '$')
+          \->get(0, '(unknown none)')
           \->matchlist('(\(\S\+\) \(\d\+\))$')[1:2]
 
     call popup_setoptions(g:coc_last_float_win, #{

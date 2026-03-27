@@ -65,6 +65,8 @@ syn region tssCiteType keepend
 syn region tssCiteProp keepend
       \ matchgroup=Conceal
       \ start=+\%([Pp]roperty \)\@9<='+
+      \ start=+\%(Object literal may only specify known properties, but \)\@54<='+
+      \ start=+\%(Did you mean to write \)\@22<='+
       \ end=+'+
       \ concealends
       \ contains=tssStrLitType,tssUnion,tssUnAbrv
@@ -82,6 +84,8 @@ syn match tssAbrv /\[\@1<=\zs\.\.\.\ze]/ contained contains=tssDot
 syn match tssAbrv /<\@1<=\zs\.\.\.\ze>/ contained contains=tssDot
 syn match tssReadonly /'\@<=readonly\ze'/ contains=NONE
 
+syn match tssServer /(\%(\S\+\) \%(\d\+\))$/ contains=NONE
+
 hi link tssCiteType typescriptTypeReference
 hi link tssUserType typescriptTypeReference
 
@@ -98,6 +102,8 @@ hi link tssUnAbrvCount Number
 hi link tssUnAbrvEllip Conceal
 hi link tssAbrv Conceal
 hi link tssReadonly typescriptReadonlyArrayKeyword 
+
+hi link tssServer CommentSubtle
 
 hi WinDiag guifg=#bbbb88 guibg=#1f0505
 

@@ -112,7 +112,7 @@
   },
 
   "diagnostic.checkCurrentLine": false,
-  "diagnostic.enableSign": true,
+  "diagnostic.enableSign": false,
   "diagnostic.signLevel": "hint",
   "diagnostic.signPriority": 4,
   "diagnostic.errorSign": "􀆌",

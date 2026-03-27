@@ -604,13 +604,12 @@
     --color: #888;
     --endlength: 0.5lh;
     --thickness: 2px;
-    --prefix: 'viewport:\0a ';
+    --prefix: 'viewport:';
     --value: var(--clientw);
     --suffix: '×';
     --value2: var(--clienth);
     --suffix2: 'px';
-    top: 4px;
-    left: 4px;
+    inset: 4px 4px auto auto;
   }
   :root:has(.tgl.dim :checked) :where(.output.client-size) {
     visibility: visible;

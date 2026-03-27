@@ -63,6 +63,9 @@ let s:types_diag = #{
       \  }),
       \ }
 
+function! signs#placeDiagScrollHints() abort
+  let summary = diag#summarise()
+endfunc
 
 function! signs#diagnosticsPlaceProps() abort
   call foreach(diag#cachedByFile(),

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.201
+// @version       1.1.202
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -644,6 +644,16 @@ const imageDataTransformer = () => {
      *  - to produce a set of sprites at different resolutions
      *  - downscale to 1px per px (detect true pixel size)
      *   */
+    /**
+     * For images scaled up using nearest neighbour, detect the number of
+     * pixels that make up each pixel of the original
+     *
+     * 1. Compare each pixel with the next, keep track of the shortest run
+     * 2. Compare each line with the previous one, keep a count of the number of
+     *    lines in each run
+     * 2.
+     */
+    detectpixels: () => (d) => {},
 
     /* TODO generate sheet of permutations by overlaying multiple sprites */
 

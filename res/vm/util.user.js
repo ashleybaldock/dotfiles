@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.202
+// @version       1.1.203
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -651,7 +651,8 @@ const imageDataTransformer = () => {
      * 1. Compare each pixel with the next, keep track of the shortest run
      * 2. Compare each line with the previous one, keep a count of the number of
      *    lines in each run
-     * 2.
+     * 2. If either count gets to 1, can abort early
+     * 3. Otherwise, scan whole image or have confidence threshold
      */
     detectpixels: () => (d) => {},
 

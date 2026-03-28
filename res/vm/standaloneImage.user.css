@@ -610,6 +610,9 @@
     --value2: var(--clienth);
     --suffix2: 'px';
     inset: 4px 4px auto auto;
+    anchor-name: --anchor-right-overlay-stack;
+    position-anchor: --anchor-viewport;
+    position-scope: --anchor-right-overlay-stack;
   }
   :root:has(.tgl.dim :checked) :where(.output.client-size) {
     visibility: visible;
@@ -884,13 +887,13 @@
   }
   
   .tgl.grd {
-    position-anchor: --tgl-pix;
+    position-anchor: --anchor-tgl-pix;
     position: absolute;
     inset: anchor(top) auto auto anchor(right);
     /*! margin: 0 0 0 1ch; */
   }
   .tgl.pix {
-    anchor-name: --tgl-pix;
+    anchor-name: --anchor-tgl-pix;
   }
   .tgl.grd > label {
     margin-left: 1ch;
@@ -1058,15 +1061,15 @@
   .output:where(
       .imtopleft,
       .imbottomright,
-      .imdisplaywh,
-      .imalignedwh,
-      .pixelwh,
       .imtop,
       .imright,
       .imbottom,
       .imleft,
       .imdisplayh,
       .imdisplayw
+      .imdisplaywh,
+      .imalignedwh,
+      .pixelwh,
     ) {
     font-size: 0.6rem;
     letter-spacing: 0.05ch;
@@ -1074,12 +1077,33 @@
     line-height: normal;
     visibility: visible;
   }
+  .output:where(
+      .imdisplayh,
+      .imdisplayw
+      .imdisplaywh,
+      .imalignedwh,
+      .pixelwh,
+    ) {
+      position-anchor: --anchor-right-overlay-stack;
+      position-scope: --anchor-right-overlay-stack;
+    }
+  .output:where(
+      .imtopleft,
+      .imbottomright,
+      .imtop,
+      .imright,
+      .imbottom,
+      .imleft,
+    ) {
+      position-anchor: --anchor-image;
+      position: fixed;
+    }
   .output.imdisplaywh {
     --value: var(--imfittedw);
     --value2: var(--imfittedh);
-    --prefix: 'imfittedw: ';
+    --prefix: 'fitted w: ';
     --suffix: ' ';
-    --prefix2: 'imfittedh: ';
+    --prefix2: 'h: ';
     --suffix2: '';
     top: 0;
     left: 70px;
@@ -1087,9 +1111,9 @@
   .output.imalignedwh {
     --value: var(--imalignedw);
     --value2: var(--imalignedh);
-    --prefix: 'imalignedw: ';
+    --prefix: 'aligned w: ';
     --suffix: ' ';
-    --prefix2: 'imalignedh: ';
+    --prefix2: 'h: ';
     --suffix2: '';
     top: 20px;
     left: 70px;
@@ -1097,9 +1121,9 @@
   .output.pixelwh {
     --value: var(--pixelw);
     --value2: var(--pixelh);
-    --prefix: 'pixelw: ';
+    --prefix: 'pixels/pixel w: ';
     --suffix: ' ';
-    --prefix2: 'pixelh: ';
+    --prefix2: 'h: ';
     --suffix2: '';
     top: 40px;
     left: 70px;
@@ -1111,38 +1135,36 @@
     --suffix: '\0a';
     --prefix2: 'imleft: ';
     --suffix2: '';
-    top: var(--px-imtop);
-    left: var(--px-imleft);
+    inset: anchor(top, var(--px-imtop)) auto auto anchor(left, var(--px-imleft));
     text-align: left;
     line-height: normal;
   }
   .output.imbottomright {
     --value: var(--imbottom);
     --value2: var(--imright);
-    --prefix: 'imbottom: ';
-    --suffix: '\0a';
-    --prefix2: 'imright: ';
-    --suffix2: '';
-    top: var(--px-imbottom);
-    left: var(--px-imright);
-    transform: translate(-100%, -100%);
+    --prefix2: '';
+    --prefix: '(';
+    --suffix: ',';
+    --suffix2: ')';
+    inset: anchor(bottom, var(--px-imbottom)) auto anchor(bottom, var(--px-imbottom)) calc(anchor(right, var(--px-imright)) - var(--pixelw) * 0.5px);
   }
-
-  .output.width {
-    inset: calc(var(--px-imtop) - 1lh - var(--endlength)) auto auto var(--px-imleft);
-    width: var(--px-imwidth);
-  }
-  .output.height {
-    inset: var(--px-imtop) right var(--px-imright) auto auto;
-    height: var(--px-imheight);
+  .output.imbottomright > output::after {
+    border-radius: 0;
+    padding: 0 0 0 calc(var(--pixelw) * 1px);
+    background-position: left center;
+    background-size: calc(var(--pixelw) * 1px) calc(var(--pixelh) * 1px);
+    --t: 1px;
+    background-image: linear-gradient(0deg, #0000 0 calc(50% - var(--t) * 0.5), var(--color) calc(50% - var(--t) * 0.5) calc(50% + var(--t) * 0.5), #0000 calc(50% + var(--t) * 0.5) 100%), linear-gradient(90deg, #0000 0 calc(var(--x) * 0.5 - var(--t) * 0.5), var(--color) calc(var(--x) * 0.5 - var(--t) * 0.5) calc(var(--x) * 0.5 + var(--t) * 0.5), #0000 calc(var(--x) * 0.5 + var(--t) * 0.5) 100%);
+    --color: #eee;
+    --endlength: calc(var(--pixelw) * 1px);
+    --x: calc(var(--pixelw) * 1px);
+    background-repeat: no-repeat;
   }
 
   body > img {
-    anchor-name: --image;
+    anchor-name: --anchor-image;
   }
   .output.height {
-    position-anchor: --image;
-    anchor-name: --height;
     inset: anchor(top) calc(anchor(left) + 2ch) anchor(bottom) auto;
     padding: 0;
     height: anchor-size(height);
@@ -1173,7 +1195,7 @@
   }
 
   .output.width {
-    position-anchor: --image;
+    position-anchor: --anchor-image;
     anchor-name: --width;
     inset: auto anchor(right) calc(anchor(top) + 2ch) anchor(left);
     padding: 0;
@@ -1767,24 +1789,24 @@ body > img:nth-of-type(n+2) {
   width: calc(var(--px-imwidth) / 5);
   height: calc(var(--px-imheight) / 5);
   image-rendering: pixelated;
-  anchor-name: --preview;
+  anchor-name: --anchor-preview;
   position: fixed;
-  position-anchor: --image;
-  inset: anchor(--image top) auto auto anchor(--image right);
-  --anchor-scope: --preview;
+  position-anchor: --anchor-image;
+  inset: anchor(--anchor-image top) auto auto anchor(--anchor-image right);
+  --anchor-scope: --anchor-preview;
 }
 
 body > img:nth-of-type(n+3) {
-  inset: calc(anchor(--preview bottom) + var(--offset)) anchor(--preview right) auto auto;
-  anchor-name: --preview;
+  inset: calc(anchor(--anchor-preview bottom) + var(--offset)) anchor(--anchor-preview right) auto auto;
+  anchor-name: --anchor-preview;
   anchor-scope: unset;
 }
 
 body > img:nth-of-type(n+2) {
-  width: calc(anchor-size(--image width, var(--px-imwidth)) * var(--scale));
-  height: calc(anchor-size(--image height, var(--px-imheight)) * var(--scale));
-  anchor-name: --preview;
-  inset: anchor(--image top, var(--px-imtop)) auto auto calc(anchor(--image right, var(--px-imright)) + var(--offset));
+  width: calc(anchor-size(--anchor-image width, var(--px-imwidth)) * var(--scale));
+  height: calc(anchor-size(--anchor-image height, var(--px-imheight)) * var(--scale));
+  anchor-name: --anchor-preview;
+  inset: anchor(--anchor-image top, var(--px-imtop)) auto auto calc(anchor(--anchor-image right, var(--px-imright)) + var(--offset));
   --scale: 0.2;
   --offset: 4px;
   filter: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #fff);
@@ -1792,12 +1814,12 @@ body > img:nth-of-type(n+2) {
 
 body > img:nth-of-type(n+2) {
   margin: 0;
-  width: calc(anchor-size(--image width, var(--px-imwidth)) * var(--scale));
-  height: calc(anchor-size(--image height, var(--px-imheight)) * var(--scale));
+  width: calc(anchor-size(--anchor-image width, var(--px-imwidth)) * var(--scale));
+  height: calc(anchor-size(--anchor-image height, var(--px-imheight)) * var(--scale));
   image-rendering: pixelated;
   position: fixed;
-  anchor-name: --preview;
-  inset: anchor(--image top, var(--px-imtop)) auto auto calc(anchor(--image right, var(--px-imright)) + var(--offset));
+  anchor-name: --anchor-preview;
+  inset: anchor(--anchor-image top, var(--px-imtop)) auto auto calc(anchor(--anchor-image right, var(--px-imright)) + var(--offset));
   --scale: 0.2;
   --offset: 4px;
   box-shadow: var(--bs-outline-thin-3d);
@@ -1811,8 +1833,8 @@ body > img:nth-of-type(n+2) {
   --filter-outline-thin-darklightdark: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000) drop-shadow(0.2px 0 0 #fff) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff) drop-shadow(0 -0.2px 0 #fff) drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000);
 }
 body > img:nth-of-type(n+3) {
-  inset: calc(anchor(--preview bottom) + var(--offset)) anchor(--preview right) auto auto;
-  anchor-name: --preview;
+  inset: calc(anchor(--anchor-preview bottom) + var(--offset)) anchor(--anchor-preview right) auto auto;
+  anchor-name: --anchor-preview;
   anchor-scope: unset;
 }
 }

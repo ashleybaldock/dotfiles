@@ -24,6 +24,11 @@ function! signs#groupList(group = s:group, bufnr = bufnr()) abort
 endfunc
 
 
+function! signs#re() abort
+  for [name, sign] in items(s:types_diag)
+    call prop_type_delete(name
+  endfor
+
 " echo prop_type_add('test1', {'bufnr': bufnr(), 'highlight': 'TestHint1', 'priority': 1, 'combine': 0, 'override': 0 }
       \  bufnr,
       \  highlight: 'ErrorHint',
@@ -62,6 +67,8 @@ let s:types_diag = #{
       \  end_incl: v:false,
       \  }),
       \ }
+endfor
+endfunc
 
 function! signs#placeDiagScrollHints() abort
   let summary = diag#summarise()

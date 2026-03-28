@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.318
+// @version     1.2.319
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -217,8 +217,8 @@ const initStandaloneImage = ({
   const toggles = ((to) => ({
     selecting: addToggle({
       to,
-      class: 'tgl selecting',
-      textContent: 'selecting',
+      class: 'tgl select',
+      textContent: 'select',
       checked: false,
     }),
     showOverlayInfo: addToggle({

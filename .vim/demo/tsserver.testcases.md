@@ -28,3 +28,8 @@ No overload matches this call.
       Type '["id", FieldInfo<Spell, ActionId> | undefined] | ["deck_index", FieldInfo<Spell, number | undefined> | undefined] | ... 29 more ... | undefined' is not assignable to type 'readonly ["id" | "deck_index" | "permanently_attached" | "always_cast_index" | "beta" | "name" | "description" | "sprite" | "action" | "type" | "custom_xml_file" | "related_projectiles" | ... 18 more ... | "inventoryitem_id", InfoFor<...>]'.
         Type 'undefined' is not assignable to type 'readonly ["id" | "deck_index" | "permanently_attached" | "always_cast_index" | "beta" | "name" | "description" | "sprite" | "action" | "type" | "custom_xml_file" | "related_projectiles" | ... 18 more ... | "inventoryitem_id", InfoFor<...>]'. (tsserver 2769)
 ```
+
+
+```tsserver
+Type '{ dont_draw_actions: true; }' is missing the following properties from type 'ActionCall': _typeName, sequenceId, spell, source, currentMana (tsserver 2739)
+```

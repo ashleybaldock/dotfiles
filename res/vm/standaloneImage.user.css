@@ -1839,3 +1839,100 @@ body > img:nth-of-type(n+3) {
 }
 }
 /*!}}}1 END - Preview for pixeldata canvas transformations */
+
+
+
+
+
+/*!{{{1 Hatched background pixel alignment */
+/*! Number of image pixels used for each scaled image pixel */
+@property --imgpx-per-scaledpx {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+/*! If image pixels are scaled but not aligned with the border... */
+/*! ...this is the horizontal offset to adjust by*/
+@property --scaledpx-offset-x {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+/*! ...this is the vertical offset to adjust by*/
+@property --scaledpx-offset-y {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+/*! Number of client pixels used for each image pixel */
+@property --clientpx-per-imgpx {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+/*! Number of client pixels used for each scaled image pixel */
+@property --clientpx-per-scaledpx {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+@media not print {
+  :root {
+    --imgpx-per-scaledpx: 4;
+    --scaledpx-offset-x: 0;
+    --scaledpx-offset-y: 3;
+    --clientpx-per-imgpx: var(--pixelw);
+    --clientpx-per-scaledpx: calc(var(--imgpx-per-scaledpx) * var(--clientpx-per-imgpx));
+  }
+  img.transparent {
+    color: #222;
+/*     background: hsl(0, 0%, 90%) url("chrome://global/skin/media/imagedoc-lightnoise.png"); */
+  }
+  
+  :root:not(:has(.tgl.sun :checked)) img.transparent {
+    background: #0002;
+    box-shadow: inset 0 0 3px -1px #000a, 0 0 4px -3px #fffa;
+  }
+  :root:has(.tgl.sun :checked) img.transparent {
+    background: #78787822;
+    box-shadow: inset 0 0 2px -1px #fff8, 0 0 2px -1px #000a;
+  }
+  :root:has(.tgl.tch :checked) {
+    background-image:
+      repeating-conic-gradient(var(--color-hatch1) 0 90deg, var(--color-hatch2) 90deg 180deg );
+    background-repeat: repeat;
+  }
+  :root:has(.tgl.tch :checked):not(:has(.tgl.sun :checked)):not(:has(.tgl.pix :checked)) img.transparent {
+    --color-hatch1: #686868;
+    --color-hatch2: #787878;
+  }
+  :root:has(.tgl.tch :checked):has(.tgl.sun :checked):not(:has(.tgl.pix :checked)) img.transparent {
+    --color-hatch1: #686868;
+    --color-hatch2: #787878;
+    --bg-grid-size: clamp(round(nearest, 10px, 1%), round(nearest, 2vmax, 1%), round(nearest, 40px, 1%));
+    background-size: var(--bg-grid-size) var(--bg-grid-size);
+    background-position: 
+      top calc(var(--scaledpx-offset-y) * var(--clientpx-per-imgpx) * 1px)
+      left calc(var(--scaledpx-offset-x) * var(--clientpx-per-imgpx) * 1px);
+    border: 0;
+    padding: 0;
+  }
+  :root:has(.tgl.tch :checked):not(:has(.tgl.sun :checked)):has(.tgl.pix :checked) img.transparent {
+    --color-hatch1: #686868;
+    --color-hatch2: #787878;
+  }
+  :root:has(.tgl.tch :checked):has(.tgl.sun :checked):has(.tgl.pix :checked) img.transparent {
+    --color-hatch1: #686868;
+    --color-hatch2: #787878;
+    background-size:
+      calc(var(--clientpx-per-scaledpx) * 2px)
+      calc(var(--clientpx-per-scaledpx) * 2px);
+    background-repeat: repeat;
+    background-position: 
+      top calc(var(--scaledpx-offset-y) * var(--clientpx-per-imgpx) * 1px)
+      left calc(var(--scaledpx-offset-x) * var(--clientpx-per-imgpx) * 1px);
+    border: 0;
+    padding: 0;
+  }
+} 
+/*!}}}1 END Hatched background pixel alignment */

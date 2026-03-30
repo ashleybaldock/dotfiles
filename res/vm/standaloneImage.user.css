@@ -526,7 +526,7 @@
   .output.width {
     --prefix: 'width ';
     --value: var(--naturalw);
-    inset: auto calc(anchor(right, var(--imright))) calc(anchor(top, var(--imtop)) + 2ch ) calc(anchor(left, var(--imleft)));
+    inset: auto calc(anchor(right, var(--px-imright))) calc(anchor(top, var(--px-imtop)) + 2ch ) calc(anchor(left, var(--px-imleft)));
     padding-bottom: var(--endlength);
     background-repeat: no-repeat;
 
@@ -557,7 +557,7 @@
     --prefix: 'height\0a ';
     --value: var(--naturalh);
     --suffix: 'px';
-    inset: anchor(top, var(--imtop)) calc(anchor(left, var(--imleft)) + 2ch) anchor(bottom, var(--imbottom)) auto;
+    inset: anchor(top, var(--px-imtop)) calc(anchor(left, var(--px-imleft)) + 2ch) anchor(bottom, var(--px-imbottom)) auto;
     height: anchor-size(height, var(--px-imheight));
     position-anchor: --anchor-image;
     padding-right: calc(var(--endlength) * 2);

@@ -533,7 +533,7 @@
     content: 'fit h';
   }
 
-  /* labels for image width and height */
+  /*!{{{1 Labels for image width and height */
   :root:has(.tgl.dim :checked) :where(.output.width, .output.height) {
     visibility: visible;
   }
@@ -610,7 +610,9 @@
     font-size: 0.9em;
     --prefix: '';
   }
+  /*!}}}1 END Labels for image width and height */
 
+  /*!{{{1 Output for client (viewport) dimensions */
   .output.client-size {
     --color: #888;
     --endlength: 0.5lh;
@@ -625,11 +627,12 @@
     position-anchor: --anchor-viewport;
     position-scope: --anchor-right-overlay-stack;
   }
-  :root:has(.tgl.dim :checked) :where(.output.client-size) {
+  :root:has(#tgl_dim:checked) :where(.output.client-size) {
     visibility: visible;
   }
+  /*!}}}1 END Output for client (viewport) dimensions */
 
-  /* the subject image */
+  /*!{{{1 The main image being previewed */
   img {
     text-align: center;
     position: absolute;
@@ -660,16 +663,16 @@
     height: var(--px-imheight);
     image-rendering: pixelated;
   }
+  /*!}}}1 END The main image being previewed */
 
   /*{{{1 Toggle controls */
-  .toggles {
+  :root .toggles {
     --short-delay: 0ms;
     --long-delay: 2s;
     --short-duration: 120ms;
     --long-duration: 600ms;
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: fixed;
+    inset: 0 auto auto 0;
     list-style-type: none;
     margin: 0 0;
     padding: 2px 0 0 2px;
@@ -683,29 +686,25 @@
     font-family: monospace;
     font-size: 0.8rem;
     transition: opacity var(--long-duration) ease var(--long-delay);
-  }
-  :root .toggles {
     pointer-events: none;
     z-index: var(--z-toggles-menu);
-    position: fixed;
   }
   :root:hover .toggles,
   .toggles:hover {
     pointer-events: all;
   }
   :root .toggles::before {
+    content: '{…}';
     pointer-events: none;
     z-index: var(--z-toggles-hint);
     opacity: 0;
     padding: 1ch 0 0 0.5ch;
-    width: auto;
-    height: auto;
-    content: '{…}';
-    position: fixed;
-    top: 0;
-    left: 0;
     min-width: 10vw;
+    width: auto;
     min-height: 4vh;
+    height: auto;
+    position: fixed;
+    inset: 0 auto auto 0;
     transition: opacity var(--short-duration) ease
       calc(var(--short-delay) + var(--long-delay));
   }
@@ -719,6 +718,8 @@
     transition: opacity var(--short-duration) ease var(--short-delay);
     opacity: 1;
   }
+
+
   body[data-selecting] .toggles {
     opacity: 0;
     pointer-events: none;

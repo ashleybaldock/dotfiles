@@ -1,7 +1,7 @@
 "
 " CSS Syntax Extensions
 "
-" au BufWritePost <buffer> syn on
+" :au BufWritePost <buffer> syn on
 "
 " See Also:
 "          ../after/syntax/css.vim
@@ -116,7 +116,7 @@ syn keyword cssFunctionNameVar contained conceal cchar=𐐏 var
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssFunctionRegion
 
-" Math operators are valid inside these (and nested children)
+" Math operators are valid inside these
 syn region cssMathFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssMathFunctionRegion,cssCalcKeyword,CssMathOp,
@@ -152,28 +152,33 @@ syn match CssMathOp $[+*/-]$ contained contains=NONE
 " syn match cssPowSep contained +,+ conceal cchar=^ contains=NONE
 "       \ nextgroup=cssPowExponentRegion
 
-syn region cssPowExponentRegion contained 
-      \ start=",\@1<=" 
-      \ end="\ze)"
-      \ contains=cssPow,
-      \cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssColor,
-      \cssError,cssFunctionComma,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
-syn region cssPowBaseRegion contained 
-      \ start="(\@1<="
-      \ end="\ze,"
-      \ nextgroup=cssPowSep 
-      \ contains=
-      \cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssColor,
-      \cssError,cssFunctionComma,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+" syn region cssPowExponentRegion contained 
+"       \ start=",\@1<=" 
+"       \ end="\ze)"
+"       \ contains=cssPow,
+"       \cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssColor,
+"       \cssError,cssFunctionComma,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+" syn region cssPowBaseRegion contained 
+"       \ start="(\@1<="
+"       \ end="\ze,"
+"       \ nextgroup=cssPowSep 
+"       \ contains=cssPow,
+"       \cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssColor,
+"       \cssError,cssFunctionComma,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 " syn region cssPowRegion contained concealends
 "       \ matchgroup=Conceal cchar=❮ start="(\ze\s*\d\+\s*,"
 "       \ matchgroup=Conceal cchar=❯ end=",\@1<=\s*\d\+)"
 "       \ contains=cssPowSep,
 "       \cssCustomPropRef,cssFunctionNameVar,cssMathFunctionName,cssColor,
 "       \cssError,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
-syn match cssPowBase contained /\d\+/ contains=NONE
-      \ nextgroup=cssPowSep
-syn match cssPowSep contained /\s*,s*/ contains=NONE conceal
+
+"{{{3 pow()
+"  pow(a, n) -> aⁿ    (a  
+" pow(a, -n) -> a⁻ⁿ  
+"
+syn match cssPowBase contained /-\?\d\+/ contains=NONE
+      \ nextgroup=cssPowSep 
+syn match cssPowSep contained /\s*,\s*/ contains=NONE conceal
       \ nextgroup=cssPowMinus,cssPow
 syn match cssPowMinus contained /-/ contains=NONE conceal cchar=⁻ nextgroup=cssPow
 syn match cssPow contained /0/ contains=NONE conceal cchar=⁰ nextgroup=cssPow
@@ -189,9 +194,13 @@ syn match cssPow contained /9/ contains=NONE conceal cchar=⁹ nextgroup=cssPow
 syn region cssPowSimpleRegion contained concealends
       \ matchgroup=Conceal start="pow(\s*" end="\s*)"
       \ contains=cssPowBase
-syn match cssPowSimple contained +pow(\s*\(\d\+\)\s*,\s*\(-\?\d\+\)\s*)+
+syn match cssPowSimple contained /pow(\s*\(-\?\d\+\)\s*,\s*\(-\?\d\+\)\s*)/
       \ contains=cssPowSimpleRegion
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+
+hi link cssPowBase Number
+hi link cssPowSep Number
+
 "{{{3 Trig functions
 syn match cssMathFunctionName /\%(a\@1<=\|\<\)sin\>/
       \ contained conceal cchar=𝙎 
@@ -285,6 +294,9 @@ syn match cssMathFunctionName /\<a\ze\%(sin\|cos\|tan2\?\)\>/
 " repeating-conic-gradient() 􀳇􀳈
 " repeating-radial-gradient()􀢊􁊕
 " repeating-radial-gradient()
+
+
+"{{{3 Image gradient functions
 syn match cssMathFunctionName /linear-gradient\>/
       \ contained conceal cchar=▥
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup

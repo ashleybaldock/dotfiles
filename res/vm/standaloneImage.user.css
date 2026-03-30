@@ -1846,14 +1846,20 @@ body > img:nth-of-type(n+3) {
     --clientpx-per-scaledpx: calc(var(--imgpx-per-scaledpx) * var(--clientpx-per-imgpx));
   }
 
+  :root {
+    background-position: var(--bgpos);
+    background-size: var(--bgsize);
+    background-image: var(--bgimage, var(--bgimage-null));
+    background-repeat: repeat;
+  }
   img.transparent {
     color: unset;
+    border: 0;
+    padding: 0;
     background: unset;
     background-color: var(--img-bgcolor, var(--color-image-bg-dark));
     background-image: var(--img-bgimage, var(--bgimage-null));
     box-shadow: var(--img-bshadow, var(--bshadow-null));
-    border: 0;
-    padding: 0;
   }
   
   :root:has(#tgl_sun:not(:checked)) {
@@ -1882,14 +1888,13 @@ body > img:nth-of-type(n+3) {
   :root:has(#tgl_tch:checked) {
     --bgpos-hatch: var(--bgposX-hatch) var(--bgposY-hatch);
 
-    background-size: var(--bgsize-hatch);
-    background-image:
+    --bgpos: var(--bgpos-hatch);
+    --bgsize: var(--bgsize-hatch);
+    --bgimage:
       repeating-conic-gradient(
         var(--color-hatch1) 0 90deg,
         var(--color-hatch2) 90deg 180deg
       );
-    background-repeat: repeat;
-    background-position: var(--bgpos-hatch);
   }
   :root:has(#tgl_tch:checked):has(#tgl_pix:not(:checked)) {
     --bgsizeX-hatch:

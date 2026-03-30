@@ -1,16 +1,39 @@
-lockfileVersion: '6.0'
+lockfileVersion: '9.0'
 
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  html-to-image:
-    specifier: ^1.11.11
-    version: 1.11.11
+importers:
+
+  .:
+    dependencies:
+      html-to-image:
+        specifier: ^1.11.11
+        version: 1.11.13
+    devDependencies:
+      '@violentmonkey/shortcut':
+        specifier: ^1.4.4
+        version: 1.4.4
 
 packages:
 
-  /html-to-image@1.11.11:
-    resolution: {integrity: sha512-9gux8QhvjRO/erSnDPv28noDZcPZmYE7e1vFsBLKLlRlKDSqNJYebj6Qz1TGd5lsRV+X+xYyjCKjuZdABinWjA==}
-    dev: false
+  '@babel/runtime@7.29.2':
+    resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
+    engines: {node: '>=6.9.0'}
+
+  '@violentmonkey/shortcut@1.4.4':
+    resolution: {integrity: sha512-rS+qi/WhYQEKpoH/l8c+lBHppVIZDnbQxxSATE6zeKkKv4rbsV7aD9YAkJvSD1Jq6N96UT9grjhmA8huDGC+uA==}
+
+  html-to-image@1.11.13:
+    resolution: {integrity: sha512-cuOPoI7WApyhBElTTb9oqsawRvZ0rHhaHwghRLlTuffoD1B2aDemlCruLeZrUIIdvG7gs9xeELEPm6PhuASqrg==}
+
+snapshots:
+
+  '@babel/runtime@7.29.2': {}
+
+  '@violentmonkey/shortcut@1.4.4':
+    dependencies:
+      '@babel/runtime': 7.29.2
+
+  html-to-image@1.11.13: {}

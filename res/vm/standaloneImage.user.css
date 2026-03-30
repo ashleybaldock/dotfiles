@@ -1153,14 +1153,38 @@
   }
   .output.imtopleft > output::after {
     background-position: right center;
-  }
+    background-position: bottom right;
+    padding: 0 var(--px-pixelw) 0 0;
+    z-index: 100;
+}
+  .output.imtopleft {
+    --value: var(--imtop);
+    --value2: var(--imleft);
+    --prefix: '(';
+    --suffix: ',';
+    --prefix2: '';
+    --suffix2: ')';
+    position-anchor: --anchor-image;
+    inset: 
+      anchor(top, var(--px-imtop))
+      calc(anchor(left, var(--px-imleft)) - (var(--px-pixelw) * 0.5))
+      anchor(top, var(--px-imtop))
+      auto;
+    text-align: right;
+    line-height: normal;
+    }
+  .output.imtopleft > output::after {
+    background-position: right center;
+    padding: 0 var(--px-pixelw) 0 0;
+    z-index: 100;
+}
 
   body > img {
     anchor-name: --anchor-image;
   }
   .output.width > output {
     filter: drop-shadow(0.5px 0.5px 0 #000);
-    position-anchor: --width;
+    position-anchor: --anchor-image;
     position: fixed;
     inset: auto auto anchor(top) auto;
     font-size: 0.9em;

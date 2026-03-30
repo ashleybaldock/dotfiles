@@ -365,10 +365,10 @@
     --gridcolor: #3331;
   }
   :root:has(.tgl.pix :checked):has(.tgl.dbg :checked)::after {
-    --gcl: #f00a;
-    --gcl0: #00fa;
-    --gcd: #ff0a;
-    --gcd0: #0ffa;
+    --gcl: #f00f;
+    --gcl0: #0000;
+    --gcd: #00ff;
+    --gcd0: #0000;
   }
   /*}}}1*/
 
@@ -1035,13 +1035,12 @@
   }
 
   .ext-png::before {
-    content: '.';
+    content: '';
   }
 
   .tiny {
     margin: 0;
-    top: var(--px-imtop);
-    left: var(--px-imleft);
+    inset: var(--px-imtop) var(--px-imleft) auto auto;
     width: var(--px-imwidth);
     height: var(--px-imheight);
   }
@@ -1122,11 +1121,11 @@
   .output.imtopleft {
     --value: var(--imtop);
     --value2: var(--imleft);
-    --prefix: 'imtop: ';
-    --suffix: '\0a';
-    --prefix2: 'imleft: ';
-    --suffix2: '';
-    inset: anchor(top, var(--px-imtop)) auto auto anchor(left, var(--px-imleft));
+    --prefix: '(';
+    --suffix: ',';
+    --prefix2: '';
+    --suffix2: ')';
+    inset: anchor(top, var(--px-imtop)) auto auto calc(anchor(left, var(--px-imleft) - var(--pixelw) * 0.5px));
     text-align: left;
     line-height: normal;
   }
@@ -1139,6 +1138,7 @@
     --suffix2: ')';
     inset: anchor(bottom, var(--px-imbottom)) auto anchor(bottom, var(--px-imbottom)) calc(anchor(right, var(--px-imright)) - var(--pixelw) * 0.5px);
   }
+  .output.imtopleft > output::after,
   .output.imbottomright > output::after {
     border-radius: 0;
     padding: 0 0 0 calc(var(--pixelw) * 1px);
@@ -1150,6 +1150,9 @@
     --endlength: calc(var(--pixelw) * 1px);
     --x: calc(var(--pixelw) * 1px);
     background-repeat: no-repeat;
+  }
+  .output.imtopleft > output::after {
+    background-position: right center;
   }
 
   body > img {

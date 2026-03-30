@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.321
+// @version     1.2.323
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -96,6 +96,7 @@ const initStandaloneImage = ({
     }, prefix);
 
     addPart({ text: head, class: 'filename', 'data-filename': head });
+    addPart({ text: '.', class: `ext-dot` });
     addPart({ text: extension, class: `ext-${extension}` });
   };
 
@@ -306,7 +307,7 @@ const initStandaloneImage = ({
       id: 'detbg',
       class: 'tgl detbg',
       textContent: 'bg−−',
-      checked: tiny,
+      checked: isTiny,
     }),
     outline: addToggle({
       to,

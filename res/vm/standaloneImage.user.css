@@ -276,27 +276,6 @@
 
     --bgx: 10;
   }
-  :root:has(.tgl.sun :checked) {
-    color: #222;
-    background-color: #ddd;
-    background-image: linear-gradient(#eaeaea, #eeeeee, #eaeaea);
-  }
-  :root:has(.tgl.tch :checked) {
-    background-image: repeating-conic-gradient(
-      from 0deg at 50% 50%,
-      #606060 0 90deg,
-      #585858 90deg 180deg
-    );
-
-    background-size: 40px 40px;
-  }
-  :root:has(.tgl.sun :checked):has(.tgl.tch :checked) {
-    background-image: repeating-conic-gradient(
-      from 0deg at 50% 50%,
-      #909090 0 90deg,
-      #a8a8a8 90deg 180deg
-    );
-  }
 
   /* Pixel mode */
   :root:has(.tgl.pix :checked) {
@@ -1836,61 +1815,101 @@ body > img:nth-of-type(n+3) {
 }
 @media not print {
   :root {
+    --color-hatch-bright1: #909090;
+    --color-hatch-bright2: #a8a8a8;
+    --color-hatch-light1: #686868;
+    --color-hatch-light2: #787878;
+    --color-hatch-mid1: #606060;
+    --color-hatch-mid2: #585858;
+    --color-hatch-dark1: #444444;
+    --color-hatch-dark2: #333333;
+
+    --bgcolor-bright: #ddd;
+    --color-bright: #222;
+    --bgimage-fade-bright: linear-gradient(#eaeaea, #eeeeee, #eaeaea);
+    --bgcolor-dark: #222;
+    --color-dark: #eee;
+    --bgimage-fade-dark: linear-gradient(#141414, #1a1a1a, #141414);
+
+    --color-image-bg-bright: #0002;
+    --color-image-bg-dark: #78787822;
+    --box-shadow-outline-bright: inset 0 0 3px -1px #000a, 0 0 4px -3px #fffa;
+    --box-shadow-outline-dark: inset 0 0 2px -1px #fff8, 0 0 2px -1px #000a;
+    
+    --bgimage-null: linear-gradient(#0000 0 0);
+    --bshadow-null: 0 0 0 0 #0000;
+
     --imgpx-per-scaledpx: 4;
     --scaledpx-offset-x: 0;
     --scaledpx-offset-y: 3;
     --clientpx-per-imgpx: var(--pixelw);
     --clientpx-per-scaledpx: calc(var(--imgpx-per-scaledpx) * var(--clientpx-per-imgpx));
   }
+
   img.transparent {
-    color: #222;
-/*     background: hsl(0, 0%, 90%) url("chrome://global/skin/media/imagedoc-lightnoise.png"); */
+    color: unset;
+    background: unset;
+    background-color: var(--img-bgcolor, var(--color-image-bg-dark));
+    background-image: var(--img-bgimage, var(--bgimage-null));
+    box-shadow: var(--img-bshadow, var(--bshadow-null));
+    border: 0;
+    padding: 0;
   }
   
-  :root:not(:has(.tgl.sun :checked)) img.transparent {
-    background: #0002;
-    box-shadow: inset 0 0 3px -1px #000a, 0 0 4px -3px #fffa;
+  :root:has(#tgl_sun:not(:checked)) {
+    --color-hatch1: var(--color-hatch-dark1);
+    --color-hatch2: var(--color-hatch-dark2);
+    --bgimage-fade: var(--bgimage-fade-dark, var(--bgimage-null));
+    --bgcolor: var(--bgcolor-dark);
+    --color: var(--color-dark);
   }
-  :root:has(.tgl.sun :checked) img.transparent {
-    background: #78787822;
-    box-shadow: inset 0 0 2px -1px #fff8, 0 0 2px -1px #000a;
+  :root:has(#tgl_sun:not(:checked)) img.transparent {
+    --img-bgcolor: var(--color-image-bg-dark);
+    --img-bshadow: var(--bshadow-outline-dark);
   }
-  :root:has(.tgl.tch :checked) {
+  :root:has(#tgl_sun:checked) {
+    --color-hatch1: var(--color-hatch-bright1);
+    --color-hatch2: var(--color-hatch-bright2);
+    --bgimage-fade: var(--bgimage-fade-bright, var(--bgimage-null));
+    --bgcolor: var(--bgcolor-bright);
+    --color: var(--color-bright);
+  }
+  :root:has(#tgl_sun:checked) img.transparent {
+    --img-bgcolor: var(--color-image-bg-bright);
+    --img-bshadow: var(--bshadow-outline-bright);
+  }
+
+  :root:has(#tgl_tch:checked) {
+    --bgpos-hatch: var(--bgposX-hatch) var(--bgposY-hatch);
+
+    background-size: var(--bgsize-hatch);
     background-image:
-      repeating-conic-gradient(var(--color-hatch1) 0 90deg, var(--color-hatch2) 90deg 180deg );
+      repeating-conic-gradient(
+        var(--color-hatch1) 0 90deg,
+        var(--color-hatch2) 90deg 180deg
+      );
     background-repeat: repeat;
+    background-position: var(--bgpos-hatch);
   }
-  :root:has(.tgl.tch :checked):not(:has(.tgl.sun :checked)):not(:has(.tgl.pix :checked)) img.transparent {
-    --color-hatch1: #686868;
-    --color-hatch2: #787878;
-  }
-  :root:has(.tgl.tch :checked):has(.tgl.sun :checked):not(:has(.tgl.pix :checked)) img.transparent {
-    --color-hatch1: #686868;
-    --color-hatch2: #787878;
-    --bg-grid-size: clamp(round(nearest, 10px, 1%), round(nearest, 2vmax, 1%), round(nearest, 40px, 1%));
-    background-size: var(--bg-grid-size) var(--bg-grid-size);
-    background-position: 
-      top calc(var(--scaledpx-offset-y) * var(--clientpx-per-imgpx) * 1px)
+  :root:has(#tgl_tch:checked):has(#tgl_pix:not(:checked)) {
+    --bgsizeX-hatch:
+      clamp(round(nearest, 10px, 1%),
+        round(nearest, 2vmax, 1%),
+        round(nearest, 40px, 1%)
+      );
+    --bgsize-hatch: var(--bgsizeX-hatch) var(--bgsizeX-hatch);
+    --bgposX-hatch:
       left calc(var(--scaledpx-offset-x) * var(--clientpx-per-imgpx) * 1px);
-    border: 0;
-    padding: 0;
+    --bgposY-hatch:
+      top calc(var(--scaledpx-offset-y) * var(--clientpx-per-imgpx) * 1px);
   }
-  :root:has(.tgl.tch :checked):not(:has(.tgl.sun :checked)):has(.tgl.pix :checked) img.transparent {
-    --color-hatch1: #686868;
-    --color-hatch2: #787878;
-  }
-  :root:has(.tgl.tch :checked):has(.tgl.sun :checked):has(.tgl.pix :checked) img.transparent {
-    --color-hatch1: #686868;
-    --color-hatch2: #787878;
-    background-size:
-      calc(var(--clientpx-per-scaledpx) * 2px)
-      calc(var(--clientpx-per-scaledpx) * 2px);
-    background-repeat: repeat;
-    background-position: 
-      top calc(var(--scaledpx-offset-y) * var(--clientpx-per-imgpx) * 1px)
+  :root:has(#tgl_tch:checked):has(#tgl_pix:checked) {
+    --bgsizeX-hatch: calc(var(--clientpx-per-scaledpx) * 2px);
+    --bgsize-hatch: var(--bgsizeX-hatch) var(--bgsizeX-hatch);
+    --bgposX-hatch:
       left calc(var(--scaledpx-offset-x) * var(--clientpx-per-imgpx) * 1px);
-    border: 0;
-    padding: 0;
+    --bgposY-hatch:
+      top calc(var(--scaledpx-offset-y) * var(--clientpx-per-imgpx) * 1px);
   }
-} 
+}
 /*!}}}1 END Hatched background pixel alignment */

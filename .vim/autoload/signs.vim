@@ -6,6 +6,8 @@ let g:mayhem_autoloaded_signs = 1
 "
 " Related:
 "        ../plugin/signs.vim
+"                ./diag.vim
+"        ../plugin/diag.vim
 "
 
 let s:prefix = 'mayhem_'
@@ -24,11 +26,6 @@ function! signs#groupList(group = s:group, bufnr = bufnr()) abort
 endfunc
 
 
-function! signs#re() abort
-  for [name, sign] in items(s:types_diag)
-    call prop_type_delete(name
-  endfor
-
 " echo prop_type_add('test1', {'bufnr': bufnr(), 'highlight': 'TestHint1', 'priority': 1, 'combine': 0, 'override': 0 }
       \  bufnr,
       \  highlight: 'ErrorHint',
@@ -36,7 +33,7 @@ function! signs#re() abort
 let s:types_diag = #{
       \ Error:  prop_type_add(s:prefix .. 'diagError', #{
       \  highlight: 'TestHint1',
-      \  priority: 6,
+      \  priority: 106,
       \  combine: v:true,
       \  override: v:false,
       \  start_incl: v:false,
@@ -67,12 +64,7 @@ let s:types_diag = #{
       \  end_incl: v:false,
       \  }),
       \ }
-endfor
-endfunc
 
-function! signs#placeDiagScrollHints() abort
-  let summary = diag#summarise()
-endfunc
 
 function! signs#diagnosticsPlaceProps() abort
   call foreach(diag#cachedByFile(),

@@ -3,6 +3,12 @@ if exists("g:mayhem_loaded_diag")
 endif
 let g:mayhem_loaded_diag = 1
 
+"
+" Related:
+"      ../autoload/diag.vim
+"                ./signs.vim
+"      ../autoload/signs.vim
+"
 
 command! -bar DebugDiagnostics call diag#debugSplit()
 

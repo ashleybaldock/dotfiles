@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.207
+// @version       1.1.208
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -593,6 +593,37 @@ const buttonsPressed = ({
     },
   ),
 });
+
+/**
+ * Extends VM.KeyboardService
+ * - capture phase event binding
+ * - register multiple keybinds for the same action in one call
+ **/
+const keys = (({ unsafeWindow, KeyboardService }) => {
+  const service = new KeyboardService({
+    sequenceTimeout: 500,
+  });
+
+  const keydownHandler = (e) => {
+    console.debug(`keydown`, e);
+    return service.handleKey(e);
+  };
+
+  return {
+    register: (callback, ...keys) =>
+      keys.flat().forEach((key) => service.register(key, callback)),
+    enable: () => {
+      unsafeWindow.addEventListener('keydown', keydownHandler, {
+        capture: true,
+      });
+    },
+    disable: () => {
+      unsafeWindow.removeEventListener('keydown', keydownHandler, {
+        capture: true,
+      });
+    },
+  };
+})({ unsafeWindow, KeyboardService: VM.shortcut });
 
 /*}}}1*/
 

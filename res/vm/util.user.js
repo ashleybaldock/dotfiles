@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.203
+// @version       1.1.207
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -32,6 +32,7 @@ const cssOQN = (el) =>
     ...el.classList,
   ].join('.')}`;
 
+/*{{{2 CSS @property registration  */
 const setRegisteredCSSProperty = (
   ({ window: { document } }) =>
   ({ on = document.documentElement, name: _name, value, syntax }) => {
@@ -65,7 +66,58 @@ const addRegisteredCSSProperty = (({ window }) => {
   };
 })({ window: unsafeWindow });
 const addRegisteredCSSProp = addRegisteredCSSProperty;
+/*}}}2 /CSS @property registration  */
 
+/*{{{2 Shadow container for page overlays */
+const shadows = (({ window: { document } }) => {
+  const createShadowsContainer = (parent = document.querySelector(':root')) => {
+    const shadowsContainer = document.createElement('div');
+    shadowsContainer.classList.add('shadows');
+    parent.appendChild(shadowsContainer);
+    return shadowsContainer;
+  };
+
+  const shadowsContainer =
+    document.querySelector(':root > .shadows') ?? createShadowsContainer();
+
+  const shadowsMap = new Map();
+
+  return {
+    get shadows() {
+      return shadowsMap.entries();
+    },
+    create: ({ name, css = '', children = [] }) => {
+      const shadowCSS = new CSSStyleSheet();
+      shadowCSS.replaceSync(css);
+
+      /* outside */
+      const container = document.createElement('div');
+      container.classList.add('shadow');
+      container.dataset.name = name;
+      shadowsContainer.appendChild(container);
+
+      /* inside */
+
+      const shadow = container.attachShadow({ mode: 'open' });
+      const shadowRoot = document.createElement('div');
+      shadowRoot.classList.add('root');
+      shadowRoot.dataset.name = name;
+      shadowRoot.append(...children);
+
+      shadow.adoptedStyleSheets = [shadowCSS];
+      shadow.append(shadowRoot);
+
+      shadowsMap.set(name, {
+        container,
+        root: shadowRoot,
+        css: shadowCSS,
+      });
+      return shadowsMap.get(name);
+    },
+  };
+})({ window });
+
+/*{{{2 Detect overflowing elements */
 (({ document: { body } }) => {
   const checkNode = (el) => {
     [...el.children]
@@ -304,6 +356,7 @@ const pad =
       { raw },
       ...substitutions.map((sub) => sub?.toString?.().padStart(padTo)),
     );
+
 /*{{{2 Logging */
 
 /** TODO logging filters

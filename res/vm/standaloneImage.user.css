@@ -84,8 +84,18 @@
   inherits: true;
   initial-value: 0;
 }
+@property --int-imfittedh {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
 @property --imfittedw {
   syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --int-imfittedw {
+  syntax: '<integer>';
   inherits: true;
   initial-value: 0;
 }
@@ -224,7 +234,10 @@
 
     /* Pick best fit from width or height */
     --imfittedh: round(down, min(var(--h-if-fitw), var(--h-if-fith)), 1);
+    --int-imfittedh: var(--imfittedh);
     --imfittedw: round(down, min(var(--w-if-fitw), var(--w-if-fith)), 1);
+    --int-imfittedw: var(--imfittedw);
+
     /* Determine pixel display size */
     --pixelh: max(1, round(down, calc(var(--imfittedh) / var(--naturalh)), 1));
     --pixelw: max(1, round(down, calc(var(--imfittedw) / var(--naturalw)), 1));
@@ -275,7 +288,7 @@
   }
 
   /* Pixel mode */
-  :root:has(.tgl.pix :checked) {
+  :root:has(#tgl_pix:checked) {
     background-image:
       linear-gradient(#1a1a1a44, #14141466, #1a1a1a66),
       repeating-conic-gradient(#444 0 90deg, #333 90deg 180deg);
@@ -287,7 +300,7 @@
       0 0,
       var(--px-imleft) var(--px-imtop);
   }
-  :root:has(.tgl.pix :checked):has(.tgl.sun :checked) {
+  :root:has(#tgl_pix:checked):has(#tgl_sun:checked) {
     background-image:
       linear-gradient(#1a1a1a44, #14141466, #1a1a1a66),
       repeating-conic-gradient(#555 0 90deg, #333 90deg 180deg);
@@ -301,7 +314,7 @@
   }
 
   /*{{{1 Thin-lined grid pixel hint */
-  :root:has(.tgl.pix :checked):has(.tgl.grd :checked)::after {
+  :root:has(#tgl_pix:checked):has(#tgl_grd:checked)::after {
     pointer-events: none;
     content: '';
     display: block;
@@ -356,12 +369,12 @@
     --gcd: #0006;
     --gcd0: rgb(from var(--gcd) r g b / 0);
   }
-  :root:has(.tgl.pix :checked):has(.tgl.sun :checked):has(
-      .tgl.grd :checked
+  :root:has(#tgl_pix:checked):has(#tgl_sun:checked):has(
+      #tgl_grd:checked
     )::after {
     --gridcolor: #3331;
   }
-  :root:has(.tgl.pix :checked):has(.tgl.dbg :checked)::after {
+  :root:has(#tgl_pix:checked):has(#tgl_dbg:checked)::after {
     --gcl: #f00f;
     --gcl0: #0000;
     --gcd: #00ff;
@@ -373,21 +386,21 @@
   .transparent {
     background: #68686844;
   }
-  :root:has(.tgl.sun :checked) .transparent {
+  :root:has(#tgl_sun:checked) .transparent {
     background: #78787844;
   }
 
   /* outline around image */
-  :root:has(.tgl.out :checked) .transparent {
+  :root:has(#tgl_out:checked) .transparent {
     background: #0000;
     outline: 1px dashed #888;
   }
-  :root:has(.tgl.sun :checked):has(.tgl.out :checked) .transparent {
+  :root:has(#tgl_sun:checked):has(#tgl_out:checked) .transparent {
     outline: 1px dashed #aaa;
   }
 
   /* hatched box background */
-  :root:has(.tgl.tch :checked) .transparent {
+  :root:has(#tgl_tch:checked) .transparent {
     background-image: repeating-conic-gradient(
       #383838 0 90deg,
       #484848 90deg 180deg
@@ -398,7 +411,7 @@
     border: 0;
     padding: 0;
   }
-  :root:has(.tgl.sun :checked):has(.tgl.tch :checked) .transparent {
+  :root:has(#tgl_sun:checked):has(#tgl_tch:checked) .transparent {
     background-image: repeating-conic-gradient(
       #686868 0 90deg,
       #787878 90deg 180deg
@@ -456,7 +469,7 @@
   }
 
   /* debug labels for image fitting to client */
-  :root:has(.tgl.dbg :checked) :is(.output.fitw, .output.fith) {
+  :root:has(#tgl_dbg:checked) :is(.output.fitw, .output.fith) {
     visibility: visible;
   }
   .output.fitw,
@@ -510,9 +523,6 @@
   }
 
   /*!{{{1 Labels for image width and height */
-  :root:has(.tgl.dim :checked) :where(.output.width, .output.height) {
-    visibility: visible;
-  }
   .output.width,
   .output.height {
     --color: #888;
@@ -594,17 +604,14 @@
     --endlength: 0.5lh;
     --thickness: 2px;
     --prefix: 'viewport:';
-    --value: var(--clientw);
+    --value: var(--int-clientw);
     --suffix: '×';
-    --value2: var(--clienth);
+    --value2: var(--int-clienth);
     --suffix2: 'px';
     inset: 4px 4px auto auto;
     anchor-name: --anchor-right-overlay-stack;
     position-anchor: --anchor-viewport;
     position-scope: --anchor-right-overlay-stack;
-  }
-  :root:has(#tgl_dim:checked) :where(.output.client-size) {
-    visibility: visible;
   }
   /*!}}}1 END Output for client (viewport) dimensions */
 
@@ -1053,7 +1060,7 @@
       .imbottom,
       .imleft,
       .imdisplayh,
-      .imdisplayw
+      .imdisplayw,
       .imdisplaywh,
       .imalignedwh,
       .pixelwh,
@@ -1062,6 +1069,28 @@
     letter-spacing: 0.05ch;
     text-align: right;
     line-height: normal;
+    visibility: hidden;
+  }
+  :root:has(#tgl_dim:checked) .output:where(
+    .width,
+    .height,
+    .client-size
+  ) {
+    visibility: visible;
+  }
+  :root:has(#tgl_dim:checked):has(#tgl_dbg:checked) .output:where(
+    .imtopleft,
+    .imbottomright,
+    .imtop,
+    .imright,
+    .imbottom,
+    .imleft,
+    .imdisplayh,
+    .imdisplayw,
+    .imdisplaywh,
+    .imalignedwh,
+    .pixelwh,
+  ) {
     visibility: visible;
   }
   .output:where(
@@ -1086,8 +1115,8 @@
       position: fixed;
     }
   .output.imdisplaywh {
-    --value: var(--imfittedw);
-    --value2: var(--imfittedh);
+    --value: var(--int-imfittedw);
+    --value2: var(--int-imfittedh);
     --prefix: 'fitted w: ';
     --suffix: ' ';
     --prefix2: 'h: ';
@@ -1122,8 +1151,13 @@
     --suffix: ',';
     --prefix2: '';
     --suffix2: ')';
-    inset: anchor(top, var(--px-imtop)) auto auto calc(anchor(left, var(--px-imleft) - var(--pixelw) * 0.5px));
-    text-align: left;
+    position-anchor: --anchor-image;
+    inset: 
+      anchor(top, var(--px-imtop))
+      calc(anchor(left, var(--px-imleft)) - (var(--px-pixelw) * 0.5))
+      anchor(top, var(--px-imtop))
+      auto;
+    text-align: right;
     line-height: normal;
   }
   .output.imbottomright {
@@ -1133,48 +1167,37 @@
     --prefix: '(';
     --suffix: ',';
     --suffix2: ')';
-    inset: anchor(bottom, var(--px-imbottom)) auto anchor(bottom, var(--px-imbottom)) calc(anchor(right, var(--px-imright)) - var(--pixelw) * 0.5px);
+    inset:
+      anchor(bottom, var(--px-imbottom))
+      auto
+      anchor(bottom, var(--px-imbottom))
+      calc(anchor(right, var(--px-imright)) - var(--px-pixelw) * 0.5);
   }
-  .output.imtopleft > output::after,
-  .output.imbottomright > output::after {
-    border-radius: 0;
-    padding: 0 0 0 calc(var(--pixelw) * 1px);
-    background-position: left center;
-    background-size: calc(var(--pixelw) * 1px) calc(var(--pixelh) * 1px);
+  .output:where(.imbottomright, .imtopleft) > output {
+    background-size: var(--px-pixelw) var(--px-pixelh);
     --t: 1px;
     background-image: linear-gradient(0deg, #0000 0 calc(50% - var(--t) * 0.5), var(--color) calc(50% - var(--t) * 0.5) calc(50% + var(--t) * 0.5), #0000 calc(50% + var(--t) * 0.5) 100%), linear-gradient(90deg, #0000 0 calc(var(--x) * 0.5 - var(--t) * 0.5), var(--color) calc(var(--x) * 0.5 - var(--t) * 0.5) calc(var(--x) * 0.5 + var(--t) * 0.5), #0000 calc(var(--x) * 0.5 + var(--t) * 0.5) 100%);
     --color: #eee;
-    --endlength: calc(var(--pixelw) * 1px);
-    --x: calc(var(--pixelw) * 1px);
+    --x: var(--px-pixelw);
     background-repeat: no-repeat;
+    z-index: 100;
+  }
+  .output.imbottomright > output {
+    padding: 0 0 0 var(--px-pixelw);
+    background-position: left center;
+  }
+  .output.imbottomright > output::after {
+    inset: 0.5lh auto auto auto;
+    position: relative;
+  }
+  .output.imtopleft > output {
+    padding: 0 var(--px-pixelw) 0 0;
+    background-position: right center;
   }
   .output.imtopleft > output::after {
-    background-position: right center;
-    background-position: bottom right;
-    padding: 0 var(--px-pixelw) 0 0;
-    z-index: 100;
-}
-  .output.imtopleft {
-    --value: var(--imtop);
-    --value2: var(--imleft);
-    --prefix: '(';
-    --suffix: ',';
-    --prefix2: '';
-    --suffix2: ')';
-    position-anchor: --anchor-image;
-    inset: 
-      anchor(top, var(--px-imtop))
-      calc(anchor(left, var(--px-imleft)) - (var(--px-pixelw) * 0.5))
-      anchor(top, var(--px-imtop))
-      auto;
-    text-align: right;
-    line-height: normal;
-    }
-  .output.imtopleft > output::after {
-    background-position: right center;
-    padding: 0 var(--px-pixelw) 0 0;
-    z-index: 100;
-}
+    inset: auto auto 0.5lh auto;
+    position: relative;
+  }
 
   body > img {
     anchor-name: --anchor-image;
@@ -1384,7 +1407,7 @@
     place-self: center;
     position: absolute;
   }
-  :root:has(.tgl.dbg :checked) .selection > .handle::before {
+  :root:has(#tgl_dbg:checked) .selection > .handle::before {
     box-shadow: inset 0 0 1px 1px #f0f4;
   }
 

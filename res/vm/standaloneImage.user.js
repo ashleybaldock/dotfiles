@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.323
+// @version     1.2.328
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -57,7 +57,10 @@ const initStandaloneImage = ({
       prefix = `${url.protocol}//`,
       filename = parts.slice(-1)[0],
       extension = filename.split(/\./).slice(-1)[0],
-      head = filename.slice(0, filename.length - extension.length);
+      head = filename.slice(
+        0,
+        filename.length - extension.length - !!extension.length * 1,
+      );
 
     const label = GM_addElement(parent, 'label', {
       class: 'output breadcrumbs fixed',
@@ -86,7 +89,8 @@ const initStandaloneImage = ({
       });
 
     addPart({
-      text: url.host || url.protocol.match(/https\?/) ? 'localhost' : 'fsroot',
+      text:
+        url.host || (url.protocol.match(/https\?/) ? 'localhost' : 'fsroot'),
       link: '/',
     });
 

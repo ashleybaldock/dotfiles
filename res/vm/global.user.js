@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Global Util
 // @namespace   mayhem
-// @version     1.2.174
+// @version     1.2.175
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/global.user.js
 // @match       *://*/*

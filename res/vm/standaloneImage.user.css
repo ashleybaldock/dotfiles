@@ -289,28 +289,28 @@
 
   /* Pixel mode */
   :root:has(#tgl_pix:checked) {
-    background-image:
-      linear-gradient(#1a1a1a44, #14141466, #1a1a1a66),
-      repeating-conic-gradient(#444 0 90deg, #333 90deg 180deg);
-    background-size:
-      100vw 100vh,
-      calc(var(--px-pixelw) * var(--bgx)) calc(var(--px-pixelw) * var(--bgx));
-    background-repeat: no-repeat, repeat;
-    background-position:
-      0 0,
-      var(--px-imleft) var(--px-imtop);
+    /* background-image: */
+    /*   linear-gradient(#1a1a1a44, #14141466, #1a1a1a66), */
+    /*   repeating-conic-gradient(#444 0 90deg, #333 90deg 180deg); */
+    /* background-size: */
+    /*   100vw 100vh, */
+    /*   calc(var(--px-pixelw) * var(--bgx)) calc(var(--px-pixelw) * var(--bgx)); */
+    /* background-repeat: no-repeat, repeat; */
+    /* background-position: */
+    /*   0 0, */
+    /*   var(--px-imleft) var(--px-imtop); */
   }
   :root:has(#tgl_pix:checked):has(#tgl_sun:checked) {
-    background-image:
-      linear-gradient(#1a1a1a44, #14141466, #1a1a1a66),
-      repeating-conic-gradient(#555 0 90deg, #333 90deg 180deg);
-    background-size:
-      100vw 100vh,
-      calc(var(--px-pixelw) * var(--bgx)) calc(var(--px-pixelw) * var(--bgx));
-    background-repeat: no-repeat, repeat;
-    background-position:
-      0 0,
-      var(--px-imleft) var(--px-imtop);
+    /* background-image: */
+    /*   linear-gradient(#1a1a1a44, #14141466, #1a1a1a66), */
+    /*   repeating-conic-gradient(#555 0 90deg, #333 90deg 180deg); */
+    /* background-size: */
+    /*   100vw 100vh, */
+    /*   calc(var(--px-pixelw) * var(--bgx)) calc(var(--px-pixelw) * var(--bgx)); */
+    /* background-repeat: no-repeat, repeat; */
+    /* background-position: */
+    /*   0 0, */
+    /*   var(--px-imleft) var(--px-imtop); */
   }
 
   /*{{{1 Thin-lined grid pixel hint */
@@ -382,47 +382,6 @@
   }
   /*}}}1*/
 
-  /* Background for images with transparency */
-  .transparent {
-    background: #68686844;
-  }
-  :root:has(#tgl_sun:checked) .transparent {
-    background: #78787844;
-  }
-
-  /* outline around image */
-  :root:has(#tgl_out:checked) .transparent {
-    background: #0000;
-    outline: 1px dashed #888;
-  }
-  :root:has(#tgl_sun:checked):has(#tgl_out:checked) .transparent {
-    outline: 1px dashed #aaa;
-  }
-
-  /* hatched box background */
-  :root:has(#tgl_tch:checked) .transparent {
-    background-image: repeating-conic-gradient(
-      #383838 0 90deg,
-      #484848 90deg 180deg
-    );
-    background-size: var(--pixelw) var(--pixelw);
-    background-repeat: repeat;
-    background-position: 0 0;
-    border: 0;
-    padding: 0;
-  }
-  :root:has(#tgl_sun:checked):has(#tgl_tch:checked) .transparent {
-    background-image: repeating-conic-gradient(
-      #686868 0 90deg,
-      #787878 90deg 180deg
-    );
-    background-size: var(--pixelw) var(--pixelw);
-    background-repeat: repeat;
-    background-position: 0 0;
-    border: 0;
-    padding: 0;
-  }
-
   body {
     min-height: 100vh;
     max-height: 100vh;
@@ -455,6 +414,13 @@
     pointer-events: none;
     user-select: none;
   }
+   :root:has(#tgl_dbg:checked) .output {
+    outline: 0.5px dashed #ff08;
+  }
+  :root:has(#tgl_dbg:checked) .output > output {
+    outline: 0.5px solid #af08;
+  }
+
   .output.fixed {
     position: fixed;
   }
@@ -642,10 +608,13 @@
    */
   /* images below a threshold size optimised for pixel graphics */
   .tiny {
+    inset: var(--px-imtop) var(--px-imright) var(--px-imbottom) var(--px-imleft);
     width: var(--px-imwidth);
     height: var(--px-imheight);
     image-rendering: pixelated;
+    margin: 0;
   }
+
   /*!}}}1 END The main image being previewed */
 
   /*{{{1 Toggle controls */
@@ -904,18 +873,46 @@
     content: '';
   }
   .breadcrumbs {
+    --bdr: 10px;
+    --nobdr: 0;
+    --vpad-nearside: 0.2em;
+    --vpad-farside: 0.1em;
+    --hpad-nearside: 0.5ch;
+    --hpad-farside: 0.5ch;
     visibility: visible;
     font-size: 0.6rem;
     pointer-events: all;
-    right: 0;
-    border-radius: 0 0 0 10px;
-    top: unset;
-    bottom: 0;
+    border-radius: var(--bdr);
     justify-content: end;
-    padding: 0 0.5ch;
+    padding: var(--vpad-farside) var(--hpad-farside);
     flex-direction: column;
     margin: 0;
     max-width: 100vw;
+    inset: unset;
+  }
+  .breadcrumbs.top {
+    top: 0;
+    padding-top: var(--vpad-nearside);
+    border-top-left-radius: var(--nobdr);
+    border-top-right-radius: var(--nobdr);
+  }
+  .breadcrumbs.bottom {
+    bottom: 0;
+    padding-bottom: var(--vpad-nearside);
+    border-bottom-left-radius: var(--nobdr);
+    border-bottom-right-radius: var(--nobdr);
+  }
+  .breadcrumbs.right {
+    right: 0;
+    padding-right: var(--hpad-nearside);
+    border-top-right-radius: var(--nobdr);
+    border-bottom-right-radius: var(--nobdr);
+  }
+  .breadcrumbs.left {
+    left: 0;
+    padding-left: var(--hpad-nearside);
+    border-top-left-radius: var(--nobdr);
+    border-bottom-left-radius: var(--nobdr);
   }
   .breadcrumbs > ul {
     margin: 0;
@@ -1040,13 +1037,6 @@
 
   .ext-png::before {
     content: '';
-  }
-
-  .tiny {
-    margin: 0;
-    inset: var(--px-imtop) var(--px-imleft) auto auto;
-    width: var(--px-imwidth);
-    height: var(--px-imheight);
   }
 
   /*}}}1*/
@@ -1882,6 +1872,8 @@ body > img:nth-of-type(n+3) {
     --color-image-bg-dark: #78787822;
     --box-shadow-outline-bright: inset 0 0 3px -1px #000a, 0 0 4px -3px #fffa;
     --box-shadow-outline-dark: inset 0 0 2px -1px #fff8, 0 0 2px -1px #000a;
+    --color-image-ol-dark: #888;
+    --color-image-ol-bright: #aaa;
     
     --bgimage-null: linear-gradient(#0000 0 0);
     --bshadow-null: 0 0 0 0 #0000;
@@ -1907,6 +1899,15 @@ body > img:nth-of-type(n+3) {
     background-color: var(--img-bgcolor, var(--color-image-bg-dark));
     background-image: var(--img-bgimage, var(--bgimage-null));
     box-shadow: var(--img-bshadow, var(--bshadow-null));
+    outline: 1px dashed var(--img-olcolor);
+  }
+
+  /* outline around image */
+  :root:has(#tgl_out:checked):has(#tgl_sun:not(:checked)) img.transparent {
+    --img-olcolor: var(--color-image-ol-dark);
+  }
+  :root:has(#tgl_out:checked):has(#tgl_sun:checked) img.transparent {
+    --img-olcolor: var(--color-image-ol-bright);
   }
   
   :root:has(#tgl_sun:not(:checked)) {
@@ -1951,17 +1952,15 @@ body > img:nth-of-type(n+3) {
       );
     --bgsize-hatch: var(--bgsizeX-hatch) var(--bgsizeX-hatch);
     --bgposX-hatch:
-      left calc(var(--scaledpx-offset-x) * var(--clientpx-per-imgpx) * 1px);
+      left calc(var(--px-imleft) + var(--scaledpx-offset-x) * var(--clientpx-per-imgpx) * 1px);
     --bgposY-hatch:
-      top calc(var(--scaledpx-offset-y) * var(--clientpx-per-imgpx) * 1px);
+      top calc(var(--px-imtop) + var(--scaledpx-offset-y) * var(--clientpx-per-imgpx) * 1px);
   }
   :root:has(#tgl_tch:checked):has(#tgl_pix:checked) {
     --bgsizeX-hatch: calc(var(--clientpx-per-scaledpx) * 2px);
     --bgsize-hatch: var(--bgsizeX-hatch) var(--bgsizeX-hatch);
-    --bgposX-hatch:
-      left calc(var(--scaledpx-offset-x) * var(--clientpx-per-imgpx) * 1px);
-    --bgposY-hatch:
-      top calc(var(--scaledpx-offset-y) * var(--clientpx-per-imgpx) * 1px);
+    --bgposX-hatch: left var(--px-imleft);
+    --bgposY-hatch: top var(--px-imtop);
   }
 }
 /*!}}}1 END Hatched background pixel alignment */

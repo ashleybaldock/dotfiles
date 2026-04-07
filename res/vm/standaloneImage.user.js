@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.328
+// @version     1.2.331
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -63,7 +63,7 @@ const initStandaloneImage = ({
       );
 
     const label = GM_addElement(parent, 'label', {
-      class: 'output breadcrumbs fixed',
+      class: 'output breadcrumbs bottom right fixed',
     });
     const ul = GM_addElement(label, 'ul', {});
 
@@ -304,14 +304,14 @@ const initStandaloneImage = ({
       id: 'tch',
       class: 'tgl tch',
       textContent: 'hatch',
-      checked: false,
+      checked: isTransparent,
     }),
     detectbg: addToggle({
       to,
       id: 'detbg',
       class: 'tgl detbg',
       textContent: 'bg−−',
-      checked: isTiny,
+      checked: isTiny && isTransparent,
     }),
     outline: addToggle({
       to,

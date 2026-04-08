@@ -30,3 +30,14 @@ const copyTextToClipboard = async (text) =>
   'clipboard' in navigator
     ? await navigator.clipboard.writeText(text)
     : document.execCommand('copy', true, text);
+
+export const readyStateComplete = () => {
+  const promise = new Promise((resolve, reject) => {
+    const waitForComplete = () =>
+      document.readyState === 'complete'
+        ? resolve({ window })
+        : document.addEventListener('readystatechange', waitForComplete);
+    waitForComplete();
+  });
+  return promise;
+};

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Border Radius</title>
+    <!--{{{-->
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="stylesheet" href="/common.css" />
+    <link rel="stylesheet" href="borders.css"/>
+    <link rel="stylesheet" href="radius.css" />
+
+    <!--<script type="application/javascript" src="/entanglement.js"></script>--->
+
+    <script type="module" src="radius.js"></script>
+    <!--}}}-->
+  </head>
+  <body>
+      <section class="screen">
+      <h2>Border Radius</h2>
+      <div class="vertical">
+        <div class="testbase stest">
+          <div class="preview" data-sink="bd1_ax bd1_ay bd1_bx bd1_by bd1_cx bd1_cy bd1_dx bd1_dy">
+            <div class="line">
+            <div class="oval bd1_axy">
+              <div class="radii"></div>
+              <div class="point bd1_ax">ax</div>
+              <div class="point bd1_ay">ay</div>
+            </div>
+            <div class="oval bd1_bxy">
+              <div class="radii"></div>
+              <div class="point bd1_bx">bx</div>
+              <div class="point bd1_by">by</div>
+            </div>
+            <div class="oval bd1_cxy">
+              <div class="radii"></div>
+              <div class="point bd1_cx">cx</div>
+              <div class="point bd1_cy">cy</div>
+            </div>
+            <div class="oval bd1_dxy">
+              <div class="radii"></div>
+              <div class="point bd1_dx">dx</div>
+              <div class="point bd1_dy">dy</div>
+            </div>
+          </div>
+        </div>
+        <div class="slider-wrapper" data-sink="bd1_ay">
+          <label for="bd1_ay">left-top</label>
+          <input data-source class="vertical reversed" id="bd1_ay" type="range" value="0" min="0" max="200">
+        </div>
+        <div class="slider-wrapper" data-sink="bd1_ax">
+          <label for="bd1_ax">top-left</label>
+          <input data-source id="bd1_ax" type="range" value="0" min="0" max="200">
+        </div>
+        <div class="slider-wrapper" data-sink="bd1_bx">
+          <label for="bd1_bx">top-right</label>
+          <input data-source class="reversed" id="bd1_bx" type="range" value="0" min="0" max="200">
+        </div>
+        <div class="slider-wrapper" data-sink="bd1_by">
+          <label for="bd1_by">right-top</label>
+          <input data-source class="vertical reversed" id="bd1_by" type="range" value="0" min="0" max="200">
+        </div>
+        <div class="slider-wrapper" data-sink="bd1_cy">
+          <label for="bd1_cy">right-bot</label>
+          <input data-source class="vertical" id="bd1_cy" type="range" value="0" min="0" max="200">
+        </div>
+        <div class="slider-wrapper" data-sink="bd1_cx">
+          <label for="bd1_cx">bot-right</label>
+          <input data-source class="reversed" id="bd1_cx" type="range" value="0" min="0" max="200">
+        </div>
+        <div class="slider-wrapper" data-sink="bd1_dx">
+          <label for="bd1_dx">bot-left</label>
+          <input data-source id="bd1_dx" type="range" value="0" min="0" max="200">
+        </div>
+        <div class="slider-wrapper" data-sink="bd1_dy">
+          <label for="bd1_dy">left-bot</label>
+          <input data-source class="vertical" id="bd1_dy" type="range" value="0" min="0" max="200">
+        </div>
+        </div>
+      </section>
+  </body>
+</html>
+

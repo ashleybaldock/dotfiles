@@ -166,31 +166,10 @@ svg {
   border: 4px double #603f67;
   border-color: #764d7e #603f67 #422747 #683c72;
   background-color: #360441;
-  grid-template-rows: 10fr 10fr 40fr 40fr 10fr 10fr;
-  grid-template-columns: 10fr 10fr 30fr 30fr 10fr 10fr;
-  /* grid-template-areas: */
-  /*   '.  .  ax ax ax . ' */
-  /*   'dy bx bx bx cy . ' */
-  /*   'dy ay p  p  cy by' */
-  /*   'dy ay p  p  cy by' */
-  /*   '.  ay dx dx dx by ' */
-  /*   '.  cx cx cx .  . '; */
-  /* grid-template-areas: */
-  /*   ". . a a . . " */
-  /*   ". . b b . . " */
-  /*   "A D p p B C" */
-  /*   "A D p p B C" */
-  /*   ". . c c . . " */
-  /*   ". . d d . . "; */
-  grid-template-areas:
-    '.  .  ax ax ax .  .  . '
-    'dy .  .  bx bx bx cy . '
-    'dy ay p  p  p  p  cy by'
-    'dy ay p  p  p  p  cy by'
-    'dy ay p  p  p  p  cy by'
-    'dy ay p  p  p  p  cy by'
-    '.  ay dx dx dx dx cy by'
-    '.  .  cx cx cx cx .  . ';
+
+  grid-template-columns: [left bar1y] 10fr [bar2y] 10fr auto [bar3y] 10fr [bar4y] 10fr [right];
+  grid-template-rows: [top bar1x] 10fr [bar2x] 10fr auto [bar3x] 10fr [bar4x] 10fr [right];
+  grid-auto-rows: 1fr;
 }
 .stest * {
   box-sizing: border-box;
@@ -208,14 +187,14 @@ svg {
   contain: size;
   container-type: size;
 
-  --ax: calc(max(0, var(--bdata-bd1_ax, 20)) * var(--u));
-  --bx: calc(max(0, var(--bdata-bd1_bx, 20)) * var(--u));
-  --cx: calc(max(0, var(--bdata-bd1_cx, 20)) * var(--u));
-  --dx: calc(max(0, var(--bdata-bd1_dx, 20)) * var(--u));
-  --ay: calc(max(0, var(--bdata-bd1_ayAy, 20)) * var(--u));
-  --by: calc(max(0, var(--bdata-bd1_byBy, 20)) * var(--u));
-  --cy: calc(max(0, var(--bdata-bd1_cyCy, 20)) * var(--u));
-  --dy: calc(max(0, var(--bdata-bd1_dyDy, 20)) * var(--u));
+  --ax: calc(max(0, var(--bdata-bd_ax, 20)) * var(--u));
+  --bx: calc(max(0, var(--bdata-bd_bx, 20)) * var(--u));
+  --cx: calc(max(0, var(--bdata-bd_cx, 20)) * var(--u));
+  --dx: calc(max(0, var(--bdata-bd_dx, 20)) * var(--u));
+  --ay: calc(max(0, var(--bdata-bd_ayAy, 20)) * var(--u));
+  --by: calc(max(0, var(--bdata-bd_byBy, 20)) * var(--u));
+  --cy: calc(max(0, var(--bdata-bd_cyCy, 20)) * var(--u));
+  --dy: calc(max(0, var(--bdata-bd_dyDy, 20)) * var(--u));
   background-image:
     repeating-linear-gradient(-135deg, blue -1px 1px, #0000 -100% 25%),
     repeating-linear-gradient(135deg, green -1px 1px, #0000 -100% 25%),
@@ -290,51 +269,51 @@ svg {
   background-color: var(--color, #444c);
 }
 
-.stest .preview .bd1_ax {
+.stest .preview .bd_ax {
   --color: red;
   top: var(--top);
   left: calc(var(--ax) - var(--radius));
   --tracks: var(--track-left), var(--track-right);
 }
-.stest .preview .bd1_bx {
+.stest .preview .bd_bx {
   --color: red;
   top: var(--top);
   right: calc(var(--bx) - var(--radius));
   --tracks: var(--track-left), var(--track-right);
 }
-.stest .preview .bd1_by {
+.stest .preview .bd_by {
   content: 'by';
   --color: green;
   top: calc(var(--by) - var(--radius));
   right: var(--right);
   --tracks: var(--track-top), var(--track-bottom);
 }
-.stest .preview .bd1_cy {
+.stest .preview .bd_cy {
   content: 'cy';
   --color: green;
   bottom: calc(var(--cy) - var(--radius));
   right: var(--right);
   --tracks: var(--track-top), var(--track-bottom);
 }
-.stest .preview .bd1_cx {
+.stest .preview .bd_cx {
   --color: blue;
   bottom: var(--bottom);
   right: calc(var(--cx) - var(--radius));
   --tracks: var(--track-left), var(--track-right);
 }
-.stest .preview .bd1_dx {
+.stest .preview .bd_dx {
   --color: blue;
   bottom: var(--bottom);
   left: calc(var(--dx) - var(--radius));
   --tracks: var(--track-left), var(--track-right);
 }
-.stest .preview .bd1_dy {
+.stest .preview .bd_dy {
   --color: purple;
   bottom: calc(var(--dy) - var(--radius));
   left: var(--left);
   --tracks: var(--track-top), var(--track-bottom);
 }
-.stest .preview .bd1_ay {
+.stest .preview .bd_ay {
   --color: purple;
   top: calc(var(--ay) - var(--radius));
   left: var(--left);
@@ -343,51 +322,51 @@ svg {
 
 .stest .preview .coord {
   position: absolute;
-  left: var(--bd1_dx);
+  left: var(--bd_dx);
 }
-.stest .slider-wrapper[data-sink='bd1_ax'] {
+.stest .slider-wrapper[data-sink='bd_ax'] {
   grid-area: ax;
-  --slider-text: var(--bdata-str-bd1_ax);
-  --slider-value: var(--bdata-bd1_ax);
+  --slider-text: var(--bdata-str-bd_ax);
+  --slider-value: var(--bdata-bd_ax);
 }
-.stest .slider-wrapper[data-sink='bd1_bx'] {
+.stest .slider-wrapper[data-sink='bd_bx'] {
   grid-area: bx;
-  --slider-text: var(--bdata-str-bd1_bx);
-  --slider-value: var(--bdata-bd1_bx);
+  --slider-text: var(--bdata-str-bd_bx);
+  --slider-value: var(--bdata-bd_bx);
 }
-.stest .slider-wrapper[data-sink='bd1_cx'] {
+.stest .slider-wrapper[data-sink='bd_cx'] {
   grid-area: cx;
-  --slider-text: var(--bdata-str-bd1_cx);
-  --slider-value: var(--bdata-bd1_cx);
+  --slider-text: var(--bdata-str-bd_cx);
+  --slider-value: var(--bdata-bd_cx);
 }
-.stest .slider-wrapper[data-sink='bd1_dx'] {
+.stest .slider-wrapper[data-sink='bd_dx'] {
   grid-area: dx;
-  --slider-text: var(--bdata-str-bd1_dx);
-  --slider-value: var(--bdata-bd1_dx);
+  --slider-text: var(--bdata-str-bd_dx);
+  --slider-value: var(--bdata-bd_dx);
 }
-.stest .slider-wrapper[data-sink='bd1_ay'] {
+.stest .slider-wrapper[data-sink='bd_ay'] {
   grid-area: ay;
-  --slider-text: var(--bdata-str-bd1_ay);
-  --slider-value: var(--bdata-bd1_ay);
+  --slider-text: var(--bdata-str-bd_ay);
+  --slider-value: var(--bdata-bd_ay);
 }
-.stest .slider-wrapper[data-sink='bd1_by'] {
+.stest .slider-wrapper[data-sink='bd_by'] {
   grid-area: by;
-  --slider-text: var(--bdata-str-bd1_by);
-  --slider-value: var(--bdata-bd1_by);
+  --slider-text: var(--bdata-str-bd_by);
+  --slider-value: var(--bdata-bd_by);
 }
-.stest .slider-wrapper[data-sink='bd1_cy'] {
+.stest .slider-wrapper[data-sink='bd_cy'] {
   grid-area: cy;
-  --slider-text: var(--bdata-str-bd1_cy);
-  --slider-value: var(--bdata-bd1_cy);
+  --slider-text: var(--bdata-str-bd_cy);
+  --slider-value: var(--bdata-bd_cy);
 }
-.stest .slider-wrapper[data-sink='bd1_dy'] {
+.stest .slider-wrapper[data-sink='bd_dy'] {
   grid-area: dy;
-  --slider-text: var(--bdata-str-bd1_dy);
-  --slider-value: var(--bdata-bd1_dy);
+  --slider-text: var(--bdata-str-bd_dy);
+  --slider-value: var(--bdata-bd_dy);
 }
 .slider-wrapper {
-  --thumb-size: 2em;
-  --thumb-ratio: 2;
+  --thumb-size: 1.4rem;
+  --thumb-ratio: 1;
 }
 .slider-wrapper:has(> input[type='range'].vertical) {
   container-type: size;
@@ -397,7 +376,7 @@ svg {
   transform: translateX(-50cqh) rotate(90deg) translateY(-50cqw);
   height: auto;
   width: 100%;
-  min-width: 100cqh;
+  min-width: 80cqh;
   max-height: unset;
   min-height: unset;
   max-width: unset;
@@ -417,10 +396,10 @@ svg {
   word-spacing: -0.2em;
   position: absolute;
   bottom: 0;
-  content: var(--bdata-str-bd1_ax) '% ' var(--bdata-str-bd1_bx) '% '
-    var(--bdata-str-bd1_cx) '% ' var(--bdata-str-bd1_dx) '% / '
-    var(--bdata-str-bd1_ay) '% ' var(--bdata-str-bd1_by) '% '
-    var(--bdata-str-bd1_cy) '% ' var(--bdata-str-bd1_dy) '%';
+  content: var(--bdata-str-bd_ax) '% ' var(--bdata-str-bd_bx) '% '
+    var(--bdata-str-bd_cx) '% ' var(--bdata-str-bd_dx) '% / '
+    var(--bdata-str-bd_ay) '% ' var(--bdata-str-bd_by) '% '
+    var(--bdata-str-bd_cy) '% ' var(--bdata-str-bd_dy) '%';
 }
 
 .oval {
@@ -452,50 +431,50 @@ svg {
   width: 50%;
   height: 50%;
 }
-.bd1_axy {
+.bd_axy {
   border-color: red red purple purple;
-  height: calc(var(--ibdw＋) + var(--bdata-bd1_ayAy) * 2%);
-  width: calc(var(--ibdw＋) + var(--bdata-bd1_ax) * 2%);
+  height: calc(var(--ibdw＋) + var(--bdata-bd_ayAy) * 2%);
+  width: calc(var(--ibdw＋) + var(--bdata-bd_ax) * 2%);
   top: var(--ibdw－);
   left: var(--ibdw－);
 }
-.bd1_axy > .radii {
+.bd_axy > .radii {
   border-color: transparent red purple transparent;
   top: 0;
   left: 0;
 }
-.bd1_bxy {
+.bd_bxy {
   border-color: red green green red;
-  height: calc(var(--ibdw＋) + var(--bdata-bd1_byBy) * 2%);
-  width: calc(var(--ibdw＋) + var(--bdata-bd1_bx) * 2%);
+  height: calc(var(--ibdw＋) + var(--bdata-bd_byBy) * 2%);
+  width: calc(var(--ibdw＋) + var(--bdata-bd_bx) * 2%);
   top: var(--ibdw－);
   right: var(--ibdw－);
 }
-.bd1_bxy > .radii {
+.bd_bxy > .radii {
   border-color: transparent transparent green red;
   top: 0;
   right: 0;
 }
-.bd1_cxy {
+.bd_cxy {
   border-color: green green blue blue;
-  height: calc(var(--ibdw＋) + var(--bdata-bd1_cyCy) * 2%);
-  width: calc(var(--ibdw＋) + var(--bdata-bd1_cx) * 2%);
+  height: calc(var(--ibdw＋) + var(--bdata-bd_cyCy) * 2%);
+  width: calc(var(--ibdw＋) + var(--bdata-bd_cx) * 2%);
   right: var(--ibdw－);
   bottom: var(--ibdw－);
 }
-.bd1_cxy > .radii {
+.bd_cxy > .radii {
   bottom: 0;
   right: 0;
   border-color: green transparent transparent blue;
 }
-.bd1_dxy {
+.bd_dxy {
   border-color: purple blue blue purple;
-  height: calc(var(--ibdw＋) + var(--bdata-bd1_dyDy) * 2%);
-  width: calc(var(--ibdw＋) + var(--bdata-bd1_dx) * 2%);
+  height: calc(var(--ibdw＋) + var(--bdata-bd_dyDy) * 2%);
+  width: calc(var(--ibdw＋) + var(--bdata-bd_dx) * 2%);
   left: var(--ibdw－);
   bottom: var(--ibdw－);
 }
-.bd1_dxy > .radii {
+.bd_dxy > .radii {
   border-color: purple blue transparent transparent;
   bottom: 0;
   left: 0;
@@ -521,6 +500,7 @@ input[type='range'] {
   --tr: 100%;
   --br: 100%;
   --bl: 100%;
+  anchor-scope: --anch2;
   --tl2: 1%;
   --tr2: 1%;
   --br2: 100%;
@@ -542,7 +522,7 @@ input[type='range']::-webkit-slider-runnable-track,
 input[type='range']::-moz-range-track {
   box-sizing: border-box;
   height: var(--track-size);
-  width: 100%;
+  width: 80cqmin;
   color: var(--track-foreground);
   background: var(--track-background);
   border-style: var(--track-border-style);
@@ -554,6 +534,10 @@ input[type='range']::-moz-range-track {
   border-color: hsla(from var(--c-base) h 20 60 / 100%);
   --c-base: var(--track-color-base, #da0000);
   border-radius: var(--bdr-r0);
+  border: none;
+  background-color: #0000;
+  background-image: linear-gradient(#0002);
+  outline: 0.5px solid #000;
 }
 
 input[type='range']::-webkit-slider-thumb {
@@ -572,6 +556,7 @@ input[type='range']::-moz-range-thumb {
   border-radius: var(--bdr-r1);
   --bdr-r1: var(--dx) var(--ax) var(--bx) var(--cx) / var(--dy) var(--ay)
     var(--by) var(--cy);
+  anchor-name: --anch2;
 }
 
 input[type='range']:focus {
@@ -583,6 +568,7 @@ input[type='range']:focus::-moz-range-thumb {
   border: 1px solid #053a5f;
   outline: 3px solid #053a5f;
   outline-offset: 0.125rem;
+  anchor-name: --test-thumb;
 }
 
 .slider-wrapper::after {
@@ -647,12 +633,67 @@ input[type='range']:focus::-moz-range-thumb {
 }
 
 .stest {
-  --bdata-bd1_ax: 20;
-  --bdata-bd1_bx: 40;
-  --bdata-bd1_cx: 20;
-  --bdata-bd1_dx: 40;
-  --bdata-bd1_ayAy: 20;
-  --bdata-bd1_byBy: 30;
-  --bdata-bd1_cyCy: 20;
-  --bdata-bd1_dyDy: 30;
+  --bdata-bd_ax: 20;
+  --bdata-bd_bx: 40;
+  --bdata-bd_cx: 20;
+  --bdata-bd_dx: 40;
+  --bdata-bd_ayAy: 20;
+  --bdata-bd_byBy: 30;
+  --bdata-bd_cyCy: 20;
+  --bdata-bd_dyDy: 30;
+}
+
+
+
+
+.stest {
+  grid-template-columns:
+    [left ax-start bx-start cx-start dx-start by-start] var(--thumb-size) [by-end dy-start] var(--thumb-size) [dy-end] 1fr [ay-start] var(--thumb-size) [cy-start] var(--thumb-size) [cy-end ax-end bx-end cx-end dx-end right];
+  grid-template-rows: [top ay-start by-start cy-start dy-start bx-start] var(--thumb-size) [bx-end ax-start] var(--thumb-size) [ax-end] 1fr [cx-start] var(--thumb-size) [dx-start] var(--thumb-size) [dx-end ay-end by-end cy-end dy-end right];
+  grid-auto-rows: auto;
+  --thumb-size: 2rem;
+}
+
+
+.stest > .preview {
+  grid-column: 1/-1;
+  grid-row: 1/-1;
+  anchor-name: --anchor-container-preview;
+}
+.bd_axy {
+  --base-color: var(--color-top);
+}
+.bd_bxy {
+  --base-color: var(--color-right);
+}
+.bd_cxy {
+  --base-color: var(--color-bottom);
+}
+.bd_dxy {
+  --base-color: var(--color-left);
+}
+.stest .preview .line {
+  position: fixed;
+  position-anchor: --anchor-container-preview;
+  inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
+  anchor-name: --anchor-preview-line;
+}
+.stest .preview .line .oval {
+  position: absolute;
+  position-anchor: --anchor-preview-line;
+  anchor-name: --anchor-preview-oval;
+  anchor-scope: --anchor-preview-oval;
+  background-image: radial-gradient(50% 50% ellipse at center, #0002, #aaaaaa0a)
+}
+.stest .preview .line .bd_axy {
+  inset: anchor(top, var(--ibdw－)) auto auto anchor(left, var(--ibdw－));
+  inset: anchor(top, var(--ibdw－)) anchor(right, var(--ibdw－));
+}
+.stest .preview .line .oval .radii {
+  position: absolute;
+  position-anchor: --anchor-preview-oval;
+  inset: anchor(top) anchor(right) auto anchor(left);
+  inset: anchor(top) anchor(right) auto auto;
+  width: 50%;
+  height: 50%;
 }

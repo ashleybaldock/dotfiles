@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 VIMDIR="$HOME/dotfiles/.vim"
 

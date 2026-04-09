@@ -129,7 +129,8 @@ ffmpeg   -r 30 \
 ###### With libx264
 
 ```bash
-ffmpeg  -i input.gif \
+ffmpeg  -r 30 \
+        -i input.gif \
 
       -c:v libx264 \
    -preset slow \

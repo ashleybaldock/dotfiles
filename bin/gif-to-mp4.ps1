@@ -36,7 +36,7 @@ ls $sourceDir | Where { $_.Extension -eq ".gif" } | ForEach {
 
 
 
-  $tmpdir = Join-Path "$sourceDir" $_.Name.Replace(".gif", "-tmp")
+  $tmpdir = Join-Path "$sourceDir" $_.Name.Replace(".gif", "-tp")
   $tmppat = Join-Path "$tmpdir" "frame_%d.png"
   $frames = Join-Path "$sourceDir" $_.Name.Replace(".gif", "-frames.mp4")
 

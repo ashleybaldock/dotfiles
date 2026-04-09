@@ -74,6 +74,15 @@ Upscaling
 for png in *.png; do pngout $png; done
 ```
 
+## ffmpeg
+
+```bash
+ffmpeg -stats \
+ -hide_banner \
+    -loglevel error \
+              $command
+```
+
 ## MP4 -> GIF
 
 ## GIF -> MP4
@@ -95,25 +104,68 @@ ffmpeg -i IN.mp4 -s 1920x1080 -sws_flags neighbor OUT.mp4
 #### 2x upscale, 480x270 -> 960x540
 
 ```bash
-ffmpeg -i input-480x270.gif -movflags faststart -pix_fmt yuv420p \
- -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2' -s 960x540 \
- -sws_flags neighbor output.upscaled2x.960x540.yuv420p.mp4
+ffmpeg   -i input-480x270.gif \
+        -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2' \
+  -movflags faststart \
+   -pix_fmt yuv420p \
+         -s 960x540 \
+ -sws_flags neighbor \
+            output.up2x.960x540.yuv420p.mp4
 ```
 
-#### 4x upscale, 480x270 -> 1080p
+#### 3x upscale, 640x360 -> 1080p
 
 ```bash
-ffmpeg -i input.480x270.gif -movflags faststart -pix_fmt yuv420p \
- -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2' -s 1920x1080 \
- -sws_flags neighbor output.upscaled4x.1080p.yuv420p.mp4
+ffmpeg   -r 30 \
+         -i input-640x360.gif \
+        -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2' \
+  -movflags faststart \
+   -pix_fmt yuv420p \
+         -s 1920x1080 \
+ -sws_flags neighbor \
+           output.up3x.1080p.yuv420p.mp4
+```
 
-ffmpeg -i input.240x135.gif -movflags faststart -pix_fmt yuv420p \
- -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2' -s 960x540 \
- -sws_flags neighbor output.upscaled4x.960x540.yuv420p.mp4
+###### With libx264
 
-ffmpeg -i input.240x135.gif -movflags faststart -pix_fmt yuv420p \
- -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2' -s 960x540 \
- -sws_flags neighbor output.upscaled4x.960x540.yuv420p.mp4
+```bash
+ffmpeg  -i input.gif \
+
+      -c:v libx264 \
+   -preset slow \
+      -crf 18  \
+       -vf 'scale=-2:1080:flags=neighbor' \
+
+ -movflags faststart \
+  -pix_fmt yuv420p \
+        -s 1920x1080 \
+           output.up3x.1080p.yuv420p.mp4
+```
+
+#### 4x upscale (e.g. 480x270 -> 1080p)
+
+```bash
+ffmpeg   -r 30 \
+         -i input.480x270.gif \
+        -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2' \
+  -movflags faststart \
+   -pix_fmt yuv420p \
+         -s 1920x1080 \
+ -sws_flags neighbor \
+            output.up4x.1080p.yuv420p.mp4
+```
+
+#### 8x upscale (e.g. 240x215 -> 1080p)
+
+```bash
+ffmpeg   -r 30 \
+         -i input.240x135.gif \
+        -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2' \
+  -movflags faststart \
+   -pix_fmt yuv420p \
+         -s 1920x1080 \
+ -sws_flags neighbor \
+            output.up8x.1080p.yuv420p.mp4
 ```
 
 ## Downscaling
@@ -243,31 +295,41 @@ ffmpeg -i input.mp4 -i thumbnail.png -map 1 -map 0 \
 
 ## Overlay (Picture-in-picture)
 
-#### Image
+┏━━━━━┓
+┃  ┌──┨
+┗━━┷━━┛
+
+#### Static Image
 
 ```bash
-ffmpeg -i input.mp4 -i image.png \
+ffmpeg  -i input.mp4 \
+        -i image.png \
  -filter_complex \
  '[1:v]scale=480:854[overlay]; [0:v][overlay]overlay=0:0:enable="between(t,0,20)"' \
- -pix_fmt yuv420p -c:a copy \
- output.mp4
+  -pix_fmt yuv420p \
+      -c:a copy \
+           output.mp4
 ```
 
 ```bash
-ffmpeg -i input.mp4 -i image.png \
+ffmpeg  -i input.mp4 \
+        -i image.png \
  -filter_complex '[0:v][1:v] overlay=25:25:enable="between(t,0,20)"' \
- -pix_fmt yuv420p -c:a copy \
- output.mp4
+  -pix_fmt yuv420p \
+      -c:a copy \
+           output.mp4
 ```
 
 ```bash
-ffmpeg -i input.mp4 -i image.png \
+ffmpeg  -i input.mp4 \
+        -i image.png \
  -filter_complex '[0:v][1:v] overlay=W-w:H-h:enable="between(t,0,20)"' \
- -pix_fmt yuv420p -c:a copy \
+  -pix_fmt yuv420p \
+            -c:a copy \
  output.mp4
 ```
 
-#### Video
+#### Video inset in video
 
 ```bash
 todo
@@ -288,25 +350,35 @@ meaning only a few frame rates can be represented exactly:
 |      10 |    10 |              |
 |      20 |     5 |              |
 
-A 30fps source (or every other frame of a 60fps source) can at best be represented in GIF
-format in slight slow-motion at a frame rate of 33.33fps.
+A 30fps source (or every other frame of a 60fps source) can at best be
+represented in GIF format in slight slow-motion at a frame rate of 33.33fps.
 
 When converting to MP4, the original frame rate can be restored.
 
 ### 33.3333fps mp4 -> 30fps mp4
 
 ```bash
-ffmpeg -i input.mp4 \
- -itsscale '1.1111111111111112' -map 0:0 -c:0 copy \
- -movflags '+faststart' -f mp4 -y output.mp4
+ffmpeg  -i input.mp4 \
+ -itsscale '1.1111111111111112' \
+      -map 0:0 \
+      -c:0 copy \
+ -movflags '+faststart' \
+        -f mp4 \
+        -y \
+           output.mp4
 ```
 
 ### 33fps mp4 -> 30fps mp4
 
 ```bash
-ffmpeg -i input.mp4 \
- -itsscale '1.1' -map 0:0 -c:0 copy \
- -movflags '+faststart' -f mp4 -y output.mp4
+ffmpeg  -i input.mp4 \
+ -itsscale '1.1' \
+      -map 0:0 \
+      -c:0 copy \
+ -movflags '+faststart' \
+         -f mp4 \
+         -y \
+            output.mp4
 ```
 
 ## Generate tiled snapshots
@@ -320,10 +392,15 @@ ffmpeg -i input.gif \
 ## Trim (keyframes) from start
 
 ```bash
-ffmpeg -ss '6.06600' -i input.mp4 \
+ffmpeg  -ss '6.06600' \
+         -i input.mp4 \
  -avoid_negative_ts make_zero \
- -map '0:0' '-c:0' copy -map '0:1' '-c:1' copy \
- -movflags '+faststart' -f mp4 -y output.mp4
+       -map '0:0' '-c:0' copy \
+       -map '0:1' '-c:1' copy \
+  -movflags '+faststart' \
+         -f mp4 \
+         -y \
+            output.mp4
 ```
 
 ## Powershell

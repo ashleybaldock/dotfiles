@@ -156,17 +156,35 @@
     var(--s2x) var(--s2y) var(--sblur2) var(--sc2);
 }
 
+@property --outline-light-angle {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
 @keyframes orbit {
   from {
     --outline-light-angle: 0deg;
   }
+  25% {
+    --outline-light-angle: 90deg;
+  }
+
   50% {
     --outline-light-angle: 180deg;
+  }
+
+  75% {
+    --outline-light-angle: 270deg;
   }
 
   to {
     --outline-light-angle: 360deg;
   }
+}
+
+.test1 {
+  animation: 10s ease-in-out 0s infinite  running orbit;
 }
 
 :root {

@@ -641,8 +641,8 @@ input[type='range']:focus::-moz-range-thumb {
   --bdata-bd_byBy: 30;
   --bdata-bd_cyCy: 20;
   --bdata-bd_dyDy: 30;
-  grid-template-columns: [left ax-start bx-start cx-start dx-start ay-start] var(--thumb-size) [ay-end dy-start] var(--thumb-size) [dy-end] 1fr [by-start] var(--thumb-size) [by-end cy-start] var(--thumb-size) [cy-end ax-end bx-end cx-end dx-end right];
-  grid-template-rows: [top ay-start by-start cy-start dy-start ax-start] var(--thumb-size) [ax-end bx-start] var(--thumb-size) [bx-end] 1fr [cx-start] var(--thumb-size) [cx-end dx-start] var(--thumb-size) [dx-end ay-end by-end cy-end dy-end right];
+  grid-template-columns: [left] 10vw [ax-start bx-start cx-start dx-start ay-start] var(--thumb-size) [ay-end dy-start] var(--thumb-size) [dy-end] 1fr [by-start] var(--thumb-size) [by-end cy-start] var(--thumb-size) [cy-end ax-end bx-end cx-end dx-end] 10vw [right];
+  grid-template-rows: [top] 10vh auto[ay-start by-start cy-start dy-start ax-start] var(--thumb-size) [ax-end bx-start] var(--thumb-size) [bx-end] 1fr [cx-start] var(--thumb-size) [cx-end dx-start] var(--thumb-size) [dx-end ay-end by-end cy-end dy-end] 10vh [right];
   grid-auto-rows: auto;
   --thumb-size: 2rem;
 }
@@ -794,3 +794,11 @@ input[type="range"]::-moz-range-thumb {
 }
 
 
+.stest .preview {
+width: 100%;
+height: 100%;
+}
+.stest .preview .line {
+width: 100%;
+height: 100%;
+}

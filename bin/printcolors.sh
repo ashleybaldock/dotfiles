@@ -43,9 +43,6 @@ for (( i = 0; i < "$alt"; i++)) ; do
     x=$(( $from + ($i * $grp) + $j ))
 
     if (( $x >= $from && $x <= $to )) ; then
-      # printf "\e[38;5;%sm􀏄%-3d\e[0m" "$x" "$x";
-      # printf "\e[38;5;%sm􁷰􀟐%-3d􀟐 \e[0m" "$x" "$x";
-      # if (( $x >= 16 && $x <= 33 || $x >= 52 && $x <= 69 || $x >= 88 && $x <= 105 || $x >= 124 && $x <= 141 || $x >= 160 && $x <= 177 )) ; then
       if (( $x >= 16 && $x <= 21 || $x >= 52 && $x <= 57 || $x >= 88 && $x <= 93  || $x >= 124 && $x <= 129 )) ; then
         printf "\e[48;5;008m\e[38;5;%sm􀟼%03d \e[0m" "$x" "$x";
      elif (( $x >= 232 && $x <= 237 || $x >= 238 && $x <= 243 )) ; then
@@ -61,10 +58,53 @@ for (( i = 0; i < "$alt"; i++)) ; do
       printf "\n";
     fi;
   done
-  # printf "\n";
 done
 printf "\n";
 
+
+printf "\n";
+for (( i = 0; i <= 5; i++)) ; do
+  for (( j = 0; j <= 5; j++)) ; do
+    x=$(( 16 + $i * 6 + $j ))
+    printf "\e[38;5;%sm􀟼\e[0m" "$x";
+  done
+  printf "\n";
+done
+
+printf "\n";
+for (( i = 5; i >= 0; i--)) ; do
+  for (( j = 0; j <= 5; j++)) ; do
+    x=$(( 16 + $i * 6 + $j ))
+    printf "\e[38;5;%sm􀟼\e[0m" "$x";
+  done
+  printf "\n";
+done
+
+printf "\n";
+for (( i = 0; i <= 5; i++)) ; do
+  for (( j = 5; j >= 0; j--)) ; do
+    x=$(( 16 + $i * 6 + $j ))
+    printf "\e[38;5;%sm􀟼\e[0m" "$x";
+  done
+  printf "\n";
+done
+
+printf "\n";
+for (( i = 5; i >= 0; i--)) ; do
+  for (( j = 5; j >= 0; j--)) ; do
+    x=$(( 16 + $i * 6 + $j ))
+    printf "\e[38;5;%sm􀟼\e[0m" "$x";
+  done
+  printf "\n";
+done
+
+
+exit 0
+
+
+# printf "\e[38;5;%sm􀏄%-3d\e[0m" "$x" "$x";
+# printf "\e[38;5;%sm􁷰􀟐%-3d􀟐 \e[0m" "$x" "$x";
+# if (( $x >= 16 && $x <= 33 || $x >= 52 && $x <= 69 || $x >= 88 && $x <= 105 || $x >= 124 && $x <= 141 || $x >= 160 && $x <= 177 )) ; then
 #  *n              -2    -1    +0   +1    +2
 # 16-21 1 a   → a             16-21
 # 22-27 2  b  → a                  34-39
@@ -82,7 +122,6 @@ printf "\n";
 # 􀣯􀥱􀟉
 # 􀝜􀧒  
 # 􀾘􀧑􀂒
-exit 0
 
 for i in {1..3} ; do
   for j in {1..12} ; do
@@ -169,4 +208,24 @@ for j in {0..6} ; do
   done
   printf "\n";
 done
+
+
+
+# for i in $(seq 0 12);
+# do
+#   for j in $(seq 0 9);
+#   do
+
+#     k=$((j + (i * 10)))
+#     printf "\t\033[1;${k}m %4s \033[00m" $k
+#   done
+
+#   for j in $(seq 0 9);
+#   do
+#     printf "\t\033[1;${k}m %-4s \033[00m" $k
+#   done
+
+#   printf "\n"
+# done
+
 

@@ -702,12 +702,12 @@ body > h1 {
 @property --interleave-bpm {
   syntax: '<number>';
   inherits: true;
-  initial-value: 120;
+  initial-value: 140;
 }
 @property --s-interleave-bpm {
   syntax: '<string>';
   inherits: true;
-  initial-value: '120';
+  initial-value: '140';
 }
 
 @property --interleave-duration-ms {
@@ -1961,7 +1961,6 @@ body > table > thead > tr::before {
   border: none;
   gap: 0;
 }
-
 .up::after {
   font-family: monospace;
   font-weight: 700;
@@ -1973,7 +1972,6 @@ body > table > thead > tr::before {
   letter-spacing: -0.18ch;
   margin: 0.8lh 0 -0.8lh 0.5ch;
 }
-
 .up::before {
   grid-area: 1/1;
   background: #fff;
@@ -1995,7 +1993,6 @@ body > table > thead > tr::before {
   display: flex;
   place-self: top left;
 }
-
 .up:hover {
   text-decoration: none;
   background-color: none;
@@ -2003,15 +2000,15 @@ body > table > thead > tr::before {
 }
 /*!}}}1*/
 
-:not(#u#n#i) .sequencetoggle > label::after {
+.sequencetoggle {
+  grid-column-end: span 1;
+}
+.sequencetoggle > label::after {
   display: none;
 }
 .sequencetoggle > label > [type='radio'] {
   z-index: -10px;
   visibility: hidden;
-}
-.sequencetoggle {
-  grid-column-end: span 1;
 }
 
 :root:has([name='filelist'][value='beside']:checked) {
@@ -2020,30 +2017,6 @@ body > table > thead > tr::before {
 }
 :root:has([name='filelist'][value='hide']:checked) body > table {
   display: none;
-}
-
-:root:has([id='toggle_debug']:checked) .interleave {
-  transform: scale(calc(1 / var(--interleave-active-player-count)))
-    var(--ani-transform);
-  background-image: linear-gradient(#f22 0 0);
-  box-shadow:
-    0 6vh 0 -2vh #f0f,
-    0 -6vh 0 -2vh #f0f;
-}
-
-:root:has([id='toggle_debug']:checked) .interleave .vidwrap {
-  background-image: linear-gradient(#22aa 0 0);
-  /*   outline: 2vh solid #000; */
-  box-shadow: 0 0 0 2vh #000;
-}
-
-:root:has([id='toggle_debug']:checked) .interleave .vidwrap::after {
-  --radius: 18vw;
-  inset: auto 5vw -30vh auto;
-}
-:root:has([id='toggle_debug']:checked) body::before {
-  outline: 2px dashed red;
-  z-index: var(--z-debug-top);
 }
 
 body {
@@ -2074,7 +2047,7 @@ body
   grid-column: filesize;
 }
 
-:not(#u#n#i) body > table > tbody > tr {
+body > table > tbody > tr {
   display: grid;
   grid-template-columns: subgrid;
   grid-template-rows: 1fr;
@@ -2084,7 +2057,7 @@ body
   inset: var(--inset-files);
   position: sticky;
 }
-:not(#u#n#i) body > table > tbody > tr:hover {
+body > table > tbody > tr:hover {
   outline: 1px solid #fff3;
   outline-offset: -4px;
 }
@@ -2213,6 +2186,12 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   background-color: #828;
   mask-image: var(--icon-composite);
 }
+
+:root:has([id='toggle_debug']:checked) body::before {
+  outline: 2px dashed red;
+  z-index: var(--z-debug-top);
+}
+
 :root:has([id='toggle_debug']:checked) .toggle {
   grid-template-columns: 1fr;
   height: auto;
@@ -2275,25 +2254,33 @@ h1,
   opacity: 0;
 }
 
-:root:has([id='toggle_debug']:checked) .interleave > .vidwrap:has(> .off) {
-  display: flex;
-  transform: translate(-100vw, 120vh);
-}
-
 :root:has([id='toggle_debug']:checked) .interleave {
+  background-image: linear-gradient(#f22 0 0);
+  box-shadow:
+    0 6vh 0 -2vh #f0f,
+    0 -6vh 0 -2vh #f0f;
   transform: scale(calc(1 / var(--interleave-active-player-count)))
     translateY(200px);
   transform-origin: top;
 }
+:root:has([id='toggle_debug']:checked) .interleave .vidwrap {
+  background-image: linear-gradient(#22aa 0 0);
+  box-shadow: 0 0 0 2vh #000;
+}
 
+:root:has([id='toggle_debug']:checked) .interleave .vidwrap::after {
+  --radius: 18vw;
+  inset: auto 5vw -30vh auto;
+}
 :root:has([id='toggle_debug']:checked) .interleave > .vidwrap:has(> .off) {
+  display: flex;
+  transform: translate(-100vw, 120vh);
   background-image: linear-gradient(#a226 0 0);
   outline: 2vh solid #000;
   box-shadow: 0 0 0 2vh #000;
   position: fixed;
   inset: 0 auto auto 0;
 }
-
 .interleave > .vidwrap:has(> .off) > label::after {
   content: '';
   display: flex;

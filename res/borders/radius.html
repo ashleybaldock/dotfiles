@@ -16,66 +16,68 @@
     <!--}}}-->
   </head>
   <body>
-      <section class="screen">
+    <section class="screen">
       <h2>Border Radius</h2>
         <div class="testbase stest">
-          <div class="preview" data-sink="bd_ax bd_ay bd_bx bd_by bd_cx bd_cy bd_dx bd_dy">
-            <div class="line">
-            <div class="oval bd_axy">
-              <div class="radii"></div>
-              <div class="point bd_ax">ax</div>
-              <div class="point bd_ay">ay</div>
-            </div>
-            <div class="oval bd_bxy">
-              <div class="radii"></div>
-              <div class="point bd_bx">bx</div>
-              <div class="point bd_by">by</div>
-            </div>
-            <div class="oval bd_cxy">
-              <div class="radii"></div>
-              <div class="point bd_cx">cx</div>
-              <div class="point bd_cy">cy</div>
-            </div>
-            <div class="oval bd_dxy">
-              <div class="radii"></div>
-              <div class="point bd_dx">dx</div>
-              <div class="point bd_dy">dy</div>
-            </div>
+      <fieldset>
+        <label for="ay" class="slider" data-sink="ay">
+          <span>ay:left@top</span>
+          <input data-source class="vertical reversed" id="ay" type="range" value="0" min="0" max="200">
+        </label>
+        <label for="ax" class="slider" data-sink="ax">
+          <span>ax:top@left</span>
+          <input data-source id="ax" type="range" value="0" min="0" max="200">
+        </label>
+        <label for="bx" class="slider" data-sink="bx">
+          <span>bx:top@right</span>
+          <input data-source class="reversed" id="bx" type="range" value="0" min="0" max="200">
+        </label>
+        <label for="by" class="slider" data-sink="by">
+          <span>by:right@top</span>
+          <input data-source class="vertical reversed" id="by" type="range" value="0" min="0" max="200">
+        </label>
+        <label for="cy" class="slider" data-sink="cy">
+          <span>cy:right@bot</span>
+          <input data-source class="vertical" id="cy" type="range" value="0" min="0" max="200">
+        </label>
+        <label for="cx" class="slider" data-sink="cx">
+          <span>cx:bot@right</span>
+          <input data-source class="reversed" id="cx" type="range" value="0" min="0" max="200">
+        </label>
+        <label for="dx" class="slider" data-sink="dx">
+          <span>dx:bot@left</span>
+          <input data-source id="dx" type="range" value="0" min="0" max="200">
+        </label>
+        <label for="dy" class="slider" data-sink="dy">
+          <span>dy:left@bot</span>
+          <input data-source class="vertical" id="dy" type="range" value="0" min="0" max="200">
+        </label>
+      </fieldset>
+      <div class="preview" data-sink="ax ay bx by cx cy dx dy">
+        <div class="line">
+          <div class="oval axy">
+            <div class="radii"></div>
+            <div class="point ax">ax</div>
+            <div class="point ay">ay</div>
+          </div>
+          <div class="oval bxy">
+            <div class="radii"></div>
+            <div class="point bx">bx</div>
+            <div class="point by">by</div>
+          </div>
+          <div class="oval cxy">
+            <div class="radii"></div>
+            <div class="point cx">cx</div>
+            <div class="point cy">cy</div>
+          </div>
+          <div class="oval dxy">
+            <div class="radii"></div>
+            <div class="point dx">dx</div>
+            <div class="point dy">dy</div>
           </div>
         </div>
-        <label for="bd_ay" class="slider-wrapper" data-sink="bd_ay">
-          <span>ay:left@top</span>
-          <input data-source class="vertical reversed" id="bd_ay" type="range" value="0" min="0" max="200">
-        </label>
-        <label for="bd_ax" class="slider-wrapper" data-sink="bd_ax">
-          <span>ax:top@left</span>
-          <input data-source id="bd_ax" type="range" value="0" min="0" max="200">
-        </label>
-        <label for="bd_bx" class="slider-wrapper" data-sink="bd_bx">
-          <span>bx:top@right)</span>
-          <input data-source class="reversed" id="bd_bx" type="range" value="0" min="0" max="200">
-        </label>
-        <label for="bd_by" class="slider-wrapper" data-sink="bd_by">
-          <span>by:right@top)</span>
-          <input data-source class="vertical reversed" id="bd_by" type="range" value="0" min="0" max="200">
-        </label>
-        <label for="bd_cy" class="slider-wrapper" data-sink="bd_cy">
-          <span>cy:right@bot</span>
-          <input data-source class="vertical" id="bd_cy" type="range" value="0" min="0" max="200">
-        </label>
-        <label for="bd_cx" class="slider-wrapper" data-sink="bd_cx">
-          <span>cx:bot@right</span>
-          <input data-source class="reversed" id="bd_cx" type="range" value="0" min="0" max="200">
-        </label>
-        <label for="bd_dx" class="slider-wrapper" data-sink="bd_dx">
-          <span>dx:bot@left</span>
-          <input data-source id="bd_dx" type="range" value="0" min="0" max="200">
-        </label>
-        <label for="bd_dy" class="slider-wrapper" data-sink="bd_dy">
-          <span>dy:left@bot</span>
-          <input data-source class="vertical" id="bd_dy" type="range" value="0" min="0" max="200">
-        </label>
-      </section>
+      </div>
+    </section>
   </body>
 </html>
 

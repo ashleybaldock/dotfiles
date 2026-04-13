@@ -2,24 +2,55 @@ import { readyStateComplete } from '/js/util.js';
 
 
 readyStateComplete().then(() => {
-  const sourceMap = new Map([...document.querySelectorAll('[data-source]')].map((sourceElement) => [sourceElement.getAttribute('id'), sourceElement]));
+  const sourceMap = new Map([
+    ...document.querySelectorAll('[data-source], input[id]')
+  ].map((source) => [source.getAttribute('id'), source]));
 
-  const sinks = [...document.querySelectorAll('[data-sink]')];
+  const sinks = {
+    data: [...document.querySelectorAll('[data-sink]')],
+    auto_for: [...document.querySelectorAll('[for]')],
+    // auto_label: [...document.querySelectorAll('label:not([for]):has(input)')],
+  };
 
-  const setStyleProperty = (element, property, newValue) => {
+  const setProp = (element, property, newValue) => {
     element.style.setProperty(`--bdata-${property}`, newValue);
     element.style.setProperty(`--bdata-str-${property}`, `'${newValue}'`);
   };
+  const unsetProp = (element, property) => {
+    element.style.removeProperty(`--bdata-${property}`);
+    element.style.removeProperty(`--bdata-str-${property}`);
+  };
 
-  sinks.forEach((sink) =>
+  sinks.data.forEach((sink) =>
     sink.dataset?.sink.split(' ')
-      .flatMap((sourceId) => sourceMap.has(sourceId) ? [[sourceId, sourceMap.get(sourceId)]] : [])
-      .forEach(([sourceId, source]) => {
-        source.addEventListener('change',
-        ({target}) => setStyleProperty(sink, sourceId, target.value) );
-        source.addEventListener('input',
-        ({target}) => setStyleProperty(sink, sourceId, target.value) );
-        setStyleProperty(sink, sourceId, source.value);
+      .forEach((sourceId) => {
+        const source = sourceMap.get(sourceId);
+        if (source) {
+          source.addEventListener('change',
+          ({target}) => {
+            setProp(sink, sourceId, target.value);
+            unsetProp(sink, `${sourceId}-input`);
+          });
+          source.addEventListener('input',
+          ({target}) => setProp(sink, `${sourceId}-input`, target.value) );
+          setProp(sink, sourceId, source.value);
+        }
       })
   );
+
+  sinks.auto_for.forEach((sink) =>
+    sink.getAttribute('for')?.split(' ')
+      .forEach((sourceId) => {
+        const source = sourceMap.get(sourceId);
+        if (source) {
+          source.addEventListener('change',
+          ({target}) => {
+            setProp(sink, 'for', target.value);
+            unsetProp(sink, `for-input`);
+          });
+          source.addEventListener('input',
+          ({target}) => setProp(sink, 'for-input', target.value) );
+          setProp(sink, 'for', source.value);
+        }
+      }));
 });

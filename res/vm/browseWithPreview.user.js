@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.358
+// @version     1.0.359
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -492,9 +492,9 @@ const initBrowsePreview = ({ document: { body } }) => {
       showGrid: defineToggle(false),
       grid_fit: defineSequence(sequences.fit),
       player: defineSequence(sequences.player, 'interleave'),
-      interleave_active_player_count: defineNumber(6),
+      interleave_active_player_count: defineNumber(9),
       interleave_duration_ms: defineNumber(500),
-      interleave_bpm: defineNumber(120),
+      interleave_bpm: defineNumber(140),
       interleave_timing: defineSequence(sequences.interleave_timing, 'bpm'),
       repeat: defineToggle(true),
       shuffle_on_load: defineToggle(true),

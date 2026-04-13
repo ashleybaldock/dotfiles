@@ -16,67 +16,42 @@
     <!--}}}-->
   </head>
   <body>
-    <section class="screen stest" data-sink="ax ay bx by cx cy dx dy">
+    <fieldset class="screen stest" data-sink="ax ay bx by cx cy dx dy">
       <h2>Border Radius</h2>
       <div class="preview">
-        <div class="line">
-          <div class="oval axy">
-            <div class="radii"></div>
-            <div class="point ax">ax</div>
-            <div class="point ay">ay</div>
-          </div>
-          <div class="oval bxy">
-            <div class="radii"></div>
-            <div class="point bx">bx</div>
-            <div class="point by">by</div>
-          </div>
-          <div class="oval cxy">
-            <div class="radii"></div>
-            <div class="point cx">cx</div>
-            <div class="point cy">cy</div>
-          </div>
-          <div class="oval dxy">
-            <div class="radii"></div>
-            <div class="point dx">dx</div>
-            <div class="point dy">dy</div>
-          </div>
+        <div class="outline">
         </div>
       </div>
-      <fieldset>
-        <label for="ay" class="slider" data-sink="ay">
-          <span>ay</span>
-          <input data-source class="vertical reversed" id="ay" type="range" value="0" min="0" max="100">
-        </label>
-        <label for="ax" class="slider" data-sink="ax">
-          <span>ax</span>
-          <input data-source id="ax" type="range" value="0" min="0" max="100">
-        </label>
-        <label for="bx" class="slider" data-sink="bx">
-          <span>bx</span>
-          <input data-source class="reversed" id="bx" type="range" value="0" min="0" max="100">
-        </label>
-        <label for="by" class="slider" data-sink="by">
-          <span>by</span>
-          <input data-source class="vertical reversed" id="by" type="range" value="0" min="0" max="100">
-        </label>
-        <label for="cy" class="slider" data-sink="cy">
-          <span>cy</span>
-          <input data-source class="vertical" id="cy" type="range" value="0" min="0" max="100">
-        </label>
-        <label for="cx" class="slider" data-sink="cx">
-          <span>cx</span>
-          <input data-source class="reversed" id="cx" type="range" value="0" min="0" max="100">
-        </label>
-        <label for="dx" class="slider" data-sink="dx">
-          <span>dx</span>
-          <input data-source id="dx" type="range" value="0" min="0" max="100">
-        </label>
-        <label for="dy" class="slider" data-sink="dy">
-          <span>dy</span>
-          <input data-source class="vertical" id="dy" type="range" value="0" min="0" max="100">
-        </label>
+          <div class="oval axy"></div>
+          <div class="oval bxy"></div>
+          <div class="oval cxy"></div>
+          <div class="oval dxy"></div>
+
+          <div class="point ay">ay</div>
+          <div class="point ax">ax</div>
+          <div class="point bx">bx</div>
+          <div class="point by">by</div>
+          <div class="point cy">cy</div>
+          <div class="point cx">cx</div>
+          <div class="point dx">dx</div>
+          <div class="point dy">dy</div>
+      <input data-source id="ay" type="range" value="0" min="0" max="100" class="vertical reversed">
+      <input data-source id="ax" type="range" value="0" min="0" max="100">
+      <input data-source id="bx" type="range" value="0" min="0" max="100" class="reversed" >
+      <input data-source id="by" type="range" value="0" min="0" max="100" class="vertical reversed" >
+      <input data-source id="cy" type="range" value="0" min="0" max="100" class="vertical" >
+      <input data-source id="cx" type="range" value="0" min="0" max="100" class="reversed" >
+      <input data-source id="dx" type="range" value="0" min="0" max="100">
+      <input data-source id="dy" type="range" value="0" min="0" max="100" class="vertical" >
+      <label for="ay" class="slider"></label>
+      <label for="ax" class="slider"></label>
+      <label for="bx" class="slider"></label>
+      <label for="by" class="slider"></label>
+      <label for="cy" class="slider"></label>
+      <label for="cx" class="slider"></label>
+      <label for="dx" class="slider"></label>
+      <label for="dy" class="slider"></label>
       </fieldset>
-    </section>
   </body>
 </html>
 

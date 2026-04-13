@@ -50,13 +50,6 @@ fieldset {
   display: contents;
 }
 
-.testbase {
-  width: 200px;
-  height: 200px;
-  background: white;
-  color: black;
-}
-
 .curve.topleft.stest .preview {
   border-radius: var(--tl) var(--tr) var(--br) var(--bl) / var(--tl2) var(--tr2)
     var(--br2) var(--bl2);
@@ -215,14 +208,14 @@ fieldset {
   grid-row: 2/-2;
   anchor-name: --anchor-container-preview;
 
-  --ax: calc(max(0, var(--bdata-ax, 20)) * var(--u));
-  --bx: calc(max(0, var(--bdata-bx, 20)) * var(--u));
-  --cx: calc(max(0, var(--bdata-cx, 20)) * var(--u));
-  --dx: calc(max(0, var(--bdata-dx, 20)) * var(--u));
-  --ay: calc(max(0, var(--bdata-ay, 20)) * var(--u));
-  --by: calc(max(0, var(--bdata-by, 20)) * var(--u));
-  --cy: calc(max(0, var(--bdata-cy, 20)) * var(--u));
-  --dy: calc(max(0, var(--bdata-dy, 20)) * var(--u));
+  --ax: calc(max(0, var(--bdata-ax-input,var(--bdata-ax, 20))) * var(--u));
+  --bx: calc(max(0, var(--bdata-bx-input,var(--bdata-bx, 20))) * var(--u));
+  --cx: calc(max(0, var(--bdata-cx-input,var(--bdata-cx, 20))) * var(--u));
+  --dx: calc(max(0, var(--bdata-dx-input,var(--bdata-dx, 20))) * var(--u));
+  --ay: calc(max(0, var(--bdata-ay-input,var(--bdata-ay, 20))) * var(--u));
+  --by: calc(max(0, var(--bdata-by-input,var(--bdata-by, 20))) * var(--u));
+  --cy: calc(max(0, var(--bdata-cy-input,var(--bdata-cy, 20))) * var(--u));
+  --dy: calc(max(0, var(--bdata-dy-input,var(--bdata-dy, 20))) * var(--u));
   background-image:
     repeating-linear-gradient(-135deg, blue -1px 1px, #0000 -100% 25%),
     repeating-linear-gradient(135deg, green -1px 1px, #0000 -100% 25%),
@@ -265,10 +258,10 @@ fieldset {
   display: block;
   width: calc(var(--radius) * 2);
   height: calc(var(--radius) * 2);
-  --top: calc((var(--bdw－) * 0.5) + var(--radius) * -1);
-  --bottom: calc((var(--bdw－) * 0.5) + var(--radius) * -1);
-  --left: calc((var(--bdw－) * 0.5) + var(--radius) * -1);
-  --right: calc((var(--bdw－) * 0.5) + var(--radius) * -1);
+  --top: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
+  --bottom: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
+  --left: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
+  --right: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
   --radius: calc(var(--bdw) * 2);
   box-sizing: content-box;
   border: none !important;
@@ -381,7 +374,7 @@ fieldset {
   counter-reset: value var(--slider-value);
 
   anchor-name: --anchor-slider;
-  anchor-scope: --anchor-slider --anchor-thumb;
+  anchor-scope: --anchor-slider;
   width: auto;
   height: auto;
   outline: 0.5px dotted #fff;
@@ -420,8 +413,8 @@ fieldset {
 .slider {
   display: grid;
   grid-template: 1fr/1fr;
-  --slider-value: var(--bdata-for);
-  --slider-text: var(--bdata-str-for);
+  --slider-value: var(--bdata-for-input, var(--bdata-for));
+  --slider-text: var(--bdata-str-for-input, var(--bdata-str-for, '?'));
 }
 .slider::after {
   position: fixed;

@@ -876,3 +876,193 @@ input[type="range"] {
 height: 100%;
 width: 100%;
 }
+
+.slider::after {
+  --v: var(--slider-value, 0);
+  content: attr(for) '\0a' counter(value);
+  pointer-events: none;
+  height: var(--val-readout-size);
+  width: var(--val-readout-size);
+  position: absolute;
+  color: white;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  inset: anchor(bottom) anchor(right) anchor(top) anchor(right, calc( ((var(--v) / 100) * (100% - (var(--thumb-size) * var(--thumb-ratio)))) ));
+  font-size: 1em;
+  background-color: unset;
+  --val-readout-size: var(--thumb-size);
+  box-sizing: content-box;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  position-anchor: --anchor-thumb;
+  font-size: 0.8em;
+  text-align: center;
+  counter-reset: value var(--slider-value);
+  inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
+}
+
+
+
+/* borders.css | http://localhost:3333/borders/borders.css */
+
+.slider {
+  anchor-scope: --anchor-thumb;
+  display: grid;
+  grid-template: 1fr/1fr;
+}
+
+.slider::after {
+  /*! position-anchor: --anchor-slider; */
+}
+
+.slider > span {
+  /*! position: absolute; */
+  position: absolute;
+  margin: 0 auto;
+  position-anchor: --anchor-thumb;
+  inset: anchor(--anchor-thumb top) auto auto auto;
+}
+
+.stest {
+  box-sizing: unset;
+  width: auto;
+  height: auto;
+  border: none;
+  border-color: #764d7e #603f67 #422747 #683c72;
+  grid-template-columns: [left] var(--thumb-size) [mid] 1fr [right] var(--thumb-size);
+  grid-template-rows: [top] var(--thumb-size) [mid] 1fr [bottom] var(--thumb-size);
+/* grid-template-columns: [left x-start ay-start] var(--thumb-size) [ay-end dy-start] var(--thumb-size) [dy-end] 1fr [by-start] var(--thumb-size) [by-end cy-start] var(--thumb-size) [cy-end ax-end bx-end cx-end dx-end] 10vw [right];
+grid-template-rows: [top ay-start by-start cy-start dy-start ax-start] var(--thumb-size) [ax-end bx-start] var(--thumb-size) [bx-end] 1fr [cx-start] var(--thumb-size) [cx-end dx-start] var(--thumb-size) [dx-end ay-end by-end cy-end dy-end bottom];
+grid-template-columns: [left] var(--thumb-size) [mid] 1fr [right]; */
+  container-type: size;
+}
+
+fieldset {
+  display: contents;
+/*   grid-template: subgrid/subgrid; */
+  grid-column: 1/-1;
+  grid-row: 1/-1;
+padding: 0;
+  container-type: size;
+}
+.preview {
+grid-column: mid/span 1;
+grid-row: mid/span 1;
+background-size: dust;
+background-position: 80% 100%;
+}
+.screen.stest {
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+#ax, #bx,
+.slider:has(> #ax,> #bx)  {
+  grid-column: left/right;
+  grid-row: top/span 1;
+}
+#cx, #dx,
+.slider:has(> #cx,> #dx) {
+  grid-column: left/right;
+  grid-row: bottom/span 1;
+}
+
+#ay, #dy,
+.slider:has(> #ay,> #dy) {
+  grid-column: left/span 1;
+  grid-row: top/bottom;
+}
+.slider:has(> #ay) {
+/*   outline: 2px solid #0ff; */
+}
+.slider:has(> #dy) {
+/*   outline: 2px solid #f0f; */
+}
+#by, #cy,
+.slider:has(> #by,> #cy) {
+  grid-column: right/span 1;
+/*   display: grid; */
+  grid-row: top/bottom;
+}
+
+.slider {
+  height: 100%;
+  width: 100%;
+  display: contents;
+}
+input[type="range"] {
+  visibility: hidden;
+  pointer-events: none;
+  height: 100%;
+  width: 100%;
+}
+
+input[type="range"]::-webkit-slider-runnable-track,
+input[type="range"]::-moz-range-track {
+  z-index: 1;
+  opacity: 0.4;
+}
+
+input[type="range"]:hover::-webkit-slider-runnable-track,
+input[type="range"]:hover::-moz-range-track {
+  outline: 1px solid yellow;
+}
+
+input[type="range"]::-webkit-slider-thumb, 
+input[type="range"]::-moz-range-thumb { 
+  z-index: 100;
+  visibility: visible;
+  pointer-events: all;
+  anchor-name: --anchor-thumb;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb, 
+input[type="range"]:hover::-moz-range-thumb {
+  outline: 4px solid yellow;
+}
+
+h2 {
+  pointer-events: none;
+  z-index: 0;
+  position: static;
+  grid-row: top;
+  grid-column: left/right;
+  inset: unset;
+  padding: 0 0 0 1ch;
+  place-self: center start;
+  transition: opacity 180ms ease 0s;
+  opacity: 1;
+  margin: 0;
+}
+:root:has(:where(#ax, #bx):hover) h2 {
+  opacity: 0.1;
+  transition: opacity 80ms ease 0s;
+}
+
+
+.screen.stest {
+  margin: 0;
+  padding: 0;
+}
+input[type="range"] {
+  height: 100%;
+  width: 100%;
+}
+.screen.stest {
+  gap: 0;
+}
+.slider {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  pointer-events: none;
+}
+.slider > * {
+  pointer-events: all;
+}

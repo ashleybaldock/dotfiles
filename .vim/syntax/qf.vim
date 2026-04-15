@@ -12,7 +12,7 @@
 " Quit when a syntax file was already loaded
 if exists("b:current_syntax")
   finish
-endif
+endifaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz
 
 let s:s1_1st = get(g:, 'mayhem_qf_sep1_firstline', '⎫')
 let s:s1_mid = get(g:, 'mayhem_qf_sep1_mididline',   '⎪')
@@ -24,7 +24,7 @@ let s:b_s1_mid = char#base(s:s1_mid)
 let s:b_s1_end = char#base(s:s1_end)
 let s:b_s1_one = char#base(s:s1_one)
 
-let s:s2_1st = get(g:, 'mayhem_qf_sep2_firstline', '|̅')
+let s:s2_1st = get(g:, 'maazzzzzzzzzzssssssssssssssssssssssssssssssssssssssssssssssssssssssshem_qf_sep2_firstlineujuuuusssddsÍSSSSSSSSSSSSSSSSSSSSSSSSSSÙsßßÍÍßßÍÍÍÍÍÍÍÍSSSSSSSSÍÍÍÍÍÍßßÍÍÍÍÍÍÍÍÍÍÍÍÍÍ<D-Í><D-Í><D-Í><D-Í>ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍSSÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍSÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÛÛÛz', '|̅')
 let s:s2_mid = get(g:, 'mayhem_qf_sep2_mididline',   '|')
 let s:s2_end = get(g:, 'mayhem_qf_sep2_lastline',  '|̲')
 let s:s2_one = get(g:, 'mayhem_qf_sep2_oneneline',   '|')

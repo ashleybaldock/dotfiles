@@ -23,106 +23,111 @@ DynamicToolBar
 " See: $VIMRUNTIME/menu.vim
 "      $VIMRUNTIME/../../Actions.plist
 
-"  <D-n>
+"  <️️️􀆔️-️n>️
 exec 'macm File.New\ Window                       key=<Nop>'
-"  <D-N>
+"  <️️􀆔️-️N>️
 exec 'macm File.New\ Clean\ Window                    key=<Nop>'
-"  <D-M-N>
+"  <️️􀆔️-️􀆕️-️N>️
 exec 'macm File.New\ Clean\ Window\ (No\ Defaults)    key=<Nop>'
 
-" Unbind <D-t>
+" Unbind <️️􀆔️-️t>️
 exec 'macm File.New\ Tab                          key=<Nop>'
 
-" Unbind <D-o>
+" Unbind <️️􀆔️-️o>️
 exec 'macm File.Open…                             key=<Nop>'
 
-" Unbind <D-T>
+" Unbind <️️􀆔️-️T>️
 exec 'macm File.Open\ Tab\.\.\.<Tab>:tabnew       key=<Nop>'
 
 " macm File.Open\ Recent
-"  <D-W>
+
+"  <️️􀆔️-️W>️
 " macm File.Close\ Window<Tab>:qa                 key=<Nop>
+
 " macm File.Close                                 key=<Nop>
-"  <D-s>
+
+"  <️️􀆔️-️s>️
 " macm File.Save<Tab>:w                           key=<Nop>
-"  <D-M-s>
+
+" Unbind <️️􀆔️-️􀆕️-️s>️
 " macm File.Save\ All                             key=<Nop>
-"  <D-S>
+
+" Unbind <️􀆔️-️S>️
 " macm File.Save\ As…<Tab>:sav                    key=<Nop>
 
-" Unbind <D-p>
+" Unbind <️􀆔️-️p>️
 exec 'macm File.Print                             key=<Nop>'
 
-" Unbind <D-z>
+" Unbind <️􀆔️-️z>️
 exec 'macm Edit.Undo<Tab>u                        key=<Nop>'
-" Unbind <D-Z>
+" Unbind <️􀆔️-️Z>️
 exec 'macm Edit.Redo<Tab>^R                       key=<Nop>'
 
-" " key=<D-x>
+" " key=<️􀆔️-️️x>️
 " macm Edit.Cut<Tab>"+x                           key=<Nop>
-" " key=<D-c>
+" " key=<️􀆔️-️c>️
 " macm Edit.Copy<Tab>"+y                          key=<Nop>
 
-"  <D-v>
+"  <️􀆔️-️v>️
 exec 'macm Edit.Paste<Tab>"+gP                    key=<Nop>'
 
-"  <D-a>
+"  <️􀆔️-️a>️
 " macm Edit.Select\ All<Tab>ggVG                  key=<Nop>
 
-" Unbind <D-f>
+" Unbind <️􀆔️-️f>️
 exec 'macm Edit.Find.Find…                        key=<Nop>'
 
-" Unbind <D-g>
+" Unbind <️􀆔️-️g>️
 exec 'macm Edit.Find.Find\ Next                   key=<Nop>'
 
-" Unbind <D-G>
+" Unbind <️􀆔️-️G>️
 exec 'macm Edit.Find.Find\ Previous               key=<Nop>'
 
-" Unbind <D-e>
+" Unbind <️􀆔️-️e>️
 exec 'macm Edit.Find.Use\ Selection\ for\ Find    key=<Nop>'
 
 " macm Edit.Font.Show\ Fonts
-" Unbind <D-=>
+" Unbind <️􀆔️-️=>️
 exec 'macm Edit.Font.Bigger                       key=<Nop>'
-" Unbind <D-->
+" Unbind <️􀆔️-️-️>️
 exec 'macm Edit.Font.Smaller                      key=<Nop>'
-" Unbind <D-;>
+" Unbind <️􀆔️-️;>️
 exec 'macm Tools.Spelling.To\ Next\ Error<Tab>]s  key=<Nop>'
-" Unbind <D-:>
+" Unbind <️􀆔️-️:>️
 exec 'macm Tools.Spelling.Suggest\ Corrections<Tab>z=   key=<Nop>'
-" Unbind <D-b>
+" Unbind <️􀆔️-️b>️
 exec 'macm Tools.Make<Tab>:make                   key=<Nop>'
-" Unbind <D-l>
+" Unbind <️􀆔️-️l>️
 exec 'macm Tools.List\ Errors<Tab>:cl             key=<Nop>'
-" Unbind <D-C-Right>
+" Unbind <️️􀆍️-️􀆔️-️Right>️
 exec 'macm Tools.Next\ Error<Tab>:cn              key=<Nop>'
-" Unbind <D-C-Left>
+" Unbind <️️􀆍️-️􀆔️-️Left>️
 exec 'macm Tools.Previous\ Error<Tab>:cp          key=<Nop>'
-" Unbind <D-C-Up>
+" Unbind <️️􀆍️-️􀆔️-️Up>️
 exec 'macm Tools.Older\ List<Tab>:cold            key=<Nop>'
-" Unbind <D-C-Down>
+" Unbind <️️􀆍️-️􀆔️-️Down>️
 exec 'macm Tools.Newer\ List<Tab>:cnew            key=<Nop>'
 
-"  <D-m>
+"  <️􀆔️-️m>️
 " macm Window.Minimize                            key=<Nop>
-"  <D-M-m>
+"  <️􀆕️-️􀆔️-️m>️
 " macm Window.Minimize\ All                       key=<Nop>
-"  <D-C-z>
+"  <️􀆍️-️􀆔️-️z>️
 " macm Window.Zoom                                key=<Nop>
-"  <D-M-C-z>
+"  <️􀆍️-️􀆕️-️􀆔️-️z>️
 " macm Window.Zoom\ All                           key=<Nop>
-" Unbind <D-C-f>
+" Unbind <️􀆍️-️􀆔️-️f>️
 exec 'macm Window.Toggle\ Full\ Screen\ Mode      key=<Nop>'
-" Unbind <D-}>
+" Unbind <️􀆔️-️}>️
 exec 'macm Window.Show\ Next\ Tab                 key=<Nop>'
-" Unbind <D-{>
+" Unbind <️􀆔️-️{>️
 exec 'macm Window.Show\ Previous\ Tab             key=<Nop>'
 " macm Window.Bring\ All\ To\ Front
 " macm Window.Stay\ in\ Front
 " macm Window.Stay\ in\ Back
 " macm Window.Stay\ Level\ Normal
 
-" Unbind <D-?>
+" Unbind <️􀆔️-️?>️
 exec 'macm Help.MacVim\ Help                      key=<Nop>'
 " macm Help.MacVim\ Website
 " macm Help.What's\ New
@@ -130,28 +135,28 @@ exec 'macm Help.MacVim\ Help                      key=<Nop>'
 
 " ------------------------------------ Add new or replacement bindings for ⌘⃣  --
 
-" Bind <D-C>
+" Bind <️️􀆔️-️C>️
 nnoremenu 20.355 &Edit.Copy\ All<Tab>ggVG"+y      ggVG"+y
 exec 'macm Edit.Copy\ All                         key=<D-C>'
 
 nnoremenu 20.360 &Edit.&Paste<Tab>"+gP            <Plug>(mayhem_paste)
 exec 'macm Edit.Paste<Tab>"+gP                    key=<D-v>'
-" Bind <D-V>
+" Bind <️️􀆔️-️V>️
 an 20.360 &Edit.Paste\ VSplit<Tab>^Wv"+gP        <C-W>v"+gP
 exec 'macm Edit.Paste\ VSplit                     key=<D-V>'
 
-" Bind <D-t>
+" Bind <️️􀆔️-️t>️
 nmap <D-t> :sp .<CR>
 
 " commenting
-" Bind <D-/>   toggle current line
+" Bind <️️􀆔️-️/>️   toggle current line
 nmap <D-/> gc
-" Bind <D-/>   toggle current visual selection
+" Bind <️️􀆔️-️/>️   toggle current visual selection
 xmap <D-/> gc
 " current line:
 "  is comment: uncomment surrounding block
 "  else: comment line
-" Bind <D-M-/>
+" Bind <️️􀆕️-️􀆔️-️/>️
 nmap <D-M-/> gcgc
 
 
@@ -404,13 +409,15 @@ exec 'an' '<silent>' SfIcon('􀏇') '10.290' '&File.New\ Window' '<Nop>'
 exec 'macm' '&File.New\ Window' 'key=<D-n>' 'action=newWindow:'
 
 exec 'aun' '&File.New\ Clean\ Window'
-exec 'an' '<silent>' SfIcon('􃖦')  '10.291' '&File.New\ Clean\ Window' '<Nop>'
-exec 'macm' '&File.New\ Clean\ Window' 'key=<D-N>' 'action=newWindowClean:' 'alt=YES'
+exec 'an' '<silent>' SfIcon('􃖦')  '10.291' '&File.New\ Window\ (No\ Config)' '<Nop>'
+exec 'macm' '&File.New\ Window\ (No\ Config)' 'key=<D-N>' 'action=newWindowClean:' 'alt=YES'
 
 exec 'aun' '&File.New\ Clean\ Window\ (No\ Defaults)'
-exec 'an' '<silent>' SfIcon('􀥁') '10.292' '&File.New\ Clean\ Window\ (No\ Defaults)' '<Nop>'
-exec 'macm' '&File.New\ Clean\ Window' 'key=<D-M-N>' 'action=newWindowCleanNoDefaults:' 'alt=YES'
+exec 'an' '<silent>' SfIcon('􀥁') '10.292' '&File.New\ Window\ (No\ Defaults)' '<Nop>'
+exec 'macm' '&File.New\ Window\ (No\ Defaults)' 'key=<D-M-N>' 'action=newWindowCleanNoDefaults:' 'alt=YES'
 
+exec 'aun' '&File.Sp&lit-Open\.\.\.'
+exec 'aun' '&File.Open\ &Tab\.\.\.'
 exec 'aun' '&File.New\ Tab'
 exec 'tlu' '&File.New\ Tab'
 exec 'an' '<silent>' SfIcon('􀏩') '10.293' '&File.New\ Tab<Tab>:tabnew' ':tabnew<CR>'
@@ -421,7 +428,7 @@ exec 'aun' '&File.Open…'
 exec 'an' '<silent>' '10.310' '&File.Open…' '<Nop>'
 
 exec 'aun' '&File.Open\ Recent'
-exec 'an' '<silent>' '10.325' '&File.Open\ Recent' '<Nop>'
+exec 'an' '<silent>' '10.325' '&File.Recent' '<Nop>'
 
 exec 'aun' '&File.-SEP0-'
 exec 'an' '10.328' '&File.-SEP0-'	'<Nop>'
@@ -444,13 +451,15 @@ exec 'an' '<silent>' '10.341' '&File.Save\ All' ':browse conf wa<CR>'
 "
 " Add items to File menu
 "
-exec 'an' '<silent>' '10.327.100' '&File.Open\ Related.Runtime\ Syntax'	    '<Nop>'
-exec 'an' '<silent>' '10.327.110' '&File.Open\ Related.Runtime\ FT\ Plugin'	    '<Nop>'
-exec 'an' '<silent>' '10.327.120' '&File.Open\ Related.Runtime\ Plugin'	    '<Nop>'
-exec 'an' '<silent>' '10.327.130' '&File.Open\ Related.Runtime\ Autoload'	    '<Nop>'
-
-exec 'an' '<silent>' '10.327.230' '&File.Open\ Related\ Test' '<Nop>'
-exec 'an' '<silent>' '10.327.231' '&File.Open\ Related\ Test\ 2' '<Nop>'
+exec 'an' '<silent>' '10.327.110' '&File.Related.Syntax'              '<Nop>'
+exec 'an' '<silent>' '10.327.120' '&File.Related.FT\ Plugin'          '<Nop>'
+exec 'an' '<silent>' '10.327.130' '&File.Related.Plugin'              '<Nop>'
+exec 'an' '<silent>' '10.327.140' '&File.Related.Autoload'            '<Nop>'
+exec 'an' '<silent>' '10.327.200' '&File.Related.-SEP0-'              '<Nop>'
+exec 'an' '<silent>' '10.327.210' '&File.Related.Runtime\ Syntax'	    '<Nop>'
+exec 'an' '<silent>' '10.327.220' '&File.Related.Runtime\ FT\ Plugin' '<Nop>'
+exec 'an' '<silent>' '10.327.230' '&File.Related.Runtime\ Plugin'     '<Nop>'
+exec 'an' '<silent>' '10.327.240' '&File.Related.Runtime\ Autoload'   '<Nop>'
 
 
 exec 'an' '<silent>' '10.326.100' '&File.Open\ In\ New\ Window'	    '<Nop>'

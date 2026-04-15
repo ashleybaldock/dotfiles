@@ -54,13 +54,14 @@ function s:FormatLinkChain(name)
   while !done
     let hl = hlget(nextname)->get(0)
     let seen[hl.name] = v:true
+          " \   fg: get(hl, 'guifg', ''),
+          " \   bg: get(hl, 'guibg', ''),
+          " \   sp: get(hl, 'guisp', ''),
+          " \   gui: get(hl, 'gui', #{})
     let lineParts += [
           \ #{
           \   t: get(hl, 'name', '???'),
-          \   fg: get(hl, 'guifg', ''),
-          \   bg: get(hl, 'guibg', ''),
-          \   sp: get(hl, 'guisp', ''),
-          \   gui: get(hl, 'gui', #{})
+          \  hi: get(hl, 'name', ''),
           \ },
           \ #{t: '❘', fg: s:colors.idsep},
           \ #{t: format#numbers(get(hl, 'id', 0), 'sans'), fg: s:colors.idnum},

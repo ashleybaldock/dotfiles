@@ -135,7 +135,13 @@ syn region KeyCombo contained containedin=vimLineComment oneline
       \ matchgroup=KeyComboEnds start="︙"
       \ matchgroup=KeyComboEnds end="︙"
       \ contains=KeyCombiner
+syn region KeyCombo contained containedin=vimLineComment oneline
+      \ matchgroup=KeyComboEnds start="<️"
+      \ matchgroup=KeyComboEnds end=">️"
+      \ contains=KeyCombiner
 syn match KeyCombiner /\Z[◥+＋<>ᐸᐳ􀆁􀆂ᖼᖽᖾᖿᒐᒉᘂᘃᒋᒍᒣᒪᒧᒥᗭᗪᑉ‹›«»⟨⟩❬❭⟪⟫❮❯◢◣◤]/ contained contains=NONE
+syn match KeyCombiner /-️/ contained contains=NONE
+
 
 syn region DemoCursorRange contained containedin=vimLineComment
       \ concealends

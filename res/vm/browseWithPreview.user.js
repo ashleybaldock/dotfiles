@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.359
+// @version     1.0.360
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -514,21 +514,21 @@ const initBrowsePreview = ({ document: { body } }) => {
   }) => {
     /* TODO - set up @property automatically */
     interleave_active_player_count.subscribe((newValue) => {
-      setRegisteredCSSProp({
+      setRegisteredCSSProperty({
         name: '--interleave-active-player-count',
         value: newValue,
         syntax: '<integer>',
       });
     });
     interleave_bpm.subscribe((newValue) => {
-      setRegisteredCSSProp({
+      setRegisteredCSSProperty({
         name: '--interleave-bpm',
         value: `${newValue}`,
         syntax: '<number>',
       });
     });
     interleave_duration_ms.subscribe((newValue) => {
-      setRegisteredCSSProp({
+      setRegisteredCSSProperty({
         name: '--interleave-duration-ms',
         value: `${newValue}ms`,
         syntax: '<time>',

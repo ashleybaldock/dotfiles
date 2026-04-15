@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.212
+// @version       1.1.213
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -43,6 +43,9 @@ const setRegisteredCSSProperty = (
     on.style.setProperty(s_name, `'${value}'`);
   }
 )({ window: unsafeWindow });
+/**
+ * @deprecated
+ */
 const setRegisteredCSSProp = setRegisteredCSSProperty;
 
 const addRegisteredCSSProperty = (({ window }) => {
@@ -65,6 +68,9 @@ const addRegisteredCSSProperty = (({ window }) => {
     }
   };
 })({ window: unsafeWindow });
+/**
+ * @deprecated
+ */
 const addRegisteredCSSProp = addRegisteredCSSProperty;
 /*}}}2 /CSS @property registration  */
 

@@ -59,6 +59,23 @@ endfunc
 "
 command! -nargs=1 GoToChar execute 'normal! 0go' .. (<args> - 1) .. ' '
 
+"
+" duplicate current buffer contents
+"
+function! s:Duplicatebuffer(newcmd = 'new')
+  %y
+  let l:view = winsaveview()
+  let l:ft = &filetype
+  exec a:newcmd
+  exec "setf "..l:ft
+  0put
+  $d
+  call winrestview(l:view)
+endfunc
+
+command! -nargs=? DuplicateBuffer call <SID>Duplicatebuffer(<f-args>)
+
+
 " yank all matching lines to register
 "> :let @a=""
 "> :g/<pattern>/y A

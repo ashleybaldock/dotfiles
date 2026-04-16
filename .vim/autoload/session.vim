@@ -8,14 +8,14 @@ let g:mayhem_autoloaded_session = 1
 "
 
 "
-" :Session
-"          create [<new-session-id>]       (default to auto-generated name)
-"          load <existing-session-id>
-"          delete [<existing-session-id>]  (default to current session)
-"          list                            (all sessions)
-"          info 
-"          pause
-"          resume
+" :Sess(ion) [create/load/delete/list/info/pause/resume]
+"   create [<new-session-id>]       (default to auto-generated name)
+"   load <existing-session-id>
+"   delete [<existing-session-id>]  (default to current session)
+"   list                            (all sessions)
+"   info 
+"   pause
+"   resume
 "
 "
 let s:subcommands = #{
@@ -33,7 +33,7 @@ function! session#dispatch(subcommand, ...) abort
 endfunc
 
 
-let s:match_command = '^Ses\%[sion]'
+let s:match_command = '^S\%[ession]'
 
 " '\(c\%[reate]\|l\%[oad]\|l\%[ist]\|p\%[ause]\|r\%[esume]\|d\%[elete]\|i\%[nfo]\)'
 let s:match_part_subcommand = '\(' .. 
@@ -45,9 +45,8 @@ let s:match_full_subcommand = '\(' ..
       \keys(s:subcommands)->mapnew({i, k -> k})
       \->join('\|') .. '\)'
 
-" e.g. 'create^Minfo^MList^Mload^Mpause^Mresume^Mdelete^M'
+" e.g. 'create ^Minfo ^MList ^Mload ^Mpause ^Mresume ^Mdelete^M '
 let s:subcommand_completion = keys(s:subcommands)->join(" \n")
-" echom 's:subcommand_completion ''' .. s:subcommand_completion .. ''' | s:match_subcommand ''' .. s:match_subcommand .. ''''
 
 function! session#name2path(name) abort
   return g:mayhem_dir_session .. '/' .. a:name .. '.session.vim'

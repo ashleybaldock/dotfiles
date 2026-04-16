@@ -14,43 +14,46 @@ let g:mayhem_loaded_messages = 1
 " let s:winid_scriptnames
 " let s:winid_runtime
 
-function s:GetRuntimeList() abort
+function s:ListRuntime() abort
   return split(&rtp, ',')[1:-1]
 endfunc
 
-function s:GetScriptnamesList() abort
+function s:ListScriptnames() abort
   return execute('silent scriptnames')->split('\s*\n\s*')
   " echo execute('silent scriptnames')->split('\s*\n\s*')->map({_,s -> split(s, '\s*:\s*')})
 endfunc
 
-function s:GetMessagesList() abort
-  return s:ExpandMessages(execute('silent messages')->split("\n")[1:-1])
+function s:ListMessages() abort
+  return execute('silent messages')->split("\n")[1:-1]
 endfunc
 
 
-function s:SplitWithRuntime() abort
-  :8new
-  let s:winid_runtime = win_getid(winnr())
-  call append('$', s:GetRuntimeList())
+function s:SplitWithList(list) abort
+  exec min(20, max(4, len(a:list))) .. 'new'
+  call append('$', a:list)
   setlocal filetype=vimmessages buftype=nofile bufhidden=wipe nobuflisted nomodified nomodifiable
+  local winid = win_getid(winnr())
+  wincmd h
+  return winid
+endfunc
+
+function s:SplitWithRuntime() abort
+  let s:winid_runtime = s:SplitWithList(s:ListRuntime())
 endfunc
 
 function s:SplitWithScriptnames() abort
-  :9new
-  let s:winid_scriptnames = win_getid(winnr())
-  call append('$', s:GetScriptnamesList())
-  setlocal filetype=vimmessages buftype=nofile bufhidden=wipe nobuflisted nomodified nomodifiable
+  let s:winid_scriptnames = s:SplitWithList(s:ListScriptnames())
 endfunc
 
 
-command! ListPlugins call s:SplitWithScriptnames()
+command! Scriptnames call s:SplitWithScriptnames()
 command! Runtime call s:SplitWithRuntime()
 
 "
 " Expand <SNR> in messages output with real file names      TODO
 "
-function s:ExpandMessages(messages) abort
-  let replaceSNR = mapnew(a:messages,
+function s:ExpandSNR(messages) abort
+  return mapnew(a:messages,
         \{i, v -> substitute(v,
         \ '\%(\.\.\(function\|script\)\?\)\?<SNR>\(\d\+\)_\([^.[]\+\)\[\(\d*\)]',
         \   {m -> "  " .. m[3] .. "		" .. m[1] .. getscriptinfo(#{
@@ -60,35 +63,26 @@ function s:ExpandMessages(messages) abort
   return replaceSNR
 endfunc
 
-if v:vim_did_enter
-  call s:OnVimEnter('direct')
-
-  call autocmd_add([
-        \#{
-        \ event: 'VimEnter', once: v:true,
-        \ cmd: 'call s:OnVimEnter("auto")',
-        \ group: 'mayhem_messages_init', replace: v:true,
-        \},
-        \])
-endif
-
 function s:WriteMessagesToBufferInWindow(winid) abort
   let bufnr = winbufnr(a:winid)
 
-  let messages = s:GetMessagesList()
+  let messages = s:ListMessages()
+  let messagesExpanded = s:ExpandSNR(messages)
+
   if win_gettype(a:winid) == 'popup'
     call appendbufline(bufnr, 0, messages)
-  else
-    silent call deletebufline(bufnr, 1, '$')
-    call appendbufline(bufnr, '$', '╺┅╸ Startup Messages ╺┅╸')
-    call appendbufline(bufnr, '$', '')
-    call appendbufline(bufnr, '$', get(s:, 'startup_messages', []))
-    call appendbufline(bufnr, '$', '')
-    call appendbufline(bufnr, '$', '╺╱╸ Recent Messages ╺╲╸╺')
+    call appendbufline(bufnr, '$', '╺┅╸ Messages ╺┅╸')
     call appendbufline(bufnr, '$', '')
     call appendbufline(bufnr, '$', messages)
     call appendbufline(bufnr, '$', '')
-    call appendbufline(bufnr, '$', '╰┄╮ Fin ╟︎⟩︎╳︎⟨︎╢︎')
+    call appendbufline(bufnr, '$', messagesExpanded)
+  else
+    silent call deletebufline(bufnr, 1, '$')
+    call appendbufline(bufnr, '$', '╺┅╸ Messages ╺┅╸')
+    call appendbufline(bufnr, '$', '')
+    call appendbufline(bufnr, '$', messages)
+    call appendbufline(bufnr, '$', '')
+    call appendbufline(bufnr, '$', messagesExpanded)
     call win_execute(a:winid, ['call cursor(''$'', 0)', 'redraw'])
   endif
 endfunc
@@ -116,14 +110,17 @@ function s:CloseMessages() abort
   endif
 endfunc
 
-"
-" Open a split with output of :messages
-"
-function s:SplitWithMessages() abort
+function GetMessagesBuffer() abort
   if !exists('s:bufnr_messages') || !bufexists(s:bufnr_messages)
     vnew
     let s:bufnr_messages = bufnr()
   endif
+endfunc
+
+"
+" Open a split with output of :messages
+"
+function s:SplitWithMessages() abort
 
   exec s:bufnr_messages .. 'wincmd ^'
 
@@ -177,7 +174,7 @@ function s:PopupWithMessages() abort
 
   call s:WriteMessagesToBufferInWindow(s:popid_messages)
 
-  call setbufvar(winbufnr(s:popid_messages), '&filetype', 'vimmessages')
+  call winbufnr(s:popid_messages)->setbufvar('&filetype', 'vimmessages')
 endfunc
 
 command! MessagesPopup call s:PopupWithMessages()
@@ -187,6 +184,18 @@ command! MessagesSplit call s:SplitWithMessages()
 command! MessagesClose call s:CloseMessages()
 
 command! MessagesRefresh call s:RefreshMessages()
+
+function s:OnVimEnter()
+  call SplitWithMessages()
+endfunc
+
+call autocmd_add([
+      \#{
+      \ event: 'VimEnter', once: v:true,
+      \ cmd: 'call s:SplitWithMessages()',
+      \ group: 'mayhem_messages_init', replace: v:true,
+      \},
+      \])
 
 "
 " :Mess(ages) [show/hide/toggle] reload [auto/no]

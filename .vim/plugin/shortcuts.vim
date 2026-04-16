@@ -140,46 +140,45 @@ xnoremap <expr> ∑  mode() ==# "\x16" ? "<Cmd>MoveBlockUp<CR>" : "<Cmd>move -2<
 nnoremap ¬ <Cmd>call search('\S', 'W', line('.'))<CR>
 " ▌️ 􀆕 H ▐️────▷ Move to previous non-whitespace character
 nnoremap ˙ <Cmd>call search('\S', 'bW', line('.'))<CR>
-
-
-"  Word: (Under Cursor)
 "
-"  Edit: §e       ╭╌╌╌╌╌╸Quick Bookmarks╺╌╌╌╌╮
-" ╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╎
-" ╎           Default               ┊ Rebind ╎
-" ╎╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌╎
-" ╎  §e1   ┊  $HOME/projects/       ┊  §E1   ╎
-" ╎  §e2   ┊  $HOME/.vim/           ┊  §E2   ╎
-" ╎  §e3   ┊  $HOME/.vim/plugin/    ┊  §E3   ╎
-" ╎  §e4   ┊  $HOME/                ┊  §E4   ╎
-" ╎  §e5   ┊  $HOME/                ┊  §E5   ╎
-" ╎╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╎
-" ╎         §e§ :  Select from PUM           ╎
-" ╎╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
-" ╎  :e    ⋮ same window     …force ⋮  :e!   ╎
-" ╎╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╎
-" ╎  §ew   ┊         netrw̲          ┊  $eW   ╎
-" ╎  §er   ┊    r̲evert to saved     ┊  §eR   ╎
-" ╎  §ed   ┊   d̲uplicate current    ┊  §eD   ╎
-" ╎  §ef   ┊       pick f̲ile        ┊  §eF   ╎
-" ╎  §ec   ┊      c̲reate blank      ┊  §eC   ╎
-" ╎╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╎
-" ╎  §ev…  ⋮ vsplit    ╱╱     split ⋮  $es…  ┆
-" ╎╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╎
-" ╎  §evv  ┊      s̲ame buffer       ┊  §ess  ╎
-" ╎  §evd  ┊   d̲uplicate current    ┊  §esd  ╎
-" ╎  §eva  ┊     a̲uto-derived¹      ┊  §esa  ╎
-" ╎  §evc  ┊     c̲reate blank       ┊  §esc  ╎
-" ╎  §evb  ┊   clipb̲oard contents   ┊  §esb  ╎
-" ╎  §evt  ┊      pick t̲emplate     ┊  §est  ╎
-" ╎  §evw  ┊         netrw̲          ┊  §esw  ╎
-" ╎  §evf  ┊       pick f̲ile        ┊  §evf  ╎
-" ╎  §evr  ┊    (r̲e)load saved      ┊  §esr  ╎
-" ╎╴ ╴ ╴ ╴ ┆╴╴╴ ╴ ╴ ╴ ╴ ╴ ╌╭╌╌╌╌╌╌╌╌╯╴ ╴ ╴ ╴ ╎
-" ╎  §ee   ┊   ./<select>  ┊  existing² or   ╎
-" ╎  §eE   ┊   ./<select>  ┊  same or split³ ╎
-" ╎╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎
-" ╎²⃝︎  §ee ⇉ ╶─?⃞╶┮[ if file is open already ] ╎
+"  Word: (Under Cursor)
+"Edit: §e       
+" ╭️ §e️╮️───╸Quick Bookmarks╺────╮
+" ╰️┃️━️┃️╯️──────────╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌│
+" ╰️ ━️━️ ╯️               Default      ┊ Rebind │
+" │╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌│
+" │  §e1   ┊  $HOME/projects/       ┊  §E1   │
+" │  §e2   ┊  $HOME/.vim/           ┊  §E2   │
+" │  §e3   ┊  $HOME/.vim/plugin/    ┊  §E3   │
+" │  §e4   ┊  $HOME/                ┊  §E4   │
+" │  §e5   ┊  $HOME/                ┊  §E5   │
+" │────────╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌│
+" │         §e§ :  Select from PUM           │
+" │╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+" │  :e    ⋮ same window     …force ⋮  :e!   │
+" │╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌│
+" │  §ew   ┊         netrw̲          ┊  $eW   │
+" │  §er   ┊    r̲evert to saved     ┊  §eR   │
+" │  §ed   ┊   d̲uplicate current    ┊  §eD   │
+" │  §ef   ┊       pick f̲ile        ┊  §eF   │
+" │  §ec   ┊      c̲reate blank      ┊  §eC   │
+" │╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌│
+" │  §ev…  ⋮ vsplit    ╱╱     split ⋮  $es…  │
+" │╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌│
+" │  §evv  ┊      s̲ame buffer       ┊  §ess  │
+" │  §evd  ┊   d̲uplicate current    ┊  §esd  │
+" │  §eva  ┊     a̲uto-derived¹      ┊  §esa  │
+" │  §evc  ┊     c̲reate blank       ┊  §esc  │
+" │  §evb  ┊   clipb̲oard contents   ┊  §esb  │
+" │  §evt  ┊      pick t̲emplate     ┊  §est  │
+" │  §evw  ┊         netrw̲          ┊  §esw  │
+" │  §evf  ┊       pick f̲ile        ┊  §evf  │
+" │  §evr  ┊    (r̲e)load saved      ┊  §esr  │
+" │╴ ╴ ╴ ╴ ┆╴╴╴ ╴ ╴ ╴ ╴ ╴ ╌╭╌╌╌╌╌╌╌╌╯╴ ╴ ╴ ╴ │
+" │  §ee   ┊   ./<select>  ┊  existing² or   │
+" │  §eE   ┊   ./<select>  ┊  same or split³ │
+" │╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+" │²⃝︎  §ee ⇉ ╶─?⃞╶┮[ if file is open already ] ╎
 " ╎           ∇ └─▷ jump to existing window  ╎
 " ╎³⃝  §eE ⇉ ╶─?⃞╶┮[ if window can be reused ] ╎
 " ╎           ┆ └─▷ replace current          ╎
@@ -207,18 +206,6 @@ nnoremap §eC <Cmd>enew!<CR>
 nnoremap §ed <Cmd>DuplicateBuffer<CR>
 nnoremap §eD <Cmd>DuplicateBuffer!<CR>
 
-function! s:Duplicatebuffer(newcmd = 'new')
-  %y
-  let l:view = winsaveview()
-  let l:ft = &filetype
-  exec a:newcmd
-  exec "setf "..l:ft
-  0put
-  $d
-  call winrestview(l:view)
-endfunc
-
-command! -nargs=1 DuplicateBuffer call <SID>Duplicatebuffer(<f-args>)
 
 " Horizontal
 nnoremap §ess <Cmd>sp<CR>

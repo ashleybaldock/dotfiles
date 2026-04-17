@@ -143,18 +143,24 @@ function s:RenderCodepointRow(for = char#fromCursor()) abort
     echon ' '
   endfor
 
-  return printf('%05x ⏐ ', fromidx)..s:CodepointsInRange(fromidx)->map({ i, v -> char2nr(v) == foridx ? ''..v..'' : v})->join(' ')..''
+  return printf('%05x ⏐ ', fromidx) .. 
+        \ s:CodepointsInRange(fromidx)
+        \  ->map({ i, v -> char2nr(v) == foridx ? '' .. v .. '' : v})
+        \  ->join(' ')
 endfunc
 
 
 "
-" Turn array of codepoints into a string
+" Format list of codepoints for display
+" a:1  List of codepoints
+" a:2  Base for combining characters (default: ◌ (g:mayhem_unicode_combine_default))
+" a:3  Separator (default ' ') 
 " Gives standalone combining characters something to combine with
 "
-function s:ToString(codepoints)
+function s:ToString(codepoints, combiningbase = s:combase, sep = ' ')
   return mapnew(a:codepoints,
-        \ {idx, val -> strchars(s:combase..val, 1) == strchars(val, 1)
-        \  ? s:combase..val : val})->join(' ︎')
+        \ {idx, val -> strchars(a:combiningbase .. val, 1) == strchars(val, 1)
+        \  ? a:combiningbase .. val : val})->join(a:sep)
 endfunc
 
 "
@@ -162,50 +168,75 @@ endfunc
 "  defined by a codepoint and a count
 " arg1: count (defaults to 16)
 " arg2: numeric codepoint (start of range)
-"
-" e.g. :UnicodepointsCountFromIndex 26 65
-" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+" a:1  start (defaults to cursor char)
+" a:2  count (defaults to 16)
 "
 function s:UnicodepointsCountFromIndex(from, count = 16) abort
   return s:ToString(s:CodepointsInRange(a:from, a:count))
 endfunc
+"
+" :UnicodepointsCountFromIndex 26 65
+" :26UnicodepointsCountFromIndex 65
+" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+"
 command! -bar -nargs=? -count=16 UnicodepointsCountFromIndex
       \ echo <SID>UnicodepointsCountFromIndex(<args>, <count>)
 "
-" Return a string with all chars with codepoints in range
-"  defined by a starting char and a count
-" arg1: count (defaults to 16)
-" arg2: start of range (defaults to cursor char)
-"
-" e.g. :UnicodepointsCountFromChar 26 A
-" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+" Print character and N-1 codepoints after it
+" a:1  start (defaults to cursor char)
+" a:2  count (defaults to 16)
 "
 function s:UnicodepointsCountFromChar(
       \ from = char#fromCursor(), count = 16) abort
   return s:ToString(s:CodepointsStartingFromChar(a:from, a:count))
 endfunc
+"
+"  :UnicodepointsCountFromChar 26 A
+"  :26UnicodepointsCountFromChar A
+" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+"
 command! -bar -nargs=? -count=16 UnicodepointsCountFromChar
-      \ echo <SID>UnicodepointsCountFromChar(<args>, <count>)
+      \ echo <SID>UnicodepointsCountFromChar(<f-args>, <count>)
+
+"
+" Print character and N codepoints before/after it
+" a:1  start (defaults to cursor char)
+" a:2  count (defaults to 8)
+"
+function s:UnicodepointsAroundChar(
+      \ around = char#fromCursor(), count = 8) abort
+  return s:ToString(s:CodepointsInRange(max([1, char2nr(a:around) - a:count]), a:count * 2 + 1))
+endfunc
+"
+"  :UnicodepointsAround 10 D
+"  :10UnicodepointsAround D
+" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+"
+command! -bar -nargs=? -count=8 UnicodepointsAround
+      \ echo <SID>UnicodepointsAroundChar(<f-args>, <count>)
 
 "
 " Return a string containing all chars with codepoints between
 "  the two characters specified (inclusive)
-" arg1: one end of range (defaults to cursor char)
-" arg2: other end of range (defaults to codepoint of arg1 + 16)
+" Print codepoints between two characters
+"
+" a:1  one end of range (defaults to cursor char)
+" a:2  other end of range (defaults to codepoint of a:1 + 16)
 "  (The order of the ends doesn't matter, but the output is
 "   always in ascending codepoint order)
 "
-" e.g. :UnicodepointsBetween Z A
-" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
-"
 " '<,'>s/^\(. .\).*$/\=ExecAndReturn("UnicodepointsBetween " .. submatch(1))/
-"  
 "
 function s:UnicodepointsBetween(
       \ from = char#fromCursor(),
       \ to = nr2char(char2nr(a:from) + 16)) abort
   return s:ToString(s:CodepointsBetweenChars(a:from, a:to))
 endfunc
+"
+"  :UnicodepointsBetween A Z
+"  :UnicodepointsBetween Z A
+" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+"
 command! -bar -nargs=* UnicodepointsBetween
       \ echo <SID>UnicodepointsBetween(<f-args>)
 
@@ -243,6 +274,10 @@ let s:combining_diacriticals = [ '',
       \]
 let s:variation_selectors = [ '', '︀', '︁', '︂', '︃', '︄', '︅', '︆', '︇', '︈', '︉', '︊', '︋', '︌', '︍', '︎', '️']
 
+
+function! s:Combine(base = char#fromCursor(), with = 'ͮ') abort
+  return strpart(a:from, 0, 1) .. with
+endfunc
 "
 " Combine a char with various diacritical marks
 "
@@ -251,8 +286,7 @@ function! s:GenerateCombinings(
       \ with = s:combining_diacriticals
       \) abort
   let base = strpart(a:from, 0, 1)
-  let combined = mapnew(a:with, {_,val -> base .. val})
-  return combined
+  return mapnew(a:with, {_,val -> s:Combine(base, val)})
 endfunc
 
 function s:GenerateVariations(from = char#fromCursor()) abort
@@ -262,6 +296,8 @@ endfunc
 command! -bar -nargs=? GenerateCombinings echo <SID>GenerateCombinings(<f-args>)->join(' ')
 
 command! -bar -nargs=? GenerateVariations echo <SID>GenerateVariations(<f-args>)->join(' ')
+
+command! -bar -nargs=? -count=16 Vary echo <SID>GenerateVariations
 
 "                                                           TODO
 function s:SelectCombination() abort

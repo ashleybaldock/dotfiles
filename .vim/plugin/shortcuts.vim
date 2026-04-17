@@ -66,23 +66,25 @@ nnoremap §u\ "=char#code()Pl
 
 
 "
+" RepeatMove see: ./commands.vim
+"
 " Add Combining: 
-" ▌️ 􀆕 0 ▐️────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝  + Re̲p̲e̲a̲t̲M̲o̲ve
-nnoremap º a⃝ <Esc>h<Cmd>RepeatMove<CR>
+" ▌️ 􀆕 0 ▐️────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝  
+nnoremap º a⃝ <Esc>hh
 xnoremap º :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR> 
 "
-" ▌️􀆝􀆕 0▐️────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞  + RepeatMove
-nnoremap ‚ a⃞ <Esc>h<Cmd>RepeatMove<CR>
+" ▌️􀆝􀆕 0▐️────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞ 
+nnoremap ‚ a⃞ <Esc>hh
 xnoremap ‚ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<CR> 
 "
-" ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ + RepeatMove
-nnoremap – a̲<Esc>h<Cmd>RepeatMove<CR>
+" ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲
+nnoremap – a̲<Esc>h
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲h̲i̲t̲e̲s̲p̲a̲c̲e̲
 " xnoremap – :s/\(\_^\s*"\)\?\s*\%V\S/\0̲/g<CR>
 xnoremap – :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
 "
-" ▌️􀆝􀆕 -▐️──▷ O̅v̅e̅r̅l̅i̅n̅e̅ + RepeatMove
-nnoremap — a̅<Esc>h<Cmd>RepeatMove<CR>
+" ▌️􀆝􀆕 -▐️──▷ O̅v̅e̅r̅l̅i̅n̅e̅
+nnoremap — a̅<Esc>h
 " ▌️􀆝􀆕 -▐️──▷ Overline visual selection, skip leading/trailing whitespace
 xnoremap — :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̅/g<CR><Cmd>nohlsearch<CR> 
 "<Cmd>nohlsearch<CR> 
@@ -143,9 +145,9 @@ nnoremap ˙ <Cmd>call search('\S', 'bW', line('.'))<CR>
 "
 "  Word: (Under Cursor)
 "Edit: §e       
-" ╭️ §e️╮️───╸Quick Bookmarks╺────╮
-" ╰️┃️━️┃️╯️──────────╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌│
-" ╰️ ━️━️ ╯️               Default      ┊ Rebind │
+"╭️ ━️ ╮️───╸Quick Bookmarks╺────╮
+"┃️ §e┃️─︎─────────────────────────────╭────────│
+"╰️╷━️ ╯️             Default          │ Rebind │
 " │╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╎╌╌╌╌╌╌╌╌│
 " │  §e1   ┊  $HOME/projects/       ┊  §E1   │
 " │  §e2   ┊  $HOME/.vim/           ┊  §E2   │
@@ -154,39 +156,39 @@ nnoremap ˙ <Cmd>call search('\S', 'bW', line('.'))<CR>
 " │  §e5   ┊  $HOME/                ┊  §E5   │
 " │────────╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌│
 " │         §e§ :  Select from PUM           │
-" │╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+" ╭̍─︎─────────────────────────────────────────╯
 " │  :e    ⋮ same window     …force ⋮  :e!   │
-" │╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌│
-" │  §ew   ┊         netrw̲          ┊  $eW   │
-" │  §er   ┊    r̲evert to saved     ┊  §eR   │
-" │  §ed   ┊   d̲uplicate current    ┊  §eD   │
-" │  §ef   ┊       pick f̲ile        ┊  §eF   │
-" │  §ec   ┊      c̲reate blank      ┊  §eC   │
-" │╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌│
+" ╭̍─︎───────╭────────────────────────╭────────╯
+" │  §ew   │         netrw̲          │  $eW   │
+" │  §er   │    r̲evert to saved     │  §eR   │
+" │  §ed   │   d̲uplicate current    │  §eD   │
+" │  §ef   │       pick f̲ile        │  §eF   │
+" │  §ec   │      c̲reate blank      │  §eC   │
+" ╭̍─︎───────╯────────────────────────╯────────╯̩
 " │  §ev…  ⋮ vsplit    ╱╱     split ⋮  $es…  │
-" │╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╭╌╌╌╌╌╌╌╌│
-" │  §evv  ┊      s̲ame buffer       ┊  §ess  │
-" │  §evd  ┊   d̲uplicate current    ┊  §esd  │
-" │  §eva  ┊     a̲uto-derived¹      ┊  §esa  │
-" │  §evc  ┊     c̲reate blank       ┊  §esc  │
-" │  §evb  ┊   clipb̲oard contents   ┊  §esb  │
-" │  §evt  ┊      pick t̲emplate     ┊  §est  │
-" │  §evw  ┊         netrw̲          ┊  §esw  │
-" │  §evf  ┊       pick f̲ile        ┊  §evf  │
-" │  §evr  ┊    (r̲e)load saved      ┊  §esr  │
-" │╴ ╴ ╴ ╴ ┆╴╴╴ ╴ ╴ ╴ ╴ ╴ ╌╭╌╌╌╌╌╌╌╌╯╴ ╴ ╴ ╴ │
-" │  §ee   ┊   ./<select>  ┊  existing² or   │
-" │  §eE   ┊   ./<select>  ┊  same or split³ │
-" │╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╯╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
-" │²⃝︎  §ee ⇉ ╶─?⃞╶┮[ if file is open already ] ╎
-" ╎           ∇ └─▷ jump to existing window  ╎
-" ╎³⃝  §eE ⇉ ╶─?⃞╶┮[ if window can be reused ] ╎
-" ╎           ┆ └─▷ replace current          ╎
-" ╎           ╰─▷ open in split              ╎
-" ╎ Notes:                                   ╎
-" ╎                                          ╎
-" ╎¹⃝  derived: blank, same filetype          ╎
-" ╵╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╵
+" ╭̍─︎───────╭────────────────────────╭────────╯̩
+" │  §evv  │      s̲ame buffer       │  §ess  │
+" │  §evd  │   d̲uplicate current    │  §esd  │
+" │  §eva  │     a̲uto-derived¹      │  §esa  │
+" │  §evc  │     c̲reate blank       │  §esc  │
+" │  §evb  │   clipb̲oard contents   │  §esb  │
+" │  §evt  │      pick t̲emplate     │  §est  │
+" │  §evw  │         netrw̲          │  §esw  │
+" │  §evf  │       pick f̲ile        │  §evf  │
+" │  §evr  │    (r̲e)load saved      │  §esr  │
+" │╴ ╴ ╴ ╴ │╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╭────────╯╴ ╴ ╴ ╴ │
+" │  §ee   │   ./<select>  │  existing² or   │
+" │  §eE   │   ./<select>  │  same or split³ │
+" ╭────────╯───────────────╯─────────────────╯
+" │²⃝︎  §ee ⇉ ╶─❨❩︎file open already]️           ╭
+" │           ∇ └─▷ jump to existing window  │
+" │³⃝  §eE ⇉ ╶─?⃞╶┮[ window can be reused ]    │
+" │           ┆ └─▷ replace current          │
+" │           ╰─▷ open in split              │
+" │ Notes:                                   │
+" │                                          │
+" │¹⃝  derived: blank, same filetype          │
+" ╯──────────────────────────────────────────╯
 nnoremap §ee :e 
 nnoremap §eE :e 
 nnoremap §e§ :e ~/.vim/

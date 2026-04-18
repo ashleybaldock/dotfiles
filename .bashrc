@@ -71,7 +71,7 @@ alias j='jobs'
 alias notify="terminal-notifier -message 'Command completed'"
 
 
-## Bash completion
+## Bash completin
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && source "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
@@ -120,6 +120,7 @@ alias gmm='git checkout $(gitRemoteHeadName) && git pull --commit --no-edit --ff
 alias ga="git add" && __git_complete ga git_add
 alias gc="git commit" && __git_complete gc git_commit
 alias gcq="git commit -n -m'quick commit'"
+alias gcn='printf "\e[31m noverify\e[00m  commit msg: " && read msg && git commit -n -m"$msg"'
 alias gd="git diff" && __git_complete gd git_diff
 alias gdd="git diff --staged" && __git_complete gdd git_diff
 alias gco="git checkout" && __git_complete gco git_checkout
@@ -130,13 +131,8 @@ alias gst="git stash" && __git_complete gst git_stash
 alias gstls="git stash list" && __git_complete gstls git_stash
 alias cloneshallow="git clone --depth=1"
 alias clone="git clone"
-alias gg="gc -am'wip' || gp || gs"
+alias gg='git commit -a -m"wip" || gp || gs'
 
-gcn() {
-  printf "\e[31m􀅎️⃤ noverify\e[00m  commit msg: "
-  read msg
-  gc -n -m"$msg"
-}
 
 # Open github for repo (base path)
 gh() {
@@ -144,20 +140,20 @@ gh() {
 }
 # Open github for branch (base path)
 ghb() {
-  gh tree/$(gitCurrentBranchName)
+  gh "tree/$(gitCurrentBranchName)"
 }
 # Open github for repo (current path)
 gho() {
-  gh tree/master/$(gitCurrentPathInRepo)
+  gh "tree/master/$(gitCurrentPathInRepo)"
 }
 # Open github for branch (current path)
 ghob() {
-  gh tree/$(gitCurrentBranchName)/$(gitCurrentPathInRepo)
+  gh "tree/$(gitCurrentBranchName)/$(gitCurrentPathInRepo)"
 }
 # Open new PR for current branch against parent branch
 # See parent alias in .gitconfig
 ghpr() {
-  gh compare/$(git parent)...$(git symbolic-ref --quiet --short HEAD)?expand=1
+  gh "compare/$(git parent)...$(git symbolic-ref --quiet --short HEAD)?expand=1"
 }
 alias ghbo="ghob"
 
@@ -187,18 +183,22 @@ if [ -d "$NVM_DIR" ] && [ -z "$NVM_BIN" ]; then
     nvmload
     node "$@"
   }
+
   npm() {
     nvmload
     npm "$@"
   }
+
   nvm() {
     nvmload
     nvm "$@"
   }
+
   yarn() {
     nvmload
     yarn "$@"
   }
+
   pnpm() {
     nvmload
     pnpm "$@"

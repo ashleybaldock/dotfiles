@@ -273,9 +273,10 @@ let s:combining_diacriticals = [ '',
       \ '︠', '︡', '︢', '︣', '︤', '︥', '︦', '︧', '︨', '︩', '︪', '︫', '︬', '︭', '︮', '︯',
       \]
 let s:variation_selectors = [ '', '︀', '︁', '︂', '︃', '︄', '︅', '︆', '︇', '︈', '︉', '︊', '︋', '︌', '︍', '︎', '️']
+let s:default_combine = 'ͮ'
 
 
-function! s:Combine(base = char#fromCursor(), with = 'ͮ') abort
+function! s:Combine(base = char#fromCursor(), with = s:default_combine) abort
   return strpart(a:from, 0, 1) .. with
 endfunc
 "

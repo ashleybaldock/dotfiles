@@ -28,6 +28,13 @@ syn region	vimSynRegPat	contained extend
       \ contains=@vimSynRegPatGroup skipwhite
       \ nextgroup=vimSynPatMod,vimSynReg
 
+syn region vimContinueString contained
+      \ matchgroup=vimContinueString start=+\Z'+
+      \ skip=+\Z\n\s*\%(\\\|["#]\\ \)+
+      \ end=+\Z'+ end="$"
+      \ skipwhite nextgroup=vimSubscript,vimComment
+      \ contains=@vimContinue,vimQuoteEscape
+
 syn keyword	vimHiAttrib	contained	undercurl underdotted underdouble
 syn keyword	vimHiAttrib	contained	underdashed strikethrough
 

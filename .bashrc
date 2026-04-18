@@ -114,13 +114,12 @@ alias gpu="git pull" && __git_complete gpu git_pull
 # alias gpull="git pull" && __git_complete gpull git_pull
 alias gpb='git push -u origin $(git branch | grep \* | cut -d " " -f2)'
 alias gs="gu && git status" && __git_complete gs git_status
-alias gss="gu && git status --short --branch" && __git_complete gs git_status
+alias gss="gu && git status --short --branch" && __git_complete gss git_status
 alias gm="git merge" && __git_complete gm git_merge
 alias gmm='git checkout $(gitRemoteHeadName) && git pull --commit --no-edit --ff-only && git checkout - && git merge --commit --no-edit $(gitRemoteHeadName)'
 alias ga="git add" && __git_complete ga git_add
 alias gc="git commit" && __git_complete gc git_commit
-alias gcq="gc -n -m'quick commit'"
-alias gcn="gc -n -m'"
+alias gcq="git commit -n -m'quick commit'"
 alias gd="git diff" && __git_complete gd git_diff
 alias gdd="git diff --staged" && __git_complete gdd git_diff
 alias gco="git checkout" && __git_complete gco git_checkout
@@ -132,6 +131,12 @@ alias gstls="git stash list" && __git_complete gstls git_stash
 alias cloneshallow="git clone --depth=1"
 alias clone="git clone"
 alias gg="gc -am'wip' || gp || gs"
+
+gcn() {
+  printf "\e[31m􀅎️⃤ noverify\e[00m  commit msg: "
+  read msg
+  gc -n -m"$msg"
+}
 
 # Open github for repo (base path)
 gh() {

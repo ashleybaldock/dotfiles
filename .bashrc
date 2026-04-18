@@ -131,7 +131,7 @@ alias gst="git stash" && __git_complete gst git_stash
 alias gstls="git stash list" && __git_complete gstls git_stash
 alias cloneshallow="git clone --depth=1"
 alias clone="git clone"
-alias gg='git commit -a -m"wip" || gp || gs'
+alias gg='git commit -a -m"wip" || true && git push || git status'
 
 
 # Open github for repo (base path)

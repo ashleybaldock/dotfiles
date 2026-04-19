@@ -12,7 +12,7 @@ cwd=$(pwd)
 
 cd "$VIMDIR/pack/"
 
-git submodule status 2>&1 | awk -F" " '{ gsub(/^[ \t]+/,"",$2); gsub(/[ \t]+$/,"",$2); n=split($2,a,"/"); gsub(/^[ \t]+/,"",$3); gsub(/[ \t]+$/,"",$3); printf "\033[1;33m%s\033[00m,\033[1;32m%s\033[00m,\033[1;32m%s\033[00m,\033[1;34m%s\033[00m\n", a[n-2], a[n-1], a[n], $3}' | column -t -s ","
+{ printf "\033[1;39m%s\033[00m,\033[1;39m%s\033[00m,\033[1;39m%s\033[00m,\033[1;39m%s\033[00m\n" "Package" "Load" "Name" "Branch"; { git submodule status 2>&1 | awk -F" " '{ gsub(/^[ \t]+/,"",$2); gsub(/[ \t]+$/,"",$2); n=split($2,a,"/"); gsub(/^[ \t(]+/,"",$3); gsub(/[ \t)]+$/,"",$3); printf "\033[0;97m%s\033[00m,\033[1;32m%s\033[00m,\033[0;39m%s\033[00m,\033[0;36m%s\033[00m\n", a[n-2], a[n-1], a[n], $3}'; }; } | column -t -s ","
 
 printf "\n"
 

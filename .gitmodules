@@ -75,14 +75,6 @@
 	path = .vim/pack/default/start/visual-star-search
 	url = https://github.com/bronson/vim-visual-star-search.git
 	ignore = untracked
-[submodule ".vim/pack/default/startvim-surround"]
-	path = .vim/pack/default/startvim-surround
-	url = https://tpope.io/vim/surround.git
-	ignore = untracked
-[submodule ".vim/pack/default/startvim-repeat"]
-	path = .vim/pack/default/startvim-repeat
-	url = https://github.com/tpope/vim-repeat.git
-	ignore = untracked
 [submodule ".vim/pack/default/start/vim-repeat"]
 	path = .vim/pack/default/start/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git

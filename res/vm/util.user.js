@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.213
+// @version       1.1.214
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -604,6 +604,7 @@ const buttonsPressed = ({
  * Extends VM.KeyboardService
  * - capture phase event binding
  * - register multiple keybinds for the same action in one call
+ * - errors in shortcut callbacks are less silently ignored
  **/
 const wrapKeyboardService = (
   ({ unsafeWindow }) =>
@@ -618,8 +619,17 @@ const wrapKeyboardService = (
     };
 
     return {
-      register: (callback, ...keys) =>
-        keys.flat().forEach((key) => service.register(key, callback)),
+      register: (callback, ...keys) => {
+        const wrappedCallback = () => {
+          try {
+            callback();
+          } catch (err) {
+            console.warn(err);
+            throw err;
+          }
+        };
+        keys.flat().forEach((key) => service.register(key, wrappedCallback));
+      },
       enable: () => {
         unsafeWindow.addEventListener('keydown', keydownHandler, {
           capture: true,

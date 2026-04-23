@@ -63,38 +63,24 @@ function s:ExpandSNR(messages) abort
   return replaceSNR
 endfunc
 
-function s:WriteMessagesToBufferInWindow(winid) abort
-  let bufnr = winbufnr(a:winid)
-
-  let messages = s:ListMessages()
-  let messagesExpanded = s:ExpandSNR(messages)
-
-  if win_gettype(a:winid) == 'popup'
-    call appendbufline(bufnr, 0, messages)
-    call appendbufline(bufnr, '$', '╺┅╸ Messages ╺┅╸')
-    call appendbufline(bufnr, '$', '')
-    call appendbufline(bufnr, '$', messages)
-    call appendbufline(bufnr, '$', '')
-    call appendbufline(bufnr, '$', messagesExpanded)
-  else
-    silent call deletebufline(bufnr, 1, '$')
-    call appendbufline(bufnr, '$', '╺┅╸ Messages ╺┅╸')
-    call appendbufline(bufnr, '$', '')
-    call appendbufline(bufnr, '$', messages)
-    call appendbufline(bufnr, '$', '')
-    call appendbufline(bufnr, '$', messagesExpanded)
-    call win_execute(a:winid, ['call cursor(''$'', 0)', 'redraw'])
-  endif
+function s:WriteListToBuffer(bufnr, list) abort
+  call setwinvar(winbufnr(a:bufnr), '&modifiable', 1)
+  silent call deletebufline(a:bufnr, 1, '$')
+  call appendbufline(a:bufnr, '$', a:list)
+  call setwinvar(winbufnr(a:bufnr), '&modifiable', 0)
+  call setwinvar(winbufnr(a:bufnr), '&modified', 0)
 endfunc
 
 function s:RefreshMessages() abort
-  call setbufvar(s:bufnr_messages, '&filetype', 'vimmessages')
-  call setbufvar(s:bufnr_messages, '&buftype', 'nofile')
-  call setbufvar(s:bufnr_messages, '&bufhidden', 'wipe')
-  call setwinvar(winbufnr(s:bufnr_messages), '&modifiable', 1)
-  call s:WriteMessagesToBufferInWindow(winbufnr(s:bufnr_messages))
-  call setwinvar(winbufnr(s:bufnr_messages), '&modifiable', 0)
-  call setwinvar(winbufnr(s:bufnr_messages), '&modified', 0)
+  let messages = s:ListMessages()
+  let messagesExpanded = s:ExpandSNR(messages)
+  " call appendbufline(a:bufnr, '$', '╺┅╸ Messages ╺┅╸')
+  " call appendbufline(a:bufnr, '$', '')
+  " call appendbufline(a:bufnr, '$', messages)
+  " call appendbufline(a:bufnr, '$', '')
+  " call appendbufline(a:bufnr, '$', messagesExpanded)
+  call s:WriteListToBuffer(s:GetMessagesBuffer(), messages)
+  call win_execute(a:winid, ['call cursor(''$'', 0)', 'redraw'])
 endfunc
 
 function s:CloseMessages() abort
@@ -110,11 +96,14 @@ function s:CloseMessages() abort
   endif
 endfunc
 
-function GetMessagesBuffer() abort
+function s:GetMessagesBuffer() abort
   if !exists('s:bufnr_messages') || !bufexists(s:bufnr_messages)
-    vnew
-    let s:bufnr_messages = bufnr()
+    let s:bufnr_messages = bufadd('')
+    call setbufvar(s:bufnr_messages, '&filetype', 'vimmessages')
+    call setbufvar(s:bufnr_messages, '&buftype', 'nofile')
+    call setbufvar(s:bufnr_messages, '&bufhidden', 'wipe')
   endif
+  return s:bufnr_messages
 endfunc
 
 "
@@ -122,7 +111,9 @@ endfunc
 "
 function s:SplitWithMessages() abort
 
-  exec s:bufnr_messages .. 'wincmd ^'
+  let msgbufnr = s:GetMessagesBuffer()
+
+  exec msgbufnr .. 'wincmd ^'
 
   call s:RefreshMessages()
 
@@ -154,7 +145,7 @@ endfunc
 " Open a popup with recent output of :messages
 "
 function s:PopupWithMessages() abort
-  let s:popid_messages = popup_create('', #{
+  let s:popid_messages = popup_create(s:GetMessagesBuffer(), #{
         \ title: 'Messages',
         \ pos: 'topleft',
         \ minwidth: 40,
@@ -172,7 +163,7 @@ function s:PopupWithMessages() abort
         \ filtermode: 'n'
         \ })
 
-  call s:WriteMessagesToBufferInWindow(s:popid_messages)
+  call s:WriteMessagesToBuffer(s:GetMessagesBuffer())
 
   call winbufnr(s:popid_messages)->setbufvar('&filetype', 'vimmessages')
 endfunc

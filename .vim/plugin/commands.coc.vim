@@ -175,6 +175,34 @@ function s:OnCocLocationsChange() abort
 endfunc
 
 
+" Highlight groups for different diagnostic severity
+let s:severity_to = #{
+      \ E: #{ desc: '􀋊 Error',
+      \ highlight: 'PopDiagErr', 
+      \ borderhighlight: ['PopDiagErrBd'],
+      \ scrollbarhighlight: 'PopDiagErrSb',
+      \ thumbhighlight: 'PopDiagErrTb',
+      \ },
+      \ W: #{ desc: '􀅎️⃤ Warning',
+      \ highlight: 'PopDiagWarn',
+      \ borderhighlight: ['PopDiagWarnBd'],
+      \ scrollbarhighlight: 'PopDiagWarnSb',
+      \ thumbhighlight: 'PopDiagWarnTb',
+      \ },
+      \ I: #{ desc: '􀅳️⃝ Info',
+      \ highlight: 'PopDiagInfo',
+      \ borderhighlight: ['PopDiagInfoBd'],
+      \ scrollbarhighlight: 'PopDiagInfoSb',
+      \ thumbhighlight: 'PopDiagInfoTb',
+      \ },
+      \ H: #{ desc: 'Hint',
+      \ highlight: 'PopDiagHint',
+      \ borderhighlight: ['PopDiagHintBd'],
+      \ scrollbarhighlight: 'PopDiagHintSb',
+      \ thumbhighlight: 'PopDiagHintTb',
+      \ },
+      \}
+
 function s:OnCocOpenFloat() abort
   " w:preview_window = 1
   let cocbufnr = getwininfo(g:coc_last_float_win)
@@ -209,15 +237,21 @@ function s:OnCocOpenFloat() abort
   " Coc float for diagnostic messages
   elseif highlight == 'HlCocPuDiagBg'
     let cocbufnr = winbufnr(g:coc_last_float_win)
-    let [lspname, errcode; rest] = getbufline(cocbufnr, '$', '$')
-          \->get(0, '(unknown none)')
-          \->matchlist('(\(\S\+\) \(\d\+\))$')[1:2]
+    let [lspname, severity, errcode; rest] = getbufline(cocbufnr, '$', '$')
+          \->get(0, '(unknown E 000)')
+          \->matchlist('❯❯\s*\(\S\+\)\s*❯\s*\([EWIH]\)\?❯\s*\(\S\+\)\?\s*$')[1:3]
+
+    let theme = get(s:severity_to, severity, get(s:severity_to, 'E'))
 
     call popup_setoptions(g:coc_last_float_win, #{
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
+          \ highlight: theme.highlight,
+          \ borderhighlight: theme.borderhighlight,
+          \ scrollbarhighlight: theme.scrollbarhighlight,
+          \ thumbhighlight: theme.thumbhighlight,
           \ padding: [0,1,0,1], 
           \ border: [1,1,1,1],
-          \ title:'╸━ ' .. lspname .. ' ' .. errcode .. ' ━╺',
+          \ title: '╸━ ' .. theme.desc .. ' (' .. lspname .. ' ' .. errcode .. ') ━╺',
           \ })
 
     call setbufvar(cocbufnr, "&ft", lspname)

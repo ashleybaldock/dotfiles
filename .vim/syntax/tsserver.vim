@@ -5,6 +5,7 @@
 " :au BufWritePost <buffer> syn on
 "
 " Related:
+"   ../ftplugin/tsserver.vim
 "
 
 

@@ -49,6 +49,12 @@ let g:colornames = #{
       \ yqfspnf: '#229900',                    
       \ yqfctcf: '#00ccdd',                    
       \ yqfctnf: '#00bbcc',                    
+      \ yyerrof: '#dd2222', yyerrob: '#1f0505',
+      \ yserrnf: '#aa0000',
+      \ yywarnf: '#ffaa00', yywarnb: '#301e00',
+      \ yswarnf: '#d08800',
+      \ yyhintf: '#00ffff', yyhintb: '#101025',
+      \ yyinfof: '#bb99ff', yyinfob: '#101025',
       \}
 call extend(v:colornames, g:colornames, 'force')
 
@@ -264,6 +270,16 @@ hi link PopDiagWarn   LineDgWarn
 hi link PopDiagInfo   LineDgInfo
 hi link PopDiagHint   LineDgHint
 
+hi link PopDiagErrSb  LineDgErr 
+hi link PopDiagWarnSb LineDgWarn
+hi link PopDiagInfoSb LineDgInfo
+hi link PopDiagHintSb LineDgHint
+
+hi link PopDiagErrTb  SignDgErr
+hi link PopDiagWarnTb SignDgWarn
+hi link PopDiagInfoTb SignDgInfo
+hi link PopDiagHintTb SignDgHint
+
 hi CocSearch      guifg=#15aabf
 " Coc Floating window
 hi link CocPum            Pmenu
@@ -333,15 +349,15 @@ hi SignGitChg     guifg=#cfc040 guibg=ysignsb gui=none
 hi SignGitCgD     guifg=#cfc040 guibg=ysignsb gui=underdotted guisp=#bb0044
 
 
-hi SignDgErr      guifg=#dd2222 guibg=#1f0505 gui=none
-hi SignDgWarn     guifg=#ffaa00 guibg=#301e00 gui=none
-hi SignDgInfo     guifg=#00ffff guibg=#101025 gui=none
-hi SignDgHint     guifg=#bb99ff guibg=#101025 gui=none
+hi SignDgErr      guifg=yyerrof guibg=yyerrob gui=none
+hi SignDgWarn     guifg=yywarnf guibg=yywarnb gui=none
+hi SignDgInfo     guifg=yyhintf guibg=yyhintb gui=none
+hi SignDgHint     guifg=yyinfof guibg=yyinfob gui=none
 
-hi LineDgErr                    guibg=#1f0505 gui=none
-hi LineDgWarn                   guibg=#121200 gui=none
-hi LineDgInfo                   guibg=#001f1f gui=none
-hi LineDgHint                   guibg=#1b191f gui=none
+hi LineDgErr                    guibg=yyerrob gui=none
+hi LineDgWarn                   guibg=yywarnb gui=none
+hi LineDgInfo                   guibg=yyhintb gui=none
+hi LineDgHint                   guibg=yyinfob gui=none
 
 hi link vimHighlight Statement
 hi link vimHiClear Type
@@ -418,12 +434,12 @@ hi ToolbarButton  guifg=#eeeeee guibg=#232347 gui=none
 
 "════════════════════════════════════════════════════════╡ Inline Errors
 
-hi ErrorHint      guifg=NONE    guibg=NONE    gui=undercurl   guisp=#fe0000 
+hi ErrorHint      guifg=NONE    guibg=NONE    gui=undercurl   guisp=yyerrof 
 hi link Error ErrorHint
 
-hi WarningHint    guifg=NONE    guibg=NONE    gui=underdotted guisp=#ddbb00 
-hi link InfoHint  SpellCap
-hi link HintHint  SpellLocal
+hi WarningHint    guifg=NONE    guibg=NONE    gui=undercurl   guisp=yywarnf 
+hi HintHint       guifg=NONE    guibg=NONE    gui=underdashed guisp=yyhintf 
+hi InfoHint       guifg=NONE    guibg=NONE    gui=underdashed guisp=yyinfof 
 
 hi TestHint1      guifg=#ddddaa gui=underdouble,strikethrough guisp=#cc22dd 
 hi TestHint2      guifg=#ddddaa gui=underdouble,strikethrough guisp=#22ccff 
@@ -583,10 +599,10 @@ hi SlFlagN        guifg=#ee0000 guibg=yslnnnb gui=none
 hi SlDebugC       guifg=#bbff00 guibg=yslcccb gui=none
 hi SlDebugN       guifg=#88dd00 guibg=yslnnnb gui=none
 " diagnostics
-hi SlSynErrC      guifg=#fc0000 guibg=yslcccb gui=none
-hi SlSynErrN      guifg=#cc0000 guibg=yslnnnb gui=none
-hi SlSynWarnC     guifg=#ffaa00 guibg=yslcccb gui=none
-hi SlSynWarnN     guifg=#d08800 guibg=yslnnnb gui=none
+hi SlSynErrC      guifg=yyerrof guibg=yslcccb gui=none
+hi SlSynErrN      guifg=yserrnf guibg=yslnnnb gui=none
+hi SlSynWarnC     guifg=yywarnf guibg=yslcccb gui=none
+hi SlSynWarnN     guifg=yswarnf guibg=yslnnnb gui=none
 hi SlSynOkC       guifg=#55cc00 guibg=yslcccb gui=none
 hi SlSynOkN       guifg=#229900 guibg=yslnnnb gui=none
 hi SlSynOffC      guifg=#00ffff guibg=yslcccb gui=none

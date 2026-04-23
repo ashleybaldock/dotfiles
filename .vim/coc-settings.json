@@ -1,7 +1,6 @@
 {
   "coc.preferences.renameFillCurrent": true,
   "coc.preferences.useQuickfixForLocations": false,
-  "coc.preferences.extensionUpdateCheck": "daily",
   "coc.preferences.formatOnSave": true,
   "[markdown]": {
     "coc.preferences.formatOnSave": false
@@ -12,11 +11,18 @@
   "coc.preferences.currentFunctionSymbolDebounceTime": 300,
   "coc.preferences.maxFileSize": "10MB",
   "semanticTokens.enable": false,
-
-  "workspace.rootPatterns": [".git", ".root"],
+  "extensions.updateCheck": "daily",
+  "workspace.rootPatterns": [
+    ".git",
+    ".root"
+  ],
   "workspace.ignoredFolders": [],
-  "workspace.ignoredFiletypes": [".DS_Store", ".swo", ".swp", ".swn"],
-
+  "workspace.ignoredFiletypes": [
+    ".DS_Store",
+    ".swo",
+    ".swp",
+    ".swn"
+  ],
   "list.signOffset": 1,
   "list.floatPreview": false,
   "list.height": 10,
@@ -38,7 +44,6 @@
     "%=",
     "%#CocListPath# %{%coc#list#status('cwd')%} %l/%L%*"
   ],
-
   "suggest.timeout": 5000,
   "suggest.selection": "first",
   "suggest.asciiMatch": true,
@@ -73,7 +78,6 @@
     "folder": "􀈕",
     "reference": "􂇏 ",
     "snippet": "􁇵",
-
     "unit": "􀭭",
     "text": "􀅒",
     "color": "􀆃",
@@ -82,20 +86,16 @@
     "value": "＆",
     "keyword": "􁠱",
     "typeParameter": "􂦬",
-
     "operator": "􂪯",
-
     "event": "􀋉",
     "function": "λ",
     "method": "􀐘λ",
     "field": "􀐘x",
     "property": "􀐘p",
-
     "interface": "􀬨",
     "class": "􀐙",
     "constructor": "􁇵",
     "module": "􀥭",
-
     "enum": "􁂷",
     "enumMember": "􀔪",
     "struct": "􁉼"
@@ -110,11 +110,11 @@
     "borderhighlight": "HlCocPuSugsBd",
     "maxWidth": 40
   },
-
   "diagnostic.checkCurrentLine": false,
   "diagnostic.enableSign": true,
-  "diagnostic.signLevel": "hint",
+  "diagnostic.enable": true,
   "diagnostic.signPriority": 4,
+  "diagnostic.format": "%message\n❯❯ %source ❯ %severity ❯ %code",
   "diagnostic.errorSign": "􀆌",
   "diagnostic.warningSign": "􀁞",
   "diagnostic.infoSign": "􁌴",
@@ -127,7 +127,6 @@
     "borderhighlight": "HlCocPuDiagBd",
     "maxWidth": 100
   },
-
   "signature.enable": true,
   "signature.target": "float",
   "signature.hideOnTextChange": true,
@@ -141,7 +140,6 @@
     "borderhighlight": "HlCocPuSgtrBd",
     "maxWidth": 40
   },
-
   "hover.autoHide": true,
   "hover.previewMaxHeight": 12,
   "hover.target": "float",
@@ -153,7 +151,6 @@
     "borderhighlight": "HlCocPuHovrBd",
     "maxWidth": 90
   },
-
   "css.lint.float": "warning",
   "css.lint.emptyRules": "warning",
   "css.lint.zeroUnits": "warning",
@@ -163,7 +160,6 @@
   "css.completion.completePropertyWithSemicolon": true,
   "css.format.braceStyle": "collapse",
   "css.format.newlineBetweenSelectors": true,
-
   "yank.byteLengthLimit": 1024,
   "yank.enableCompletion": true,
   "yank.highlight.duration": 100,
@@ -171,13 +167,15 @@
   "yank.limit": 3,
   "yank.list.maxsize": 300,
   "yank.priority": 90,
-
   "json.format.enable": true,
-
   "javascript.format.enable": false,
   "javascript.preferGoToSourceDefinition": false,
-
-  "html.filetypes": ["html", "handlebars", "htmldjango", "blade"],
+  "html.filetypes": [
+    "html",
+    "handlebars",
+    "htmldjango",
+    "blade"
+  ],
   "html.autoClosingTags": true,
   "html.validate.styles": true,
   "html.validate.scripts": true,
@@ -185,21 +183,17 @@
   "html.format.extraLiners": "head, body, /html",
   "html.format.contentUnformatted": "pre,code,textarea",
   "html.completion.attributeDefaultValue": "doublequotes",
-
   "coc.preferences.enableMarkdown": true,
-
   "prettier.requireConfig": true,
   "prettier.formatterPriority": 1,
   "prettier.enable": true,
   "prettier.semi": true,
   "prettier.useTabs": false,
   "prettier.configPath": "~/.vim/.prettierrc.json",
-
   "typescript.preferences.importModuleSpecifier": "shortest",
   "typescript.preferences.useAliasesForRenames": false,
   "typescript.preferGoToSourceDefinition": true,
   "typescript.preferences.preferTypeOnlyAutoImports": true,
-
   "eslint.autoFixOnSave": true,
   "eslint.codeActionsOnSave.mode": "all",
   "eslint.rules.customizations": [],

@@ -237,9 +237,12 @@ function s:OnCocOpenFloat() abort
   " Coc float for diagnostic messages
   elseif highlight == 'HlCocPuDiagBg'
     let cocbufnr = winbufnr(g:coc_last_float_win)
-    let [lspname, severity, errcode; rest] = getbufline(cocbufnr, '$', '$')
-          \->get(0, '(unknown E 000)')
-          \->matchlist('❯❯\s*\(\S\+\)\s*❯\s*\([EWIH]\)\?❯\s*\(\S\+\)\?\s*$')[1:3]
+    let matches = getbufline(cocbufnr, '$', '$')
+          \->get(0, '')
+          \->matchlist('❯❯\s*\(\S\+\)\s*❯\s*\([EWIH]\)\?❯\s*\(\S\+\)\?\s*$')
+    let lspname = get(matches, 1, 'unknown')
+    let severity = get(matches, 2, 'E')
+    let errcode = get(matches, 3, '')
 
     let theme = get(s:severity_to, severity, get(s:severity_to, 'E'))
 

@@ -276,17 +276,14 @@ let s:variation_selectors = [ '', '︀', '︁', '︂', '︃', '︄', '︅', '︆
 let s:default_combine = 'ͮ'
 
 
-function! s:Combine(base = char#fromCursor(), with = s:default_combine) abort
-  return strpart(a:from, 0, 1) .. with
+function! s:Combine(from = char#fromCursor(), with = s:default_combine) abort
+  return strpart(a:from, 0, 1, v:true) .. a:with
 endfunc
 "
 " Combine a char with various diacritical marks
 "
-function! s:GenerateCombinings(
-      \ from = char#fromCursor(),
-      \ with = s:combining_diacriticals
-      \) abort
-  let base = strpart(a:from, 0, 1)
+function! s:GenerateCombinings(from = char#fromCursor(), with = s:combining_diacriticals) abort
+  let base = strpart(a:from, 0, 1, v:true)
   return mapnew(a:with, {_,val -> s:Combine(base, val)})
 endfunc
 
@@ -294,7 +291,7 @@ function s:GenerateVariations(from = char#fromCursor()) abort
   return s:GenerateCombinings(a:from, s:variation_selectors)
 endfunc
 
-command! -bar -nargs=? GenerateCombinings echo <SID>GenerateCombinings(<f-args>)->join(' ')
+command! -bar -nargs=? GenerateCombinings echo <SID>GenerateCombinings(<args>)->join(' ')
 
 command! -bar -nargs=? GenerateVariations echo <SID>GenerateVariations(<f-args>)->join(' ')
 

@@ -50,7 +50,8 @@ let g:colornames = #{
       \ yqfctcf: '#00ccdd',                    
       \ yqfctnf: '#00bbcc',                    
       \ yyerrof: '#dd2222', yyerrob: '#1f0505',
-      \ yserrnf: '#aa0000',
+      \ yserrcf: '#fc0000',
+      \ yserrnf: '#cc0000',
       \ yywarnf: '#ffaa00', yywarnb: '#301e00',
       \ yswarnf: '#d08800',
       \ yyhintf: '#00ffff', yyhintb: '#101025',
@@ -546,8 +547,8 @@ hi StatusLine     guifg=#ffffff guibg=yslcccb gui=none
 hi StatusLineNC   guifg=#dddddd guibg=yslnnnb gui=none
 hi SlTermC        guifg=#eeeeff guibg=yslcccb gui=none
 hi SlTermN        guifg=#ccccee guibg=yslnnnb gui=none
-hi SlInfoC        guifg=#0088ff guibg=yslcccb gui=none
-hi SlInfoN        guifg=#0066ff guibg=yslnnnb gui=none
+hi SlInfoC        guifg=#0077ee guibg=yslcccb gui=none
+hi SlInfoN        guifg=#0044bb guibg=yslnnnb gui=none
 hi SlMessC        guifg=#aa6622 guibg=yslcccb gui=none
 hi SlMessN        guifg=#884422 guibg=yslnnnb gui=none
 hi SlHomeLC       guifg=#aa00dd guibg=yslcccb gui=none
@@ -599,7 +600,7 @@ hi SlFlagN        guifg=#ee0000 guibg=yslnnnb gui=none
 hi SlDebugC       guifg=#bbff00 guibg=yslcccb gui=none
 hi SlDebugN       guifg=#88dd00 guibg=yslnnnb gui=none
 " diagnostics
-hi SlSynErrC      guifg=yyerrof guibg=yslcccb gui=none
+hi SlSynErrC      guifg=yserrcf guibg=yslcccb gui=none
 hi SlSynErrN      guifg=yserrnf guibg=yslnnnb gui=none
 hi SlSynWarnC     guifg=yywarnf guibg=yslcccb gui=none
 hi SlSynWarnN     guifg=yswarnf guibg=yslnnnb gui=none

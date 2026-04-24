@@ -33,3 +33,37 @@
   justify-content: center;
   background-color: var(--cbg);
 }
+
+
+:not(#u#n#i#m#p#o#r#t#a#n#t) #webpack-dev-server-client-overlay-div .text.chunk {
+  font-size: 16px;
+  line-height: normal;
+}
+:not(#u#n#i#m#p#o#r#t#a#n#t) #webpack-dev-server-client-overlay-div .text.chunk:nth-child(n+2) {
+  font-size: 0.7em;
+}
+
+:not(#u#n#i#m#p#o#r#t#a#n#t) #webpack-dev-server-client-overlay-div .text.line {
+  display: block;
+}
+
+:not(#u#n#i#m#p#o#r#t#a#n#t) #webpack-dev-server-client-overlay-div .text.line a {
+  color: #ffa280;
+}
+:not(#u#n#i#m#p#o#r#t#a#n#t) #webpack-dev-server-client-overlay-div .text.line a:visited {
+  color: #fe7e4f;
+}
+
+:not(#u#n#i#m#p#o#r#t#a#n#t) #webpack-dev-server-client-overlay-div .text.part {
+  white-space: collapse;
+}
+
+:not(#u#n#i#m#p#o#r#t#a#n#t) #webpack-dev-server-client-overlay-div > button + div > div > div > span:not(.text) {
+  display: block;
+  margin: 0.5em 1ch;
+  background-color: #0009;
+  box-shadow: 0 -2px 0 0 #fff2, 0 2px 0 0 #fff2;
+  line-height: normal;
+  font-size: 0.9em;
+  padding: 0.5em 1ch;
+}

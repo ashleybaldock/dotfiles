@@ -89,7 +89,7 @@ function s:FormatLinkChain(name)
 endfunc
 
 "    𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦  
-function s:GetFormattedPositionInfo(maxlines = 20) abort
+function s:GetFormattedPositionInfo() abort
   let cc = charcol('.')
   let vc = virtcol('.')
   let bc = col('.')
@@ -101,7 +101,7 @@ function s:GetFormattedPositionInfo(maxlines = 20) abort
         \ col,
         \ cc == vc ? '' : printf(' | %s', vcol),
         \ cc == bc ? '' : printf(' | %s', byte))
-  return #{text: printf('%'..a:maxlines..'S', numbers), props: []}
+  return #{text: numbers, props: []}
 endfunc
 
 function! s:ForColor(color)
@@ -181,20 +181,33 @@ function! s:LineWithPropsFromParts(parts, bufnr, lineconfig = #{})
     "
     let pad = get(part, 'pad', ['start'])
 
-    " highlighting group to use for this part
+    " !highlighting group to use for this part
     " if any of the ad-hoc highlighting options below are given,
     " then this serves as a base for them to modify
     let hi = get(part, 'hi', '')->hlget(v:true)->get(0, #{})
+    let higui = get(hi, 'gui', #{})
     let adhoc = #{
-      guifg: get(part, 'fg', get(hi, 'guifg', 'NONE'))
-      guibg: get(part, 'bg', get(hi, 'guibg', 'NONE'))
-      guisp: get(part, 'sp', get(hi, 'guisp', 'NONE'))
-      gui:   get(part, 'gui', get(hi, 'gui', 'NONE'))
+          \ guifg: get(part, 'fg', get(hi, 'guifg', 'NONE')),
+          \ guibg: get(part, 'bg', get(hi, 'guibg', 'NONE')),
+          \ guisp: get(part, 'sp', get(hi, 'guisp', 'NONE')),
+          \ gui: #{
+          \   bold: get(part, 'b', get(higui, 'bold', 0)),
+          \   italic: get(part, 'i', get(higui, 'italic', 0)),
+          \   strikethrough: get(part, 's', get(higui, 'strikethrough', 0)),
+          \   underline: get(part, 'ul', get(higui, 'underline', 0)),
+          \   undercurl: get(part, 'uc', get(higui, 'undercurl', 0)),
+          \   underdouble: get(part, 'u2', get(higui, 'underdouble', 0)),
+          \   underdotted: get(part, 'ut', get(higui, 'underdotted', 0)),
+          \   underdashed: get(part, 'ud', get(higui, 'underdashed', 0)),
+          \   reverse: get(part, 'reverse', get(higui, 'reverse', 0)),
+          \   standout: get(part, 'standout', get(higui, 'standout', 0)),
+          \ },
           \}
     " ad-hoc highlighting
     " if 'hi' is also set, it is copied and these act as overrides
 
-    if mayhem#keysMatch(hi, adhoc, ['guifg', 'guibg', 'guisp', 'gui'])
+    if mayhem#keysMatch(hi, adhoc, ['guifg', 'guibg', 'guisp'])
+          \ && mayhem#keysMatch(hi.gui, adhoc.gui, ['bold','underline','undercurl','underdouble','underdotted','underdashed','strikethrough','reverse','italic','standout'])
       let name = 'synfohi' .. hi.name
       try
         call prop_type_change(name, #{ bufnr: a:bufnr, highlight: hi.name})
@@ -211,18 +224,21 @@ function! s:LineWithPropsFromParts(parts, bufnr, lineconfig = #{})
       let name = s:nextAdhocHighlightId()
 
       let adhoc['name'] = name
-      call hlset([adhoc])
-      try
-        call prop_type_change(name, #{ bufnr: a:bufnr, highlight: adhoc.name})
-      catch /^Vim\%((\a\+)\)\=:E971:/
-        call prop_type_add(name, #{ bufnr: a:bufnr, highlight: adhoc.name})
-      endtry
-      let props += [#{
-            \ col: strlen(line) + 1,
-            \ length: strlen(text),
-            \ id: name,
-            \ type: name,
-            \}]
+      if hlset([adhoc]) < 0
+        echom 'hlset failed'
+      else
+        try
+          call prop_type_change(name, #{ bufnr: a:bufnr, highlight: adhoc.name})
+        catch /^Vim\%((\a\+)\)\=:E971:/
+          call prop_type_add(name, #{ bufnr: a:bufnr, highlight: adhoc.name})
+        endtry
+        let props += [#{
+              \ col: strlen(line) + 1,
+              \ length: strlen(text),
+              \ id: name,
+              \ type: name,
+              \}]
+      endif
     endif
     let line = line .. text
   endfor
@@ -320,7 +336,132 @@ function! s:UpdateSynFoBuffer(winid)
 " ⎢   ╰{️ ◌⃝  ⎭                                          ⎥
 " ⎢                                                    ⎥
 " ⎢                                ᴝ ᵙᵞᶂᶡᶠ             ⎥
-cccccccccccccccccc`xxxxxxxxxc cccccccccccssssssssssssssssssssxxxxxxxxxxxxxxxxxx
+" ⎝  ─╸𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦╺─                       ⎠
+
+    " Gui: (bold/underline etc.)
+    let gui = get(val, 'gui', {})
+
+    let lineParts += [
+          \ #{t: ' ', col: 3},
+          \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colors.hidden},
+          \ #{t: get(gui, 'underdouble', v:false) ? '􃐊' : '􀅕',
+          \ fg: (get(gui, 'underline', v:false)
+          \   || get(gui, 'undercurl', v:false)
+          \   || get(gui, 'underdotted', v:false)
+          \   || get(gui, 'underdashed', v:false)
+          \   || get(gui, 'underdouble', v:false)) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􀅖', fg: get(gui, 'strikethrough', v:false) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􀨡', fg: get(gui, 'standout', v:false) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􂏾️ ', fg: (get(gui, 'inverse', v:false)
+          \ || get(gui, 'reverse', v:false)) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: ' ', col: 3},
+          \]
+
+"          underline    U U̲ U̳ U ＿⎯ ￣〰 ⋯⋯ ══ ﹍＿﹏﹋
+"          undercurl    〰﹏⌇
+"          underdotted  ᠃᠃ ＿ …︙⠉⠉⡇⡈⡑⠈⠉⧙⦙⫶
+"          underdashed  ﹉﹍
+"          underdouble  ══ ║॥ 
+
+    call add(lines, s:LineWithPropsFromParts(lineParts, bufnr))
+  endfor
+
+  if len(lines) == 0
+" ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
+    let nohlParts = [
+          \ #{t: '╶╶ ', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
+          \ #{t: 'No highlighting here', hi: 'SlHomeMC', col: 2},
+          \ #{t: ' ╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 2},
+          \ #{t: '╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 3},
+          \]
+    call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
+  endif
+
+  if &l:wincolor != '' 
+" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────╴ꭱꮩ╶╴⎥
+" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
+" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
+    call add(lines, #{text: 'base(wincolor): ' .. &l:wincolor, props: []})
+    let nohlParts = [
+          \ #{t: '╶╶ ', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
+          \ #{t: '╴wincolor╶', hi: 'SlHomeMC', col: 2},
+          \ #{t: ' ╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 2},
+          \ #{t: '╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 3},
+          \]
+    call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
+  else
+    call add(lines, #{text: 'base: ' .. get(hlget('Normal'), 'guifg', ''), props: []})
+  endif
+
+  "
+  " TODO Conceal Info:
+  "
+
+  "
+  " TODO Fold Info:
+  "
+
+  call foldlevel('.') " level of current fold
+  call foldclosed('.') " -1 = not in closed fold, else first line of that fold
+  call foldclosedend('.') " -1 = not in closed fold, else last line of that fold
+  call foldtextresult('.')
+  "
+  " Synstack:
+  "
+  if !exists("*synstack")
+    call add(lines, #{text: 'Synstack Unavailable', props: []})
+  else
+    let stack = synstack(line('.'), col('.'))->map(
+          \{_,v -> synIDattr(v, 'name')->hlget()[0]})
+
+    " Stack:
+    for val in reverse(stack)
+      let lineParts = [
+            \ #{t: (get(val, 'cleared') ? 'ᴄ' : ' '), fg: s:colors.cleared},
+            \ #{t: (get(val, 'default') ? 'ᴅ' : ' '), fg: s:colors.default},
+            \]
+      let lineParts += s:FormatLinkChain(val.name)
+
+      call add(lines, s:LineWithPropsFromParts(lineParts, bufnr))
+    endfor
+  end
+
+  call add(lines, s:sectionBreak)
+
+  "
+  " TODO Text Object Info:
+  "
+
+  "
+  " TODO Sign Info:
+  "
+
+  "
+  " Character Info:
+  "
+  " let charinfo = printf('%'..longest..'S', ExecAndReturn('Characterize'))
+  call add(lines, s:FormatCharInfoForSynFo())
+
+  call add(lines, s:sectionBreak)
+
+  "
+  " Position Info:
+  "
+  " call add(lines, s:GetFormattedPositionInfo(max(mapnew(lines, {_, line -> line['text']}))))
+  call add(lines, s:GetFormattedPositionInfo())
+
+  call popup_settext(a:winid, lines)
+endfunc
+
+function s:SynFoPopupFilter(winid, key) abort
+  " if a:key == '<LeftMouse>'
+  "   let contents = getbufline(winbufnr(a:winid), 1, '$')
+  "   echom contents
+  "   :vsp|enew|call map(contents, {_, val -> appendbufline(bufnr(), 1, val) })|setlocal nomodified nomodifiable
+  "   return 0
+  " endif
+    " return 0
   " endif
   if a:key == 'x'
     call s:SynFoDisable()

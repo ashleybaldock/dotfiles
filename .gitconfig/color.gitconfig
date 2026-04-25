@@ -1,0 +1,58 @@
+[log]
+  graphColors = 160,161,162,163,164,165,196,197,198,199,200,201
+[color "status"]
+	header = 244
+  untracked = brightred
+	; untracked = red
+  changed = 78
+  changed = 220
+  updated = 117
+  added = 48
+  branch = 86
+  localBranch = 86
+  remoteBranch = 219
+[color "branch"]
+  local = 159
+  remote = 219
+  upstream = 21
+  plain = 250
+  current = 14
+[color "push"]      
+  error = 203
+[color "transport"] 
+  rejected = 203
+[color "remote"]
+  hint = 68
+  warning = 214
+  success = 118
+  error = 203
+[color "decorate"]
+  branch = 159
+  remoteBranch = 219
+  tag = 10
+  stash = 95
+  HEAD = 6
+  grafted = 138
+[color "diff"]
+  meta = 226
+  commit = 231
+  whitespace = 202
+  frag = 21
+  func = 57
+  context = 33
+  contextDimmed = 183
+  contextBold = 129
+  new = 82
+  newDimmed = 70
+  newBold = 46
+  newMoved = 154
+  newMovedDimmed = 112
+  newMovedAlternative = 162
+  newMovedAlternativeDimmed = 126
+  old = 160
+  oldDimmed = 124
+  oldBold = 196
+  oldMoved = 136
+  oldMovedDimmed = 178
+  oldMovedAlternative = 142 
+  oldMovedAlternativeDimmed = 63

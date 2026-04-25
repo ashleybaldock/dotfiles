@@ -14,10 +14,18 @@
 let s:cpo_save = &cpo
 set cpo&vim
 
+let s:selectors = range(17, 255)
+
 " Match each of the extended set of variation selectors
-for n in range(17, 255)
-  exec printf("syn match vs%d +%s+", n, nr2char(n - 17 + 0xE0100))
+for n in s:selectors 
+  exec printf("syn match vs%d +%s+ display contained contains=NONE",
+        \ n, nr2char(n - 17 + 0xE0100))
 endfor
+
+exec printf("syn cluster vsSupplemental contains=%s",
+      \ mapnew(s:selectors, {i,s -> printf("vs%d", s)})->join(','))
+
+syn match variationSelector /[\Ue0100-\Ue01ef]/ display contains=@vsSupplemental
 
 " exec range(17,255)
 "       \->map({i, n -> printf("vs%d 𐔃%s", n, nr2char(n + 0xE0100))})

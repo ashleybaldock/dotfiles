@@ -29,10 +29,11 @@ endfunc
 
 
 function s:SplitWithList(list) abort
-  exec min(20, max(4, len(a:list))) .. 'new'
+  exec min([20, max([4, len(a:list)])]) .. 'new'
   call append('$', a:list)
-  setlocal filetype=vimmessages buftype=nofile bufhidden=wipe nobuflisted nomodified nomodifiable
-  local winid = win_getid(winnr())
+  setlocal buftype=nofile bufhidden=wipe nobuflisted
+  setlocal filetype=vimmessages nomodified nomodifiable
+  let winid = win_getid(winnr())
   wincmd h
   return winid
 endfunc
@@ -69,6 +70,7 @@ function s:WriteListToBuffer(bufnr, list) abort
   call appendbufline(a:bufnr, '$', a:list)
   call setwinvar(winbufnr(a:bufnr), '&modifiable', 0)
   call setwinvar(winbufnr(a:bufnr), '&modified', 0)
+  call win_execute(winbufnr(a:bufnr), ['call cursor(''$'', 0)', 'redraw'])
 endfunc
 
 function s:RefreshMessages() abort
@@ -80,7 +82,6 @@ function s:RefreshMessages() abort
   " call appendbufline(a:bufnr, '$', '')
   " call appendbufline(a:bufnr, '$', messagesExpanded)
   call s:WriteListToBuffer(s:GetMessagesBuffer(), messages)
-  call win_execute(a:winid, ['call cursor(''$'', 0)', 'redraw'])
 endfunc
 
 function s:CloseMessages() abort
@@ -92,7 +93,6 @@ function s:CloseMessages() abort
         call win_execute(winbufnr(s:bufnr_messages), 'close')
       endif
     endif
-    unlet s:bufnr_messages
   endif
 endfunc
 
@@ -113,7 +113,7 @@ function s:SplitWithMessages() abort
 
   let msgbufnr = s:GetMessagesBuffer()
 
-  exec msgbufnr .. 'wincmd ^'
+  exec 'vertical ' .. msgbufnr .. 'wincmd ^'
 
   call s:RefreshMessages()
 
@@ -175,18 +175,6 @@ command! MessagesSplit call s:SplitWithMessages()
 command! MessagesClose call s:CloseMessages()
 
 command! MessagesRefresh call s:RefreshMessages()
-
-function s:OnVimEnter()
-  call SplitWithMessages()
-endfunc
-
-call autocmd_add([
-      \#{
-      \ event: 'VimEnter', once: v:true,
-      \ cmd: 'call s:SplitWithMessages()',
-      \ group: 'mayhem_messages_init', replace: v:true,
-      \},
-      \])
 
 "
 " :Mess(ages) [show/hide/toggle] reload [auto/no]

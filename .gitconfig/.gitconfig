@@ -1,0 +1,8 @@
+
+[core]
+	excludesfile = ~/.gitignore
+	editor = vim
+[user]
+	useConfigOnly = true
+[init]
+	defaultBranch = development

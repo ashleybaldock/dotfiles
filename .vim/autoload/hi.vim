@@ -66,6 +66,11 @@ function! hi#hi() abort
         \ /\%(\<hi\%[ghlight]!\?\s\+\%(def\%[ault]\s\+\)\?\%(link\s\+\)\?\)\@<=\%(def\%[ault]\s\|link\s\)\@!\i\+/
         \ contained containedin=vimHiKeyList,vimHiLink
 
+        " \ /\%(\<syn\%[tax]!\?\s\+\%(match\|region\|keyword\)\s+\)\@<=\i\+/
+  syn match vimHiHiKeyword
+        \ /\%(syn\s\+\%(match\|region\|keyword\)\s\+\)\@<=\i\+/
+        \ contained containedin=vimSynKeyRegion,vimSynMatchRegion,vimSynRegion
+
   for hlgroup in hlget()
     try
       exec 'syn keyword' hlgroup['name'] 'contained' hlgroup['name']
@@ -75,6 +80,24 @@ function! hi#hi() abort
       echom v:errmsg
     endtry
   endfor
+
+  syn region vimSynRegion contained keepend
+        \ start="\h\w*"
+        \ skip="\\\\\|\\|\|\n\s*\%(\\\|\"\\ \)"
+        \ matchgroup=vimCmdSep end="|\|$"
+        \ contains=@vimSynRegGroup
+
+  syn region vimSynKeyRegion contained keepend
+        \ start="\h\w*\>"
+        \ skip="\\\\\|\\|\|\n\s*\%(\\\|\"\\ \)"
+        \ matchgroup=vimCmdSep end="|\|$"
+        \ contains=@vimSynKeyGroup
+
+  syn region vimSynMatchRegion contained keepend
+        \ start="\h\w*\>"
+        \ skip="\\\\\|\\|\|\n\s*\%(\\\|\"\\ \)"
+        \ matchgroup=vimCmdSep end="|\|$"
+        \ contains=@vimSynMtchGroup
 
   silent! syn clear vimGroup
   silent! syn clear vimHiGroup

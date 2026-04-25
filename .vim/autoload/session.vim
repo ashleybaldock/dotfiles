@@ -118,11 +118,13 @@ function! session#name() abort
   endif
 endfunc
 
-function! session#create(sessionname) abort
-  exec 'mksession<bang> ~/.vim/session/' .. a:sessionname .. '.session.vim'
+function! session#create(sessionname, overwrite = v:false) abort
+  exec 'mksession' .. (a:overwrite ? '!' : '')
+        \ '~/.vim/session/' .. a:sessionname .. '.session.vim'
 
   if exists('g:loaded_obsession')
-    exec 'Obsession<bang> ~/.vim/session/' .. a:sessionname .. '.session.vim'
+    exec 'Obsession' .. (a:overwrite ? '!' : '')
+          \ '~/.vim/session/' .. a:sessionname .. '.session.vim'
   endif
 endfunc
 

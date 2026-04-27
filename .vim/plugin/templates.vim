@@ -93,18 +93,24 @@ function s:InsertTemplate(filename)
 
   " Date And Time:
   "
-  "  current date, DD-MM-YYYY
+  "  %DATE% - current date, DD-MM-YYYY
   "
   silent! exec '%s/%DATE%/' .. strftime("%d-%m-%Y") .. '/g'
 
   "
-  "  current time, HH:mm
+  "  %TIME% - current time, HH:mm
   "
   silent! exec '%s/%TIME%/' .. strftime("%I:%M") .. '/g'
 
   "
   " %Y-%m-%dT%H:%M:%S.%f
   "
+
+  "
+  " Position Cursor:
+  "
+  " %CUR%
+  silent! exec '%s/%CUR%//g'
 
   " Script:
   " Source template init script if present

@@ -295,7 +295,7 @@ command! -bar -nargs=? GenerateCombinings echo <SID>GenerateCombinings(<args>)->
 
 command! -bar -nargs=? GenerateVariations echo <SID>GenerateVariations(<f-args>)->join(' ')
 
-command! -bar -nargs=? -count=16 Vary echo <SID>GenerateVariations
+command! -bar -nargs=? -count=16 Vary echo <SID>GenerateVariations(<f-args>))
 
 "                                                           TODO
 function s:SelectCombination() abort

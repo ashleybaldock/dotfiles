@@ -1,11 +1,5 @@
-if exists("b:current_syntax")
-  finish
-endif
-
 "
-" Syntax highlighting for '%FILE%' files
-"
-" ! Replaces runtime syntax file
+" Syntax highlighting extensions for '%FILE%' files
 "
 " :au BufWritePost <buffer> syn on
 "
@@ -21,8 +15,6 @@ set cpo&vim
 
 syn match %CUR%
 
-
-let b:current_syntax = "%FILE%"
 
 let &cpo = s:cpo_save
 unlet s:cpo_save

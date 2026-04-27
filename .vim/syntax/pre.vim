@@ -14,80 +14,97 @@ source <script>:p:h/vsel.vim
 let s:cpo_save = &cpo
 set cpo&vim
 
-syn match preYes +[✔︎✓☑︎☘︎☺︎]+
-syn match preMaybe +[¿‽⸮⁈⁉︎⁇†‡]+
-syn match preNo +[✘✖︎✗☒⚑☓☹︎‼︎]+
-syn match preBigSquare /[\u23a1-\u23a6]/ contains=NONE
-syn match preBigCurly /[\u23a7-\u23ad]/ contains=NONE
-syn match preBigParens /[\u239b-\u23a0]/ contains=NONE
-syn match preBlocks /[\u2580-\u259f]/ contains=NONE
-syn match preShapes /[\u25a0-\u25ff]/ contains=NONE
-syn match preBox /[\u2500-\u257f]/ contains=NONE
+syn match preYes +[✔︎✓☑︎☘︎☺︎]+ display contains=NONE
+syn match preMaybe +[¿‽⸮⁈⁉︎⁇†‡]+ display contains=NONE
+syn match preNo +[✘✖︎✗☒⚑☓☹︎‼︎]+ display contains=NONE
+syn match preBigSquare /[\u23a1-\u23a6]/ display contains=NONE
+syn match preBigCurly /[\u23a7-\u23ad]/ display contains=NONE
+syn match preBigParens /[\u239b-\u23a0]/ display contains=NONE
+syn match preBlocks /[\u2580-\u259f]/ display contains=NONE
+syn match preShapes /[\u25a0-\u25ff]/ display contains=NONE
+syn match preBox /[\u2500-\u257f]/ display contains=NONE
 
 
-syn match preEscaped /\%(\\\S[^)\u2500-\u257f \\]*\)\+/
-syn region preInSquare
+syn match preEscaped /\%(\\\S[^)\u2500-\u257f \\]*\)\+/ display contains=NONE
+syn region preInSquare oneline
       \ matchgroup=preSquare start=/\[/
-      \ end=/\]/ oneline contains=preInSquare,preYes,preNo,preMaybe
+      \ end=/\]/ contains=preInSquare,preYes,preNo,preMaybe
 
-" syn match TagsUnknown /[\Ue0000\Ue0002-\Ue001f]/
-" syn match TagLang /[\Ue0001]/
-" syn match TagCancel /[\Ue007f]/
-" syn match TagsUpper /[\Ue0020-\Ue0060\Ue007b-\Ue007e]/
-" syn match TagsLower /[\Ue0061-\Ue007a]/
+" syn match TagsUnknown /[\Ue0000\Ue0002-\Ue001f]/ display contains=NONE
+" syn match TagLang /[\Ue0001]/ display contains=NONE
+" syn match TagCancel /[\Ue007f]/ display contains=NONE
+" syn match TagsUpper /[\Ue0020-\Ue0060\Ue007b-\Ue007e]/ display contains=NONE
+" syn match TagsLower /[\Ue0061-\Ue007a]/ display contains=NONE
 
 
-
-syn match preEqVar /\%(\_^\|\s\)\@1<=[𝝼𝞶𝝂𝜈ʋ𝛼𝛽𝓍𝓎]\+.\{-}\ze\%(\_$\|\s\)/ contains=NONE
+syn match preMathOp /[\u2200-\u22ff]/ display contains=NONE
+syn match preMathMiscA /[\u27c0-\u27ef]/ display contains=NONE
+syn match preMathMiscB /[\u2980-\u29ff]/ display contains=NONE
+syn match preMathSupOp /[\u2980-\u29ff]/ display contains=NONE
+syn match preEqVar /\%(\_^\|\s\)\@1<=[𝝼𝞶𝝂𝜈ʋ𝛼𝛽𝓍𝓎]\+.\{-}\ze\%(\_$\|\s\)/ display contains=NONE
+syn match preVulFrac /[\u2150-\u215f]/ display contains=NONE
+syn match preRomanUC /[\u2160-\u216f]/ display contains=NONE
+syn match preRomanLC /[\u2170-\u217f]/ display contains=NONE
 " syn match preEqVar /\%(\_^\|\s\)\@1<=\S\{-}[ᵪᵥₓᘁᘁᵥᕽᴴᵂᶹᑋʰˣʸ]\{-}\ze\%(\_$\|\s\)/ contains=NONE
 
+syn match preArrows /[\u2190-\u21ff]/ display contains=NONE
+syn match preArrowsSupA /[\u27f0-\u27ff]/ display contains=NONE
+syn match preArrowsSupB /[\u2900-\u297f]/ display contains=NONE
+
 syn match preArrows /[
-      \\u2190-\u21ff
       \\u2798-\u27af
       \\u27b1-\u27be
-      \\u27f0-\u27ff
       \\u2900-\u297f
       \\u2b00-\u2b11
       \\u2b30-\u2b4f
       \\u2b5a-\u2b73
       \\u2b80-\u2b94
-      \\u2b95]\+/ contains=NONE
+      \\u2b95]\+/ display contains=NONE
 
-let end_l = '◀◀◂◁◃◅'
-let end_r = '▶▸►▹▻▷'
-let any_s = '╾╼●○◯⦿◉◎■□▩◧◨◩◪◫◰◱◲◳▢▣◍▬▭◑◒◓◔◕◴◵◶◷'
-let th_m = '─┈┄╌'
-let th_sr = '╴┘┐┤┬┴┼╜╖╢╨╥╫┚┒┨┸┰╂╮╯'
-let th_sl = '╶└┌├┬┴┼┖┎┠┸┰╂╙╓╟╨╥╫╰╭'
-let th_cr = '┘┐┤┬┴┼╜╖╢╨╥╫┚┒┨┸┰╂╮╯'
-let th_cl = '└┌├┬┴┼┖┎┠┸┰╂╙╓╟╨╥╫╰╭'
-let wd_m = '━┉┅╍'
-let wd_sr = '╸┛┓┫┻┳╋┑┙┥┷┯┿'
-let wd_sl = '╺┗┏┣┻┳╋┕┍┝┯┷┿'
-let wd_cr = '┛┓┫┻┳╋┑┙┥┷┯┿'
-let wd_cl = '┗┏┣┻┳╋┕┍┝┯┷┿'
-let db_m = '═'
-let db_sr = '╝╗╣╩╦╬╛╕╡╧╤╪'
-let db_sl = '╚╔╠╩╦╬╘╒╞╤╧╪'
-let db_cr = '╝╗╣╩╦╬╛╕╡╧╤╪'
-let db_cl = '╚╔╠╩╦╬╘╒╞╤╧╪'
-exec 'syn match preArrows /[' .. end_l .. '][' .. th_m .. ']\+[' .. th_sr .. any_s..  ']\?\Z/ contains=NONE extend'
-exec 'syn match preArrows /[' .. any_s .. '][' .. th_m .. ']\+[' .. th_cr ..  ']\Z/ contains=NONE extend'
-exec 'syn match preArrows /[' .. end_l .. '][' .. wd_m .. ']\+[' .. wd_sr .. any_s..  ']\?\Z/ contains=NONE extend'
-exec 'syn match preArrows /[' .. any_s .. '][' .. wd_m .. ']\+[' .. wd_cr ..  ']\Z/ contains=NONE extend'
-exec 'syn match preArrows /[' .. end_l .. '][' .. db_m .. ']\+[' .. db_sr .. any_s..  ']\?\Z/ contains=NONE extend'
-exec 'syn match preArrows /[' .. any_s .. '][' .. db_m .. ']\+[' .. db_cr ..  ']\Z/ contains=NONE extend'
-exec 'syn match preArrows /[' .. th_sl .. any_s .. ']\?[' .. th_m .. ']\+[' .. end_r .. ']\Z/ contains=NONE extend'
-exec 'syn match preArrows /[' .. th_cl .. '][' .. th_m .. ']\+[' .. any_s .. ']\Z/ contains=NONE extend'
-exec 'syn match preArrows /[' .. wd_sl .. any_s .. ']\?[' .. wd_m .. ']\+[' .. end_r .. ']\Z/ contains=NONE extend'
-exec 'syn match preArrows /[' .. wd_cl .. '][' .. wd_m .. ']\+[' .. any_s .. ']\Z/ contains=NONE extend'
-exec 'syn match preArrows /[' .. db_sl .. any_s .. ']\?[' .. db_m .. ']\+[' .. end_r .. ']\Z/ contains=NONE extend'
-exec 'syn match preArrows /[' .. db_cl .. '][' .. db_m .. ']\+[' .. any_s .. ']\Z/ contains=NONE extend'
-syn match preArrows />\?-\+>/ contains=NONE
-syn match preArrows /<-\+<\?/ contains=NONE
-syn match preArrows /<-\+>\?/ contains=NONE
+let s:end_l = '◀◀◂◁◃◅'
+let s:end_r = '▶▸►▹▻▷'
+let s:any_s = '╾╼●○◯⦿◉◎■□▩◧◨◩◪◫◰◱◲◳▢▣◍▬▭◑◒◓◔◕◴◵◶◷'
+let s:th_m = '─┈┄╌'
+let s:th_sr = '╴┘┐┤┬┴┼╜╖╢╨╥╫┚┒┨┸┰╂╮╯'
+let s:th_sl = '╶└┌├┬┴┼┖┎┠┸┰╂╙╓╟╨╥╫╰╭'
+let s:th_cr = '┘┐┤┬┴┼╜╖╢╨╥╫┚┒┨┸┰╂╮╯'
+let s:th_cl = '└┌├┬┴┼┖┎┠┸┰╂╙╓╟╨╥╫╰╭'
+let s:wd_m = '━┉┅╍'
+let s:wd_sr = '╸┛┓┫┻┳╋┑┙┥┷┯┿'
+let s:wd_sl = '╺┗┏┣┻┳╋┕┍┝┯┷┿'
+let s:wd_cr = '┛┓┫┻┳╋┑┙┥┷┯┿'
+let s:wd_cl = '┗┏┣┻┳╋┕┍┝┯┷┿'
+let s:db_m = '═'
+let s:db_sr = '╝╗╣╩╦╬╛╕╡╧╤╪'
+let s:db_sl = '╚╔╠╩╦╬╘╒╞╤╧╪'
+let s:db_cr = '╝╗╣╩╦╬╛╕╡╧╤╪'
+let s:db_cl = '╚╔╠╩╦╬╘╒╞╤╧╪'
+let s:prefix = 'syn match preMultiArrows'
+let s:suffix = 'display contains=NONE extend'
+" ◀─╯◁─╯  ◀─╯◂─╯◃─╯◅─╯◀─╯ ◀─●
+exec s:prefix '/[' .. s:end_l .. '][' .. s:th_m .. ']\+[' .. s:th_sr .. s:any_s .. ']\?\Z/' s:suffix
+" ◀━┛◀━┛◀━┛◂━┛◁━┛◃━┛◅━┛ ◀━●
+exec s:prefix '/[' .. s:end_l .. '][' .. s:wd_m .. ']\+[' .. s:wd_sr .. s:any_s .. ']\?\Z/' s:suffix
+" ◀═╝ ◀═●
+exec s:prefix '/[' .. s:end_l .. '][' .. s:db_m .. ']\+[' .. s:db_sr .. s:any_s .. ']\?\Z/' s:suffix
+" ●️─︎╮ ╾  ╼─︎⦿─︎◉─︎◎─︎■─︎□─︎▩─︎◧─︎◨─︎◩─︎◪─︎◫─︎◰─︎◱─︎◲─︎◳─︎▢─︎▣─︎◍─︎▬─︎▭─︎◑─︎◒─︎◓─︎◔─︎◕─︎◴─︎◵─︎◶─︎◷  
+" ╾️╼️●️─︎○️─︎ ─︎⦿️─︎    ■️─︎□️─︎  ◧️─︎◨️─︎◩️─︎◪️─︎◫️─︎◰️─︎◱️─︎◲️─︎◳️─︎▢️ ▣️─︎◍️─︎▬️─︎▭️─︎◑️─︎◒️─︎◓️─︎◔️─︎◕️─︎◴️─︎◵️─︎─︎◶️─︎◷️
+exec s:prefix '/[' .. s:any_s .. '][' .. s:th_m .. ']\+[' .. s:th_cr .. ']\Z/' s:suffix
+" ●️━┓
+exec s:prefix '/[' .. s:any_s .. '][' .. s:wd_m .. ']\+[' .. s:wd_cr .. ']\Z/' s:suffix
+" ●️═╗
+exec s:prefix '/[' .. s:any_s .. '][' .. s:db_m .. ']\+[' .. s:db_cr .. ']\Z/' s:suffix
+exec s:prefix '/[' .. s:th_sl .. s:any_s .. ']\?[' .. s:th_m .. ']\+[' .. s:end_r .. ']\Z/' s:suffix
+exec s:prefix '/[' .. s:th_cl .. '][' .. s:th_m .. ']\+[' .. s:any_s .. ']\Z/' s:suffix
+exec s:prefix '/[' .. s:wd_sl .. s:any_s .. ']\?[' .. s:wd_m .. ']\+[' .. s:end_r .. ']\Z/' s:suffix
+exec s:prefix '/[' .. s:wd_cl .. '][' .. s:wd_m .. ']\+[' .. s:any_s .. ']\Z/' s:suffix
+exec s:prefix '/[' .. s:db_sl .. s:any_s .. ']\?[' .. s:db_m .. ']\+[' .. s:end_r .. ']\Z/' s:suffix
+exec s:prefix '/[' .. s:db_cl .. '][' .. s:db_m .. ']\+[' .. s:any_s .. ']\Z/' s:suffix
+syn match preAsciiArrows />\?-\+>/ display contains=NONE
+syn match preAsciiArrows /<-\+<\?/ display contains=NONE
+syn match preAsciiArrows /<-\+>\?/ display contains=NONE
 
-syn match preNewline /[⏎↩]/ contains=NONE
+syn match preNewline /[⏎↩]/ display contains=NONE
 
 hi def preBox       guifg=#ffccff
 hi def preBigSquare guifg=#ffbbbb

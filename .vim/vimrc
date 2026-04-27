@@ -27,9 +27,9 @@ let g:mayhem_dir_template  = $VIMHOME..'/templates'
 "    - template selection (see: ./plugin/templates.vim)
 "
 let g:mayhem_path_hints = {
-      \ $VIMHOME..'/after/ftplugin': #{ hint: '(️v/️a/️f)️'},
-      \ $VIMHOME..'/after/plugin':   #{ hint: '(️v/️a/️p)️'},
-      \ $VIMHOME..'/after/syntax':   #{ hint: '(️v/️a/️s)️', subtype: 'syntax'},
+      \ $VIMHOME..'/after/ftplugin': #{ hint: '(️v/️a/️f)️', subtype: 'after.ftplugin'},
+      \ $VIMHOME..'/after/plugin':   #{ hint: '(️v/️a/️p)️', subtype: 'after.plugin'},
+      \ $VIMHOME..'/after/syntax':   #{ hint: '(️v/️a/️s)️', subtype: 'after.syntax'},
       \ $VIMHOME..'/autoload':       #{ hint: '(️v/️au)️', subtype: 'autoload'},
       \ $VIMHOME..'/colors':         #{ hint: '(️v/️cl)️', subtype: 'colors'},
       \ $VIMHOME..'/ftplugin':       #{ hint: '(️v/️f)️'},

@@ -14,6 +14,9 @@ if exists("b:current_syntax")
   finish
 endif
 
+let s:cpo_save = &cpo
+set cpo&vim
+
 let s:s1_1st = get(g:, 'mayhem_qf_sep1_firstline', '⎫')
 let s:s1_mid = get(g:, 'mayhem_qf_sep1_mididline',   '⎪')
 let s:s1_end = get(g:, 'mayhem_qf_sep1_lastline',  '⎩')
@@ -157,3 +160,7 @@ hi def link qfError  Error
 " hi def qfSameFile guifg=#880088
 
 let b:current_syntax = "qf"
+
+let &cpo = s:cpo_save
+unlet s:cpo_save
+

@@ -1,20 +1,13 @@
 scriptencoding utf-8
 "
-" %FILE:TC% filetype plugin
-"
-" ! Replaces runtime ftplugin file
+" %FILE:TC% filetype plugin (after)
 "
 " Related:
-"     $VIMHOME/syntax/%FILE:LC%.vim
 "     $VIMHOME/after/syntax/%FILE:LC%.vim
-"     $VIMHOME/after/ftplugin/%FILE:LC%.vim
+"     $VIMHOME/syntax/%FILE:LC%.vim
+"     $VIMHOME/ftplugin/%FILE:LC%.vim
 "     $VIMRUNTIME/ftplugin/%FILE:LC%.vim
 "     $VIMRUNTIME/syntax/%FILE:LC%.vim
-
-if exists("b:did_ftplugin")
-  finish
-endif
-let b:did_ftplugin = 1
 
 
 %CUR%

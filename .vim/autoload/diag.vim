@@ -93,4 +93,4 @@ function! diag#getProviderFromBuffer(bufnr = winbufnr(g:coc_last_float_win)) abo
             \->matchstrlist('(\(\S\+\) \(\d\+\))$', #{submatches: v:true})
   return #{name: name, code: code}
 endfunc
-    
+

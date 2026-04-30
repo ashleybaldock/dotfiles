@@ -43,23 +43,29 @@ syn match preMathMiscB /[\u2980-\u29ff]/ display contains=NONE
 syn match preMathSupOp /[\u2980-\u29ff]/ display contains=NONE
 syn match preEqVar /\%(\_^\|\s\)\@1<=[𝝼𝞶𝝂𝜈ʋ𝛼𝛽𝓍𝓎]\+.\{-}\ze\%(\_$\|\s\)/ display contains=NONE
 syn match preVulFrac /[\u2150-\u215f]/ display contains=NONE
+syn match preMathAlnum /[\U1d400-\U1d7fe]/ display contains=NONE
+syn match preMathAlnum /[\u-\u]/ display contains=NONE
+syn match preMusical /[\U1d100-\U1d1ff]/ display contains=NONE
+
+syn match preVulFrac /[\u2150-\u215f¼½¾]/ display contains=NONE
+
 syn match preRomanUC /[\u2160-\u216f]/ display contains=NONE
 syn match preRomanLC /[\u2170-\u217f]/ display contains=NONE
-" syn match preEqVar /\%(\_^\|\s\)\@1<=\S\{-}[ᵪᵥₓᘁᘁᵥᕽᴴᵂᶹᑋʰˣʸ]\{-}\ze\%(\_$\|\s\)/ contains=NONE
 
 syn match preArrows /[\u2190-\u21ff]/ display contains=NONE
 syn match preArrowsSupA /[\u27f0-\u27ff]/ display contains=NONE
 syn match preArrowsSupB /[\u2900-\u297f]/ display contains=NONE
 
-syn match preArrows /[
+syn match preMoreArrows /[
       \\u2798-\u27af
       \\u27b1-\u27be
-      \\u2900-\u297f
       \\u2b00-\u2b11
       \\u2b30-\u2b4f
       \\u2b5a-\u2b73
       \\u2b80-\u2b94
       \\u2b95]\+/ display contains=NONE
+
+syn cluster preArrows contains=preArrows,preArrowsSupA,preArrowsSupB,preMoreArrows
 
 let s:end_l = '◀◀◂◁◃◅'
 let s:end_r = '▶▸►▹▻▷'

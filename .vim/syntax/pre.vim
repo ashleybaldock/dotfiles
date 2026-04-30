@@ -44,7 +44,6 @@ syn match preMathSupOp /[\u2980-\u29ff]/ display contains=NONE
 syn match preEqVar /\%(\_^\|\s\)\@1<=[𝝼𝞶𝝂𝜈ʋ𝛼𝛽𝓍𝓎]\+.\{-}\ze\%(\_$\|\s\)/ display contains=NONE
 syn match preVulFrac /[\u2150-\u215f]/ display contains=NONE
 syn match preMathAlnum /[\U1d400-\U1d7fe]/ display contains=NONE
-syn match preMathAlnum /[\u-\u]/ display contains=NONE
 syn match preMusical /[\U1d100-\U1d1ff]/ display contains=NONE
 
 syn match preVulFrac /[\u2150-\u215f¼½¾]/ display contains=NONE

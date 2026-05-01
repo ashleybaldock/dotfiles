@@ -7,12 +7,38 @@ let g:mayhem_autoloaded_statusline = 1
 " See: ../plugin/statusline.vim
 "
 
+function! statusline#updateSearch(...) abort
+  let r = searchcount(#{recompute: 0})
+  if empty(r)
+    let b:mayhem.sl_cache_search = format#CN('')
+    return
+  endif
+  if r.incomplete ==# 1 " timed out
+    let b:mayhem.sl_cache_search = format#CN([
+        \'%#SlSearch⸮#',
+        \symbols#CN('search.timeout􀖇􀖈􀖉􀱨􀕹􀊫􀬸 􀤍'),
+        \'%#SlSearch⸮#',
+        \'%#SlFPath⸮#[️%#SlSearch⸮#?%#SlFPath⸮#/️%#SlSearch⸮#?%#SlFPath⸮#]️%#SlSearch⸮# ',
+        \'%#SlHint⸮#',
+        \ @/,
+        \'%*'
+        \])
+    return
+  elseif r.incomplete ==# 2 " max count exceeded
+    if r.total > r.maxcount && r.current > r.maxcount
+      return printf('/%s [>%d/>%d]', @/, r.current, r.total)
+    elseif r.total > r.maxcount
+      return printf('/%s [%d/>%d]', @/, r.current, r.total)
+    endif
+  endif
+  return printf(' /%s [%d/%d]', @/, r.current, r.total)
+endfunc
+
 function! statusline#updateDiagnostics(...) abort
   if !exists('g:did_coc_loaded')
-    let b:mayhem.sl_cache_diag = [
-          \ ['%#SlSynOffC#', symbols#getc('diag.off'), '%*']->join(''),
-          \ ['%#SlSynOffN#', symbols#getn('diag.off'), '%*']->join(''),
-          \]
+    let b:mayhem.sl_cache_diag = format#CN([
+          \ '%#SlSynOff⸮#' .. symbols#CN('diag.off') .. '%*'
+          \])
     return
   endif
 
@@ -25,39 +51,26 @@ function! statusline#updateDiagnostics(...) abort
   let errorCount = get(diaginfo, 'error',       0)
 
   if errorCount > 0
-    let b:mayhem.sl_cache_diag = [
-        \ ['%#SlSynErrC#',
-        \  get(symbols#get('diag.error'), errorCount, symbols#getc('diag.error')),
-        \ '%*']->join(''),
-        \ ['%#SlSynErrN#',
-        \  get(symbols#get('diag.error'), errorCount, symbols#getn('diag.error')),
-        \ '%*']->join(''),
-        \]
+    let b:mayhem.sl_cache_diag = format#CN([
+        \'%#SlSynErr⸮#',
+        \get(symbols#get('diag.error'), errorCount, symbols#CN('diag.error')),
+        \'%*'
+        \])
     return
   endif
 
   if warnCount > 0
-    let symbol = symbols#get('diag.numbers', [])
-          \->get(warnCount, symbols#get('diag.warning'))
-    let b:mayhem.sl_cache_diag = [
-        \ ['%#SlSynWarnC#',symbol,'%*']->join(''),
-        \ ['%#SlSynWarnN#',symbol,'%*']->join(''),
-        \]
-    let b:mayhem.sl_cache_diag = [
-        \ ['%#SlSynWarnC#',
-        \  get(symbols#get('diag.warning'), warnCount, symbols#getc('diag.warning')),
-        \ '%*']->join(''),
-        \ ['%#SlSynWarnN#',
-        \  get(symbols#get('diag.warning'), warnCount, symbols#getn('diag.warning')),
-        \ '%*']->join(''),
-        \]
+    let b:mayhem.sl_cache_diag = format#CN([
+        \'%#SlSynWarn⸮#',
+        \get(symbols#get('diag.warning'), warnCount, symbols#CN('diag.warning')),
+        \'%*'
+        \])
     return
   endif
 
-  let b:mayhem.sl_cache_diag = [
-        \ ['%#SlSynOkC#', symbols#getc('diag.ok'), '%*']->join(''),
-        \ ['%#SlSynOkN#', symbols#getn('diag.ok'), '%*']->join(''),
-        \]
+  let b:mayhem.sl_cache_diag = format#CN([
+        \'%#SlSynOk⸮#' .. symbols#CN('diag.ok') .. '%*'
+        \])
   return
 endfunc
 

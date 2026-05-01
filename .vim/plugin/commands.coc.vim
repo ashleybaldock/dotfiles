@@ -8,6 +8,8 @@ let g:mayhem_loaded_coc_commands = 1
 "                    ./signs.vim
 "
 
+let g:coc_enable_locationlist = 0
+
 function ToggleOutline() abort
   let winid = coc#window#find('cocViewId', 'OUTLINE')
   if winid == -1
@@ -209,7 +211,7 @@ function s:OnCocOpenFloat() abort
         \->get(0, {})
         \->get('bufnr', -1)
 
-  let name = getbufinfo(cocbufnr)
+  let bufname = getbufinfo(cocbufnr)
         \->get(0, {})
         \->get('name', 'unknown')
 
@@ -237,14 +239,9 @@ function s:OnCocOpenFloat() abort
   " Coc float for diagnostic messages
   elseif highlight == 'HlCocPuDiagBg'
     let cocbufnr = winbufnr(g:coc_last_float_win)
-    let matches = getbufline(cocbufnr, '$', '$')
-          \->get(0, '')
-          \->matchlist('❯❯\s*\(\S\+\)\s*❯\s*\([EWIH]\)\?❯\s*\(\S\+\)\?\s*$')
-    let lspname = get(matches, 1, 'unknown')
-    let severity = get(matches, 2, 'E')
-    let errcode = get(matches, 3, '')
+    let lsp = diag#getProviderFromBuffer()
 
-    let theme = get(s:severity_to, severity, get(s:severity_to, 'E'))
+    let theme = get(s:severity_to, lsp.severity, get(s:severity_to, 'E'))
 
     call popup_setoptions(g:coc_last_float_win, #{
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
@@ -254,13 +251,10 @@ function s:OnCocOpenFloat() abort
           \ thumbhighlight: theme.thumbhighlight,
           \ padding: [0,1,0,1], 
           \ border: [1,1,1,1],
-          \ title: '╸━ ' .. theme.desc .. ' (' .. lspname .. ' ' .. errcode .. ') ━╺',
+          \ title: printf('╸━ %s (%s %s) ━╺', theme.desc, lsp.name, lsp.code),
           \ })
 
-    call setbufvar(cocbufnr, "&ft", lspname)
-    call setwinvar(g:coc_last_float_win, "&conceallevel", 2)
-    call setwinvar(g:coc_last_float_win, "&breakindent", 2)
-    call setbufvar(g:coc_last_float_win, "&l:wincolor", 2)
+    call setbufvar(cocbufnr, "&ft", 'lsp.' .. lspname)
 
   elseif highlight == 'HlCocPuSugsBg'
     echom popup_getoptions(g:coc_last_float_win)
@@ -282,7 +276,7 @@ function s:OnCocOpenFloat() abort
           \ posinvert: v:false,
           \ pos: 'topright',
           \ })
-  elseif name =~ '\[List Preview]'
+  elseif bufname =~ '\[List Preview]'
     echom 'preview'
   else
     call popup_setoptions(g:coc_last_float_win, #{
@@ -293,8 +287,6 @@ function s:OnCocOpenFloat() abort
           \ })
   endif
 endfunc
-
-let g:coc_enable_locationlist = 0
 
 let s:autocmdmap = [
       \ ['DoUserAutocmd MayhemDiagnosticsNeedUpdate',       'CocStatusChange'],

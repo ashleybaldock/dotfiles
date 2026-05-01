@@ -5,9 +5,9 @@ let g:mayhem_autoloaded_signs = 1
 
 "
 " Related:
-"        ../plugin/signs.vim
-"                ./diag.vim
-"        ../plugin/diag.vim
+"   $VIMHOME/plugin/signs.vim
+"   $VIMHOME/autoload/diag.vim
+"   $VIMHOME/plugin/diag.vim
 "
 
 let s:prefix = 'mayhem_'

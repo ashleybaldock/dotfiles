@@ -1,8 +1,8 @@
 
 "
-" Related: ../../syntax/qf.vim
-"          ../../plugin/quickfix.vim
-"    $VIMRUNTIME/syntax/qf.vim
+" Related: $VIMHOME/syntax/qf.vim
+"          $VIMHOME/plugin/quickfix.vim
+"       $VIMRUNTIME/syntax/qf.vim
 "
 
 set quickfixtextfunc=QFTFAlignColumns

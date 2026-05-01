@@ -11,7 +11,7 @@
 "   ./termayhem.vim          - Terminal colorscheme
 "  ../plugin/chars.vim       - fillchars, listchars etc.
 "  ../plugin/highlight.vim   - Colourscheme Utils
-"            ╰─▷ ⎧ :HiHi     - inline highlight preview  ⎫
+"            ╰─▷ ⎧ :HiHi     - inline highlight presearch  ⎫
 "                ⎩                                       ⎭
 "  ../plugin/synfo.vim       - syntax info popup
 "
@@ -538,7 +538,8 @@ hi CISep          guifg=yqfspcf
 "
 
 "
-" Status: ../plugin/statusline.vim
+" Status: $VIMHOME/plugin/statusline.vim
+"       $VIMHOME/autoload/statusline.vim
 "
 hi StatusLineTerm none | hi link StatusLineTerm  SlTerminal
 hi StatusLineTermNC none | hi link StatusLineTermNC SlTerminalNC
@@ -599,6 +600,9 @@ hi SlFlagC        guifg=#ff1111 guibg=yslcccb gui=none
 hi SlFlagN        guifg=#ee0000 guibg=yslnnnb gui=none
 hi SlDebugC       guifg=#bbff00 guibg=yslcccb gui=none
 hi SlDebugN       guifg=#88dd00 guibg=yslnnnb gui=none
+" search
+hi SlSearchC      guifg=#ddddee guibg=yslcccb 
+hi SlSearchN      guifg=#ccccdd guibg=yslnnnb 
 " diagnostics
 hi SlSynErrC      guifg=yserrcf guibg=yslcccb gui=none
 hi SlSynErrN      guifg=yserrnf guibg=yslnnnb gui=none
@@ -624,8 +628,8 @@ hi SlQfSepC       guifg=yqfspcf guibg=yslcccb
 hi SlQfSepN       guifg=yqfspnf guibg=yslnnnb
 hi SlQfCtC        guifg=yqfctcf guibg=yslcccb
 hi SlQfCtN        guifg=yqfctnf guibg=yslnnnb
-hi SlQfSearchC    guifg=#ddddee guibg=yslcccb
-hi SlQfSearchN    guifg=#ccccdd guibg=yslnnnb
+hi link SlQfSearchC  SlSearchC
+hi link SlQfSearchN  SlSearchN
 
 
 "╔═════════════════════════════════════════════════════╦═╡ Demo

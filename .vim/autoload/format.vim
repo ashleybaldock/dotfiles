@@ -264,8 +264,25 @@ function format#splitChar(str) abort
         \->list2str()
 endfunc 
 
-function format#CN(parts, sub = get(g:, 'mayhem_format_CN_token_default', '⸮')) abort
-  let joined = (type(a:parts) == type([])) ? join(a:parts, '') : a:parts
-  return [substitute(joined, '⸮', 'C', 'g'),substitute(joined, '⸮', 'N', 'g')]
+"
+" Return an array with two statusline format strings
+"
+"  e.g. [(C)urrent, (N)ot-current]
+"
+" - Input: a single string or object, or an array of strings and/or objects
+"  - If an input is an object, the value of keys 'N' and 'C' are used
+" - Any instances of the subsitution token are replaced with 'N' or 'C'
+"  - Default is '⸮', defined in g:mayhem_format_CN_token_default
+" 
+function format#CN(partorparts, sub = get(g:, 'mayhem_format_CN_token_default', '⸮')) abort
+  let parts = (type(a:partorparts) == type([])) ? a:partorparts : [partorparts]
+  return [
+        \ mapnew(parts, {i,v -> (type(v) == type({})? get(v, 'C', get(v, 'N', 'C!')) : v)})
+        \  ->map(parts, {i,v -> substitute(v, '⸮', 'C', 'g')})
+        \  ->join(''),
+        \ mapnew(parts, {i,v -> (type(v) == type({})? get(v, 'N', get(v, 'C', 'N!')) : v)})
+        \  ->map(parts, {i,v -> substitute(v, '⸮', 'N', 'g')})
+        \  ->join(''),
+        \]
 endfunc
 

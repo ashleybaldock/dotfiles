@@ -51,7 +51,7 @@ for s:i in range(0, 255)
           \ "guibg=" .. get(s:tmux_colours, s:bg)
 endfor
 
-syn match tmuxColour /\<colou\?r[0-9]\+\>/  display contained 
+syn match tmuxColour /\<colou\?r[0-9]\+\>/ display contained 
       \ containedin=tmuxAssignment,tmuxString,tmuxFormatString
 
 

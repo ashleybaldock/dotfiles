@@ -5,9 +5,9 @@ let g:mayhem_autoloaded_diag = 1
 
 "
 " Related:
-"      ../plugin/diag.vim
-"              ./signs.vim
-"      ../plugin/signs.vim
+"   $VIMHOME/plugin/diag.vim
+"   $VIMHOME/autoload/signs.vim
+"   $VIMHOME/plugin/signs.vim
 "
 
 let s:cachedFetch = []
@@ -88,9 +88,17 @@ function! diag#debugSplit() abort
   setlocal nomodifiable nomodified 
 endfunc
 
+"
+" Based on format specified in CocConfig 'diagnostic.format'
+"
 function! diag#getProviderFromBuffer(bufnr = winbufnr(g:coc_last_float_win)) abort
-  let [name,code] = getbufline(bufnr, '$', '$')
-            \->matchstrlist('(\(\S\+\) \(\d\+\))$', #{submatches: v:true})
-  return #{name: name, code: code}
+    let matches = getbufline(cocbufnr, '$', '$')
+          \->get(0, '')
+          \->matchlist('❯❯\s*\(\S\+\)\s*❯\s*\([EWIH]\)\?❯\s*\(\S\+\)\?\s*$')
+    return #{
+          \ name: get(matches, 1, 'unknown'),
+          \ severity: get(matches, 2, 'E'),
+          \ code: get(matches, 3, '')
+          \}
 endfunc
 

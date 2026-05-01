@@ -32,18 +32,35 @@ function symbols#get(symbolpath, fallback = 'X!') abort
   return empty(lookup) ? a:fallback : lookup
 endfunc
 
-function symbols#getn(symbolpath, fallback = 'X!') abort
-  let lookup = symbols#lookup(a:symbolpath)
-  return  type(lookup) == v:t_dict
-        \ ? get(lookup, 'n', get(lookup, 'c', get(lookup, 'i', a:fallback)))
-        \ : lookup
-endfunc
+"
+" Version of symbol for display in statusline of currently focused window
+"
 function symbols#getc(symbolpath, fallback = 'X!') abort
   let lookup = symbols#lookup(a:symbolpath)
   return  type(lookup) == v:t_dict
         \ ? get(lookup, 'c', get(lookup, 'n', get(lookup, 'i', a:fallback)))
         \ : lookup
 endfunc
+"
+" Version of symbol for display in statusline of not-focused windows
+"
+function symbols#getn(symbolpath, fallback = 'X!') abort
+  let lookup = symbols#lookup(a:symbolpath)
+  return  type(lookup) == v:t_dict
+        \ ? get(lookup, 'n', get(lookup, 'c', get(lookup, 'i', a:fallback)))
+        \ : lookup
+endfunc
+" For use with format#CN()
+" Allows different symbol for current/not-current statusline
+function symbols#CN(symbolpath, fallback = 'X!') abort
+  return #{
+        \ C: symbols#getc(a:symbolpath, a:fallback),
+        \ N: symbols.getn(a:symbolpath, a:fallback)
+        \}
+endfunc
+"
+" Best version of symbol for display inline in text
+"
 function symbols#inline(symbolpath, fallback = 'X!') abort
   let lookup = symbols#lookup(a:symbolpath)
   return  type(lookup) == v:t_dict

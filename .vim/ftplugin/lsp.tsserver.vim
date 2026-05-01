@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 " Related:
-"   ../syntax/tsserver.vim
+"   $VIMHOME/syntax/lsp.tsserver.vim
 "
 
 setlocal breakat=\	;,'/]

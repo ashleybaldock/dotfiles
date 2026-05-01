@@ -96,3 +96,13 @@ command! AckLastSearch AckFromSearch
 
 command! -range AckVisual <line1>,<line2>call <SID>AckVisual()
 command! -nargs=1 AckArgs exec <SID>AckArgs(<q-args>)
+
+
+call autocmd_add([
+      \#{
+      \ event: ['CursorMoved','CursorMovedI'], pattern: '*',
+      \ cmd: 'call search#requestcountupdate()',
+      \ group: 'mayhem_search_countupdate', replace: v:true,
+      \},
+      \])
+

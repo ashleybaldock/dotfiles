@@ -381,6 +381,10 @@ function ChQuickfix() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_title', '[Quickfix]')
 endfunc
 
+function ChSearch() abort
+  return '%{v:hlsearch ? getbufvar(bufnr(), ''mayhem_quickfix_title'', ''[Quickfix]'')
+endfunc
+
 " 0/anything and 2/n are usual
 function Conceal() abort
   return (&conceallevel == 0 || (&conceallevel == 2 && &concealcursor !~ "[vic]")) ? ""

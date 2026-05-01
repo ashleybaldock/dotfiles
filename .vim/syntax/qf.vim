@@ -5,9 +5,9 @@
 "
 " :au BufWritePost <buffer> syn on
 "
-" See Also: $VIMRUNTIME/syntax/qf.vim
-"           ../plugin/quickfix.vim
-"           ../ftplugin/qf.vim
+" See Also: $VIMHOME/plugin/quickfix.vim
+"         $VIMHOME/ftplugin/qf.vim
+"        $VIMRUNTIME/syntax/qf.vim
 "
 " Quit when a syntax file was already loaded
 if exists("b:current_syntax")

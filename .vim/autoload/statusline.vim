@@ -7,31 +7,59 @@ let g:mayhem_autoloaded_statusline = 1
 " See: ../plugin/statusline.vim
 "
 
+" 􀖈􀖉􀕹􀊫􀬸 􀤍
+let g:mayhem.symbols_S.search = #{
+  search: '􀕹',
+  timeout: '􀖇',
+      \}
+let g:mayhem.symbols_8.search = #{
+  search: '',
+  timeout: '',
+      \}
+let g:mayhem.symbols_A.search = #{
+  search: '',
+  timeout: '',
+      \}
+
 function! statusline#updateSearch(...) abort
   let r = searchcount(#{recompute: 0})
   if empty(r)
     let b:mayhem.sl_cache_search = format#CN('')
     return
   endif
+  let current = '-'
+  let total = '-'
+  let symbol = symbols#CN('search.search')
+
   if r.incomplete ==# 1 " timed out
-    let b:mayhem.sl_cache_search = format#CN([
-        \'%#SlSearch⸮#',
-        \symbols#CN('search.timeout􀖇􀖈􀖉􀱨􀕹􀊫􀬸 􀤍'),
-        \'%#SlSearch⸮#',
-        \'%#SlFPath⸮#[️%#SlSearch⸮#?%#SlFPath⸮#/️%#SlSearch⸮#?%#SlFPath⸮#]️%#SlSearch⸮# ',
-        \'%#SlHint⸮#',
-        \ @/,
-        \'%*'
-        \])
-    return
+    let current = '?'
+    let total = '?'
+    let symbol = symbols#CN('search.timeout')
   elseif r.incomplete ==# 2 " max count exceeded
     if r.total > r.maxcount && r.current > r.maxcount
-      return printf('/%s [>%d/>%d]', @/, r.current, r.total)
+      let current = printf('>%d', r.current)
+      let total = printf('>%d', r.total)
     elseif r.total > r.maxcount
-      return printf('/%s [%d/>%d]', @/, r.current, r.total)
+      let total = printf('>%d', r.total)
     endif
+  else
+    let current = printf('%d', r.current)
+    let total = printf('%d', r.total)
   endif
-  return printf(' /%s [%d/%d]', @/, r.current, r.total)
+
+  let b:mayhem.sl_cache_search = format#CN([
+      \'%#SlSearch⸮#',
+      \symbol,
+      \'%#SlSearch⸮#',
+      \'%#SlFPath⸮#[️%#SlSearch⸮#',
+      \current,
+      \'%#SlFPath⸮#/️%#SlSearch⸮#',
+      \total,
+      \'%#SlFPath⸮#]️%#SlSearch⸮# ',
+      \'%#SlHint⸮#',
+      \ @/,
+      \'%*'
+      \])
 endfunc
 
 function! statusline#updateDiagnostics(...) abort

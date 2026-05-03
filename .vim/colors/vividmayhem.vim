@@ -590,7 +590,7 @@ hi SlFNameSvdN    guifg=yormalf guibg=yslnnnb
 hi SlFNameModC    guifg=#ffffff guibg=yslcccb gui=italic,underdotted
 hi SlFNameModN    guifg=#ffffff guibg=yslnnnb gui=italic,underdotted
 hi SlFTypExtC     guifg=#00cc00 guibg=yslcccb gui=bold
-hi SlFTypExtN     guifg=#ddd0dd guibg=yslnnnb gui=bold
+hi SlFTypExtN     guifg=#008800 guibg=yslnnnb gui=none
 hi SlFTypC        guifg=#eeccff guibg=yslcccb gui=underline
 hi SlFTypN        guifg=#bb99ff guibg=yslnnnb gui=none
 hi link SlFTyp2C  SlHintC

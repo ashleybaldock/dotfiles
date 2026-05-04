@@ -10,10 +10,11 @@ let g:mayhem_autoloaded_search = 1
 function! search#requestcountupdate() abort
   let s:countupdate_timer = timer_start(200, function('search#countupdate'))
 endfunc
+
 function! search#countupdate(timer) abort
-  if a:timer ==# s:searchcount_timer
+  if a:timer == s:searchcount_timer
     call searchcount(#{recompute: 1, maxcount: 0, timeout: 100})
-    redrawstatus
+    DoUserAutocmd MayhemSearchCountUpdated
   endif
 endfunc
 

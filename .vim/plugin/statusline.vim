@@ -381,10 +381,6 @@ function ChQuickfix() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_title', '[Quickfix]')
 endfunc
 
-function ChSearch() abort
-  return '%{v:hlsearch ? getbufvar(bufnr(), ''mayhem_quickfix_title'', ''[Quickfix]'')
-endfunc
-
 " 0/anything and 2/n are usual
 function Conceal() abort
   return (&conceallevel == 0 || (&conceallevel == 2 && &concealcursor !~ "[vic]")) ? ""
@@ -395,12 +391,17 @@ endfunc
 "      - autocmds active
 "       - syntax refresh on save
 
-" Get cached filename for statusline
+" Get cached search count
+function ChSearch() abort
+  return '%{v:hlsearch ? getbufvar(bufnr(), ''sl_cache_search'', ''[Quickfix]'')
+endfunc
+
+" Get cached filename
 function ChFName() abort
   return get(b:, 'mayhem', {})->get('sl_cached_filename', [expand('%'),expand('%')])[NC()]
 endfunc
 
-" Get cached filename info for statusline
+" Get cached filename
 function ChFInfo() abort
   return get(b:, 'mayhem', {})->get('sl_cached_fileinfo', ['',''])[NC()]
 endfunc
@@ -500,6 +501,7 @@ function s:UpdateStatuslines() abort
   call s:Update_FileInfo()
   call s:Update_Git()
   call s:Update_Diag()
+  call statusline#updateSearch()
   call s:Update_WinSize()
 
   "     Size:  left╺╮  ╭╸zeros
@@ -674,6 +676,11 @@ call autocmd_add([
       \#{
       \ event: 'User', pattern: 'MayhemDiagnosticsUpdated',
       \ cmd: 'call s:Update_Diag()',
+      \ group: 'mayhem_statusline', replace: v:true,
+      \},
+      \#{
+      \ event: 'User', pattern: 'MayhemSearchCountUpdated',
+      \ cmd: 'call statusline#updateSearch()',
       \ group: 'mayhem_statusline', replace: v:true,
       \},
       \])

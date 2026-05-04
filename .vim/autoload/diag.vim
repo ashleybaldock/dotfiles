@@ -10,6 +10,22 @@ let g:mayhem_autoloaded_diag = 1
 "   $VIMHOME/plugin/signs.vim
 "
 
+
+"
+" Based on format specified in CocConfig 'diagnostic.format'
+"
+function! diag#getProviderFromBuffer(bufnr = winbufnr(g:coc_last_float_win)) abort
+    let matches = getbufline(cocbufnr, '$', '$')
+          \->get(0, '')
+          \->matchlist('❯❯\s*\(\S\+\)\s*❯\s*\([EWIH]\)\?❯\s*\(\S\+\)\?\s*$')
+    return #{
+          \ name: get(matches, 1, 'unknown'),
+          \ severity: get(matches, 2, 'E'),
+          \ code: get(matches, 3, '')
+          \}
+endfunc
+
+
 let s:cachedFetch = []
 let s:diagSplitByFileAndSeverity = #{}
 
@@ -86,19 +102,5 @@ function! diag#debugSplit() abort
   call append('$', format#dict2json(grouped))
   setlocal filetype=json
   setlocal nomodifiable nomodified 
-endfunc
-
-"
-" Based on format specified in CocConfig 'diagnostic.format'
-"
-function! diag#getProviderFromBuffer(bufnr = winbufnr(g:coc_last_float_win)) abort
-    let matches = getbufline(cocbufnr, '$', '$')
-          \->get(0, '')
-          \->matchlist('❯❯\s*\(\S\+\)\s*❯\s*\([EWIH]\)\?❯\s*\(\S\+\)\?\s*$')
-    return #{
-          \ name: get(matches, 1, 'unknown'),
-          \ severity: get(matches, 2, 'E'),
-          \ code: get(matches, 3, '')
-          \}
 endfunc
 

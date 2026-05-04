@@ -6,11 +6,11 @@ let g:mayhem_loaded_search = 1
 " === Ack / Search ===
 "
 " Related:
-"                    ./quickfix.vim
-"             ../after/ftplugin/qf.vim
-"       ../../.ignore
-"       ../../.gitignore
-" ../../../.agignore
+"       $VIMHOME/plugin/quickfix.vim
+"       $VIMHOME/after/ftplugin/qf.vim
+"       $VIMHOME/../.ignore
+"       $VIMHOME/../.gitignore
+"       $HOME/.agignore
 "
 
 

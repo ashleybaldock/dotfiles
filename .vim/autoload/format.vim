@@ -275,13 +275,13 @@ endfunc
 "  - Default is '⸮', defined in g:mayhem_format_CN_token_default
 " 
 function format#CN(partorparts, sub = get(g:, 'mayhem_format_CN_token_default', '⸮')) abort
-  let parts = (type(a:partorparts) == type([])) ? a:partorparts : [partorparts]
+  let parts = (type(a:partorparts) == type([])) ? a:partorparts : [a:partorparts]
   return [
         \ mapnew(parts, {i,v -> (type(v) == type({})? get(v, 'C', get(v, 'N', 'C!')) : v)})
-        \  ->map(parts, {i,v -> substitute(v, '⸮', 'C', 'g')})
+        \  ->map({i,v -> substitute(v, '⸮', 'C', 'g')})
         \  ->join(''),
         \ mapnew(parts, {i,v -> (type(v) == type({})? get(v, 'N', get(v, 'C', 'N!')) : v)})
-        \  ->map(parts, {i,v -> substitute(v, '⸮', 'N', 'g')})
+        \  ->map({i,v -> substitute(v, '⸮', 'N', 'g')})
         \  ->join(''),
         \]
 endfunc

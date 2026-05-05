@@ -55,7 +55,7 @@ endfunc
 function symbols#CN(symbolpath, fallback = 'X!') abort
   return #{
         \ C: symbols#getc(a:symbolpath, a:fallback),
-        \ N: symbols.getn(a:symbolpath, a:fallback)
+        \ N: symbols#getn(a:symbolpath, a:fallback)
         \}
 endfunc
 "

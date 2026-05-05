@@ -9,16 +9,16 @@ let g:mayhem_autoloaded_statusline = 1
 
 " 􀖈􀖉􀕹􀊫􀬸 􀤍
 let g:mayhem.symbols_S.search = #{
-  search: '􀕹',
-  timeout: '􀖇',
+      \ search: '􀕹',
+      \ timeout: '􀖇',
       \}
 let g:mayhem.symbols_8.search = #{
-  search: '',
-  timeout: '',
+      \ search: '',
+      \ timeout: '',
       \}
 let g:mayhem.symbols_A.search = #{
-  search: '',
-  timeout: '',
+      \ search: '',
+      \ timeout: '',
       \}
 
 function! statusline#updateSearch(...) abort

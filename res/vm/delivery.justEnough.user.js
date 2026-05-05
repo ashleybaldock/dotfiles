@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        justEnough(Delivery)
 // @namespace   mayhem
-// @version     1.0.157
+// @version     1.0.165
 // @description Deliver me the content, the whole content, and nothing but the content.
 // @downloadURL http://localhost:3333/vm/delivery.justEnough.user.js
 // @match       *://i.redd.it/*
@@ -16,11 +16,16 @@
 // @grant       GM_addElement
 // @grant       GM_registerMenuCommand
 // @grant       GM_xmlhttpRequest
+// @require     http://localhost:3333/node_modules/@violentmonkey/shortcut/dist/index.js
 // @require     http://localhost:3333/vm/util.user.js
 // @cssBaseUrl  http://localhost:3333/vm/
 // @cssBaseName delivery.justEnough
 // @inject-into auto
 // ==/UserScript==
+
+const keys = wrapKeyboardService({
+  KeyboardService: VM.shortcut.KeyboardService,
+});
 
 const help = `
  e - image fit: auto(contain) → width → height
@@ -368,10 +373,10 @@ const getSourceInfo = (
 const deliver = (
   ({ window, qs }) =>
   ({ sourceInfo }) => {
-    const config = GM_addElement('div', {
+    GM_addElement('div', {
       class: 'config',
     });
-    const notify = GM_addElement('div', {
+    GM_addElement('div', {
       class: 'notify',
     });
 
@@ -382,32 +387,45 @@ const deliver = (
       'data-name': sourceInfo.name,
     });
 
-    const link = GM_addElement(info, 'a', {
+    GM_addElement(info, 'a', {
       class: 'link',
       href: sourceInfo.link,
       textContent: `/r/${sourceInfo.name}/…`,
     });
 
-    const title = GM_addElement(info, 'span', {
+    GM_addElement(info, 'span', {
       class: 'title',
       textContent: sourceInfo.title,
     });
 
-    const downloadall = GM_addElement('a', {
+    const downloadAll = () =>
+      qs`label:has(> [name="selected"]:checked) ~ [download]`.forEach((a) => {
+        a.click();
+        // a.classList.add('clicked');
+      }).all;
+
+    GM_addElement('a', {
       class: 'downloadall',
       download: 'all',
-      href: sourceInfo.link,
+      href: '.',
       textContent: `All`,
-    });
+    }).addEventListener('click', downloadAll, {});
 
-    const downloadselected = GM_addElement('a', {
+    const downloadSelected = () =>
+      qs`label:has(> [name="selected"]:checked) ~ [download]`.forEach((a) => {
+        a.click();
+        // a.classList.add('clicked');
+      }).all;
+
+    GM_addElement('a', {
       class: 'downloadselected',
       download: 'selected',
-      href: sourceInfo.link,
+      href: '.',
       textContent: `Selected`,
-    });
+    }).addEventListener('click', downloadSelected, {});
 
-    // const triggerDownload = (src, fileame) => {
+    // const triggerDownload = (src, filename) => {
+    //   const notify = qs`.notify`.one;
     //   notify.innerHTML = 'downloading...';
     //   return fetch(src, {})
     //     .then((res) => res.blob())
@@ -435,53 +453,28 @@ const deliver = (
     /* Initial state */
     Object.values(toggles).forEach((toggle) => toggle.update());
 
-    const keydownEventHandler = (e) => {
-      const {
-        pressed: { shift, ctrl, command, option },
-        trigger,
-      } = buttonsPressed(e);
-      console.groupCollapsed(
-        `keydown[${trigger}] <shift ${shift ? '✔' : '✘'}, ctrl ${
-          ctrl ? '✔' : '✘'
-        }, meta ${option ? '✔' : '✘'}>`,
-      );
-      console.log(
-        `trigger: '${trigger}', shift: '${shift}', ctrl: '${ctrl}', meta: '${option}'`,
-      );
-      console.groupEnd();
+    window.addEventListener('click', ({target}) => ['a'].includes(target.nodeName) && target.classList.add('clicked'), {capture: true, passive: true});
 
-      if (trigger === 'e' && !shift && !ctrl && !option && !command) {
-        toggles.fit.next();
-      }
 
-      if (trigger === 'q' && !shift && !ctrl && !option && !command) {
-        window.close();
-      }
+    keys.register(toggles.fit.next, 'keye');
+    keys.register(window.close, 'keyq');
+    keys.register(() => overlayText(sourceInfo.title), 'keyp');
+    keys.register(() => {
+      placeTextX.next();
+      overlayText(sourceInfo.title)
+    }, 'keyg');
 
-      if (trigger === 'p' && !shift && !ctrl && !option && !command) {
-        overlayText(sourceInfo.title);
-      }
+    keys.register(() => {
+      placeTextY.next();
+      overlayText(sourceInfo.title)
+    }, 'keyt');
 
-      if (trigger === 'g' && !shift && !ctrl && !option && !command) {
-        placeTextX.next();
-        overlayText(sourceInfo.title);
-      }
+    keys.register(downloadSelected, 'keyd');
+    keys.register(() => {
+      downloadSelected();
+      window.close();
+    }, 's-keyd');
 
-      if (trigger === 't' && !shift && !ctrl && !option && !command) {
-        placeTextY.next();
-        overlayText(sourceInfo.title);
-      }
-
-      if (trigger === 'd' && !ctrl && !option && !command) {
-        qs`label:has(> [name="selected"]:checked) ~ [download]`.forEach((a) => {
-          a.click();
-          a.classList.add('clicked');
-        }).all;
-
-        shift && window.close();
-      }
-    };
-    window.document.addEventListener('keydown', keydownEventHandler);
   }
 )({ window: unsafeWindow, qs: uqs });
 
@@ -497,6 +490,8 @@ const styleToggleIds = addStyleToggles([
       .catch(() => console.log('timed out waiting for readyStateComplete'))
       .then(({ window, unsafeWindow }) => {
         console.debug('document ready');
+
+        keys.enable();
 
         return Promise.all([
           waitForImagesToAddInfoTo(),

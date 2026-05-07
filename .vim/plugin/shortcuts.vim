@@ -58,7 +58,7 @@ cnoremap <expr> <Down> wildmenumode() ? "\<C-E>\<Down>" : "\<Down>"
 
 cnoremap <expr> Ú getcmdtype() =~ '[/?]' ? search#toSubstitute() : search#expandSubMatch()
 
-cnoremap <expr> <CR> getcmdtype() =~ '[/?]' ? "" : ""
+" cnoremap <expr> <CR> getcmdtype() =~ '[/?]' ? "" : ""
 
 " ; always searches forward
 nnoremap <expr> ; getcharsearch().forward ? ';' : ','

@@ -1,0 +1,108 @@
+form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  margin: 0 auto;
+  row-gap: 1em;
+  --rad1: 1ch;
+  --rad0: calc(var(--rad1) + var(--pad0));
+  --pad1: 1em;
+  --pad0: 1em;
+
+  font-size: 18px;
+}
+fieldset {
+  display: grid;
+  padding: var(--pad0);
+  border-radius: var(--rad0);
+  border: 0.5px solid currentColor;
+}
+legend {
+  line-height: normal;
+  border-radius: 1lh;
+  padding: 0.2em 2ch 0.3em 2ch;
+  margin-bottom: -0.5lh;
+  border: none;
+  margin: 0 0 -0.5lh var(--pad0);
+  box-shadow:
+    -18px 0 0 -11px currentColor,
+    18px 0 0 -11px currentColor;
+}
+
+label {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  grid-column: 1/-1;
+  background-color: #111111;
+  padding: var(--pad1);
+  border: 0.5px solid #333333;
+}
+.gates {
+  grid-template-columns: 1fr auto;
+  grid-auto-rows: 1fr;
+  column-gap: 1ch;
+  row-gap: 0;
+  grid-row: 1/-1;
+}
+.gates > label:first-of-type {
+  border-top-left-radius: var(--rad1);
+  border-top-right-radius: var(--rad1);
+}
+.gates > label ~ label {
+  border-top: 0 solid #0000;
+}
+.gates > label:last-of-type {
+  border-bottom-left-radius: var(--rad1);
+  border-bottom-right-radius: var(--rad1);
+}
+
+.ride {
+  transform: scale(0);
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 4fr;
+  grid-auto-rows: auto;
+  column-gap: 1ch;
+  row-gap: 0.4em;
+  user-select: none;
+  grid-row: 1/-1;
+}
+:root:has(#gate1:checked):has(#gate2:checked):has(#gate3:checked) .gates {
+  transform: scale(0);
+}
+:root:has(#gate1:checked):has(#gate2:checked):has(#gate3:checked) .ride {
+  transform: scale(1);
+}
+[for='submit'] {
+  display: none;
+}
+:root:has(#gate1:checked):has(#gate2:checked):has(#gate3:checked)
+  [for='submit'] {
+  display: grid;
+}
+.ride > label {
+  row-gap: 1em;
+  grid-row: 1/-1;
+  border-radius: var(--rad1);
+}
+.ride > label > span {
+  font-size: 0.8em;
+}
+textarea {
+  background-color: #111;
+  color: #eee;
+  border-radius: var(--rad1);
+  border-style: groove ridge ridge groove;
+  padding: 1ch;
+}
+
+input[type='submit'] {
+  border-radius: var(--rad1);
+  background-color: #111111;
+  color: #eee;
+  padding: 1ch;
+  border: 1px solid currentColor;
+}
+form > h2 {
+  justify-self: center;
+}

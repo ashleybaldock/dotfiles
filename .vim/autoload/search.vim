@@ -21,3 +21,10 @@ function! search#countupdate(timer) abort
 endfunc
 
 
+function! search#toSubstitute() abort
+  if getcmdtype() =~ '[/?]'
+    let search = getcmdline()
+    exec "normal \<Esc>"
+    call setcmdline(':%s/' .. getcmdline() .. '/')
+  endif
+endfunc

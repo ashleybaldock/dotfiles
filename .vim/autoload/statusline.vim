@@ -7,14 +7,15 @@ let g:mayhem_autoloaded_statusline = 1
 " See: ../plugin/statusline.vim
 "
 
-" 􀖈􀖉􀕹􀊫􀬸 􀤍
+" 􀖈􀖉􀕹􀊫 􀤍
 let g:mayhem.symbols_S.search = #{
-      \ search: '􀕹',
+      \ search: '/',
       \ timeout: '􀖇',
       \}
+      " \ search: 'ⲋⳆⲺⲺⲺⳘⲠⳞ ⳊⳌⳄⳒⳅⳓⳋⳍ𐋴 ⳽ჼჽ',
 let g:mayhem.symbols_8.search = #{
-      \ search: '',
-      \ timeout: '',
+      \ search: '/',
+      \ timeout: '.',
       \}
 let g:mayhem.symbols_A.search = #{
       \ search: '',
@@ -50,14 +51,14 @@ function! statusline#updateSearch(...) abort
   let b:mayhem.sl_cache_search = format#CN([
       \'%#SlSearch⸮#',
       \symbol,
+      \'%#SlHint⸮#',
+      \ '''', @/, '''',
       \'%#SlSearch⸮#',
       \'%#SlFPath⸮#[️%#SlSearch⸮#',
       \current,
       \'%#SlFPath⸮#/️%#SlSearch⸮#',
       \total,
       \'%#SlFPath⸮#]️%#SlSearch⸮# ',
-      \'%#SlHint⸮#',
-      \ @/,
       \'%*'
       \])
 endfunc

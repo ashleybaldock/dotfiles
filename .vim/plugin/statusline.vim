@@ -393,7 +393,7 @@ endfunc
 
 " Get cached search count
 function ChSearch() abort
-  return '%{v:hlsearch ? getbufvar(bufnr(), ''sl_cache_search'', ''[Quickfix]'')
+  return v:hlsearch ? get(b:, 'mayhem', {})->get('sl_cache_search', ['',''])[NC()] : ''
 endfunc
 
 " Get cached filename
@@ -512,6 +512,7 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_norm'] = format#CN([
         \'%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
         \'%#SlSep⸮#%=%*%<',
+        \' %{%ChSearch()%}',
         \'%( %#SlFlag⸮#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
         \'%( %#SlHint⸮#%{%Conceal()%}%{%CheckScb()%}%*%)',
         \' %{%ChFInfo()%}',

@@ -202,6 +202,24 @@ set foldnestmax=4
 set foldminlines=3
 
 set cmdheight=1
+set cmdwinheight=10
+
+augroup Cmdline
+  autocmd!
+	autocmd CmdlineChanged [:\/\?] call wildtrigger()
+
+	autocmd CmdlineEnter [:\/\?] set wildmode=noselect:lastused,full
+	autocmd CmdlineEnter [\/\?] set pumheight=8
+
+	autocmd CmdlineLeave [:\/\?] set pumheight=30 wildmode=full
+augroup END
+
+set wildmenu
+set wildmode=full
+set wildoptions=pum
+set pumwidth=30
+set pumheight=30
+
 set equalalways
 set eadirection=hor
 set splitbelow
@@ -222,10 +240,6 @@ set laststatus=2
 set conceallevel=2
 set concealcursor=n
 
-set wildmenu
-set wildoptions=pum
-set pumwidth=30
-set pumheight=30
 set display+=lastline
 set autoread
 set showcmd

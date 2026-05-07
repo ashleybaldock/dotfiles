@@ -52,6 +52,16 @@ nnoremap <leader>o   <C-o>
 nnoremap ß           <C-i>
 nnoremap <leader>i   <C-i>
 
+" In command line, <Up>/<Down> navigates history, even when PUM is open
+cnoremap <expr> <Up>   wildmenumode() ? "\<C-E>\<Up>"   : "\<Up>"
+cnoremap <expr> <Down> wildmenumode() ? "\<C-E>\<Down>" : "\<Down>"
+
+cnoremap Ú <Cmd>call search#toSubstitute()<CR>
+
+" ; always searches forward
+nnoremap <expr> ; getcharsearch().forward ? ';' : ','
+" , always searches backward
+nnoremap <expr> , getcharsearch().forward ? ',' : ';'
 
 " TODO 
 "nnoremap <expr> §`i ExecAndPut('hi '..<c-r><c-w>)

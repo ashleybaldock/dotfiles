@@ -23,8 +23,15 @@ endfunc
 
 function! search#toSubstitute() abort
   if getcmdtype() =~ '[/?]'
-    let search = getcmdline()
-    exec "normal \<Esc>"
-    call setcmdline(':%s/' .. getcmdline() .. '/')
+    let search = '%s/' .. getcmdline() .. '/'
+    return "\<C-c>:" .. search
   endif
+  return ''
+endfunc
+
+function! search#expandSubMatch() abort
+  if getcmdtype() =~ '[:]'
+    return "\<C-c>:" 
+  endif
+  return ''
 endfunc

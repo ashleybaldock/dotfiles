@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        serve3333
 // @namespace   mayhem
-// @version     1.0.2
+// @version     1.0.17
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/local3333.user.js
 // @match       *://localhost:3333/*
@@ -20,18 +20,33 @@
 // @inject-into auto
 // ==/UserScript==
 
+const isDirectoryListing = (({ qs }) =>
+  qs`:has([href="chrome://global/skin/dirListing/dirListing.css"])`.hasSome)(
+  unsafeWindow,
+);
+
+const toggleSkin = 'localhost3333 skin';
+
 const styleToggleIds = addStyleToggles([
   {
-    title: 'css tweaks',
-    enabled: true,
+    title: toggleSkin,
+    enabled: false,
     sources: [{}],
   },
 ])
-  .then(() =>
+  .then((styleToggles) =>
     Promise.race([timeout({ s: 30 }), readyStateComplete()])
       .catch(() => console.log('timed out waiting for readyStateComplete'))
       .then(({ window, unsafeWindow }) => {
         console.debug('document ready');
+
+      return Promise.all([
+        matchExistsFor('title').then((title) => {
+          if (/^Files within /.test(title.textContent)) {
+            styleToggles.find((toggle) => toggle.id === toggleSkin)?.toggle();
+          }
+        }),
+      ]);
       }),
   )
   .catch((e) => console.warn(e));

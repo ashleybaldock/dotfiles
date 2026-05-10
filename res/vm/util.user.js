@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.214
+// @version       1.1.229
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1185,29 +1185,33 @@ const GM_addStyle = (x) => x;
 const createMenuToggle = ({
   get,
   set,
+  id: toggleid,
   title,
   on = '✅ ',
   off = '❌',
   ish = '⁉️ ' /* Partially on */,
   persist = false,
 }) => {
-  let menuId;
+  let menuid;
   const states = [off, on, ish];
-  const update = (id) => {
-    menuId = GM_registerMenuCommand(
+  const toggle = () => {
+    set(!get());
+    update(menuid);
+  };
+  const update = (id = menuid) => {
+    menuid = GM_registerMenuCommand(
       `${states[0 + get()]} -- ${title}`,
-      (_) => {
-        set(!get());
-        update(menuId);
-      },
+      (_) => toggle(),
       { autoClose: false, id },
     );
   };
   update();
   return {
+    id: toggleid,
     update,
-    remove: () => GM_unregisterMenuCommand(menuId),
-    replace: () => GM_unregisterMenuCommand(menuId),
+    toggle,
+    remove: () => GM_unregisterMenuCommand(menuid),
+    replace: () => GM_unregisterMenuCommand(menuid),
   };
 };
 
@@ -1301,6 +1305,7 @@ const addStylesWithToggle = ({ title, sources, enabled = true }) => {
 
   return rejected.length === 0
     ? createMenuToggle({
+        id: title,
         title: `CSS: ${title}`,
         get: () =>
           styleElements.every((styleElement) => !styleElement.sheet.disabled),
@@ -1312,6 +1317,7 @@ const addStylesWithToggle = ({ title, sources, enabled = true }) => {
         off: '❌',
       })
     : createMenuToggle({
+        id: title,
         title: `CSS: ${title} Err: ${
           rejected.length === sources.length
             ? rejected.length === 1
@@ -1425,15 +1431,16 @@ const addStyleToggles = (...definitions) =>
             title,
             enabled,
             sources: sources.map(({ value }) => value),
-          }),
+          })
         )
         .catch((err) => {
           console.error(`promise rejection fetching CSS: ${err}`);
-        }),
+        })
     ),
   ).catch((err) => {
     console.error(`promise rejection during CSS toggle creation: ${err}`);
-  });
+  })
+  .then((results) => results.map(({value}) => value));
 
 /*{{{1 Create Elements */
 

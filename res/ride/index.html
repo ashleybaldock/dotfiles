@@ -10,45 +10,178 @@
     <link rel="stylesheet" href="form.css" />
 
     <!--<script type="application/javascript" src="/entanglement.js"></script>--->
-
-    <!--}}}-->
   </head>
   <body>
-    <form>
-      <h2>Form</h2>
-      <fieldset class="gates">
-        <legend>Confirm</legend>
-        <label for="gate1"
-          ><input type="checkbox" id="gate1" checked /><span
-            >Question 1</span
-          ></label
-        >
-        <label for="gate2"
-          ><input type="checkbox" id="gate2" /><span>Question 2</span></label
-        >
-        <label for="gate3"
-          ><input type="checkbox" id="gate3" /><span>Question 3</span></label
-        >
-      </fieldset>
-      <fieldset class="ride">
-        <legend>Details:</legend>
+    <section>
+      <h2>Nest Request a Ride</h2>
+      <form>
+        <div data-page="1">
+          <fieldset class="gates">
+            <legend>Just to confirm...</legend>
+            <label for="gate1"
+              ><input type="checkbox" id="gate1" /><span
+                >I'm crippled</span
+              ></label
+            >
+            <label for="gate2"
+              ><input type="checkbox" id="gate2" /><span
+                >I would like a lift</span
+              ></label
+            >
+            <label for="gate3"
+              ><input type="checkbox" id="gate3" /><span
+                >I won't expect a lift unless I get a response</span
+              ></label
+            >
+          </fieldset>
+        </div>
+        <div data-page="2">
+          <fieldset class="rider">
+            <legend>Who should we look for?</legend>
 
-        <label for="who"
-          ><span>Description</span><textarea id="who" type="text"> </textarea>
-        </label>
-      </fieldset>
-      <fieldset class="ride">
-        <legend>Info:</legend>
-        <label for="where"
-          ><span>Description 2</span
-          ><textarea id="where" type="text"></textarea>
-        </label>
-      </fieldset>
-      <label for="submit"
-        ><input type="submit" id="submit" value="Send Request"
-      /></label>
-    </form>
+            <label for="who"
+              ><span class="hint"
+                >What can we look for to pick you out from a crowd?<br />What
+                name can we use to ask after you?</span
+              ><textarea
+                id="who"
+                type="text"
+                placeholder="I'm wearing a life sized alligator hat"
+              ></textarea>
+            </label>
 
-    <section class=""></section>
+            <div class="imageupload">
+              <span class="hint"
+                ><span class="optional">(Optional)</span>Add a selfie</span
+              >
+              <img src="" />
+              <label for="pickselfie" class="pick">
+                <span class="hint lookslikeabutton">Choose</span>
+                <input
+                  type="file"
+                  id="pickselfie"
+                  name="selfie"
+                  accept="image/png, image/jpeg"
+                />
+              </label>
+              <label for="clearselfie" class="clear">
+                <span class="hint lookslikeabutton">Clear</span>
+                <input id="clearselfie" type="button"
+              /></label>
+            </div>
+            <span class="smallprint"
+              ><ul>
+                <li>
+                  Uploaded images are shared only with your driver to help them
+                  find you, and are then deleted.
+                </li>
+                <li>
+                  The last used image is cached locally on your device (so you
+                  don't need to select it each time).
+                </li>
+                <li>
+                  Images are uploaded only after your request is confirmed, so
+                  that it's more likely to work if you have poor mobile signal.
+                </li>
+              </ul>
+            </span>
+          </fieldset>
+          <fieldset class="from">
+            <legend>Where from?</legend>
+            <label for="fromtext"
+              ><span class="hint"
+                >Describe where you are, or what you can see nearby.</span
+              ><textarea
+                id="fromtext"
+                type="text"
+                placeholder="Downstairs, by the point"
+              ></textarea>
+            </label>
+            <label for="fromgeo"
+              ><span class="hint"
+                >Use geolocation to share your coordinates</span
+              ><textarea
+                id="fromgeo"
+                type="text"
+                placeholder="Downstairs, by the point"
+              ></textarea>
+            </label>
+            <label for="fromstoplist"
+              ><span class="hint">Pick a stop from a map</span>
+              <div class="stopsmap"></div>
+            </label>
+            <label for="fromstoplist"
+              ><span class="hint">Pick a stop from a list</span>
+              <select id="fromstoplist" multiple size="20">
+                <optgroup label="Upstairs">
+                  <option class="both terminus top">
+                    <span>Family Camping</span>
+                  </option>
+                  <option class="left">
+                    <span>Accessible Camping (South-East)</span>
+                  </option>
+                  <option class="left">
+                    <span>Accessible Camping (North-West)</span>
+                  </option>
+                  <option class="left">
+                    <span>Midsummer</span>
+                  </option>
+                  <option class="left junctionbelow toright">
+                    <span>Deadly White Shade</span>
+                  </option>
+                  <option class="right terminus top">
+                    <span>Live-In Vehicle Camping</span>
+                  </option>
+                  <option class="right">
+                    <span>Gate</span>
+                  </option>
+                  <option class="right"><span>Welfare</span></option>
+                  <option class="right junctionbelow fromleft">
+                    <span>Pampers Campers</span>
+                  </option>
+                </optgroup>
+                <optgroup label="High Street">
+                  <option class="both big"><span>Crumpet*</span></option>
+                  <option class="both"><span>Permacult</span></option>
+                  <option class="both big"><span>Coneja*</span></option>
+                  <option class="both"><span>Buildy</span></option>
+                </optgroup>
+                <optgroup label="Downstairs">
+                  <option class="both big"><span>Effigy*</span></option>
+                  <option class="both"><span>Camp Costume Camp</span></option>
+                  <option class="both"><span>Flim Flam</span></option>
+                  <option class="both"><span>Psychedellyfish</span></option>
+                  <option class="both"><span>The Flamin' Merkin</span></option>
+                  <option class="both"><span>Hot Mess</span></option>
+                  <option class="right terminus bottom junctionabove fromleft">
+                    <span>Forest Of Wild Love</span>
+                  </option>
+                  <option class="left junctionabove toright">
+                    <span>FUKC</span>
+                  </option>
+                  <option class="left terminus bottom big">
+                    <span>The Point*</span>
+                  </option>
+                </optgroup>
+              </select>
+            </label>
+          </fieldset>
+          <fieldset class="to">
+            <legend>Where to?</legend>
+            <label for="to"
+              ><span class="hint">Describe your ideal destination</span
+              ><textarea
+                id="to"
+                type="text"
+                placeholder="Accessible camping"
+              ></textarea>
+            </label>
+          </fieldset>
+          <label for="submit"
+            ><input type="submit" id="submit" value="Send Request"
+          /></label>
+        </div>
+      </form>
+    </section>
   </body>
 </html>

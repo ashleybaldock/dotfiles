@@ -29,8 +29,8 @@ function! search#toSubstitute() abort
   return ''
 endfunc
 
-function! search#expandSubMatch() abort
-  if getcmdtype() =~ '[:]'
+function! search#expandLastSubstitute() abort
+  if getcmdtype() =~ '[:]' && getcmdline() =~ '\%(%\|'<,'>\)\?s\%[ubstitute]\z([/|+!@£$%^&:]\)+'
     return "\<C-c>:" 
   endif
   return ''

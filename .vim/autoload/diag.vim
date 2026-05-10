@@ -14,10 +14,12 @@ let g:mayhem_autoloaded_diag = 1
 "
 " Based on format specified in CocConfig 'diagnostic.format'
 "
+" getbufline(winbufnr(g:coc_last_float_win), '$', '$')
 function! diag#getProviderFromBuffer(bufnr = winbufnr(g:coc_last_float_win)) abort
-    let matches = getbufline(cocbufnr, '$', '$')
+    let matches = getbufline(a:bufnr, '$', '$')
           \->get(0, '')
-          \->matchlist('❯❯\s*\(\S\+\)\s*❯\s*\([EWIH]\)\?❯\s*\(\S\+\)\?\s*$')
+          \->matchlist('❯❯\s*\(\S\+\)\s*❯\s*\([EWIH]\)\?\s*❯\s*\(\S\+\)\?\s*$')
+    echom matches
     return #{
           \ name: get(matches, 1, 'unknown'),
           \ severity: get(matches, 2, 'E'),

@@ -56,7 +56,7 @@ nnoremap <leader>i   <C-i>
 cnoremap <expr> <Up>   wildmenumode() ? "\<C-E>\<Up>"   : "\<Up>"
 cnoremap <expr> <Down> wildmenumode() ? "\<C-E>\<Down>" : "\<Down>"
 
-cnoremap <expr> Ú getcmdtype() =~ '[/?]' ? search#toSubstitute() : search#expandSubMatch()
+cnoremap <expr> Ú getcmdtype() =~ '[/?]' ? search#toSubstitute() : search#expandLastSubstitute()
 
 " cnoremap <expr> <CR> getcmdtype() =~ '[/?]' ? "" : ""
 

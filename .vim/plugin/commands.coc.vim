@@ -179,25 +179,25 @@ endfunc
 
 " Highlight groups for different diagnostic severity
 let s:severity_to = #{
-      \ E: #{ desc: '􀋊 Error',
+      \ E: #{ desc: ' 􀋊 ',
       \ highlight: 'PopDiagErr', 
       \ borderhighlight: ['PopDiagErrBd'],
       \ scrollbarhighlight: 'PopDiagErrSb',
       \ thumbhighlight: 'PopDiagErrTb',
       \ },
-      \ W: #{ desc: '􀅎️⃤ Warning',
+      \ W: #{ desc: ' 􀅎️⃤ ',
       \ highlight: 'PopDiagWarn',
       \ borderhighlight: ['PopDiagWarnBd'],
       \ scrollbarhighlight: 'PopDiagWarnSb',
       \ thumbhighlight: 'PopDiagWarnTb',
       \ },
-      \ I: #{ desc: '􀅳️⃝ Info',
+      \ I: #{ desc: '  􀅳⃣',
       \ highlight: 'PopDiagInfo',
       \ borderhighlight: ['PopDiagInfoBd'],
       \ scrollbarhighlight: 'PopDiagInfoSb',
       \ thumbhighlight: 'PopDiagInfoTb',
       \ },
-      \ H: #{ desc: 'Hint',
+      \ H: #{ desc: ' 􀆿️⃝ ',
       \ highlight: 'PopDiagHint',
       \ borderhighlight: ['PopDiagHintBd'],
       \ scrollbarhighlight: 'PopDiagHintSb',
@@ -239,22 +239,22 @@ function s:OnCocOpenFloat() abort
   " Coc float for diagnostic messages
   elseif highlight == 'HlCocPuDiagBg'
     let cocbufnr = winbufnr(g:coc_last_float_win)
-    let lsp = diag#getProviderFromBuffer()
+    let lsp = diag#getProviderFromBuffer(cocbufnr)
+    let pos = popup_getpos(g:coc_last_float_win)
 
     let theme = get(s:severity_to, lsp.severity, get(s:severity_to, 'E'))
-
     call popup_setoptions(g:coc_last_float_win, #{
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'], 
           \ highlight: theme.highlight,
           \ borderhighlight: theme.borderhighlight,
           \ scrollbarhighlight: theme.scrollbarhighlight,
           \ thumbhighlight: theme.thumbhighlight,
-          \ padding: [0,1,0,1], 
+          \ padding: [1,1,0,1], 
           \ border: [1,1,1,1],
-          \ title: printf('╸━ %s (%s %s) ━╺', theme.desc, lsp.name, lsp.code),
+          \ title: printf(' %s: %s  %s', lsp.name, lsp.code, theme.desc),
           \ })
 
-    call setbufvar(cocbufnr, "&ft", 'lsp.' .. lspname)
+    call setbufvar(cocbufnr, "&ft", 'lsp.' .. lsp.name)
 
   elseif highlight == 'HlCocPuSugsBg'
     echom popup_getoptions(g:coc_last_float_win)

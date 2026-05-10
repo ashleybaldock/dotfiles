@@ -1,3 +1,5 @@
+import { css, html, copyTextToClipboard } from '/js/util.js';
+
 /* customElements.define( "svg-icon", class extends HTMLElement {
       connectedCallback() {
         this.innerHTML =

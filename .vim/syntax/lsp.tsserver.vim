@@ -12,7 +12,7 @@
 let s:cpo_save = &cpo
 set cpo&vim
 
-
+syn match lspInfo '^❯❯.*$' contains=NONE conceal
 
 syn keyword tssPreDefType null number undefined any unknown
 syn keyword tssReadonly readonly

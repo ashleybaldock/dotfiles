@@ -289,8 +289,6 @@ img {
 }
 
 select {
-  --option-height: 2.2lh;
-
   background-color: #111111;
   color: #eee;
   background-image: url('data:image/svg+xml,%3Csvg fill=%22%23eee%22 xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E%3Cpath transform=%22scale(1 -1) translate(0 -640)%22 d=%22M300.3 199.2C312.9 188.9 331.4 189.7 343.1 201.4L471.1 329.4C480.3 338.6 483 352.3 478 364.3C473 376.3 461.4 384 448.5 384L192.5 384C179.6 384 167.9 376.2 162.9 364.2C157.9 352.2 160.7 338.5 169.9 329.4L297.9 201.4L300.3 199.2z%22%3E%3C/path%3E%3C/svg%3E');
@@ -359,6 +357,7 @@ optgroup {
   --circle-radius: 33%;
   --junction-radius: 2ch;
   --fade-over: 0.5px;
+  --option-height: calc(var(--junction-radius) * 2);
   --linesize: calc(var(--junction-radius) * 2);
   --x: 70%;
   --r: 33%;
@@ -377,18 +376,19 @@ optgroup::before {
   align-content: center;
   grid-column: 1/-1;
   align-self: center;
-  height: auto;
-  text-align: end;
+  height: 0;
   content: attr(label);
   font-variant: small-caps;
   letter-spacing: 0.1ch;
-  transform-origin: center center;
   font-size: 1.2em;
   position: relative;
-  width: fit-content;
-  transform: rotate(-10deg) translateX(80%);
-  inset: auto auto -400% -30%;
   grid-row: 1/-1;
+  text-align: start;
+  transform-origin: bottom right;
+  transform: rotate(-10deg) translateX(-8ch);
+  inset: 0 auto auto 0;
+  width: 10ch;
+  font-style: italic;
 }
 optgroup::after {
   content: '';
@@ -411,6 +411,7 @@ option {
 
   appearance: none;
   text-align: end;
+  letter-spacing: 0.1ch;
   padding: 0;
   grid-column: 2/-1;
   height: var(--option-height);
@@ -455,13 +456,6 @@ option {
       calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
     #0000 calc(var(--rj) + var(--thl) * 0.5)
   );
-  --bg-station-big: radial-gradient(
-    1em circle at var(--x) 50%,
-    #0000 calc(var(--r) - var(--thc) * 0.5),
-    #fff calc(var(--r) - var(--thc) * 0.5 + var(--f))
-      calc(var(--r) + var(--thc) * 0.5 - var(--f)),
-    #0000 calc(var(--r) + var(--thc) * 0.5)
-  );
   --bg-┃⃣_: linear-gradient(
     90deg,
     #0000 calc(var(--x) - var(--thl) * 0.5),
@@ -476,38 +470,20 @@ option {
       calc(var(--x) + var(--thl) * 0.5 - var(--f)),
     #0000 calc(var(--x) + var(--thl) * 0.5)
   );
-}
-
-.terminus.top,
-.terminus.bottom {
-  background-size: 33% 40%;
-  background-repeat: no-repeat;
-}
-.terminus.top::after,
-.terminus.bottom::after {
-  background-size:
-    33% 150%,
-    100% calc(50% - var(--thl));
-  background-repeat: no-repeat;
-  background-image:
-    var(--bg-terminus), var(--bg-line-x), linear-gradient(#0000 0 0);
-  background-position: top;
-}
-.terminus.top::after {
-  background-position: bottom;
-}
-
-.junction.fromleft::after {
-  background-image: var(--bg-╯⃣_);
-}
-.junction.fromleft {
-  background-image: var(--bg-━⃣_);
-  background-size: calc(100% - var(--linesize)) 100%;
-  background-repeat: no-repeat;
-}
-
-.junction.toright::after {
-  background-image: var(--bg-╭⃣_), var(--bg-┃⃣_);
+  --bg-stop: linear-gradient(
+    0deg,
+    #0000 calc(var(--x) - var(--thl) * 0.5),
+    #f0f calc(var(--x) - var(--thl) * 0.5 + var(--f))
+      calc(var(--x) + var(--thl) * 0.5 - var(--f)),
+    #0000 calc(var(--x) + var(--thl) * 0.5)
+  );
+  --bg-stop-big: radial-gradient(
+    1em circle at var(--x) 50%,
+    #0000 calc(var(--r) - var(--thc) * 0.5),
+    #fff calc(var(--r) - var(--thc) * 0.5 + var(--f))
+      calc(var(--r) + var(--thc) * 0.5 - var(--f)),
+    #0000 calc(var(--r) + var(--thc) * 0.5)
+  );
 }
 
 option:checked {
@@ -534,7 +510,6 @@ option::after {
   width: auto;
   aspect-ratio: 1;
   grid-column: line;
-  background-image: var(--bg-station-big), var(--bg-line-x), var(--bg-line-x);
   background-repeat: no-repeat;
   background-origin: border-box;
 }
@@ -553,114 +528,77 @@ option.both {
   width: 50%;
 }
 
-option.terminus.bottom::after {
-  background-image:
-    var(--bg-station-big), var(--bg-line-x), linear-gradient(#0000 0 0);
-}
-option.terminus.top::after {
-  background-image:
-    var(--bg-station-big), linear-gradient(#0000 0 0), var(--bg-line-x);
-}
-
-option.junctionbelow.toright {
-  grid-column: 1;
-  grid-row: auto/span 2;
-  grid-template-rows: [stop] 1fr [junction] 1fr;
-  grid-template-columns: [stop] 1fr [line] var(--linesize);
-  height: calc(var(--option-height) * 2);
-}
-option.junctionbelow.toright::before {
-  content: '';
-  grid-row: junction;
-  grid-column: 1/-1;
-  background-image: var(--bg-curve-bottom-right), var(--bg-line-x);
+.big::after {
+  background-image: var(--bg-stop-big), var(--bg-┃⃣_), var(--bg-┃⃣_);
   background-size:
     auto,
-    100% 100%;
+    100% calc(50% - var(--r) * 0.5),
+    100% calc(50% - var(--r) * 0.5);
+  background-position:
+    top right,
+    top right,
+    bottom right;
 }
 
-option.junctionabove.toright {
-  grid-column: 1;
-  grid-row: auto/span 2;
-  grid-template-rows: [junction] 1fr [stop] 1fr;
-  grid-template-columns: [stop] 1fr [line] var(--linesize);
-  height: calc(var(--option-height) * 2);
-}
-option.junctionabove.toright::before {
-  content: '';
-  grid-row: junction;
-  grid-column: 1/-1;
-  background-image: var(--bg-curve-top-right), var(--bg-line-x);
+.stop::after {
+  background-image: var(--bg-stop), var(--bg-┃⃣_);
   background-size:
-    auto,
+    20% 100%,
     100% 100%;
+  background-position:
+    calc(50% - var(--line-thickness)) 50%,
+    50% 50%;
 }
 
-option.junctionbelow.fromleft {
-  grid-column: 2;
-  grid-template-rows: 1fr 1fr;
-  grid-template-columns: [stop] 1fr [line] var(--linesize);
-  height: calc(var(--option-height) * 2);
-  grid-row: auto/span 2;
-  --x: 25%;
-  --bg-line-y: linear-gradient(
-    0deg,
-    #0000 calc(var(--x) - var(--thl) * 0.5),
-    #f0ff calc(var(--x) - var(--thl) * 0.5 + var(--f))
-      calc(var(--x) + var(--thl) * 0.5 - var(--f)),
-    #0000 calc(var(--x) + var(--thl) * 0.5)
-  );
-  background-image: var(--bg-line-y);
-  background-size: calc(100% - var(--linesize)) 95%;
-  background-position: center left;
+.terminus.top,
+.terminus.bottom {
+  background-size: 33% 40%;
   background-repeat: no-repeat;
 }
-option.junctionbelow.fromleft::before {
-  content: '';
-  grid-row: 2;
-  grid-column: 1/-1;
-  background-image: var(--bg-curve-top-left);
+.terminus.top::after,
+.terminus.bottom::after {
   background-size:
-    auto,
-    100% 100%;
-  aspect-ratio: unset;
-  width: var(--linesize);
+    33% 100%,
+    100% 50%;
+  background-repeat: no-repeat;
+  background-image: var(--bg-terminus), var(--bg-┃⃣_);
 }
-option.junctionbelow.fromleft::after {
-  grid-row: 1;
+.terminus.bottom::after {
+  background-position: top;
+}
+.terminus.top::after {
+  background-position: bottom;
 }
 
-option.junctionabove.fromleft {
-  grid-column: 2;
-  grid-column: 2;
-  grid-template-rows: 1fr 1fr;
-  grid-template-columns: [stop] 1fr [line] var(--linesize);
-  height: calc(var(--option-height) * 2);
-  grid-row: auto/span 2;
-  --x: 75%;
-  --bg-line-y: linear-gradient(
-    0deg,
-    #0000 calc(var(--x) - var(--thl) * 0.5),
-    #f0ff calc(var(--x) - var(--thl) * 0.5 + var(--f))
-      calc(var(--x) + var(--thl) * 0.5 - var(--f)),
-    #0000 calc(var(--x) + var(--thl) * 0.5)
-  );
-  background-image: var(--bg-line-y);
-  background-size: calc(100% - var(--linesize)) 95%;
-  background-position: center left;
+.junction::after {
+  --null: linear-gradient(#0000 0 0);
+  background-image:
+    var(--j-ns, var(--null)), var(--j-we, var(--null)),
+    var(--j-ne, var(--null)), var(--j-se, var(--null)),
+    var(--j-sw, var(--null)), var(--j-nw, var(--null));
+}
+.junction.ns::after {
+  --j-ns: var(--bg-┃⃣_);
+}
+.junction.we::after {
+  --j-we: var(--bg-━⃣_);
+}
+.junction.ne::after {
+  --j-ne: var(--bg-╰⃣_);
+}
+.junction.se::after {
+  --j-se: var(--bg-╭⃣_);
+}
+.junction.sw::after {
+  --j-sw: var(--bg-╮⃣_);
+}
+.junction.nw::after {
+  --j-nw: var(--bg-╯⃣_);
+}
+
+/* .junction.left:not(.ns):where(.ne, .se), */
+.junction.right:where(.nw, .sw) {
+  background-image: var(--bg-━⃣_);
+  background-size: calc(100% - var(--linesize)) 100%;
   background-repeat: no-repeat;
-}
-option.junctionabove.fromleft::before {
-  content: '';
-  grid-row: 1;
-  grid-column: 1/-1;
-  background-image: var(--bg-curve-bottom-left);
-  background-size:
-    auto,
-    100% 100%;
-  aspect-ratio: unset;
-  width: var(--linesize);
-}
-option.junctionabove.fromleft::after {
-  grid-row: 2;
 }

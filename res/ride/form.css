@@ -345,6 +345,14 @@ optgroup::before {
 }
 
 option {
+  --x: 50%;
+  --y: 50%;
+  --thl: max(var(--line-thickness), var(--f) * 2);
+  --thc: max(var(--circle-thickness), var(--f) * 2);
+  --r: var(--circle-radius);
+  --rj: var(--junction-radius);
+  --f: var(--fade-over, 0.5px);
+
   appearance: none;
   text-align: end;
   padding: 0;
@@ -355,7 +363,58 @@ option {
   align-items: center;
   grid-template-columns: [stop] 1fr [line] var(--linesize);
   grid-template-rows: 1fr;
+
+  --bg-curve-╭⃣: radial-gradient(
+    var(--rj) circle at bottom right,
+    #0000 calc(var(--rj) - var(--thl) * 0.5),
+    #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
+      calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
+    #0000 calc(var(--rj) + var(--thl) * 0.5)
+  );
+  --bg-curve-╰⃣: radial-gradient(
+    var(--rj) circle at top right,
+    #0000 calc(var(--rj) - var(--thl) * 0.5),
+    #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
+      calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
+    #0000 calc(var(--rj) + var(--thl) * 0.5)
+  );
+  --bg-line-━⃣: linear-gradient(
+    0deg,
+    #0000 calc(var(--x) - var(--thl) * 0.5),
+    #f0f calc(var(--x) - var(--thl) * 0.5 + var(--f))
+      calc(var(--x) + var(--thl) * 0.5 - var(--f)),
+    #0000 calc(var(--x) + var(--thl) * 0.5)
+  );
+  --bg-curve-╯⃣: radial-gradient(
+    var(--rj) circle at top left,
+    #0000 calc(var(--rj) - var(--thl) * 0.5),
+    #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
+      calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
+    #0000 calc(var(--rj) + var(--thl) * 0.5)
+  );
+  --bg-curve-╮⃣: radial-gradient(
+    var(--rj) circle at bottom left,
+    #0000 calc(var(--rj) - var(--thl) * 0.5),
+    #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
+      calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
+    #0000 calc(var(--rj) + var(--thl) * 0.5)
+  );
+  --bg-station-big: radial-gradient(
+    1em circle at var(--x) 50%,
+    #0000 calc(var(--r) - var(--thc) * 0.5),
+    #fff calc(var(--r) - var(--thc) * 0.5 + var(--f))
+      calc(var(--r) + var(--thc) * 0.5 - var(--f)),
+    #0000 calc(var(--r) + var(--thc) * 0.5)
+  );
+  --bg-line-┃⃣: linear-gradient(
+    90deg,
+    #0000 calc(var(--x) - var(--thl) * 0.5),
+    #f0f calc(var(--x) - var(--thl) * 0.5 + var(--f))
+      calc(var(--x) + var(--thl) * 0.5 - var(--f)),
+    #0000 calc(var(--x) + var(--thl) * 0.5)
+  );
 }
+
 option:checked {
   background: 0 0;
   border-radius: 0 1ch 1ch 0;
@@ -380,77 +439,13 @@ option::after {
   width: auto;
   aspect-ratio: 1;
   grid-column: line;
-  background-image: var(--bg-circle), var(--bg-line-x), var(--bg-line-x);
-  --bg-circle: radial-gradient(
-    1em circle at var(--x) 50%,
-    #0000 calc(var(--r) - var(--thc) * 0.5),
-    #fff calc(var(--r) - var(--thc) * 0.5 + var(--f))
-      calc(var(--r) + var(--thc) * 0.5 - var(--f)),
-    #0000 calc(var(--r) + var(--thc) * 0.5)
-  );
-  --bg-line-x: linear-gradient(
-    90deg,
-    #0000 calc(var(--x) - var(--thl) * 0.5),
-    #f0f calc(var(--x) - var(--thl) * 0.5 + var(--f))
-      calc(var(--x) + var(--thl) * 0.5 - var(--f)),
-    #0000 calc(var(--x) + var(--thl) * 0.5)
-  );
-  background-size:
-    auto,
-    100% calc(50% - var(--r) * 0.5),
-    100% calc(50% - var(--r) * 0.5);
-  background-position:
-    top right,
-    top right,
-    bottom right;
+  background-image: var(--bg-station-big), var(--bg-line-x), var(--bg-line-x);
   background-repeat: no-repeat;
   background-origin: border-box;
-  --x: 50%;
-  --y: 50%;
-  --thl: max(var(--line-thickness), var(--f) * 2);
-  --thc: max(var(--circle-thickness), var(--f) * 2);
-  --r: var(--circle-radius);
-  --rj: var(--junction-radius);
-  --f: var(--fade-over, 0.5px);
 }
 option::before {
   content: none;
   grid-column: line;
-  --bg-curve-bottom-right: radial-gradient(
-    var(--rj) circle at bottom right,
-    #0000 calc(var(--rj) - var(--thl) * 0.5),
-    #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
-      calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
-    #0000 calc(var(--rj) + var(--thl) * 0.5)
-  );
-  --bg-curve-top-right: radial-gradient(
-    var(--rj) circle at top right,
-    #0000 calc(var(--rj) - var(--thl) * 0.5),
-    #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
-      calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
-    #0000 calc(var(--rj) + var(--thl) * 0.5)
-  );
-  --bg-line-y: linear-gradient(
-    0deg,
-    #0000 calc(var(--x) - var(--thl) * 0.5),
-    #f0f calc(var(--x) - var(--thl) * 0.5 + var(--f))
-      calc(var(--x) + var(--thl) * 0.5 - var(--f)),
-    #0000 calc(var(--x) + var(--thl) * 0.5)
-  );
-  --bg-curve-top-left: radial-gradient(
-    var(--rj) circle at top left,
-    #0000 calc(var(--rj) - var(--thl) * 0.5),
-    #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
-      calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
-    #0000 calc(var(--rj) + var(--thl) * 0.5)
-  );
-  --bg-curve-bottom-left: radial-gradient(
-    var(--rj) circle at bottom left,
-    #0000 calc(var(--rj) - var(--thl) * 0.5),
-    #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
-      calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
-    #0000 calc(var(--rj) + var(--thl) * 0.5)
-  );
 }
 option.left {
   grid-column: 1;
@@ -465,11 +460,11 @@ option.both {
 
 option.terminus.bottom::after {
   background-image:
-    var(--bg-circle), var(--bg-line-x), linear-gradient(#0000 0 0);
+    var(--bg-station-big), var(--bg-line-x), linear-gradient(#0000 0 0);
 }
 option.terminus.top::after {
   background-image:
-    var(--bg-circle), linear-gradient(#0000 0 0), var(--bg-line-x);
+    var(--bg-station-big), linear-gradient(#0000 0 0), var(--bg-line-x);
 }
 
 option.junctionbelow.toright {

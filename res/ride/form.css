@@ -140,10 +140,13 @@ label,
 }
 
 .gates {
-  grid-template-columns: 1fr auto;
   grid-auto-rows: 1fr;
   column-gap: 1ch;
   row-gap: 0;
+  grid-template-columns: clamp(1lh, 7vw, 7vh) 1fr;
+  font-size: clamp(1em, 3vw, 4vh);
+  align-items: center;
+  align-content: center;
 }
 .gates > label:first-of-type {
   border-top-left-radius: var(--rad1);
@@ -157,6 +160,50 @@ label,
   border-bottom-right-radius: var(--rad1);
 }
 
+input[type='checkbox'] {
+  appearance: none;
+  overflow: visible;
+  /*   border: clamp(3px, 0.5vw, 5px) solid currentColor; */
+  aspect-ratio: 1;
+  margin: 0;
+  padding: 0;
+  border-radius: clamp(2px, 0.4vw, 5px);
+  mask-position: center;
+  mask-clip: unset;
+  --tick: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 stroke=%22%23000f%22 stroke-width=%228%22 fill=%22%230004%22 viewBox=%22-10 -10 468 532%22%3E%3Cpath d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E%3C/path%3E%3C/svg%3E');
+  mask-origin:
+    border-box, border-box, border-box, border-box, content-box, content-box,
+    content-box, border-box;
+  mask-repeat: no-repeat;
+  mask-size: 100%;
+  mask-composite:
+    add, exclude, add, add, intersect, subtract, exclude, intersect;
+  mask-mode:
+    luminance, luminance, alpha, alpha, alpha, alpha, luminance, luminance;
+  border: 3px solid #0000;
+  box-shadow:
+    inset -1px -1px 2px -2px #fff,
+    inset -1px -1px 1px -1px #000,
+    inset 1px 1px 2px -1px #000;
+
+  background-color: #1118;
+  mask-image:
+    linear-gradient(-45deg, #fff6 60%, #fff1 70% 80%, #fffc 90%),
+    linear-gradient(#000), linear-gradient(#fff0);
+  mix-blend-mode: hard-light;
+}
+input[type='checkbox']:checked {
+  background-color: #fffb;
+  background-position: top right;
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-image: var(--tick);
+  background-blend-mode: darken;
+}
+label > span {
+  align-content: center;
+}
 fieldset.rider {
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 1fr 2fr;
@@ -327,21 +374,30 @@ optgroup {
   margin: 0 0 0 10ch;
 }
 optgroup::before {
-  grid-row: 1/-1;
   align-content: center;
   grid-column: 1/-1;
   align-self: center;
-  position: absolute;
   height: auto;
-  width: 10%;
   text-align: end;
   content: attr(label);
-  transform: rotate(-33deg) translateX(80%);
   font-variant: small-caps;
   letter-spacing: 0.1ch;
-  inset: auto auto auto 0;
   transform-origin: center center;
   font-size: 1.2em;
+  position: relative;
+  width: fit-content;
+  transform: rotate(-10deg) translateX(80%);
+  inset: auto auto -400% -30%;
+  grid-row: 1/-1;
+}
+optgroup::after {
+  content: '';
+  display: flex;
+  width: 100%;
+  height: 0;
+  border-bottom: 1px dashed yellow;
+  grid-column: 1/-1;
+  margin: 2px 0;
 }
 
 option {
@@ -364,35 +420,35 @@ option {
   grid-template-columns: [stop] 1fr [line] var(--linesize);
   grid-template-rows: 1fr;
 
-  --bg-curve-╭⃣: radial-gradient(
+  --bg-╭⃣_: radial-gradient(
     var(--rj) circle at bottom right,
     #0000 calc(var(--rj) - var(--thl) * 0.5),
     #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
       calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
     #0000 calc(var(--rj) + var(--thl) * 0.5)
   );
-  --bg-curve-╰⃣: radial-gradient(
+  --bg-╰⃣_: radial-gradient(
     var(--rj) circle at top right,
     #0000 calc(var(--rj) - var(--thl) * 0.5),
     #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
       calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
     #0000 calc(var(--rj) + var(--thl) * 0.5)
   );
-  --bg-line-━⃣: linear-gradient(
+  --bg-━⃣_: linear-gradient(
     0deg,
     #0000 calc(var(--x) - var(--thl) * 0.5),
     #f0f calc(var(--x) - var(--thl) * 0.5 + var(--f))
       calc(var(--x) + var(--thl) * 0.5 - var(--f)),
     #0000 calc(var(--x) + var(--thl) * 0.5)
   );
-  --bg-curve-╯⃣: radial-gradient(
+  --bg-╯⃣_: radial-gradient(
     var(--rj) circle at top left,
     #0000 calc(var(--rj) - var(--thl) * 0.5),
     #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
       calc(var(--rj) + var(--thl) * 0.5 - var(--f)),
     #0000 calc(var(--rj) + var(--thl) * 0.5)
   );
-  --bg-curve-╮⃣: radial-gradient(
+  --bg-╮⃣_: radial-gradient(
     var(--rj) circle at bottom left,
     #0000 calc(var(--rj) - var(--thl) * 0.5),
     #f0ff calc(var(--rj) - var(--thl) * 0.5 + var(--f))
@@ -406,13 +462,52 @@ option {
       calc(var(--r) + var(--thc) * 0.5 - var(--f)),
     #0000 calc(var(--r) + var(--thc) * 0.5)
   );
-  --bg-line-┃⃣: linear-gradient(
+  --bg-┃⃣_: linear-gradient(
     90deg,
     #0000 calc(var(--x) - var(--thl) * 0.5),
     #f0f calc(var(--x) - var(--thl) * 0.5 + var(--f))
       calc(var(--x) + var(--thl) * 0.5 - var(--f)),
     #0000 calc(var(--x) + var(--thl) * 0.5)
   );
+  --bg-terminus: linear-gradient(
+    0deg,
+    #0000 calc(var(--x) - var(--thl) * 0.5),
+    #f0f calc(var(--x) - var(--thl) * 0.5 + var(--f))
+      calc(var(--x) + var(--thl) * 0.5 - var(--f)),
+    #0000 calc(var(--x) + var(--thl) * 0.5)
+  );
+}
+
+.terminus.top,
+.terminus.bottom {
+  background-size: 33% 40%;
+  background-repeat: no-repeat;
+}
+.terminus.top::after,
+.terminus.bottom::after {
+  background-size:
+    33% 150%,
+    100% calc(50% - var(--thl));
+  background-repeat: no-repeat;
+  background-image:
+    var(--bg-terminus), var(--bg-line-x), linear-gradient(#0000 0 0);
+  background-position: top;
+}
+.terminus.top::after {
+  background-position: bottom;
+}
+
+.junction.fromleft::after {
+  background-image: var(--bg-╯⃣_);
+}
+.junction.fromleft {
+  background-image: var(--bg-━⃣_);
+  background-size: calc(100% - var(--linesize)) 100%;
+  background-repeat: no-repeat;
+}
+
+.junction.toright::after {
+  background-image: var(--bg-╭⃣_), var(--bg-┃⃣_);
 }
 
 option:checked {

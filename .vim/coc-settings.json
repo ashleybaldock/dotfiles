@@ -167,6 +167,7 @@
   "typescript.preferences.useAliasesForRenames": false,
   "typescript.preferGoToSourceDefinition": true,
   "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces:": true,
   "html.autoClosingTags": true,
   "html.validate.styles": true,
   "html.validate.scripts": true,

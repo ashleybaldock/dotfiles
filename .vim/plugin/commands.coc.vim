@@ -239,7 +239,7 @@ function s:OnCocOpenFloat() abort
   " Coc float for diagnostic messages
   elseif highlight == 'HlCocPuDiagBg'
     let cocbufnr = winbufnr(g:coc_last_float_win)
-    let lsp = diag#getProviderFromBuffer(cocbufnr)
+    let lsp = diag#getProviderFromBuffer(winbufnr(g:coc_last_float_win))
     let pos = popup_getpos(g:coc_last_float_win)
 
     let theme = get(s:severity_to, lsp.severity, get(s:severity_to, 'E'))
@@ -252,9 +252,16 @@ function s:OnCocOpenFloat() abort
           \ padding: [1,1,0,1], 
           \ border: [1,1,1,1],
           \ title: printf(' %s: %s  %s', lsp.name, lsp.code, theme.desc),
+          \ padding: [1,1,0,1],
+          \ pos: 'botright',
+          \ line: 'cursor-1',
+          \ title: '􀅎️⃤ ',
+          \ moved: 'any',
+          \})
+          
           \ })
 
-    call setbufvar(cocbufnr, "&ft", 'lsp.' .. lsp.name)
+    call setbufvar(cocbufnr, "&ft", 'lsp_' .. lsp.name)
 
   elseif highlight == 'HlCocPuSugsBg'
     echom popup_getoptions(g:coc_last_float_win)

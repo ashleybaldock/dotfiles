@@ -345,13 +345,13 @@ let g:tmux_syntax_colors=0
 let g:coc_enable_locationlist = 0
 let g:coc_border_joinchars = ['┬','┤','┴','├']
 let g:coc_borderchars  = [' ','⎥',' ','⎢','⎛','⎞','⎠','⎝']
+let g:coc_global_extensions = ['coc-yank','coc-prettier','coc-json','coc-html','coc-eslint', 'coc-tsserver', 'coc-css']
 "g:coc_prompt_win_width = 32
 "g:coc_notify_error_icon = 
 "g:coc_notify_warning_icon =
 "g:coc_notify_info_icon = 
 
 "let g:coc_uri_prefix_replace_patterns = {'/Users': '/home'}
-"let g:coc_global_extensions = ['coc-json', 'coc-git']
 "g:coc_list_preview_filetype
 "g:coc_start_at_startup = 1
 "g:coc_text_prop_offset = 1000

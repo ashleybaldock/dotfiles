@@ -48,6 +48,7 @@ svg {
 
 fieldset {
   display: contents;
+
 }
 
 .curve.topleft.stest .preview {
@@ -170,6 +171,10 @@ fieldset {
   --bdata-dy: 30;
   --thumb-size: 2rem;
 
+  --bdw: 4px;
+  --ibdw＋: calc(var(--bdw) / 3);
+  --ibdw－: calc(var(--ibdw＋) * -1);
+
   color: #ffffff;
   position: relative;
   box-sizing: border-box;
@@ -190,7 +195,6 @@ fieldset {
 }
 
 .preview {
-  --bdw: 4px;
   --u: 1%;
   border: 1px dashed lightblue;
   background-color: #0000;
@@ -224,14 +228,9 @@ fieldset {
   background-size: 200% 200%;
   background-repeat: no-repeat;
   background-position: center;
-grid-column: mid/span 1;
-grid-row: mid/span 1;
-background-size: dust;
-background-position: 80% 100%;
 }
 .preview::after {
   border: none;
-  background-color: #ccc;
   text-align: center;
   font-family: Menlo, monospace;
   font-size: small;
@@ -283,10 +282,6 @@ background-position: 80% 100%;
   display: block;
   width: calc(var(--radius) * 2);
   height: calc(var(--radius) * 2);
-  --top: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
-  --bottom: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
-  --left: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
-  --right: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
   --radius: calc(var(--bdw) * 2);
   box-sizing: content-box;
   border: none !important;
@@ -378,7 +373,6 @@ background-position: 80% 100%;
   --tracks: var(--track-top), var(--track-bottom);
 }
 .ay {
-  --color: purple;
   top: calc(var(--ay) - var(--radius));
   left: var(--left);
   --tracks: var(--track-top), var(--track-bottom);
@@ -476,12 +470,8 @@ background-position: 80% 100%;
 
 .oval {
   display: block;
-  position: absolute;
   border-radius: 50%;
   border: 2px dashed white;
-  box-shadow:
-    inset 0 0 0 calc(var(--ibdw＋) * 0.5) #191919,
-    0 0 0 calc(var(--ibdw＋) * 0.5) #191919;
   border-style: dashed;
   border-width: var(--ibdw＋);
   --ibdw＋: calc(var(--bdw) / 3);
@@ -496,7 +486,6 @@ background-position: 80% 100%;
   width: calc(var(--ibdw＋) + var(--bdata-ax) * 2%);
   top: var(--ibdw－);
   left: var(--ibdw－);
-  inset: anchor(top, var(--ibdw－)) auto auto anchor(left, var(--ibdw－));
   inset: anchor(top, var(--ibdw－)) anchor(right, var(--ibdw－));
 }
 .axy > .radii {
@@ -732,8 +721,6 @@ input[type="range"]::-moz-range-thumb {
 .slider::after {
   position-anchor: --anchor-slider;
 }
-.slider {
-}
 .stest .slider[data-sink$="y"] {
   grid-row: -2/2;
 }
@@ -790,8 +777,6 @@ fieldset {
   grid-column: 1/-1;
   grid-row: 1/-1;
 padding: 0;
-}
-.preview {
 }
 .screen.stest {
   margin: 0;
@@ -883,15 +868,12 @@ width: 100%;
   pointer-events: none;
   height: var(--val-readout-size);
   width: var(--val-readout-size);
-  position: absolute;
   color: white;
   display: flex;
   align-content: center;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  inset: anchor(bottom) anchor(right) anchor(top) anchor(right, calc( ((var(--v) / 100) * (100% - (var(--thumb-size) * var(--thumb-ratio)))) ));
-  font-size: 1em;
   background-color: unset;
   --val-readout-size: var(--thumb-size);
   box-sizing: content-box;
@@ -906,18 +888,10 @@ width: 100%;
   inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
 }
 
-
-
-/* borders.css | http://localhost:3333/borders/borders.css */
-
 .slider {
   anchor-scope: --anchor-thumb;
   display: grid;
   grid-template: 1fr/1fr;
-}
-
-.slider::after {
-  /*! position-anchor: --anchor-slider; */
 }
 
 .slider > span {
@@ -936,9 +910,6 @@ width: 100%;
   border-color: #764d7e #603f67 #422747 #683c72;
   grid-template-columns: [left] var(--thumb-size) [mid] 1fr [right] var(--thumb-size);
   grid-template-rows: [top] var(--thumb-size) [mid] 1fr [bottom] var(--thumb-size);
-/* grid-template-columns: [left x-start ay-start] var(--thumb-size) [ay-end dy-start] var(--thumb-size) [dy-end] 1fr [by-start] var(--thumb-size) [by-end cy-start] var(--thumb-size) [cy-end ax-end bx-end cx-end dx-end] 10vw [right];
-grid-template-rows: [top ay-start by-start cy-start dy-start ax-start] var(--thumb-size) [ax-end bx-start] var(--thumb-size) [bx-end] 1fr [cx-start] var(--thumb-size) [cx-end dx-start] var(--thumb-size) [dx-end ay-end by-end cy-end dy-end bottom];
-grid-template-columns: [left] var(--thumb-size) [mid] 1fr [right]; */
   container-type: size;
 }
 
@@ -953,7 +924,6 @@ padding: 0;
 .preview {
 grid-column: mid/span 1;
 grid-row: mid/span 1;
-background-size: dust;
 background-position: 80% 100%;
 }
 .screen.stest {
@@ -977,12 +947,6 @@ background-position: 80% 100%;
 .slider:has(> #ay,> #dy) {
   grid-column: left/span 1;
   grid-row: top/bottom;
-}
-.slider:has(> #ay) {
-/*   outline: 2px solid #0ff; */
-}
-.slider:has(> #dy) {
-/*   outline: 2px solid #f0f; */
 }
 #by, #cy,
 .slider:has(> #by,> #cy) {

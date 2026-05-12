@@ -52,9 +52,12 @@ nnoremap <leader>o   <C-o>
 nnoremap ß           <C-i>
 nnoremap <leader>i   <C-i>
 
-" In command line, <Up>/<Down> navigates history, even when PUM is open
+" Command line: <Up>/<Down> navigates history, even when PUM is open
 cnoremap <expr> <Up>   wildmenumode() ? "\<C-E>\<Up>"   : "\<Up>"
 cnoremap <expr> <Down> wildmenumode() ? "\<C-E>\<Down>" : "\<Down>"
+" Command line: <C-D>/<C-U> navigate up/down a page in PUM
+cnoremap <expr> <C-D> wildmenumode() ? "\<PageDown>" : "\<C-D>"
+cnoremap <expr> <C-U> wildmenumode() ? "\<PageUp>" : "\<C-U>"
 
 cnoremap <expr> Ú getcmdtype() =~ '[/?]' ? search#toSubstitute() : search#expandLastSubstitute()
 

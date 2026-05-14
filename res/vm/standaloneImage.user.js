@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.332
+// @version     1.2.342
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -50,23 +50,19 @@ const initStandaloneImage = ({
   const wikilink = ({
     to: parent,
     path = document.URL,
-    url = new URL(path),
-    wikis = [[/(?<wiki>.*\.wiki\.gg)\/images\/(?<file>.*)[^#?]/, ]],
-    host = url.host.match(/https\?/),
   }) => {
-    const parts = url.pathname.split(/(\/)/),
-      prefix = `${url.protocol}//`,
-      filename = parts.slice(-1)[0],
-      extension = filename.split(/\./).slice(-1)[0],
-      head = filename.slice(
-        0,
-        filename.length - extension.length - !!extension.length * 1,
-      );
+    const { wiki, file } = /(?<wiki>.*\.wiki\.gg)\/images\/(?<file>[^#?]*)/.exec(path)?.groups ?? {};
 
-    const label = GM_addElement(parent, 'label', {
-      class: 'output breadcrumbs bottom right fixed',
+    const label = GM_addElement(parent, 'label', {});
+    const ul = GM_addElement(label, 'ul', {});
+    const li = GM_addElement(ul, 'li', {});
+    const a = GM_addElement(li, 'a', {
+      class: 'output breadcrumbs',
+      href: `${wiki}/wiki/File:${file}`,
+      textContent: `${wiki}/wiki/File:${file}`,
     });
   };
+
   const breadcrumbs = ({
     to: parent,
     path = document.URL,
@@ -245,6 +241,7 @@ const initStandaloneImage = ({
 
   const outputs = ((to) => ({
     breadcrumbs: breadcrumbs({ to }),
+    wiki: wikilink({ to }),
     width: addOutput({
       to,
       class: 'output one width',

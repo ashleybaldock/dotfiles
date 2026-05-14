@@ -81,7 +81,7 @@ round(to-zero, x, 1) '.' round(nearest, (x - round(to-zero, x, 1)) * pow(s, 10),
   */
 
 :root.__global_clientDims::before {
-  content: ' ' counter(clientw) ' × ' counter(clienth) ' ᵖˣ';
+  content: ' ' counter(vpw) ' × ' counter(viewporth) ' ᵖˣ';
   font-size: 0.7rem;
   padding: 1px 4px 1px 2px;
   letter-spacing: 0.04em;
@@ -90,6 +90,7 @@ round(to-zero, x, 1) '.' round(nearest, (x - round(to-zero, x, 1)) * pow(s, 10),
   top: 0;
   left: 0;
   display: flex;
+  white-space: pre;
   color: #f5f5f5bb;
   border-bottom: 1px solid #111a;
   border-bottom-width: 1px;
@@ -117,8 +118,8 @@ round(to-zero, x, 1) '.' round(nearest, (x - round(to-zero, x, 1)) * pow(s, 10),
   --t: calc(var(--e) * -1);
 }
 :root.__global_clientDims:hover::before {
-  content: ' ' counter(clientw) ' × ' counter(clienth) ' ᵖˣ\0a '
-    counter(clientw-rem) ' × ' counter(clienth-rem) ' ʳᵉᵐ';
+  content: ' ' counter(viewportw) ' × ' counter(viewporth) ' ᵖˣ\0a '
+    counter(viewportw-rem) ' × ' counter(viewporth-rem) ' ʳᵉᵐ';
   color: #f5f5f5;
 }
 

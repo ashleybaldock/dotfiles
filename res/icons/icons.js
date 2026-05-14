@@ -105,60 +105,66 @@ const copyAsMapping = new Map([
   ['u64', (svg) => `${dataUrl(svg, true)}`],
   [
     'tnt',
-    (svg) => css`
-      content: ${dataUrl(svg)};
-    `,
+    (svg) =>
+      mini(css`
+        content: ${dataUrl(svg)};
+      `),
   ],
   /* Boilerplate CSS for mask image */
   [
     'msk',
-    (svg) => css`
-      mask-position: center;
-      mask-clip: content-box;
-      mask-origin: content-box;
-      mask-repeat: no-repeat;
-      mask-size: contain;
-      mask-image: ${dataUrl(svg)};
-    `,
+    (svg) =>
+      mini(css`
+        mask-position: center;
+        mask-clip: content-box;
+        mask-origin: content-box;
+        mask-repeat: no-repeat;
+        mask-size: contain;
+        mask-image: ${dataUrl(svg)};
+      `),
   ],
   [
     'msi',
-    (svg) => css`
-      mask-image: ${dataUrl(svg)};
-    `,
+    (svg) =>
+      mini(css`
+        mask-image: ${dataUrl(svg)};
+      `),
   ],
   /* Inverse mask */
   [
     'msv',
-    (svg) => css`
-      mask-position: center;
-      mask-clip: content-box;
-      mask-origin: content-box;
-      mask-repeat: no-repeat;
-      mask-size: contain;
-      mask-composite: exclude;
-      mask-image: ${dataUrl(svg)}, linear-gradient(#000 0 0);
-    `,
+    (svg) =>
+      mini(css`
+        mask-position: center;
+        mask-clip: content-box;
+        mask-origin: content-box;
+        mask-repeat: no-repeat;
+        mask-size: contain;
+        mask-composite: exclude;
+        mask-image: ${dataUrl(svg)}, linear-gradient(#000 0 0);
+      `),
   ],
   /* Boilerplate CSS for background image */
   [
     'bgr',
-    (svg) => css`
-      background: #0000;
-      background-position: center center;
-      background-origin: content-box;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-blend-mode: normal;
-      background-attachment: scroll;
-      background-image: ${dataUrl(svg)};
-    `,
+    (svg) =>
+      mini(css`
+        background: #0000;
+        background-position: center center;
+        background-origin: content-box;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-blend-mode: normal;
+        background-attachment: scroll;
+        background-image: ${dataUrl(svg)};
+      `),
   ],
   [
     'bgi',
-    (svg) => css`
-      background-image: ${dataUrl(svg)};
-    `,
+    (svg) =>
+      mini(css`
+        background-image: ${dataUrl(svg)};
+      `),
   ],
 ]);
 
@@ -212,16 +218,17 @@ window.addEventListener('load', (event) => {
           <div class="inner">
             <div class="wrappedSVG">${svg.outerHTML}</div>
             <div class="svgActions">
-              <label data-copyas="svg">svg</label>
-              <label data-copyas="b64">base64</label>
-              <label data-copyas="sym">symbol</label>
-              <label data-copyas="url">url(svg)</label>
-              <label data-copyas="u64">url(b64)</label>
-              <label data-copyas="tnt">content</label>
-              <label data-copyas="msk">mask</label>
-              <label data-copyas="msk">mask-image</label>
-              <label data-copyas="bgr">background</label>
-              <label data-copyas="bgi">background-image</label>
+              <label data-copyas="svg"><button>svg</button></label>
+              <label data-copyas="b64"><button>base64</button></label>
+              <label data-copyas="sym"><button>symbol</button></label>
+              <label data-copyas="url"><button>url(svg)</button></label>
+              <label data-copyas="u64"><button>url(b64)</button></label>
+              <label data-copyas="tnt"><button>content</button></label>
+              <label data-copyas="msk"><button>mask</button></label>
+              <label data-copyas="msv"><button>mask(inverse)</button></label>
+              <label data-copyas="msi"><button>mask-image</button></label>
+              <label data-copyas="bgr"><button>background</button></label>
+              <label data-copyas="bgi"><button>background-image</button></label>
             </div>
           </div>
         </div>

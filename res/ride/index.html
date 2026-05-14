@@ -19,17 +19,17 @@
           <fieldset class="gates">
             <legend>Just to confirm...</legend>
             <label for="gate1"
-              ><input type="checkbox" id="gate1" /><span
+              ><input type="checkbox" id="gate1" name="gate1" /><span
                 >I have accessibility needs</span
               ></label
             >
             <label for="gate2"
-              ><input type="checkbox" id="gate2" /><span
+              ><input type="checkbox" id="gate2" name="gate2" /><span
                 >I would like a lift</span
               ></label
             >
             <label for="gate3"
-              ><input type="checkbox" id="gate3" /><span
+              ><input type="checkbox" id="gate3" name="gate3" /><span
                 >I won't expect a lift unless I get a response</span
               ></label
             >
@@ -50,7 +50,17 @@
               ></textarea>
             </label>
 
-            <div class="imageupload">
+            <label for="needs"
+              ><span class="hint">Do you have any </span
+              ><textarea
+                id="needs"
+                name="needs"
+                type="text"
+                placeholder=""
+              ></textarea>
+            </label>
+
+            <div class="imageupload" hidden>
               <span class="hint"
                 ><span class="optional">(Optional)</span>Add a selfie</span
               >

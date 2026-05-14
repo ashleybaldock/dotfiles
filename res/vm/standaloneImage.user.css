@@ -966,11 +966,11 @@
     text-shadow: var(--text-outline-thin);
     flex: 0 0;
   }
-  .breadcrumbs .proto {
+  .breadcrumbs .protocol {
     text-shadow: var(--text-outline-thin);
     flex: 0 0;
   }
-  .breadcrumbs .proto + .sep {
+  .breadcrumbs .protocol + .sep {
     padding: 0 0.3ch 0 0;
   }
 

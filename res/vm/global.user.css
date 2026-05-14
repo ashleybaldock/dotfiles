@@ -1,6 +1,6 @@
 html {
   /* background: #222 !important; */
-  overscroll-behavior: none;
+  /* overscroll-behavior: none; */
 }
 /*{{{1 viewport dimensions */
 @property --_100vw {

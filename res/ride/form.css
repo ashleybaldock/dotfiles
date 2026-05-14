@@ -300,7 +300,7 @@ select {
   grid-template-columns: 1fr;
   appearance: none;
 }
-select[multiple] {
+select[size]:not([size='1'], [size='0']) {
   background-image: none;
 }
 textarea::placeholder {

@@ -1,0 +1,378 @@
+.curve.topleft.stest .preview {
+  border-radius: var(--tl) var(--tr) var(--br) var(--bl) / var(--tl2) var(--tr2)
+    var(--br2) var(--bl2);
+  --tl: 100%;
+  --tr: 100%;
+  --br: 100%;
+  --bl: 100%;
+  --tl2: 0%;
+  --tr2: 0%;
+  --br2: 0%;
+  --bl2: 0%;
+}
+:root:has(#link-none:checked) .stest .preview {
+  --ax: 20%;
+  --bx: 20%;
+  --cx: 20%;
+  --dx: 20%;
+  --ay: 100%;
+  --by: 100%;
+  --cy: 100%;
+  --dy: 100%;
+  --ay: var(--AA);
+  --by: var(--BB);
+  --cy: var(--CC);
+  --dy: var(--DD);
+  --AA: 100%;
+  --BB: 50%;
+  --CC: 20%;
+  --DD: 0%;
+  --ax: var(--aa);
+  --bx: var(--bb);
+  --cx: var(--cc);
+  --dx: var(--dd);
+  --aa: 100%;
+  --bb: 50%;
+  --cc: 20%;
+  --dd: 0%;
+}
+:root:has(#link-corner-xy:checked) .stest .preview {
+  /* corner pairs identical (circular corners) */
+  --ax: var(--ax＝ay);
+  --ay: var(--ax＝ay);
+  --bx: var(--bx＝by);
+  --by: var(--bx＝by);
+  --cx: var(--cx＝cy);
+  --cy: var(--cx＝cy);
+  --dx: var(--dx＝dy);
+  --dy: var(--dx＝dy);
+  --ax＝ay: 100%;
+  --bx＝by: 10%;
+  --cx＝cy: 100%;
+  --dx＝dy: 10%;
+}
+:root:has(#link-all:checked) .stest .preview {
+  /* all 4 corners same x & y (equal circular corners) */
+  --ax＝bx＝cx＝dx＝ay＝by＝cy＝dy: 50%;
+}
+:root:has(#link-all-x:checked) .stest .preview {
+  /* all 4 corners same x value */
+  --ax: var(--ax＝bx＝cx＝dx);
+  --bx: var(--ax＝bx＝cx＝dx);
+  --cx: var(--ax＝bx＝cx＝dx);
+  --dx: var(--ax＝bx＝cx＝dx);
+  --ax＝bx＝cx＝dx: 30%;
+}
+:root:has(#link-all-y:checked) .stest .preview {
+  /* all 4 corners same y value */
+  --ay: var(--ay＝by＝cy＝dy);
+  --by: var(--ay＝by＝cy＝dy);
+  --cy: var(--ay＝by＝cy＝dy);
+  --dy: var(--ay＝by＝cy＝dy);
+  --ay＝by＝cy＝dy: 30%;
+}
+:root:has(#link-circle:checked) .stest .preview {
+  /* circular pairings */
+  --ax: var(--ax＝dy);
+  --bx: var(--bx＝ay);
+  --cx: var(--cx＝by);
+  --dx: var(--dx＝cy);
+  --ay: var(--bx＝ay);
+  --by: var(--cx＝by);
+  --cy: var(--dx＝cy);
+  --dy: var(--ax＝dy);
+  --ax＝dy: 100%;
+  --bx＝ay: 10%;
+  --cx＝dx: 100%;
+  --dx＝ay: 10%;
+}
+:root:has(#rotate-0:checked) .stest .preview {
+  border-radius: var(--bdr-r0);
+}
+:root:has(#rotate-1:checked) .stest .preview {
+  border-radius: var(--bdr-r1);
+}
+:root:has(#rotate-2:checked) .stest .preview {
+  border-radius: var(--bdr-r2);
+}
+:root:has(#rotate-3:checked) .stest .preview {
+  border-radius: var(--bdr-r3);
+}
+.stest {
+  /* border radius rotations */
+  --bdr-r0: var(--ax) var(--bx) var(--cx) var(--dx) / var(--ay) var(--by)
+    var(--cy) var(--dy);
+  --bdr-r1: var(--dx) var(--ax) var(--bx) var(--cx) / var(--dy) var(--ay)
+    var(--by) var(--cy);
+  --bdr-r2: var(--cx) var(--dx) var(--ax) var(--bx) / var(--cy) var(--dy)
+    var(--ay) var(--by);
+  --bdr-r3: var(--bx) var(--cx) var(--dx) var(--ax) / var(--by) var(--cy)
+    var(--dy) var(--ay);
+  --bdata-ax: 20;
+  --bdata-bx: 40;
+  --bdata-cx: 20;
+  --bdata-dx: 40;
+  --bdata-ay: 20;
+  --bdata-by: 30;
+  --bdata-cy: 20;
+  --bdata-dy: 30;
+  --thumb-size: 2rem;
+
+  --bdw: 4px;
+  --ibdw＋: calc(var(--bdw) / 3);
+  --ibdw－: calc(var(--ibdw＋) * -1);
+
+  color: #ffffff;
+  position: relative;
+  box-sizing: border-box;
+  width: 96vw;
+  height: 92vh;
+  display: grid;
+  border: 4px double #603f67;
+  border-color: #764d7e #603f67 #422747 #683c72;
+  background-color: #191919;
+
+  anchor-name: --anchor-base;
+  grid-template-columns:
+    [left] 10vw [ax-start bx-start cx-start dx-start ay-start] var(--thumb-size)
+    [ay-end dy-start] var(--thumb-size) [dy-end] 1fr [by-start] var(
+      --thumb-size
+    )
+    [by-end cy-start] var(--thumb-size)
+    [cy-end ax-end bx-end cx-end dx-end] 10vw [right];
+  grid-template-rows:
+    [top] 10vh auto[ay-start by-start cy-start dy-start ax-start] var(
+      --thumb-size
+    )
+    [ax-end bx-start] var(--thumb-size) [bx-end] 1fr [cx-start] var(
+      --thumb-size
+    )
+    [cx-end dx-start] var(--thumb-size)
+    [dx-end ay-end by-end cy-end dy-end] 10vh [right];
+  grid-auto-rows: auto;
+}
+.stest * {
+  box-sizing: border-box;
+}
+
+.preview {
+  --u: 1%;
+  border: 1px dashed lightblue;
+  background-color: #0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  contain: size;
+  container-type: size;
+
+  aspect-ratio: 1;
+  width: 100%;
+  height: 100%;
+  grid-column: 2/-2;
+  grid-row: 2/-2;
+  anchor-name: --anchor-container-preview;
+
+  --ax: calc(max(0, var(--bdata-ax-input, var(--bdata-ax, 20))) * var(--u));
+  --bx: calc(max(0, var(--bdata-bx-input, var(--bdata-bx, 20))) * var(--u));
+  --cx: calc(max(0, var(--bdata-cx-input, var(--bdata-cx, 20))) * var(--u));
+  --dx: calc(max(0, var(--bdata-dx-input, var(--bdata-dx, 20))) * var(--u));
+  --ay: calc(max(0, var(--bdata-ay-input, var(--bdata-ay, 20))) * var(--u));
+  --by: calc(max(0, var(--bdata-by-input, var(--bdata-by, 20))) * var(--u));
+  --cy: calc(max(0, var(--bdata-cy-input, var(--bdata-cy, 20))) * var(--u));
+  --dy: calc(max(0, var(--bdata-dy-input, var(--bdata-dy, 20))) * var(--u));
+  background-image:
+    repeating-linear-gradient(-135deg, blue -1px 1px, #0000 -100% 25%),
+    repeating-linear-gradient(135deg, green -1px 1px, #0000 -100% 25%),
+    repeating-linear-gradient(45deg, red -1px 1px, #0000 -100% 25%),
+    repeating-linear-gradient(-45deg, purple -1px 1px, #0000 -100% 25%);
+  background-size: 200% 200%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.preview::after {
+  border: none;
+  text-align: center;
+  font-family: Menlo, monospace;
+  font-size: small;
+  letter-spacing: 0.02em;
+  word-spacing: -0.2em;
+  content: var(--bdata-str-ax) '% ' var(--bdata-str-bx) '% ' var(--bdata-str-cx)
+    '% ' var(--bdata-str-dx) '% / ' var(--bdata-str-ay) '% ' var(--bdata-str-by)
+    '% ' var(--bdata-str-cy) '% ' var(--bdata-str-dy) '%';
+
+  position: fixed;
+  inset: anchor(top) anchor(right) auto auto;
+  width: auto;
+  padding: 0.2em 0.5ch;
+  position-anchor: --anchor-base;
+  background-color: #19191940;
+}
+
+.stest {
+  box-sizing: unset;
+  width: auto;
+  height: auto;
+  border: none;
+  border-color: #764d7e #603f67 #422747 #683c72;
+  grid-template-columns: [left] var(--thumb-size) [mid] 1fr [right] var(
+      --thumb-size
+    );
+  grid-template-rows: [top] var(--thumb-size) [mid] 1fr [bottom] var(
+      --thumb-size
+    );
+  /* grid-template-columns: [left x-start ay-start] var(--thumb-size) [ay-end dy-start] var(--thumb-size) [dy-end] 1fr [by-start] var(--thumb-size) [by-end cy-start] var(--thumb-size) [cy-end ax-end bx-end cx-end dx-end] 10vw [right];
+grid-template-rows: [top ay-start by-start cy-start dy-start ax-start] var(--thumb-size) [ax-end bx-start] var(--thumb-size) [bx-end] 1fr [cx-start] var(--thumb-size) [cx-end dx-start] var(--thumb-size) [dx-end ay-end by-end cy-end dy-end bottom];
+grid-template-columns: [left] var(--thumb-size) [mid] 1fr [right]; */
+}
+.screen.stest {
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+.screen.stest {
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+.stest {
+  box-sizing: unset;
+  width: auto;
+  height: auto;
+  border: none;
+  border-color: #764d7e #603f67 #422747 #683c72;
+  grid-template-columns: [left] var(--thumb-size) [mid] 1fr [right] var(
+      --thumb-size
+    );
+  grid-template-rows: [top] var(--thumb-size) [mid] 1fr [bottom] var(
+      --thumb-size
+    );
+  container-type: size;
+}
+
+.preview {
+  --u: 1%;
+  border: 1px dashed lightblue;
+  background-color: #0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  contain: size;
+  container-type: size;
+  aspect-ratio: 1;
+  width: 100%;
+  height: 100%;
+  grid-column: 2/-2;
+  grid-row: 2/-2;
+  anchor-name: --anchor-container-preview;
+  --ax: calc(max(0, var(--bdata-ax-input, var(--bdata-ax, 20))) * var(--u));
+  --bx: calc(max(0, var(--bdata-bx-input, var(--bdata-bx, 20))) * var(--u));
+  --cx: calc(max(0, var(--bdata-cx-input, var(--bdata-cx, 20))) * var(--u));
+  --dx: calc(max(0, var(--bdata-dx-input, var(--bdata-dx, 20))) * var(--u));
+  --ay: calc(max(0, var(--bdata-ay-input, var(--bdata-ay, 20))) * var(--u));
+  --by: calc(max(0, var(--bdata-by-input, var(--bdata-by, 20))) * var(--u));
+  --cy: calc(max(0, var(--bdata-cy-input, var(--bdata-cy, 20))) * var(--u));
+  --dy: calc(max(0, var(--bdata-dy-input, var(--bdata-dy, 20))) * var(--u));
+  --ca: hsl(0 100 60 / 1);
+  --cb: hsl(from var(--ca) calc(h + 90) s l / alpha);
+  --cc: hsl(from var(--cb) calc(h + 90) s l / alpha);
+  --cd: hsl(from var(--cc) calc(h + 90) s l / alpha);
+  --cax: hsl(from var(--ca) calc(h - 15) s l / alpha);
+  --cay: hsl(from var(--ca) calc(h + 15) s l / alpha);
+  --cbx: hsl(from var(--cb) calc(h - 15) s l / alpha);
+  --cby: hsl(from var(--cb) calc(h + 15) s l / alpha);
+  --ccx: hsl(from var(--cc) calc(h - 15) s l / alpha);
+  --ccy: hsl(from var(--cc) calc(h + 15) s l / alpha);
+  --cdx: hsl(from var(--cd) calc(h - 15) s l / alpha);
+  --cdy: hsl(from var(--cd) calc(h + 15) s l / alpha);
+  background-image: var(--ba), var(--bb), var(--bc), var(--bd);
+  --ba: repeating-linear-gradient(
+    45deg,
+    var(--cax) var(--blfrom) var(--blto),
+    #0000 -100% var(--bend)
+  );
+  --bb: repeating-linear-gradient(
+    135deg,
+    var(--cbx) var(--blfrom) var(--blto),
+    #0000 -100% var(--bend)
+  );
+  --bc: repeating-linear-gradient(
+    225deg,
+    var(--ccx) var(--blfrom) var(--blto),
+    #0000 -100% var(--bend)
+  );
+  --bd: repeating-linear-gradient(
+    315deg,
+    var(--cdx) var(--blfrom) var(--blto),
+    #0000 -100% var(--bend)
+  );
+  background-size: 100% 300%;
+  background-repeat: no-repeat;
+  background-position: center;
+  /*   background-size: 100% 100%; */
+  --bend: 25%;
+  --bloff: -1px;
+  --blw: 2px;
+  --blfrom: calc(var(--bloff) + var(--blw) * -0.5);
+  --blto: calc(var(--bloff) + var(--blw) * 0.5);
+}
+
+.oval {
+  display: block;
+  border-radius: 50%;
+  border: 2px dashed white;
+  border-style: dashed;
+  border-width: var(--ibdw＋);
+  --ibdw＋: calc(var(--bdw) / 3);
+  --ibdw－: calc(var(--ibdw＋) * -1);
+  box-shadow:
+    inset 0 0 0 calc(var(--bdw) * 0.5) #191919,
+    0 0 0 calc(var(--bdw) * 0.5) #191919;
+  border-color: var(--c-top) var(--c-right) var(--c-bottom) var(--c-left);
+  height: calc(var(--ibdw＋) + var(--y) * 2%);
+  width: calc(var(--ibdw＋) + var(--x) * 2%);
+  position: absolute;
+  position-anchor: --anchor-preview-line;
+  inset: anchor(top, var(--ibdw－)) anchor(right, var(--ibdw－));
+}
+.axy {
+  --c-top: var(--ca);
+  --c-right: var(--ca);
+  --c-bottom: var(--cb);
+  --c-left: var(--cb);
+  --x: var(--bdata-ax);
+  --y: var(--bdata-ay);
+  top: var(--ibdw－);
+  right: var(--ibdw－);
+}
+.bxy {
+  --c-top: var(--cb);
+  --c-right: var(--cb);
+  --c-bottom: var(--cc);
+  --c-left: var(--cc);
+  --x: var(--bdata-bx);
+  --y: var(--bdata-by);
+  top: var(--ibdw－);
+  right: var(--ibdw－);
+}
+.cxy {
+  --c-top: var(--cc);
+  --c-right: var(--cc);
+  --c-bottom: var(--cd);
+  --c-left: var(--cd);
+  --x: var(--bdata-cx);
+  --y: var(--bdata-cy);
+  top: var(--ibdw－);
+  right: var(--ibdw－);
+}
+.dxy {
+  --c-top: var(--cd);
+  --c-right: var(--cd);
+  --c-bottom: var(--ca);
+  --c-left: var(--ca);
+  --x: var(--bdata-dx);
+  --y: var(--bdata-dy);
+  top: var(--ibdw－);
+  right: var(--ibdw－);
+}

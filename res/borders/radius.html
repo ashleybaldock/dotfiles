@@ -17,88 +17,94 @@
     <!--}}}-->
   </head>
   <body>
-    <fieldset class="screen stest" data-sink="ax ay bx by cx cy dx dy">
+    <fieldset class="screen stest preview" data-sink="ax ay bx by cx cy dx dy">
       <h2>Border Radius</h2>
-      <div class="preview">
-        <div class="outline"></div>
-        <div class="oval axy"></div>
-        <div class="oval bxy"></div>
-        <div class="oval cxy"></div>
-        <div class="oval dxy"></div>
+      <div class="outline"></div>
+      <div class="oval axy"></div>
+      <div class="oval bxy"></div>
+      <div class="oval cxy"></div>
+      <div class="oval dxy"></div>
 
-        <div class="point ay">ay</div>
-        <div class="point ax">ax</div>
-        <div class="point bx">bx</div>
-        <div class="point by">by</div>
-        <div class="point cy">cy</div>
-        <div class="point cx">cx</div>
-        <div class="point dx">dx</div>
-        <div class="point dy">dy</div>
-      </div>
-      <input
-        data-source
-        id="ay"
-        type="range"
-        value="0"
-        min="0"
-        max="100"
-        class="vertical reversed"
-      />
-      <input data-source id="ax" type="range" value="0" min="0" max="100" />
-      <input
-        data-source
-        id="bx"
-        type="range"
-        value="0"
-        min="0"
-        max="100"
-        class="reversed"
-      />
-      <input
-        data-source
-        id="by"
-        type="range"
-        value="0"
-        min="0"
-        max="100"
-        class="vertical reversed"
-      />
-      <input
-        data-source
-        id="cy"
-        type="range"
-        value="0"
-        min="0"
-        max="100"
-        class="vertical"
-      />
-      <input
-        data-source
-        id="cx"
-        type="range"
-        value="0"
-        min="0"
-        max="100"
-        class="reversed"
-      />
-      <input data-source id="dx" type="range" value="0" min="0" max="100" />
-      <input
-        data-source
-        id="dy"
-        type="range"
-        value="0"
-        min="0"
-        max="100"
-        class="vertical"
-      />
-      <label for="ay" class="slider"></label>
-      <label for="ax" class="slider"></label>
-      <label for="bx" class="slider"></label>
-      <label for="by" class="slider"></label>
-      <label for="cy" class="slider"></label>
-      <label for="cx" class="slider"></label>
-      <label for="dx" class="slider"></label>
-      <label for="dy" class="slider"></label>
+      <div class="point ay">ay</div>
+      <div class="point ax">ax</div>
+      <div class="point bx">bx</div>
+      <div class="point by">by</div>
+      <div class="point cy">cy</div>
+      <div class="point cx">cx</div>
+      <div class="point dx">dx</div>
+      <div class="point dy">dy</div>
+      <label for="ay" class="slider">
+        <input
+          data-source
+          id="ay"
+          type="range"
+          value="0"
+          min="0"
+          max="100"
+          class="vertical"
+        />
+      </label>
+      <label for="ax" class="slider">
+        <input data-source id="ax" type="range" value="0" min="0" max="100" />
+      </label>
+      <label for="bx" class="slider">
+        <input
+          data-source
+          id="bx"
+          type="range"
+          value="0"
+          min="0"
+          max="100"
+          class="reversed"
+        />
+      </label>
+      <label for="by" class="slider">
+        <input
+          data-source
+          id="by"
+          type="range"
+          value="0"
+          min="0"
+          max="100"
+          class="vertical"
+        />
+      </label>
+      <label for="cy" class="slider">
+        <input
+          data-source
+          id="cy"
+          type="range"
+          value="0"
+          min="0"
+          max="100"
+          class="vertical reversed"
+        />
+      </label>
+      <label for="cx" class="slider">
+        <input
+          data-source
+          id="cx"
+          type="range"
+          value="0"
+          min="0"
+          max="100"
+          class="reversed"
+        />
+      </label>
+      <label for="dx" class="slider">
+        <input data-source id="dx" type="range" value="0" min="0" max="100" />
+      </label>
+      <label for="dy" class="slider">
+        <input
+          data-source
+          id="dy"
+          type="range"
+          value="0"
+          min="0"
+          max="100"
+          class="vertical reversed"
+        />
+      </label>
     </fieldset>
   </body>
 </html>

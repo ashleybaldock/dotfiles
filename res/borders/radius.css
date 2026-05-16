@@ -1,9 +1,8 @@
 body {
   display: grid;
-grid-template-columns: 100vw;
-grid-template-rows: 100vh;
+  grid-template-columns: 100vw;
+  grid-template-rows: 100vh;
 }
-
 
 .curve.topleft .preview {
   border-radius: var(--tl) var(--tr) var(--br) var(--bl) / var(--tl2) var(--tr2)
@@ -17,34 +16,25 @@ grid-template-rows: 100vh;
   --br2: 0%;
   --bl2: 0%;
 }
+/*! all independent */
 :root:has(#link-none:checked) .preview {
-  --ax: 20%;
-  --bx: 20%;
-  --cx: 20%;
-  --dx: 20%;
-  --ay: 100%;
-  --by: 100%;
-  --cy: 100%;
-  --dy: 100%;
-  --ay: var(--AA);
-  --by: var(--BB);
-  --cy: var(--CC);
-  --dy: var(--DD);
-  --AA: 100%;
-  --BB: 50%;
-  --CC: 20%;
-  --DD: 0%;
-  --ax: var(--aa);
-  --bx: var(--bb);
-  --cx: var(--cc);
-  --dx: var(--dd);
-  --aa: 100%;
-  --bb: 50%;
-  --cc: 20%;
-  --dd: 0%;
+  --u: 1%;
+  --ax: 20;
+  --ay: 100;
+  --bx: 20;
+  --by: 100;
+  --cx: 20;
+  --cy: 100;
+  --dx: 20;
+  --dy: 100;
 }
+/*! corner pairs identical (circular corners) */
 :root:has(#link-corner-xy:checked) .preview {
-  /* corner pairs identical (circular corners) */
+  --u: 1%;
+  --ax＝ay: 100;
+  --bx＝by: 10;
+  --cx＝cy: 100;
+  --dx＝dy: 10;
   --ax: var(--ax＝ay);
   --ay: var(--ax＝ay);
   --bx: var(--bx＝by);
@@ -53,33 +43,37 @@ grid-template-rows: 100vh;
   --cy: var(--cx＝cy);
   --dx: var(--dx＝dy);
   --dy: var(--dx＝dy);
-  --ax＝ay: 100%;
-  --bx＝by: 10%;
-  --cx＝cy: 100%;
-  --dx＝dy: 10%;
 }
+/*! all 4 corners same x & y (equal circular corners) */
 :root:has(#link-all:checked) .preview {
-  /* all 4 corners same x & y (equal circular corners) */
-  --ax＝bx＝cx＝dx＝ay＝by＝cy＝dy: 50%;
+  --u: 1%;
+  --ax＝bx＝cx＝dx＝ay＝by＝cy＝dy: 50;
 }
+/*! all 4 corners same x value */
 :root:has(#link-all-x:checked) .preview {
-  /* all 4 corners same x value */
+  --u: 1%;
+  --ax＝bx＝cx＝dx: 30%;
   --ax: var(--ax＝bx＝cx＝dx);
   --bx: var(--ax＝bx＝cx＝dx);
   --cx: var(--ax＝bx＝cx＝dx);
   --dx: var(--ax＝bx＝cx＝dx);
-  --ax＝bx＝cx＝dx: 30%;
 }
+/*! all 4 corners same y value */
 :root:has(#link-all-y:checked) .preview {
-  /* all 4 corners same y value */
+  --u: 1%;
+  --ay＝by＝cy＝dy: 30;
   --ay: var(--ay＝by＝cy＝dy);
   --by: var(--ay＝by＝cy＝dy);
   --cy: var(--ay＝by＝cy＝dy);
   --dy: var(--ay＝by＝cy＝dy);
-  --ay＝by＝cy＝dy: 30%;
 }
+/*! circular pairings */
 :root:has(#link-circle:checked) .preview {
-  /* circular pairings */
+  --u: 1%;
+  --ax＝dy: 100;
+  --bx＝ay: 10;
+  --cx＝dx: 100;
+  --dx＝ay: 10;
   --ax: var(--ax＝dy);
   --bx: var(--bx＝ay);
   --cx: var(--cx＝by);
@@ -88,10 +82,6 @@ grid-template-rows: 100vh;
   --by: var(--cx＝by);
   --cy: var(--dx＝cy);
   --dy: var(--ax＝dy);
-  --ax＝dy: 100%;
-  --bx＝ay: 10%;
-  --cx＝dx: 100%;
-  --dx＝ay: 10%;
 }
 :root:has(#rotate-0:checked) .preview {
   border-radius: var(--bdr-r0);
@@ -107,14 +97,14 @@ grid-template-rows: 100vh;
 }
 .stest {
   /* border radius rotations */
-  --bdr-r0: var(--ax) var(--bx) var(--cx) var(--dx) / var(--ay) var(--by)
-    var(--cy) var(--dy);
-  --bdr-r1: var(--dx) var(--ax) var(--bx) var(--cx) / var(--dy) var(--ay)
-    var(--by) var(--cy);
-  --bdr-r2: var(--cx) var(--dx) var(--ax) var(--bx) / var(--cy) var(--dy)
-    var(--ay) var(--by);
-  --bdr-r3: var(--bx) var(--cx) var(--dx) var(--ax) / var(--by) var(--cy)
-    var(--dy) var(--ay);
+  --bdr-r0: var(--axl) var(--bxl) var(--cxl) var(--dxl) / var(--ayl) var(--byl)
+    var(--cyl) var(--dyl);
+  --bdr-r1: var(--dxl) var(--axl) var(--bxl) var(--cxl) / var(--dyl) var(--ayl)
+    var(--byl) var(--cyl);
+  --bdr-r2: var(--cxl) var(--dxl) var(--axl) var(--bxl) / var(--cyl) var(--dyl)
+    var(--ayl) var(--byl);
+  --bdr-r3: var(--bxl) var(--cxl) var(--dxl) var(--axl) / var(--byl) var(--cyl)
+    var(--dyl) var(--ayl);
   --bdata-ax: 20;
   --bdata-bx: 40;
   --bdata-cx: 20;
@@ -171,14 +161,22 @@ grid-template-rows: 100vh;
   container-type: size;
   aspect-ratio: 1;
   anchor-name: --anchor-container-preview;
-  --ax: calc(max(0, var(--bdata-ax-input, var(--bdata-ax, 20))) * var(--u));
-  --bx: calc(max(0, var(--bdata-bx-input, var(--bdata-bx, 20))) * var(--u));
-  --cx: calc(max(0, var(--bdata-cx-input, var(--bdata-cx, 20))) * var(--u));
-  --dx: calc(max(0, var(--bdata-dx-input, var(--bdata-dx, 20))) * var(--u));
-  --ay: calc(max(0, var(--bdata-ay-input, var(--bdata-ay, 20))) * var(--u));
-  --by: calc(max(0, var(--bdata-by-input, var(--bdata-by, 20))) * var(--u));
-  --cy: calc(max(0, var(--bdata-cy-input, var(--bdata-cy, 20))) * var(--u));
-  --dy: calc(max(0, var(--bdata-dy-input, var(--bdata-dy, 20))) * var(--u));
+  --ax: max(0, var(--bdata-ax-input, var(--bdata-ax, 20)));
+  --bx: max(0, var(--bdata-bx-input, var(--bdata-bx, 20)));
+  --cx: max(0, var(--bdata-cx-input, var(--bdata-cx, 20)));
+  --dx: max(0, var(--bdata-dx-input, var(--bdata-dx, 20)));
+  --ay: max(0, var(--bdata-ay-input, var(--bdata-ay, 20)));
+  --by: max(0, var(--bdata-by-input, var(--bdata-by, 20)));
+  --cy: max(0, var(--bdata-cy-input, var(--bdata-cy, 20)));
+  --dy: max(0, var(--bdata-dy-input, var(--bdata-dy, 20)));
+  --axl: calc(var(--ax) * var(--u));
+  --bxl: calc(var(--bx) * var(--u));
+  --cxl: calc(var(--cx) * var(--u));
+  --dxl: calc(var(--dx) * var(--u));
+  --ayl: calc(var(--ay) * var(--u));
+  --byl: calc(var(--by) * var(--u));
+  --cyl: calc(var(--cy) * var(--u));
+  --dyl: calc(var(--dy) * var(--u));
   --ca: hsl(0 100 60 / 1);
   --cb: hsl(from var(--ca) calc(h + 90) s l / alpha);
   --cc: hsl(from var(--cb) calc(h + 90) s l / alpha);
@@ -225,7 +223,6 @@ grid-template-rows: 100vh;
   height: 100%;
   grid-row: 1/-1;
   grid-column: 1/-1;
-}
 }
 .preview::after {
   border: none;
@@ -282,8 +279,8 @@ grid-template-rows: 100vh;
   --c-right: var(--ca);
   --c-bottom: var(--cb);
   --c-left: var(--cb);
-  --x: var(--bdata-ax);
-  --y: var(--bdata-ay);
+  --x: var(ax);
+  --y: var(--ay);
   top: var(--ibdw－);
   right: var(--ibdw－);
 }
@@ -292,8 +289,8 @@ grid-template-rows: 100vh;
   --c-right: var(--cb);
   --c-bottom: var(--cc);
   --c-left: var(--cc);
-  --x: var(--bdata-bx);
-  --y: var(--bdata-by);
+  --x: var(--bx);
+  --y: var(--by);
   top: var(--ibdw－);
   right: var(--ibdw－);
 }
@@ -302,8 +299,8 @@ grid-template-rows: 100vh;
   --c-right: var(--cc);
   --c-bottom: var(--cd);
   --c-left: var(--cd);
-  --x: var(--bdata-cx);
-  --y: var(--bdata-cy);
+  --x: var(--cx);
+  --y: var(--cy);
   top: var(--ibdw－);
   right: var(--ibdw－);
 }
@@ -312,8 +309,8 @@ grid-template-rows: 100vh;
   --c-right: var(--cd);
   --c-bottom: var(--ca);
   --c-left: var(--ca);
-  --x: var(--bdata-dx);
-  --y: var(--bdata-dy);
+  --x: var(--dx);
+  --y: var(--dy);
   top: var(--ibdw－);
   right: var(--ibdw－);
 }
@@ -365,13 +362,12 @@ grid-template-rows: 100vh;
 .slider > input[type='range'].reversed {
   transform: rotate(0deg);
 }
-.slider > input[type="range"].vertical {
+.slider > input[type='range'].vertical {
   transform: translateX(-50cqh) rotate(90deg) translateY(-50cqh);
 }
-.slider > input[type="range"].vertical.reversed {
+.slider > input[type='range'].vertical.reversed {
   transform: translateX(-50cqh) rotate(90deg) translateY(-50cqh);
 }
-
 
 input[type='range'] {
   --track-size: 1em;
@@ -437,8 +433,8 @@ input[type='range']::-moz-range-track {
   background: var(--track-background);
   border-style: var(--track-border-style);
   border-width: var(--track-border-width);
-  --bdr-r1: var(--dx) var(--ax) var(--bx) var(--cx) / var(--dy) var(--ay)
-    var(--by) var(--cy);
+  --bdr-r1: var(--dxl) var(--axl) var(--bxl) var(--cxl) / var(--dyl) var(--ayl)
+    var(--byl) var(--cyl);
   background: hsla(from var(--c-base) h 20 40 / 100%);
   border-color: hsla(from var(--c-base) h 20 60 / 100%);
   --c-base: var(--track-color-base, #da0000);
@@ -466,8 +462,8 @@ input[type='range']::-moz-range-thumb {
   border-width: var(--thumb-border-width);
   border-color: var(--thumb-border-color);
   border-radius: var(--bdr-r1);
-  --bdr-r1: var(--dx) var(--ax) var(--bx) var(--cx) / var(--dy) var(--ay)
-    var(--by) var(--cy);
+  --bdr-r1: var(--dxl) var(--axl) var(--bxl) var(--cxl) / var(--dyl) var(--ayl)
+    var(--byl) var(--cyl);
   z-index: 100;
   visibility: visible;
   pointer-events: all;
@@ -608,7 +604,7 @@ input[type='range']::-moz-range-track {
   grid-row: by;
 }
 .slider:has(> #bx) {
-  grid-column:bx;
+  grid-column: bx;
   grid-row: bx;
 }
 .slider:has(> #cy) {
@@ -628,3 +624,207 @@ input[type='range']::-moz-range-track {
   grid-row: dx;
 }
 /*!}}}1 END Slider */
+
+.outline {
+  --style-top: solid;
+  --style-right: solid;
+  --style-bottom: solid;
+  --style-left: solid;
+  --color-top: red;
+  --color-right: green;
+  --color-bottom: blue;
+  --color-left: purple;
+  display: block;
+  content: '';
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  border: 2px solid orange;
+  border-width: var(--bdw);
+  border-style: var(--style-top) var(--style-right) var(--style-bottom)
+    var(--style-left);
+  border-color: var(--color-top) var(--color-right) var(--color-bottom)
+    var(--color-left);
+
+  border-radius: var(--axl) var(--bxl) var(--cxl) var(--dxl) / var(--ayl)
+    var(--byl) var(--cyl) var(--dyl);
+  position: fixed;
+  position-anchor: --anchor-container-preview;
+  inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
+  anchor-name: --anchor-preview-line;
+}
+.point {
+  position: absolute;
+  display: block;
+  width: calc(var(--radius) * 2);
+  height: calc(var(--radius) * 2);
+  --radius: calc(var(--bdw) * 2);
+  box-sizing: content-box;
+  border: none !important;
+  box-shadow:
+    inset calc(var(--radius) * -0.5) calc(var(--radius) * -0.5) 0
+      calc(var(--radius) * -0.25) #0006,
+    inset calc(var(--radius) * 0.5) calc(var(--radius) * 0.5) 0
+      calc(var(--radius) * -0.25) #fff8,
+    calc(var(--radius) * 0) calc(var(--radius) * 0) 0 calc(var(--radius) * 0.25)
+      #0008,
+    var(--tracks, 0 0 0 0 #0000);
+  --track-right:
+    calc(var(--radius) * 1.5) 0 0 calc(var(--radius) * -0.5)
+      rgba(from var(--color) r g b / 70%),
+    calc(var(--radius) * 1.5) 0 0 calc(var(--radius) * -0.25) #0008;
+  --track-left:
+    calc(var(--radius) * -1.5) 0 0 calc(var(--radius) * -0.5)
+      rgba(from var(--color) r g b / 70%),
+    calc(var(--radius) * -1.5) 0 0 calc(var(--radius) * -0.25) #0008;
+  --track-top:
+    0 calc(var(--radius) * -1.5) 0 calc(var(--radius) * -0.5)
+      rgba(from var(--color) r g b / 70%),
+    0 calc(var(--radius) * -1.5) 0 calc(var(--radius) * -0.25) #0008;
+  --track-bottom:
+    0 calc(var(--radius) * 1.5) 0 calc(var(--radius) * -0.5)
+      rgba(from var(--color) r g b / 70%),
+    0 calc(var(--radius) * 1.5) 0 calc(var(--radius) * -0.25) #0008;
+
+  anchor-name: --anchor-thumb;
+  anchor-scope: --anchor-thumb;
+  --top: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
+  --bottom: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
+  --left: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
+  --right: calc((var(--ibdw－) * 0.5) + var(--radius) * -1);
+  background-color: var(--base-color, #444c);
+  --color: var(--base-color);
+}
+
+.axy {
+  --base-color: var(--color-top);
+  --color: var(--base-color);
+}
+.bxy {
+  --base-color: var(--color-right);
+  --color: var(--base-color);
+}
+.cxy {
+  --base-color: var(--color-bottom);
+  --color: var(--base-color);
+}
+.dxy {
+  --base-color: var(--color-left);
+  --color: var(--base-color);
+}
+
+.ax {
+  top: var(--top);
+  left: calc(var(--axl) - var(--radius));
+  --tracks: var(--track-left), var(--track-right);
+}
+.bx {
+  top: var(--top);
+  right: calc(var(--bxl) - var(--radius));
+  --tracks: var(--track-left), var(--track-right);
+}
+.by {
+  top: calc(var(--byl) - var(--radius));
+  right: var(--right);
+  --tracks: var(--track-top), var(--track-bottom);
+}
+.cy {
+  bottom: calc(var(--cyl) - var(--radius));
+  right: var(--right);
+  --tracks: var(--track-top), var(--track-bottom);
+}
+.cx {
+  bottom: var(--bottom);
+  right: calc(var(--cxl) - var(--radius));
+  --tracks: var(--track-left), var(--track-right);
+}
+.dx {
+  bottom: var(--bottom);
+  left: calc(var(--dxl) - var(--radius));
+  --tracks: var(--track-left), var(--track-right);
+}
+.dy {
+  bottom: calc(var(--dyl) - var(--radius));
+  left: var(--left);
+  --tracks: var(--track-top), var(--track-bottom);
+}
+.ay {
+  top: calc(var(--ayl) - var(--radius));
+  left: var(--left);
+  --tracks: var(--track-top), var(--track-bottom);
+}
+
+.coord {
+  position: absolute;
+  left: var(--dxl);
+}
+
+.axy > .radii {
+  border-color: #0000 var(--color-top) var(--color-right) #0000;
+  top: 0;
+  left: 0;
+}
+.bxy > .radii {
+  border-color: transparent transparent var(--color-right) var(--color-top);
+  top: 0;
+  right: 0;
+}
+.cxy {
+  border-color: var(--color-right) var(--color-right) var(--color-bottom)
+    var(--color-bottom);
+  height: calc(var(--ibdw＋) + var(--bdata-cy) * 2%);
+  width: calc(var(--ibdw＋) + var(--bdata-cx) * 2%);
+  right: var(--ibdw－);
+  bottom: var(--ibdw－);
+}
+.cxy > .radii {
+  bottom: 0;
+  right: 0;
+  border-color: var(--color-right) #0000 #0000 var(--color-bottom);
+}
+.dxy {
+  border-color: var(--color-left) var(--color-bottom) var(--color-bottom)
+    var(--color-left);
+  height: calc(var(--ibdw＋) + var(--bdata-dy) * 2%);
+  width: calc(var(--ibdw＋) + var(--bdata-dx) * 2%);
+  left: var(--ibdw－);
+  bottom: var(--ibdw－);
+}
+.dxy > .radii {
+  border-color: var(--color-left) var(--color-bottom) #0000 #0000;
+  bottom: 0;
+  left: 0;
+}
+
+input[type='range']::-webkit-slider-thumb,
+input[type='range']::-moz-range-thumb {
+  background-color: #ddd;
+  background-image:
+    linear-gradient(
+      175deg,
+      #f086 calc(var(--ax) * 1%),
+      #40f6 calc(var(--ay) * 1%)
+    ),
+    linear-gradient(
+      115deg,
+      #f086 calc(var(--bx) * 1%),
+      #40f6 calc(var(--by) * 1%)
+    );
+  mix-blend-mode: unset;
+  background-blend-mode: normal;
+  transform: scale(1);
+}
+
+input[type='range']::-moz-range-progress {
+  z-index: -1;
+}
+
+input[type='range'] {
+  --thumb-size: 2em;
+  --thumb-ratio: 1;
+}
+
+input[type='range'].vertical::-webkit-slider-thumb,
+input[type='range'].vertical::-moz-range-thumb {
+  transform: rotate(-90deg);
+}

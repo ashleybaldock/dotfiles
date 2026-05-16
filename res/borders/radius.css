@@ -231,9 +231,9 @@ body {
   font-size: small;
   letter-spacing: 0.02em;
   word-spacing: -0.2em;
-  content: var(--bdata-str-ax) '% ' var(--bdata-str-bx) '% ' var(--bdata-str-cx)
-    '% ' var(--bdata-str-dx) '% / ' var(--bdata-str-ay) '% ' var(--bdata-str-by)
-    '% ' var(--bdata-str-cy) '% ' var(--bdata-str-dy) '%';
+  content: 'border-radius: ' var(--bdata-str-ax) '% ' var(--bdata-str-bx) '% '
+    var(--bdata-str-cx) '% ' var(--bdata-str-dx) '% / ' var(--bdata-str-ay) '% '
+    var(--bdata-str-by) '% ' var(--bdata-str-cy) '% ' var(--bdata-str-dy) '%;';
 
   position: fixed;
   inset: anchor(top) anchor(right) auto auto;
@@ -257,6 +257,7 @@ body {
 
 /*!{{{1 Oval */
 .oval {
+  pointer-events: none;
   display: block;
   border-radius: 50%;
   border: 2px dashed white;

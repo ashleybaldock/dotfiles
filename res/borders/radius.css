@@ -1,7 +1,7 @@
 body {
   display: grid;
-  grid-template-columns: 100vw;
-  grid-template-rows: 100vh;
+  grid-template-columns: auto 100vmin auto;
+  grid-template-rows: auto 100vmin auto;
 }
 
 .curve.topleft .preview {
@@ -213,16 +213,32 @@ body {
   background-size: 100% 300%;
   background-repeat: no-repeat;
   background-position: center;
-  /*   background-size: 100% 100%; */
   --bend: 25%;
   --bloff: -1px;
   --blw: 2px;
   --blfrom: calc(var(--bloff) + var(--blw) * -0.5);
   --blto: calc(var(--bloff) + var(--blw) * 0.5);
-  width: 100%;
   height: 100%;
-  grid-row: 1/-1;
-  grid-column: 1/-1;
+  width: 100vmin;
+  min-width: unset;
+  grid-row: 2;
+  grid-column: 2;
+  grid-template-columns:
+    [left] auto [ax-start bx-start cx-start dx-start ay-start] var(--thumb-size)
+    [ay-end dy-start] var(--thumb-size)
+    [dy-end middle-start] 1fr [middle-end by-start] var(--thumb-size)
+    [by-end cy-start] var(--thumb-size)
+    [cy-end ax-end bx-end cx-end dx-end] auto [right];
+  grid-template-rows:
+    [top] 10vh auto[ay-start by-start cy-start dy-start ax-start] var(
+      --thumb-size
+    )
+    [ax-end bx-start] var(--thumb-size)
+    [bx-end middle-start] 1fr [middle-end cx-start] var(--thumb-size)
+    [cx-end dx-start] var(--thumb-size)
+    [dx-end ay-end by-end cy-end dy-end] 10vh [right];
+  max-width: 100vmin;
+  max-height: 100vmin;
 }
 .preview::after {
   border: none;
@@ -248,8 +264,6 @@ body {
   padding: 0;
   gap: 0;
   box-sizing: unset;
-  width: auto;
-  height: auto;
   border: none;
   border-color: #764d7e #603f67 #422747 #683c72;
   container-type: size;
@@ -273,7 +287,6 @@ body {
   width: calc(var(--ibdw＋) + var(--x) * 2%);
   position: absolute;
   position-anchor: --anchor-preview-line;
-  inset: anchor(top, var(--ibdw－)) anchor(right, var(--ibdw－));
 }
 .axy {
   --c-top: var(--ca);
@@ -282,8 +295,14 @@ body {
   --c-left: var(--cb);
   --x: var(ax);
   --y: var(--ay);
-  top: var(--ibdw－);
-  right: var(--ibdw－);
+  --base-color: var(--color-top);
+  --color: var(--base-color);
+  inset: anchor(top, var(--ibdw－)) auto auto anchor(left, var(--ibdw－));
+}
+.axy > .radii {
+  border-color: #0000 var(--color-top) var(--color-right) #0000;
+  top: 0;
+  left: 0;
 }
 .bxy {
   --c-top: var(--cb);
@@ -292,8 +311,14 @@ body {
   --c-left: var(--cc);
   --x: var(--bx);
   --y: var(--by);
-  top: var(--ibdw－);
-  right: var(--ibdw－);
+  --base-color: var(--color-right);
+  --color: var(--base-color);
+  inset: anchor(top, var(--ibdw－)) anchor(right, var(--ibdw－)) auto auto;
+}
+.bxy > .radii {
+  border-color: transparent transparent var(--color-right) var(--color-top);
+  top: 0;
+  right: 0;
 }
 .cxy {
   --c-top: var(--cc);
@@ -302,8 +327,9 @@ body {
   --c-left: var(--cd);
   --x: var(--cx);
   --y: var(--cy);
-  top: var(--ibdw－);
-  right: var(--ibdw－);
+  --base-color: var(--color-bottom);
+  --color: var(--base-color);
+  inset: auto anchor(right, var(--ibdw－)) anchor(bottom, var(--ibdw－)) auto;
 }
 .dxy {
   --c-top: var(--cd);
@@ -312,9 +338,33 @@ body {
   --c-left: var(--ca);
   --x: var(--dx);
   --y: var(--dy);
-  top: var(--ibdw－);
-  right: var(--ibdw－);
+  --base-color: var(--color-left);
+  --color: var(--base-color);
+  inset: auto auto anchor(bottom, var(--ibdw－)) anchor(left, var(--ibdw－));
 }
+.dxy > .radii {
+  border-color: var(--color-left) var(--color-bottom) #0000 #0000;
+  bottom: 0;
+  left: 0;
+}
+
+/* .cxy { */
+/*   border-color: var(--color-right) var(--color-right) var(--color-bottom) */
+/*     var(--color-bottom); */
+/*   height: calc(var(--ibdw＋) + var(--bdata-cy) * 2%); */
+/*   width: calc(var(--ibdw＋) + var(--bdata-cx) * 2%); */
+/*   right: var(--ibdw－); */
+/*   bottom: var(--ibdw－); */
+/* } */
+/* .dxy { */
+/*   border-color: var(--color-left) var(--color-bottom) var(--color-bottom) */
+/*     var(--color-left); */
+/*   height: calc(var(--ibdw＋) + var(--bdata-dy) * 2%); */
+/*   width: calc(var(--ibdw＋) + var(--bdata-dx) * 2%); */
+/*   left: var(--ibdw－); */
+/*   bottom: var(--ibdw－); */
+/* } */
+
 /*!}}}1 END Oval */
 
 /*!{{{1 Slider */
@@ -362,6 +412,8 @@ body {
 }
 .slider > input[type='range'].reversed {
   transform: rotate(0deg);
+  transform-origin: center center;
+  direction: rtl;
 }
 .slider > input[type='range'].vertical {
   transform: translateX(-50cqh) rotate(90deg) translateY(-50cqh);
@@ -408,14 +460,6 @@ input[type='range'] {
   visibility: visible;
 }
 
-input[type='range'].reversed {
-  transform-origin: center center;
-  transform: rotate(180deg);
-}
-input[type='range'].reversed {
-  direction: rtl;
-}
-
 input[type='range']::-moz-range-progress {
   --c: #ff0;
   display: flex;
@@ -448,10 +492,11 @@ input[type='range']::-moz-range-track {
   opacity: 0.4;
   visibility: visible;
 }
-
-input[type='range']::-webkit-slider-thumb {
-  margin-top: calc((var(--track-size) / 2) - (var(--thumb-size) / 2));
+input[type='range']:hover::-webkit-slider-runnable-track,
+input[type='range']:hover::-moz-range-track {
+  outline: 1px solid yellow;
 }
+
 input[type='range']::-webkit-slider-thumb,
 input[type='range']::-moz-range-thumb {
   box-sizing: border-box;
@@ -470,11 +515,10 @@ input[type='range']::-moz-range-thumb {
   pointer-events: all;
   anchor-name: --anchor-thumb;
 }
-
-input[type='range']:hover::-webkit-slider-runnable-track,
-input[type='range']:hover::-moz-range-track {
-  outline: 1px solid yellow;
+input[type='range']::-webkit-slider-thumb {
+  margin-top: calc((var(--track-size) / 2) - (var(--thumb-size) / 2));
 }
+
 input[type='range']:hover::-webkit-slider-thumb,
 input[type='range']:hover::-moz-range-thumb {
   outline: 4px solid yellow;
@@ -585,10 +629,6 @@ input[type='range']::-moz-range-track {
   display: contents;
 }
 
-#ax {
-  width: max(100%, calc((1% * var(--bdata-ax)) + 100px));
-}
-
 .slider > * {
   pointer-events: all;
 }
@@ -635,6 +675,8 @@ input[type='range']::-moz-range-track {
   --color-right: green;
   --color-bottom: blue;
   --color-left: purple;
+  grid-row: middle;
+  grid-column: middle;
   display: block;
   content: '';
   width: 100%;
@@ -649,9 +691,6 @@ input[type='range']::-moz-range-track {
 
   border-radius: var(--axl) var(--bxl) var(--cxl) var(--dxl) / var(--ayl)
     var(--byl) var(--cyl) var(--dyl);
-  position: fixed;
-  position-anchor: --anchor-container-preview;
-  inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
   anchor-name: --anchor-preview-line;
 }
 .point {
@@ -697,104 +736,42 @@ input[type='range']::-moz-range-track {
   --color: var(--base-color);
 }
 
-.axy {
-  --base-color: var(--color-top);
-  --color: var(--base-color);
-}
-.bxy {
-  --base-color: var(--color-right);
-  --color: var(--base-color);
-}
-.cxy {
-  --base-color: var(--color-bottom);
-  --color: var(--base-color);
-}
-.dxy {
-  --base-color: var(--color-left);
-  --color: var(--base-color);
-}
-
 .ax {
-  top: var(--top);
-  left: calc(var(--axl) - var(--radius));
+  inset: var(--top) auto auto calc(var(--axl) - var(--radius));
   --tracks: var(--track-left), var(--track-right);
 }
+.ay {
+  inset: var(--top) auto auto calc(var(--ayl) - var(--radius));
+  --tracks: var(--track-top), var(--track-bottom);
+}
 .bx {
-  top: var(--top);
-  right: calc(var(--bxl) - var(--radius));
+  inset: var(--top) calc(var(--bxl) - var(--radius)) auto auto;
   --tracks: var(--track-left), var(--track-right);
 }
 .by {
-  top: calc(var(--byl) - var(--radius));
-  right: var(--right);
-  --tracks: var(--track-top), var(--track-bottom);
-}
-.cy {
-  bottom: calc(var(--cyl) - var(--radius));
-  right: var(--right);
+  inset: var(--top) calc(var(--byl) - var(--radius)) auto auto;
   --tracks: var(--track-top), var(--track-bottom);
 }
 .cx {
-  bottom: var(--bottom);
-  right: calc(var(--cxl) - var(--radius));
+  inset: auto calc(var(--cxl) - var(--radius)) var(--bottom) auto;
   --tracks: var(--track-left), var(--track-right);
 }
+.cy {
+  inset: auto calc(var(--cyl) - var(--radius)) var(--bottom) auto;
+  --tracks: var(--track-top), var(--track-bottom);
+}
 .dx {
-  bottom: var(--bottom);
-  left: calc(var(--dxl) - var(--radius));
+  inset: auto auto var(--bottom) calc(var(--dxl) - var(--radius));
   --tracks: var(--track-left), var(--track-right);
 }
 .dy {
-  bottom: calc(var(--dyl) - var(--radius));
-  left: var(--left);
-  --tracks: var(--track-top), var(--track-bottom);
-}
-.ay {
-  top: calc(var(--ayl) - var(--radius));
-  left: var(--left);
+  inset: auto auto var(--bottom) calc(var(--dyl) - var(--radius));
   --tracks: var(--track-top), var(--track-bottom);
 }
 
 .coord {
   position: absolute;
   left: var(--dxl);
-}
-
-.axy > .radii {
-  border-color: #0000 var(--color-top) var(--color-right) #0000;
-  top: 0;
-  left: 0;
-}
-.bxy > .radii {
-  border-color: transparent transparent var(--color-right) var(--color-top);
-  top: 0;
-  right: 0;
-}
-.cxy {
-  border-color: var(--color-right) var(--color-right) var(--color-bottom)
-    var(--color-bottom);
-  height: calc(var(--ibdw＋) + var(--bdata-cy) * 2%);
-  width: calc(var(--ibdw＋) + var(--bdata-cx) * 2%);
-  right: var(--ibdw－);
-  bottom: var(--ibdw－);
-}
-.cxy > .radii {
-  bottom: 0;
-  right: 0;
-  border-color: var(--color-right) #0000 #0000 var(--color-bottom);
-}
-.dxy {
-  border-color: var(--color-left) var(--color-bottom) var(--color-bottom)
-    var(--color-left);
-  height: calc(var(--ibdw＋) + var(--bdata-dy) * 2%);
-  width: calc(var(--ibdw＋) + var(--bdata-dx) * 2%);
-  left: var(--ibdw－);
-  bottom: var(--ibdw－);
-}
-.dxy > .radii {
-  border-color: var(--color-left) var(--color-bottom) #0000 #0000;
-  bottom: 0;
-  left: 0;
 }
 
 input[type='range']::-webkit-slider-thumb,

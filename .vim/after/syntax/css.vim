@@ -92,7 +92,7 @@ syn sync lines=200
 "
 " BBAB̲B̲B̲AA  BBA̲BBBAA        BBBCCAABC̲C̲   BBBCCAABC̲C̲       ABBCCAA̲BCC
 
-syn match cssVarCustomProp contained "--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)*\Z"
+syn match cssVarCustomProp contained "^\s*\zs--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)\+\Z"
       \ contains=cssCustomPropDashes
 syn match cssCustomPropDashes contained +--+
       \ conceal cchar=╸ contains=NONE transparent
@@ -100,19 +100,27 @@ syn match cssCustomPropDashes contained +--+
 " Math operators not made valid by being inside these functions
 syn region cssFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
-      \ contains=
+      \ contains=cssError,
       \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
-      \cssError,
       \cssCustomPropRef,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 
 syn region cssSqrtRegion contained concealends
       \ matchgroup=Conceal start="(" end=")"
-      \ contains=
+      \ contains=cssError,
       \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
-      \cssError,
       \cssCustomPropRef,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 
-syn keyword cssFunctionNameVar contained conceal cchar=𐐏 var
+" 𐚟  𑀬
+syn keyword cssFunctionName anchor
+      \ contained conceal cchar=𐕙
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssAnchorRegion
+
+syn match ErrorMsg /\<var(-\?[^-]/ contained
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssFunctionRegion
+
+syn match cssFunctionNameVar /\<var\ze(--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)\+/ contained conceal cchar=𐐏 
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssFunctionRegion
 

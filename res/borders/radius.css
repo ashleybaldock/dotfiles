@@ -314,7 +314,7 @@ body {
   --c-right: var(--ca);
   --c-bottom: var(--cb);
   --c-left: var(--cb);
-  --x: var(ax);
+  --x: var(--ax);
   --y: var(--ay);
   --base-color: var(--color-top);
   --color: var(--base-color);

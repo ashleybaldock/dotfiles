@@ -113,7 +113,6 @@ body {
   --bdata-by: 30;
   --bdata-cy: 20;
   --bdata-dy: 30;
-  --thumb-size: 2rem;
 
   --bdw: 4px;
   --ibdw＋: calc(var(--bdw) / 3);
@@ -189,6 +188,28 @@ body {
   --ccy: hsl(from var(--cc) calc(h + 15) s l / alpha);
   --cdx: hsl(from var(--cd) calc(h - 15) s l / alpha);
   --cdy: hsl(from var(--cd) calc(h + 15) s l / alpha);
+  --color-top: red;
+  --color-right: green;
+  --color-bottom: blue;
+  --color-left: purple;
+
+  --track-size: 1em;
+  --track-foreground: #ffffff;
+  --track-background: #da0000;
+  --track-border-style: solid;
+  --track-border-width: 0.16em;
+  --track-border-color: #5a0000;
+
+  --thumb-size: 2em;
+  --thumb-ratio: 1;
+  --thumb-foreground: #ffffff;
+  --thumb-background: #d6b2b2;
+  --thumb-border-style: solid;
+  --thumb-border-width: 0.16em;
+  --thumb-border-color: #5a0000;
+
+  --progress-width: 1em;
+
   background-image: var(--ba), var(--bb), var(--bc), var(--bd);
   --ba: repeating-linear-gradient(
     45deg,
@@ -369,8 +390,6 @@ body {
 
 /*!{{{1 Slider */
 .slider {
-  --thumb-size: 1.4rem;
-  --thumb-ratio: 1;
   position: relative;
   justify-content: center;
   flex-direction: column;
@@ -394,21 +413,6 @@ body {
   overflow: hidden;
 }
 input[type='range'] {
-  --track-size: 1em;
-  --track-foreground: #ffffff;
-  --track-background: #da0000;
-  --track-border-style: solid;
-  --track-border-width: 0.16em;
-  --track-border-color: #5a0000;
-
-  --thumb-size: 1.6em;
-  --thumb-ratio: var(--𝟭∕𝞅);
-  --thumb-foreground: #ffffff;
-  --thumb-background: #d6b2b2;
-  --thumb-border-style: solid;
-  --thumb-border-width: 0.16em;
-  --thumb-border-color: #5a0000;
-
   --tl: 0%;
   --tr: 100%;
   --br: 100%;
@@ -429,6 +433,9 @@ input[type='range'] {
   height: 100%;
   width: 100%;
   visibility: visible;
+}
+input[type='range']:focus {
+  outline: none;
 }
 
 input[type='range']::-moz-range-progress {
@@ -515,15 +522,37 @@ input[type='range'].vertical::-moz-range-thumb {
   transform: rotate(-90deg);
 }
 
-input[type='range']:focus {
-  outline: none;
-}
 input[type='range']:focus::-webkit-slider-thumb,
 input[type='range']:focus::-moz-range-thumb {
   border: 1px solid #053a5f;
   outline: 3px solid #053a5f;
   outline-offset: 0.125rem;
   anchor-name: --test-thumb;
+}
+
+#ax::-webkit-slider-thumb,
+#ax::-moz-range-thumb,
+#ay::-webkit-slider-thumb,
+#ay::-moz-range-thumb {
+  border-radius: var(--axl) 0 0 0 / var(--ayl) 0 0 0;
+}
+#bx::-webkit-slider-thumb,
+#bx::-moz-range-thumb,
+#by::-webkit-slider-thumb,
+#by::-moz-range-thumb {
+  border-radius: 0 var(--bxl) 0 0 / 0 var(--byl) 0 0;
+}
+#cx::-webkit-slider-thumb,
+#cx::-moz-range-thumb,
+#cy::-webkit-slider-thumb,
+#cy::-moz-range-thumb {
+  border-radius: 0 0 var(--cxl) 0 / 0 0 var(--cyl) 0;
+}
+#dx::-webkit-slider-thumb,
+#dx::-moz-range-thumb,
+#dy::-webkit-slider-thumb,
+#dy::-moz-range-thumb {
+  border-radius: 0 0 0 var(--dxl) / 0 0 0 var(--dyl);
 }
 
 input[type='range']::-webkit-slider-runnable-track,
@@ -588,7 +617,6 @@ input[type='range'].vertical.reversed {
 }
 
 .slider {
-  /*   outline: 1px solid var(--c); */
   --i: 30px;
   --j: 30px;
   --t: 90deg;
@@ -597,6 +625,7 @@ input[type='range'].vertical.reversed {
   --bc: #0000;
   --c2: #80f4;
   --mc: #fff;
+  anchor-scope: --anchor-slider, --anchor-thumb;
 }
 .slider:has(> .vertical) {
   --r: 90deg;
@@ -609,10 +638,6 @@ input[type='range'].vertical.reversed {
 }
 .slider:has(> .reversed.vertical) {
   --r: 270deg;
-}
-
-.slider {
-  anchor-scope: --anchor-slider, --anchor-thumb;
 }
 
 .slider::after {
@@ -686,10 +711,6 @@ input[type='range'].vertical.reversed {
   --style-right: solid;
   --style-bottom: solid;
   --style-left: solid;
-  --color-top: red;
-  --color-right: green;
-  --color-bottom: blue;
-  --color-left: purple;
   grid-row: middle;
   grid-column: middle;
   display: block;
@@ -797,13 +818,13 @@ input[type='range'].vertical.reversed {
   grid-template-columns:
     [left] auto [
     ax-start
-    cx-start
-    dx-start
     ay-start] var(--thumb-size) [
+    dx-start
     bx-start
     ay-end
     dy-start] var(--thumb-size) [
     dy-end
+    cx-start
     middle-start] 1fr [
     bx-end
     middle-end
@@ -812,28 +833,28 @@ input[type='range'].vertical.reversed {
     ax-end
     by-end
     cx-end] var(--thumb-size) [
-    cy-end
-    dx-end] auto [right];
+    dx-end
+    cy-end] auto [right];
   grid-template-rows:
     [top] auto [
-    ay-start
+    ax-start
+    cy-start] var(--thumb-size) [
     by-start
-    cy-start
-    dy-start
-    ax-start] var(--thumb-size) [
+    ay-start
     ax-end
     bx-start] var(--thumb-size) [
     bx-end
+    dy-start
     middle-start] 1fr [
+    by-end
     middle-end
     cx-start] var(--thumb-size) [
-    cx-end
-    dx-start] var(--thumb-size) [
-    dx-end
-    ay-end
-    by-end
+    dx-start
     cy-end
-    dy-end] auto [bottom];
+    cx-end
+    dy-end] var(--thumb-size) [
+    dx-end
+    ay-end] auto [bottom];
 }
 
 h2 {
@@ -846,6 +867,14 @@ h2 {
 .preview::after {
   position-anchor: --anchor-preview-line;
   inset: auto anchor(right) anchor(bottom) auto;
-  mix-blend-mode:;
   margin: 0 1ch 1ch 0;
+}
+input[type='range']::-moz-range-progress {
+  --c: #ff0;
+  display: flex;
+  height: var(--progress-width);
+  width: auto;
+  background-image: linear-gradient(175deg, #f08, #40f);
+  mix-blend-mode: multiply;
+  z-index: -1;
 }

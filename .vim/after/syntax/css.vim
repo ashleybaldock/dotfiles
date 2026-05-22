@@ -6,7 +6,7 @@
 " See Also:
 "          ../after/syntax/css.vim
 "       ../../demo/css-regex-tests.cs
-"          ../pack/default/start/vim-css3-syntax/after/syntax/css/
+"       ../../pack/default/start/vim-css3-syntax/after/syntax/css/
 "       $VIMRUNTIME/syntax/css.vim
 "
 
@@ -102,18 +102,27 @@ syn region cssFunctionRegion contained
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssError,
       \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
-      \cssCustomPropRef,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+      \cssCustomPropRef,
+      \cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 
 syn region cssSqrtRegion contained concealends
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssError,
       \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
-      \cssCustomPropRef,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+      \cssCustomPropRef,
+      \cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+
+syn region cssAnchorRegion contained concealends
+      \ matchgroup=Conceal start="(" end=")"
+      \ contains=cssError,cssCustomPropRef,cssAnchorLoc,cssAnchorSep
+
+syn match cssAnchorSep /\_s*,\_s*/ contained contains=NONE
+      \ nextgroup=cssValueLength,cssFunctionCalc,cssFunctionVar
 
 " 𐚟  𑀬
 syn keyword cssFunctionName anchor
       \ contained conceal cchar=𐕙
-      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ containedin=cssAttrRegion,cssFunctionName,cssMathParens,cssMathGroup
       \ nextgroup=cssAnchorRegion
 
 syn match ErrorMsg /\<var(-\?[^-]/ contained
@@ -121,8 +130,8 @@ syn match ErrorMsg /\<var(-\?[^-]/ contained
       \ nextgroup=cssFunctionRegion
 
 syn match cssFunctionNameVar /\<var\ze(--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)\+/ contained conceal cchar=𐐏 
-      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
-      \ nextgroup=cssFunctionRegion
+      \ containedin=cssAttrRegion,cssFunctionName,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssFunctionRegion skipwhite skipnl
 
 " Math operators are valid inside these
 syn region cssMathFunctionRegion contained
@@ -457,20 +466,23 @@ syn match cssIdHash '#' contained containedin=cssIdentifier contains=NONE
 syn match cssGridAttrProp contained "\<grid\>"
 syn keyword cssGridAttrProp contained grid
 
-syn match cssGridTemplateProp contained /\<grid-template-\%(columns\|rows\)\>/
+syn match cssGridTplProp /\<grid-template-\%(columns\|rows\)\>/ contained
       \ containedin=cssDefinition contains=cssGridProp
-      \ nextgroup=cssGridTemplateRegion
+      \ nextgroup=cssGridTplRegion
 
-syn region cssGridTemplateRegion contained
-      \ start=+:\s\[+
+syn region cssGridTplRegion contained
+      \ start=+:\_s*\[+
       \ end=+\ze\%(;\|)\|}\|{\)+
-      \ contains=cssGridTplLines,
-      \cssImportant,cssValueNumber,cssValueLength,cssFunction,cssComment,cssError,cssNoise
+      \ contains=@cssEtc,cssGridTplLines,
+      \cssValueLength,cssFunction
+
+syn cluster cssEtc contains=cssImportant,cssComment,cssError,cssNoise
 
 syn region cssGridTplLines contained
       \ matchgroup=cssGridTplDelims start=+\[+
       \ end=+]+
-      \ contains=cssGridTplLineStart,cssGridTplLineEnd,cssGridTplLine,cssGridTplForbidden
+      \ contains=cssGridTplLineStart,cssGridTplLineEnd,cssGridTplLine,
+      \cssGridTplForbidden
 syn match cssGridTplLine contained +\<[A-Za-z_][A-Za-z0-9_-]\+\>+ contains=NONE
 syn match cssGridTplLineStart contained +\<[A-Za-z_][A-Za-z0-9_-]\+-start\>+ contains=cssGridTplSuffix
 syn match cssGridTplLineEnd contained +\<[A-Za-z_][A-Za-z0-9_-]\+-end\>+ contains=cssGridTplSuffix

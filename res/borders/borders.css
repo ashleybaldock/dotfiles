@@ -29,13 +29,6 @@ section {
   column-gap: 0;
 }
 
-h2 {
-  position: fixed;
-  inset: 0 auto auto 0.5ch;
-  z-index: 1;
-  margin: 0.5em;
-}
-
 .container {
   position: relative;
   --color-tab-active: #ee7;
@@ -44,10 +37,8 @@ h2 {
 
 svg {
   fill: var(--color-tab-active);
-}
-
-fieldset {
-  display: contents;
+  stroke: hsl(from var(--color-tab-active) calc(h + 180) s l / 100);
+  stroke-width: 30px;
 }
 
 fieldset {
@@ -58,33 +49,10 @@ fieldset {
   padding: 0;
 }
 h2 {
-  pointer-events: none;
-  z-index: 0;
-  position: static;
-  grid-row: top;
-  grid-column: left/right;
-  inset: unset;
-  padding: 0 0 0 1ch;
-  place-self: center start;
-  transition: opacity 180ms ease 0s;
-  opacity: 1;
-  margin: 0;
-}
-:root:has(:where(#ax, #bx):hover) h2 {
-  opacity: 0.1;
-  transition: opacity 80ms ease 0s;
-}
-
-fieldset {
-  display: contents;
-  /*   grid-template: subgrid/subgrid; */
-  grid-column: 1/-1;
-  grid-row: 1/-1;
-  padding: 0;
-  container-type: size;
-}
-
-h2 {
+  position: fixed;
+  inset: 0 auto auto 0.5ch;
+  z-index: 1;
+  margin: 0.5em;
   pointer-events: none;
   z-index: 0;
   position: static;

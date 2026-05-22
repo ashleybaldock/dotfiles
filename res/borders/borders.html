@@ -1,15 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <title>Borders</title><!--{{{-->
-    <meta charset="utf-8">
+    <title>Borders</title>
+    <!--{{{-->
+    <meta charset="utf-8" />
     <meta name="theme-color" content="#000000" />
 
-    <link rel="stylesheet" href="/common.css"/>
-    <link rel="stylesheet" href="borders.css"/>
-    <link rel="stylesheet" href="borders-buttons.css"/>
-    <link rel="stylesheet" href="borders-fancy.css"/>
-    <link rel="stylesheet" href="borders-fieldset.css"/>
+    <link rel="stylesheet" href="/common.css" />
+    <link rel="stylesheet" href="borders.css" />
+    <link rel="stylesheet" href="borders-buttons.css" />
+    <link rel="stylesheet" href="borders-fancy.css" />
+    <link rel="stylesheet" href="borders-fieldset.css" />
 
     <script type="application/javascript" src="/entanglement.js"></script>
 
@@ -18,166 +19,172 @@
         console.log(untangle);
       });
     </script>
-<!--}}}-->
+    <!--}}}-->
   </head>
   <body>
     <h1>Borders</h1>
 
-      <section class="screen">
+    <section>
       <h2>Border Radius</h2>
-      <div class="vertical">
-        <div class="testbase stest">
-          <div class="preview" data-sink="bd1_ax bd1_ay bd1_bx bd1_by bd1_cx bd1_cy bd1_dx bd1_dy">
-            <div class="line">
-            <div class="oval bd1_axy">
-              <div class="radii"></div>
-              <div class="point bd1_ax">ax</div>
-              <div class="point bd1_ay">ay</div>
-            </div>
-            <div class="oval bd1_bxy">
-              <div class="radii"></div>
-              <div class="point bd1_bx">bx</div>
-              <div class="point bd1_by">by</div>
-            </div>
-            <div class="oval bd1_cxy">
-              <div class="radii"></div>
-              <div class="point bd1_cx">cx</div>
-              <div class="point bd1_cy">cy</div>
-            </div>
-            <div class="oval bd1_dxy">
-              <div class="radii"></div>
-              <div class="point bd1_dx">dx</div>
-              <div class="point bd1_dy">dy</div>
-            </div>
-          </div>
-        </div>
-        <div class="slider-wrapper" data-sink="bd1_ay">
-          <label for="bd1_ay">left-top</label>
-          <input data-source class="vertical reversed" id="bd1_ay" type="range" value="0" min="0" max="200">
-        </div>
-        <div class="slider-wrapper" data-sink="bd1_ax">
-          <label for="bd1_ax">top-left</label>
-          <input data-source id="bd1_ax" type="range" value="0" min="0" max="200">
-        </div>
-        <div class="slider-wrapper" data-sink="bd1_bx">
-          <label for="bd1_bx">top-right</label>
-          <input data-source class="reversed" id="bd1_bx" type="range" value="0" min="0" max="200">
-        </div>
-        <div class="slider-wrapper" data-sink="bd1_by">
-          <label for="bd1_by">right-top</label>
-          <input data-source class="vertical reversed" id="bd1_by" type="range" value="0" min="0" max="200">
-        </div>
-        <div class="slider-wrapper" data-sink="bd1_cy">
-          <label for="bd1_cy">right-bot</label>
-          <input data-source class="vertical" id="bd1_cy" type="range" value="0" min="0" max="200">
-        </div>
-        <div class="slider-wrapper" data-sink="bd1_cx">
-          <label for="bd1_cx">bot-right</label>
-          <input data-source class="reversed" id="bd1_cx" type="range" value="0" min="0" max="200">
-        </div>
-        <div class="slider-wrapper" data-sink="bd1_dx">
-          <label for="bd1_dx">bot-left</label>
-          <input data-source id="bd1_dx" type="range" value="0" min="0" max="200">
-        </div>
-        <div class="slider-wrapper" data-sink="bd1_dy">
-          <label for="bd1_dy">left-bot</label>
-          <input data-source class="vertical" id="bd1_dy" type="range" value="0" min="0" max="200">
-        </div>
-        </div>
-      </section>
-      <section>
-        <h2>Test 5</h2>
-        <div class="vertical">
-          <div class="testbase test5"></div>
-        </div>
-      </section>
+      <a href="./radius.html">Border radius tool</a>
+    </section>
 
-      <section>
-        <h2>Elipse Buttons</h2><!--{{{-->
-        <div class="ellipseContainer">
+    <section>
+      <h2>Elipse Buttons</h2>
+      <!--{{{-->
+      <div class="ellipseContainer">
+        <button
+          class="pebble transition-1"
+          style="
+            --color-border-active: blue;
+            --bg-img: var(--svg-undo);
+            --color-button-border-hover: #4fcaad;
+          "
+        >
+          Undo
+        </button>
+        <button
+          class="pebble transition-1"
+          style="--color-border-active: blue; --bg-img: var(--svg-redo)"
+        >
+          Redo
+        </button>
 
-          <button class="pebble transition-1" style="--color-border-active: blue;--bg-img: var(--svg-undo);--color-button-border-hover: #4fcaad;">Undo</button>
-          <button class="pebble transition-1" style="--color-border-active: blue;--bg-img: var(--svg-redo);">Redo</button>
+        <button
+          class="pebble transition-1"
+          style="
+            --color-border-active: yellow;
+            --bg-img: var(--svg-reset);
+            --color-button-border-hover: green;
+          "
+        >
+          Reset
+        </button>
 
-          <button class="pebble transition-1" style="--color-border-active: yellow;--bg-img: var(--svg-reset); --color-button-border-hover: green;">Reset</button>
+        <button
+          class="pebble transition-1"
+          style="--color-border-active: purple; --bg-img: var(--svg-load)"
+        >
+          Load
+        </button>
 
-          <button class="pebble transition-1" style="--color-border-active: purple;--bg-img: var(--svg-load);">Load</button>
-
-          <button class="pebble transition-1" style="--color-border-active: #702c5f;--bg-img: var(--svg-export); ">Export</button>
-
-        </div><!--}}}-->
-      </section>
-      <section>
-        <a href="#until-found-box">Go to hidden content</a>
-
-        <div>I'm not hidden</div>
-        <div id="until-found-box" hidden="until-found">Hidden until found</div>
-        <div>I'm not hidden</div>
-      </section>
-
-
-<section class="fieldset1">
-<h2>Fieldset Side Text</h2><!--{{{-->
-<div class="fieldset1-container">
-    <fieldset><legend>Topside</legend></fieldset>
-    <fieldset><legend>Starboard</legend></fieldset>
-    <fieldset><legend>Bottomside</legend></fieldset>
-    <fieldset><legend>Port</legend></fieldset>
-</div><!--}}}-->
-</section>
-
-<section>
-    <h2>Fancy 'Borders' (Outline &amp; Box Shadow)</h2><!--{{{-->
-    <div class="horizontal">
-      <div class="container">
-        
-        <div class="fancy"></div><div class="fancy"></div>
-        <div class="fancy"></div><div class="fancy"></div>
-        <div class="fancy"></div><div class="fancy"></div>
-        <div class="fancy"></div><div class="fancy"></div>
-        <div class="fancy"></div><div class="fancy"></div>
-        <div class="fancy"></div><div class="fancy"></div>
-        <div class="fancy"></div><div class="fancy"></div>
-        <div class="fancy"></div><div class="fancy"></div>
-        <div class="fancy"></div><div class="fancy"></div>
-        <div class="fancy"></div><div class="fancy"></div>
-        <div class="fancy"></div><div class="fancy"></div>
-</div>
-      <div class="container">
-        
-        </div>
-      <div class="container">
-        
-        </div>
-
-      </div><!--}}}-->
-</section>
-
-  <section>
-    <h2>Double borders</h2><!--{{{-->
-    <div class="horizontal">
-      <div class="container">
-        <div class="curve topleft"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--{{{-->
-          <path d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"></path><!--}}}-->
-        </svg>
-        Some Text
+        <button
+          class="pebble transition-1"
+          style="--color-border-active: #702c5f; --bg-img: var(--svg-export)"
+        >
+          Export
+        </button>
       </div>
-      <div class="container">
-        <div class="curve topleft"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--{{{-->
-          <path d="
+      <!--}}}-->
+    </section>
+    <section>
+      <a href="#until-found-box">Go to hidden content</a>
+
+      <div>I'm not hidden</div>
+      <div id="until-found-box" hidden="until-found">Hidden until found</div>
+      <div>I'm not hidden</div>
+    </section>
+
+    <section class="fieldset1">
+      <h2>Fieldset Side Text</h2>
+      <!--{{{-->
+      <div class="fieldset1-container">
+        <fieldset><legend>Topside</legend></fieldset>
+        <fieldset><legend>Starboard</legend></fieldset>
+        <fieldset><legend>Bottomside</legend></fieldset>
+        <fieldset><legend>Port</legend></fieldset>
+      </div>
+      <!--}}}-->
+    </section>
+
+    <section>
+      <h2>Fancy 'Borders' (Outline &amp; Box Shadow)</h2>
+      <!--{{{-->
+      <div class="horizontal">
+        <div class="container">
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+          <div class="fancy"></div>
+        </div>
+        <div class="container"></div>
+        <div class="container"></div>
+      </div>
+      <!--}}}-->
+    </section>
+
+    <section>
+      <h2>Double borders</h2>
+      <!--{{{-->
+      <div class="horizontal">
+        <div class="container">
+          <div class="curve topleft"></div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 0 576 512"
+          >
+            <!--{{{-->
+            <path
+              d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"
+            ></path>
+            <!--}}}-->
+          </svg>
+          Some Text
+        </div>
+        <div class="container">
+          <div class="curve topleft"></div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 0 576 512"
+          >
+            <!--{{{-->
+            <path
+              d="
           M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z
-          "><!--}}}--></path></svg>Some Text
+          "
+            >
+              <!--}}}-->
+            </path></svg
+          >Some Text
+        </div>
+        <div class="container">
+          <div class="curve botright"></div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 0 576 512"
+          >
+            <!--{{{-->
+            <path
+              d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"
+            >
+              <!--}}}-->
+            </path>
+          </svg>
+          Some Text
+        </div>
       </div>
-      <div class="container">
-        <div class="curve botright"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--{{{--><path d="M320 192h17.1c22.1 38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-53 0-96-43-96-96V192.5c0-16.1-12-29.8-28-31.8l-7.9-1c-17.5-2.2-30-18.2-27.8-35.7s18.2-30 35.7-27.8l7.9 1c48 6 84.1 46.8 84.1 95.3v85.3c34.4-51.7 93.2-85.8 160-85.8zm160 26.5v0c-10 3.5-20.8 5.5-32 5.5c-28.4 0-54-12.4-71.6-32h0c-3.7-4.1-7-8.5-9.9-13.2C357.3 164 352 146.6 352 128v0V32 12 10.7C352 4.8 356.7 .1 362.6 0h.2c3.3 0 6.4 1.6 8.4 4.2l0 .1L384 21.3l27.2 36.3L416 64h64l4.8-6.4L512 21.3 524.8 4.3l0-.1c2-2.6 5.1-4.2 8.4-4.2h.2C539.3 .1 544 4.8 544 10.7V12 32v96c0 17.3-4.6 33.6-12.6 47.6c-11.3 19.8-29.6 35.2-51.4 42.9zM432 128a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm48 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"><!--}}}--></path></svg>
-        Some Text
-      </div>
-
-      </div><!--}}}-->
-</section>
-
+      <!--}}}-->
+    </section>
   </body>
 </html>

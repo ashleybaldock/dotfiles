@@ -319,60 +319,79 @@ h2 {
 /*!{{{1 Oval */
 .oval {
   pointer-events: none;
-  display: block;
-  border-radius: 50%;
   border: 2px dashed white;
-  border-style: dashed;
-  border-width: var(--ibdw＋);
   --ibdw＋: calc(var(--bdw) / 3);
   --ibdw－: calc(var(--ibdw＋) * -1);
-  box-shadow:
-    inset 0 0 0 calc(var(--bdw) * 0.5) #191919,
-    0 0 0 calc(var(--bdw) * 0.5) #191919;
-  border-color: var(--c-top) var(--c-right) var(--c-bottom) var(--c-left);
-  /* height: calc(var(--ibdw＋) + var(--y) * 2%); */
-  /* width: calc(var(--ibdw＋) + var(--x) * 2%); */
-  height: calc(var(--y) * anchor-size() * 0.02);
-  width: calc(var(--x) * anchor-size() * 0.02);
+  border-color: var(--bdc-top) var(--bdc-right) var(--bdc-bottom)
+    var(--bdc-left);
+  height: calc(var(--y) * anchor-size(height) * 0.02);
+  width: calc(var(--x) * anchor-size(width) * 0.02);
   position: absolute;
   position-anchor: --anchor-preview-line;
-}
-
-.oval {
   border-radius: var(--bdr);
-  border-style: dashed dotted dotted dashed;
-  border-width: var(--ibdw＋) 1px 1px var(--ibdw＋);
-  border-color: var(--cax) var(--cbcy) var(--ccdx) var(--c-left);
+  border-style: var(--bds);
+  border-width: var(--bdw);
   z-index: -1;
   box-sizing: border-box;
-  --bdr: var(--axl) 0 0 0 / var(--ayl) 0 0 0;
+  --xl: calc(var(--x) * 1cqw);
+  --yl: calc(var(--y) * 1cqh);
+  display: flex;
+  box-shadow: none;
+  overflow: visible;
+  background-clip: initial;
+  mask-image: none;
+  mask-clip: no-clip;
   background-image:
     radial-gradient(
-      50% 50% ellipse at var(--ayl) var(--axl),
+      var(--yl) var(--xl) at bottom right,
       #0000 calc(98% - 1px),
-      #f0f calc(98% - 0.5px) calc(99% + 0.5px),
+      #f0f8 calc(98% - 0.5px) calc(99% + 0.5px),
+      #0000 calc(99% + 1px) 100%
+    ),
+    radial-gradient(
+      var(--xl) var(--yl) at center center,
+      #0000 calc(98% - 1px),
+      #00f8 calc(98% - 0.5px) calc(99% + 0.5px),
+      #0000 calc(99% + 1px) 100%
+    ),
+    linear-gradient(#0000),
+    radial-gradient(
+      50% 50% at bottom right,
+      #0000 calc(98% - 1px),
+      #f008 calc(98% - 0.5px) calc(99% + 0.5px),
+      #0000 calc(99% + 1px) 100%
+    ),
+    radial-gradient(
+      50% 50% at center center,
+      #0000 calc(98% - 1px),
+      #0ff8 calc(98% - 0.5px) calc(99% + 0.5px),
       #0000 calc(99% + 1px) 100%
     ),
     linear-gradient(#0000);
-  display: flex;
-  box-shadow: none;
+  /* border-radius: calc(anchor-size(--anchor-preview, height)); */
+  container-name: oval-size-container;
+  container-type: size;
+  contain: size;
+  background-position: bottom right;
 }
 
-.oval.shadow {
-  display: flex;
-  border: 0px solid #191919;
+.shadow {
+  border: 0 solid #191919;
   z-index: -1;
-  border-radius: var(--bdr);
   box-shadow:
-    inset 0 0 0 1.5px #f00,
-    0 0 0 0.5px #f00;
+    inset 0 0 0 1.5px #000,
+    0 0 0 0.5px #000;
   box-sizing: border-box;
 }
+
 .axy {
-  --c-top: var(--ca);
-  --c-right: var(--ca);
-  --c-bottom: var(--cb);
-  --c-left: var(--cb);
+  --bdc-top: var(--cax);
+  --bdc-right: var(--cbcy);
+  --bdc-bottom: var(--ccdx);
+  --bdc-left: var(--cay);
+  --bds: dashed dotted dotted dashed;
+  --bdw: var(--ibdw＋) 1px 1px var(--ibdw＋);
+  --bdr: var(--xl) 0 0 0 / var(--yl) 0 0 0;
   --x: var(--ax);
   --y: var(--ay);
   --base-color: var(--cabx);
@@ -380,53 +399,50 @@ h2 {
   /* inset: anchor(top, var(--ibdw－)) auto auto anchor(left, var(--ibdw－)); */
   inset: anchor(top) auto auto anchor(left);
 }
-.axy > .radii {
-  border-color: #0000 var(--cabx) var(--cbcy) #0000;
-  top: 0;
-  left: 0;
-}
 .bxy {
-  --c-top: var(--cb);
-  --c-right: var(--cb);
-  --c-bottom: var(--cc);
-  --c-left: var(--cc);
   --x: var(--bx);
   --y: var(--by);
+  --bdc-top: var(--cbx);
+  --bdc-right: var(--cby);
+  --bdc-bottom: var(--ccdx);
+  --bdc-left: var(--cday);
+  --bds: dashed dashed dotted dotted;
+  --bdw: var(--ibdw＋) var(--ibdw＋) 1px 1px;
+  --bdr: 0 var(--xl) 0 0 / 0 var(--yl) 0 0;
   --base-color: var(--cbcy);
   --color: var(--base-color);
-  inset: anchor(top, var(--ibdw－)) anchor(right, var(--ibdw－)) auto auto;
-}
-.bxy > .radii {
-  border-color: transparent transparent var(--cbcy) var(--cabx);
-  top: 0;
-  right: 0;
+  /* inset: anchor(top, var(--ibdw－)) anchor(right, var(--ibdw－)) auto auto; */
+  inset: anchor(top) anchor(right) auto auto;
 }
 .cxy {
-  --c-top: var(--cc);
-  --c-right: var(--cc);
-  --c-bottom: var(--cd);
-  --c-left: var(--cd);
   --x: var(--cx);
   --y: var(--cy);
+  --bdc-top: var(--cabx);
+  --bdc-right: var(--ccy);
+  --bdc-bottom: var(--ccx);
+  --bdc-left: var(--cday);
+  --bds: dotted dashed dashed dotted;
+  --bdw: 1px var(--ibdw＋) var(--ibdw＋) 1px;
+  --bdr: 0 0 var(--xl) 0 / 0 0 var(--yl) 0;
   --base-color: var(--ccdx);
   --color: var(--base-color);
-  inset: auto anchor(right, var(--ibdw－)) anchor(bottom, var(--ibdw－)) auto;
+  /* inset: auto anchor(right, var(--ibdw－)) anchor(bottom, var(--ibdw－)) auto; */
+  inset: auto anchor(right) anchor(bottom) auto;
 }
 .dxy {
-  --c-top: var(--cd);
-  --c-right: var(--cd);
-  --c-bottom: var(--ca);
-  --c-left: var(--ca);
   --x: var(--dx);
   --y: var(--dy);
+  --bdc-top: var(--cabx);
+  --bdc-right: var(--cbcy);
+  --bdc-bottom: var(--cdx);
+  --bdc-left: var(--cdy);
+  --bds: dotted dotted dashed dashed;
+  --bdw: 1px 1px var(--ibdw＋) var(--ibdw＋);
+  --bdr: 0 0 0 var(--xl) / 0 0 0 var(--yl);
   --base-color: var(--cday);
   --color: var(--base-color);
-  inset: auto auto anchor(bottom, var(--ibdw－)) anchor(left, var(--ibdw－));
-}
-.dxy > .radii {
-  border-color: var(--cday) var(--ccdx) #0000 #0000;
-  bottom: 0;
-  left: 0;
+  /* inset: auto auto anchor(bottom, var(--ibdw－)) anchor(left, var(--ibdw－)); */
+  inset: auto auto anchor(bottom) anchor(left);
 }
 /*!}}}1 END Oval */
 

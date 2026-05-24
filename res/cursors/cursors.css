@@ -30,7 +30,7 @@
   initial-value: 1;
 }
 @property --cursor-fallback {
-  syntax: 'auto | none | context-menu | help | pointer | progress | wait | cell | crosshair | text | vertical-text | alias | copy | move | no-drop | not-allowed | grab | grabbing | e-resize | n-resize | ne-resize | nw-resize | s-resize | se-resize | sw-resize | w-resize | ew-resize | ns-resize | nesw-resize | nwse-resize | col-resize | row-resize | all-scroll | zoom-in | zoom-out';
+  syntax: 'auto | default | none | context-menu | help | pointer | progress | wait | cell | crosshair | text | vertical-text | alias | copy | move | no-drop | not-allowed | grab | grabbing | e-resize | n-resize | ne-resize | nw-resize | s-resize | se-resize | sw-resize | w-resize | ew-resize | ns-resize | nesw-resize | nwse-resize | col-resize | row-resize | all-scroll | zoom-in | zoom-out';
   inherits: true;
   initial-value: 'auto';
 }
@@ -40,6 +40,112 @@
     var(--cursor-fallback);
   --cursor-fallback: default;
 }
+[data-cursor-fallback='default'] {
+  --cursor-fallback: default;
+}
+[data-cursor-fallback='none'] {
+  --cursor-fallback: none;
+}
+[data-cursor-fallback='context-menu'] {
+  --cursor-fallback: context-menu;
+}
+[data-cursor-fallback='help'] {
+  --cursor-fallback: help;
+}
+[data-cursor-fallback='pointer'] {
+  --cursor-fallback: pointer;
+}
+[data-cursor-fallback='progress'] {
+  --cursor-fallback: progress;
+}
+[data-cursor-fallback='wait'] {
+  --cursor-fallback: wait;
+}
+[data-cursor-fallback='cell'] {
+  --cursor-fallback: cell;
+}
+[data-cursor-fallback='crosshair'] {
+  --cursor-fallback: crosshair;
+}
+[data-cursor-fallback='text'] {
+  --cursor-fallback: text;
+}
+[data-cursor-fallback='vertical-text'] {
+  --cursor-fallback: vertical-text;
+}
+[data-cursor-fallback='alias'] {
+  --cursor-fallback: alias;
+}
+[data-cursor-fallback='copy'] {
+  --cursor-fallback: copy;
+}
+[data-cursor-fallback='move'] {
+  --cursor-fallback: move;
+}
+[data-cursor-fallback='no-drop'] {
+  --cursor-fallback: no-drop;
+}
+[data-cursor-fallback='not-allowed'] {
+  --cursor-fallback: not-allowed;
+}
+[data-cursor-fallback='grab'] {
+  --cursor-fallback: grab;
+}
+[data-cursor-fallback='grabbing'] {
+  --cursor-fallback: grabbing;
+}
+[data-cursor-fallback='e-resize'] {
+  --cursor-fallback: e-resize;
+}
+[data-cursor-fallback='n-resize'] {
+  --cursor-fallback: n-resize;
+}
+[data-cursor-fallback='ne-resize'] {
+  --cursor-fallback: ne-resize;
+}
+[data-cursor-fallback='nw-resize'] {
+  --cursor-fallback: nw-resize;
+}
+[data-cursor-fallback='s-resize'] {
+  --cursor-fallback: s-resize;
+}
+[data-cursor-fallback='se-resize'] {
+  --cursor-fallback: se-resize;
+}
+[data-cursor-fallback='sw-resize'] {
+  --cursor-fallback: sw-resize;
+}
+[data-cursor-fallback='w-resize'] {
+  --cursor-fallback: w-resize;
+}
+[data-cursor-fallback='ew-resize'] {
+  --cursor-fallback: ew-resize;
+}
+[data-cursor-fallback='ns-resize'] {
+  --cursor-fallback: ns-resize;
+}
+[data-cursor-fallback='nesw-resize'] {
+  --cursor-fallback: nesw-resize;
+}
+[data-cursor-fallback='nwse-resize'] {
+  --cursor-fallback: nwse-resize;
+}
+[data-cursor-fallback='col-resize'] {
+  --cursor-fallback: col-resize;
+}
+[data-cursor-fallback='row-resize'] {
+  --cursor-fallback: row-resize;
+}
+[data-cursor-fallback='all-scroll'] {
+  --cursor-fallback: all-scroll;
+}
+[data-cursor-fallback='zoom-in'] {
+  --cursor-fallback: zoom-in;
+}
+[data-cursor-fallback='zoom-out'] {
+  --cursor-fallback: zoom-out;
+}
+
 [data-cursor='osx-beachball'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg\
     xmlns=%22http://www.w3.org/2000/svg%22\
@@ -328,19 +434,6 @@
     %3Cpath fill=%22%23fff%22 d=%22M7 16.422V.407l11.591 11.619H11.55l-.151.124z%22/%3E\
     %3Cpath fill=%22%235a5a5a%22 d=%22m18.414 23 2.121-2.121a1 1 0 1 0-1.414-1.415l-2.12 2.122-2.123-2.122a1 1 0 0 0-1.414 1.415L15.586 23l-2.122 2.121a1 1 0 0 0 1.414 1.415L17 24.414l2.121 2.122a1 1 0 0 0 1.414-1.415z%22/%3E\
     %3Cpath fill=%22%23000%22 d=%22M8 2.814v11.188l2.969-2.866.16-.139h5.036z%22/%3E\
-    %3C/g%3E\
-    %3C/svg%3E');
-  --cursor-width: 32;
-  --cursor-height: 32;
-  --cursor-hotspot-x: 16;
-  --cursor-hotspot-y: 16;
-}
-
-[data-cursor='osx-resize-northsouth'] {
-  --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22%3E\
-    %3Cg fill=%22none%22%3E\
-    %3Cpath fill=%22%23fff%22 d=%22m16 8-6 5.98h4V18h-4l6 6 6-6h-4v-4.02h4zm0 1.414 3.586 3.567H17V19h2.586L16 22.586 12.414 19H15v-6.019h-2.586z%22/%3E\
-    %3Cpath fill=%22%23000%22 d=%22M17 15.5v-2.52h2.586L16 9.414l-3.586 3.566H15V19h-2.586L16 22.586 19.586 19H17z%22/%3E\
     %3C/g%3E\
     %3C/svg%3E');
   --cursor-width: 32;
@@ -739,6 +832,7 @@
          m16.431 24 1.765-.941-2.775-5.202h3.604L11 9.814\
          v11.188l2.53-2.442z%22/%3E\
          %3C/g%3E%3C/svg%3E');
+  --cursor-fallback: default;
   --cursor-width: 18;
   --cursor-height: 18;
   --cursor-hotspot-x: 5;
@@ -756,6 +850,7 @@
          m16.431 24 1.765-.941-2.775-5.202h3.604L11 9.814\
          v11.188l2.53-2.442z%22/%3E\
          %3C/g%3E%3C/svg%3E');
+  --cursor-fallback: default;
   --cursor-width: 32;
   --cursor-height: 32;
   --cursor-hotspot-x: 10;
@@ -773,6 +868,7 @@
          m16.431 24 1.765-.941-2.775-5.202h3.604L11 9.814\
          v11.188l2.53-2.442z%22/%3E\
          %3C/g%3E%3C/svg%3E');
+  --cursor-fallback: default;
   --cursor-width: 48;
   --cursor-height: 48;
   --cursor-hotspot-x: 15;
@@ -790,6 +886,7 @@
          m16.431 24 1.765-.941-2.775-5.202h3.604L11 9.814\
          v11.188l2.53-2.442z%22/%3E\
          %3C/g%3E%3C/svg%3E');
+  --cursor-fallback: default;
   --cursor-width: 72;
   --cursor-height: 72;
   --cursor-hotspot-x: 21;
@@ -807,7 +904,7 @@
         L38.6 37.9c-4.3-3.8-9.7-5.9-15.4-5.9\
         C10.4 32 0 42.4 0 55.2\
         %22/%3E%3C/svg%3E');
-  --cursor-fallback: pointer;
+  --cursor-fallback: default;
   --cursor-width: 18;
   --cursor-height: 18;
   --cursor-hotspot-x: 4;
@@ -825,7 +922,7 @@
         L38.6 37.9c-4.3-3.8-9.7-5.9-15.4-5.9\
         C10.4 32 0 42.4 0 55.2\
         %22/%3E%3C/svg%3E');
-  --cursor-fallback: pointer;
+  --cursor-fallback: default;
   --cursor-width: 24;
   --cursor-height: 24;
   --cursor-hotspot-x: 4;
@@ -843,7 +940,7 @@
         L38.6 37.9c-4.3-3.8-9.7-5.9-15.4-5.9\
         C10.4 32 0 42.4 0 55.2\
         %22/%3E%3C/svg%3E');
-  --cursor-fallback: pointer;
+  --cursor-fallback: default;
   --cursor-width: 40;
   --cursor-height: 40;
   --cursor-hotspot-x: 8;
@@ -861,7 +958,7 @@
         L38.6 37.9c-4.3-3.8-9.7-5.9-15.4-5.9\
         C10.4 32 0 42.4 0 55.2\
         %22/%3E%3C/svg%3E');
-  --cursor-fallback: pointer;
+  --cursor-fallback: default;
   --cursor-width: 64;
   --cursor-height: 64;
   --cursor-hotspot-x: 16;
@@ -879,7 +976,7 @@
         s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5\
         s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z\
         %22%3E%3C/path%3E%3C/svg%3E');
-  --cursor-fallback: pointer;
+  --cursor-fallback: crosshair;
   --cursor-width: 18;
   --cursor-height: 18;
   --cursor-hotspot-x: 9;
@@ -896,7 +993,7 @@
         V320c0 17.7-14.3 32-32 32s-32-14.3-32-32V192\
         c0-17.7 14.3-32 32-32s32 14.3 32 32z\
         %22%3E%3C/path%3E%3C/svg%3E');
-  --cursor-fallback: pointer;
+  --cursor-fallback: crosshair;
   --cursor-width: 18;
   --cursor-height: 18;
   --cursor-hotspot-x: 9;
@@ -907,7 +1004,7 @@
     %3Cpath fill=%22%23fff%22 d=%22M146 368a128 128 0 1 1 256 0 128 128 0 1 1-256 0m94.15-54.45c-3.8 2.1-6.15 6.15-6.15 10.45v88c0 4.35 2.35 8.35 6.15 10.45s8.4 2.05 12.15-.25l72-44c3.55-2.2 5.75-6.05 5.75-10.25s-2.2-8.05-5.75-10.25l-72-44a12.13 12.13 0 0 0-12.15-.25zM116 269.752V13.512l185.456 185.904H188.8l-2.416.984z%22/%3E\
     %3Cpath d=%22M132 52.024v179.008l47.504-45.856.56-2.224h80.576z%22/%3E\
     %3C/svg%3E');
-  --cursor-fallback: pointer;
+  --cursor-fallback: not-allowed;
   --cursor-width: 32;
   --cursor-height: 32;
   --cursor-hotspot-x: 8;
@@ -921,7 +1018,7 @@
     %3Cpath fill=%22%23000%22 d=%22M132 52.024v179.008l47.504-45.856.56-2.224h80.576z%22/%3E\
     %3C/g%3E\
     %3C/svg%3E');
-  --cursor-fallback: pointer;
+  --cursor-fallback: not-allowed;
   --cursor-width: 32;
   --cursor-height: 32;
   --cursor-hotspot-x: 8;
@@ -934,7 +1031,7 @@
     %3Cpath fill=%22%23000%22 d=%22M11 9.814v11.188l2.969-2.866.16-.139h5.036z%22/%3E\
     %3C/g%3E\
     %3C/svg%3E');
-  --cursor-fallback: pointer;
+  --cursor-fallback: default;
   --cursor-width: 32;
   --cursor-height: 32;
   --cursor-hotspot-x: 10;

@@ -9,14 +9,6 @@
     <link rel="stylesheet" href="/common.css" />
     <link rel="stylesheet" href="cursors.css" />
     <link rel="stylesheet" href="cursors-demo.css" />
-
-    <!--<script type="application/javascript" src="/entanglement.js"></script>
-
-    <script>
-      entanglement().then((untangle) => {
-        console.log(untangle);
-      });
-    </script>-->
     <!--}}}-->
   </head>
   <body>
@@ -57,64 +49,71 @@
     <section class="pointer">
       <h2>pointer</h2>
       <h3>OSX default</h3>
-      <div data-cursor="osx-default-small">
+      <div data-cursor="osx-default-small" data-cursor-fallback="default">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="osx-default-medium">
+      <div data-cursor="osx-default-medium" data-cursor-fallback="default">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="osx-default-big">
+      <div data-cursor="osx-default-big" data-cursor-fallback="default">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="osx-default-giant">
+      <div data-cursor="osx-default-giant" data-cursor-fallback="default">
         <div><div class="hotspot"></div></div>
       </div>
       <h3>Rounded</h3>
-      <div data-cursor="pointer-small">
+      <div data-cursor="pointer-small" data-cursor-fallback="default">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="pointer-medium">
+      <div data-cursor="pointer-medium" data-cursor-fallback="default">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="pointer-big">
+      <div data-cursor="pointer-big" data-cursor-fallback="default">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="pointer-giant">
+      <div data-cursor="pointer-giant" data-cursor-fallback="default">
         <div><div class="hotspot"></div></div>
       </div>
     </section>
     <section class="noita">
       <h2>noita</h2>
-      <div data-cursor="noita-mouse-system-big">
+      <div
+        data-cursor="noita-mouse-system-big"
+        data-cursor-fallback="crosshair"
+      >
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="noita-mouse">
+      <div data-cursor="noita-mouse" data-cursor-fallback="crosshair">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="noita-mouse-big">
+      <div data-cursor="noita-mouse-big" data-cursor-fallback="crosshair">
         <div><div class="hotspot"></div></div>
       </div>
     </section>
     <section class="media">
       <h2>media</h2>
-      <div data-cursor="media-play" data-file="scaled">
+      <div
+        data-cursor="media-play"
+        data-cursor-fallback="crosshair"
+        data-file="scaled"
+      >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="media-pause"
+        data-cursor-fallback="crosshair"
         data-file="scaled"
-        data-name="cursor-media-pause"
       >
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="media-default-play">
+      <div data-cursor="media-default-play" data-cursor-fallback="not-allowed">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="media-default-pause">
+      <div data-cursor="media-default-pause" data-cursor-fallback="not-allowed">
         <div><div class="hotspot"></div></div>
       </div>
 
-      <div data-cursor="media-default">
+      <div data-cursor="media-default" data-cursor-fallback="default">
         <div><div class="hotspot"></div></div>
       </div>
     </section>
@@ -124,211 +123,242 @@
       <h3>Which map to cursor keyword</h3>
       <div
         data-cursor="osx-default"
+        data-cursor-fallback="default"
         data-file="default.svg"
-        data-name="default"
       >
         <div><div class="hotspot"></div></div>
       </div>
 
       <div
         data-cursor="osx-handpointing"
+        data-cursor-fallback="pointer"
         data-file="handpointing.svg"
-        data-name="handpointing"
       >
         <div><div class="hotspot"></div></div>
       </div>
 
       <div
         data-cursor="osx-handopen"
+        data-cursor-fallback="grab"
         data-file="handopen.svg"
-        data-name="handopen"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-handgrabbing"
+        data-cursor-fallback="grabbing"
         data-file="handgrabbing.svg"
-        data-name="handgrabbing"
       >
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="osx-busy" data-file="busy.svg" data-name="busy">
+      <div
+        data-cursor="osx-busy"
+        data-cursor-fallback="wait"
+        data-file="busy.svg"
+      >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-notallowed"
+        data-cursor-fallback="not-allowed"
         data-file="notallowed.svg"
-        data-name="notallowed"
       >
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="osx-copy" data-file="copy.svg" data-name="copy">
+      <div
+        data-cursor="osx-copy"
+        data-cursor-fallback="copy"
+        data-file="copy.svg"
+      >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-contextualmenu"
+        data-cursor-fallback="context-menu"
         data-file="contextualmenu.svg"
-        data-name="contextualmenu"
       >
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="osx-cell" data-file="cell.svg" data-name="cell">
+      <div
+        data-cursor="osx-cell"
+        data-cursor-fallback="cell"
+        data-file="cell.svg"
+      >
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="osx-cross" data-file="cross.svg" data-name="cross">
+      <div
+        data-cursor="osx-cross"
+        data-cursor-fallback="crosshair"
+        data-file="cross.svg"
+      >
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="osx-help" data-file="help.svg" data-name="help">
+      <div
+        data-cursor="osx-help"
+        data-cursor-fallback="help"
+        data-file="help.svg"
+      >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-makealias"
+        data-cursor-fallback="alias"
         data-file="makealias.svg"
-        data-name="makealias"
       >
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="osx-move" data-file="move.svg" data-name="move">
+      <div
+        data-cursor-fallback="move"
+        data-cursor="osx-move"
+        data-file="move.svg"
+      >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizedown"
+        data-cursor-fallback="s-resize"
         data-file="resizedown.svg"
-        data-name="resizedown"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizeleft"
+        data-cursor-fallback="w-resize"
         data-file="resizeleft.svg"
-        data-name="resizeleft"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizeleftright"
+        data-cursor-fallback="col-resize"
         data-file="resizeleftright.svg"
-        data-name="resizeleftright"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizenortheast"
+        data-cursor-fallback="ne-resize"
         data-file="resizenortheast.svg"
-        data-name="resizenortheast"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizenortheastsouthwest"
+        data-cursor-fallback="nesw-resize"
         data-file="resizenortheastsouthwest.svg"
-        data-name="resizenortheastsouthwest"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizenorthwest"
+        data-cursor-fallback="nw-resize"
         data-file="resizenorthwest.svg"
-        data-name="resizenorthwest"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizenorthwestsoutheast"
+        data-cursor-fallback="nwse-resize"
         data-file="resizenorthwestsoutheast.svg"
-        data-name="resizenorthwestsoutheast"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizeright"
+        data-cursor-fallback="e-resize"
         data-file="resizeright.svg"
-        data-name="resizeright"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizesoutheast"
+        data-cursor-fallback="se-resize"
         data-file="resizesoutheast.svg"
-        data-name="resizesoutheast"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizesouthwest"
+        data-cursor-fallback="sw-resize"
         data-file="resizesouthwest.svg"
-        data-name="resizesouthwest"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizeup"
+        data-cursor-fallback="n-resize"
         data-file="resizeup.svg"
-        data-name="resizeup"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-resizeupdown"
+        data-cursor-fallback="row-resize"
         data-file="resizeupdown.svg"
-        data-name="resizeupdown"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-textcursor"
+        data-cursor-fallback="text"
         data-file="textcursor.svg"
-        data-name="textcursor"
       >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-textcursorvertical"
+        data-cursor-fallback="vertical-text"
         data-file="textcursorvertical.svg"
-        data-name="textcursorvertical"
       >
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-cursor="osx-zoomin" data-file="zoomin.svg" data-name="zoomin">
+      <div
+        data-cursor="osx-zoomin"
+        data-cursor-fallback="zoom-in"
+        data-file="zoomin.svg"
+      >
         <div><div class="hotspot"></div></div>
       </div>
       <div
         data-cursor="osx-zoomout"
+        data-cursor-fallback="zoom-out"
         data-file="zoomout.svg"
-        data-name="zoomout"
       >
         <div><div class="hotspot"></div></div>
       </div>
 
       <h3>Others</h3>
-      <div data-file="beachball.svg" data-name="beachball">
+      <div data-cursor="osx-beachball" data-file="beachball.svg">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-file="screenshotselection.svg" data-name="screenshotselection">
+      <div
+        data-cursor="osx-screenshotselection"
+        data-file="screenshotselection.svg"
+      >
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-file="screenshotwindow.svg" data-name="screenshotwindow">
+      <div data-cursor="osx-screenshotwindow" data-file="screenshotwindow.svg">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-file="poof.svg" data-name="poof">
+      <div data-cursor="osx-poof" data-file="poof.svg">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-file="resizeeast.svg" data-name="resizeeast">
+      <div data-cursor="osx-resizeeast" data-file="resizeeast.svg">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-file="resizenorth.svg" data-name="resizenorth">
+      <div data-cursor="osx-resizenorth" data-file="resizenorth.svg">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-file="resizenorthsouth.svg" data-name="resizenorthsouth">
+      <div data-cursor="osx-resizenorthsouth" data-file="resizenorthsouth.svg">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-file="resizesouth.svg" data-name="resizesouth">
+      <div data-cursor="osx-resizesouth" data-file="resizesouth.svg">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-file="resizewest.svg" data-name="resizewest">
+      <div data-cursor="osx-resizewest" data-file="resizewest.svg">
         <div><div class="hotspot"></div></div>
       </div>
-      <div data-file="resizewesteast.svg" data-name="resizewesteast">
+      <div data-cursor="osx-resizewesteast" data-file="resizewesteast.svg">
         <div><div class="hotspot"></div></div>
       </div>
     </section>

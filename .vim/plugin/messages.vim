@@ -64,13 +64,19 @@ function s:ExpandSNR(messages) abort
   return replaceSNR
 endfunc
 
-function s:WriteListToBuffer(bufnr, list) abort
-  call setwinvar(winbufnr(a:bufnr), '&modifiable', 1)
-  silent call deletebufline(a:bufnr, 1, '$')
-  call appendbufline(a:bufnr, '$', a:list)
-  call setwinvar(winbufnr(a:bufnr), '&modifiable', 0)
-  call setwinvar(winbufnr(a:bufnr), '&modified', 0)
-  call win_execute(winbufnr(a:bufnr), ['call cursor(''$'', 0)', 'redraw'])
+function s:ReplaceBufferWithList(bufnr, list)
+endfunc
+function s:AppendListToBuffer(bufnr, list)
+endfunc
+
+function s:WriteListToBuffer(bufnr, list) 
+  call setbufvar(a:bufnr, '&modifiable', 1)
+  silent! call deletebufline(a:bufnr, 1, '$')
+  call appendbufline(a:bufnr, 0, a:list)
+  call setbufvar(a:bufnr, 'mayhem_messages_lastupdated', localtime())
+  call setbufvar(a:bufnr, '&modifiable', 0)
+  call setbufvar(a:bufnr, '&modified', 0)
+  call win_execute(winbufnr(a:bufnr), ['redraw', 'call cursor(''$'', 0)'])
 endfunc
 
 function s:RefreshMessages() abort
@@ -85,8 +91,6 @@ function s:RefreshMessages() abort
 endfunc
 
 function s:CloseMessages() abort
-  call s:CloseMessagesPopup()
-  
   if exists('s:bufnr_messages')
     if bufexists(s:bufnr_messages)
       if exists(winbufnr(s:bufnr_messages))
@@ -94,6 +98,8 @@ function s:CloseMessages() abort
       endif
     endif
   endif
+
+  call s:CloseMessagesPopup()
 endfunc
 
 function s:GetMessagesBuffer() abort

@@ -909,3 +909,114 @@ input[type='range'].vertical.reversed {
   inset: calc(anchor(--anchor-dxy center) - var(--h) * 0.5) auto auto
     calc(anchor(--anchor-dxy left) - var(--w) * 0.5);
 }
+
+.oval {
+  --xl: calc(var(--x) * 0.5cqh);
+  --yl: calc(var(--y) * 0.5cqw);
+  background-image:
+    radial-gradient(
+      50% 50% at center center,
+      #0000 calc(99% - 1px),
+      #0ff8 calc(99% - 0.5px) calc(99% + 0.5px),
+      #0000 calc(99% + 1px) 100%
+    ),
+    linear-gradient(#0000);
+}
+
+.shadow {
+  border: 10px solid #191919;
+  --bdr: 50%;
+}
+
+.preview {
+  /* grid-template-columns: [left] auto [ ax-start ay-start] var(--thumb-size) [ dx-start bx-start ay-end dy-start] var(--thumb-size) [ dy-end cx-start middle-start] 1fr [ bx-end middle-end by-start] var(--thumb-size) [ cy-start ax-end by-end cx-end] var(--thumb-size) [ dx-end cy-end] auto [right]; */
+  /* grid-template-rows: [top] auto [ ax-start cy-start] var(--thumb-size) [ by-start ay-start ax-end bx-start] var(--thumb-size) [ bx-end dy-start middle-start] 1fr [ by-end middle-end cx-start] var(--thumb-size) [ dx-start cy-end cx-end dy-end] var(--thumb-size) [ dx-end ay-end] auto [bottom]; */
+  grid-template-columns:
+    [left] auto [ ay-start] var(--thumb-size)
+    [ay-end dy-start] var(--thumb-size)
+    [dy-end ax-start bx-start cx-start dx-start middle-start] 1fr [middle-end bx-end dx-end by-start] var(
+      --thumb-size
+    )
+    [cy-start ax-end by-end] var(--thumb-size) [ cx-end cy-end] auto [right];
+  grid-template-rows:
+    [top] auto [ ax-start] var(--thumb-size)
+    [ay-startcy-start ax-end bx-start] var(--thumb-size)
+    [ by-start bx-end dy-start middle-start] 1fr [ by-end middle-end dx-start] var(
+      --thumb-size
+    )
+    [ cx-start dx-end dy-end ay-end] var(--thumb-size)
+    [ cx-end cy-end] auto [bottom];
+}
+
+input[type='range']::-moz-range-progress {
+  mix-blend-mode: normal;
+  background-repeat: no-repeat;
+}
+
+.axy,
+.bxy,
+.cxy,
+.dxy {
+  --bdr: 50%;
+}
+.oval.bxy.shadow {
+}
+
+#ay {
+  --cbase: var(--cay);
+  --v: var(--ay);
+}
+#ax {
+  --cbase: var(--cax);
+  --v: var(--ax);
+  background-size: calc(100% - 10px) 100%;
+  background-repeat: no-repeat;
+  background-position: left 10px top 0px;
+}
+#bx {
+  --cbase: var(--cbx);
+  --v: var(--bx);
+}
+#by {
+  --cbase: var(--cby);
+  --v: var(--by);
+}
+#cy {
+  --cbase: var(--ccy);
+  --v: var(--cy);
+}
+#cx {
+  --cbase: var(--ccx);
+  --v: var(--cx);
+}
+#dx {
+  --cbase: var(--cdx);
+  --v: var(--dx);
+}
+#dy {
+  --cbase: var(--cdy);
+  --v: var(--dy);
+}
+input[type='range']::-moz-range-progress {
+  --cfrom: hsl(from var(--cbase) h calc(var(--v) * 0.8) calc(l * 0.8) / 100);
+  --cvia: hsl(from var(--cbase) h 95 calc(l * 0.6) / 100);
+  --cto: hsl(from var(--cbase) h calc(var(--v) * 0.01) calc(l * 0.4) / 100);
+
+  transform: scale(1);
+  border: 1px solid #0000;
+  border-radius: 10px;
+  border-width: 0px 0px 0px 0px;
+  padding: 0;
+  margin: auto;
+  place-self: center;
+}
+.oval.shadow {
+  background-image:
+    radial-gradient(
+      50% 50% at center center,
+      #0000 calc(99% - 1px),
+      #0008 calc(99% - 0.5px) calc(99% + 0.5px),
+      #0000 calc(99% + 1px) 100%
+    ),
+    linear-gradient(#0000);
+}

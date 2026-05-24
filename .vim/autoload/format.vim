@@ -209,29 +209,54 @@ function format#FixedWidthFont(text)
 endfunc
 
 function format#timeSince(eventtime)
+  if a:eventtime == 0
+    return 'never'
+  endif
+
   let ds = localtime() - a:eventtime
-  if ds < 1
+  if ds < 0
     return 'the future'
   endif
+  if ds < 2
+    return 'a second'
+  endif
   if ds < 60
-    return 'the last minute'
+    return printf("%d seconds", ds)
+  endif
+  if ds < 90
+    return 'a minute'
   endif
   if ds < 3600
-    return 'the last hour'
+    return printf("%d minutes", ds / 60)
+  endif
+  if ds < 5400
+    return 'an hour'
   endif
   if ds < 86400
-    return 'the last day'
+    return printf("%d hours", ds / 60 / 60)
+  endif
+  if ds < 129600
+    return 'a day'
   endif
   if ds < 604800
-    return 'the last week'
+    return printf("%d days", ds / 60 / 60 / 24)
+  endif
+  if ds < 907200
+    return 'a week'
   endif
   if ds < 2629743
-    return 'the last month'
+    return printf("%d weeks", ds / 60 / 60 / 24 / 7)
+  endif
+  if ds < 3944614
+    return 'a month'
   endif
   if ds < 31556926
-    return 'the last year'
+    return printf("%d months", ds / 60 / 60 / 24 / 30)
   endif
-  return 'over a year ago'
+  if ds < 47335389
+    return 'a year'
+  endif
+  return printf("%d years", ds / 60 / 60 / 24 / 365)
 endfunc
 
 "

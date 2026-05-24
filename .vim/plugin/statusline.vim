@@ -422,6 +422,10 @@ function ChWinSz() abort
   return get(b:, 'mayhem', {})->get('sl_cached_winsize', ['',''])[NC()]
 endfunc
 
+function MessTime() abort
+  return format#timeSince(get(b:, 'mayhem_messages_lastupdated', 0))
+endfunc
+
 function s:Update_FileInfo() abort
   call s:SetStatusVars()
   let ext = expand('%:e')
@@ -552,6 +556,7 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_messages'] = format#CN([
         \'%{%ChWinSz()%}%#SlMessI⸮#􀤏%* %#SlMess⸮#Messages%*',
         \'%=',
+        \'%#SlHint⸮#updated: %{%MessTime()%} ago%* ',
         \' %{%ScrollHint()%}',
         \' %#SlMessI⸮# %*'
         \])

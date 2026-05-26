@@ -931,13 +931,15 @@ input[type='range'].vertical.reversed {
 .preview {
   /* grid-template-columns: [left] auto [ ax-start ay-start] var(--thumb-size) [ dx-start bx-start ay-end dy-start] var(--thumb-size) [ dy-end cx-start middle-start] 1fr [ bx-end middle-end by-start] var(--thumb-size) [ cy-start ax-end by-end cx-end] var(--thumb-size) [ dx-end cy-end] auto [right]; */
   /* grid-template-rows: [top] auto [ ax-start cy-start] var(--thumb-size) [ by-start ay-start ax-end bx-start] var(--thumb-size) [ bx-end dy-start middle-start] 1fr [ by-end middle-end cx-start] var(--thumb-size) [ dx-start cy-end cx-end dy-end] var(--thumb-size) [ dx-end ay-end] auto [bottom]; */
-  grid-template-columns:
-    [left] auto [ ay-start] var(--thumb-size)
-    [ay-end dy-start] var(--thumb-size)
-    [dy-end ax-start bx-start cx-start dx-start middle-start] 1fr [middle-end bx-end dx-end by-start] var(
+  grid-template-columns: [left] auto [ ax-start ay-start] var(
       --thumb-size
-    )
-    [cy-start ax-end by-end] var(--thumb-size) [ cx-end cy-end] auto [right];
+    ) [ dx-start bx-start ay-end dy-start] var(
+      --thumb-size
+    ) [ dy-end cx-start middle-start] 1fr [ bx-end middle-end by-start] var(
+      --thumb-size
+    ) [ cy-start ax-end by-end cx-end] var(
+      --thumb-size
+    ) [ dx-end cy-end] auto [right];
   grid-template-rows:
     [top] auto [ ax-start] var(--thumb-size)
     [ay-startcy-start ax-end bx-start] var(--thumb-size)
@@ -946,6 +948,15 @@ input[type='range'].vertical.reversed {
     )
     [ cx-start dx-end dy-end ay-end] var(--thumb-size)
     [ cx-end cy-end] auto [bottom];
+  --bga: repeating-linear-gradient(
+    atan(var(--ratio)),
+    var(--ca) var(--blfrom) var(--blto),
+    #0000 1% var(--bend)
+  );
+  --ratio: calc(1cqmin / 1cqmax);
+  --angle1: atan(var(--ratio));
+  counter-reset: ratio var(--ratio);
+  counter-set: ratio var(--ratio);
 }
 
 input[type='range']::-moz-range-progress {

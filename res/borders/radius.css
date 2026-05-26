@@ -931,23 +931,22 @@ input[type='range'].vertical.reversed {
 .preview {
   /* grid-template-columns: [left] auto [ ax-start ay-start] var(--thumb-size) [ dx-start bx-start ay-end dy-start] var(--thumb-size) [ dy-end cx-start middle-start] 1fr [ bx-end middle-end by-start] var(--thumb-size) [ cy-start ax-end by-end cx-end] var(--thumb-size) [ dx-end cy-end] auto [right]; */
   /* grid-template-rows: [top] auto [ ax-start cy-start] var(--thumb-size) [ by-start ay-start ax-end bx-start] var(--thumb-size) [ bx-end dy-start middle-start] 1fr [ by-end middle-end cx-start] var(--thumb-size) [ dx-start cy-end cx-end dy-end] var(--thumb-size) [ dx-end ay-end] auto [bottom]; */
-  grid-template-columns: [left] auto [ ax-start ay-start] var(
-      --thumb-size
-    ) [ dx-start bx-start ay-end dy-start] var(
-      --thumb-size
-    ) [ dy-end cx-start middle-start] 1fr [ bx-end middle-end by-start] var(
-      --thumb-size
-    ) [ cy-start ax-end by-end cx-end] var(
-      --thumb-size
-    ) [ dx-end cy-end] auto [right];
-  grid-template-rows:
-    [top] auto [ ax-start] var(--thumb-size)
-    [ay-startcy-start ax-end bx-start] var(--thumb-size)
-    [ by-start bx-end dy-start middle-start] 1fr [ by-end middle-end dx-start] var(
+  grid-template-columns:
+    [left] auto [ ay-start] var(--thumb-size)
+    [ ay-end ax-start bx-start cx-start dx-start dy-start] var(--thumb-size)
+    [ dy-end middle-start] 1fr [middle-end ax-end bx-end cx-end dx-end by-start] var(
       --thumb-size
     )
-    [ cx-start dx-end dy-end ay-end] var(--thumb-size)
-    [ cx-end cy-end] auto [bottom];
+    [ by-end cy-start] var(--thumb-size)
+    [ cy-end] auto [right];
+  grid-template-rows:
+    [top] auto [ ax-start] var(--thumb-size)
+    [ax-end ay-start by-start cy-start dy-start bx-start] var(--thumb-size)
+    [ bx-end middle-start] 1fr [middle-end ay-end by-end cy-end dy-end dx-start] var(
+      --thumb-size
+    )
+    [dx-end cx-start] var(--thumb-size)
+    [ cx-end] auto [bottom];
   --bga: repeating-linear-gradient(
     atan(var(--ratio)),
     var(--ca) var(--blfrom) var(--blto),
@@ -970,9 +969,6 @@ input[type='range']::-moz-range-progress {
 .dxy {
   --bdr: 50%;
 }
-.oval.bxy.shadow {
-}
-
 #ay {
   --cbase: var(--cay);
   --v: var(--ay);
@@ -1038,4 +1034,37 @@ input[type='range']::-moz-range-progress {
       #0000 calc(99% + 1px) 100%
     ),
     linear-gradient(#0000);
+}
+
+.oval {
+  --visible-bdw: 1px;
+  --bdw-top: 8px;
+  --bdw-right: 8px;
+  --bdw-bottom: 2px;
+  --bdw-left: 2px;
+  border-width: var(--bdw-top) var(--bdw-right) var(--bdw-bottom)
+    var(--bdw-left);
+  margin: min(0, var(--visible-bdw) - var(--bdw-top))
+    min(0, var(--visible-bdw) - var(--bdw-right))
+    min(0, var(--visible-bdw) - var(--bdw-bottom))
+    min(0, var(--visible-bdw) - var(--bdw-left));
+  background-image: none;
+  mask-position: center center;
+  mask-image:
+    radial-gradient(
+      50% 50%,
+      #0000 calc(100% - var(--visible-bdw)),
+      #fff calc(100% - var(--visible-bdw)) calc(100% - var(--visible-bdw) * 0.5),
+      #0000 calc(100% - var(--visible-bdw) * 0.5) 100%
+    ),
+    linear-gradient(#0000);
+  mask-clip: border-box;
+}
+.oval.axy {
+}
+.oval.mask {
+  display: none;
+  border: 3px double #000;
+  background: none;
+  box-shadow: inset 0 0 0 3px #000;
 }

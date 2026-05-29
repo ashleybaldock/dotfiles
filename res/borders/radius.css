@@ -2,6 +2,8 @@ body {
   display: grid;
   grid-template-columns: auto 100vmin auto;
   grid-template-rows: auto 100vmin auto;
+  overflow: hidden;
+  grid-gap: 0;
 }
 fieldset {
   display: contents;
@@ -427,7 +429,7 @@ h2 {
   --bdc-left: var(--cay);
   --bds: dashed dotted dotted dashed;
   --bdw: var(--ibdw＋) 1px 1px var(--ibdw＋);
-  --bdr: var(--xl) 0 0 0 / var(--yl) 0 0 0;
+  /* --bdr: var(--xl) 0 0 0 / var(--yl) 0 0 0; */
   --x: var(--ax);
   --y: var(--ay);
   --base-color: var(--caxy);
@@ -444,7 +446,7 @@ h2 {
   --bdc-left: var(--cday);
   --bds: dashed dashed dotted dotted;
   --bdw: var(--ibdw＋) var(--ibdw＋) 1px 1px;
-  --bdr: 0 var(--xl) 0 0 / 0 var(--yl) 0 0;
+  /* --bdr: 0 var(--xl) 0 0 / 0 var(--yl) 0 0; */
   --base-color: var(--cbxy);
   --color: var(--base-color);
   inset: anchor(top) anchor(right) auto auto;
@@ -459,7 +461,7 @@ h2 {
   --bdc-left: var(--cday);
   --bds: dotted dashed dashed dotted;
   --bdw: 1px var(--ibdw＋) var(--ibdw＋) 1px;
-  --bdr: 0 0 var(--xl) 0 / 0 0 var(--yl) 0;
+  /* --bdr: 0 0 var(--xl) 0 / 0 0 var(--yl) 0; */
   --base-color: var(--ccxy);
   --color: var(--base-color);
   inset: auto anchor(right) anchor(bottom) auto;
@@ -474,7 +476,7 @@ h2 {
   --bdc-left: var(--cdy);
   --bds: dotted dotted dashed dashed;
   --bdw: 1px 1px var(--ibdw＋) var(--ibdw＋);
-  --bdr: 0 0 0 var(--xl) / 0 0 0 var(--yl);
+  /* --bdr: 0 0 0 var(--xl) / 0 0 0 var(--yl); */
   --base-color: var(--cdxy);
   --color: var(--base-color);
   inset: auto auto anchor(bottom) anchor(left);
@@ -1022,48 +1024,6 @@ input[type='range'].vertical.reversed {
   --bdr: 50%;
 }
 
-.origin.a {
-  --bdw: 0;
-}
-
-.origin.a {
-  --cbase: var(--ca);
-  grid-row: a;
-  grid-column: a;
-  --bdr: var(--axl) 0 0 0 / var(--ayl) 0 0 0;
-  margin: var(--s) 0 0 var(--s);
-  padding: var(--s) 0 0 var(--s);
-}
-
-.origin.b {
-  --cbase: var(--cb);
-  grid-row: b;
-  grid-column: b;
-  --bdr: 0 var(--bxl) 0 0 / 0 var(--byl) 0 0;
-  margin: var(--s) var(--s) 0 0;
-  padding: var(--s) var(--s) 0 0;
-}
-
-.origin.c {
-  --cbase: var(--cc);
-  grid-row: c;
-  grid-column: c;
-  --bdr: 0 0 var(--cxl) 0 / 0 0 var(--cyl) 0;
-  margin: 0 var(--s) var(--s) 0;
-  padding: 0 var(--s) var(--s) 0;
-}
-
-.dxy {
-}
-.origin.d {
-  --cbase: var(--cd);
-  grid-row: d;
-  grid-column: d;
-  --bdr: 0 0 0 var(--dxl) / 0 0 0 var(--dyl);
-  margin: 0 0 var(--s) var(--s);
-  padding: 0 0 var(--s) var(--s);
-}
-
 .origin {
   display: flex;
   border: 2px solid var(--cbase);
@@ -1088,4 +1048,64 @@ input[type='range'].vertical.reversed {
 .origin::before,
 .origin::after {
   display: none;
+}
+
+.origin.a {
+  --cbase: var(--ca);
+  grid-row: a;
+  grid-column: a;
+  --bdr: var(--axl) 0 0 0 / var(--ayl) 0 0 0;
+  margin: var(--s) 0 0 var(--s);
+  padding: var(--s) 0 0 var(--s);
+  box-shadow:
+    inset calc(var(--s) * 2) calc(var(--s) * 2) 0 calc(var(--s) * -1)
+      var(--cbase),
+    calc(var(--s) * -0.5) calc(var(--s) * -0.5) 0 calc(var(--s) * 0.5)
+      hsl(from var(--cbase) h s calc(l * 1.3));
+  --bdw: 0;
+}
+
+.origin.b {
+  --cbase: var(--cb);
+  grid-row: b;
+  grid-column: b;
+  --bdr: 0 var(--bxl) 0 0 / 0 var(--byl) 0 0;
+  margin: var(--s) var(--s) 0 0;
+  padding: var(--s) var(--s) 0 0;
+  box-shadow:
+    inset calc(var(--s) * -2) calc(var(--s) * 2) 0 calc(var(--s) * -1)
+      var(--cbase),
+    calc(var(--s) * 0.5) calc(var(--s) * -0.5) 0 calc(var(--s) * 0.5)
+      hsl(from var(--cbase) h s calc(l * 1.3));
+  --bdw: 0;
+}
+
+.origin.c {
+  --cbase: var(--cc);
+  grid-row: c;
+  grid-column: c;
+  --bdr: 0 0 var(--cxl) 0 / 0 0 var(--cyl) 0;
+  margin: 0 var(--s) var(--s) 0;
+  padding: 0 var(--s) var(--s) 0;
+  box-shadow:
+    inset calc(var(--s) * -2) calc(var(--s) * -2) 0 calc(var(--s) * -1)
+      var(--cbase),
+    calc(var(--s) * 0.5) calc(var(--s) * 0.5) 0 calc(var(--s) * 0.5)
+      hsl(from var(--cbase) h s calc(l * 1.3));
+  --bdw: 0;
+}
+
+.origin.d {
+  --cbase: var(--cd);
+  grid-row: d;
+  grid-column: d;
+  --bdr: 0 0 0 var(--dxl) / 0 0 0 var(--dyl);
+  margin: 0 0 var(--s) var(--s);
+  padding: 0 0 var(--s) var(--s);
+  box-shadow:
+    inset calc(var(--s) * 2) calc(var(--s) * -2) 0 calc(var(--s) * -1)
+      var(--cbase),
+    calc(var(--s) * -0.5) calc(var(--s) * 0.5) 0 calc(var(--s) * 0.5)
+      hsl(from var(--cbase) h s calc(l * 1.3));
+  --bdw: 0;
 }

@@ -213,10 +213,15 @@ h2 {
   --progress-width: 1em;
 
   background-image: var(--bga), var(--bgb), var(--bgc), var(--bgd);
+  /* --bga: repeating-linear-gradient( */
+  /*   45deg, */
+  /*   var(--ca) var(--blfrom) var(--blto), */
+  /*   #0000 -100% var(--bend) */
+  /* ); */
   --bga: repeating-linear-gradient(
-    45deg,
+    atan(var(--ratio)),
     var(--ca) var(--blfrom) var(--blto),
-    #0000 -100% var(--bend)
+    #0000 1% var(--bend)
   );
   --bgb: repeating-linear-gradient(
     135deg,
@@ -247,47 +252,47 @@ h2 {
   grid-row: 2;
   grid-column: 2;
   /* prettier-ignore */
-  grid-template-columns:
-    [left] auto [
-    ax-start
-    ay-start] var(--thumb-size) [
-    dx-start
-    bx-start
-    ay-end
-    dy-start] var(--thumb-size) [
-    dy-end
-    cx-start
-    middle-start] 1fr [
-    bx-end
-    middle-end
-    by-start] var(--thumb-size) [
-    cy-start
-    ax-end
-    by-end
-    cx-end] var(--thumb-size) [
-    dx-end
-    cy-end] auto [right];
+  /* grid-template-columns: */
+  /*   [left] auto [ */
+  /*   ax-start */
+  /*   ay-start] var(--thumb-size) [ */
+  /*   dx-start */
+  /*   bx-start */
+  /*   ay-end */
+  /*   dy-start] var(--thumb-size) [ */
+  /*   dy-end */
+  /*   cx-start */
+  /*   middle-start] 1fr [ */
+  /*   bx-end */
+  /*   middle-end */
+  /*   by-start] var(--thumb-size) [ */
+  /*   cy-start */
+  /*   ax-end */
+  /*   by-end */
+  /*   cx-end] var(--thumb-size) [ */
+  /*   dx-end */
+  /*   cy-end] auto [right]; */
   /* prettier-ignore */
-  grid-template-rows:
-    [top] auto [
-    ax-start
-    cy-start] var(--thumb-size) [
-    by-start
-    ay-start
-    ax-end
-    bx-start] var(--thumb-size) [
-    bx-end
-    dy-start
-    middle-start] 1fr [
-    by-end
-    middle-end
-    cx-start] var(--thumb-size) [
-    dx-start
-    cy-end
-    cx-end
-    dy-end] var(--thumb-size) [
-    dx-end
-    ay-end] auto [bottom];
+  /* grid-template-rows: */
+  /*   [top] auto [ */
+  /*   ax-start */
+  /*   cy-start] var(--thumb-size) [ */
+  /*   by-start */
+  /*   ay-start */
+  /*   ax-end */
+  /*   bx-start] var(--thumb-size) [ */
+  /*   bx-end */
+  /*   dy-start */
+  /*   middle-start] 1fr [ */
+  /*   by-end */
+  /*   middle-end */
+  /*   cx-start] var(--thumb-size) [ */
+  /*   dx-start */
+  /*   cy-end */
+  /*   cx-end */
+  /*   dy-end] var(--thumb-size) [ */
+  /*   dx-end */
+  /*   ay-end] auto [bottom]; */
   max-width: 100vmin;
   max-height: 100vmin;
   margin: 0;
@@ -295,7 +300,30 @@ h2 {
   gap: 0;
   box-sizing: unset;
   border: none;
+  /* grid-template-columns: [left] auto [ ax-start ay-start] var(--thumb-size) [ dx-start bx-start ay-end dy-start] var(--thumb-size) [ dy-end cx-start middle-start] 1fr [ bx-end middle-end by-start] var(--thumb-size) [ cy-start ax-end by-end cx-end] var(--thumb-size) [ dx-end cy-end] auto [right]; */
+  /* grid-template-rows: [top] auto [ ax-start cy-start] var(--thumb-size) [ by-start ay-start ax-end bx-start] var(--thumb-size) [ bx-end dy-start middle-start] 1fr [ by-end middle-end cx-start] var(--thumb-size) [ dx-start cy-end cx-end dy-end] var(--thumb-size) [ dx-end ay-end] auto [bottom]; */
+  grid-template-columns:
+    [left] auto [a-start d-start ay-start] var(--thumb-size)
+    [ay-end ax-start bx-start cx-start dx-start dy-start] var(--thumb-size)
+    [a-end d-end dy-end middle-start] 1fr [middle-end ax-end bx-end cx-end dx-end b-start c-start by-start] var(
+      --thumb-size
+    )
+    [by-end cy-start] var(--thumb-size)
+    [b-end c-end cy-end] auto [right];
+  grid-template-rows:
+    [top] auto [a-start b-start ax-start] var(--thumb-size)
+    [ax-end ay-start cy-start bx-start] var(--thumb-size)
+    [a-end b-end bx-end by-start dy-start middle-start] 1fr [middle-end ay-end by-end dy-end d-start c-start dx-start] var(
+      --thumb-size
+    )
+    [cy-end dx-end cx-start] var(--thumb-size)
+    [c-end cx-end d-end] auto [bottom];
+  --ratio: calc(1cqmin / 1cqmax);
+  --angle1: atan(var(--ratio));
+  counter-reset: ratio var(--ratio);
+  counter-set: ratio var(--ratio);
 }
+
 .preview::after {
   border: none;
   text-align: center;
@@ -330,49 +358,47 @@ h2 {
   position-anchor: --anchor-preview-line;
   border-radius: var(--bdr);
   border-style: var(--bds);
-  border-width: var(--bdw);
   z-index: -1;
   box-sizing: border-box;
-  --xl: calc(var(--x) * 1cqw);
-  --yl: calc(var(--y) * 1cqh);
+  --xl: calc(var(--x) * 0.5cqh);
+  --yl: calc(var(--y) * 0.5cqw);
   display: flex;
   box-shadow: none;
   overflow: visible;
   background-clip: initial;
-  mask-image: none;
-  mask-clip: no-clip;
-  background-image:
-    radial-gradient(
-      var(--yl) var(--xl) at bottom right,
-      #0000 calc(98% - 1px),
-      #f0f8 calc(98% - 0.5px) calc(99% + 0.5px),
-      #0000 calc(99% + 1px) 100%
-    ),
-    radial-gradient(
-      var(--xl) var(--yl) at center center,
-      #0000 calc(98% - 1px),
-      #00f8 calc(98% - 0.5px) calc(99% + 0.5px),
-      #0000 calc(99% + 1px) 100%
-    ),
-    linear-gradient(#0000),
-    radial-gradient(
-      50% 50% at bottom right,
-      #0000 calc(98% - 1px),
-      #f008 calc(98% - 0.5px) calc(99% + 0.5px),
-      #0000 calc(99% + 1px) 100%
-    ),
-    radial-gradient(
-      50% 50% at center center,
-      #0000 calc(98% - 1px),
-      #0ff8 calc(98% - 0.5px) calc(99% + 0.5px),
-      #0000 calc(99% + 1px) 100%
-    ),
-    linear-gradient(#0000);
-  /* border-radius: calc(anchor-size(--anchor-preview, height)); */
   container-name: oval-size-container;
   container-type: size;
   contain: size;
   background-position: bottom right;
+  --bdr: 50%;
+  --visible-bdw: 1px;
+  --bdw-top: 8px;
+  --bdw-right: 8px;
+  --bdw-bottom: 2px;
+  --bdw-left: 2px;
+  border-width: var(--bdw-top) var(--bdw-right) var(--bdw-bottom)
+    var(--bdw-left);
+  margin: min(0, var(--visible-bdw) - var(--bdw-top))
+    min(0, var(--visible-bdw) - var(--bdw-right))
+    min(0, var(--visible-bdw) - var(--bdw-bottom))
+    min(0, var(--visible-bdw) - var(--bdw-left));
+  background-image: none;
+  mask-position: center center;
+  mask-image:
+    radial-gradient(
+      50% 50%,
+      #0000 calc(100% - var(--visible-bdw)),
+      #fff calc(100% - var(--visible-bdw)) calc(100% - var(--visible-bdw) * 0.5),
+      #0000 calc(100% - var(--visible-bdw) * 0.5) 100%
+    ),
+    linear-gradient(#0000);
+  mask-clip: border-box;
+}
+.oval.mask {
+  display: none;
+  border: 3px double #000;
+  background: none;
+  box-shadow: inset 0 0 0 3px #000;
 }
 
 .shadow {
@@ -383,8 +409,18 @@ h2 {
     0 0 0 0.5px #000;
   box-sizing: border-box;
 }
+.oval.shadow {
+  background-image:
+    radial-gradient(
+      50% 50% at center center,
+      #0000 calc(99% - 1px),
+      #0008 calc(99% - 0.5px) calc(99% + 0.5px),
+      #0000 calc(99% + 1px) 100%
+    ),
+    linear-gradient(#0000);
+}
 
-.axy {
+.oval.axy {
   --bdc-top: var(--cax);
   --bdc-right: var(--cbcy);
   --bdc-bottom: var(--ccdx);
@@ -394,12 +430,12 @@ h2 {
   --bdr: var(--xl) 0 0 0 / var(--yl) 0 0 0;
   --x: var(--ax);
   --y: var(--ay);
-  --base-color: var(--cabx);
+  --base-color: var(--caxy);
   --color: var(--base-color);
-  /* inset: anchor(top, var(--ibdw－)) auto auto anchor(left, var(--ibdw－)); */
   inset: anchor(top) auto auto anchor(left);
+  anchor-name: --anchor-axy;
 }
-.bxy {
+.oval.bxy {
   --x: var(--bx);
   --y: var(--by);
   --bdc-top: var(--cbx);
@@ -409,12 +445,12 @@ h2 {
   --bds: dashed dashed dotted dotted;
   --bdw: var(--ibdw＋) var(--ibdw＋) 1px 1px;
   --bdr: 0 var(--xl) 0 0 / 0 var(--yl) 0 0;
-  --base-color: var(--cbcy);
+  --base-color: var(--cbxy);
   --color: var(--base-color);
-  /* inset: anchor(top, var(--ibdw－)) anchor(right, var(--ibdw－)) auto auto; */
   inset: anchor(top) anchor(right) auto auto;
+  anchor-name: --anchor-bxy;
 }
-.cxy {
+.oval.cxy {
   --x: var(--cx);
   --y: var(--cy);
   --bdc-top: var(--cabx);
@@ -424,12 +460,12 @@ h2 {
   --bds: dotted dashed dashed dotted;
   --bdw: 1px var(--ibdw＋) var(--ibdw＋) 1px;
   --bdr: 0 0 var(--xl) 0 / 0 0 var(--yl) 0;
-  --base-color: var(--ccdx);
+  --base-color: var(--ccxy);
   --color: var(--base-color);
-  /* inset: auto anchor(right, var(--ibdw－)) anchor(bottom, var(--ibdw－)) auto; */
   inset: auto anchor(right) anchor(bottom) auto;
+  anchor-name: --anchor-cxy;
 }
-.dxy {
+.oval.dxy {
   --x: var(--dx);
   --y: var(--dy);
   --bdc-top: var(--cabx);
@@ -439,10 +475,10 @@ h2 {
   --bds: dotted dotted dashed dashed;
   --bdw: 1px 1px var(--ibdw＋) var(--ibdw＋);
   --bdr: 0 0 0 var(--xl) / 0 0 0 var(--yl);
-  --base-color: var(--cday);
+  --base-color: var(--cdxy);
   --color: var(--base-color);
-  /* inset: auto auto anchor(bottom, var(--ibdw－)) anchor(left, var(--ibdw－)); */
   inset: auto auto anchor(bottom) anchor(left);
+  anchor-name: --anchor-dxy;
 }
 /*!}}}1 END Oval */
 
@@ -498,20 +534,72 @@ input[type='range'] {
 
 input[type='range']::-moz-range-progress {
   z-index: -1;
-  --c: #ff0;
   display: flex;
   height: var(--progress-width);
   width: auto;
-  background-image: linear-gradient(175deg, #f08, #40f);
-  mix-blend-mode: multiply;
   z-index: -1;
+  mix-blend-mode: normal;
+  --cfrom: hsl(from var(--cbase) h calc(var(--v) * 0.8) calc(l * 0.8) / 100);
+  --cvia: hsl(from var(--cbase) h 95 calc(l * 0.6) / 100);
+  --cto: hsl(from var(--cbase) h calc(var(--v) * 0.01) calc(l * 0.4) / 100);
+
+  transform: scale(1);
+  border: 1px solid #0000;
+  border-width: 0 0 0 0;
+  padding: 0;
+  margin: auto;
+  place-self: center;
+  --i: calc(var(--progress-width) * 1);
+  --j: calc(var(--progress-width) * 1);
+  --from: 180deg;
+  --side: right;
+  --bc: #0000;
+  --c: var(--cbase);
+  --c2: #0000;
+  border-radius: 0;
+  background-color: #0000;
+  mask: none;
+  background-size: var(--i) var(--j);
+  background-repeat: repeat-x;
+  background-image:
+    conic-gradient(
+      from var(--from, 0deg),
+      var(--bc) 0 calc(var(--t) * 0.5),
+      var(--cfrom) calc(var(--t) * 0.5) calc(var(--t) * 1.5),
+      var(--bc) calc(var(--t) * 1.5)
+    ),
+    radial-gradient(
+      farthest-corner circle at top var(--side),
+      var(--cfrom) calc(var(--i) * var(--ir) - 0px),
+      var(--c2) calc(var(--i) * var(--ir) + 0px)
+    ),
+    radial-gradient(
+      farthest-corner circle at bottom var(--side),
+      var(--cfrom) calc(var(--i) * var(--ir) - 0px),
+      var(--c2) calc(var(--i) * var(--ir) + 0px)
+    );
+  background-position: center var(--side);
+}
+input[type='range'].reversed::-moz-range-progress {
+  --from: 0deg;
+  --side: left;
+  background-position: center var(--side);
+}
+
+input[type='range'].vertical::-moz-range-progress {
+  --from: 180deg;
+  --side: right;
+  background-position: top center;
+}
+input[type='range'].reversed.vertical::-moz-range-progress {
+  --from: 0deg;
+  --side: left;
+  background-position: bottom center;
 }
 
 input[type='range']::-webkit-slider-runnable-track,
 input[type='range']::-moz-range-track {
   box-sizing: border-box;
-  height: var(--track-size);
-  width: 80cqmin;
   color: var(--track-foreground);
   background: var(--track-background);
   border-style: var(--track-border-style);
@@ -521,14 +609,46 @@ input[type='range']::-moz-range-track {
   background: hsla(from var(--c-base) h 20 40 / 100%);
   border-color: hsla(from var(--c-base) h 20 60 / 100%);
   --c-base: var(--track-color-base, #da0000);
-  border-radius: var(--bdr-r0);
   border: none;
   background-color: #0000;
-  background-image: linear-gradient(#0002);
   outline: 0.5px solid #000;
   z-index: 1;
   opacity: 0.4;
   visibility: visible;
+  border-radius: 0;
+  height: 100%;
+  width: 100%;
+
+  background-size: var(--i) var(--j);
+  background-repeat: round round;
+  background-image:
+    conic-gradient(
+      from var(--r, 0deg),
+      var(--bc) 0 calc(var(--t) * 0.5),
+      var(--c) calc(var(--t) * 0.5) calc(var(--t) * 1.5),
+      var(--bc) calc(var(--t) * 1.5)
+    ),
+    radial-gradient(
+      circle,
+      var(--c2) calc(var(--i) * var(--ir) - 0.5px),
+      var(--c) calc(var(--i) * var(--ir) + 0.5px)
+    );
+  background-position:
+    1% 0%,
+    0% 0%;
+
+  mask-size: var(--i) var(--j);
+  mask-repeat: round round;
+  mask-image: conic-gradient(
+    from var(--r, 0deg),
+    var(--bc) 0 calc(var(--t) * 0.5),
+    var(--mc) calc(var(--t) * 0.5) calc(var(--t) * 1.5),
+    var(--bc) calc(var(--t) * 1.5)
+  );
+  mask-position:
+    1% 0%,
+    0% 0%;
+  background: none;
 }
 input[type='range']:hover::-webkit-slider-runnable-track,
 input[type='range']:hover::-moz-range-track {
@@ -631,41 +751,6 @@ input[type='range']:active::-moz-range-thumb {
   border-radius: 0 0 0 var(--dxl) / 0 0 0 var(--dyl);
 }
 
-input[type='range']::-webkit-slider-runnable-track,
-input[type='range']::-moz-range-track {
-  height: 100%;
-  width: 100%;
-
-  background-size: var(--i) var(--j);
-  background-repeat: round round;
-  background-image:
-    conic-gradient(
-      from var(--r, 0deg),
-      var(--bc) 0 calc(var(--t) * 0.5),
-      var(--c) calc(var(--t) * 0.5) calc(var(--t) * 1.5),
-      var(--bc) calc(var(--t) * 1.5)
-    ),
-    radial-gradient(
-      circle,
-      var(--c2) calc(var(--i) * var(--ir) - 0.5px),
-      var(--c) calc(var(--i) * var(--ir) + 0.5px)
-    );
-  background-position:
-    1% 0%,
-    0% 0%;
-
-  mask-size: var(--i) var(--j);
-  mask-repeat: round round;
-  mask-image: conic-gradient(
-    from var(--r, 0deg),
-    var(--bc) 0 calc(var(--t) * 0.5),
-    var(--mc) calc(var(--t) * 0.5) calc(var(--t) * 1.5),
-    var(--bc) calc(var(--t) * 1.5)
-  );
-  mask-position:
-    1% 0%,
-    0% 0%;
-}
 input[type='range'].vertical {
   width: 100%;
   height: var(--thumb-size);
@@ -774,6 +859,43 @@ input[type='range'].vertical.reversed {
   grid-column: dx;
   grid-row: dx;
 }
+
+#ay {
+  --cbase: var(--cay);
+  --v: var(--ay);
+}
+#ax {
+  --cbase: var(--cax);
+  --v: var(--ax);
+  background-size: calc(100% - 10px) 100%;
+  background-repeat: no-repeat;
+  background-position: left 10px top 0;
+}
+#bx {
+  --cbase: var(--cbx);
+  --v: var(--bx);
+}
+#by {
+  --cbase: var(--cby);
+  --v: var(--by);
+}
+#cy {
+  --cbase: var(--ccy);
+  --v: var(--cy);
+}
+#cx {
+  --cbase: var(--ccx);
+  --v: var(--cx);
+}
+#dx {
+  --cbase: var(--cdx);
+  --v: var(--dx);
+}
+#dy {
+  --cbase: var(--cdy);
+  --v: var(--dy);
+}
+
 /*!}}}1 END Slider */
 
 .outline {
@@ -793,6 +915,8 @@ input[type='range'].vertical.reversed {
     var(--byl) var(--cyl) var(--dyl);
   anchor-name: --anchor-preview-line;
 }
+
+/*!{{{1 Control Points */
 .point {
   position: absolute;
   --radius: calc(var(--bdw) * 2);
@@ -842,229 +966,126 @@ input[type='range'].vertical.reversed {
   justify-content: center;
   align-items: center;
 }
-.axy {
-  anchor-name: --anchor-axy;
-}
 
-.bxy {
-  anchor-name: --anchor-bxy;
-}
-
-.cxy {
-  anchor-name: --anchor-cxy;
-}
-
-.dxy {
-  anchor-name: --anchor-dxy;
-}
-
-.coord {
-  position: absolute;
-}
-.ay {
+.point.ay {
   --tracks: var(--track-top), var(--track-bottom);
   anchor-name: --anchor-ay;
   inset: calc(anchor(--anchor-axy center) - var(--h) * 0.5)
     calc(anchor(--anchor-axy left) - var(--w) * 0.5);
 }
-.ax {
+.point.ax {
   --tracks: var(--track-left), var(--track-right);
   anchor-name: --anchor-ax;
   inset: calc(anchor(--anchor-axy top) - var(--h) * 0.5)
     calc(anchor(--anchor-axy center) - var(--w) * 0.5);
 }
-.bx {
+.point.bx {
   --tracks: var(--track-left), var(--track-right);
   anchor-name: --anchor-bx;
   inset: calc(anchor(--anchor-bxy top) - var(--h) * 0.5)
     calc(anchor(--anchor-bxy center) - var(--w) * 0.5);
 }
-.by {
+.point.by {
   --tracks: var(--track-top), var(--track-bottom);
   anchor-name: --anchor-by;
   inset: calc(anchor(--anchor-bxy center) - var(--h) * 0.5) auto auto
     calc(anchor(--anchor-bxy right) - var(--w) * 0.5);
 }
-.cy {
+.point.cy {
   --tracks: var(--track-top), var(--track-bottom);
   anchor-name: --anchor-cx;
   inset: calc(anchor(--anchor-cxy center) - var(--h) * 0.5) auto auto
     calc(anchor(--anchor-cxy right) - var(--w) * 0.5);
 }
-.cx {
+.point.cx {
   --tracks: var(--track-left), var(--track-right);
   anchor-name: --anchor-cx;
   inset: calc(anchor(--anchor-cxy bottom) - var(--h) * 0.5)
     calc(anchor(--anchor-cxy center) - var(--w) * 0.5);
 }
-.dx {
+.point.dx {
   --tracks: var(--track-left), var(--track-right);
   anchor-name: --anchor-dx;
   inset: calc(anchor(--anchor-dxy bottom) - var(--h) * 0.5)
     calc(anchor(--anchor-dxy center) - var(--w) * 0.5);
 }
-.dy {
+.point.dy {
   --tracks: var(--track-top), var(--track-bottom);
   anchor-name: --anchor-dy;
   inset: calc(anchor(--anchor-dxy center) - var(--h) * 0.5) auto auto
     calc(anchor(--anchor-dxy left) - var(--w) * 0.5);
 }
-
-.oval {
-  --xl: calc(var(--x) * 0.5cqh);
-  --yl: calc(var(--y) * 0.5cqw);
-  background-image:
-    radial-gradient(
-      50% 50% at center center,
-      #0000 calc(99% - 1px),
-      #0ff8 calc(99% - 0.5px) calc(99% + 0.5px),
-      #0000 calc(99% + 1px) 100%
-    ),
-    linear-gradient(#0000);
-}
+/*!}}}1 END Control Points */
 
 .shadow {
   border: 10px solid #191919;
   --bdr: 50%;
 }
 
-.preview {
-  /* grid-template-columns: [left] auto [ ax-start ay-start] var(--thumb-size) [ dx-start bx-start ay-end dy-start] var(--thumb-size) [ dy-end cx-start middle-start] 1fr [ bx-end middle-end by-start] var(--thumb-size) [ cy-start ax-end by-end cx-end] var(--thumb-size) [ dx-end cy-end] auto [right]; */
-  /* grid-template-rows: [top] auto [ ax-start cy-start] var(--thumb-size) [ by-start ay-start ax-end bx-start] var(--thumb-size) [ bx-end dy-start middle-start] 1fr [ by-end middle-end cx-start] var(--thumb-size) [ dx-start cy-end cx-end dy-end] var(--thumb-size) [ dx-end ay-end] auto [bottom]; */
-  grid-template-columns:
-    [left] auto [ ay-start] var(--thumb-size)
-    [ ay-end ax-start bx-start cx-start dx-start dy-start] var(--thumb-size)
-    [ dy-end middle-start] 1fr [middle-end ax-end bx-end cx-end dx-end by-start] var(
-      --thumb-size
-    )
-    [ by-end cy-start] var(--thumb-size)
-    [ cy-end] auto [right];
-  grid-template-rows:
-    [top] auto [ ax-start] var(--thumb-size)
-    [ax-end ay-start by-start cy-start dy-start bx-start] var(--thumb-size)
-    [ bx-end middle-start] 1fr [middle-end ay-end by-end cy-end dy-end dx-start] var(
-      --thumb-size
-    )
-    [dx-end cx-start] var(--thumb-size)
-    [ cx-end] auto [bottom];
-  --bga: repeating-linear-gradient(
-    atan(var(--ratio)),
-    var(--ca) var(--blfrom) var(--blto),
-    #0000 1% var(--bend)
-  );
-  --ratio: calc(1cqmin / 1cqmax);
-  --angle1: atan(var(--ratio));
-  counter-reset: ratio var(--ratio);
-  counter-set: ratio var(--ratio);
+.origin.a {
+  --bdw: 0;
 }
 
-input[type='range']::-moz-range-progress {
-  mix-blend-mode: normal;
-  background-repeat: no-repeat;
+.origin.a {
+  --cbase: var(--ca);
+  grid-row: a;
+  grid-column: a;
+  --bdr: var(--axl) 0 0 0 / var(--ayl) 0 0 0;
+  margin: var(--s) 0 0 var(--s);
+  padding: var(--s) 0 0 var(--s);
 }
 
-.axy,
-.bxy,
-.cxy,
+.origin.b {
+  --cbase: var(--cb);
+  grid-row: b;
+  grid-column: b;
+  --bdr: 0 var(--bxl) 0 0 / 0 var(--byl) 0 0;
+  margin: var(--s) var(--s) 0 0;
+  padding: var(--s) var(--s) 0 0;
+}
+
+.origin.c {
+  --cbase: var(--cc);
+  grid-row: c;
+  grid-column: c;
+  --bdr: 0 0 var(--cxl) 0 / 0 0 var(--cyl) 0;
+  margin: 0 var(--s) var(--s) 0;
+  padding: 0 var(--s) var(--s) 0;
+}
+
 .dxy {
-  --bdr: 50%;
 }
-#ay {
-  --cbase: var(--cay);
-  --v: var(--ay);
-}
-#ax {
-  --cbase: var(--cax);
-  --v: var(--ax);
-  background-size: calc(100% - 10px) 100%;
-  background-repeat: no-repeat;
-  background-position: left 10px top 0;
-}
-#bx {
-  --cbase: var(--cbx);
-  --v: var(--bx);
-}
-#by {
-  --cbase: var(--cby);
-  --v: var(--by);
-}
-#cy {
-  --cbase: var(--ccy);
-  --v: var(--cy);
-}
-#cx {
-  --cbase: var(--ccx);
-  --v: var(--cx);
-}
-#dx {
-  --cbase: var(--cdx);
-  --v: var(--dx);
-}
-#dy {
-  --cbase: var(--cdy);
-  --v: var(--dy);
-}
-input[type='range']::-moz-range-progress {
-  --cfrom: hsl(from var(--cbase) h calc(var(--v) * 0.8) calc(l * 0.8) / 100);
-  --cvia: hsl(from var(--cbase) h 95 calc(l * 0.6) / 100);
-  --cto: hsl(from var(--cbase) h calc(var(--v) * 0.01) calc(l * 0.4) / 100);
-
-  background-image: linear-gradient(
-    0deg,
-    #0000 10%,
-    var(--cfrom) 20%,
-    var(--cvia) 40% 60%,
-    var(--cto) 80%,
-    #0000 90%
-  );
-  transform: scale(1);
-  border: 1px solid #0000;
-  border-radius: 10px;
-  border-width: 0 0 0 0;
-  padding: 0;
-  margin: auto;
-  place-self: center;
-}
-.oval.shadow {
-  background-image:
-    radial-gradient(
-      50% 50% at center center,
-      #0000 calc(99% - 1px),
-      #0008 calc(99% - 0.5px) calc(99% + 0.5px),
-      #0000 calc(99% + 1px) 100%
-    ),
-    linear-gradient(#0000);
+.origin.d {
+  --cbase: var(--cd);
+  grid-row: d;
+  grid-column: d;
+  --bdr: 0 0 0 var(--dxl) / 0 0 0 var(--dyl);
+  margin: 0 0 var(--s) var(--s);
+  padding: 0 0 var(--s) var(--s);
 }
 
-.oval {
-  --visible-bdw: 1px;
-  --bdw-top: 8px;
-  --bdw-right: 8px;
-  --bdw-bottom: 2px;
-  --bdw-left: 2px;
-  border-width: var(--bdw-top) var(--bdw-right) var(--bdw-bottom)
-    var(--bdw-left);
-  margin: min(0, var(--visible-bdw) - var(--bdw-top))
-    min(0, var(--visible-bdw) - var(--bdw-right))
-    min(0, var(--visible-bdw) - var(--bdw-bottom))
-    min(0, var(--visible-bdw) - var(--bdw-left));
-  background-image: none;
-  mask-position: center center;
-  mask-image:
-    radial-gradient(
-      50% 50%,
-      #0000 calc(100% - var(--visible-bdw)),
-      #fff calc(100% - var(--visible-bdw)) calc(100% - var(--visible-bdw) * 0.5),
-      #0000 calc(100% - var(--visible-bdw) * 0.5) 100%
-    ),
-    linear-gradient(#0000);
-  mask-clip: border-box;
+.origin {
+  display: flex;
+  border: 2px solid var(--cbase);
+  border-radius: var(--bdr);
+  justify-content: center;
+  align-items: center;
+  background-color: hsl(from var(--cbase) h s calc(l * 0.5));
+  border-width: var(--bdw);
+  z-index: 1;
+  margin: 10%;
+  width: 80%;
+  height: auto;
+  aspect-ratio: 1;
+  box-shadow:
+    inset calc(var(--s) * 2) calc(var(--s) * 2) 0 calc(var(--s) * -1)
+      var(--cbase),
+    calc(var(--s) * -0.5) calc(var(--s) * -0.5) 0 calc(var(--s) * 0.5)
+      hsl(from var(--cbase) h s calc(l * 1.3)),
+    calc(var(--s) * 0) calc(var(--s) * 0) 0 calc(var(--s) * 1) #000;
+  --s: calc(var(--progress-width) * 0.5);
 }
-.oval.axy {
-}
-.oval.mask {
+.origin::before,
+.origin::after {
   display: none;
-  border: 3px double #000;
-  background: none;
-  box-shadow: inset 0 0 0 3px #000;
 }

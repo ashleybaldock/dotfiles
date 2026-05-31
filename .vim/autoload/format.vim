@@ -223,7 +223,7 @@ function format#timeSince(eventtime)
   if ds < 60
     return printf("%d seconds", ds)
   endif
-  if ds < 90
+  if ds < 119
     return 'a minute'
   endif
   if ds < 3600

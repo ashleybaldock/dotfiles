@@ -91,13 +91,7 @@ function s:RefreshMessages() abort
 endfunc
 
 function s:CloseMessages() abort
-  if exists('s:bufnr_messages')
-    if bufexists(s:bufnr_messages)
-      if exists(winbufnr(s:bufnr_messages))
-        call win_execute(winbufnr(s:bufnr_messages), 'close')
-      endif
-    endif
-  endif
+  call win_execute(winbufnr(s:GetMessagesBuffer()), 'close')
 
   call s:CloseMessagesPopup()
 endfunc

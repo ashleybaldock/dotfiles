@@ -27,21 +27,14 @@ optimise=1
 alwaysbase64=0
 copy=1
 
-# if [ $# -gt 1 ]
-# then
-  # echo "info: multiple inputs, will skip copying" >&2
-  # copy=0
-
-  # TODO multiple inputs: accumulate and copy together
-# fi
 tocopy=""
 
 for arg in "${args[@]}"
 do
   detectedtype=none
   # the output encoding used within the data url
-  # 'auto' - base64 (with exceptions: svg uses minimal encoding)
-  # 'b64' - base64
+  # 'auto' - base64 with exceptions (e.g. svg uses minimal url encoding)
+  # 'b64' - base64 (no exceptions)
   encoding=auto
   # encoding used
   usedencoding=

@@ -102,6 +102,14 @@ function s:GetMessagesBuffer() abort
     call setbufvar(s:bufnr_messages, '&filetype', 'vimmessages')
     call setbufvar(s:bufnr_messages, '&buftype', 'nofile')
     call setbufvar(s:bufnr_messages, '&bufhidden', 'wipe')
+    call autocmd_add([
+        \#{
+        \ event: ['User'], replace: v:true,
+        \ pattern: 'MayhemHomeClosed',
+        \ cmd: 'MessagesClose', bufnr: s:bufnr_messages,
+        \ group: 'mayhem_messages_exit',
+        \},
+        \])
   endif
   return s:bufnr_messages
 endfunc

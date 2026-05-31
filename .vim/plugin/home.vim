@@ -284,8 +284,8 @@ function s:ShowHome() abort
         \},
         \#{
         \ event: ['BufWinLeave','BufUnload'], replace: v:true,
-        \ cmd: 'MessagesClose', bufnr: bufnr(),
-        \ group: 'mayhem_messages_exit',
+        \ cmd: 'DoUserAutocmd MayhemHomeClosed', bufnr: bufnr(),
+        \ group: 'mayhem_home_closed',
         \},
         \])
 endfunc

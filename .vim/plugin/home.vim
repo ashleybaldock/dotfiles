@@ -280,10 +280,10 @@ function s:ShowHome() abort
         \#{
         \ event: ['BufNewFile','BufRead','BufFilePre'], replace: v:true,
         \ cmd: 'call s:UpdateRecentlyEdited(expand(''<afile>:p''))',
-        \ group: 'mayhem_messages_recent_edit',
+        \ group: 'mayhem_home_recent_edit',
         \},
         \#{
-        \ event: ['BufWinLeave','BufUnload'], replace: v:true,
+        \ event: ['BufWinLeave','BufUnload'],
         \ cmd: 'DoUserAutocmd MayhemHomeClosed', bufnr: bufnr(),
         \ group: 'mayhem_home_closed',
         \},

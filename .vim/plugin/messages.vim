@@ -30,25 +30,22 @@ endfunc
 
 function s:SplitWithList(list) abort
   exec min([20, max([4, len(a:list)])]) .. 'new'
-  call append('$', a:list)
-  setlocal buftype=nofile bufhidden=wipe nobuflisted
-  setlocal filetype=vimmessages nomodified nomodifiable
-  let winid = win_getid(winnr())
-  wincmd h
-  return winid
+  call append(0, a:list)
+  setlocal buftype=nofile bufhidden=wipe nobuflisted nomodified nomodifiable
+  return win_getid(winnr())
 endfunc
 
 function s:SplitWithRuntime() abort
-  let s:winid_runtime = s:SplitWithList(s:ListRuntime())
+  let s:winid_runtime = s:SplitWithList(extend(['Runtime'], s:ListRuntime()))
+  call winbufnr(s:winid_runtime)->setbufvar('&filetype', 'vimruntime')
 endfunc
+command! Runtime call s:SplitWithRuntime()
 
 function s:SplitWithScriptnames() abort
-  let s:winid_scriptnames = s:SplitWithList(s:ListScriptnames())
+  let s:winid_scriptnames = s:SplitWithList(extend(['Scriptnames'], s:ListScriptnames()))
+  call winbufnr(s:winid_scriptnames)->setbufvar('&filetype', 'vimscriptnames')
 endfunc
-
-
 command! Scriptnames call s:SplitWithScriptnames()
-command! Runtime call s:SplitWithRuntime()
 
 "
 " Expand <SNR> in messages output with real file names      TODO
@@ -62,6 +59,16 @@ function s:ExpandSNR(messages) abort
   "let replaceHome = map(replaceSNR,
    "     \ {_, p -> substitute(p, expand('$VIMHOME') .. '[]', 'g')
   return replaceSNR
+endfunc
+
+function s:GetMessagesBuffer() abort
+  if !exists('s:bufnr_messages') || !bufexists(s:bufnr_messages)
+    let s:bufnr_messages = bufadd('')
+    call setbufvar(s:bufnr_messages, '&filetype', 'vimmessages')
+    call setbufvar(s:bufnr_messages, '&buftype', 'nofile')
+    call setbufvar(s:bufnr_messages, '&bufhidden', 'wipe')
+  endif
+  return s:bufnr_messages
 endfunc
 
 function s:ReplaceBufferWithList(bufnr, list)
@@ -82,36 +89,8 @@ endfunc
 function s:RefreshMessages() abort
   let messages = s:ListMessages()
   let messagesExpanded = s:ExpandSNR(messages)
-  " call appendbufline(a:bufnr, '$', '╺┅╸ Messages ╺┅╸')
-  " call appendbufline(a:bufnr, '$', '')
-  " call appendbufline(a:bufnr, '$', messages)
-  " call appendbufline(a:bufnr, '$', '')
-  " call appendbufline(a:bufnr, '$', messagesExpanded)
+
   call s:WriteListToBuffer(s:GetMessagesBuffer(), messages)
-endfunc
-
-function s:CloseMessages() abort
-  call win_execute(winbufnr(s:GetMessagesBuffer()), 'close')
-
-  call s:CloseMessagesPopup()
-endfunc
-
-function s:GetMessagesBuffer() abort
-  if !exists('s:bufnr_messages') || !bufexists(s:bufnr_messages)
-    let s:bufnr_messages = bufadd('')
-    call setbufvar(s:bufnr_messages, '&filetype', 'vimmessages')
-    call setbufvar(s:bufnr_messages, '&buftype', 'nofile')
-    call setbufvar(s:bufnr_messages, '&bufhidden', 'wipe')
-    call autocmd_add([
-        \#{
-        \ event: ['User'], replace: v:true,
-        \ pattern: 'MayhemHomeClosed',
-        \ cmd: 'MessagesClose', bufnr: s:bufnr_messages,
-        \ group: 'mayhem_messages_exit',
-        \},
-        \])
-  endif
-  return s:bufnr_messages
 endfunc
 
 "
@@ -136,6 +115,13 @@ function s:CloseMessagesPopup() abort
     call popup_close(s:popid_messages)
     unlet s:popid_messages
   endif
+endfunc
+
+function s:CloseMessages() abort
+  echom 's:CloseMessages()'
+  call winbufnr(s:GetMessagesBuffer())->win_execute('close')
+
+  call s:CloseMessagesPopup()
 endfunc
 
 "
@@ -183,6 +169,26 @@ command! MessagesSplit call s:SplitWithMessages()
 command! MessagesClose call s:CloseMessages()
 
 command! MessagesRefresh call s:RefreshMessages()
+
+function! s:CloseIfLastWindow() abort
+  if (winnr('$') == 1 && get(b:, ''mayhem_messages'', 0) == 1)
+    quit
+  endif
+endfunc
+
+call autocmd_add([
+      \#{
+      \ event: 'User', replace: v:true,
+      \ pattern: 'MayhemHomeClosed',
+      \ cmd: 'call s:CloseMessages()',
+      \ group: 'mayhem_messages_exit',
+      \},
+      \#{
+      \ event: 'WinEnter', replace: v:true,
+      \ cmd: 'call s:QuitIfLastWindow()',
+      \ group: 'mayhem_quit_if_last_window',
+      \},
+      \])
 
 "
 " :Mess(ages) [show/hide/toggle] reload [auto/no]

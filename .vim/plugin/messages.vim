@@ -28,10 +28,23 @@ function s:ListMessages() abort
 endfunc
 
 
+function s:ReplaceBufferWithList(bufnr, list)
+  call setbufvar(a:bufnr, '&modifiable', 1)
+  silent! call deletebufline(a:bufnr, 1, '$')
+  call appendbufline(a:bufnr, 0, a:list)
+  call setbufvar(a:bufnr, 'mayhem_messages_lastupdated', localtime())
+  call setbufvar(a:bufnr, '&modifiable', 0)
+  call setbufvar(a:bufnr, '&modified', 0)
+  call win_execute(winbufnr(a:bufnr), ['redraw', 'call cursor(''$'', 0)'])
+endfunc
+
 function s:SplitWithList(list) abort
   exec min([20, max([4, len(a:list)])]) .. 'new'
-  call append(0, a:list)
-  setlocal buftype=nofile bufhidden=wipe nobuflisted nomodified nomodifiable
+  let bufnr = bufnr()
+  call s:ReplaceBufferWithList(bufnr, a:list)
+  call setbufvar(bufnr, '&buftype', 'nofile')
+  call setbufvar(bufnr, '&bufhidden', 'wipe')
+  call setbufvar(bufnr, '&buflisted', 0)
   return win_getid(winnr())
 endfunc
 
@@ -71,26 +84,11 @@ function s:GetMessagesBuffer() abort
   return s:bufnr_messages
 endfunc
 
-function s:ReplaceBufferWithList(bufnr, list)
-endfunc
-function s:AppendListToBuffer(bufnr, list)
-endfunc
-
-function s:WriteListToBuffer(bufnr, list) 
-  call setbufvar(a:bufnr, '&modifiable', 1)
-  silent! call deletebufline(a:bufnr, 1, '$')
-  call appendbufline(a:bufnr, 0, a:list)
-  call setbufvar(a:bufnr, 'mayhem_messages_lastupdated', localtime())
-  call setbufvar(a:bufnr, '&modifiable', 0)
-  call setbufvar(a:bufnr, '&modified', 0)
-  call win_execute(winbufnr(a:bufnr), ['redraw', 'call cursor(''$'', 0)'])
-endfunc
-
 function s:RefreshMessages() abort
   let messages = s:ListMessages()
   let messagesExpanded = s:ExpandSNR(messages)
 
-  call s:WriteListToBuffer(s:GetMessagesBuffer(), messages)
+  call s:ReplaceBufferWithList(s:GetMessagesBuffer(), messages)
 endfunc
 
 "

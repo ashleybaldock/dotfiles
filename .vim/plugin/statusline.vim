@@ -655,6 +655,10 @@ function CustomStatusline()
     return get(g:, 'mayhem', {})->get('sl_dir', ['sl_dirC', 'sl_dirN'])[NC()]
   elseif &ft == 'vimmessages'
     return get(g:, 'mayhem', {})->get('sl_messages', ['sl_messagesC', 'sl_messagesN'])[NC()]
+  elseif &ft == 'vimscriptnames'
+    return get(g:, 'mayhem', {})->get('sl_scriptnames', ['sl_scriptnamesC', 'sl_scriptnamesN'])[NC()]
+  elseif &ft == 'vimruntime'
+    return get(g:, 'mayhem', {})->get('sl_runtime', ['sl_runtimeC', 'sl_runtimeN'])[NC()]
   elseif &ft == 'mayhemhome'
     return get(g:, 'mayhem', {})->get('sl_home', ['sl_homeC', 'sl_homeN'])[NC()]
   endif

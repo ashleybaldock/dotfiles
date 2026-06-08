@@ -674,9 +674,10 @@ body > h1 {
   grid-row: 1/1;
   width: auto;
   height: auto;
-  max-width: min(100%, 100vw);
-  max-height: min(100%, 100vh);
+  max-width: min(var(--playerWidth), 100vw);
+  max-height: min(var(--playerHeight), 100vh);
   object-fit: contain;
+  object-position: top;
 }
 /*!}}}1*/
 
@@ -1300,76 +1301,75 @@ td:not(:first-child) {
 }
 
 .player.linear.paused,
-[src^="moz-icon://"]
-{
+[src^='moz-icon://'] {
   display: none;
 }
 
-.file:has(>[src="moz-icon://.mp4?size=16"])::before
-{
+.file:has(> [src='moz-icon://.mp4?size=16'])::before {
   content: 'mp4';
   --c-hint: #f0f;
   --icon: var(--icon-filetype-video);
 }
 
-.file:has(>[src="moz-icon://.png?size=16"])::before
-{
+.file:has(> [src='moz-icon://.png?size=16'])::before {
   content: 'png';
   --icon: var(--icon-filetype-image);
 }
 
-.file:has(>[src="moz-icon://.jpeg?size=16"])::before,
-.file:has(>[src="moz-icon://.jpg?size=16"])::before
-{
+.file:has(> [src='moz-icon://.jpeg?size=16'])::before,
+.file:has(> [src='moz-icon://.jpg?size=16'])::before {
   content: 'jpg';
   --icon: var(--icon-filetype-image);
 }
 
-.file:has(>[src="moz-icon://.gif?size=16"])::before
-{
+.file:has(> [src='moz-icon://.gif?size=16'])::before {
   content: 'gif';
   --icon: var(--icon-filetype-image);
 }
 
-.file:has(>[src="moz-icon://.html?size=16"])::before
-{
+.file:has(> [src='moz-icon://.html?size=16'])::before {
   content: 'html';
 }
 
-.file:has(>[src="moz-icon://.css?size=16"])::before
-{
+.file:has(> [src='moz-icon://.css?size=16'])::before {
   content: 'css';
 }
 
-.file:has(>[src="moz-icon://.js?size=16"])::before
-{
+.file:has(> [src='moz-icon://.js?size=16'])::before {
   content: 'js';
 }
 
-.file:has(>[src="moz-icon://.ts?size=16"])::before
-{
+.file:has(> [src='moz-icon://.ts?size=16'])::before {
   content: 'ts';
 }
 
 :root:not(:has([name='images'] :checked))
-body > table > :where(tbody, thead) > tr:has(
-    [src="moz-icon://.jpeg?size=16"],
-    [src="moz-icon://.jpg?size=16"],
-    [src="moz-icon://.png?size=16"]
-),
+  body
+  > table
+  > :where(tbody, thead)
+  > tr:has(
+    [src='moz-icon://.jpeg?size=16'],
+    [src='moz-icon://.jpg?size=16'],
+    [src='moz-icon://.png?size=16']
+  ),
 :root:not(:has([name='video'] :checked))
-body > table > :where(tbody, thead) > tr:has(
-  [src="moz-icon://.mp4?size=16"],
-  [src="moz-icon://.gif?size=16"]
-),
+  body
+  > table
+  > :where(tbody, thead)
+  > tr:has([src='moz-icon://.mp4?size=16'], [src='moz-icon://.gif?size=16']),
 :root:not(:has([name='other'] :checked))
-body > table > :where(tbody, thead) > tr:not(:has(
-  [src="moz-icon://.jpeg?size=16"],
-  [src="moz-icon://.jpg?size=16"],
-  [src="moz-icon://.png?size=16"],
-  [src="moz-icon://.mp4?size=16"],
-  [src="moz-icon://.gif?size=16"]
-)) {
+  body
+  > table
+  > :where(tbody, thead)
+  > tr:not(
+    :has(
+      [src='moz-icon://.jpeg?size=16'],
+      [src='moz-icon://.jpg?size=16'],
+      [src='moz-icon://.png?size=16'],
+      [src='moz-icon://.mp4?size=16'],
+      [src='moz-icon://.gif?size=16']
+    )
+  ) {
   display: none;
 }
 

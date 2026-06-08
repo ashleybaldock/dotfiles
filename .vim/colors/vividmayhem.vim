@@ -11,7 +11,7 @@
 "   ./termayhem.vim          - Terminal colorscheme
 "  ../plugin/chars.vim       - fillchars, listchars etc.
 "  ../plugin/highlight.vim   - Colourscheme Utils
-"            ╰─▷ ⎧ :HiHi     - inline highlight presearch  ⎫
+"            ╰─▷ ⎧ :HiHi     - inline highlight presearch⎫
 "                ⎩                                       ⎭
 "  ../plugin/synfo.vim       - syntax info popup
 "

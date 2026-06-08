@@ -51,14 +51,14 @@ function! statusline#updateSearch(...) abort
   let b:mayhem.sl_cache_search = format#CN([
       \'%#SlSearch⸮#',
       \symbol,
-      \'%#SlHint⸮#',
-      \ '''', @/, '''',
+      \'%#SlFPath⸮#',
+      \ '', @/, '',
       \'%#SlSearch⸮#',
-      \'%#SlFPath⸮#[️%#SlSearch⸮#',
-      \current,
       \'%#SlFPath⸮#/️%#SlSearch⸮#',
+      \current,
+      \'%#SlFPath⸮# of %#SlSearch⸮#',
       \total,
-      \'%#SlFPath⸮#]️%#SlSearch⸮# ',
+      \'%#SlFPath⸮#/️%#SlSearch⸮# ',
       \'%*'
       \])
 endfunc

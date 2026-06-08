@@ -6,8 +6,8 @@ let g:mayhem_loaded_statusline = 1
 scriptencoding utf-8
 
 "
-" See Also: ../autoload/tabline.vim
-"             ../plugin/statusline.vim
+" See Also: $VIMHOME/autoload/tabline.vim
+"           $VIMHOME/autoload/statusline.vim
 "
 
 "{{{1 TODO Statusline for narrow windows (<16)
@@ -517,6 +517,7 @@ function s:UpdateStatuslines() abort
         \'%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
         \'%#SlSep⸮#%=%*%<',
         \' %{%ChSearch()%}',
+        \'%#SlSep⸮#%=%*',
         \'%( %#SlFlag⸮#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
         \'%( %#SlHint⸮#%{%Conceal()%}%{%CheckScb()%}%*%)',
         \' %{%ChFInfo()%}',

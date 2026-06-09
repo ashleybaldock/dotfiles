@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.362
+// @version     1.0.369
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -147,7 +147,7 @@ const addSequenceToggle = ({
         'change',
         (e) => {
           if (e.target.checked) {
-            bindTo.value = e.target.checked;
+            bindTo.value = e.target.value;
           }
         },
         {},
@@ -160,10 +160,51 @@ const addSequenceToggle = ({
   return div;
 };
 
+const addAction = ({
+  to,
+  name,
+  tag = 'button',
+  id = `action_${name}`,
+  action,
+  textContent = `Perform ${name}`,
+  ...attrs
+} = {}) => {
+  const div = GM_addElement(to, 'div', {
+    class: 'action',
+    name,
+    'data-text': textContent,
+    ...attrs,
+  });
+  const label = GM_addElement(div, 'label', {
+    class: '',
+  });
+  GM_addElement(label, 'span', {
+    class: 'tip',
+    textContent,
+  });
+  const input = GM_addElement(label, tag, {
+    id,
+    name,
+  });
+  input.addEventListener('click', () => action(), {});
+  return div;
+};
+
 const initBrowsePreview = ({ document: { body } }) => {
   const players = GM_addElement(body, 'section', { class: 'players' });
 
   const toggles = GM_addElement(body, 'section', { class: 'toggles' });
+
+  const actions = (({}) => {
+    /**
+     * Add current media to a list for review
+     */
+    const flag = () => {};
+
+    return {
+      flag,
+    };
+  })({});
 
   const config = (({}) => {
     const defineString = (_val = '') => {
@@ -376,6 +417,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       reload_on_repeat,
       debug,
     },
+    actions: { flag },
   }) => {
     const repeatGrouping = addGrouping({ to });
     addToggle({
@@ -522,7 +564,13 @@ const initBrowsePreview = ({ document: { body } }) => {
       name: 'debug',
       to,
     });
-  })({ to: toggles, config });
+    addAction({
+      textContent: 'Flag for review',
+      action: flag,
+      name: 'flag',
+      to,
+    });
+  })({ to: toggles, config, actions });
 
   const addWrappedVideo = (
     ({ window: { console }, config: { playpause } }) =>
@@ -643,7 +691,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         // console.debug(`${idx} ratechange '${decodeURI(video.src)}'`);
       });
       video.addEventListener('ended', () => {
-        console.info`${idx} ended '${decodeURI(video.src)}'`;
+        // console.info`${idx} ended '${decodeURI(video.src)}'`;
 
         _playbackErrors = Math.max(0, _playbackErrors + addToCountOnSuccess);
 
@@ -1018,7 +1066,7 @@ const browsePreviewToggleIds = addStyleToggles([
           if (isDirectory) {
             initBrowsePreview(unsafeWindow);
 
-            bluronblur({ timeout: 10 });
+            // bluronblur({ timeout: 10 });
           }
         }),
       ]);

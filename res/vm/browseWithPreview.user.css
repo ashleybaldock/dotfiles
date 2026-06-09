@@ -44,6 +44,10 @@
   --icon-slash-overlay: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffffff%22 stroke-width=%220%22 viewBox=%220 0 640 640%22%3E %3Cpath d=%22M39 39C48.4 29.6 63.6 29.6 72.9 39L601 567C610.4 576.4 610.4 591.6 601 600.9C591.6 610.2 576.4 610.3 567.1 600.9L39 73C29.7 63.6 29.7 48.4 39 39z%22%3E %3C/path%3E%3C/svg%3E');
   --icon-null-overlay: linear-gradient(#0000 0 0);
 
+  --icon-toggle-debug: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M162.4 6c-1.5-3.6-5-6-8.9-6h-19c-3.9 0-7.5 2.4-8.9 6L104.9 57.7c-3.2 8-14.6 8-17.8 0L66.4 6c-1.5-3.6-5-6-8.9-6H48C21.5 0 0 21.5 0 48V224v22.4V256H9.6 374.4 384v-9.6V224 48c0-26.5-21.5-48-48-48H230.5c-3.9 0-7.5 2.4-8.9 6L200.9 57.7c-3.2 8-14.6 8-17.8 0L162.4 6zM0 288v32c0 35.3 28.7 64 64 64h64v64c0 35.3 28.7 64 64 64s64-28.7 64-64V384h64c35.3 0 64-28.7 64-64V288H0zM192 432a16 16 0 1 1 0 32 16 16 0 1 1 0-32z%22%3E%3C/path%3E%3C/svg%3E');
+
+  --icon-action-flag: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z%22%3E%3C/path%3E%3C/svg%3E');
+
   --icon-filelist-hide: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z%22%3E%3C/path%3E%3C/svg%3E');
   --icon-filelist-below: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E%3Cpath d=%22M297.4 566.6C309.9 579.1 330.2 579.1 342.7 566.6L502.7 406.6C515.2 394.1 515.2 373.8 502.7 361.3C490.2 348.8 469.9 348.8 457.4 361.3L352 466.7L352 96C352 78.3 337.7 64 320 64C302.3 64 288 78.3 288 96L288 466.7L182.6 361.3C170.1 348.8 149.8 348.8 137.3 361.3C124.8 373.8 124.8 394.1 137.3 406.6L297.3 566.6z%22%3E%3C/path%3E%3C/svg%3E');
   --icon-filelist-beside: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E%3Cpath d=%22M566.6 342.6C579.1 330.1 579.1 309.8 566.6 297.3L406.6 137.3C394.1 124.8 373.8 124.8 361.3 137.3C348.8 149.8 348.8 170.1 361.3 182.6L466.7 288L96 288C78.3 288 64 302.3 64 320C64 337.7 78.3 352 96 352L466.7 352L361.3 457.4C348.8 469.9 348.8 490.2 361.3 502.7C373.8 515.2 394.1 515.2 406.6 502.7L566.6 342.7z%22%3E%3C/path%3E%3C/svg%3E');
@@ -321,6 +325,14 @@
   --icon: var(--icon-toggle-shuffle);
 }
 
+.toggle[name='debug'] > label {
+  --icon: var(--icon-toggle-debug);
+}
+
+.action[name='flag'] > label {
+  --icon: var(--icon-action-flag);
+}
+
 .next {
   background-image: var(--icon-play-next);
 }
@@ -348,14 +360,6 @@
   > label[for='playpause_paused'] {
   z-index: var(--z-topmost-playpause-overlay);
   pointer-events: auto;
-}
-:root:has([id='playpause_paused']:checked)
-  .vidwrap
-  > label[for='playpause_playing'] {
-  /*! background-image: var(--icon-pause); */
-  /* --icon: var(--icon-pause); */
-  /*! --icon: var(--icon-play-circle); */
-  /* background-color: #4442; */
 }
 
 label:has([id='playpause_playing']) {
@@ -392,12 +396,12 @@ label:has([id='playpause_paused']) {
   /* --inset-options: 66vh auto auto auto; */
   /* --inset-files: 67vh auto auto auto; */
 
-  --options-from-top: 76vh;
+  --options-from-top: 93vh;
   --files-from-top: 78vh;
 
   --inset-player: -20vh auto 20vh auto;
   --inset-player-fixed: 0 0 0 0;
-  --margin-player-fixed: 0 0 0 0;
+  --margin-player-fixed: auto 0 auto 0;
   --margin-player: 20vh 0 20vh 0;
 
   --margin-spacer: 0 0 var(--options-from-top) 0;
@@ -427,6 +431,21 @@ label:has([id='playpause_paused']) {
   --z-other-playpause-overlay: 130;
   --z-topmost-playpause-overlay: 140;
   --z-debug-top: 100000;
+}
+
+:root:has([name='filelist'][value='hide']:checked) body {
+  grid-template-columns: [left spacer-start preview-start files-start filestatus-start] 5ch 2ch [filestatus-end options-start filename-start] repeat(
+      var(--main-layout-column-count),
+      100fr
+    ) [filename-end filesize-start] auto [filesize-end filedate-start] auto [filedate-end files-end options-end preview-end spacer-end right];
+  grid-template-rows: [top preview-start] var(
+      --options-from-top
+    ) [options-start] 3em [options-end] calc(
+      100vh - var(--options-from-top) - 3em
+    ) [preview-end bottom];
+}
+:root:has([name='filelist'][value='hide']:checked) body::before {
+  height: 100vh;
 }
 
 /*!{{{1 Cursors */

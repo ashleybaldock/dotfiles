@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.369
+// @version     1.0.370
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -32,9 +32,13 @@ const sequences = {
   playpause: ['playing', 'paused'],
   player: ['interleave', 'linear'],
   interleave_timing: ['bpm', 'span'],
-  interleave_duration_ms: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  interleave_duration_ms: [
+    60000, 30000, 20000, 15000, 10000, 6000, 4000, 3000, 2000, 1000, 800, 750,
+    625, 600, 500, 480, 400, 375, 300, 250, 240, 200, 160, 150,
+  ],
   interleave_bpm: [
-    60, 70, 80, 90, 100, 110, 120, 140, 150, 160, 170, 180, 190, 200,
+    1, 2, 3, 4, 6, 10, 15, 20, 30, 60, 75, 80, 96, 100, 120, 125, 150, 160, 200,
+    240, 250, 300, 375, 400,
   ],
   interleave_active_player_count: [2, 3, 4, 6, 9, 12, 16],
 };
@@ -341,7 +345,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       };
     };
     return {
-      filelist: defineSequence(sequences.filelist, 'below'),
+      filelist: defineSequence(sequences.filelist, 'hide'),
       imageDuration: defineNumber(5),
       includeImageFiles: defineToggle(true),
       includeVideoFiles: defineToggle(true),

@@ -225,3 +225,40 @@
     cover;
   background-repeat: round, no-repeat, no-repeat;
 }
+
+article {
+  background-image:
+    radial-gradient(
+      farthest-corner circle at top left,
+      #f002 -150%,
+      #fff1 50%,
+      #00f2 150%
+    ),
+    radial-gradient(
+      farthest-corner circle at bottom right,
+      #00f2 -150%,
+      #fff1 50%,
+      #f002 150%
+    ),
+    repeating-conic-gradient(
+      from 60deg at -5vmax -5vmin,
+      #fff2 15deg 20deg,
+      #0002 35deg 43.5deg
+    ),
+    repeating-conic-gradient(
+      from 60deg at top left,
+      #0006 20deg 27.5deg,
+      #fff1 40deg 41.4deg
+    ),
+    repeating-conic-gradient(
+      from -60deg at bottom right,
+      #fff2 17.5deg 22.5deg,
+      #0006 40deg 45.6deg
+    ),
+    repeating-conic-gradient(
+      from -60deg at calc(100% + 50vmin) calc(100% + 50vmax),
+      #0002 15deg 20deg,
+      #fff2 35deg 45deg
+    ),
+    linear-gradient(#0000 0 0);
+}

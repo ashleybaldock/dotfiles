@@ -44,8 +44,7 @@
   --icon-slash-overlay: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffffff%22 stroke-width=%220%22 viewBox=%220 0 640 640%22%3E %3Cpath d=%22M39 39C48.4 29.6 63.6 29.6 72.9 39L601 567C610.4 576.4 610.4 591.6 601 600.9C591.6 610.2 576.4 610.3 567.1 600.9L39 73C29.7 63.6 29.7 48.4 39 39z%22%3E %3C/path%3E%3C/svg%3E');
   --icon-null-overlay: linear-gradient(#0000 0 0);
 
-  --icon-toggle-debug: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M162.4 6c-1.5-3.6-5-6-8.9-6h-19c-3.9 0-7.5 2.4-8.9 6L104.9 57.7c-3.2 8-14.6 8-17.8 0L66.4 6c-1.5-3.6-5-6-8.9-6H48C21.5 0 0 21.5 0 48V224v22.4V256H9.6 374.4 384v-9.6V224 48c0-26.5-21.5-48-48-48H230.5c-3.9 0-7.5 2.4-8.9 6L200.9 57.7c-3.2 8-14.6 8-17.8 0L162.4 6zM0 288v32c0 35.3 28.7 64 64 64h64v64c0 35.3 28.7 64 64 64s64-28.7 64-64V384h64c35.3 0 64-28.7 64-64V288H0zM192 432a16 16 0 1 1 0 32 16 16 0 1 1 0-32z%22%3E%3C/path%3E%3C/svg%3E');
-
+  --icon-toggle-debug: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M78.6 5C69.1-2.4 55.6-1.5 47 7L7 47c-8.5 8.5-9.4 22-2.1 31.6l80 104c4.5 5.9 11.6 9.4 19 9.4h54.1l109 109c-14.7 29-10 65.4 14.3 89.6l112 112c12.5 12.5 32.8 12.5 45.3 0l64-64c12.5-12.5 12.5-32.8 0-45.3l-112-112c-24.2-24.2-60.6-29-89.6-14.3l-109-109V104c0-7.5-3.5-14.5-9.4-19L78.6 5zM19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L233.7 374.3c-7.8-20.9-9-43.6-3.6-65.1l-61.7-61.7L19.9 396.1zM512 144c0-10.5-1.1-20.7-3.2-30.5c-2.4-11.2-16.1-14.1-24.2-6l-63.9 63.9c-3 3-7.1 4.7-11.3 4.7H352c-8.8 0-16-7.2-16-16V102.6c0-4.2 1.7-8.3 4.7-11.3l63.9-63.9c8.1-8.1 5.2-21.8-6-24.2C388.7 1.1 378.5 0 368 0C288.5 0 224 64.5 224 144l0 .8 85.3 85.3c36-9.1 75.8 .5 104 28.7L429 274.5c49-23 83-72.8 83-130.5zM56 432a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z%22%3E%3C/path%3E%3C/svg%3E');
   --icon-action-flag: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z%22%3E%3C/path%3E%3C/svg%3E');
 
   --icon-filelist-hide: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z%22%3E%3C/path%3E%3C/svg%3E');
@@ -230,8 +229,7 @@
   %3C/svg%3E');
 }
 
-:where(.next, .prev),
-.toggle > label {
+:where(.toggle, .action) > label {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -240,14 +238,14 @@
   mask-mode: luminance;
 }
 
-.toggle > label,
-.toggle > label::after {
+:where(.toggle, .action) > label,
+:where(.toggle, .action) > label::after {
   width: auto;
   height: 2rem;
   padding: 0;
   margin: 0;
 }
-.toggle > label::after {
+:where(.toggle, .action) > label::after {
   --icon-composite:
     var(--icon, var(--icon-default)),
     var(--icon-slash-overlay, var(--icon-null-overlay));
@@ -333,39 +331,46 @@
   --icon: var(--icon-action-flag);
 }
 
-.next {
+.action[name='next'] > label {
   background-image: var(--icon-play-next);
 }
 
-.prev {
+.action[name='prev'] > label {
   background-image: var(--icon-play-prev);
 }
 
-.vidwrap > label[for='playpause_paused'],
-.vidwrap > label[for='playpause_playing'] {
+.player > label:where([for='playpause_playing'], [for='playpause_paused']) {
   z-index: var(--z-other-playpause-overlay);
   pointer-events: none;
+  mask-repeat: no-repeat;
+  mask-position: 50% 50%;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  inset: 0 0 0 0;
+  background-color: #0000;
 }
-:root:has([id='playpause_playing']:checked)
-  .vidwrap
-  > label[for='playpause_playing'] {
-  /* background-image: var(--icon-play); */
-  background-image: none;
+.player > label[for='playpause_paused'] {
+  background-color: #fff2;
+  mask-image: var(--icon-play-circle), linear-gradient(#fff 0 0);
+  mask-composite: intersect;
+  mask-size: 15vmin, cover;
 }
-:root:has([id='playpause_paused']:checked)
-  .vidwrap
-  > label[for='playpause_playing'],
-:root:has([id='playpause_playing']:checked)
-  .vidwrap
-  > label[for='playpause_paused'] {
+.player > label[for='playpause_playing'] {
+  mask-image: linear-gradient(#fff 0 0);
+  mask-size: cover;
+}
+:root:has(#playpause_paused:checked) .player > label[for='playpause_playing'],
+:root:has(#playpause_playing:checked) .player > label[for='playpause_paused'] {
   z-index: var(--z-topmost-playpause-overlay);
   pointer-events: auto;
 }
 
-label:has([id='playpause_playing']) {
+label:has(#playpause_playing) {
   --icon: var(--icon-play);
 }
-label:has([id='playpause_paused']) {
+label:has(#playpause_paused) {
   --icon: var(--icon-pause);
 }
 
@@ -391,18 +396,13 @@ label:has([id='playpause_paused']) {
   --inset-top: 0 auto auto auto;
   --inset-player: 0 0 0 0;
 
-  /* --margin-spacer: 0 0 74vh 0; */
-  /* --inset-spacer: auto auto 100vh auto; */
-  /* --inset-options: 66vh auto auto auto; */
-  /* --inset-files: 67vh auto auto auto; */
-
   --options-from-top: 93vh;
   --files-from-top: 78vh;
 
   --inset-player: -20vh auto 20vh auto;
   --inset-player-fixed: 0 0 0 0;
-  --margin-player-fixed: auto 0 auto 0;
   --margin-player: 20vh 0 20vh 0;
+  --margin-player-fixed: auto 0 auto 0;
 
   --margin-spacer: 0 0 var(--options-from-top) 0;
   --inset-spacer: auto auto calc(var(--options-from-top) * -1) auto;
@@ -431,21 +431,6 @@ label:has([id='playpause_paused']) {
   --z-other-playpause-overlay: 130;
   --z-topmost-playpause-overlay: 140;
   --z-debug-top: 100000;
-}
-
-:root:has([name='filelist'][value='hide']:checked) body {
-  grid-template-columns: [left spacer-start preview-start files-start filestatus-start] 5ch 2ch [filestatus-end options-start filename-start] repeat(
-      var(--main-layout-column-count),
-      100fr
-    ) [filename-end filesize-start] auto [filesize-end filedate-start] auto [filedate-end files-end options-end preview-end spacer-end right];
-  grid-template-rows: [top preview-start] var(
-      --options-from-top
-    ) [options-start] 3em [options-end] calc(
-      100vh - var(--options-from-top) - 3em
-    ) [preview-end bottom];
-}
-:root:has([name='filelist'][value='hide']:checked) body::before {
-  height: 100vh;
 }
 
 /*!{{{1 Cursors */
@@ -495,7 +480,7 @@ label:has([id='playpause_paused']) {
   --cursor-fallback: default;
 }
 
-:root:has([id='playpause_playing']:checked) .vidwrap,
+:root:has(#playpause_playing:checked) .vidwrap,
 .playing,
 [data-cursor='media-default-pause'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E\
@@ -509,7 +494,7 @@ label:has([id='playpause_paused']) {
   --cursor-hotspot-y: 2;
 }
 
-:root:has([id='playpause_paused']:checked) .vidwrap,
+:root:has(#playpause_paused:checked) .vidwrap,
 .paused,
 [data-cursor='media-default-play'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E\
@@ -578,18 +563,13 @@ body {
   column-gap: 0;
   row-gap: 0;
   grid-template-columns:
-    [left spacer-start preview-start files-start] 10fr 10fr [options-start] repeat(
+    [left spacer-start preview-start files-start filestatus-start] 5ch 2ch [filestatus-end options-start filename-start] repeat(
       var(--main-layout-column-count),
       100fr
     )
-    [ files-end options-end preview-end spacer-end right];
-  grid-template-rows:
-    [top
-    spacer-start]auto[spacer-end
-    options-start]3em[options-end
-    fhead-start]2em[fhead-end
-    files-start]auto[
-    bottom];
+    [filename-end filesize-start] auto [filesize-end filedate-start] auto [filedate-end files-end options-end preview-end spacer-end right];
+
+  grid-template-rows: [top spacer-start]auto[spacer-end options-start]3em[options-end fhead-start]2em[fhead-end files-start]auto[ bottom];
 }
 
 body::before {
@@ -602,6 +582,24 @@ body::before {
   grid-area: spacer;
   max-height: unset;
   pointer-events: none;
+}
+
+:root:has(#filelist_hide:checked) body {
+  grid-template-columns:
+    [left spacer-start preview-start files-start filestatus-start] 5ch 2ch [filestatus-end options-start filename-start] repeat(
+      var(--main-layout-column-count),
+      100fr
+    )
+    [filename-end filesize-start] auto [filesize-end filedate-start] auto [filedate-end files-end options-end preview-end spacer-end right];
+  grid-template-rows:
+    [top preview-start] var(--options-from-top)
+    [options-start] 3em [options-end] calc(
+      100vh - var(--options-from-top) - 3em
+    )
+    [preview-end bottom];
+}
+:root:has(#filelist_hide:checked) body::before {
+  height: 100vh;
 }
 
 body > section:has(.vidwrap) {
@@ -680,7 +678,7 @@ body > h1 {
 .vidwrap + .vidwrap + .vidwrap + .vidwrap .overlay {
   --t: 'Overlay i4';
 }
-.vidwrap > label {
+.player > label {
   grid-column: 1/-1;
   grid-row: 1/1;
   z-index: var(--z-other-playpause-overlay);
@@ -802,6 +800,9 @@ video {
   max-width: 100vw;
   max-height: 90vh;
 }
+video.paused {
+  filter: blur(10px) brightness(0.4);
+}
 
 .players {
   display: contents;
@@ -822,26 +823,26 @@ video {
 body > section:has(> video, > .vidwrap) {
   width: calc(var(--playerWidth) * var(--interleave-active-player-count));
 }
-:root:has([id='playpause_paused']:checked) .player {
+:root:has(#playpause_paused:checked) .player {
   animation-play-state: paused;
 }
-label:has([id='playpause_paused']:checked)::after {
+label:has(#playpause_paused:checked)::after {
   content: 'paused';
   display: flex;
   outline: 2px solid #f00;
 }
 
-:root:has([id='playpause_playing']:checked) .player {
+:root:has(#playpause_playing:checked) .player {
   animation-play-state: running;
 }
-label:has([id='playpause_playing']:checked)::after {
+label:has(#playpause_playing:checked)::after {
   content: 'playing';
   display: flex;
   outline: 2px solid #0f0;
 }
 
 /*{{{2 Linear Player */
-:root:has([name='player'][value='linear']:checked) .linear {
+:root:has(#player_linear:checked) .linear {
   display: grid;
 }
 .linear .last {
@@ -916,7 +917,7 @@ label:has([id='playpause_playing']:checked)::after {
 }
 :root:has(
     [name='player'][value='interleave']:checked,
-    [id='playpause_playing']:checked
+    #playpause_playing:checked
   )
   .interleave {
   display: grid;
@@ -1012,7 +1013,7 @@ label:has([id='playpause_playing']:checked)::after {
   max-width: min(100%, 100vw);
   max-height: min(100%, 100vh);
 }
-:root:has([id='toggle_debug']:checked) .interleave > .vidwrap > label:hover {
+:root:has(#toggle_debug:checked) .interleave > .vidwrap > label:hover {
   box-shadow: inset 0 0 5px 2px #f8f2;
 }
 
@@ -2030,24 +2031,16 @@ body > table > thead > tr::before {
   visibility: hidden;
 }
 
-:root:has([name='filelist'][value='beside']:checked) {
+/*!{{{2 File Listing toggle */
+:root:has(#filelist_beside:checked) {
 }
-:root:has([name='filelist'][value='below']:checked) {
+:root:has(#filelist_below:checked) {
 }
-:root:has([name='filelist'][value='hide']:checked) body > table {
+:root:has(#filelist_hide:checked) body > table {
   display: none;
 }
+/*!}}}2 END File Listing toggle */
 
-body {
-  grid-template-columns:
-    [left spacer-start preview-start files-start filestatus-start] 5ch 2ch [filestatus-end options-start filename-start] repeat(
-      var(--main-layout-column-count),
-      100fr
-    )
-    [filename-end filesize-start] auto [filesize-end filedate-start] auto [filedate-end files-end options-end preview-end spacer-end right];
-
-  grid-template-rows: [top spacer-start]auto[spacer-end options-start]3em[options-end fhead-start]2em[fhead-end files-start]auto[ bottom];
-}
 td:first-child > a {
   grid-column: 3/-5;
 }
@@ -2206,12 +2199,13 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   mask-image: var(--icon-composite);
 }
 
-:root:has([id='toggle_debug']:checked) body::before {
+/*!{{{1 Debug toggle */
+:root:has(#toggle_debug:checked) body::before {
   outline: 2px dashed red;
   z-index: var(--z-debug-top);
 }
 
-:root:has([id='toggle_debug']:checked) .toggle {
+:root:has(#toggle_debug:checked) .toggle {
   grid-template-columns: 1fr;
   height: auto;
   width: auto;
@@ -2222,7 +2216,7 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   outline: 1px solid #f0fa;
   border-radius: 100vw;
 }
-:root:has([id='toggle_debug']:checked) .toggle > label {
+:root:has(#toggle_debug:checked) .toggle > label {
   grid-row: auto;
   mask-image: none;
   mask-size:
@@ -2231,22 +2225,22 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   mask-origin: border-box;
   mask-repeat: no-repeat, repeat;
 }
-:root:has([id='toggle_debug']:checked) .toggle > label > span {
+:root:has(#toggle_debug:checked) .toggle > label > span {
   /*! display: flex; */
   position: absolute;
   left: 100%;
   white-space: nowrap;
 }
-:root:has([id='toggle_debug']:checked) .toggle label:has(:checked) {
+:root:has(#toggle_debug:checked) .toggle label:has(:checked) {
   outline: 1px dashed #f0f;
   border-radius: 100vw;
   outline-offset: -1px;
   background-color: #000;
 }
-:root:has([id='toggle_debug']:checked) .toggle label:has(:checked)::after {
+:root:has(#toggle_debug:checked) .toggle label:has(:checked)::after {
   background-color: #f0fd;
 }
-:root:has([id='toggle_debug']:checked) .toggle label::before {
+:root:has(#toggle_debug:checked) .toggle label::before {
   content: attr(data-value);
   position: absolute;
   inset: auto auto auto calc(100% + 1px);
@@ -2263,7 +2257,7 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   border-radius: 0 4px 1ch 3px / 1.4ch;
 }
 
-:is(:root:hover, :root:has([id='toggle_debug']:checked)) :is(h1, .toggles) {
+:is(:root:hover, :root:has(#toggle_debug:checked)) :is(h1, .toggles) {
   opacity: 1;
 }
 h1,
@@ -2273,7 +2267,8 @@ h1,
   opacity: 0;
 }
 
-:root:has([id='toggle_debug']:checked) .interleave {
+/*!{{{2 Debug interleave */
+:root:has(#toggle_debug:checked) .interleave {
   background-image: linear-gradient(#f22 0 0);
   box-shadow:
     0 6vh 0 -2vh #f0f,
@@ -2282,16 +2277,16 @@ h1,
     translateY(200px);
   transform-origin: top;
 }
-:root:has([id='toggle_debug']:checked) .interleave .vidwrap {
+:root:has(#toggle_debug:checked) .interleave .vidwrap {
   background-image: linear-gradient(#22aa 0 0);
   box-shadow: 0 0 0 2vh #000;
 }
 
-:root:has([id='toggle_debug']:checked) .interleave .vidwrap::after {
+:root:has(#toggle_debug:checked) .interleave .vidwrap::after {
   --radius: 18vw;
   inset: auto 5vw -30vh auto;
 }
-:root:has([id='toggle_debug']:checked) .interleave > .vidwrap:has(> .off) {
+:root:has(#toggle_debug:checked) .interleave > .vidwrap:has(> .off) {
   display: flex;
   transform: translate(-100vw, 120vh);
   background-image: linear-gradient(#a226 0 0);
@@ -2300,6 +2295,8 @@ h1,
   position: fixed;
   inset: 0 auto auto 0;
 }
+/*!}}}1 END Debug toggle */
+
 .interleave > .vidwrap:has(> .off) > label::after {
   content: '';
   display: flex;
@@ -2321,4 +2318,9 @@ h1,
       #000 calc(50% - var(--xw) * 0.5) calc(50% + var(--xw) * 0.5),
       #0000 calc(50% + var(--xw) * 0.5) 100%
     );
+}
+
+.vidwrap:has(> .paused)::before {
+  position: fixed;
+  width: 10vw;
 }

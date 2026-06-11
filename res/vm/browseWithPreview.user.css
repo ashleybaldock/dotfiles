@@ -2310,7 +2310,7 @@ h1,
 }
 
 .toggle::after {
-  border: 0px solid #c00;
+  border: 0 solid #c00;
   padding: 0.2em 1.5ch;
   border-radius: 1.75ch;
   --a: -0.5ch;

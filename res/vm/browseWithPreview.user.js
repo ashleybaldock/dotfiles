@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.373
+// @version     1.0.376
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -27,6 +27,7 @@
  */
 
 const sequences = {
+  showGrid: ['pause', 'always', 'never'],
   fit: ['auto', 'contain', 'cover', 'fitw', 'fith'],
   filelist: ['below', 'beside', 'hide'],
   playpause: ['playing', 'paused'],
@@ -41,6 +42,44 @@ const sequences = {
     240, 250, 300, 375, 400,
   ],
   interleave_active_player_count: [2, 3, 4, 6, 9, 12, 16],
+};
+
+const defaultConfig = {
+  filelist: { kind: ['below', 'beside', 'hide'], default: 'hide' },
+  imageDuration: { kind: 'number', default: 5 },
+  includeImageFiles: { kind: 'toggle', default: true },
+  includeVideoFiles: { kind: 'toggle', default: true },
+  includeOtherFiles: { kind: 'toggle', default: false },
+  includeHiddenFiles: { kind: 'toggle', default: false },
+  playpause: { kind: ['playing', 'paused'], default: 'playing' },
+  showGrid: { kind: 'toggle', default: false },
+  grid_fit: {
+    kind: ['auto', 'contain', 'cover', 'fitw', 'fith'],
+    default: contain,
+  },
+  player: { kind: ['linear', 'interleave'], default: 'interleave' },
+  interleave_active_player_count: { kind: [2, 3, 4, 6, 9, 12, 16], default: 9 },
+  interleave_duration_ms: {
+    kind: [
+      60000, 30000, 20000, 15000, 10000, 6000, 4000, 3000, 2000, 1000, 800, 750,
+      625, 600, 500, 480, 400, 375, 300, 250, 240, 200, 160, 150,
+    ],
+    default: 500,
+  },
+  interleave_bpm: {
+    kind: [
+      1, 2, 3, 4, 6, 10, 15, 20, 30, 60, 75, 80, 96, 100, 120, 125, 150, 160,
+      200, 240, 250, 300, 375, 400,
+    ],
+    default: 120,
+  },
+  interleave_timing: { kind: ['bpm', 'span'], default: 'bpm' },
+  repeat: { kind: 'toggle', default: true },
+  shuffle_on_load: { kind: 'toggle', default: true },
+  shuffle_on_repeat: { kind: 'toggle', default: true },
+  reload_on_repeat: { kind: 'toggle', default: true },
+  filter: { kind: 'string', default: '.*\.mp4$' },
+  debug: { kind: 'toggle', default: false },
 };
 
 const isDirectory = (({ qs }) =>
@@ -493,32 +532,36 @@ const initBrowsePreview = ({ document: { body } }) => {
       to: interleaveGrouping,
     });
     addSequenceToggle({
-      textContent: 'Change video to match bpm',
+      textContent: 'Change media at a fixed rate',
       bindTo: interleave_bpm,
       name: 'interleave_bpm',
       numeric: true,
       sequence: sequences.interleave_bpm.map((n) => ({
         value: n,
-        textContent: `Change video to match ${n}bpm`,
+        textContent: `Change media ${n} times per minute`,
       })),
       to: interleaveGrouping,
     });
     addSequenceToggle({
-      textContent: 'Show each video for',
+      textContent: 'Show each media for a fixed time',
       bindTo: interleave_duration_ms,
       name: 'interleave_duration_ms',
       numeric: true,
       sequence: sequences.interleave_duration_ms.map((n) => ({
         value: n,
-        textContent: `Show each video for ${n}ms`,
+        textContent: `Show each media for ${n}ms`,
       })),
       to: interleaveGrouping,
     });
     const gridGrouping = addGrouping({ to: playerGrouping });
-    addToggle({
-      textContent: 'Show as Grid',
+    addSequenceToggle({
+      textContent: 'Display multiple media on a grid',
       bindTo: showGrid,
       name: 'grid',
+      sequence: sequences.showGrid.map((p) => ({
+        value: p,
+        textContent: `Show multiple media on a grid (${p})`,
+      })),
       to: gridGrouping,
     });
     addSequenceToggle({
@@ -557,7 +600,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       to: filesGrouping,
     });
     addSequenceToggle({
-      textContent: 'File List (below/beside/hide)',
+      textContent: 'File List location (below/beside/hide)',
       bindTo: filelist,
       name: 'filelist',
       sequence: sequences.filelist.map((v) => ({
@@ -752,7 +795,11 @@ const initBrowsePreview = ({ document: { body } }) => {
         player: video,
         play: () => video.play(),
         pause: () => video.pause(),
-        enable: () => wrapper.classList.remove('off'),
+        enable: () => {
+          wrapper.classList.remove('off');
+          playNext();
+          video.play();
+        },
         disable: () => {
           video.pause();
           video.src = '';

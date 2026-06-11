@@ -380,8 +380,8 @@ label:has(#playpause_paused) {
   padding: 0;
   overflow: visible;
   --playerWidth: 100vw;
+  --playerHeight: 100vh;
   --offset-tip: 0.2em;
-  --playerHeight: 80vh;
   max-height: 100vh;
   min-height: 100vh;
   max-width: 100vw;
@@ -2034,8 +2034,10 @@ body > table > thead > tr::before {
 
 /*!{{{2 File Listing toggle */
 :root:has(#filelist_beside:checked) {
+  --playerWidth: 80vw;
 }
 :root:has(#filelist_below:checked) {
+  --playerHeight: 80vh;
 }
 :root:has(#filelist_hide:checked) body > table {
   display: none;
@@ -2300,10 +2302,6 @@ h1,
 }
 /*!}}}1 END Debug toggle */
 
-:root {
-  --playerHeight: 100vh;
-}
-
 .vidwrap > video {
   object-fit: none;
   object-position: top;
@@ -2414,9 +2412,6 @@ h1,
 }
 .sequence.toggle.numeric label::after {
   display: none;
-}
-.sequence.toggle.numeric label::before {
-  /*   display: none; */
 }
 :root:has(#toggle_debug:checked)
   .sequence.toggle.numeric

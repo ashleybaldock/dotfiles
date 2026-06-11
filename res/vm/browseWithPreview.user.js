@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.370
+// @version     1.0.373
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -116,10 +116,11 @@ const addSequenceToggle = ({
   bindTo,
   textContent = `Toggle for ${name}`,
   sequence = [],
+  numeric = false,
   ...attrs
 } = {}) => {
   const div = GM_addElement(to, 'div', {
-    class: 'sequence toggle',
+    class: `sequence toggle ${numeric ? 'numeric' : ''}`,
     'data-text': textContent,
     ...attrs,
   });
@@ -174,7 +175,7 @@ const addAction = ({
   ...attrs
 } = {}) => {
   const div = GM_addElement(to, 'div', {
-    class: 'action',
+    class: 'toggle action',
     name,
     'data-text': textContent,
     ...attrs,
@@ -471,6 +472,17 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
     const interleaveGrouping = addGrouping({ to: playerGrouping });
     addSequenceToggle({
+      textContent: 'Max # of interleaved videos',
+      bindTo: interleave_active_player_count,
+      name: 'interleave_active_player_count',
+      numeric: true,
+      sequence: sequences.interleave_active_player_count.map((n) => ({
+        value: n,
+        textContent: `Max of ${n} interleaved videos`,
+      })),
+      to: interleaveGrouping,
+    });
+    addSequenceToggle({
       textContent: 'Interleave timing method',
       bindTo: interleave_timing,
       name: 'interleave_timing',
@@ -481,19 +493,10 @@ const initBrowsePreview = ({ document: { body } }) => {
       to: interleaveGrouping,
     });
     addSequenceToggle({
-      textContent: 'Max # of interleaved videos',
-      bindTo: interleave_active_player_count,
-      name: 'interleave_active_player_count',
-      sequence: sequences.interleave_active_player_count.map((n) => ({
-        value: n,
-        textContent: `Max of ${n} interleaved videos`,
-      })),
-      to: interleaveGrouping,
-    });
-    addSequenceToggle({
       textContent: 'Change video to match bpm',
       bindTo: interleave_bpm,
       name: 'interleave_bpm',
+      numeric: true,
       sequence: sequences.interleave_bpm.map((n) => ({
         value: n,
         textContent: `Change video to match ${n}bpm`,
@@ -504,6 +507,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       textContent: 'Show each video for',
       bindTo: interleave_duration_ms,
       name: 'interleave_duration_ms',
+      numeric: true,
       sequence: sequences.interleave_duration_ms.map((n) => ({
         value: n,
         textContent: `Show each video for ${n}ms`,
@@ -568,11 +572,12 @@ const initBrowsePreview = ({ document: { body } }) => {
       name: 'debug',
       to,
     });
+    const actionsGrouping = addGrouping({ to });
     addAction({
       textContent: 'Flag for review',
       action: flag,
       name: 'flag',
-      to,
+      to: actionsGrouping,
     });
   })({ to: toggles, config, actions });
 

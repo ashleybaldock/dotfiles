@@ -44,7 +44,7 @@
   --icon-slash-overlay: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffffff%22 stroke-width=%220%22 viewBox=%220 0 640 640%22%3E %3Cpath d=%22M39 39C48.4 29.6 63.6 29.6 72.9 39L601 567C610.4 576.4 610.4 591.6 601 600.9C591.6 610.2 576.4 610.3 567.1 600.9L39 73C29.7 63.6 29.7 48.4 39 39z%22%3E %3C/path%3E%3C/svg%3E');
   --icon-null-overlay: linear-gradient(#0000 0 0);
 
-  --icon-toggle-debug: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M78.6 5C69.1-2.4 55.6-1.5 47 7L7 47c-8.5 8.5-9.4 22-2.1 31.6l80 104c4.5 5.9 11.6 9.4 19 9.4h54.1l109 109c-14.7 29-10 65.4 14.3 89.6l112 112c12.5 12.5 32.8 12.5 45.3 0l64-64c12.5-12.5 12.5-32.8 0-45.3l-112-112c-24.2-24.2-60.6-29-89.6-14.3l-109-109V104c0-7.5-3.5-14.5-9.4-19L78.6 5zM19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L233.7 374.3c-7.8-20.9-9-43.6-3.6-65.1l-61.7-61.7L19.9 396.1zM512 144c0-10.5-1.1-20.7-3.2-30.5c-2.4-11.2-16.1-14.1-24.2-6l-63.9 63.9c-3 3-7.1 4.7-11.3 4.7H352c-8.8 0-16-7.2-16-16V102.6c0-4.2 1.7-8.3 4.7-11.3l63.9-63.9c8.1-8.1 5.2-21.8-6-24.2C388.7 1.1 378.5 0 368 0C288.5 0 224 64.5 224 144l0 .8 85.3 85.3c36-9.1 75.8 .5 104 28.7L429 274.5c49-23 83-72.8 83-130.5zM56 432a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z%22%3E%3C/path%3E%3C/svg%3E');
+  --icon-toggle-debug: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M352 320c88.4 0 160-71.6 160-160c0-15.3-2.2-30.1-6.2-44.2c-3.1-10.8-16.4-13.2-24.3-5.3l-76.8 76.8c-3 3-7.1 4.7-11.3 4.7H336c-8.8 0-16-7.2-16-16V118.6c0-4.2 1.7-8.3 4.7-11.3l76.8-76.8c7.9-7.9 5.4-21.2-5.3-24.3C382.1 2.2 367.3 0 352 0C263.6 0 192 71.6 192 160c0 19.1 3.4 37.5 9.5 54.5L19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L297.5 310.5c17 6.2 35.4 9.5 54.5 9.5zM80 408a24 24 0 1 1 0 48 24 24 0 1 1 0-48z%22%3E%3C/path%3E%3C/svg%3E');
   --icon-action-flag: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 448 512%22%3E%3Cpath d=%22M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z%22%3E%3C/path%3E%3C/svg%3E');
 
   --icon-filelist-hide: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z%22%3E%3C/path%3E%3C/svg%3E');
@@ -139,7 +139,6 @@
   --icon-repeat-reload: var(--icon-unknown);
 
   --icon-repeat-shuffle: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E\
-  %3C!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--%3E\
   %3Cdefs%3E\
   %3Cfilter id=%22filter-luminanceToAlpha%22%3E\
   %3CfeColorMatrix in=%22SourceGraphic%22 type=%22luminanceToAlpha%22%3E\
@@ -257,7 +256,7 @@
   mask-composite: intersect;
 }
 
-.toggle:not(:has(:checked)) > label::after {
+.toggle:not(:has(:checked)):not(:has(button)) > label::after {
   --icon-composite:
     var(--icon-slash-overlay), var(--icon, var(--icon-default)),
     var(--icon-slash-overlay);
@@ -350,6 +349,7 @@
   display: flex;
   inset: 0 0 0 0;
   background-color: #0000;
+  opacity: 1;
 }
 .player > label[for='playpause_paused'] {
   background-color: #fff2;
@@ -365,6 +365,7 @@
 :root:has(#playpause_playing:checked) .player > label[for='playpause_paused'] {
   z-index: var(--z-topmost-playpause-overlay);
   pointer-events: auto;
+  opacity: 0;
 }
 
 label:has(#playpause_playing) {
@@ -1940,7 +1941,7 @@ body > table > thead > tr::before {
   height: 2rem;
   width: auto;
   aspect-ratio: 1;
-  background-color: #fff;
+  background-color: #828;
   mask-size: contain;
   mask-origin: content-box;
   mask-repeat: no-repeat;
@@ -2194,9 +2195,11 @@ body > table > tbody > tr > td > table > tbody > tr::before {
   padding: 0;
   letter-spacing: 0.06ch;
 }
+.toggle:not(:has(button)) > label::after {
+  mask-image: var(--icon-composite);
+}
 .toggle > label::after {
   background-color: #828;
-  mask-image: var(--icon-composite);
 }
 
 /*!{{{1 Debug toggle */
@@ -2297,30 +2300,199 @@ h1,
 }
 /*!}}}1 END Debug toggle */
 
-.interleave > .vidwrap:has(> .off) > label::after {
-  content: '';
-  display: flex;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0 0 0 0;
-  --xw: 20px;
-  background-image:
-    linear-gradient(
-      30deg,
-      #0000 0 calc(50% - var(--xw) * 0.5),
-      #000 calc(50% - var(--xw) * 0.5) calc(50% + var(--xw) * 0.5),
-      #0000 calc(50% + var(--xw) * 0.5) 100%
-    ),
-    linear-gradient(
-      -30deg,
-      #0000 0 calc(50% - var(--xw) * 0.5),
-      #000 calc(50% - var(--xw) * 0.5) calc(50% + var(--xw) * 0.5),
-      #0000 calc(50% + var(--xw) * 0.5) 100%
-    );
+:root {
+  --playerHeight: 100vh;
 }
 
-.vidwrap:has(> .paused)::before {
-  position: fixed;
-  width: 10vw;
+.vidwrap > video {
+  object-fit: none;
+  object-position: top;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.toggle::after {
+  border: 0px solid #c00;
+  padding: 0.2em 1.5ch;
+  border-radius: 1.75ch;
+  --a: -0.5ch;
+  --x: 0ch;
+  --y: 0ch;
+  --w: 0.7ch;
+  --h: 0.7lh;
+  box-shadow:
+    calc(0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #f0a9,
+    calc(0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #a0f9,
+    calc(-0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #a0a9,
+    calc(-0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #f0f9,
+    0 0 #0000;
+  --fbc-blue-60: ;
+  --f: 1px;
+}
+
+[data-name='interleave_bpm'],
+[data-name='interleave_duration_ms'],
+[data-name='interleave_active_player_count'] {
+  height: 10px;
+}
+
+:root:has(#toggle_debug:checked) .toggle {
+  outline: none;
+}
+
+:root:has(#toggle_debug:checked) .grouping {
+  grid-row: 1/-1;
+  margin: auto 0;
+  grid-template-rows: 1fr;
+  outline: 1px solid #626;
+}
+:root:has(#toggle_debug:checked) .grouping::before {
+  content: attr(--data-name);
+}
+:root:has(#toggle_debug:checked) .toggles {
+  grid-row: 1/-1;
+  position: sticky;
+  inset: -30vh auto auto auto;
+  grid-template-columns: subgrid;
+  grid-template-rows: repeat(12, 1fr);
+}
+:root:has(#toggle_debug:checked) .toggle {
+  grid-template-columns: 1fr;
+  height: 100%;
+  width: auto;
+  position: sticky;
+  inset: 0 auto 0 auto;
+  border-radius: 100vw;
+  grid-template-rows: 1fr;
+  grid-auto-rows: 1fr;
+  grid-row: -1;
+}
+
+.sequence.toggle {
+  grid-column: auto;
+  position: relative;
+  grid-template-columns: 1fr;
+  border: none;
+  /*   height: 100%; */
+  margin: auto 0;
+}
+.sequence.toggle label {
+  max-height: 2lh;
+}
+
+.sequence.toggle.numeric label {
+  height: 1lh;
+}
+
+:root:has(#toggle_debug:checked) .sequence.toggle label::before {
+  width: 100%;
+  grid-column: 1;
+  position: static;
+  content: attr(data-value);
+
+  background-color: #000;
+  border: 0 hidden #0000;
+
+  padding: 0.1em 0.5ch 0.2em 0.5ch;
+
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 100;
+  box-shadow: 1.5px 1.5px 0 -0.5px #f0fa;
+  border-radius: 0 4px 1ch 3px / 1.4ch;
+}
+.sequence.toggle label::after {
+  /*   grid-column: 2; */
+  position: static;
+}
+.sequence.toggle.numeric label::after {
+  display: none;
+}
+.sequence.toggle.numeric label::before {
+  /*   display: none; */
+}
+:root:has(#toggle_debug:checked)
+  .sequence.toggle.numeric
+  label:has(:checked)::before {
+  background-color: #808;
+  box-shadow:
+    1.5px 1px 0 -0.5px #f0f,
+    0.5px 0.5px 0 1.5px #d0d,
+    inset -0.5px -0.5px 0 0 #faf8,
+    inset 1.5px 1.5px 0 0 #404;
+}
+:root:has(#toggle_debug:checked) .sequence.toggle.numeric label:hover::before {
+  background-color: #8084;
+  box-shadow:
+    4px 3px 0 -1px #f0a,
+    inset 1px 1px 0 1px #a0f;
+}
+
+.action > label > button {
+  grid-area: 1/1/1/1;
+  visibility: hidden;
+}
+.action > label {
+  grid-template: 1fr/1fr;
+}
+.action > label::after {
+  grid-area: 1/1/1/1;
+}
+
+.toggle {
+  height: 100%;
+}
+
+.grouping {
+  border-radius: 1lh;
+}
+
+.grouping:hover {
+  border-radius: 1ch;
+}
+
+.grouping {
+  /* border-radius: 1lh; */
+  border-radius: 1ch;
+}
+
+/* .grouping:hover { */
+:root:hover .grouping,
+:root:has(#playpause_paused:checked) .grouping,
+.grouping:hover,
+.toggle:hover {
+  background: #00000006;
+  border: none;
+  box-shadow:
+    inset 1px 1px 1px -0.5px #ccc5,
+    inset -1px -1px 2px -0.5px #000a;
+  border-radius: 1ch;
+  padding: 0;
+  margin: auto;
+  gap: 0.5ch;
+}
+
+.toggle:hover {
+  border: none;
+  background-color: #0000;
+  box-shadow:
+    inset 1px 1px 1px -0.5px #ccca,
+    inset -1px -1px 2px -0.5px #000b;
+}
+
+.toggle {
+  height: 100%;
+}
+.grouping {
+  border-radius: 1ch;
+}
+.grouping:hover {
+  border-radius: 1ch;
 }

@@ -2491,3 +2491,14 @@ h1,
 .grouping:hover {
   border-radius: 1ch;
 }
+
+.interleave > .vidwrap::after {
+  /* --bgc: hsl(var(--angle) 100% 70% / 100%); */
+  --bdc: hsl(var(--angle) 100% 60% / 50%);
+  --bgc: hsl(var(--angle) 100% 70% / 50%);
+  transform: translateX(calc(var(--playerIdx) * var(--playerWidth) * -1))
+    var(--ani-transform-inverse);
+}
+.interleave > .vidwrap::before {
+  /* position: fixed; */
+}

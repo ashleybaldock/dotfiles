@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.376
+// @version     1.0.380
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -26,23 +26,45 @@
  *
  */
 
-const sequences = {
-  showGrid: ['pause', 'always', 'never'],
-  fit: ['auto', 'contain', 'cover', 'fitw', 'fith'],
-  filelist: ['below', 'beside', 'hide'],
-  playpause: ['playing', 'paused'],
-  player: ['interleave', 'linear'],
-  interleave_timing: ['bpm', 'span'],
-  interleave_duration_ms: [
-    60000, 30000, 20000, 15000, 10000, 6000, 4000, 3000, 2000, 1000, 800, 750,
-    625, 600, 500, 480, 400, 375, 300, 250, 240, 200, 160, 150,
-  ],
-  interleave_bpm: [
-    1, 2, 3, 4, 6, 10, 15, 20, 30, 60, 75, 80, 96, 100, 120, 125, 150, 160, 200,
-    240, 250, 300, 375, 400,
-  ],
-  interleave_active_player_count: [2, 3, 4, 6, 9, 12, 16],
-};
+// return {
+//   filelist: defineSequence(sequences.filelist, 'hide'),
+//   imageDuration: defineNumber(5),
+//   includeImageFiles: defineToggle(true),
+//   includeVideoFiles: defineToggle(true),
+//   includeOtherFiles: defineToggle(false),
+//   includeHiddenFiles: defineToggle(false),
+//   playpause: defineSequence(sequences.playpause, 'playing'),
+//   showGrid: defineToggle(false),
+//   grid_fit: defineSequence(sequences.fit),
+//   player: defineSequence(sequences.player, 'interleave'),
+//   interleave_active_player_count: defineNumber(9),
+//   interleave_duration_ms: defineNumber(500),
+//   interleave_bpm: defineNumber(140),
+//   interleave_timing: defineSequence(sequences.interleave_timing, 'bpm'),
+//   repeat: defineToggle(true),
+//   shuffle_on_load: defineToggle(true),
+//   shuffle_on_repeat: defineToggle(true),
+//   reload_on_repeat: defineToggle(true),
+//   filter: defineString('.*\.mp4$'),
+//   debug: defineToggle(false),
+// };
+// const sequences = {
+//   showGrid: ['pause', 'always', 'never'],
+//   fit: ['auto', 'contain', 'cover', 'fitw', 'fith'],
+//   filelist: ['below', 'beside', 'hide'],
+//   playpause: ['playing', 'paused'],
+//   player: ['interleave', 'linear'],
+//   interleave_timing: ['bpm', 'span'],
+//   interleave_duration_ms: [
+//     60000, 30000, 20000, 15000, 10000, 6000, 4000, 3000, 2000, 1000, 800, 750,
+//     625, 600, 500, 480, 400, 375, 300, 250, 240, 200, 160, 150,
+//   ],
+//   interleave_bpm: [
+//     1, 2, 3, 4, 6, 10, 15, 20, 30, 60, 75, 80, 96, 100, 120, 125, 150, 160, 200,
+//     240, 250, 300, 375, 400,
+//   ],
+//   interleave_active_player_count: [2, 3, 4, 6, 9, 12, 16],
+// };
 
 const defaultConfig = {
   filelist: { kind: ['below', 'beside', 'hide'], default: 'hide' },
@@ -173,6 +195,7 @@ const addSequenceToggle = ({
         class: '',
         'data-name': name,
         'data-value': value,
+        'data-value-len': len(value),
         'data-text': textContent,
         for: `${name}_${value}`,
       });
@@ -384,28 +407,23 @@ const initBrowsePreview = ({ document: { body } }) => {
         subscribe,
       };
     };
-    return {
-      filelist: defineSequence(sequences.filelist, 'hide'),
-      imageDuration: defineNumber(5),
-      includeImageFiles: defineToggle(true),
-      includeVideoFiles: defineToggle(true),
-      includeOtherFiles: defineToggle(false),
-      includeHiddenFiles: defineToggle(false),
-      playpause: defineSequence(sequences.playpause, 'playing'),
-      showGrid: defineToggle(false),
-      grid_fit: defineSequence(sequences.fit),
-      player: defineSequence(sequences.player, 'interleave'),
-      interleave_active_player_count: defineNumber(9),
-      interleave_duration_ms: defineNumber(500),
-      interleave_bpm: defineNumber(140),
-      interleave_timing: defineSequence(sequences.interleave_timing, 'bpm'),
-      repeat: defineToggle(true),
-      shuffle_on_load: defineToggle(true),
-      shuffle_on_repeat: defineToggle(true),
-      reload_on_repeat: defineToggle(true),
-      filter: defineString('.*\.mp4$'),
-      debug: defineToggle(false),
-    };
+    const configTypeMap = new Map([
+      ['string', defineString],
+      ['object', defineSequence],
+      ['number', defineNumber],
+      ['boolean', defineToggle],
+    ]);
+    const defineConfig = (name, { kind, default: defaultValue }) => [
+      configTypeMap.has(typeof kind)
+        ? configTypeMap.get(typeof kind)(defaultValue)
+        : console.warn(`invalid config type for entry ${name}`),
+    ];
+    return Object.fromEntries(
+      Object.entries(defaultConfig).flatMap((name, config) => [
+        name,
+        defineConfig(name, config),
+      ]),
+    );
   })({});
 
   (({
@@ -493,7 +511,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       bindTo: playpause,
       name: 'playpause',
       to,
-      sequence: sequences.playpause.map((p) => ({
+      sequence: defaultConfig.playpause.kind.map((p) => ({
         value: p,
         textContent: `Playback State: ${p}`,
       })),
@@ -503,7 +521,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       textContent: 'Player Mode (interleave/linear)',
       bindTo: player,
       name: 'player',
-      sequence: sequences.player.map((p) => ({
+      sequence: defaultConfig.player.kind.map((p) => ({
         value: p,
         textContent: `Player Mode: ${p}`,
       })),
@@ -515,7 +533,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       bindTo: interleave_active_player_count,
       name: 'interleave_active_player_count',
       numeric: true,
-      sequence: sequences.interleave_active_player_count.map((n) => ({
+      sequence: defaultConfig.interleave_active_player_count.kind.map((n) => ({
         value: n,
         textContent: `Max of ${n} interleaved videos`,
       })),
@@ -525,7 +543,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       textContent: 'Interleave timing method',
       bindTo: interleave_timing,
       name: 'interleave_timing',
-      sequence: sequences.interleave_timing.map((n) => ({
+      sequence: defaultConfig.interleave_timing.kind.map((n) => ({
         value: n,
         textContent: `Interleave timing: ${n}`,
       })),
@@ -536,7 +554,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       bindTo: interleave_bpm,
       name: 'interleave_bpm',
       numeric: true,
-      sequence: sequences.interleave_bpm.map((n) => ({
+      sequence: defaultConfig.interleave_bpm.kind.map((n) => ({
         value: n,
         textContent: `Change media ${n} times per minute`,
       })),
@@ -547,7 +565,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       bindTo: interleave_duration_ms,
       name: 'interleave_duration_ms',
       numeric: true,
-      sequence: sequences.interleave_duration_ms.map((n) => ({
+      sequence: defaultConfig.interleave_duration_ms.kind.map((n) => ({
         value: n,
         textContent: `Show each media for ${n}ms`,
       })),
@@ -558,7 +576,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       textContent: 'Display multiple media on a grid',
       bindTo: showGrid,
       name: 'grid',
-      sequence: sequences.showGrid.map((p) => ({
+      sequence: defaultConfig.showGrid.kind.map((p) => ({
         value: p,
         textContent: `Show multiple media on a grid (${p})`,
       })),
@@ -568,7 +586,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       textContent: 'Grid fit mode',
       bindTo: grid_fit,
       name: 'grid_fit',
-      sequence: sequences.fit.map((fit) => ({
+      sequence: defaultConfig.fit.kind.map((fit) => ({
         value: fit,
         textContent: `Grid fit mode: ${fit}`,
       })),
@@ -603,7 +621,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       textContent: 'File List location (below/beside/hide)',
       bindTo: filelist,
       name: 'filelist',
-      sequence: sequences.filelist.map((v) => ({
+      sequence: defaultConfig.filelist.kind.map((v) => ({
         value: v,
         textContent: `File List: ${v}`,
       })),
@@ -974,7 +992,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       ...mapIter(
         rangeIter({
           start: 0,
-          count: Math.max(...sequences.interleave_active_player_count),
+          count: Math.max(...defaultConfig.interleave_active_player_count.kind),
         }),
         (i) =>
           addWrappedVideo({

@@ -2502,3 +2502,87 @@ h1,
 .interleave > .vidwrap::before {
   /* position: fixed; */
 }
+
+.sequence.toggle {
+  position: relative;
+  inset: auto;
+}
+
+.sequence.toggle.numeric label::after {
+  display: flex;
+  content: attr(data-value);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  text-align:;
+  font-size: calc(50cqh / 1ch);
+  height: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.sequence.toggle.numeric {
+  --bgc: #828;
+  --bgc-current: #ff0;
+  --bgc-before: #f00;
+  --bgc-after: #0f0;
+  contain: size;
+  container-type: size;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  --x: 0px;
+  --y: 0px;
+  --xmul: 0.9;
+  --ymul: 1;
+  --icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M211 7.3C205 1 196-1.4 187.6 .8s-14.9 8.9-17.1 17.3L154.7 80.6l-62-17.5c-8.4-2.4-17.4 0-23.5 6.1s-8.5 15.1-6.1 23.5l17.5 62L18.1 170.6c-8.4 2.1-15 8.7-17.3 17.1S1 205 7.3 211l46.2 45L7.3 301C1 307-1.4 316 .8 324.4s8.9 14.9 17.3 17.1l62.5 15.8-17.5 62c-2.4 8.4 0 17.4 6.1 23.5s15.1 8.5 23.5 6.1l62-17.5 15.8 62.5c2.1 8.4 8.7 15 17.1 17.3s17.3-.2 23.4-6.4l45-46.2 45 46.2c6.1 6.2 15 8.7 23.4 6.4s14.9-8.9 17.1-17.3l15.8-62.5 62 17.5c8.4 2.4 17.4 0 23.5-6.1s8.5-15.1 6.1-23.5l-17.5-62 62.5-15.8c8.4-2.1 15-8.7 17.3-17.1s-.2-17.3-6.4-23.4l-46.2-45 46.2-45c6.2-6.1 8.7-15 6.4-23.4s-8.9-14.9-17.3-17.1l-62.5-15.8 17.5-62c2.4-8.4 0-17.4-6.1-23.5s-15.1-8.5-23.5-6.1l-62 17.5L341.4 18.1c-2.1-8.4-8.7-15-17.1-17.3S307 1 301 7.3L256 53.5 211 7.3z%22%3E%3C/path%3E%3C/svg%3E');
+}
+.sequence.toggle.numeric:hover {
+  anchor-name: --anchor-sequence-toggle;
+  anchor-scope:
+    --anchor-sequence-toggle, --anchor-sequence-toggle-before,
+    --anchor-sequence-toggle-after;
+}
+.sequence.toggle.numeric:hover > label {
+  position: absolute;
+  /*   inset: auto auto calc(anchor(top)) calc(anchor(right)); */
+}
+.sequence.toggle.numeric:hover > label:has(~ label :checked) {
+  order: -1;
+  background-image: radial-gradient(var(--bgc), var(--bgc-before), var(--bgc));
+  anchor-name: --anchor-sequence-toggle-before;
+  position-anchor: --anchor-sequence-toggle-before;
+  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right) * var(--xmul) - var(--x));
+}
+.sequence.toggle.numeric:hover > label:has(:checked) ~ label {
+  background-image: radial-gradient(var(--bgc), var(--bgc-after), var(--bgc));
+  order: 1;
+  anchor-name: --anchor-sequence-toggle-after;
+  position-anchor: --anchor-sequence-toggle-after;
+  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right) * var(--xmul) + var(--x));
+}
+.sequence.toggle.numeric:hover > label:has(:checked) {
+  background-image: radial-gradient(var(--bgc), var(--bgc-current), var(--bgc));
+  order: 0;
+  anchor-name: --anchor-sequence-toggle-before;
+  position-anchor: --anchor-sequence-toggle;
+  outline: 1px solid orange;
+  inset: auto calc(anchor(left) * var(--xmul) - var(--x))
+    calc(anchor(top) * var(--ymul) + var(--y)) auto;
+}
+.sequence.toggle.numeric:hover > label:has(:checked) > span {
+  display: flex;
+  position: relative;
+  inset: -100% auto auto auto;
+}
+.sequence.toggle.numeric:hover > label:last-of-type {
+  anchor-name: --anchor-sequence-toggle-after;
+  position-anchor: --anchor-sequence-toggle-after;
+  position-anchor: --anchor-sequence-toggle-before;
+  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right));
+}
+.sequence.toggle.numeric:hover > label > span {
+}

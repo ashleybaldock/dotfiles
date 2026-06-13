@@ -2524,8 +2524,8 @@ h1,
 .sequence.toggle.numeric {
   --bgc: #828;
   --bgc-current: #ff0;
-  --bgc-before: #f00;
-  --bgc-after: #0f0;
+  --bgc-before: #800;
+  --bgc-after: #080;
   contain: size;
   container-type: size;
   width: 100%;
@@ -2545,32 +2545,43 @@ h1,
 }
 .sequence.toggle.numeric:hover > label {
   position: absolute;
-  /*   inset: auto auto calc(anchor(top)) calc(anchor(right)); */
 }
 .sequence.toggle.numeric:hover > label:has(~ label :checked) {
+  transition: position 100ms ease 0s;
   order: -1;
-  background-image: radial-gradient(var(--bgc), var(--bgc-before), var(--bgc));
   anchor-name: --anchor-sequence-toggle-before;
   position-anchor: --anchor-sequence-toggle-before;
   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
     calc(anchor(right) * var(--xmul) - var(--x));
 }
+.sequence.toggle.numeric:hover > label:has(~ label :checked)::after {
+  background-image: radial-gradient(
+    nearest-corner,
+    var(--bgc),
+    var(--bgc-before),
+    var(--bgc)
+  );
+}
 .sequence.toggle.numeric:hover > label:has(:checked) ~ label {
-  background-image: radial-gradient(var(--bgc), var(--bgc-after), var(--bgc));
   order: 1;
   anchor-name: --anchor-sequence-toggle-after;
   position-anchor: --anchor-sequence-toggle-after;
   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
     calc(anchor(right) * var(--xmul) + var(--x));
 }
+.sequence.toggle.numeric:hover > label:has(:checked) ~ label::after {
+  background-image: radial-gradient(var(--bgc), var(--bgc-after), var(--bgc));
+}
 .sequence.toggle.numeric:hover > label:has(:checked) {
-  background-image: radial-gradient(var(--bgc), var(--bgc-current), var(--bgc));
+  /*   background-image: radial-gradient(var(--bgc), var(--bgc-current), var(--bgc)); */
   order: 0;
   anchor-name: --anchor-sequence-toggle-before;
   position-anchor: --anchor-sequence-toggle;
-  outline: 1px solid orange;
   inset: auto calc(anchor(left) * var(--xmul) - var(--x))
     calc(anchor(top) * var(--ymul) + var(--y)) auto;
+}
+.sequence.toggle.numeric:hover > label:has(:checked)::after {
+  background-image: radial-gradient(var(--bgc), var(--bgc-current), var(--bgc));
 }
 .sequence.toggle.numeric:hover > label:has(:checked) > span {
   display: flex;

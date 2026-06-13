@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.380
+// @version     1.0.390
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -68,19 +68,41 @@
 
 const defaultConfig = {
   filelist: { kind: ['below', 'beside', 'hide'], default: 'hide' },
-  imageDuration: { kind: 'number', default: 5 },
   includeImageFiles: { kind: 'toggle', default: true },
   includeVideoFiles: { kind: 'toggle', default: true },
   includeOtherFiles: { kind: 'toggle', default: false },
   includeHiddenFiles: { kind: 'toggle', default: false },
-  playpause: { kind: ['playing', 'paused'], default: 'playing' },
-  showGrid: { kind: 'toggle', default: false },
+  playpause: {
+    kind: ['playing', 'paused'],
+    default: 'playing',
+    tip: 'Playback State (playing/paused)',
+    kindtip: `Playback State: ${p}`,
+    idx: 1,
+  },
+  showGrid: { kind: ['pause', 'always', 'never'], default: 'pause' },
+  blurOn: { kind: ['pause', 'blur', 'never'], default: 'blur' },
   grid_fit: {
     kind: ['auto', 'contain', 'cover', 'fitw', 'fith'],
-    default: contain,
+    default: 'contain',
   },
-  player: { kind: ['linear', 'interleave'], default: 'interleave' },
-  interleave_active_player_count: { kind: [2, 3, 4, 6, 9, 12, 16], default: 9 },
+  imageDuration: { kind: 'number', default: 5 },
+  player: {
+    kind: ['linear', 'interleave'],
+    default: 'interleave',
+    tip: 'Player Mode (interleave/linear)',
+    kindtip: `Player Mode: ${p}`,
+    group: 'player',
+    idx: 1,
+  },
+  interleave_active_player_count: {
+    kind: [2, 3, 4, 6, 9, 12, 16],
+    default: 9,
+    tip: 'Max # of interleaved videos',
+    kindtip: `Max of ${n} interleaved videos`,
+    numeric: true,
+    group: 'interleave',
+    idx: 1,
+  },
   interleave_duration_ms: {
     kind: [
       60000, 30000, 20000, 15000, 10000, 6000, 4000, 3000, 2000, 1000, 800, 750,
@@ -96,10 +118,34 @@ const defaultConfig = {
     default: 120,
   },
   interleave_timing: { kind: ['bpm', 'span'], default: 'bpm' },
-  repeat: { kind: 'toggle', default: true },
-  shuffle_on_load: { kind: 'toggle', default: true },
-  shuffle_on_repeat: { kind: 'toggle', default: true },
-  reload_on_repeat: { kind: 'toggle', default: true },
+  repeat: {
+    kind: 'toggle',
+    default: true,
+    tip: 'Repeat playlist',
+    group: 'repeat',
+    idx: 1,
+  },
+  shuffle_on_load: {
+    kind: 'toggle',
+    default: true,
+    tip: 'Shuffle playlist on load',
+    group: 'repeat',
+    idx: 2,
+  },
+  shuffle_on_repeat: {
+    kind: 'toggle',
+    default: true,
+    tip: 'Shuffle playlist every repeat',
+    group: 'repeat',
+    idx: 3,
+  },
+  reload_on_repeat: {
+    kind: 'toggle',
+    default: true,
+    tip: 'Reload folder contents on playlist repeat',
+    group: 'repeat',
+    idx: 4,
+  },
   filter: { kind: 'string', default: '.*\.mp4$' },
   debug: { kind: 'toggle', default: false },
 };
@@ -188,14 +234,17 @@ const addSequenceToggle = ({
   sequence.forEach(
     ({
       value,
+      display = value,
       checked = bindTo?.value === value ?? false,
       textContent = name,
     }) => {
       const label = GM_addElement(div, 'label', {
         class: '',
         'data-name': name,
-        'data-value': value,
-        'data-value-len': len(value),
+        'data-value': `${value}`,
+        'data-value-len': `${value}`.length,
+        'data-value-display': `${display}`,
+        'data-value-display-len': `${display}`.length,
         'data-text': textContent,
         for: `${name}_${value}`,
       });
@@ -413,16 +462,13 @@ const initBrowsePreview = ({ document: { body } }) => {
       ['number', defineNumber],
       ['boolean', defineToggle],
     ]);
-    const defineConfig = (name, { kind, default: defaultValue }) => [
+    const defineConfig = ([name, { kind, default: defaultValue }]) => [
       configTypeMap.has(typeof kind)
-        ? configTypeMap.get(typeof kind)(defaultValue)
-        : console.warn(`invalid config type for entry ${name}`),
+        ? [name, configTypeMap.get(typeof kind)(defaultValue)]
+        : tee.warn([], `invalid config type for entry ${name}`),
     ];
     return Object.fromEntries(
-      Object.entries(defaultConfig).flatMap((name, config) => [
-        name,
-        defineConfig(name, config),
-      ]),
+      Object.entries(defaultConfig).flatMap(defineConfig),
     );
   })({});
 

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.398
+// @version     1.0.405
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -425,7 +425,9 @@ const initBrowsePreview = ({ document: { body } }) => {
     };
 
     const defineSequence = (defaultValue, values = ['a', 'b', 'c']) => {
-      let _val = defaultValue ?? values[0];
+      const toHtmlValue = (v) => `${v}`;
+      const _values = values.map(toHtmlValue);
+      let _val = toHtmlValue(defaultValue ?? values[0]);
       const subs = new Set();
 
       const notify = () =>
@@ -440,17 +442,17 @@ const initBrowsePreview = ({ document: { body } }) => {
       };
 
       const set = (newValue) => {
-        if (values.indexOf(newValue) > -1) {
-          _val = newValue;
+        if (_values.indexOf(toHtmlValue(newValue)) > -1) {
+          _val = toHtmlValue(newValue);
           notify();
         }
         return _val;
       };
 
       const next = () =>
-        set(values[(values.indexOf(_val) + 1) % values.length]);
+        set(_values[(_values.indexOf(_val) + 1) % _values.length]);
       const prev = () =>
-        set(values[(values.indexOf(_val) - 1) % values.length]);
+        set(_values[(_values.indexOf(_val) - 1) % _values.length]);
 
       return {
         get value() {
@@ -698,8 +700,8 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
   })({ to: toggles, config, actions });
 
-  const addWrappedVideo = (
-    ({ window: { console }, config: { playpause } }) =>
+  const addWrappedMedia = (
+    ({ window: { console }, config: { playpause, imageDuration } }) =>
     ({ to, idx, nextFile, autoplay = false, muted = true, ...attrs } = {}) => {
       const wrapper = GM_addElement(to, 'div', { class: `vidwrap i${idx}` });
       wrapper.style.setProperty('--playerIdx', idx);
@@ -710,15 +712,20 @@ const initBrowsePreview = ({ document: { body } }) => {
         muted,
         ...attrs,
       });
-
-      playpause.subscribe((newValue) => {
-        newValue === 'playing' && video.play();
-        newValue === 'paused' && video.pause();
-      });
+      const image = GM_addElement(wrapper, 'img', {});
 
       const playNext = async () => {
-        video.src = (await nextFile()) ?? video.src;
+        const { url, isImage, isVideo } = await nextFile();
+        if (isVideo) {
+          video.src = url;
+        } else if (isImage) {
+          image.src = url;
+          setTimeout(playNext, imageDuration.value * 1000);
+        } else {
+          setTimeout(playNext, 100);
+        }
       };
+
       let _playbackErrors = 0;
       const maxErrorCount = 10,
         addToCountOnError = 1,
@@ -864,6 +871,11 @@ const initBrowsePreview = ({ document: { body } }) => {
       if (autoplay !== false) {
         playNext();
       }
+      playpause.subscribe((newValue) => {
+        newValue === 'playing' && video.play();
+        newValue === 'paused' && video.pause();
+      });
+
       return {
         wrapper,
         player: video,
@@ -901,16 +913,17 @@ const initBrowsePreview = ({ document: { body } }) => {
         filesOriginalOrder = [],
         filesIter;
 
+      const exts = {
+        video: ['mp4', 'mov'],
+        image: ['jpg', 'jpeg', 'png'],
+      };
+      const matchVideo = `^.*\.(?:${exts.video.join('|')})`;
+      const matchImage = `^.*\.(?:${exts.image.join('|')})`;
+      const matchOther = `^.*(?<!\.(?:${[...exts.video, ...exts.image].join('|')}))$`;
+
       const updateFilter = () => {
-        const exts = {
-          video: ['mp4', 'mov'],
-          image: ['jpg', 'jpeg', 'png'],
-        };
         // filter: defineString('.*\.mp4$'),
         // ^.*\.(?:mp4|mov)$|^.*\.(?:jpg|jpeg|png|)$|^.*\.(?:)$
-        const matchVideo = `^.*\.(?:${exts.video.join('|')})`;
-        const matchImage = `^.*\.(?:${exts.image.join('|')})`;
-        const matchOther = `^.*(?<!\.(?:${[...exts.video, ...exts.image].join('|')}))$`;
         return new RegExp(
           [
             includeImageFiles.value ? matchImage : [],
@@ -927,9 +940,13 @@ const initBrowsePreview = ({ document: { body } }) => {
         _filtered_length = null;
 
       const load = () => {
-        files = [...document.querySelectorAll('a.file')].map((file) =>
-          file.getAttribute('href'),
-        );
+        files = [...document.querySelectorAll('a.file')]
+          .map((file) => file.getAttribute('href'))
+          .map((url) => ({
+            url,
+            isImage: url.match(matchImage),
+            isVideo: url.match(matchVideo),
+          }));
         filesOriginalOrder = [...files];
         _shuffled = false;
         _filtered_length = null;
@@ -1051,12 +1068,11 @@ const initBrowsePreview = ({ document: { body } }) => {
           count: Math.max(...defaultConfig.interleave_active_player_count.kind),
         }),
         (i) =>
-          addWrappedVideo({
+          addWrappedMedia({
             to: interleavePlayerContainer,
             class: `i${i}`,
             id: `i${i}`,
             idx: i,
-            src: '',
             nextFile,
           }),
       ),
@@ -1110,7 +1126,7 @@ const initBrowsePreview = ({ document: { body } }) => {
   //   });
 
   //   ['last', 'cue-prev', 'current', 'cue-next'].forEach((cl) =>
-  //     addWrappedVideo({ to: container, class: cl }),
+  //     addWrappedMedia({ to: container, class: cl }),
   //   );
 
   //   const filelist = getFileList({ repeat: true, shuffle: false });

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.393
+// @version     1.0.398
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -219,11 +219,12 @@ const addToggle = ({
 
 const addSequenceToggle = ({
   to,
+  name,
+  bindTo,
   tag = 'input',
   type = 'radio',
-  name = '',
-  bindTo,
-  textContent = `Toggle for ${name}`,
+  tip = `Toggle for ${name}`,
+  textContent = tip,
   sequence = [],
   numeric = false,
   ...attrs
@@ -237,8 +238,8 @@ const addSequenceToggle = ({
     ({
       value,
       display = value,
-      checked = bindTo?.value === value ?? false,
-      textContent = name,
+      id = `toggle_${name}_${value}`,
+      tip = `Toggle ${name} with value ${display}`,
     }) => {
       const label = GM_addElement(div, 'label', {
         class: '',
@@ -248,18 +249,18 @@ const addSequenceToggle = ({
         'data-value-display': `${display}`,
         'data-value-display-len': `${display}`.length,
         'data-text': textContent,
-        for: `${name}_${value}`,
+        for: id,
       });
       GM_addElement(label, 'span', {
         class: 'tip',
-        textContent,
+        textContent: tip,
       });
       const input = GM_addElement(label, tag, {
         type,
-        ...(checked ? { checked: '' } : {}),
+        ...(bindTo?.value === value ? { checked: '' } : {}),
         name,
         value,
-        id: `${name}_${value}`,
+        id,
       });
       input.addEventListener(
         'change',
@@ -423,7 +424,8 @@ const initBrowsePreview = ({ document: { body } }) => {
       };
     };
 
-    const defineSequence = (_vals = ['a', 'b', 'c'], _val = _vals[0]) => {
+    const defineSequence = (defaultValue, values = ['a', 'b', 'c']) => {
+      let _val = defaultValue ?? values[0];
       const subs = new Set();
 
       const notify = () =>
@@ -438,13 +440,17 @@ const initBrowsePreview = ({ document: { body } }) => {
       };
 
       const set = (newValue) => {
-        if (_vals.indexOf(newValue) > -1) {
+        if (values.indexOf(newValue) > -1) {
           _val = newValue;
           notify();
         }
         return _val;
       };
-      const toggle = () => set(_vals[(_vals.indexOf(_val) + 1) % _vals.length]);
+
+      const next = () =>
+        set(values[(values.indexOf(_val) + 1) % values.length]);
+      const prev = () =>
+        set(values[(values.indexOf(_val) - 1) % values.length]);
 
       return {
         get value() {
@@ -454,7 +460,9 @@ const initBrowsePreview = ({ document: { body } }) => {
           return set(newValue);
         },
         set,
-        toggle,
+        toggle: next,
+        next,
+        prev,
         subscribe,
       };
     };
@@ -466,7 +474,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     ]);
     const defineConfig = ([name, { kind, default: defaultValue }]) => [
       configTypeMap.has(typeof kind)
-        ? [name, configTypeMap.get(typeof kind)(defaultValue)]
+        ? [name, configTypeMap.get(typeof kind)(defaultValue, kind)]
         : tee.warn([], `invalid config type for entry ${name}`),
     ];
     return Object.fromEntries(

@@ -256,7 +256,8 @@
   mask-composite: intersect;
 }
 
-.toggle:not(:has(:checked)):not(:has(button)) > label::after {
+.toggle:not(.sequence):not(.action):not(:has(:checked)):not(:has(button))
+  > label::after {
   --icon-composite:
     var(--icon-slash-overlay), var(--icon, var(--icon-default)),
     var(--icon-slash-overlay);
@@ -276,69 +277,73 @@
   mask-origin: content-box;
 }
 
-.toggle[name='filelist'][value='hide'] > label {
+label:has(> #toggle_filelist_hide) {
   --icon: var(--icon-filelist-hide);
 }
-.toggle[name='filelist'][value='below'] > label {
+label:has(> #toggle_filelist_below) {
   --icon: var(--icon-filelist-below);
 }
-.toggle[name='filelist'][value='beside'] > label {
+label:has(> #toggle_filelist_beside) {
   --icon: var(--icon-filelist-beside);
 }
-.toggle[name='images'] > label {
+label:has(> #toggle_images) {
   --icon: var(--icon-images);
 }
-.toggle[name='video'] > label {
+label:has(> #toggle_video) {
   --icon: var(--icon-video);
 }
-.toggle[name='other'] > label {
+label:has(> #toggle_other) {
   --icon: var(--icon-other);
 }
-.toggle[name='grid'] > label {
+label:has(> #toggle_grid) {
   --icon: var(--icon-grid);
 }
-.toggle[name='player'][value='linear'] > label {
+label:has(> #toggle_player_linear) {
   /* --icon: var(--icon-linear); */
   --icon: var(--icon-play);
   mask-repeat: repeat-x;
 }
-.toggle[name='player'][value='interleave'] > label {
+label:has(> #toggle_player_interleave) {
   /* --icon: var(--icon-interleave); */
   --icon: var(--icon-play);
   mask-repeat: repeat;
   mask-size: 33%;
 }
-.toggle[name='repeat'] > label {
+label:has(> #toggle_repeat) {
   --icon: var(--icon-repeat);
 }
-.toggle[name='reload_on_repeat'] > label {
+label:has(> #toggle_reload_on_repeat) {
   --icon: var(--icon-repeat-reload);
 }
-.toggle[name='shuffle_on_repeat'] > label {
+label:has(> #toggle_shuffle_on_repeat) {
   --icon: var(--icon-repeat-shuffle);
 }
 
-.toggle[name='shuffle'] > label {
+label:has(> #toggle_shuffle) {
   --icon: var(--icon-toggle-shuffle);
 }
 
-.toggle[name='debug'] > label {
+label:has(> #toggle_debug) {
   --icon: var(--icon-toggle-debug);
 }
 
-.action[name='flag'] > label {
+label:has(> #action_flag) {
   --icon: var(--icon-action-flag);
 }
 
-.action[name='next'] > label {
+label:has(> #action_next) {
   background-image: var(--icon-play-next);
 }
 
-.action[name='prev'] > label {
+label:has(> #action_prev) {
   background-image: var(--icon-play-prev);
 }
 
-.player > label:where([for='playpause_playing'], [for='playpause_paused']) {
+.player
+  > label:where(
+    [for='toggle_playpause_playing'],
+    [for='toggle_playpause_paused']
+  ) {
   z-index: var(--z-other-playpause-overlay);
   pointer-events: none;
   mask-repeat: no-repeat;
@@ -351,27 +356,31 @@
   background-color: #0000;
   opacity: 1;
 }
-.player > label[for='playpause_paused'] {
+.player > label[for='toggle_playpause_paused'] {
   background-color: #fff2;
   mask-image: var(--icon-play-circle), linear-gradient(#fff 0 0);
   mask-composite: intersect;
   mask-size: 15vmin, cover;
 }
-.player > label[for='playpause_playing'] {
+.player > label[for='toggle_playpause_playing'] {
   mask-image: linear-gradient(#fff 0 0);
   mask-size: cover;
 }
-:root:has(#playpause_paused:checked) .player > label[for='playpause_playing'],
-:root:has(#playpause_playing:checked) .player > label[for='playpause_paused'] {
+:root:has(#toggle_playpause_paused:checked)
+  .player
+  > label[for='toggle_playpause_playing'],
+:root:has(#toggle_playpause_playing:checked)
+  .player
+  > label[for='toggle_playpause_paused'] {
   z-index: var(--z-topmost-playpause-overlay);
   pointer-events: auto;
   opacity: 0;
 }
 
-label:has(#playpause_playing) {
+label:has(#toggle_playpause_playing) {
   --icon: var(--icon-play);
 }
-label:has(#playpause_paused) {
+label:has(#toggle_playpause_paused) {
   --icon: var(--icon-pause);
 }
 
@@ -481,7 +490,7 @@ label:has(#playpause_paused) {
   --cursor-fallback: default;
 }
 
-:root:has(#playpause_playing:checked) .vidwrap,
+:root:has(#toggle_playpause_playing:checked) .vidwrap,
 .playing,
 [data-cursor='media-default-pause'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E\
@@ -495,7 +504,7 @@ label:has(#playpause_paused) {
   --cursor-hotspot-y: 2;
 }
 
-:root:has(#playpause_paused:checked) .vidwrap,
+:root:has(#toggle_playpause_paused:checked) .vidwrap,
 .paused,
 [data-cursor='media-default-play'] {
   --cursor-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 512 512%22%3E\
@@ -585,7 +594,7 @@ body::before {
   pointer-events: none;
 }
 
-:root:has(#filelist_hide:checked) body {
+:root:has(#toggle_filelist_hide:checked) body {
   grid-template-columns:
     [left spacer-start preview-start files-start filestatus-start] 5ch 2ch [filestatus-end options-start filename-start] repeat(
       var(--main-layout-column-count),
@@ -599,7 +608,7 @@ body::before {
     )
     [preview-end bottom];
 }
-:root:has(#filelist_hide:checked) body::before {
+:root:has(#toggle_filelist_hide:checked) body::before {
   height: 100vh;
 }
 
@@ -824,26 +833,26 @@ video.paused {
 body > section:has(> video, > .vidwrap) {
   width: calc(var(--playerWidth) * var(--interleave-active-player-count));
 }
-:root:has(#playpause_paused:checked) .player {
+:root:has(#toggle_playpause_paused:checked) .player {
   animation-play-state: paused;
 }
-label:has(#playpause_paused:checked)::after {
+label:has(#toggle_playpause_paused:checked)::after {
   content: 'paused';
   display: flex;
   outline: 2px solid #f00;
 }
 
-:root:has(#playpause_playing:checked) .player {
+:root:has(#toggle_playpause_playing:checked) .player {
   animation-play-state: running;
 }
-label:has(#playpause_playing:checked)::after {
+label:has(#toggle_playpause_playing:checked)::after {
   content: 'playing';
   display: flex;
   outline: 2px solid #0f0;
 }
 
 /*{{{2 Linear Player */
-:root:has(#player_linear:checked) .linear {
+:root:has(#toggle_player_linear:checked) .linear {
   display: grid;
 }
 .linear .last {
@@ -916,10 +925,7 @@ label:has(#playpause_playing:checked)::after {
   transform: unset;
   display: none;
 }
-:root:has(
-    [name='player'][value='interleave']:checked,
-    #playpause_playing:checked
-  )
+:root:has(#toggle_player_interleave:checked, #toggle_playpause_playing:checked)
   .interleave {
   display: grid;
 }
@@ -2033,13 +2039,13 @@ body > table > thead > tr::before {
 }
 
 /*!{{{2 File Listing toggle */
-:root:has(#filelist_beside:checked) {
+:root:has(#toggle_filelist_beside:checked) {
   --playerWidth: 80vw;
 }
-:root:has(#filelist_below:checked) {
+:root:has(#toggle_filelist_below:checked) {
   --playerHeight: 80vh;
 }
-:root:has(#filelist_hide:checked) body > table {
+:root:has(#toggle_filelist_hide:checked) body > table {
   display: none;
 }
 /*!}}}2 END File Listing toggle */
@@ -2372,12 +2378,14 @@ h1,
 
 .sequence.toggle {
   grid-column: auto;
-  position: relative;
   grid-template-columns: 1fr;
   border: none;
   /*   height: 100%; */
   margin: auto 0;
+  position: relative;
+  inset: auto;
 }
+
 .sequence.toggle label {
   max-height: 2lh;
 }
@@ -2460,7 +2468,7 @@ h1,
 
 /* .grouping:hover { */
 :root:hover .grouping,
-:root:has(#playpause_paused:checked) .grouping,
+:root:has(#toggle_playpause_paused:checked) .grouping,
 .grouping:hover,
 .toggle:hover {
   background: #00000006;
@@ -2499,27 +2507,6 @@ h1,
   transform: translateX(calc(var(--playerIdx) * var(--playerWidth) * -1))
     var(--ani-transform-inverse);
 }
-.interleave > .vidwrap::before {
-  /* position: fixed; */
-}
-
-.sequence.toggle {
-  position: relative;
-  inset: auto;
-}
-
-.sequence.toggle.numeric label::after {
-  display: flex;
-  content: attr(data-value);
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  text-align:;
-  font-size: calc(50cqh / 1ch);
-  height: auto;
-  width: 100%;
-  height: 100%;
-}
 
 .sequence.toggle.numeric {
   --bgc: #828;
@@ -2536,6 +2523,16 @@ h1,
   --xmul: 0.9;
   --ymul: 1;
   --icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M211 7.3C205 1 196-1.4 187.6 .8s-14.9 8.9-17.1 17.3L154.7 80.6l-62-17.5c-8.4-2.4-17.4 0-23.5 6.1s-8.5 15.1-6.1 23.5l17.5 62L18.1 170.6c-8.4 2.1-15 8.7-17.3 17.1S1 205 7.3 211l46.2 45L7.3 301C1 307-1.4 316 .8 324.4s8.9 14.9 17.3 17.1l62.5 15.8-17.5 62c-2.4 8.4 0 17.4 6.1 23.5s15.1 8.5 23.5 6.1l62-17.5 15.8 62.5c2.1 8.4 8.7 15 17.1 17.3s17.3-.2 23.4-6.4l45-46.2 45 46.2c6.1 6.2 15 8.7 23.4 6.4s14.9-8.9 17.1-17.3l15.8-62.5 62 17.5c8.4 2.4 17.4 0 23.5-6.1s8.5-15.1 6.1-23.5l-17.5-62 62.5-15.8c8.4-2.1 15-8.7 17.3-17.1s-.2-17.3-6.4-23.4l-46.2-45 46.2-45c6.2-6.1 8.7-15 6.4-23.4s-8.9-14.9-17.3-17.1l-62.5-15.8 17.5-62c2.4-8.4 0-17.4-6.1-23.5s-15.1-8.5-23.5-6.1l-62 17.5L341.4 18.1c-2.1-8.4-8.7-15-17.1-17.3S307 1 301 7.3L256 53.5 211 7.3z%22%3E%3C/path%3E%3C/svg%3E');
+}
+.sequence.toggle.numeric label::after {
+  display: flex;
+  content: attr(data-value);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(50cqh / 1ch);
+  width: 100%;
+  height: 100%;
 }
 .sequence.toggle.numeric:hover {
   anchor-name: --anchor-sequence-toggle;
@@ -2590,10 +2587,7 @@ h1,
 }
 .sequence.toggle.numeric:hover > label:last-of-type {
   anchor-name: --anchor-sequence-toggle-after;
-  position-anchor: --anchor-sequence-toggle-after;
   position-anchor: --anchor-sequence-toggle-before;
   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
     calc(anchor(right));
-}
-.sequence.toggle.numeric:hover > label > span {
 }

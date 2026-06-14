@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.390
+// @version     1.0.393
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -76,7 +76,7 @@ const defaultConfig = {
     kind: ['playing', 'paused'],
     default: 'playing',
     tip: 'Playback State (playing/paused)',
-    kindtip: `Playback State: ${p}`,
+    kindtip: (p) => `Playback State: ${p}`,
     idx: 1,
   },
   showGrid: { kind: ['pause', 'always', 'never'], default: 'pause' },
@@ -90,7 +90,7 @@ const defaultConfig = {
     kind: ['linear', 'interleave'],
     default: 'interleave',
     tip: 'Player Mode (interleave/linear)',
-    kindtip: `Player Mode: ${p}`,
+    kindtip: (p) => `Player Mode: ${p}`,
     group: 'player',
     idx: 1,
   },
@@ -98,7 +98,7 @@ const defaultConfig = {
     kind: [2, 3, 4, 6, 9, 12, 16],
     default: 9,
     tip: 'Max # of interleaved videos',
-    kindtip: `Max of ${n} interleaved videos`,
+    kindtip: (n) => `Max of ${n} interleaved videos`,
     numeric: true,
     group: 'interleave',
     idx: 1,
@@ -109,6 +109,7 @@ const defaultConfig = {
       625, 600, 500, 480, 400, 375, 300, 250, 240, 200, 160, 150,
     ],
     default: 500,
+    numeric: true,
   },
   interleave_bpm: {
     kind: [
@@ -116,6 +117,7 @@ const defaultConfig = {
       200, 240, 250, 300, 375, 400,
     ],
     default: 120,
+    numeric: true,
   },
   interleave_timing: { kind: ['bpm', 'span'], default: 'bpm' },
   repeat: {
@@ -632,7 +634,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       textContent: 'Grid fit mode',
       bindTo: grid_fit,
       name: 'grid_fit',
-      sequence: defaultConfig.fit.kind.map((fit) => ({
+      sequence: defaultConfig.grid_fit.kind.map((fit) => ({
         value: fit,
         textContent: `Grid fit mode: ${fit}`,
       })),

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.405
+// @version     1.0.407
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -1074,6 +1074,7 @@ const initBrowsePreview = ({ document: { body } }) => {
             id: `i${i}`,
             idx: i,
             nextFile,
+            autoplay: false,
           }),
       ),
     ];

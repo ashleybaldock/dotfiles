@@ -9,7 +9,7 @@ let g:mayhem_autoloaded_statusline = 1
 
 " 􀖈􀖉􀕹􀊫 􀤍
 let g:mayhem.symbols_S.search = #{
-      \ search: '/',
+      \ search: '􀊫',
       \ timeout: '􀖇',
       \}
       " \ search: 'ⲋⳆⲺⲺⲺⳘⲠⳞ ⳊⳌⳄⳒⳅⳓⳋⳍ𐋴 ⳽ჼჽ',
@@ -49,16 +49,16 @@ function! statusline#updateSearch(...) abort
   endif
 
   let b:mayhem.sl_cache_search = format#CN([
-      \'%#SlSearch⸮#',
-      \symbol,
       \'%#SlFPath⸮#',
-      \ '', @/, '',
-      \'%#SlSearch⸮#',
-      \'%#SlFPath⸮#/️%#SlSearch⸮#',
+      \symbol,
+      \'%#SlSearchSep⸮#∕%#SlSearch⸮#',
+      \'', @/, '',
+      \'%#SlFPath⸮#',
+      \'%#SlSearchSep⸮#∕%#SlSearch⸮#',
       \current,
       \'%#SlFPath⸮# of %#SlSearch⸮#',
       \total,
-      \'%#SlFPath⸮#/️%#SlSearch⸮# ',
+      \'%#SlSearchSep⸮#∕%#SlSearch⸮# ',
       \'%*'
       \])
 endfunc

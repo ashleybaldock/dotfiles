@@ -603,6 +603,8 @@ hi SlDebugN       guifg=#88dd00 guibg=yslnnnb gui=none
 " search
 hi SlSearchC      guifg=#ddddee guibg=yslcccb 
 hi SlSearchN      guifg=#ccccdd guibg=yslnnnb 
+hi SlSearchSepC   guifg=#00ffff guibg=yslcccb 
+hi SlSearchSepN   guifg=#00dddd guibg=yslnnnb 
 " diagnostics
 hi SlSynErrC      guifg=yserrcf guibg=yslcccb gui=none
 hi SlSynErrN      guifg=yserrnf guibg=yslnnnb gui=none

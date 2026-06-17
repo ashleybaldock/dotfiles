@@ -689,21 +689,28 @@ body > h1 {
   --t: 'Overlay i4';
 }
 .player > label {
-  grid-column: 1/-1;
-  grid-row: 1/1;
+  position: absolute;
+  inset: 0 0 0 0;
   z-index: var(--z-other-playpause-overlay);
   background-position: 50% 50%;
   background-size: contain;
   background-color: #0000;
 }
-.vidwrap > video {
+:root:has(#toggle_debug:checked) .player > label {
+  outline: 1px dashed yellow;
+  outline-offset: 1px;
+  box-shadow: inset 0 0 2px 2px #ff0;
+}
+.vidwrap > :where(video, img) {
   grid-column: 1/-1;
   grid-row: 1/1;
+  min-width: 100%;
+  min-height: 100%;
   width: auto;
   height: auto;
   max-width: min(var(--playerWidth), 100vw);
   max-height: min(var(--playerHeight), 100vh);
-  object-fit: contain;
+  object-fit: none;
   object-position: top;
 }
 /*!}}}1*/
@@ -954,35 +961,48 @@ label:has(#toggle_playpause_playing:checked)::after {
   background-attachment: fixed;
 }
 
+.interleave > .vidwrap::before,
 .interleave > .vidwrap::after {
+  --bgc: hsl(var(--angle) 50% 45% / 35%);
+  --bdc: hsl(from var(--bgc) h s l / 100%);
   --angle: calc(
     360deg / var(--interleave-active-player-count) * var(--playerIdx)
   );
   --radius: 14px;
-  --bgc: hsl(var(--angle) 60% 50% / 40%);
-  --bdc: hsl(from var(--bgc) h s l / 100%);
+  --ratio: 1;
   --playerIdx: inherit;
   --s-playerIdx: inherit;
+  color: #ddd;
   content: var(--s-playerIdx);
   width: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: calc(var(--radius) + sin(var(--angle)) * var(--radius));
-  left: calc(var(--radius) + cos(var(--angle)) * var(--radius));
+  inset: calc(var(--radius) + cos(var(--angle)) * var(--radius))
+    calc(var(--radius) + sin(var(--angle)) * var(--radius)) auto auto;
   background-color: var(--bgc);
-  line-height: normal;
   border-radius: 50%;
-  font-size: calc(var(--radius) * 1.2);
-  color: #fff;
+  line-height: normal;
+  font-size: calc(var(--radius) * var(--ratio));
   font-family: Menlo, monospace;
   font-weight: 400;
-  border: 2px solid var(--bdc);
-  margin: 2px;
-  height: 1lh;
+  border: 1px solid var(--bdc);
+  margin: 3px;
+  height: 0.9lh;
   aspect-ratio: 1;
   padding: 0;
-  position: static;
+}
+.interleave > .vidwrap::after {
+  --bdc: hsl(var(--angle) 100% 60% / 50%);
+  --bgc: hsl(var(--angle) 100% 70% / 50%);
+  color: #000;
+  font-weight: 600;
+  position: absolute;
+  transform: none;
+}
+
+.interleave > .vidwrap::before {
+  position: fixed;
   transform: translateX(calc(var(--playerIdx) * var(--playerWidth) * -1))
     var(--ani-transform-inverse);
 }
@@ -1022,52 +1042,6 @@ label:has(#toggle_playpause_playing:checked)::after {
 }
 :root:has(#toggle_debug:checked) .interleave > .vidwrap > label:hover {
   box-shadow: inset 0 0 5px 2px #f8f2;
-}
-
-.interleave > .vidwrap::before,
-.interleave > .vidwrap::after {
-  --bgc: hsl(var(--angle) 50% 45% / 35%);
-  --bdc: hsl(from var(--bgc) h s l / 100%);
-  --angle: calc(
-    360deg / var(--interleave-active-player-count) * var(--playerIdx)
-  );
-  --radius: 14px;
-  --ratio: 1;
-  --playerIdx: inherit;
-  --s-playerIdx: inherit;
-  color: #ddd;
-  content: var(--s-playerIdx);
-  width: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  inset: calc(var(--radius) + cos(var(--angle)) * var(--radius))
-    calc(var(--radius) + sin(var(--angle)) * var(--radius)) auto auto;
-  background-color: var(--bgc);
-  border-radius: 50%;
-  line-height: normal;
-  font-size: calc(var(--radius) * var(--ratio));
-  font-family: Menlo, monospace;
-  font-weight: 400;
-  border: 1px solid var(--bdc);
-  margin: 3px;
-  height: 0.9lh;
-  aspect-ratio: 1;
-  padding: 0;
-}
-.interleave > .vidwrap::after {
-  --bdc: hsl(var(--angle) 100% 60% / 100%);
-  --bgc: hsl(var(--angle) 100% 70% / 100%);
-  color: #000;
-  font-weight: 600;
-  position: absolute;
-  transform: none;
-}
-
-.interleave > .vidwrap::before {
-  position: fixed;
-  transform: translateX(calc(var(--playerIdx) * var(--playerWidth) * -1))
-    var(--ani-transform-inverse);
 }
 
 /*!}}}1*/
@@ -2308,13 +2282,6 @@ h1,
 }
 /*!}}}1 END Debug toggle */
 
-.vidwrap > video {
-  object-fit: none;
-  object-position: top;
-  min-width: 100%;
-  min-height: 100%;
-}
-
 .toggle::after {
   border: 0 solid #c00;
   padding: 0.2em 1.5ch;
@@ -2498,14 +2465,6 @@ h1,
 }
 .grouping:hover {
   border-radius: 1ch;
-}
-
-.interleave > .vidwrap::after {
-  /* --bgc: hsl(var(--angle) 100% 70% / 100%); */
-  --bdc: hsl(var(--angle) 100% 60% / 50%);
-  --bgc: hsl(var(--angle) 100% 70% / 50%);
-  transform: translateX(calc(var(--playerIdx) * var(--playerWidth) * -1))
-    var(--ani-transform-inverse);
 }
 
 .sequence.toggle.numeric {

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.408
+// @version     1.0.416
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -716,10 +716,13 @@ const initBrowsePreview = ({ document: { body } }) => {
 
       const playNext = async () => {
         const { url, isImage, isVideo } = await nextFile();
+        console.log(`playNext idx: ${idx}, ${url}, ${isImage}, ${isVideo}`);
         if (isVideo) {
+          image.removeAttribute('src');
           video.src = url;
           video.play();
         } else if (isImage) {
+          video.removeAttribute('src');
           image.src = url;
           setTimeout(playNext, imageDuration.value * 1000);
         } else {
@@ -869,9 +872,9 @@ const initBrowsePreview = ({ document: { body } }) => {
         }
       });
 
-      if (autoplay !== false) {
-        playNext();
-      }
+      // if (autoplay !== false) {
+      //   playNext();
+      // }
       playpause.subscribe((newValue) => {
         newValue === 'playing' && video.play();
         newValue === 'paused' && video.pause();
@@ -889,8 +892,9 @@ const initBrowsePreview = ({ document: { body } }) => {
         },
         disable: () => {
           video.pause();
-          video.src = '';
+          video.removeAttribute('src');
           video.classList.add('off');
+          image.removeAttribute('src');
         },
       };
     }
@@ -922,6 +926,9 @@ const initBrowsePreview = ({ document: { body } }) => {
       const matchImage = `^.*\.(?:${exts.image.join('|')})`;
       const matchOther = `^.*(?<!\.(?:${[...exts.video, ...exts.image].join('|')}))$`;
 
+      const isVideoRegex = new RegExp(matchVideo);
+      const isImageRegex = new RegExp(matchImage);
+
       const updateFilter = () => {
         // filter: defineString('.*\.mp4$'),
         // ^.*\.(?:mp4|mov)$|^.*\.(?:jpg|jpeg|png|)$|^.*\.(?:)$
@@ -945,8 +952,8 @@ const initBrowsePreview = ({ document: { body } }) => {
           .map((file) => file.getAttribute('href'))
           .map((url) => ({
             url,
-            isImage: url.match(matchImage),
-            isVideo: url.match(matchVideo),
+            isImage: isImageRegex.test(url),
+            isVideo: isVideoRegex.test(url),
           }));
         filesOriginalOrder = [...files];
         _shuffled = false;
@@ -976,7 +983,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         files ?? load();
 
         while (true) {
-          for (const file of files.filter((x) => _filter.test(x))) {
+          for (const file of files.filter(({ url }) => _filter.test(url))) {
             yield Promise.resolve(file);
           }
           if (reload_on_repeat.value) {
@@ -1024,7 +1031,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         get length() {
           files ?? load();
           return (_filtered_length ??= [
-            ...files.filter((x) => x.match(_filter)),
+            ...files.filter(({ url }) => url.match(_filter)),
           ].length);
         },
         /**
@@ -1060,7 +1067,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
     const filelist = getFileList();
 
-    const nextFile = async () => decodeURI(await filelist.next());
+    const nextFile = async () => await filelist.next();
 
     const mediaPlayers = [
       ...mapIter(

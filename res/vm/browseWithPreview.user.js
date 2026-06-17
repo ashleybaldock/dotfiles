@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.407
+// @version     1.0.408
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -718,6 +718,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         const { url, isImage, isVideo } = await nextFile();
         if (isVideo) {
           video.src = url;
+          video.play();
         } else if (isImage) {
           image.src = url;
           setTimeout(playNext, imageDuration.value * 1000);

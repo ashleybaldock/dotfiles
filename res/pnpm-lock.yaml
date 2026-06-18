@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       html-to-image:
-        specifier: ^1.11.11
+        specifier: ^1.11.13
         version: 1.11.13
     devDependencies:
       '@violentmonkey/shortcut':
@@ -18,8 +18,8 @@ importers:
 
 packages:
 
-  '@babel/runtime@7.29.2':
-    resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
+  '@babel/runtime@7.29.7':
+    resolution: {integrity: sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==}
     engines: {node: '>=6.9.0'}
 
   '@violentmonkey/shortcut@1.4.4':
@@ -30,10 +30,10 @@ packages:
 
 snapshots:
 
-  '@babel/runtime@7.29.2': {}
+  '@babel/runtime@7.29.7': {}
 
   '@violentmonkey/shortcut@1.4.4':
     dependencies:
-      '@babel/runtime': 7.29.2
+      '@babel/runtime': 7.29.7
 
   html-to-image@1.11.13: {}

@@ -1,6 +1,6 @@
 {
 	"dependencies": {
-		"html-to-image": "^1.11.11"
+		"html-to-image": "^1.11.13"
 	},
 	"devDependencies": {
 		"@violentmonkey/shortcut": "^1.4.4"

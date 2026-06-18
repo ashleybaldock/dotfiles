@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.229
+// @version       1.1.231
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -209,20 +209,6 @@ const pageFocusTracker = (({ window, window: { document }, console }) => {
         }
       }
 
-      // window.addEventListener('blur', on_blur);
-      // window.addEventListener('focus', on_focus);
-
-      // document.hasFocus() ? show_focused() : hide_focused();
-
-      // return () => {
-      //   return {
-      //     abort: () => {
-      //       hide_focused();
-      //       window.removeEventListener('blur', on_blur);
-      //       window.removeEventListener('focus', on_focus);
-      //     },
-      //   };
-      // };
       if (callback !== undefined) {
         for await (const focusEvent of focusGenerator()) {
           callback(focusEvent);
@@ -242,7 +228,7 @@ const pageFocusTracker = (({ window, window: { document }, console }) => {
 const logFocus = (
   ({ console }) =>
   async () => {
-    for await (const focusEvent of pageFocusTracker.track()) {
+    for await (const focusEvent of await pageFocusTracker.track()) {
       focusEvent === 'focus' && console.info('page gained focus');
       focusEvent === 'blur' && console.info('page lost focus');
     }
@@ -1431,16 +1417,17 @@ const addStyleToggles = (...definitions) =>
             title,
             enabled,
             sources: sources.map(({ value }) => value),
-          })
+          }),
         )
         .catch((err) => {
           console.error(`promise rejection fetching CSS: ${err}`);
-        })
+        }),
     ),
-  ).catch((err) => {
-    console.error(`promise rejection during CSS toggle creation: ${err}`);
-  })
-  .then((results) => results.map(({value}) => value));
+  )
+    .catch((err) => {
+      console.error(`promise rejection during CSS toggle creation: ${err}`);
+    })
+    .then((results) => results.map(({ value }) => value));
 
 /*{{{1 Create Elements */
 
@@ -2029,7 +2016,8 @@ const getDownloader = (x) => () =>
 const bluronblur = async ({ selector = 'video', timeout = 30 } = {}) => {
   let blurTimeout;
   const modal = GM_addElement(document.body, 'dialog', { class: 'bluronblur' });
-  for await (focusEvent of pageFocusTracker.track()) {
+  const tracker = await pageFocusTracker.track();
+  for await (focusEvent of await pageFocusTracker.track()) {
     if (focusEvent === 'blur') {
       blurTimeout = setTimeout(() => {
         modal.classList.add('blur');

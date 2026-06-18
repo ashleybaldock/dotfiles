@@ -131,3 +131,26 @@
 // });
 // return x;
 // };
+
+//     Object.defineProperties(target, {
+//       [name]: {
+//       get: () => _val,
+//       set: (newVal) => {
+//         _val = newVal;
+//         subs.forEach((sub) => sub(_val));
+//         return _val;
+//       },
+//       enumerable: false,
+//       configurable: false,
+//     },
+//       [`toggle_${name}`]: {
+//       get: () => _val,
+//       set: (newVal) => {
+//         _val = newVal;
+//         subs.forEach((sub) => sub(_val));
+//         return _val;
+//       },
+//       enumerable: false,
+//       configurable: false,
+//     },
+//     })

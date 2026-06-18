@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.416
+// @version     1.0.422
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -67,11 +67,6 @@
 // };
 
 const defaultConfig = {
-  filelist: { kind: ['below', 'beside', 'hide'], default: 'hide' },
-  includeImageFiles: { kind: 'toggle', default: true },
-  includeVideoFiles: { kind: 'toggle', default: true },
-  includeOtherFiles: { kind: 'toggle', default: false },
-  includeHiddenFiles: { kind: 'toggle', default: false },
   playpause: {
     kind: ['playing', 'paused'],
     default: 'playing',
@@ -79,20 +74,45 @@ const defaultConfig = {
     kindtip: (p) => `Playback State: ${p}`,
     idx: 1,
   },
-  showGrid: { kind: ['pause', 'always', 'never'], default: 'pause' },
-  blurOn: { kind: ['pause', 'blur', 'never'], default: 'blur' },
+  debug: { kind: 'toggle', default: false, tip: 'Debug Mode', idx: 2 },
+  blurOnBlur: {
+    kind: [0, 5, 15, 30, Math.POSITIVE_INFINITY],
+    default: 5,
+    tip: 'Blur screen when focus is lost',
+    kindtip: (p) =>
+      p === Math.POSITIVE_INFINITY
+        ? `Do not blur screen when focus is lost`
+        : `Blur screen when focus ${p === 0 ? `is lost` : `has been lost for ${p} seconds`}`,
+  },
+  onPause: {
+    kind: ['blur', 'grid', 'none'],
+    default: 'grid',
+    tip: 'Blur or show grid view when paused',
+  },
+  showGrid: {
+    kind: 'toggle',
+    default: false,
+    tip: 'Show multiple media arranged on a grid',
+  },
   grid_fit: {
     kind: ['auto', 'contain', 'cover', 'fitw', 'fith'],
     default: 'contain',
+    tip: 'Fit used in grid mode for media',
   },
-  imageDuration: { kind: 'number', default: 5 },
+  imageDuration: {
+    kind: 'number',
+    default: 5,
+    tip: 'Default duration to display images for',
+    group: 'player',
+    idx: 1,
+  },
   player: {
     kind: ['linear', 'interleave'],
     default: 'interleave',
     tip: 'Player Mode (interleave/linear)',
     kindtip: (p) => `Player Mode: ${p}`,
     group: 'player',
-    idx: 1,
+    idx: 2,
   },
   interleave_active_player_count: {
     kind: [2, 3, 4, 6, 9, 12, 16],
@@ -110,6 +130,8 @@ const defaultConfig = {
     ],
     default: 500,
     numeric: true,
+    tip: 'Show each media for a fixed time',
+    kindtip: (n) => `Show each media for ${n}ms`,
   },
   interleave_bpm: {
     kind: [
@@ -118,6 +140,8 @@ const defaultConfig = {
     ],
     default: 120,
     numeric: true,
+    tip: 'Show each media for a fixed time',
+    kindtip: (n) => `Show each media for ${n}ms`,
   },
   interleave_timing: { kind: ['bpm', 'span'], default: 'bpm' },
   repeat: {
@@ -126,30 +150,73 @@ const defaultConfig = {
     tip: 'Repeat playlist',
     group: 'repeat',
     idx: 1,
+    tip: 'Change media at a fixed rate',
+    kindtip: (n) => `Change media ${n} times per minute`,
+  },
+  repeatPlaying: {
+    kind: 'toggle',
+    default: true,
+    tip: 'Repeat currently playing media',
+    group: 'repeat',
+    idx: 2,
   },
   shuffle_on_load: {
     kind: 'toggle',
     default: true,
     tip: 'Shuffle playlist on load',
     group: 'repeat',
-    idx: 2,
+    idx: 3,
   },
   shuffle_on_repeat: {
     kind: 'toggle',
     default: true,
     tip: 'Shuffle playlist every repeat',
     group: 'repeat',
-    idx: 3,
+    idx: 4,
   },
   reload_on_repeat: {
     kind: 'toggle',
     default: true,
     tip: 'Reload folder contents on playlist repeat',
     group: 'repeat',
+    idx: 5,
+  },
+  filter: { kind: 'string', default: '.*\.mp4$', hidden: true },
+  filelist: {
+    kind: ['below', 'beside', 'hide'],
+    default: 'hide',
+    tip: 'File List location (below/beside/hide)',
+    group: 'filelist',
+    idx: 1,
+  },
+  includeImageFiles: {
+    kind: 'toggle',
+    default: true,
+    tip: 'Include image files',
+    group: 'filelist',
+    idx: 2,
+  },
+  includeVideoFiles: {
+    kind: 'toggle',
+    default: true,
+    tip: 'Include video files',
+    group: 'filelist',
+    idx: 3,
+  },
+  includeOtherFiles: {
+    kind: 'toggle',
+    default: false,
+    tip: 'Include other files',
+    group: 'filelist',
     idx: 4,
   },
-  filter: { kind: 'string', default: '.*\.mp4$' },
-  debug: { kind: 'toggle', default: false },
+  includeHiddenFiles: {
+    kind: 'toggle',
+    default: false,
+    tip: 'Include hidden files',
+    group: 'filelist',
+    idx: 5,
+  },
 };
 
 const isDirectory = (({ qs }) =>
@@ -630,14 +697,10 @@ const initBrowsePreview = ({ document: { body } }) => {
       to: interleaveGrouping,
     });
     const gridGrouping = addGrouping({ to: playerGrouping });
-    addSequenceToggle({
+    addToggle({
       textContent: 'Display multiple media on a grid',
       bindTo: showGrid,
       name: 'grid',
-      sequence: defaultConfig.showGrid.kind.map((p) => ({
-        value: p,
-        textContent: `Show multiple media on a grid (${p})`,
-      })),
       to: gridGrouping,
     });
     addSequenceToggle({
@@ -708,11 +771,20 @@ const initBrowsePreview = ({ document: { body } }) => {
       wrapper.style.setProperty('--s-playerIdx', `'${idx}'`);
 
       const video = GM_addElement(wrapper, 'video', {
-        autoplay,
-        muted,
+        ...(autoplay ? { autoplay: '' } : {}),
+        ...(muted ? { muted: '' } : {}),
         ...attrs,
       });
       const image = GM_addElement(wrapper, 'img', {});
+
+      const play = () => {
+        video.volume = 0;
+        video.muted = true;
+        video.play();
+      };
+      const pause = () => {
+        video.pause();
+      };
 
       const playNext = async () => {
         const { url, isImage, isVideo } = await nextFile();
@@ -720,7 +792,6 @@ const initBrowsePreview = ({ document: { body } }) => {
         if (isVideo) {
           image.removeAttribute('src');
           video.src = url;
-          video.play();
         } else if (isImage) {
           video.removeAttribute('src');
           image.src = url;
@@ -808,9 +879,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       });
       video.addEventListener('canplaythrough', () => {
         // console.info(`${idx} canplaythrough '${decodeURI(video.src)}'`);
-        video.volume = 0;
-        video.muted = true;
-        video.play();
+        play();
       });
       video.addEventListener('seeked', () => {
         console.info`${idx} seeked '${decodeURI(video.src)}'`;
@@ -876,19 +945,19 @@ const initBrowsePreview = ({ document: { body } }) => {
       //   playNext();
       // }
       playpause.subscribe((newValue) => {
-        newValue === 'playing' && video.play();
-        newValue === 'paused' && video.pause();
+        newValue === 'playing' && play();
+        newValue === 'paused' && pause();
       });
 
       return {
         wrapper,
         player: video,
-        play: () => video.play(),
-        pause: () => video.pause(),
+        play,
+        pause,
         enable: () => {
           wrapper.classList.remove('off');
           playNext();
-          video.play();
+          play();
         },
         disable: () => {
           video.pause();
@@ -1221,33 +1290,10 @@ const browsePreviewToggleIds = addStyleToggles([
           if (isDirectory) {
             initBrowsePreview(unsafeWindow);
 
-            // bluronblur({ timeout: 10 });
+            bluronblur({ timeout: 10 });
           }
         }),
       ]);
     })
     .catch((e) => console.warn(e)),
 );
-
-//     Object.defineProperties(target, {
-//       [name]: {
-//       get: () => _val,
-//       set: (newVal) => {
-//         _val = newVal;
-//         subs.forEach((sub) => sub(_val));
-//         return _val;
-//       },
-//       enumerable: false,
-//       configurable: false,
-//     },
-//       [`toggle_${name}`]: {
-//       get: () => _val,
-//       set: (newVal) => {
-//         _val = newVal;
-//         subs.forEach((sub) => sub(_val));
-//         return _val;
-//       },
-//       enumerable: false,
-//       configurable: false,
-//     },
-//     })

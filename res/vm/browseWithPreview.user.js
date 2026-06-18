@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.422
+// @version     1.0.424
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -25,46 +25,6 @@
  * // @injectIQB-into auto
  *
  */
-
-// return {
-//   filelist: defineSequence(sequences.filelist, 'hide'),
-//   imageDuration: defineNumber(5),
-//   includeImageFiles: defineToggle(true),
-//   includeVideoFiles: defineToggle(true),
-//   includeOtherFiles: defineToggle(false),
-//   includeHiddenFiles: defineToggle(false),
-//   playpause: defineSequence(sequences.playpause, 'playing'),
-//   showGrid: defineToggle(false),
-//   grid_fit: defineSequence(sequences.fit),
-//   player: defineSequence(sequences.player, 'interleave'),
-//   interleave_active_player_count: defineNumber(9),
-//   interleave_duration_ms: defineNumber(500),
-//   interleave_bpm: defineNumber(140),
-//   interleave_timing: defineSequence(sequences.interleave_timing, 'bpm'),
-//   repeat: defineToggle(true),
-//   shuffle_on_load: defineToggle(true),
-//   shuffle_on_repeat: defineToggle(true),
-//   reload_on_repeat: defineToggle(true),
-//   filter: defineString('.*\.mp4$'),
-//   debug: defineToggle(false),
-// };
-// const sequences = {
-//   showGrid: ['pause', 'always', 'never'],
-//   fit: ['auto', 'contain', 'cover', 'fitw', 'fith'],
-//   filelist: ['below', 'beside', 'hide'],
-//   playpause: ['playing', 'paused'],
-//   player: ['interleave', 'linear'],
-//   interleave_timing: ['bpm', 'span'],
-//   interleave_duration_ms: [
-//     60000, 30000, 20000, 15000, 10000, 6000, 4000, 3000, 2000, 1000, 800, 750,
-//     625, 600, 500, 480, 400, 375, 300, 250, 240, 200, 160, 150,
-//   ],
-//   interleave_bpm: [
-//     1, 2, 3, 4, 6, 10, 15, 20, 30, 60, 75, 80, 96, 100, 120, 125, 150, 160, 200,
-//     240, 250, 300, 375, 400,
-//   ],
-//   interleave_active_player_count: [2, 3, 4, 6, 9, 12, 16],
-// };
 
 const defaultConfig = {
   playpause: {
@@ -955,7 +915,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         play,
         pause,
         enable: () => {
-          wrapper.classList.remove('off');
+          video.classList.remove('off');
           playNext();
           play();
         },
@@ -1129,10 +1089,10 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
 
     GM_addElement(interleavePlayerContainer, 'label', {
-      for: 'playpause_playing',
+      for: 'toggle_playpause_playing',
     });
     GM_addElement(interleavePlayerContainer, 'label', {
-      for: 'playpause_paused',
+      for: 'toggle_playpause_paused',
     });
     const filelist = getFileList();
 

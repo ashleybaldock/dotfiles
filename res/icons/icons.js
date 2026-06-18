@@ -1,4 +1,9 @@
-import { css, html, copyTextToClipboard } from '/js/util.js';
+import {
+  css,
+  html,
+  copyTextToClipboard,
+  copyImageToClipboard,
+} from '/js/util.js';
 
 /* customElements.define( "svg-icon", class extends HTMLElement {
       connectedCallback() {
@@ -58,6 +63,11 @@ const dataUrl = (svg, base64 = false) => `url('${encodeSVG(svg, base64)}')`;
 const defaultContent = css``;
 
 const svgToCSSvar = (svg, varName) => css`--icon-${varName}: ${dataUrl(svg)};`;
+
+const utf8encodeSVG = (svg) =>
+  `data:image/svg+xml;charset=utf-8,${encodeURIComponent(sg)}`;
+
+const mini = (css) => css.replaceAll(/^\n|(?<=\n) *|\n *$/g, '');
 
 // window.addEventListener('load', (event) => {
 //   const styles = [':root {'];
@@ -166,6 +176,33 @@ const copyAsMapping = new Map([
         background-image: ${dataUrl(svg)};
       `),
   ],
+  [
+    'im-svg',
+
+    (svg) =>
+      new Blob([svg], {
+        type: 'image/svg+xml',
+      }),
+  ],
+  [
+    'im-png',
+
+    async (svg) => {
+      const tmpImg = document.createElement('img');
+      return await new Promise((resolve, reject) => {
+        tmpImg.addEventListener('load', () => {
+          const tmpCanvas = document.createElement('canvas');
+          tmpCanvas.width = tmpImg.naturalWidth;
+          tmpCanvas.height = tmpImg.naturalHeight;
+          canvas
+            .getContext('2d')
+            .drawImage(tmpImg, 0, 0, tmpImg.naturalWidth, tmpImg.naturalHeight);
+          canvas.toDataURL(`image/png`, 1.0);
+          canvas.toBlob((blob) => resolve(blob));
+        });
+      });
+    },
+  ],
 ]);
 
 const copy = (target, copyAs) => {
@@ -173,6 +210,7 @@ const copy = (target, copyAs) => {
     target &&
     (target.classList.add('copied') ||
       setTimeout(() => target.classList.remove('copied'), 3000));
+
   const notifyFail = (target, message) =>
     (target &&
       (target.classList.add('copyfail') ||
@@ -192,7 +230,11 @@ const copy = (target, copyAs) => {
     return;
   }
 
-  copyTextToClipboard(copyAsMapping.get(copyAs)(svgData))
+  const toCopy = copyAsMapping.get(copyAs)(svgData);
+
+  ('string' === typeof toCopy ? copyTextToClipboard : copyImageToClipboard)(
+    toCopy,
+  )
     .then(() => {
       notifyCopied(target);
     })
@@ -218,17 +260,43 @@ window.addEventListener('load', (event) => {
           <div class="inner">
             <div class="wrappedSVG">${svg.outerHTML}</div>
             <div class="svgActions">
-              <label data-copyas="svg"><button>svg</button></label>
-              <label data-copyas="b64"><button>base64</button></label>
-              <label data-copyas="sym"><button>symbol</button></label>
-              <label data-copyas="url"><button>url(svg)</button></label>
-              <label data-copyas="u64"><button>url(b64)</button></label>
-              <label data-copyas="tnt"><button>content</button></label>
-              <label data-copyas="msk"><button>mask</button></label>
-              <label data-copyas="msv"><button>mask(inverse)</button></label>
-              <label data-copyas="msi"><button>mask-image</button></label>
-              <label data-copyas="bgr"><button>background</button></label>
-              <label data-copyas="bgi"><button>background-image</button></label>
+              <label data-copyas="svg"><span>svg</span><button></button></label>
+              <label data-copyas="b64"
+                ><span>base64</span><button></button
+              ></label>
+              <label data-copyas="sym"
+                ><span>symbol</span><button></button
+              ></label>
+              <label data-copyas="url"
+                ><span>url(svg)</span><button></button
+              ></label>
+              <label data-copyas="u64"
+                ><span>url(b64)</span><button></button
+              ></label>
+              <label data-copyas="tnt"
+                ><span>content</span><button></button
+              ></label>
+              <label data-copyas="msk"
+                ><span>mask</span><button></button
+              ></label>
+              <label data-copyas="msv"
+                ><span>mask(inverse)</span><button></button
+              ></label>
+              <label data-copyas="msi"
+                ><span>mask-image</span><button></button
+              ></label>
+              <label data-copyas="bgr"
+                ><span>background</span><button></button
+              ></label>
+              <label data-copyas="bgi"
+                ><span>background-image</span><button></button
+              ></label>
+              <label data-copyas="im-svg"
+                ><span>svg</span><button></button
+              ></label>
+              <label data-copyas="im-png"
+                ><span>png</span><button></button
+              ></label>
             </div>
           </div>
         </div>

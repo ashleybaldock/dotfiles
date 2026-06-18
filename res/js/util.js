@@ -31,6 +31,13 @@ export const copyTextToClipboard = async (text) =>
     ? await navigator.clipboard.writeText(text)
     : document.execCommand('copy', true, text);
 
+export const copyImageToClipboard = async (blob) =>
+  'clipboard' in navigator
+    ? await navigator.clipboard.write([
+        new ClipboardItem({ [blob.type]: blob }),
+      ])
+    : Promise.reject('Browser does not support copying images');
+
 export const readyStateComplete = () => {
   const promise = new Promise((resolve, reject) => {
     const waitForComplete = () =>

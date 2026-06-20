@@ -540,10 +540,12 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_help'] = format#CN([
         \'%#SlInfo⸮#􀉚 %{%FName()%}',
         \'%#SlHint⸮#%{%FDotExt()%}',
-        \'%<%=',
+        \'%#SlSep⸮#%=%*%<',
+        \' %{%ChSearch()%}',
+        \'%#SlSep⸮#%=%*',
         \'%(',
         \'%#SlHint⸮# help ',
-        \'%#SlFPath⸮#[️%#SlInfo⸮#%l%#SlFPath⸮#/️%#SlInfo⸮#%L%#SlFPath⸮#]️',
+        \'%#SlFPath⸮#[%#SlInfo⸮#%l%#SlFPath⸮#/%#SlInfo⸮#%L%#SlFPath⸮#]',
         \'%)',
         \])
 

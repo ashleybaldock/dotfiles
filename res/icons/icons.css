@@ -1710,7 +1710,7 @@ button {
 
 .iconRow {
   anchor-name: --anchor-svgactions;
-  anchor-scope: --anchor-svgactions, --anchor-svgactions-inner;
+  anchor-scope: --anchor-svgactions;
 }
 .iconRow .inner {
   anchor-name: --anchor-svgactions-inner;
@@ -1718,34 +1718,21 @@ button {
   inset: anchor(top) min(anchor(--anchor-svgactions right), 90vw) anchor(bottom)
     max(anchor(--anchor-svgactions left), 10vw);
   position: absolute;
+  inset: anchor(top) max(anchor(right), 10vw) anchor(bottom)
+    min(anchor(left), 10vw);
+  anchor-scope: --anchor-svgactions-inner;
 }
 .iconRow .svgActions {
   position-anchor: --anchor-svgactions;
   inset: anchor(top) min(anchor(--anchor-svgactions-inner right), 100vw) auto
     max(anchor(--anchor-svgactions-inner left), 10vw);
   position: fixed;
-}
-
-.svgActions {
   padding: calc(var(--icon-inset) * var(--pad-nearside)) var(--icon-inset)
     calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset);
-}
-
-.iconRow .svgActions {
   position-anchor: --anchor-svgactions-inner;
   inset: calc(anchor(bottom) + var(--icon-inset))
     min(anchor(--anchor-svgactions-inner right), 100vw) auto
     max(anchor(--anchor-svgactions-inner left), 10vw);
-}
-
-.iconRow .inner {
-  inset: anchor(top) max(anchor(right), 10vw) anchor(bottom)
-    min(anchor(left), 10vw);
-  anchor-scope: --anchor-svgactions-inner;
-}
-
-.iconRow {
-  anchor-scope: --anchor-svgactions;
 }
 
 .combineList {

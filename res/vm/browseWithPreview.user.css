@@ -2500,7 +2500,6 @@ h1,
   background-image: radial-gradient(var(--bgc), var(--bgc-after), var(--bgc));
 }
 .sequence.toggle.numeric:hover > label:has(:checked) {
-  /*   background-image: radial-gradient(var(--bgc), var(--bgc-current), var(--bgc)); */
   order: 0;
   anchor-name: --anchor-sequence-toggle-before;
   position-anchor: --anchor-sequence-toggle;
@@ -2520,4 +2519,49 @@ h1,
   position-anchor: --anchor-sequence-toggle-before;
   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
     calc(anchor(right));
+}
+
+body::after {
+  font-size: 15em;
+  content: var(--s-interleave-active-player-count) ' interleaved @ '
+    var(--s-interleave-bpm) ' bpm';
+  position: fixed;
+  inset: auto auto 0.4em 0.6ch;
+  display: flex;
+  z-index: calc(Infinity);
+  color: #0002;
+  font-size: clamp(10px, 2vmin, 1.4em);
+  background-image:
+    linear-gradient(hsl(none 100 80)), linear-gradient(hsl(none 100 20)),
+    linear-gradient(hsl(none 50 100));
+  background-clip: text, text;
+  background-blend-mode: saturation, color, exclusion;
+  text-shadow:
+    0.05ch -0.02lh 0.005em #fff,
+    0 0.02lh 0#000,
+    0-0.01lh 0.005em #000,
+    -0.02ch -0.02lh 0#fff;
+  mix-blend-mode: difference;
+}
+
+.interleave > .vidwrap::after,
+.interleave > .vidwrap::before {
+  inset: auto calc(var(--radius) + cos(var(--angle)) * var(--radius))
+    calc(var(--radius) + sin(var(--angle)) * var(--radius)) auto;
+  border: 2px solid var(--bdc);
+  color: var(--bdc);
+  box-shadow: calc(
+      var(--radius) + cos(var(--angle)) * var(--radius) - var(--radius) * 1
+    )
+    calc(var(--bgw) + sin(var(--angle)) * var(--radius) - var(--radius) * 1.2) 0
+    var(--radius) #0004;
+}
+
+.interleave > .vidwrap::after {
+  --bdc: hsl(var(--angle) 80% 30% / 60%);
+  text-shadow:
+    0.5px 0.5px 0#fff,
+    -0.5px 0.5px 0#fff,
+    -0.5px -0.5px 0#fff,
+    0.5px -0.5px 0#fff;
 }

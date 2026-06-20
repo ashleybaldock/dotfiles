@@ -315,6 +315,11 @@ window.addEventListener('load', (event) => {
   );
 
   document.addEventListener('mouseover', ({ target }) => {
+    const cloneSvg = (svgTarget, classesToAdd = []) => {
+      const clone = svgTarget.cloneNode(true);
+      clone.classList.add('duplicate', ...[classesToAdd].flat());
+      svgTarget.parentElement.append(clone);
+    };
     const svgTarget =
       target.parentElement
         ?.closest?.('.iconRow')
@@ -324,12 +329,9 @@ window.addEventListener('load', (event) => {
       !svgTarget.classList.contains('duplicated') &&
       !svgTarget.classList.contains('duplicate')
     ) {
-      svgTarget.classList.add('duplicated');
-      for (let i = 2; i > 0; i--) {
-        const clone = svgTarget.cloneNode(true);
-        clone.classList.add('duplicate');
-        svgTarget.parentElement.append(clone);
-      }
+      svgTarget.classList.add('duplicated', 'large');
+      cloneSvg(svgTarget, ['small']);
+      cloneSvg(svgTarget, ['medium']);
     }
   });
 });

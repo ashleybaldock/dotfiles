@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.437
+// @version     1.0.438
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -1156,17 +1156,6 @@ const initBrowsePreview = ({ document: { body } }) => {
       );
 
     interleave_active_player_count.subscribe(updateActivePlayerCount);
-
-    // const grid = (showAsGrid = !_showAsGrid) => {
-    //   if (_showAsGrid !== showAsGrid) {
-    //     _showAsGrid = showAsGrid;
-    //     if (_showAsGrid) {
-    //       container.classList.add('grid');
-    //     } else {
-    //       container.classList.remove('grid');
-    //     }
-    //   }
-    // };
 
     const play = () => {
       activeMediaPlayers().forEach((mediaPlayer) => {

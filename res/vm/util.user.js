@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.231
+// @version       1.1.237
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -2013,24 +2013,35 @@ const getDownloader = (x) => () =>
  *
  * @param timeout: time to wait after losing focus before obscuring
  */
-const bluronblur = async ({ selector = 'video', timeout = 30 } = {}) => {
-  let blurTimeout;
+const bluronblur = ({ selector = 'video', timeout = 30 } = {}) => {
+  let blurTimeoutId,
+    blurTimeout = timeout;
   const modal = GM_addElement(document.body, 'dialog', { class: 'bluronblur' });
-  const tracker = await pageFocusTracker.track();
-  for await (focusEvent of await pageFocusTracker.track()) {
-    if (focusEvent === 'blur') {
-      blurTimeout = setTimeout(() => {
-        modal.classList.add('blur');
-        blurTimeout = null;
-      }, timeout * 1000);
-    }
-    if (focusEvent === 'focus') {
-      if (blurTimeout) {
-        clearTimeout(blurTimeout);
-        blurTimeout = null;
+
+  const controller = new AbortController();
+  const signal = controller.signal;
+
+  pageFocusTracker.track({
+    signal,
+    callback: () => {
+      if (focusEvent === 'blur') {
+        blurTimeoutId = setTimeout(() => {
+          modal.classList.add('blur');
+          blurTimeoutId = null;
+        }, blurTimeout * 1000);
       }
-    }
-  }
+      if (focusEvent === 'focus') {
+        if (blurTimeoutId) {
+          clearTimeout(blurTimeoutId);
+          blurTimeoutId = null;
+        }
+      }
+    },
+  });
+  return {
+    changeTimeout: (newTimeout) => (blurTimeout = newTimeout * 1000),
+    abort: () => controller.abort(),
+  };
 };
 
 /**

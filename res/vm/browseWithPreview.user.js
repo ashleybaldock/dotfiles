@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.424
+// @version     1.0.437
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -35,14 +35,23 @@ const defaultConfig = {
     idx: 1,
   },
   debug: { kind: 'toggle', default: false, tip: 'Debug Mode', idx: 2 },
-  blurOnBlur: {
-    kind: [0, 5, 15, 30, Math.POSITIVE_INFINITY],
-    default: 5,
+  bluronblurtimeout: {
+    kind: [0, 5, 15, 30, 60, Math.POSITIVE_INFINITY],
+    default: 30,
     tip: 'Blur screen when focus is lost',
     kindtip: (p) =>
       p === Math.POSITIVE_INFINITY
         ? `Do not blur screen when focus is lost`
         : `Blur screen when focus ${p === 0 ? `is lost` : `has been lost for ${p} seconds`}`,
+  },
+  pauseonblurtimeout: {
+    kind: [0, 5, 15, 30, 60, Math.POSITIVE_INFINITY],
+    default: 30,
+    tip: 'Pause media when focus is lost',
+    kindtip: (p) =>
+      p === Math.POSITIVE_INFINITY
+        ? `Do not pause media when focus is lost`
+        : `Pause media when focus ${p === 0 ? `is lost` : `has been lost for ${p} seconds`}`,
   },
   onPause: {
     kind: ['blur', 'grid', 'none'],
@@ -557,6 +566,8 @@ const initBrowsePreview = ({ document: { body } }) => {
       showGrid,
       grid_fit,
       playpause,
+      pauseonblurtimeout,
+      bluronblurtimeout,
       player,
       repeat,
       shuffle_on_load,
@@ -598,7 +609,27 @@ const initBrowsePreview = ({ document: { body } }) => {
       to,
       sequence: defaultConfig.playpause.kind.map((p) => ({
         value: p,
-        textContent: `Playback State: ${p}`,
+        tip: `Playback State: ${p}`,
+      })),
+    });
+    addSequenceToggle({
+      textContent: 'Pause on blur',
+      bindTo: pauseonblurtimeout,
+      name: 'pauseonblurtimeout',
+      to,
+      sequence: defaultConfig.pauseonblurtimeout.kind.map((p) => ({
+        value: p,
+        tip: defaultConfig.pauseonblurtimeout.kindtip(p),
+      })),
+    });
+    addSequenceToggle({
+      textContent: 'Blur on blur',
+      bindTo: bluronblurtimeout,
+      name: 'bluronblurtimeout',
+      to,
+      sequence: defaultConfig.bluronblurtimeout.kind.map((p) => ({
+        value: p,
+        tip: defaultConfig.bluronblurtimeout.kindtip(p),
       })),
     });
     const playerGrouping = addGrouping({ to });
@@ -1217,6 +1248,11 @@ const initBrowsePreview = ({ document: { body } }) => {
     }),
   );
 
+  (({ bluronblur, config: { bluronblurtimeout } }) => {
+    const { changeTimeout } = bluronblur({ timeout: bluronblurtimeout });
+    bluronblurtimeout.subscribe((newTimeout) => changeTimeout(newTimeout));
+  })({ bluronblur, config });
+
   interleavePlayer.play();
 };
 
@@ -1249,8 +1285,6 @@ const browsePreviewToggleIds = addStyleToggles([
         matchExistsFor('a.file').then((/* node */) => {
           if (isDirectory) {
             initBrowsePreview(unsafeWindow);
-
-            bluronblur({ timeout: 10 });
           }
         }),
       ]);

@@ -1751,7 +1751,9 @@ body > table > thead > tr::before {
   grid-column-end: span var(--span);
   --span: calc(var(--n-children, 1) + var(--span-extra, 1));
   grid-template-columns: repeat(calc(var(--n-children, 0) + 1), 1fr);
+  border-radius: 1ch;
 }
+
 .grouping:has(> :nth-child(odd):nth-last-child(-n + 1)) {
   --n1-children: 1;
 }
@@ -1780,9 +1782,10 @@ body > table > thead > tr::before {
     #4442
   );
   background-color: #000;
-  border-radius: 10% / 20%;
   border: 0.5px solid #2224;
+  border-radius: 1ch;
 }
+
 .grouping > .grouping {
   outline-offset: -1px;
   grid-template-rows: 1fr;
@@ -1825,7 +1828,6 @@ body > table > thead > tr::before {
   place-self: center;
   place-content: center;
   place-items: center;
-  height: auto;
   width: fit-content;
   inset: var(--inset-options);
   margin: var(--margin-options);
@@ -1833,6 +1835,7 @@ body > table > thead > tr::before {
   position: sticky;
   order: -1;
   grid-row: options;
+  height: 100%;
 }
 .toggle:hover {
   background-image: radial-gradient(
@@ -1841,9 +1844,12 @@ body > table > thead > tr::before {
     #4448,
     #4442
   );
-  background-color: #000;
   border-radius: 25%;
-  border: 0.5px solid #2224;
+  border: none;
+  background-color: #0000;
+  box-shadow:
+    inset 1px 1px 1px -0.5px #ccca,
+    inset -1px -1px 2px -0.5px #000b;
 }
 .toggle > * {
   height: auto;
@@ -1940,6 +1946,20 @@ body > table > thead > tr::before {
 }
 .toggle > label > span {
   display: none;
+}
+:root:hover .grouping,
+:root:has(#toggle_playpause_paused:checked) .grouping,
+.grouping:hover,
+.toggle:hover {
+  background: #00000006;
+  border: none;
+  box-shadow:
+    inset 1px 1px 1px -0.5px #ccc5,
+    inset -1px -1px 2px -0.5px #000a;
+  border-radius: 1ch;
+  padding: 0;
+  margin: auto;
+  gap: 0.5ch;
 }
 /*!}}}1*/
 
@@ -2416,57 +2436,6 @@ h1,
 }
 .action > label::after {
   grid-area: 1/1/1/1;
-}
-
-.toggle {
-  height: 100%;
-}
-
-.grouping {
-  border-radius: 1lh;
-}
-
-.grouping:hover {
-  border-radius: 1ch;
-}
-
-.grouping {
-  /* border-radius: 1lh; */
-  border-radius: 1ch;
-}
-
-/* .grouping:hover { */
-:root:hover .grouping,
-:root:has(#toggle_playpause_paused:checked) .grouping,
-.grouping:hover,
-.toggle:hover {
-  background: #00000006;
-  border: none;
-  box-shadow:
-    inset 1px 1px 1px -0.5px #ccc5,
-    inset -1px -1px 2px -0.5px #000a;
-  border-radius: 1ch;
-  padding: 0;
-  margin: auto;
-  gap: 0.5ch;
-}
-
-.toggle:hover {
-  border: none;
-  background-color: #0000;
-  box-shadow:
-    inset 1px 1px 1px -0.5px #ccca,
-    inset -1px -1px 2px -0.5px #000b;
-}
-
-.toggle {
-  height: 100%;
-}
-.grouping {
-  border-radius: 1ch;
-}
-.grouping:hover {
-  border-radius: 1ch;
 }
 
 .sequence.toggle.numeric {

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.240
+// @version       1.1.241
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -171,9 +171,6 @@ const trackVisibility = (
 )({ window: unsafeWindow, console });
 
 const pageFocusTracker = (({ window, window: { document }, console }) => {
-  const hide_focused = () => delete document.documentElement.dataset.focused;
-  const show_focused = () => (document.documentElement.dataset.focused = '');
-
   return {
     track: async ({ callback, signal } = {}) => {
       async function* focusGenerator() {
@@ -181,21 +178,12 @@ const pageFocusTracker = (({ window, window: { document }, console }) => {
 
         let { promise, resolve, reject } = Promise.withResolvers();
 
-        const on_focus = () => resolve('focus');
-        const on_blur = () => resolve('blur');
+        window.addEventListener('focus', () => resolve('focus'), { signal });
+        window.addEventListener('blur', () => resolve('blur'), { signal });
 
-        window.addEventListener('focus', on_focus);
-        window.addEventListener('blur', on_blur);
-
-        signal?.addEventListener(
-          'abort',
-          () => {
-            reject?.(signal.reason);
-            window.removeEventListener('focus', on_focus);
-            window.removeEventListener('blur', on_blur);
-          },
-          { once: true },
-        );
+        signal?.addEventListener('abort', () => reject?.(signal.reason), {
+          once: true,
+        });
 
         try {
           while (true) {
@@ -204,8 +192,8 @@ const pageFocusTracker = (({ window, window: { document }, console }) => {
             ({ promise, resolve, reject } = Promise.withResolvers());
           }
         } finally {
-          window.removeEventListener('focus', on_focus);
-          window.removeEventListener('blur', on_blur);
+          // window.removeEventListener('focus', on_focus);
+          // window.removeEventListener('blur', on_blur);
         }
       }
 
@@ -225,15 +213,24 @@ const pageFocusTracker = (({ window, window: { document }, console }) => {
   };
 })({ window: unsafeWindow, console });
 
-const logFocus = (
-  ({ console }) =>
-  async () => {
+const logFocus = (({ console }) => {
+  let lastEventTimestamp = Date.now();
+  return async () => {
     for await (const focusEvent of await pageFocusTracker.track()) {
-      focusEvent === 'focus' && console.info('page gained focus');
-      focusEvent === 'blur' && console.info('page lost focus');
+      const now = Date.now();
+      const interval = now - lastEventTimestamp ?? Math.POSITIVE_INFINITY;
+      focusEvent === 'focus' && interval < Math.POSITIVE_INFINITY
+        ? console.info(
+            `page regained focus after ${(interval / 1000).toFixed()}s`,
+          )
+        : console.info('page gained focus');
+      focusEvent === 'blur' && interval < Math.POSITIVE_INFINITY
+        ? console.info(`page lost focus after ${(interval / 1000).toFixed()}s`)
+        : console.info('page lost focus');
+      lastEventTimestamp = now;
     }
-  }
-)({ unsafeWindow, console });
+  };
+})({ unsafeWindow, console });
 
 class DefaultedMap extends Map {
   #defaultValue;
@@ -2064,7 +2061,7 @@ const getDownloader = (x) => () =>
  *
  * @param timeout: time to wait after losing focus before obscuring
  */
-const bluronblur = ({ selector = 'video', timeout = 30 } = {}) => {
+const bluronblur = ({ timeout = 30 } = {}) => {
   let blurTimeoutId,
     blurTimeout = timeout;
   const modal = GM_addElement(document.body, 'dialog', { class: 'bluronblur' });
@@ -2074,7 +2071,7 @@ const bluronblur = ({ selector = 'video', timeout = 30 } = {}) => {
 
   pageFocusTracker.track({
     signal,
-    callback: () => {
+    callback: (focusEvent) => {
       if (focusEvent === 'blur') {
         blurTimeoutId = setTimeout(() => {
           modal.classList.add('blur');

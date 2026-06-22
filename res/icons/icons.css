@@ -999,12 +999,6 @@ section {
   margin: auto;
 }
 
-.wrappedSVG.duplicated,
-.wrappedSVG.duplicated + .wrappedSVG.duplicate,
-.wrappedSVG.duplicated + .wrappedSVG.duplicate + .wrappedSVG.duplicate {
-  height: 1em;
-}
-
 .svgListing svg {
   max-height: 1em;
   height: 1em;
@@ -1062,26 +1056,19 @@ svg[viewBox='0 0 640 640'] {
   margin: 0-0.04em;
 }
 
-.wrappedSVG:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
-.wrappedSVG ~ .wrappedSVG.duplicate {
+.wrappedSVG.large {
   height: auto;
   width: 1em;
   grid-column: 2 / span 1;
   font-size: 2em;
 }
 
-.wrappedSVG:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
-.wrappedSVG ~ .wrappedSVG.duplicate ~ .wrappedSVG.duplicate {
+.wrappedSVG.medium {
   grid-column: 3 / span 1;
   font-size: 1.2em;
 }
 
-.wrappedSVG.duplicate + .wrappedSVG.duplicate,
-.wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
-  + .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']) {
+.wrappedSVG.small {
   grid-column: 3 / span 1;
   grid-row: 1;
   font-size: 1em;
@@ -1328,15 +1315,10 @@ body {
   overflow: hidden scroll;
   inset: auto;
   display: grid;
-  grid-template-columns:
-    repeat(auto-fit, [item-start]var(--item-size) [item-end])
-    [label-start]10vw[label-end];
   column-gap: calc(var(--item-gap) * 4);
   grid-auto-flow: row dense;
   grid-auto-rows: var(--item-size);
-  --rightgutter: 10vw;
   --leftmargin: 0.6em;
-  width: 100vw;
   --n-items: round(
     down,
     (
@@ -1345,7 +1327,6 @@ body {
     ),
     1
   );
-  row-gap: calc(var(--item-gap) * 4);
   grid-template-columns:
     repeat(auto-fit, [item-start]var(--item-size) [item-end])
     [label-start]auto[label-end];
@@ -1715,17 +1696,14 @@ button {
 .iconRow .inner {
   anchor-name: --anchor-svgactions-inner;
   position-anchor: --anchor-svgactions;
+  anchor-scope: --anchor-svgactions-inner;
   inset: anchor(top) min(anchor(--anchor-svgactions right), 90vw) anchor(bottom)
     max(anchor(--anchor-svgactions left), 10vw);
   position: absolute;
   inset: anchor(top) max(anchor(right), 10vw) anchor(bottom)
     min(anchor(left), 10vw);
-  anchor-scope: --anchor-svgactions-inner;
 }
 .iconRow .svgActions {
-  position-anchor: --anchor-svgactions;
-  inset: anchor(top) min(anchor(--anchor-svgactions-inner right), 100vw) auto
-    max(anchor(--anchor-svgactions-inner left), 10vw);
   position: fixed;
   padding: calc(var(--icon-inset) * var(--pad-nearside)) var(--icon-inset)
     calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset);

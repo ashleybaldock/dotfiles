@@ -2627,9 +2627,6 @@ body::after {
   grid-row: preview;
 }
 
-:root {
-}
-
 :root:has(#toggle_playpause_paused:checked)
   .player:has()
   > label[for='toggle_playpause_paused']:hover {
@@ -2644,11 +2641,16 @@ body::after {
   .player
   > label[for='toggle_playpause_playing'] {
   pointer-events: auto;
+  opacity: 0;
 }
 
 :root:has(#toggle_playpause_playing:checked)
   .player
   > label[for='toggle_playpause_playing']:hover {
-  outline-offset: -2px;
-  outline: 1px solid red;
+}
+
+:root:has(#toggle_playpause_playing:checked)
+  .player
+  > label[for='toggle_playpause_paused'] {
+  opacity: 0;
 }

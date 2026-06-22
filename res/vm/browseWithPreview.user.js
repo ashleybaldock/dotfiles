@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.441
+// @version     1.0.444
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -94,8 +94,9 @@ const defaultConfig = {
   },
   interleave_duration_ms: {
     kind: [
-      60000, 30000, 20000, 15000, 10000, 6000, 4000, 3000, 2000, 1000, 800, 750,
-      625, 600, 500, 480, 400, 375, 300, 250, 240, 200, 160, 150,
+      60000, 30000, 20000, 15000, 12000, 10000, 7500, 6000, 4000, 3000, 2000,
+      1000, 800, 750, 625, 600, 500, 480, 400, 375, 300, 250, 240, 200, 160,
+      150,
     ],
     default: 500,
     numeric: true,
@@ -104,15 +105,29 @@ const defaultConfig = {
   },
   interleave_bpm: {
     kind: [
-      1, 2, 3, 4, 6, 10, 15, 20, 30, 60, 75, 80, 96, 100, 120, 125, 150, 160,
-      200, 240, 250, 300, 375, 400,
+      1, 2, 3, 4, 5, 6, 8, 10, 15, 20, 30, 60, 75, 80, 96, 100, 120, 125, 150,
+      160, 200, 240, 250, 300, 375, 400,
     ],
     default: 120,
     numeric: true,
-    tip: 'Show each media for a fixed time',
-    kindtip: (n) => `Show each media for ${n}ms`,
+    tip: 'Change media at a fixed rate',
+    kindtip: (n) => `Change media ${n} times per minute`,
   },
   interleave_timing: { kind: ['bpm', 'span'], default: 'bpm' },
+  interleave_max_samples: {
+    kind: [1, 3, 5, 10, Number.POSITIVE_INFINITY],
+    default: 3,
+    numeric: true,
+    tip: 'Maximum number of samples to show before changing media',
+    kindtip: (n) =>
+      n < Number.POSITIVE_INFINITY
+        ? `Show at most ${n} samples before changing media`
+        : `Show samples until media exhausted`,
+  },
+  interleave_sampling: {
+    kind: ['random', 'sequential', 'incidental'],
+    default: '',
+  },
   repeat: {
     kind: 'toggle',
     default: true,
@@ -959,6 +974,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       };
     }
   )({ window, config });
+
   const getFileList = (
     ({
       config: {
@@ -989,10 +1005,10 @@ const initBrowsePreview = ({ document: { body } }) => {
       const isVideoRegex = new RegExp(matchVideo);
       const isImageRegex = new RegExp(matchImage);
 
-      const updateFilter = () => {
+      const updateFilter = () =>
         // filter: defineString('.*\.mp4$'),
         // ^.*\.(?:mp4|mov)$|^.*\.(?:jpg|jpeg|png|)$|^.*\.(?:)$
-        return new RegExp(
+        new RegExp(
           [
             includeImageFiles.value ? matchImage : [],
             includeVideoFiles.value ? matchVideo : [],
@@ -1001,7 +1017,6 @@ const initBrowsePreview = ({ document: { body } }) => {
             .flat()
             .join('|'),
         );
-      };
 
       let _shuffled = false,
         _filter = updateFilter(),

@@ -374,13 +374,12 @@ label:has(> #action_prev) {
   > label[for='toggle_playpause_paused'] {
   z-index: var(--z-topmost-playpause-overlay);
   pointer-events: auto;
-  opacity: 0;
 }
 
-label:has(#toggle_playpause_playing) {
+.toggle > label:has(#toggle_playpause_playing) {
   --icon: var(--icon-play);
 }
-label:has(#toggle_playpause_paused) {
+.toggle > label:has(#toggle_playpause_paused) {
   --icon: var(--icon-pause);
 }
 
@@ -441,6 +440,9 @@ label:has(#toggle_playpause_paused) {
   --z-other-playpause-overlay: 130;
   --z-topmost-playpause-overlay: 140;
   --z-debug-top: 100000;
+
+  font-family: SF Pro;
+  font-size: clamp(12px, 1vmax, 72px);
 }
 
 /*!{{{1 Cursors */
@@ -845,19 +847,9 @@ body > section:has(> video, > .vidwrap) {
 :root:has(#toggle_playpause_paused:checked) .player {
   animation-play-state: paused;
 }
-label:has(#toggle_playpause_paused:checked)::after {
-  content: 'paused';
-  display: flex;
-  outline: 2px solid #f00;
-}
 
 :root:has(#toggle_playpause_playing:checked) .player {
   animation-play-state: running;
-}
-label:has(#toggle_playpause_playing:checked)::after {
-  content: 'playing';
-  display: flex;
-  outline: 2px solid #0f0;
 }
 
 /*{{{2 Linear Player */
@@ -2636,28 +2628,10 @@ body::after {
 }
 
 :root {
-  font-family: SF Pro;
-  font-size: clamp(12px, 1vmax, 72px);
 }
 
 :root:has(#toggle_playpause_paused:checked)
-  .player
-  > label[for='toggle_playpause_playing'],
-:root:has(#toggle_playpause_playing:checked)
-  .player
-  > label[for='toggle_playpause_paused'] {
-  pointer-events: none;
-  visibility: hidden;
-}
-
-:root:has(#toggle_playpause_paused:checked)
-  .player
-  > label[for='toggle_playpause_paused'] {
-  pointer-events: auto;
-}
-
-:root:has(#toggle_playpause_paused:checked)
-  .player
+  .player:has()
   > label[for='toggle_playpause_paused']:hover {
   opacity: 0.6;
   transform: scale(1.05);

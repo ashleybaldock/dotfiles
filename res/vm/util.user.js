@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.237
+// @version       1.1.240
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1431,21 +1431,6 @@ const addStyleToggles = (...definitions) =>
 
 /*{{{1 Create Elements */
 
-() => {
-  qs`td:has(>a.file)`.map((n) => {
-    const img = document.createElement('img');
-    img.setAttribute('src', n.querySelector('a').getAttribute('href'));
-    img.style.setProperty('width', '4em');
-    n.prepend(img);
-  });
-  qs`td:has(>a.file)`.all.forEach((n) => {
-    const img = document.createElement('img');
-    img.setAttribute('src', n.querySelector('a').getAttribute('href'));
-    img.style.setProperty('width', '4em');
-    n.prepend(img);
-  });
-};
-
 /**
  * Chainable Element creation
  *
@@ -1681,6 +1666,15 @@ const csvGroupCols = (csvString) => {
     }),
   );
   return ol;
+};
+
+const addImageLinkPreviews = () => {
+  qs`td:has(>a.file)`.all.forEach((n) => {
+    const img = document.createElement('img');
+    img.setAttribute('src', n.querySelector('a').getAttribute('href'));
+    img.style.setProperty('width', '4em');
+    n.prepend(img);
+  });
 };
 
 const imgurl2img = () => {
@@ -1940,6 +1934,63 @@ const sortNodes = (
   ) =>
     nodes.sort(compare).forEach((n) => parent.appendChild(n))
 )();
+
+const breadcrumbs = ({
+  to: parent,
+  path = document.URL,
+  url = new URL(path),
+  hideProtocol = url.protocol.match(/https\?/),
+}) => {
+  const parts = url.pathname.split(/(\/)/),
+    prefix = `${url.protocol}//`,
+    filename = parts.slice(-1)[0],
+    extension = filename.split(/\./).slice(-1)[0],
+    head = filename.slice(
+      0,
+      filename.length - extension.length - !!extension.length * 1,
+    );
+
+  const label = GM_addElement(parent, 'label', {
+    class: 'output breadcrumbs bottom right fixed',
+  });
+  const ul = GM_addElement(label, 'ul', { class: '' });
+
+  const addSep = ({ text = '/', ...attrs } = {}) =>
+    GM_addElement(ul, 'li', { class: 'sep', ...attrs, textContent: text });
+
+  const addPart = ({ text = '', link = null, ...attrs } = {}) =>
+    ((to) =>
+      link
+        ? GM_addElement(to, 'a', {
+            href: link,
+            ...attrs,
+            textContent: text,
+          })
+        : to)(
+      GM_addElement(ul, 'li', { ...attrs, textContent: link ? '' : text }),
+    );
+
+  hideProtocol ||
+    addPart({
+      text: prefix,
+      class: `protocol`,
+      'data-protocol': url.protocol.replaceAll(':', ''),
+    });
+
+  addPart({
+    text: url.host || (url.protocol.match(/https\?/) ? 'localhost' : 'fsroot'),
+    link: '/',
+  });
+
+  parts.slice(1, -1).reduce((acc, cur) => {
+    '/' === cur ? addSep() : addPart({ text: cur, link: acc });
+    return acc + cur;
+  }, prefix);
+
+  addPart({ text: head, class: 'filename', 'data-filename': head });
+  addPart({ text: '.', class: `ext-dot` });
+  addPart({ text: extension, class: `ext-${extension}` });
+};
 
 /* querySelector(sm)All
  *

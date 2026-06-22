@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.438
+// @version     1.0.441
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -1237,10 +1237,12 @@ const initBrowsePreview = ({ document: { body } }) => {
     }),
   );
 
+  breadcrumbs({ to: qs`body`.one });
+
   (({ bluronblur, config: { bluronblurtimeout } }) => {
     const { changeTimeout } = bluronblur({ timeout: bluronblurtimeout });
     bluronblurtimeout.subscribe((newTimeout) => changeTimeout(newTimeout));
-  })({ bluronblur, config });
+  })({ bluronblur, breadcrumbs, config });
 
   interleavePlayer.play();
 };

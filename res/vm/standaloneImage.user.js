@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.342
+// @version     1.2.343
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -47,11 +47,9 @@ const initStandaloneImage = ({
     body.classList.add('pixelgrid', 'dims');
   }
 
-  const wikilink = ({
-    to: parent,
-    path = document.URL,
-  }) => {
-    const { wiki, file } = /(?<wiki>.*\.wiki\.gg)\/images\/(?<file>[^#?]*)/.exec(path)?.groups ?? {};
+  const wikilink = ({ to: parent, path = document.URL }) => {
+    const { wiki, file } =
+      /(?<wiki>.*\.wiki\.gg)\/images\/(?<file>[^#?]*)/.exec(path)?.groups ?? {};
 
     const label = GM_addElement(parent, 'label', {});
     const ul = GM_addElement(label, 'ul', {});
@@ -61,64 +59,6 @@ const initStandaloneImage = ({
       href: `${wiki}/wiki/File:${file}`,
       textContent: `${wiki}/wiki/File:${file}`,
     });
-  };
-
-  const breadcrumbs = ({
-    to: parent,
-    path = document.URL,
-    url = new URL(path),
-    hideProtocol = url.protocol.match(/https\?/),
-  }) => {
-    const parts = url.pathname.split(/(\/)/),
-      prefix = `${url.protocol}//`,
-      filename = parts.slice(-1)[0],
-      extension = filename.split(/\./).slice(-1)[0],
-      head = filename.slice(
-        0,
-        filename.length - extension.length - !!extension.length * 1,
-      );
-
-    const label = GM_addElement(parent, 'label', {
-      class: 'output breadcrumbs bottom right fixed',
-    });
-    const ul = GM_addElement(label, 'ul', { class: '' });
-
-    const addSep = ({ text = '/', ...attrs } = {}) =>
-      GM_addElement(ul, 'li', { class: 'sep', ...attrs, textContent: text });
-
-    const addPart = ({ text = '', link = null, ...attrs } = {}) =>
-      ((to) =>
-        link
-          ? GM_addElement(to, 'a', {
-              href: link,
-              ...attrs,
-              textContent: text,
-            })
-          : to)(
-        GM_addElement(ul, 'li', { ...attrs, textContent: link ? '' : text }),
-      );
-
-    hideProtocol ||
-      addPart({
-        text: prefix,
-        class: `protocol`,
-        'data-protocol': url.protocol.replaceAll(':', ''),
-      });
-
-    addPart({
-      text:
-        url.host || (url.protocol.match(/https\?/) ? 'localhost' : 'fsroot'),
-      link: '/',
-    });
-
-    parts.slice(1, -1).reduce((acc, cur) => {
-      '/' === cur ? addSep() : addPart({ text: cur, link: acc });
-      return acc + cur;
-    }, prefix);
-
-    addPart({ text: head, class: 'filename', 'data-filename': head });
-    addPart({ text: '.', class: `ext-dot` });
-    addPart({ text: extension, class: `ext-${extension}` });
   };
 
   const addOutput = ({ to, tag = 'output', ...attrs } = {}) => {

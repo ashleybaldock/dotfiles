@@ -2522,7 +2522,6 @@ h1,
 }
 
 body::after {
-  font-size: 15em;
   content: var(--s-interleave-active-player-count) ' interleaved @ '
     var(--s-interleave-bpm) ' bpm';
   position: fixed;
@@ -2564,4 +2563,118 @@ body::after {
     -0.5px 0.5px 0#fff,
     -0.5px -0.5px 0#fff,
     0.5px -0.5px 0#fff;
+}
+
+body::after {
+  background-image:
+    linear-gradient(hsl(none 100 80), hsl(none 0 80)),
+    linear-gradient(hsl(none 100 20), hsl(none 100 100)),
+    linear-gradient(hsl(none 50 100));
+}
+
+:where(.next, .prev, label) {
+  --icon-play-circle: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22\
+      height=%221em%22 viewBox=%220 0 640 640%22%3E\
+    %3Cpath stroke=%22%23fff%22 stroke-width=%2210%22 fill=%22%23666%22 d=%22\
+    M64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320zM252.3 211.1C244.7 215.3 240 223.4 240 232L240 408C240 416.7 244.7 424.7 252.3 428.9C259.9 433.1 269.1 433 276.6 428.4L420.6 340.4C427.7 336 432.1 328.3 432.1 319.9C432.1 311.5 427.7 303.8 420.6 299.4L276.6 211.4C269.2 206.9 259.9 206.7 252.3 210.9z\
+  %22%3E\
+    %3C/path%3E\
+    %3C/svg%3E');
+}
+
+.player > label[for='toggle_playpause_paused']:hover {
+  background-color: #fff4;
+}
+
+.player > label[for='toggle_playpause_paused'] {
+  background-color: #0000;
+  opacity: 1;
+  mask-image: var(--icon-play-circle), linear-gradient(#fff);
+  mask-composite: exclude;
+  mask-size:
+    var(--s) var(--s),
+    cover;
+  --s: 15vmin;
+  position: absolute;
+  mask-mode: luminance;
+  mix-blend-mode: color-burn;
+  background-image:
+    var(--icon-play-circle), var(--icon-play-circle),
+    radial-gradient(
+      farthest-corner circle at center,
+      #000 0,
+      #fff calc(var(--s) * 0.5) 30%,
+      #0008 80%
+    );
+  --z: 1;
+  --f1: 1.618;
+  --f2: calc(pi * 0.6 / var(--f1));
+  background-size:
+    calc(1vmin * var(--z) / var(--f1)), calc(1vmax * var(--z) * var(--f2)),
+    100vmax;
+  background-repeat: repeat, repeat, no-repeat;
+  background-blend-mode: hard-light, difference;
+  background-position:
+    calc(50% + 1vmin * var(--z) / var(--f1))
+      calc(50% + 1vmax * var(--z) * var(--f2)),
+    calc(50% + 1vmax * var(--z) * var(--f2))
+      calc(50% + 1vmin * var(--z) / var(--f1)),
+    50% 50%;
+}
+
+.vidwrap > :where(video, img) {
+  object-position: center;
+  object-fit: contain;
+}
+
+.players {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  grid-column: preview;
+  grid-row: preview;
+}
+
+:root {
+  font-family: SF Pro;
+  font-size: clamp(12px, 1vmax, 72px);
+}
+
+:root:has(#toggle_playpause_paused:checked)
+  .player
+  > label[for='toggle_playpause_playing'],
+:root:has(#toggle_playpause_playing:checked)
+  .player
+  > label[for='toggle_playpause_paused'] {
+  pointer-events: none;
+  visibility: hidden;
+}
+
+:root:has(#toggle_playpause_paused:checked)
+  .player
+  > label[for='toggle_playpause_paused'] {
+  pointer-events: auto;
+}
+
+:root:has(#toggle_playpause_paused:checked)
+  .player
+  > label[for='toggle_playpause_paused']:hover {
+  opacity: 0.6;
+  transform: scale(1.05);
+  transition:
+    transform 60ms ease-in-out 0s,
+    opacity 60ms ease-in-out 0s;
+}
+
+:root:has(#toggle_playpause_playing:checked)
+  .player
+  > label[for='toggle_playpause_playing'] {
+  pointer-events: auto;
+}
+
+:root:has(#toggle_playpause_playing:checked)
+  .player
+  > label[for='toggle_playpause_playing']:hover {
+  outline-offset: -2px;
+  outline: 1px solid red;
 }

@@ -36,6 +36,7 @@
     %3Cpath d=%22M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z%22%3E\
     %3C/path%3E\
     %3C/svg%3E');
+  --icon-error: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 style=%22fill: %2300aa00;stroke: %23000; stroke-width: 10;%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z%22%3E%3C/path%3E%3C/svg%3E');
   --item-size: 3rem;
   --item-gap: calc(var(--item-size) * 0.22);
   font-size: clamp(10px, max(2vh, 2vw), min(4vh, 4vw, 20px));
@@ -837,6 +838,10 @@ section {
   --icon: var(--icon-copy);
 }
 
+.svgActions > :where(.copy, [data-copyas^='im-']) {
+  --icon: var(--icon-copy-image);
+}
+
 .svgActions > :where(.down, .copy, [data-copyas]).copied,
 .svgActions > :where(.down, .copy, [data-copyas]).copied:hover {
   background-position:
@@ -850,6 +855,18 @@ section {
 
 .svgActions > :where(.down, .copy, [data-copyas]).copied::before {
   display: none;
+}
+
+.svgActions > :where(.down, .copy, [data-copyas]).copyfail,
+.svgActions > :where(.down, .copy, [data-copyas]).copyfail:hover {
+  background-position:
+    center left 1.4em,
+    center left 1.2em;
+  background-size: 0, 1.1em;
+  transition:
+    background-size 200ms cubic-bezier(0.23, 1.15, 0.89, 1.44),
+    background-position 200ms ease;
+  background-image: var(--icon), var(--icon-error);
 }
 /*!}}}*/
 /*!{{{1 Testing */
@@ -1209,10 +1226,8 @@ section label {
   grid-column: 1/-1;
   background-color: #222;
 }
-:is(section, .svgListing) > h2,
-body > :not(h2) + .svgListing::before {
+:is(section, .svgListing) > h2 {
   grid-row: auto;
-  content: 'nameless';
   font-style: italic;
   letter-spacing: 0.2ch;
   grid-column: 1/-1;

@@ -1,0 +1,46 @@
+path.xstretch {
+  transform: scale(9, 1);
+  transform-origin: center;
+  fill-opacity: 0.1;
+  fill-opacity: 0.1;
+  stroke: #f0f;
+  stroke-width: 7;
+  stroke-dasharray: 5 2;
+}
+path.ystretch {
+  transform: scale(1, 9);
+  transform-origin: center;
+  fill-opacity: 0.1;
+  stroke: #ff0;
+  stroke-width: 7;
+  stroke-dasharray: 5 2;
+}
+
+[data-name='copy-svg']
+  > :where([data-name='s'], [data-name='v'], [data-name='g']) {
+  --scale: 0.27, 0.3;
+  --xspacing: 360px;
+  --xoffset: -30px;
+  --yoffset: 600px;
+  --yspacing: 0px;
+  --translatex-s: calc(var(--xoffset));
+  --translatex-v: calc(var(--translatex-s) + var(--xspacing));
+  --translatex-g: calc(var(--translatex-v) + var(--xspacing) + 40px);
+  --translatey-s: calc(var(--yoffset));
+  --translatey-v: calc(var(--translatey-s) + var(--yspacing));
+  --translatey-g: calc(var(--translatey-v) + var(--yspacing));
+  transform: scale(var(--scale)) translate(var(--translate));
+  transform-origin: center;
+  fill: #fff;
+  stroke: #000;
+  stroke-width: 0;
+}
+[data-name='copy-svg'] > [data-name='s'] {
+  --translate: var(--translatex-s), var(--translatey-s);
+}
+[data-name='copy-svg'] > [data-name='v'] {
+  --translate: var(--translatex-v), var(--translatey-v);
+}
+[data-name='copy-svg'] > [data-name='g'] {
+  --translate: var(--translatex-g), var(--translatey-g);
+}

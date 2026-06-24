@@ -7,7 +7,10 @@ endif
 "
 " Useful for quote blocks in md files
 "
-" au BufWritePost <buffer> syn on
+" :au BufWritePost <buffer> syn on
+"
+" Related:
+"     $VIMHOME/demo/syntax.test.reg
 "
 
 let s:cpo_save = &cpo

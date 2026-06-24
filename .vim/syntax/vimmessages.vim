@@ -8,7 +8,7 @@ endif
 " :au BufWritePost <buffer> syn on
 "
 " Related:
-"     ../plugin/messages.vim
+"     $VIMHOME/plugin/messages.vim
 "
 
 let s:cpo_save = &cpo

@@ -16,6 +16,10 @@ path.ystretch {
   stroke-dasharray: 5 2;
 }
 
+[data-name='copy-bg'] ~ g[data-name='copy-fg'] {
+  transform: scale(0.83) translate(142px, -35px);
+}
+
 [data-name='copy-svg']
   > :where([data-name='s'], [data-name='v'], [data-name='g']) {
   --scale: 0.27, 0.3;

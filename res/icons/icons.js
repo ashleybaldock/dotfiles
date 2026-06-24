@@ -260,42 +260,46 @@ window.addEventListener('load', (event) => {
           <div class="inner">
             <div class="wrappedSVG">${svg.outerHTML}</div>
             <div class="svgActions">
-              <label data-copyas="svg"><span>svg</span><button></button></label>
-              <label data-copyas="b64"
-                ><span>base64</span><button></button
+              <label for="action-copyas-svg"
+                ><span>svg</span><button id="action-copyas-svg"></button
               ></label>
-              <label data-copyas="sym"
-                ><span>symbol</span><button></button
+              <label for="action-copyas-b64"
+                ><span>base64</span><button id="action-copyas-b64"></button
               ></label>
-              <label data-copyas="url"
-                ><span>url(svg)</span><button></button
+              <label for="action-copyas-sym"
+                ><span>symbol</span><button id="action-copyas-sym"></button
               ></label>
-              <label data-copyas="u64"
-                ><span>url(b64)</span><button></button
+              <label for="action-copyas-url"
+                ><span>url(svg)</span><button id="action-copyas-url"></button
               ></label>
-              <label data-copyas="tnt"
-                ><span>content</span><button></button
+              <label for="action-copyas-u64"
+                ><span>url(b64)</span><button id="action-copyas-u64"></button
               ></label>
-              <label data-copyas="msk"
-                ><span>mask</span><button></button
+              <label for="action-copyas-tnt"
+                ><span>content</span><button id="action-copyas-tnt"></button
               ></label>
-              <label data-copyas="msv"
-                ><span>mask(inverse)</span><button></button
+              <label for="action-copyas-msk"
+                ><span>mask</span><button id="action-copyas-msk"></button
               ></label>
-              <label data-copyas="msi"
-                ><span>mask-image</span><button></button
+              <label for="action-copyas-msv"
+                ><span>mask(inverse)</span
+                ><button id="action-copyas-msv"></button
               ></label>
-              <label data-copyas="bgr"
-                ><span>background</span><button></button
+              <label for="action-copyas-msi"
+                ><span>mask-image</span><button id="action-copyas-msi"></button
               ></label>
-              <label data-copyas="bgi"
-                ><span>background-image</span><button></button
+              <label for="action-copyas-bgr"
+                ><span>background</span><button id="action-copyas-bgr"></button
               ></label>
-              <label data-copyas="im-svg"
-                ><span>svg</span><button></button
+              <label for="action-copyas-bgi"
+                ><span>background-image</span
+                ><button id="action-copyas-bgi"></button
               ></label>
-              <label data-copyas="im-png"
-                ><span>png</span><button></button
+              <label for="action-copyas-im-svg"
+                ><span>svg</span><button id="action-copyas-im-svg"></button
+              ></label>
+              <label for="action-copyas-im-png"
+                ><span>png</span><button id="action-copyas-im-png"></button
               ></label>
             </div>
           </div>

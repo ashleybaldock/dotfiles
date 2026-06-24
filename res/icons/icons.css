@@ -148,10 +148,68 @@ svg {
 }
 
 .svgListing {
-  margin: 0;
-  display: flex;
   width: auto;
   margin-right: calc((var(--item-size) * 3) + (var(--item-gap) * 1));
+  align-content: first baseline;
+  min-height: unset;
+  display: grid;
+  background-color: #0000;
+  border: 0;
+  box-shadow: none;
+  bottom: 0;
+  top: 0;
+  z-index: unset;
+  height: auto;
+  grid-template-columns: subgrid;
+  grid-column: 3/-2 !important;
+  column-gap: inherit;
+  row-gap: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.svgListing:has(> h2) {
+  border-top-right-radius: 0;
+}
+
+.svgListing h2 {
+  max-width: 100vw;
+  margin-left: auto;
+  width: 93vw;
+  flex: 1 1 90w;
+  display: flex;
+  text-align: end;
+  align-items: end;
+  align-content: end;
+  justify-content: end;
+  border: var(--section-border);
+  border-inline-width: 0;
+  padding-inline: 2ch;
+  border-radius: var(--section-border-radius) 0 0 0;
+  margin: calc(var(--section-border-width) * -2) -2ch 0-1ch;
+  grid-row: 1;
+  grid-column: 1/-1;
+  background-color: #222;
+}
+:is(section, .svgListing) > h2 {
+  grid-row: auto;
+  font-style: italic;
+  letter-spacing: 0.2ch;
+  grid-column: 1/-1;
+  display: flex;
+  max-width: 100vw;
+  margin-left: auto;
+  flex: 1 0 100%;
+  justify-content: end;
+  border-radius: var(--section-border-radius) 0 0 0;
+  background-color: #191919;
+  border: none;
+  padding: 0.4em 0;
+  margin: 0;
+  box-shadow:
+    -1px -1px 1px -1px #fff,
+    inset 0 0 5px 0 #000;
+  width: 100%;
 }
 
 .svgListing svg {
@@ -164,11 +222,29 @@ svg {
   background-position:
     center,
     80% 30%;
-  padding: calc(0.01em * (var(--icon-padding, 16) - var(--icon-border, 3)));
-  border-radius: calc(0.005em * var(--icon-radius, 3));
   border-style: var(--icon-border-style, solid);
   border-width: 0;
   border-color: transparent;
+  box-shadow: none;
+  border: 0;
+  background: 0 0;
+  padding: unset;
+  border-radius: unset;
+  max-height: 1em;
+  height: 3em;
+  width: auto;
+  font-size: 3em;
+}
+
+.svgListing.imported {
+  grid-column: -2/-1;
+  grid-template-columns: 1fr 1fr;
+}
+
+.svgListing.imported > .iconRow {
+  --item-size: 6rem;
+  inset: unset;
+  outline: unset;
 }
 
 .pathColors svg path,
@@ -595,27 +671,6 @@ section {
     %3C/svg%3E');
 }
 
-.svgListing {
-  align-content: first baseline;
-  min-height: unset;
-}
-
-.svgListing h2 {
-  width: unset;
-  flex: 1 100%;
-}
-
-.svgListing svg {
-  box-shadow: none;
-  border: 0;
-  background: 0 0;
-  max-height: 0.8em;
-  width: 0.8em;
-  height: 0.8em;
-  padding: unset;
-  border-radius: unset;
-}
-
 .iconRow {
   display: flex;
   flex-direction: column;
@@ -902,18 +957,6 @@ section {
 .iconRow .wrappedSVG {
   z-index: -1;
 }
-
-.svgListing {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, var(--item-size));
-  column-gap: calc(var(--item-gap) * 3);
-  row-gap: calc(var(--item-gap) * 2);
-}
-
-.svgListing:has(> h2) {
-  border-top-right-radius: 0;
-}
-
 .wrappedSVG.duplicate {
   display: none;
   grid-column: 2 / span 1;
@@ -971,12 +1014,6 @@ section {
   max-width: unset;
   grid-template: 1fr/1fr;
   margin: auto;
-}
-
-.svgListing svg {
-  max-height: 1em;
-  height: 1em;
-  width: auto;
 }
 
 .wrappedSVG:has(> [viewBox='0 0 640 640']) {
@@ -1164,46 +1201,6 @@ section label {
   line-height: normal;
 }
 
-.svgListing h2 {
-  max-width: 100vw;
-  margin-left: auto;
-  width: 93vw;
-  flex: 1 1 90w;
-  display: flex;
-  text-align: end;
-  align-items: end;
-  align-content: end;
-  justify-content: end;
-  border: var(--section-border);
-  border-inline-width: 0;
-  padding-inline: 2ch;
-  border-radius: var(--section-border-radius) 0 0 0;
-  margin: calc(var(--section-border-width) * -2) -2ch 0-1ch;
-  grid-row: 1;
-  grid-column: 1/-1;
-  background-color: #222;
-}
-:is(section, .svgListing) > h2 {
-  grid-row: auto;
-  font-style: italic;
-  letter-spacing: 0.2ch;
-  grid-column: 1/-1;
-  display: flex;
-  max-width: 100vw;
-  margin-left: auto;
-  flex: 1 0 100%;
-  justify-content: end;
-  border-radius: var(--section-border-radius) 0 0 0;
-  background-color: #191919;
-  border: none;
-  padding: 0.4em 0;
-  margin: 0;
-  box-shadow:
-    -1px -1px 1px -1px #fff,
-    inset 0 0 5px 0 #000;
-  width: 100%;
-}
-
 .svgCombiner > h3 {
   display: grid;
   place-content: center;
@@ -1331,7 +1328,7 @@ section {
   align-self: start;
 }
 
-:is(section, .svgListing) {
+section {
   background-color: #0000;
   border: 0;
   box-shadow: none;
@@ -1358,18 +1355,7 @@ section {
   place-self: center;
 }
 
-.svgListing.imported {
-  grid-column: -2/-1;
-  grid-template-columns: 1fr 1fr;
-}
-
-.svgListing.imported > .iconRow {
-  --item-size: 6rem;
-  inset: unset;
-  outline: unset;
-}
-
-:is(section, .svgListing) > svg {
+section > svg {
   font-size: 3em;
   height: 3em !important;
 }
@@ -1534,14 +1520,6 @@ body {
   margin: 0;
 }
 
-.svgListing {
-  grid-template-columns: subgrid;
-  grid-column: 3/-2 !important;
-  column-gap: inherit;
-  row-gap: inherit;
-  margin: 0;
-  padding: 0;
-}
 .iconRow {
   align-self: center;
   justify-self: end;
@@ -1671,6 +1649,146 @@ button {
   inset: calc(anchor(bottom) + var(--icon-inset))
     min(anchor(--anchor-svgactions-inner right), 100vw) auto
     max(anchor(--anchor-svgactions-inner left), 10vw);
+}
+
+.iconRow .inner:hover {
+  background-color: var(--icon-bg-color, #000000);
+  padding: var(--icon-inset);
+  background-color: #11111166;
+  /*! border: var(--icon-border-width) var(--icon-border-style) var(--icon-border-color); */
+  /*! box-shadow: 1px 1px 4px 1px #000; */
+}
+
+.wrappedSVG,
+.wrappedSVG:has(> [viewBox='0 0 640 640']) {
+  grid-column: 3 / span 2;
+  grid-row: 2 / span 2;
+}
+
+.wrappedSVG:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
+.wrappedSVG ~ .wrappedSVG.duplicate ~ .wrappedSVG.duplicate {
+  grid-column: 4 / span 2;
+  grid-row: 1 / span 2;
+}
+
+.wrappedSVG:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
+.wrappedSVG ~ .wrappedSVG.duplicate {
+  grid-row: 1 / span 2;
+  grid-column: 1 / span 2;
+}
+
+.wrappedSVG:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
+.wrappedSVG ~ .wrappedSVG.duplicate ~ .wrappedSVG.duplicate {
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  position: relative;
+}
+
+:hover .wrappedSVG,
+:hover .wrappedSVG:has(> [viewBox='0 0 640 640']) {
+  grid-column: 2;
+  grid-row: 2;
+  width: auto;
+  height: calc(1fr * var(--x));
+  aspect-ratio: 1;
+  --x: 100;
+}
+
+:hover
+  .wrappedSVG:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
+:hover .wrappedSVG ~ .wrappedSVG.duplicate {
+  --x: 75;
+}
+
+.iconRow .inner:hover {
+  width: fit-content;
+  outline: 0;
+  border-radius: calc(var(--icon-radius) + var(--icon-inset));
+  align-items: center;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 2fr 1fr;
+  gap: 0.1em;
+}
+
+.outer {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+}
+
+.iconRow:hover .inner .svgActions ~ .wrappedSVG,
+.iconRow:hover .wrappedSVG,
+.wrappedSVG:hover {
+  align-self: unset;
+}
+
+.inner:hover .wrappedSVG,
+.inner:hover .wrappedSVG:has(> [viewBox='0 0 640 640']) {
+  grid-column: 2/-2;
+  grid-row: 2/-2;
+  width: auto;
+  height: calc(1fr * var(--x));
+  aspect-ratio: 1;
+  --x: 100;
+  border-radius: calc(var(--icon-radius) + var(--i));
+  padding: var(--i);
+  background-color: #111111f8;
+  border: var(--icon-border-width) var(--icon-border-style)
+    var(--icon-border-color);
+  box-shadow: 1px 1px 4px 1px #000;
+  margin: calc(var(--i) * -1) calc(var(--i) * -0.7);
+  --i: calc(var(--icon-inset) * 0.01 * var(--x));
+}
+
+:hover
+  .wrappedSVG:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
+:hover .wrappedSVG ~ .wrappedSVG.duplicate {
+  grid-row: -4 / span 2;
+  grid-column: -2 / span 1;
+  height: calc(1fr * var(--x));
+  width: auto;
+  aspect-ratio: 1;
+  --x: 66;
+  place-self: start;
+}
+
+:hover
+  .wrappedSVG:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
+  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
+:hover .wrappedSVG ~ .wrappedSVG.duplicate ~ .wrappedSVG.duplicate {
+  grid-column: -2;
+  grid-row: -2;
+  height: calc(1fr * var(--x));
+  width: auto;
+  align-items: center;
+  position: relative;
+  aspect-ratio: 1;
+  --x: 33;
+  place-self: start;
+}
+
+.wrappedSVG {
+  width: 100%;
+  height: 80%;
+}
+
+.wrappedSVG::before,
+.wrappedSVG:hover::before,
+:is(.iconRow:hover, .inner:hover, .outer:hover) .wrappedSVG::before {
+  display: none;
+}
+
+.wrappedSVG ~ .wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
+  display: none;
 }
 
 .combineList {

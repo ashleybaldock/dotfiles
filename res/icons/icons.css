@@ -681,27 +681,6 @@ section {
   outline: 1px dashed #00f;
 }
 
-.inner::before {
-  content: '';
-  width: calc(100% + var(--icon-inset) * 2.4);
-  height: calc(100% + var(--icon-inset) * 2.4);
-  display: block;
-  position: absolute;
-  top: calc(var(--icon-inset) * -1.2);
-  left: calc(var(--icon-inset) * -1.2);
-  background-color: #111111f8;
-  border: var(--icon-border-width) var(--icon-border-style)
-    var(--icon-border-color);
-  border-radius: calc(var(--icon-radius) + var(--icon-inset));
-  box-shadow: 1px 1px 4px 1px #000;
-  visibility: hidden;
-  z-index: 2;
-}
-
-.inner:hover::before {
-  visibility: visible;
-}
-
 .wrappedSVG.duplicated.duplicate {
   visibility: hidden;
 }
@@ -933,13 +912,6 @@ section {
   border-top-right-radius: 0;
 }
 
-.inner::before {
-  aspect-ratio: 1;
-  inset: unset;
-  width: auto;
-  place-self: center center;
-}
-
 .wrappedSVG.duplicate {
   display: none;
   grid-column: 2 / span 1;
@@ -960,23 +932,6 @@ section {
 .iconRow:hover .wrappedSVG,
 .wrappedSVG:hover {
   z-index: 2;
-}
-
-.inner::before,
-.inner:hover::before,
-:is(.iconRow:hover, .inner:hover, .outer:hover) .inner::before {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  inset: unset;
-  justify-self: center;
-  align-self: center;
-  grid-column: 1/-1;
-  grid-row: 1;
-  aspect-ratio: unset;
-  position: relative;
-  width: calc(100% + var(--icon-inset) * 2.4);
-  height: calc(100% + var(--icon-inset) * 2.4);
 }
 
 .iconRow,
@@ -1391,12 +1346,6 @@ section {
   place-self: center;
 }
 
-.inner::before,
-.inner:hover::before,
-:is(.iconRow:hover, .inner:hover, .outer:hover) .inner::before {
-  grid-template: 1fr/1fr;
-}
-
 .iconRow .wrappedSVG {
   place-self: center;
   place-content: center;
@@ -1613,8 +1562,6 @@ body {
   grid-row: 1;
   aspect-ratio: unset;
   position: relative;
-  /*   width: calc(100% + var(--icon-inset) * 2.4);
-  height: calc(100% + var(--icon-inset) * 2.4); */
   display: grid;
   background-color: #111111f8;
   border: var(--icon-border-width) var(--icon-border-style)
@@ -1626,11 +1573,10 @@ body {
   content: '';
   width: fit-content;
 }
-.inner::before {
-  display: none !important;
-}
 .outer {
-  display: contents;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
 }
 
 .svgActions > :where(.down, .copy, [data-copyas]) {
@@ -1710,10 +1656,7 @@ button {
 }
 .iconRow .inner {
   anchor-name: --anchor-svgactions-inner;
-  position-anchor: --anchor-svgactions;
   anchor-scope: --anchor-svgactions-inner;
-  inset: anchor(top) min(anchor(--anchor-svgactions right), 90vw) anchor(bottom)
-    max(anchor(--anchor-svgactions left), 10vw);
   position: absolute;
   inset: anchor(top) max(anchor(right), 10vw) anchor(bottom)
     min(anchor(left), 10vw);

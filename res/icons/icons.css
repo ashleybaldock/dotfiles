@@ -979,26 +979,38 @@ section {
   z-index: 2;
 }
 
-.iconRow,
 .inner,
-.inner:hover,
+.inner:hover {
+  display: grid;
+  grid-template-rows: subgrid;
+  place-items: center;
+  align-self: center;
+  width: 100%;
+  column-gap: 2ch;
+  grid-template-columns: 3em 3em 1em;
+  grid-template: 1fr/1fr;
+  justify-self: center;
+}
+
+.iconRow {
+  display: grid;
+  grid-template-rows: subgrid;
+  place-items: center;
+  align-self: center;
+  grid-template-columns: subgrid;
+  grid-template: 1fr/1fr;
+  justify-self: center;
+  width: var(--item-size);
+  height: var(--item-size);
+}
 .outer {
   display: grid;
   grid-template-rows: subgrid;
   place-items: center;
   align-self: center;
-}
-
-.inner,
-.inner:hover {
-  width: 100%;
-  column-gap: 2ch;
-  grid-template-columns: 3em 3em 1em;
-}
-
-.iconRow,
-.outer {
   grid-template-columns: subgrid;
+  grid-template: 1fr/1fr;
+  justify-self: center;
 }
 
 .wrappedSVG {
@@ -1263,19 +1275,6 @@ section label {
 .controlgroup > h5 > span {
   font-size: 0.8em;
   align-self: end;
-}
-
-.iconRow,
-.inner,
-.inner:hover,
-.outer {
-  grid-template: 1fr/1fr;
-  justify-self: center;
-}
-
-.iconRow {
-  width: var(--item-size);
-  height: var(--item-size);
 }
 
 body {
@@ -1783,10 +1782,7 @@ button {
 
 .wrappedSVG::before,
 .wrappedSVG:hover::before,
-:is(.iconRow:hover, .inner:hover, .outer:hover) .wrappedSVG::before {
-  display: none;
-}
-
+:is(.iconRow:hover, .inner:hover, .outer:hover) .wrappedSVG::before,
 .wrappedSVG ~ .wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
   display: none;
 }

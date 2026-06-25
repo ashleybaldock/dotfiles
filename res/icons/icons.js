@@ -245,68 +245,24 @@ const copy = (target, copyAs) => {
 
 window.addEventListener('load', (event) => {
   document.querySelectorAll('.svgListing svg').forEach((svg) => {
-    const name = svg.getAttribute('data-name');
+    const name =
+      svg.dataset.name ?? svg.querySelector('[data-name]')?.dataset.name;
     /*const cssvar = (name !== null && name?.length > 0) ? svgToCSSvar(svg.outerHTML, name) : null;
       cssvar && styles.push(`  ${svgToCSSvar(svg.outerHTML, name)}`);*/
 
     /*<label class="down" data-down="svg" onClick="down(event, 'svg')">svg</label>*/
 
-    const div = document.createElement('div');
-    div.className = 'iconRow';
-    div.insertAdjacentHTML(
-      'afterbegin',
-      html`
-        <div class="outer">
-          <div class="inner">
-            <div class="wrappedSVG">${svg.outerHTML}</div>
-            <div class="svgActions">
-              <label for="action-copyas-svg"
-                ><span>svg</span><button id="action-copyas-svg"></button
-              ></label>
-              <label for="action-copyas-b64"
-                ><span>base64</span><button id="action-copyas-b64"></button
-              ></label>
-              <label for="action-copyas-sym"
-                ><span>symbol</span><button id="action-copyas-sym"></button
-              ></label>
-              <label for="action-copyas-url"
-                ><span>url(svg)</span><button id="action-copyas-url"></button
-              ></label>
-              <label for="action-copyas-u64"
-                ><span>url(b64)</span><button id="action-copyas-u64"></button
-              ></label>
-              <label for="action-copyas-tnt"
-                ><span>content</span><button id="action-copyas-tnt"></button
-              ></label>
-              <label for="action-copyas-msk"
-                ><span>mask</span><button id="action-copyas-msk"></button
-              ></label>
-              <label for="action-copyas-msv"
-                ><span>mask(inverse)</span
-                ><button id="action-copyas-msv"></button
-              ></label>
-              <label for="action-copyas-msi"
-                ><span>mask-image</span><button id="action-copyas-msi"></button
-              ></label>
-              <label for="action-copyas-bgr"
-                ><span>background</span><button id="action-copyas-bgr"></button
-              ></label>
-              <label for="action-copyas-bgi"
-                ><span>background-image</span
-                ><button id="action-copyas-bgi"></button
-              ></label>
-              <label for="action-copyas-im-svg"
-                ><span>svg</span><button id="action-copyas-im-svg"></button
-              ></label>
-              <label for="action-copyas-im-png"
-                ><span>png</span><button id="action-copyas-im-png"></button
-              ></label>
-            </div>
+    const iconRow = (() =>
+      document.createElement('div').insertAdjacentHTML(
+        'afterbegin',
+        html`
+          <div class="iconRow">
+            <div class="wrappedSVG"></div>
           </div>
-        </div>
-      `,
-    );
-    svg.replaceWith(div);
+        `,
+      ).firstChild)();
+    svg.replaceWith(iconRow);
+    iconRow.querySelector('.wrappedSVG').appendChild(svg);
   });
 
   document.body.addEventListener(

@@ -1787,19 +1787,52 @@ button {
   display: none;
 }
 
+.svgActions {
+  position: fixed;
+  position-anchor: --anchor-svgactions;
+  z-index: calc(Infinity);
+  opacity: 1;
+  inset: calc(
+      var(--icon-inset) * var(--pad-nearside) * 0.5 +
+        anchor(bottom, calc(Infinity * 1px))
+    )
+    anchor(right, calc(Infinity * 1px)) auto anchor(left, calc(Infinity * 1px));
+  padding: calc(var(--icon-inset) * var(--pad-nearside) * 0.5) var(--icon-inset)
+    calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset);
+}
+.svgActions::after {
+  content: var(--anchor-svgactions);
+}
+.svgActions > button::after {
+  content: attr(data-copyas);
+}
+.svgListing {
+  gap: 0;
+}
 .svgListing > svg {
+  --icon-inset: 0.1em;
+  --pad-nearside: 3;
+  --pad-farside: 1.5;
+  z-index: 0;
+  height: var(--item-size);
+  width: auto;
+  aspect-ratio: 1;
+  border-radius: calc(var(--icon-radius) + var(--icon-inset));
+  padding: var(--icon-inset);
+  margin: calc(var(--icon-inset) * -1);
+  box-sizing: unset;
 }
 .svgListing > svg:hover {
   anchor-name: --anchor-svgactions;
   --anchor-svgactions: attr(data-name);
-}
-
-.svgActions {
-  position: fixed;
-  position-anchor: var(--anchor-svgactions);
-}
-.svgActions::after {
-  content: var(--anchor-svgactions);
+  z-index: 1;
+  width: calc((var(--item-size) * 3) + (var(--item-gap) * 2));
+  display: flex;
+  font-family: Menlo, fixed-width;
+  background-color: #111111f8;
+  border: var(--icon-border-width) var(--icon-border-style)
+    var(--icon-border-color);
+  box-shadow: 1px 1px 4px 1px #000;
 }
 
 .combineList {

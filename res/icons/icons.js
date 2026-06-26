@@ -244,54 +244,64 @@ const copy = (target, copyAs) => {
 };
 
 window.addEventListener('load', (event) => {
-  document.querySelectorAll('.svgListing svg').forEach((svg) => {
-    const name =
-      svg.dataset.name ?? svg.querySelector('[data-name]')?.dataset.name;
-    /*const cssvar = (name !== null && name?.length > 0) ? svgToCSSvar(svg.outerHTML, name) : null;
+  // document.querySelectorAll('.svgListing svg').forEach((svg) => {
+  /*const cssvar = (name !== null && name?.length > 0) ? svgToCSSvar(svg.outerHTML, name) : null;
       cssvar && styles.push(`  ${svgToCSSvar(svg.outerHTML, name)}`);*/
 
-    /*<label class="down" data-down="svg" onClick="down(event, 'svg')">svg</label>*/
+  /*<label class="down" data-down="svg" onClick="down(event, 'svg')">svg</label>*/
 
-    // const iconRow = ((wrapper = document.createElement('div')) =>
-    //   wrapper.insertAdjacentHTML(
-    //     'afterbegin',
-    //     html`
-    //       <div class="iconRow">
-    //         <div class="wrappedSVG"></div>
-    //       </div>
-    //     `,
-    //   ).firstChild)();
-    // svg.replaceWith(iconRow);
-    // iconRow.querySelector('.wrappedSVG').appendChild(svg);
+  // const iconRow = ((wrapper = document.createElement('div')) =>
+  //   wrapper.insertAdjacentHTML(
+  //     'afterbegin',
+  //     html`
+  //       <div class="iconRow">
+  //         <div class="wrappedSVG"></div>
+  //       </div>
+  //     `,
+  //   ).firstChild)();
+  // svg.replaceWith(iconRow);
+  // iconRow.querySelector('.wrappedSVG').appendChild(svg);
   // });
 
+  let currentSvg = null;
+
+  document.addEventListener('mouseover', ({ target }) => {
+    if (target.matches('svg')) {
+      currentSvg = target;
+    }
+  });
   document.body.addEventListener(
     'click',
     ({ target }) =>
       target.dataset.copyas?.match?.({
-        [Symbol.match]: (copyAs) => copy(target, copyAs),
+        [Symbol.match]: (copyAs) => copy(currentSvg, copyAs),
       }),
     {},
   );
 
   document.addEventListener('mouseover', ({ target }) => {
-    const cloneSvg = (svgTarget, classesToAdd = []) => {
-      const clone = svgTarget.cloneNode(true);
-      clone.classList.add('duplicate', ...[classesToAdd].flat());
-      svgTarget.parentElement.append(clone);
-    };
-    const svgTarget =
-      target.parentElement
-        ?.closest?.('.iconRow')
-        ?.querySelector?.('.wrappedSVG') ?? false;
-    if (
-      svgTarget &&
-      !svgTarget.classList.contains('duplicated') &&
-      !svgTarget.classList.contains('duplicate')
-    ) {
-      svgTarget.classList.add('duplicated', 'large');
-      cloneSvg(svgTarget, ['small']);
-      cloneSvg(svgTarget, ['medium']);
+    if (target.matches('svg')) {
+      const svgname =
+        target.dataset.name ??
+        target.querySelector('[data-name]')?.dataset.name;
+      const cloneSvg = (svgTarget, classesToAdd = []) => {
+        const clone = svgTarget.cloneNode(true);
+        clone.classList.add('duplicate', ...[classesToAdd].flat());
+        svgTarget.parentElement.append(clone);
+      };
+      const svgTarget =
+        target.parentElement
+          ?.closest?.('.iconRow')
+          ?.querySelector?.('.wrappedSVG') ?? false;
+      if (
+        svgTarget &&
+        !svgTarget.classList.contains('duplicated') &&
+        !svgTarget.classList.contains('duplicate')
+      ) {
+        svgTarget.classList.add('duplicated', 'large');
+        cloneSvg(svgTarget, ['small']);
+        cloneSvg(svgTarget, ['medium']);
+      }
     }
   });
 });

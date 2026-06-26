@@ -252,18 +252,18 @@ window.addEventListener('load', (event) => {
 
     /*<label class="down" data-down="svg" onClick="down(event, 'svg')">svg</label>*/
 
-    const iconRow = (() =>
-      document.createElement('div').insertAdjacentHTML(
-        'afterbegin',
-        html`
-          <div class="iconRow">
-            <div class="wrappedSVG"></div>
-          </div>
-        `,
-      ).firstChild)();
-    svg.replaceWith(iconRow);
-    iconRow.querySelector('.wrappedSVG').appendChild(svg);
-  });
+    // const iconRow = ((wrapper = document.createElement('div')) =>
+    //   wrapper.insertAdjacentHTML(
+    //     'afterbegin',
+    //     html`
+    //       <div class="iconRow">
+    //         <div class="wrappedSVG"></div>
+    //       </div>
+    //     `,
+    //   ).firstChild)();
+    // svg.replaceWith(iconRow);
+    // iconRow.querySelector('.wrappedSVG').appendChild(svg);
+  // });
 
   document.body.addEventListener(
     'click',

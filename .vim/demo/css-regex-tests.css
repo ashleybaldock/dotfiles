@@ -107,6 +107,7 @@ someOtherTag {
   }
 }
 
+/* prettier-ignore */
 ##badidentifier,
 ..badClassName,
 unknownTag,
@@ -540,8 +541,39 @@ a/**/b {--a: 0;}
 }
 
 .grid-templates {
-  grid-template-columns: [left related-start vidfull-start] 30fr [related-end vidscrolled-start containing-start right-related-start right-controls-start playlists-start] 30fr [playlists-end containing-end comments-start] 40fr [ comments-end right-controls-end right-related-end vidscrolled-end vidfull-end right] !important;
-  grid-template-rows: [top related-start vidfull-start] 30fr [related-end vidscrolled-start containing-start right-related-start right-controls-start playlists-start] 30fr [playlists-end containing-end comments-start] 40fr [ comments-end right-controls-end right-related-end vidscrolled-end vidfull-end end] !important;
+  /*!prettier-ignore*/
+  grid-template-columns: [left
+    related-start
+    vidfull-start] 30fr [related-end
+    vidscrolled-start
+    containing-start
+    right-related-start
+    right-controls-start
+    playlists-start] 30fr [playlists-end
+    containing-end
+    comments-start] 40fr [
+    comments-end
+    right-controls-end
+    right-related-end
+    vidscrolled-end
+    vidfull-end
+    right] !important;
+  grid-template-rows: [top
+    related-start
+    vidfull-start] 30fr [related-end
+    vidscrolled-start
+    containing-start
+    right-related-start
+    right-controls-start
+    playlists-start] 30fr [playlists-end
+    containing-end
+    comments-start] 40fr [
+    comments-end
+    right-controls-end
+    right-related-end
+    vidscrolled-end
+    vidfull-end
+    end] !important;
 }
 .grid-templates {
   grid-template-columns: [left

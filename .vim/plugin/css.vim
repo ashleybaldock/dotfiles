@@ -211,7 +211,7 @@ command! -bar -range=% CssNoDevToolComments <line1>,<line2>
 " Formats grid-template-[columns/rows] into multiple lines
 " 
 command! -bar -range=% CssGridTemplateSplit <line1>,<line2>
-      \ s/\%(^\(\s*\)grid-template-\%(rows\|columns\):.*\)\@<=\%(\[[^]]*\)\@<=\zs \ze.*[;}]/\1  /g
+      \ s/\%(^\(\s*\)grid-template-\%(rows\|columns\):.*\)\@<=\%(\[\zs\|\%(\[[^]]*\)\@<= \+\|\]\@>\)\ze.*[;}]/\1  /g
 
 
 

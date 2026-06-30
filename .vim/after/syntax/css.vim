@@ -112,6 +112,12 @@ syn region cssSqrtRegion contained concealends
       \cssCustomPropRef,
       \cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 
+syn match cssStepsPositionAttr /\%(jump-\)\?\%(start\|end\)\|jump-\%(none\|both\)/ contained 
+syn region cssStepsRegion contained
+      \ matchgroup=Conceal start="(" end=")"
+      \ contains=cssError,cssFunctionComma,cssFunctionNameVar,
+      \cssCustomPropRef,cssValueInteger,cssStepsPositionAttr,cssNoise
+
 syn region cssAnchorRegion contained concealends
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssError,cssCustomPropRef,cssAnchorLoc,cssAnchorSep
@@ -139,7 +145,7 @@ syn region cssMathFunctionRegion contained
       \ contains=cssMathFunctionRegion,cssCalcKeyword,CssMathOp,
       \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
       \cssError,
-      \cssCustomPropRef,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
+      \cssCustomPropRef,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength,cssValueTime,cssValueFrequency
 " ⨠ ⎆ ⌾
 syn keyword cssMathFunctionName calc 
       \ contained conceal cchar=c
@@ -158,6 +164,11 @@ syn keyword cssMathFunctionName sqrt
       \ contained conceal cchar=√
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssSqrtRegion
+
+syn keyword cssMathFunctionName steps
+      \ contained
+      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \ nextgroup=cssStepsRegion
 
 syn match CssMathOp $[+*/-]$ contained contains=NONE
 
@@ -334,7 +345,8 @@ syn match cssMathFunctionName /\<repeating-\ze\(linear\|conic\|radial\)-gradient
 syn region cssFunction contained 
       \ start="\<\%(repeating-\|\)\%(linear-\|radial-\|conic-\)\=\gradient\s*("
       \ end=")\@1<="
-      \ contains=cssMathFunctionName,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength,
+      \ contains=cssMathFunctionName,cssColor,
+      \ cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength,
       \ cssFunction,cssGradientAttr,cssFunctionComma
 
 " counter()􁂷􀅱
@@ -402,27 +414,34 @@ syn match cssPseudoClassIdNoise contained +:+ contains=NONE
 syn region cssPseudoClassFn containedin=cssPseudoClass
       \ matchgroup=cssFunctionName start=":where("
       \ end=")"
-      \ contains=cssNoise,cssSelectorOp,cssPseudoClassFn,cssPseudoClass,
+      \ contains=cssNoise,cssSelectorOp,
+      \cssPseudoClassFn,cssPseudoClassId,cssPseudoClassLang,cssPseudoClass,
       \cssStringQ,cssStringQQ,
       \cssTagName,cssAttributeSelector,cssClassName,cssIdentifier
 syn region cssPseudoClassFn containedin=cssPseudoClass
       \ matchgroup=cssFunctionName start=":is("
       \ end=")"
-      \ contains=cssNoise,cssSelectorOp,cssPseudoClassFn,cssPseudoClass,
+      \ contains=cssNoise,cssSelectorOp,
+      \cssPseudoClassFn,cssPseudoClassId,cssPseudoClassLang,cssPseudoClass,
       \cssStringQ,cssStringQQ,
       \cssTagName,cssAttributeSelector,cssClassName,cssIdentifier
 syn region cssPseudoClassFn containedin=cssPseudoClass
       \ matchgroup=cssFunctionName start=":has("
       \ end=")"
-      \ contains=cssNoise,cssSelectorOp,cssPseudoClassFn,cssPseudoClass,
+      \ contains=cssNoise,cssSelectorOp,
+      \cssPseudoClassFn,cssPseudoClassId,cssPseudoClassLang,cssPseudoClass,
       \cssStringQ,cssStringQQ,
       \cssTagName,cssAttributeSelector,cssClassName,cssIdentifier
 syn region cssPseudoClassFn containedin=cssPseudoClass
-      \ matchgroup=cssFunctionName start=":not("
-      \ end=")"
-      \ contains=cssNoise,cssSelectorOp,cssPseudoClassFn,cssPseudoClass,
+      \ matchgroup=cssFunctionName start=":\zenot("
+      \ matchgroup=cssPseudoNot end=")"
+      \ contains=cssPseudoNot,cssNoise,cssSelectorOp,
+      \cssPseudoClassFn,cssPseudoClassId,cssPseudoClassLang,cssPseudoClass,
       \cssStringQ,cssStringQQ,
       \cssTagName,cssAttributeSelector,cssClassName,cssIdentifier
+
+syn keyword cssPseudoChecked contained containedin=cssPseudoClass,cssPseudoClassFn checked 
+syn match cssPseudoNot /:\@1<=not(/ contained
 
 "                           
 "   absolute                         …use…
@@ -760,7 +779,7 @@ syn match cssUnitConc /%/ conceal cchar=﹪ transparent contained containedin=cs
 syn match cssUnitConc /deg/ conceal cchar=° transparent contained containedin=cssUnitDecorators contains=NONE
 " syn match cssUnitConc /mm/ conceal cchar=㎜ transparent contained containedin=cssUnitDecorators contains=NONE
 " syn match cssUnitConc /cm/ conceal cchar=㎝ transparent contained containedin=cssUnitDecorators contains=NONE
-" syn match cssUnitConc /ms/ conceal cchar=㎳ transparent contained containedin=cssUnitDecorators contains=NONE
+syn match cssUnitConc /ms/ conceal cchar=㎳ transparent contained containedin=cssUnitDecorators contains=NONE
 syn match cssUnitConc /p\zex/ conceal cchar=𝚙 transparent contains=NONE 
       \ contained containedin=cssUnitDecorators nextgroup=cssUnitConc
 syn match cssUnitConc /p\@1<=x/ conceal cchar=𝚡 transparent contained contains=NONE
@@ -789,9 +808,9 @@ syn match cssUrlSeps /[:;,]/ contained contains=NONE
 
 hi link cssUnitDecorators Conceal
 "
-hi cssIdHash         guifg=#ffaa00
 hi cssSelectorOp     guifg=#22ffaa gui=bold
 hi cssSelectorOp2    guifg=#0800ff gui=bold
+
 hi cssAttrParens     guifg=#ff5500 gui=bold
 hi cssAttrComma      guifg=#ffff00 gui=bold
 hi cssAttrOp         guifg=#ff00ff
@@ -799,10 +818,14 @@ hi cssAttrOp         guifg=#ff00ff
 hi link cssAtRule Include
 hi link cssAtKeyword PreProc
 
-hi cssCustomProp  guifg=#bf53bc
-hi cssNoise       guifg=#bbaf00
+hi cssCustomProp     guifg=#bf53bc
+hi cssCustomPropRef  guifg=#bf53bc
+hi cssNoise          guifg=#bbaf00
 
-hi link cssIdentifier Function
+hi cssIdHash         guifg=#3388ff
+hi cssIdentifier     guifg=#77aaff
+
+hi link cssClassNameDot Statement
 hi link cssClassName Function
 
 " Value types
@@ -871,6 +894,8 @@ hi link cssGridProp cssGridAttrProp
 hi link cssMultiColumnProp cssLayoutProp
 hi link cssTableProp cssLayoutProp
 "
+hi link cssStepsPositionAttr cssAttr
+
 " Misc
 "
 hi cssImportant guifg=#ff22cc guibg=NONE gui=bold,italic
@@ -878,15 +903,15 @@ hi cssImportant guifg=#ff22cc guibg=NONE gui=bold,italic
 " [selector="attribute"]
 "
 hi link cssAttributeSelector Type
-hi link cssClassNameDot Statement
 hi def link cssAttrParens Statement
 hi def link cssAttrOp cssSelectorOp2
-hi def link cssIdHash Statement
 "
 " :pseudo
 "
 hi link cssPseudoClassIdNoise cssNoise
 hi def cssPseudoClass      guifg=#ee0000 gui=italic
+hi def cssPseudoChecked    guifg=#00ee00 gui=italic,underdotted
+hi def cssPseudoNot        guifg=#f80000 gui=bold
 hi link cssPseudoClassId PreProc
 hi link cssPseudoClassLang Constant
 

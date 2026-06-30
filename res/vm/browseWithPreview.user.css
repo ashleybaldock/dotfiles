@@ -853,6 +853,9 @@ body > section:has(> video, > .vidwrap) {
 }
 
 /*{{{2 Linear Player */
+:root:not(:has(#toggle_player_linear:checked)) .linear {
+  display: none;
+}
 :root:has(#toggle_player_linear:checked) .linear {
   display: grid;
 }
@@ -924,11 +927,13 @@ body > section:has(> video, > .vidwrap) {
     [interleave-end bottom];
   background-color: #0000;
   transform: unset;
-  display: none;
 }
-:root:has(#toggle_player_interleave:checked, #toggle_playpause_playing:checked)
-  .interleave {
+
+:root:has(#toggle_player_interleave:checked) .interleave {
   display: grid;
+}
+:root:not(:has(#toggle_player_interleave:checked)) .interleave {
+  display: none;
 }
 
 .interleave::before {
@@ -994,7 +999,6 @@ body > section:has(> video, > .vidwrap) {
   position: absolute;
   transform: none;
 }
-
 .interleave > .vidwrap::before {
   position: fixed;
   transform: translateX(calc(var(--playerIdx) * var(--playerWidth) * -1))
@@ -1036,657 +1040,6 @@ body > section:has(> video, > .vidwrap) {
 }
 :root:has(#toggle_debug:checked) .interleave > .vidwrap > label:hover {
   box-shadow: inset 0 0 5px 2px #f8f2;
-}
-
-/*!}}}1*/
-
-/*!{{{1 File List (table) */
-table {
-  --row-h: 2.2rem;
-  --row-pad: 1px;
-  clear: unset;
-  border-radius: 10px;
-  min-width: 20em;
-  max-width: unset;
-  color: FieldText;
-  display: block;
-  width: auto;
-  background-color: #1a1a1a;
-  border: 0;
-  border-collapse: collapse;
-  padding: 3.4rem 2rem 1rem 1.4rem;
-  grid-area: files;
-  place-self: end auto;
-}
-
-thead > tr::before {
-  content: 'Playback';
-}
-
-td:first-child > a {
-  color: #fff;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-  grid-column: filename;
-  inset: var(--inset-files);
-  grid-row: span files-start;
-  position: sticky;
-}
-
-td:first-child + td + td + td {
-  display: none;
-}
-
-td:first-child + td {
-  padding-inline-end: 0;
-}
-
-tbody > tr {
-  --h: 90deg;
-  --s: 40%;
-  --l: 10%;
-  --a: 0%;
-  background-color: hsl(
-    calc(var(--h) + var(--h±, 0deg)) calc(var(--s) * var(--s✕, 1))
-      calc(var(--l) * var(--l✕, 1) / calc(var(--a) * var(--a✕, 1)))
-  );
-  padding: 0 0.5ch;
-}
-
-tbody > tr:hover {
-  outline: 0;
-  --s: 60%;
-  --l: 30%;
-  overflow: visible;
-  box-shadow:
-    inset 3px 1.2px 10px -2px #fff8,
-    inset 2px -0.2px 5px -1.2px #000,
-    1px 2px 0-1px #000;
-  border-radius: 1lh;
-}
-
-tbody > ::before {
-  content: var(--s-playerIdx);
-  --bg: hsl(
-    calc(360deg / var(--interleave-active-player-count) * var(--playerIdx)) 80%
-      50% / 100%
-  );
-  --angle: calc(
-    360deg / var(--interleave-active-player-count) * var(--playerIdx)
-  );
-  --h: calc(var(--angle), 90deg);
-  --s: 60%;
-  --l: 50%;
-  --a: 20%;
-  mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E\
-    %3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E\
-    %3C/path%3E\
-    %3C/svg%3E');
-  mask-repeat: no-repeat;
-  mask-composite: add;
-  mask-position: center center;
-  mask-size: contain;
-  mask-origin: content-box;
-  mask-clip: padding-box;
-  aspect-ratio: 1;
-  background-repeat: no-repeat;
-  background-position: center center;
-  text-align: center;
-  line-height: calc(var(--row-h) * 0.5);
-  white-space: preserve-spaces;
-  width: calc(var(--row-h) * 0.5);
-  height: calc(var(--row-h) * 0.5);
-  color: #fff;
-  padding: var(--row-pad);
-  background-color: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-  align-self: center;
-  grid-column: 2/3;
-  inset: var(--inset-files);
-  grid-row: span files-start;
-  position: sticky;
-}
-
-tbody > :where(.playing, .paused) {
-  --s✕: 0.4;
-  --a: 100%;
-}
-
-table > tbody > :where(.playing, .paused)::before {
-  mask-clip: no-clip;
-  mask-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E\
-    %3Cpath d=%22M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z%22%3E\
-    %3C/path%3E\
-    %3C/svg%3E');
-  overflow: visible;
-  background-size:
-    50% 50%,
-    contain,
-    contain,
-    contain;
-  background-clip: content-box, content-box, content-box, content-box;
-  background-origin: content-box, content-box, content-box, content-box;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-blend-mode: normal;
-  background-image:
-    var(--playback-status-icon),
-    radial-gradient(
-      circle at center,
-      var(--c1),
-      var(--c2) 50% 57%,
-      #fffa 60% 62%,
-      #000 65%
-    ),
-    radial-gradient(
-      ellipse 60% 50%at 20% 10%,
-      #fdd8 30%,
-      #fff2 60% 70%,
-      #00000050 120%,
-      #0008 180%
-    ),
-    radial-gradient(
-      ellipse 115% 110%at 80% 70%,
-      #fff0 22%,
-      #fff8 50% 56%,
-      #fff4 58%
-    ),
-    radial-gradient(circle at center, #0001 55%, #0002 60%, #000 60%);
-  --c1: hsl(from var(--bg) h s l / 100%);
-  --c2: hsl(from var(--bg) h s calc(l * 0.66) / 100%);
-}
-
-table > tbody > .playing::before {
-  --playback-status-icon: var(--playback-status-playing);
-  background-size:
-    45% 45%,
-    contain,
-    contain,
-    contain;
-  background-position:
-    56% 50%,
-    center center,
-    center center,
-    center center;
-}
-
-table > tbody > .paused::before {
-  --playback-status-icon: var(--playback-status-paused);
-}
-
-table > tbody > .played::before,
-table > tbody > .played.paused::before {
-  --playback-status-icon: var(--playback-status-played);
-}
-
-table > tbody > tr > td {
-  border-width: 0;
-  margin: 0;
-  padding: 0;
-}
-
-td:not(:first-child) {
-  width: unset;
-}
-
-.file:has(> img) {
-  margin: 0;
-}
-
-:where(.file, .dir) {
-  font-family: Menlo, monospace;
-  line-height: normal;
-  align-items: center;
-  color: #fff;
-  width: 100%;
-  letter-spacing: 0.02ch;
-  font-size: 1.1rem;
-  border-width: 0;
-  /*! height: var(--row-h); */
-  align-content: center;
-  justify-content: start;
-  display: flex;
-  padding: 0 0.5ch;
-  margin: 0;
-}
-
-:where(.file, .dir):hover {
-  text-decoration: none;
-}
-
-:where(.file, .dir)::before {
-  font-family: Menlo, monospace;
-  line-height: normal;
-  align-items: center;
-  content: '';
-  background: #eee;
-  color: #000;
-  font-weight: 700;
-  border-radius: 6px/40px;
-  letter-spacing: 0;
-  width: 3.5ch;
-  text-align: center;
-  margin: 0 1ch 0 0;
-  padding: 0.12em 0 0.06em 0.1ch;
-  max-width: 3.5ch;
-  font-size: 0.9em;
-  text-transform: uppercase;
-  justify-content: center;
-  display: inline-flex;
-  background-position: center center;
-  background-origin: content-box;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-blend-mode: normal;
-  background-attachment: scroll;
-  background-image:
-    linear-gradient(26deg, #0004 10%, #fff8 10% 70%, #0004 90%),
-    var(--icon, linear-gradient(#0000 0 0));
-  background-color: #eee9;
-  opacity: 0.8;
-  mix-blend-mode: plus-lighter;
-}
-
-:has(.file:hover) .file:not(:hover)::before {
-  mix-blend-mode: soft-light;
-}
-
-.player.linear.paused,
-[src^='moz-icon://'] {
-  display: none;
-}
-
-.file:has(> [src='moz-icon://.mp4?size=16'])::before {
-  content: 'mp4';
-  --c-hint: #f0f;
-  --icon: var(--icon-filetype-video);
-}
-
-.file:has(> [src='moz-icon://.png?size=16'])::before {
-  content: 'png';
-  --icon: var(--icon-filetype-image);
-}
-
-.file:has(> [src='moz-icon://.jpeg?size=16'])::before,
-.file:has(> [src='moz-icon://.jpg?size=16'])::before {
-  content: 'jpg';
-  --icon: var(--icon-filetype-image);
-}
-
-.file:has(> [src='moz-icon://.gif?size=16'])::before {
-  content: 'gif';
-  --icon: var(--icon-filetype-image);
-}
-
-.file:has(> [src='moz-icon://.html?size=16'])::before {
-  content: 'html';
-}
-
-.file:has(> [src='moz-icon://.css?size=16'])::before {
-  content: 'css';
-}
-
-.file:has(> [src='moz-icon://.js?size=16'])::before {
-  content: 'js';
-}
-
-.file:has(> [src='moz-icon://.ts?size=16'])::before {
-  content: 'ts';
-}
-
-:root:not(:has([name='images'] :checked))
-  body
-  > table
-  > :where(tbody, thead)
-  > tr:has(
-    [src='moz-icon://.jpeg?size=16'],
-    [src='moz-icon://.jpg?size=16'],
-    [src='moz-icon://.png?size=16']
-  ),
-:root:not(:has([name='video'] :checked))
-  body
-  > table
-  > :where(tbody, thead)
-  > tr:has([src='moz-icon://.mp4?size=16'], [src='moz-icon://.gif?size=16']),
-:root:not(:has([name='other'] :checked))
-  body
-  > table
-  > :where(tbody, thead)
-  > tr:not(
-    :has(
-      [src='moz-icon://.jpeg?size=16'],
-      [src='moz-icon://.jpg?size=16'],
-      [src='moz-icon://.png?size=16'],
-      [src='moz-icon://.mp4?size=16'],
-      [src='moz-icon://.gif?size=16']
-    )
-  ) {
-  display: none;
-}
-
-.dir::before {
-  content: 'dir';
-  --icon: var(--icon-filetype-folder);
-}
-
-/*{{{1 Grid Layout Override for file listing table */
-body > * {
-  grid-area: auto;
-  max-height: unset;
-}
-
-body > table,
-:where(tbody, thead),
-:where(tbody, thead) > tr {
-  display: contents;
-}
-
-body > table > :where(tbody, thead) > tr > :where(td, th) {
-  position: sticky;
-  top: 0;
-  display: flex;
-  height: fit-content;
-}
-
-body > table > :where(tbody, thead) > tr > td:nth-child(n + 2) {
-  transition: transform 200ms ease 0ms;
-  transform: scale(0.8);
-  font-size: 1em;
-}
-body > table > :where(tbody, thead) > tr > td:nth-child(2) {
-  text-align: end;
-  justify-content: center;
-  transform-origin: right;
-}
-body > table > :where(tbody, thead) > tr > td:nth-child(3) {
-  justify-content: center;
-  transform-origin: left;
-}
-
-body > table > :where(tbody, thead) > tr:hover > td:nth-child(n + 2) {
-  transition: transform 120ms ease 0ms;
-}
-body > table > :where(tbody, thead) > tr:hover > td:nth-child(2) {
-  transform: scale(1.08) translateX(4%);
-}
-
-body > table > :where(tbody, thead) > tr:hover > td:nth-child(3) {
-  transform: scale(1.08) translateX(-4%);
-}
-body > table > tbody > tr > td[sortable-data] {
-  white-space: nowrap;
-  flex-wrap: nowrap;
-}
-
-/* body > table > tbody > tr >  td[sortable-data]::before { */
-/*     content: attr(sortable-data); */
-/*     justify-self: start; */
-/* } */
-
-:where(.file, .dir) {
-  width: auto;
-}
-
-:where(.file, .dir)::before {
-  display: inline-flex;
-}
-
-body > table > :where(tbody, thead) > tr > td:first-child,
-body > table > :where(tbody, thead) > tr > th:first-child {
-  grid-column: filename;
-  inset: var(--inset-files);
-  grid-row: span files-start;
-  position: sticky;
-  z-index: var(--z-files);
-}
-
-body > table[order] > thead > tr > th ::after {
-  width: unset;
-}
-
-body > table,
-body > table > :where(tbody, thead),
-body > table > :where(tbody, thead) > tr {
-  display: contents;
-}
-
-body > table > tbody > ::before {
-  grid-column: 1/3;
-}
-body > table > thead > ::before {
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  background-color: #222;
-  width: 100%;
-  grid-column: filestatus-start/span 1;
-  grid-row: 1;
-  place-self: center stretch;
-}
-
-body > table > tbody > tr > td > table > tbody > tr::before {
-  grid-column: filestatus-start/filestatus-end;
-  grid-row: 1;
-  place-self: start end;
-  z-index: 10;
-}
-
-body > table > :where(tbody, thead) > tr > :where(td, th) {
-  background-color: --c-bg;
-  position: sticky;
-  inset: var(--inset-files);
-  width: 100%;
-  height: auto;
-  padding: 0;
-  margin: 0;
-  white-space: nowrap;
-  z-index: 10;
-}
-body > table > :where(tbody, thead) > tr > :where(td, th):first-child {
-  display: contents;
-}
-
-body
-  > table
-  > :where(tbody, thead)
-  > tr
-  > :where(td:first-child + td, th:first-child + th) {
-  grid-row: span files-start;
-  grid-column: -5/-4;
-}
-body
-  > table
-  > :where(tbody, thead)
-  > tr
-  > :where(td:first-child + td + td, th:first-child + th + th) {
-  grid-row: span files-start;
-  grid-column: -4/-1;
-}
-body > table > :where(tbody, thead) > tr > :where(td, th):last-child {
-  grid-column: -4 / span -1;
-}
-
-body > table > thead > tr > th,
-body > table > thead > tr::before {
-  z-index: var(--z-files-header);
-  grid-row: fhead !important;
-  order: 1;
-}
-
-body > table > :where(tbody, thead) > tr > td:nth-child(n + 2) {
-  transition: transform 200ms ease 0ms;
-  transform: scale(1);
-  font-size: 1em;
-}
-
-body > table > thead > tr::before {
-  background-color: #222;
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  width: auto;
-  height: 100%;
-  padding: 0.1em 0.5ch;
-  letter-spacing: 0.05ch;
-  text-align: center;
-}
-
-body > table > tbody > ::before {
-  content: var(--s-playerIdx);
-  --bg: hsl(
-    calc(360deg / var(--interleave-active-player-count) * var(--playerIdx)) 80%
-      50% / 100%
-  );
-  --angle: calc(
-    360deg / var(--interleave-active-player-count) * var(--playerIdx)
-  );
-  --h: calc(var(--angle), 90deg);
-  --s: 60deg;
-  --l: 50%;
-  --a: 20%;
-  mask-composite: add;
-  mask-position: center center;
-  mask-size: contain;
-  mask-origin: content-box;
-  mask-clip: padding-box;
-  background-position: center center;
-  text-align: center;
-  white-space: preserve-spaces;
-  color: #fff0;
-  padding: var(--row-pad);
-  aspect-ratio: unset;
-  display: flex;
-  line-height: normal;
-  height: 2em;
-  grid-column: 1/2;
-  width: auto;
-  opacity: 1;
-  visibility: visible;
-
-  position: sticky;
-  inset: var(--inset-files);
-
-  background-color: var(--c-bg);
-  background-image: radial-gradient(
-    circle 0.1lh at center,
-    #fff8,
-    90%,
-    #000 90% 96%,
-    #f000 0
-  );
-  background-origin: content-box;
-  background-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  mask-image: linear-gradient(#ffff);
-  z-index: var(--z-linear-current-playing);
-}
-
-body > table > tbody > :where(.playing, .paused, .played)::before {
-  mask-clip: no-clip;
-  overflow: visible;
-  background-clip: content-box, content-box, content-box, content-box;
-  background-origin: content-box, content-box, content-box, content-box;
-  background-repeat: no-repeat;
-  background-position:
-    var(--playback-status-icon-position, center center),
-    center center,
-    center center,
-    center center;
-  background-blend-mode: normal;
-  background-image:
-    var(--playback-status-icon),
-    radial-gradient(
-      1.3lh circle at center,
-      var(--c1),
-      var(--c2) 50% 57%,
-      #fffa 60% 62%,
-      #000 65%,
-      #0000 68%
-    ),
-    radial-gradient(
-      ellipse 0.65lh 0.65lh at calc(50% - 0.5lh) 0.1lh,
-      #fdd8 30%,
-      #fff2 60% 70%,
-      #00000050 120%,
-      #0008 180%,
-      #0000 0
-    ),
-    radial-gradient(
-      ellipse 0.65lh 0.65lh at calc(50% - 0.5lh) 0.7lh,
-      #fff0 22%,
-      #fff8 50% 56%,
-      #fff4 58%,
-      #fff0 61%
-    ),
-    radial-gradient(
-      1.3lh circle at center,
-      #0001 55%,
-      #0002 60%,
-      #000 60%,
-      #0000 63%
-    );
-  --c1: hsl(from var(--bg) h s l / 100%);
-  --c2: hsl(from var(--bg) h s calc(l * 0.66) / 100%);
-  background-size:
-    var(--playback-status-icon-size, 0.5lh),
-    100% 2lh,
-    1.2lh 1.2lh,
-    1lh 1lh;
-}
-body > table > tbody > :where(.played)::before {
-  --playback-status-icon: var(--playback-status-played);
-  --playback-status-icon-size: 0.9lh;
-}
-body > table > tbody > :where(.played):hover::before {
-  --playback-status-icon: var(--playback-status-replay);
-}
-body > table > tbody > .playing::before {
-  --playback-status-icon: var(--playback-status-playing);
-  --playback-status-icon-size: 0.45lh;
-  --playback-status-icon-position: calc(50% + 0.04lh) 0.5lh;
-}
-
-body > table > tbody > .paused::before {
-  --playback-status-icon: var(--playback-status-paused);
-}
-
-body > table > thead > tr > th,
-body > table > thead > tr::before {
-  grid-row: fhead !important;
-  order: 1;
-  position: sticky;
-  inset: var(--inset-files);
-  z-index: var(--z-files);
-  background-color: #141414;
-  width: auto;
-  height: 100%;
-  padding: 0;
-  letter-spacing: 0.05ch;
-  text-align: center;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  outline: none;
-}
-/*!}}}1*/
-
-/*!{{{1 Replace ellipsis table with text-overflow */
-.ellipsis,
-.ellipsis > *,
-.ellipsis > * > * {
-  padding: 0;
-  display: contents;
-}
-.ellipsis > tbody > tr > td {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  display: contents;
 }
 /*!}}}1*/
 
@@ -1890,6 +1243,28 @@ body > table > thead > tr::before {
       calc(var(--a)) #f0fc,
     0 0 #0000;
 }
+.toggle::after {
+  border: 0 solid #c00;
+  padding: 0.2em 1.5ch;
+  border-radius: 1.75ch;
+  --a: -0.5ch;
+  --x: 0ch;
+  --y: 0ch;
+  --w: 0.7ch;
+  --h: 0.7lh;
+  box-shadow:
+    calc(0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #f0a9,
+    calc(0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #a0f9,
+    calc(-0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #a0a9,
+    calc(-0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #f0f9,
+    0 0 #0000;
+  --fbc-blue-60: ;
+  --f: 1px;
+}
 .toggle:hover::after {
   opacity: 1;
   transition: opacity 80ms ease 0s;
@@ -1953,6 +1328,13 @@ body > table > thead > tr::before {
   margin: auto;
   gap: 0.5ch;
 }
+
+.toggle:not(:has(button)) > label::after {
+  mask-image: var(--icon-composite);
+}
+.toggle > label::after {
+  background-color: #828;
+}
 /*!}}}1*/
 
 /*!{{{1 Parent Directory button */
@@ -2015,6 +1397,7 @@ body > table > thead > tr::before {
 }
 /*!}}}1*/
 
+/*!{{{1 sequencetoggle */
 .sequencetoggle {
   grid-column-end: span 1;
 }
@@ -2026,342 +1409,10 @@ body > table > thead > tr::before {
   visibility: hidden;
 }
 
-/*!{{{2 File Listing toggle */
-:root:has(#toggle_filelist_beside:checked) {
-  --playerWidth: 80vw;
-}
-:root:has(#toggle_filelist_below:checked) {
-  --playerHeight: 80vh;
-}
-:root:has(#toggle_filelist_hide:checked) body > table {
-  display: none;
-}
-/*!}}}2 END File Listing toggle */
-
-td:first-child > a {
-  grid-column: 3/-5;
-}
-body
-  > table
-  > :where(tbody, thead)
-  > tr
-  > :where(td:first-child + td + td, th:first-child + th + th) {
-  grid-column: filedate;
-}
-body
-  > table
-  > :where(tbody, thead)
-  > tr
-  > :where(td:first-child + td, th:first-child + th) {
-  grid-column: filesize;
-}
-
-body > table > tbody > tr {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-template-rows: 1fr;
-  grid-column: files-start/files-end;
-  align-content: stretch;
-  align-items: stretch;
-  inset: var(--inset-files);
-  position: sticky;
-}
-body > table > tbody > tr:hover {
-  outline: 1px solid #fff3;
-  outline-offset: -4px;
-}
-td:first-child > a {
-  grid-column: filename-start/filename-end;
-}
-body > table > tbody > tr::before {
-  grid-column: filestatus;
-  grid-row: 1;
-  border-radius: 1lh;
-  background-color: #0000;
-  place-self: end stretch;
-}
-body > table > tbody > tr > td > table > tbody > tr::before {
-  grid-column: filestatus-start/filestatus-end;
-  grid-row: 1;
-  inset: var(--inset-files);
-  --bg: hsl(
-    calc(360deg / var(--interleave-active-player-count) * var(--playerIdx)) 80%
-      50% / 100%
-  );
-  --angle: calc(
-    360deg / var(--interleave-active-player-count) * var(--playerIdx)
-  );
-  --h: calc(var(--angle), 90deg);
-  --s: 60deg;
-  --l: 50%;
-  --a: 20%;
-  mask-composite: add;
-  mask-position: center center;
-  mask-origin: content-box;
-  mask-clip: content-box;
-  text-align: center;
-  color: #fff;
-  align-content: center;
-  justify-content: center;
-  justify-items: center;
-  display: flex;
-  line-height: normal;
-  aspect-ratio: 1;
-  width: auto;
-  opacity: 1;
-  visibility: visible;
-  mask-repeat: no-repeat;
-  z-index: 60;
-
-  font-size: 1.4em;
-  height: calc(var(--row-h) * 0.75);
-  overflow: visible;
-  background-clip: padding-box;
-  background-origin: content-box;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-blend-mode: normal;
-  background-image:
-    radial-gradient(
-      farthest-corner circle at center,
-      var(--c1),
-      var(--c2) 50% 57%,
-      #fffa 60% 62%,
-      #000 65%,
-      #0000 68%
-    ),
-    radial-gradient(
-      farthest-side circle at center,
-      #fdd8 30%,
-      #fff2 60% 70%,
-      #00000050 120%,
-      #0008 180%,
-      #0000 0
-    ),
-    radial-gradient(
-      farthest-side circle at center,
-      #fff0 22%,
-      #fff8 50% 56%,
-      #fff4 58%,
-      #fff0 61%
-    ),
-    radial-gradient(
-      farthest-corner circle at center,
-      #0001 55%,
-      #0002 60%,
-      #000 60%,
-      #0000 63%
-    );
-  --c1: hsl(from var(--bg) h s l / 100%);
-  --c2: hsl(from var(--bg) h s calc(l * 0.66) / 100%);
-  background-size: contain;
-
-  font-family: SF Pro;
-
-  --text-shadow:
-    var(--tot－) var(--tot０) var(--tob) var(--toc-l),
-    var(--tot＋) var(--tot０) var(--tob) var(--toc-r),
-    var(--tot０) var(--tot＋) var(--tob) var(--toc-b),
-    var(--tot０) var(--tot－) var(--tob) var(--toc-t),
-    var(--tot－) var(--tot－) var(--tob) var(--toc-tl),
-    var(--tot＋) var(--tot－) var(--tob) var(--toc-tr),
-    var(--tot＋) var(--tot＋) var(--tob) var(--toc-br),
-    var(--tot－) var(--tot＋) var(--tob) var(--toc-bl);
-  text-shadow: var(--text-shadow);
-  --tot＋: calc(var(--text-outline-thickness) * 0.5);
-  --tot－: calc(var(--text-outline-thickness) * -0.5);
-  --tot０: 0;
-  --tob: 0.1px;
-  --toc: var(--text-outline-color, #000);
-  --toc-l: var(--toc);
-  --toc-r: var(--toc);
-  --toc-t: var(--toc);
-  --toc-b: var(--toc);
-  --toc-tl: var(--toc);
-  --toc-tr: var(--toc);
-  --toc-br: var(--toc);
-  --toc-bl: var(--toc);
-
-  --text-outline-color: #000a;
-  --text-outline-thickness: 0.06em;
-  --text-outline-blur: 0.5px;
-
-  place-self: center start;
-  mask-size: calc(1em + 1px);
-  padding: 0;
-  letter-spacing: 0.06ch;
-}
-.toggle:not(:has(button)) > label::after {
-  mask-image: var(--icon-composite);
-}
-.toggle > label::after {
-  background-color: #828;
-}
-
-/*!{{{1 Debug toggle */
-:root:has(#toggle_debug:checked) body::before {
-  outline: 2px dashed red;
-  z-index: var(--z-debug-top);
-}
-
-:root:has(#toggle_debug:checked) .toggle {
-  grid-template-columns: 1fr;
-  height: auto;
-  width: auto;
-  position: relative;
-  top: 0%;
-  grid-auto-rows: 1fr;
-  align-items: end;
-  outline: 1px solid #f0fa;
-  border-radius: 100vw;
-}
-:root:has(#toggle_debug:checked) .toggle > label {
-  grid-row: auto;
-  mask-image: none;
-  mask-size:
-    contain,
-    100vw 100vh;
-  mask-origin: border-box;
-  mask-repeat: no-repeat, repeat;
-}
-:root:has(#toggle_debug:checked) .toggle > label > span {
-  /*! display: flex; */
-  position: absolute;
-  left: 100%;
-  white-space: nowrap;
-}
-:root:has(#toggle_debug:checked) .toggle label:has(:checked) {
-  outline: 1px dashed #f0f;
-  border-radius: 100vw;
-  outline-offset: -1px;
-  background-color: #000;
-}
-:root:has(#toggle_debug:checked) .toggle label:has(:checked)::after {
-  background-color: #f0fd;
-}
-:root:has(#toggle_debug:checked) .toggle label::before {
-  content: attr(data-value);
-  position: absolute;
-  inset: auto auto auto calc(100% + 1px);
-  background-color: #000;
-  border: 0 hidden #0000;
-  padding: 0.1em 0.5ch 0.2em 0.5ch;
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  z-index: -1;
-  box-shadow: 1.5px 1.5px 0 -0.5px #f0f;
-  border-radius: 0 4px 1ch 3px / 1.4ch;
-}
-
-:is(:root:hover, :root:has(#toggle_debug:checked)) :is(h1, .toggles) {
-  opacity: 1;
-}
-h1,
-.toggles,
-.player::before,
-.vidwrap::before {
-  opacity: 0;
-}
-
-/*!{{{2 Debug interleave */
-:root:has(#toggle_debug:checked) .interleave {
-  background-image: linear-gradient(#f22 0 0);
-  box-shadow:
-    0 6vh 0 -2vh #f0f,
-    0 -6vh 0 -2vh #f0f;
-  transform: scale(calc(1 / var(--interleave-active-player-count)))
-    translateY(200px);
-  transform-origin: top;
-}
-:root:has(#toggle_debug:checked) .interleave .vidwrap {
-  background-image: linear-gradient(#22aa 0 0);
-  box-shadow: 0 0 0 2vh #000;
-}
-
-:root:has(#toggle_debug:checked) .interleave .vidwrap::after {
-  --radius: 18vw;
-  inset: auto 5vw -30vh auto;
-}
-:root:has(#toggle_debug:checked) .interleave > .vidwrap:has(> .off) {
-  display: flex;
-  transform: translate(-100vw, 120vh);
-  background-image: linear-gradient(#a226 0 0);
-  outline: 2vh solid #000;
-  box-shadow: 0 0 0 2vh #000;
-  position: fixed;
-  inset: 0 auto auto 0;
-}
-/*!}}}1 END Debug toggle */
-
-.toggle::after {
-  border: 0 solid #c00;
-  padding: 0.2em 1.5ch;
-  border-radius: 1.75ch;
-  --a: -0.5ch;
-  --x: 0ch;
-  --y: 0ch;
-  --w: 0.7ch;
-  --h: 0.7lh;
-  box-shadow:
-    calc(0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
-      calc(var(--a)) #f0a9,
-    calc(0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
-      calc(var(--a)) #a0f9,
-    calc(-0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
-      calc(var(--a)) #a0a9,
-    calc(-0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
-      calc(var(--a)) #f0f9,
-    0 0 #0000;
-  --fbc-blue-60: ;
-  --f: 1px;
-}
-
-[data-name='interleave_bpm'],
-[data-name='interleave_duration_ms'],
-[data-name='interleave_active_player_count'] {
-  height: 10px;
-}
-
-:root:has(#toggle_debug:checked) .toggle {
-  outline: none;
-}
-
-:root:has(#toggle_debug:checked) .grouping {
-  grid-row: 1/-1;
-  margin: auto 0;
-  grid-template-rows: 1fr;
-  outline: 1px solid #626;
-}
-:root:has(#toggle_debug:checked) .grouping::before {
-  content: attr(--data-name);
-}
-:root:has(#toggle_debug:checked) .toggles {
-  grid-row: 1/-1;
-  position: sticky;
-  inset: -30vh auto auto auto;
-  grid-template-columns: subgrid;
-  grid-template-rows: repeat(12, 1fr);
-}
-:root:has(#toggle_debug:checked) .toggle {
-  grid-template-columns: 1fr;
-  height: 100%;
-  width: auto;
-  position: sticky;
-  inset: 0 auto 0 auto;
-  border-radius: 100vw;
-  grid-template-rows: 1fr;
-  grid-auto-rows: 1fr;
-  grid-row: -1;
-}
-
 .sequence.toggle {
   grid-column: auto;
   grid-template-columns: 1fr;
   border: none;
-  /*   height: 100%; */
   margin: auto 0;
   position: relative;
   inset: auto;
@@ -2371,65 +1422,12 @@ h1,
   max-height: 2lh;
 }
 
+.sequence.toggle label::after {
+  position: static;
+}
 .sequence.toggle.numeric label {
   height: 1lh;
 }
-
-:root:has(#toggle_debug:checked) .sequence.toggle label::before {
-  width: 100%;
-  grid-column: 1;
-  position: static;
-  content: attr(data-value);
-
-  background-color: #000;
-  border: 0 hidden #0000;
-
-  padding: 0.1em 0.5ch 0.2em 0.5ch;
-
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  z-index: 100;
-  box-shadow: 1.5px 1.5px 0 -0.5px #f0fa;
-  border-radius: 0 4px 1ch 3px / 1.4ch;
-}
-.sequence.toggle label::after {
-  /*   grid-column: 2; */
-  position: static;
-}
-.sequence.toggle.numeric label::after {
-  display: none;
-}
-:root:has(#toggle_debug:checked)
-  .sequence.toggle.numeric
-  label:has(:checked)::before {
-  background-color: #808;
-  box-shadow:
-    1.5px 1px 0 -0.5px #f0f,
-    0.5px 0.5px 0 1.5px #d0d,
-    inset -0.5px -0.5px 0 0 #faf8,
-    inset 1.5px 1.5px 0 0 #404;
-}
-:root:has(#toggle_debug:checked) .sequence.toggle.numeric label:hover::before {
-  background-color: #8084;
-  box-shadow:
-    4px 3px 0 -1px #f0a,
-    inset 1px 1px 0 1px #a0f;
-}
-
-.action > label > button {
-  grid-area: 1/1/1/1;
-  visibility: hidden;
-}
-.action > label {
-  grid-template: 1fr/1fr;
-}
-.action > label::after {
-  grid-area: 1/1/1/1;
-}
-
 .sequence.toggle.numeric {
   --bgc: #828;
   --bgc-current: #ff0;
@@ -2455,6 +1453,9 @@ h1,
   font-size: calc(50cqh / 1ch);
   width: 100%;
   height: 100%;
+}
+.sequence.toggle.numeric label::after {
+  display: none;
 }
 .sequence.toggle.numeric:hover {
   anchor-name: --anchor-sequence-toggle;
@@ -2512,6 +1513,50 @@ h1,
   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
     calc(anchor(right));
 }
+/*!}}}1 END sequencetoggle */
+
+/*!{{{1 Individual toggle controls */
+
+/*!{{{2 File Listing toggle */
+:root:has(#toggle_filelist_beside:checked) {
+  --playerWidth: 80vw;
+}
+:root:has(#toggle_filelist_below:checked) {
+  --playerHeight: 80vh;
+}
+:root:has(#toggle_filelist_hide:checked) body > table {
+  display: none;
+}
+/*!}}}2 END File Listing toggle */
+
+[data-name='interleave_bpm'],
+[data-name='interleave_duration_ms'],
+[data-name='interleave_active_player_count'] {
+  height: 10px;
+}
+
+/*!}}}1 END Individual toggle controls */
+
+:root:hover :is(h1, .toggles) {
+  opacity: 1;
+}
+h1,
+.toggles,
+.player::before,
+.vidwrap::before {
+  opacity: 0;
+}
+
+.action > label > button {
+  grid-area: 1/1/1/1;
+  visibility: hidden;
+}
+.action > label {
+  grid-template: 1fr/1fr;
+}
+.action > label::after {
+  grid-area: 1/1/1/1;
+}
 
 body::after {
   content: var(--s-interleave-active-player-count) ' interleaved @ '
@@ -2522,9 +1567,6 @@ body::after {
   z-index: calc(Infinity);
   color: #0002;
   font-size: clamp(10px, 2vmin, 1.4em);
-  background-image:
-    linear-gradient(hsl(none 100 80)), linear-gradient(hsl(none 100 20)),
-    linear-gradient(hsl(none 50 100));
   background-clip: text, text;
   background-blend-mode: saturation, color, exclusion;
   text-shadow:
@@ -2533,6 +1575,10 @@ body::after {
     0-0.01lh 0.005em #000,
     -0.02ch -0.02lh 0#fff;
   mix-blend-mode: difference;
+  background-image:
+    linear-gradient(hsl(none 100 80), hsl(none 0 80)),
+    linear-gradient(hsl(none 100 20), hsl(none 100 100)),
+    linear-gradient(hsl(none 50 100));
 }
 
 .interleave > .vidwrap::after,
@@ -2557,13 +1603,6 @@ body::after {
     0.5px -0.5px 0#fff;
 }
 
-body::after {
-  background-image:
-    linear-gradient(hsl(none 100 80), hsl(none 0 80)),
-    linear-gradient(hsl(none 100 20), hsl(none 100 100)),
-    linear-gradient(hsl(none 50 100));
-}
-
 :where(.next, .prev, label) {
   --icon-play-circle: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22\
       height=%221em%22 viewBox=%220 0 640 640%22%3E\
@@ -2572,10 +1611,6 @@ body::after {
   %22%3E\
     %3C/path%3E\
     %3C/svg%3E');
-}
-
-.player > label[for='toggle_playpause_paused']:hover {
-  background-color: #fff4;
 }
 
 .player > label[for='toggle_playpause_paused'] {
@@ -2612,6 +1647,9 @@ body::after {
     calc(50% + 1vmax * var(--z) * var(--f2))
       calc(50% + 1vmin * var(--z) / var(--f1)),
     50% 50%;
+}
+.player > label[for='toggle_playpause_paused']:hover {
+  background-color: #fff4;
 }
 
 .vidwrap > :where(video, img) {

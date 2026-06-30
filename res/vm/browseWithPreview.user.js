@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.444
+// @version     1.0.449
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -770,7 +770,7 @@ const initBrowsePreview = ({ document: { body } }) => {
   })({ to: toggles, config, actions });
 
   const addWrappedMedia = (
-    ({ window: { console }, config: { playpause, imageDuration } }) =>
+    ({ window: { console }, config: { imageDuration } }) =>
     ({ to, idx, nextFile, autoplay = false, muted = true, ...attrs } = {}) => {
       const wrapper = GM_addElement(to, 'div', { class: `vidwrap i${idx}` });
       wrapper.style.setProperty('--playerIdx', idx);
@@ -950,10 +950,10 @@ const initBrowsePreview = ({ document: { body } }) => {
       // if (autoplay !== false) {
       //   playNext();
       // }
-      playpause.subscribe((newValue) => {
-        newValue === 'playing' && play();
-        newValue === 'paused' && pause();
-      });
+      // playpause.subscribe((newValue) => {
+      //   newValue === 'playing' && play();
+      //   newValue === 'paused' && pause();
+      // });
 
       return {
         wrapper,
@@ -962,8 +962,6 @@ const initBrowsePreview = ({ document: { body } }) => {
         pause,
         enable: () => {
           video.classList.remove('off');
-          playNext();
-          play();
         },
         disable: () => {
           video.pause();
@@ -1126,12 +1124,9 @@ const initBrowsePreview = ({ document: { body } }) => {
     }
   )({ config, shuffleArray: shuffle });
 
-  const interleavePlayer = (({
-    to,
-    config: { interleave_active_player_count },
-  }) => {
+  (({ to, config: { player, playpause, interleave_active_player_count } }) => {
     const interleavePlayerContainer = GM_addElement(to, 'section', {
-      class: 'player interleave paused',
+      class: 'player interleave',
     });
 
     GM_addElement(interleavePlayerContainer, 'label', {
@@ -1176,16 +1171,24 @@ const initBrowsePreview = ({ document: { body } }) => {
       activeMediaPlayers().forEach((mediaPlayer) => {
         mediaPlayer.play();
       });
-      interleavePlayerContainer.classList.add('playing');
-      interleavePlayerContainer.classList.remove('paused');
     };
     const pause = () => {
       mediaPlayers.forEach((mediaPlayer) => {
         mediaPlayer.pause();
       });
-      interleavePlayerContainer.classList.add('paused');
-      interleavePlayerContainer.classList.remove('playing');
     };
+
+    const updatePlaybackState = (playbackState, activePlayer) =>
+      activePlayer === 'interleave' && playbackState === 'playing'
+        ? play()
+        : pause();
+
+    playpause.subscribe((playbackState) =>
+      updatePlaybackState(playbackState, player.value),
+    );
+    player.subscribe((activePlayer) =>
+      updatePlaybackState(playpause.value, activePlayer),
+    );
 
     return {
       play,
@@ -1258,8 +1261,6 @@ const initBrowsePreview = ({ document: { body } }) => {
     const { changeTimeout } = bluronblur({ timeout: bluronblurtimeout });
     bluronblurtimeout.subscribe((newTimeout) => changeTimeout(newTimeout));
   })({ bluronblur, breadcrumbs, config });
-
-  interleavePlayer.play();
 };
 
 const browsePreviewToggleIds = addStyleToggles([
@@ -1269,6 +1270,12 @@ const browsePreviewToggleIds = addStyleToggles([
     sources: [
       {
         baseName: 'browseWithPreview',
+      },
+      {
+        baseName: 'browseWithPreview.debug',
+      },
+      {
+        baseName: 'browseWithPreview.filelisting',
       },
     ],
   },

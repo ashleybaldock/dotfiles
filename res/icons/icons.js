@@ -205,28 +205,24 @@ const copyAsMapping = new Map([
   ],
 ]);
 
-const copy = (target, copyAs) => {
-  const notifyCopied = (target) =>
-    target &&
-    (target.classList.add('copied') ||
-      setTimeout(() => target.classList.remove('copied'), 3000));
+const notifyCopied = (target) =>
+  target &&
+  (target.classList.add('copied') ||
+    setTimeout(() => target.classList.remove('copied'), 3000));
 
-  const notifyFail = (target, message) =>
-    (target &&
-      (target.classList.add('copyfail') ||
-        setTimeout(() => target.classList.remove('copyfail'), 4000))) ||
-    (message && console.warn(message));
+const notifyCopyFailed = (target, message) =>
+  (target &&
+    (target.classList.add('copyfail') ||
+      setTimeout(() => target.classList.remove('copyfail'), 4000))) ||
+  (message && console.warn(message));
 
-  const svgData = target
-    ?.closest?.(':has(> .wrappedSVG)')
-    ?.querySelector?.('.wrappedSVG')?.innerHTML;
-
-  if (svgData === null) {
-    notifyFail(target, 'SVG missing');
+const copy = (target, svgData, copyAs) => {
+  if (svgData === null || svgData === undefined) {
+    notifyCopyFailed(target, 'SVG missing');
     return;
   }
   if (!copyAsMapping.has(copyAs)) {
-    notifyFail(target, 'Invalid copyAs method');
+    notifyCopyFailed(target, 'Invalid copyAs method');
     return;
   }
 
@@ -239,7 +235,7 @@ const copy = (target, copyAs) => {
       notifyCopied(target);
     })
     .catch((err) => {
-      notifyFail(target, `Copy failed, err: ${err}`);
+      notifyCopyFailed(target, `Copy failed, err: ${err}`);
     });
 };
 
@@ -263,45 +259,60 @@ window.addEventListener('load', (event) => {
   // iconRow.querySelector('.wrappedSVG').appendChild(svg);
   // });
 
-  let currentSvg = null;
+  let currentSvg = null,
+    currentSvgData = null;
 
   document.addEventListener('mouseover', ({ target }) => {
     if (target.matches('svg')) {
       currentSvg = target;
+      currentSvgData = target.innerHTML;
+
+      document
+        .querySelector(':root')
+        .styles.setProperty(
+          '--current-svg-name',
+          target.dataset.name ??
+            target.querySelector('[data-name]')?.dataset.name ??
+            '',
+        );
     }
   });
   document.body.addEventListener(
     'click',
     ({ target }) =>
       target.dataset.copyas?.match?.({
-        [Symbol.match]: (copyAs) => copy(currentSvg, copyAs),
+        [Symbol.match]: (copyAs) => copy(target, currentSvgData, copyAs),
       }),
     {},
   );
 
-  document.addEventListener('mouseover', ({ target }) => {
-    if (target.matches('svg')) {
-      const svgname =
-        target.dataset.name ??
-        target.querySelector('[data-name]')?.dataset.name;
-      const cloneSvg = (svgTarget, classesToAdd = []) => {
-        const clone = svgTarget.cloneNode(true);
-        clone.classList.add('duplicate', ...[classesToAdd].flat());
-        svgTarget.parentElement.append(clone);
-      };
-      const svgTarget =
-        target.parentElement
-          ?.closest?.('.iconRow')
-          ?.querySelector?.('.wrappedSVG') ?? false;
-      if (
-        svgTarget &&
-        !svgTarget.classList.contains('duplicated') &&
-        !svgTarget.classList.contains('duplicate')
-      ) {
-        svgTarget.classList.add('duplicated', 'large');
-        cloneSvg(svgTarget, ['small']);
-        cloneSvg(svgTarget, ['medium']);
-      }
-    }
-  });
+  document.addEventListener(
+    'mouseover',
+    ({ target }) =>
+      target.matches('.svgListing svg') &&
+      document.querySelector('.svgActions')?.showPopover(),
+  );
+
+  // document.addEventListener('mouseover', ({ target }) => {
+  //   if (target.matches('svg')) {
+  //     const cloneSvg = (svgTarget, classesToAdd = []) => {
+  //       const clone = svgTarget.cloneNode(true);
+  //       clone.classList.add('duplicate', ...[classesToAdd].flat());
+  //       svgTarget.parentElement.append(clone);
+  //     };
+  //     const svgTarget =
+  //       target.parentElement
+  //         ?.closest?.('.iconRow')
+  //         ?.querySelector?.('.wrappedSVG') ?? false;
+  //     if (
+  //       svgTarget &&
+  //       !svgTarget.classList.contains('duplicated') &&
+  //       !svgTarget.classList.contains('duplicate')
+  //     ) {
+  //       svgTarget.classList.add('duplicated', 'large');
+  //       cloneSvg(svgTarget, ['small']);
+  //       cloneSvg(svgTarget, ['medium']);
+  //     }
+  //   }
+  // });
 });

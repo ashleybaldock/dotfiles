@@ -34,18 +34,11 @@ syn sync lines=200
 "
 " TODO - warning for missing '.'
 "  (For things which probably aren't custom tag names)
-" #search .mw-advancedSearch-namespacePresets,
-" mw-advancedSearch-namespace-selection-header {
-"   border-radius: 0;
-"   border-top: 0;
-"   border-bottom: 0;
-" }
+" advancedSearch {  ->  .advancedSearch {
 
 " TODO - don't flag 'float:unset;'
-" #search .mw-advancedSearch-namespace-selection-header > .oo-ui-labelElement {
+" .advancedSearch {
 "   float: unset;
-"   clear: unset;
-"   display: contents;
 " }
 "
 "
@@ -66,7 +59,7 @@ syn sync lines=200
 " * carriage return CR  ^M      \x0D
 " * space character ' '           \x20
 "
-"   [^+~>}]\zs[\x09\x0A\x0C\x0D\x20]\+\ze[^{+~>]/
+"   [^+~>}]\zs\_[\x09\x0A\x0C\x0D\x20]\+\ze[^{+~>]/
 "
 " Other Combinators:
 " list                ,
@@ -789,7 +782,7 @@ syn match cssUnitConc /p\@1<=x/ conceal cchar=𝚡 transparent contained contain
 syn match cssUnitConc /p\@1<=c/ conceal cchar=𝚌 transparent contained containedin=cssUnitDecorators contains=NONE nextgroup=cssUnitConc
 syn match cssUnitConc /p\@1<=t/ conceal cchar=𝚝 transparent contained containedin=cssUnitDecorators contains=NONE nextgroup=cssUnitConc
 
-syn match preProcComment +\zs/\*\s*prettier-ignore\s*\*/\ze+
+syn match preProcComment +\zs/\*!\?\s*prettier-ignore\s*\*/\ze+
 
 syn match devtoolComment +\*\s\?\%(Inline\s#\d\+\|Element\)\s\?|.*$+
 

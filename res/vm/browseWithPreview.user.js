@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.449
+// @version     1.0.453
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -53,10 +53,12 @@ const defaultConfig = {
         ? `Do not pause media when focus is lost`
         : `Pause media when focus ${p === 0 ? `is lost` : `has been lost for ${p} seconds`}`,
   },
-  onPause: {
+  onpause: {
     kind: ['blur', 'grid', 'none'],
     default: 'grid',
-    tip: 'Blur or show grid view when paused',
+    tip: 'Behaviour when media is paused',
+    kindtip: (p) =>
+      `When media paused, ${p === 'blur' ? 'blur the screen' : p === 'grid' ? 'show grid view' : 'do nothing'}.`,
   },
   showGrid: {
     kind: 'toggle',
@@ -128,7 +130,7 @@ const defaultConfig = {
     kind: ['random', 'sequential', 'incidental'],
     default: '',
   },
-  repeat: {
+  repeat_playlist: {
     kind: 'toggle',
     default: true,
     tip: 'Repeat playlist',
@@ -140,7 +142,7 @@ const defaultConfig = {
   repeatPlaying: {
     kind: 'toggle',
     default: true,
-    tip: 'Repeat currently playing media',
+    tip: 'Repeat all currently playing media (stop loading new files in interleave mode)',
     group: 'repeat',
     idx: 2,
   },
@@ -584,7 +586,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       pauseonblurtimeout,
       bluronblurtimeout,
       player,
-      repeat,
+      repeat_playlist,
       shuffle_on_load,
       shuffle_on_repeat,
       reload_on_repeat,
@@ -595,8 +597,8 @@ const initBrowsePreview = ({ document: { body } }) => {
     const repeatGrouping = addGrouping({ to });
     addToggle({
       textContent: 'Repeat playlist',
-      bindTo: repeat,
-      name: 'repeat',
+      bindTo: repeat_playlist,
+      name: 'repeat_playlist',
       to: repeatGrouping,
     });
     addToggle({
@@ -645,6 +647,16 @@ const initBrowsePreview = ({ document: { body } }) => {
       sequence: defaultConfig.bluronblurtimeout.kind.map((p) => ({
         value: p,
         tip: defaultConfig.bluronblurtimeout.kindtip(p),
+      })),
+    });
+    addSequenceToggle({
+      textContent: 'On Pause',
+      bindTo: onpause,
+      name: 'onpause',
+      to,
+      sequence: defaultConfig.onpause.kind.map((p) => ({
+        value: p,
+        tip: defaultConfig.onpause.kindtip(p),
       })),
     });
     const playerGrouping = addGrouping({ to });
@@ -771,14 +783,30 @@ const initBrowsePreview = ({ document: { body } }) => {
 
   const addWrappedMedia = (
     ({ window: { console }, config: { imageDuration } }) =>
-    ({ to, idx, nextFile, autoplay = false, muted = true, ...attrs } = {}) => {
+    ({
+      to,
+      idx,
+      nextFile,
+      autoplay = false,
+      muted = true,
+      class: attr_class = '',
+      id,
+      ...attrs
+    } = {}) => {
       const wrapper = GM_addElement(to, 'div', { class: `vidwrap i${idx}` });
       wrapper.style.setProperty('--playerIdx', idx);
       wrapper.style.setProperty('--s-playerIdx', `'${idx}'`);
 
-      const video = GM_addElement(wrapper, 'video', {
+      const videoA = GM_addElement(wrapper, 'video', {
         ...(autoplay ? { autoplay: '' } : {}),
         ...(muted ? { muted: '' } : {}),
+        class: `${attr_class} a`,
+        ...attrs,
+      });
+      const videoB = GM_addElement(wrapper, 'video', {
+        ...(autoplay ? { autoplay: '' } : {}),
+        ...(muted ? { muted: '' } : {}),
+        class: `${attr_class} b`,
         ...attrs,
       });
       const image = GM_addElement(wrapper, 'img', {});
@@ -794,7 +822,9 @@ const initBrowsePreview = ({ document: { body } }) => {
 
       const playNext = async () => {
         const { url, isImage, isVideo } = await nextFile();
-        console.log(`playNext idx: ${idx}, ${url}, ${isImage}, ${isVideo}`);
+        console.debug(
+          `playNext idx: ${idx}, url: ${url}, isImage: ${isImage}, isVideo: ${isVideo}`,
+        );
         if (isVideo) {
           image.removeAttribute('src');
           video.src = url;
@@ -947,14 +977,6 @@ const initBrowsePreview = ({ document: { body } }) => {
         }
       });
 
-      // if (autoplay !== false) {
-      //   playNext();
-      // }
-      // playpause.subscribe((newValue) => {
-      //   newValue === 'playing' && play();
-      //   newValue === 'paused' && pause();
-      // });
-
       return {
         wrapper,
         player: video,
@@ -1070,7 +1092,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       }
 
       /* const unsubs = */ [
-        // repeat.subscribe((newValue) => ),
+        // repeat_playlist.subscribe((newValue) => ),
         // shuffle_on_repeat.subscribe(() => ),
         // reload_on_repeat.subscribe(() => ),
         // filter.subscribe(() => ),
@@ -1205,7 +1227,7 @@ const initBrowsePreview = ({ document: { body } }) => {
   //     addWrappedMedia({ to: container, class: cl }),
   //   );
 
-  //   const filelist = getFileList({ repeat: true, shuffle: false });
+  //   const filelist = getFileList({ repeat_playlist: true, shuffle: false });
 
   //   return {
   //     play: () => {

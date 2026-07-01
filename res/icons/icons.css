@@ -1838,6 +1838,76 @@ button {
 .svgActions > button::after {
   content: attr(data-copyas);
 }
+.svgListing button {
+  display: flex;
+}
+.svgListing sbutton:hover {
+  outline: 1px solid #666;
+}
+.svgListing svg:hover {
+  anchor-name: --anchor-svglisting;
+  transition: anchor-name 0s linear 200ms allow-discrete;
+  border: var(--icon-border-width) var(--icon-border-style) transparent;
+  transition: anchor-name 0s linear 10s allow-discrete;
+}
+
+.svgActions {
+  --icon-inset: 0.8em;
+  --pad-nearside: 3;
+  --pad-farside: 1.5;
+  display: flex;
+  font-family: Menlo, fixed-width;
+  background-color: #111111f8;
+  border: var(--icon-border-width) var(--icon-border-style)
+    var(--icon-border-color);
+  border-radius: calc(var(--icon-radius) + var(--icon-inset));
+  box-shadow: 1px 1px 4px 1px #000;
+  margin: calc(var(--icon-inset) * -1);
+  height: fit-content;
+  width: calc((var(--item-size) * 3) + (var(--item-gap) * 2));
+  place-self: center;
+  opacity: 1;
+  padding: calc(var(--item-size)) var(--icon-inset)
+    calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset);
+
+  position-visibility: anchors-valid;
+
+  position-anchor: --anchor-svglisting;
+  position: fixed;
+
+  position-area: block-start span-inline-start;
+
+  transition-property: translate, opacity, display, overlay;
+  transition-duration: 0.45s;
+  transition-behavior: allow-discrete;
+
+  opacity: 0;
+  display: none;
+  translate: 10px 0;
+}
+.svgActions:popover-open {
+  opacity: 1;
+  display: flex;
+  translate: 0 0;
+
+  @starting-style {
+    opacity: 0;
+    translate: 0 -20px;
+  }
+}
+:where([interestfor='svgActions-menu'], [commandfor='svgActions-menu']):hover {
+  anchor-name: --anchor-svglisting;
+}
+.svgActions > button::after {
+  content: attr(data-copyas);
+  color: #eee;
+}
+svg {
+  paint-order: stroke fill;
+  /*! paint-order: fill stroke; */
+  /*! stroke: red; */
+  /*! stroke-width: 40; */
+}
 
 .combineList {
   --combine-base: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffffff%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z%22%3E%3C/path%3E%3C/svg%3E');

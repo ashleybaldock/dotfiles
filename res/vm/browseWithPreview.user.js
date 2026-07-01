@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.453
+// @version     1.0.454
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -70,7 +70,7 @@ const defaultConfig = {
     default: 'contain',
     tip: 'Fit used in grid mode for media',
   },
-  imageDuration: {
+  imageduration: {
     kind: 'number',
     default: 5,
     tip: 'Default duration to display images for',
@@ -139,7 +139,7 @@ const defaultConfig = {
     tip: 'Change media at a fixed rate',
     kindtip: (n) => `Change media ${n} times per minute`,
   },
-  repeatPlaying: {
+  repeat_playing: {
     kind: 'toggle',
     default: true,
     tip: 'Repeat all currently playing media (stop loading new files in interleave mode)',
@@ -149,7 +149,7 @@ const defaultConfig = {
   shuffle_on_load: {
     kind: 'toggle',
     default: true,
-    tip: 'Shuffle playlist on load',
+    tip: 'Shuffle playlist on initial load of directory',
     group: 'repeat',
     idx: 3,
   },
@@ -159,6 +159,7 @@ const defaultConfig = {
     tip: 'Shuffle playlist every repeat',
     group: 'repeat',
     idx: 4,
+    enable: ['repeat_playlist'],
   },
   reload_on_repeat: {
     kind: 'toggle',
@@ -166,6 +167,7 @@ const defaultConfig = {
     tip: 'Reload folder contents on playlist repeat',
     group: 'repeat',
     idx: 5,
+    enable: ['repeat_playlist'],
   },
   filter: { kind: 'string', default: '.*\.mp4$', hidden: true },
   filelist: {
@@ -782,7 +784,18 @@ const initBrowsePreview = ({ document: { body } }) => {
   })({ to: toggles, config, actions });
 
   const addWrappedMedia = (
-    ({ window: { console }, config: { imageDuration } }) =>
+    ({
+      window: { console },
+      config: {
+        imageduration,
+        interleave_duration_ms,
+        interleave_bpm,
+        interleave_timing,
+        interleave_max_samples,
+        interleave_sampling,
+        repeat_playing,
+      },
+    }) =>
     ({
       to,
       idx,
@@ -831,7 +844,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         } else if (isImage) {
           video.removeAttribute('src');
           image.src = url;
-          setTimeout(playNext, imageDuration.value * 1000);
+          setTimeout(playNext, imageduration.value * 1000);
         } else {
           setTimeout(playNext, 100);
         }

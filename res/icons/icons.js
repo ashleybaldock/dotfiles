@@ -269,7 +269,7 @@ window.addEventListener('load', (event) => {
 
       document
         .querySelector(':root')
-        .styles.setProperty(
+        .style.setProperty(
           '--current-svg-name',
           target.dataset.name ??
             target.querySelector('[data-name]')?.dataset.name ??

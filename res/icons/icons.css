@@ -47,6 +47,48 @@
 
 body {
   --icon-bg-preview: linear-gradient(45deg, #fff, #ccca, #fff);
+  --n-item: ;
+  overflow: hidden scroll;
+  inset: auto;
+  grid-auto-flow: row dense;
+  --leftmargin: 0.6em;
+  --n-items: round(
+    down,
+    (
+      (100vw - var(--rightgutter) - var(--leftmargin)) /
+        (var(--item-size) + var(--item-gap))
+    ),
+    1
+  );
+  --rightgutter: 11vw;
+  --width: round(
+    down,
+    calc((100vw - var(--leftmargin))),
+    calc(var(--item-size) + var(--row-gap))
+  );
+  background-color: #111;
+  display: grid;
+  grid-auto-rows: auto;
+  width: 100vw;
+  --item-size: 3rem;
+  margin: 0;
+  row-gap: 0;
+  --row-gap: calc(var(--item-gap) * 1);
+  grid-template-columns: 5vw [icons-start] auto [icons-end] 5vw;
+  --column-gap: calc(var(--item-size) * 0.5);
+  --grid-template-columns: repeat(
+    auto-fit,
+    [icon-start] minmax(min(var(--item-size), 100%), 1fr) [icon-end]
+  );
+  column-gap: 0;
+}
+
+body section {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  grid-row: auto;
 }
 
 fieldset::before {
@@ -80,25 +122,27 @@ h2 {
   line-height: 1.23em;
 }
 
-h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
-  grid-column: 1/-1;
-}
-
-.subsection {
-  flex: 1 1 100%;
+h6,
+li,
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: inherit;
+  list-style-type: none;
 }
 
 div {
   display: flex;
 }
 
-fieldset,
-section {
+fieldset {
+  grid-column: 1/-1;
   border: var(--section-border);
   border-radius: var(--section-border-radius);
   padding: var(--section-padding);
@@ -106,6 +150,9 @@ section {
 }
 
 section {
+  border-radius: var(--section-border-radius);
+  padding: var(--section-padding);
+  display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   gap: var(--item-gap);
@@ -116,6 +163,40 @@ section {
   --item: calc(var(--sqi-gap) + var(--sqi-size));
   --mod: mod(var(--available), var(--item));
   --section-item-count: calc(100sqi);
+  grid-column: 1/-1;
+  background-color: #0000;
+  border: 0;
+  box-shadow: none;
+  bottom: 0;
+  top: 0;
+  z-index: unset;
+  margin: 0 max(10vw, 100px) 0 0;
+  height: auto;
+}
+section:hover {
+  z-index: 1;
+}
+
+section label {
+  background-position: left center;
+  padding: 0 0 0 1.2em;
+  font-size: 1em;
+  align-content: start;
+}
+
+button {
+  appearance: none;
+  border: none;
+  background: none;
+  color: currentColor;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+.subsection {
+  grid-column: -2;
+  display: grid;
+  outline: 1px dashed #aaaa;
 }
 
 fieldset {
@@ -145,6 +226,16 @@ svg {
   height: 1em;
   max-height: 1em;
   box-sizing: border-box;
+  border-width: 0;
+  background-clip: padding-box, border-box;
+  border-color: transparent;
+  background-repeat: no-repeat;
+  background-size:
+    auto,
+    150% 150%;
+  background-position:
+    center,
+    80% 30%;
 }
 
 .svgListing {
@@ -161,37 +252,19 @@ svg {
   z-index: unset;
   height: auto;
   grid-template-columns: subgrid;
-  grid-column: 3/-2 !important;
+  grid-column: 3/-2;
   column-gap: inherit;
   row-gap: inherit;
   margin: 0;
   padding: 0;
 }
 
-.svgListing:has(> h2) {
-  border-top-right-radius: 0;
-}
-
 .svgListing h2 {
-  max-width: 100vw;
-  margin-left: auto;
-  width: 93vw;
-  flex: 1 1 90w;
-  display: flex;
   text-align: end;
   align-items: end;
   align-content: end;
-  justify-content: end;
-  border: var(--section-border);
   border-inline-width: 0;
   padding-inline: 2ch;
-  border-radius: var(--section-border-radius) 0 0 0;
-  margin: calc(var(--section-border-width) * -2) -2ch 0-1ch;
-  grid-row: 1;
-  grid-column: 1/-1;
-  background-color: #222;
-}
-:is(section, .svgListing) > h2 {
   grid-row: auto;
   font-style: italic;
   letter-spacing: 0.2ch;
@@ -278,473 +351,6 @@ svg {
   fill: purple;
 }
 
-section:hover {
-  z-index: 1;
-}
-
-section label {
-  background-position: left center;
-  padding: 0 0 0 1.2em;
-  font-size: 1em;
-  align-content: start;
-}
-/*!{{{1 SVG */
-svg {
-  border-width: 0;
-  background-clip: padding-box, border-box;
-  border-color: transparent;
-  background-repeat: no-repeat;
-  background-size:
-    auto,
-    150% 150%;
-  background-position:
-    center,
-    80% 30%;
-}
-/*!}}}1*/
-/*!{{{1Drop target */
-#droptarget {
-  min-height: 20vh;
-  width: 30%;
-  max-width: 260px;
-  aspect-ratio: var(--𝞅);
-  border: 0.4em dashed #666;
-  border-radius: 0.5em;
-  background-image:
-    linear-gradient(-33deg, blue 30%, red 70%), var(--down2), var(--topleft),
-    var(--topright), var(--botleft), var(--botright),
-    linear-gradient(80deg, #ffffff70, #0004, #fff, #0004, #ffffff70),
-    linear-gradient(0, #0000, #0000);
-  background-repeat: no-repeat;
-  background-position:
-    center,
-    center center,
-    top 0.5em left 0.5em,
-    top 0.5em right 0.5em,
-    bottom 0.5em left 0.5em,
-    bottom 0.5em right 0.5em,
-    center;
-  background-size: 100%, 20%, 40%, 40%, 40%, 40%, 100%;
-  background-blend-mode: soft-light, normal, normal, normal, normal, normal;
-  margin: 0.6em;
-  box-shadow:
-    1px 1px 4px 1px #8b0000 inset,
-    -1px -1px 6px 1px #021685 inset,
-    0 0 12px -2px #000;
-}
-/*!}}}1*/
-/*!{{{1 SVG Combiner Controls */
-.svgCombiner {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  column-gap: 0.4em;
-  border: 3px solid #262626;
-  border-radius: 6px;
-  padding: 0.2em 0.6em;
-}
-
-.svgCombiner svg {
-  font-size: 1em;
-  border: 0;
-  box-shadow: none;
-  background: 0 0;
-  border-radius: 0;
-  align-self: center;
-  flex: 1 auto;
-}
-
-.svgCombiner label {
-  background: 0 0;
-}
-
-.sourceOverlay > svg {
-  font-size: 4em;
-}
-
-.controlgroup {
-  position: relative;
-}
-
-.composite,
-.overlay {
-  flex-direction: column;
-  row-gap: 0.4em;
-}
-
-.composite > span:first-of-type {
-  align-self: center;
-  text-decoration: underline;
-  font-size: 1em;
-}
-
-.composite > :is(.outline, .fill) > span {
-  display: flex;
-  bottom: 0;
-  justify-content: start;
-  align-items: baseline;
-  line-height: 1;
-}
-
-.composite > :is(.outline, .fill):hover > span {
-  opacity: 0.6;
-}
-
-.controlgroup > label {
-  padding: 0;
-}
-
-.composite > :is(.outline, .fill) {
-  column-gap: 0.2em;
-}
-
-.composite > :is(.outline, .fill) > label {
-  line-height: 1;
-}
-
-.composite > :is(.outline, .fill) > .control {
-  flex-direction: column;
-  justify-content: stretch;
-  align-items: end;
-  overflow: clip;
-  border: 1px solid transparent;
-  border-radius: 10px 10px 2px 2px;
-  background-clip: border-box;
-}
-
-.composite > :is(.outline, .fill) > .control:hover {
-  text-decoration: none;
-}
-
-.composite > :is(.outline, .fill) > .control > input[type='radio'] {
-  display: none;
-}
-
-.composite > :is(.outline, .fill) > .control > span:first-of-type {
-  border: 2px solid #0000;
-  align-self: stretch;
-  text-align: center;
-  font-size: 0.7em;
-}
-
-.composite > :is(.outline, .fill) > .control:has(> :checked) > span {
-  color: #000;
-  text-shadow: none;
-  font-weight: 700;
-  border: 2px solid #bbb;
-  border-radius: 10px 10px 0 0;
-  background-color: #bbb;
-}
-
-.composite > :is(.outline, .fill) > .control > .preview {
-  aspect-ratio: var(--𝞅∕𝟮);
-  width: 100px;
-  height: auto;
-  border: 1px dashed #666;
-  border-radius: 2px;
-  font-size: 20px;
-  background-image:
-    repeating-linear-gradient(230deg, #0002, #fff2 8px, #0002 12px),
-    repeating-linear-gradient(-60deg, #b00 0 10%, #00f 50%, #b00);
-  background-clip: content-box;
-  background-size: 10% 200%;
-  padding: 2px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.composite > :is(.outline, .fill) > .control:hover > .preview {
-  border: 1px dashed #bbb;
-}
-
-.composite > :is(.outline, .fill) > .control > .preview > svg {
-  font-size: 60px;
-}
-
-.composite > :is(.outline, .fill) > .control:has(> :checked) > .preview {
-  border: 1px solid #bbb;
-  border-radius: 0 0 2px 2px;
-}
-
-.controlgroup > .title {
-  flex-direction: column;
-  text-align: center;
-}
-
-.controlgroup > .title > svg {
-  margin-top: auto;
-}
-
-.controlgroup > .title > span {
-  font-size: 0.7em;
-  align-self: center;
-  margin-bottom: -2em;
-  padding-bottom: 2em;
-  color: #ccc;
-}
-
-.sourceOverlay > .title > svg,
-.sourceSplit > .title > svg {
-  border: 2px dotted #444;
-  border-radius: 2px;
-}
-
-.sourceSplit > .title > svg {
-  font-size: 4em;
-}
-
-.combineList {
-  flex-direction: column;
-  width: 100%;
-  align-items: start;
-  --bg-bg:
-    linear-gradient(45deg, #0002, 50%, #0008, 90%, #000a),
-    linear-gradient(-45deg, #0006, #000a, #4448),
-    linear-gradient(#000, #222, #444);
-  --bg-bg-size: 100% 100%, 100% 100%, 100% 100%;
-  --bg-bg-pos: 0 0, 0 0, 0 0;
-  --bg0: linear-gradient(#0000);
-  --bg0-size: 0;
-  --bg0-pos: 0 0;
-}
-
-.combineList label:has(> [type='radio']) {
-  background-image:
-    var(--bg-2, var(--bg-null)), var(--bg-1, var(--bg-null)),
-    var(--bg-bg, var(--bg-null));
-  background-position:
-    var(--bg-2-pos, var(--bg0-pos)), var(--bg-1-pos, var(--bg0-pos)),
-    var(--bg-bg-pos, var(--bg0-pos));
-  background-size:
-    var(--bg-2-size, var(--bg0-size)), var(--bg-1-size, var(--bg0-size)),
-    var(--bg-bg-size, var(--bg0-size));
-  --bg-1: var(--combine-base);
-  --bg-1-size: contain;
-  --bg-1-pos: 50% 50%;
-  --bg-2: var(--combine-overlay1);
-  --bg-2-size: 40%;
-  --bg-2-pos: 50% 90%;
-}
-
-.sourceBase {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  column-gap: 0.4em;
-  border: 3px solid #262626;
-  border-radius: 6px;
-  padding: 0.2em 0.6em;
-}
-
-.sourceBase svg,
-.svgSplitter svg {
-  font-size: 1em;
-  border: 0;
-  box-shadow: none;
-  background: 0 0;
-  border-radius: 0;
-  align-self: center;
-  flex: 1 auto;
-}
-
-.splitList {
-  flex-direction: column;
-  width: 100%;
-  align-items: start;
-}
-
-.sourceSplit {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  column-gap: 0.4em;
-  border: 3px solid #262626;
-  border-radius: 6px;
-  padding: 0.2em 0.6em;
-}
-
-.svgSplitter .title {
-  flex-direction: column-reverse;
-}
-
-.sourceBase > .title,
-.sourceOverlay > .title {
-  flex-direction: column-reverse;
-  align-items: center;
-  row-gap: 0.2em;
-  margin: auto 0.2em;
-}
-
-.sourceOverlay .controlgroup > .title {
-  padding-top: 1lh;
-}
-
-.controlgroup > .title > svg {
-  font-size: 1.4em;
-  margin-bottom: 0.2em;
-}
-
-.sourceOverlay > .title > svg {
-  font-size: 3.2em;
-}
-
-.controlgroup > .title {
-  margin: auto 0.4em;
-}
-
-.controlgroup .control > [type='radio'],
-.controlgroup.overlap > .controlgroup ~ .controlgroup > .control > span {
-  display: none;
-}
-
-.controlgroup .control:has(> [type='radio']:checked) {
-  box-shadow: inset 0 0 2px 2px #888;
-}
-
-.controlgroup.overlap > span {
-  grid-column: 1/-1;
-  grid-row: 1;
-  place-self: start;
-}
-
-.controlgroup.overlap {
-  display: grid;
-  grid-template-columns: 50fr 100fr 100fr 100fr 100fr;
-  column-gap: 0.5ch;
-  grid-template-rows: auto 1fr 1fr;
-  place-items: center;
-  grid-column: 2/-1;
-}
-
-section {
-  margin: 0;
-}
-
-.controlgroup.fill,
-.controlgroup.outline {
-  display: contents;
-}
-
-.svgCombiner {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-template-rows: subgrid;
-  grid-column: 1/-1;
-}
-
-.combineList {
-  display: grid;
-  grid-template-columns: 10fr 100fr 10fr;
-  grid-auto-rows: 1fr;
-}
-
-.svgCombiner.sourceBase .title {
-  grid-column: 1;
-}
-/*!{{{ /SVG Combiner Controls */
-/*!{{{1 SVGs*/
-#droptarget {
-  --down2: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 384 512%22%3E\
-    %3Cpath d=%22M64 464c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80V448c0 8.8-7.2 16-16 16H64zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64zm97 289c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0L79 303c-9.4 9.4-9.4 24.6 0 33.9l48 48c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-31-31 31-31zM257 255c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l31 31-31 31c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l48-48c9.4-9.4 9.4-24.6 0-33.9l-48-48z%22%3E\
-    %3C/path%3E\
-    %3C/svg%3E');
-  --topleft: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E\
-    %3Cpath d=%22 M9.4 9.4C21.9-3.1 42.1-3.1 54.6 9.4L160 114.7V96c0-17.7 14.3-32 32-32s32 14.3 32 32v96c0 4.3-.9 8.5-2.4 12.2c-1.6 3.7-3.8 7.3-6.9 10.3l-.1 .1c-3.1 3-6.6 5.3-10.3 6.9c-3.8 1.6-7.9 2.4-12.2 2.4H96c-17.7 0-32-14.3-32-32s14.3-32 32-32h18.7L9.4 54.6C-3.1 42.1-3.1 21.9 9.4 9.4z %22%3E\
-    %3C/path%3E\
-    %3C/svg%3E');
-  --botleft: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E\
-    %3Cpath d=%22 M114.7 352H96c-17.7 0-32-14.3-32-32s14.3-32 32-32h96 0l.1 0c8.8 0 16.7 3.6 22.5 9.3l.1 .1c3 3.1 5.3 6.6 6.9 10.3c1.6 3.8 2.4 7.9 2.4 12.2v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V397.3L54.6 502.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L114.7 352z %22%3E\
-    %3C/path%3E\
-    %3C/svg%3E');
-  --topright: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E\
-    %3Cpath d=%22 M416 96c0-17.7 14.3-32 32-32s32 14.3 32 32v18.7L585.4 9.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3L525.3 160H544c17.7 0 32 14.3 32 32s-14.3 32-32 32H448c-8.8 0-16.8-3.6-22.6-9.3l-.1-.1c-3-3.1-5.3-6.6-6.9-10.3s-2.4-7.8-2.4-12.2l0-.1v0V96z %22%3E\
-    %3C/path%3E\
-    %3C/svg%3E');
-  --botright: url('data:image/svg+xml,%3Csvg style=%22fill: %23000000;%22 xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 640 512%22%3E\
-    %3Cpath d=%22 M525.3 352L630.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L480 397.3V416c0 17.7-14.3 32-32 32s-32-14.3-32-32V320v0c0 0 0-.1 0-.1c0-4.3 .9-8.4 2.4-12.2c1.6-3.8 3.9-7.3 6.9-10.4c5.8-5.8 13.7-9.3 22.5-9.4c0 0 .1 0 .1 0h0 96c17.7 0 32 14.3 32 32s-14.3 32-32 32H525.3z %22%3E\
-    %3C/path%3E\
-    %3C/svg%3E');
-}
-
-.iconRow {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6em;
-  stroke-width: var(--bound-val-stroke-width);
-  stroke: red;
-  position: relative;
-  overflow: visible;
-  width: fit-content;
-  height: fit-content;
-  outline: 0;
-}
-
-.iconRow .wrappedSVG {
-  visibility: visible;
-  cursor: crosshair;
-  font-size: var(--item-size);
-  align-self: start;
-  justify-self: start;
-  border-radius: var(--icon-radius);
-  padding: calc(0.01em * (var(--icon-padding, 16) - var(--icon-border, 3)));
-  background-color: var(--icon-bg-color, #000000);
-  box-shadow: unset;
-}
-
-.iconRow:hover .wrappedSVG {
-  filter: unset;
-  background-size: unset;
-}
-
-.iconRow:hover .wrappedSVG > svg {
-  background-size: unset;
-  box-shadow: unset;
-  filter: brightness(1.6);
-}
-
-.iconRow:hover .wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
-  transform: scale(1.4) translate(4px, -4px);
-}
-
-.wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
-  font-size: 8px;
-  border: 0;
-  color: #f0f;
-  line-height: normal;
-  display: flex;
-  position: absolute;
-  top: -2px;
-  right: 2px;
-  padding: 0.1em 0.6ch;
-  letter-spacing: -0.08ch;
-  font-family: Menlo, monospace;
-  content: '□';
-}
-
-.inner {
-  width: unset;
-  max-height: unset;
-  margin: unset;
-  outline: 0;
-}
-
-.inner:hover {
-  outline: 1px dashed #00f;
-}
-
-.wrappedSVG.duplicated.duplicate {
-  visibility: hidden;
-}
-.iconRow:hover .wrappedSVG.duplicated.duplicate {
-  visibility: visible;
-}
-
 /*!{{{1 Copy SVG menu */
 .svgActions {
   top: -50%;
@@ -779,53 +385,14 @@ section {
   place-self: start center;
 }
 
-.svgActions.above {
-  top: unset;
-  bottom: calc(var(--item-size) + var(--item-gap));
-  padding: calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset)
-    calc(var(--icon-inset) * var(--pad-nearside)) var(--icon-inset);
-}
-
-.svgActions,
-.svgActions.below {
+.svgActions {
   top: calc(var(--item-size) + var(--item-gap));
   bottom: unset;
   padding: calc(var(--icon-inset) * var(--pad-nearside)) var(--icon-inset)
     calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset);
 }
 
-:is(.iconRow:hover, .inner:hover) :is(.svgActions, .wrappedSVG.duplicate) {
-  transition-delay: 0ms;
-}
-
-:is(.iconRow:hover, .inner:hover) :is(.svgActions, .wrappedSVG.duplicate),
-:is(.svgActions, .wrappedSVG.duplicate):hover {
-  z-index: 1;
-  opacity: 1;
-  transition-property: opacity;
-  transition-duration: 80ms;
-  transition-timing-function: ease;
-  pointer-events: all;
-}
-
-.wrappedSVG:hover,
-:is(.iconRow:hover, .inner:hover) .svgActions + .wrappedSVG {
-  z-index: 2;
-}
-
-.iconRow:hover .wrappedSVG > svg {
-  filter: brightness(1.6);
-  background-size:
-    auto,
-    300% 300%;
-}
-
-.iconRow:hover :is(.svgActions, .wrappedSVG.duplicate),
-:is(.svgActions, .wrappedSVG.duplicate):hover {
-  transition-delay: 0ms;
-}
-
-.svgActions > :where(.down, .copy, [data-copyas]) {
+.svgActions :where(.down, .copy, [data-copyas]) {
   background-size: 1em, 0;
   transition-property: background, text-decoration;
   background-position:
@@ -849,37 +416,37 @@ section {
   font-size: 0.9em;
 }
 
-.svgActions > :where(.down, .copy, [data-copyas])::before {
+.svgActions :where(.down, .copy, [data-copyas])::before {
   background-color: #fff;
 }
 
-.svgActions > :where(.down, .copy, [data-copyas]):hover {
+.svgActions :where(.down, .copy, [data-copyas]):hover {
   transition: 60ms ease;
   box-shadow: 1px 1px 4px 1px #000;
 }
 
-.svgActions > :where(.down, .copy, [data-copyas]):hover:active {
+.svgActions :where(.down, .copy, [data-copyas]):hover:active {
   transition: 30ms ease;
 }
 
-.svgActions > :where(.down, .copy, [data-copyas]):active {
+.svgActions :where(.down, .copy, [data-copyas]):active {
   transition: 40ms ease;
 }
 
-.svgActions > .down {
+.svgActions .down {
   --icon: var(--icon-down);
 }
 
-.svgActions > :where(.copy, [data-copyas]) {
+.svgActions :where(.copy, [data-copyas]) {
   --icon: var(--icon-copy);
 }
 
-.svgActions > :where(.copy, [data-copyas^='im-']) {
+.svgActions :where(.copy, [data-copyas^='im-']) {
   --icon: var(--icon-copy-image);
 }
 
-.svgActions > :where(.down, .copy, [data-copyas]).copied,
-.svgActions > :where(.down, .copy, [data-copyas]).copied:hover {
+.svgActions :where(.down, .copy, [data-copyas]).copied,
+.svgActions :where(.down, .copy, [data-copyas]).copied:hover {
   background-position:
     center left 1.4em,
     center left 1.2em;
@@ -889,12 +456,12 @@ section {
     background-position 200ms ease;
 }
 
-.svgActions > :where(.down, .copy, [data-copyas]).copied::before {
+.svgActions :where(.down, .copy, [data-copyas]).copied::before {
   display: none;
 }
 
-.svgActions > :where(.down, .copy, [data-copyas]).copyfail,
-.svgActions > :where(.down, .copy, [data-copyas]).copyfail:hover {
+.svgActions :where(.down, .copy, [data-copyas]).copyfail,
+.svgActions :where(.down, .copy, [data-copyas]).copyfail:hover {
   background-position:
     center left 1.4em,
     center left 1.2em;
@@ -904,527 +471,11 @@ section {
     background-position 200ms ease;
   background-image: var(--icon), var(--icon-error);
 }
-/*!}}}*/
-/*!{{{1 Testing */
-.hover {
-  z-index: 1;
-  opacity: 1;
-}
-
-.inner:has(> .hover)::before {
-  visibility: visible;
-}
-
-.inner:has(> .hover) .wrappedSVG {
-  filter: unset;
-  background-size: unset;
-  z-index: 2;
-}
-/*!}}}*/
-/*!{{{1 Unused */
-.unused {
-  box-shadow:
-    1px 1px 0 0.6px #fff3,
-    0 1px 0 0.6px #96009633,
-    -1px 1px 0 0.6px #2c00ff33,
-    -1px 0 0 0.6px #f0f3,
-    -1px -1px 0 0.6px #2d274933,
-    0-1px 0 0.6px #f0f3,
-    1px -1px 0 0.6px #1b009c33,
-    1px 0 0 0.6px #a32ba333;
-  border-width: 0;
-  background-image:
-    radial-gradient(circle at center, #000000d1, #000),
-    repeating-conic-gradient(#5c5c5c, #fff 9deg, #c00000 9deg, red 18deg);
-  background-clip: padding-box, border-box;
-  border-color: transparent;
-  background-repeat: no-repeat;
-  background-size:
-    auto,
-    150% 150%;
-  background-position:
-    center,
-    80% 30%;
-}
-/*!{{{1  New */
 .svgActions {
   padding: calc(var(--icon-inset) * var(--pad-nearside) + var(--item-size))
     var(--icon-inset) calc(var(--icon-inset) * var(--pad-farside))
     var(--icon-inset);
   width: fit-content;
-}
-
-.iconRow .wrappedSVG {
-  z-index: -1;
-}
-.wrappedSVG.duplicate {
-  display: none;
-  grid-column: 2 / span 1;
-  grid-row: 1;
-  font-size: 2em;
-}
-
-.wrappedSVG.duplicate + .wrappedSVG.duplicate {
-  grid-column: 3 / span 1;
-  font-size: 1em;
-}
-
-:is(.iconRow:hover, .inner:hover, .outer:hover) .wrappedSVG.duplicate {
-  display: grid;
-}
-
-.iconRow:hover .inner .svgActions ~ .wrappedSVG,
-.iconRow:hover .wrappedSVG,
-.wrappedSVG:hover {
-  z-index: 2;
-}
-
-.inner,
-.inner:hover {
-  display: grid;
-  grid-template-rows: subgrid;
-  place-items: center;
-  align-self: center;
-  width: 100%;
-  column-gap: 2ch;
-  grid-template-columns: 3em 3em 1em;
-  grid-template: 1fr/1fr;
-  justify-self: center;
-}
-
-.iconRow {
-  display: grid;
-  grid-template-rows: subgrid;
-  place-items: center;
-  align-self: center;
-  grid-template-columns: subgrid;
-  grid-template: 1fr/1fr;
-  justify-self: center;
-  width: var(--item-size);
-  height: var(--item-size);
-}
-.outer {
-  display: grid;
-  grid-template-rows: subgrid;
-  place-items: center;
-  align-self: center;
-  grid-template-columns: subgrid;
-  grid-template: 1fr/1fr;
-  justify-self: center;
-}
-
-.wrappedSVG {
-  width: auto;
-  aspect-ratio: 1;
-}
-
-.wrappedSVG.duplicate {
-  height: auto;
-  width: 100%;
-  aspect-ratio: 1;
-  max-height: unset;
-  max-width: unset;
-  grid-template: 1fr/1fr;
-  margin: auto;
-}
-
-.wrappedSVG:has(> [viewBox='0 0 640 640']) {
-  padding: calc(0.01em * (var(--icon-padding, 16) - var(--icon-border, 3)));
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-template-columns: subgrid;
-  max-height: unset;
-  place-self: center;
-}
-
-svg[viewBox='0 0 640 640'] {
-  max-height: 1.1em;
-  width: 1.1em;
-  height: 1.1em;
-  place-self: center;
-}
-
-.wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
-  bottom: -8px;
-  border-radius: inherit;
-  font-size: 8px;
-  border: 0;
-  color: #f0f;
-  line-height: normal;
-  display: flex;
-  position: absolute;
-  right: 2px;
-  padding: 0.1em 0.6ch;
-  letter-spacing: -0.08ch;
-  font-family: Menlo, monospace;
-  content: '□';
-  top: -9px;
-}
-
-.iconRow:hover .wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
-  transform: scale(1.4) translate(4px, -4px);
-}
-
-.wrappedSVG,
-.wrappedSVG:has(> [viewBox='0 0 640 640']) {
-  grid-column: 1 / span 1;
-  grid-row: 1;
-  font-size: 3em;
-  height: 1em;
-  width: auto;
-  aspect-ratio: 1;
-  padding: 0.04em;
-  place-content: center;
-  grid-template: auto/auto;
-  margin: 0-0.04em;
-}
-
-.iconRow:hover .wrappedSVG.large {
-  height: auto;
-  width: 1em;
-  grid-column: 2 / span 1;
-  font-size: 2em;
-}
-
-.iconRow:hover .wrappedSVG.medium {
-  grid-column: 3 / span 1;
-  font-size: 1.2em;
-}
-
-.iconRow:hover .wrappedSVG.small {
-  grid-column: 3 / span 1;
-  grid-row: 1;
-  font-size: 1em;
-}
-
-.wrappedSVG.duplicate,
-.wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']) {
-  grid-column: 2 / span 1;
-  grid-row: 1;
-  font-size: 2em;
-  height: fit-content;
-  padding: 0.1em;
-}
-
-h2,
-h3,
-h4,
-h5,
-h6,
-li,
-ol,
-ul {
-  margin: 0;
-  padding: 0;
-  font-weight: 400;
-  font-size: inherit;
-  list-style-type: none;
-}
-
-.colnames,
-.radiorow,
-.radiorow > li {
-  display: contents;
-}
-
-.controlgroup.overlap {
-  width: auto;
-  height: auto;
-  font-size: 1em;
-  row-gap: 0.2em;
-}
-
-.sourceOverlay {
-  counter-increment: srcidx;
-}
-
-.sourceBase {
-  counter-reset: srcidx;
-  padding: 0.4em 0.6em;
-}
-
-.colnames > li {
-  font-size: 0.8em;
-  text-align: center;
-  justify-self: center;
-  display: grid;
-}
-
-section label {
-  padding: 0;
-}
-
-.combineList label:has(> [type='radio']) {
-  display: grid;
-  grid-template: 1/1;
-  place-content: center;
-  place-self: center;
-  width: 100%;
-  height: 100%;
-  background-size: contain;
-  background-position: center;
-  background-origin: content-box;
-  background-repeat: no-repeat;
-  min-height: 10vh;
-  box-shadow:
-    inset 1px 1px 1px 0#eee4,
-    inset -1px -1px 2px 1px #000a;
-  box-sizing: border-box;
-  border: 1.5px dashed #0000;
-  border-width: 1.5px 2px 2px 1.5px;
-  border-radius: 2px/20px;
-  transition: border 220ms ease;
-}
-
-.combineList [type='radio'] {
-  visibility: hidden;
-  width: 0;
-  height: 0;
-}
-
-.combineList label:has(> [type='radio']:checked) {
-  box-shadow:
-    inset 1px 1px 1px 0#eee4,
-    inset -1px -1px 2px 1px #000a;
-}
-
-.combineList label:has(> [type='radio']:checked, > [type='radio'][checked]) {
-  box-shadow:
-    inset 1px 1px 1px 0#eee4,
-    inset -1px -1px 2px 1px #000a;
-  border-color: #cccd #aaad #999d #bbbd;
-  transition: border 120ms ease;
-}
-
-.combineList label:has(> [type='radio']):not(:has(> :checked, > [checked])) {
-  cursor: pointer;
-  transition: border 120ms ease;
-}
-
-.combineList
-  label:has(> [type='radio']):not(:has(> :checked, > [checked])):hover {
-  border-color: #cccf #aaaf #999f #bbbf;
-  border-style: dotted;
-  transition: border 120ms ease;
-}
-
-.combineList :is(h2, h3, h4, h5) {
-  font-size: inherit;
-  line-height: normal;
-}
-
-.svgCombiner > h3 {
-  display: grid;
-  place-content: center;
-  place-items: center;
-  grid-template-rows: 1fr auto 1fr;
-}
-
-:is(.sourceBase, .sourceOverlay) > h3 > span {
-  font-size: 1.1em;
-  visibility: hidden;
-  display: none;
-}
-
-:is(.sourceBase, .sourceOverlay) > h3 > span::first-line {
-  font-size: 0.8em;
-  word-spacing: 10em;
-  text-align: center;
-}
-
-.sourceOverlay > h3::after {
-  content: '#' counter(srcidx);
-  font-size: 1.2em;
-  grid-row: 3 / span 1;
-  align-self: end;
-}
-
-.sourceOverlay > h3::before {
-  content: '+';
-  font-size: 2em;
-  position: relative;
-  top: -50%;
-  grid-row: 1 / span 1;
-}
-
-:is(.sourceBase, .sourceOverlay) > h3 > svg {
-  font-size: 4em;
-  height: 6em;
-  grid-row: 2 / span 1;
-}
-
-.sourceBase > h3 > svg {
-  font-size: 6em;
-}
-
-.controlgroup > h4 {
-  font-size: 0.9em;
-}
-
-.controlgroup > h5 {
-  display: grid;
-  place-content: center;
-  place-items: center;
-  grid-template: 1fr 1fr/1fr;
-}
-
-.controlgroup > h5 > svg {
-  font-size: 1.6em;
-}
-
-.controlgroup > h5 > span {
-  font-size: 0.8em;
-  align-self: end;
-}
-
-body {
-  --n-item: ;
-  margin: 0.6em 10em 0.6em 0.6em;
-  overflow: hidden scroll;
-  inset: auto;
-  display: grid;
-  column-gap: calc(var(--item-gap) * 4);
-  grid-auto-flow: row dense;
-  grid-auto-rows: var(--item-size);
-  --leftmargin: 0.6em;
-  --n-items: round(
-    down,
-    (
-      (100vw - var(--rightgutter) - var(--leftmargin)) /
-        (var(--item-size) + var(--item-gap))
-    ),
-    1
-  );
-  grid-template-columns:
-    repeat(auto-fit, [item-start]var(--item-size) [item-end])
-    [label-start]auto[label-end];
-  --rightgutter: 11vw;
-  --width: round(
-    down,
-    calc((100vw - var(--leftmargin))),
-    calc(var(--item-size) + var(--row-gap))
-  );
-  --row-gap: calc(var(--item-gap) * 4);
-  row-gap: var(--row-gap);
-  background-color: #111;
-  width: var(--width);
-}
-
-.subsection {
-  grid-column: -2;
-  display: grid;
-  outline: 1px dashed #aaaa;
-}
-
-fieldset,
-section {
-  grid-column: 1/-1;
-}
-
-.iconRow:hover .inner .svgActions ~ .wrappedSVG,
-.iconRow:hover .wrappedSVG,
-.wrappedSVG:hover {
-  align-self: start;
-}
-
-section {
-  background-color: #0000;
-  border: 0;
-  box-shadow: none;
-  bottom: 0;
-  top: 0;
-  z-index: unset;
-  margin: 0 max(10vw, 100px) 0 0;
-  height: auto;
-}
-
-.inner,
-.inner:hover,
-.outer {
-  place-self: center;
-}
-
-.iconRow .wrappedSVG {
-  place-self: center;
-  place-content: center;
-  place-items: center;
-}
-
-.iconRow {
-  place-self: center;
-}
-
-section > svg {
-  font-size: 3em;
-  height: 3em !important;
-}
-/*!{{{1 Debug */
-:root:has(#toggle_debug:checked) .svgListing > h2 {
-  outline: 3px dashed #f0f;
-  outline-offset: 1px;
-}
-
-:root:has(#toggle_debug:checked) .svgListing > .iconRow:first-of-type {
-  outline: 1px solid red;
-}
-
-:root:has(#toggle_debug:checked) .svgListing > .iconRow:last-of-type {
-  outline: 1.5px solid #ff0;
-}
-
-:root:has(#toggle_debug:checked) .inner:hover > *,
-:root:has(#toggle_debug:checked) :is(.iconRow:hover, .outer:hover) .inner > * {
-  outline: 1px dashed #aa0;
-}
-/*!}}}1*/
-.edit > section {
-  display: grid;
-  grid-column: -1;
-}
-
-body > section {
-  grid-column: 1/-1 !important;
-}
-
-h2 ~ section > .iconRow:first-of-type {
-  margin: 0 0 0 calc(var(--item-gap) + var(--item-size) * -2);
-}
-
-body {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(min(var(--item-size), 100%), 1fr)
-  );
-  grid-auto-rows: auto;
-}
-body > section {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-template-rows: 1fr 1fr;
-  grid-auto-rows: 1fr;
-  grid-row: auto;
-}
-
-.edit > section,
-.edit > section > section {
-  display: grid;
-  grid-column: 1/-1;
-  grid-auto-rows: auto;
-  grid-row: auto;
-  grid-template-rows: auto 1fr 1fr 1fr auto auto auto auto;
-  grid-template-columns: subgrid;
-}
-
-.sourceBase > div:last-of-type {
-  display: contents;
-}
-.sourceBase label {
-  grid-column: auto/span 2;
-  grid-row: auto;
-}
-.sourceSplit span {
-  white-space: pre;
 }
 
 .svgActions {
@@ -1435,130 +486,8 @@ body > section {
   inset: auto;
   grid-template-columns: subgrid;
 }
-.inner {
-  grid-template-rows: 1fr auto;
-}
-.outer {
-  grid-template-columns: subgrid;
-}
-.iconRow {
-  grid-column: auto/span 1;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-.iconRow:hover {
-  grid-column: span 1 / auto;
-}
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  grid-column: 1/-1;
-}
-.edit > fieldset,
-.edit > fieldset > .combineList,
-.edit > fieldset > .combineList > .svgCombiner {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-auto-rows: auto;
-  grid-column: 1/-1;
-  grid-row: auto;
-}
-.controlgroup {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-column: 1/-1;
-}
-.controlgroup.overlap {
-  grid-template-columns: subgrid;
-  column-gap: unset;
-  grid-column: 2/-1;
-}
-fieldset label {
-  min-width: unset;
-}
-
-.wrappedSVG:not(.duplicate):has(> [viewBox='0 0 640 640'])::after {
-  bottom: unset;
-  border-radius: inherit;
-  font-size: 0.3em;
-  border: 0;
-  color: #f0f;
-  position: absolute;
-  right: unset;
-  letter-spacing: -0.08ch;
-  font-family: Menlo, monospace;
-  content: '□';
-  top: unset;
-  inset: -0.4em auto auto -0.4em;
-  width: auto;
-  height: 1em;
-  display: flex;
-  padding: 0;
-  overflow: hidden;
-  line-height: 1em;
-  aspect-ratio: 1;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-body {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(min(var(--item-size), 100%), 1fr)
-  );
-  grid-auto-rows: auto;
-  width: 100vw;
-  column-gap: calc(var(--item-size) * 0.5);
-  --item-size: 3rem;
-  row-gap: calc(var(--item-size) * 0.5);
-  margin: 0;
-}
-
-.iconRow {
-  align-self: center;
-  justify-self: end;
-}
-.wrappedSVG,
-.wrappedSVG:has(> [viewBox='0 0 640 640']) {
-  grid-column: auto/span 1;
-  display: grid;
-  grid-template: 1fr/1fr;
-  place-items: center;
-}
-.wrappedSVG::before,
-.wrappedSVG:hover::before,
-:is(.iconRow:hover, .inner:hover, .outer:hover) .wrappedSVG::before {
-  grid-template: 1fr/1fr;
-  inset: unset;
-  justify-self: center;
-  align-self: center;
-  grid-column: 1/-1;
-  grid-row: 1;
-  aspect-ratio: unset;
-  position: relative;
-  display: grid;
-  background-color: #111111f8;
-  border: var(--icon-border-width) var(--icon-border-style)
-    var(--icon-border-color);
-  border-radius: calc(var(--icon-radius) + var(--icon-inset));
-  box-shadow: 1px 1px 4px 1px #000;
-  visibility: hidden;
-  z-index: 2;
-  content: '';
-  width: fit-content;
-}
-.outer {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-template-rows: subgrid;
-}
-
-.svgActions > :where(.down, .copy, [data-copyas]) {
+.svgActions :where(.down, .copy, [data-copyas]) {
   background-size: 0.9em, 0;
   background-position:
     bottom 0.2em left 1.4em,
@@ -1571,15 +500,8 @@ body {
   grid-auto-flow: row;
   grid-auto-columns: auto;
 }
-button {
-  appearance: none;
-  border: none;
-  background: none;
-  color: currentColor;
-  padding: 0;
-  margin: 0;
-  display: flex;
-}
+/*!}}}*/
+
 [data-copyas] {
   /*! outline: 0.5px solid #aa0; */
   grid-column-end: span 2;
@@ -1629,164 +551,6 @@ button {
   grid-column-start: 2;
 }
 
-.iconRow {
-  anchor-name: --anchor-svgactions;
-  anchor-scope: --anchor-svgactions;
-}
-.iconRow .inner {
-  anchor-name: --anchor-svgactions-inner;
-  anchor-scope: --anchor-svgactions-inner;
-  position: absolute;
-  inset: anchor(top) max(anchor(right), 10vw) anchor(bottom)
-    min(anchor(left), 10vw);
-}
-.iconRow .svgActions {
-  position: fixed;
-  padding: calc(var(--icon-inset) * var(--pad-nearside)) var(--icon-inset)
-    calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset);
-  position-anchor: --anchor-svgactions-inner;
-  inset: calc(anchor(bottom) + var(--icon-inset))
-    min(anchor(--anchor-svgactions-inner right), 100vw) auto
-    max(anchor(--anchor-svgactions-inner left), 10vw);
-}
-
-.iconRow .inner:hover {
-  background-color: var(--icon-bg-color, #000000);
-  padding: var(--icon-inset);
-  background-color: #11111166;
-  /*! border: var(--icon-border-width) var(--icon-border-style) var(--icon-border-color); */
-  /*! box-shadow: 1px 1px 4px 1px #000; */
-}
-
-.wrappedSVG,
-.wrappedSVG:has(> [viewBox='0 0 640 640']) {
-  grid-column: 3 / span 2;
-  grid-row: 2 / span 2;
-}
-
-.wrappedSVG:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
-.wrappedSVG ~ .wrappedSVG.duplicate ~ .wrappedSVG.duplicate {
-  grid-column: 4 / span 2;
-  grid-row: 1 / span 2;
-}
-
-.wrappedSVG:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
-.wrappedSVG ~ .wrappedSVG.duplicate {
-  grid-row: 1 / span 2;
-  grid-column: 1 / span 2;
-}
-
-.wrappedSVG:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
-.wrappedSVG ~ .wrappedSVG.duplicate ~ .wrappedSVG.duplicate {
-  height: 100%;
-  width: 100%;
-  align-items: center;
-  position: relative;
-}
-
-:hover .wrappedSVG,
-:hover .wrappedSVG:has(> [viewBox='0 0 640 640']) {
-  grid-column: 2;
-  grid-row: 2;
-  width: auto;
-  height: calc(1fr * var(--x));
-  aspect-ratio: 1;
-  --x: 100;
-}
-
-:hover
-  .wrappedSVG:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
-:hover .wrappedSVG ~ .wrappedSVG.duplicate {
-  --x: 75;
-}
-
-.iconRow .inner:hover {
-  width: fit-content;
-  outline: 0;
-  border-radius: calc(var(--icon-radius) + var(--icon-inset));
-  align-items: center;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 2fr 1fr;
-  gap: 0.1em;
-}
-
-.outer {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-template-rows: subgrid;
-}
-
-.iconRow:hover .inner .svgActions ~ .wrappedSVG,
-.iconRow:hover .wrappedSVG,
-.wrappedSVG:hover {
-  align-self: unset;
-}
-
-.inner:hover .wrappedSVG,
-.inner:hover .wrappedSVG:has(> [viewBox='0 0 640 640']) {
-  grid-column: 2/-2;
-  grid-row: 2/-2;
-  width: auto;
-  height: calc(1fr * var(--x));
-  aspect-ratio: 1;
-  --x: 100;
-  border-radius: calc(var(--icon-radius) + var(--i));
-  padding: var(--i);
-  background-color: #111111f8;
-  border: var(--icon-border-width) var(--icon-border-style)
-    var(--icon-border-color);
-  box-shadow: 1px 1px 4px 1px #000;
-  margin: calc(var(--i) * -1) calc(var(--i) * -0.7);
-  --i: calc(var(--icon-inset) * 0.01 * var(--x));
-}
-
-:hover
-  .wrappedSVG:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
-:hover .wrappedSVG ~ .wrappedSVG.duplicate {
-  grid-row: -4 / span 2;
-  grid-column: -2 / span 1;
-  height: calc(1fr * var(--x));
-  width: auto;
-  aspect-ratio: 1;
-  --x: 66;
-  place-self: start;
-}
-
-:hover
-  .wrappedSVG:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640'])
-  ~ .wrappedSVG.duplicate:has(> [viewBox='0 0 640 640']),
-:hover .wrappedSVG ~ .wrappedSVG.duplicate ~ .wrappedSVG.duplicate {
-  grid-column: -2;
-  grid-row: -2;
-  height: calc(1fr * var(--x));
-  width: auto;
-  align-items: center;
-  position: relative;
-  aspect-ratio: 1;
-  --x: 33;
-  place-self: start;
-}
-
-.wrappedSVG {
-  width: 100%;
-  height: 80%;
-}
-
-.wrappedSVG::before,
-.wrappedSVG:hover::before,
-:is(.iconRow:hover, .inner:hover, .outer:hover) .wrappedSVG::before,
-.wrappedSVG ~ .wrappedSVG:has(> [viewBox='0 0 640 640'])::after {
-  display: none;
-}
-
 .svgActions {
   position: fixed;
   position-anchor: --anchor-svgactions;
@@ -1803,13 +567,13 @@ button {
 .svgActions::after {
   content: var(--anchor-svgactions);
 }
-.svgActions > button::after {
+.svgActions button::after {
   content: attr(data-copyas);
 }
 .svgListing {
   gap: 0;
 }
-.svgListing > svg {
+.svgListing svg {
   --icon-inset: 0.1em;
   --pad-nearside: 3;
   --pad-farside: 1.5;
@@ -1822,7 +586,7 @@ button {
   margin: calc(var(--icon-inset) * -1);
   box-sizing: unset;
 }
-.svgListing > svg:hover {
+.svgListing svg:hover {
   anchor-name: --anchor-svgactions;
   --anchor-svgactions: attr(data-name);
   z-index: 1;
@@ -1835,7 +599,7 @@ button {
   box-shadow: 1px 1px 4px 1px #000;
 }
 
-.svgActions > button::after {
+.svgActions button::after {
   content: attr(data-copyas);
 }
 .svgListing button {
@@ -1846,7 +610,6 @@ button {
 }
 .svgListing svg:hover {
   anchor-name: --anchor-svglisting;
-  transition: anchor-name 0s linear 200ms allow-discrete;
   border: var(--icon-border-width) var(--icon-border-style) transparent;
   transition: anchor-name 0s linear 10s allow-discrete;
 }
@@ -1855,7 +618,6 @@ button {
   --icon-inset: 0.8em;
   --pad-nearside: 3;
   --pad-farside: 1.5;
-  display: flex;
   font-family: Menlo, fixed-width;
   background-color: #111111f8;
   border: var(--icon-border-width) var(--icon-border-style)
@@ -1866,7 +628,6 @@ button {
   height: fit-content;
   width: calc((var(--item-size) * 3) + (var(--item-gap) * 2));
   place-self: center;
-  opacity: 1;
   padding: calc(var(--item-size)) var(--icon-inset)
     calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset);
 
@@ -1898,7 +659,7 @@ button {
 :where([interestfor='svgActions-menu'], [commandfor='svgActions-menu']):hover {
   anchor-name: --anchor-svglisting;
 }
-.svgActions > button::after {
+.svgActions button::after {
   content: attr(data-copyas);
   color: #eee;
 }
@@ -1909,7 +670,126 @@ svg {
   /*! stroke-width: 40; */
 }
 
-.combineList {
-  --combine-base: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffffff%22 height=%221em%22 viewBox=%220 0 384 512%22%3E%3Cpath d=%22M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z%22%3E%3C/path%3E%3C/svg%3E');
-  --combine-overlay1: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E%3Cpath d=%22M129.9 292.5C143.2 199.5 223.3 128 320 128C373 128 421 149.5 455.8 184.2C456 184.4 456.2 184.6 456.4 184.8L464 192L416.1 192C398.4 192 384.1 206.3 384.1 224C384.1 241.7 398.4 256 416.1 256L544.1 256C561.8 256 576.1 241.7 576.1 224L576.1 96C576.1 78.3 561.8 64 544.1 64C526.4 64 512.1 78.3 512.1 96L512.1 149.4L500.8 138.7C454.5 92.6 390.5 64 320 64C191 64 84.3 159.4 66.6 283.5C64.1 301 76.2 317.2 93.7 319.7C111.2 322.2 127.4 310 129.9 292.6zM573.4 356.5C575.9 339 563.7 322.8 546.3 320.3C528.9 317.8 512.6 330 510.1 347.4C496.8 440.4 416.7 511.9 320 511.9C267 511.9 219 490.4 184.2 455.7C184 455.5 183.8 455.3 183.6 455.1L176 447.9L223.9 447.9C241.6 447.9 255.9 433.6 255.9 415.9C255.9 398.2 241.6 383.9 223.9 383.9L96 384C87.5 384 79.3 387.4 73.3 393.5C67.3 399.6 63.9 407.7 64 416.3L65 543.3C65.1 561 79.6 575.2 97.3 575C115 574.8 129.2 560.4 129 542.7L128.6 491.2L139.3 501.3C185.6 547.4 249.5 576 320 576C449 576 555.7 480.6 573.4 356.5z%22%3E%3C/path%3E%3C/svg%3E');
+.svgListing button {
+  width: 100%;
+  height: 100%;
+  justify-self: center;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.svgListing svg {
+  aspect-ratio: unset;
+  border-radius: unset;
+  padding: unset;
+  margin: unset;
+  box-sizing: unset;
+  height: 100%;
+  width: 100%;
+  justify-self: center;
+  align-self: center;
+  max-height: var(--item-size);
+  max-width: var(--item-size);
+}
+
+.svgListing svg {
+  box-shadow: unset;
+  border-radius: unset;
+  max-height: unset;
+  height: var(--item-size);
+  font-size: unset;
+}
+
+.svgListing {
+  grid-template-rows: auto var(--item-size);
+  grid-auto-rows: var(--item-size);
+  row-gap: var(--item-gap);
+}
+
+.svgListing::before {
+  content: attr(data-name);
+  grid-column: 1/-1;
+  background-color: #222;
+  line-height: normal;
+  text-align: end;
+  align-items: center;
+  justify-content: end;
+  padding: 0.2em 1ch;
+}
+
+.svgActions li {
+  display: contents;
+}
+
+.svgActions > li > button::after {
+  color: red;
+}
+
+.svgActions > button {
+  color: yellow;
+}
+
+.svgListing::before {
+  content: attr(data-name);
+  grid-column: 1/-1;
+  background-color: #222;
+  display: flex;
+  text-align: end;
+  align-items: center;
+  justify-content: end;
+  padding: 0.2em 1ch;
+  width: 100%;
+  margin: 0.2em 0.2em 0;
+  font-size: 1.23em;
+  font-family: Menlo, fixed-width;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.23em;
+}
+.svgActions li {
+  display: contents;
+}
+.svgActions > li > button::after {
+  color: red;
+}
+.svgActions > button {
+  color: yellow;
+}
+
+.svgListing {
+  grid-template-columns: var(--grid-template-columns);
+  grid-column: icons;
+  row-gap: var(--row-gap);
+  column-gap: var(--column-gap);
+  margin-bottom: var(--row-gap);
+}
+.svgListing::before {
+  content: attr(data-name);
+  grid-column: 1/-1;
+  background-color: #222;
+  display: flex;
+  text-align: end;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+  font-size: 1.23em;
+  font-family: Menlo, fixed-width;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.23em;
+  padding: 0;
+  margin: 0;
+}
+.svgListing svg,
+.svgListing button {
+  grid-column: auto;
+  grid-row: auto;
+}
+.svgListing {
+  grid-template-columns: var(--grid-template-columns);
+  grid-column: icons;
+  row-gap: var(--row-gap);
+  column-gap: var(--column-gap);
+  margin-bottom: var(--row-gap);
 }

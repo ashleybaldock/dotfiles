@@ -22,6 +22,17 @@ let g:mayhem.symbols_A.search = #{
       \ timeout: '',
       \}
 
+function! statusline#formatSearch(search = @/)
+  let sp = '%#SlSp⸮#'
+  let tx = '%#SlSx⸮#'
+  let pattern = '\%(\\%\?(\|\\)\|\\<\|\\>\|\\{\%(\-\?\d*\),\?\%(-\?\d\+\)\?\|\\%\|\\[|^$=?+0-9a-yA-Z]\|\*\|\\z[se(1-9]\)'
+  let merged = '' .. pattern .. '\@=' .. '\|' .. pattern .. '\@<='
+  return split(a:search, merged, 0)
+        \->map({_, s -> split(s, '%', 1)->join('%%')})
+        \->map({_, s -> s =~ pattern ? sp .. s : tx .. s})
+        \->join('')
+endfunc
+
 function! statusline#updateSearch(...) abort
   let r = searchcount(#{recompute: 0})
   if empty(r)
@@ -48,16 +59,18 @@ function! statusline#updateSearch(...) abort
     let total = printf('%d', r.total)
   endif
 
+  let formattedSearch = statusline#formatSearch()
+
   let b:mayhem.sl_cache_search = format#CN([
       \'%#SlFPath⸮#',
       \symbol,
       \'%#SlSearchSep⸮#∕%#SlSearch⸮#',
-      \'', @/, '',
+      \' ', formattedSearch, ' ',
       \'%#SlFPath⸮#',
       \'%#SlSearchSep⸮#∕%#SlSearch⸮#',
-      \current,
+      \' ', current,
       \'%#SlFPath⸮# of %#SlSearch⸮#',
-      \total,
+      \total, ' ',
       \'%#SlSearchSep⸮#∕%#SlSearch⸮# ',
       \'%*'
       \])

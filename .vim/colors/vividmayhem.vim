@@ -481,7 +481,7 @@ hi link StorageClass Type
 hi link Structure    Type
 hi link Typedef      Type
 
-hi Special        guifg=#33aa00 guibg=NONE    gui=none
+hi Special        guifg=#35aa00 guibg=NONE    gui=none
 hi link SpecialChar    Special
 hi link Tag	           Special
 hi Delimiter      guifg=#33aa00 guibg=NONE    gui=none
@@ -605,6 +605,10 @@ hi SlSearchC      guifg=#ddddee guibg=yslcccb
 hi SlSearchN      guifg=#ccccdd guibg=yslnnnb 
 hi SlSearchSepC   guifg=#00ffff guibg=yslcccb 
 hi SlSearchSepN   guifg=#00dddd guibg=yslnnnb 
+hi SlSpC          guifg=#33aa00 guibg=yslcccb 
+hi SlSpN          guifg=#117700 guibg=yslnnnb 
+hi SlSxC          guifg=#ddddee guibg=yslcccb 
+hi SlSxN          guifg=#aaaabb guibg=yslnnnb 
 " diagnostics
 hi SlSynErrC      guifg=yserrcf guibg=yslcccb gui=none
 hi SlSynErrN      guifg=yserrnf guibg=yslnnnb gui=none

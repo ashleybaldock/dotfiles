@@ -49,14 +49,14 @@ function! statusline#updateSearch(...) abort
     let symbol = symbols#CN('search.timeout')
   elseif r.incomplete ==# 2 " max count exceeded
     if r.total > r.maxcount && r.current > r.maxcount
-      let current = printf('>%d', r.current)
-      let total = printf('>%d', r.total)
+      let current = printf('>%s', format#numbers(r.current))
+      let total = printf('>%s', format#numbers(r.total))
     elseif r.total > r.maxcount
-      let total = printf('>%d', r.total)
+      let total = printf('>%s', format#numbers(r.total))
     endif
   else
-    let current = printf('%d', r.current)
-    let total = printf('%d', r.total)
+    let current = printf('%s', format#numbers(r.current))
+    let total = printf('%s', format#numbers(r.total))
   endif
 
   let formattedSearch = statusline#formatSearch()
@@ -64,14 +64,14 @@ function! statusline#updateSearch(...) abort
   let b:mayhem.sl_cache_search = format#CN([
       \'%#SlFPath⸮#',
       \symbol,
-      \'%#SlSearchSep⸮#∕%#SlSearch⸮#',
+      \'%#SlSearchSep⸮#%#SlSearch⸮#',
       \' ', formattedSearch, ' ',
       \'%#SlFPath⸮#',
-      \'%#SlSearchSep⸮#∕%#SlSearch⸮#',
+      \'%#SlSearchSep⸮#⁞%#SlSearch⸮#',
       \' ', current,
-      \'%#SlFPath⸮# of %#SlSearch⸮#',
+      \'%#SlFPath⸮# ℴ𝒻 %#SlSearch⸮#',
       \total, ' ',
-      \'%#SlSearchSep⸮#∕%#SlSearch⸮# ',
+      \'%#SlSearchSep⸮#%#SlSearch⸮# ',
       \'%*'
       \])
 endfunc

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.454
+// @version     1.0.471
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -16,7 +16,6 @@
 // @grant       GM_addValueChangeListener
 // @grant       GM_xmlhttpRequest
 // @require     http://localhost:3333/vm/util.user.js
-// @cssBaseUrl  http://localhost:3333/vm/
 // @cssBaseName browseWithPreview
 // @run-at      document-start
 // ==/UserScript==
@@ -127,8 +126,13 @@ const defaultConfig = {
         : `Show samples until media exhausted`,
   },
   interleave_sampling: {
+    tip: 'Method used to select media samples to interleave',
     kind: ['random', 'sequential', 'incidental'],
-    default: '',
+    default: 'incidental',
+    kindtip: (p) =>
+      p === 'incidental'
+        ? 'Media are played simultaneously and switched between.'
+        : `Samples are selected from each media ${p === 'random' ? 'randomly ' : ''}${p === 'sequential' ? 'sequentially ' : ''} to be interleaved.`,
   },
   repeat_playlist: {
     kind: 'toggle',
@@ -281,10 +285,12 @@ const addSequenceToggle = ({
   tip = `Toggle for ${name}`,
   textContent = tip,
   sequence = [],
+  defaultPrefix = '',
+  defaultSuffix = '',
   numeric = false,
   ...attrs
 } = {}) => {
-  const div = GM_addElement(to, 'div', {
+  const container = GM_addElement(to, 'fieldset', {
     class: `sequence toggle ${numeric ? 'numeric' : ''}`,
     'data-text': textContent,
     ...attrs,
@@ -292,19 +298,36 @@ const addSequenceToggle = ({
   sequence.forEach(
     ({
       value,
-      display = value,
+      prefix = defaultPrefix,
+      suffix = defaultSuffix,
+      display = `${value}`,
       id = `toggle_${name}_${value}`,
       tip = `Toggle ${name} with value ${display}`,
     }) => {
-      const label = GM_addElement(div, 'label', {
+      const label = GM_addElement(container, 'label', {
         class: '',
         'data-name': name,
         'data-value': `${value}`,
         'data-value-len': `${value}`.length,
         'data-value-display': `${display}`,
         'data-value-display-len': `${display}`.length,
-        'data-text': textContent,
+        'data-value-prefix': `${prefix}`,
+        'data-value-prefix-len': `${prefix}`.length,
+        'data-value-suffix': `${suffix}`,
+        'data-value-suffix-len': `${suffix}`.length,
         for: id,
+      });
+      GM_addElement(label, 'span', {
+        class: 'prefix',
+        textContent: `${prefix}`,
+      });
+      GM_addElement(label, 'span', {
+        class: 'value',
+        textContent: `${display}`,
+      });
+      GM_addElement(label, 'span', {
+        class: 'suffix',
+        textContent: `${suffix}`,
       });
       GM_addElement(label, 'span', {
         class: 'tip',
@@ -331,7 +354,7 @@ const addSequenceToggle = ({
       });
     },
   );
-  return div;
+  return container;
 };
 
 const addAction = ({
@@ -570,60 +593,41 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
   })({ config });
 
-  (({
-    to,
-    config: {
-      filelist,
-      includeImageFiles,
-      includeVideoFiles,
-      includeOtherFiles,
-      includeHiddenFiles,
-      interleave_active_player_count,
-      interleave_duration_ms,
-      interleave_timing,
-      interleave_bpm,
-      showGrid,
-      grid_fit,
-      playpause,
-      pauseonblurtimeout,
-      bluronblurtimeout,
-      player,
-      repeat_playlist,
-      shuffle_on_load,
-      shuffle_on_repeat,
-      reload_on_repeat,
-      debug,
-    },
-    actions: { flag },
-  }) => {
+  (({ to, config, actions }) => {
     const repeatGrouping = addGrouping({ to });
     addToggle({
       textContent: 'Repeat playlist',
-      bindTo: repeat_playlist,
+      bindTo: config.repeat_playlist,
       name: 'repeat_playlist',
       to: repeatGrouping,
     });
     addToggle({
+      textContent: defaultConfig.repeat_playing.tip,
+      bindTo: config.repeat_playing,
+      name: 'repeat_playing',
+      to: repeatGrouping,
+    });
+    addToggle({
       textContent: 'Shuffle playlist on load',
-      bindTo: shuffle_on_load,
+      bindTo: config.shuffle_on_load,
       name: 'shuffle_on_load',
       to: repeatGrouping,
     });
     addToggle({
       textContent: 'Shuffle playlist every repeat',
-      bindTo: shuffle_on_repeat,
+      bindTo: config.shuffle_on_repeat,
       name: 'shuffle_on_repeat',
       to: repeatGrouping,
     });
     addToggle({
       textContent: 'Reload folder contents on playlist repeat',
-      bindTo: reload_on_repeat,
+      bindTo: config.reload_on_repeat,
       name: 'reload_on_repeat',
       to: repeatGrouping,
     });
     addSequenceToggle({
       textContent: 'Playback State (playing/paused)',
-      bindTo: playpause,
+      bindTo: config.playpause,
       name: 'playpause',
       to,
       sequence: defaultConfig.playpause.kind.map((p) => ({
@@ -633,8 +637,9 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
     addSequenceToggle({
       textContent: 'Pause on blur',
-      bindTo: pauseonblurtimeout,
+      bindTo: config.pauseonblurtimeout,
       name: 'pauseonblurtimeout',
+      defaultSuffix: 's',
       to,
       sequence: defaultConfig.pauseonblurtimeout.kind.map((p) => ({
         value: p,
@@ -643,8 +648,9 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
     addSequenceToggle({
       textContent: 'Blur on blur',
-      bindTo: bluronblurtimeout,
+      bindTo: config.bluronblurtimeout,
       name: 'bluronblurtimeout',
+      defaultSuffix: 's',
       to,
       sequence: defaultConfig.bluronblurtimeout.kind.map((p) => ({
         value: p,
@@ -653,7 +659,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
     addSequenceToggle({
       textContent: 'On Pause',
-      bindTo: onpause,
+      bindTo: config.onpause,
       name: 'onpause',
       to,
       sequence: defaultConfig.onpause.kind.map((p) => ({
@@ -664,7 +670,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     const playerGrouping = addGrouping({ to });
     addSequenceToggle({
       textContent: 'Player Mode (interleave/linear)',
-      bindTo: player,
+      bindTo: config.player,
       name: 'player',
       sequence: defaultConfig.player.kind.map((p) => ({
         value: p,
@@ -674,19 +680,41 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
     const interleaveGrouping = addGrouping({ to: playerGrouping });
     addSequenceToggle({
-      textContent: 'Max # of interleaved videos',
-      bindTo: interleave_active_player_count,
+      textContent: 'Max # of media to interleave',
+      bindTo: config.interleave_active_player_count,
       name: 'interleave_active_player_count',
       numeric: true,
       sequence: defaultConfig.interleave_active_player_count.kind.map((n) => ({
         value: n,
-        textContent: `Max of ${n} interleaved videos`,
+        textContent: `Interleave up to ${n} media`,
+      })),
+      to: interleaveGrouping,
+    });
+    addSequenceToggle({
+      textContent: defaultConfig.interleave_max_samples.tip,
+      bindTo: config.interleave_max_samples,
+      name: 'interleave_max_samples',
+      numeric: true,
+      sequence: defaultConfig.interleave_max_samples.kind.map((n) => ({
+        value: n,
+        textContent: defaultConfig.interleave_max_samples.kindtip(n),
+      })),
+      to: interleaveGrouping,
+    });
+    addSequenceToggle({
+      textContent: defaultConfig.interleave_sampling.tip,
+      bindTo: config.interleave_sampling,
+      name: 'interleave_sampling',
+      numeric: true,
+      sequence: defaultConfig.interleave_sampling.kind.map((n) => ({
+        value: n,
+        textContent: defaultConfig.interleave_sampling.kindtip(n),
       })),
       to: interleaveGrouping,
     });
     addSequenceToggle({
       textContent: 'Interleave timing method',
-      bindTo: interleave_timing,
+      bindTo: config.interleave_timing,
       name: 'interleave_timing',
       sequence: defaultConfig.interleave_timing.kind.map((n) => ({
         value: n,
@@ -696,8 +724,9 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
     addSequenceToggle({
       textContent: 'Change media at a fixed rate',
-      bindTo: interleave_bpm,
+      bindTo: config.interleave_bpm,
       name: 'interleave_bpm',
+      defaultSuffix: 'bpm',
       numeric: true,
       sequence: defaultConfig.interleave_bpm.kind.map((n) => ({
         value: n,
@@ -707,8 +736,9 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
     addSequenceToggle({
       textContent: 'Show each media for a fixed time',
-      bindTo: interleave_duration_ms,
+      bindTo: config.interleave_duration_ms,
       name: 'interleave_duration_ms',
+      defaultSuffix: 'ms',
       numeric: true,
       sequence: defaultConfig.interleave_duration_ms.kind.map((n) => ({
         value: n,
@@ -719,13 +749,13 @@ const initBrowsePreview = ({ document: { body } }) => {
     const gridGrouping = addGrouping({ to: playerGrouping });
     addToggle({
       textContent: 'Display multiple media on a grid',
-      bindTo: showGrid,
+      bindTo: config.showGrid,
       name: 'grid',
       to: gridGrouping,
     });
     addSequenceToggle({
       textContent: 'Grid fit mode',
-      bindTo: grid_fit,
+      bindTo: config.grid_fit,
       name: 'grid_fit',
       sequence: defaultConfig.grid_fit.kind.map((fit) => ({
         value: fit,
@@ -736,31 +766,31 @@ const initBrowsePreview = ({ document: { body } }) => {
     const filesGrouping = addGrouping({ to });
     addToggle({
       textContent: 'Include image files',
-      bindTo: includeImageFiles,
+      bindTo: config.includeImageFiles,
       name: 'images',
       to: filesGrouping,
     });
     addToggle({
       textContent: 'Include video files',
-      bindTo: includeVideoFiles,
+      bindTo: config.includeVideoFiles,
       name: 'video',
       to: filesGrouping,
     });
     addToggle({
       textContent: 'Include other files',
-      bindTo: includeOtherFiles,
+      bindTo: config.includeOtherFiles,
       name: 'other',
       to: filesGrouping,
     });
     addToggle({
       textContent: 'Include hidden files',
-      bindTo: includeHiddenFiles,
+      bindTo: config.includeHiddenFiles,
       name: 'hidden',
       to: filesGrouping,
     });
     addSequenceToggle({
       textContent: 'File List location (below/beside/hide)',
-      bindTo: filelist,
+      bindTo: config.filelist,
       name: 'filelist',
       sequence: defaultConfig.filelist.kind.map((v) => ({
         value: v,
@@ -770,14 +800,14 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
     addToggle({
       textContent: 'Debug Mode',
-      bindTo: debug,
+      bindTo: config.debug,
       name: 'debug',
       to,
     });
     const actionsGrouping = addGrouping({ to });
     addAction({
       textContent: 'Flag for review',
-      action: flag,
+      action: actions.flag,
       name: 'flag',
       to: actionsGrouping,
     });
@@ -810,6 +840,8 @@ const initBrowsePreview = ({ document: { body } }) => {
       wrapper.style.setProperty('--playerIdx', idx);
       wrapper.style.setProperty('--s-playerIdx', `'${idx}'`);
 
+      let currentSrc = null;
+
       const videoA = GM_addElement(wrapper, 'video', {
         ...(autoplay ? { autoplay: '' } : {}),
         ...(muted ? { muted: '' } : {}),
@@ -824,14 +856,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       });
       const image = GM_addElement(wrapper, 'img', {});
 
-      const play = () => {
-        video.volume = 0;
-        video.muted = true;
-        video.play();
-      };
-      const pause = () => {
-        video.pause();
-      };
+      const video = videoA;
 
       const playNext = async () => {
         const { url, isImage, isVideo } = await nextFile();
@@ -841,13 +866,26 @@ const initBrowsePreview = ({ document: { body } }) => {
         if (isVideo) {
           image.removeAttribute('src');
           video.src = url;
+          wrapper.dataset.active = 'a';
         } else if (isImage) {
           video.removeAttribute('src');
           image.src = url;
+          wrapper.dataset.active = 'i';
           setTimeout(playNext, imageduration.value * 1000);
         } else {
           setTimeout(playNext, 100);
+          wrapper.dataset.active = 'x';
         }
+      };
+
+      const play = () => {
+        currentSrc ??= playNext();
+        video.volume = 0;
+        video.muted = true;
+        video.play();
+      };
+      const pause = () => {
+        video.pause();
       };
 
       let _playbackErrors = 0;
@@ -1293,8 +1331,10 @@ const initBrowsePreview = ({ document: { body } }) => {
   breadcrumbs({ to: qs`body`.one });
 
   (({ bluronblur, config: { bluronblurtimeout } }) => {
-    const { changeTimeout } = bluronblur({ timeout: bluronblurtimeout });
-    bluronblurtimeout.subscribe((newTimeout) => changeTimeout(newTimeout));
+    const { setHiddenTimeout } = bluronblur({
+      hiddenTimeout: bluronblurtimeout,
+    });
+    bluronblurtimeout.subscribe((newTimeout) => setHiddenTimeout(newTimeout));
   })({ bluronblur, breadcrumbs, config });
 };
 
@@ -1311,15 +1351,6 @@ const browsePreviewToggleIds = addStyleToggles([
       },
       {
         baseName: 'browseWithPreview.filelisting',
-      },
-    ],
-  },
-  {
-    title: 'blur on blur',
-    enabled: true,
-    sources: [
-      {
-        baseName: 'bluronblur',
       },
     ],
   },

@@ -620,11 +620,12 @@ function s:UpdateStatuslines() abort
   " Home:
   let g:mayhem['sl_home'] = format#CN([
         \'%{%ChWinSz()%}%#SlHomeL⸮#􁘲  Vim Mayhem%*',
-        \'%<',
+        \'%#SlSep⸮#%=%*%<',
+        \' %{%ChSearch()%}',
+        \'%#SlSep⸮#%=%*',
+        \'%#SlHomeM⸮#%*',
         \'%=',
-        \'%#SlHomeM⸮# %*',
-        \'%=',
-        \'%#SlHomeR⸮# %*'
+        \'%#SlHomeR⸮#%*'
         \])
 
   let g:mayhem['sl_sfsym'] = format#CN([

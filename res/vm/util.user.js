@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.241
+// @version       1.1.262
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -31,6 +31,8 @@ const cssOQN = (el) =>
     '',
     ...el.classList,
   ].join('.')}`;
+
+const noop = () => {};
 
 /*{{{2 CSS @property registration  */
 const setRegisteredCSSProperty = (
@@ -319,6 +321,17 @@ const css = (...args) => parseTag(...args);
  * e.g. html`<div><span class="${foo}">hello</span></div>`
  */
 const html = (...args) => parseTag(...args);
+
+/**
+ *
+ */
+const combinePath = (sep = '/') =>
+  parseMap((sub, idx, all) =>
+    ((strsub) =>
+      idx === all.length - 1 || strsub.length === 0 || strsub.endsWith(sep)
+        ? strsub
+        : `${strsub}/`)(sub?.toString?.() ?? ''),
+  );
 
 /**
  * Pad start of all substituted variables so they are same width
@@ -1355,13 +1368,13 @@ const getStyleSourceFromDefinition = (
   {
     name = '',
     baseName = GM_info.script?.cssBaseName ?? '',
+    fileName = GM_info.script?.cssFileName ??
+      `${name.length > 0 ? `${name}.` : ''}${
+        baseName.length > 0 ? `${baseName}.` : ''
+      }user.css`,
     baseUrl = GM_info.script?.cssBaseUrl ?? defaultCssBaseUrl,
     path = GM_info.script?.cssPath ?? '',
-    url = `${baseUrl}${baseUrl.slice(-1) === '/' ? '' : '/'}${path}${
-      path.length === 0 || path.slice(-1) === '/' ? '' : '/'
-    }${name.length > 0 ? `${name}.` : ''}${
-      baseName.length > 0 ? `${baseName}.` : ''
-    }user.css`,
+    url = combinePath('/')`${baseUrl}${path}${fileName}`,
     css: cssInitial,
   } /*: StyleSourceDefinition */,
 ) /*: StyleSource*/ => {
@@ -2061,33 +2074,83 @@ const getDownloader = (x) => () =>
  *
  * @param timeout: time to wait after losing focus before obscuring
  */
-const bluronblur = ({ timeout = 30 } = {}) => {
-  let blurTimeoutId,
-    blurTimeout = timeout;
-  const modal = GM_addElement(document.body, 'dialog', { class: 'bluronblur' });
+const bluronblur = ({
+  blurTimeout = 300,
+  hiddenTimeout = 15,
+  blurred_callback = noop,
+  dismiss_callback = noop,
+} = {}) => {
+  let _blurTimeoutId,
+    _blurTimeout = blurTimeout * 1000,
+    _hiddenTimeoutId,
+    _hiddenTimeout = hiddenTimeout * 1000;
 
   const controller = new AbortController();
   const signal = controller.signal;
 
-  pageFocusTracker.track({
-    signal,
-    callback: (focusEvent) => {
-      if (focusEvent === 'blur') {
-        blurTimeoutId = setTimeout(() => {
-          modal.classList.add('blur');
-          blurTimeoutId = null;
-        }, blurTimeout * 1000);
-      }
-      if (focusEvent === 'focus') {
-        if (blurTimeoutId) {
-          clearTimeout(blurTimeoutId);
-          blurTimeoutId = null;
-        }
+  const modal = GM_addElement(document.body, 'dialog', { class: 'bluronblur' });
+
+  modal.addEventListener(
+    'click',
+    () => {
+      modal.close();
+      dismiss_callback();
+    },
+    { signal },
+  );
+
+  signal.addEventListener('abort', () => modal.remove(), { once: true });
+
+  const blur = () => {
+    _hiddenTimeoutId = clearTimeout(_hiddenTimeoutId);
+    _blurTimeoutId = clearTimeout(_blurTimeoutId);
+    if (!modal.open) {
+      modal.showModal();
+      blurred_callback();
+    }
+  };
+
+  window.addEventListener(
+    'visibilitychange',
+    () => {
+      _hiddenTimeoutId = clearTimeout(_hiddenTimeoutId);
+      if (document.visibilityState === 'hidden') {
+        _hiddenTimeoutId = setTimeout(blur, _hiddenTimeout);
       }
     },
-  });
+    { signal },
+  );
+
+  window.addEventListener(
+    'blur',
+    () =>
+      (_blurTimeoutId =
+        clearTimeout(_blurTimeoutId) ?? setTimeout(blur, _blurTimeout)),
+    { signal },
+  );
+
+  window.addEventListener(
+    'focus',
+    () => (_blurTimeoutId = clearTimeout(_blurTimeoutId)),
+    { signal },
+  );
+
+  addStyleToggles([
+    {
+      title: 'blur on blur',
+      enabled: true,
+      sources: [
+        {
+          path: 'util/',
+          baseName: 'bluronblur',
+        },
+      ],
+    },
+  ]);
+
   return {
-    changeTimeout: (newTimeout) => (blurTimeout = newTimeout * 1000),
+    setBlurTimeout: (newTimeout) => (_blurTimeout = newTimeout * 1000),
+    setHiddenTimeout: (newTimeout) => (_hiddenTimeout = newTimeout * 1000),
     abort: () => controller.abort(),
   };
 };

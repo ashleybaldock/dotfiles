@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.262
+// @version       1.1.264
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1295,20 +1295,26 @@ const injectStylesheet = ({ title, name, css, enabled = false }) => {
 const addStylesWithToggle = ({ title, sources, enabled = true }) => {
   const rejected = sources.filter((source) => source.status === 'rejected');
   const resolved = sources.filter((source) => source.status === 'resolved');
+
   const styleElements = resolved.map(({ name, css }) =>
-    injectStylesheet({ name, css, title, enabled }),
+    injectStylesheet({ name, css, title }),
   );
+
+  const get = () =>
+    styleElements.every((styleElement) => !styleElement.sheet.disabled);
+  const set = (newValue) =>
+    styleElements.forEach(
+      (styleSheet) => (styleSheet.sheet.disabled = !newValue),
+    );
+
+  Promise.resolve(enabled).then(set);
 
   return rejected.length === 0
     ? createMenuToggle({
         id: title,
         title: `CSS: ${title}`,
-        get: () =>
-          styleElements.every((styleElement) => !styleElement.sheet.disabled),
-        set: (newValue) =>
-          styleElements.forEach(
-            (styleSheet) => (styleSheet.sheet.disabled = !newValue),
-          ),
+        get,
+        set,
         on: '✅',
         off: '❌',
       })
@@ -1325,12 +1331,8 @@ const addStylesWithToggle = ({ title, sources, enabled = true }) => {
         } for ${title} failed to load`,
         on: '⚠️ ✅',
         off: '⚠️ ❌',
-        get: () =>
-          styleElements.every((styleElement) => !styleElement.sheet.disabled),
-        set: (newValue) =>
-          styleElements.forEach(
-            (styleSheet) => (styleSheet.sheet.disabled = !newValue),
-          ),
+        get,
+        set,
       });
 };
 
@@ -2177,7 +2179,7 @@ const IterableQueryBuilder = ({
   return (...args) => {
     let gone = 0;
     const parsedSelector = parseTag(...args);
-    const selector = parsedSelector.length > 1 ? parsedSelector : 'body';
+    const selector = parsedSelector.length > 0 ? parsedSelector : 'body';
 
     /**
      * Stores iterable for each link in the query chain

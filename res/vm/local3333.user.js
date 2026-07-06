@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        serve3333
 // @namespace   mayhem
-// @version     1.0.17
+// @version     1.0.18
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/local3333.user.js
 // @match       *://localhost:3333/*
@@ -29,8 +29,10 @@ const toggleSkin = 'localhost3333 skin';
 
 const styleToggleIds = addStyleToggles([
   {
-    title: toggleSkin,
-    enabled: false,
+    title: '[::1]:3333 dirlist reskin',
+    enabled: matchExistsFor('title').then((title) =>
+      /^Files within /.test(title.textContent),
+    ),
     sources: [{}],
   },
 ])
@@ -40,13 +42,13 @@ const styleToggleIds = addStyleToggles([
       .then(({ window, unsafeWindow }) => {
         console.debug('document ready');
 
-      return Promise.all([
-        matchExistsFor('title').then((title) => {
-          if (/^Files within /.test(title.textContent)) {
-            styleToggles.find((toggle) => toggle.id === toggleSkin)?.toggle();
-          }
-        }),
-      ]);
+        return Promise.all([
+          matchExistsFor('title').then((title) => {
+            if (/^Files within /.test(title.textContent)) {
+              styleToggles.find((toggle) => toggle.id === toggleSkin)?.toggle();
+            }
+          }),
+        ]);
       }),
   )
   .catch((e) => console.warn(e));

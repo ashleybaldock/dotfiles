@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.471
+// @version     1.0.472
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
 // @match       *://localhost/*/*
 // @match       file:///*/*
+// @run-at      document-start
 // @grant       GM_info
 // @grant       GM_addStyle
 // @grant       GM_addElement
@@ -17,7 +18,6 @@
 // @grant       GM_xmlhttpRequest
 // @require     http://localhost:3333/vm/util.user.js
 // @cssBaseName browseWithPreview
-// @run-at      document-start
 // ==/UserScript==
 
 /**

@@ -1,4 +1,7 @@
 /*  */
+/* Mon Jul 06 2026 04:31:12 GMT+0100 (British Summer Time) */
+
+/*  */
 /* Mon Jul 06 2026 03:56:17 GMT+0100 (British Summer Time) */
 
 /*  */
@@ -1413,7 +1416,8 @@ body > section:has(> video, > .vidwrap) {
 
 .sequence.toggle {
   grid-column: auto;
-  grid-template-columns: 1fr;
+  grid-template-columns: 100fr 100fr 100fr;
+  grid-template-rows: 100fr 200fr 100fr;
   border: none;
   margin: auto 0;
   position: relative;
@@ -1444,7 +1448,7 @@ body > section:has(> video, > .vidwrap) {
 .sequence.toggle .tip {
   visibility: hidden;
   position: absolute;
-  inset: auto auto 300% auto;
+  inset: auto auto 10vw auto;
 }
 .sequence.toggle:hover .tip {
   visibility: visible;
@@ -1455,26 +1459,31 @@ body > section:has(> video, > .vidwrap) {
   visibility: hidden;
   position: absolute;
   max-height: 2lh;
+  aspect-ratio: 1;
+  width: auto;
+  padding: 0;
 }
 .sequence.toggle:hover label {
   visibility: visible;
 }
 .sequence.toggle label::before {
-  position: absolute;
+  position: static;
   display: flex;
-  width: auto;
-  height: 2rem;
+  width: 100%;
+  height: auto;
   aspect-ratio: 1;
+  grid-column: 1/-1;
+  grid-row: 1/-1;
 }
 .sequence.toggle.numeric label::before {
   display: flex;
   text-align: center;
   align-items: center;
   justify-content: center;
-  font-size: calc(50cqh / 1ch);
+  /*   font-size: calc(50cqh / 1ch); */
+  place-self: center;
   content: attr(data-value) attr(data-value-suffix, var(--s-value-suffix, ''));
-  width: 2lh;
-  height: auto;
+  content: '';
 }
 
 .sequence.toggle label:has(~ label :checked) {
@@ -1513,7 +1522,7 @@ body > section:has(> video, > .vidwrap) {
 }
 .sequence.toggle label:has(:checked)::before {
   background-image: radial-gradient(var(--bgc), var(--bgc-current), var(--bgc));
-  z-index: 1000000;
+  /*   z-index: 1000000; */
   pointer-events: none;
   visibility: visible;
 }
@@ -1534,11 +1543,11 @@ body > section:has(> video, > .vidwrap) {
 }
 .sequence.toggle :where(label:has(:checked)) ~ label::before {
   background-image: radial-gradient(var(--bgc), var(--bgc-after), var(--bgc));
-  z-index: 0;
+  /*   z-index: 0; */
   pointer-events: all;
 }
 .sequence.toggle :where(label:has(:checked)) ~ label:hover::before {
-  z-index: 2;
+  /*   z-index: 2; */
 }
 
 .sequence.toggle :where(label:has(:checked)) + label {
@@ -1568,10 +1577,32 @@ body > section:has(> video, > .vidwrap) {
 }
 
 .sequence.toggle :where(label:has(:checked)) .value,
+.sequence.toggle label .prefix,
+.sequence.toggle label .suffix,
 .sequence.toggle label .value {
-  font-size: 0.8em;
   display: flex;
-  position: relative;
+  position: static;
+  z-index: 1;
+}
+
+.sequence.toggle label .prefix {
+  font-size: 0.7em;
+  grid-row: 1;
+  grid-column: 1/-2;
+  place-self: start;
+}
+.sequence.toggle label .suffix {
+  font-size: 0.7em;
+  grid-row: -1;
+  grid-column: 2/-1;
+  place-self: end;
+}
+.sequence.toggle label .value {
+  font-size: 1.2em;
+  grid-row: 2;
+  grid-column: 1/-1;
+  overflow: visible;
+  place-self: center;
 }
 /*! Debug */
 .sequence.toggle label {
@@ -1786,3 +1817,52 @@ h1,
   transform: scale(1.06) translateY(0.8em);
 }
 /*!}}}1 END Directory breadcrumbs */
+
+/* Inline | file:///Users/ashley/dwhelper/close */
+
+/* .sequence.toggle :where(label:has(:checked)) .value, .sequence.toggle label .value { */
+/* .sequence.toggle :where(label:has(:checked)) .value, */
+.sequence.toggle label .value,
+.sequence.toggle label .prefix,
+.sequence.toggle label .suffix {
+  /* position: relative; */
+  /*   position: absolute; */
+  grid-column: 1/-1;
+  /*   grid-row: auto; */
+  grid-auto-flow: dense;
+  position: static;
+  inset: unset;
+}
+
+.sequence.toggle label {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.sequence.toggle label::before {
+  /* display: grid; */
+  /*   grid-template-columns: 1fr; */
+  position: static;
+  grid-row: 1/-1;
+  grid-column: 1/-1;
+}
+
+.sequence.toggle.numeric label::before {
+  content: '';
+}
+
+.sequence.toggle label:has(:checked)::before {
+  /*   z-index: 1000000; */
+  /*   z-index: -1; */
+}
+
+.toggle label,
+.toggle label * {
+  /*   grid-area: 1/1/1/1; */
+}
+
+.sequence.toggle .tip {
+  /* inset: auto auto 300% auto; */
+  inset: auto auto 10vw auto;
+}

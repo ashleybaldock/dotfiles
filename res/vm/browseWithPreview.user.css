@@ -1,3 +1,6 @@
+/*  */
+/* Mon Jul 06 2026 02:47:40 GMT+0100 (British Summer Time) */
+
 :where(table) {
   --playback-status-played: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22\
   height=%221em%22 viewBox=%220 0 640 640%22%3E%3Cpath \
@@ -971,34 +974,45 @@ body > section:has(> video, > .vidwrap) {
   --ratio: 1;
   --playerIdx: inherit;
   --s-playerIdx: inherit;
-  color: #ddd;
   content: var(--s-playerIdx);
   width: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  inset: calc(var(--radius) + cos(var(--angle)) * var(--radius))
-    calc(var(--radius) + sin(var(--angle)) * var(--radius)) auto auto;
   background-color: var(--bgc);
   border-radius: 50%;
   line-height: normal;
   font-size: calc(var(--radius) * var(--ratio));
   font-family: Menlo, monospace;
   font-weight: 400;
-  border: 1px solid var(--bdc);
   margin: 3px;
   height: 0.9lh;
   aspect-ratio: 1;
   padding: 0;
+  inset: auto calc(var(--radius) + cos(var(--angle)) * var(--radius))
+    calc(var(--radius) + sin(var(--angle)) * var(--radius)) auto;
+  border: 2px solid var(--bdc);
+  color: var(--bdc);
+  box-shadow: calc(
+      var(--radius) + cos(var(--angle)) * var(--radius) - var(--radius) * 1
+    )
+    calc(var(--bgw) + sin(var(--angle)) * var(--radius) - var(--radius) * 1.2) 0
+    var(--radius) #0004;
 }
 .interleave > .vidwrap::after {
-  --bdc: hsl(var(--angle) 100% 60% / 50%);
   --bgc: hsl(var(--angle) 100% 70% / 50%);
+  --bdc: hsl(var(--angle) 80% 30% / 60%);
   color: #000;
   font-weight: 600;
   position: absolute;
   transform: none;
+  text-shadow:
+    0.5px 0.5px 0#fff,
+    -0.5px 0.5px 0#fff,
+    -0.5px -0.5px 0#fff,
+    0.5px -0.5px 0#fff;
 }
+
 .interleave > .vidwrap::before {
   position: fixed;
   transform: translateX(calc(var(--playerIdx) * var(--playerWidth) * -1))
@@ -1239,8 +1253,6 @@ body > section:has(> video, > .vidwrap) {
     calc(-0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
       calc(var(--a)) #f0fc,
     0 0 #0000;
-}
-.toggle::after {
   border: 0 solid #c00;
   padding: 0.2em 1.5ch;
   border-radius: 1.75ch;
@@ -1266,7 +1278,7 @@ body > section:has(> video, > .vidwrap) {
   opacity: 1;
   transition: opacity 80ms ease 0s;
 }
-.toggle > label {
+.toggle label {
   grid-template-columns: auto auto;
   grid-template-rows: auto;
   font-size: 1em;
@@ -1276,15 +1288,15 @@ body > section:has(> video, > .vidwrap) {
   aspect-ratio: 1;
   padding: 6px;
 }
-.toggle > label,
-.toggle > label > * {
+.toggle label,
+.toggle label * {
   grid-template: 1fr/1fr;
   place-content: center;
   place-items: center;
   place-self: center;
   grid-area: 1/1/1/1;
 }
-.toggle > label::after {
+.toggle label::after {
   display: grid;
   mask-image: var(--icon);
   font-size: 1rem;
@@ -1300,15 +1312,16 @@ body > section:has(> video, > .vidwrap) {
   mask-clip: no-clip;
   mask-position: center center;
   pointer-events: none;
+  background-color: #828;
 }
-.toggle > label > input {
+.toggle label input {
   visibility: hidden;
   margin: 0;
   height: 0;
   width: 0;
   position: absolute;
 }
-.toggle > label > span {
+.toggle label span {
   display: none;
 }
 :root:hover .grouping,
@@ -1326,11 +1339,8 @@ body > section:has(> video, > .vidwrap) {
   gap: 0.5ch;
 }
 
-.toggle:not(:has(button)) > label::after {
+.toggle:not(:has(button)) label::after {
   mask-image: var(--icon-composite);
-}
-.toggle > label::after {
-  background-color: #828;
 }
 /*!}}}1*/
 
@@ -1395,13 +1405,6 @@ body > section:has(> video, > .vidwrap) {
 /*!}}}1*/
 
 /*!{{{1 sequencetoggle */
-.sequencetoggle {
-  grid-column-end: span 1;
-}
-.sequencetoggle label > [type='radio'] {
-  z-index: -10px;
-  visibility: hidden;
-}
 
 .sequence.toggle {
   grid-column: auto;
@@ -1410,33 +1413,53 @@ body > section:has(> video, > .vidwrap) {
   margin: auto 0;
   position: relative;
   inset: auto;
-}
-
-.sequence.toggle label {
-  max-height: 2lh;
-}
-
-.sequence.toggle label::after {
-  position: static;
-}
-.sequence.toggle label {
-  height: 1lh;
-}
-.sequence.toggle {
   --bgc: #828;
-  --bgc-current: #ff0;
-  --bgc-before: #800;
-  --bgc-after: #080;
   contain: size;
   container-type: size;
   width: 100%;
   height: 100%;
-  position: relative;
-  --x: 0px;
-  --y: 0px;
-  --xmul: 0.9;
-  --ymul: 1;
   --icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M211 7.3C205 1 196-1.4 187.6 .8s-14.9 8.9-17.1 17.3L154.7 80.6l-62-17.5c-8.4-2.4-17.4 0-23.5 6.1s-8.5 15.1-6.1 23.5l17.5 62L18.1 170.6c-8.4 2.1-15 8.7-17.3 17.1S1 205 7.3 211l46.2 45L7.3 301C1 307-1.4 316 .8 324.4s8.9 14.9 17.3 17.1l62.5 15.8-17.5 62c-2.4 8.4 0 17.4 6.1 23.5s15.1 8.5 23.5 6.1l62-17.5 15.8 62.5c2.1 8.4 8.7 15 17.1 17.3s17.3-.2 23.4-6.4l45-46.2 45 46.2c6.1 6.2 15 8.7 23.4 6.4s14.9-8.9 17.1-17.3l15.8-62.5 62 17.5c8.4 2.4 17.4 0 23.5-6.1s8.5-15.1 6.1-23.5l-17.5-62 62.5-15.8c8.4-2.1 15-8.7 17.3-17.1s-.2-17.3-6.4-23.4l-46.2-45 46.2-45c6.2-6.1 8.7-15 6.4-23.4s-8.9-14.9-17.3-17.1l-62.5-15.8 17.5-62c2.4-8.4 0-17.4-6.1-23.5s-15.1-8.5-23.5-6.1l-62 17.5L341.4 18.1c-2.1-8.4-8.7-15-17.1-17.3S307 1 301 7.3L256 53.5 211 7.3z%22%3E%3C/path%3E%3C/svg%3E');
+  anchor-name: --anchor-sequence-toggle;
+  --bgc-current: #f0f;
+  --bgc-before: #f08;
+  --bgc-after: #80f;
+  --x: 30px;
+  --y: 4px;
+  --xmul: 1;
+  --ymul: 0.8;
+  anchor-scope:
+    --anchor-sequence-toggle-current, --anchor-sequence-toggle-before,
+    --anchor-sequence-toggle-after, --anchor-sequence-toggle-end,
+    --anchor-sequence-toggle-last;
+}
+.sequence.toggle::after {
+  inset: auto auto 300% auto;
+}
+
+.sequence.toggle .tip {
+  visibility: hidden;
+  position: absolute;
+  inset: auto auto 300% auto;
+}
+.sequence.toggle:hover .tip {
+  visibility: visible;
+}
+
+.sequence.toggle label {
+  height: 2lh;
+  visibility: hidden;
+  position: absolute;
+  max-height: 2lh;
+}
+.sequence.toggle:hover label {
+  visibility: visible;
+}
+.sequence.toggle label::after {
+  position: absolute;
+  display: flex;
+  width: auto;
+  height: 2rem;
+  aspect-ratio: 1;
 }
 .sequence.toggle.numeric label::after {
   display: flex;
@@ -1448,15 +1471,14 @@ body > section:has(> video, > .vidwrap) {
   width: 2lh;
   height: auto;
 }
-.sequence.toggle label {
-  position: absolute;
-}
+
 .sequence.toggle label:has(~ label :checked) {
-  transition: position 100ms ease 0s;
   anchor-name: --anchor-sequence-toggle-before;
   position-anchor: --anchor-sequence-toggle-before;
+  /*   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right) * var(--xmul) - var(--x)); */
   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
-    calc(anchor(right) * var(--xmul) - var(--x));
+    calc(anchor(left) * var(--xmul));
 }
 .sequence.toggle label:has(~ label :checked)::after {
   background-image: radial-gradient(
@@ -1466,151 +1488,105 @@ body > section:has(> video, > .vidwrap) {
     var(--bgc)
   );
 }
-.sequence.toggle label:has(:checked) ~ label {
-  anchor-name: --anchor-sequence-toggle-after;
-  position-anchor: --anchor-sequence-toggle-after;
-  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
-    calc(anchor(right) * var(--xmul) + var(--x));
-}
-.sequence.toggle label:has(:checked) ~ label::after {
-  background-image: radial-gradient(var(--bgc), var(--bgc-after), var(--bgc));
-}
-.sequence.toggle label:has(:checked) {
+
+.sequence.toggle label:has(+ label :checked) {
   anchor-name: --anchor-sequence-toggle-before;
-  position-anchor: --anchor-sequence-toggle;
-  inset: auto calc(anchor(left) * var(--xmul) - var(--x))
-    calc(anchor(top) * var(--ymul) + var(--y)) auto;
-}
-.sequence.toggle label:has(:checked) > span {
-  display: flex;
-  position: relative;
-  inset: -100% auto auto auto;
-}
-.sequence.toggle label:last-of-type {
-  anchor-name: --anchor-sequence-toggle-after;
   position-anchor: --anchor-sequence-toggle-before;
   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
-    calc(anchor(right));
-}
-
-.sequence.toggle label::after {
-  display: flex;
-  width: auto;
-  height: 2rem;
-  aspect-ratio: 1;
-}
-
-.sequence.toggle {
-  anchor-name: --anchor-sequence-toggle;
-  --bgc-current: #f0f;
-  --bgc-before: #f08;
-  --bgc-after: #80f;
-  --x: 50px;
-  --y: 1px;
-  --xmul: 1;
-  --ymul: 0.8;
-  anchor-scope:
-    --anchor-sequence-toggle-current, --anchor-sequence-toggle-before,
-    --anchor-sequence-toggle-after, --anchor-sequence-toggle-end,
-    --anchor-sequence-toggle-last;
-}
-
-.sequence.toggle label {
-  height: 2lh;
-  visibility: hidden;
-}
-
-.sequence.toggle .tip {
-  visibility: hidden;
-  position: absolute;
-  inset: auto auto 300% auto;
+    calc(anchor(left) * var(--xmul));
 }
 
 .sequence.toggle label:has(:checked) {
+  anchor-name: --anchor-sequence-toggle-before;
   anchor-name: --anchor-sequence-toggle-current;
+  anchor-name: --anchor-sequence-toggle-after;
+  position-anchor: --anchor-sequence-toggle;
+  /*   inset: auto calc(anchor(left) * var(--xmul) - var(--x))
+    calc(anchor(top) * var(--ymul) + var(--y)) auto; */
   inset: auto calc(anchor(left) * var(--xmul) - var(--x)) auto auto;
   visibility: visible;
 }
-
-.sequence.toggle label::after {
-  position: absolute;
-}
-
 .sequence.toggle label:has(:checked)::after {
   background-image: radial-gradient(var(--bgc), var(--bgc-current), var(--bgc));
   z-index: 1000000;
   pointer-events: none;
   visibility: visible;
 }
+.sequence.toggle label:has(:checked) > span {
+  display: flex;
+  position: relative;
+  inset: -100% auto auto auto;
+}
+.sequence.toggle:hover :where(label:has(:checked)) > .tip {
+  visibility: visible;
+}
 
-.sequence.toggle label:has(:checked) ~ label::after {
+.sequence.toggle :where(label:has(:checked)) ~ label {
+  anchor-name: --anchor-sequence-toggle-after;
+  position-anchor: --anchor-sequence-toggle-after;
+  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right) * var(--xmul));
+  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(left) * var(--xmul) + var(--x));
+}
+.sequence.toggle :where(label:has(:checked)) ~ label::after {
+  background-image: radial-gradient(var(--bgc), var(--bgc-after), var(--bgc));
   z-index: 0;
   pointer-events: all;
 }
-
-.sequence.toggle:hover label:has(:checked) > .tip {
-  visibility: visible;
-}
-
-.sequence.toggle label:has(:checked) ~ label {
-  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
-    calc(anchor(right) * var(--xmul));
-}
-
-.sequence.toggle label:has(~ label :checked) {
-  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
-    calc(anchor(left) * var(--xmul));
-}
-
-.sequence.toggle label:last-of-type {
-  anchor-name: --anchor-sequence-toggle-end;
-  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
-    calc(anchor(right) * var(--xmul));
-}
-
-.sequence.toggle label:has(:checked) ~ label:hover::after {
+.sequence.toggle :where(label:has(:checked)) ~ label:hover::after {
   z-index: 2;
 }
 
-.sequence.toggle::after {
-  inset: auto auto 300%auto;
-}
-
-.sequence.toggle label:has(+ label :checked) {
-  position-anchor: --anchor-sequence-toggle-end;
-  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
-    calc(anchor(left) * var(--xmul));
-}
-
-.sequence.toggle label:first-of-type:has(~ label :checked) {
-  position-anchor: --anchor-sequence-toggle-end;
-}
-
-.sequence.toggle:hover label {
-  visibility: visible;
-}
-
-.sequence.toggle label:has(:checked) + label {
+.sequence.toggle :where(label:has(:checked)) + label {
   anchor-name: --anchor-sequence-toggle-after;
-  position-anchor: --anchor-sequence-toggle-current;
+  position-anchor: --anchor-sequence-toggle-after;
+  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(left) * var(--xmul) + var(--x));
+}
+
+.sequence.toggle label:last-of-type {
+  anchor-name: --anchor-sequence-toggle-after;
+  position-anchor: --anchor-sequence-toggle-after;
+  /*   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right) * var(--xmul)); */
+  /*   anchor-name: --anchor-sequence-toggle-end; */
+  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right));
+}
+.sequence.toggle :where(label:has(:checked)) ~ label:last-of-type {
   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
     calc(anchor(right) * var(--xmul));
 }
 
+.sequence.toggle label:first-of-type {
+  /*   anchor-name: --anchor-sequence-toggle; */
+  position-anchor: --anchor-sequence-toggle-after;
+}
+
+/*! Debug */
+.sequence.toggle label {
+  border-radius: 50%;
+}
+.sequence.toggle label:first-of-type {
+  outline: 1px solid orange;
+}
+.sequence.toggle label:has(~ label :checked) {
+  outline: 0.5px solid green;
+}
 .sequence.toggle label:has(+ label :checked) {
-  transition: position 100ms ease 0s;
-  anchor-name: --anchor-sequence-toggle-last;
+  outline: 1px solid limegreen;
+}
+.sequence.toggle label:has(:checked) ~ label {
+  outline: 0.5px solid orange;
+}
+.sequence.toggle label:has(:checked) + label {
+  outline: 1px solid orangered;
+}
+.sequence.toggle label:last-of-type {
+  outline: 1px solid yellow;
 }
 
-.sequence.toggle label:has(~ label :checked):first-of-type {
-  position-anchor: --anchor-sequence-toggle-end;
-}
-
-.sequence.toggle label:has(:checked) ~ label:last-of-type {
-  anchor-name: --anchor-sequence-toggle-end;
-  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
-    calc(anchor(right) * var(--xmul));
-}
 /*!}}}1 END sequencetoggle */
 
 /*!{{{1 Individual toggle controls */
@@ -1677,28 +1653,6 @@ body::after {
     linear-gradient(hsl(none 100 80), hsl(none 0 80)),
     linear-gradient(hsl(none 100 20), hsl(none 100 100)),
     linear-gradient(hsl(none 50 100));
-}
-
-.interleave > .vidwrap::after,
-.interleave > .vidwrap::before {
-  inset: auto calc(var(--radius) + cos(var(--angle)) * var(--radius))
-    calc(var(--radius) + sin(var(--angle)) * var(--radius)) auto;
-  border: 2px solid var(--bdc);
-  color: var(--bdc);
-  box-shadow: calc(
-      var(--radius) + cos(var(--angle)) * var(--radius) - var(--radius) * 1
-    )
-    calc(var(--bgw) + sin(var(--angle)) * var(--radius) - var(--radius) * 1.2) 0
-    var(--radius) #0004;
-}
-
-.interleave > .vidwrap::after {
-  --bdc: hsl(var(--angle) 80% 30% / 60%);
-  text-shadow:
-    0.5px 0.5px 0#fff,
-    -0.5px 0.5px 0#fff,
-    -0.5px -0.5px 0#fff,
-    0.5px -0.5px 0#fff;
 }
 
 :where(.next, .prev, label) {
@@ -1782,17 +1736,11 @@ body::after {
 
 :root:has(#toggle_playpause_playing:checked)
   .player
-  > label[for='toggle_playpause_playing']:hover {
-}
-
-:root:has(#toggle_playpause_playing:checked)
-  .player
   > label[for='toggle_playpause_paused'] {
   opacity: 0;
 }
 
-/* Inline | file:///Users/ashley/googledrive/projects/noita-video-archive/spells%20Q-Z/swarm/ */
-
+/*!{{{1 Directory breadcrumbs */
 .output.breadcrumbs {
   display: grid;
   z-index: calc(Infinity);
@@ -1875,3 +1823,4 @@ body::after {
   background-color: #000a;
   transform: scale(1.06) translateY(0.8em);
 }
+/*!}}}1 END Directory breadcrumbs */

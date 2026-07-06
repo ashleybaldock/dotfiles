@@ -1,0 +1,61 @@
+.bluronblur[open] {
+  display: flex;
+  transform: scale(1);
+  background-image:
+    repeating-conic-gradient(from 0deg, #0006 0 90deg, #0000 90deg 180deg),
+    repeating-conic-gradient(from 45deg, #0006 0 90deg, #0000 90deg 180deg),
+    repeating-conic-gradient(from 0deg, #0006 0 90deg, #0000 90deg 180deg);
+  background-color: #0000;
+  background-size:
+    3vmax 3vmax,
+    5vmin 5vmin,
+    2vmax 2vmax;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  inset: 0;
+  max-width: unset;
+  max-height: unset;
+  background-repeat: repeat;
+  background-position: center;
+  /*! filter: blur(0.2px); */
+  justify-content: center;
+  align-items: center;
+}
+.bluronblur[open]::after {
+  content: 'lost focus';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5vh;
+  text-shadow:
+    0 -1px var(--b) var(--c),
+    0 1px var(--b) var(--c),
+    1px 0 var(--b) var(--c),
+    -1px 0 var(--b) var(--c),
+    -1px -1px var(--b) var(--c),
+    1px 1px var(--b) var(--c),
+    1px -1px var(--b) var(--c),
+    -1px 1px var(--b) var(--c);
+  letter-spacing: 0.1ch;
+  font-style: italic;
+  color: #000;
+  --c: #444;
+  --b: 0px;
+  border-radius: 0.5em;
+  background-color: #0006;
+  padding: 0 0.5ch;
+  opacity: 0.7;
+}
+.bluronblur[open]::backdrop {
+  display: flex;
+  transform: scale(1);
+  position: fixed;
+  inset: 0 0 0 0;
+  backdrop-filter: blur(20px);
+  background-image:
+    radial-gradient(circle at top left, #000c, #0000),
+    radial-gradient(circle at bottom right, #000c, #0000);
+}

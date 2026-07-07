@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        serve3333
 // @namespace   mayhem
-// @version     1.0.18
+// @version     1.0.19
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/local3333.user.js
 // @match       *://localhost:3333/*
@@ -25,8 +25,6 @@ const isDirectoryListing = (({ qs }) =>
   unsafeWindow,
 );
 
-const toggleSkin = 'localhost3333 skin';
-
 const styleToggleIds = addStyleToggles([
   {
     title: '[::1]:3333 dirlist reskin',
@@ -36,19 +34,11 @@ const styleToggleIds = addStyleToggles([
     sources: [{}],
   },
 ])
-  .then((styleToggles) =>
+  .then(() =>
     Promise.race([timeout({ s: 30 }), readyStateComplete()])
       .catch(() => console.log('timed out waiting for readyStateComplete'))
-      .then(({ window, unsafeWindow }) => {
+      .then(() => {
         console.debug('document ready');
-
-        return Promise.all([
-          matchExistsFor('title').then((title) => {
-            if (/^Files within /.test(title.textContent)) {
-              styleToggles.find((toggle) => toggle.id === toggleSkin)?.toggle();
-            }
-          }),
-        ]);
       }),
   )
   .catch((e) => console.warn(e));

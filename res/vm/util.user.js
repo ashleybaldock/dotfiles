@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.264
+// @version       1.1.267
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1338,13 +1338,22 @@ const addStylesWithToggle = ({ title, sources, enabled = true }) => {
 
 /*
  * StyleToggleDefinition: {
- *   title,    Display value for the toggle
-/*   enabled,  Load automatically (true,default), or on-demand (false)
- *   sources,  StyleSourceDefinition[]
+ *   title:   string;        Helps identify stylesheets in devtools
+ *   enabled: boolean        (default: true)  Initial state of the toggle
+ *           |Thenable<boolean>               ...or defer the decision
+ *   TODO    |AsyncIterableIterator<boolean>; ...or change your mind later
+ *   sources: StyleSourceDefinition[];   List of stylesheets to include
  * }
+ */
 /* StyleSourceDefinition: {
- *   name:      string;
- * } & {
+ *   name:      string;  default: ''
+/*   baseName:  string;  default: @cssBaseName or ''
+ *   fileName:  string;  default: @cssFileName or '[[$name.]$baseName.]user.css'
+ *   baseUrl:   string;  default: @cssBaseUrl  or $defaultCssBaseUrl
+ *   path:      string;  default: @cssPath     or ''
+ *   url:       string;  default: @cssUrl      or '$baseUrl/$path/$fileName'
+ *
+ */
 /*   baseName:  string;  ⎫ If not specified, use values   Formatted as:
  *   baseUrl:   string;  ⎭  set in userscript config      ${baseUrl}/[${name}.]${baseName}.user.css
  * } | {
@@ -1398,7 +1407,7 @@ const getStyleSourceFromDefinition = (
     },
   };
   return _local
-    ? new Promise((resolve) => resolve(source))
+    ? Promise.resolve(source)
     : getStylesheet(source)
         .then((response) => {
           _css = response;
@@ -1412,7 +1421,7 @@ const getStyleSourceFromDefinition = (
         });
 };
 /**
- * Add toggles for groups of stylesheets
+ * Adds UI toggles linked to groups of stylesheets
  *
  * @params StyleToggleDefinition[]
  */

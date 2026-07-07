@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.472
+// @version     1.0.473
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -843,43 +843,60 @@ const initBrowsePreview = ({ document: { body } }) => {
       let currentSrc = null;
 
       const videoA = GM_addElement(wrapper, 'video', {
-        ...(autoplay ? { autoplay: '' } : {}),
-        ...(muted ? { muted: '' } : {}),
-        class: `${attr_class} a`,
+        preload: '',
+        muted: '',
+        class: 'a',
         ...attrs,
       });
       const videoB = GM_addElement(wrapper, 'video', {
-        ...(autoplay ? { autoplay: '' } : {}),
-        ...(muted ? { muted: '' } : {}),
-        class: `${attr_class} b`,
+        preload: '',
+        muted: '',
+        class: 'b',
         ...attrs,
       });
-      const image = GM_addElement(wrapper, 'img', {});
+      const imageI = GM_addElement(wrapper, 'img', {});
+      const imageJ = GM_addElement(wrapper, 'img', {});
 
       const video = videoA;
 
-      const playNext = async () => {
+      const nextMedia = async () => {
         const { url, isImage, isVideo } = await nextFile();
         console.debug(
-          `playNext idx: ${idx}, url: ${url}, isImage: ${isImage}, isVideo: ${isVideo}`,
+          `nextMedia idx: ${idx}, url: ${url}, isImage: ${isImage}, isVideo: ${isVideo}`,
         );
         if (isVideo) {
+          if (wrapper.dataset.active === 'a') {
+            videoB.src = url;
+            videoB.load();
+          } else {
+            videoA.src = url;
+            videoA.load();
+          }
           image.removeAttribute('src');
           video.src = url;
           wrapper.dataset.active = 'a';
         } else if (isImage) {
+          if (wrapper.dataset.active === 'i') {
+            imageJ.src = url;
+          } else {
+            imageI.src = url;
+          }
           video.removeAttribute('src');
-          image.src = url;
           wrapper.dataset.active = 'i';
-          setTimeout(playNext, imageduration.value * 1000);
+          setTimeout(nextMedia, imageduration.value * 1000);
         } else {
-          setTimeout(playNext, 100);
+          setTimeout(nextMedia, 100);
           wrapper.dataset.active = 'x';
         }
       };
 
+      imageI.addEventListener('load', () => onLoad(), {});
+      imageJ.addEventListener('load', () => onLoad(), {});
+
+      const onLoad = () => {};
+
       const play = () => {
-        currentSrc ??= playNext();
+        currentSrc ??= nextMedia();
         video.volume = 0;
         video.muted = true;
         video.play();
@@ -893,77 +910,94 @@ const initBrowsePreview = ({ document: { body } }) => {
         addToCountOnError = 1,
         addToCountOnSuccess = -2;
 
-      video.addEventListener(
-        'play',
-        () => {
-          // console.info(`${idx} playing '${decodeURI(video.src)}'`);
+      const onPlay = () => {
+        // console.info(`${idx} playing '${decodeURI(video.src)}'`);
 
-          video.classList.remove('paused');
-          video.classList.add('playing');
+        video.classList.remove('paused');
+        video.classList.add('playing');
 
-          document
-            .querySelectorAll(
-              `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
-            )
-            .forEach((tr) => {
-              tr.classList.remove('paused');
-              tr.classList.add('playing');
-              tr.style.setProperty('--playerIdx', idx);
-              tr.style.setProperty('--s-playerIdx', `'${idx}'`);
+        document
+          .querySelectorAll(
+            `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
+          )
+          .forEach((tr) => {
+            tr.classList.remove('paused');
+            tr.classList.add('playing');
+            tr.style.setProperty('--playerIdx', idx);
+            tr.style.setProperty('--s-playerIdx', `'${idx}'`);
 
-              const undo = (() => {
-                let undone = false;
-                return () => {
-                  if (!undone) {
-                    undone = true;
-                    tr.classList.remove('playing');
-                    tr.classList.add('played');
-                  }
-                };
-              })();
-              video.addEventListener(
-                'ended',
-                () => {
+            const undo = (() => {
+              let undone = false;
+              return () => {
+                if (!undone) {
+                  undone = true;
                   tr.classList.remove('playing');
                   tr.classList.add('played');
-                },
-                { once: true },
-              );
-              video.addEventListener('loadstart', undo, { once: true });
-            });
-        },
-        {},
-      );
-      video.addEventListener(
+                }
+              };
+            })();
+            video.addEventListener(
+              'ended',
+              () => {
+                tr.classList.remove('playing');
+                tr.classList.add('played');
+              },
+              { once: true },
+            );
+            video.addEventListener('loadstart', undo, { once: true });
+          });
+      };
+      const onPause = () => {
+        // console.info(`${idx} paused '${decodeURI(video.src)}'`);
+
+        video.classList.remove('playing');
+        video.classList.add('paused');
+
+        document
+          .querySelectorAll(
+            `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
+          )
+          .forEach((tr) => {
+            tr.classList.remove('playing');
+            tr.classList.add('paused');
+            tr.style.setProperty('--playerIdx', idx);
+            tr.style.setProperty('--s-playerIdx', `'${idx}'`);
+          });
+      };
+      videoA.addEventListener('play', () => onPlay(), {});
+      videoB.addEventListener('play', () => onPlay(), {});
+      videoA.addEventListener('pause', () => onPause(), {});
+      videoB.addEventListener('pause', () => onPause(), {});
+
+      [
+        'play',
         'pause',
-        () => {
-          // console.info(`${idx} paused '${decodeURI(video.src)}'`);
-
-          video.classList.remove('playing');
-          video.classList.add('paused');
-
-          document
-            .querySelectorAll(
-              `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
-            )
-            .forEach((tr) => {
-              tr.classList.remove('playing');
-              tr.classList.add('paused');
-              tr.style.setProperty('--playerIdx', idx);
-              tr.style.setProperty('--s-playerIdx', `'${idx}'`);
-            });
-        },
-        {},
-      );
-
+        'volumechange',
+        'canplay',
+        'seeked',
+        'seeking',
+        'timeupdate',
+        'durationchange',
+        'ratechange',
+        'ended',
+        'emptied',
+        'loadstart',
+        'loadeddata',
+        'loadedmetadata',
+        'progress',
+        'waiting',
+        'stalled',
+        'suspend',
+        'error',
+      ];
       /* Playback */
       video.addEventListener('volumechange', () => {
         // console.debug(`${idx} volumechange '${decodeURI(video.src)}'`);
       });
 
-      video.addEventListener('canplay', () => {
-        // console.info(`${idx} canplay '${decodeURI(video.src)}'`);
-      });
+      // video.addEventListener('canplay', () => {
+      // console.info(`${idx} canplay '${decodeURI(video.src)}'`);
+      // });
       video.addEventListener('canplaythrough', () => {
         // console.info(`${idx} canplaythrough '${decodeURI(video.src)}'`);
         play();
@@ -988,7 +1022,7 @@ const initBrowsePreview = ({ document: { body } }) => {
 
         _playbackErrors = Math.max(0, _playbackErrors + addToCountOnSuccess);
 
-        playNext();
+        nextMedia();
       });
       video.addEventListener('emptied', () => {
         // console.info(`${idx} emptied '${decodeURI(video.src)}'`);
@@ -1024,7 +1058,7 @@ const initBrowsePreview = ({ document: { body } }) => {
           video.classList.add('error');
           console.warn(`${idx} exceeded max error count`);
         } else {
-          playNext();
+          nextMedia();
         }
       });
 

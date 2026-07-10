@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.267
+// @version       1.1.269
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -2011,6 +2011,26 @@ const breadcrumbs = ({
   addPart({ text: head, class: 'filename', 'data-filename': head });
   addPart({ text: '.', class: `ext-dot` });
   addPart({ text: extension, class: `ext-${extension}` });
+};
+
+const textNodesMatching = (
+  ({ document }) =>
+  ({ pattern, from = ':root' }) => {
+    [document.querySelectorAll(from)].forEach((searchRootElement) =>
+      [...searchRootElement.childNodes].some(
+        (n) => n.nodeType === 3 && pattern.test(n.textContent),
+      ),
+    );
+
+    pattern.test(el.innerText) &&
+      el.style.setProperty('outline', '1px dashed yellow');
+  }
+)({ document });
+
+const metricise = () => {
+  textNodesMatching({
+    pattern: /(?:\d+\/\d+)(?:\s*x\s*)?\d*(?:\.\d+)?\s*(?:"|in)/gm,
+  }).map((node) => {});
 };
 
 /* querySelector(sm)All

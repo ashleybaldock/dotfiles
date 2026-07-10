@@ -57,6 +57,19 @@ function! statusline#updateSearch(...) abort
       let msg 
     endif
   else
+    if r.total == 0
+      let summary = [
+        \'%#SlFPath⸮#', ' 𝚗𝚘 𝚖𝚊𝚝𝚌𝚑𝚎𝚜 ', 
+        \]
+    else
+      if r.current == 0
+        let summary = [
+          \'%#SlSearch⸮#', format#numbers(r.total),
+          \'%#SlFPath⸮#', ' 𝚖𝚊𝚝𝚌𝚑𝚎𝚜 ', 
+          \]
+      else
+      endif
+    endif
     let summary = [
       \'%#SlSearch⸮#', format#numbers(r.current),
       \'%#SlFPath⸮#', ' ℴ𝒻 ', 

@@ -95,7 +95,6 @@ xnoremap ‚ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<C
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲
 nnoremap – a̲<Esc>h
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲h̲i̲t̲e̲s̲p̲a̲c̲e̲
-" xnoremap – :s/\(\_^\s*"\)\?\s*\%V\S/\0̲/g<CR>
 xnoremap – :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
 "
 " ▌️􀆝􀆕 -▐️──▷ O̅v̅e̅r̅l̅i̅n̅e̅
@@ -122,14 +121,18 @@ nnoremap ± a︎<Esc>h<Cmd>RepeatMove<CR>
 xnoremap ± :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0︎/g<CR><Cmd>nohlsearch<CR> 
 
 " Remove Combining:                                                       TODO
-" ▌️􀆕 􀆛▐️──▷ Remove first combining (as apposed to last, like x) + RepeatMove
+" ▌️􀆕 􀆛▐️──▷ Remove last combining character (like x)
 nnoremap <M-BS> <Nop>
-" ▌️􀆕 􀆛▐️──▷ Remove first combining from all chars in visual area
 xnoremap <M-BS> <Nop>
-" ▌️􀆝􀆕 􀆛▐️──▷ Remove all combining chars + RepeatMove
-nnoremap <M-BS> <Nop>
-" ▌️􀆝􀆕 􀆛▐️──▷ Remove all combining chars from visual area+ RepeatMove
+" ▌️􀆝􀆕 􀆛▐️──▷ Remove first combining character (unlike x)
+nnoremap <M-S-BS> <Nop>
 xnoremap <M-S-BS> <Nop>
+" ▌️􀆍􀆕 􀆛▐️──▷ Remove all combining characters
+nnoremap <C-S-BS> <Nop>
+xnoremap <C-S-BS> <Nop>
+
+" ▌️􀆕 􀆛▐️──▷ Remove first combining from all chars in visual area
+" ▌️􀆝􀆕 􀆛▐️──▷ Remove all combining chars from visual area+ RepeatMove
 
 " Expand Spaces:
 " ▌️𝙣=️𝟣❙   􀆕 􁁺 ▐️──▷ Add count 𝙣 space(s) + RepeatMove

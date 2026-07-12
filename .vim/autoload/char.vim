@@ -64,7 +64,7 @@ function char#join(list) abort
 endfunc
 
 "
-" Remove combining character
+" Remove all instances of a combining character
 "
 function char#strip(remove, str = char#fromCursor()) abort
   return char#split(str)
@@ -170,6 +170,10 @@ endfunc
 "  (see: g:mayhem_hi_vsels). These are placed after any other combining characters.
 "
 function char#vary(str = char#fromCursor(), vsel = 16) abort
+endfunc
+
+" Combine first character of input with every variation selector
+function char#variations(str = char#fromCursor()) abort
 endfunc
 
 "

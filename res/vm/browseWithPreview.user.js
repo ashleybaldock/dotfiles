@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.474
+// @version     1.0.477
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -841,18 +841,6 @@ const initBrowsePreview = ({ document: { body } }) => {
       wrapper.style.setProperty('--playerIdx', idx);
       wrapper.style.setProperty('--s-playerIdx', `'${idx}'`);
 
-      let currentSrc = null;
-
-      const play = () => {
-        currentSrc ??= nextMedia();
-        video.volume = 0;
-        video.muted = true;
-        video.play();
-      };
-      const pause = () => {
-        video.pause();
-      };
-
       let _playbackErrors = 0;
       const maxErrorCount = 10,
         addToCountOnError = 1,
@@ -878,6 +866,24 @@ const initBrowsePreview = ({ document: { body } }) => {
 
       const video = videoA;
 
+      const cue = ()
+
+      /**
+       * Resume playback using last active media player
+       */
+      const play = () => {
+        currentSrc ??= nextMedia();
+        video.volume = 0;
+        video.muted = true;
+        video.play();
+      };
+      /**
+       * Pause playback
+       */
+      const pause = () => {
+        video.pause();
+      };
+
       /**
        * To ensure every file gets seen when interleaved
        * repeat files shorter than the total time to cycle through all media
@@ -886,14 +892,39 @@ const initBrowsePreview = ({ document: { body } }) => {
        */
       const oneMinute = 60 * 1000;
 
-      const stepTime = () => (interleave_timing.value === 'bpm' ? (oneMinute / interleave_bpm.value) : interleave_timing.value === 'span' ? interleave_duration_ms.value : Number.POSITIVE_INFINITY);
+      const stepTime = () =>
+        interleave_timing.value === 'bpm'
+          ? oneMinute / interleave_bpm.value
+          : interleave_timing.value === 'span'
+            ? interleave_duration_ms.value
+            : Number.POSITIVE_INFINITY;
 
       const cycleTime = () => stepTime() * interleave_active_player_count.value;
 
       const cycleOffsetTime = () => stepTime() * idx;
 
-      const nextMediaAfter = (mediaDuration) => mediaDuration > (cycleTime() * interleave_max_samples.value) ? : 
-      };
+      // const nextMediaAfter = (mediaDuration) => mediaDuration > (cycleTime() * interleave_max_samples.value) ? :
+      // };
+
+      let nextMediaTimeoutId = null,
+        nextMediaTimeoutExpected = null,
+        nextMediaTimeoutResumeWithDuration = null;
+
+      const setNextMediaTimeout = (duration) => {
+        nextMediaTimeoutExpected = Date.now() + duration;
+        (nextMediaTimeoutId =
+          clearTimeout(nextMediaTimeoutId) ?? setTimeout(() => {
+            nextMediaTimeoutExpected = null;
+            nextMediaTimeoutResumeWithDuration = null;
+            nextMedia();
+          }, duration));
+      }
+      const pauseNextMediaTimeout = () => {
+        nextMediaTimeoutResumeWithDuration = Date.now() - (nextMediaTimeoutExpected ?? Number.POSITIVE_INFINITY)
+        nextMediaTimeoutId = clearTimeout(nextMediaTimeoutId);
+      }
+      const resumeNextMediaTimeout = () => 
+        isFinite(nextMediaTimeoutResumeWithDuration) && setNextMediaTimeout(nextMediaTimeoutResumeWithDuration);
 
       const nextMedia = async () => {
         const { url, isImage, isVideo } = await nextFile();
@@ -903,38 +934,52 @@ const initBrowsePreview = ({ document: { body } }) => {
         if (isVideo) {
           if (wrapper.dataset.active === 'a') {
             videoB.src = url;
-            videoB.load();
-          } else {
-            videoA.src = url;
-            videoA.load();
-            videoA.addEventListener(
+            videoB.addEventListener(
               'canplaythrough',
               () => {
-                vide
+                wrapper.dataset.active = 'b';
+                videoA.removeAttribute('src');
+                videoA.load();
+                imageJ.removeAttribute('src');
+                imageI.removeAttribute('src');
               },
               { once: true },
             );
-
+            videoB.load();
+          } else {
+            videoA.src = url;
+            videoA.addEventListener(
+              'canplaythrough',
+              () => {
+                wrapper.dataset.active = 'a';
+                videoA.removeAttribute('src');
+                videoB.removeAttribute('src');
+                imageI.removeAttribute('src');
+              },
+              { once: true },
+            );
+            videoA.load();
           }
-          image.removeAttribute('src');
-          video.src = url;
-          wrapper.dataset.active = 'a';
         } else if (isImage) {
           if (wrapper.dataset.active === 'i') {
             imageJ.src = url;
+            imageJ.addEventListener('load', () => {
+              wrapper.dataset.active = 'j';
+              videoA.removeAttribute('src');
+              videoB.removeAttribute('src');
+              imageI.removeAttribute('src');
+            }, {once: true});
           } else {
             imageI.src = url;
+            imageI.addEventListener('load', () => onLoad(imageI), {once: true});
           }
-          video.removeAttribute('src');
-          wrapper.dataset.active = 'i';
-          setTimeout(nextMedia, imageduration.value * 1000);
+          setNextMediaTimeout(imageduration.value * 1000);
         } else {
-          setTimeout(nextMedia, 100);
+          setNextMediaTimeout(100);
           wrapper.dataset.active = 'x';
         }
       };
 
-      const onLoad = (image) => {};
 
       const onPlay = (video) => {
         // console.info(`${idx} playing '${decodeURI(video.src)}'`);
@@ -999,65 +1044,59 @@ const initBrowsePreview = ({ document: { body } }) => {
       videoB.addEventListener('play', () => onPlay(videoB), {});
       videoB.addEventListener('pause', () => onPause(videoB), {});
 
-      imageI.addEventListener('load', () => onLoad(imageI), {});
 
-      imageJ.addEventListener('load', () => onLoad(imageJ), {});
+      (({ idx }) =>
+        [
+          [videoA, 'A'],
+          [videoB, 'B'],
+        ].forEach(([video, videoIdx]) =>
+          [
+            ['play', 'debug'],
+            ['pause', 'debug'],
+            ['volumechange', 'debug'],
+            ['canplay', 'info'],
+            ['canplaythrough', 'info'],
+            ['seeked', 'info'],
+            ['seeking', 'debug'],
+            ['timeupdate', 'debug'],
+            ['durationchange', 'debug'],
+            ['ratechange', 'debug'],
+            ['ended', 'info'],
+            ['emptied', 'debug'],
+            ['loadstart', 'debug'],
+            ['loadeddata', 'debug'],
+            ['loadedmetadata', 'debug'],
+            ['progress', 'debug'],
+            ['waiting', 'debug'],
+            ['stalled', 'debug'],
+            ['suspend', 'debug'],
+            ['error', 'debug'],
+          ].forEach((eventName, loglevel) =>
+            video.addEventListener(eventName, () =>
+              console?.[loglevel]?.(
+                `${idx}${videoIdx} ${eventName} '${decodeURI(video.src)}'`,
+              ),
+            ),
+          ),
+        ))({ idx });
 
-      [
-        'play',
-        'pause',
-        'volumechange',
-        'canplay',
-        'seeked',
-        'seeking',
-        'timeupdate',
-        'durationchange',
-        'ratechange',
-        'ended',
-        'emptied',
-        'loadstart',
-        'loadeddata',
-        'loadedmetadata',
-        'progress',
-        'waiting',
-        'stalled',
-        'suspend',
-        'error',
-      ];
       /* Playback */
-      video.addEventListener('volumechange', () => {
-        // console.debug(`${idx} volumechange '${decodeURI(video.src)}'`);
-      });
+      const onCanplaythrough = (video) => {
+        imageI.removeAttribute('src');
+        imageJ.removeAttribute('src');
 
-      // video.addEventListener('canplay', () => {
-      // console.info(`${idx} canplay '${decodeURI(video.src)}'`);
-      // });
-      video.addEventListener('canplaythrough', () => {
-        // console.info(`${idx} canplaythrough '${decodeURI(video.src)}'`);
-        play();
-      });
-      video.addEventListener('seeked', () => {
-        console.info`${idx} seeked '${decodeURI(video.src)}'`;
-      });
-      video.addEventListener('seeking', () => {
-        // console.debug(`${idx} seeking '${decodeURI(video.src)}'`);
-      });
-      video.addEventListener('timeupdate', () => {
-        // console.debug(`${idx} timeupdate '${decodeURI(video.src)}'`);
-      });
-      video.addEventListener('durationchange', () => {
-        // console.debug(`${idx} durationchange '${decodeURI(video.src)}'`);
-      });
-      video.addEventListener('ratechange', () => {
-        // console.debug(`${idx} ratechange '${decodeURI(video.src)}'`);
-      });
-      video.addEventListener('ended', () => {
-        // console.info`${idx} ended '${decodeURI(video.src)}'`;
-
+        video.play();
+      };
+      const onEnded = (video) => {
         _playbackErrors = Math.max(0, _playbackErrors + addToCountOnSuccess);
 
         nextMedia();
-      });
+      };
+      videoA.addEventListener('canplaythrough', () => onCanplaythrough(videoA));
+      videoB.addEventListener('canplaythrough', () => onCanplaythrough(videoB));
+      videoA.addEventListener('ended', () => onEnded(videoA));
+      videoB.addEventListener('ended', () => onEnded(videoB));
+
       video.addEventListener('emptied', () => {
         // console.info(`${idx} emptied '${decodeURI(video.src)}'`);
       });

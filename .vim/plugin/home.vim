@@ -8,12 +8,12 @@ call autocmd_add([
       \#{
       \ event: 'VimEnter', pattern: '*',
       \ cmd: 'call s:OnVimEnter()',
-      \ group: 'mayhem_home', once: v:true,
+      \ group: 'mayhem_home_enter', once: v:true,
       \},
       \#{
       \ event: 'VimLeavePre', pattern: '*',
       \ cmd: 'call s:OnVimLeavePre()',
-      \ group: 'mayhem_home', replace: v:true,
+      \ group: 'mayhem_home_exit', replace: v:true,
       \},
       \])
 
@@ -213,7 +213,7 @@ function s:OnVimEnter() abort
     endif
   endif
 
-  call autocmd_delete([#{ event: '*', group: 'mayhem_home'}])
+  call autocmd_delete([#{ event: '*', group: 'mayhem_home_enter'}])
 endfunc
 
 function s:ShowHome() abort

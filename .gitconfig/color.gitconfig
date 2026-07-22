@@ -1,9 +1,9 @@
 [log]
   graphColors = 160,161,162,163,164,165,196,197,198,199,200,201
 [color "status"]
-	header = 244
+  header = 244
   untracked = brightred
-	; untracked = red
+  ; untracked = red
   changed = 78
   changed = 220
   updated = 117
@@ -48,11 +48,11 @@
   newMoved = 154
   newMovedDimmed = 112
   newMovedAlternative = 162
-  newMovedAlternativeDimmed = 126
+  ; newMovedAlternativeDimmed = 126
   old = 160
   oldDimmed = 124
   oldBold = 196
   oldMoved = 136
   oldMovedDimmed = 178
-  oldMovedAlternative = 142 
-  oldMovedAlternativeDimmed = 63
+  ; oldMovedAlternative = 142 
+  ; oldMovedAlternativeDimmed = 63

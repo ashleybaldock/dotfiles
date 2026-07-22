@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.477
+// @version     1.0.478
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -952,8 +952,9 @@ const initBrowsePreview = ({ document: { body } }) => {
               'canplaythrough',
               () => {
                 wrapper.dataset.active = 'a';
-                videoA.removeAttribute('src');
                 videoB.removeAttribute('src');
+                videoB.load();
+                imageJ.removeAttribute('src');
                 imageI.removeAttribute('src');
               },
               { once: true },

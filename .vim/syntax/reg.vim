@@ -173,7 +173,7 @@ syn match NCharClass contained +\%(\\_\?\)[SDXOWHALU]+ contains=NONE
 
 syn region Collection contained
       \ matchgroup=ColEnds start=+\(\\_\)\?\[+
-      \ skip=+\\]+
+      \ skip=+[^\\]\\]+
       \ end=+]+
       \ contains=ColRange,SWColExpr,ColExpr
 syn match ColRange contained /[^[-]-[^]-]/ contains=ColRangeSep

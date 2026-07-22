@@ -1,18 +1,109 @@
+[delta]
+  dark = true
+	features = defaults hunk merge-conflict unobtrusive-line-numbers symbols blame decorations
+
+[delta "defaults"]
+	keep-plus-minus-marker = false
+  relative-paths = true
+  hyperlinks = true
+  navigate = true
+
+  true-color = auto
+  tabs = 8
+  syntax-theme = Dracula
+  max-syntax-highlighting-length = 400
+  max-line-distance = 0.6
+
+  ; regex
+  word-diff-regex = "\\w+"
+  commit-regex = "^commit "
+  ;navigate-regex = 
+
+  ; wrapping
+  wrap-max-lines = 2
+  max-line-length = 3000
+  wrap-right-percent = 37.0
+
+
+	commit-style = brightblue normal
+
+  file-style = white
+
+  plus-style = syntax auto
+  plus-emph-style = syntax auto
+  plus-non-emph-style = syntax auto
+  plus-empty-line-marker-style = normal auto
+
+  minus-style = normal auto
+  minus-emph-style = syntax auto
+  minus-non-emph-style = syntax auto
+  minus-empty-line-marker-style = normal auto
+
+  ; color.diff.whitespace
+  whitespace-error-style = auto auto
+
+[delta "hunk"]
+  hunk-header-decoration-style = brightyellow ul
+
+  hunk-header-file-style = "#00ff00"
+  hunk-header-line-number-style = "#067a00"
+  hunk-header-style = file line-number syntax
+
+[delta "blame"]
+  blame-code-style = syntax normal
+  blame-separator-style = brightred ul
+
+  blame-format = {timestamp:<15} {author:<15.14} {commit:<8}
+  blame-palette = 160 161 162 163 164 165 196 197 198 199 200 201
+  blame-separator-format = │{n:^4}│
+  blame-timestamp-format = %Y-%m-%d %H:%M:%S %z
+  blame-timestamp-output-format = %Y-%m-%d %H:%M:%S %z
+
+[delta "decorations"]
+  ; decoration styles
+  ; ul/ol lines, -ve is terminal width minus n
+  ;width = auto
+  ; line styles: ul,ol,box,ul ol
+
+	commit-decoration-style = green ul
+
+  file-decoration-style = white ol
+
+  merge-conflict-ours-diff-header-decoration-style = box
+  merge-conflict-theirs-diff-header-decoration-style = box
+
+[delta "symbols"]
+  file-added-label = "􀆿 "
+  file-copied-label = "􀐅 "
+  file-modified-label = "􁆭 "
+  file-removed-label = "􀆄 "
+  file-renamed-label = "􀄹 "
+
+  wrap-left-symbol = ↵
+  wrap-right-prefix-symbol = …
+  wrap-right-symbol = ↴
+  right-arrow = "⟶  "
+
+[delta "merge-conflict"]
+  merge-conflict-begin-symbol = ▼
+  merge-conflict-end-symbol = ▲
+
+  merge-conflict-ours-diff-header-style = normal
+  merge-conflict-theirs-diff-header-style = normal
+
+
+[delta "unobtrusive-line-numbers"]
+    line-numbers = true
+    line-numbers-minus-style = "#444444"
+    line-numbers-zero-style = "#444444"
+    line-numbers-plus-style = "#444444"
+    line-numbers-left-format = "{nm:>4}┊"
+    line-numbers-right-format = "{np:>4}│"
+    line-numbers-left-style = blue
+    line-numbers-right-style = blue
+
 [core]
 	pager = delta
 [interactive]
-	diffFilter = delta --color-only --features=interactive
+	diffFilter = delta --color-only
 
-[delta]
-  dark = true
-	features = decorations
-[delta "interactive"]
-	keep-plus-minus-marker = false
-[delta "decorations"]
-	commit-decoration-style = blue ol
-	commit-style = raw
-	file-style = omit
-	hunk-header-decoration-style = blue box
-	hunk-header-file-style = red
-	hunk-header-line-number-style = "#067a00"
-	hunk-header-style = file line-number syntax

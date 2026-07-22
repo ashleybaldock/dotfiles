@@ -35,6 +35,8 @@ syn region vimContinueString contained
       \ skipwhite nextgroup=vimSubscript,vimComment
       \ contains=@vimContinue,vimQuoteEscape
 
+syn match vimContinue "^\s*\zs\\" contained conceal cchar=┆
+
 syn keyword	vimHiAttrib	contained	undercurl underdotted underdouble
 syn keyword	vimHiAttrib	contained	underdashed strikethrough
 

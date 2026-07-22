@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.269
+// @version       1.1.271
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -23,6 +23,140 @@
 
 const defaultCssBaseUrl = 'http://localhost:3333/vm/';
 
+class DefaultedMap extends Map {
+  #defaultValue;
+  constructor(defaultValue, entries) {
+    super(entries);
+    this.#defaultValue = defaultValue;
+  }
+  get(key) {
+    const valueOrUndefined = super.get(key);
+    return valueOrUndefined === undefined
+      ? this.#defaultValue
+      : valueOrUndefined;
+  }
+}
+/**
+ * Returns a hash code from a string
+ * @param  {String} str The string to hash.
+ * @return {Number}    A 32bit integer
+ * @see http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+ */
+function hashCode(str) {
+  let hash = 0;
+  for (let i = 0, len = str.length; i < len; i++) {
+    let chr = str.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+}
+
+/* Fisher–Yates shuffle */
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+const uniqueValues = (v, i, a) => a.indexOf(v) === i;
+const uniqueArrays = (av, ai, a) =>
+  a.findIndex(
+    (n) => av.length === n.length && av.every((avv, avi) => avv === n[avi]),
+  ) === ai;
+
+/*{{{2 Predicates */
+const isPromise = /*<T>*/ (x /*: unknown*/) /*: x is Promise<T>*/ =>
+  x !== null &&
+  x !== undefined &&
+  typeof x === 'object' &&
+  'then' in x /*!*/ &&
+  typeof x.then === 'function';
+/* type StyleSource = Promise<string> | string | (() => string); */
+
+/*{{{2 Parser Tags */
+/**
+ * Does what untagged template strings do by default
+ */
+const parseTag = (raw, ...substitutions) =>
+  String.raw({ raw }, ...substitutions) ?? '';
+
+/**
+ * Return a parser function that maps all arguments
+ * through the provided function
+ */
+const parseMap =
+  (mapperFn) =>
+  (raw, ...substitutions) =>
+    String.raw({ raw }, ...substitutions.map(mapperFn));
+
+/**
+ * for places you can't throw, yeet
+ * let foo = a?.b ?? yeet`error! ${}`
+ */
+const yeet = (...args) => {
+  throw parseTag(...args);
+};
+
+/**
+ * Tag as CSS for highlighting
+ * e.g. css`color: red; padding: ${pad}px`
+ */
+const css = (...args) => parseTag(...args);
+
+/**
+ * Tag as HTML for highlighting
+ * e.g. html`<div><span class="${foo}">hello</span></div>`
+ */
+const html = (...args) => parseTag(...args);
+
+/**
+ *
+ */
+const combinePath = (sep = '/') =>
+  parseMap((sub, idx, all) =>
+    ((strsub) =>
+      idx === all.length - 1 || strsub.length === 0 || strsub.endsWith(sep)
+        ? strsub
+        : `${strsub}/`)(sub?.toString?.() ?? ''),
+  );
+
+/**
+ * Ensure all substituted variables start and end with a character
+ */
+const quoteUnquoted = (quote = "'") =>
+  parseMap(
+    (sub) =>
+      `${sub.startsWith(quote) ? '' : quote}${sub}${sub.endsWith(quote) ? '' : quote}`,
+  );
+
+/**
+ * Pad start of all substituted variables so they are same width
+ */
+const padAllStart = (padTo) =>
+  parseMap((sub) => sub?.toString?.().padStart(padTo));
+
+const padAlternateEndStart =
+  (padTo) =>
+  (raw, ...substitutions) =>
+    String.raw(
+      { raw },
+      ...substitutions.map((sub, i) =>
+        i % 2
+          ? sub?.toString?.().padEnd(padTo)
+          : sub?.toString?.().padStart(padTo),
+      ),
+    );
+
+const pad =
+  (padPattern) =>
+  (raw, ...substitutions) =>
+    String.raw(
+      { raw },
+      ...substitutions.map((sub) => sub?.toString?.().padStart(padTo)),
+    );
+
 /*{{{1 Utility */
 
 /* Get an Over-Qualified CSS name for an element */
@@ -41,8 +175,16 @@ const setRegisteredCSSProperty = (
     const name = /^--/.test(_name) ? _name : `--${_name}`;
     const s_name = `--s-${name.slice(2)}`;
 
-    on.style.setProperty(name, value);
-    on.style.setProperty(s_name, `'${value}'`);
+    let output = value,
+      s_output = `'${value}'`;
+
+    if (syntax === '<string>') {
+      output = quoteUnquoted`${value}`;
+      s_output = output;
+    }
+
+    on.style.setProperty(name, output);
+    on.style.setProperty(s_name, s_output);
   }
 )({ window: unsafeWindow });
 /**
@@ -233,131 +375,6 @@ const logFocus = (({ console }) => {
     }
   };
 })({ unsafeWindow, console });
-
-class DefaultedMap extends Map {
-  #defaultValue;
-  constructor(defaultValue, entries) {
-    super(entries);
-    this.#defaultValue = defaultValue;
-  }
-  get(key) {
-    const valueOrUndefined = super.get(key);
-    return valueOrUndefined === undefined
-      ? this.#defaultValue
-      : valueOrUndefined;
-  }
-}
-/**
- * Returns a hash code from a string
- * @param  {String} str The string to hash.
- * @return {Number}    A 32bit integer
- * @see http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
- */
-function hashCode(str) {
-  let hash = 0;
-  for (let i = 0, len = str.length; i < len; i++) {
-    let chr = str.charCodeAt(i);
-    hash = (hash << 5) - hash + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-}
-
-/* Fisher–Yates shuffle */
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-
-const uniqueValues = (v, i, a) => a.indexOf(v) === i;
-const uniqueArrays = (av, ai, a) =>
-  a.findIndex(
-    (n) => av.length === n.length && av.every((avv, avi) => avv === n[avi]),
-  ) === ai;
-
-/*{{{2 Predicates */
-const isPromise = /*<T>*/ (x /*: unknown*/) /*: x is Promise<T>*/ =>
-  x !== null &&
-  x !== undefined &&
-  typeof x === 'object' &&
-  'then' in x /*!*/ &&
-  typeof x.then === 'function';
-/* type StyleSource = Promise<string> | string | (() => string); */
-
-/*{{{2 Parser Tags */
-/**
- * Does what untagged template strings do by default
- */
-const parseTag = (raw, ...substitutions) =>
-  String.raw({ raw }, ...substitutions) ?? '';
-
-/**
- * Return a parser function that maps all arguments
- * through the provided function
- */
-const parseMap =
-  (mapperFn) =>
-  (raw, ...substitutions) =>
-    String.raw({ raw }, ...substitutions.map(mapperFn));
-
-/**
- * for places you can't throw, yeet
- * let foo = a?.b ?? yeet`error! ${}`
- */
-const yeet = (...args) => {
-  throw parseTag(...args);
-};
-
-/**
- * Tag as CSS for highlighting
- * e.g. css`color: red; padding: ${pad}px`
- */
-const css = (...args) => parseTag(...args);
-
-/**
- * Tag as HTML for highlighting
- * e.g. html`<div><span class="${foo}">hello</span></div>`
- */
-const html = (...args) => parseTag(...args);
-
-/**
- *
- */
-const combinePath = (sep = '/') =>
-  parseMap((sub, idx, all) =>
-    ((strsub) =>
-      idx === all.length - 1 || strsub.length === 0 || strsub.endsWith(sep)
-        ? strsub
-        : `${strsub}/`)(sub?.toString?.() ?? ''),
-  );
-
-/**
- * Pad start of all substituted variables so they are same width
- */
-const padAllStart = (padTo) =>
-  parseMap((sub) => sub?.toString?.().padStart(padTo));
-
-const padAlternateEndStart =
-  (padTo) =>
-  (raw, ...substitutions) =>
-    String.raw(
-      { raw },
-      ...substitutions.map((sub, i) =>
-        i % 2
-          ? sub?.toString?.().padEnd(padTo)
-          : sub?.toString?.().padStart(padTo),
-      ),
-    );
-
-const pad =
-  (padPattern) =>
-  (raw, ...substitutions) =>
-    String.raw(
-      { raw },
-      ...substitutions.map((sub) => sub?.toString?.().padStart(padTo)),
-    );
 
 /*{{{2 Logging */
 

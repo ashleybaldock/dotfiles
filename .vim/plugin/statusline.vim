@@ -74,12 +74,12 @@ endfunc
 "    􀅖️⃝     􀅪️⃝    􀅆️⃝           􀄱️⃝     􂦬️⃝   􂪯️⃝ 
 "      􀨡️⃝    􀅫️⃝   􁂎️⃝                   􀆁️⃝ 
 "                                    􂪰️⃝ 
-"   􀓶️⃝  􀔕️⃝  􀔴️⃝  􀕓️⃝                         􀛨️⃝         
-" 􀓷️⃝  􀔖️⃝  􀔵️⃝  􀕔️⃝                           􀺸️⃝          
-"   􀓸️⃝  􀔗️⃝  􀔶️⃝  􀕕️⃝   􀆉️⃝  􀁲️⃝  􀁳️⃝  􀄂️⃝  􀄃️⃝    􀺶️⃝         
-" 􀓹️⃝  􀔘️⃝  􀔷️⃝  􀕖️⃝   􀆊️⃝  􀁴️⃝  􀁵️⃝  􀄄️⃝  􀄅️⃝      􀛩️⃝           􀸏️⃝ 
-"   􀓺️⃝  􀔙️⃝  􀔸️⃝  􀕗️⃝   􀆇️⃝  􀁮️⃝  􀁯️⃝  􀃾️⃝  􀃿️⃝    􀛪️⃝         􀡅️⃝ 
-" 􀓻️⃝  􀔚️⃝  􀔹️⃝  􀕘️⃝   􀆈️⃝  􀁰️⃝  􀁱️⃝  􀄀️⃝  􀄁️⃝      􀢋️⃝           􁇵️⃝ 
+"   􀓶️⃝  􀔕️⃝  􀔴️⃝  􀕓️⃝                         􀛨         
+" 􀓷️⃝  􀔖️⃝  􀔵️⃝  􀕔️⃝                           􀺸          
+"   􀓸️⃝  􀔗️⃝  􀔶️⃝  􀕕️⃝   􀆉️⃝  􀁲️⃝  􀁳️⃝  􀄂️⃝  􀄃️⃝    􀺶         
+" 􀓹️⃝  􀔘️⃝  􀔷️⃝  􀕖️⃝   􀆊️⃝  􀁴️⃝  􀁵️⃝  􀄄️⃝  􀄅️⃝      􀛩           􀸏️⃝ 
+"   􀓺️⃝  􀔙️⃝  􀔸️⃝  􀕗️⃝   􀆇️⃝  􀁮️⃝  􀁯️⃝  􀃾️⃝  􀃿️⃝    􀛪         􀡅️⃝ 
+" 􀓻️⃝  􀔚️⃝  􀔹️⃝  􀕘️⃝   􀆈️⃝  􀁰️⃝  􀁱️⃝  􀄀️⃝  􀄁️⃝      􀢋           􁇵️⃝ 
 "   􀓼️⃝  􀔛️⃝  􀔺️⃝  􀕙️⃝   􀋊️⃝􀋊️⃞􀋊                             
 " 􀓽️⃝  􀔜️⃝  􀔻️⃝  􀕚️⃝     􀇾️⃝􀇾􀇾                             
 "   􀓾️⃝  􀔝️⃝  􀔼️⃝  􀕛️⃝   􀆅️⃝􀆅􀆅
@@ -690,12 +690,12 @@ call autocmd_add([
       \#{
       \ event: 'User', pattern: 'MayhemDiagnosticsUpdated',
       \ cmd: 'call s:Update_Diag()',
-      \ group: 'mayhem_statusline', replace: v:true,
+      \ group: 'mayhem_statusline_diagnostics', replace: v:true,
       \},
       \#{
       \ event: 'User', pattern: 'MayhemSearchCountUpdated',
       \ cmd: 'call statusline#updateSearch()',
-      \ group: 'mayhem_statusline', replace: v:true,
+      \ group: 'mayhem_statusline_search', replace: v:true,
       \},
       \])
 

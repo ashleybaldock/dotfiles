@@ -1406,11 +1406,11 @@ div.mw-collapsible-content:nth-child(3) {
 .mw-changeslist-links,
 .mw-changeslist-links > span,
 span:has(
-    > .mw-usertoollinks-talk,
-    > .mw-usertoollinks-contribs,
-    > .mw-usertoollinks-block,
-    > .mw-changeslist-history
-  ) {
+  > .mw-usertoollinks-talk,
+  > .mw-usertoollinks-contribs,
+  > .mw-usertoollinks-block,
+  > .mw-changeslist-history
+) {
   display: contents;
 }
 
@@ -1968,8 +1968,6 @@ span:has(> .mw-usertoollinks-block) {
 }
 
 .mw-enhanced-rc-time > a {
-  font-size: 0.7em;
-  margin-right: 1.3ch;
   letter-spacing: 0.05ch;
   font-size: 0.62em;
   margin-right: 1.3ch;
@@ -1977,4 +1975,81 @@ span:has(> .mw-usertoollinks-block) {
 .mw-title {
   margin: 0;
   line-height: normal;
+}
+
+.mw-changeslist-line > tbody,
+.mw-changeslist-line > tbody > tr,
+.mw-changeslist-line > tbody > tr > td {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: auto;
+  grid-row: auto;
+  grid-column: 1/-1;
+}
+
+.mw-enhanced-rc-time,
+.mw-enhanced-rc-time > a,
+.mw-enhanced-rc[colspan='2'] {
+  grid-column: time-start/time-end;
+  grid-row: auto;
+  font-family: monospace;
+  font-weight: normal;
+  font-size: 0.9em;
+  align-items: start;
+  justify-content: end;
+  text-align: right;
+  width: auto;
+  color: #ddd;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  border-right: none;
+}
+
+.mw-enhanced-rc-nested > .mw-enhanced-rc-time {
+  font-size: 800000%;
+  padding: 0 0.5em;
+}
+
+.mw-changeslist-line.mw-changeslist-log
+  > tbody
+  > tr
+  > .mw-changeslist-line-inner {
+  grid-column: title-start/comment-end;
+  width: 100%;
+  line-height: normal;
+}
+.mw-changeslist-line.mw-changeslist-log
+  > tbody
+  > tr
+  > .mw-changeslist-line-inner
+  > .mw-rc-unwatched {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  grid-column: title-start/comment-end;
+  font-size: 0.1%;
+}
+.mw-changeslist-line.mw-changeslist-log
+  > tbody
+  > tr
+  > .mw-changeslist-line-inner
+  > .mw-rc-unwatched
+  > a {
+  font-size: 100000%;
+}
+.mw-changeslist-log-entry {
+  grid-column: time-end/watching-end;
+  grid-template-rows: subgrid;
+}
+.mw-changeslist-log-entry .comment {
+  font-size: 0.9em;
+}
+.mw-changeslist-log-delete .mw-changeslist-log-entry a:nth-of-type(2) {
+  grid-column: cur-end/title-end;
+}
+.mw-changeslist-line > tbody > tr > td {
+  grid-column: time-end/-1;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
 }

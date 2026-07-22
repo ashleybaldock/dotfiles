@@ -1,4 +1,30 @@
 
+
+
+
+nnoremap §rr :^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$
+§
+Source current line continuation
+(From first previous non-continued line to last
+subsequent one)
+
+Matches a continuation line
+/\%(\_^\s*[\\].*\_$\)
+Matches a line and all subsequent continuated bits
+/\_^.*\_.\%(\_^\s*\\.*\_.\)
+/^[^\\]*\_$\%(\_^\s*\\.*\_$\)\+\ze\_^[^\\]*$
+
+Matches a non-continuation line, followed by all
+lines until the next non-continuation line
+/^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$
+/\(.*\%#\)\@=\(^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$\)\@>\(\%#.*\)\@<=
+
+Match current line as a continuation
+/\zs\%(\%.l\_^\s*[^\\].*\_$\)\+/
+
+
+
+
 ^\s*\zs!\s*\([^|!]|\)\{-}\s*\(.\{-}\)\ze\s*\(!!\|$\)
 /\(["'`]\).\{-}\%(\\\1\)\@2<!\1
 %s/path\_s\+d=\(["']\|%22\)\zs\_[MLVCSQTAmlhvcsqtaZz0-9. -]*\ze\1/

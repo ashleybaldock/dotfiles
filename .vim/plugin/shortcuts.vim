@@ -508,15 +508,29 @@ nnoremap §rv <Cmd>so expand('$VIMHOME/vimrc')<CR>
 " (From first previous non-continued line to last
 " subsequent one)
 "
-" Matches a continuation line
-" \%(\_^\s*[\\].*\_$\)
-" Matches a line and all subsequent continuated bits
+"╭{️ \%(\_^\s*[\\].*\_$\)
+"│
+"│  Matches each
+"├{️  \ continuation line
+"╰{️  \ individually
+"
+"
 " \_^.*\_.\%(\_^\s*\\.*\_.\)
 " ^[^\\]*\_$\%(\_^\s*\\.*\_$\)\+\ze\_^[^\\]*$
 "
-" Matches a non-continuation line, followed by all
-" lines until the next non-continuation line
-" ^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$
+" Matches a line
+"  \ and all subsequent
+"  \ continuated bits
+"
+"
+"╭{️ ^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$
+"│
+"│⎧ Matches a non-continuation line,
+"╰⎨  \ followed by all
+" ⎩  \ lines until
+"  the next non-continuation line
+"
+"
 " \(.*\%#\)\@=\(^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$\)\@>\(\%#.*\)\@<=
 "
 " Match current line as a continuation

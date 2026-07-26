@@ -8,11 +8,28 @@ Source current line continuation
 (From first previous non-continued line to last
 subsequent one)
 
-Matches a continuation line
-/\%(\_^\s*[\\].*\_$\)
-Matches a line and all subsequent continuated bits
-/\_^.*\_.\%(\_^\s*\\.*\_.\)
-/^[^\\]*\_$\%(\_^\s*\\.*\_$\)\+\ze\_^[^\\]*$
+╭{️ \%(\_^\s*[\\].*\_$\)
+│
+│  Matches each
+├{️  \ continuation line
+╰{️  \ individually
+
+
+ \_^.*\_.\%(\_^\s*\\.*\_.\)
+ ^[^\\]*\_$\%(\_^\s*\\.*\_$\)\+\ze\_^[^\\]*$
+
+ Matches a line
+  \ and all subsequent
+  \ continuated bits
+
+
+╭{️ ^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$
+│
+│⎧ Matches a non-continuation line,
+╰⎨  \ followed by all
+ ⎩  \ lines until
+   the next non-continuation line
+
 
 Matches a non-continuation line, followed by all
 lines until the next non-continuation line

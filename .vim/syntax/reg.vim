@@ -173,12 +173,13 @@ syn match NCharClass contained +\%(\\_\?\)[SDXOWHALU]+ contains=NONE
 
 syn region Collection contained
       \ matchgroup=ColEnds start=+\(\\_\)\?\[+
-      \ skip=+[^\\]\\]+
+      \ skip=+\\]+
+      \ end=+\\\\]+
       \ end=+]+
       \ contains=ColRange,SWColExpr,ColExpr
 syn match ColRange contained /[^[-]-[^]-]/ contains=ColRangeSep
 syn match ColRangeSep contained /[^[-]\@1<=-\ze[^]-]/ contains=NONE
-syn region ColExpr contained  keepend
+syn region ColExpr contained keepend
       \ matchgroup=ColExprEnds start=+\[:+
       \ end=+:]\|[^a-z]+
       \ contains=ColExprKeyword
@@ -186,6 +187,7 @@ syn region ColExpr contained  keepend
 syn region NCollection contained
       \ matchgroup=NColEnds start=+\(\\_\)\?\[^+
       \ skip=+\\]+
+      \ end=+\\\\]+
       \ end=+]+
       \ contains=NColRange,SWColExpr,NColExpr
 syn match NColRange contained /[^[-]-[^]-]/ contains=NColRangeSep

@@ -16,7 +16,7 @@ Matches a line and all subsequent continuated bits
 
 Matches a non-continuation line, followed by all
 lines until the next non-continuation line
-/^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$
+/^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$/
 /\(.*\%#\)\@=\(^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$\)\@>\(\%#.*\)\@<=
 
 Match current line as a continuation
@@ -24,6 +24,7 @@ Match current line as a continuation
 
 
 
+/[] [^\]
 
 ^\s*\zs!\s*\([^|!]|\)\{-}\s*\(.\{-}\)\ze\s*\(!!\|$\)
 /\(["'`]\).\{-}\%(\\\1\)\@2<!\1

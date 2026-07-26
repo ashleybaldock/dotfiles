@@ -521,6 +521,9 @@ nnoremap §rv <Cmd>so expand('$VIMHOME/vimrc')<CR>
 "
 " Match current line as a continuation
 " /\zs\%(\%.l\_^\s*[^\\].*\_$\)\+/
+"
+" Match current line and surrounding continuation (if any)
+" ^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$\|\zs\%(\%.l\_^\s*[^\\].*\_$\)\+
 " 
 
 

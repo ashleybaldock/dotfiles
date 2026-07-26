@@ -507,7 +507,7 @@ function! s:AddDynamicToolBar()
         \ '<Cmd>colorscheme vividmayhem<CR>'
   exec 'tmenu' 'ToolBar.ReloadColorscheme' '􀝥' 'Reload Colourscheme'
 
-  " 􀩼 􀪏 􁹛  􁹜 
+  " 􀩼 􀪏 􁹛 􁹜 
   exec 'an' '<silent>' SfIcon('􁹛') s:MenuNextItem()
         \ 'ToolBar.Terminal'
         \ '<Cmd>terminal<CR>'
@@ -516,12 +516,20 @@ function! s:AddDynamicToolBar()
   " 􀈕 􀈖 􀬔 􀥯
   "
   exec 'nnoremenu' SfIcon('􀬔') s:MenuNextItem()
+        \ 'ToolBar.ShowFolderInFinder'
+        \ '<Cmd>silent exec "silent !open -R " .. shellescape(expand("%:p:r"))<CR>'
+  exec 'inoremenu' SfIcon('􀬔') s:MenuNextItem()
+        \ 'ToolBar.ShowFolderInFinder'
+        \ 'silent exec "silent !open -R " .. shellescape(expand("%:p:r"))<CR>'
+  exec 'tmenu' 'ToolBar.ShowFolderInFinder' '􀬔' 'Show folder containing current file in Finder'
+  " 􂇲
+  exec 'nnoremenu' SfIcon('􂇲') s:MenuNextItem()
         \ 'ToolBar.ShowInFinder'
         \ '<Cmd>silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
-  exec 'inoremenu' SfIcon('􀬔') s:MenuNextItem()
+  exec 'inoremenu' SfIcon('􂇲') s:MenuNextItem()
         \ 'ToolBar.ShowInFinder'
         \ 'silent exec "silent !open -R " .. shellescape(expand("%"))<CR>'
-  exec 'tmenu' 'ToolBar.ShowInFinder' '􀬔' 'Show current file in Finder'
+  exec 'tmenu' 'ToolBar.ShowInFinder' '􂇲' 'Show current file in Finder'
 
   " ------------Sep-------------- 400
   call s:MenuSeparator('ToolBar')
@@ -545,6 +553,7 @@ function! s:RemoveDynamicToolBar()
   silent! aunmenu ToolBar.ReloadColorscheme
   silent! aunmenu ToolBar.Terminal
 
+  silent! aunmenu ToolBar.ShowFolderInFinder
   silent! aunmenu ToolBar.ShowInFinder
 
   " ------------Sep-------------- 400

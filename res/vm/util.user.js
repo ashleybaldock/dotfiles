@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.271
+// @version       1.1.272
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1469,6 +1469,12 @@ const addStyleToggles = (...definitions) =>
 
 /*{{{1 Create Elements */
 
+const createElementSVG = Function.prototype.call.bind(
+  document.createElementNS,
+  document,
+  'http://www.w3.org/2000/svg',
+);
+
 /**
  * Chainable Element creation
  *
@@ -1575,13 +1581,7 @@ const mu = (({ document, console }) => {
   } = {}) =>
     addStylesTo(
       styles,
-      addDataTo(
-        data,
-        addAttributesTo(
-          attributes,
-          document.createElementNS('http://www.w3.org/2000/svg', name),
-        ),
-      ),
+      addDataTo(data, addAttributesTo(attributes, createElementSVG(name))),
     );
 
   // const splitSvgPath = (...pathElements) =>

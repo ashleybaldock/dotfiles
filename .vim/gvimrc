@@ -23,11 +23,11 @@ DynamicToolBar
 " See: $VIMRUNTIME/menu.vim
 "      $VIMRUNTIME/../../Actions.plist
 
-"  <️️️􀆔️-️n>️
+" Unbind <️️️􀆔️-️n>️
 exec 'macm File.New\ Window                       key=<Nop>'
-"  <️️􀆔️-️N>️
+" Unbind <️️􀆔️-️N>️
 exec 'macm File.New\ Clean\ Window                    key=<Nop>'
-"  <️️􀆔️-️􀆕️-️N>️
+" Unbind <️️􀆔️-️􀆕️-️N>️
 exec 'macm File.New\ Clean\ Window\ (No\ Defaults)    key=<Nop>'
 
 " Unbind <️️􀆔️-️t>️

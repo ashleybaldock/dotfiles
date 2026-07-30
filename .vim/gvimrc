@@ -462,7 +462,7 @@ exec 'an' '<silent>' '10.327.230' '&File.Related.Runtime\ Plugin'     '<Nop>'
 exec 'an' '<silent>' '10.327.240' '&File.Related.Runtime\ Autoload'   '<Nop>'
 
 
-exec 'an' '<silent>' '10.326.112' '&File.Move\ File\ To\ New\ Tab'    '<Nop>'
+exec 'an' '<silent>' '10.326.112' '&File.Move\ File\ To\ New\ Tab'    ':wincmd T'
 exec 'an' '<silent>' '10.326.110' '&File.Move\ File\ To\ New\ Window' '<Nop>'
 exec 'an' '<silent>' '10.326.210' '&File.Move\ Tab\ To\ New\ Window'  '<Nop>'
 exec 'macm' '&File.Move\ File\ To\ New\ Tab' 'alt=YES' 'key=<D-r>'

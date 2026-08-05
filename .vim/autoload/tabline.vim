@@ -100,9 +100,10 @@ endfunc
 function! tabline#gen_guitabtooltip_cache() abort
   for i in range(tabpagenr('$'))
     call settabvar(i, 'mayhem_cache_guitabtooltip', [
-        \printf("%s ℴ𝒻 %s		 %%{%%GuiTabToolTipErrors()%%}",
-        \ format#numbers(tabpagenr('$')->string(), 'sans'),
-        \ format#numbers(string(i), 'sans')),
+        \printf("%s⁄%s		 %%{%%GuiTabToolTipErrors()%%}",
+        \ format#numbers(string(i + 1), 'sans'),
+        \ format#numbers(tabpagenr('$')->string(), 'sans')
+        \),
         \printf("%d window%s:",
         \ tabpagewinnr(i, '$'),
         \ tabpagewinnr(i, '$') > 1 ? 's' : ''

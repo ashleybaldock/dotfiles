@@ -401,7 +401,7 @@ function ChFName() abort
   return get(b:, 'mayhem', {})->get('sl_cached_filename', [expand('%'),expand('%')])[NC()]
 endfunc
 
-" Get cached filename
+" Get cached file info
 function ChFInfo() abort
   return get(b:, 'mayhem', {})->get('sl_cached_fileinfo', ['',''])[NC()]
 endfunc

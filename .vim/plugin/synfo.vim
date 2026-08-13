@@ -11,8 +11,15 @@ let s:symbols = get(g:, 'mayhem_symbols_synfo', #{
       \ loop: '􀱨',
       \ fg: '􀯮',
       \ bg: '􀯯',
+      \ sp: '􀤑',
       \ color: '􀂓',
       \ none: '􀂒',
+      \ guibold: '􀅓',
+      \ guiitalic: '􀅔',
+      \ guiul: '􀅕',
+      \ guistrike: '􀅖',
+      \ guistandout: '􀨡',
+      \ guiverse: '􂏾',
       \})
 
 let s:colors = #{
@@ -22,6 +29,9 @@ let s:colors = #{
       \idnum: '#881188',
       \idsep: '#991144',
       \linksto: '#994400',
+      \linkstoline: '#664400',
+      \loops: '#888822',
+      \loopsline: '#664400',
       \}
 
 " Reset index for generating text property ids
@@ -55,15 +65,11 @@ function s:FormatLinkChain(name)
     let hl = hlget(nextname)->get(0)
 
     let seen[hl.name] = v:true
-          \ [fgsymbol, fgcolor] = s:ForColor(get(hl, 'guifg', ''))
-          \ [bgsymbol, bgcolor] = s:ForColor(get(hl, 'guibg', ''))
-          \ [spsymbol, spcolor] = s:ForColor(get(hl, 'guisp', ''))
-          \ gui = get(val, 'gui', {})
-          " \   fg: get(hl, 'guifg', ''),
-          " \   bg: get(hl, 'guibg', ''),
-          " \   sp: get(hl, 'guisp', ''),
-          " \   gui: get(hl, 'gui', #{})
-          "
+    let [fgsymbol, fgcolor] = s:ForColor(get(hl, 'guifg', ''))
+    let [bgsymbol, bgcolor] = s:ForColor(get(hl, 'guibg', ''))
+    let [spsymbol, spcolor] = s:ForColor(get(hl, 'guisp', ''))
+    let gui = get(hl, 'gui', {})
+    let id = get(hl, 'id', 0)
 
     let lineParts += [
           \ #{
@@ -71,12 +77,33 @@ function s:FormatLinkChain(name)
           \  hi: get(hl, 'name', ''),
           \ },
           \ #{t: '❘', fg: s:colors.idsep},
-          \ #{t: format#numbers(get(hl, 'id', 0), 'sans'), fg: s:colors.idnum},
+          \ #{t: format#numbers(id, 'sans'), fg: s:colors.idnum},
           \ #{t: ' '}, #{t: fgsymbol, fg: fgcolor, col: 3},
           \ #{t: ' '}, #{t: bgsymbol, fg: bgcolor, col: 3},
           \ #{t: ' '}, #{t: spsymbol, fg: spcolor, col: 3},
           \]
 
+    if has_key(hl, 'linksto')
+      if has_key(seen, hl.linksto)
+        let lineParts += [
+              \#{t: ' '},
+              \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s.colors.loopsline},
+              \#{t: s:symbols.loops, fg: s:colors.loopsfg},
+              \#{t: '╴╴╴╴╴╴╴╴╴╴'}, fg: s.colors.loopsline,
+              \#{t: ' '},
+              \]
+        let done = v:true
+      else
+
+        let lineParts += [
+              \#{t: ' '},
+              \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s.colors.linkstoline},
+              \#{t: s:symbols.linksto, fg: s:colors.linksto},
+              \#{t: '╴╴╴╴╴╴╴╴╴╴'}, fg: s.colors.linkstoline,
+              \#{t: ' '},
+              \]
+        let nextname = get(hl, 'linksto', '')
+      endif
     let lineParts += [
           \ #{t: ' ', col: 3},
           \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colors.hidden, col: 3},
@@ -94,21 +121,6 @@ function s:FormatLinkChain(name)
           \ #{t: ' ', col: 3},
           \]
 
-    if has_key(hl, 'linksto')
-      if has_key(seen, hl.linksto)
-        let lineParts += [
-              \#{t: ' '},
-              \#{t: s:symbols.loop, fg: s:colors.loop},
-              \]
-        let done = v:true
-      else
-        let lineParts += [
-              \#{t: ' '},
-              \#{t: s:symbols.linksto, fg: s:colors.linksto},
-              \#{t: ' '},
-              \]
-        let nextname = get(hl, 'linksto', '')
-      endif
     else
       let done = v:true
     endif
@@ -334,7 +346,7 @@ function! s:UpdateSynFoBuffer(winid)
 "  w:2|                        |                       |
 "
 " ⎛  ˢ️ʸ︎ⁿᶠ︎ᵒ ╶──────────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎞
-" ⎢★️ ᴅ⎧cssUrlFunction❘𝟤𝟥𝟦𝟧􀮵    􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡 ꭱ ⎥
+" ⎢★️ ᴅ⎧cssUrlFunction❘𝟤𝟥𝟦𝟧􀮵    􀯮 􀯯 􀤑  􀅓􀅔􀅕􀅖􀨡 ꭱ ⎥
 " ⎢   │╰‣️Statement❘𝟤𝟥𝟦􀮵        ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
 " ⎢   │  ╰‣️Constant❘𝟧𝟧𝟧𝟧􀮵      ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
 " ⎢ ᴄ ⎧cssUrl❘􀮵                􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
@@ -343,7 +355,7 @@ function! s:UpdateSynFoBuffer(winid)
 " ⎢     ╰‣️BaseWin❘𝟤𝟥𝟦❘􀮵        􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
 " ⎢                             􀆃 􀆃 􀆃️ 􀃪􀃫           
 " ⎢ ╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺          ꛱ ꛱               ⎥
-" ⎢ ⎪ cᷟ⃝  ⎪ c  ◌ᷟ  ◌⃝                                     ⎥
+" ⎢ ⎪ cᷟ⃝  ⎪ c  ◌ᷟ  ◌⃝                           􀓨      ⎥
 " ⎢ ╺╺╺╺╺╺╺┍╺╺┍╺╺┍╺╺╺╺╺╺╺╺╺╺╺                          ⎥
 " ⎢    x63╶╯  │  │                                     ⎥
 " ⎢     u1ddf╶╯  │                                     ⎥

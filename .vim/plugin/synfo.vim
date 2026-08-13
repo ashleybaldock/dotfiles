@@ -8,7 +8,7 @@ let g:mayhem_loaded_synfo = 1
 let s:symbols = get(g:, 'mayhem_symbols_synfo', #{
       \ linksto: '⫘⃗ ',
       \ cleared: '􀣦',
-      \ loop: '􀱨',
+      \ loops: '􀱨',
       \ fg: '􀯮',
       \ bg: '􀯯',
       \ sp: '􀤑',
@@ -55,16 +55,90 @@ endfunc
 
 " command! -bar -nargs=0 CharInfoToggle Toggle g:mayhem_hl_auto_charinfo<CR>
 
+
+" 􀣤 􀏃 􀣦􀂒􀃰􀃲   􁄻  
+" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ-️ⲃɢ-️ꮪᴩ╶───╴ɢᴜɪ╶──╺·️╸──╸·️╺──╴⎥
+" ⎛  ★   ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )              ⎞
+"                                         𐔥ɢ ʙɢ ꮪꮲ  ʀᴠ ꭱꮩ    
+"
+" ⎛                                          ─╸SynFo╺─  ⎞
+" ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
+" ⎢                                                     ⎥
+" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶──────╴ꭱꮩ╶⎥
+" ⎢     ╰‣️Normal❘𝟤❘􀮵           􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡 􂏾  ⎥
+"
+" col1|     col2  width:fit    |     col3  width:22    |
+"  w:2|                        |                       |
+"
+" ⎛  ˢ️ʸ︎ⁿᶠ︎ᵒ ╶──────────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎞
+" ⎢★️ ᴅ⎧cssUrlFunction􀮵𝟤𝟥𝟦𝟧     􀯮 􀯯 􀤑  􀅓􀅔􀅕􀅖􀨡 ꭱ ⎥
+" ⎢   │╰‣️Statement❘𝟤𝟥𝟦􀮵        ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
+" ⎢   │  ╰‣️Constant❘𝟧𝟧𝟧𝟧􀮵      ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
+" ⎢ ᴄ ⎧cssUrl❘􀮵                􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
+" ⎢  ᴅ⎧cssParam❘􀮵              􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
+" ⎢╶─╴wincolor╶───────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎥
+" ⎢     ╰‣️BaseWin❘𝟤𝟥𝟦❘􀮵        􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
+" ⎢                             􀆃 􀆃 􀆃️ 􀃪􀃫           
+" ⎢ ╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺          ꛱ ꛱               ⎥
+" ⎢ ⎪ cᷟ⃝  ⎪ c  ◌ᷟ  ◌⃝                           􀓨      ⎥
+" ⎢ ╺╺╺╺╺╺╺┍╺╺┍╺╺┍╺╺╺╺╺╺╺╺╺╺╺                          ⎥
+" ⎢    x63╶╯  │  │                                     ⎥
+" ⎢     u1ddf╶╯  │                                     ⎥
+" ⎢        u20dd╶╯                                     ⎥
+" ⎢                                                    ⎥
+" ⎢ ╭╶╶╶╶╭╶╶╶╥╶╶╶╶╶╶╶╶╶╶╶                              ⎥
+" ⎢ ⎪ cᷟ⃝  = c + ◌ᷟ + ◌⃝                                   ⎥
+" ⎢ ╰╶╶╶╶╰─┬─╨─┬─╨──┬─╶╶                               ⎥
+" ⎢       x63  │  u20dd                                ⎥
+" ⎢          u1ddf                                     ⎥
+" ⎢                                                    ⎥
+" ⎢                                                    ⎥
+" ⎢ ╭                                                   
+" ⎢ ⎪ cᷟ⃝    c   ◌ᷟ   ◌⃝                                   ⎥
+" ⎢ ╰╶╶╶╶ ┌─╴ᐩ┌─╴ᐩ┌──╴╶╶                               ⎥
+" ⎢     x63   │   │                                   ⎥
+" ⎢       u1ddf╶╯   │                                   ⎥
+" ⎢         u20dd╶╯                                   ⎥
+" ⎢                                                    ⎥
+" ⎢   ╰{️   ⎭                                           ⎥
+" ⎢                                                    ⎥
+" ⎢ ⎧ cᷟ⃝     ⎫                      𐔥ɢ ʙɢ ꮪꮲ  ʀᴠ ꭱꮩ     ⎥
+" ⎢ ╰⎧ c    ⎪                                          ⎥
+" ⎢  ╰⎧ ◌ᷟ   ⎪                                          ⎥
+" ⎢   ╰{️ ◌⃝  ⎭                                          ⎥
+" ⎢                                                    ⎥
+" ⎢                                ᴝ ᵙᵞᶂᶡᶠ             ⎥
+" ⎝  ─╸𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦╺─                       ⎠
+
+
+" val:    
+"   ᴄ cleared ᴅ default : <bool>
+"   gui : <attributes> | guibg guifg guisp : <color>
+"   id : <number>
+"   linksto : <string>
+"   name : <string>
+"
+"   cterm : <attributes> | ctermbg ctermfg ctermul : <color-nr>
+"   term: <attributes>
+"   start stop font
+"
+" <color>: 􀂓#RRGGBB 􀯯bg,background 􀯮fg,foreground 􀂒NONE
+" <attributes>:
+"   - 􀅓bold 􀅔italic 􂏾 [re/in]verse 􀨡standout 􀅖strikethrough¹
+"   - 􀅕under[line/curl¹/double¹/dotted¹/dashed¹]
+"   - nocombine² NONE³
+
 " Follow links to the end (or until detecting a loop)
 function s:FormatLinkChain(name)
   let lines = []
   let seen = {}
+  let depth = 0
   let nextname = a:name
   let done = v:false
   while !done
     let hl = hlget(nextname)->get(0)
-
     let seen[hl.name] = v:true
+
     let [fgsymbol, fgcolor] = s:ForColor(get(hl, 'guifg', ''))
     let [bgsymbol, bgcolor] = s:ForColor(get(hl, 'guibg', ''))
     let [spsymbol, spcolor] = s:ForColor(get(hl, 'guisp', ''))
@@ -72,6 +146,7 @@ function s:FormatLinkChain(name)
     let id = get(hl, 'id', 0)
 
     let lineParts += [
+          \ #{t: depth > 0 ? repeat('  ', max([0, depth - 2])) .. '╰‣️' : ''},
           \ #{
           \   t: get(hl, 'name', '???'),
           \  hi: get(hl, 'name', ''),
@@ -85,6 +160,7 @@ function s:FormatLinkChain(name)
 
     if has_key(hl, 'linksto')
       if has_key(seen, hl.linksto)
+" ╶╶╶╶╶╶╶╶╶ 􀱨 ╴╴╴╴╴╴╴╴╴ 
         let lineParts += [
               \#{t: ' '},
               \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s.colors.loopsline},
@@ -94,7 +170,7 @@ function s:FormatLinkChain(name)
               \]
         let done = v:true
       else
-
+" ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ 
         let lineParts += [
               \#{t: ' '},
               \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s.colors.linkstoline},
@@ -104,6 +180,14 @@ function s:FormatLinkChain(name)
               \]
         let nextname = get(hl, 'linksto', '')
       endif
+    else
+
+"          underline    U U̲ U̳ U ＿⎯ ￣〰 ⋯⋯ ══ ﹍＿﹏﹋
+"          undercurl    〰﹏⌇
+"          underdotted  ᠃᠃ ＿ …︙⠉⠉⡇⡈⡑⠈⠉⧙⦙⫶
+"          underdashed  ﹉﹍
+"          underdouble  ══ ║॥ 
+
     let lineParts += [
           \ #{t: ' ', col: 3},
           \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colors.hidden, col: 3},
@@ -121,7 +205,6 @@ function s:FormatLinkChain(name)
           \ #{t: ' ', col: 3},
           \]
 
-    else
       let done = v:true
     endif
     call add(lines, s:LineWithPropsFromParts(lineParts, bufnr))
@@ -295,122 +378,7 @@ function! s:UpdateSynFoBuffer(winid)
   "
   " Top Level Highlight Info:
   "
-
-  " val:    
-  "   ᴄ cleared ᴅ default : <bool>
-  "   gui : <attributes> | guibg guifg guisp : <color>
-  "   id : <number>
-  "   linksto : <string>
-  "   name : <string>
-  "
-  "   cterm : <attributes> | ctermbg ctermfg ctermul : <color-nr>
-  "   term: <attributes>
-  "   start stop font
-  "
-  " <color>: 􀂓#RRGGBB 􀯯bg,background 􀯮fg,foreground 􀂒NONE
-  " <attributes>:
-  "   - 􀅓bold 􀅔italic 􂏾 [re/in]verse 􀨡standout 􀅖strikethrough¹
-	"   - 􀅕under[line/curl¹/double¹/dotted¹/dashed¹]
-  "   - nocombine² NONE³
-  for val in synID(line("."), col("."), 1)
-        \->synIDtrans()
-        \->synIDattr("name")
-        \->hlget(v:true)
-    let lineParts = [
-          \#{t: '  ' .. get(val, 'name', '???')
-          \ .. format#numbers(val.id, 'sup'), col: 2}
-          \]
-
-    let [fgsymbol, fgcolor] = s:ForColor(get(val, 'guifg', ''))
-    let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
-    let [spsymbol, spcolor] = s:ForColor(get(val, 'guisp', ''))
-
-    let lineParts += [
-          \ #{t: ' '}, #{t: fgsymbol, fg: fgcolor, col: 3},
-          \ #{t: ' '}, #{t: bgsymbol, fg: bgcolor, col: 3},
-          \ #{t: ' '}, #{t: spsymbol, fg: spcolor, col: 3},
-          \]
-
-" 􀣤 􀏃 􀣦􀂒􀃰􀃲   􁄻  
-" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ-️ⲃɢ-️ꮪᴩ╶───╴ɢᴜɪ╶──╺·️╸──╸·️╺──╴⎥
-" ⎛  ★   ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )              ⎞
-"                                         𐔥ɢ ʙɢ ꮪꮲ  ʀᴠ ꭱꮩ    
-"
-" ⎛                                          ─╸SynFo╺─  ⎞
-" ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
-" ⎢                                                     ⎥
-" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶──────╴ꭱꮩ╶⎥
-" ⎢     ╰‣️Normal❘𝟤❘􀮵           􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡 􂏾  ⎥
-"
-" col1|     col2  width:fit    |     col3  width:22    |
-"  w:2|                        |                       |
-"
-" ⎛  ˢ️ʸ︎ⁿᶠ︎ᵒ ╶──────────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎞
-" ⎢★️ ᴅ⎧cssUrlFunction❘𝟤𝟥𝟦𝟧􀮵    􀯮 􀯯 􀤑  􀅓􀅔􀅕􀅖􀨡 ꭱ ⎥
-" ⎢   │╰‣️Statement❘𝟤𝟥𝟦􀮵        ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
-" ⎢   │  ╰‣️Constant❘𝟧𝟧𝟧𝟧􀮵      ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
-" ⎢ ᴄ ⎧cssUrl❘􀮵                􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
-" ⎢  ᴅ⎧cssParam❘􀮵              􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
-" ⎢╶─╴wincolor╶───────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎥
-" ⎢     ╰‣️BaseWin❘𝟤𝟥𝟦❘􀮵        􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
-" ⎢                             􀆃 􀆃 􀆃️ 􀃪􀃫           
-" ⎢ ╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺          ꛱ ꛱               ⎥
-" ⎢ ⎪ cᷟ⃝  ⎪ c  ◌ᷟ  ◌⃝                           􀓨      ⎥
-" ⎢ ╺╺╺╺╺╺╺┍╺╺┍╺╺┍╺╺╺╺╺╺╺╺╺╺╺                          ⎥
-" ⎢    x63╶╯  │  │                                     ⎥
-" ⎢     u1ddf╶╯  │                                     ⎥
-" ⎢        u20dd╶╯                                     ⎥
-" ⎢                                                    ⎥
-" ⎢ ╭╶╶╶╶╭╶╶╶╥╶╶╶╶╶╶╶╶╶╶╶                              ⎥
-" ⎢ ⎪ cᷟ⃝  = c + ◌ᷟ + ◌⃝                                   ⎥
-" ⎢ ╰╶╶╶╶╰─┬─╨─┬─╨──┬─╶╶                               ⎥
-" ⎢       x63  │  u20dd                                ⎥
-" ⎢          u1ddf                                     ⎥
-" ⎢                                                    ⎥
-" ⎢                                                    ⎥
-" ⎢ ╭                                                   
-" ⎢ ⎪ cᷟ⃝    c   ◌ᷟ   ◌⃝                                   ⎥
-" ⎢ ╰╶╶╶╶ ┌─╴ᐩ┌─╴ᐩ┌──╴╶╶                               ⎥
-" ⎢     x63   │   │                                   ⎥
-" ⎢       u1ddf╶╯   │                                   ⎥
-" ⎢         u20dd╶╯                                   ⎥
-" ⎢                                                    ⎥
-" ⎢   ╰{️   ⎭                                           ⎥
-" ⎢                                                    ⎥
-" ⎢ ⎧ cᷟ⃝     ⎫                      𐔥ɢ ʙɢ ꮪꮲ  ʀᴠ ꭱꮩ     ⎥
-" ⎢ ╰⎧ c    ⎪                                          ⎥
-" ⎢  ╰⎧ ◌ᷟ   ⎪                                          ⎥
-" ⎢   ╰{️ ◌⃝  ⎭                                          ⎥
-" ⎢                                                    ⎥
-" ⎢                                ᴝ ᵙᵞᶂᶡᶠ             ⎥
-" ⎝  ─╸𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦╺─                       ⎠
-
-    " Gui: (bold/underline etc.)
-    let gui = get(val, 'gui', {})
-
-    let lineParts += [
-          \ #{t: ' ', col: 3},
-          \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colors.hidden, col: 3},
-          \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colors.hidden},
-          \ #{t: get(gui, 'underdouble', v:false) ? '􃐊' : '􀅕',
-          \ fg: (get(gui, 'underline', v:false)
-          \   || get(gui, 'undercurl', v:false)
-          \   || get(gui, 'underdotted', v:false)
-          \   || get(gui, 'underdashed', v:false)
-          \   || get(gui, 'underdouble', v:false)) ? v:none : s:colors.hidden, col: 3},
-          \ #{t: '􀅖', fg: get(gui, 'strikethrough', v:false) ? v:none : s:colors.hidden, col: 3},
-          \ #{t: '􀨡', fg: get(gui, 'standout', v:false) ? v:none : s:colors.hidden, col: 3},
-          \ #{t: '􂏾️ ', fg: (get(gui, 'inverse', v:false)
-          \ || get(gui, 'reverse', v:false)) ? v:none : s:colors.hidden, col: 3},
-          \ #{t: ' ', col: 3},
-          \]
-
-"          underline    U U̲ U̳ U ＿⎯ ￣〰 ⋯⋯ ══ ﹍＿﹏﹋
-"          undercurl    〰﹏⌇
-"          underdotted  ᠃᠃ ＿ …︙⠉⠉⡇⡈⡑⠈⠉⧙⦙⫶
-"          underdashed  ﹉﹍
-"          underdouble  ══ ║॥ 
-
+  
     call add(lines, s:LineWithPropsFromParts(lineParts, bufnr))
   endfor
 

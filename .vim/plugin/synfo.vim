@@ -47,17 +47,24 @@ endfunc
 
 " Follow links to the end (or until detecting a loop)
 function s:FormatLinkChain(name)
-  let lineParts = []
+  let lines = []
   let seen = {}
   let nextname = a:name
   let done = v:false
   while !done
     let hl = hlget(nextname)->get(0)
+
     let seen[hl.name] = v:true
+          \ [fgsymbol, fgcolor] = s:ForColor(get(hl, 'guifg', ''))
+          \ [bgsymbol, bgcolor] = s:ForColor(get(hl, 'guibg', ''))
+          \ [spsymbol, spcolor] = s:ForColor(get(hl, 'guisp', ''))
+          \ gui = get(val, 'gui', {})
           " \   fg: get(hl, 'guifg', ''),
           " \   bg: get(hl, 'guibg', ''),
           " \   sp: get(hl, 'guisp', ''),
           " \   gui: get(hl, 'gui', #{})
+          "
+
     let lineParts += [
           \ #{
           \   t: get(hl, 'name', '???'),
@@ -65,7 +72,28 @@ function s:FormatLinkChain(name)
           \ },
           \ #{t: '❘', fg: s:colors.idsep},
           \ #{t: format#numbers(get(hl, 'id', 0), 'sans'), fg: s:colors.idnum},
+          \ #{t: ' '}, #{t: fgsymbol, fg: fgcolor, col: 3},
+          \ #{t: ' '}, #{t: bgsymbol, fg: bgcolor, col: 3},
+          \ #{t: ' '}, #{t: spsymbol, fg: spcolor, col: 3},
           \]
+
+    let lineParts += [
+          \ #{t: ' ', col: 3},
+          \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colors.hidden},
+          \ #{t: get(gui, 'underdouble', v:false) ? '􃐊' : '􀅕',
+          \ fg: (get(gui, 'underline', v:false)
+          \   || get(gui, 'undercurl', v:false)
+          \   || get(gui, 'underdotted', v:false)
+          \   || get(gui, 'underdashed', v:false)
+          \   || get(gui, 'underdouble', v:false)) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􀅖', fg: get(gui, 'strikethrough', v:false) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􀨡', fg: get(gui, 'standout', v:false) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􂏾️ ', fg: (get(gui, 'inverse', v:false)
+          \ || get(gui, 'reverse', v:false)) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: ' ', col: 3},
+          \]
+
     if has_key(hl, 'linksto')
       if has_key(seen, hl.linksto)
         let lineParts += [
@@ -84,8 +112,9 @@ function s:FormatLinkChain(name)
     else
       let done = v:true
     endif
+    call add(lines, s:LineWithPropsFromParts(lineParts, bufnr))
   endwhile
-  return lineParts
+  return lines
 endfunc
 
 "    𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦  
@@ -255,8 +284,6 @@ function! s:UpdateSynFoBuffer(winid)
   " Top Level Highlight Info:
   "
 
-  " ⎢ ᴅ  9999: SomeGroup fg:􀏄 bg:􀏄 sp:􀏄 gui: 􀅓􀅔􀅕􀅖􀨡􂏾   ⎥
-
   " val:    
   "   ᴄ cleared ᴅ default : <bool>
   "   gui : <attributes> | guibg guifg guisp : <color>
@@ -279,7 +306,8 @@ function! s:UpdateSynFoBuffer(winid)
         \->hlget(v:true)
     let lineParts = [
           \#{t: '  ' .. get(val, 'name', '???')
-          \ .. format#numbers(val.id, 'sup'), col: 2}]
+          \ .. format#numbers(val.id, 'sup'), col: 2}
+          \]
 
     let [fgsymbol, fgcolor] = s:ForColor(get(val, 'guifg', ''))
     let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
@@ -305,7 +333,7 @@ function! s:UpdateSynFoBuffer(winid)
 " col1|     col2  width:fit    |     col3  width:22    |
 "  w:2|                        |                       |
 "
-" ⎛╶─⸻ˢ️ʸ︎ⁿ⸻ᶠ︎ᴼ╶─────────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎞
+" ⎛  ˢ️ʸ︎ⁿᶠ︎ᵒ ╶──────────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎞
 " ⎢★️ ᴅ⎧cssUrlFunction❘𝟤𝟥𝟦𝟧􀮵    􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡 ꭱ ⎥
 " ⎢   │╰‣️Statement❘𝟤𝟥𝟦􀮵        ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
 " ⎢   │  ╰‣️Constant❘𝟧𝟧𝟧𝟧􀮵      ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
@@ -321,12 +349,19 @@ function! s:UpdateSynFoBuffer(winid)
 " ⎢     u1ddf╶╯  │                                     ⎥
 " ⎢        u20dd╶╯                                     ⎥
 " ⎢                                                    ⎥
-" ⎢ ╭╶╶╶╶╭╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶                             ⎥
-" ⎢ ⎪ cᷟ⃝  ⎪ c  ◌ᷟ  ◌⃝                                     ⎥
-" ⎢ ╰╶╶╶╶╰╴╤═ ╤═ ╤═╶╶╶╶╶                               ⎥
-" ⎢    x63╶╯  │  │                                     ⎥
-" ⎢     u1ddf╶╯  │                                     ⎥
-" ⎢        u20dd╶╯                                     ⎥
+" ⎢ ╭╶╶╶╶╭╶╶╶╥╶╶╶╶╶╶╶╶╶╶╶                              ⎥
+" ⎢ ⎪ cᷟ⃝  = c + ◌ᷟ + ◌⃝                                   ⎥
+" ⎢ ╰╶╶╶╶╰─┬─╨─┬─╨──┬─╶╶                               ⎥
+" ⎢       x63  │  u20dd                                ⎥
+" ⎢          u1ddf                                     ⎥
+" ⎢                                                    ⎥
+" ⎢                                                    ⎥
+" ⎢ ╭                                                   
+" ⎢ ⎪ cᷟ⃝    c   ◌ᷟ   ◌⃝                                   ⎥
+" ⎢ ╰╶╶╶╶ ┌─╴ᐩ┌─╴ᐩ┌──╴╶╶                               ⎥
+" ⎢     x63   │   │                                   ⎥
+" ⎢       u1ddf╶╯   │                                   ⎥
+" ⎢         u20dd╶╯                                   ⎥
 " ⎢                                                    ⎥
 " ⎢   ╰{️   ⎭                                           ⎥
 " ⎢                                                    ⎥

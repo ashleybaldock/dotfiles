@@ -11,7 +11,7 @@ let g:mayhem_autoloaded_charinfo = 1
 "
 
 function! charinfo#get(arg) abort
-  let char = empty(a:arg)
+  let basechar = empty(a:arg)
         \ ? char2nr(getline('.')[col('.') - 1 : -1])->nr2char()
         \ : char2nr(a:arg)->nr2char()
   let composedchar = empty(a:arg)
@@ -22,7 +22,7 @@ function! charinfo#get(arg) abort
 
   " SFSymbols doesn't define any composing characters itself, but    TODO
   " the unicode ones can be used
-  let info = GetSfSymbolInfo(char)
+  let info = GetSfSymbolInfo(basechar)
   if info.IsValid()
     let output = '⟨' .. composedchar .. '⟩' .. string(info) .. ' (SFSymbol)'
   else
@@ -42,18 +42,15 @@ function! charinfo#get(arg) abort
             \ in: composedchar,
             \}
     else
-      let output = #{
+      return #{
             \ err: v:null,
             \ in: composedchar,
-            \ base: #{
-            \  char: char,
-            \  codepoint: char2nr(char)
-            \ },
+            \ basechar: basechar,
+            \ basecodepoint: char2nr(basechar)
             \ characterise_output: characterise_output
             \}
     endif
   endif
-  return output
 endfunc
 
 "

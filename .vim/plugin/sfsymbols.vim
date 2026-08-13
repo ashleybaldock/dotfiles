@@ -122,7 +122,7 @@ export class SfSymbol
   static def Validate(chars: string): bool
     var codepoint = char#normalised(chars)->char2nr()
 
-    return codepoint >= SfSymbol.range_start && codepoint <= SfSymbol.range_end
+    return codepoint >= sfrange_start && codepoint <= sfrange_end
   enddef
 
   # setters (chainable)

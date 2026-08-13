@@ -375,13 +375,6 @@ function! s:UpdateSynFoBuffer(winid)
   " Replacement buffer contents
   let lines = []
 
-  "
-  " Top Level Highlight Info:
-  "
-  
-    call add(lines, s:LineWithPropsFromParts(lineParts, bufnr))
-  endfor
-
   if len(lines) == 0
 " ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
     let nohlParts = [
@@ -392,23 +385,6 @@ function! s:UpdateSynFoBuffer(winid)
           \]
     call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
   endif
-
-  if &l:wincolor != '' 
-" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────╴ꭱꮩ╶╴⎥
-" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
-" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
-    call add(lines, #{text: 'base(wincolor): ' .. &l:wincolor, props: []})
-    let nohlParts = [
-          \ #{t: '╶╶ ', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
-          \ #{t: '╴wincolor╶', hi: 'SlHomeMC', col: 2},
-          \ #{t: ' ╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 2},
-          \ #{t: '╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 3},
-          \]
-    call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
-  else
-    call add(lines, #{text: 'base: ' .. get(hlget('Normal'), 'guifg', ''), props: []})
-  endif
-
   "
   " TODO Conceal Info:
   "
@@ -441,6 +417,23 @@ function! s:UpdateSynFoBuffer(winid)
       call add(lines, s:LineWithPropsFromParts(lineParts, bufnr))
     endfor
   end
+
+
+  if &l:wincolor != '' 
+" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────╴ꭱꮩ╶╴⎥
+" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
+" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
+    call add(lines, #{text: 'base(wincolor): ' .. &l:wincolor, props: []})
+    let nohlParts = [
+          \ #{t: '╶╶ ', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
+          \ #{t: '╴wincolor╶', hi: 'SlHomeMC', col: 2},
+          \ #{t: ' ╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 2},
+          \ #{t: '╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 3},
+          \]
+    call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
+  else
+    call add(lines, #{text: 'base: ' .. get(hlget('Normal'), 'guifg', ''), props: []})
+  endif
 
   call add(lines, s:sectionBreak)
 

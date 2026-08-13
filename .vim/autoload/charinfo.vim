@@ -63,10 +63,14 @@ endfunc
 "
 function! charinfo#formatForCommand(arg = v:null) abort
   let chfo = charinfo#get(a:arg)
-  return '╱ ' .. chfo['base']['char'] .. ' ╱ ' .. chfo['characterise_output']
-       \->trim()
-       \->split(', ')
-       \->join(' ╱ ') .. '╱'
+  if !empty(chfo['err'])
+    return '╱ Err: ╱ ' .. chfo['err'] .. ' ╱ '
+  else
+    return '╱ ' .. chfo['base']['char'] .. ' ╱ ' .. chfo['characterise_output']
+         \->trim()
+         \->split(', ')
+         \->join(' ╱ ') .. '╱'
+  endif
 endfunc 
 
 function! charinfo#formatForColorCommand(arg = v:null) abort

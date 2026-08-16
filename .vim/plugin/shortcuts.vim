@@ -335,6 +335,9 @@ nnoremap §I <Cmd>SynFoWindowToggle<CR>
 "
 " ▌️ ga ▐️  Info about character under cursor (Characterize)
 nmap ga <Plug>(mayhem_charinfo)
+" 
+" ▌️ §ga ▐️  Toggle display of character info on/off
+nmap §ga <Plug>(mayhem_charinfo_toggle)
 
 
 "─── Column guides ─────────────────────────────────────

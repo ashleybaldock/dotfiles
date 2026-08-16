@@ -47,10 +47,12 @@ endfunc
 
 function! toggle#observe(name, states) abort
   let tgl = toggle#parse(a:name)
+
+  call mapnew(a:states, {i, v -> })
   call autocmd_add([
         \#{
         \ event: 'User', pattern: tgl.aupat,
-        \ cmd: 'exec ''get(a:states, toggle#get(tgl.name))''',
+        \ cmd: 'exec ''get(''a:states, toggle#get(''''' .. tgl.name .. '''''))''',
         \ group: tgl.augroup,
         \},
         \])

@@ -80,7 +80,7 @@ function! charinfo#formatForCommand(str = char#fromCursor()) abort
   endif
 endfunc 
 
-function! charinfo#formatForColorCommand(str = char#fromCursor()) abort
+function! charinfo#formatForCommandWithColor(str = char#fromCursor()) abort
   let chfo = charinfo#get(a:str)
   if len(chfo) == 0
     return 'echoh CISep | echon '' ╱ '' | echoh None | echon ''nul'' | echoh CISep | echon '' ╱ '' | echoh None | echon '''''

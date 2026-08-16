@@ -8,7 +8,7 @@ let g:mayhem_loaded_charinfo = 1
 " See: ../autoload/charinfo.vim
 "
 
-command! -bar -nargs=? CharInfo echo charinfo#formatForCommand(<q-args>)
+command! -bar -nargs=? CharInfo echo charinfo#formatForCommandWithColor(<q-args>)
 
 nnoremap <silent><script> <Plug>(mayhem_charinfo) :<C-U>CharInfo<CR>
 

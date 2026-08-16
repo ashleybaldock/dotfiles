@@ -278,15 +278,13 @@ endfunc
 " Format (combined) character for display, showing
 " sequence of base and combining characters
 "
-" e.g. format#charSplit('a̲')  ->  a ◌̲   
+" e.g. format#splitChar('a̲')  ->  a ◌̲   
 "
 " Uses base display character defined in: g:mayhem_unicode_combine_default
 "
 function format#splitChar(str) abort
   return char#split(a:str)
-        \->map({i, v -> i == 0 ? char2nr(v) : [char2nr(s:combase), char2nr(v)]})
-        \->flatten()
-        \->list2str()
+        \->map({i, v -> char#display(v)})->join(' ')
 endfunc 
 
 "

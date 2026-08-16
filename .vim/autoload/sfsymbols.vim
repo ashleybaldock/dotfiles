@@ -38,6 +38,7 @@ function! sfsymbols#fuzzyMatchSymbol(name) abort
   return [#{name: a:name, symbol: get(s:reversed_symbols, a:name, '􂞷')}]
 endfunction
 
+"{{{1
 let s:symbols = {
       \ '􀈂': 'square.and.arrow.up',
       \ '􀈃': 'square.and.arrow.up.fill',
@@ -6444,6 +6445,7 @@ let s:symbols = {
       \ '􀛢': '50.square.fill',
       \ '􀣺': 'apple.logo'
    \}
+"}}}1
 " 􃗈\U1035c8
 
 " Restrict to Supplementary Private Use Area-B (0x00100000 - 0x0010FFFD)
@@ -6470,3 +6472,8 @@ function! sfsymbols#getUnicodeRange() abort
   return [s:lowest_codepoint, s:highest_codepoint]
 endfunction
 
+function! sfsymbols#matchUnicodeRange() abort
+  return printf('[U%08X-U%08X]', s:lowest_codepoint, s:highest_codepoint)
+endfunction
+
+" vim: set foldcolumn=2 foldmethod=marker conceallevel=2:

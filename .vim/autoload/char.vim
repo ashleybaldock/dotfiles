@@ -25,7 +25,7 @@ endfunc
 "
 " First character in string, including combining characters
 "
-function char#first(str) abort
+function char#first(str = char#fromCursor()) abort
   return a:str->strcharpart(0, 1, 1)
 endfunc
 
@@ -39,6 +39,9 @@ endfunc
 "
 " Split (combined) character into parts
 "
+" e.g. char#split('a')  ->  ['a']
+"      char#split('a⃤')  ->  ['a', '⃤']
+"
 function char#split(str = char#fromCursor()) abort
   " return a:str->strcharpart(0, 1, 1)->strcharpart(1, 2, 0)->charclass()
   return strcharpart(a:str, 0, 1, 1)
@@ -47,12 +50,23 @@ function char#split(str = char#fromCursor()) abort
 endfunc
 
 "
+" Combine standalone combining characters for display
+" Uses base display character defined in: g:mayhem_unicode_combine_default
+"
+" e.g.  char#display('a̲')  ->  a̲
+"       char#display('̲')  ->  ◌̲
+"
+function char#display(str = char#fromCursor(), base = get(g:, 'mayhem_unicode_combine_default', '◌')) abort
+  return strchars(a:base .. a:str, 1) == strchars(a:str, 1) ? a:base .. a:str : a:str
+endfunc
+
+"
 " Join character parts into a single combined character
 "
 " Base character comes from the first item
 "
-" e.g.  char#join(['a', '̲'])  ->  a̲   
-"        char#join(['a', '◌̲'])  ->  a̲   
+" e.g.  char#join(['a', '̲'])  ->  a̲
+"        char#join(['a', '◌̲'])  ->  a̲
 "          char#join(['a̅', '◌̲'])  ->  a̲̅
 "       char#join(['a', '◌̅', '◌̲'])  ->  a̲̅
 "
@@ -139,7 +153,7 @@ endfunc
 "          char#code('𑫄⃝') -> \U11ac1
 "
 function char#code(str = char#fromCursor()) abort
-  return char#base(a:str)->char#code()
+  return char#base(a:str)->char#codes()
 endfunc
 
 "

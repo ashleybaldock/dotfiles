@@ -87,11 +87,6 @@ command! -bar SfSymbolSplit call SymbolsSplit()
 # and optionally:
 # :variable-0|variable-0.1|variable .. -1]
 export class SfSymbol
-  # constants
-  static const range_start: number = 0x100000
-  static const range_end: number   = 0x103fff
-  static const match_valid_range: string = printf('[U%08X-U%08X]', sfrange_start, sfrange_end)
-
   static const suffixes: list<string> = ['monochrome', 'hierarchical', 'palette', 'color']
   static const default_suffix: string = 'monochrome'
 

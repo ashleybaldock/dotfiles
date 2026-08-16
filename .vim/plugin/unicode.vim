@@ -158,9 +158,8 @@ endfunc
 " Gives standalone combining characters something to combine with
 "
 function s:ToString(codepoints, combiningbase = s:combase, sep = ' ')
-  return mapnew(a:codepoints,
-        \ {idx, val -> strchars(a:combiningbase .. val, 1) == strchars(val, 1)
-        \  ? a:combiningbase .. val : val})->join(a:sep)
+  return mapnew(a:codepoints, {idx, val -> char#display(val, a:combiningbase)})
+        \->join(a:sep)
 endfunc
 
 "

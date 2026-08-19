@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.272
+// @version       1.1.275
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -869,7 +869,9 @@ const overrideVideoClickEvents = (video) => {
     { capture: true },
   );
 };
-/*{{{2 Iterators/Generators */ function* dropIter(source, n) {
+/*{{{2 Iterators/Generators */
+
+function* dropIter(source, n) {
   for (
     let done = false, i = 0;
     !done && i < n;
@@ -1314,7 +1316,7 @@ const addStylesWithToggle = ({ title, sources, enabled = true }) => {
   const resolved = sources.filter((source) => source.status === 'resolved');
 
   const styleElements = resolved.map(({ name, css }) =>
-    injectStylesheet({ name, css, title }),
+    injectStylesheet({ name, css, title, enabled }),
   );
 
   const get = () =>
@@ -1487,7 +1489,6 @@ const createElementSVG = Function.prototype.call.bind(
  * qs`.someParent`.all.makeElement(`div#myId.class1[href="example.com"]`)
  */
 /*
- * TODO - Attributes
  * TODO - Integrate with IQB
  */
 const mu = (({ document, console }) => {
@@ -1560,28 +1561,33 @@ const mu = (({ document, console }) => {
   };
 
   const makeHtmlElement = ({
+    /**
+     * @deprecated
+     */
     name,
+    tag = name,
     attributes = {},
     data = {},
     styles = {},
   } = {}) =>
     addStylesTo(
       styles,
-      addDataTo(
-        data,
-        addAttributesTo(attributes, document.createElement(name)),
-      ),
+      addDataTo(data, addAttributesTo(attributes, document.createElement(tag))),
     );
 
   const makeSvgElement = ({
+    /**
+     * @deprecated
+     */
     name,
+    tag = name,
     styles = {},
     attributes = {},
     data = {},
   } = {}) =>
     addStylesTo(
       styles,
-      addDataTo(data, addAttributesTo(attributes, createElementSVG(name))),
+      addDataTo(data, addAttributesTo(attributes, createElementSVG(tag))),
     );
 
   // const splitSvgPath = (...pathElements) =>
@@ -1606,15 +1612,23 @@ const mu = (({ document, console }) => {
   // qs`td:has(>a[href])`.forEach((n, _i, _a, img = document.createElement('img')) => img.setAttribute('src', n.querySelector('a')?.getAttribute('href')) || n.prepend(img)).all
 
   const makeElement = ({
-    tagName = 'div',
+    /**
+     * @deprecated
+     */
+    name,
+    /**
+     * @deprecated
+     */
+    tagName,
+    tag = name ?? tagName ?? 'div',
     text = '',
     attributes = {},
     data = {},
     styles = {},
   } = {}) =>
-    svgTags.has(tagName) && !ambiguousTags.has(name)
-      ? makeSvgElement({ name, attributes, data, styles })
-      : makeHtmlElement({ name, attributes, data, styles, text });
+    svgTags.has(tag) && !ambiguousTags.has(tag)
+      ? makeSvgElement({ tag, attributes, data, styles })
+      : makeHtmlElement({ tag, attributes, data, styles, text });
   /*
    * Wrap node in a new element of the type specified
    *
@@ -1624,7 +1638,7 @@ const mu = (({ document, console }) => {
    *   - check wrapper node type can have children
    */
   const wrap = (nodeToWrap, { wrapper = 'div', attributes = {} } = {}) => {
-    const wrapperElement = makeElement(wrapper, attributes);
+    const wrapperElement = makeElement({ ...attributes, tag: wrapper });
     nodeToWrap.replaceWith?.(wrapperElement, nodeToWrap);
     wrapperElement.appendChild(nodeToWrap);
   };
@@ -1941,7 +1955,7 @@ const imgurl2img = () => {
  *
  * qs`.wrapThese`.
  */
-// function* wrapWith(nodes, getWrapper = () => makeElement('div')) {
+// function* wrapWith(nodes, getWrapper = () => makeElement({tag: 'div'})) {
 //   for (const nodeToWrap in nodes) {
 //     const wrapper = getWrapper();
 //     wrapper.classList.add('outer');

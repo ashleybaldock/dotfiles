@@ -293,9 +293,18 @@ echo popup_create('popped', #{
   \ time: 10000,
   \ filter: , filtermode: 'a',
 
-echo popup_create('popped', #{
-line: 1, col: 1, pos: 'topleft', posinvert: 0, flip: 0, fixed: 1,
-maxheight: 
+let winfo = getwininfo([win_getid()])
+let wheight = get(winfo, 'height')
+let wwidth = get(winfo, 'width')
+
+echo popup_create('colcol', #{
+\ line: 1, col: 1, pos: 'topleft', posinvert: 0, flip: 0, fixed: 1,
+\ border: [0,0,0,0],
+\ maxheight: wheight, minheight: winheight,
+\ maxwidth: wwidth, minwidth: winwidth,
+\ opacity: 50,
+\ time: 10000,
+\ })
 
 \})
 ```

@@ -491,6 +491,7 @@ xmap §rR "xy:@x<CR>
 "
 " Exec Contents Of Markdown Code Block:
 " TODO if type is vim, source, type is bash, run script etc.
+" ^```vim\_s*\zs\_.\+\%#\_.\+\ze\_^```
 "
 " Source Current Line:
 " TODO prompt for confirmation if not in a vim file, or not in ~/.vim/

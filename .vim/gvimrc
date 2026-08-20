@@ -22,6 +22,7 @@ DynamicToolBar
 "
 " See: $VIMRUNTIME/menu.vim
 "      $VIMRUNTIME/../../Actions.plist
+"      $VIMHOME/plugin/menu.vim
 
 " Unbind <️️️􀆔️-️n>️
 exec 'macm File.New\ Window                       key=<Nop>'
@@ -169,11 +170,16 @@ nmap <D-M-/> gcgc
 "
 exec 'an' SfIcon('􀅌') '100.310.100' 'Tools2.􀽴\ \ Columns.Transpose'
       \ '<Cmd>TransposeRowCol<CR>'
-an 100.310.200 Tools2.􀽴\ \ Columns.-sep1-	<Nop>
+an 100.310.150 Tools2.􀽴\ \ Columns.-sep1-	<Nop>
+exec 'an' SfIcon('􁒺') '100.310.160' 'Tools2.􀽴\ \ Columns.Add\ Column\ Guide'
+      \ '<Plug>(mayhem_colcol_add)'
+exec 'an' SfIcon('􁒺') '100.310.160' 'Tools2.􀽴\ \ Columns.Remove\ Column\ Guide'
+      \ '<Plug>(mayhem_colcol_delete)'
+an 100.310.200 Tools2.􀽴\ \ Columns.-sep2-	<Nop>
 exec 'an' SfIcon('􀩊') '100.310.210' 'Tools2.􀽴\ \ Columns.Align\ Right'
       \ '<Cmd>ColAlignRight<CR>'
 exec 'an' SfIcon('􀅆') '100.310.214' 'Tools2.􀽴\ \ Columns.Align\ Right\ To\ Col'
-      \ '<Cmd>AlignRightToColorColumn<CR>'
+      \ '<Plug>(mayhem_colcol_align_right_to_next)'
 exec 'an' '100.310.216' 'Tools2.􀽴\ \ Columns.Align\ Right\ To\ Cursor'
       \ '<Cmd>AlignRightToCursor<CR>'
 exec 'an' '100.310.218' 'Tools2.􀽴\ \ Columns.Align\ Right'
@@ -181,16 +187,16 @@ exec 'an' '100.310.218' 'Tools2.􀽴\ \ Columns.Align\ Right'
 exec 'vunmenu' 'Tools2.􀽴\ \ Columns.Align\ Right'
 exec 'vnoremenu <silent>' 'Tools2.􀽴\ \ Columns.Align\ Right'
       \ '<Cmd>ColAlignRight<CR>'
-an 100.310.300 Tools2.􀽴\ \ Columns.-sep2-	<Nop>
+an 100.310.300 Tools2.􀽴\ \ Columns.-sep3-	<Nop>
 exec 'an' SfIcon('􀩈') '100.310.320' 'Tools2.􀽴\ \ Columns.Align\ Left'
       \ '<Cmd>ColAlignLeft<CR>'
 exec 'an' SfIcon('􀅅') '100.310.324' 'Tools2.􀽴\ \ Columns.Align\ Left\ To\ Col'
-      \ '<Cmd>AlignLeftToColorColumn<CR>'
+      \ '<Plug>(mayhem_colcol_align_left_to_next)'
 exec 'an' '100.310.326' 'Tools2.􀽴\ \ Columns.Align\ Left\ To\ Cursor'
       \ '<Cmd>AlignLeftToCursor<CR>'
 exec 'an' '100.310.328' 'Tools2.􀽴\ \ Columns.Align\ Left\ To'
       \ '<Cmd>AlignLeftToCursor<CR>'
-an 100.310.400 Tools2.􀽴\ \ Columns.-sep3-	<Nop>
+an 100.310.400 Tools2.􀽴\ \ Columns.-sep4-	<Nop>
 exec 'an' SfIcon('􀩉') '100.310.430' 'Tools2.􀽴\ \ Columns.Align\ Center'
       \ '<Cmd>ColAlignCenter<CR>'
 

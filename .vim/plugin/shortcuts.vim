@@ -485,7 +485,7 @@ nnoremap §rE <Cmd>so<CR>
 xnoremap <expr> §rr  &ft == 'vim' ? '"xy:@x<CR>' : "<Cmd>echo Not a vim file (override with §rR)<CR>"
 xmap §rR "xy:@x<CR>
 "
-" Exec Line:
+" Exec Line(s):
 " :command! -bar -range Exe execute join(getline(<line1>,<line2>),"\n")
 " TODO
 "

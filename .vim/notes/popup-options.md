@@ -282,7 +282,6 @@ echo popup_create('popped', #{
   \ border: [1, 1, 1, 1], borderchars: ['─','┃','━','│','┍','􀺾','┛','┕'],
   \ mask: [[0, -2, 0, 0]],
   \ hidden: 0, zindex: 80, opacity: 100,
-  \}
 
   \ wrap: 1, scrollbar: 1, cursorline: 0,
   \ close: 'button', callback: , moved: [0, 0, 0], mousemoved: [0, 0, 0],
@@ -292,19 +291,36 @@ echo popup_create('popped', #{
   \ drag: 1, dragall: 0, resize: 0,
   \ time: 10000,
   \ filter: , filtermode: 'a',
+\})
+```
 
-let winfo = getwininfo([win_getid()])
-let wheight = get(winfo, 'height')
+```vim
+let winfo = win_getid()->getwininfo()->get(0)
+
+let wtextoff = get(winfo, 'textoff')
+let wcol = get(winfo, 'wincol')
+let wcontentcol = wcol + wtextoff
 let wwidth = get(winfo, 'width')
+let wcontentw = wwidth - wtextoff
+
+let wstatush = get(winfo, 'status_height')
+let wwinbar = get(winfo, 'winbar')
+let wrow = get(winfo, 'winrow')
+let wcontentrow = wrow + wwinbar
+let wheight = get(winfo, 'height')
+let wcontenth = wheight - wstatush - wwinbar
 
 echo popup_create('colcol', #{
-\ line: 1, col: 1, pos: 'topleft', posinvert: 0, flip: 0, fixed: 1,
+\ line: wrow, col: wcol, pos: 'topleft', posinvert: 0, flip: 0, fixed: 1,
 \ border: [0,0,0,0],
-\ maxheight: wheight, minheight: winheight,
-\ maxwidth: wwidth, minwidth: winwidth,
+\ maxheight: wheight, minheight: wheight,
+\ maxwidth: wwidth, minwidth: wwidth,
 \ opacity: 50,
 \ time: 10000,
 \ })
 
-\})
+
+function! Windicate() abort
+endfunc
+
 ```

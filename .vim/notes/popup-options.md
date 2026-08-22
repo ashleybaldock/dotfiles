@@ -38,6 +38,7 @@ j
                                           '┈┊┈┊╭╮╯╰' 
 
 ```
+
 ```pre
 
 
@@ -168,26 +169,26 @@ let masks = #{
 ```
 
 ```pre
-" edges:t,r,b,l,corners:tl,tr,br,bl,titlepad:l,r
-"  1: all       2: edges,corners
-"  '▫︎'          '▫︎◆'
-"  ▫︎win▫︎▫︎▫︎▫︎▫︎▫︎   ◆win▫︎▫︎▫︎▫︎▫︎◆
-"  ▫︎        ▫︎   ▫︎        ▫︎
-"  ▫︎        ▫︎   ▫︎        ▫︎
-"  ▫︎▫︎▫︎▫︎▫︎▫︎▫︎▫︎▫︎▫︎   ◆▫︎▫︎▫︎▫︎▫︎▫︎▫︎▫︎◆
-"
-"  4: edges                 8: edges,corners
-"  '↕↔↕︎↔'      '↑→↓←'       '↑→↓←↖︎↗︎↘︎↙︎'   '↑→↓←	   '  
-"  ↔win↕↕↕↕↕↔  ←win↑↑↑↑↑→   ↖︎win↑↑↑↑↑↗︎    win↑↑↑↑↑   
-"  ↔        ↔  ←        →   ←        →   ←        →  
-"  ↔        ↔  ←        →   ←        →   ←        →  
-"  ↔↕↕↕↕↕↕↕↕↔  ←↓↓↓↓↓↓↓↓→   ↙︎↓↓↓↓↓↓↓↓↘︎    ↓↓↓↓↓↓↓↓   
-"
-" '↑→↓←↖︎↗︎↘︎↙︎↦↤'
-"   ↖︎↦win↤↑↑↑↗︎
-"   ←        →
-"   ←        →
-"   ↙︎↓↓↓↓↓↓↓↓↘︎
+  edges:t,r,b,l,corners:tl,tr,br,bl,titlepad:l,r
+   1: all       2: edges,corners
+   '▫︎'          '▫︎◆'
+   ▫︎win▫︎▫︎▫︎▫︎▫︎▫︎   ◆win▫︎▫︎▫︎▫︎▫︎◆
+   ▫︎        ▫︎   ▫︎        ▫︎
+   ▫︎        ▫︎   ▫︎        ▫︎
+   ▫︎▫︎▫︎▫︎▫︎▫︎▫︎▫︎▫︎▫︎   ◆▫︎▫︎▫︎▫︎▫︎▫︎▫︎▫︎◆
+ 
+   4: edges                 8: edges,corners
+   '↕↔↕︎↔'      '↑→↓←'       '↑→↓←↖︎↗︎↘︎↙︎'   '↑→↓←	   '  
+   ↔win↕↕↕↕↕↔  ←win↑↑↑↑↑→   ↖︎win↑↑↑↑↑↗︎    win↑↑↑↑↑   
+   ↔        ↔  ←        →   ←        →   ←        →  
+   ↔        ↔  ←        →   ←        →   ←        →  
+   ↔↕↕↕↕↕↕↕↕↔  ←↓↓↓↓↓↓↓↓→   ↙︎↓↓↓↓↓↓↓↓↘︎    ↓↓↓↓↓↓↓↓   
+ 
+  '↑→↓←↖︎↗︎↘︎↙︎↦↤'
+    ↖︎↦win↤↑↑↑↗︎
+    ←        →
+    ←        →
+    ↙︎↓↓↓↓↓↓↓↓↘︎
 ```
 
 Spaces in the string indicate that edge/corner is transparent
@@ -295,32 +296,37 @@ echo popup_create('popped', #{
 ```
 
 ```vim
-let winfo = win_getid()->getwininfo()->get(0)
+function! Windicate(winid = win_getid()) abort
 
-let wtextoff = get(winfo, 'textoff')
-let wcol = get(winfo, 'wincol')
-let wcontentcol = wcol + wtextoff
-let wwidth = get(winfo, 'width')
-let wcontentw = wwidth - wtextoff
+  let winfo = getwininfo(a:winid)->get(0)
 
-let wstatush = get(winfo, 'status_height')
-let wwinbar = get(winfo, 'winbar')
-let wrow = get(winfo, 'winrow')
-let wcontentrow = wrow + wwinbar
-let wheight = get(winfo, 'height')
-let wcontenth = wheight - wstatush - wwinbar
+  let wtextoff = get(winfo, 'textoff')
+  let wcol = get(winfo, 'wincol')
+  let wcontentcol = wcol + wtextoff
+  let wwidth = get(winfo, 'width')
+  let wcontentw = wwidth - wtextoff
 
-echo popup_create('colcol', #{
-\ line: wrow, col: wcol, pos: 'topleft', posinvert: 0, flip: 0, fixed: 1,
-\ border: [0,0,0,0],
-\ maxheight: wheight, minheight: wheight,
-\ maxwidth: wwidth, minwidth: wwidth,
-\ opacity: 50,
-\ time: 10000,
-\ })
+  let wstatush = get(winfo, 'status_height')
+  let wwinbar = get(winfo, 'winbar')
+  let wrow = get(winfo, 'winrow')
+  let wcontentrow = wrow + wwinbar
+  let wheight = get(winfo, 'height')
+  let wcontenth = wheight - wstatush - wwinbar
 
+  echo popup_create('colcol', #{
+  \ line: wrow, col: wcol, pos: 'topleft', posinvert: 0, flip: 0, fixed: 1,
+  \ border: [1, 1, 1, 1],
+  \ borderchars: ['!','!','!','!','!','!','!','!'],
+  \ maxheight: wheight, minheight: wheight,
+  \ maxwidth: wwidth, minwidth: wwidth,
+  \ opacity: 50,
+  \ time: 4000,
+  \ highlight: 'Error',
+  \ borderhighlight: ['Error'],
+  \ })
 
-function! Windicate() abort
 endfunc
+
+echo Windicate()
 
 ```

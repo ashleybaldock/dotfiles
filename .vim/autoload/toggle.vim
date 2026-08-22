@@ -48,7 +48,7 @@ endfunc
 function! toggle#observe(name, states) abort
   let tgl = toggle#parse(a:name)
 
-  call mapnew(a:states, {i, v -> })
+  " call mapnew(a:states, {i, v -> })
   call autocmd_add([
         \#{
         \ event: 'User', pattern: tgl.aupat,

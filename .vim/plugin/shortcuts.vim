@@ -390,7 +390,7 @@ nnoremap §ac <Cmd>keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR><Cmd>
 " (This is essentially the same as swapping around
 "   a pivot, but repeated)
 " 󠄀󠄁󠄂e.g. [ 'a', 'b̲', 'c' ] -> [ 'a', 'c', 'b' ]
-" Swap to Rightgg
+" Swap to Right
 " e.g. [ aaa,󠀨 󠁛b󠁝bb󠀩, ccc ] -> [ aaa, ccc, 󠀨󠁛b󠁝󠀩bb ]
 nnoremap §ax :keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>
 " Swap to Left 󠇫󠇬󠇌󠀀󠀕󠀩󠁒󠀼󠁥󠁩󠁽󠅗󠅗󠅗󠄗󠄗󠅃 󠁾󠄀

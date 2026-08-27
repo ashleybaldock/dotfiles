@@ -109,6 +109,8 @@ xnoremap — :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̅/g<CR><Cmd>nohlsearch<CR>
 " test
 " 1̅3̅ 2̅5̅5̅ 5̅ 9̅
 "
+" ± ±
+"     a︎
 "
 " Add Variation Selector:
 " ▌️􀆕 =︎▐️──▷ ────▷ V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️ + RepeatMove
@@ -457,32 +459,42 @@ nnoremap <expr> O v:count > 0 ? 'm`:<C-u>exe "norm! ' .. v:count .. 'O"<CR>``' :
 "
 
 "
-" Source: §r
+" Source: §r (§R)
 "
 " nnoremap §rf :if &filetype=='vim' && $HOME . '/.vim/ :so<CR>
 "
 " Source Saved Version:
 "
 nnoremap <expr> §rf  &ft == 'vim' ? "<Cmd>UnsetAndReload<CR>" : "<Cmd>echo Not a vim file (override with §rF)<CR>"
+nnoremap §RF <Cmd>UnsetAndReload<CR>
+nnoremap §Rf <Cmd>UnsetAndReload<CR>
 nnoremap §rF <Cmd>UnsetAndReload<CR>
 "
 " Save Then Source:
 "
 nnoremap <expr> §rs  &ft == 'vim' ? "<Cmd>w :so %<CR>" : "<Cmd>echo Not a vim file (override with §rS)<CR>"
+nnoremap §RS <Cmd>w :so %<CR>
+nnoremap §Rs <Cmd>w :so %<CR>
 nnoremap §rS <Cmd>w :so %<CR>
 "
 " Source Buffer: (doesn't refresh everything)
 "
 nnoremap <expr> §re  &ft == 'vim' ? "<Cmd>so<CR>" : "<Cmd>echo Not a vim file (override with §rE)<CR>"
+nnoremap §RE <Cmd>so<CR>
+nnoremap §Re <Cmd>so<CR>
 nnoremap §rE <Cmd>so<CR>
 "
 " Execute Visual Selection:
-" TODO prompt for confirmation if not in a vim file, or not in ~/.vim/
+" TODO prompt for confirmation
+" - if ft != vim (also allow for code blocks in markdown files)
+" - if file is not in ~/.vim/
 " TODO skip any comment character at the start of the line
 "
 " substitute(@", '^[#"]\s*', '', '')
 "
-xnoremap <expr> §rr  &ft == 'vim' ? '"xy:@x<CR>' : "<Cmd>echo Not a vim file (override with §rR)<CR>"
+xnoremap <expr> §rr  &ft == 'vim' ? '"xy:@x<CR>' : "<Cmd>echo Not a vim file (override with §RR)<CR>"
+xmap §RR "xy:@x<CR>
+xmap §Rr "xy:@x<CR>
 xmap §rR "xy:@x<CR>
 "
 " Exec Line(s):
@@ -499,6 +511,8 @@ xmap §rR "xy:@x<CR>
 " TODO make this work with multi-line commands with line continuation
 "
 nnoremap <expr> §rr  &ft == 'vim' ? "<Cmd>.,.so<CR>" : "<Cmd>echo Not a vim file (override with §rR)<CR>"
+nnoremap §RR <Cmd>.,.so<CR>
+nnoremap §Rr <Cmd>.,.so<CR>
 nnoremap §rR <Cmd>.,.so<CR>
 "
 " Source Vimrc:

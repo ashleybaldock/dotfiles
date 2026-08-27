@@ -1,9 +1,11 @@
 
+todo
+^ and $ at start/end
 
    \1    \1\2         \2\3    \3
 :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>
 
-([^(*]\(\w\+\)\(\W*\)
+:s/[{[(][^(*]\(\w\+\)\(\W*\)/
 
 nnoremap §rr :^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$
 §
@@ -34,9 +36,6 @@ subsequent one)
    the next non-continuation line
 
 
-Matches a non-continuation line, followed by all
-lines until the next non-continuation line
-/^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$/
 /\(.*\%#\)\@=\(^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$\)\@>\(\%#.*\)\@<=
 
 Match current line as a continuation

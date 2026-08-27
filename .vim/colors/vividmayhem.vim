@@ -346,8 +346,8 @@ hi DiffDelete     guifg=#7a0000 guibg=#3a0000 gui=none
 "
 hi SignGitAdd     guifg=#117711 guibg=ysignsb gui=bold
 hi SignGitDel     guifg=#bb1144 guibg=ysignsb gui=underdotted
-hi SignGitChg     guifg=#cfc040 guibg=ysignsb gui=none
-hi SignGitCgD     guifg=#cfc040 guibg=ysignsb gui=underdotted guisp=#bb0044
+hi SignGitChg     guifg=#bfb030 guibg=ysignsb gui=none
+hi SignGitCgD     guifg=#bfb030 guibg=ysignsb gui=underdotted guisp=#bb0044
 
 
 hi SignDgErr      guifg=yyerrof guibg=yyerrob gui=none

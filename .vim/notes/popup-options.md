@@ -314,7 +314,9 @@ function! Windicate(winid = win_getid()) abort
   let wcontenth = wheight - wstatush - wwinbar
 
   echo popup_create('colcol', #{
-  \ line: wrow, col: wcol, pos: 'topleft', posinvert: 0, flip: 0, fixed: 1,
+  \ line: wcontentrow,
+  \ col: wcol,
+  \ pos: 'topleft', posinvert: 0, flip: 0, fixed: 1,
   \ border: [1, 1, 1, 1],
   \ borderchars: ['!','!','!','!','!','!','!','!'],
   \ maxheight: wheight, minheight: wheight,

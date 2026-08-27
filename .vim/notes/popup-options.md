@@ -296,31 +296,41 @@ echo popup_create('popped', #{
 ```
 
 ```vim
-function! Windicate(winid = win_getid()) abort
+function! Windicate(winid = win_getid(), content = 1) abort
+  let bd = [1, 1, 1, 1]
 
   let winfo = getwininfo(a:winid)->get(0)
 
   let wtextoff = get(winfo, 'textoff')
   let wcol = get(winfo, 'wincol')
+  let wdispcol = max([0, wcol - bd[3]])
   let wcontentcol = wcol + wtextoff
-  let wwidth = get(winfo, 'width')
-  let wcontentw = wwidth - wtextoff
+
+  let ww = get(winfo, 'width')
+  let wdispw = ww - bd[1] - bd[3]
+  let wcontentw = wdispw - wtextoff
 
   let wstatush = get(winfo, 'status_height')
   let wwinbar = get(winfo, 'winbar')
   let wrow = get(winfo, 'winrow')
+  let wdisprow = max([0, wrow - bd[0]])
   let wcontentrow = wrow + wwinbar
-  let wheight = get(winfo, 'height')
-  let wcontenth = wheight - wstatush - wwinbar
 
-  echo popup_create('colcol', #{
-  \ line: wcontentrow,
-  \ col: wcol,
+  let wh = get(winfo, 'height')
+  let wdisph = wh - bd[0] - bd[2]
+  let wcontenth = wh - wstatush - wwinbar
+
+  let popid = popup_create('colcol', #{
+  \ line: a:content ? wcontentrow : wdisprow,
+  \ col: a:content ? wcontentcol : wdispcol,
   \ pos: 'topleft', posinvert: 0, flip: 0, fixed: 1,
-  \ border: [1, 1, 1, 1],
+  \ padding: [0, 0, 0, 0],
+  \ border: bd,
   \ borderchars: ['!','!','!','!','!','!','!','!'],
-  \ maxheight: wheight, minheight: wheight,
-  \ maxwidth: wwidth, minwidth: wwidth,
+  \ maxheight: a:content ? wcontenth : wdisph,
+  \ minheight: a:content ? wcontenth : wdisph,
+  \ maxwidth: a:content ? wcontentw : wdispw,
+  \ minwidth: a:content ? wcontentw : wdispw,
   \ opacity: 50,
   \ time: 4000,
   \ highlight: 'Error',
@@ -329,6 +339,7 @@ function! Windicate(winid = win_getid()) abort
 
 endfunc
 
-echo Windicate()
+call Windicate()
+call Windicate(1013, 0)
 
 ```

@@ -70,17 +70,17 @@ call autocmd_add([
       \#{
       \ event: ['BufEnter','BufNew','BufFilePost','BufWinEnter'],
       \ pattern: '*', cmd: 'call tabline#updateCachedBufferName()',
-      \ group: 'mayhem_tl_update', replace: v:true,
+      \ group: 'mayhem_tl_update_bufname', replace: v:true,
       \},
       \#{
       \ event: ['WinEnter','TabNew','TabEnter','TabClosed','WinNew','WinClosed','BufFilePost','BufWinEnter'],
       \ pattern: '*', cmd: 'call tabline#gen_guitab_caches()',
-      \ group: 'mayhem_tl_update', replace: v:true,
+      \ group: 'mayhem_tl_update_caches', replace: v:true,
       \},
       \#{
       \ event: 'User', pattern: 'MayhemDiagnosticsUpdated',
       \ cmd: 'call tabline#updateDiagnostics()',
-      \ group: 'mayhem_tl_update', replace: v:true,
+      \ group: 'mayhem_tl_update_diag', replace: v:true,
       \},
       \])
 

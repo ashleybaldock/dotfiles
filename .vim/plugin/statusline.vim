@@ -272,7 +272,7 @@ let g:mayhem.symbols_S.status = {
       \ 'fencnot8'    : '∪⃞⃥ ',
       \ 'ffnotnix'    : '␌⃞ ',
       \ 'scrollbind'  : '􀒠',
-      \ 'diffing'     : '􀄐􀕹',
+      \ 'diffing'     : '􃜥' ,
       \ 'diffleft'    : '􀤴􀕹',
       \ 'diffright'   : '􀄐􀤵',
       \ 'multx'       : '×',
@@ -683,7 +683,7 @@ call autocmd_add([
       \ group: 'mayhem_sl_winsize', replace: v:true,
       \},
       \#{
-      \ event: ['CursorHold','BufWinEnter','BufFilePost','EncodingChanged'],
+      \ event: ['CursorHold','BufWinEnter','BufFilePost','EncodingChanged','DiffUpdated'],
       \ pattern: '*', cmd: 'call s:UpdateStatuslines()',
       \ group: 'mayhem_statusline', replace: v:true,
       \},

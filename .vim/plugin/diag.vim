@@ -17,7 +17,7 @@ call autocmd_add([
       \ event: 'User',
       \ pattern: 'MayhemDiagnosticsNeedUpdate',
       \ cmd: 'call diag#fetch()',
-      \ group: 'mayhem_diag', replace: v:true,
+      \ group: 'mayhem_diag_fetch', replace: v:true,
       \},
       \])
 

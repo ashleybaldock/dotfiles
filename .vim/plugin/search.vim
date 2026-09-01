@@ -51,7 +51,7 @@ function MakeSubstitute(text, replacement, options = {})
   let pat = a:text
   let rep = a:replacement
   let opt = a:options
-  let sep = s:FindPatternSeperator(pattern, replacement)
+  let sep = s:FindPatternSeperator(pat, rep)
 
   return 's' .. sep .. pat .. sep .. rep .. sep .. opt
 endfunc
@@ -59,7 +59,7 @@ endfunc
 
 function s:AckEscaped(search) abort
   " The ! avoids jumping to first result automatically
-  execute printf('Ack! -Q -- "%s"', substitute(a:search, '\([%"\\]\)', '\\\1', 'g'))
+  execute printf('Ack! -Q -- "%s"', fnameescape(a:search))
 endfunc
 
 function s:AckClipboard() abort

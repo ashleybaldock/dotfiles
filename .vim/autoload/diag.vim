@@ -65,6 +65,7 @@ function! diag#summarise(bufnr = bufnr()) abort
 
   for severity in keys(bufferDiagnostics)
     let summary.total[tolower(severity)] = len(severity)
+
     for diag in bufferDiagnostics[severity]
       if diag.lnum < lnum_wintop
         let summary.above[tolower(severity)] = summary.above[tolower(severity)] + 1
@@ -77,6 +78,7 @@ function! diag#summarise(bufnr = bufnr()) abort
   endfor
 
   call setbufvar(a:bufnr, 'mayhem_diagnostic_summary', summary)
+  return summary
   " let bufname = fnamemodify(bufname, s:abbrpaths)
   " return printf("%s %s", bufname, tabline#modstatus(a:bufnr))
 endfunc
@@ -86,6 +88,7 @@ function! diag#update(error, result) abort
     let s:cachedFetchError = a:error
     echom 'diag#fetch failed with error: ''' .. a:error .. ''''
   else
+    echom 'diag#fetch result: '''
     let s:cachedFetch = a:result
     let s:diagSplitByFileAndSeverity = diag#byFileAndSeverity(s:cachedFetch)
   endif

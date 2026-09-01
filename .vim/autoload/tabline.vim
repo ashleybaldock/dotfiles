@@ -40,47 +40,42 @@ function! tabline#updateCachedBufferName(bufnr = bufnr()) abort
 endfunc
 
 function! tabline#updateDiagnostics() abort
-  for i in range(tabpagenr('$'))
-    let warningCount = 0
-    let errorCount = 0
-
-    if exists('g:did_coc_loaded')
-      for bufnr in tabpagebuflist(i)
-        let diaginfo = getbufvar(bufnr, 'coc_diagnostic_info', {})
-        let warningCount += get(diaginfo, 'warning', 0)
-        let errorCount += get(diaginfo, 'error', 0)
-      endfor
-      call settabvar(i, 'mayhem_tl_cached_diagnostics', #{
-          \ error: errorCount,
-          \ warning: warningCount,
-          \})
-      call settabvar(i, 'mayhem_tl_cached_diag_label',
-            \ errorCount > 0 ? printf("%s%s ",
-            \ errorCount,
-            \ symbols#inline('diag.error')
-            \) : "")
-      call settabvar(i, 'mayhem_tl_cached_diag_tip', printf("%s%s",
-        \ errorCount > 0 ? printf("%s%s",
-        \   symbols#inline('diag.error'), errorCount) : "",
-        \ warningCount > 0 ? printf("%s%s",
-        \   symbols#inline('diag.warning'), warningCount) : ""))
-    else
-      call settabvar(i, 'mayhem_tl_cached_diagnostics', #{
-          \ off: v:true,
-          \})
+  for i in range(1, tabpagenr('$'))
+    if !exists('g:did_coc_loaded')
       call settabvar(i, 'mayhem_tl_cached_diag_label',
             \ symbols#inline('diag.off'))
       call settabvar(i, 'mayhem_tl_cached_diag_tip',
             \ symbols#inline('diag.off'))
-    endif
+    else
+      let warningCount = 0
+      let errorCount = 0
 
+      for bufnr in tabpagebuflist(i)
+        let summary = diag#summarise(bufnr)
+        let warningCount += get(summary.total, 'warning', 0)
+        let errorCount += get(summary.total, 'error', 0)
+      endfor
+
+      call settabvar(i, 'mayhem_tl_cached_diag_label',
+            \ errorCount > 0 ? printf("%s%s ",
+            \ errorCount,
+            \ symbols#inline('diag.error')
+            \) : symbols#inline('diag.ok')
+            \)
+      call settabvar(i, 'mayhem_tl_cached_diag_tip', printf("%s%s%s",
+        \ errorCount > 0 ? printf("%s%s",
+        \   symbols#inline('diag.error'), errorCount) : "",
+        \ warningCount > 0 ? printf("%s%s",
+        \   symbols#inline('diag.warning'), warningCount) : "",
+        \ errorCount == 0 && warningCount == 0 ? symbols#inline('diag.ok') : ""))
+    endif
   endfor
 endfunc
 
 function! tabline#gen_guitablabel_cache() abort
   let tabul = get(g:, 'mayhem_tab_underline', '')
   let curul = get(g:, 'mayhem_curtab_underline', '')
-  for i in range(tabpagenr('$'))
+  for i in range(1, tabpagenr('$'))
     let bufname = get(b:, 'mayhem_tl_cached_filename', tabline#bufname())
 
     let modified = tabpagebuflist(i)
@@ -96,17 +91,17 @@ function! tabline#gen_guitablabel_cache() abort
   endfor
 endfunc
 
+"􀏜 􃑷  􃛒  􃛕  􀢌 􃛓  􀾪􁁎 􂃻 􂃼 􂃽 􂃾  􀐑 􀐒 
 
 function! tabline#gen_guitabtooltip_cache() abort
-  for i in range(tabpagenr('$'))
+  for i in range(1, tabpagenr('$'))
     call settabvar(i, 'mayhem_cache_guitabtooltip', [
-        \printf("%s⁄%s		 %%{%%GuiTabToolTipErrors()%%}",
-        \ format#numbers(string(i + 1), 'sans'),
+        \printf("􀩸 %s ⁄ %s		 %%{%%GuiTabToolTipErrors()%%}",
+        \ format#numbers(string(i), 'sans'),
         \ format#numbers(tabpagenr('$')->string(), 'sans')
         \),
-        \printf("%d window%s:",
-        \ tabpagewinnr(i, '$'),
-        \ tabpagewinnr(i, '$') > 1 ? 's' : ''
+        \printf("%d 􀢌",
+        \ tabpagewinnr(i, '$')
         \),
         \printf("%s%%<",
         \ tabpagebuflist(i)

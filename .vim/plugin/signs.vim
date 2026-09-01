@@ -450,89 +450,11 @@ command! OurSignsInThisBuffer echo <SID>ListSignsOfMayhemInCurrentBuffer()
 " prop_remove({props} [, {lnum} [, {lnum-end}]])
 
 
-
-" TODO caching
-" TODO async
-function! s:FetchDiagnostics(fresh = 0) abort
-  return mayhem#groupby(CocAction('diagnosticList'), 'file')
-endfunc
-
-function! s:UpdateDiagnosticSummary(bufnr = bufnr()) abort
-  let summary = #{
-        \ above: #{ error: 0, warning: 0, hint: 0, info: 0 },
-        \ below: #{ error: 0, warning: 0, hint: 0, info: 0 },
-        \}
-  if empty(bufname(a:bufnr))
-    return summary
-  endif
-  
-  let bufpath = bufname(a:bufnr)->expand()->fnamemodify(':p')
-  let bufferDiagnostics = get(s:diagCache, bufpath, [])
-
-  let lnum_wintop = line('w0')
-  let lnum_winbot = line('w$')
-
-  for diag in bufferDiagnostics
-    if diag.lnum < lnum_wintop
-      let summary.above[tolower(diag.severity)] += 1
-    elseif diag.lnum > lnum_winbot
-      let summary.below[tolower(diag.severity)] += 1
-    endif
-  endfor
-
-  call setbufvar(a:bufnr, 'mayhem_diagnostic_summary', summary)
-  " let bufname = fnamemodify(bufname, s:abbrpaths)
-  " return printf("%s %s", bufname, tabline#modstatus(a:bufnr))
-endfunction
-
-
-function! s:updateCache() abort
-  " TODO
-  " make this async with a callback
-  " - to update the cache
-  " - to update summary for all matching buffers
-
-  for [bufnr, severities] in items(signs#diagnostics())
-    if bufexists(bufnr)
-      call s:UpdateDiagnosticSummary(bufnr)
-    endif
-  endfor
-endfunc
-
-
-
-
-function! s:DebugDiagnostics()
-  let grouped = signs#Diagnostics()
-  vsp
-  enew
-  call append('$', format#dict2json(grouped))
-  setlocal filetype=json
-  setlocal nomodifiable nomodified 
-endfunc
-
-command! -bar DebugDiagnostics call <SID>DebugDiagnostics()
-
-
-call autocmd_add([
-      \#{
-      \ event: 'User', pattern: 'MayhemDiagnosticsUpdated',
-      \ cmd: 'call s:updateCache()',
-      \ group: 'mayhem_signs_update', replace: v:true,
-      \},
-      \])
-
 call autocmd_add([
       \#{
       \ event: 'User',
       \ pattern: 'MayhemDiagnosticsUpdated',
       \ cmd: 'call signs#diagnosticsPlaceProps()',
-      \ group: 'mayhem_diag', replace: v:true,
-      \},
-      \#{
-      \ event: 'User',
-      \ pattern: 'MayhemDiagnosticsNeedUpdate',
-      \ cmd: 'call signs#updateDiagnostics()',
-      \ group: 'mayhem_diag', replace: v:true,
+      \ group: 'mayhem_signs_placeprops_on_diagupdated', replace: v:true,
       \},
       \])

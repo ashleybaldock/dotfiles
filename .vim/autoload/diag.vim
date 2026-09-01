@@ -29,7 +29,7 @@ endfunc
 
 
 let s:cachedFetch = []
-let s:diagSplitByFileAndSeverity = #{}
+let s:diagSplitByFileAndSeverity = {}
 
 function! diag#cached() abort
   return s:cachedFetch
@@ -58,7 +58,7 @@ function! diag#summarise(bufnr = bufnr()) abort
     return summary
   endif
   
-  let bufferDiagnostics = get(diag#cachedByFile(), diag#bufnrToKey(a:bufnr), [])
+  let bufferDiagnostics = get(diag#cachedByFile(), diag#bufnrToKey(a:bufnr), {})
 
   let lnum_wintop = line('w0')
   let lnum_winbot = line('w$')

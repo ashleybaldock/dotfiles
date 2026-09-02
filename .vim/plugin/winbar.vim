@@ -13,15 +13,10 @@ let s:ruler = '\ \ \ \ \ \ \ \ ╵¹\ \ \ \ \ \ \ ╵²\ \ \ \ \ \ \ ╵³\ \ \ 
 " Related: CustomStatusline in ./statusline.vim
 "
 function! s:WinBarUpdate()
-  let winheight = winheight(winnr())
-
-  " echom 'winnr: ' .. winnr() .. ' h:' .. winheight
+  silent nunmenu WinBar
 
   " No winbar for very small windows
-  if winheight < 3
-    silent nunmenu WinBar
-    return
-  elseif winheight == 3
+  if winnr()->winheight() <= 3
     return
   endif
 
@@ -69,7 +64,7 @@ function! s:WinBarUpdate()
 
   if &buftype == 'quickfix'
     silent nunmenu WinBar
-    if get(w:, 'quickfix_title', '') =~ '^:ag '
+    if get(b:, 'mayhem_quickfix_command', '') =~ '^:ag '
 "    go  ╎ 􀬸 preview (maintain focus on results)
 " o / O  ╎ 􀂒􀂓􀾘􀤳 open file / 􀏍􀃰 and close qf 􀆓􀄫 ⸺􀆊 􂚨 􀏠 ⸻􀆊􀆌􀏠 
 " t / T  ╎ 􀏩 􀏪 … in a new tab / without moving to it  􀾮 􀾯 􀤴 􀤵 􀥞 􀥟 􀉘 􀶣 􀒐
@@ -77,12 +72,12 @@ function! s:WinBarUpdate()
 " v / gv ╎ 􂨪􀏠 / ⃠⃯ →︎⃠ 􀏠 … in vertical split / without moving to it  􀧈􀘜􀧉
 "     q  ╵ 􀃱􀏎 close the quickfix window
       silent nnoremenu 1.05 WinBar.􀱢 <nop>
-      silent nnoremenu 1.10 WinBar.􀆧\ ‹️§️︎›︎q️︎›️ <nop>
-      silent nnoremenu 1.20 WinBar.􀬸\ ‹️g️o️›️ <nop>
-      silent nnoremenu 1.30 WinBar.􀏇\ ‹️o›️ <nop>
-      silent nnoremenu 1.40 WinBar.􀏩\ ‹️t›️ <nop>
-      silent nnoremenu 1.50 WinBar.􀧊\ ‹️h›️ <nop>
-      silent nnoremenu 1.60 WinBar.􀧈\ ‹️v›️ <nop>
+      silent nnoremenu 1.10 WinBar.􀆧\ §️︎q️︎ <nop>
+      silent nnoremenu 1.20 WinBar.􀬸\ g️o️ <nop>
+      silent nnoremenu 1.30 WinBar.􀏇\ o <nop>
+      silent nnoremenu 1.40 WinBar.􀏩\ t <nop>
+      silent nnoremenu 1.50 WinBar.􀧊\ h <nop>
+      silent nnoremenu 1.60 WinBar.􀧈\ v <nop>
     endif
   endif
 
@@ -93,17 +88,17 @@ function! s:WinBarUpdate()
     if exists("b:mayhem_diff_left")
       silent nnoremenu 1.05 WinBar.􀐓\  <Nop>
     elseif exists("b:mayhem_diff_right")
-      silent nnoremenu 1.05 WinBar.􀐓\  <Nop>
+      silent nnoremenu 1.05 WinBar.􀐔\  <Nop>
     endif
 
-    silent nnoremenu 1.10 WinBar.􀆧\ ‹️$️︎›︎d️︎›︎x️︎›︎️ <Nop>
+    silent nnoremenu 1.10 WinBar.􀆧\ $️︎d️︎x️︎ <Nop>
 
     if exists("b:mayhem_diff_left")
-      silent nnoremenu 1.20 WinBar.􂨪\ \ ‹️􀆝]›️ <Nop>
+      silent nnoremenu 1.20 WinBar.􂨪\ \ } <Nop>
     elseif exists("b:mayhem_diff_right")
-      silent nnoremenu 1.20 WinBar.􂨩\ \ ‹️􀆝[›️ <Nop>
+      silent nnoremenu 1.20 WinBar.􂨩\ \ { <Nop>
     else
-      silent nnoremenu 1.20 WinBar.􀈄\ ‹️§›︎d›︎e›︎️\ ╱\ 􀈂\ ‹️§dt›︎️ <Nop>
+      silent nnoremenu 1.20 WinBar.􀈄\ §de\ ╱\ 􀈂\ §dt <Nop>
     endif
 
     " silent nnoremenu 1.30 WinBar.􀄶􀄨􀄻􀄲\ [[\ ╱\ 􀄺􀄩􀄷􀄳\ ]] <Nop>
@@ -136,15 +131,12 @@ function! s:WinBarUpdate()
 
     return
   endif
-
-  " Otherwise, no bar
-  silent nunmenu WinBar
 endfunc
 
 command! WinBarUpdate call <SID>WinBarUpdate()
 
 function s:WinBarUpdateWindows(windows) abort
-  echon 'update windows... '
+  " echon 'update windows... '
   for wid in a:windows
     " echon wid .. '... '
     call win_execute(wid, 'WinBarUpdate')
@@ -153,19 +145,19 @@ endfunc
 
 call autocmd_add([
       \#{
-      \ event: 'OptionSet', pattern: 'diff',
+      \ event: 'OptionSet', pattern: 'diff,ft,buftype,colorcolumn',
       \ cmd: 'call s:WinBarUpdate()',
-      \ group: 'mayhem_winbar_events', replace: v:true,
+      \ group: 'mayhem_winbar_diff', replace: v:true,
       \},
       \#{
       \ event: 'ModeChanged', pattern: '*:nt,*:t*',
       \ cmd: 'call s:WinBarUpdate()',
-      \ group: 'mayhem_winbar_events', replace: v:true,
+      \ group: 'mayhem_winbar_mode', replace: v:true,
       \},
       \#{
       \ event: 'WinResized',
       \ pattern: '*', cmd: 'call s:WinBarUpdateWindows(v:event.windows)',
-      \ group: 'mayhem_winbar_events', replace: v:true,
+      \ group: 'mayhem_winbar_resize', replace: v:true,
       \},
       \#{
       \ event: ['WinEnter','WinLeave','BufEnter','BufLeave','DiffUpdated','FileType'],

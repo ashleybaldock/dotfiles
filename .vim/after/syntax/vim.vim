@@ -36,6 +36,10 @@ syn region vimContinueString contained
       \ contains=@vimContinue,vimQuoteEscape
 
 syn match vimContinue "^\s*\zs\\" contained conceal cchar=┆
+" syn match	vimContinueComment	'^\s*\zs["#]\\ .*' extend conceal cchar=┊
+" syn match	vim9ContinueComment	"^\s*\zs#\\ .*"	 extend conceal cchar=┊
+syn match vimGroupListContinue "^\s*\zs\\" contained conceal cchar=┇
+" syn match vimGroupListContinueComment '^\s*\zs["#]\\ .*' contained conceal cchar=┋
 
 syn keyword	vimHiAttrib	contained	undercurl underdotted underdouble
 syn keyword	vimHiAttrib	contained	underdashed strikethrough
@@ -169,7 +173,7 @@ hi def DemoCursorRange  guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
 " hi def link DemoCursor Cursor
 hi def DemoCursor       guifg=#000000 guibg=#cc22dd
 
-syn match CommentLink "\%(\~/\|\.\./\|\./\|$[A-Z0-9]\+/\)\%(\S\+/\)*\%(/\|\S*\.*[A-Za-z0-9]*\)\%(\s\|$\)"
+syn match CommentLink "\%(\~/\|\.\./\|\./\|$[A-Z0-9]\+/\)\%(\S\+/\)*\%(/\|\S*\.*[A-Za-z0-9]*\)"
       \ contained containedin=Comment,vimLineComment contains=NONE
 
 syn region CommentOptional

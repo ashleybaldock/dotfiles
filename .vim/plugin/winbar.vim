@@ -11,6 +11,7 @@ let s:ruler = '\ \ \ \ \ \ \ \ ╵¹\ \ \ \ \ \ \ ╵²\ \ \ \ \ \ \ ╵³\ \ \ 
 " ═══╡ Dynamic WinBar menu ╞════════════════════════════════
 "
 " Related: CustomStatusline in ./statusline.vim
+"
 function! s:WinBarUpdate()
   let winheight = winheight(winnr())
 
@@ -53,13 +54,15 @@ function! s:WinBarUpdate()
   " nnoremenu 1.20 WinBar.􀉃‹️+️›️\ 􀈿‹️%︎›️
   " nnoremenu 1.30 WinBar.last\ 􀠍‹️/︎›️\ 􀩼\ ‹️:️›️\ 􀅫‹️.️›️\ 􀆛‹️-️›️
   "
+  " ^w N   ^w️ N  ^️w️ N️  ^ｗN️
+  "
   if &buftype == 'terminal'
     " tlnoremenu 1.10 WinBar.􀯪􀱢・‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️:・ <nop>
     silent nunmenu WinBar
     if mode() =~# 'n'
-      silent nnoremenu 1.20 WinBar.􀊙\ ‹️i️︎›︎️ <nop>
+      silent nnoremenu 1.20 WinBar.􀊙\ i <nop>
     else
-      silent nnoremenu 1.20 WinBar.􀊛\ ‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️ <nop>
+      silent nnoremenu 1.20 WinBar.􀊛\ ^ｗN <nop>
     endif
     return
   endif
@@ -143,7 +146,7 @@ command! WinBarUpdate call <SID>WinBarUpdate()
 function s:WinBarUpdateWindows(windows) abort
   echon 'update windows... '
   for wid in a:windows
-    echon wid .. '... '
+    " echon wid .. '... '
     call win_execute(wid, 'WinBarUpdate')
   endfor
 endfunc
@@ -172,7 +175,7 @@ call autocmd_add([
       \#{
       \ event: 'User', pattern: 'MayhemToggleColBar',
       \ cmd: 'call s:WinBarUpdate()',
-      \ group: 'mayhem_winbar_events', replace: v:true,
+      \ group: 'mayhem_winbar_events_togglecolbar', replace: v:true,
       \},
       \])
 

@@ -12,26 +12,27 @@ let s:ruler = '\ \ \ \ \ \ \ \ ╵¹\ \ \ \ \ \ \ ╵²\ \ \ \ \ \ \ ╵³\ \ \ 
 "
 " Related: CustomStatusline in ./statusline.vim
 "
-function! s:WinBarUpdate()
+function! s:WinBarUpdate() abort
   silent nunmenu WinBar
 
   " No winbar for very small windows
-  if winnr()->winheight() <= 3
+  if winnr()->winheight() <= 5
     return
   endif
 
   " If buffer has color columns and option to show in winbar is on
   if exists("b:mayhem_winbar_show_colcol")
-    silent nunmenu WinBar
-
     " If signcolumn=yes or signcolumn=auto and is visible, can show index 1+
     " Otherwise if no signcolumn present, can show index 3+
-    let colorcolumns = split(&l:colorcolumn, ',')
+    let colorcolumns = split(&l:colorcolumn, ',')->map({i, v -> str2nr(v)})
+    let textoff = winnr()->getwininfo()->get(0)->get('textoff')
 
-    silent nunmenu WinBar | exec 'silent nnoremenu 1.20 WinBar.' .. s:ruler .. ' <nop>'
+    exec 'silent nnoremenu 1.20 WinBar.' .. s:ruler .. ' <nop>'
 
-    hi ToolbarLine    guifg=NONE    guibg=ysignsb gui=none
-    hi ToolbarButton  guifg=#bbbbbb guibg=ysignsb gui=none
+    hi WinbarRulerLine    guifg=NONE    guibg=ysignsb gui=none
+    hi WinbarRulerButton  guifg=#bbbbbb guibg=ysignsb gui=none
+
+    setlocal winhighlight=ToolbarLine:WinbarRulerLine,ToolbarButton:WinbarRulerButton
 
     return
   endif
@@ -53,7 +54,6 @@ function! s:WinBarUpdate()
   "
   if &buftype == 'terminal'
     " tlnoremenu 1.10 WinBar.􀯪􀱢・‹️c️︎-️w︎›︎️‹︎️s︎-️n︎›️:・ <nop>
-    silent nunmenu WinBar
     if mode() =~# 'n'
       silent nnoremenu 1.20 WinBar.􀊙\ i <nop>
     else
@@ -63,7 +63,6 @@ function! s:WinBarUpdate()
   endif
 
   if &buftype == 'quickfix'
-    silent nunmenu WinBar
     if get(b:, 'mayhem_quickfix_command', '') =~ '^:ag '
 "    go  ╎ 􀬸 preview (maintain focus on results)
 " o / O  ╎ 􀂒􀂓􀾘􀤳 open file / 􀏍􀃰 and close qf 􀆓􀄫 ⸺􀆊 􂚨 􀏠 ⸻􀆊􀆌􀏠 
@@ -71,7 +70,7 @@ function! s:WinBarUpdate()
 " h / H  ╎ 􀧊 … in horizontal split / without moving to it         􀕰􀕱􀧋
 " v / gv ╎ 􂨪􀏠 / ⃠⃯ →︎⃠ 􀏠 … in vertical split / without moving to it  􀧈􀘜􀧉
 "     q  ╵ 􀃱􀏎 close the quickfix window
-      silent nnoremenu 1.05 WinBar.􀱢 <nop>
+      " silent nnoremenu 1.05 WinBar.􀱢 <nop>
       silent nnoremenu 1.10 WinBar.􀆧\ §️︎q️︎ <nop>
       silent nnoremenu 1.20 WinBar.􀬸\ g️o️ <nop>
       silent nnoremenu 1.30 WinBar.􀏇\ o <nop>
@@ -82,16 +81,20 @@ function! s:WinBarUpdate()
   endif
 
   if &diff
-    silent nunmenu WinBar
 " nnoremenu 1.10 WinBar.􀆧\ $dx\ \ 􀈄\ §de\ 􀈂\ §dt▕\ 􀆇\ [c▕\ 􀆈\ ]c▕\ 􀅌\ §dr <nop>
-"􀤴\ 􀤵\ 
+"􀤴 􀤵 
     if exists("b:mayhem_diff_left")
+      hi DiffVertSplit  guifg=yormalb guibg=yormalb gui=none
+      setlocal winhighlight=!c:DiffVertSplit
+
       silent nnoremenu 1.05 WinBar.􀐓\  <Nop>
+      " silent nnoremenu 1.10 WinBar.􀆧\ $️︎d️︎x️︎ <Nop>
+
     elseif exists("b:mayhem_diff_right")
       silent nnoremenu 1.05 WinBar.􀐔\  <Nop>
+    else
+      silent nnoremenu 1.05 WinBar.􃜥\  <Nop>
     endif
-
-    silent nnoremenu 1.10 WinBar.􀆧\ $️︎d️︎x️︎ <Nop>
 
     if exists("b:mayhem_diff_left")
       silent nnoremenu 1.20 WinBar.􂨪\ \ } <Nop>
@@ -108,7 +111,6 @@ function! s:WinBarUpdate()
   endif
 
   if &ft == 'netrw'
-    silent nunmenu WinBar
     " nnoremenu 1.≀0 WinBar.Netrw・S:sort・I:layout・-:back・‹︎️s︎-️b︎›️:up・‹︎️s︎-️w›️:down・ <nop>
     silent nnoremenu 1.10 WinBar.􀄼\ - <Nop>
     silent nnoremenu 1.20 WinBar.􀊬\ a\ 􀄬􀅍s,r\ 􀞖\ i <Nop>
@@ -123,7 +125,6 @@ function! s:WinBarUpdate()
   endif
 
   if &ft == 'vimmessages'
-    silent nunmenu WinBar
     silent nnoremenu 1.10 WinBar.􀤏\ - <Nop>
     silent nnoremenu 1.20 WinBar.􀅌\ r <Nop>
     silent nnoremenu 1.30 WinBar.􀋴\ p <Nop>

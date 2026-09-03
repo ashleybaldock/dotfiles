@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <filter id="filtermonochrome" color-interpolation-filters="sRGB"
+          x="0" y="0" height="100%" width="100%">
+    <feColorMatrix type="matrix"
+      values="1.00 0 0 0  0 
+              0.80 0 0 0  0  
+              0.65 0 0 0  0 
+                0  0 0 1  0" />
+  </filter>
+</svg>

@@ -168,7 +168,8 @@ echo autocmd_add([#{event: 'CursorHold', pattern: '<buffer>', cmd: 'exec "/"..ge
 
 #### Strings
 ```reg
-/\(["'`]\).\{-}\%(\\\1\)\@2<!\1
+string including unescaped delims
+'test' 'test\'' 'test'
 /\(["'`]\).\{-}\%(\\\1\)\@2<!\1
 /\(["'`]\).\{-}\%(a,\1\)\@2<!\1
 /\%(\[\|\(["'`]\).\{-}\%(a,\1\)\@2<!\1\)
@@ -180,7 +181,12 @@ echo autocmd_add([#{event: 'CursorHold', pattern: '<buffer>', cmd: 'exec "/"..ge
 /\(["'`]\)\zs.\{-}\%(\1\)\@2<!\1\%(\1\)\@2<=
 /\(["'`]\)\zs\%(.\{-}\|\1\1\)\{-}\1\%(\1\)\@!
 /\(["'`]\)\zs\%(.\{-}\%(\1\1\)\?\)\{-}\ze\1\([^\1]\)
+
+string including delims
 /\(["'`]\).\{-}\1
+
+string excluding delims
+/\(["'`]\)\@1<=.\{-}\1\@!
 ```
 
 #### Brackets

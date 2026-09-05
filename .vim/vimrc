@@ -312,7 +312,7 @@ endif
 " Syntax highlighting for code blocks inside markdown docs
 let g:md_fenced_languages = [
       \ 'javascript', 'typescript', 'css', 'json', 'html', 'svg',
-      \ 'python', 'ps1', 'lua',
+      \ 'python', 'ps1', 'lua', 'jq',
       \ 'vim', 'sh', 'bash',
       \ 'pre', 'vsel', 'reg', 'ansi', 'lsp_tsserver']
 

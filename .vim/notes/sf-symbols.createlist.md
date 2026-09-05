@@ -2,15 +2,32 @@
 
 
 
-ashley@tau:~/dotfiles/.vim/notes (master *%=)$ cat sfsymbols.json | jq '.versions | to_entries | .[] | .["key"] as $ver
-sion | [ (."value"."r" | [ .["s"], [ ({n: ."n"[], v: $version, r: "1" }) ] ] | transpose), (."value"."u" | [ .["s"], [(
-{n: ."n"[], v: $version, r: "0" }) ] ] | transpose) ] | .[] as [$key, $value] | [{$key, $value}]' > sf-new.json
+```jq
 
-ashley@tau:~/dotfiles/.vim/notes (master *%=)$ cat sfsymbols.json | jq '.versions | to_entries | .[] | .["key"] as $ver
-sion | [ (."value"."r" | [ .["s"], [ ({n: ."n"[], v: $version, r: "1" }) ] ] | transpose), (."value"."u" | [ .["s"], [(
-{n: ."n"[], v: $version, r: "0" }) ] ] | transpose) ] | .[] as [$key, $value] | [{$key, $value}]' > sf-new.json
+."versions" | to_entries | .[] | .["key"] as $v | [ (."value"."r" | [ .["s"], [ ({n: ."n"[], $v, r: "1" }) ] ] | transpose), (."value"."u" | [ .["s"], [ ({n: ."n"[], $v, r: "0" }) ] ] | transpose) ]
 
 
+ | .[] as [$key, $value] | [{$key, $value}]
+
+."versions"
+  | to_entries
+    | .[]
+      | .["key"] as $v
+      | .["value"] | to_entries
+        | .["key"] == "r" as $r
+        | .["value"][]
+          | ([ .["s"], [ ({n: ."n"[], $v, $r }) ] ] | transpose)
+
+."versions"
+  | to_entries
+    | .[]
+      | .["key"] as $v
+      | .["value"] | to_entries
+        | .["key"] == "r" as $r
+        | .["value"][]
+          | ([ .["s"], [ ({n: ."n"[], $v, $r }) ] ] | transpose)
+
+```
 
 ## Group similar together
 
@@ -21,24 +38,24 @@ name[.(square|.circle)][.on.<X>]
 4 columns (group twice)
 
 ```pre
-  􀛶 􀜪 􀛷 􀜫  stop (.circle) (.fill (.circle))
+􀛶 􀜪 􀛷 􀜫  stop (.circle) (.fill (.circle))
 ```
 
-````pre
-  [.fill]
-  [.badge[.(ellipsis|plus|minus|checkmark|questionmark|exclamationmark|xmark|person.crop|gearshape|wifi)]]
-  [.fill]
-  [.and.<Y>]
+```pre
+[.fill]
+[.badge[.(ellipsis|plus|minus|checkmark|questionmark|exclamationmark|xmark|person.crop|gearshape|wifi)]]
+[.fill]
+[.and.<Y>]
 
  ⧓⃞ ₁︎⃞ ₁⃞ ₁⃞︎  ⁴ ⁴⃞ ⁴️⃞   ⁴︎⃞  ⁴⃞ ⁴⃞️ ⁴⃞︎   ⁴  ⁴⃞ ²⃞   ³⃞ ⁵⃞ ⧔⃞
-
-  ⧕⃞ (1̲________________)   (2̲_______________________) (3̲____)   (4̲________________)  ②  (5̲___________________________________________________________________)
-```pre
+᙮᠃ ܂꘎꓿꛳𖫵𛲟    ０１２３４５６７８９
+```
 
 ```reg
+     ──────╴１───────      ──────────╴２──────────    ─３─      ──────╴４───────        ─────────────────────────────────╴５───────────────────────────────
 %s/\(\%([^a-z0-9]\)\s\)\+\(\%(\<[a-z0-9]\+\>\.\)\+\)\(\.\+\)\n\(\%([^a-z0-9]\)\s\)\+\2\(\.\<circle\>\|\.\<square\>\|\.\<fill\>\|\.\<dotted\>\|\.\<inverse\>\)\+/\1\4\2 (\3\5)/
-%s/
-````
+
+```
 
 ```pre
 ⧕⃞ _______1̲________

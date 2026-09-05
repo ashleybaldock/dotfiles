@@ -88,7 +88,7 @@ function! diag#update(error, result) abort
     let s:cachedFetchError = a:error
     echom 'diag#fetch failed with error: ''' .. a:error .. ''''
   else
-    echom 'diag#fetch result: '''
+    " echom 'diag#fetch result: '''
     let s:cachedFetch = a:result
     let s:diagSplitByFileAndSeverity = diag#byFileAndSeverity(s:cachedFetch)
   endif

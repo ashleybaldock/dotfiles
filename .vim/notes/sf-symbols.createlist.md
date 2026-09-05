@@ -1,5 +1,17 @@
 ## Export symbols from SF Symbols app
 
+
+
+ashley@tau:~/dotfiles/.vim/notes (master *%=)$ cat sfsymbols.json | jq '.versions | to_entries | .[] | .["key"] as $ver
+sion | [ (."value"."r" | [ .["s"], [ ({n: ."n"[], v: $version, r: "1" }) ] ] | transpose), (."value"."u" | [ .["s"], [(
+{n: ."n"[], v: $version, r: "0" }) ] ] | transpose) ] | .[] as [$key, $value] | [{$key, $value}]' > sf-new.json
+
+ashley@tau:~/dotfiles/.vim/notes (master *%=)$ cat sfsymbols.json | jq '.versions | to_entries | .[] | .["key"] as $ver
+sion | [ (."value"."r" | [ .["s"], [ ({n: ."n"[], v: $version, r: "1" }) ] ] | transpose), (."value"."u" | [ .["s"], [(
+{n: ."n"[], v: $version, r: "0" }) ] ] | transpose) ] | .[] as [$key, $value] | [{$key, $value}]' > sf-new.json
+
+
+
 ## Group similar together
 
 name[.inverse]

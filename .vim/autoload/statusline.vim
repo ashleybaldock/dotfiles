@@ -4,22 +4,26 @@ endif
 let g:mayhem_autoloaded_statusline = 1
 
 "
-" See: ../plugin/statusline.vim
+" Related:
+"    $VIMHOME/autoload/sl.vim
+"    $VIMHOME/plugin/statusline.vim
 "
 
-" 􀖈􀖉􀕹􀊫 􀤍
+" 􀖈􀖉􀕹􀊫 􀤍 ⲋⳆⲺⲺⲺⳘⲠⳞ ⳊⳌⳄⳒⳅⳓⳋⳍ𐋴 ⳽ჼჽ 𐑴𐑢᠆
 let g:mayhem.symbols_S.search = #{
       \ search: '􀊫',
       \ timeout: '􀖇',
+      \ quote: '″️',
       \}
-      " \ search: 'ⲋⳆⲺⲺⲺⳘⲠⳞ ⳊⳌⳄⳒⳅⳓⳋⳍ𐋴 ⳽ჼჽ',
 let g:mayhem.symbols_8.search = #{
       \ search: '/',
       \ timeout: '.',
+      \ quote: '″️',
       \}
 let g:mayhem.symbols_A.search = #{
       \ search: '',
       \ timeout: '',
+      \ quote: '"',
       \}
 
 function! statusline#formatSearch(search = @/)
@@ -42,6 +46,7 @@ function! statusline#updateSearch(...) abort
   let current = '-'
   let total = '-'
   let symbol = symbols#CN('search.search')
+  let quote = symbols#CN('search.quote')
 
   if r.incomplete ==# 1 " timed out
     let summary = [
@@ -80,9 +85,9 @@ function! statusline#updateSearch(...) abort
   let formattedSearch = statusline#formatSearch()
 
   let b:mayhem.sl_cache_search = format#CN([
-      \'%#SlFPath⸮#', symbol, ' ',
+      \'%#SlFPath⸮#', symbol, ' ', quote,
       \'%#SlSearch⸮#', formattedSearch,
-      \'%#SlFPath⸮#', ' ',
+      \'%#SlFPath⸮#', quote, ' ',
       \'%#SlSearchSep⸮#','⁞',
       \'%#SlFPath⸮#', ' ',
       \ summary,

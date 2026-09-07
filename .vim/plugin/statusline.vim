@@ -6,8 +6,13 @@ let g:mayhem_loaded_statusline = 1
 scriptencoding utf-8
 
 "
-" See Also: $VIMHOME/autoload/tabline.vim
-"           $VIMHOME/autoload/statusline.vim
+" Related:
+"   $VIMHOME/autoload/tabline.vim
+"   $VIMHOME/autoload/statusline.vim
+"   $VIMHOME/autoload/sl.vim
+"   $VIMHOME/autoload/symbols.vim
+"   $VIMHOME/autoload/format.vim
+"   $VIMHOME/after/syntax/vim.statusline.vim
 "
 
 "{{{1 TODO Statusline for narrow windows (<16)
@@ -34,17 +39,17 @@ let g:mayhem.symbols_S = get(g:mayhem, 'symbols_S', {})
 let g:mayhem.symbols_8 = get(g:mayhem, 'symbols_8', {})
 let g:mayhem.symbols_A = get(g:mayhem, 'symbols_A', {})
 
-function FName()
+function FName() abort
   return expand('%:t:r')
 endfunc
-function FDotExt()
+function FDotExt() abort
   let ext = expand('%:e')
   return ext == '' ? '' : '.' .. ext
 endfunc
 
 
-function ChDiag()
-  return get(b:, 'mayhem', {})->get('sl_cache_diag', ['D?','DN'])[NC()]
+function ChDiag() abort
+  return sl#getCN(b:, 'sl_cache_diag', ['D?', 'DN'])
 endfunc
 "
 " 􀋙⃞︎   􀋝⃞︎  􀋙️⃝ 􀋝️⃝ 􁄤️⃝
@@ -57,7 +62,7 @@ endfunc
 " 􀀹️⃝􀀻️⃝􀀽️⃝􀀿️⃝􀁁️⃝􀘘️⃝􀁃️⃝􀁅️⃝􀔊️⃝􀔋️⃝􀔌️⃝􀔍️⃝􀔎️⃝􀔏️⃝􀔐️⃝􀔑️⃝􀔒️⃝􀔓️⃝􀔔️⃝
 " 􀀸️⃝􀀺️⃝􀀼️⃝􀀾️⃝􀁀️⃝􀘗️⃝􀁂️⃝􀁄️⃝􀓫️⃝􀓬️⃝􀓭️⃝􀓮️⃝􀓯️⃝􀓰️⃝􀓱️⃝􀓲️⃝􀓳️⃝􀓴️⃝􀓵️⃝
 " 􀃈️⃝􀃊️⃝􀃌️⃝􀃎️⃝􀃐️⃝􀘙️⃝􀃒️⃝􀃔️⃝􀔩️⃝􀔪️⃝􀔫️⃝􀔬️⃝􀔭️⃝􀔮️⃝􀔯️⃝􀔰️⃝􀔱️⃝􀔲️⃝􀔳️⃝
-" 􀃋️⃝􀃍️⃝􀃏️⃝􀃑️⃝􀘚️⃝􀃓️⃝􀃕️⃝􀕈️⃝􀕉️⃝􀕊️⃝􀕋️⃝􀕌️⃝􀕍️⃝􀕎️⃝􀕏️⃝􀕐️⃝􀕑️⃝􀕒️⃝
+"   􀃋️⃝􀃍️⃝􀃏️⃝􀃑️⃝􀘚️⃝􀃓️⃝􀃕️⃝􀕈️⃝􀕉️⃝􀕊️⃝􀕋️⃝􀕌️⃝􀕍️⃝􀕎️⃝􀕏️⃝􀕐️⃝􀕑️⃝􀕒️⃝
 
 "  􀓄️⃝  􀄦️⃝      􀅈️⃝      􀧐️⃝ 􀄪️⃝ 􀅎️⃝ 􀅍️⃝ 􀒆️⃝ 􀅼️⃝ 􀅽️⃝ 􀅬️⃝ 
 "    􀓅️⃝             􀅉️⃝ 􀬑️⃝        􀢒️⃝  􀅳️⃝     􀥋⃝ 
@@ -225,7 +230,7 @@ let g:mayhem.symbols_A.git = {
 
 " Get latest cached git status
 function ChGit()
-  return get(b:, 'mayhem', {})->get('sl_cache_git', ['G?','GN'])[NC()]
+  return sl#getCN(b:, 'sl_cache_git', ['G?', 'GN'])
 endfunc
 
 " Update cached git status
@@ -279,6 +284,8 @@ let g:mayhem.symbols_S.status = {
       \ 'termpause'   : '􀊛',
       \ 'termplay'    : '􀩼',
       \ 'termtoggle'  : '􀊇',
+      \ 'help'        : '􀉚',
+      \ 'prev'        : '􀬸',
       \ }
 let g:mayhem.symbols_8.status = {
       \ 'readonly'    : 'ᴿ',
@@ -294,6 +301,8 @@ let g:mayhem.symbols_8.status = {
       \ 'termpause'   : '⏸⃞',
       \ 'termplay'    : '>⃞ ',
       \ 'termtoggle'  : '⏯︎',
+      \ 'help'        : '𝓲⃝',
+      \ 'prev'        : 'ᴘ⃞',
       \ }
 let g:mayhem.symbols_A.status = {
       \ 'readonly'    : 'R',
@@ -309,6 +318,8 @@ let g:mayhem.symbols_A.status = {
       \ 'termpause'   : '>',
       \ 'termplay'    : '>',
       \ 'termtoggle'  : 't',
+      \ 'help'        : 'help',
+      \ 'prev'        : 'preview',
       \ }
 
 function RO() abort
@@ -337,22 +348,6 @@ endfunc
 
 function TermPaused() abort
   return mode() =~# 'n' ?  symbols#get('status.termpause') : symbols#get('status.termplay')
-endfunc
-
-function Diffing() abort
-  let diff_left = getbufvar(bufnr(), 'mayhem_diff_left', 0)
-  let diff_right = getbufvar(bufnr(), 'mayhem_diff_right', 0)
-  if &diff
-    if diff_left
-      return symbols#get('status.diffingleft')
-    elseif diff_right
-      return symbols#get('status.diffingright')
-    else
-      return symbols#get('status.diffing')
-    endif
-  else
-    return ''
-  endif
 endfunc
 
 function ChQfTitle() abort
@@ -393,17 +388,17 @@ endfunc
 
 " Get cached search count
 function ChSearch() abort
-  return v:hlsearch ? get(b:, 'mayhem', {})->get('sl_cache_search', ['',''])[NC()] : ''
+  return v:hlsearch ? sl#getCN(b:, 'sl_cache_search', ['', '']) : ''
 endfunc
 
 " Get cached filename
 function ChFName() abort
-  return get(b:, 'mayhem', {})->get('sl_cached_filename', [expand('%'),expand('%')])[NC()]
+  return sl#getCN(b:, 'sl_cached_filename', [expand('%'),expand('%')])
 endfunc
 
 " Get cached file info
 function ChFInfo() abort
-  return get(b:, 'mayhem', {})->get('sl_cached_fileinfo', ['',''])[NC()]
+  return sl#getCN(b:, 'sl_cached_fileinfo', ['', ''])
 endfunc
 
 function s:Update_WinSize() abort
@@ -419,7 +414,7 @@ function s:Update_WinSize() abort
   endif
 endfunc
 function ChWinSz() abort
-  return get(b:, 'mayhem', {})->get('sl_cached_winsize', ['',''])[NC()]
+  return sl#getCN(b:, 'sl_cached_winsize', ['', ''])
 endfunc
 
 function MessTime() abort
@@ -514,45 +509,63 @@ function s:UpdateStatuslines() abort
   " Separate: %= ║ L%=Mid%=R ┃ L          Mid          R ┃
 
   let g:mayhem['sl_norm'] = format#CN([
-        \'%{%ChWinSz()%}%{%ChGit()%} %{%ChFName()%} ',
-        \'%#SlSep⸮#%=%*%<',
+        \'%{%ChWinSz()%}',
+        \'%{%ChGit()%}',
+        \' %{%ChFName()%} ',
+        \'%<',
+        \'%#SlSep⸮#❮%=❮%*',
         \' %{%ChSearch()%}',
-        \'%#SlSep⸮#%=%*',
+        \'%#SlSep⸮#❮%=❮%*',
         \'%( %#SlFlag⸮#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
         \'%( %#SlHint⸮#%{%Conceal()%}%{%CheckScb()%}%*%)',
         \' %{%ChFInfo()%}',
         \' %{%ScrollHint()%}',
         \' %{%ChDiag()%}',
-        \'%{%Diffing()%}',
         \])
 
-
-  " let g:mayhem['sl_prev'] = [
-  "   \ '%#SlInfoC#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ',
-  "   \ '%#SlInfo#ᴘ⃞  %-f%*%<%=%(%n %l,%c%V %P%) ']
-  let g:mayhem['sl_prev'] = format#CN([
-        \'%#SlInfo⸮#􀬸 %-f%*%<%=%(%n %l,%c%V%) ',
-        \])
-
-  " let g:mayhem['sl_help'] = [
-  "       \ '%#SlInfoC#𝓲⃝  %{%FName()%}%*%#SlHintC#%{%FDotExt()%}%<%=%(ln%l %*%P%) ',
-  "       \ '%#SlInfoN#𝓲⃝  %{%FName()%}%*%#SlHintN#%{%FDotExt()%}%<%=%(ln%l %*%P%) ']
-  let g:mayhem['sl_help'] = format#CN([
-        \'%#SlInfo⸮#􀉚 %{%FName()%}',
-        \'%#SlHint⸮#%{%FDotExt()%}',
-        \'%#SlSep⸮#%=%*%<',
+  let g:mayhem['sl_diff_left'] = format#CN([
+        \symbols#get('status.diffing'),
+        \' %{%ChFName()%} ',
+        \'%<',
+        \'%#SlSep⸮#❮%=❮%*',
         \' %{%ChSearch()%}',
-        \'%#SlSep⸮#%=%*',
+        \'%#SlSep⸮#❮%=❮%*',
+        \symbols#get('status.diffingleft'),
+        \])
+  let g:mayhem['sl_diff_right'] = format#CN([
+        \symbols#get('status.diffingright'),
+        \'%#SlSep⸮#❮%=❮%*',
+        \' %{%ChFInfo()%}',
+        \' %{%ScrollHint()%}',
+        \' %{%ChDiag()%}',
+        \])
+
+  let g:mayhem['sl_prev'] = format#CN([
+        \'%#SlInfo⸮#',
+        \symbols#get('status.prev'),
+        \' %-f%*%<%=%(%n %l,%c%V%) ',
+        \])
+
+  let g:mayhem['sl_help'] = format#CN([
+        \'%#SlInfo⸮#',
+        \symbols#get('status.help'),
+        \' %{%FName()%}',
+        \'%#SlHint⸮#%{%FDotExt()%}',
+        \'%#SlSep⸮#❮%=❮%*',
+        \'%<',
+        \'%#SlSep⸮#❮%=❮%*',
+        \' %-10.30(%{%ChSearch()%}%)',
+        \'%#SlSep⸮#❮%=❮%*',
         \'%(',
         \'%#SlHint⸮# help ',
         \'%#SlFPath⸮#[%#SlInfo⸮#%l%#SlFPath⸮#/%#SlInfo⸮#%L%#SlFPath⸮#]',
         \'%)',
         \])
-
   let g:mayhem['sl_term'] = format#CN([
-        \'%#SlTerm⸮#%{%TermPaused()%} ',
-        \'%-f%*%<%=%(%l,%c%V%) ',
-        \'%-f%#SlSep⸮#%*%<%= %#SlTerm⸮#%(%l,%c%V%) ',
+        \'%#SlTerm⸮#%{%TermPaused()%} %-f%*',
+        \'%#SlSep⸮#%<%*',
+        \'%=',
+        \' %#SlTerm⸮#%(%l,%c%V%)%* ',
         \' %{%ScrollHint()%}',
         \])
 
@@ -590,9 +603,9 @@ function s:UpdateStatuslines() abort
         \' in %#SlQfCt⸮#%{%ChQfFCt()%}%#SlQf⸮# file%{%ChQfFCtPl()%}%* ',
         \qs,
         \'%=',
-        \'%#SlHint⸮#%{%ChQfCommand()%}%* ',
-        \' %{%ScrollHint()%}',
-        \' %#SlQf⸮# %*'
+        \'%#SlHint⸮#%{%ChQfCommand()%}%*',
+        \' %{%ScrollHint()%} ',
+        \'%#SlQf⸮# %*'
         \])
 
   let g:mayhem['sl_qfix'] = format#CN([
@@ -635,39 +648,47 @@ function s:UpdateStatuslines() abort
         \])
 endfunc
 
-function NC()
-  return g:actual_curwin == win_getid() ? 0 : 1
-endfunc
-
+"
 " Related: WinColorUpdate in ./wincolor.vim
-function CustomStatusline()
+"
+function CustomStatusline() abort
   if &buftype == 'help'
-    return get(g:, 'mayhem', {})->get('sl_help', ['sl_helpC', 'sl_helpN'])[NC()]
+    return sl#getCN(g:, 'sl_help')
   elseif &buftype == 'quickfix'
     if get(b:, 'mayhem_quickfix_subtype') == 'ag'
-      return get(g:, 'mayhem', {})->get('sl_qfix_ag', ['sl_qfix_agC', 'sl_qfix_agN'])[NC()]
+      return sl#getCN(g:, 'sl_qfix_ag')
     else
-      return get(g:, 'mayhem', {})->get('sl_qfix', ['sl_qfixC', 'sl_qfixN'])[NC()]
+      return sl#getCN(g:, 'sl_qfix')
     endif
   elseif &buftype == 'preview'
-    return get(g:, 'mayhem', {})->get('sl_prev', ['sl_prevC', 'sl_prevN'])[NC()]
+    return sl#getCN(g:, 'sl_prev')
   elseif &buftype == 'terminal'
-    return get(g:, 'mayhem', {})->get('sl_term', ['sl_termC', 'sl_termN'])[NC()]
+    return sl#getCN(g:, 'sl_term')
+  endif
+
+  if &diff
+    if get(b:, 'mayhem_diff_left', v:false)
+      return sl#getCN(g:, 'sl_diff_left')
+    elseif get(b:, 'mayhem_diff_right', v:false)
+      return sl#getCN(g:, 'sl_diff_right')
+    else
+      return sl#getCN(g:, 'sl_diff')
+    endif
   endif
 
   if &ft == 'netrw'
-    return get(g:, 'mayhem', {})->get('sl_dir', ['sl_dirC', 'sl_dirN'])[NC()]
+      return sl#getCN(g:, 'sl_dir')
   elseif &ft == 'vimmessages'
-    return get(g:, 'mayhem', {})->get('sl_messages', ['sl_messagesC', 'sl_messagesN'])[NC()]
+    return sl#getCN(g:, 'sl_messages')
   elseif &ft == 'vimscriptnames'
-    return get(g:, 'mayhem', {})->get('sl_scriptnames', ['sl_scriptnamesC', 'sl_scriptnamesN'])[NC()]
+    return sl#getCN(g:, 'sl_scriptnames')
   elseif &ft == 'vimruntime'
-    return get(g:, 'mayhem', {})->get('sl_runtime', ['sl_runtimeC', 'sl_runtimeN'])[NC()]
+    return sl#getCN(g:, 'sl_runtime')
   elseif &ft == 'mayhemhome'
-    return get(g:, 'mayhem', {})->get('sl_home', ['sl_homeC', 'sl_homeN'])[NC()]
+    return sl#getCN(g:, 'sl_home')
   endif
 
-  return get(g:, 'mayhem', {})->get('sl_norm', ['sl_normC', 'sl_normN'])[NC()]
+  return sl#getCN(g:, 'sl_norm')
 endfunc
 
 

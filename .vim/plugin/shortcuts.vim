@@ -322,8 +322,8 @@ nnoremap §wa <Cmd>wa<CR>
 " Help: §h
 "
 nnoremap §hr <Cmd>vsplit ~/.vim/notes/regex.md<CR>
-
 nnoremap §hf <Cmd>vsplit ~/.vim/notes/cmdfuncmap.md<CR>
+nnoremap §hu <Cmd>vsplit ~/.vim/notes/unicode.md<CR>
 
 "
 " Highlighting

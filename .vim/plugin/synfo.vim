@@ -3,6 +3,10 @@ if exists("g:mayhem_loaded_synfo")
 endif
 let g:mayhem_loaded_synfo = 1
 
+"
+" Related:
+"   $VIMHOME/notes/synfo-ui.md
+"
 
 " TODO - add to symbols repository when implemented
 let s:symbols = get(g:, 'mayhem_symbols_synfo', #{

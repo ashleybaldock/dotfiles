@@ -5522,4 +5522,70 @@ p  ‾‗_‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾�
 
 <!-- }}}1 -->
 
+### punctuation
+ⵯ
+### squares
+ⵇ ⵎ ⵡ
+### triangles
+ⵠ
+### circles
+ⴰ
+#### dotted
+ⵔ ⵙ
+#### lined
+ⴱ ⴲ ⵀ ⵁ ⴻ
+#### multiple
+ⵓ
+### dots
+ⴾ ⵆ ⵘ
+#### vertical
+ⵗ
+#### horizontal
+ⵈ 
+### arrows
+ⴽ ⴿ ⵤ
+#### heads
+ⴷ ⴸ ⵦ
+#### composite
+ⵦⵧⵧⵧ ⵦⵈ 
+### lines
+#### vertical
+ⵏⴶ ⵐ
+#### horizontal
+ⵧ
+#### curved
+⵰
+#### like #
+ⵌ
+#### like +
+ⵜ
+#### like !
+ⵑ
+### like 6
+ⵒ
+### like C
+ⵛ ⵞ 
+### like E
+ⴹ ⴺ ⵟ 
+### like H
+ⴼ 
+### like I
+ⵊ
+### like N
+ⵍ
+### like Q
+ⵚ
+### like R
+
+### like S
+ⵢ
+### like V
+ⴷ ⴸ
+### like W
+ⵉ
+### like X
+ⵝ ⵅ ⴳ ⴴ ⴵ  ⵋ ⵣ ⵥ 
+### like Y
+ⵃ ⵖ
+
 <!-- vim: set colorcolumn=40,60,80 foldcolumn=2 foldmethod=marker nolist nowrap conceallevel=2: -->

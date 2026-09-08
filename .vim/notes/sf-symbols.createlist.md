@@ -2,31 +2,9 @@
 
 
 
-```jq
 
-."versions" | to_entries | .[] | .["key"] as $v | [ (."value"."r" | [ .["s"], [ ({n: ."n"[], $v, r: "1" }) ] ] | transpose), (."value"."u" | [ .["s"], [ ({n: ."n"[], $v, r: "0" }) ] ] | transpose) ]
-
-
- | .[] as [$key, $value] | [{$key, $value}]
-
-."versions"
-  | to_entries
-    | .[]
-      | .["key"] as $v
-      | .["value"] | to_entries
-        | .["key"] == "r" as $r
-        | .["value"][]
-          | ([ .["s"], [ ({n: ."n"[], $v, $r }) ] ] | transpose)
-
-."versions"
-  | to_entries
-    | .[]
-      | .["key"] as $v
-      | .["value"] | to_entries
-        | .["key"] == "r" as $r
-        | .["value"][]
-          | ([ .["s"], [ ({n: ."n"[], $v, $r }) ] ] | transpose)
-
+```sh
+cat sfsymbols.json | jq -f sf.jq > sf-new.json
 ```
 
 ## Group similar together

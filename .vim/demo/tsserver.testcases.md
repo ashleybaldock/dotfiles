@@ -1,19 +1,19 @@
-```tsserver
+```lsp_tsserver
 Conversion of type '{ readonly addtrigger: readonly ["ADD_TRIGGER", "ADD_TIMER", "ADD_DEATH_TRIGGER"]; readonly greek: readonly ["ALPHA", "GAMMA", "TAU", "OMEGA", "MU", "PHI", "SIGMA", "ZETA"]; readonly divideby: readonly ["DIVIDE_2", "DIVIDE_3", "DIVIDE_4", "DIVIDE_10"]; ... 63 more ...; readonly explodemod: readonly [...]; }' to type 'SpellFamilyInfoRecord' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
 Types of property 'addtrigger' are incompatible.
 The type 'readonly ["ADD_TRIGGER", "ADD_TIMER", "ADD_DEATH_TRIGGER"]' is 'readonly' and cannot be assigned to the mutable type 'ActionId[]'. (tsserver 2352)
 ```
 
-```tsserver
+```lsp_tsserver
 Object literal may only specify known properties, but 'cursor7' does not exist in type 'EditMode'. Did you mean to write 'cursor'? (tsserver 2561)
 ```
 
-```tsserver
+```lsp_tsserver
 Argument of type 'ActionId' is not assignable to parameter of type '"addtrigger" | "greek" | "divideby" | "random" | "kantele" | "ocarina" | "spark" | "bombs" | "plasma" | "tele" | "saws" | "heal" | "spitter" | "hole" | "arrows" | "mist" | "nature" | ... 49 more ... | "explodemod"'.
 Type '"ADD_TRIGGER"' is not assignable to type '"addtrigger" | "greek" | "divideby" | "random" | "kantele" | "ocarina" | "spark" | "bombs" | "plasma" | "tele" | "saws" | "heal" | "spitter" | "hole" | "arrows" | "mist" | "nature" | ... 49 more ... | "explodemod"'. Did you mean '"addtrigger"'? (tsserver 2345)
 ```
 
-```tsserver
+```lsp_tsserver
 No overload matches this call.
   Overload 1 of 4, '(iterable?: Iterable<readonly ["id" | "deck_index" | "permanently_attached" | "always_cast_index" | "beta" | "name" | "description" | "sprite" | "action" | "type" | "custom_xml_file" | "related_projectiles" | ... 18 more ... | "inventoryitem_id", InfoFor<...>]> | null | undefined): Map<...>', gave the following error.
     Argument of type '(["id", FieldInfo<Spell, ActionId> | undefined] | ["deck_index", FieldInfo<Spell, number | undefined> | undefined] | ... 29 more ... | undefined)[]' is not assignable to parameter of type 'Iterable<readonly ["id" | "deck_index" | "permanently_attached" | "always_cast_index" | "beta" | "name" | "description" | "sprite" | "action" | "type" | "custom_xml_file" | "related_projectiles" | ... 18 more ... | "inventoryitem_id", InfoFor<...>]>'.
@@ -30,6 +30,6 @@ No overload matches this call.
 ```
 
 
-```tsserver
+```lsp_tsserver
 Type '{ dont_draw_actions: true; }' is missing the following properties from type 'ActionCall': _typeName, sequenceId, spell, source, currentMana (tsserver 2739)
 ```

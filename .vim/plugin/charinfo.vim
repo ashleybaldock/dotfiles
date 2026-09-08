@@ -5,14 +5,16 @@ let g:mayhem_loaded_charinfo = 1
 
 
 "
-" See: ../autoload/charinfo.vim
+" Related:
+"     $VIMHOME/autoload/charinfo.vim
 "
 
-command! -bar -nargs=? CharInfo echo charinfo#formatForCommandWithColor(<q-args>)
+command! -bar -nargs=? CharInfo exec charinfo#formatForCommandWithColor(<args>)
 
-nnoremap <silent><script> <Plug>(mayhem_charinfo) :<C-U>CharInfo<CR>
+nnoremap <silent><script> <Plug>(mayhem_charinfo) <Cmd>exec charinfo#formatForCommand()<CR>
+nnoremap <silent><script> <Plug>(mayhem_charinfo_color) <Cmd>exec charinfo#formatForCommandWithColor()<CR>
 
-nnoremap <silent><script> <Plug>(mayhem_charinfo_toggle) :<C-U>Toggle g:mayhem_auto_charinfo<CR>
+nnoremap <silent><script> <Plug>(mayhem_charinfo_toggle) <Cmd>Toggle g:mayhem_auto_charinfo<CR>
 
 " exec 'an' SfIcon() '120.200.110' 'View.Chars.Auto\ Char\ Info' '<Cmd>Toggle g:mayhem_hl_auto_charinfo<CR>'
 

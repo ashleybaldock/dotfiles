@@ -5,14 +5,14 @@ endif
 "
 " Markdown syntax++
 "
-" au BufWritePost <buffer> syn on
+" :au BufWritePost <buffer> syn on
 "
-" See Also: 
-"  $VIMRUNTIME/syntax/markdown.vim
-"     ../after/syntax/markdown.vim
-"     ../after/ftplugin/markdown.vim
+" Related: 
+"     $VIMRUNTIME/syntax/markdown.vim
+"     $VIMHOME/after/syntax/markdown.vim
+"     $VIMHOME/after/ftplugin/markdown.vim
 " Test Doc:
-"          ../demo/markdown.md
+"     $VIMHOME/demo/markdown.md
 "
 
 if !exists('main_syntax')
@@ -34,7 +34,7 @@ if !exists('g:md_fenced_languages')
   let g:md_fenced_languages = []
 endif
 let s:included = {}
-for s:type in mapnew(g:md_fenced_languages, 'matchstr(v:val, "[^=]*$")')
+for s:type in get(g:, 'md_fenced_languages', [])->mapnew('matchstr(v:val, "[^=]*$")')
   if has_key(s:included, matchstr(s:type,'[^.]*'))
     continue
   endif
@@ -42,8 +42,13 @@ for s:type in mapnew(g:md_fenced_languages, 'matchstr(v:val, "[^=]*$")')
     let b:{matchstr(s:type, '[^.]*')}_subtype = matchstr(s:type, '\.\zs.*')
   endif
   syn case match
-  exec 'syn include @' .. s:mdIncludePrefix .. tr(s:type, '.', '_') ..
-        \ ' syntax/' .. matchstr(s:type, '[^.]*') .. '.vim'
+  try
+    exec 'syn include @' .. s:mdIncludePrefix .. tr(s:type, '.', '_') .. ' ' ..
+          \ expand('syntax/' .. matchstr(s:type, '[^.]*') .. '.vim')->fnameescape()
+  catch /^Vim\%((\S\+)\)\=:E484:/
+    silent echo 'markdown.vim: failed to include fenced syntax ''' .. s:type .. ''''
+    silent echo v:exception
+  endtry
   unlet! b:current_syntax
   let s:included[matchstr(s:type, '[^.]*')] = 1
 endfor
@@ -95,12 +100,12 @@ syn match mdH2 "^.\+\n-\+$" contained contains=@mdInline,mdHeadingRule,mdAutoLin
 
 syn match mdHeadingRule "^[=-]\+$" contained
 
-syn region mdH1 matchgroup=mdH1Delim start="^\s*#\s"      end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH2 matchgroup=mdH2Delim start="^\s*##\s"     end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH3 matchgroup=mdH3Delim start="^\s*###\s"    end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH4 matchgroup=mdH4Delim start="^\s*####\s"   end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH5 matchgroup=mdH5Delim start="^\s*#####\s"  end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH6 matchgroup=mdH6Delim start="^\s*######\s" end="#*\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH1 matchgroup=mdH1Delim start="^\s*\z(#\{1}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH1 matchgroup=mdH2Delim start="^\s*\z(#\{2}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH1 matchgroup=mdH3Delim start="^\s*\z(#\{3}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH1 matchgroup=mdH4Delim start="^\s*\z(#\{4}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH1 matchgroup=mdH5Delim start="^\s*\z(#\{5}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH1 matchgroup=mdH6Delim start="^\s*\z(#\{6}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
 
 
 " syn match mdEscape "\\\~"

@@ -9,18 +9,18 @@
     "v": "8",
     "r": true
   },
-  "􃉠": [
-    {
-      "n": "macpro.gen3.badge.checkmark",
-      "v": "8",
-      "r": true
-    },
-    {
-      "n": "macpro.gen3.badge.ckeckmark",
-      "v": "7",
-      "r": true
-    }
-  ],
+  "􃉠": {
+    "n": "macpro.gen3.badge.checkmark",
+    "v": "8",
+    "r": true,
+    "o": [
+      {
+        "n": "macpro.gen3.badge.ckeckmark",
+        "v": "7",
+        "r": true
+      }
+    ]
+  },
   "􃝞": {
     "n": "apps.iphone.badge.exclamationmark",
     "v": "8",
@@ -261,30 +261,30 @@
     "v": "8",
     "r": false
   },
-  "􁅀": [
-    {
-      "n": "inset.filled.rectangle.and.person",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "inset.filled.rectangle.and.person.filled",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􁹕": [
-    {
-      "n": "person.crop.circle.badge.magnifyingglass",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "person.crop.badge.magnifyingglass",
-      "v": "6",
-      "r": false
-    }
-  ],
+  "􁅀": {
+    "n": "inset.filled.rectangle.and.person",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "inset.filled.rectangle.and.person.filled",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􁹕": {
+    "n": "person.crop.circle.badge.magnifyingglass",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "person.crop.badge.magnifyingglass",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
   "􃛺": {
     "n": "person.text.rectangle.badge.clock",
     "v": "8",
@@ -325,18 +325,18 @@
     "v": "8",
     "r": false
   },
-  "􀑫": [
-    {
-      "n": "microphone.dynamic.on.stand",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "music.microphone",
-      "v": "6",
-      "r": false
-    }
-  ],
+  "􀑫": {
+    "n": "microphone.dynamic.on.stand",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "music.microphone",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
   "􃜱": {
     "n": "square.dashed.micro",
     "v": "8",
@@ -397,18 +397,18 @@
     "v": "8",
     "r": false
   },
-  "􃗟": [
-    {
-      "n": "arrowtriangle.backward.inset.filled.leadingthird.rectangle",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "arrowtriangle.backward.inset.filled.trailingthird.rectangle",
-      "v": "7",
-      "r": false
-    }
-  ],
+  "􃗟": {
+    "n": "arrowtriangle.backward.inset.filled.leadingthird.rectangle",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "arrowtriangle.backward.inset.filled.trailingthird.rectangle",
+        "v": "7",
+        "r": false
+      }
+    ]
+  },
   "􃜎": {
     "n": "arrowtriangle.left.inset.filled.leftthird.rectangle",
     "v": "8",
@@ -504,18 +504,18 @@
     "v": "8",
     "r": false
   },
-  "􀤨": [
-    {
-      "n": "building.classical.columns",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "building.columns",
-      "v": "2",
-      "r": false
-    }
-  ],
+  "􀤨": {
+    "n": "building.classical.columns",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "building.columns",
+        "v": "2",
+        "r": false
+      }
+    ]
+  },
   "􃜄": {
     "n": "person.building.classical",
     "v": "8",
@@ -661,42 +661,42 @@
     "v": "8",
     "r": false
   },
-  "􀏜": [
-    {
-      "n": "interface.window",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "macwindow",
-      "v": "1",
-      "r": false
-    }
-  ],
-  "􃑷": [
-    {
-      "n": "interface.window.stack",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "macwindow.stack",
-      "v": "7",
-      "r": false
-    }
-  ],
-  "􁝸": [
-    {
-      "n": "interface.window.and.pointer.arrow",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "macwindow.and.pointer.arrow",
-      "v": "7",
-      "r": false
-    }
-  ],
+  "􀏜": {
+    "n": "interface.window",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "macwindow",
+        "v": "1",
+        "r": false
+      }
+    ]
+  },
+  "􃑷": {
+    "n": "interface.window.stack",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "macwindow.stack",
+        "v": "7",
+        "r": false
+      }
+    ]
+  },
+  "􁝸": {
+    "n": "interface.window.and.pointer.arrow",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "macwindow.and.pointer.arrow",
+        "v": "7",
+        "r": false
+      }
+    ]
+  },
   "􃛒": {
     "n": "interface.window.dashed",
     "v": "8",
@@ -712,42 +712,42 @@
     "v": "8",
     "r": false
   },
-  "􀢌": [
-    {
-      "n": "interface.window.on.rectangle",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "macwindow.on.rectangle",
-      "v": "2",
-      "r": false
-    }
-  ],
-  "􀣚": [
-    {
-      "n": "text.and.command.interface.window",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "text.and.command.macwindow",
-      "v": "2",
-      "r": false
-    }
-  ],
-  "􀤯": [
-    {
-      "n": "keyboard.interface.window",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "keyboard.macwindow",
-      "v": "2",
-      "r": false
-    }
-  ],
+  "􀢌": {
+    "n": "interface.window.on.rectangle",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "macwindow.on.rectangle",
+        "v": "2",
+        "r": false
+      }
+    ]
+  },
+  "􀣚": {
+    "n": "text.and.command.interface.window",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "text.and.command.macwindow",
+        "v": "2",
+        "r": false
+      }
+    ]
+  },
+  "􀤯": {
+    "n": "keyboard.interface.window",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "keyboard.macwindow",
+        "v": "2",
+        "r": false
+      }
+    ]
+  },
   "􃜥": {
     "n": "text.page.and.line.vertical.and.text.page",
     "v": "8",
@@ -823,534 +823,534 @@
     "v": "8",
     "r": false
   },
-  "􂃓": [
-    {
-      "n": "waveform.and.person",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "waveform.and.person.filled",
-      "v": "5",
-      "r": false
-    }
-  ],
-  "􂔝": [
-    {
-      "n": "australsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "australsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂕉": [
-    {
-      "n": "australiandollarsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "australiandollarsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔵": [
-    {
-      "n": "bahtsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "bahtsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔹": [
-    {
-      "n": "bitcoinsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "bitcoinsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔻": [
-    {
-      "n": "brazilianrealsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "brazilianrealsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔧": [
-    {
-      "n": "cedisign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "cedisign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂓽": [
-    {
-      "n": "centsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "centsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔽": [
-    {
-      "n": "chineseyuanrenminbisign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "chineseyuanrenminbisign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔥": [
-    {
-      "n": "coloncurrencysign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "coloncurrencysign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔩": [
-    {
-      "n": "cruzeirosign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "cruzeirosign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂕅": [
-    {
-      "n": "danishkronesign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "danishkronesign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂓲": [
-    {
-      "n": "dollarsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "dollarsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔍": [
-    {
-      "n": "dongsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "dongsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔋": [
-    {
-      "n": "eurosign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "eurosign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂕇": [
-    {
-      "n": "eurozonesign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "eurozonesign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔅": [
-    {
-      "n": "florinsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "florinsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔃": [
-    {
-      "n": "francsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "francsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔣": [
-    {
-      "n": "guaranisign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "guaranisign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔟": [
-    {
-      "n": "hryvniasign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "hryvniasign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔏": [
-    {
-      "n": "indianrupeesign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "indianrupeesign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔗": [
-    {
-      "n": "kipsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "kipsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔷": [
-    {
-      "n": "larisign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "larisign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔛": [
-    {
-      "n": "lirasign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "lirasign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂣯": [
-    {
-      "n": "malaysianringgitsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "malaysianringgitsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔱": [
-    {
-      "n": "manatsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "manatsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔭": [
-    {
-      "n": "millsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "millsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔡": [
-    {
-      "n": "nairasign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "nairasign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂕁": [
-    {
-      "n": "norwegiankronesign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "norwegiankronesign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂨹": [
-    {
-      "n": "peruviansolessign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "peruviansolessign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔓": [
-    {
-      "n": "pesetasign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "pesetasign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔕": [
-    {
-      "n": "pesosign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "pesosign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔿": [
-    {
-      "n": "polishzlotysign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "polishzlotysign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔉": [
-    {
-      "n": "rublesign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "rublesign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔳": [
-    {
-      "n": "rupeesign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "rupeesign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔯": [
-    {
-      "n": "shekelsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "shekelsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂨲": [
-    {
-      "n": "singaporedollarsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "singaporedollarsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔁": [
-    {
-      "n": "sterlingsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "sterlingsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂕃": [
-    {
-      "n": "swedishkronasign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "swedishkronasign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔑": [
-    {
-      "n": "tengesign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "tengesign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔫": [
-    {
-      "n": "tugriksign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "tugriksign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔇": [
-    {
-      "n": "turkishlirasign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "turkishlirasign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂓿": [
-    {
-      "n": "yensign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "yensign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
-  "􂔙": [
-    {
-      "n": "wonsign.building.classical",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "wonsign.bank.building",
-      "v": "6",
-      "r": false
-    }
-  ],
+  "􂃓": {
+    "n": "waveform.and.person",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "waveform.and.person.filled",
+        "v": "5",
+        "r": false
+      }
+    ]
+  },
+  "􂔝": {
+    "n": "australsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "australsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂕉": {
+    "n": "australiandollarsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "australiandollarsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔵": {
+    "n": "bahtsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "bahtsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔹": {
+    "n": "bitcoinsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "bitcoinsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔻": {
+    "n": "brazilianrealsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "brazilianrealsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔧": {
+    "n": "cedisign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "cedisign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂓽": {
+    "n": "centsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "centsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔽": {
+    "n": "chineseyuanrenminbisign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "chineseyuanrenminbisign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔥": {
+    "n": "coloncurrencysign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "coloncurrencysign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔩": {
+    "n": "cruzeirosign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "cruzeirosign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂕅": {
+    "n": "danishkronesign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "danishkronesign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂓲": {
+    "n": "dollarsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "dollarsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔍": {
+    "n": "dongsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "dongsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔋": {
+    "n": "eurosign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "eurosign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂕇": {
+    "n": "eurozonesign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "eurozonesign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔅": {
+    "n": "florinsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "florinsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔃": {
+    "n": "francsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "francsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔣": {
+    "n": "guaranisign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "guaranisign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔟": {
+    "n": "hryvniasign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "hryvniasign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔏": {
+    "n": "indianrupeesign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "indianrupeesign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔗": {
+    "n": "kipsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "kipsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔷": {
+    "n": "larisign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "larisign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔛": {
+    "n": "lirasign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "lirasign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂣯": {
+    "n": "malaysianringgitsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "malaysianringgitsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔱": {
+    "n": "manatsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "manatsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔭": {
+    "n": "millsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "millsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔡": {
+    "n": "nairasign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "nairasign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂕁": {
+    "n": "norwegiankronesign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "norwegiankronesign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂨹": {
+    "n": "peruviansolessign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "peruviansolessign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔓": {
+    "n": "pesetasign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "pesetasign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔕": {
+    "n": "pesosign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "pesosign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔿": {
+    "n": "polishzlotysign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "polishzlotysign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔉": {
+    "n": "rublesign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "rublesign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔳": {
+    "n": "rupeesign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "rupeesign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔯": {
+    "n": "shekelsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "shekelsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂨲": {
+    "n": "singaporedollarsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "singaporedollarsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔁": {
+    "n": "sterlingsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "sterlingsign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂕃": {
+    "n": "swedishkronasign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "swedishkronasign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔑": {
+    "n": "tengesign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "tengesign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔫": {
+    "n": "tugriksign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "tugriksign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔇": {
+    "n": "turkishlirasign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "turkishlirasign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂓿": {
+    "n": "yensign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "yensign.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
+  "􂔙": {
+    "n": "wonsign.building.classical",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "wonsi endgn.bank.building",
+        "v": "6",
+        "r": false
+      }
+    ]
+  },
   "􃜧": {
     "n": "recordingtape.badge",
     "v": "8",
@@ -1361,18 +1361,18 @@
     "v": "8",
     "r": false
   },
-  "􁓘": [
-    {
-      "n": "numero.sign",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "numbersign",
-      "v": "4",
-      "r": false
-    }
-  ],
+  "􁓘": {
+    "n": "numero.sign",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "numbersign",
+        "v": "4",
+        "r": false
+      }
+    ]
+  },
   "􃝢": {
     "n": "info.app",
     "v": "8",
@@ -1383,30 +1383,30 @@
     "v": "8",
     "r": false
   },
-  "􀆃": [
-    {
-      "n": "number.sign",
-      "v": "8",
-      "r": false
-    },
-    {
-      "n": "number",
-      "v": "1",
-      "r": false
-    }
-  ],
-  "􀠀": [
-    {
-      "n": "apple.homekit",
-      "v": "7",
-      "r": true
-    },
-    {
-      "n": "apple.homekit",
-      "v": "2",
-      "r": true
-    }
-  ],
+  "􀆃": {
+    "n": "number.sign",
+    "v": "8",
+    "r": false,
+    "o": [
+      {
+        "n": "number",
+        "v": "1",
+        "r": false
+      }
+    ]
+  },
+  "􀠀": {
+    "n": "apple.homekit",
+    "v": "7",
+    "r": true,
+    "o": [
+      {
+        "n": "apple.homekit",
+        "v": "2",
+        "r": true
+      }
+    ]
+  },
   "􃊀": {
     "n": "appletv.badge.checkmark",
     "v": "7",
@@ -1522,18 +1522,18 @@
     "v": "7",
     "r": true
   },
-  "􁟹": [
-    {
-      "n": "head.profile.vision.pro.remove",
-      "v": "7",
-      "r": true
-    },
-    {
-      "n": "head.profile.vision.pro.remove",
-      "v": "6",
-      "r": true
-    }
-  ],
+  "􁟹": {
+    "n": "head.profile.vision.pro.remove",
+    "v": "7",
+    "r": true,
+    "o": [
+      {
+        "n": "head.profile.vision.pro.remove",
+        "v": "6",
+        "r": true
+      }
+    ]
+  },
   "􃉰": {
     "n": "homepod.badge.checkmark",
     "v": "7",
@@ -3384,18 +3384,18 @@
     "v": "7",
     "r": false
   },
-  "􀓪": [
-    {
-      "n": "radicand.squareroot",
-      "v": "7",
-      "r": false
-    },
-    {
-      "n": "radicand.squareroot",
-      "v": "1",
-      "r": false
-    }
-  ],
+  "􀓪": {
+    "n": "radicand.squareroot",
+    "v": "7",
+    "r": false,
+    "o": [
+      {
+        "n": "radicand.squareroot",
+        "v": "1",
+        "r": false
+      }
+    ]
+  },
   "􃑊": {
     "n": "rectangle.3.group.dashed",
     "v": "7",

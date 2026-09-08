@@ -6,18 +6,22 @@ See also: ../syntax/reg.vim
 ## Pattern
 
 ```pre
-    ╭  pattern             = 1+ branch (first matching branch)
-    ∆    ╰─┬───────────┬─┈    branch (OR) branch (OR) branch …️
-    ┊    branch  \|  branch       1+ concat  (AND)     match if all match at same position
-    ┊      ╰─┬───────────┬─┈   (AND)
-    ┊      concat  \&  concat         1+ piece  match if all match in sequence
-    ┊        ╰─┬─────┬─────┬─┈   (A,B,C)
-    ┊        piece piece piece        1+ atom/atom+multi
-    ╭        ╮ ╰─╮
-    ┤  \( \) ├╴atom(multi)
-    │ \%( \) │   ╰─┬───┬───┬───┬─┈
-    │ \z( \) │    \d* \ze \w [etc.]
-    ╰        ╯   
+   ╭─────────╮
+ ╭ │ pattern │  1 or more branch
+ ∆ ╰─────────╯    (pattern matches if any branch matches)
+ ┊  ╭───────╴ᴏʀ╶──────╴ᴏʀ╶─┈  
+ ┊  │ branch \| branch \| …️   1 or more concat
+ ┊  ╰──────────────────────┈    (match if all match at same position
+ ┊   ╭───────╴ᴀɴᴅ╶─────╴ᴀɴᴅ╶─┈
+ ┊   │ concat \& concat \& …️    1 or more piece  match if all match in sequence
+ ┊   ╰───────────────────────┈   (A,B,C)
+ ┊   ╰───────────┬─────┬─────┬─┈   (A,B,C)
+ ┊        piece piece piece        1+ atom/atom+multi
+ ╭        ╮ ╰─╮
+ ┤  \( \) ├╴atom(multi)
+ │ \%( \) │   ╰─┬───┬───┬───┬─┈
+ │ \z( \) │    \d* \ze \w [etc.]
+ ╰        ╯   
 ```
 
 ## Atoms
@@ -26,89 +30,91 @@ See also: ../syntax/reg.vim
 
 ```pre
 \_[]  +EoL
-  ╭──────────┬─────────────────────────────────╮┌───────┬──────────┬─────────┐
-  │ \e <Esc> │ \m magic        \M nomagic      ││ range │ geedy \{ │ lazy \{-│
-  │ \t <Tab> │ \v very magic   \V very nomagic │├───────┼──────────┼─────────┤
-  │ \r  <CR> │ \c ignore case  \C match case   ││ 0 →️ 1 │ \? \{,1} │ \{-,1} ╭┴╮
-  │ \b  <BS> ┢━━━━━━━┱─────────────────────────┤│ 0 →️ m │    \{,m} │ \{-,m} │m│
-  │ \n  EoL  ┃ ATOMS ┃ ignore combining chars… ││ 0 →️ ∞ │ *  \{}   │ \{-}   │u│
-  ├──────────┺━━━━━━━┹────────╮ \%C prev. atom │├───────┼──────────┼────────┤l│
-  │ [] - any character inside │ \Z globally    ││ 1 →️ ∞ │ \+ \{1,} │ \{-1,} │t│
-  │ \~ - last subst. string   ╰────────────────┤│ n →️ ∞ │    \{n,} │ \{-n,} │i│
-  │ \%[] - sequence of optional atoms          ││ n →️ m │    \{n,m}│ \{-n,m}╰┬╯
-  │ \1,\9 - indexed matches from \(\) groups   ││   n   │    \{n}  │ \{-n}   │
-  │ \z1…️\z9 - indexed matches from \z(\) groups││   n   │    \{n}  │ \{-n}   │
-  │ char codes  \%d255 decimal   \%o377 octal  │└───────┴──────────┴─────────┘
-  │ hex  ¹ᴮ \%xFF  ²ᴮ \%uFFFF  ⁴ᴮ \%U7FFFFFFF  │
-  │ [\d25] [\o44] [\xFF] [\uFFFF] [\U7FFFFFFF] │
-  ┢━━(ascii↴)━━━━━╸=⃝ ╺╸¬⃝ ╺━(character classes)━┪
-  ┃ UPPER        [^0-9]╮̩̣  ╭̩̣[0-9\n]  ⎛  not:  ⎞ ┃
-  ┃           [0-9]↴   ↓̍️  ↓̍️        ⎧⎝[^0-9\n]⎠ ┃
-  ┃ digit       ╷ \d  \D \_d \_D ◁─┴[^0-9]\|\n ┃
-  ┃ hex digit   ┊ \x  \X ╷  [0-9A-Fa-f]        ┃
-  ┃ octal digit ┊ \o  \O ┊        [0-7] [^0-7] ┃
-  ┃ whitespace  ┊ \s  \S ┊        [ \t] [^ \t] ┃
-  ┃ head of…    ┊ \h  \H ┊    [A-Za-z_]        ┃
-  ┃ word        ┊ \w  \W ┊ [0-9A-Za-z_]        ┃
-  ┃ alphabetic  ┊ \a  \A ┊     [A-Za-z]        ┃
-  ┃ lowercase   ┊ \l  \L ┊        [a-z] [^a-z] ┃
-  ┃ uppercase   ╵ \u  \U ╵        [A-Z] [^A-Z] ┃
-  ┡━━(multibyte↴)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-  │ ²ᴮ \%uFFFF     ⁴ᴮ \%U7FFFFFFF  │ see:      │
-  │ identifier  \i  ⎧ \I ⎫         │ isident   │
-  │ keyword     \k  ⎪ \K ⎬ without │ iskeyword │
-  │ file        \f  ⎪ \F ⎪ digits  │ isfname   │
-  │ printable   \p  ⎩ \P ⎭         │ isprint   │
-  ╰────────────────────────────────────────────╯
-
+ ╭──────────┬─────────────────────────────────╮┌───────┬──────────┬─────────┐
+ │ \e <Esc> │ \m magic        \M nomagic      ││ range │ geedy \{ │ lazy \{-│
+ │ \t <Tab> │ \v very magic   \V very nomagic │├───────┼──────────┼─────────┤
+ │ \r  <CR> │ \c ignore case  \C match case   ││ 0 →️ 1 │ \? \{,1} │ \{-,1} ╭┴╮
+ │ \b  <BS> ┢━━━━━━━┱─────────────────────────┤│ 0 →️ m │    \{,m} │ \{-,m} │m│
+ │ \n  EoL  ┃ ATOMS ┃ ignore combining chars… ││ 0 →️ ∞ │ *  \{}   │ \{-}   │u│
+ ├──────────┺━━━━━━━┹────────╮ \%C prev. atom │├───────┼──────────┼────────┤l│
+ │ [] - any character inside │ \Z globally    ││ 1 →️ ∞ │ \+ \{1,} │ \{-1,} │t│
+ │ \~ - last subst. string   ╰────────────────┤│ n →️ ∞ │    \{n,} │ \{-n,} │i│
+ │ \%[] - sequence of optional atoms          ││ n →️ m │    \{n,m}│ \{-n,m}╰┬╯
+ │ \1,\9 - indexed matches from \(\) groups   ││   n   │    \{n}  │ \{-n}   │
+ │ \z1…️\z9 - indexed matches from \z(\) groups││   n   │    \{n}  │ \{-n}   │
+ │ char codes  \%d255 decimal   \%o377 octal  │└───────┴──────────┴─────────┘
+ │ hex  ¹ᴮ \%xFF  ²ᴮ \%uFFFF  ⁴ᴮ \%U7FFFFFFF  │
+ │ [\d25] [\o44] [\xFF] [\uFFFF] [\U7FFFFFFF] │
+ ┢━━(ascii↴)━━━━━╸=⃝ ╺╸¬⃝ ╺━(character classes)━┪
+ ┃ UPPER        [^0-9]╮̩̣  ╭̩̣[0-9\n]  ⎛  not:  ⎞ ┃
+ ┃           [0-9]↴   ↓̍️  ↓̍️        ⎧⎝[^0-9\n]⎠ ┃
+ ┃ digit       ╷ \d  \D \_d \_D ◁─┴[^0-9]\|\n ┃
+ ┃ hex digit   ┊ \x  \X ╷  [0-9A-Fa-f]        ┃
+ ┃ octal digit ┊ \o  \O ┊        [0-7] [^0-7] ┃
+ ┃ whitespace  ┊ \s  \S ┊        [ \t] [^ \t] ┃
+ ┃ head of…    ┊ \h  \H ┊    [A-Za-z_]        ┃
+ ┃ word        ┊ \w  \W ┊ [0-9A-Za-z_]        ┃
+ ┃ alphabetic  ┊ \a  \A ┊     [A-Za-z]        ┃
+ ┃ lowercase   ┊ \l  \L ┊        [a-z] [^a-z] ┃
+ ┃ uppercase   ╵ \u  \U ╵        [A-Z] [^A-Z] ┃
+ ┡━━(multibyte↴)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+ │ ²ᴮ \%uFFFF     ⁴ᴮ \%U7FFFFFFF  │ see:      │
+ │ identifier  \i  ⎧ \I ⎫         │ isident   │
+ │ keyword     \k  ⎪ \K ⎬ without │ iskeyword │
+ │ file        \f  ⎪ \F ⎪ digits  │ isfname   │
+ │ printable   \p  ⎩ \P ⎭         │ isprint   │
+ ╰────────────────────────────────────────────╯
 ```
 
 ### Atoms - Ordinary
 
 ```pre
-                               ╭─────────────────────────────────────────────────╮
-  ╭───────────────╮   ╭───────╮│            line │ file/string │ word │ pattern  │
-  │W ←︎ zero width │   │ Atoms 􀬚         ──┬─────│─────────────│──────│───────── │
-  │↓️B ← not in [] │   ╰───────╯│     start │ BoL │    BoF/S    │ BoW  │ BoP      │
-  ├─↓️┬────────────┼────────────┤       end │ EoL │    EoF/S    │ EoW  │ EoP      │
-  │  │ start  end │     of...  └┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
-  │WB│  \_^   \_$ │ File/string             \^   \$  │   literal                 │
-  │WB│  \_^   \_$ │    Line    └┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
-  │ B│                         │  ⎧ ^ = BoL: @BoP or after `\(` `\|` `\n` `\%(`  │
-  │~~│   ^     $  │   varies   │  ⎩ $ = EoL: @EoP or before `\)` `\|` `\n`       │
-  │┈┈│┈┈┈┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
-  │WB│  \zs   \ze │   Match    │ sets start/end of match                         │
-  │W │  \<    \>  │    Word    │ next/prev char is first/last of word  \<word\>  │
-  │  │   .    \_. │ ^EoL / Any │                                                 │
-  ├──┼────────────┴────────────┴─────────────────────────────────────────────────┤
-  │  │                 \\%\(\^\|\$\|#\|V\|\([><]\=\(\'M\|\([N.]\+[lcv]\+\)\)\)   │
-  │  │                                                                           │
-  │  │    before⎯ ╭╴<╶╮   number⎯ ╭╴N╶╮ ╭╴c╶─ c̲olumn ⎫(bytes)  \%<22c     \%>.c  │
-  │  │   within⎯  ├───┼┬──────────┤   ├─┼─╴v╶─ v̲.col ⎪(chars)  \%<2v \%.l \%>3v  │
-  │  │     after⎯ ├╴>╶╯│  cursor⎯ ╰╴.╶╯ ╰──╴l╶─ l̲ine ⎪                           │
-  │W │  ╔════╗    │    ╰─────────────────'M╶╴ mark M ⎬ not updated on change     │
-  │W │  ║ \% ╟────┴──┬╴#╶───╴ Cursor      \%#        ⎭                           │
-  │W │  ╚════╝       ├─╴V╶──╴ Visual   \%Vfoo\%V        (current, or previous)   │
-  │W │               ├──╴^╶─╴  BoF/S      \%^       ⎫ ⎛ of file      ⎞           │
-  │W │               ╰───╴$╶╴  EoF/S      \%$       ⎭ ⎝    or string ⎠           │
-  └──┴───────────────────────────────────────────────────────────────────────────┘
+                              ╭─────────────────────────────────────────────────╮
+ ╭───────────────╮ ╭────────╮ │        line │ file/string │ word │ pattern      │
+ │W ←︎ zero width │ │􀬚 Atoms│ │     ──┬─────│─────────────│──────│─────────     │
+ │↓️B ← not in [] │ ╰────────╯ │ start │ BoL │    BoF/S    │ BoW  │ BoP          │
+ ├─↓️┬─────────┬───────────────┤   end │ EoL │    EoF/S    │ EoW  │ EoP          │
+ │  │  \. \^ \$ │  literal . ^ $
+ │  │                         └┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│ 
+ │WB│  \_^  │ BoF/S                                                        │
+ │WB│  \_$  │ EoF/S           └┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
+ │ B│  ⟫^  \(^ \%(^ \|^ \n^        │  ⎧ ^ = BoL: @BoP or after `\(` `\|` `\n` `\%(`  │
+ │~~│   $⫦        $  │   varies   │  ⎩ $ = EoL: @EoP or before `\)` `\|` `\n`       │
+ │┈┈│┈┈┈┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈┈┈┈│┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈│
+ │WB│  \zs   \ze │   Match    │ sets start/end of match                         │
+ │W │  \<    \>  │    Word    │ next/prev char is first/last of word  \<word\>  │
+ │  │   .    \_. │ ^EoL / Any │                                                 │
+ ├──┼────────────┴────────────┴─────────────────────────────────────────────────┤
+ │  │                 \\%\(\^\|\$\|#\|V\|\([><]\=\(\'M\|\([N.]\+[lcv]\+\)\)\)   │
+ │  │                                                                           │
+ │  │    before⎯ ╭╴<╶╮   number⎯ ╭╴N╶╮ ╭╴c ⎯ column ⎫(bytes)  \%<22c     \%>.c  │
+ │  │    within⎯ ├───┼┬──────────┤   ├─┼─╴v ⎯ v.col ⎪(chars)  \%<2v \%.l \%>3v  │
+ │  │     after⎯ ├╴>╶╯│  cursor⎯ ╰╴.╶╯ ╰──╴l ⎯ l̲ine ⎪                           │
+ │W │  ╔════╗    │    ╰─────────────────'M╶╴ mark M ⎬ not updated on change     │
+ │W │  ║ \% ╟────┴──┬╴#╶───╴ Cursor      \%#        ⎭                           │
+ │W │  ╚════╝       ├─╴V╶──╴ Visual   \%Vfoo\%V        (current, or previous)   │
+ │W │               ├──╴^╶─╴  BoF/S      \%^       ⎫ ⎛ of file      ⎞           │
+ │W │               ╰───╴$╶╴  EoF/S      \%$       ⎭ ⎝    or string ⎠           │
+ └──┴───────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Atoms - Multi
 
 ```pre
-  ┌───────┬──────────┬─────────┐
-  │ range │ \{ greedy│ \{- lazy│  n,m = 0 or +ve
-  ├───────┼──────────┼─────────┤
-  │ 0 →️ 1 │ \? \{,1} │ \{-,1}  │  also: \=
-  │ 0 →️ m │    \{,m} │ \{-,m}  │
-  │ 0 →️ ∞️ │ *  \{}   │ \{-}    │  nomagic: \*
-  ├───────┼──────────┼─────────┤
-  │ 1 →️ ∞️ │ \+ \{1,} │ \{-1,}  │   '\' ╭╴Optional
-  │ n →️ ∞️ │    \{n,} │ \{-n,}  │       ∇
-  │ n →️ m │    \{n,m}│ \{-n,m} │  \{n,m\}
-  │   n   │    \{n}  │ \{-n}   │
-  └───────┴──────────┴─────────┘
+┌───────┬──────────┬─────────┐
+│ range │  greedy  │  lazy   │
+├───────┼──────────┼─────────┤
+│n,m ≥ 0│ \{       │ \{-     │
+├───────┼──────────┼─────────┤
+│ 0 →️ 1 │ \{,1} \? │ \{-,1}  │  also: \=
+│ 0 →️ m │ \{,m}    │ \{-,m}  │
+│ 0 →️ ∞️ │ \{}   *  │ \{-}    │  nomagic: \*
+├───────┼──────────┼─────────┤
+│ 1 →️ ∞️ │ \{1,} \+ │ \{-1,}  │   '\' ╭╴Optional
+│ n →️ ∞️ │ \{n,}    │ \{-n,}  │       ∇
+│ n →️ m │ \{n,m}   │ \{-n,m} │  \{n,m\}
+│   n   │ \{n}     │ \{-n}   │
+└───────┴──────────┴─────────┘
 ```
 
 ### - look around (zero width)

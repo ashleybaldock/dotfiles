@@ -54,7 +54,23 @@ endfunc
 function! s:FormatCharInfoForSynFo(arg = v:null)
   let chfo = charinfo#get(a:arg)
 
-  return #{text: chfo['characterise_output'], props: []}
+  let lineParts = []
+
+  let lineParts += [
+        \ #{t: chfo[0]['composed']},
+        \ #{t: ' '},
+        \ #{t: '='},
+        \ #{t: ' '},
+        \]
+
+  let lineParts += map(chfo, {i, v -> [
+        \ #{t: char#display(v['char'])},
+        \ #{t: ' '},
+        \ #{t: '+'},
+        \ #{t: ' '},
+        \     ]})
+
+  return lineParts
 endfunc
 
 " command! -bar -nargs=0 CharInfoToggle Toggle g:mayhem_hl_auto_charinfo<CR>
@@ -132,6 +148,13 @@ endfunc
 "   - 􀅕under[line/curl¹/double¹/dotted¹/dashed¹]
 "   - nocombine² NONE³
 
+"          underline    U U̲ U̳ U ＿⎯ ￣〰 ⋯⋯ ══ ﹍＿﹏﹋
+"          undercurl    〰﹏⌇
+"          underdotted  ᠃᠃ ＿ …︙⠉⠉⡇⡈⡑⠈⠉⧙⦙⫶
+"          underdashed  ﹉﹍
+"          underdouble  ══ ║॥ 
+
+
 " Follow links to the end (or until detecting a loop)
 function s:FormatLinkChain(name)
   let lines = []
@@ -148,6 +171,13 @@ function s:FormatLinkChain(name)
     let [spsymbol, spcolor] = s:ForColor(get(hl, 'guisp', ''))
     let gui = get(hl, 'gui', {})
     let id = get(hl, 'id', 0)
+    let lineParts = []
+
+    let lineParts += [
+          \ #{t: (get(hl, 'cleared') ? 'ᴄ' : ' '), fg: s:colors.cleared},
+          \ #{t: (get(hl, 'default') ? 'ᴅ' : ' '), fg: s:colors.default},
+          \ #{t: ' '}, 
+          \]
 
     let lineParts += [
           \ #{t: depth > 0 ? repeat('  ', max([0, depth - 2])) .. '╰‣️' : ''},
@@ -167,9 +197,9 @@ function s:FormatLinkChain(name)
 " ╶╶╶╶╶╶╶╶╶ 􀱨 ╴╴╴╴╴╴╴╴╴ 
         let lineParts += [
               \#{t: ' '},
-              \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s.colors.loopsline},
+              \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s:colors.loopsline},
               \#{t: s:symbols.loops, fg: s:colors.loopsfg},
-              \#{t: '╴╴╴╴╴╴╴╴╴╴'}, fg: s.colors.loopsline,
+              \#{t: '╴╴╴╴╴╴╴╴╴╴', fg: s:colors.loopsline},
               \#{t: ' '},
               \]
         let done = v:true
@@ -177,22 +207,15 @@ function s:FormatLinkChain(name)
 " ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ 
         let lineParts += [
               \#{t: ' '},
-              \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s.colors.linkstoline},
+              \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s:colors.linkstoline},
               \#{t: s:symbols.linksto, fg: s:colors.linksto},
-              \#{t: '╴╴╴╴╴╴╴╴╴╴'}, fg: s.colors.linkstoline,
+              \#{t: '╴╴╴╴╴╴╴╴╴╴', fg: s:colors.linkstoline},
               \#{t: ' '},
               \]
         let nextname = get(hl, 'linksto', '')
       endif
     else
-
-"          underline    U U̲ U̳ U ＿⎯ ￣〰 ⋯⋯ ══ ﹍＿﹏﹋
-"          undercurl    〰﹏⌇
-"          underdotted  ᠃᠃ ＿ …︙⠉⠉⡇⡈⡑⠈⠉⧙⦙⫶
-"          underdashed  ﹉﹍
-"          underdouble  ══ ║॥ 
-
-    let lineParts += [
+      let lineParts += [
           \ #{t: ' ', col: 3},
           \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colors.hidden, col: 3},
           \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colors.hidden},
@@ -211,7 +234,7 @@ function s:FormatLinkChain(name)
 
       let done = v:true
     endif
-    call add(lines, s:LineWithPropsFromParts(lineParts, bufnr))
+    let lines = add(lines, lineParts)
   endwhile
   return lines
 endfunc
@@ -250,15 +273,7 @@ endfunc
 
 
 
-let s:sectionBreak = #{text: '', props: []}
-
-function! s:FormatColors()
-  let [fgsymbol, fgcolor] = s:ForColor(get(val, 'guifg', ''))
-  let [bgsymbol, bgcolor] = s:ForColor(get(val, 'guibg', ''))
-  let [spsymbol, spcolor] = s:ForColor(get(val, 'guisp', ''))
-
-  let colors = printf('ꜰ%sʙ%sꜱ%s', fgsymbol, bgsymbol, spsymbol)
-endfunc
+let s:sectionBreak = #{t: ''}
 
 "
 " Turns an array of text fragments with formatting instructions
@@ -379,16 +394,6 @@ function! s:UpdateSynFoBuffer(winid)
   " Replacement buffer contents
   let lines = []
 
-  if len(lines) == 0
-" ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
-    let nohlParts = [
-          \ #{t: '╶╶ ', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
-          \ #{t: 'No highlighting here', hi: 'SlHomeMC', col: 2},
-          \ #{t: ' ╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 2},
-          \ #{t: '╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 3},
-          \]
-    call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
-  endif
   "
   " TODO Conceal Info:
   "
@@ -404,42 +409,45 @@ function! s:UpdateSynFoBuffer(winid)
   "
   " Synstack:
   "
+" ⎢╶╶ Synstack Unavailable ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
   if !exists("*synstack")
-    call add(lines, #{text: 'Synstack Unavailable', props: []})
-  else
-    let stack = synstack(line('.'), col('.'))->map(
-          \{_,v -> synIDattr(v, 'name')->hlget()[0]})
-
-    " Stack:
-    for val in reverse(stack)
-      let lineParts = [
-            \ #{t: (get(val, 'cleared') ? 'ᴄ' : ' '), fg: s:colors.cleared},
-            \ #{t: (get(val, 'default') ? 'ᴅ' : ' '), fg: s:colors.default},
-            \]
-      let lineParts += s:FormatLinkChain(val.name)
-
-      call add(lines, s:LineWithPropsFromParts(lineParts, bufnr))
-    endfor
-  end
-
-
-  if &l:wincolor != '' 
-" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────╴ꭱꮩ╶╴⎥
-" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
-" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
-    call add(lines, #{text: 'base(wincolor): ' .. &l:wincolor, props: []})
-    let nohlParts = [
+    let lines = add(lines, [
           \ #{t: '╶╶ ', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
-          \ #{t: '╴wincolor╶', hi: 'SlHomeMC', col: 2},
+          \ #{t: 'Synstack Unavailable', hi: 'SlHomeMC', col: 2},
           \ #{t: ' ╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 2},
           \ #{t: '╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 3},
-          \]
-    call add(lines, s:LineWithPropsFromParts(nohlParts, bufnr))
+          \])
   else
-    call add(lines, #{text: 'base: ' .. get(hlget('Normal'), 'guifg', ''), props: []})
+    let stacknames = synstack(line('.'), col('.'))->map({_,v -> synIDattr(v, 'name')})
+
+" ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
+    if len(stacknames) == 0
+      let lines = add(lines, [
+            \ #{t: '╶╶ ', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
+            \ #{t: 'No highlighting here', hi: 'SlHomeMC', col: 2},
+            \ #{t: ' ╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 2},
+            \ #{t: '╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 3},
+            \])
+    else
+    " Stack:
+      for name in reverse(stacknames)
+        let lines += s:FormatLinkChain(name)
+      endfor
+    endif
   endif
 
-  call add(lines, s:sectionBreak)
+" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────╴ꭱꮩ╶╴⎥
+" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
+  let lines = add(lines, [
+        \ #{t: '╶─╴', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
+        \ #{t: &l:wincolor == '' ? 'default' : 'wincolor', hi: 'SlHomeMC', col: 2},
+        \ #{t: '╶─', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '─', col: 2},
+        \ #{t: '╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────────', pad: '─',
+        \  fg: s:colors.hidden, hi: 'SlHomeMN', col: 3},
+        \])
+  let lines += s:FormatLinkChain(&l:wincolor == '' ? 'Normal' : &l:wincolor)
+
+  let lines = add(lines, s:sectionBreak)
 
   "
   " TODO Text Object Info:
@@ -455,7 +463,7 @@ function! s:UpdateSynFoBuffer(winid)
   " let charinfo = printf('%'..longest..'S', ExecAndReturn('Characterize'))
   call add(lines, s:FormatCharInfoForSynFo())
 
-  call add(lines, s:sectionBreak)
+  let lines = add(lines, s:sectionBreak)
 
   "
   " Position Info:

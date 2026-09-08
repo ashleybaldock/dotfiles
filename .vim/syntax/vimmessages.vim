@@ -33,14 +33,14 @@ hi def link vimMsgStr String
 hi def link vimMsgNum Number
 
 syn region vimMsgError
-      \ start=+^\(Error\|E\d\+\)+
+      \ start=+^\%(Vim\%((\S\+)\)\?:\|Err\%[or]:\?\)\?\(E\d\+\)+
       \ end=+$+
       \ contains=vimMsgErrNum,vimMsgPath,vimMsgFunc,vimMsgLastFn
 
 syn match vimMsgErrNum 'E\d\+:' contained
 
       " \ start=+\%( \)\@2<=\/+
-syn region vimMsgPath contained
+syn region vimMsgPath contained oneline
       \ start=+ \ze\/+
       \ end=+\ze\.\.+
       \ end=+\ze:+

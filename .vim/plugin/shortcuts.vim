@@ -336,7 +336,7 @@ nnoremap §I <Cmd>SynFoWindowToggle<CR>
 " nnoremap <D-I> <Cmd>SynFo<CR>
 "
 " ▌️ ga ▐️  Info about character under cursor (Characterize)
-nmap ga <Plug>(mayhem_charinfo)
+nmap ga <Plug>(mayhem_charinfo_color)
 " 
 " ▌️ §ga ▐️  Toggle display of character info on/off
 nmap §ga <Plug>(mayhem_charinfo_toggle)
@@ -344,8 +344,9 @@ nmap §ga <Plug>(mayhem_charinfo_toggle)
 
 "─── Column guides ─────────────────────────────────────
 "
-" See: ./colcols.vim
-"      ../autoload/colcols.vim
+" Related:
+"     $VIMHOME/plugin/colcol.vim
+"     $VIMHOME/autoload/colcol.vim
 " ▌️ § ‥  \ ▐️──▷ 
 nnoremap §\ <Plug>(mayhem_colcol_add)
 " ▌️ § ‥⌥️ \ ▐️──▷ 

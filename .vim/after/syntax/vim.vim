@@ -1,13 +1,12 @@
 "
-" Add 'wysiwyg' highlight groups for highlight attributes
-"
-" Also make undercurl etc. not show as errors
+" Syntax fixes, tweaks and extensions for .vim files
 "
 " :au BufWritePost <buffer> syn on
 "
-" Related: $VIMRUNTIME/syntax/vim.vim
-"          ../syntax/vim.statusline.vim
-"                  ./common.vim
+" Related:
+"   $VIMRUNTIME/syntax/vim.vim
+"   $VIMHOME/after/syntax/common.vim
+"   $VIMHOME/after/syntax/vim.statusline.vim
 "
 
 source <script>:p:h/common.vim
@@ -21,12 +20,12 @@ endif
 " a combining character, variation selector etc.
 "  e.g.: /󠅀/  /◌󠅀/ '/'‥'◌󠅀⁸¹'‥'/'
 "        /̲/  /◌̲/ '/'‥'◌̲'‥'/'
-syn region	vimSynRegPat	contained extend
+syn region vimSynRegPat contained extend
       \ start="\Z\z([-`~!@#$%^&*_=+;:'",./?]\)"
-      \ skip=/\\\\\|\\\z1\|\n\s*\\\|\n\s*"\\ /
+      \ skip=/\\\\\|\Z\\\z1\|\n\s*\%(\\\|"\\ \)/
       \ end="\Z\z1"
-      \ contains=@vimSynRegPatGroup skipwhite
-      \ nextgroup=vimSynPatMod,vimSynReg
+      \ contains=@vimSynRegPatGroup
+      \ skipwhite nextgroup=vimSynPatMod,vimSynReg
 
 syn region vimContinueString contained
       \ matchgroup=vimContinueString start=+\Z'+
@@ -35,37 +34,40 @@ syn region vimContinueString contained
       \ skipwhite nextgroup=vimSubscript,vimComment
       \ contains=@vimContinue,vimQuoteEscape
 
-syn match vimContinue "^\s*\zs\\" contained conceal cchar=┆
-" syn match	vimContinueComment	'^\s*\zs["#]\\ .*' extend conceal cchar=┊
-" syn match	vim9ContinueComment	"^\s*\zs#\\ .*"	 extend conceal cchar=┊
-syn match vimGroupListContinue "^\s*\zs\\" contained conceal cchar=┇
-" syn match vimGroupListContinueComment '^\s*\zs["#]\\ .*' contained conceal cchar=┋
+syn match vimContinued /\%(^\s*["#]\?\s*\)\@<=\\/
+      \ contained contains=NONE
+      \ containedin=vimContinue,vimGroupListContinue,vimLineComment
+      \ conceal cchar=┆
+" test
+" \ test
+  \ test
 
+" - undercurl etc. not shown as errors
 syn keyword	vimHiAttrib	contained	undercurl underdotted underdouble
 syn keyword	vimHiAttrib	contained	underdashed strikethrough
 
-syn match	vimHiAttribList	contained	"\i\+"
+syn match	vimHiAttribList	contained	/\i\+/
       \ contains=vimHiAttrib,vimHiAttrBold,
-      \   vimHiAttrUnLine,vimHiAttrUnCurl,
-      \   vimHiAttrUnDbl,vimHiAttrUnDot,vimHiAttrUnDash,
-      \   vimHiAttrStrike,vimHiAttrItalic,
-      \   vimHiAttrInv,vimHiAttrRev,vimHiAttrStand,
-      \   vimHiAttrNoCom,vimHiAttrNONE
-syn match	vimHiAttribList	contained	"\i\+,"he=e-1
+      \vimHiAttrUnLine,vimHiAttrUnCurl,
+      \vimHiAttrUnDbl,vimHiAttrUnDot,vimHiAttrUnDash,
+      \vimHiAttrStrike,vimHiAttrItalic,
+      \vimHiAttrInv,vimHiAttrRev,vimHiAttrStand,
+      \vimHiAttrNoCom,vimHiAttrNONE
+syn match	vimHiAttribList	contained	/\i\+,/he=e-1
       \	nextgroup=vimHiAttribList
       \ contains=vimHiAttrib,
-      \   vimHiAttrBold,vimHiAttrItalic,
-      \   vimHiAttrStrike,vimHiAttrUnLine,vimHiAttrUnCurl,
-      \   vimHiAttrUnDbl,vimHiAttrUnDot,vimHiAttrUnDash,
-      \   vimHiAttrInv,vimHiAttrRev,vimHiAttrStand,
-      \   vimHiAttrNoCom,vimHiAttrNONE
+      \vimHiAttrBold,vimHiAttrItalic,
+      \vimHiAttrStrike,vimHiAttrUnLine,vimHiAttrUnCurl,
+      \vimHiAttrUnDbl,vimHiAttrUnDot,vimHiAttrUnDash,
+      \vimHiAttrInv,vimHiAttrRev,vimHiAttrStand,
+      \vimHiAttrNoCom,vimHiAttrNONE
 
 " syn keyword vimHiAttrBold   contained bold conceal cchar=􀅓
-" syn keyword vimHiAttrUline  contained underline conceal cchar=􀅕
-" syn keyword vimHiAttrUcurl  contained undercurl conceal cchar=􁆭
-" syn keyword vimHiAttrUdble  contained underdouble conceal cchar=􀃤
-" syn keyword vimHiAttrUdot   contained underdotted conceal cchar=􁊓􀍠􁢏
-" syn keyword vimHiAttrUdash  contained underdashed conceal cchar=􀓔
+" syn keyword vimHiAttrUnLine contained underline conceal cchar=􀅕
+" syn keyword vimHiAttrUnCurl contained undercurl conceal cchar=􁆭
+" syn keyword vimHiAttrUnDbl  contained underdouble conceal cchar=􃐊
+" syn keyword vimHiAttrUnDot  contained underdotted conceal cchar=􁊓
+" syn keyword vimHiAttrUnDash contained underdashed conceal cchar=􀓔
 " syn keyword vimHiAttrStrike contained strikethrough conceal cchar=􀅖
 " syn keyword vimHiAttrItalic contained italic conceal cchar=􀅔
 syn keyword vimHiAttrBold   contained bold
@@ -84,6 +86,9 @@ syn keyword vimHiAttrNONE   contained NONE
 
 syn match vimHiFgBgSp /fg\|bg\|sp/ contained containedin=vimHiGuiFgBg contains=NONE
 
+"
+" - 'wysiwyg' highlight groups for gui= attributes
+"
 hi def vimHiAttrBold   guifg=ywnormf gui=bold
 hi def vimHiAttrUnLine guifg=#009999 gui=underline     guisp=ywnormf
 hi def vimHiAttrUnCurl guifg=#009999 gui=undercurl     guisp=ywnormf

@@ -488,13 +488,7 @@ function s:SetStatusVars() abort
   let b:mayhem.f_name = expand('%:p:h')
   let b:mayhem.f_type = getbufvar(bufnr(), '&filetype')
 endfunc
-" sp|enew|pu=execute('echo getbufvar(bufnr(), "name")')
 
-
-" TODO - it would be better to provide a plugin interface
-"       for custom statusbar, winbar, etc. things 
-" TODO - convert to vim9script
-" TODO - finish symbols library
 function s:UpdateStatuslines() abort
   call s:SetStatusVars()
   call s:Update_FileInfo()
@@ -503,19 +497,23 @@ function s:UpdateStatuslines() abort
   call statusline#updateSearch()
   call s:Update_WinSize()
 
-  "     Size:  left╺╮  ╭╸zeros
-  "               %{-}{0}{minwid}.{maxwid}
-  " Truncate: %< ║ %-f %< %f ┃ abcdefghi.vim < efghi.vim ┃
-  " Separate: %= ║ L%=Mid%=R ┃ L          Mid          R ┃
+"     Size:  left╺╮  ╭╸zeros
+"               %{-}{0}{minwid}.{maxwid}
+"    Truncate:  %< ║ %-f %< %f ┃ abcdefghi.vim < efghi.vim ┃
+" Equal Space:    %= ║ L%=Mid%=R ┃ L          Mid          R ┃
+
+
+  let eq = get(g:, 'mayhem_debug_sl_eq', v:false)
+        \ ? '%#SlSep⸮#❮%=❮%*' : '%#SlSep⸮#%=%*'
 
   let g:mayhem['sl_norm'] = format#CN([
         \'%{%ChWinSz()%}',
         \'%{%ChGit()%}',
         \' %{%ChFName()%} ',
         \'%<',
-        \'%#SlSep⸮#❮%=❮%*',
+        \eq,
         \' %{%ChSearch()%}',
-        \'%#SlSep⸮#❮%=❮%*',
+        \eq,
         \'%( %#SlFlag⸮#%{%CheckUtf8()%}%{%CheckFF()%}%*%)',
         \'%( %#SlHint⸮#%{%Conceal()%}%{%CheckScb()%}%*%)',
         \' %{%ChFInfo()%}',
@@ -527,14 +525,14 @@ function s:UpdateStatuslines() abort
         \symbols#get('status.diffing'),
         \' %{%ChFName()%} ',
         \'%<',
-        \'%#SlSep⸮#❮%=❮%*',
+        \eq,
         \' %{%ChSearch()%}',
-        \'%#SlSep⸮#❮%=❮%*',
+        \eq,
         \symbols#get('status.diffingleft'),
         \])
   let g:mayhem['sl_diff_right'] = format#CN([
         \symbols#get('status.diffingright'),
-        \'%#SlSep⸮#❮%=❮%*',
+        \eq,
         \' %{%ChFInfo()%}',
         \' %{%ScrollHint()%}',
         \' %{%ChDiag()%}',
@@ -543,7 +541,10 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_prev'] = format#CN([
         \'%#SlInfo⸮#',
         \symbols#get('status.prev'),
-        \' %-f%*%<%=%(%n %l,%c%V%) ',
+        \' %-f%*',
+        \'%<',
+        \eq,
+        \'%(%n %l,%c%V%) ',
         \])
 
   let g:mayhem['sl_help'] = format#CN([
@@ -551,11 +552,11 @@ function s:UpdateStatuslines() abort
         \symbols#get('status.help'),
         \' %{%FName()%}',
         \'%#SlHint⸮#%{%FDotExt()%}',
-        \'%#SlSep⸮#❮%=❮%*',
+        \eq,
         \'%<',
-        \'%#SlSep⸮#❮%=❮%*',
+        \eq,
         \' %-10.30(%{%ChSearch()%}%)',
-        \'%#SlSep⸮#❮%=❮%*',
+        \eq,
         \'%(',
         \'%#SlHint⸮# help ',
         \'%#SlFPath⸮#[%#SlInfo⸮#%l%#SlFPath⸮#/%#SlInfo⸮#%L%#SlFPath⸮#]',
@@ -563,15 +564,15 @@ function s:UpdateStatuslines() abort
         \])
   let g:mayhem['sl_term'] = format#CN([
         \'%#SlTerm⸮#%{%TermPaused()%} %-f%*',
-        \'%#SlSep⸮#%<%*',
-        \'%=',
+        \'%<',
+        \eq,
         \' %#SlTerm⸮#%(%l,%c%V%)%* ',
         \' %{%ScrollHint()%}',
         \])
 
   let g:mayhem['sl_messages'] = format#CN([
         \'%{%ChWinSz()%}%#SlMessI⸮#􀤏%* %#SlMess⸮#Messages%*',
-        \'%=',
+        \eq,
         \'%#SlHint⸮#updated: %{%MessTime()%} ago%* ',
         \' %{%ScrollHint()%}',
         \' %#SlMessI⸮# %*'
@@ -579,14 +580,14 @@ function s:UpdateStatuslines() abort
 
   let g:mayhem['sl_scriptnames'] = format#CN([
         \'%#SlMessI⸮#􀤏%* %#SlMess⸮#Scriptnames%*',
-        \'%=',
+        \eq,
         \' %{%ScrollHint()%}',
         \' %#SlMessI⸮# %*'
         \])
 
   let g:mayhem['sl_runtime'] = format#CN([
         \'%#SlMessI⸮#􀤏%* %#SlMess⸮#Runtime%*',
-        \'%=',
+        \eq,
         \' %{%ScrollHint()%}',
         \' %#SlMessI⸮# %*'
         \])
@@ -602,7 +603,7 @@ function s:UpdateStatuslines() abort
         \' %#SlQfCt⸮#%{%ChQfCt()%}%#SlQf⸮# result%{%ChQfCtPl()%}',
         \' in %#SlQfCt⸮#%{%ChQfFCt()%}%#SlQf⸮# file%{%ChQfFCtPl()%}%* ',
         \qs,
-        \'%=',
+        \eq,
         \'%#SlHint⸮#%{%ChQfCommand()%}%*',
         \' %{%ScrollHint()%} ',
         \'%#SlQf⸮# %*'
@@ -612,7 +613,7 @@ function s:UpdateStatuslines() abort
         \qs .. qf .. qs,
         \' %#SlQf⸮#"%#SlQfSearch⸮#%{%ChQfTitle()%}%#SlQf⸮#"%* ',
         \qs,
-        \'%=',
+        \eq,
         \' %{%ScrollHint()%}',
         \' %#SlQf⸮# %*',
         \])
@@ -621,7 +622,7 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_dir'] = format#CN([
         \'%#SlDir⸮#􀈕 %-F%*',
         \'%<',
-        \'%=',
+        \eq,
         \'%#SlDirInv⸮#netrw%*',
         \])
 
@@ -633,18 +634,19 @@ function s:UpdateStatuslines() abort
   " Home:
   let g:mayhem['sl_home'] = format#CN([
         \'%{%ChWinSz()%}%#SlHomeL⸮#􁘲  Vim Mayhem%*',
-        \'%#SlSep⸮#%=%*%<',
+        \eq,
+        \'%<',
         \' %{%ChSearch()%}',
-        \'%#SlSep⸮#%=%*',
+        \eq,
         \'%#SlHomeM⸮#%*',
-        \'%=',
+        \eq,
         \'%#SlHomeR⸮#%*'
         \])
 
   let g:mayhem['sl_sfsym'] = format#CN([
         \'%#SlHomeL⸮#SF Symbols%*',
         \'%<',
-        \'%=',
+        \eq,
         \])
 endfunc
 

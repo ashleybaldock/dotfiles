@@ -13,7 +13,9 @@ let g:mayhem_autoloaded_char = 1
 " Default character used to display lonely combining characters
 " let g:mayhem_unicode_combine_default = '◌'
 "
-let s:combase = get(g:, 'mayhem_unicode_combine_default', '◌')
+function s:combase() abort
+  return get(g:, 'mayhem_unicode_combine_default', '◌')
+endfunc
 
 "
 " Text from current cursor position to EoL
@@ -49,48 +51,104 @@ function char#split(str = char#fromCursor()) abort
         \->map({i, v -> nr2char(v)})
 endfunc
 
+let g:mayhem_unicode_display_double = map(['◌⃝','◌⃞','◌⃤','◌⃟','◌⃘','◌͢','◌⃣','◌᷍','◌⃒'], {_,v -> char#debase(v)})
 "
 " Combine standalone combining characters for display
 " Uses base display character defined in: g:mayhem_unicode_combine_default
+" Combining characters listed in g:mayhem_unicode_display_double are padded
 "
-" e.g.  char#display('a̲')  ->  a̲
-"       char#display('̲')  ->  ◌̲
+" e.g.  char#display('a̲')  ->  'a̲'
+"       char#display('̲')   ->  '◌̲'
+"       char#display('⃝ ')  ->  '◌⃝ '
 "
 function char#display(str = char#fromCursor(), base = get(g:, 'mayhem_unicode_combine_default', '◌')) abort
-  return strchars(a:base .. a:str, 1) == strchars(a:str, 1) ? a:base .. a:str : a:str
+  let based = strchars(a:base .. a:str, 1) == strchars(a:str, 1) ? a:base .. a:str : a:str
 endfunc
 
 "
-" Join character parts into a single combined character
+" Join character parts into combined characters
 "
-" Base character comes from the first item
+" Options:
+"   debase: (default: true) 
+"           remove base from any combined characters in input,
+"   single: default: false)
+"           produce a single combined character as output
+"           - uncombined base characters are skipped
+"           - combined characters are skipped if debase is false
 "
-" e.g.  char#join(['a', '̲'])  ->  a̲
-"        char#join(['a', '◌̲'])  ->  a̲
-"          char#join(['a̅', '◌̲'])  ->  a̲̅
-"       char#join(['a', '◌̅', '◌̲'])  ->  a̲̅
+" If the first item in the list does not contain a base character then
 "
-function char#join(list) abort
-  return a:list->mapnew({i, v -> i == 0
-        \ ? str2list(v, 1)
-        \ : strpart(v, 1, 1, 1)->str2list(1)
+" If single is true and debase is false, combined characters in input
+" are ignored entirely.
+"
+" e.g.         char#join(['a', '̲'])  ->  'a̲'
+"              char#join(['̲' , '⃞'])  ->  '̲⃞'
+"          char#join(['̲', 'a', '⃞'])  ->  '̲a⃞'
+"         char#join(['a', '◌̲', '⃞'])  ->  'a̲⃞'
+"    char#join(['a', '◌̲', 'b', '⃞'])  ->  'a̲b⃞'
+"    char#join(['a', '̲' , 'b', '⃞'])  ->  'a̲b⃞'
+"
+" debase (default)
+"            char#join(['a', '◌̲'])  ->  'a̲'
+"            char#join(['◌̲', '⃞' ])  ->  '̲⃞'
+" no debase
+"            char#join(['a', '◌̲'], #{debase:0})  ->  'a◌̲'
+"            char#join(['◌̲', '⃞' ], #{debase:0})  ->  '◌̲⃞'
+"  char#join(['a', '◌̲', 'b', '⃞' ], #{debase:0})  ->  'a◌̲b⃞'
+"
+" single
+"           char#join(['a', '◌̲'], #{single:1})  ->  'a̲'
+"           char#join(['̲' , '⃞' ], #{single:1})  ->  '̲⃞'
+"      char#join(['a', '̲' , '⃞' ], #{single:1})  ->  'a̲⃞'
+"      char#join(['a', 'b̲', 'c⃞'], #{single:1})  ->  'a̲⃞'
+" char#join(['a', '◌̲', 'b', '⃞' ], #{single:1})  ->  'a̲⃞'
+"
+" single + no debase
+"            char#join(['a', '◌̲'])  ->  'a'
+"       char#join(['a', 'b̲', '⃞' ], #{single:1,debase:0})  ->  'a⃞'
+"       char#join(['a', 'b̲', 'c⃞'], #{single:1,debase:0})  ->  'a'
+"  char#join(['a', '◌̲', 'b', '⃞' ], #{single:1,debase:0})  ->  'a⃞'
+"
+"
+function char#join(charparts, options = #{debase: v:false, single: v:false}) abort
+  return mapnew(a:charparts, {_, v ->
+        \ strpart(v, 0, 1, 1)->str2list(1)
         \})->flatten()->list2str()
 endfunc
 
 "
 " Remove all instances of a combining character
 "
-function char#strip(remove, str = char#fromCursor()) abort
+" e.g.  char#strip('a̲⃝', '̲')  ->  'a⃝'
+"       char#strip('a̲̲', '̲')  ->  'a'
+"
+function char#strip(str, remove) abort
   return char#split(str)
         \->filter({i, v -> i == 0 || v != a:remove })
         \->char#join()
 endfunc
 
 "
+" Check if character is part of a composite character
+"
+" e.g.  char#contains('a̲', 'a')  ->  true
+"       char#contains('a̲', '̲')   ->  true
+"       char#contains('̲', '̲')    ->  true
+"       char#contains('̲', 'a')   ->  false
+"       char#contains('a', '⃞ ')  ->  false
+"
+function char#contains(str, char) abort
+  return char#split(str)->count(a:char) > 0
+endfunc
+
+"
 " Check if character comprises only combining characters
 "
-function char#hasBase(str = char#fromCursor()) abort
-  return [char2nr(s:combase),char#first(a:str)->str2list()]
+" e.g.  char#hasBase('a̲')  ->  true
+"       char#hasBase('̲')   ->  false
+"
+function char#hasBase(str) abort
+  return [char2nr(s:combase()), char#first(a:str)->str2list()]
         \ ->flatten()
         \ ->list2str()
         \ ->strchars(1) == 1
@@ -99,7 +157,7 @@ endfunc
 "
 " Remove base character (if any) leaving only combining characters
 "
-function char#debase(str = char#fromCursor()) abort
+function char#debase(str) abort
   return char#hasBase(a:str) 
         \ ? char#first(a:str)
         \ : char#first(a:str)->strpart(1, 1, 1)
@@ -110,12 +168,13 @@ endfunc
 " characters (combining diacritics, variation selectors etc.)
 "
 " Takes two arguments:
-" 1. the replacement base character
-" 2. the character to modify (defaults to the character under the cursor)
+" 1. the character to modify
+" 2. the replacement base character (defaults to value of g:mayhem_unicode_combine_default)
 "
-" e.g. char#rebase(B⃝ , C)  ▬▶  C⃝
+" e.g. char#rebase('B⃝' , 'C')  ▬▶  'C⃝'
+"      char#rebase('⃝ ' , 'D')  ▬▶  'D⃝ '
 "
-function char#rebase(newbase = s:combase, str = char#fromCursor()) abort
+function char#rebase(str, newbase = s:combase()) abort
   return a:newbase .. char#debase(a:str)
 endfunc
 

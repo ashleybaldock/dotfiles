@@ -34,13 +34,13 @@ function! charinfo#get(str = char#fromCursor()) abort
   let first = char#first(a:str)
   return char#split(first)
         \ ->get(0, [])
-        \ ->map({i, v -> #{
+        \ ->map({i, v -> (#{
         \  composed: first,
         \  char: v,
         \  index: i,
         \  code: char#code(v),
         \  name: charinfo#name(v),
-        \  }
+        \  })
         \ }
         \)
 endfunc

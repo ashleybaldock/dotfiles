@@ -13,7 +13,7 @@ let g:mayhem_autoloaded_char = 1
 " Default character used to display lonely combining characters
 " let g:mayhem_unicode_combine_default = '◌'
 "
-function s:combase() abort
+function char#combase() abort
   return get(g:, 'mayhem_unicode_combine_default', '◌')
 endfunc
 
@@ -196,7 +196,7 @@ endfunc
 "       char#isbased('̲')   ->  false
 "
 function char#isbased(str) abort
-  return !char#combineswith(s:combase(), a:str)
+  return !char#combineswith(char#combase(), a:str)
 endfunc
 
 "
@@ -226,7 +226,7 @@ endfunc
 " e.g. char#rebase('B⃝' , 'C')  ▬▶  'C⃝'
 "      char#rebase('⃝ ' , 'D')  ▬▶  'D⃝ '
 "
-function char#rebase(str, newbase = s:combase()) abort
+function char#rebase(str, newbase = char#combase()) abort
   return a:newbase .. char#debase(a:str)
 endfunc
 
@@ -354,8 +354,9 @@ let g:mayhem_unicode_display_double = map(['◌⃝','◌⃞','◌⃤','◌⃟','
 "       char#display('a⃝')  ->  'a⃝ '
 "       char#display('⃝ ')  ->  '◌⃝ '
 "
-function char#display(str, base = s:combase()) abort
-  let based = strchars(a:base .. a:str, 1) == strchars(a:str, 1) ? a:base .. a:str : a:str
+function char#display(str, base = char#combase()) abort
+  let first = char#first(a:str)
+  return char#isbased(first) ? first : char#rebase(first, a:base)
 endfunc
 
 " return a:str->strcharpart(0, 1, 1)->strcharpart(1, 2, 0)->charclass()

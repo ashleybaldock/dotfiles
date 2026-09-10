@@ -31,7 +31,7 @@ let s:colors = #{
       \ none: 'NONE',
       \ hidden: '#441122',
       \ cleared: '#66aa44',
-      \ default: '#6633aa',
+      \ default: '#8844cc',
       \ fgcolor: '#555555',
       \ bgcolor: '#555555',
       \ nonecolor: '#000000',
@@ -41,244 +41,20 @@ let s:colors = #{
       \ linkstoline: '#664400',
       \ loops: '#ee1111',
       \ loopsline: '#664400',
-      \ row: '#dd99dd',
+      \ row: '#cc88cc',
       \ rowval: '#dddddd',
-      \ col: '#dd99dd',
+      \ col: '#cc88cc',
       \ colval: '#dddddd',
-      \ vcol: '#dd99dd',
+      \ vcol: '#cc88cc',
       \ vcolval: '#dddddd',
-      \ byte: '#dd99dd',
+      \ byte: '#cc88cc',
       \ byteval: '#dddddd',
       \ hasgui: '#dddddd',
+      \ headingline: '#664400',
+      \ headingtext: '#cc88cc',
       \}
 
-" Reset index for generating text property ids
-let s:lastAdhocHlGroupId = 1000
-
-" TODO recycle highlight groups & limit number used for adhoc groups
-function! s:nextAdhocHighlightId()
-  let s:lastAdhocHlGroupId = s:lastAdhocHlGroupId + 1
-  return 'synfo' .. s:lastAdhocHlGroupId
-endfunc
-
-"
-" Formats character info for display in SynFo popup
-" See: ../autoload/charinfo.vim
-"
-function! s:FormatCharInfoForSynFo()
-  let chfo = charinfo#get()
-  let composed = get(chfo, 'composed', '')
-
-  let lineParts = [
-        \#{t: composed},
-        \#{t: ' '},
-        \#{t: '='},
-        \#{t: ' '},
-        \]
-
-  " let lineParts += map(chfo, {i, v -> [
-  "       \ #{t: char#display(v['char'])},
-  "       \ #{t: ' '},
-  "       \ #{t: '+'},
-  "       \ #{t: ' '},
-  "       \]})
-
-  return lineParts
-endfunc
-
-" command! -bar -nargs=0 CharInfoToggle Toggle g:mayhem_hl_auto_charinfo<CR>
-
-
-" 􀣤 􀏃 􀣦􀂒􀃰􀃲   􁄻  
-" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ-️ⲃɢ-️ꮪᴩ╶───╴ɢᴜɪ╶──╺·️╸──╸·️╺──╴⎥
-" ⎛  ★   ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )              ⎞
-"                                         𐔥ɢ ʙɢ ꮪꮲ  ʀᴠ ꭱꮩ    
-"
-" ⎛                                          ─╸SynFo╺─  ⎞
-" ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
-" ⎢                                                     ⎥
-" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶──────╴ꭱꮩ╶⎥
-" ⎢     ╰‣️Normal❘𝟤❘􀮵           􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡 􂏾  ⎥
-"
-" col1|     col2  width:fit    |     col3  width:22    |
-"  w:2|                        |                       |
-"
-" ⎛  ˢ️ʸ︎ⁿᶠ︎ᵒ ╶──────────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎞
-"
-" ⎛·️·️ˢ️ʸ︎ⁿᶠ︎ᵒ·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️ 𐔥ɢ ⲃɢ ꮪꮲ ·️·️·️·️ ɢᴜɪ ·️·️·️·️·️⎞
-" ⎢★️ ᴅ⎧cssUrlFunction􀮵𝟤𝟥𝟦𝟧 ╶─􀉣──╌──╌──╌╌─╌─╌─╌─╌─╌─╌╴⎥
-" ⎢   │╰‣️Statement❘𝟤𝟥𝟦􀮵    ╶─􀉣􀍠 􀍠 􀍠􀉣􀍠􀍠􀍠􀍠􀍠􀍠 ⎥
-" ⎢   │ ╰‣️Constant❘𝟧𝟧𝟧𝟧􀮵       􀯮 􀯯 􀤑  􀅓􀅔􀅕􀅖􀨡􀂷 ⎥
-" ⎢   │ ╰‣️Constant❘𝟧𝟧𝟧𝟧􀮵       ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
-" ⎢ ᴄ ⎧cssUrl❘􀮵                􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
-" ⎢  ᴅ⎧cssParam❘􀮵              􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
-" ⎢╶─╴wincolor╶───────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎥
-" ⎢     ╰‣️BaseWin❘𝟤𝟥𝟦❘􀮵        􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
-" ⎢                             􀆃 􀆃 􀆃️ 􀃪􀃫           
-" ⎢ ╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺          ꛱ ꛱               ⎥
-" ⎢ ⎪ cᷟ⃝  ⎪ c  ◌ᷟ  ◌⃝                           􀓨      ⎥
-" ⎢ ╺╺╺╺╺╺╺┍╺╺┍╺╺┍╺╺╺╺╺╺╺╺╺╺╺                          ⎥
-" ⎢    x63╶╯  │  │                                     ⎥
-" ⎢     u1ddf╶╯  │                                     ⎥
-" ⎢        u20dd╶╯                                     ⎥
-" ⎢                                                    ⎥
-" ⎢ ╭╶╶╶╶╭╶╶╶╥╶╶╶╶╶╶╶╶╶╶╶                              ⎥
-" ⎢ ⎪ cᷟ⃝  = c + ◌ᷟ + ◌⃝                                   ⎥
-" ⎢ ╰╶╶╶╶╰─┬─╨─┬─╨──┬─╶╶                               ⎥
-" ⎢       x63  │  u20dd                                ⎥
-" ⎢          u1ddf                                     ⎥
-" ⎢                                                    ⎥
-" ⎢                                                    ⎥
-" ⎢ ╭                                                   
-" ⎢ ⎪ cᷟ⃝    c   ◌ᷟ   ◌⃝                                   ⎥
-" ⎢ ╰╶╶╶╶ ┌─╴ᐩ┌─╴ᐩ┌──╴╶╶                               ⎥
-" ⎢     x63   │   │                                   ⎥
-" ⎢       u1ddf╶╯   │                                   ⎥
-" ⎢         u20dd╶╯                                   ⎥
-" ⎢                                                    ⎥
-" ⎢   ╰{️   ⎭                                           ⎥
-" ⎢                                                    ⎥
-" ⎢ ⎧ cᷟ⃝     ⎫                      𐔥ɢ ʙɢ ꮪꮲ  ʀᴠ ꭱꮩ     ⎥
-" ⎢ ╰⎧ c    ⎪                                          ⎥
-" ⎢  ╰⎧ ◌ᷟ   ⎪                                          ⎥
-" ⎢   ╰{️ ◌⃝  ⎭                                          ⎥
-" ⎢                                                    ⎥
-" ⎢                                ᴝ ᵙᵞᶂᶡᶠ             ⎥
-" ⎝  ─╸𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦╺─                       ⎠
-
-
-" val:    
-"   ᴄ cleared ᴅ default : <bool>
-"   gui : <attributes> | guibg guifg guisp : <color>
-"   id : <number>
-"   linksto : <string>
-"   name : <string>
-"
-"   cterm : <attributes> | ctermbg ctermfg ctermul : <color-nr>
-"   term: <attributes>
-"   start stop font
-"
-" <color>: 􀂓#RRGGBB 􀯯bg,background 􀯮fg,foreground 􀂒NONE
-" <attributes>:
-"   - 􀅓bold 􀅔italic 􂏾 [re/in]verse 􀨡standout 􀅖strikethrough¹
-"   - 􀅕under[line/curl¹/double¹/dotted¹/dashed¹]
-"   - nocombine² NONE³
-
-"          underline    U U̲ U̳ U ＿⎯ ￣〰 ⋯⋯ ══ ﹍＿﹏﹋
-"          undercurl    〰﹏⌇
-"          underdotted  ᠃᠃ ＿ …︙⠉⠉⡇⡈⡑⠈⠉⧙⦙⫶
-"          underdashed  ﹉﹍
-"          underdouble  ══ ║॥ 
-
-
-" Follow links to the end (or until detecting a loop)
-function s:FormatLinkChain(name)
-  let lines = []
-  let seen = {}
-  let depth = 0
-  let nextname = a:name
-  let done = v:false
-  while !done
-    let hl = hlget(nextname)->get(0)
-    let seen[hl.name] = v:true
-
-    let [fgsymbol, fgcolor] = s:ForColor(get(hl, 'guifg', 'NONE'))
-    let [bgsymbol, bgcolor] = s:ForColor(get(hl, 'guibg', 'NONE'))
-    let [spsymbol, spcolor] = s:ForColor(get(hl, 'guisp', 'NONE'))
-    let gui = get(hl, 'gui', {})
-    let id = get(hl, 'id', 0)
-    let lineParts = []
-
-    let lineParts += [
-          \ #{t: get(hl, 'cleared') ? 'ᴄ' : ' ', fg: s:colors.cleared},
-          \ #{t: get(hl, 'default') ? 'ᴅ' : ' ', fg: s:colors.default},
-          \ #{t: ' '}, 
-          \]
-
-    let lineParts += [
-          \ #{t: depth > 0 ? repeat('  ', max([0, depth - 2])) .. '╰‣️' : ''},
-          \ #{
-          \   t: get(hl, 'name', '???'),
-          \  hi: get(hl, 'name', ''),
-          \ },
-          \ #{t: '❘', fg: s:colors.idsep},
-          \ #{t: format#numbers(id, 'sans'), fg: s:colors.idnum},
-          \ #{t: ' '}, #{t: fgsymbol, fg: fgcolor, col: 3},
-          \ #{t: ' '}, #{t: bgsymbol, fg: bgcolor, col: 3},
-          \ #{t: ' '}, #{t: spsymbol, fg: spcolor, col: 3},
-          \]
-
-    if has_key(hl, 'linksto')
-      if has_key(seen, hl.linksto)
-" ╶╶╶╶╶╶╶╶╶ 􀱨 ╴╴╴╴╴╴╴╴╴ 
-        let lineParts += [
-              \#{t: ' '},
-              \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s:colors.loopsline},
-              \#{t: s:symbols.loops, fg: s:colors.loopsfg},
-              \#{t: '╴╴╴╴╴╴╴╴╴╴', fg: s:colors.loopsline},
-              \#{t: ' '},
-              \]
-        let done = v:true
-      else
-" ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ 
-        let lineParts += [
-              \#{t: ' '},
-              \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s:colors.linkstoline},
-              \#{t: s:symbols.linksto, fg: s:colors.linksto},
-              \#{t: '╴╴╴╴╴╴╴╴╴╴', fg: s:colors.linkstoline},
-              \#{t: ' '},
-              \]
-        let nextname = get(hl, 'linksto', '')
-      endif
-    else
-      let lineParts += [
-          \ #{t: ' ', col: 3},
-          \ #{t: '􀅓', fg: get(gui, 'bold') ? s:colors.hasgui : s:colors.hidden, col: 3},
-          \ #{t: '􀅔', fg: get(gui, 'italic') ? s:colors.hasgui : s:colors.hidden},
-          \ #{t: get(gui, 'underdouble') ? '􃐊' : '􀅕',
-          \ fg: (get(gui, 'underline')
-          \   || get(gui, 'undercurl')
-          \   || get(gui, 'underdotted')
-          \   || get(gui, 'underdashed')
-          \   || get(gui, 'underdouble')) ? s:colors.hasgui : s:colors.hidden, col: 3},
-          \ #{t: '􀅖', fg: get(gui, 'strikethrough') ? s:colors.hasgui : s:colors.hidden, col: 3},
-          \ #{t: '􀨡', fg: get(gui, 'standout') ? s:colors.hasgui : s:colors.hidden, col: 3},
-          \ #{t: '􂏾️ ', fg: (get(gui, 'inverse')
-          \ || get(gui, 'reverse')) ? s:colors.hasgui : s:colors.hidden, col: 3},
-          \ #{t: ' ', col: 3},
-          \]
-
-      let done = v:true
-    endif
-    let lines = add(lines, lineParts)
-  endwhile
-  return lines
-endfunc
-
-"    𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦  
-function s:GetFormattedPositionInfo() abort
-  let ln = line('.')
-  let cc = charcol('.')
-  let vc = virtcol('.')
-  let bc = col('.')
-  return flatten([
-        \ [
-        \  #{t: '𝖱𝗈𝗐', fg: s:colors.row}, #{t: ' '}, #{t: format#numbers(ln), fg: s:colors.rowval},
-        \  #{t: ' '}, #{t: '|'}, #{t: ' '},
-        \  #{t: '𝖢𝗈𝗅', fg: s:colors.col}, #{t: ' '}, #{t: format#numbers(cc), fg: s:colors.colval},
-        \ ],
-        \ cc == vc ? [] : [
-        \  #{t: ' '}, #{t: '|'}, #{t: ' '},
-        \  #{t: '𝖵𝖢𝗈𝗅', fg: s:colors.vcol}, #{t: ' '}, #{t: format#numbers(vc), fg: s:colors.vcolval},
-        \ ],
-        \ cc == bc ? [] : [
-        \  #{t: ' '}, #{t: '|'}, #{t: ' '},
-        \  #{t: 'ʙʏᴛᴇ', fg: s:colors.byte}, #{t: ' '}, #{t: format#numbers(bc), fg: s:colors.byteval},
-        \ ],
-        \])
-endfunc
-
-function! s:ForColor(color)
+function! s:ForColor(color) abort
   if a:color == 'fg' || a:color == 'foreground'
     return [s:symbols.fgcolor, s:colors.fgcolor]
   endif
@@ -294,9 +70,32 @@ function! s:ForColor(color)
   return [s:symbols.nonecolor, '#333333']
 endfunc
 
+" Reset index for generating text property ids
+let s:lastAdhocHlGroupId = 1000
 
+" TODO recycle highlight groups & limit number used for adhoc groups
+function! s:nextAdhocHighlightId() abort
+  let s:lastAdhocHlGroupId = s:lastAdhocHlGroupId + 1
+  return 'synfo' .. s:lastAdhocHlGroupId
+endfunc
 
 let s:sectionBreak = [#{t: ''}]
+
+" ⎢                           ─╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
+" ⎢·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️··️·️·️·️·️𐔥ɢ·️ⲃɢ·️ꮪꮲ·️·️·️·️·️ɢᴜɪ·️·️·️·️·️·️·️·️⎥
+" ⎢╶───────────────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
+let s:hi_col_headings = [
+      \ #{ t: '─', fg: s:colors.headingline, repeat: v:true, col: 3 },
+      \ #{ t: '╴', fg: s:colors.headingline, col: 3 },
+      \ #{ t: '𐔥ɢ', fg: s:colors.headingtext, col: 3 },
+      \ #{ t: '·️', fg: s:colors.headingline, col: 3 },
+      \ #{ t: 'ⲃɢ', fg: s:colors.headingtext, col: 3 },
+      \ #{ t: '·️', fg: s:colors.headingline, col: 3 },
+      \ #{ t: 'ꮪꮲ', fg: s:colors.headingtext, col: 3 },
+      \ #{ t: '╶╴', fg: s:colors.headingline, col: 3 },
+      \ #{ t: 'ɢᴜɪ', fg: s:colors.headingtext, col: 3 },
+      \ #{ t: '╶─────────', fg: s:colors.headingline, col: 3 }
+      \]
 
 "
 " Turns an array of text fragments with formatting instructions
@@ -305,7 +104,7 @@ let s:sectionBreak = [#{t: ''}]
 " TODO - this could be more efficient by adding a lookup dict
 " for the auto-generated highlighting groups to avoid duplication
 " - parts with identical formatting could share the same prop
-function! s:LineWithPropsFromParts(parts, bufnr, lineconfig = #{})
+function! s:LineWithPropsFromParts(parts, bufnr, lineconfig = #{}) abort
   let line = ''
   let props = []
   " The column group this line uses for layout
@@ -411,16 +210,237 @@ function! s:LineWithPropsFromParts(parts, bufnr, lineconfig = #{})
   return #{text: line, props: props}
 endfunc
 
-" ⎢                           ─╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
-" ⎢·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️··️·️·️·️·️𐔥ɢ·️ⲃɢ·️ꮪꮲ·️·️·️·️·️ɢᴜɪ·️·️·️·️·️·️·️·️⎥
-" ⎢╶───────────────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
-let s:hi_col_headings = #{
-      \ t: '╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────────', pad: '─', fg: s:colors.hidden, col: 3
-      \}
-
-function! s:UpdateSynFoBuffer(winid)
+function s:Render(lines, winid) abort
   let bufnr = winbufnr(a:winid)
 
+  let linesWithProps = map(a:lines, {_, line -> s:LineWithPropsFromParts(line, bufnr)})
+
+  return popup_settext(a:winid, linesWithProps)
+endfunc
+
+
+
+"
+" Formats character info for display in SynFo popup
+" See: ../autoload/charinfo.vim
+"
+function! s:FormatCharInfo() abort
+  let chfo = charinfo#get()->get(0, #{})
+  let composed = get(chfo, 'composed', '')
+
+  let lineParts = [
+        \#{t: composed},
+        \#{t: ' '},
+        \#{t: '='},
+        \#{t: ' '},
+        \]
+
+  " let lineParts += map(chfo, {i, v -> [
+  "       \ #{t: char#display(v['char'])},
+  "       \ #{t: ' '},
+  "       \ #{t: '+'},
+  "       \ #{t: ' '},
+  "       \]})
+
+  return lineParts
+endfunc
+
+" command! -bar -nargs=0 CharInfoToggle Toggle g:mayhem_hl_auto_charinfo<CR>
+
+
+" 􀣤 􀏃 􀣦􀂒􀃰􀃲   􁄻  
+" ⎢╶─╴wincolor╶────────────────╴𐔥ɢ-️ⲃɢ-️ꮪᴩ╶───╴ɢᴜɪ╶──╺·️╸──╸·️╺──╴⎥
+" ⎛  ★   ꜰ􀂓ʙ􀯮ꜱ􀂒 (􀅓􀅔􀅕􀅖􀨡􂏾 )              ⎞
+"                                         𐔥ɢ ʙɢ ꮪꮲ  ʀᴠ ꭱꮩ    
+"
+" ⎛                                          ─╸SynFo╺─  ⎞
+" ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
+" ⎢                                                     ⎥
+" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶──────╴ꭱꮩ╶⎥
+" ⎢     ╰‣️Normal❘𝟤❘􀮵           􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡 􂏾  ⎥
+"
+" col1|     col2  width:fit    |     col3  width:22    |
+"  w:2|                        |                       |
+"
+" ⎛  ˢ️ʸ︎ⁿᶠ︎ᵒ ╶──────────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎞
+"
+" ⎛·️·️ˢ️ʸ︎ⁿᶠ︎ᵒ·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️ 𐔥ɢ ⲃɢ ꮪꮲ ·️·️·️·️ ɢᴜɪ ·️·️·️·️·️⎞
+" ⎢★️ ᴅ⎧cssUrlFunction􀮵𝟤𝟥𝟦𝟧 ╶─􀉣──╌──╌──╌╌─╌─╌─╌─╌─╌─╌╴⎥
+" ⎢   │╰‣️Statement❘𝟤𝟥𝟦􀮵    ╶─􀉣􀍠 􀍠 􀍠􀉣􀍠􀍠􀍠􀍠􀍠􀍠 ⎥
+" ⎢   │ ╰‣️Constant❘𝟧𝟧𝟧𝟧􀮵       􀯮 􀯯 􀤑  􀅓􀅔􀅕􀅖􀨡􀂷 ⎥
+" ⎢   │ ╰‣️Constant❘𝟧𝟧𝟧𝟧􀮵       ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
+" ⎢ ᴄ ⎧cssUrl❘􀮵                􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
+" ⎢  ᴅ⎧cssParam❘􀮵              􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
+" ⎢╶─╴wincolor╶───────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎥
+" ⎢     ╰‣️BaseWin❘𝟤𝟥𝟦❘􀮵        􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
+" ⎢                             􀆃 􀆃 􀆃️ 􀃪􀃫           
+" ⎢ ╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺          ꛱ ꛱               ⎥
+" ⎢ ⎪ cᷟ⃝  ⎪ c  ◌ᷟ  ◌⃝                           􀓨      ⎥
+" ⎢ ╺╺╺╺╺╺╺┍╺╺┍╺╺┍╺╺╺╺╺╺╺╺╺╺╺                          ⎥
+" ⎢    x63╶╯  │  │                                     ⎥
+" ⎢     u1ddf╶╯  │                                     ⎥
+" ⎢        u20dd╶╯                                     ⎥
+" ⎢                                                    ⎥
+" ⎢ ╭╶╶╶╶╭╶╶╶╥╶╶╶╶╶╶╶╶╶╶╶                              ⎥
+" ⎢ ⎪ cᷟ⃝  = c + ◌ᷟ + ◌⃝                                   ⎥
+" ⎢ ╰╶╶╶╶╰─┬─╨─┬─╨──┬─╶╶                               ⎥
+" ⎢       x63  │  u20dd                                ⎥
+" ⎢          u1ddf                                     ⎥
+" ⎢                                                    ⎥
+" ⎢                                                    ⎥
+" ⎢ ╭                                                   
+" ⎢ ⎪ cᷟ⃝    c   ◌ᷟ   ◌⃝                                   ⎥
+" ⎢ ╰╶╶╶╶ ┌─╴ᐩ┌─╴ᐩ┌──╴╶╶                               ⎥
+" ⎢     x63   │   │                                   ⎥
+" ⎢       u1ddf╶╯   │                                   ⎥
+" ⎢         u20dd╶╯                                   ⎥
+" ⎢                                                    ⎥
+" ⎢   ╰{️   ⎭                                           ⎥
+" ⎢                                                    ⎥
+" ⎢ ⎧ cᷟ⃝     ⎫                      𐔥ɢ ʙɢ ꮪꮲ  ʀᴠ ꭱꮩ     ⎥
+" ⎢ ╰⎧ c    ⎪                                          ⎥
+" ⎢  ╰⎧ ◌ᷟ   ⎪                                          ⎥
+" ⎢   ╰{️ ◌⃝  ⎭                                          ⎥
+" ⎢                                                    ⎥
+" ⎢                                ᴝ ᵙᵞᶂᶡᶠ             ⎥
+" ⎝  ─╸𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦╺─                       ⎠
+
+
+" val:    
+"   ᴄ cleared ᴅ default : <bool>
+"   gui : <attributes> | guibg guifg guisp : <color>
+"   id : <number>
+"   linksto : <string>
+"   name : <string>
+"
+"   cterm : <attributes> | ctermbg ctermfg ctermul : <color-nr>
+"   term: <attributes>
+"   start stop font
+"
+" <color>: 􀂓#RRGGBB 􀯯bg,background 􀯮fg,foreground 􀂒NONE
+" <attributes>:
+"   - 􀅓bold 􀅔italic 􂏾 [re/in]verse 􀨡standout 􀅖strikethrough¹
+"   - 􀅕under[line/curl¹/double¹/dotted¹/dashed¹]
+"   - nocombine² NONE³
+
+"          underline    U U̲ U̳ U ＿⎯ ￣〰 ⋯⋯ ══ ﹍＿﹏﹋
+"          undercurl    〰﹏⌇
+"          underdotted  ᠃᠃ ＿ …︙⠉⠉⡇⡈⡑⠈⠉⧙⦙⫶
+"          underdashed  ﹉﹍
+"          underdouble  ══ ║॥ 
+
+
+" Follow links to the end (or until detecting a loop)
+function s:FormatLinkChain(name) abort
+  let lines = []
+  let seen = {}
+  let depth = 0
+  let nextname = a:name
+  let done = v:false
+  while !done
+    let hl = hlget(nextname)->get(0)
+    let seen[hl.name] = v:true
+
+    let [fgsymbol, fgcolor] = s:ForColor(get(hl, 'guifg', 'NONE'))
+    let [bgsymbol, bgcolor] = s:ForColor(get(hl, 'guibg', 'NONE'))
+    let [spsymbol, spcolor] = s:ForColor(get(hl, 'guisp', 'NONE'))
+    let gui = get(hl, 'gui', {})
+    let id = get(hl, 'id', 0)
+    let lineParts = []
+
+    let lineParts += [
+          \ #{t: get(hl, 'cleared') ? 'ᴄ' : ' ', fg: s:colors.cleared},
+          \ #{t: get(hl, 'default') ? 'ᴅ' : ' ', fg: s:colors.default},
+          \ #{t: ' '}, 
+          \]
+
+    let lineParts += [
+          \ #{t: depth > 0 ? repeat('  ', max([0, depth - 2])) .. '╰‣️' : ''},
+          \ #{
+          \   t: get(hl, 'name', '???'),
+          \  hi: get(hl, 'name', ''),
+          \ },
+          \ #{t: '❘', fg: s:colors.idsep},
+          \ #{t: format#numbers(id, 'sans'), fg: s:colors.idnum},
+          \ #{t: ' '}, #{t: fgsymbol, fg: fgcolor, col: 3},
+          \ #{t: ' '}, #{t: bgsymbol, fg: bgcolor, col: 3},
+          \ #{t: ' '}, #{t: spsymbol, fg: spcolor, col: 3},
+          \]
+
+    if has_key(hl, 'linksto')
+      if has_key(seen, hl.linksto)
+" ╶╶╶╶╶╶╶╶╶ 􀱨 ╴╴╴╴╴╴╴╴╴ 
+        let lineParts += [
+              \#{t: ' '},
+              \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s:colors.loopsline},
+              \#{t: s:symbols.loops, fg: s:colors.loopsfg},
+              \#{t: '╴╴╴╴╴╴╴╴╴╴', fg: s:colors.loopsline},
+              \#{t: ' '},
+              \]
+        let done = v:true
+      else
+" ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ 
+        let lineParts += [
+              \#{t: ' '},
+              \#{t: '╶╶╶╶╶╶╶╶╶╶', fg: s:colors.linkstoline},
+              \#{t: s:symbols.linksto, fg: s:colors.linksto},
+              \#{t: '╴╴╴╴╴╴╴╴╴╴', fg: s:colors.linkstoline},
+              \#{t: ' '},
+              \]
+        let nextname = get(hl, 'linksto', '')
+      endif
+    else
+      let lineParts += [
+          \ #{t: ' ', col: 3},
+          \ #{t: '􀅓', fg: get(gui, 'bold') ? s:colors.hasgui : s:colors.hidden, col: 3},
+          \ #{t: '􀅔', fg: get(gui, 'italic') ? s:colors.hasgui : s:colors.hidden},
+          \ #{t: get(gui, 'underdouble') ? '􃐊' : '􀅕',
+          \ fg: (get(gui, 'underline')
+          \   || get(gui, 'undercurl')
+          \   || get(gui, 'underdotted')
+          \   || get(gui, 'underdashed')
+          \   || get(gui, 'underdouble')) ? s:colors.hasgui : s:colors.hidden, col: 3},
+          \ #{t: '􀅖', fg: get(gui, 'strikethrough') ? s:colors.hasgui : s:colors.hidden, col: 3},
+          \ #{t: '􀨡', fg: get(gui, 'standout') ? s:colors.hasgui : s:colors.hidden, col: 3},
+          \ #{t: '􂏾️ ', fg: (get(gui, 'inverse')
+          \ || get(gui, 'reverse')) ? s:colors.hasgui : s:colors.hidden, col: 3},
+          \ #{t: ' ', col: 3},
+          \]
+
+      let done = v:true
+    endif
+    let lines = add(lines, lineParts)
+  endwhile
+  return lines
+endfunc
+
+"    𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦  
+function s:FormatPositionInfo() abort
+  let ln = line('.')
+  let cc = charcol('.')
+  let vc = virtcol('.')
+  let bc = col('.')
+  return flatten([
+        \ [
+        \  #{t: '𝖱𝗈𝗐', fg: s:colors.row}, #{t: ' '}, #{t: format#numbers(ln), fg: s:colors.rowval},
+        \  #{t: ' '}, #{t: '|'}, #{t: ' '},
+        \  #{t: '𝖢𝗈𝗅', fg: s:colors.col},  #{t: format#numbers(cc), fg: s:colors.colval},
+        \ ],
+        \ cc == vc ? [] : [
+        \  #{t: ' '}, #{t: '|'}, #{t: ' '},
+        \  #{t: '𝖵𝖢𝗈𝗅', fg: s:colors.vcol}, #{t: format#numbers(vc), fg: s:colors.vcolval},
+        \ ],
+        \ cc == bc ? [] : [
+        \  #{t: ' '}, #{t: '|'}, #{t: ' '},
+        \  #{t: 'ʙʏᴛᴇ', fg: s:colors.byte}, #{t: ' '}, #{t: format#numbers(bc), fg: s:colors.byteval},
+        \ ],
+        \])
+endfunc
+
+
+
+
+function! s:UpdateSynFoBuffer(winid) abort
   " Replacement buffer contents
   let lines = []
 
@@ -443,10 +463,11 @@ function! s:UpdateSynFoBuffer(winid)
 " ⎢╶╶ Synstack Unavailable ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
   if !exists("*synstack")
     let lines = add(lines, [
-          \ #{t: '╶╶ ', fg: s:colors.hidden, col: 1},
-          \ #{t: 'Synstack Unavailable', col: 2},
-          \ #{t: ' ╴', fg: s:colors.hidden, pad: '╴', col: 2},
-          \ #{t: '╴', fg: s:colors.hidden, pad: '╴', col: 3},
+          \ #{t: '╶╶ ', fg: s:colors.headingline, col: 1},
+          \ #{t: 'Synstack Unavailable', fg: s:colors.headingtext, col: 2},
+          \ #{t: ' ╴', fg: s:colors.headingline, col: 2},
+          \ #{t: '╴', fg: s:colors.headingline, repeat: v:true, col: 2},
+          \ #{t: '╴', fg: s:colors.headingline, repeat: v:true, col: 3},
           \])
   else
     let stacknames = synstack(line('.'), col('.'))->map({_,v -> synIDattr(v, 'name')})
@@ -454,17 +475,19 @@ function! s:UpdateSynFoBuffer(winid)
 " ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
     if len(stacknames) == 0
       let lines = add(lines, [
-            \ #{t: '╶╶ ', fg: s:colors.hidden, col: 1},
-            \ #{t: 'No highlighting here', col: 2},
-            \ #{t: ' ╴', fg: s:colors.hidden, pad: '╴', col: 2},
-            \ #{t: '╴', fg: s:colors.hidden, pad: '╴', col: 3},
+            \ #{t: '╶╶ ', fg: s:colors.headingline, col: 1},
+            \ #{t: 'No highlighting here', fg: s:colors.headingtext, col: 2},
+            \ #{t: ' ╴', fg: s:colors.headingline, col: 2},
+            \ #{t: '╴', fg: s:colors.headingline, repeat: v:true, col: 2},
+            \ #{t: '╴', fg: s:colors.headingline, repeat: v:true, col: 3},
             \])
     else
-      let lines = add(lines, [
-            \ #{t: '╶──', fg: s:colors.hidden, col: 1},
-            \ #{t: '─', fg: s:colors.hidden, pad: '─', col: 2},
-            \ s:hi_col_headings
-            \])
+      let lines = add(lines, flatten([[
+            \ #{t: '╶', fg: s:colors.headingline, col: 1},
+            \ #{t: '─', fg: s:colors.headingline, repeat: v:true, col: 1},
+            \ #{t: '─', fg: s:colors.headingline, repeat: v:true, col: 2},
+            \ ], s:hi_col_headings
+            \]))
     " Stack:
       for name in reverse(stacknames)
         let lines += s:FormatLinkChain(name)
@@ -475,12 +498,14 @@ function! s:UpdateSynFoBuffer(winid)
 
 " ⎢╶─╴default╶─────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
 " ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
-  let lines = add(lines, [
-        \ #{t: '╶──', fg: s:colors.hidden, col: 1},
-        \ #{t: &l:wincolor == '' ? '╴default' : '╴wincolor', col: 2},
-        \ #{t: '╶─', fg: s:colors.hidden, pad: '─', col: 2},
-        \ s:hi_col_headings
-        \])
+  let lines = add(lines, flatten([[
+        \ #{t: '╶──', fg: s:colors.headingline, col: 1},
+        \ #{t: '╴', fg: s:colors.headingline, col: 2},
+        \ #{t: &l:wincolor == '' ? 'default' : 'wincolor', fg: s:colors.headingtext, col: 2},
+        \ #{t: '╶', fg: s:colors.headingline, col: 2},
+        \ #{t: '─', fg: s:colors.headingline, repeat: v:true, col: 2},
+        \ ], s:hi_col_headings
+        \]))
   let lines += s:FormatLinkChain(&l:wincolor == '' ? 'Normal' : &l:wincolor)
 
   let lines = add(lines, s:sectionBreak)
@@ -496,19 +521,19 @@ function! s:UpdateSynFoBuffer(winid)
   "
   " Character Info:
   "
-  " let charinfo = printf('%'..longest..'S', ExecAndReturn('Characterize'))
-  call add(lines, s:FormatCharInfoForSynFo())
+  let lines = add(lines, s:FormatCharInfo())
 
   let lines = add(lines, s:sectionBreak)
 
   "
   " Position Info:
   "
-  " call add(lines, s:GetFormattedPositionInfo(max(mapnew(lines, {_, line -> line['text']}))))
-  call add(lines, s:GetFormattedPositionInfo())
+  let lines = add(lines, s:FormatPositionInfo())
 
-  return popup_settext(a:winid, map(lines, {_, line -> s:LineWithPropsFromParts(line, bufnr)}))
+
+  return s:Render(lines, a:winid)
 endfunc
+
 
 function s:SynFoPopupFilter(winid, key) abort
   " if a:key == '<LeftMouse>'
@@ -520,8 +545,7 @@ function s:SynFoPopupFilter(winid, key) abort
     " return 0
   " endif
   if a:key == 'x'
-    call s:SynFoDisable()
-    call s:SynstackSetup()
+    call s:SynFoClose()
     return 1
   endif
   return 0

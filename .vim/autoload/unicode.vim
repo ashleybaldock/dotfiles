@@ -8,14 +8,6 @@ let g:mayhem_autoloaded_unicode = 1
 "
 
 "
-" Default character used to display lonely combining characters
-" let g:mayhem_unicode_combine_default = '◌'
-"
-function s:combase() abort
-  return get(g:, 'mayhem_unicode_combine_default', '◌')
-endfunc
-
-"
 " List of characters in a range
 "  from: number/string, codepoint at start of range
 "         (strings are parsed using str2nr())
@@ -67,7 +59,7 @@ endfunc
 " a:3  Separator (default ' ') 
 " Gives standalone combining characters something to combine with
 "
-function unicode#pointsToString(codepoints, combiningbase = s:combase(), sep = ' ')
+function unicode#pointsToString(codepoints, combiningbase = char#combase(), sep = ' ')
   return mapnew(a:codepoints, {idx, val -> char#display(val, a:combiningbase)})
         \->join(a:sep)
 endfunc

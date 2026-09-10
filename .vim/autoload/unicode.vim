@@ -7,7 +7,14 @@ let g:mayhem_autoloaded_unicode = 1
 " See: ../plugin/unicode.vim
 "
 
-function! unicode#myNewFunction(...) abort
+"
+" Default character used to display lonely combining characters
+" let g:mayhem_unicode_combine_default = '◌'
+"
+function s:combase() abort
+  return get(g:, 'mayhem_unicode_combine_default', '◌')
+endfunc
+
 "
 " List of characters in a range
 "  from: number/string, codepoint at start of range
@@ -24,6 +31,7 @@ function unicode#pointsInRange(
 
   return range(l:startidx, l:startidx + l:count - 1)->map({ _, val -> nr2char(val)})
 endfunc
+
 "
 " List of characters with codepoints between
 " the two characters given as arguments
@@ -59,7 +67,7 @@ endfunc
 " a:3  Separator (default ' ') 
 " Gives standalone combining characters something to combine with
 "
-function unicode#pointsToString(codepoints, combiningbase = s:combase, sep = ' ')
+function unicode#pointsToString(codepoints, combiningbase = s:combase(), sep = ' ')
   return mapnew(a:codepoints, {idx, val -> char#display(val, a:combiningbase)})
         \->join(a:sep)
 endfunc

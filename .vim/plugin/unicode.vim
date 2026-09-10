@@ -3,12 +3,6 @@ if exists("g:mayhem_loaded_unicode")
 endif
 let g:mayhem_loaded_unicode = 1
 
-"
-" Default character used to display lonely combining characters
-" let g:mayhem_unicode_combine_default = '◌'
-"
-let s:combase = get(g:, 'mayhem_unicode_combine_default', '◌')
-
 
 " ??
 " These all work for a specific character, but not with .

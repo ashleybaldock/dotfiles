@@ -46,8 +46,8 @@ for s:type in get(g:, 'md_fenced_languages', [])->mapnew('matchstr(v:val, "[^=]*
     exec 'syn include @' .. s:mdIncludePrefix .. tr(s:type, '.', '_') .. ' ' ..
           \ expand('syntax/' .. matchstr(s:type, '[^.]*') .. '.vim')->fnameescape()
   catch /^Vim\%((\S\+)\)\=:E484:/
-    silent echo 'markdown.vim: failed to include fenced syntax ''' .. s:type .. ''''
-    silent echo v:exception
+    echo 'markdown.vim: failed to include fenced syntax ''' .. s:type .. ''''
+    echo v:exception
   endtry
   unlet! b:current_syntax
   let s:included[matchstr(s:type, '[^.]*')] = 1

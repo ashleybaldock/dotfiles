@@ -24,38 +24,25 @@ function! charinfo#name(char) abort
       silent exec 'Characterize'
     endif
 
-    let v:errmsg = ''
-    redir => characterise_output
-      silent exec 'Characterize ' .. a:char
-    redir END
+    let characterise_output = execute('Characterize ' .. a:char)
 
-    if v:errmsg != ''
-      echom 'Error running Characterize: ' .. v:errmsg
-      return 'Unknown (Err)'
-    else
-      return format#spacedtitlecase(format#lowercase(matchstr(characterise_output, ', U+\x\+ \zs[^,]*')))
-      " return matchstr(characterise_output, ', \zsU+[^,]*')
-    endif
+    return matchstr(characterise_output, ', U+\x\+ \zs[^,]*')->format#lowercase()->format#spacedtitlecase()
   endif
 endfunc
 
 function! charinfo#get(str = char#fromCursor()) abort
-  let composedchar = char#first(a:str)
-  " let basechar = empty(a:arg)
-  "       \ ? char2nr(getline('.')[col('.') - 1 : -1])->nr2char()
-  "       \ : char2nr(a:arg)->nr2char()
-  " let composedchar = empty(a:arg)
-  "       \ ? strpart(getline('.'), col('.') - 1, 1, v:true)
-  "       \ : strpart(a:arg, 0, 1, v:true)
-
-  return map(char#split(composedchar), {i, v -> #{
-        \  composed: composedchar,
+  let first = char#first(a:str)
+  return char#split(first)
+        \ ->get(0, [])
+        \ ->map({i, v -> #{
+        \  composed: first,
         \  char: v,
         \  index: i,
         \  code: char#code(v),
         \  name: charinfo#name(v),
-        \  }})
-
+        \  }
+        \ }
+        \)
 endfunc
 
 "

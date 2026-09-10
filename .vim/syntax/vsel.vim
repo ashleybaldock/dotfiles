@@ -14,18 +14,15 @@
 let s:cpo_save = &cpo
 set cpo&vim
 
-let s:selectors = range(17, 255)
-
 " Match each of the extended set of variation selectors
-for n in s:selectors 
-  exec printf("syn match vs%d +%s+ display contained contains=NONE",
-        \ n, nr2char(n - 17 + 0xE0100))
+" let s:cluster = []
+for s:n in range(17, 255) 
+  exec 'syn match vs' .. s:n .. ' +' .. nr2char(s:n - 17 + 0xE0100) .. '+ ' .. 'display contains=NONE'
+  " let s:cluster = add(s:cluster, 'vs' .. s:n)
 endfor
+" exec 'syn cluster vsSupplemental contains=' .. join(s:cluster, ',')
 
-exec printf("syn cluster vsSupplemental contains=%s",
-      \ mapnew(s:selectors, {i,s -> printf("vs%d", s)})->join(','))
-
-syn match variationSelector /[\Ue0100-\Ue01ef]/ display contains=@vsSupplemental
+" syn match variationSelector /[\Ue0100-\Ue01ef]/ transparent contains=@vsSupplemental
 
 " exec range(17,255)
 "       \->map({i, n -> printf("vs%d 𐔃%s", n, nr2char(n + 0xE0100))})
@@ -58,13 +55,6 @@ hi vs90 guifg=#ff4a00
 hi vs92 guifg=#88ff00
 hi vs93 guifg=#00ff88
 
-"hi vs81 guifg=#ff0000
-"hi vs83 guifg=#868600
-"hi vs85 guifg=#00cb00
-"hi vs87 guifg=#00abab
-"hi vs89 guifg=#0000ff
-"hi vs91 guifg=#ff00ff
-"
 hi vs181 guifg=#880000
 hi vs182 guifg=#884400
 hi vs183 guifg=#868600

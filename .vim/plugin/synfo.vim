@@ -13,11 +13,12 @@ let s:symbols = get(g:, 'mayhem_symbols_synfo', #{
       \ linksto: '⫘⃗ ',
       \ cleared: '􀣦',
       \ loops: '􀱨',
-      \ fg: '􀯮',
-      \ bg: '􀯯',
       \ sp: '􀤑',
       \ color: '􀂓',
-      \ none: '􀂒',
+      \ fgcolor: '􀯮',
+      \ bgcolor: '􀯯',
+      \ namedcolor: '􀂯',
+      \ nonecolor: '􀂒',
       \ guibold: '􀅓',
       \ guiitalic: '􀅔',
       \ guiul: '􀅕',
@@ -27,15 +28,28 @@ let s:symbols = get(g:, 'mayhem_symbols_synfo', #{
       \})
 
 let s:colors = #{
-      \hidden: '#441122',
-      \cleared: '#448822',
-      \default: '#441188',
-      \idnum: '#881188',
-      \idsep: '#991144',
-      \linksto: '#994400',
-      \linkstoline: '#664400',
-      \loops: '#888822',
-      \loopsline: '#664400',
+      \ none: 'NONE',
+      \ hidden: '#441122',
+      \ cleared: '#66aa44',
+      \ default: '#6633aa',
+      \ fgcolor: '#555555',
+      \ bgcolor: '#555555',
+      \ nonecolor: '#000000',
+      \ idnum: '#884488',
+      \ idsep: '#000000',
+      \ linksto: '#994400',
+      \ linkstoline: '#664400',
+      \ loops: '#ee1111',
+      \ loopsline: '#664400',
+      \ row: '#dd99dd',
+      \ rowval: '#dddddd',
+      \ col: '#dd99dd',
+      \ colval: '#dddddd',
+      \ vcol: '#dd99dd',
+      \ vcolval: '#dddddd',
+      \ byte: '#dd99dd',
+      \ byteval: '#dddddd',
+      \ hasgui: '#dddddd',
       \}
 
 " Reset index for generating text property ids
@@ -51,24 +65,23 @@ endfunc
 " Formats character info for display in SynFo popup
 " See: ../autoload/charinfo.vim
 "
-function! s:FormatCharInfoForSynFo(arg = v:null)
-  let chfo = charinfo#get(a:arg)
+function! s:FormatCharInfoForSynFo()
+  let chfo = charinfo#get()
+  let composed = get(chfo, 'composed', '')
 
-  let lineParts = []
-
-  let lineParts += [
-        \ #{t: chfo[0]['composed']},
-        \ #{t: ' '},
-        \ #{t: '='},
-        \ #{t: ' '},
+  let lineParts = [
+        \#{t: composed},
+        \#{t: ' '},
+        \#{t: '='},
+        \#{t: ' '},
         \]
 
-  let lineParts += map(chfo, {i, v -> [
-        \ #{t: char#display(v['char'])},
-        \ #{t: ' '},
-        \ #{t: '+'},
-        \ #{t: ' '},
-        \     ]})
+  " let lineParts += map(chfo, {i, v -> [
+  "       \ #{t: char#display(v['char'])},
+  "       \ #{t: ' '},
+  "       \ #{t: '+'},
+  "       \ #{t: ' '},
+  "       \]})
 
   return lineParts
 endfunc
@@ -91,9 +104,12 @@ endfunc
 "  w:2|                        |                       |
 "
 " ⎛  ˢ️ʸ︎ⁿᶠ︎ᵒ ╶──────────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎞
-" ⎢★️ ᴅ⎧cssUrlFunction􀮵𝟤𝟥𝟦𝟧     􀯮 􀯯 􀤑  􀅓􀅔􀅕􀅖􀨡 ꭱ ⎥
-" ⎢   │╰‣️Statement❘𝟤𝟥𝟦􀮵        ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
-" ⎢   │  ╰‣️Constant❘𝟧𝟧𝟧𝟧􀮵      ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
+"
+" ⎛·️·️ˢ️ʸ︎ⁿᶠ︎ᵒ·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️ 𐔥ɢ ⲃɢ ꮪꮲ ·️·️·️·️ ɢᴜɪ ·️·️·️·️·️⎞
+" ⎢★️ ᴅ⎧cssUrlFunction􀮵𝟤𝟥𝟦𝟧 ╶─􀉣──╌──╌──╌╌─╌─╌─╌─╌─╌─╌╴⎥
+" ⎢   │╰‣️Statement❘𝟤𝟥𝟦􀮵    ╶─􀉣􀍠 􀍠 􀍠􀉣􀍠􀍠􀍠􀍠􀍠􀍠 ⎥
+" ⎢   │ ╰‣️Constant❘𝟧𝟧𝟧𝟧􀮵       􀯮 􀯯 􀤑  􀅓􀅔􀅕􀅖􀨡􀂷 ⎥
+" ⎢   │ ╰‣️Constant❘𝟧𝟧𝟧𝟧􀮵       ╶╶╶╶╶╶╶╶╶╶􀉣╴╴╴╴╴╴╴╴╴╴ ⎥
 " ⎢ ᴄ ⎧cssUrl❘􀮵                􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
 " ⎢  ᴅ⎧cssParam❘􀮵              􀂓 􀯮 􀂒  􀅓􀅔􀅕􀅖􀨡   ⎥
 " ⎢╶─╴wincolor╶───────────────╍╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╍╴ɢᴜɪ╶───────╴⎥
@@ -166,16 +182,16 @@ function s:FormatLinkChain(name)
     let hl = hlget(nextname)->get(0)
     let seen[hl.name] = v:true
 
-    let [fgsymbol, fgcolor] = s:ForColor(get(hl, 'guifg', ''))
-    let [bgsymbol, bgcolor] = s:ForColor(get(hl, 'guibg', ''))
-    let [spsymbol, spcolor] = s:ForColor(get(hl, 'guisp', ''))
+    let [fgsymbol, fgcolor] = s:ForColor(get(hl, 'guifg', 'NONE'))
+    let [bgsymbol, bgcolor] = s:ForColor(get(hl, 'guibg', 'NONE'))
+    let [spsymbol, spcolor] = s:ForColor(get(hl, 'guisp', 'NONE'))
     let gui = get(hl, 'gui', {})
     let id = get(hl, 'id', 0)
     let lineParts = []
 
     let lineParts += [
-          \ #{t: (get(hl, 'cleared') ? 'ᴄ' : ' '), fg: s:colors.cleared},
-          \ #{t: (get(hl, 'default') ? 'ᴅ' : ' '), fg: s:colors.default},
+          \ #{t: get(hl, 'cleared') ? 'ᴄ' : ' ', fg: s:colors.cleared},
+          \ #{t: get(hl, 'default') ? 'ᴅ' : ' ', fg: s:colors.default},
           \ #{t: ' '}, 
           \]
 
@@ -217,18 +233,18 @@ function s:FormatLinkChain(name)
     else
       let lineParts += [
           \ #{t: ' ', col: 3},
-          \ #{t: '􀅓', fg: get(gui, 'bold', v:false) ? v:none : s:colors.hidden, col: 3},
-          \ #{t: '􀅔', fg: get(gui, 'italic', v:false) ? v:none : s:colors.hidden},
-          \ #{t: get(gui, 'underdouble', v:false) ? '􃐊' : '􀅕',
-          \ fg: (get(gui, 'underline', v:false)
-          \   || get(gui, 'undercurl', v:false)
-          \   || get(gui, 'underdotted', v:false)
-          \   || get(gui, 'underdashed', v:false)
-          \   || get(gui, 'underdouble', v:false)) ? v:none : s:colors.hidden, col: 3},
-          \ #{t: '􀅖', fg: get(gui, 'strikethrough', v:false) ? v:none : s:colors.hidden, col: 3},
-          \ #{t: '􀨡', fg: get(gui, 'standout', v:false) ? v:none : s:colors.hidden, col: 3},
-          \ #{t: '􂏾️ ', fg: (get(gui, 'inverse', v:false)
-          \ || get(gui, 'reverse', v:false)) ? v:none : s:colors.hidden, col: 3},
+          \ #{t: '􀅓', fg: get(gui, 'bold') ? s:colors.hasgui : s:colors.hidden, col: 3},
+          \ #{t: '􀅔', fg: get(gui, 'italic') ? s:colors.hasgui : s:colors.hidden},
+          \ #{t: get(gui, 'underdouble') ? '􃐊' : '􀅕',
+          \ fg: (get(gui, 'underline')
+          \   || get(gui, 'undercurl')
+          \   || get(gui, 'underdotted')
+          \   || get(gui, 'underdashed')
+          \   || get(gui, 'underdouble')) ? s:colors.hasgui : s:colors.hidden, col: 3},
+          \ #{t: '􀅖', fg: get(gui, 'strikethrough') ? s:colors.hasgui : s:colors.hidden, col: 3},
+          \ #{t: '􀨡', fg: get(gui, 'standout') ? s:colors.hasgui : s:colors.hidden, col: 3},
+          \ #{t: '􂏾️ ', fg: (get(gui, 'inverse')
+          \ || get(gui, 'reverse')) ? s:colors.hasgui : s:colors.hidden, col: 3},
           \ #{t: ' ', col: 3},
           \]
 
@@ -241,39 +257,46 @@ endfunc
 
 "    𝖱𝗈𝗐 𝟤𝟥 | 𝖢𝗈𝗅𝟦𝟧 | 𝖵𝖢𝗈𝗅𝟧𝟦  
 function s:GetFormattedPositionInfo() abort
+  let ln = line('.')
   let cc = charcol('.')
   let vc = virtcol('.')
   let bc = col('.')
-  let col = printf('𝖢𝗈𝗅%s', format#numbers(cc))
-  let vcol = printf('𝖵𝖢𝗈𝗅%s', format#numbers(vc))
-  let byte = printf('ʙʏᴛᴇ%s', format#numbers(bc))
-  let numbers = printf('𝖱𝗈𝗐 %s | %s%s%s',
-        \ format#numbers(line('.')),
-        \ col,
-        \ cc == vc ? '' : printf(' | %s', vcol),
-        \ cc == bc ? '' : printf(' | %s', byte))
-  return #{text: numbers, props: []}
+  return flatten([
+        \ [
+        \  #{t: '𝖱𝗈𝗐', fg: s:colors.row}, #{t: ' '}, #{t: format#numbers(ln), fg: s:colors.rowval},
+        \  #{t: ' '}, #{t: '|'}, #{t: ' '},
+        \  #{t: '𝖢𝗈𝗅', fg: s:colors.col}, #{t: ' '}, #{t: format#numbers(cc), fg: s:colors.colval},
+        \ ],
+        \ cc == vc ? [] : [
+        \  #{t: ' '}, #{t: '|'}, #{t: ' '},
+        \  #{t: '𝖵𝖢𝗈𝗅', fg: s:colors.vcol}, #{t: ' '}, #{t: format#numbers(vc), fg: s:colors.vcolval},
+        \ ],
+        \ cc == bc ? [] : [
+        \  #{t: ' '}, #{t: '|'}, #{t: ' '},
+        \  #{t: 'ʙʏᴛᴇ', fg: s:colors.byte}, #{t: ' '}, #{t: format#numbers(bc), fg: s:colors.byteval},
+        \ ],
+        \])
 endfunc
 
 function! s:ForColor(color)
   if a:color == 'fg' || a:color == 'foreground'
-    return [s:symbols.fg, '#333333']
+    return [s:symbols.fgcolor, s:colors.fgcolor]
   endif
   if a:color == 'bg' || a:color == 'background'
-    return [s:symbols.bg, '#333333']
+    return [s:symbols.bgcolor, s:colors.bgcolor]
   endif
   if v:colornames->has_key(a:color)
-    return [s:symbols.color, v:colornames[a:color]]
+    return [s:symbols.namedcolor, v:colornames[a:color]]
   endif
   if a:color =~ '^#'
     return [s:symbols.color, a:color]
   endif
-  return [s:symbols.none, '#333333']
+  return [s:symbols.nonecolor, '#333333']
 endfunc
 
 
 
-let s:sectionBreak = #{t: ''}
+let s:sectionBreak = [#{t: ''}]
 
 "
 " Turns an array of text fragments with formatting instructions
@@ -388,6 +411,13 @@ function! s:LineWithPropsFromParts(parts, bufnr, lineconfig = #{})
   return #{text: line, props: props}
 endfunc
 
+" ⎢                           ─╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
+" ⎢·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️·️··️·️·️·️·️𐔥ɢ·️ⲃɢ·️ꮪꮲ·️·️·️·️·️ɢᴜɪ·️·️·️·️·️·️·️·️⎥
+" ⎢╶───────────────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
+let s:hi_col_headings = #{
+      \ t: '╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────────', pad: '─', fg: s:colors.hidden, col: 3
+      \}
+
 function! s:UpdateSynFoBuffer(winid)
   let bufnr = winbufnr(a:winid)
 
@@ -406,16 +436,17 @@ function! s:UpdateSynFoBuffer(winid)
   call foldclosed('.') " -1 = not in closed fold, else first line of that fold
   call foldclosedend('.') " -1 = not in closed fold, else last line of that fold
   call foldtextresult('.')
+
   "
   " Synstack:
   "
 " ⎢╶╶ Synstack Unavailable ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
   if !exists("*synstack")
     let lines = add(lines, [
-          \ #{t: '╶╶ ', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
-          \ #{t: 'Synstack Unavailable', hi: 'SlHomeMC', col: 2},
-          \ #{t: ' ╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 2},
-          \ #{t: '╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 3},
+          \ #{t: '╶╶ ', fg: s:colors.hidden, col: 1},
+          \ #{t: 'Synstack Unavailable', col: 2},
+          \ #{t: ' ╴', fg: s:colors.hidden, pad: '╴', col: 2},
+          \ #{t: '╴', fg: s:colors.hidden, pad: '╴', col: 3},
           \])
   else
     let stacknames = synstack(line('.'), col('.'))->map({_,v -> synIDattr(v, 'name')})
@@ -423,12 +454,17 @@ function! s:UpdateSynFoBuffer(winid)
 " ⎢╶╶ No highlighting here ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴⎥
     if len(stacknames) == 0
       let lines = add(lines, [
-            \ #{t: '╶╶ ', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
-            \ #{t: 'No highlighting here', hi: 'SlHomeMC', col: 2},
-            \ #{t: ' ╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 2},
-            \ #{t: '╴', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '╴', col: 3},
+            \ #{t: '╶╶ ', fg: s:colors.hidden, col: 1},
+            \ #{t: 'No highlighting here', col: 2},
+            \ #{t: ' ╴', fg: s:colors.hidden, pad: '╴', col: 2},
+            \ #{t: '╴', fg: s:colors.hidden, pad: '╴', col: 3},
             \])
     else
+      let lines = add(lines, [
+            \ #{t: '╶──', fg: s:colors.hidden, col: 1},
+            \ #{t: '─', fg: s:colors.hidden, pad: '─', col: 2},
+            \ s:hi_col_headings
+            \])
     " Stack:
       for name in reverse(stacknames)
         let lines += s:FormatLinkChain(name)
@@ -436,14 +472,14 @@ function! s:UpdateSynFoBuffer(winid)
     endif
   endif
 
-" ⎢╶─╴default╶─────────────────╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────╴ꭱꮩ╶╴⎥
+
+" ⎢╶─╴default╶─────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
 " ⎢╶─╴wincolor╶────────────────╴𐔥ɢ ⲃɢ ꮪꮲ╶───╴ɢᴜɪ╶──────╴⎥
   let lines = add(lines, [
-        \ #{t: '╶─╴', fg: s:colors.hidden, hi: 'SlHomeMN', col: 1},
-        \ #{t: &l:wincolor == '' ? 'default' : 'wincolor', hi: 'SlHomeMC', col: 2},
-        \ #{t: '╶─', fg: s:colors.hidden, hi: 'SlHomeMN', pad: '─', col: 2},
-        \ #{t: '╴𐔥ɢ·️ⲃɢ·️ꮪꮲ╶╴ɢᴜɪ╶─────────', pad: '─',
-        \  fg: s:colors.hidden, hi: 'SlHomeMN', col: 3},
+        \ #{t: '╶──', fg: s:colors.hidden, col: 1},
+        \ #{t: &l:wincolor == '' ? '╴default' : '╴wincolor', col: 2},
+        \ #{t: '╶─', fg: s:colors.hidden, pad: '─', col: 2},
+        \ s:hi_col_headings
         \])
   let lines += s:FormatLinkChain(&l:wincolor == '' ? 'Normal' : &l:wincolor)
 
@@ -471,7 +507,7 @@ function! s:UpdateSynFoBuffer(winid)
   " call add(lines, s:GetFormattedPositionInfo(max(mapnew(lines, {_, line -> line['text']}))))
   call add(lines, s:GetFormattedPositionInfo())
 
-  call popup_settext(a:winid, lines)
+  return popup_settext(a:winid, map(lines, {_, line -> s:LineWithPropsFromParts(line, bufnr)}))
 endfunc
 
 function s:SynFoPopupFilter(winid, key) abort

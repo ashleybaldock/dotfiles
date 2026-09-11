@@ -59,7 +59,6 @@ function! statusline#updateSearch(...) abort
       let total = printf('>%s', format#numbers(r.total))
     elseif r.total > r.maxcount
       let total = printf('>%s', format#numbers(r.total))
-      let msg 
     endif
   else
     if r.total == 0

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.275
+// @version       1.1.276
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -2141,8 +2141,11 @@ const bluronblur = ({
   hiddenTimeout = 15,
   blurred_callback = noop,
   dismiss_callback = noop,
+  paused_callback = noop,
+  resume_callback = noop,
 } = {}) => {
-  let _blurTimeoutId,
+  let _paused = true,
+    _blurTimeoutId,
     _blurTimeout = blurTimeout * 1000,
     _hiddenTimeoutId,
     _hiddenTimeout = hiddenTimeout * 1000;
@@ -2151,6 +2154,10 @@ const bluronblur = ({
   const signal = controller.signal;
 
   const modal = GM_addElement(document.body, 'dialog', { class: 'bluronblur' });
+  const fieldset = GM_addElement(dialog, 'fieldset');
+  const pausebutton = GM_addElement(fieldset, 'button', {
+    textContent: 'Pause focus tracking',
+  });
 
   modal.addEventListener(
     'click',
@@ -2163,14 +2170,70 @@ const bluronblur = ({
 
   signal.addEventListener('abort', () => modal.remove(), { once: true });
 
+  const pause = () => {
+    if (!_paused) {
+      _paused = true;
+      modal.close();
+      paused_callback();
+    }
+  };
+  const resume = () => {
+    if (_paused) {
+      _paused = false;
+      resume_callback();
+    }
+  };
+
+  pausebutton.addEventListener(
+    'click',
+    () => {
+      pause();
+    },
+    { signal },
+  );
+
   const blur = () => {
     _hiddenTimeoutId = clearTimeout(_hiddenTimeoutId);
     _blurTimeoutId = clearTimeout(_blurTimeoutId);
-    if (!modal.open) {
+    if (!paused && !modal.open) {
       modal.showModal();
       blurred_callback();
     }
   };
+
+  const sleepCheck = (({ slept_callback = noop }) => {
+    let _timeoutId,
+      _interval = 10000,
+      _margin = 500;
+
+    const check = (_expected) => {
+      const now = Date.now(),
+        earliest = now - _margin,
+        latest = now + _margin;
+
+      if (_expected && (_expected < earliest || _expected > latest)) {
+        slept_callback();
+      }
+
+      _timeoutId = ((expected) => setTimeout(() => check(expected), _interval))(
+        Date.now() + _interval,
+      );
+
+      return {
+        pause: () => (_timeoutId = clearTimeout(_timeoutId)),
+        resume: () => _timeoutId ?? check(),
+      };
+    };
+    return check;
+  })({ slept_callback: blur });
+
+  dialog.addEventListener(
+    'close',
+    () => {
+      sleepCheck();
+    },
+    { signal },
+  );
 
   window.addEventListener(
     'visibilitychange',
@@ -2213,6 +2276,8 @@ const bluronblur = ({
   return {
     setBlurTimeout: (newTimeout) => (_blurTimeout = newTimeout * 1000),
     setHiddenTimeout: (newTimeout) => (_hiddenTimeout = newTimeout * 1000),
+    pause,
+    resume,
     abort: () => controller.abort(),
   };
 };

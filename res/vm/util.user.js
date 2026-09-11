@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.276
+// @version       1.1.280
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -2131,6 +2131,44 @@ const getDownloader = (x) => () =>
   );
 
 /**
+ * Detects system sleep, and notifies listeners
+ */
+const sleepCheck = (() => {
+  let _timeoutId,
+    _intervalId,
+    _interval = 10000,
+    _margin = 500;
+
+  const createSleptEvent = (duration) =>
+    new CustomEvent('slept', {
+      detail: {
+        duration,
+      },
+    });
+
+  const check = (start, expected, actual) => {
+    const earliest = actual - _margin,
+      latest = actual + _margin;
+
+    if (expected && (expected < earliest || expected > latest)) {
+      globalThis.dispatchEvent(createSleptEvent(actual - start));
+    }
+  };
+
+  const wait = () => {
+    // _intervalId = setInterval(
+    _timeoutId = ((start) =>
+      setTimeout(() => check(start, start + _interval, Date.now())))(
+      Date.now(),
+    );
+  };
+  return {
+    pause: () => (_timeoutId = clearTimeout(_timeoutId)),
+    resume: () => _timeoutId ?? check(),
+  };
+})();
+
+/**
  * Hides elements matching selector when window loses focus
  * Adds full-screen modal requiring a click to unblur
  *
@@ -2201,36 +2239,10 @@ const bluronblur = ({
     }
   };
 
-  const sleepCheck = (({ slept_callback = noop }) => {
-    let _timeoutId,
-      _interval = 10000,
-      _margin = 500;
-
-    const check = (_expected) => {
-      const now = Date.now(),
-        earliest = now - _margin,
-        latest = now + _margin;
-
-      if (_expected && (_expected < earliest || _expected > latest)) {
-        slept_callback();
-      }
-
-      _timeoutId = ((expected) => setTimeout(() => check(expected), _interval))(
-        Date.now() + _interval,
-      );
-
-      return {
-        pause: () => (_timeoutId = clearTimeout(_timeoutId)),
-        resume: () => _timeoutId ?? check(),
-      };
-    };
-    return check;
-  })({ slept_callback: blur });
-
   dialog.addEventListener(
     'close',
     () => {
-      sleepCheck();
+      sleepCheck.resume();
     },
     { signal },
   );

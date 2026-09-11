@@ -1,0 +1,116 @@
+@keyframes rotate {
+  0% {
+    --bearing: 0deg;
+  }
+  50% {
+    --bearing: 180deg;
+  }
+  100% {
+    --bearing: 360deg;
+  }
+}
+
+@keyframes distance {
+  0% {
+    --range: 1;
+  }
+  50% {
+    --range: 5;
+  }
+  100% {
+    --range: 10;
+  }
+}
+@property --bearing {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+@property --range {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+.demo {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-auto-flow: row dense;
+  grid-auto-rows: 0;
+  align-items: center;
+  justify-items: center;
+  place-self: end;
+  margin: 0 2ch 0.5em 0 !important;
+  padding: 0.5ch !important;
+  height: auto !important;
+  background-color: #0008;
+  border-radius: 0.5ch;
+  min-width: 5ch;
+  box-shadow:
+    var(--dox) var(--doy) var(--dof) var(--dos) #000,
+    var(--lox) var(--loy) var(--lof) var(--los) #fff,
+    inset var(--dix) var(--diy) var(--dif) var(--dis) #000,
+    inset var(--lix) var(--liy) var(--lif) var(--lis) #fff,
+    0 0 0 0 #0000;
+  --bearing: 50deg;
+  --range: 7;
+  --dx: calc(var(--range) * sin(var(--bearing)));
+  --dy: calc(var(--range) * cos(var(--bearing)));
+  --range1: calc(var(--dx) * 1px);
+  --range2: calc(var(--dy) * 1px);
+  --b1: calc(var(--dx) * -1px);
+  --b2: calc(var(--dy) * -1px);
+
+  --ui: 0.14px;
+  --uo: 0.1px;
+
+  --lix: calc(var(--dx) * var(--ui));
+  --liy: calc(var(--dy) * var(--ui));
+  --lif: 0px;
+  --lis: calc(var(--range) * var(--ui));
+
+  --dix: calc(var(--dx) * -1 * var(--ui));
+  --diy: calc(var(--dy) * -1 * var(--ui));
+  --dif: 0px;
+  --dis: calc(var(--range) * -1 * var(--ui));
+
+  --lox: calc((var(--range) + var(--dx)) * var(--uo));
+  --loy: calc((var(--range) + var(--dy)) * var(--uo));
+  --lof: 0px;
+  /* --los: calc((1 / var(--range)) * 2 * var(--uo)); */
+  --los: 0px;
+
+  --dox: calc(var(--dx) * 1 * var(--uo));
+  --doy: calc(var(--dy) * 1 * var(--uo));
+  --dof: 0px;
+  --dos: calc(var(--range) * var(--uo));
+
+  animation-name: rotate, distance;
+  animation-duration: 20s, 7s;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+  animation-direction: normal, alternate;
+  animation-timing-function: linear;
+
+  position: relative;
+}
+
+.demo::after {
+  content: '';
+  position: absolute;
+  --s: 20px;
+  width: var(--s);
+  height: var(--s);
+  z-index: 10000;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px #f00;
+  background-image: radial-gradient(circle at center, 0% #fff, 75% #fff0);
+  display: flex;
+  --o: calc(50% - var(--s) * 0.5);
+  top: calc(var(--o) + (cos(var(--bearing)) * var(--range) * -10px));
+  left: calc(var(--o) + (sin(var(--bearing)) * var(--range) * -10px));
+  /*   top: var(--o);
+  left: var(--o); */
+}

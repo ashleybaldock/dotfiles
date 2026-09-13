@@ -200,6 +200,31 @@ syn match Modeline contained /\(^["#]\)\@<=\s\+vim:.*$/ containedin=Comment,vimL
 
 hi def link Modeline CommentHidden
 
+syn match SpEm /\%u2003/ contained
+      \ containedin=vimString,vimContinueString
+      \ contains=NONE conceal cchar=⅟
+
+syn match SpEn /\%u2002/ contained
+      \ containedin=vimString,vimContinueString
+      \ contains=NONE conceal cchar=½
+
+syn match Sp3Per /\%u2004/ contained
+      \ containedin=vimString,vimContinueString
+      \ contains=NONE conceal cchar=⅓
+
+syn match Sp4Per /\%u2005/ contained
+      \ containedin=vimString,vimContinueString
+      \ contains=NONE conceal cchar=¼
+
+syn match SpThin /\%u2009/ contained
+      \ containedin=vimString,vimContinueString
+      \ contains=NONE conceal cchar=⅕
+
+syn match Sp6Per /\%u2006/ contained
+      \ containedin=vimString,vimContinueString
+      \ contains=NONE conceal cchar=⅙
+
+
 "
 " :highlight commands in commments
 "       \ including those that continue

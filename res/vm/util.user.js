@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.280
+// @version       1.1.284
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -2192,7 +2192,7 @@ const bluronblur = ({
   const signal = controller.signal;
 
   const modal = GM_addElement(document.body, 'dialog', { class: 'bluronblur' });
-  const fieldset = GM_addElement(dialog, 'fieldset');
+  const fieldset = GM_addElement(modal, 'fieldset');
   const pausebutton = GM_addElement(fieldset, 'button', {
     textContent: 'Pause focus tracking',
   });
@@ -2230,20 +2230,27 @@ const bluronblur = ({
     { signal },
   );
 
-  const blur = () => {
+  const blur = (reason = 'focus lost') => {
     _hiddenTimeoutId = clearTimeout(_hiddenTimeoutId);
     _blurTimeoutId = clearTimeout(_blurTimeoutId);
-    if (!paused && !modal.open) {
+    if (!_paused && !modal.open) {
+      modal.style.setProperty('--s-blur-reason', reason);
       modal.showModal();
       blurred_callback();
     }
   };
 
-  dialog.addEventListener(
+  modal.addEventListener(
     'close',
     () => {
       sleepCheck.resume();
     },
+    { signal },
+  );
+
+  window.addEventListener(
+    'slept',
+    ({ detail: { duration } }) => blur(`system slept (for ${duration})`),
     { signal },
   );
 

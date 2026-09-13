@@ -8,30 +8,35 @@ let g:mayhem_loaded_tabline = 1
 "
 
 "
-" See Also: ../autoload/tabline.vim
-"             ../plugin/statusline.vim
+" Related:
+"     $VIMHOME/autoload/tabline.vim
+"       $VIMHOME/plugin/statusline.vim
+"       $VIMHOME/plugin/titlestring.vim
 "
 
+      " \ ":s?\\~\/Library\/Mobile\ Documents\/com\~apple\~CloudDocs\/?􀌋⋮?",
 let g:mayhem_abbrpaths = [
-      \ ":p:s?"..$VIMRUNTIME.."\/syntax?$𝘝𝘙∕𝘴⋮?",
-      \ ":s?"..$VIMRUNTIME.."\/?$𝘝𝘙⋮?",
+      \ ":p:s?"..$VIMRUNTIME.."\/syntax?$𝘝𝘙/𝘴/?",
+      \ ":s?"..$VIMRUNTIME.."\/?$𝘝𝘙/?",
       \ ":~",
-      \ ":s?\\~\/dotfiles\/\.vim\/after\/ftplugin\/?𝙫∕𝙖/𝙛⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/after\/plugin\/?𝙫∕𝙖/𝙥⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/after\/syntax\/?𝙫∕𝙖/𝙨⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/autoload\/?𝙫∕𝙖𝙪⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/colors\/?𝙫∕𝙘𝙡⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/ftplugin\/?𝙫∕𝙛⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/plugin\/?𝙫∕𝙥⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/syntax\/?𝙫∕𝙨⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/templates\/?𝙫∕𝙩𝙥𝙡⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/notes\/?𝙫∕𝙣𝙤𝙩𝙚𝙨⋮?",
-      \ ":s?\\~\/dotfiles\/\.vim\/?𝙫⋮?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/components\/?𝓦𝙨𝙖𝙘⋮?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/?𝓦𝙨𝙖⋮?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/?𝓦𝙨⋮?",
-      \ ":s?\\~\/projects\/noita-wand-simulator\/?𝓦⋮?",
-      \ ":s?\\~\/projects\/?𝑷⋮?",
+      \ ":s?\\~\/dotfiles\/\.vim\/after\/ftplugin\/?𝙫/𝙖/𝙛/?",
+      \ ":s?\\~\/dotfiles\/\.vim\/after\/plugin\/?𝙫/𝙖/𝙥/?",
+      \ ":s?\\~\/dotfiles\/\.vim\/after\/syntax\/?𝙫/𝙖/𝙨/?",
+      \ ":s?\\~\/dotfiles\/\.vim\/autoload\/?𝙫/𝙖𝙪/?",
+      \ ":s?\\~\/dotfiles\/\.vim\/colors\/?𝙫/𝙘𝙡/?",
+      \ ":s?\\~\/dotfiles\/\.vim\/ftplugin\/?𝙫/𝙛/?",
+      \ ":s?\\~\/dotfiles\/\.vim\/plugin\/?𝙫/𝙥/?",
+      \ ":s?\\~\/dotfiles\/\.vim\/syntax\/?𝙫/𝙨/?",
+      \ ":s?\\~\/dotfiles\/\.vim\/templates\/?𝙫/𝙩𝙥𝙡/?",
+      \ ":s?\\~\/dotfiles\/\.vim\/notes\/?𝙫/𝙣𝙤𝙩𝙚𝙨/?",
+      \ ":s?\\~\/dotfiles\/\.vim\/?𝙫/?",
+      \ ":s?\\~\/Library\/Mobile\ Documents\/com\\~apple\\~CloudDocs\/projects\/?􀌋/𝑷/?",
+      \ ":s?\\~\/Library\/Mobile\ Documents\/com\\~apple\\~CloudDocs\/?􀌋/?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/components\/?𝓦𝙨𝙖𝙘/?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/app\/?𝓦𝙨𝙖/?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/src\/?𝓦𝙨/?",
+      \ ":s?\\~\/projects\/noita-wand-simulator\/?𝓦/?",
+      \ ":s?\\~\/projects\/?𝑷/?",
       \]->join('')
 
 let g:mayhem_tl_name_tpl = "%-48.48s %s"

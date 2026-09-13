@@ -14,5 +14,6 @@ function! Tab() abort
   return "	"
 endfunc
 
-set titlestring=%-{session#name()}%{Tab()}⎬%{Tab()} %{substitute\(pathshorten\(expand(\"%:p:~:h\"),8),\"/\",\" / \",\"g\"\)}\ / %t%=%<
+" set titlestring=%20.20{session#name()}%{Tab()}⎬%{Tab()} %{substitute\(pathshorten\(expand(\"%:p:~:h\"),8),\"/\",\" / \",\"g\"\)}\ / %t%=%<
+set titlestring=%{Tab()}⎬%{Tab()} %{substitute\(pathshorten\(expand(\"%:p:~:h\"),8),\"/\",\" / \",\"g\"\)}\ / %t%=%<\ %20.20{session#name()}
 " set titlestring=%-{SessionNameForTitle()}%{Tab()}│%{Tab()}%t\ │\ %{substitute\(pathshorten\(expand(\"%:p:~:h\"),8),\"/\",\" / \",\"g\"\)}\ / %t%=%<

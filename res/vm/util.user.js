@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.284
+// @version       1.1.287
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -2046,15 +2046,42 @@ const breadcrumbs = ({
 
 const textNodesMatching = (
   ({ document }) =>
-  ({ pattern, from = ':root' }) => {
-    [document.querySelectorAll(from)].forEach((searchRootElement) =>
-      [...searchRootElement.childNodes].some(
-        (n) => n.nodeType === 3 && pattern.test(n.textContent),
-      ),
+  ({ query, from = ':root' }) => {
+    const pattern = new RegExp(query),
+      matcheshere = (el, depth) => {
+        //             el.style?.setProperty('outline', '1px solid orange');
+        //             el.style?.setProperty('outline-offset', `${depth}px`);
+        el.classList?.add('matcheshere');
+        return depth;
+      },
+      childmatches = (el, depth, childdepth) => {
+        //             el.style?.setProperty('outline', '');
+        //             el.style?.setProperty('outline', 'none');
+        el.style?.setProperty('--searchchilddepth', `${childdepth}`);
+        el.classList?.add('childmatches');
+        return childdepth;
+      },
+      nomatch = (el, depth) => depth;
+
+    const checknode = (el, depth = 0) =>
+      (el.nodeType === 1 || el.nodeType === 3) && pattern.test(el.textContent)
+        ? ((childdepth) =>
+            childdepth > depth
+              ? childmatches(el, depth, childdepth)
+              : matcheshere(el, depth))(
+            [...el.childNodes].reduce(
+              (acc, n) => Math.max(acc, checknode(n, depth + 1)),
+              depth,
+            ),
+          )
+        : nomatch(el, depth);
+
+    const maxdepth = [...document.querySelectorAll(from)].reduce(
+      (acc, searchRootElement) => Math.max(acc, checknode(searchRootElement)),
+      0,
     );
 
-    pattern.test(el.innerText) &&
-      el.style.setProperty('outline', '1px dashed yellow');
+    document.body.style.setProperty('--searchmaxdepth', maxdepth);
   }
 )({ document });
 

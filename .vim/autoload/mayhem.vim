@@ -71,8 +71,11 @@ function! mayhem#groupby2(arrayOfDicts, key1, key2) abort
   return grouped
 endfunc
 
-function! mayhem#keysMatch(dict1, dict2, keys) abort
-  for key in a:keys
+"
+" Check if two dictionaries have the same value for one or more keys
+"
+function! mayhem#keysMatch(dict1, dict2, keys = flatten([keys(a:dict1), keys(a:dict2)])->uniq()) abort
+  for key in flatten([a:keys])
     if !((has_key(a:dict1, key) && has_key(a:dict2, key) && a:dict1[key] == a:dict2[key]) || (!has_key(a:dict1, key) && !has_key(a:dict2, key)))
       return v:false
     endif
@@ -89,17 +92,17 @@ if !exists('g:mayhem_type_ext_map')
   let g:mayhem_type_ext_map = {}
 endif
 
-function! mayhem#getHintForPath(path)
+function! mayhem#getHintForPath(path) abort
   return get(g:mayhem_path_hints, expand(a:path)->fnamemodify(':p:h'), {})
         \->get('hint', '')
 endfunc
 
-function! mayhem#getSubtypeForPath(path)
+function! mayhem#getSubtypeForPath(path) abort
   return get(g:mayhem_path_hints, expand(a:path)->fnamemodify(':p:h'), {})
         \->get('subtype', '')
 endfunc
 
-function mayhem#fileTypeMatchesExt(type, filename)
+function mayhem#fileTypeMatchesExt(type, filename) abort
   let ext = fnamemodify(a:filename, ':e')
   let name = fnamemodify(a:filename, ':r')
   let tail = fnamemodify(a:filename, ':t')

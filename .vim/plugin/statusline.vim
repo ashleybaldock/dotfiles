@@ -270,56 +270,68 @@ let g:mayhem.symbols_A.pages = #{
       \ qfsep: '/',
       \}
 
+"
+"􃜱a  􃚱y  􃚲g 􃚳⃓ 􃚴  􃞟⃦⃦⃦⃦  􃝦  􃝧   􃜎  􃜏  􃜈x️  􃜉  􃐯  􃀧  􃀩  􂇕   􂷸f
+"􃏡️⃝a   􃏞︎⃝    􃎺️⃝     􃏢️⃝    􃇐   􃈃  􃐵   􃑼{️   􃊍)  􃂄️‚ (️,  􃂄̲ 􃂄—
+" 􀱢 􀅷 􀅍 􀅎 􀅽️̲ 􀆀 􀆂
+
 let g:mayhem.symbols_S.status = {
-      \ 'readonly'    : 'ᴿ',
-      \ 'modified'    : '+',
-      \ 'nomodifiable': '􀍼',
-      \ 'fencnot8'    : '∪⃞⃥ ',
-      \ 'ffnotnix'    : '␌⃞ ',
-      \ 'scrollbind'  : '􀒠',
-      \ 'diffing'     : '􃜥' ,
-      \ 'diffleft'    : '􀤴􀕹',
-      \ 'diffright'   : '􀄐􀤵',
-      \ 'multx'       : '×',
-      \ 'termpause'   : '􀊛',
-      \ 'termplay'    : '􀩼',
-      \ 'termtoggle'  : '􀊇',
-      \ 'help'        : '􀉚',
-      \ 'prev'        : '􀬸',
+      \ 'readonly'     : 'ᴿ',
+      \ 'modified'     : '+',
+      \ 'nomodifiable' : '􀍼',
+      \ 'fencnot8'     : '∪⃞⃥ ',
+      \ 'ffnotnix'     : '␌⃞ ',
+      \ 'scrollbind'   : '􀒠',
+      \ 'diffing'      : '􃜥' ,
+      \ 'diffleft'     : '􀤴􀕹',
+      \ 'diffright'    : '􀄐􀤵',
+      \ 'multx'        : '×',
+      \ 'termpause'    : '􀊛',
+      \ 'termplay'     : '􀩼',
+      \ 'termtoggle'   : '􀊇',
+      \ 'help'         : '􀉚',
+      \ 'prev'         : '􀬸',
+      \ 'cmdwin'       : '􀱢',
+      \ 'cmdwinsearch' : '􀅍/',
+      \ 'cmdwinother'  : '􀩼',
       \ }
 let g:mayhem.symbols_8.status = {
-      \ 'readonly'    : 'ᴿ',
-      \ 'modified'    : '+',
-      \ 'nomodifiable': ' ⃠',
-      \ 'fencnot8'    : '∪⃞⃥ ',
-      \ 'ffnotnix'    : '␌⃞ ',
-      \ 'scrollbind'  : '⚯',
-      \ 'diffing'     : 'DIFF',
-      \ 'diffleft'    : '𐰶DI',
-      \ 'diffright'   : 'FF𐰷',
-      \ 'multx'       : '×',
-      \ 'termpause'   : '⏸⃞',
-      \ 'termplay'    : '>⃞ ',
-      \ 'termtoggle'  : '⏯︎',
-      \ 'help'        : '𝓲⃝',
-      \ 'prev'        : 'ᴘ⃞',
+      \ 'readonly'     : 'ᴿ',
+      \ 'modified'     : '+',
+      \ 'nomodifiable' : ' ⃠',
+      \ 'fencnot8'     : '∪⃞⃥ ',
+      \ 'ffnotnix'     : '␌⃞ ',
+      \ 'scrollbind'   : '⚯',
+      \ 'diffing'      : 'DIFF',
+      \ 'diffleft'     : '𐰶DI',
+      \ 'diffright'    : 'FF𐰷',
+      \ 'multx'        : '×',
+      \ 'termpause'    : '⏸⃞',
+      \ 'termplay'     : '>⃞ ',
+      \ 'termtoggle'   : '⏯︎',
+      \ 'help'         : '𝓲⃝',
+      \ 'prev'         : 'ᴘ⃞',
+      \ 'cmdwinsearch' : 'cmd(search)',
+      \ 'cmdwinother'  : 'cmd',
       \ }
 let g:mayhem.symbols_A.status = {
-      \ 'readonly'    : 'R',
-      \ 'modified'    : '+',
-      \ 'nomodifiable': 'x',
-      \ 'fencnot8'    : '!8',
-      \ 'ffnotnix'    : '!F',
-      \ 'scrollbind'  : 's',
-      \ 'diffing'     : 'DIFF',
-      \ 'diffleft'    : '<DI',
-      \ 'diffright'   : 'FF>',
-      \ 'multx'       : 'x',
-      \ 'termpause'   : '>',
-      \ 'termplay'    : '>',
-      \ 'termtoggle'  : 't',
-      \ 'help'        : 'help',
-      \ 'prev'        : 'preview',
+      \ 'readonly'     : 'R',
+      \ 'modified'     : '+',
+      \ 'nomodifiable' : 'x',
+      \ 'fencnot8'     : '!8',
+      \ 'ffnotnix'     : '!F',
+      \ 'scrollbind'   : 's',
+      \ 'diffing'      : 'DIFF',
+      \ 'diffleft'     : '<DI',
+      \ 'diffright'    : 'FF>',
+      \ 'multx'        : 'x',
+      \ 'termpause'    : '>',
+      \ 'termplay'     : '>',
+      \ 'termtoggle'   : 't',
+      \ 'help'         : 'help',
+      \ 'prev'         : 'preview',
+      \ 'cmdwinsearch' : 'cmd(search)',
+      \ 'cmdwinother'  : 'cmd',
       \ }
 
 function RO() abort
@@ -348,6 +360,13 @@ endfunc
 
 function TermPaused() abort
   return mode() =~# 'n' ?  symbols#get('status.termpause') : symbols#get('status.termplay')
+endfunc
+
+"
+" : > / ? @ - =
+"
+function CmdWinType() abort
+  return getcmdtype() =~# '[/?]' ?  symbols#get('status.cmdwinsearch') : symbols#get('status.cmdwinother')
 endfunc
 
 function ChQfTitle() abort
@@ -562,7 +581,16 @@ function s:UpdateStatuslines() abort
         \'%#SlFPath⸮#[%#SlInfo⸮#%l%#SlFPath⸮#/%#SlInfo⸮#%L%#SlFPath⸮#]',
         \'%)',
         \])
+
   let g:mayhem['sl_term'] = format#CN([
+        \'%#SlTerm⸮#%{%TermPaused()%} %-f%*',
+        \'%<',
+        \eq,
+        \' %#SlTerm⸮#%(%l,%c%V%)%* ',
+        \' %{%ScrollHint()%}',
+        \])
+
+  let g:mayhem['sl_cmdwin'] = format#CN([
         \'%#SlTerm⸮#%{%TermPaused()%} %-f%*',
         \'%<',
         \eq,
@@ -676,6 +704,10 @@ function CustomStatusline() abort
     else
       return sl#getCN(g:, 'sl_diff')
     endif
+  endif
+
+  if get(b:, 'mayhem_cmdwin', v:false)
+    return sl#getCN(g:, 'sl_cmdwin')
   endif
 
   if &ft == 'netrw'

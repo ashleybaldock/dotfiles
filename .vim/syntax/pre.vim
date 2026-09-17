@@ -9,20 +9,20 @@ endif
 " :au BufWritePost <buffer> syn on
 "
 
-source <script>:p:h/vsel.vim
+" source <script>:p:h/vsel.vim
 
 let s:cpo_save = &cpo
 set cpo&vim
 
-syn match preYes +[✔︎✓☑︎☘︎☺︎]+ display contains=NONE
-syn match preMaybe +[¿‽⸮⁈⁉︎⁇†‡]+ display contains=NONE
-syn match preNo +[✘✖︎✗☒⚑☓☹︎‼︎]+ display contains=NONE
-syn match preBigSquare /[\u23a1-\u23a6]/ display contains=NONE
-syn match preBigCurly /[\u23a7-\u23ad]/ display contains=NONE
-syn match preBigParens /[\u239b-\u23a0]/ display contains=NONE
-syn match preBlocks /[\u2580-\u259f]/ display contains=NONE
-syn match preShapes /[\u25a0-\u25ff]/ display contains=NONE
-syn match preBox /[\u2500-\u257f]/ display contains=NONE
+syn match preYes /[✔︎✓☑︎☘︎☺︎]\+/ display contains=NONE
+syn match preMaybe /[¿‽⸮⁈⁉︎⁇†‡]\+/ display contains=NONE
+syn match preNo /[✘✖︎✗☒⚑☓☹︎‼︎]\+/ display contains=NONE
+syn match preBigSquare /[\u23a1-\u23a6]\+/ display contains=NONE
+syn match preBigCurly /[\u23a7-\u23ad]\+/ display contains=NONE
+syn match preBigParens /[\u239b-\u23a0]\+/ display contains=NONE
+syn match preBlocks /[\u2580-\u259f]\+/ display contains=NONE
+syn match preShapes /[\u25a0-\u25ff]\+/ display contains=NONE
+syn match preBox /[\u2500-\u257f]\+/ display contains=NONE
 
 
 syn match preEscaped /\%(\\\S[^)\u2500-\u257f \\]*\)\+/ display contains=NONE
@@ -37,23 +37,22 @@ syn region preInSquare oneline
 " syn match TagsLower /[\Ue0061-\Ue007a]/ display contains=NONE
 
 
-syn match preMathOp /[\u2200-\u22ff]/ display contains=NONE
-syn match preMathMiscA /[\u27c0-\u27ef]/ display contains=NONE
-syn match preMathMiscB /[\u2980-\u29ff]/ display contains=NONE
-syn match preMathSupOp /[\u2980-\u29ff]/ display contains=NONE
-syn match preEqVar /\%(\_^\|\s\)\@1<=[𝝼𝞶𝝂𝜈ʋ𝛼𝛽𝓍𝓎]\+.\{-}\ze\%(\_$\|\s\)/ display contains=NONE
-syn match preVulFrac /[\u2150-\u215f]/ display contains=NONE
-syn match preMathAlnum /[\U1d400-\U1d7fe]/ display contains=NONE
-syn match preMusical /[\U1d100-\U1d1ff]/ display contains=NONE
+syn match preMathOp /[\u2200-\u22ff]\+/ display contains=NONE
+syn match preMathMiscA /[\u27c0-\u27ef]\+/ display contains=NONE
+syn match preMathMiscB /[\u2980-\u29ff]\+/ display contains=NONE
+syn match preMathSupOp /[\u2980-\u29ff]\+/ display contains=NONE
+" syn match preEqVar /\%(\_^\|\s\)\@1<=[𝝼𝞶𝝂𝜈ʋ𝛼𝛽𝓍𝓎]\+.\{-}\ze\%(\_$\|\s\)/ display contains=NONE
+syn match preMathAlnum /[\U1d400-\U1d7fe]\+/ display contains=NONE
+syn match preMusical /[\U1d100-\U1d1ff]\+/ display contains=NONE
 
-syn match preVulFrac /[\u2150-\u215f¼½¾]/ display contains=NONE
+syn match preVulFrac /[\u2150-\u215f¼½¾]\+/ display contains=NONE
 
-syn match preRomanUC /[\u2160-\u216f]/ display contains=NONE
-syn match preRomanLC /[\u2170-\u217f]/ display contains=NONE
+syn match preRomanUC /[\u2160-\u216f]\+/ display contains=NONE
+syn match preRomanLC /[\u2170-\u217f]\+/ display contains=NONE
 
-syn match preArrows /[\u2190-\u21ff]/ display contains=NONE
-syn match preArrowsSupA /[\u27f0-\u27ff]/ display contains=NONE
-syn match preArrowsSupB /[\u2900-\u297f]/ display contains=NONE
+syn match preArrows /[\u2190-\u21ff]\+/ display contains=NONE
+syn match preArrowsSupA /[\u27f0-\u27ff]\+/ display contains=NONE
+syn match preArrowsSupB /[\u2900-\u297f]\+/ display contains=NONE
 
 syn match preMoreArrows /[
       \\u2798-\u27af

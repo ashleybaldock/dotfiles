@@ -59,6 +59,7 @@ cnoremap <expr> <Down> wildmenumode() ? "\<C-E>\<Down>" : "\<Down>"
 cnoremap <expr> <C-D> wildmenumode() ? "\<PageDown>" : "\<C-D>"
 cnoremap <expr> <C-U> wildmenumode() ? "\<PageUp>" : "\<C-U>"
 
+" ▌️􀆝􀆕 Ú ▐️
 cnoremap <expr> Ú getcmdtype() =~ '[/?]' ? search#toSubstitute() : search#expandLastSubstitute()
 
 " cnoremap <expr> <CR> getcmdtype() =~ '[/?]' ? "" : ""

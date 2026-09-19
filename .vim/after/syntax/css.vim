@@ -119,21 +119,19 @@ syn match cssAnchorSep /\_s*,\_s*/ contained contains=NONE
       \ nextgroup=cssValueLength,cssFunctionCalc,cssFunctionVar
 
 " 𐚟  𑀬
-syn keyword cssFunctionName anchor
-      \ contained conceal cchar=𐕙
-      \ containedin=cssAttrRegion,cssFunctionName,cssMathParens,cssMathGroup
-      \ nextgroup=cssAnchorRegion
+syn keyword cssFunctionName anchor contained conceal cchar=𐕙
+      \ containedin=@ContainsFuncName nextgroup=cssAnchorRegion
 
 syn match ErrorMsg /\<var(-\?[^-]/ contained
-      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
-      \ nextgroup=cssFunctionRegion
+      \ containedin=@ContainsFuncName nextgroup=cssFunctionRegion
 
-syn match cssFunctionNameVar /\<var\ze(--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)\+/ contained conceal cchar=𐐏 
-      \ containedin=cssAttrRegion,cssFunctionName,cssFunction,cssMathParens,cssMathGroup
+syn match cssFunctionNameVar /\<var\ze(--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)\+/
+      \ contained conceal cchar=𐐏  keepend
+      \ containedin=@ContainsFuncName,cssFunctionName
       \ nextgroup=cssFunctionRegion skipwhite skipnl
 
 " Math operators are valid inside these
-syn region cssMathFunctionRegion contained keepend
+syn region cssMathFunctionRegion contained keepend extend
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssMathFunctionRegion,cssCalcKeyword,CssMathOp,
       \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
@@ -202,9 +200,11 @@ syn match cssFunctionName /translate3d/ contained contains=NONE conceal cchar=�
 
 syn match CssMathOp $[+*/-]$ contained contains=NONE
 
-syn cluster ContainsMathFuncName contains=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+syn cluster ContainsMathFuncName contains=
+      \cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \cssGridTplRegion
-syn cluster ContainsFuncName contains=cssAttrRegion,cssFunctionName,cssMathParens,cssMathGroup,
+syn cluster ContainsFuncName contains=
+      \cssAttrRegion,cssFunctionName,cssMathParens,cssMathGroup,
       \cssGridTplRegion
 
 " syn keyword cssMathFunctionName pow

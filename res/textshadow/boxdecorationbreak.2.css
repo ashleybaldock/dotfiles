@@ -1,0 +1,280 @@
+
+code {
+  --c1: #f0f;
+  --c2: #0ff;
+  --bic: hsl(from var(--c1) h s calc(l * 0.8) / 100);
+  --bbc: var(--c2);
+  --bwt: 0.5px;
+  --bwr: 0.5ch;
+  --bwb: 0.5px;
+  --bwl: 0.5ch;
+  --bmr: 0.5ch;
+  --bml: 0.5ch;
+  --bpss: 1px;
+  --bpse: 1px;
+  --xbw: 1.5px;
+  --ybw: 0.5px;
+  --bw: 10px;
+  --ypad: 1px;
+  --xpad: 0.25ch;
+  --bw2: calc(var(--bw) * 0.5);
+  --br: clamp(3px, var(--bw), 1em);
+  --background-blend-mode:
+    
+/*     darken, */
+    difference,
+    difference,
+    difference,
+    difference,
+    multiply,
+    exclusion,
+    hard-light,
+    hard-light,
+    multiply,
+    multiply,
+    hard-light,
+    multiply,
+    color-dodge,
+    difference,
+    multiply,
+    difference,
+    difference,
+    normal,
+    exclusion,
+    multiply,
+    multiply,
+    difference,
+/*     difference, */
+    color-dodge,
+    hue,
+    
+    luminosity,
+    luminosity,
+    
+    overlay,
+
+    
+    multiply,
+    normal;
+  --sf: 0.1;
+  --r: tan(atan2(1vmin, 1vmax));
+  --p: tan(atan2(max(1vmin, 1lh), min(1vmin, 1lh)));
+  --offa: calc(var(--sf) * var(--r) * 1deg);
+  --offb: calc(var(--sf) * var(--p) * 1deg);
+  --arca: calc(var(--sf) * var(--r) * -1deg);
+  --arcb: calc(var(--sf) * var(--p) * -1deg);
+  --s1: 0.1;
+  --s2: 0.2;
+  --s3: 0.7;
+/*     repeating-conic-gradient(from 22.5deg, #fff -45deg, #f00, #0f0, #00f, #fff 0deg), */
+/*     repeating-conic-gradient(at 75% 50%, #fff calc(pi * -0.01rad), #f00, #0f0, #00f, #fff 0deg), */
+/*     repeating-conic-gradient(from 90deg at -30% -500%, #0000 calc(pi * -0.0006rad), #000f, #0000 0deg), */
+/*     repeating-conic-gradient(from -45deg at 30% 500%, #fff0 calc(pi * -0.001rad), #ffff, #fff0 0deg), */
+  --background-position:
+    center,
+    
+/*     bottom left,
+    bottom left,
+    top right,
+    top right,
+    top left,
+    top left, */
+    
+    center,
+    center;
+  --bgo1x: calc(100vmax * var(--s1));
+  --bgo1y: calc(100vmax * (1 - var(--s1)));
+  --bg-p1a: ,repeating-conic-gradient(
+    from calc(var(--offa) * var(--s1) * -0.5) at calc(0% + var(--bgo1x) * -1) calc(100% + var(--bgo1y)),
+    #000 calc(var(--arca) * var(--s1)), #ff0, #000 0deg);
+  --bg-p1b: ,repeating-conic-gradient(
+    from calc(var(--offb) * var(--s1) * -0.5) at calc(0% + var(--bgo1x) * -1) calc(100% + var(--bgo1y)),
+    #fff calc(var(--arcb) * var(--s1)), #000, #fff 0deg);
+  --bgo2x: calc(100vmax * var(--s2));
+  --bgo2y: calc(100vmax * (1 - var(--s2)));
+  --bg-p2a: ,repeating-conic-gradient(
+    from calc(var(--offa) * var(--s2) * -0.5) at calc(100% + var(--bgo2x)) calc(0% + var(--bgo2y) * -1),
+    #000 calc(var(--arca) * var(--s2)), #0ff, #000 0deg);
+  --bg-p2b: ,repeating-conic-gradient(
+    from calc(var(--offb) * var(--s2) * -0.5) at calc(100% + var(--bgo2x)) calc(0% + var(--bgo2y) * -1),
+    #fff calc(var(--arcb) * var(--s2)), #000, #fff 0deg);
+  --bgo3x: calc(100vmax * var(--s3));
+  --bgo3y: calc(100vmax * (1 - var(--s3)));
+  --bg-p3a: ,repeating-conic-gradient(
+    from calc(var(--offa) * var(--s3) * -0.5) at calc(0% + var(--bgo3x) * -1) calc(0% + var(--bgo3y) * -1),
+    #000 calc(var(--arca) * var(--s3)), #f0f, #000 0deg);
+  --bg-p3b: ,repeating-conic-gradient(
+    from calc(var(--offb) * var(--s3) * -0.5) at calc(0% + var(--bgo3x) * -1) calc(0% + var(--bgo3y) * -1),
+    #fff calc(var(--arcb) * var(--s3)), #000, #fff 0deg);
+  --bg-c1: ,repeating-radial-gradient(
+      calc((1 - var(--r)) * 100%)
+      100%
+      ellipse at calc((1 - var(--r)) * 100vw) calc(var(--r) * 100vh),
+      hsl(from var(--c1) h s l / 0.1),
+      hsl(from var(--c2) h s l / 0.5),
+      hsl(from var(--c1) h s l / 0.1));
+  --bg-c2: 
+    ,repeating-radial-gradient(
+      100%
+      calc(var(--r) * 100%)
+      ellipse at calc(var(--r) * 100vw) calc((1 - var(--r)) * 100vh),
+      hsl(from var(--c2) h s l / 0.1),
+      hsl(from var(--c1) h s l / 0.5),
+      hsl(from var(--c2) h s l / 0.1));
+  --background-image:
+    linear-gradient(32deg, #666 -20%, #aaa 20% 80%, #666 120%)
+    
+    var(--bg-p1a)
+    var(--bg-p2a)
+    var(--bg-p3a)
+    var(--bg-p1b)
+    var(--bg-p2b)
+    var(--bg-p3b)
+    
+/*     var(--bg-c1)
+    var(--bg-c2) */
+    ;
+  --background-attachment:
+    local,
+    
+    local,
+    local,
+    local,
+    fixed,
+    fixed,
+    fixed,
+    
+    fixed,
+    fixed,
+    local,
+    local,
+    fixed,
+    local,
+    scroll,
+    scroll;
+  --background-size:
+    100% 100%,
+    
+    100vmax 100vmax,
+    100vmax 100vmax,
+    100vmax 100vmax,
+    100vmax 100vmax,
+    100vmax 100vmax,
+    100vmax 100vmax,
+
+    
+    100vw 100vh,
+    100vw 100vh,
+    100% 100%;
+    100% 1lh,
+  --background-repeat:
+    no-repeat,
+    
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    
+    repeat,
+    repeat,
+    repeat-x no-repeat;
+  color: #fff0;
+/*   mask-image: var(--background-image); */
+  mask-clip:  border-box;
+  mask-size: var(--background-size);
+  mask-origin: content-box;
+  mask-mode: luminance;
+  padding: var(--ypad) 0;
+  break-inside: avoid;
+  margin: auto var(--bwr) auto var(--bwl);
+  margin: 0;
+  position: relative;
+/*   box-decoration-break: slice; */
+  box-decoration-break: clone;
+  border-width: var(--bwt) var(--bwri) var(--bwb) var(--bwli);
+  border-radius: var(--br) / calc(var(--br) * 0.5);
+  border-radius: 0;
+  border-block-color: var(--bbc);
+  border-inline-color: #0ff;
+  border-style: hidden dotted;
+  --bwi: calc(var(--bwl) + var(--bwr));
+  box-shadow:
+    inset 0 0 3px 0.5px #000,
+    0 calc((var(--bwt) + var(--bwi)) * -1) 0 calc(var(--bwi) * -1) var(--bbc),
+    0 calc(var(--bwb) + var(--bwi)) 0 calc(var(--bwi) * -1) var(--bbc),
+    0 0 #0000;
+  background-color: #0000;
+  background-attachment: var(--background-attachment);
+  background-blend-mode: var(--background-blend-mode);
+  background-size: var(--background-size);
+  background-repeat: var(--background-repeat);
+  --background-position: 0% 0%;
+  background-position: var(--background-position);
+  background-image: var(--background-image);
+  background-origin: border-box;
+  background-clip: padding-box;
+/*   background-image: radial-gradient(circle at center, #f00, #0ff); */
+/*   line-break:   anywhere; */
+  display: inline;
+}
+code::before, code::after {
+  content: linear-gradient(#0000 0 0);
+  content: 'a';
+  color: #c0c0;
+  display: inline-flex;
+  display:  contents;
+  box-decoration-break: slice;
+  margin: 0;
+  line-height: normal;
+  padding: 0;
+  padding: var(--ypad) 0;
+  border: 0 solid #0000;
+  border-block-color: var(--bbc);
+  border-inline-color: var(--bic);
+  border-width: var(--ybw) 0;
+  border-radius: 0;
+  position: relative;
+  inset: auto;
+  background-position: 100% 50%;
+  background-size: var(--background-size);
+  
+/*   background-size: clamp(100%, 4vmin, 10vmax); */
+  background-image: var(--background-image);
+  background-attachment: var(--background-attachment);
+  background-blend-mode: var(--background-blend-mode);
+  --s: -0.4;
+}
+
+code::before {
+  box-shadow:
+    inset 1px 0 2px -0.25px #000,
+    inset var(--bwl) 0 var(--bwl) calc(var(--bwl) * var(--s)) #fff4,
+    0 0 #0000;
+  padding-inline-start: calc(var(--bwl) + var(--bpss));
+  padding-inline-end: var(--bpse);
+  --inset-inline-end: calc(var(--bwl) + var(--bpss) + var(--bpse));
+  inset-inline-end: var(--inset-inline-end);
+  margin-inline-end: calc(var(--inset-inline-end) * -1 + var(--bml));
+  border-inline-start-width: 0;
+  border-start-start-radius: var(--br) calc(var(--br) * 0.5);
+  border-end-start-radius: var(--br) calc(var(--br) * 0.5);
+}
+code::after {
+  box-shadow:
+    inset -1px 0 2px -0.25px #000,
+    inset calc(var(--bwr) * -1) 0 var(--bwr) calc(var(--bwl) * var(--s)) #fff4,
+    0 0 #0000;
+  padding-inline-start: calc(var(--bwr) + var(--bpss));
+  padding-inline-end: var(--bpse);
+  --inset-inline-start: calc(var(--bwr) + var(--xpad));
+  inset-inline-start: var(--inset-inline-start);
+  margin-inline-start: calc(var(--inset-inline-start) * -1 + var(--bmr));
+  border-inline-end-width: 0;
+  border-start-end-radius: var(--br) calc(var(--br) * 0.5);
+  border-end-end-radius: var(--br) calc(var(--br) * 0.5);
+}
+a:has(> code) {
+  break-after: avoid;
+}

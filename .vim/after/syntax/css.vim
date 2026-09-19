@@ -480,11 +480,11 @@ syn keyword cssGridAttrProp contained grid
 
 syn match cssGridTplProp /\<grid-template-\%(columns\|rows\)\>/ contained
       \ containedin=cssDefinition contains=cssGridProp
-      \ nextgroup=cssGridTplRegion
+      \ nextgroup=cssGridTplRegion skipnl
 
 syn region cssGridTplRegion contained
-      \ start=+:\_s*\[+
-      \ end=+\ze\%(;\|)\|}\|{\)+
+      \ start=+:\_s*\_.\{-}\[+
+      \ end=+\ze\%(;\|}\|{\)+
       \ contains=@cssEtc,cssGridTplLines,
       \cssValueLength,cssFunction
 

@@ -39,32 +39,9 @@ let g:mayhem_abbrpaths = [
       \ ":s?\\~\/projects\/?𝑷/?",
       \]->join('')
 
-let g:mayhem_tl_name_tpl = "%-48.48s %s"
+call tabline#set_guitablabel()
 
-function! GuiTabLabelErrors() abort
-  return get(t:, 'mayhem_tl_cached_diag_label', '')
-endfunc
-
-function! GuiTabLabelName() abort
-  return get(b:, 'mayhem_tl_cached_filename', '𝘯𝘦𝘸 𝘵𝘢𝘣')
-endfunc
-
-function! GuiTabLabel() abort
-  return get(t:, 'mayhem_cache_guitablabel', '! %{%GuiTabLabelName()%}')
-endfunc
-
-set guitablabel=%{%GuiTabLabel()%}
-
-function! GuiTabToolTipErrors() abort
-  return get(t:, 'mayhem_tl_cached_diag_tip', '')
-endfunc
-
-function! GuiTabToolTip() abort
-  return get(t:, 'mayhem_cache_guitabtooltip', '')
-endfunc
-
-set guitabtooltip=%.400{%GuiTabToolTip()%}
-
+call tabline#set_guitabtooltip()
 
 call autocmd_add([
       \#{
@@ -74,7 +51,7 @@ call autocmd_add([
       \},
       \#{
       \ event: ['BufEnter','BufNew','BufFilePost','BufWinEnter'],
-      \ pattern: '*', cmd: 'call tabline#updateCachedBufferName()',
+      \ pattern: '*', cmd: 'call tabline#update_cached_bufname()',
       \ group: 'mayhem_tl_update_bufname', replace: v:true,
       \},
       \#{
@@ -84,7 +61,7 @@ call autocmd_add([
       \},
       \#{
       \ event: 'User', pattern: 'MayhemDiagnosticsUpdated',
-      \ cmd: 'call tabline#updateDiagnostics()',
+      \ cmd: 'call tabline#update_cached_diagnostics()',
       \ group: 'mayhem_tl_update_diag', replace: v:true,
       \},
       \])

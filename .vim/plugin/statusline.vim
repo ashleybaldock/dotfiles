@@ -460,8 +460,11 @@ function s:Update_FileInfo() abort
         \'%{%Modified()%}',
         \])
     else
+      " \'%#SlFNoName⸮#nameless%* ',
+      " \ 𝓷𝓪𝓶𝓮𝓵𝓮𝓼𝓼 𝒏𝒂𝒎𝒆𝒍𝒆𝒔𝒔 𝑛𝑎𝑚𝑒𝑙𝑒𝑠𝑠
+        " \𝐧𝐚𝐦𝐞𝐥𝐞𝐬𝐬 𝔫𝔞𝔪𝔢𝔩𝔢𝔰𝔰 𝖓𝖆𝖒𝖊𝖑𝖊𝖘𝖘 𝘯𝘢𝘮𝘦𝘭𝘦𝘴𝘴 𝚗𝚊𝚖𝚎𝚕𝚎𝚜𝚜
       let b:mayhem.sl_cached_filename = format#CN([
-        \'%#SlFNoName⸮#nameless%* ',
+        \'%#SlFNoName⸮#𝑛𝑎𝑚𝑒𝑙𝑒𝑠𝑠%* ',
         \'%{%Modified()%}'
         \])
     endif

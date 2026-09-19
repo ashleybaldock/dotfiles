@@ -26,7 +26,9 @@ function! charinfo#name(char) abort
 
     let characterise_output = execute('Characterize ' .. a:char)
 
-    return matchstr(characterise_output, ', U+\x\+ \zs[^,]*')->format#lowercase()->format#spacedtitlecase()
+    return matchstr(characterise_output, ', U+\x\+ \zs[^,]*')
+          \->format#lowercase()
+          \->format#spacedtitlecase()
   endif
 endfunc
 
@@ -48,6 +50,8 @@ endfunc
 "
 " Formats character info for display in command line
 "
+" Returns a string to exec
+"
 function! charinfo#formatForCommand(str = char#fromCursor()) abort
   let chfo = charinfo#get(a:str)
   if len(chfo) == 0
@@ -67,6 +71,11 @@ function! charinfo#formatForCommand(str = char#fromCursor()) abort
   endif
 endfunc 
 
+"
+" Fancier character info for display in command line
+"
+" Returns a string to exec
+"
 function! charinfo#formatForCommandWithColor(str = char#fromCursor()) abort
   let chfo = charinfo#get(a:str)
   if len(chfo) == 0

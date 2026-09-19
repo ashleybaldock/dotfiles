@@ -91,14 +91,14 @@ syn match cssCustomPropDashes contained +--+
       \ conceal cchar=╸ contains=NONE transparent
 
 " Math operators not made valid by being inside these functions
-syn region cssFunctionRegion contained
+syn region cssFunctionRegion contained keepend
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssError,
       \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
       \cssCustomPropRef,
       \cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 
-syn region cssSqrtRegion contained concealends
+syn region cssSqrtRegion contained concealends keepend
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssError,
       \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
@@ -106,12 +106,12 @@ syn region cssSqrtRegion contained concealends
       \cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength
 
 syn match cssStepsPositionAttr /\%(jump-\)\?\%(start\|end\)\|jump-\%(none\|both\)/ contained 
-syn region cssStepsRegion contained
+syn region cssStepsRegion contained keepend
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssError,cssFunctionComma,cssFunctionNameVar,
       \cssCustomPropRef,cssValueInteger,cssStepsPositionAttr,cssNoise
 
-syn region cssAnchorRegion contained concealends
+syn region cssAnchorRegion contained concealends keepend
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssError,cssCustomPropRef,cssAnchorLoc,cssAnchorSep
 
@@ -133,37 +133,79 @@ syn match cssFunctionNameVar /\<var\ze(--\%([a-zA-Z0-9-_]\|[^\x00-\x7F]\)\+/ con
       \ nextgroup=cssFunctionRegion skipwhite skipnl
 
 " Math operators are valid inside these
-syn region cssMathFunctionRegion contained
+syn region cssMathFunctionRegion contained keepend
       \ matchgroup=Conceal start="(" end=")"
       \ contains=cssMathFunctionRegion,cssCalcKeyword,CssMathOp,
       \cssFunctionComma,cssFunctionNameVar,cssMathFunctionName,
       \cssError,
       \cssCustomPropRef,cssColor,cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength,cssValueTime,cssValueFrequency
 " ⨠ ⎆ ⌾
-syn keyword cssMathFunctionName calc 
-      \ contained conceal cchar=c
-      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
-      \ nextgroup=cssMathFunctionRegion
-syn keyword cssMathFunctionName min 
-      \ contained conceal cchar=􂪔
-      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
-      \ nextgroup=cssMathFunctionRegion
-syn keyword cssMathFunctionName max
-      \ contained conceal cchar=􂪓
-      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
-      \ nextgroup=cssMathFunctionRegion
-" 􂲯(30)  􂲯30
-syn keyword cssMathFunctionName sqrt
-      \ contained conceal cchar=√
-      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
-      \ nextgroup=cssSqrtRegion
 
-syn keyword cssMathFunctionName steps
-      \ contained
-      \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
-      \ nextgroup=cssStepsRegion
+syn keyword cssMathFunctionName calc contained conceal cchar=c
+      \ containedin=@ContainsMathFuncName nextgroup=cssMathFunctionRegion
+syn keyword cssMathFunctionName min contained conceal cchar=􂪔
+      \ containedin=@ContainsMathFuncName nextgroup=cssMathFunctionRegion
+syn keyword cssMathFunctionName max contained conceal cchar=􂪓
+      \ containedin=@ContainsMathFuncName nextgroup=cssMathFunctionRegion
+syn keyword cssMathFunctionName clamp contained conceal cchar=􀠊
+      \ containedin=@ContainsMathFuncName nextgroup=cssMathFunctionRegion
+" 􂲯(30)  􂲯30
+syn keyword cssMathFunctionName sqrt contained conceal cchar=√
+      \ containedin=@ContainsMathFuncName nextgroup=cssSqrtRegion
+
+syn keyword cssMathFunctionName steps contained
+      \ containedin=@ContainsMathFuncName nextgroup=cssStepsRegion
+
+"
+" functions related to grid layout
+"
+syn keyword cssFunctionName repeat contained conceal cchar=􀊞
+      \ containedin=@ContainsFuncName nextgroup=cssFunctionRegion
+syn keyword cssFunctionName minmax contained conceal cchar=􀅻
+      \ containedin=@ContainsFuncName nextgroup=cssFunctionRegion
+syn match cssFunctionName /fit-content/ contained
+      \ containedin=@ContainsFuncName nextgroup=cssFunctionRegion
+
+"
+" <transform-function>
+"
+syn keyword cssFunctionName perspective contained conceal cchar=􀒱
+      \ containedin=@ContainsFuncName nextgroup=cssFunctionRegion
+
+syn keyword cssFunctionName matrix contained conceal cchar=􀕲
+      \ containedin=@ContainsFuncName nextgroup=cssFunctionRegion
+syn keyword cssFunctionName matrix3d contained conceal cchar=􀬨
+      \ containedin=@ContainsFuncName nextgroup=cssFunctionRegion
+
+syn keyword cssAxis x contained nextgroup=cssFunctionRegion conceal cchar=􀃂
+syn keyword cssAxis y contained nextgroup=cssFunctionRegion conceal cchar=􀃄
+syn keyword cssAxis z contained nextgroup=cssFunctionRegion conceal cchar=􀃆
+
+syn keyword cssFunctionName rotate contained conceal cchar=􀎮
+      \ containedin=@ContainsFuncName nextgroup=cssAxis,cssFunctionRegion
+syn match cssFunctionName /rotate3d/ contained contains=NONE conceal cchar=􀢇
+      \ containedin=@ContainsFuncName nextgroup=cssFunctionRegion
+
+syn keyword cssFunctionName scale contained conceal cchar=􀬑
+      \ containedin=@ContainsFuncName nextgroup=cssAxis,cssFunctionRegion
+syn match cssFunctionName /scale3d/ contained contains=NONE conceal cchar=􀢆
+      \ containedin=@ContainsFuncName nextgroup=cssFunctionRegion
+
+syn keyword cssFunctionName skew contained conceal cchar=􀍵
+      \ containedin=@ContainsFuncName nextgroup=cssAxis,cssFunctionRegion
+
+syn keyword cssFunctionName translate contained conceal cchar=􀎮
+      \ containedin=@ContainsFuncName nextgroup=cssAxis,cssFunctionRegion
+syn match cssFunctionName /translate3d/ contained contains=NONE conceal cchar=􀢅
+      \ containedin=@ContainsFuncName nextgroup=cssFunctionRegion
+" 􀡛 􀡠 􀞒 􀟨
 
 syn match CssMathOp $[+*/-]$ contained contains=NONE
+
+syn cluster ContainsMathFuncName contains=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
+      \cssGridTplRegion
+syn cluster ContainsFuncName contains=cssAttrRegion,cssFunctionName,cssMathParens,cssMathGroup,
+      \cssGridTplRegion
 
 " syn keyword cssMathFunctionName pow
 "       \ contained conceal cchar=
@@ -335,8 +377,8 @@ syn match cssMathFunctionName /\<repeating-\ze\(linear\|conic\|radial\)-gradient
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionName
 "
-syn region cssFunction contained 
-      \ start="\<\%(repeating-\|\)\%(linear-\|radial-\|conic-\)\=\gradient\s*("
+syn region cssFunction contained keepend
+      \ start="\<\%(repeating-\|\)\%(linear-\|radial-\|conic-\)\=\gradient\_s*("
       \ end=")\@1<="
       \ contains=cssMathFunctionName,cssColor,
       \ cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength,

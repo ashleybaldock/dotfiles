@@ -77,19 +77,22 @@ endfunc
 " Returns a string to exec
 "
 function! charinfo#formatForCommandWithColor(str = char#fromCursor()) abort
+  let sep = 'echoh CISep | echon '' ╱ '''
+  let reset = 'echoh None | echon '''''
+
   let chfo = charinfo#get(a:str)
   if len(chfo) == 0
-    return 'echoh CISep | echon '' ╱ '' | echoh None | echon ''nul'' | echoh CISep | echon '' ╱ '' | echoh None | echon '''''
+    return [ sep, sep, 'nul', sep, reset ]->join(' | ')
   elseif len(chfo) == 1
     return [
-          \ 'echoh CISep | echon '' ╱ ''',
-          \ 'echoh None | echon ''' ..  char#display(chfo[0]['char']) .. '''',
-          \ 'echoh CISep | echon '' ╱ ''',
+          \ sep,
+          \ reset ..  char#display(chfo[0]['char']) .. '''',
+          \ sep,
           \ 'echoh Special | echon ''' .. chfo[0]['code'] .. '''',
-          \ 'echoh None | echon '' ''',
+          \ sep,
           \ 'echoh CommentSubtle | echon ''' .. chfo[0]['name'] .. '''',
-          \ 'echoh CISep | echon '' ╱ ''',
-          \ 'echoh None | echon ''''',
+          \ sep,
+          \ reset,
           \]->join(' | ')
   else
     return ['echon ''',

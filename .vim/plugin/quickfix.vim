@@ -5,9 +5,11 @@ endif
 g:mayhem_loaded_quickfix = 1
 
 #
-# Related: ../syntax/qf.vim
-#          ../plugin/quickfix.vim 
-# $VIMRUNTIME/syntax/qf.vim       
+# Related:
+#   $VIMHOME/syntax/qf.vim
+#   $VIMHOME/plugin/quickfix.vim 
+#   $VIMRUNTIME/syntax/qf.vim       
+#
 
 # const EFM_TYPE = {e: 'error', w: 'warning', i: 'info', n: 'note'}
 const EFM_TYPE = {e: 'E', w: 'W', i: 'i', n: 'n'}
@@ -15,23 +17,35 @@ const EFM_TYPE = {e: 'E', w: 'W', i: 'i', n: 'n'}
 # set qftf = QuickFixTextFunc nowrap | syn on
 def g:QFTFAlignColumns(info: dict<number>): list<string>
   var qfl: list<any>
+
   if info.quickfix
     qfl = getqflist({id: info.id, items: 0}).items
   else
     qfl = getloclist(info.winid, {id: info.id, items: 0}).items
   endif
+
   var l: list<string> = []
+
   var lnum_w: number = range(info.start_idx - 1, info.end_idx - 1)
-    ->map((_, v: number): number => qfl[v].lnum)->max()->len()
+    ->map((_, v: number): number => qfl[v].lnum)
+    ->max()
+    ->len()
   var col_w: number = range(info.start_idx - 1, info.end_idx - 1)
-    ->map((_, v: number): number => qfl[v].col)->max()->len()
+    ->map((_, v: number): number => qfl[v].col)
+    ->max()
+    ->len()
   var name_w: number = range(info.start_idx - 1, info.end_idx - 1)
     ->map((_, v: number): number => qfl[v].bufnr->bufname()
-      ->fnamemodify(':t')->strchars(true))->max()
+      ->fnamemodify(':t')
+      ->strchars(true))
+    ->max()
   var type_w: number = range(info.start_idx - 1, info.end_idx - 1)
-    ->map((_, v: number): number => get(EFM_TYPE, qfl[v].type, '')->strlen())->max()
+    ->map((_, v: number): number => get(EFM_TYPE, qfl[v].type, '')->strlen())
+    ->max()
   var err_w: number = range(info.start_idx - 1, info.end_idx - 1)
-    ->map((_, v: number): number => qfl[v].nr)->max()->len()
+    ->map((_, v: number): number => qfl[v].nr)
+    ->max()
+    ->len()
 
 # '⎧ʅ️⎩'
 # │ʅ️⎫⎧⎪⎩╭╰╮╯

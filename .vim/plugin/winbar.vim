@@ -83,18 +83,18 @@ function! s:WinBarUpdate() abort
   if &diff
 " nnoremenu 1.10 WinBar.􀆧\ $dx\ \ 􀈄\ §de\ 􀈂\ §dt▕\ 􀆇\ [c▕\ 􀆈\ ]c▕\ 􀅌\ §dr <nop>
 "􀤴 􀤵 
-    if exists("b:mayhem_diff_left")
-      hi DiffVertSplit  guifg=yormalb guibg=yormalb gui=none
-      setlocal winhighlight=!c:DiffVertSplit
+    " if exists("b:mayhem_diff_left")
+      " hi DiffVertSplit  guifg=yormalb guibg=yormalb gui=none
+      " setlocal winhighlight+=!c:DiffVertSplit
 
-      silent nnoremenu 1.05 WinBar.􀐓\  <Nop>
+      " silent nnoremenu 1.05 WinBar.􀐓\  <Nop>
       " silent nnoremenu 1.10 WinBar.􀆧\ $️︎d️︎x️︎ <Nop>
 
-    elseif exists("b:mayhem_diff_right")
-      silent nnoremenu 1.05 WinBar.􀐔\  <Nop>
-    else
-      silent nnoremenu 1.05 WinBar.􃜥\  <Nop>
-    endif
+    " elseif exists("b:mayhem_diff_right")
+    "   silent nnoremenu 1.05 WinBar.􀐔\  <Nop>
+    " else
+    "   silent nnoremenu 1.05 WinBar.􃜥\  <Nop>
+    " endif
 
     if exists("b:mayhem_diff_left")
       silent nnoremenu 1.20 WinBar.􂨪\ \ } <Nop>

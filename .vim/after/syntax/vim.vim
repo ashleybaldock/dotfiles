@@ -16,6 +16,10 @@ if expand('%:p') == expand('$VIMHOME/plugin/statusline.vim')
   exec 'so ' .. expand('$VIMHOME/after/syntax/vim.statusline.vim')
 endif
 
+"
+"{{{1 Syntax fixes
+"
+
 " Avoids syntax glitching when a pattern consists only of
 " a combining character, variation selector etc.
 "  e.g.: /󠅀/  /◌󠅀/ '/'‥'◌󠅀⁸¹'‥'/'
@@ -42,6 +46,10 @@ syn match vimContinued /\%(^\s*["#]\?\s*\)\@<=\\/
 " \ test
   \ test
 
+syn keyword vimCommand macm[enu] skipwhite nextgroup=@vimMenuList
+
+syn keyword vimCommand maca[ction]
+
 " - undercurl etc. not shown as errors
 syn keyword	vimHiAttrib	contained	undercurl underdotted underdouble
 syn keyword	vimHiAttrib	contained	underdashed strikethrough
@@ -62,6 +70,9 @@ syn match	vimHiAttribList	contained	/\i\+,/he=e-1
       \vimHiAttrInv,vimHiAttrRev,vimHiAttrStand,
       \vimHiAttrNoCom,vimHiAttrNONE
 
+"
+" - 'wysiwyg' highlight groups for gui= attributes
+"
 " syn keyword vimHiAttrBold   contained bold conceal cchar=􀅓
 " syn keyword vimHiAttrUnLine contained underline conceal cchar=􀅕
 " syn keyword vimHiAttrUnCurl contained undercurl conceal cchar=􁆭
@@ -84,28 +95,13 @@ syn keyword vimHiAttrStand  contained standout
 syn keyword vimHiAttrNoCom  contained nocombine
 syn keyword vimHiAttrNONE   contained NONE
 
+" Make it easier to see which is which
 syn match vimHiFgBgSp /fg\|bg\|sp/ contained containedin=vimHiGuiFgBg contains=NONE
 
-"
-" - 'wysiwyg' highlight groups for gui= attributes
-"
-hi def vimHiAttrBold   guifg=ywnormf gui=bold
-hi def vimHiAttrUnLine guifg=#009999 gui=underline     guisp=ywnormf
-hi def vimHiAttrUnCurl guifg=#009999 gui=undercurl     guisp=ywnormf
-hi def vimHiAttrUnDbl  guifg=#009999 gui=underdouble   guisp=ywnormf
-hi def vimHiAttrUnDot  guifg=#009999 gui=underdotted   guisp=ywnormf
-hi def vimHiAttrUnDash guifg=#009999 gui=underdashed   guisp=ywnormf
-hi def vimHiAttrStrike guifg=#009999 gui=strikethrough guisp=ywnormf
-hi def vimHiAttrItalic guifg=ywnormf gui=italic
-hi def vimHiAttrInv    guifg=ywnormf gui=inverse
-hi def vimHiAttrRev    guifg=ywnormf gui=reverse
-hi def vimHiAttrStand  guifg=ywnormf gui=standout
-hi def vimHiAttrNoCom  guifg=ywnormf gui=nocombine
-hi def vimHiAttrNONE   guifg=#009999 gui=none
 
-syn keyword vimCommand macm[enu] skipwhite nextgroup=@vimMenuList
-
-syn keyword vimCommand maca[ction]
+"
+"{{{1 Sugar
+"
 
 "
 " Escaped Variation Selectors
@@ -116,8 +112,7 @@ syn keyword vimCommand maca[ction]
 " var vs256 = "\Ue01ff \Ue01ff \UE01FF \U000E01FF"
 "
 syn match VSel /\\u[Ff][Ee]0\x\|\\U0\{0,4}[Ff][Ee]0\x\|\\U0\{0,3}[eE]01\x\x/
-      \ contained containedin=vimString
-hi VSel guifg=#33aa00 guisp=#ffff00 gui=underdotted
+      \ contained containedin=vimString,vimContinueString
 
 "
 " Within Comments
@@ -141,64 +136,55 @@ hi VSel guifg=#33aa00 guisp=#ffff00 gui=underdotted
 "┇️ ᘂ ᒐᒍ ᘃ ꭾꮅᏂ Ꮐ ᎵᎩYꭹy ᏓᏃᎯ Ꭻ ᓚᓗ ᓕᓓ ᓕᓗ ᓚᓓ ᓔᓓ  ᓏᓙ 𐑿           ᓇᓗ ᓚᓄ ᓕᓀ ᓂᓓ  ᓱᓕᓴᓱᓪᓓ   ᘇᘤ ᘇᘋ ᘳ ᘰ ᙅ ᙂ ᘓᘤ      ┇️
 "┇️ ꭺ  ꭰ   ꮋꮖ   ꮮꮇ  ꮲ ꭱꮪ   ꮩꮃ  ꮓꮎꮾ Ꮻ ᎰᏆꮩꮑꭹ ᏓꭻᎱᏤᏞᏗ  ┇️
 ""
-syn region KeyCombo contained containedin=vimLineComment oneline
+syn region KeyCombo contained containedin=vimLineComment,vim9LineComment oneline
       \ matchgroup=KeyComboEnds start="▌️"
       \ matchgroup=KeyComboEnds end="▐️"
       \ contains=KeyCombiner
-syn region KeyCombo contained containedin=vimLineComment oneline
+syn region KeyCombo contained containedin=vimLineComment,vim9LineComment oneline
       \ matchgroup=KeyComboEnds start="┇️"
       \ matchgroup=KeyComboEnds end="┇️"
       \ contains=KeyCombiner
-syn region KeyCombo contained containedin=vimLineComment oneline
+syn region KeyCombo contained containedin=vimLineComment,vim9LineComment oneline
       \ matchgroup=KeyComboEnds start="︙"
       \ matchgroup=KeyComboEnds end="︙"
       \ contains=KeyCombiner
-syn region KeyCombo contained containedin=vimLineComment oneline
+syn region KeyCombo contained containedin=vimLineComment,vim9LineComment oneline
       \ matchgroup=KeyComboEnds start="<️"
       \ matchgroup=KeyComboEnds end=">️"
       \ contains=KeyCombiner
 syn match KeyCombiner /\Z[◥+＋<>ᐸᐳ􀆁􀆂ᖼᖽᖾᖿᒐᒉᘂᘃᒋᒍᒣᒪᒧᒥᗭᗪᑉ‹›«»⟨⟩❬❭⟪⟫❮❯◢◣◤]/ contained contains=NONE
 syn match KeyCombiner /-️/ contained contains=NONE
 
-
-syn region DemoCursorRange contained containedin=vimLineComment
-      \ concealends
+" Note: this may look empty, but start and end contain \Ue0028 and \Ue0029
+syn region DemoCursorRange contained concealends
       \ matchgroup=Conceal start="󠀨"
       \ end="󠀩"
+      \ containedin=vimLineComment,vim9LineComment
 
-syn region DemoCursor contained containedin=DemoCursorRange
-      \ concealends
+" Note: this may look empty, but start and end contain \Ue005B and \Ue005D
+syn region DemoCursor contained concealends
       \ matchgroup=Conceal start="󠁛"
       \ end="󠁝"
+      \ containedin=DemoCursorRange
 
-hi def KeyCombo         guifg=#f9f9f9 guibg=#2255cc
-hi def KeyComboEnds     guifg=bg      guibg=#2255cc
-hi def KeyCombiner      guifg=#001199 guibg=#2255cc
-hi def DemoCursorRange  guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
-" hi def link DemoCursor Cursor
-hi def DemoCursor       guifg=#000000 guibg=#cc22dd
-
+syn match CommentLinkPrefix /\$VIMHOME/ contained contains=NONE conceal cchar=􀎞
+syn match CommentLinkPrefix /\$VIMRUNTIME/ contained contains=NONE conceal cchar=􀐚
 syn match CommentLink "\%(\~/\|\.\./\|\./\|$[A-Z0-9]\+/\)\%(\S\+/\)*\%(/\|\S*\.*[A-Za-z0-9]*\)"
-      \ contained containedin=Comment,vimLineComment contains=NONE
+      \ containedin=Comment,vimLineComment,vim9LineComment
+      \ contained contains=CommentLinkPrefix
 
-syn region CommentOptional
+syn region CommentOptional contained 
       \ matchgroup=CommentOptEnds start=/\%u005b\%ufe0f/
       \ matchgroup=CommentOptEnds end=/\%u005d\%ufe0f/
-      \ contained containedin=Comment,vimLineComment
+      \ containedin=Comment,vimLineComment,vim9LineComment
       \ extend keepend oneline contains=CommentOptional
 
-hi def CommentOptional guifg=#af18df gui=italic
-hi def CommentOptEnds  guifg=#8f18bf
+syn match CommentStart /^\s*\zs["#]/ contained
+      \ containedin=Comment,vimLineComment,vim9LineComment
+      \ contains=NONE conceal cchar=│
 
-" syn match CommentStart /^\s*\zs"/ contained contains=NONE containedin=Comment,vimLineComment
- " syn match CommentStart /^\s*\zs"/ contained containedin=Comment,vimLineComment contains=NONE conceal cchar=⎢
-syn match CommentStart /^\s*\zs"/ contained containedin=Comment,vimLineComment contains=NONE conceal cchar=│
-
-hi def CommentStart guifg=#cf28df guibg=#cf28df gui=none
-
-syn match Modeline contained /\(^["#]\)\@<=\s\+vim:.*$/ containedin=Comment,vimLineComment
-
-hi def link Modeline CommentHidden
+syn match Modeline /\(^["#]\)\@<=\s\+vim:.*$/ contained 
+      \ containedin=Comment,vimLineComment,vim9LineComment
 
 syn match SpEm /\%u2003/ contained
       \ containedin=vimString,vimContinueString
@@ -230,12 +216,55 @@ syn match Sp6Per /\%u2006/ contained
 "       \ including those that continue
 "       \ across multiple lines
 "
-syn match CommentCmd /\%(^"\s*\)\@<=:\%(.*\n"\s*\\\)*.*$/
-      \ contained containedin=Comment,vimLineComment contains=CommentStart,CommentCmdPre
+syn match CommentCmd /\%(^"\s*\)\@<=:\%(.*\n"\s*\\\)*.*$/ contained
+      \ containedin=Comment,vimLineComment,vim9LineComment
+      \ contains=CommentStart,CommentCmdPre
 syn match CommentCmdPre /\%(^"\)\@1<=\s*\ze\\/ contained contains=NONE
+
+"
+"{{{1 Highlight definitions
+"
+
+"
+" - 'wysiwyg' highlight groups for gui= attributes
+"
+hi def vimHiAttrBold   guifg=ywnormf gui=bold
+hi def vimHiAttrUnLine guifg=#009999 gui=underline     guisp=ywnormf
+hi def vimHiAttrUnCurl guifg=#009999 gui=undercurl     guisp=ywnormf
+hi def vimHiAttrUnDbl  guifg=#009999 gui=underdouble   guisp=ywnormf
+hi def vimHiAttrUnDot  guifg=#009999 gui=underdotted   guisp=ywnormf
+hi def vimHiAttrUnDash guifg=#009999 gui=underdashed   guisp=ywnormf
+hi def vimHiAttrStrike guifg=#009999 gui=strikethrough guisp=ywnormf
+hi def vimHiAttrItalic guifg=ywnormf gui=italic
+hi def vimHiAttrInv    guifg=ywnormf gui=inverse
+hi def vimHiAttrRev    guifg=ywnormf gui=reverse
+hi def vimHiAttrStand  guifg=ywnormf gui=standout
+hi def vimHiAttrNoCom  guifg=ywnormf gui=nocombine
+hi def vimHiAttrNONE   guifg=#009999 gui=none
+
+hi VSel guifg=#33aa00 guisp=#ffff00 gui=underdotted
+
+hi def KeyCombo         guifg=#f9f9f9 guibg=#2255cc
+hi def KeyComboEnds     guifg=bg      guibg=#2255cc
+hi def KeyCombiner      guifg=#001199 guibg=#2255cc
+hi def DemoCursorRange  guifg=#cc22dd guibg=#333333 guisp=#cc22dd gui=underline
+" hi def link DemoCursor Cursor
+hi def DemoCursor       guifg=#000000 guibg=#cc22dd
+
+hi def CommentOptional guifg=#af18df gui=italic
+hi def CommentOptEnds  guifg=#8f18bf
+hi def CommentStart guifg=#cf28df guibg=#cf28df gui=none
+
+hi def link Modeline CommentHidden
 
 hi def CommentCmd guifg=#eecc00 guibg=#444444
 hi def link CommentCmdPre Comment
+
+
+"
+"{{{1 Match
+"
+
 
 " echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: ''})
 let s:multi_comment_matchids = []

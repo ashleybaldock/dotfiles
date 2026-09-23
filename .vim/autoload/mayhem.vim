@@ -37,6 +37,19 @@ function! mayhem#paste() abort
 endfunc
 
 "
+" Inverse of items()
+"
+" list<[key, value]>   ->   dict
+"
+function! mayhem#fromentries(entries) abort
+  let dict = {}
+  for [k, v] in a:entries
+    dict[k] = v
+  endfor
+  return dict
+endfunc
+
+"
 " Group dicts by value of a common key
 "  i.e. [a{k:v1}, b{k:v2}, c{k:v1}] -> {v1:[a,c],v2:[b]}
 "

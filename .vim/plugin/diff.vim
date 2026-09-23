@@ -79,9 +79,10 @@ function! s:SetupLeftDiff(diffwith)
   let b:mayhem_diff_left = 1
   let b:mayhem_diff_with = a:diffwith
   hi DiffLeftVSplit guifg=#000000 guibg=#000000
-  setlocal foldcolumn=2
+  setlocal signcolumn=auto
   setlocal winhighlight+=!c:DiffLeftVSplit
   diffthis
+  setlocal foldcolumn=1
 endfunc
 
 function! s:SetupRightDiff(diffwith, execForContent)
@@ -97,8 +98,9 @@ function! s:SetupRightDiff(diffwith, execForContent)
   nnoremap <buffer> } <Cmd>diffget<CR>
   let b:mayhem_diff_right = 1
   let b:mayhem_diff_with = a:diffwith
-  setlocal foldcolumn=0
+  setlocal signcolumn=no
   diffthis
+  setlocal foldcolumn=0
   wincmd p 
 endfunc
 

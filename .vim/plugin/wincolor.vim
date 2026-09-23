@@ -8,41 +8,41 @@ let g:mayhem_loaded_wincolor = 1
 " -> See also CustomStatusline in ./statusline.vim
 function! s:WinColorUpdate()
   if exists('w:mayhem_wincolor_override')
-    let &l:wincolor = get(w:, 'mayhem_wincolor_override', 'WinNormal')
+    exec 'setlocal winhighlight+=!(:' .. get(w:, 'mayhem_wincolor_override', 'WinNormal')
     return
   endif
 
   " Diff mode
   if &diff
-    setlocal wincolor=WinDiff
+    setlocal winhighlight+=!(:WinDiff
     return
   endif
 
   " Filetype specific
   if &ft == 'netrw'
-    setlocal wincolor=WinNetrw
+    setlocal winhighlight+=!(:WinNetrw
     return
   endif
 
   " Buffer type specific
   if &buftype == 'quickfix'
-    setlocal wincolor=WinQuickfix
+    setlocal winhighlight+=!(:WinQuickfix
     return
   endif
   if &buftype == 'preview'
-    setlocal wincolor=WinPreview
+    setlocal winhighlight+=!(:WinPreview
     return
   endif
   if &buftype == 'help'
-    setlocal wincolor=WinHelp
+    setlocal winhighlight+=!(:WinHelp
     return
   endif
 
   " For all other buffers
   if (&readonly || !&modifiable)
-    setlocal wincolor=WinReadonly
+    setlocal winhighlight+=!(:WinReadonly
   else
-    setlocal wincolor=WinNormal
+    setlocal winhighlight+=!(:WinNormal
   endif
 endfunc
 
@@ -52,7 +52,8 @@ endfunc
 "
 function! s:WinColorOverride(tempwincolor, duration = 0)
   let w:mayhem_wincolor_override = a:tempwincolor
-  let w:mayhem_wincolor_saved = &l:wincolor
+    let localwinhighlight = (&l:winhighlight ?? '')->split(',')->map({i,v -> split(v, ':')})->mayhem#fromentries()
+  let w:mayhem_wincolor_saved = get(localwinhighlight, '!(', 'WinNormal')
   call s:WinColorUpdate()
   if a:duration > 0
     call timer_start(a:duration, {_ -> s:WinColorReset()})
@@ -60,8 +61,9 @@ function! s:WinColorOverride(tempwincolor, duration = 0)
 endfunc
 
 function! s:WinColorReset()
+  exec 'setlocal wincolor+=!(:' .. get(w:, 'mayhem_wincolor_saved', 'WinNormal')
   unlet w:mayhem_wincolor_override
-  let &l:wincolor = get(w:, 'mayhem_wincolor_saved', 'WinNormal')
+  unlet w:mayhem_wincolor_saved
   call s:WinColorUpdate()
 endfunc
 

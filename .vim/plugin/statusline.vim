@@ -362,6 +362,9 @@ function TermPaused() abort
   return mode() =~# 'n' ?  symbols#get('status.termpause') : symbols#get('status.termplay')
 endfunc
 
+function DiffWith() abort
+  return getbufvar(bufnr(), 'mayhem_diff_with', '')
+endfunc
 "
 " : > / ? @ - =
 "
@@ -444,30 +447,19 @@ function s:Update_FileInfo() abort
   call s:SetStatusVars()
   let ext = expand('%:e')
   let name = expand('%:r')
-  let diffname = getbufvar(bufnr(), 'mayhem_diff_saved', '')
-  let diff_left = getbufvar(bufnr(), 'mayhem_diff_left', 0)
-  let diff_right = getbufvar(bufnr(), 'mayhem_diff_right', 0)
-  let diff_with = getbufvar(bufnr(), 'mayhem_diff_with', 0)
   let tail = expand('%:t')
   let type = getbufvar(bufnr(), '&filetype')
   let hint = mayhem#getHintForPath('%')
   let subtype = mayhem#getSubtypeForPath('%')
 
   if name == ''
-    if &diff && diff_right
-      let b:mayhem.sl_cached_filename = format#CN([
-        \'%#SlFDfSvNm⸮#◀︎╸diff,with:' .. diff_with .. '%* ',
-        \'%{%Modified()%}',
-        \])
-    else
       " \'%#SlFNoName⸮#nameless%* ',
       " \ 𝓷𝓪𝓶𝓮𝓵𝓮𝓼𝓼 𝒏𝒂𝒎𝒆𝒍𝒆𝒔𝒔 𝑛𝑎𝑚𝑒𝑙𝑒𝑠𝑠
         " \𝐧𝐚𝐦𝐞𝐥𝐞𝐬𝐬 𝔫𝔞𝔪𝔢𝔩𝔢𝔰𝔰 𝖓𝖆𝖒𝖊𝖑𝖊𝖘𝖘 𝘯𝘢𝘮𝘦𝘭𝘦𝘴𝘴 𝚗𝚊𝚖𝚎𝚕𝚎𝚜𝚜
-      let b:mayhem.sl_cached_filename = format#CN([
-        \'%#SlFNoName⸮#𝑛𝑎𝑚𝑒𝑙𝑒𝑠𝑠%* ',
-        \'%{%Modified()%}'
-        \])
-    endif
+    let b:mayhem.sl_cached_filename = format#CN([
+      \'%#SlFNoName⸮#𝑛𝑎𝑚𝑒𝑙𝑒𝑠𝑠%* ',
+      \'%{%Modified()%}'
+      \])
   else
     if mayhem#fileTypeMatchesExt(type, expand('%'))
       let b:mayhem.sl_cached_filename = format#CN([
@@ -555,6 +547,7 @@ function s:UpdateStatuslines() abort
   let g:mayhem['sl_diff_right'] = format#CN([
         \symbols#get('status.diffright'),
         \eq,
+        \'%#SlFDfSvNm⸮#◀︎╸diff,with:%{%DiffWith()%}%* ',
         \' %{%ChFInfo()%}',
         \' %{%ScrollHint()%}',
         \' %{%ChDiag()%}',

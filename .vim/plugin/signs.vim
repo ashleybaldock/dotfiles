@@ -5,10 +5,11 @@ let g:mayhem_loaded_signs = 1
 
 "
 " Related:
-"      ../autoload/signs.vim
-"                ./diag.vim
-"      ../autoload/diag.vim
+"   $VIMHOME/plugin/diag.vim
+"   $VIMHOME/autoload/signs.vim
+"   $VIMHOME/autoload/diag.vim
 "
+
 
 "
 " show count of search results above/below current view

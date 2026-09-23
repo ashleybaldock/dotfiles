@@ -102,7 +102,7 @@ function! session#info() abort
 endfunc
 
 
-function! session#title() abort
+function! session#titlestring() abort
   if empty(v:this_session)
     return '𝚗𝚘 𝚜𝚎𝚜𝚜𝚒𝚘𝚗'
   else

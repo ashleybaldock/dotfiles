@@ -319,3 +319,43 @@ function format#CN(partorparts, sub = get(g:, 'mayhem_format_CN_token_default', 
         \]
 endfunc
 
+"
+" Returns a tab 	 (^I)
+"
+function! format#tab() abort
+  return "	"
+endfunc
+
+"
+" Split path into path segments
+"
+function! path#parts() abort
+endfunc
+
+"
+" pathshorten ++features
+"
+" args:
+"   path [list<string>|string]
+"     - If supplied as a string, this is split by 
+"   seglen [number] (default: 8, min: 1)
+"   tolerance [number] (default: 1, min: 0)
+"     - Path segments longer than seglen + tolerence are shortened to seglen
+"   indicator [string] (default: ◌⃨)
+"     - Add this to indicate where path segment has been shortened
+"
+function! format#pathshorten(path, seglen = 8, tolerance = 1, indicator = '⃨') abort
+  return flatten(type(v) == v:t_list ? a:path : split(a:path, '/'))
+        \->map({i, v -> len(v) > a:seglen + a:tolerance ? slice(v, 0, a:seglen)})
+endfunc
+
+"
+" Format path for display in titlestring (using variable width system font)
+"
+" - Well-known path roots substituted
+" - Path segments are shortened
+" - Small space added after each separator to emphasise the parts
+"
+function! format#path2titlestring(path) abort
+  return pathshorten(a:path, 8)->substitute("/"," / ","g")
+endfunc

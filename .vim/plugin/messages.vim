@@ -70,11 +70,11 @@ function s:ExpandSNR(messages) abort
         \   {m -> "  " .. m[3] .. "		" .. m[1] .. getscriptinfo(#{
         \ sid: str2nr(m[2], 10)})[0].name .. ':' .. m[4] .. "\n" }, 'g')->split("\n")})->flatten(1)
   "let replaceHome = map(replaceSNR,
-   "     \ {_, p -> substitute(p, expand('$VIMHOME') .. '[]', 'g')
+  "     \ {_, p -> substitute(p, expand('$VIMHOME') .. '[]', 'g')
   return replaceSNR
 endfunc
 
-function s:GetMessagesBuffer() abort
+function! s:GetMessagesBuffer() abort
   if !exists('s:bufnr_messages') || !bufexists(s:bufnr_messages)
     let s:bufnr_messages = bufadd('')
     call setbufvar(s:bufnr_messages, '&filetype', 'vimmessages')
@@ -84,7 +84,7 @@ function s:GetMessagesBuffer() abort
   return s:bufnr_messages
 endfunc
 
-function s:RefreshMessages() abort
+function! s:RefreshMessages() abort
   let messages = s:ListMessages()
   let messagesExpanded = s:ExpandSNR(messages)
 
@@ -125,7 +125,7 @@ endfunc
 "
 " Key events intercepted by open popup
 "
-function s:MessagesPopupFilter(winid, key) abort
+function! s:MessagesPopupFilter(winid, key) abort
   if a:key == 'x'
     call s:CloseMessagesPopup()
     return 1
@@ -188,6 +188,6 @@ call autocmd_add([
       \},
       \])
 
-"
-" :Mess(ages) [show/hide/toggle] reload [auto/no]
+    "
+    " :Mess(ages) [show/hide/toggle] reload [auto/no]
 command! Messages call s:SplitWithMessages()

@@ -4,7 +4,12 @@ endif
 let g:mayhem_autoloaded_unicode = 1
 
 "
-" See: ../plugin/unicode.vim
+" Related:
+"   $VIMHOME/plugin/unicode.vim
+"
+" Demo:
+"   $VIMHOME/demo/unicode-whitespace
+"   $VIMHOME/demo/pre.md
 "
 
 "
@@ -112,4 +117,127 @@ function unicode#pointsBetween(
       \ from = char#fromCursor(),
       \ to = nr2char(char2nr(a:from) + 16)) abort
   return unicode#pointsToString(unicode#pointsBetweenChars(a:from, a:to))
+endfunc
+
+"
+" Reveal Variation Selectors
+"
+function unicode#ToggleHintVS1516() abort
+  if exists('w:mayhem_match_vs1516')
+    call get(w:, 'mayhem_match_vs1516', [])
+          \->foreach({_,m -> matchdelete(m)})
+    unlet w:mayhem_match_vs1516
+  else
+    let w:mayhem_match_vs1516 = [
+          \ matchadd('VS15', '︎', 1),
+          \ matchadd('VS15Sp', ' ︎', 1),
+          \ matchadd('VS16', '️', 1),
+          \ matchadd('VS16Sp', ' ️', 1),
+          \ matchadd('VS1516', '︎️', 1),
+          \ matchadd('VS1615', '️︎', 1),
+          \ matchadd('SpecialSpace', ' ︎', 1),
+          \]
+  endif
+endfunc
+
+"
+" Reveal Exotic Whitespace
+"
+" TODO - also,[\Ue0000-\Ue007f]?  \u20f1'⃱⃲⃳⃴⃵⃶⃷⃸⃹⃺⃻⃼⃽⃾⃿'\u20ff
+"
+function unicode#ToggleWhitespaceHints() abort
+  if exists('w:mayhem_match_u8only_wsp')
+    call matchdelete(w:mayhem_match_u8only_wsp)
+    unlet w:mayhem_match_u8only_wsp
+  else
+    let w:mayhem_match_u8only_wsp = matchadd('U8Whitespace', '[' ..
+          \ '\x0b\x0c\u00a0\u00ad\u1680\u180e' ..
+          \ '\u2000-\u200a\u2028\u2029\u202f\u205f\u2800' ..
+          \ '\u3000\u303f\uff00\uffa0\ufeff\ufff0-\uffff' ..
+          \ '\U000e0020]')
+  endif
+endfunc
+
+"
+" Reveal Tags
+"
+function unicode#ToggleTagHints() abort
+  if exists('w:mayhem_match_u8tags')
+    call matchdelete(w:mayhem_match_u8tags)
+    unlet w:mayhem_match_u8tags
+  else
+    let w:mayhem_match_u8tags = matchadd('U8Tags', '[\U000e0000-\U000e007f]')
+  endif
+endfunc
+
+
+function unicode#codepointRow(for = char#fromCursor()) abort
+  let foridx = type(a:for) == type(0) ? a:for : char2nr(a:for)
+  let fromidx = foridx / 16 * 16
+
+  echohl None
+  echon printf('%05x ⏐ ', fromidx)
+  for char in unicode#pointsInRange(fromidx, 16)
+    if char2nr(char) == foridx
+      echohl Directory
+      echon char
+      echohl None
+    else
+      echon char
+    endif
+    echon ' '
+  endfor
+
+  return printf('%05x ⏐ ', fromidx) .. 
+        \ unicode#pointsInRange(fromidx)
+        \  ->map({ i, v -> char2nr(v) == foridx ? '' .. v .. '' : v})
+        \  ->join(' ')
+endfunc
+
+let s:combining_diacriticals = [ '',
+      \
+      \ '̀', '́', '̂', '̃', '̄', '̅', '̆', '̇', '̈', '̉', '̊', '̋', '̌', '̍', '̎', '̏',
+      \ '̐', '̑', '̒', '̓', '̔', '̕', '̖', '̗', '̘', '̙', '̚', '̛', '̜', '̝', '̞', '̟',
+      \ '̠', '̡', '̢', '̣', '̤', '̥', '̦', '̧', '̨', '̩', '̪', '̫', '̬', '̭', '̮', '̯',
+      \ '̰', '̱', '̲', '̳', '̴', '̵', '̶', '̷', '̸', '̹', '̺', '̻', '̼', '̽', '̾', '̿',
+      \ '̀', '́', '͂', '̓', '̈́', 'ͅ', '͆', '͇', '͈', '͉', '͊', '͋', '͌', '͍', '͎', '͏',
+      \ '͐', '͑', '͒', '͓', '͔', '͕', '͖', '͗', '͘', '͙', '͚', '͛', '͜', '͝', '͞', '͟',
+      \ '͠', '͡', '͢', 'ͣ', 'ͤ', 'ͥ', 'ͦ', 'ͧ', 'ͨ', 'ͩ', 'ͪ', 'ͫ', 'ͬ', 'ͭ', 'ͮ', 'ͯ',
+      \
+      \ '᳐', '᳒', '', '᳗', '᳙', '᳚', '᳜', '᳝', '᳠', '᳴', '᳸', '᳹',
+      \
+      \ '᷀', '᷁', '᷂', '᷃', '᷄', '᷅', '᷆', '᷇', '᷈', '᷉', '᷊', '᷋', '᷌', '᷍', '᷎', '᷏',
+      \ '᷐', '᷑', '᷒', 'ᷓ', 'ᷔ', 'ᷕ', 'ᷖ', 'ᷗ', 'ᷘ', 'ᷙ', 'ᷚ', 'ᷛ', 'ᷜ', 'ᷝ', 'ᷞ', 'ᷟ',
+      \ 'ᷠ', 'ᷡ', 'ᷢ', 'ᷣ', 'ᷤ', 'ᷥ', 'ᷦ', 'ᷧ', 'ᷨ', 'ᷩ', 'ᷪ', 'ᷫ', 'ᷬ', 'ᷭ', 'ᷮ', 'ᷯ',
+      \ 'ᷰ', 'ᷱ', 'ᷲ', 'ᷳ', 'ᷴ', '᷵', '', '', '', '', '', '᷻', '᷼', '᷽', '᷾', '᷿',
+      \
+      \ '⃐', '⃑', '⃒', '⃓', '⃔', '⃕', '⃖', '⃗', '⃘', '⃙', '⃚', '⃛', '⃜', '⃝', '⃞', '⃟',
+      \ '⃠', '⃡', '⃢', '⃣', '⃤', '⃥', '⃦', '⃧', '⃨', '⃩', '⃪', '⃫', '⃬', '⃭', '⃮', '⃯',
+      \ '⃰',
+      \
+      \ '︠', '︡', '︢', '︣', '︤', '︥', '︦', '︧', '︨', '︩', '︪', '︫', '︬', '︭', '︮', '︯',
+      \]
+let s:variation_selectors = [
+      \ '', '︀', '︁', '︂', '︃', '︄', '︅', '︆', '︇', '︈', '︉', '︊', '︋', '︌', '︍', '︎', '️'
+      \]
+
+"
+" Combine a char with diacritical marks
+"
+function! unicode#genCombinings(from = char#first(), with = s:combining_diacriticals) abort
+  return mapnew(a:with, {_,v -> char#join([a:from, v])})
+endfunc
+
+"
+" Combine character with variation selectors
+"
+function unicode#genVariations(from = char#first()) abort
+  return unicode#genCombinings(a:from, s:variation_selectors)
+endfunc
+
+"                                                           TODO
+function unicode#selectCombination() abort
+endfunc
+"                                                           TODO
+function unicode#selectVariation() abort
 endfunc

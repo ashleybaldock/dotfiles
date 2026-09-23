@@ -327,12 +327,6 @@ function! format#tab() abort
 endfunc
 
 "
-" Split path into path segments
-"
-function! path#parts() abort
-endfunc
-
-"
 " pathshorten ++features
 "
 " args:
@@ -344,9 +338,11 @@ endfunc
 "   indicator [string] (default: ◌⃨)
 "     - Add this to indicate where path segment has been shortened
 "
-function! format#pathshorten(path, seglen = 8, tolerance = 1, indicator = '⃨') abort
-  return flatten(type(v) == v:t_list ? a:path : split(a:path, '/'))
-        \->map({i, v -> len(v) > a:seglen + a:tolerance ? slice(v, 0, a:seglen)})
+function! format#pathshorten(path, seglen = 8, tolerance = 1, indicator = '̣') abort
+  return flatten(type(a:path) == v:t_list ? a:path : split(a:path, '/'))
+        \->map({i, v -> len(v) > a:seglen + a:tolerance
+        \ ? slice(v, 0, a:seglen) .. a:indicator : v})
+        \->join('/')
 endfunc
 
 "

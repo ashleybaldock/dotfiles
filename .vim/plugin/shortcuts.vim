@@ -561,7 +561,7 @@ nnoremap §rv <Cmd>so expand('$VIMHOME/vimrc')<CR>
 " 
 
 " let curline = getcurpos(bufwinid(bufnr()))->get(1)
-echo matchbufline(bufnr(), '^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$\|\zs\%(\%' .. getcurpos(bufwinid(bufnr()))->get(1) .. 'l\_^\s*[^\\].*\_$\)\+', 1, '$')
+" echo matchbufline(bufnr(), '^[^\\]*\_$\n\%(\_^\s*\\.*\_$\n\)\+\ze\_^[^\\]*$\|\zs\%(\%' .. getcurpos(bufwinid(bufnr()))->get(1) .. 'l\_^\s*[^\\].*\_$\)\+', 1, '$')
 
 " s/^[[:blank:]"]*\zs.*/
 " %s/,\ /,/g

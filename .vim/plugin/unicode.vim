@@ -3,6 +3,46 @@ if exists("g:mayhem_loaded_unicode")
 endif
 let g:mayhem_loaded_unicode = 1
 
+"
+" Related:
+"   $VIMHOME/autoload/unicode.vim
+"
+" Demo:
+"   $VIMHOME/demo/unicode-whitespace
+"
+
+
+"
+" :UnicodepointsCountFromIndex 26 65
+" :26UnicodepointsCountFromIndex 65
+" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+"
+command! -bar -nargs=? -count=16 UnicodepointsCountFromIndex
+      \ echo unicode#pointsCountFromIndex(<args>, <count>)
+
+  "
+  "  :UnicodepointsCountFromChar 26 A
+  "  :26UnicodepointsCountFromChar A
+  " -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+  "
+command! -bar -nargs=? -count=16 UnicodepointsCountFromChar
+      \ echo unicode#pointsCountFromChar(<f-args>, <count>)
+
+  "
+  "  :UnicodepointsAround 10 D
+  "  :10UnicodepointsAround D
+  " -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+  "
+command! -bar -nargs=? -count=8 UnicodepointsAround
+      \ echo unicode#pointsAroundChar(<f-args>, <count>)
+
+  "
+  "  :UnicodepointsBetween A Z
+  "  :UnicodepointsBetween Z A
+  " -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+  "
+command! -bar -nargs=* UnicodepointsBetween
+      \ echo unicode#pointsBetween(<f-args>)
 
 " ??
 " These all work for a specific character, but not with .
@@ -17,216 +57,59 @@ let g:mayhem_loaded_unicode = 1
 " a\%u20de\%(\%ufe0f\|\%ufe0e\)         a,enclosing square,(v15|v16)
 " a\%(\%ufe0f\|\%ufe0e\)\%C             a,(v16|v15),<any>
 
-"
-" Reveal Variation Selectors:
-" See: ../demo/unicode-whitespace
-"
-function s:ToggleHintVS1516() abort
-    call get(w:, 'mayhem_match_vs1516', [])
-          \->foreach({_,m -> matchdelete(m)})
-    unlet w:mayhem_match_vs1516
-  else
-    let w:mayhem_match_vs1516 = [
-          \ matchadd('VS15', '︎', 1),
-          \ matchadd('VS15Sp', ' ︎', 1),
-          \ matchadd('VS16', '️', 1),
-          \ matchadd('VS16Sp', ' ️', 1),
-          \ matchadd('VS1516', '︎️', 1),
-          \ matchadd('VS1615', '️︎', 1),
-          \ matchadd('SpecialSpace', ' ︎', 1),
-          \]
-  endif
-endfunc
+command! VariationSelectorHints call unicode#ToggleHintVS1516()
 
-command! VariationSelectorHints call <SID>ToggleHintVS1516()
+command! UnicodeWhitespaceHints call unicode#ToggleWhitespaceHints()
 
-"
-" Reveal Exotic Whitespace:
-" See: ../demo/unicode-whitespace
-"
-" TODO - also,[\Ue0000-\Ue007f]?  \u20f1'⃱⃲⃳⃴⃵⃶⃷⃸⃹⃺⃻⃼⃽⃾⃿'\u20ff
-function s:ToggleUnicodeWhitespaceHints() abort
-  if exists('w:mayhem_match_u8only_wsp')
-    call matchdelete(w:mayhem_match_u8only_wsp)
-    unlet w:mayhem_match_u8only_wsp
-  else
-    let w:mayhem_match_u8only_wsp = matchadd('U8Whitespace', '[' ..
-          \ '\x0b\x0c\u00a0\u00ad\u1680\u180e' ..
-          \ '\u2000-\u200a\u2028\u2029\u202f\u205f\u2800' ..
-          \ '\u3000\u303f\uff00\uffa0\ufeff\ufff0-\uffff' ..
-          \ '\U000e0020]')
-  endif
-endfunc
+command! UnicodeTagHints call unicode#ToggleTagHints()
 
-command! UnicodeWhitespaceHints call <SID>ToggleUnicodeWhitespaceHints()
+  " TODO
+  " Shows the unicode block that contains a character
+  " arg1: character to display (Optional) (defaults to cursor char)
+  " command! -bar -nargs=? GenerateUnicodeBlock echo <SID>RenderCodepointRow(<f-args>)
+
+  " TODO show row(s) before/after in same block
+command! -bar -nargs=? ShowUnicodeContext call unicode#codepointRow(<f-args>)
 
 
-"
-" Reveal Tags:
-" See: ../demo/unicode-whitespace
-"
-function s:ToggleUnicodeTagHints() abort
-  if exists('w:mayhem_match_u8tags')
-    call matchdelete(w:mayhem_match_u8tags)
-    unlet w:mayhem_match_u8tags
-  else
-    let w:mayhem_match_u8tags = matchadd('U8Tags', '[\U000e0000-\U000e007f]')
-  endif
-endfunc
+command! -bar -nargs=? GenerateCombinings echo unicode#genCombinings(<args>)->join(' ')
 
-command! UnicodeTagHints call <SID>ToggleUnicodeTagHints()
+command! -bar -nargs=? GenerateVariations echo unicode#genVariations(<f-args>)->join(' ')
 
+command! -bar -nargs=? -count=16 Vary echo unicode#genVariations(<f-args>))
 
-function s:RenderCodepointRow(for = char#fromCursor()) abort
-  let foridx = type(a:for) == type(0) ? a:for : char2nr(a:for)
-  let fromidx = foridx / 16 * 16
+  "
+  " Show a popup with possible combinations to pick from
+  " If no base character supplied, uses character under cursor
+  "
+command! -bar -nargs=? SelectCombination call unicode#selectCombination(<f-args>)
 
-  echohl None
-  echon printf('%05x ⏐ ', fromidx)
-  for char in unicode#pointsInRange(fromidx, 16)
-    if char2nr(char) == foridx
-      echohl Directory
-      echon char
-      echohl None
-    else
-      echon char
-    endif
-    echon ' '
-  endfor
+  " Show a popup with possible variations to pick from
+  " If no base character supplied, uses character under cursor
+  "
+command! -bar -nargs=? SelectVariation call unicode#selectVariation(<f-args>)
 
-  return printf('%05x ⏐ ', fromidx) .. 
-        \ unicode#pointsInRange(fromidx)
-        \  ->map({ i, v -> char2nr(v) == foridx ? '' .. v .. '' : v})
-        \  ->join(' ')
-endfunc
-
-"
-" :UnicodepointsCountFromIndex 26 65
-" :26UnicodepointsCountFromIndex 65
-" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
-"
-command! -bar -nargs=? -count=16 UnicodepointsCountFromIndex
-      \ echo <SID>UnicodepointsCountFromIndex(<args>, <count>)
-
-"
-"  :UnicodepointsCountFromChar 26 A
-"  :26UnicodepointsCountFromChar A
-" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
-"
-command! -bar -nargs=? -count=16 UnicodepointsCountFromChar
-      \ echo <SID>UnicodepointsCountFromChar(<f-args>, <count>)
-
-"
-"  :UnicodepointsAround 10 D
-"  :10UnicodepointsAround D
-" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
-"
-command! -bar -nargs=? -count=8 UnicodepointsAround
-      \ echo <SID>UnicodepointsAroundChar(<f-args>, <count>)
-
-"
-"  :UnicodepointsBetween A Z
-"  :UnicodepointsBetween Z A
-" -> 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
-"
-command! -bar -nargs=* UnicodepointsBetween
-      \ echo <SID>UnicodepointsBetween(<f-args>)
-
-" TODO
-" Shows the unicode block that contains a character
-" arg1: character to display (Optional) (defaults to cursor char)
-" command! -bar -nargs=? GenerateUnicodeBlock echo <SID>RenderCodepointRow(<f-args>)
-
-" TODO show row(s) before/after in same block
-command! -bar -nargs=? ShowUnicodeContext
-      \ call <SID>RenderCodepointRow(<f-args>)
-
-let s:combining_diacriticals = [ '',
-      \
-      \ '̀', '́', '̂', '̃', '̄', '̅', '̆', '̇', '̈', '̉', '̊', '̋', '̌', '̍', '̎', '̏',
-      \ '̐', '̑', '̒', '̓', '̔', '̕', '̖', '̗', '̘', '̙', '̚', '̛', '̜', '̝', '̞', '̟',
-      \ '̠', '̡', '̢', '̣', '̤', '̥', '̦', '̧', '̨', '̩', '̪', '̫', '̬', '̭', '̮', '̯',
-      \ '̰', '̱', '̲', '̳', '̴', '̵', '̶', '̷', '̸', '̹', '̺', '̻', '̼', '̽', '̾', '̿',
-      \ '̀', '́', '͂', '̓', '̈́', 'ͅ', '͆', '͇', '͈', '͉', '͊', '͋', '͌', '͍', '͎', '͏',
-      \ '͐', '͑', '͒', '͓', '͔', '͕', '͖', '͗', '͘', '͙', '͚', '͛', '͜', '͝', '͞', '͟',
-      \ '͠', '͡', '͢', 'ͣ', 'ͤ', 'ͥ', 'ͦ', 'ͧ', 'ͨ', 'ͩ', 'ͪ', 'ͫ', 'ͬ', 'ͭ', 'ͮ', 'ͯ',
-      \
-      \ '᳐', '᳒', '', '᳗', '᳙', '᳚', '᳜', '᳝', '᳠', '᳴', '᳸', '᳹',
-      \
-      \ '᷀', '᷁', '᷂', '᷃', '᷄', '᷅', '᷆', '᷇', '᷈', '᷉', '᷊', '᷋', '᷌', '᷍', '᷎', '᷏',
-      \ '᷐', '᷑', '᷒', 'ᷓ', 'ᷔ', 'ᷕ', 'ᷖ', 'ᷗ', 'ᷘ', 'ᷙ', 'ᷚ', 'ᷛ', 'ᷜ', 'ᷝ', 'ᷞ', 'ᷟ',
-      \ 'ᷠ', 'ᷡ', 'ᷢ', 'ᷣ', 'ᷤ', 'ᷥ', 'ᷦ', 'ᷧ', 'ᷨ', 'ᷩ', 'ᷪ', 'ᷫ', 'ᷬ', 'ᷭ', 'ᷮ', 'ᷯ',
-      \ 'ᷰ', 'ᷱ', 'ᷲ', 'ᷳ', 'ᷴ', '᷵', '', '', '', '', '', '᷻', '᷼', '᷽', '᷾', '᷿',
-      \
-      \ '⃐', '⃑', '⃒', '⃓', '⃔', '⃕', '⃖', '⃗', '⃘', '⃙', '⃚', '⃛', '⃜', '⃝', '⃞', '⃟',
-      \ '⃠', '⃡', '⃢', '⃣', '⃤', '⃥', '⃦', '⃧', '⃨', '⃩', '⃪', '⃫', '⃬', '⃭', '⃮', '⃯',
-      \ '⃰',
-      \
-      \ '︠', '︡', '︢', '︣', '︤', '︥', '︦', '︧', '︨', '︩', '︪', '︫', '︬', '︭', '︮', '︯',
-      \]
-let s:variation_selectors = [ '', '︀', '︁', '︂', '︃', '︄', '︅', '︆', '︇', '︈', '︉', '︊', '︋', '︌', '︍', '︎', '️']
-let s:default_combine = 'ͮ'
-
-
-function! s:Combine(from = char#fromCursor(), with = s:default_combine) abort
-  return strpart(a:from, 0, 1, v:true) .. a:with
-endfunc
-"
-" Combine a char with various diacritical marks
-"
-function! s:GenerateCombinings(from = char#fromCursor(), with = s:combining_diacriticals) abort
-  let base = strpart(a:from, 0, 1, v:true)
-  return mapnew(a:with, {_,val -> s:Combine(base, val)})
-endfunc
-
-function s:GenerateVariations(from = char#fromCursor()) abort
-  return s:GenerateCombinings(a:from, s:variation_selectors)
-endfunc
-
-command! -bar -nargs=? GenerateCombinings echo <SID>GenerateCombinings(<args>)->join(' ')
-
-command! -bar -nargs=? GenerateVariations echo <SID>GenerateVariations(<f-args>)->join(' ')
-
-command! -bar -nargs=? -count=16 Vary echo <SID>GenerateVariations(<f-args>))
-
-"                                                           TODO
-function s:SelectCombination() abort
-endfunc
-"
-" Show a popup with possible combinations to pick from
-" If no base character supplied, uses character under cursor
-"
-command! -bar -nargs=? SelectCombination call <SID>SelectCombination(<f-args>)
-
-"                                                           TODO
-function s:SelectVariation() abort
-endfunc
-" Show a popup with possible variations to pick from
-" If no base character supplied, uses character under cursor
-"
-command! -bar -nargs=? SelectVariation call <SID>SelectVariation(<f-args>)
-
-"                                                           TODO
-" Cycle through predefined sets of Unicodepoints
-"
-" A given codepoint may have more than one dimension
-" along which it can be cycled
-"
-" e.g. ┼ ▬▶︎ ├ ▬▶︎ ┌ ▬▶︎ ┬ ▬▶︎ ┐ ▬▶︎ ┤ ▬▶︎ ┘ ▬▶︎ ┴ ▬▶︎ └
-" rotation
-"      ┘ ▶︎ ╴ ▶︎ ┐ ▶︎ ╷ ▶︎ ┌ ▶︎ ╶ ▶︎ └ ▶︎ ╵   ▮◀︎
-"      │ ▶︎ ╱ ▶︎ ─ ▶︎ ╲   ⏮
-" style
-"      ┘ ▶︎ ┙ ▶︎ ┚ ▶ ┛ ▶ ╛ ▶ ╜ ▶ ╝ ▶ ╯  ▮◀︎◀︎
-"     w     w: [╵, ][└,╶][├,][┌,├][┬,┼][┐,┤][,]
-"     ╿     
-"  a╺─┼─╸d  w: [' ','╵','╹']
-"     ╽         ┌ ├ ┞   ┬ ┼ ╀  ╷ │ ╿   ╗ ╣ 
-"     s
-"           s:  ╿ ┃ ╹   
-"
-"           q:  ╷ │ ╎ ┆ ┊ ╵ ╷  e: │ ┃ ║
-"
+  "                                                           TODO
+  " Cycle through predefined sets of Unicodepoints
+  "
+  " A given codepoint may have more than one dimension
+  " along which it can be cycled
+  "
+  " e.g. ┼ ▬▶︎ ├ ▬▶︎ ┌ ▬▶︎ ┬ ▬▶︎ ┐ ▬▶︎ ┤ ▬▶︎ ┘ ▬▶︎ ┴ ▬▶︎ └
+  " rotation
+  "      ┘ ▶︎ ╴ ▶︎ ┐ ▶︎ ╷ ▶︎ ┌ ▶︎ ╶ ▶︎ └ ▶︎ ╵   ▮◀︎
+  "      │ ▶︎ ╱ ▶︎ ─ ▶︎ ╲   ⏮
+  " style
+  "      ┘ ▶︎ ┙ ▶︎ ┚ ▶ ┛ ▶ ╛ ▶ ╜ ▶ ╝ ▶ ╯  ▮◀︎◀︎
+  "     w     w: [╵, ][└,╶][├,][┌,├][┬,┼][┐,┤][,]
+  "     ╿     
+  "  a╺─┼─╸d  w: [' ','╵','╹']
+  "     ╽         ┌ ├ ┞   ┬ ┼ ╀  ╷ │ ╿   ╗ ╣ 
+  "     s
+  "           s:  ╿ ┃ ╹   
+  "
+  "           q:  ╷ │ ╎ ┆ ┊ ╵ ╷  e: │ ┃ ║
+  "
 let g:mayhem_unicycles = [
       \ ['', '', '╭', '','╮', '','╯','', '╰'],
       \
@@ -256,17 +139,17 @@ endfunc
 
 
 
-" Highlight non-ASCII characters.
-" syntax match nonascii [^\x00-\x7F]
-" highlight link nonascii ErrorMsg
-" autocmd BufEnter * syn match ErrorMsg /[^\x00-\x7F]/
-"
-"au WinEnter * if !exists("w:custom_hi1") | let w:custom_hi1 = matchadd('ErrorMsg', '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$') | endif
-"
-"au WinEnter * if !exists("w:custom_hi2") |
-"
-" let w:custom_hi2 = matchadd('U8Whitespace',
-"   \ '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]', 10, -1, {'conceal': '⌻' })
+  " Highlight non-ASCII characters.
+  " syntax match nonascii [^\x00-\x7F]
+  " highlight link nonascii ErrorMsg
+  " autocmd BufEnter * syn match ErrorMsg /[^\x00-\x7F]/
+  "
+  "au WinEnter * if !exists("w:custom_hi1") | let w:custom_hi1 = matchadd('ErrorMsg', '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$') | endif
+  "
+  "au WinEnter * if !exists("w:custom_hi2") |
+  "
+  " let w:custom_hi2 = matchadd('U8Whitespace',
+  "   \ '[\x0b\x0c\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]', 10, -1, {'conceal': '⌻' })
 
 
 

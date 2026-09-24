@@ -16,7 +16,7 @@ function! s:WinBarUpdate() abort
   silent nunmenu WinBar
 
   " No winbar for very small windows
-  if winnr()->winheight() <= 5
+  if winheight(0) <= 5
     return
   endif
 
@@ -25,7 +25,7 @@ function! s:WinBarUpdate() abort
     " If signcolumn=yes or signcolumn=auto and is visible, can show index 1+
     " Otherwise if no signcolumn present, can show index 3+
     let colorcolumns = split(&l:colorcolumn, ',')->map({i, v -> str2nr(v)})
-    let textoff = winnr()->getwininfo()->get(0)->get('textoff')
+    let textoff = getwininfo([winnr()])->get(0)->get('textoff')
 
     exec 'silent nnoremenu 1.20 WinBar.' .. s:ruler .. ' <nop>'
 
@@ -80,7 +80,6 @@ function! s:WinBarUpdate() abort
     endif
   endif
 
-  if &diff
 " nnoremenu 1.10 WinBar.􀆧\ $dx\ \ 􀈄\ §de\ 􀈂\ §dt▕\ 􀆇\ [c▕\ 􀆈\ ]c▕\ 􀅌\ §dr <nop>
 "􀤴 􀤵 
     " if exists("b:mayhem_diff_left")
@@ -96,17 +95,19 @@ function! s:WinBarUpdate() abort
     "   silent nnoremenu 1.05 WinBar.􃜥\  <Nop>
     " endif
 
+  if &diff
+
     if exists("b:mayhem_diff_left")
+      silent nnoremenu 1.10 WinBar.􀅌\ §dr <Nop>
       silent nnoremenu 1.20 WinBar.􂨪\ \ } <Nop>
     elseif exists("b:mayhem_diff_right")
       silent nnoremenu 1.20 WinBar.􂨩\ \ { <Nop>
+      silent nnoremenu 1.30 WinBar.􀄶\ [[\ ╱\ 􀄳\ ]] <Nop>
     else
       silent nnoremenu 1.20 WinBar.􀈄\ §de\ ╱\ 􀈂\ §dt <Nop>
     endif
 
     " silent nnoremenu 1.30 WinBar.􀄶􀄨􀄻􀄲\ [[\ ╱\ 􀄺􀄩􀄷􀄳\ ]] <Nop>
-    silent nnoremenu 1.30 WinBar.􀄶\ [[\ ╱\ 􀄳\ ]] <Nop>
-    silent nnoremenu 1.90 WinBar.􀅌\ §dr <Nop>
     return
   endif
 

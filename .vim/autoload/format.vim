@@ -342,7 +342,9 @@ function! format#pathshorten(path, seglen = 8, tolerance = 1, indicator = '̣') 
   return flatten(type(a:path) == v:t_list ? a:path : split(a:path, '/'))
         \->map({i, v -> len(v) > a:seglen + a:tolerance
         \ ? slice(v, 0, a:seglen) .. a:indicator : v})
-        \->join('/')
+        \->join('ꤷ̤')
+        " \->join('ꤷ⃨ꤷ̤/̤︎')
+        " \->join('ab/⃨foo/︎̤def/ aꤷ⃨b abc᜵⃨def ̸ ⃫ ̷ …̷️ …️̸  …️⃫ …︎⃫ …︎̷ …︎̸ … … … ‥̷ ‥̸ ‥⃫ ‥️̷ ‥️̸  ‥️⃫ ‥︎̷ ‥︎̸ ‥︎⃫ ⋯̷ ⋯̸ ⋯⃫ ⋯️̷ ⋯️̸  ⋯️⃫  ⋯︎̷ ⋯︎̸ ⋯︎⃫ ')
 endfunc
 
 "

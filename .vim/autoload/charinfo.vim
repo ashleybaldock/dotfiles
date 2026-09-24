@@ -71,39 +71,47 @@ function! charinfo#formatForCommand(str = char#fromCursor()) abort
   endif
 endfunc 
 
+let s:sep = echo#memo('CISep', ' ╱ ')
+let s:none = echo#with('None')
+let s:char = echo#with('None')
+let s:code = echo#with('Special')
+let s:name = echo#with('CommentSubtle')
+
 "
 " Fancier character info for display in command line
 "
 " Returns a string to exec
 "
 function! charinfo#formatForCommandWithColor(str = char#fromCursor()) abort
-  let sep = 'echoh CISep | echon '' ╱ '''
-  let reset = 'echoh None | echon '''''
 
   let chfo = charinfo#get(a:str)
   if len(chfo) == 0
-    return [ sep, sep, 'nul', sep, reset ]->join(' | ')
+    return [ s:sep(), s:sep(), 'nul', s:sep() ]->join(' | ')
   elseif len(chfo) == 1
     return [
-          \ sep,
-          \ reset ..  char#display(chfo[0]['char']) .. '''',
-          \ sep,
-          \ 'echoh Special | echon ''' .. chfo[0]['code'] .. '''',
-          \ sep,
-          \ 'echoh CommentSubtle | echon ''' .. chfo[0]['name'] .. '''',
-          \ sep,
-          \ reset,
+          \ s:sep(),
+          \ s:char(char#display(chfo[0]['char'])),
+          \ s:sep(),
+          \ s:code(chfo[0]['code']),
+          \ s:none(' '),
+          \ s:name(chfo[0]['name']),
+          \ s:sep(),
           \]->join(' | ')
   else
-    return ['echon ''',
-          \ chfo[0]['composed'],
-          \ map(chfo, {i, v -> [
-          \  char#display(v['char']),
-          \  ''' | echoh Special | echon ''' .. v['code'] .. ''' | echoh None | echon ''',
-          \  ''' | echoh CommentSubtle | echon ''' .. v['name'] .. ''' | echoh None | echon ''',
-          \ ]->join(' ')})
-          \  ->join(''' | echoh CISep | echon '' ╱ '' | echoh None | echon '''),
-          \ ''''
-          \ ]->join(''' | echoh CISep | echon '' ╱ '' | echoh None | echon ''')
+    return [
+          \ s:sep(),
+          \ s:char(char#display(chfo[0]['composed'])),
+          \ map(chfo,
+          \  {i, v -> [
+          \   s:sep(),
+          \   s:char(char#display(v['char'])),
+          \   s:code(v['code']),
+          \   s:none(' '),
+          \   s:name(v['name']),
+          \   ]
+          \ }),
+          \ s:sep(),
+          \]->flatten()->join(' | ')
+          " \ ]->flatten()->join(''' | echoh CISep | echon '' ╱ '' | echoh None | echon ''')
   endif
 endfunc 

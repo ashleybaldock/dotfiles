@@ -42,6 +42,7 @@ body {
   border: none;
   padding: 0;
   margin: 0;
+  background-color: var(--color-bg-base);
 }
 
 pre {

@@ -112,6 +112,5 @@ function! charinfo#formatForCommandWithColor(str = char#fromCursor()) abort
           \ }),
           \ s:sep(),
           \]->flatten()->join(' | ')
-          " \ ]->flatten()->join(''' | echoh CISep | echon '' ╱ '' | echoh None | echon ''')
   endif
 endfunc 

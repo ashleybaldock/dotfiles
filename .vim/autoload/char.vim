@@ -341,6 +341,14 @@ def char#normalised(arg: string): string
 enddef
 
 let g:mayhem_unicode_display_double = map(['◌⃝','◌⃞','◌⃤','◌⃟','◌⃘','◌͢','◌⃣','◌᷍','◌⃒'], {_,v -> char#debase(v)})
+
+"
+" Is character on the list of those that should be padded for display
+"
+function char#isdisplaydouble(char) abort
+  return get(g:, 'mayhem_unicode_display_double', [])->reduce({a,v -> a || char#contains(a:char, v)}, v:false)
+endfunc
+
 "
 " Format combining characters for display
 "
@@ -356,7 +364,8 @@ let g:mayhem_unicode_display_double = map(['◌⃝','◌⃞','◌⃤','◌⃟','
 "
 function char#display(str, base = char#combase()) abort
   let first = char#first(a:str)
-  return char#isbased(first) ? first : char#rebase(first, a:base)
+  let based = char#isbased(first) ? first : char#rebase(first, a:base)
+  return char#isdisplaydouble(based) ? based .. ' ︎' : based
 endfunc
 
 " return a:str->strcharpart(0, 1, 1)->strcharpart(1, 2, 0)->charclass()

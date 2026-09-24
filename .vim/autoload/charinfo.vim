@@ -5,9 +5,12 @@ let g:mayhem_autoloaded_charinfo = 1
 
 "
 " Related:
-"      ../plugin/charinfo.vim
-"      ../plugin/highlight.vim
-"              ./sfsymbols.vim
+"   $VIMHOME/autoload/char.vim
+"   $VIMHOME/autoload/unicode.vim
+"   $VIMHOME/autoload/sfsymbols.vim
+"
+"   $VIMHOME/plugin/charinfo.vim
+"   $VIMHOME/plugin/highlight.vim
 "
 
 
@@ -72,6 +75,11 @@ function! charinfo#formatForCommand(str = char#fromCursor()) abort
 endfunc 
 
 let s:sep = echo#memo('CISep', ' ╱ ')
+" let s:sep = echo#memo('CISep', ' ╱̶ ╱̵ ╱⃪ ╱̶⃒ ╱ ╱⃟ ╱⃘ ╱̥̥ ╱̻̻ ╱⃠ ╱̳̿ ╱⃞  ≗≜⊏⊐ ⊳  ＋️̷＋️̸＋️⃫ ＋️⃪ ＋️⃜＋⃜＋⃛ ＋️͢＋͢ +️̷+️̸  +️⃪ +⃪  +️⃔ +️⃕ +️⃗ +️⃜ +️⃛
+"       +️⃦ +️⃥ +️⃫
+"       =️⃦ =️⃥ =️⃫  =️⃪ =️⃓ =️͢ =͢ =️⃗ =⃗ =️ =️  
+"
+"       /̶ ╱̵ +̷ +̸ ┼̸ ┼️̸  ┼️⃫ /̊̊/̥̥ /⃟ /⃘⏥╱️ ⏢╲️⏤  ∧∨<>∀ ∠√∇∕√∕∠∙∘∗∟∠∖  ̀̀ ̀̀ ́́ ̀́ ́̀ ̇̇ ̍̍')
 let s:none = echo#with('None')
 let s:char = echo#with('None')
 let s:code = echo#with('Special')
@@ -105,6 +113,7 @@ function! charinfo#formatForCommandWithColor(str = char#fromCursor()) abort
           \  {i, v -> [
           \   s:sep(),
           \   s:char(char#display(v['char'])),
+          \   s:none(' '),
           \   s:code(v['code']),
           \   s:none(' '),
           \   s:name(v['name']),

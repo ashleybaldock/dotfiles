@@ -59,19 +59,19 @@ fieldset {
   gap: 0.4em;
   padding: 0.5em;
 }
-[id='s1']:checked ~ * dd {
+[id='fs1']:checked ~ * dd {
   font-size: var(--font-size-1);
 }
-[id='s2']:checked ~ * dd {
+[id='fs2']:checked ~ * dd {
   font-size: var(--font-size-2);
 }
-[id='s3']:checked ~ * dd {
+[id='fs3']:checked ~ * dd {
   font-size: var(--font-size-3);
 }
-[id='s4']:checked ~ * dd {
+[id='fs4']:checked ~ * dd {
   font-size: var(--font-size-4);
 }
-[id='s5']:checked ~ * dd {
+[id='fs5']:checked ~ * dd {
   font-size: var(--font-size-5);
 }
 
@@ -346,11 +346,11 @@ label.toggle::after {
 }
 [id='f1']:checked ~ * [for='f1']::before,
 [id='f2']:checked ~ * [for='f2']::before,
-[id='s1']:checked ~ * [for='s1']::before,
-[id='s2']:checked ~ * [for='s2']::before,
-[id='s3']:checked ~ * [for='s3']::before,
-[id='s4']:checked ~ * [for='s4']::before,
-[id='s5']:checked ~ * [for='s5']::before,
+[id='fs1']:checked ~ * [for='fs1']::before,
+[id='fs2']:checked ~ * [for='fs2']::before,
+[id='fs3']:checked ~ * [for='fs3']::before,
+[id='fs4']:checked ~ * [for='fs4']::before,
+[id='fs5']:checked ~ * [for='fs5']::before,
 [id='g1']:checked ~ * [for='g1']::before,
 [id='d1']:checked ~ * [for='d1']::before {
   background-color: #2e0000a6;
@@ -360,11 +360,11 @@ label.toggle::after {
 }
 [id='f1']:checked ~ * [for='f1'],
 [id='f2']:checked ~ * [for='f2'],
-[id='s1']:checked ~ * [for='s1'],
-[id='s2']:checked ~ * [for='s2'],
-[id='s3']:checked ~ * [for='s3'],
-[id='s4']:checked ~ * [for='s4'],
-[id='s5']:checked ~ * [for='s5'],
+[id='fs1']:checked ~ * [for='fs1'],
+[id='fs2']:checked ~ * [for='fs2'],
+[id='fs3']:checked ~ * [for='fs3'],
+[id='fs4']:checked ~ * [for='fs4'],
+[id='fs5']:checked ~ * [for='fs5'],
 [id='g1']:checked ~ * [for='g1'],
 [id='d1']:checked ~ * [for='d1'] {
   background-color: var(--color-radio-checked-bg);
@@ -481,4 +481,150 @@ label:has(> input[type='checkbox'], > input[type='radio'])::before {
   box-sizing: border-box;
   box-shadow: 0 0 0 1px #000;
   border-color: var(--bdc);
+}
+
+:root:has(#gs0:checked) {
+  --row-spacing: 0;
+}
+:not(#a) label input {
+  appearance: none;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+label :is(span, ol) {
+  padding: 0 max(round(2ch, 1px), 1px) 0 max(round(1ch, 1px), 1px);
+  min-width: max(round(3ch, 1px), 1px);
+  text-align: center;
+  --scale: 1;
+  transform: scale(var(--scale));
+  transition: transform 60ms ease;
+}
+label:hover :is(span, ol) {
+  transform: scale(calc(var(--scale) * 1.2));
+  transition: transform 300ms ease;
+}
+label:has(input:active) :is(span, ol) {
+  transform: scale(calc(var(--scale) * 1.14));
+  transition: transform 80ms cubic-bezier(0.33, 4, 0.66, 4);
+}
+label:has(input:checked:active) :is(span, ol) {
+  transform: scale(calc(var(--scale) * 1.1));
+  transition: transform 200ms cubic-bezier(0.33, 4, 0.66, 4);
+}
+
+label:has(#gs1, #gs3) :is(span) {
+  --scale: 1.2;
+}
+:root:has(#gs0:checked) {
+  --row-spacing: 0;
+}
+:root:has(#gs1:checked) {
+  --row-spacing: 0.5;
+}
+:root:has(#gs2:checked) {
+  --row-spacing: 1;
+}
+:root:has(#gs3:checked) {
+  --row-spacing: 1.5;
+}
+:root:has(#gs4:checked) {
+  --row-spacing: 2;
+}
+
+:root:has(#fs0:checked) {
+  --font-size: 1vw;
+}
+:root:has(#fs1:checked) {
+  --font-size: 16px;
+}
+:root:has(#fs2:checked) {
+  --font-size: 32px;
+}
+:root:has(#fs3:checked) {
+  --font-size: 64px;
+}
+:root:has(#fs4:checked) {
+  --font-size: 5vh;
+}
+:root:has(#fs5:checked) {
+  --font-size: clamp(16px, 5vmax, 4vmin);
+}
+
+label ol {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+label ol li {
+}
+label ol li:nth-of-type(n + 1)::before {
+  content: '❱❱';
+}
+/* label:has(#f0)::after { */
+/*   content: 'Menlo ❱❱ Blank'; */
+/* } */
+/* label:has(#f1)::after { */
+/*   content: 'Menlo ❱❱ LastResort ❱❱ Blank'; */
+/* } */
+:root:has(#f0:checked) {
+  --font-family: 'Menlo', 'AdobeBlank';
+}
+:root:has(#f1:checked) {
+  --font-family: 'Menlo', 'LastResort', 'AdobeBlank';
+}
+
+:not(#a) dl {
+  --px: 1px;
+  --base: max(round(var(--font-size), var(--px)), var(--px));
+  font-family: var(--font-family);
+  white-space: normal;
+  line-height: normal;
+  font-size: var(--base);
+}
+:not(#a) dd {
+  --base: inherit;
+  --grid-row-gap: var(--rowgap);
+  --grid-col-gap: var(--colgap);
+  --lh: 1lh;
+  --ch: 1ch;
+  --em: 1em;
+  --lhpx: max(round(var(--lh), var(--px)), var(--px));
+  --chpx: max(round(var(--ch), var(--px)), var(--px));
+  --empx: max(round(var(--em), var(--px)), var(--px));
+  --t-pad: var(--lhpx);
+  --l-pad: var(--chpx);
+  --colgap: var(--chpx);
+  --rowgap: max(round(var(--lh) - var(--em), var(--px)), var(--px));
+  position: relative;
+  display: grid;
+  grid-row-gap: var(--rowgap);
+  grid-column-gap: var(--colgap);
+  grid-auto-rows: var(--em);
+  grid-template-columns: repeat(auto-fit, var(--base));
+  margin: 0;
+  padding: var(--t-pad) var(--l-pad);
+  font-family: 'Menlo', 'AdobeBlank';
+  white-space: normal;
+  overflow-x: scroll;
+  overflow-y: visible;
+  width: auto;
+  line-height: var(--lh);
+}
+:not(#a) dd a {
+  white-space: break-spaces;
+  padding: 0;
+  background-color: #2e0202;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  display: grid;
+  width: fit-content;
+  aspect-ratio: 1;
+  font-size: var(--base);
+  height: var(--lh);
+  overflow-x: clip;
+  overflow-y: visible;
 }

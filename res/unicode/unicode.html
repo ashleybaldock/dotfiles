@@ -57,14 +57,23 @@
       </fieldset>
       <fieldset name="gf">
         <legend>Font</legend>
-        <div data-sink="f1">
+        <div data-sink>
           <label>
-            <input data-source type="radio" id="f1" name="gf" checked />
+            <ol>
+              <li>Menlo</li>
+              <li>Blank</li>
+            </ol>
+            <input data-source type="radio" id="f0" name="gf" checked />
           </label>
         </div>
-        <div data-sink="f2">
-          <label for="f2">
-            <input data-source type="radio" id="f2" name="gf" />
+        <div data-sink>
+          <label>
+            <ol>
+              <li>Menlo</li>
+              <li>LastResort</li>
+              <li>Blank</li>
+            </ol>
+            <input data-source type="radio" id="f1" name="gf" />
           </label>
         </div>
       </fieldset>
@@ -72,26 +81,32 @@
         <legend>Grid row spacing</legend>
         <div>
           <label>
-            <span>1vw</span>
-            <input type="radio" id="g0" name="gs" value="1vw" />
+            <span>0</span>
+            <input type="radio" id="gs0" name="gs" value="" />
           </label>
         </div>
         <div>
           <label>
-            <span>16px</span>
-            <input type="radio" id="g1" name="gs" value="16px" />
+            <span>¹⁄₂</span>
+            <input type="radio" id="gs1" name="gs" value="" />
           </label>
         </div>
         <div>
           <label>
-            <span>32px</span>
-            <input type="radio" id="g2" name="gs" value="32px" />
+            <span>1</span>
+            <input type="radio" id="gs2" name="gs" value="" />
           </label>
         </div>
         <div>
           <label>
-            <span>64px</span>
-            <input type="radio" id="g3" name="gs" value="64px" />
+            <span>³⁄₂</span>
+            <input type="radio" id="gs3" name="gs" value="" />
+          </label>
+        </div>
+        <div>
+          <label>
+            <span>2</span>
+            <input type="radio" id="gs4" name="gs" value="" />
           </label>
         </div>
       </fieldset>
@@ -100,13 +115,13 @@
         <div>
           <label>
             <span>1vw</span>
-            <input data-source type="radio" id="s0" name="fs" value="1vw" />
+            <input data-source type="radio" id="fs0" name="fs" value="" />
           </label>
         </div>
         <div>
           <label>
             <span>16px</span>
-            <input data-source type="radio" id="s1" name="fs" value="16px" />
+            <input data-source type="radio" id="fs1" name="fs" value="" />
           </label>
         </div>
         <div>
@@ -115,7 +130,7 @@
             <input
               data-source
               type="radio"
-              id="s2"
+              id="fs2"
               name="fs"
               value="32px"
               checked
@@ -125,19 +140,19 @@
         <div>
           <label>
             <span>64px</span>
-            <input data-source type="radio" id="s3" name="fs" value="64px" />
+            <input data-source type="radio" id="fs3" name="fs" value="" />
           </label>
         </div>
         <div>
           <label>
-            <span>96px</span>
-            <input data-source type="radio" id="s4" name="fs" value="96px" />
+            <span>5vh</span>
+            <input data-source type="radio" id="fs4" name="fs" value="" />
           </label>
         </div>
         <div>
           <label>
-            <span>128px</span>
-            <input data-source type="radio" id="s5" name="fs" value="128px" />
+            <span>auto</span>
+            <input data-source type="radio" id="fs5" name="fs" value="" />
           </label>
         </div>
       </fieldset>

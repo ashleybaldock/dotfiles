@@ -14,16 +14,22 @@ let g:mayhem.symbols_S.search = #{
       \ search: '􀊫',
       \ timeout: '􀖇',
       \ quote: '″️',
+      \ sep: '⋮',
+      \ gt: '>️',
       \}
 let g:mayhem.symbols_8.search = #{
       \ search: '/',
       \ timeout: '.',
       \ quote: '″️',
+      \ sep: '⋮',
+      \ gt: '>️',
       \}
 let g:mayhem.symbols_A.search = #{
       \ search: '',
       \ timeout: '',
       \ quote: '"',
+      \ sep: ':',
+      \ gt: '>',
       \}
 
 function! statusline#formatSearch(search = @/)
@@ -38,7 +44,7 @@ function! statusline#formatSearch(search = @/)
 endfunc
 
 function! statusline#updateSearch(...) abort
-  let r = searchcount(#{recompute: 0})
+  let r = searchcount(#{recompute: 1})
   if empty(r)
     let b:mayhem.sl_cache_search = format#CN('')
     return
@@ -47,38 +53,28 @@ function! statusline#updateSearch(...) abort
   let total = '-'
   let symbol = symbols#CN('search.search')
   let quote = symbols#CN('search.quote')
+  let summary = ''
 
   if r.incomplete ==# 1 " timed out
     let summary = [
       \'%#SlFPath⸮#', '𝚜𝚎𝚊𝚛𝚌𝚑 𝚝𝚒𝚖𝚎𝚍 𝚘𝚞𝚝', 
       \]
     let symbol = symbols#CN('search.timeout')
-  elseif r.incomplete ==# 2 " max count exceeded
-    if r.total > r.maxcount && r.current > r.maxcount
-      let current = printf('>%s', format#numbers(r.current))
-      let total = printf('>%s', format#numbers(r.total))
-    elseif r.total > r.maxcount
-      let total = printf('>%s', format#numbers(r.total))
-    endif
+  " elseif r.incomplete ==# 2 " max count exceeded
   else
-    if r.total == 0
-      let summary = [
-        \'%#SlFPath⸮#', ' 𝚗𝚘 𝚖𝚊𝚝𝚌𝚑𝚎𝚜 ', 
-        \]
-    else
-      if r.current == 0
-        let summary = [
-          \'%#SlSearch⸮#', format#numbers(r.total),
-          \'%#SlFPath⸮#', ' 𝚖𝚊𝚝𝚌𝚑𝚎𝚜 ', 
-          \]
-      else
-      endif
-    endif
-    let summary = [
-      \'%#SlSearch⸮#', format#numbers(r.current),
-      \'%#SlFPath⸮#', ' ℴ𝒻 ', 
-      \'%#SlSearch⸮#', format#numbers(r.total),
-      \]
+    let summary = flatten([
+          \ r.current == 0 ? [] : [
+          \  r.current > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt')] : [], 
+          \  '%#SlSearch⸮#', format#numbers(r.current),
+          \  '%#SlFPath⸮#', ' ℴ𝒻 ',
+          \ ],
+          \ r.total == 0 ? [
+          \  '%#SlFPath⸮#', '𝓃𝜊𝓉 𝒻𝜎𝓊𝓃𝒹',
+          \ ] : [
+          \  r.total > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt')] : [],
+          \  '%#SlSearch⸮#', format#numbers(r.total),
+          \ ],
+          \])
   endif
 
   let formattedSearch = statusline#formatSearch()
@@ -87,7 +83,7 @@ function! statusline#updateSearch(...) abort
       \'%#SlFPath⸮#', symbol, ' ', quote,
       \'%#SlSearch⸮#', formattedSearch,
       \'%#SlFPath⸮#', quote, ' ',
-      \'%#SlSearchSep⸮#','⁞',
+      \'%#SlSearchSep⸮#',symbols#CN('search.sep'),
       \'%#SlFPath⸮#', ' ',
       \ summary,
       \'%#SlFPath⸮#', ' ',

@@ -31,6 +31,12 @@ function! format#numbers(str, format = 'sans') abort
         \}, 'g')
 endfunc
 
+" \ script: [
+" \  'abcdefghijklmnopqrstuvwxyz',
+" \  '𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏',
+" \  '𝒶𝒷𝒸𝒹 𝒻 𝒽𝒾𝒿𝓀𝓁𝓂𝓃𝜎𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏',
+" \ ]
+
 let s:f_session = [[
       \'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
       \'𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉', '', ''], [

@@ -49,8 +49,6 @@ function! statusline#updateSearch(...) abort
     let b:mayhem.sl_cache_search = format#CN('')
     return
   endif
-  let current = '-'
-  let total = '-'
   let symbol = symbols#CN('search.search')
   let quote = symbols#CN('search.quote')
   let summary = ''
@@ -63,14 +61,20 @@ function! statusline#updateSearch(...) abort
   " elseif r.incomplete ==# 2 " max count exceeded
   else
     let summary = flatten([
-          \ r.current == 0 ? [] : [
-          \  r.current > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt')] : [], 
-          \  '%#SlSearch⸮#', format#numbers(r.current),
-          \  '%#SlFPath⸮#', ' ℴ𝒻 ',
-          \ ],
           \ r.total == 0 ? [
           \  '%#SlFPath⸮#', '𝓃𝜊𝓉 𝒻𝜎𝓊𝓃𝒹',
           \ ] : [
+          \  r.exact_match ? [
+          \   r.current > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt')] : [], 
+          \   '%#SlSearch⸮#', format#numbers(r.current),
+          \   '%#SlFPath⸮#', ' ℴ𝒻 ',
+          \  ] : [
+          \   r.current == 0 ? ['%#SlBetween⸮#', '|️',] : ['%#SlBetween⸮#', format#numbers(r.current)],
+          \    '%#SlSearch⸮#', '⋯',
+          \   r.current + 1 == r.total ? ['%#SlBetween⸮#', '|️',] : [ 
+          \    '%#SlBetween⸮#', format#numbers(r.current + 1)],
+          \    '%#SlFPath⸮#', ' ℴ𝒻 ',
+          \ ],
           \  r.total > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt')] : [],
           \  '%#SlSearch⸮#', format#numbers(r.total),
           \ ],

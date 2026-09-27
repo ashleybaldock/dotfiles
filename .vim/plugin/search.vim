@@ -6,11 +6,12 @@ let g:mayhem_loaded_search = 1
 " === Ack / Search ===
 "
 " Related:
-"       $VIMHOME/plugin/quickfix.vim
-"       $VIMHOME/after/ftplugin/qf.vim
-"       $VIMHOME/../.ignore
-"       $VIMHOME/../.gitignore
-"       $HOME/.agignore
+"   $VIMHOME/autoload/search.vim
+"   $VIMHOME/plugin/quickfix.vim
+"   $VIMHOME/after/ftplugin/qf.vim
+"   $VIMHOME/../.ignore
+"   $VIMHOME/../.gitignore
+"   $HOME/.agignore
 "
 
 
@@ -57,9 +58,28 @@ function MakeSubstitute(text, replacement, options = {})
 endfunc
 
 
-function s:AckEscaped(search) abort
+function s:AckEscaped(search, options = {}) abort
+  let g:mayhem_last_ack_query = a:search
+  let g:mayhem_last_ack_escaped = fnameescape(a:search)
+  let g:mayhem_last_ack_case = get(options, 'case', 0)
+  let g:mayhem_last_ack_root = get(options, 'root', 1)
+  let g:mayhem_last_ack_literal = get(options, 'literal', 1)
+
+  let g:mayhem_last_ack_dir = get(project#root(), 'path')
+
   " The ! avoids jumping to first result automatically
-  execute printf('Ack! -Q -- "%s"', fnameescape(a:search))
+  let g:mayhem_last_ack_cmd = ([
+        \ g:mayhem_last_ack_root ? 'CdProjectRoot' : '',
+        \ [
+        \  'Ack!',
+        \  g:mayhem_last_ack_literal ? '-Q' : '',
+        \  g:mayhem_last_ack_case ? '-s' : '',
+        \  '--',
+        \  '"' .. g:mayhem_last_ack_escaped .. '"',
+        \ ]->join(' '),
+        \])->join(' | ')
+
+  exec g:mayhem_last_ack_cmd
 endfunc
 
 function s:AckClipboard() abort
@@ -78,7 +98,7 @@ function! s:AckInput() abort
   call inputsave()
   let search = input("Ack! ")
   call inputrestore()
-  call s:AckEscaped(search)
+  call s:AckEscaped(search, #{literal: 1, case: 0, root: 1})
 endfunc
 
 function s:AckVisual() range abort
@@ -89,13 +109,18 @@ function s:AckArgs(args) abort
   " TODO
 endfunc
 
-command! AckInput exec <SID>AckInput()
-command! AckClipboard exec <SID>AckClipboard()
-command! AckCurrentWord exec <SID>AckCurrentWord()
+function s:AckArg(search) abort
+  call s:AckEscaped(a:search, #{literal: 1, case: 0, root: 1})
+endfunc
+
+command! -nargs=1 AckCmd call <SID>AckArg(<q-args>)
+command! AckInput call <SID>AckInput()
+command! AckClipboard call <SID>AckClipboard()
+command! AckCurrentWord call <SID>AckCurrentWord()
 command! AckLastSearch AckFromSearch
 
 command! -range AckVisual <line1>,<line2>call <SID>AckVisual()
-command! -nargs=1 AckArgs exec <SID>AckArgs(<q-args>)
+command! -nargs=1 AckArgs call <SID>AckArgs(<q-args>)
 
 
 call autocmd_add([

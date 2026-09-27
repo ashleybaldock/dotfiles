@@ -494,7 +494,7 @@ function s:SetStatusVars() abort
   let b:mayhem.sl_normC = get(b:mayhem, 'sl_normC', '')
   let b:mayhem.sl_normN = get(b:mayhem, 'sl_normN', '')
 
-  let b:mayhem.f_projroot = get(ProjectRoot(), 'path')
+  let b:mayhem.f_projroot = project#root()->get('path')
   let b:mayhem.projname = fnamemodify(b:mayhem.f_projroot,':p:h:t')
   let b:mayhem.f_tail = expand('%:t')
   let b:mayhem.f_head = expand('%:p:h')

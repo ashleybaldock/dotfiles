@@ -1,11 +1,11 @@
-if exists("g:mayhem_loaded_project_root")
+if exists("g:mayhem_loaded_project")
   finish
 endif
-let g:mayhem_loaded_project_root = 1
+let g:mayhem_loaded_project = 1
 
 "
 " Related:
-"   $VIMHOME/autoload/search.vim
+"   $VIMHOME/autoload/project.vim
 "
 
 command! -bar HasProjectRoot echo project#root()->get('isProject')

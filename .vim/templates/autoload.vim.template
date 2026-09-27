@@ -4,9 +4,10 @@ endif
 let g:mayhem_autoloaded_%FILE:LC% = 1
 
 "
-" See: ../plugin/%FILE%.vim
+" Related:
+"   $VIMHOME/plugin/%FILE%.vim
 "
 
 function! %FILE:LC%#myNewFunction(...) abort
 
-endfunction
+endfunc

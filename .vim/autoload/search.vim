@@ -3,8 +3,15 @@ if exists("g:mayhem_autoloaded_search") || &cp
 endif
 let g:mayhem_autoloaded_search = 1
 
+" === Ack / Search ===
 "
-" See: ../plugin/search.vim
+" Related:
+"   $VIMHOME/plugin/search.vim
+"   $VIMHOME/plugin/quickfix.vim
+"   $VIMHOME/after/ftplugin/qf.vim
+"   $VIMHOME/../.ignore
+"   $VIMHOME/../.gitignore
+"   $HOME/.agignore
 "
 
 let s:countupdate_timer = 0
@@ -35,3 +42,4 @@ function! search#expandLastSubstitute() abort
   endif
   return ''
 endfunc
+

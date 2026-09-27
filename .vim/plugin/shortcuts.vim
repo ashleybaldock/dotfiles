@@ -670,16 +670,21 @@ nnoremap            §c :nohlsearch<CR>
 nnoremap <silent> <CR> :nohlsearch<CR><CR>
 
 " ▌️ :ag ▐️────▷ Command line abbreviation
-cnoreabbrev ag :CdProjectRoot <bar> AckInput<CR>
+cnoreabbrev ag AckCmd
 
-" Searching
-" cnoreabbrev ag :CdProjectRoot <bar> Ack! -Q --
+" akin to q: q/ and q?
+nnoremap q@ :call input('')<CR>
+nnoremap q= "=
+nnoremap q- :insert<CR>
+
 " nnoremap <Leader>a :Ack!<Space>
 " <C-r><C-w> - gets word under cursor
 " <C-r>/     - gets last search string
 " nnoremap <Leader>' :CdProjectRoot <bar> Ack! <C-r><C-w><CR>
 " nnoremap <Leader>" :CdProjectRoot <bar> Ack! <C-r>/<CR>
 
+
+"
 "  Current Buffer:
 "
 "  Word Under Cursor:
@@ -724,9 +729,9 @@ nnoremap <Leader>" :CdProjectRoot <bar> AckLastSearch<CR>
 "
 " Visual:
 " ▌️ 􀆕 3 ▐️────▷ Seach for visual selection
-xnoremap # y<ESC>:CdProjectRoot <bar> AckClipboard<CR>
+xnoremap # y<ESC>:CdProjectRoot <bar> AckVisual<CR>
 " ▌️ 􀆕 8 ▐️────▷ Seach for visual selection
-xnoremap • y<ESC>:CdProjectRoot <bar> AckClipboard<CR>
+xnoremap • y<ESC>:CdProjectRoot <bar> AckVisual<CR>
 "
 "
 " vnoremap <silent> <Leader>* :<C-U>

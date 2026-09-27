@@ -16,6 +16,7 @@ let g:mayhem.symbols_S.search = #{
       \ quote: '″️',
       \ sep: '⋮',
       \ gt: '>️',
+      \ between: '⋯',
       \}
 let g:mayhem.symbols_8.search = #{
       \ search: '/',
@@ -23,6 +24,7 @@ let g:mayhem.symbols_8.search = #{
       \ quote: '″️',
       \ sep: '⋮',
       \ gt: '>️',
+      \ between: '⋯',
       \}
 let g:mayhem.symbols_A.search = #{
       \ search: '',
@@ -30,6 +32,7 @@ let g:mayhem.symbols_A.search = #{
       \ quote: '"',
       \ sep: ':',
       \ gt: '>',
+      \ between: '-',
       \}
 
 function! statusline#formatSearch(search = @/)
@@ -65,17 +68,20 @@ function! statusline#updateSearch(...) abort
           \  '%#SlFPath⸮#', '𝓃𝜊𝓉 𝒻𝜎𝓊𝓃𝒹',
           \ ] : [
           \  r.exact_match ? [
-          \   r.current > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt')] : [], 
+          \   r.current > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt'),] : [], 
           \   '%#SlSearch⸮#', format#numbers(r.current),
           \   '%#SlFPath⸮#', ' ℴ𝒻 ',
           \  ] : [
-          \   r.current == 0 ? ['%#SlBetween⸮#', '|️',] : ['%#SlBetween⸮#', format#numbers(r.current)],
-          \    '%#SlSearch⸮#', '⋯',
-          \   r.current + 1 == r.total ? ['%#SlBetween⸮#', '|️',] : [ 
-          \    '%#SlBetween⸮#', format#numbers(r.current + 1)],
-          \    '%#SlFPath⸮#', ' ℴ𝒻 ',
+          \   r.current == 0 ? [] : [
+          \    '%#SlBetween⸮#', format#numbers(r.current),
+          \   ],
+          \    '%#SlSearch⸮#', symbols#CN('search.between'),
+          \   r.current + 1 == r.total ? [] : [ 
+          \    '%#SlBetween⸮#', format#numbers(r.current + 1),
+          \   ],
+          \   '%#SlFPath⸮#', ' ℴ𝒻 ',
           \ ],
-          \  r.total > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt')] : [],
+          \  r.total > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt'),] : [],
           \  '%#SlSearch⸮#', format#numbers(r.total),
           \ ],
           \])
@@ -89,7 +95,7 @@ function! statusline#updateSearch(...) abort
       \'%#SlFPath⸮#', quote, ' ',
       \'%#SlSearchSep⸮#',symbols#CN('search.sep'),
       \'%#SlFPath⸮#', ' ',
-      \ summary,
+      \'%-20(',  summary, '%)',
       \'%#SlFPath⸮#', ' ',
       \'%*'
       \])

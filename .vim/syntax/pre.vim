@@ -110,6 +110,8 @@ syn match preAsciiArrows /<-\+>\?/ display contains=NONE
 
 syn match preNewline /[⏎↩]/ display contains=NONE
 
+syn match preMidline /⎯︎/ display contains=NONE
+
 hi def preBox       guifg=#ffccff
 hi def preBigSquare guifg=#ffbbbb
 hi def preBigCurly  guifg=#00ff88
@@ -123,6 +125,7 @@ hi def preYes       guifg=#00ff00
 hi def preMaybe     guifg=#ffaa00
 hi def preNo        guifg=#ff0000
 hi def preNewline   guifg=#ff00ff
+hi def preMidline   guifg=#444444
 
 hi def preEqVar     guifg=#f56cff
 

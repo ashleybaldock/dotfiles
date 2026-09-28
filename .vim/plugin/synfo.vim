@@ -552,9 +552,10 @@ function s:SynFoPopupFilter(winid, key) abort
 endfunc
 
 function s:SynFo() abort
-  if get(w:, 'mayhem_synfo_winid', 0)
-        \->popup_getpos()
-        \->empty()
+  if !get(w:, 'mayhem_synfo_enabled')
+    return
+  endif
+  if get(w:, 'mayhem_synfo_winid', 0)->popup_getpos()->empty()
     let w:mayhem_synfo_winid = popup_create('', #{
           \ pos: 'topleft',
           \ line: 'cursor+2',
@@ -567,11 +568,16 @@ function s:SynFo() abort
           \ highlight: 'HlPop01Bg',
           \ borderhighlight: ['HlPop01T','HlPop01R','HlPop01B','HlPop01L'],
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'],
-          \ moved: 'any',
+          \ moved: [0, 0, 0],
           \ filter: 's:SynFoPopupFilter',
           \ filtermode: 'n',
           \ title: ' ★️ '
           \})
+    call autocmd_add([#{
+        \ event: 'CursorMoved', pattern: '*',
+        \ cmd: 'call s:UpdateSynFoBuffer(w:mayhem_synfo_winid)',
+        \ group: 'mayhem_synfo_cursormoved', replace: v:true,
+        \}])
   else
     call popup_move(w:mayhem_synfo_winid, #{
           \ pos: 'topleft',
@@ -598,20 +604,23 @@ function! s:SynFoClose(winnr = winnr()) abort
   call getwinvar(a:winnr, 'mayhem_synfo_winid', 0)
         \->popup_close()
         \->setwinvar(a:winnr, 'mayhem_synfo_winid')
+  call autocmd_delete([#{
+      \ group: 'mayhem_synfo_cursormoved',
+      \}])
 endfunc
 
 function! s:SynFoSetup() abort
   if exists(w:mayhem_synfo_enabled)
-  call autocmd_add([#{
+    call autocmd_add([#{
         \ event: 'CursorHold', pattern: '*',
         \ cmd: 'if w:mayhem_synfo_enabled == 1 | call s:SynFo() | else | call s:SynFoClose() | endif',
-        \ group: 'mayhem_synfo', replace: v:true,
+        \ group: 'mayhem_synfo_setup', replace: v:true,
         \}])
   endif
 endfunc
 
-function! s:SynFoDisableInWindow(winid = win_getid()) abort
-  call setwinvar(winnr(a:winid), 'mayhem_synfo_enabled', 0)
+function! s:SynFoDisableInWindow(winnr = winnr()) abort
+  call setwinvar(a:winnr, 'mayhem_synfo_enabled', 0)
   call s:SynFoSetup()
 endfunc
 
@@ -622,19 +631,15 @@ function! s:SynFoDisableInAll() abort
   call s:SynFoSetup()
 endfunc
 
-function! s:SynFoEnableInWindow(winid = win_getid()) abort
-  call setwinvar(winnr(a:winid), 'mayhem_synfo_enabled', 0)
+function! s:SynFoEnableInWindow(winnr = winnr()) abort
+  call setwinvar(a:winnr, 'mayhem_synfo_enabled', 0)
   call s:SynFoSetup()
 endfunc
 
-function! s:SynFoToggleInWindow(winid = win_getid()) abort
-  call setwinvar(winnr(a:winid), 'mayhem_synfo_enabled',
-        \ !getwinvar(winnr(a:winid), 'mayhem_synfo_enabled', 0))
+function! s:SynFoToggleInWindow(winnr = winnr()) abort
+  call setwinvar(a:winnr, 'mayhem_synfo_enabled',
+        \ !getwinvar(a:winnr, 'mayhem_synfo_enabled', 0))
   call s:SynFoSetup()
-endfunc
-
-function! s:SynFoToggleInWindow(winid = win_getid()) abort
-  return getwinvar(winnr(a:winid), 'mayhem_synfo_enabled', 0)
 endfunc
 
 command! -nargs=? SynFoStatus call <SID> SynFoStatus(<f-args>)

@@ -1,11 +1,21 @@
-/*  */
-/* Mon Jul 06 2026 04:31:12 GMT+0100 (British Summer Time) */
-
-/*  */
-/* Mon Jul 06 2026 03:56:17 GMT+0100 (British Summer Time) */
-
-/*  */
-/* Mon Jul 06 2026 02:47:40 GMT+0100 (British Summer Time) */
+:root {
+  --anchor-inset-s: anchor(bottom) auto auto auto;
+  --anchor-inset-ssw: anchor(bottom) anchor(center) auto auto;
+  --anchor-inset-sw: anchor(bottom) anchor(left) auto auto;
+  --anchor-inset-wsw: anchor(center) anchor(left) auto auto;
+  --anchor-inset-w: auto anchor(left) auto auto;
+  --anchor-inset-wnw: auto anchor(left) anchor(center) auto;
+  --anchor-inset-nw: auto anchor(left) anchor(top) auto;
+  --anchor-inset-nnw: auto anchor(center) anchor(top) auto;
+  --anchor-inset-n: auto auto anchor(top) auto;
+  --anchor-inset-nne: auto auto anchor(top) anchor(center);
+  --anchor-inset-ne: auto auto anchor(top) anchor(right);
+  --anchor-inset-ene: auto auto anchor(center) anchor(right);
+  --anchor-inset-e: auto auto auto anchor(right);
+  --anchor-inset-ese: anchor(center) auto auto anchor(right);
+  --anchor-inset-se: anchor(bottom) auto auto anchor(right);
+  --anchor-inset-sse: anchor(bottom) auto auto anchor(center);
+}
 
 :where(table) {
   --playback-status-played: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22\
@@ -1132,11 +1142,14 @@ body > section:has(> video, > .vidwrap) {
   outline-offset: 0;
   grid-column: auto;
 
-  border: 0.5px solid #0000;
   grid-column-end: span var(--span);
   --span: calc(var(--n-children, 1) + var(--span-extra, 1));
   grid-template-columns: repeat(calc(var(--n-children, 0) + 1), 1fr);
+  border: none;
   border-radius: 1ch;
+  padding: 0;
+  margin: auto;
+  gap: 0.5ch;
 }
 
 .grouping:has(> :nth-child(odd):nth-last-child(-n + 1)) {
@@ -1167,8 +1180,12 @@ body > section:has(> video, > .vidwrap) {
     #4442
   );
   background-color: #000;
-  border: 0.5px solid #2224;
+  border: none;
   border-radius: 1ch;
+  background: #00000006;
+  box-shadow:
+    inset 1px 1px 1px -0.5px #ccc5,
+    inset -1px -1px 2px -0.5px #000a;
 }
 
 .grouping > .grouping {
@@ -1207,19 +1224,22 @@ body > section:has(> video, > .vidwrap) {
   align-items: center;
   justify-content: start;
   display: grid;
-  border: 0.5px solid #4440;
-  padding: 0;
   top: 60vh;
   place-self: center;
   place-content: center;
   place-items: center;
   width: fit-content;
   inset: var(--inset-options);
-  margin: var(--margin-options);
   z-index: var(--z-options);
   grid-row: options;
   height: 100%;
+  border: 0;
+  border-radius: 1ch;
+  padding: 0;
+  margin: auto;
+  gap: 0.5ch;
 }
+
 .toggle:hover {
   background-image: radial-gradient(
     farthest-corner circle at top left,
@@ -1229,10 +1249,10 @@ body > section:has(> video, > .vidwrap) {
   );
   border-radius: 25%;
   border: none;
-  background-color: #0000;
+  background: #00000006;
   box-shadow:
-    inset 1px 1px 1px -0.5px #ccca,
-    inset -1px -1px 2px -0.5px #000b;
+    inset 1px 1px 1px -0.5px #ccc5,
+    inset -1px -1px 2px -0.5px #000a;
 }
 .toggle > * {
   height: auto;
@@ -1332,21 +1352,6 @@ body > section:has(> video, > .vidwrap) {
 .toggle label span {
   display: none;
 }
-:root:hover .grouping,
-:root:has(#toggle_playpause_paused:checked) .grouping,
-.grouping:hover,
-.toggle:hover {
-  background: #00000006;
-  border: none;
-  box-shadow:
-    inset 1px 1px 1px -0.5px #ccc5,
-    inset -1px -1px 2px -0.5px #000a;
-  border-radius: 1ch;
-  padding: 0;
-  margin: auto;
-  gap: 0.5ch;
-}
-
 .toggle:not(:has(button)) label::before {
   mask-image: var(--icon-composite);
 }
@@ -1482,7 +1487,6 @@ body > section:has(> video, > .vidwrap) {
   justify-content: center;
   /*   font-size: calc(50cqh / 1ch); */
   place-self: center;
-  content: attr(data-value) attr(data-value-suffix, var(--s-value-suffix, ''));
   content: '';
 }
 
@@ -1862,7 +1866,178 @@ h1,
   /*   grid-area: 1/1/1/1; */
 }
 
+.prefix::before {
+  content: '';
+}
+
+.sequence.toggle {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  anchor-scope:
+    --anchor-sequence-toggle-current, --anchor-sequence-toggle-next,
+    --anchor-sequence-toggle-prev, --anchor-sequence-toggle-final,
+    --anchor-sequence-toggle-last;
+}
+
+.sequence.toggle::before {
+  inset: auto auto -90%auto;
+  position: relative;
+  grid-column: 1/-1;
+  grid-row: 1/-1;
+}
+
 .sequence.toggle .tip {
-  /* inset: auto auto 300% auto; */
-  inset: auto auto 10vw auto;
+  inset: auto -200% 300%auto;
+  position: absolute;
+  opacity: 1;
+}
+.sequence.toggle .tip:hover {
+  opacity: 1;
+}
+
+.sequence.toggle label {
+  background: linear-gradient(135deg, #000a 30%, #f11c 150%);
+  border: 1px solid #000;
+  grid-template-rows: 100fr 100fr 100fr;
+}
+
+.toggle:not(:has(button)) label::before {
+  --icon: var(--mask-none);
+}
+
+.sequence.toggle label > :is(.value, .prefix, .suffix) {
+  aspect-ratio: unset;
+  grid-column: 1/-1;
+  grid-row: 1/-1;
+  color: #0000;
+  background-image:
+    linear-gradient(#fff, #888),
+    radial-gradient(
+      farthest-corner circle at -40% -60%,
+      #fff 70%,
+      #a8a 80%,
+      #fff 92%
+    );
+  background-clip: text;
+  background-blend-mode: darken;
+  mix-blend-mode: difference;
+  filter: drop-shadow(0.2ch 0 0#000) drop-shadow(0 0.08em 0#000);
+}
+
+.sequence.toggle label {
+  aspect-ratio: 1;
+}
+
+.sequence.toggle label > .value {
+  font-weight: 400;
+  font-size: clamp(10px, 2vh, 1.2em);
+}
+
+.sequence.toggle label > .prefix {
+  font-size: 0.6em;
+  z-index: 10;
+}
+
+.sequence.toggle label > .suffix {
+  font-size: 0.74em;
+  line-height: 0.84;
+  z-index: 10;
+}
+
+.sequence.toggle label:has(:checked) + label,
+.sequence.toggle label:has(:checked) ~ label {
+  anchor-name: --anchor-sequence-toggle-next;
+  position-anchor: --anchor-sequence-toggle-next;
+  inset: var(--anchor-inset-ne);
+  outline: 3px double #0008;
+  outline-offset: -1px;
+  box-shadow: 0.25px 0.25px 0 1.75px #a088;
+}
+
+.sequence.toggle label:has(:checked) + label {
+  position-anchor: --anchor-sequence-toggle-current;
+  box-shadow:
+    0.25px 0.25px 0 1.75px #a808,
+    inset 0.5px 0.5px 0.5px 0#f00d;
+}
+
+.sequence.toggle label:has(+ label :checked),
+.sequence.toggle label:has(~ label :checked) {
+  anchor-name: --anchor-sequence-toggle-prev;
+  position-anchor: --anchor-sequence-toggle-prev;
+  inset: var(--anchor-inset-sw);
+  outline: 3px double #0008;
+  outline-offset: -1px;
+  box-shadow: 0.25px 0.25px 0 1.75px #08a8;
+}
+
+.sequence.toggle label:has(+ label :checked) {
+  position-anchor: --anchor-sequence-toggle-current;
+  box-shadow:
+    0.25px 0.25px 0 1.75px #08a8,
+    inset 0.5px 0.5px 0.5px 0#f00d;
+}
+
+.sequence.toggle label:has(:checked) {
+  position-anchor: --anchor-sequence-toggle;
+  anchor-name: --anchor-sequence-toggle-current;
+  inset: anchor(center);
+  background: linear-gradient(135deg, #000a 30%, #81fc 150%);
+  border: 1px solid #000;
+  outline: 3px double #0008;
+  outline-offset: -1px;
+  box-shadow: 0.25px 0.25px 0 1.75px #a0ad;
+}
+
+.sequence.toggle :is(label:last-of-type) {
+  position-anchor: --anchor-sequence-toggle-next;
+  anchor-name: --anchor-sequence-toggle-final;
+  inset: var(--anchor-inset-sw);
+  anchor-scope: --anchor-sequence-toggle-final;
+}
+.sequence.toggle label:first-of-type:checked:has(~ label) {
+}
+.sequence.toggle label:first-of-type:checked ~ label {
+  position-anchor: --anchor-sequence-toggle-wrap;
+  anchor-name: --anchor-sequence-toggle-wrap;
+  inset: var(--anchor-inset-ne);
+}
+.sequence.toggle label:first-of-type:checked + label {
+  position-anchor: --anchor-sequence-toggle-final;
+  anchor-name: --anchor-sequence-toggle-wrap;
+  inset: var(--anchor-inset-ne);
+}
+
+.sequence.toggle label:first-of-type:has(~ label:last-of-type :checked) {
+}
+
+.sequence.toggle :is(label:first-of-type) {
+  position-anchor: --anchor-sequence-toggle-final !important;
+  anchor-name: --anchor-sequence-toggle-next !important;
+  inset: var(--anchor-inset-sw);
+
+  .sequence.toggle label:has(:checked)::before {
+    z-index: 1000000;
+    z-index: -1;
+  }
+
+  .toggle:not(:has(button)) label::before {
+    /* --icon: var(--mask-none); */
+  }
+
+  :root:has(#toggle_debug:checked) .sequence.toggle label::before {
+    background-color: #0000;
+    z-index: 0;
+  }
+}
+.toggle:hover label,
+.sequence.toggle:hover label,
+.toggle label:hover {
+  opacity: 1;
+  transition-delay: 0s;
+}
+.toggle:not(:hover) label,
+.sequence.toggle:not(:hover) label,
+.toggle label:not(:hover) {
+  transition-delay: 1s;
 }

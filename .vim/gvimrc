@@ -469,8 +469,8 @@ exec 'an' '<silent>' '10.327.240' '&File.Related.Runtime\ Autoload'   '<Nop>'
 
 
 exec 'an' '<silent>' '10.326.112' '&File.Move\ File\ To\ New\ Tab'    ':wincmd T'
-exec 'an' '<silent>' '10.326.110' '&File.Move\ File\ To\ New\ Window' '<Nop>'
-exec 'an' '<silent>' '10.326.210' '&File.Move\ Tab\ To\ New\ Window'  '<Nop>'
+exec 'an' '<silent>' '10.326.110' '&File.Move\ File\ To\ New\ Window' ':call mayhem#bufferToNewWindow()'
+exec 'an' '<silent>' '10.326.210' '&File.Move\ Tab\ To\ New\ Window'  ':call mayhem#tabToNewWindow()'
 exec 'macm' '&File.Move\ File\ To\ New\ Tab' 'alt=YES' 'key=<D-r>'
 exec 'macm' '&File.Move\ File\ To\ New\ Window' 'alt=YES' 'key=<D-R>'
 exec 'macm' '&File.Move\ Tab\ To\ New\ Window' 'alt=YES' 'key=<D-M-r>'

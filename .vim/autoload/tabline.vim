@@ -128,17 +128,20 @@ endfunc
 function! tabline#gen_tip_cache() abort
   for i in range(1, tabpagenr('$'))
     call settabvar(i, 'mayhem_cache_guitabtooltip', [
-         \ printf("\\ %s / 𝔬𝔣 / %s /	􀢌 ×%d %%= %%{%%tabline#DiagTip()%%}",
-        \ format#numbers(string(i), 'sans'),
-        \ format#numbers(tabpagenr('$')->string(), 'sans'),
-        \ tabpagewinnr(i, '$'),
-        \),
-        \printf("%s%%<",
-        \ tabpagebuflist(i)
-        \  ->map({j, bufnr -> getbufvar(bufnr, 'mayhem_tl_cached_filename')})
-        \  ->join("\n")
-        \),
-        \]->join("\n"))
+          \ [
+          \ '\ ',
+          \ format#numbers(string(i), 'sans'),
+          \ ' / 𝔬𝔣 / ',
+          \ format#numbers(tabpagenr('$')->string(), 'sans'),
+          \ ' /	􀢌 ×',
+          \ tabpagewinnr(i, '$'),
+          \ ' %= %{%tabline#DiagTip()%}',
+          \ ]->join(''),
+          \ tabpagebuflist(i)
+          \  ->map({j, bufnr -> getbufvar(bufnr, 'mayhem_tl_cached_filename')})
+          \  ->join("\n"),
+          \ '%<',
+          \]->join("\n"))
   endfor
 endfunc
 function! tabline#cached_tip() abort

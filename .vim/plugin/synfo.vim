@@ -594,11 +594,10 @@ command! -bar SynFo call <SID>SynFo()
 
 command! SynFoBuf vsp|enew|call <SID>UpdateSynFoBuffer(winnr())
 
-function! s:SynFoClose(winid = win_getid()) abort
-  let popid = winnr(a:winid)->getwinvar('mayhem_synfo_winid', 0)
-  if popid > 0 && !empty(popup_getpos(popid))
-    call popup_close(popid)
-  endif
+function! s:SynFoClose(winnr = winnr()) abort
+  call getwinvar(a:winnr, 'mayhem_synfo_winid', 0)
+        \->popup_close()
+        \->setwinvar(a:winnr, 'mayhem_synfo_winid')
 endfunc
 
 function! s:SynFoSetup() abort

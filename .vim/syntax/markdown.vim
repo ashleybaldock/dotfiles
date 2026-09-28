@@ -87,7 +87,7 @@ syn match mdValid '&\%(#\=\w*;\)\@!' transparent contains=NONE
 
 syn match mdLineStart "^[<@]\@!" nextgroup=@mdBlock,htmlSpecialChar
 
-syn cluster mdBlock contains=mdH1,mdH2,mdH3,mdH4,mdH5,mdH6,mdBlockQuote,mdListMarker,mdOrderedListMarker,mdCodeBlock,mdRule,mdPara
+syn cluster mdBlock contains=mdH1,mdH2,mdH3,mdH4,mdH5,mdH6,mdBlockQuote,mdListItem,mdCodeBlock,mdRule,mdPara
 syn cluster mdInline contains=mdLineBreak,mdLinkText,mdItalic,mdBold,mdCode,mdEscape,@htmlTop,mdError,mdValid
 
 syn region mdPara contained keepend
@@ -173,9 +173,12 @@ syn region mdHtmlComment concealends
       \ containedin=mdPara,@mdInline
 
 
-syn match mdListMarker contained "\%(\t\| \{0,4\}\)[-*+]\%(\s\+\S\)\@="
-syn match mdOrderedListMarker contained "\%(\t\| \{0,4}\)\<\d\+\.\%(\s\+\S\)\@="
-
+syn match mdListItem "^\%(\t\| \{,4\}\)\(\d\+\.\|[-*+]\)\s\+\S.*$"
+      \ contained contains=mdListMarker,mdOrderedListMarker transparent
+syn match mdListMarker "\%(\t\| \{,4\}\)\@4<=[-*+]\%(\s\+\S\)\@="
+      \ contained contains=NONE conceal cchar=•
+syn match mdOrderedListMarker "\%(\t\| \{,4}\)\@4<=\d\+\."
+      \ contained contains=NONE
 
 syn match mdHozRule /^\%(---\|\*\*\*\|___\)$/ contains=NONE conceal cchar=⸻
 " Escaped hozRule

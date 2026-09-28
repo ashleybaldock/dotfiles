@@ -27,33 +27,43 @@ syn keyword ColExprKeyword contained transparent tab escape backspace ident keyw
 
 " A pattern is one or more branches, separated by "\|"
 syn match PatternStart contained /\ze/ contains=NONE
-      \ nextgroup=BoP,Branch
+      \ nextgroup=BoP,Branch transparent
 syn match BoP contained /^/ contains=NONE
       \ nextgroup=Branch
-syn match PatternEnd contained /\ze/ contains=NONE
+syn match PatternEnd contained /\ze/ contains=NONE transparent
 
 " A branch is one or more concats, separated by "\&"
 syn match Branch contained /\ze/ contains=NONE
-      \ nextgroup=Concat
+      \ nextgroup=Concat transparent
 syn match OR contained /\\|/ contains=MatchOr
-      \ nextgroup=Branch
+      \ nextgroup=Branch,PatternEnd
 syn match AND contained /\\&/ contains=MatchAnd
-      \ nextgroup=Concat
+      \ nextgroup=Concat,PatternEnd
 " A concat is one or more pieces, concatenated
 syn match Concat contained /\ze/ contains=NONE
       \ nextgroup=OR,AND,Piece
 " A piece is an atom, possibly followed by a multi
 syn match Piece contained /\ze/ contains=NONE
       \ nextgroup=Atom
-syn match Atom contained // contains=@Atoms
-      \ nextgroup=@Multi,Piece
+syn match Atom contained /\ze/ contains=NONE
+      \ nextgroup=@Atoms
+syn match Multi contained /\ze/ contains=@Multi
+      \ nextgroup=Piece
 
 syn region BareRegex keepend transparent
-      \ matchgroup=REDelim start=+^\s*[/?]*+
-      \ skip=+$\s*\\+
-      \ matchgroup=REDelim end=+/\?$+
-      \ contains=MatchOr,MatchAnd,
+      \ start=/^\s*/
+      \ end=/$/
+      \ contains=ReDelim,MatchOr,MatchAnd,
       \@Atoms,@Looks,SynUnknown,SynErr,@Multis,@Groups
+syn match ReDelim +^\%(\s*\)\@<=/+ contained contains=NONE
+syn match ReDelim +/\s*$+ contained contains=NONE
+
+      " \ skip=+$\s*\\+
+" syn region BareRegex keepend transparent
+"       \ matchgroup=REDelim start=+^\s*/+
+"       \ matchgroup=REDelim end=+/\?$+
+"       \ contains=MatchOr,MatchAnd,
+"       \@Atoms,@Looks,SynUnknown,SynErr,@Multis,@Groups
 
 "{{{1 :substitute
 syn region Substitute keepend transparent
@@ -70,11 +80,11 @@ syn match SubstCmd contained /s\%[ubstitute]\ze[/|+!@£$%^&:]/ contains=NONE
 syn region SubstPattern contained keepend oneline
       \ matchgroup=SubstDelim start=+\\\@1<!\z([/|+!@£$%^&:]\)+
       \ skip=+\\\%(_[$^]\|\z1\)+
-      \ end=+\z1+
+      \ matchgroup=SubstDelim end=+\z1+
       \ contains=@Atoms,@Looks,SynUnknown,SynErr,@Multis,@Groups,MatchOr
       \ nextgroup=SubstReplace
 syn region SubstReplace contained keepend oneline
-      \ start=+\%([^\\]\z([/|+!@£$%^&:]\)\)\@2<=+
+      \ matchgroup=SubstDelim start=+\%([^\\]\z([/|+!@£$%^&:]\)\)\@2<=+
       \ skip=+\\\z1+
       \ matchgroup=SubstDelim end=+\z1+
       \ contains=BackRef
@@ -202,7 +212,7 @@ syn cluster Flags contains=Engine,Magic,NoMagic,VeryMagic,VeryNoMagic,CaseMatch,
 syn cluster Bounds contains=
       \Boundary,BoL,EoL,BoF,EoF,BEoW,SoM,EoM,
       \BdVis,BdCur,BdMark,BdLine,BdCol,BdVCol
-syn cluster Atoms contains=@Bounds,@Flags,Atom,LastSub,WildCompose,Wildcard,
+syn cluster Atoms contains=@Bounds,@Flags,LastSub,WildCompose,Wildcard,
       \Literal,CharClass,NCharClass,Collection,NCollection,BackRef,
       \Decimal,Hex,Octal,Uni,UniUni
 syn cluster Multis contains=Greedy,Lazy

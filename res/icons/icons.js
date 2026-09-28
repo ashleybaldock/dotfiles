@@ -200,25 +200,6 @@ const notifyCopyFailed = (target, message) =>
   (message && console.warn(message));
 
 window.addEventListener('load', (event) => {
-  // document.querySelectorAll('.svgListing svg').forEach((svg) => {
-  /*const cssvar = (name !== null && name?.length > 0) ? svgToCSSvar(svg.outerHTML, name) : null;
-      cssvar && styles.push(`  ${svgToCSSvar(svg.outerHTML, name)}`);*/
-
-  /*<label class="down" data-down="svg" onClick="down(event, 'svg')">svg</label>*/
-
-  // const iconRow = ((wrapper = document.createElement('div')) =>
-  //   wrapper.insertAdjacentHTML(
-  //     'afterbegin',
-  //     html`
-  //       <div class="iconRow">
-  //         <div class="wrappedSVG"></div>
-  //       </div>
-  //     `,
-  //   ).firstChild)();
-  // svg.replaceWith(iconRow);
-  // iconRow.querySelector('.wrappedSVG').appendChild(svg);
-  // });
-
   let currentSvg = null;
   const svgMap = new WeakMap();
 
@@ -250,10 +231,15 @@ window.addEventListener('load', (event) => {
       target.replaceWith(button);
       button.appendChild(target);
       button.classList.add('wrapped');
-      button.setAttribute('command', 'toggle-popover');
-      button.setAttribute('commandfor', 'svgActions-menu');
+      // button.setAttribute('command', 'toggle-popover');
+      // button.setAttribute('commandfor', 'svgActions-menu');
+    }
+    if (target.matches('.wrapped > svg')) {
+      target.style.setProperty('anchor-name', '--anchor-svglisting');
+      currentSvg?.style.removeProperty('anchor-name');
 
-      currentSvg = target;
+      // document.querySelector('.svgActions')?.showPopover();
+
       if (!svgMap.has(target)) {
         pregenerateCopyAs(target.innerHTML).then((pregenerated) =>
           svgMap.set(target, new Map(pregenerated)),
@@ -266,6 +252,8 @@ window.addEventListener('load', (event) => {
           target.querySelector('[data-name]')?.dataset.name ??
           '',
       );
+
+      currentSvg = target;
     }
   });
   document.body.addEventListener(
@@ -277,34 +265,4 @@ window.addEventListener('load', (event) => {
       }),
     {},
   );
-
-  document.addEventListener(
-    'mouseover',
-    ({ target }) =>
-      target.matches('.svgListing [commandfor="svgActions-menu"]') &&
-      document.querySelector('.svgActions')?.showPopover(),
-  );
-
-  // document.addEventListener('mouseover', ({ target }) => {
-  //   if (target.matches('svg')) {
-  //     const cloneSvg = (svgTarget, classesToAdd = []) => {
-  //       const clone = svgTarget.cloneNode(true);
-  //       clone.classList.add('duplicate', ...[classesToAdd].flat());
-  //       svgTarget.parentElement.append(clone);
-  //     };
-  //     const svgTarget =
-  //       target.parentElement
-  //         ?.closest?.('.iconRow')
-  //         ?.querySelector?.('.wrappedSVG') ?? false;
-  //     if (
-  //       svgTarget &&
-  //       !svgTarget.classList.contains('duplicated') &&
-  //       !svgTarget.classList.contains('duplicate')
-  //     ) {
-  //       svgTarget.classList.add('duplicated', 'large');
-  //       cloneSvg(svgTarget, ['small']);
-  //       cloneSvg(svgTarget, ['medium']);
-  //     }
-  //   }
-  // });
 });

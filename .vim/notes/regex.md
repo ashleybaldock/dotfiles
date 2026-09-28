@@ -399,7 +399,9 @@ Remove all block comments
 %s/\(\_s*\/\*.\{-}\*\/\_s*\)\+//
 ```
 
-Selector list
+### CSS Selectors
+
+### Selector list
 
 ```reg
 %s/\%(\%^\|}\)\_s*\zs\%(\s*\_[^} ]\)*\ze\s*{/
@@ -410,6 +412,23 @@ Selector list
 ```reg
 \%(\%^\|[},]\)\_s*\zs\%(\s*\_[^}, ]\)*\ze\s*[,{]
 ```
+
+### Selector under cursor
+
+- One selector if in a list
+ - No trailing whitespace
+- works for one level of brackets
+- doesn't work inside brackets
+
+```reg
+\(\%^\|}\)\_s*\%(\%(\_[^,({]\|(\_.\{-})\)\+,\)*\zs\%(\_[^,({]\|(\_.\{-})\)*\%#\%(\s*\%(\_[^,({ ]\|(\_.\{-})\)\+\)*\ze\s*[{,]
+
+
+
+\(\%^\|}\)\_s*\%(\%(\_[^,({]\|(\_.\{-})\)\+,\)*\zs
+\ \%(\_[^,({]\|(\_.\{-})\)*\%#\%(\s*\%(\_[^,({ ]\|(\_.\{-})\)\+\)*\ze\s*[{,]
+```
+
 
 ## Selector & trailing comma
 

@@ -9,19 +9,15 @@ let g:mayhem_loaded_synfo = 1
 "   $VIMHOME/notes/synfo-ui.md
 "
 
-command! -bar SynFo call <SID>SynFo()
+command! -bar SynFo <Cmd>call synfo#popup()<CR>
 
-command! SynFoBuf vsp|enew|call <SID>UpdateSynFoBuffer(winnr())
 
-command! -nargs=? SynFoStatus call <SID> SynFoStatus(<f-args>)
+nnoremap <silent><script> <Plug>(mayhem_synfo_popup) <Cmd>call synfo#popup(winnr())<CR>
 
-command! -nargs=? SynFoAuto call <SID>SynFoEnable(<f-args>)
+nnoremap <silent><script> <Plug>(mayhem_synfo_on) <Cmd>call synfo#on(winnr())<CR>
 
-command! -nargs=? SynFoWindowOn call <SID>SynFoEnableInWindow(<f-args>)
+nnoremap <silent><script> <Plug>(mayhem_synfo_off) <Cmd>call synfo#off(winnr())<CR>
 
-command! -nargs=? SynFoWindowOff call <SID>SynFoDisableInWindow(<f-args>)
+nnoremap <silent><script> <Plug>(mayhem_synfo_toggle) <Cmd>call synfo#toggle(winnr())<CR>
 
-command! SynFoAllOff call <SID>SynFoDisableInAll()
-
-command! -nargs=? SynFoWindowToggle call <SID>SynFoToggle(<f-args>)
-
+nnoremap <silent><script> <Plug>(mayhem_synfo_alloff) <Cmd>call synfo#alloff()<CR>

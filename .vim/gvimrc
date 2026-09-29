@@ -225,14 +225,13 @@ exec 'an' SfIcon('') '100.530.130' 'Tools2.Reload\ Syntax\ On\ Write'
 
 an 100.600 Tools2.-sep3-	<Nop>
 exec 'an' SfIcon('􀲳') '100.630.130' 'Tools2.SynFo.Toggle\ In\ Current\ Window'
-      \ '<Cmd>SynFoWindowToggle<CR>'
+      \ '<Plug>(mayhem_synfo_toggle)'
 exec 'macm Tools2.SynFo.Toggle\ In\ Current\ Window key=<D-I>'
-" an 100.530.150 Tools2.SynFo.Enable\ In\ Current\ Window <Cmd>SynFoWindowOn<CR>
-" an 100.530.150 Tools2.SynFo.Disable\ In\ Current\ Window <Cmd>SynFoWindowOff<CR>
-an 100.530.170 Tools2.SynFo.Disable\ In\ All\ Windows	<Cmd>SynFoAllOff<CR>
-" macm Tools2.SynFo.Disable\ In\ All\ Windows
+" an 100.530.150 Tools2.SynFo.Enable\ In\ Current\ Window	<Plug>(mayhem_synfo_on)
+" an 100.530.150 Tools2.SynFo.Disable\ In\ Current\ Window	Plug>(mayhem_synfo_off)
+an 100.530.170 Tools2.SynFo.Off\ In\ All\ Windows	<Plug>(mayhem_synfo_alloff)
 an 100.530.200 Tools2.SynFo.-sep1-		<Nop>
-an 100.530.230 Tools2.SynFo.Show\ At\ Cursor	<Cmd>SynFo<CR>
+an 100.530.230 Tools2.SynFo.Show\ At\ Cursor	<Plug>(mayhem_synfo_popup)
 exec 'macm Tools2.SynFo.Show\ At\ Cursor key=<D-i>'
 
 an 100.600 Tools2.-sep4-	<Nop>

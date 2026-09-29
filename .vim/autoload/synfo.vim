@@ -54,7 +54,7 @@ let s:colors = #{
       \ headingtext: '#cc88cc',
       \}
 
-function! synfo#ForColor(color) abort
+function! synfo#forColor(color) abort
   if a:color == 'fg' || a:color == 'foreground'
     return [s:symbols.fgcolor, s:colors.fgcolor]
   endif
@@ -549,12 +549,9 @@ function! synfo#popupFilter(winid, key) abort
   return 0
 endfunc
 
-function! synfo#popup() abort
-  if !get(w:, 'mayhem_synfo_enabled')
-    return
-  endif
-  if get(w:, 'mayhem_synfo_winid', 0)->popup_getpos()->empty()
-    let w:mayhem_synfo_winid = popup_create('', #{
+function! synfo#popup(winnr = winnr()) abort
+  if getwinvar(a:winnr, 'mayhem_synfo_winid', 0)->popup_getpos()->empty()
+    call popup_create('', #{
           \ pos: 'topleft',
           \ line: 'cursor+2',
           \ col: 'cursor',
@@ -566,18 +563,16 @@ function! synfo#popup() abort
           \ highlight: 'HlPop01Bg',
           \ borderhighlight: ['HlPop01T','HlPop01R','HlPop01B','HlPop01L'],
           \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'],
-          \ moved: [0, 0, 0],
-          \ filter: 's:SynFoPopupFilter',
+          \ moved: getwinvar(a:winnr, 'mayhem_synfo_enabled') ? [0, 0, 0] : 'any',
+          \ filter: 'synfo#popupFilter',
           \ filtermode: 'n',
-          \ title: ' ★️ '
+          \ title: ' ★️ ',
+          \ drag: getwinvar(a:winnr, 'mayhem_synfo_enabled'),
           \})
-    call autocmd_add([#{
-        \ event: 'CursorMoved', pattern: '*',
-        \ cmd: 'call synfo#updateSynFoBuffer(w:mayhem_synfo_winid)',
-        \ group: 'mayhem_synfo_cursormoved', replace: v:true,
-        \}])
+          \->setwinvar(a:winnr, 'mayhem_synfo_winid')
   else
-    call popup_move(w:mayhem_synfo_winid, #{
+    call getwinvar(a:winnr, 'mayhem_synfo_winid', 0)
+          \->popup_move(#{
           \ pos: 'topleft',
           \ line: 'cursor+2',
           \ col: 'cursor',
@@ -585,13 +580,33 @@ function! synfo#popup() abort
           \ maxwidth: 80,
           \ minheight: 3,
           \})
-    call popup_setoptions(w:mayhem_synfo_winid, #{
-          \ title: ' ★ '
+    call getwinvar(a:winnr, 'mayhem_synfo_winid', 0)
+          \->popup_setoptions(#{
+          \ title: ' ★ ',
+          \ moved: getwinvar(a:winnr, 'mayhem_synfo_enabled') ? [0, 0, 0] : 'any',
           \})
-    call popup_show(w:mayhem_synfo_winid)
+    call getwinvar(a:winnr, 'mayhem_synfo_winid', 0)
+          \->popup_show()
   endif
 
-  call synfo#updateSynFoBuffer(w:mayhem_synfo_winid)
+  if getwinvar(a:winnr, 'mayhem_synfo_enabled')
+    call autocmd_add([#{
+        \ event: 'CursorMoved', bufnr: winbufnr(a:winnr),
+        \ cmd: 'call synfo#popup()',
+        \ group: 'mayhem_synfo_cursormoved',
+        \},#{
+        \ event: 'CursorHold', bufnr: winbufnr(a:winnr),
+        \ cmd: 'call synfo#popup()',
+        \ group: 'mayhem_synfo_cursormoved',
+        \}])
+  else
+    silent! call autocmd_delete([#{
+        \ group: 'mayhem_synfo_cursormoved',
+        \ bufnr: winbufnr(a:winnr),
+        \}])
+  endif
+
+  call synfo#updateSynFoBuffer(getwinvar(a:winnr, 'mayhem_synfo_winid'))
 endfunc
 "
 " Close the popup, e.g. with 'x'
@@ -600,42 +615,37 @@ function! synfo#close(winnr = winnr()) abort
   call getwinvar(a:winnr, 'mayhem_synfo_winid', 0)
         \->popup_close()
         \->setwinvar(a:winnr, 'mayhem_synfo_winid')
-  call autocmd_delete([#{
+  silent! call autocmd_delete([#{
       \ group: 'mayhem_synfo_cursormoved',
+      \ bufnr: winbufnr(a:winnr),
       \}])
 endfunc
 
-function! synfo#setup() abort
-  if exists(w:mayhem_synfo_enabled)
-    call autocmd_add([#{
-        \ event: 'CursorHold', pattern: '*',
-        \ cmd: 'if w:mayhem_synfo_enabled == 1 | call synfo#popup() | else | call synfo#close() | endif',
-        \ group: 'mayhem_synfo_setup', replace: v:true,
-        \}])
-  endif
+function! synfo#on(winnr = winnr()) abort
+  call setwinvar(a:winnr, 'mayhem_synfo_enabled', 1)
+  call synfo#popup(a:winnr)
 endfunc
 
-function! synfo#disableInWindow(winnr = winnr()) abort
+function! synfo#off(winnr = winnr()) abort
   call setwinvar(a:winnr, 'mayhem_synfo_enabled', 0)
-  call synfo#setup()
+  call synfo#close(a:winnr)
 endfunc
 
-function! synfo#disableInAll() abort
+function! synfo#alloff() abort
   for n in range(1, winnr('$'))
     call setwinvar(n, 'mayhem_synfo_enabled', 0)
+    call synfo#close(n)
   endfor
-  call synfo#setup()
 endfunc
 
-function! synfo#enableInWindow(winnr = winnr()) abort
-  call setwinvar(a:winnr, 'mayhem_synfo_enabled', 0)
-  call synfo#setup()
-endfunc
-
-function! synfo#toggleInWindow(winnr = winnr()) abort
-  call setwinvar(a:winnr, 'mayhem_synfo_enabled',
-        \ !getwinvar(a:winnr, 'mayhem_synfo_enabled', 0))
-  call synfo#setup()
+function! synfo#toggle(winnr = winnr()) abort
+  if getwinvar(a:winnr, 'mayhem_synfo_enabled')
+    call setwinvar(a:winnr, 'mayhem_synfo_enabled', 0)
+    call synfo#close(a:winnr)
+  else
+    call setwinvar(a:winnr, 'mayhem_synfo_enabled', 1)
+    call synfo#popup(a:winnr)
+  endif
 endfunc
 
 function! synfo#complete(A,L,P)

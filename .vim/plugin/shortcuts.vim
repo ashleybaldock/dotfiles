@@ -331,9 +331,9 @@ nnoremap §hu <Cmd>vsplit ~/.vim/notes/unicode.md<CR>
 "
 " See: ./highlight.vim
 nnoremap §<S-i> <Cmd>so $VIMRUNTIME/syntax/hitest.vim<CR>
-nnoremap §i <Cmd>SynFo<CR>
+nnoremap §i <Plug>(mayhem_synfo_popup)
 " nnoremap <D-i> <Cmd>SynFo<CR>
-nnoremap §I <Cmd>SynFoWindowToggle<CR>
+nnoremap §I <Plug>(mayhem_synfo_toggle)
 " nnoremap <D-I> <Cmd>SynFo<CR>
 "
 " ▌️ ga ▐️  Info about character under cursor (Characterize)

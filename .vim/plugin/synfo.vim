@@ -625,8 +625,8 @@ function! s:SynFoDisableInWindow(winnr = winnr()) abort
 endfunc
 
 function! s:SynFoDisableInAll() abort
-  for wn in range(1, winnr('$'))
-    call setwinvar(wn, 'mayhem_synfo_enabled', 0)
+  for n in range(1, winnr('$'))
+    call setwinvar(n, 'mayhem_synfo_enabled', 0)
   endfor
   call s:SynFoSetup()
 endfunc
@@ -685,7 +685,7 @@ command! -bar -nargs=? ExpandHiGroup echo <SID>ExpandHiGroup(<q-args>)
 "
 " By default, uses the word under the cursor
 "
-function! HiDefinition(hlname = expand("<cword>"))
+function! s:HiDefinition(hlname = expand("<cword>"))
   let file = ''
   let lnum = 0
   try

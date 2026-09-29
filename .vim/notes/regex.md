@@ -397,6 +397,7 @@ Including whitespace/(& blank lines) before/after
 Remove all block comments
 ```reg
 %s/\(\_s*\/\*.\{-}\*\/\_s*\)\+//
+%s/\(\_s*\/\*.\{-}\*\/\_s*)\+/ /
 ```
 
 ### CSS Selectors

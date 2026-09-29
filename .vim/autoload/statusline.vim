@@ -16,7 +16,8 @@ let g:mayhem.symbols_S.search = #{
       \ quote: '″️',
       \ sep: '⋮',
       \ gt: '>️',
-      \ between: '⋯',
+      \ before: '᭼',
+      \ after: '᭼',
       \}
 let g:mayhem.symbols_8.search = #{
       \ search: '/',
@@ -24,7 +25,8 @@ let g:mayhem.symbols_8.search = #{
       \ quote: '″️',
       \ sep: '⋮',
       \ gt: '>️',
-      \ between: '⋯',
+      \ before: '᭼',
+      \ after: '᭼',
       \}
 let g:mayhem.symbols_A.search = #{
       \ search: '',
@@ -32,7 +34,8 @@ let g:mayhem.symbols_A.search = #{
       \ quote: '"',
       \ sep: ':',
       \ gt: '>',
-      \ between: '-',
+      \ before: '-',
+      \ after: '-',
       \}
 
 function! statusline#formatSearch(search = @/)
@@ -72,11 +75,11 @@ function! statusline#updateSearch(...) abort
           \   '%#SlSearch⸮#', format#numbers(r.current),
           \   '%#SlFPath⸮#', ' ℴ𝒻 ',
           \  ] : [
-          \   r.current == 0 ? [] : [
+          \   r.current == r.total ? [
           \    '%#SlBetween⸮#', format#numbers(r.current),
-          \   ],
-          \    '%#SlSearch⸮#', symbols#CN('search.between'),
-          \   r.current + 1 == r.total ? [] : [ 
+          \    '%#SlSearch⸮#', symbols#CN('search.after'),
+          \  ] : [
+          \    '%#SlSearch⸮#', symbols#CN('search.before'),
           \    '%#SlBetween⸮#', format#numbers(r.current + 1),
           \   ],
           \   '%#SlFPath⸮#', ' ℴ𝒻 ',

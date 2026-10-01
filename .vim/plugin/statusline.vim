@@ -440,7 +440,7 @@ function ChWinSz() abort
 endfunc
 
 function MessTime() abort
-  return format#timeSince(get(b:, 'mayhem_messages_lastupdated', 0))
+  return format#timeSince(get(b:, 'mayhem_lastupdated', 0))
 endfunc
 
 function s:Update_FileInfo() abort

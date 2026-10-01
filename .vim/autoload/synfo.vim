@@ -608,6 +608,10 @@ function! synfo#popup(winnr = winnr()) abort
 
   call synfo#updateSynFoBuffer(getwinvar(a:winnr, 'mayhem_synfo_winid'))
 endfunc
+
+function! synfo#autocmd_add(winnr) abort
+endfunc
+
 "
 " Close the popup, e.g. with 'x'
 "

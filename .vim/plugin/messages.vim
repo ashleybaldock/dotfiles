@@ -14,159 +14,17 @@ let g:mayhem_loaded_messages = 1
 " let s:winid_scriptnames
 " let s:winid_runtime
 
-function s:ListRuntime() abort
-  return split(&rtp, ',')[1:-1]
-endfunc
+command! Runtime call messages#splitWithRuntime()
 
-function s:ListScriptnames() abort
-  return execute('silent scriptnames')->split('\s*\n\s*')
-  " echo execute('silent scriptnames')->split('\s*\n\s*')->map({_,s -> split(s, '\s*:\s*')})
-endfunc
+command! Scriptnames call messages#splitWithScriptnames()
 
-function s:ListMessages() abort
-  return execute('silent messages')->split("\n")[1:-1]
-endfunc
+command! MessagesPopup call messages#popupWithMessages()
 
+command! MessagesSplit call messages#splitWithMessages()
 
-function s:ReplaceBufferWithList(bufnr, list)
-  call setbufvar(a:bufnr, '&modifiable', 1)
-  silent! call deletebufline(a:bufnr, 1, '$')
-  call appendbufline(a:bufnr, 0, a:list)
-  call setbufvar(a:bufnr, 'mayhem_messages_lastupdated', localtime())
-  call setbufvar(a:bufnr, '&modifiable', 0)
-  call setbufvar(a:bufnr, '&modified', 0)
-  call win_execute(winbufnr(a:bufnr), ['redraw', 'call cursor(''$'', 0)'])
-endfunc
+command! MessagesClose call messages#closeMessages()
 
-function s:SplitWithList(list) abort
-  exec min([20, max([4, len(a:list)])]) .. 'new'
-  let bufnr = bufnr()
-  call s:ReplaceBufferWithList(bufnr, a:list)
-  call setbufvar(bufnr, '&buftype', 'nofile')
-  call setbufvar(bufnr, '&bufhidden', 'wipe')
-  call setbufvar(bufnr, '&buflisted', 0)
-  return win_getid(winnr())
-endfunc
-
-function s:SplitWithRuntime() abort
-  let s:winid_runtime = s:SplitWithList(extend(['Runtime'], s:ListRuntime()))
-  call winbufnr(s:winid_runtime)->setbufvar('&filetype', 'vimruntime')
-endfunc
-command! Runtime call s:SplitWithRuntime()
-
-function s:SplitWithScriptnames() abort
-  let s:winid_scriptnames = s:SplitWithList(extend(['Scriptnames'], s:ListScriptnames()))
-  call winbufnr(s:winid_scriptnames)->setbufvar('&filetype', 'vimscriptnames')
-endfunc
-command! Scriptnames call s:SplitWithScriptnames()
-
-"
-" Expand <SNR> in messages output with real file names      TODO
-"
-function s:ExpandSNR(messages) abort
-  return mapnew(a:messages,
-        \{i, v -> substitute(v,
-        \ '\%(\.\.\(function\|script\)\?\)\?<SNR>\(\d\+\)_\([^.[]\+\)\[\(\d*\)]',
-        \   {m -> "  " .. m[3] .. "		" .. m[1] .. getscriptinfo(#{
-        \ sid: str2nr(m[2], 10)})[0].name .. ':' .. m[4] .. "\n" }, 'g')->split("\n")})->flatten(1)
-  "let replaceHome = map(replaceSNR,
-  "     \ {_, p -> substitute(p, expand('$VIMHOME') .. '[]', 'g')
-  return replaceSNR
-endfunc
-
-function! s:GetMessagesBuffer() abort
-  if !exists('s:bufnr_messages') || !bufexists(s:bufnr_messages)
-    let s:bufnr_messages = bufadd('')
-    call setbufvar(s:bufnr_messages, '&filetype', 'vimmessages')
-    call setbufvar(s:bufnr_messages, '&buftype', 'nofile')
-    call setbufvar(s:bufnr_messages, '&bufhidden', 'wipe')
-  endif
-  return s:bufnr_messages
-endfunc
-
-function! s:RefreshMessages() abort
-  let messages = s:ListMessages()
-  let messagesExpanded = s:ExpandSNR(messages)
-
-  call s:ReplaceBufferWithList(s:GetMessagesBuffer(), messages)
-endfunc
-
-"
-" Open a split with output of :messages
-"
-function s:SplitWithMessages() abort
-
-  let msgbufnr = s:GetMessagesBuffer()
-
-  exec 'vertical ' .. msgbufnr .. 'wincmd ^'
-
-  call s:RefreshMessages()
-
-  nnoremap <buffer> <nowait> r <ScriptCmd>call s:RefreshMessages()<CR>
-  nnoremap <buffer> <nowait> p <ScriptCmd>call s:SplitWithScriptnames()<CR>
-  nnoremap <buffer> <nowait> t <ScriptCmd>call s:SplitWithRuntime()<CR>
-  wincmd h
-endfunc
-
-function s:CloseMessagesPopup() abort
-  if exists('s:popid_messages')
-    call popup_close(s:popid_messages)
-    unlet s:popid_messages
-  endif
-endfunc
-
-function s:CloseMessages() abort
-  echom 's:CloseMessages()'
-  call winbufnr(s:GetMessagesBuffer())->win_execute('close')
-
-  call s:CloseMessagesPopup()
-endfunc
-
-"
-" Key events intercepted by open popup
-"
-function! s:MessagesPopupFilter(winid, key) abort
-  if a:key == 'x'
-    call s:CloseMessagesPopup()
-    return 1
-  endif
-  return 0
-endfunc
-
-"
-" Open a popup with recent output of :messages
-"
-function s:PopupWithMessages() abort
-  let s:popid_messages = popup_create(s:GetMessagesBuffer(), #{
-        \ title: 'Messages',
-        \ pos: 'topleft',
-        \ minwidth: 40,
-        \ maxwidth: 80,
-        \ minheight: 6,
-        \ padding: [0,1,0,1],
-        \ border: [1,1,1,1],
-        \ highlight: 'HlPop01Bg',
-        \ borderhighlight: ['HlPop01T','HlPop01R','HlPop01B','HlPop01L'],
-        \ borderchars: [' ','⎥',' ','⎢', '⎛','⎞','⎠','⎝'],
-        \ line: 'cursor',
-        \ col: 'cursor',
-        \ moved: 'any',
-        \ filter: 's:MessagesPopupFilter',
-        \ filtermode: 'n'
-        \ })
-
-  call s:WriteMessagesToBuffer(s:GetMessagesBuffer())
-
-  call winbufnr(s:popid_messages)->setbufvar('&filetype', 'vimmessages')
-endfunc
-
-command! MessagesPopup call s:PopupWithMessages()
-
-command! MessagesSplit call s:SplitWithMessages()
-
-command! MessagesClose call s:CloseMessages()
-
-command! MessagesRefresh call s:RefreshMessages()
+command! MessagesRefresh call messages#refreshMessages()
 
 function! s:CloseIfLastWindow() abort
   if (winnr('$') == 1 && get(b:, ''mayhem_messages'', 0) == 1)
@@ -188,6 +46,7 @@ call autocmd_add([
       \},
       \])
 
-    "
-    " :Mess(ages) [show/hide/toggle] reload [auto/no]
-command! Messages call s:SplitWithMessages()
+"
+" :Mess(ages) [show/hide/toggle] reload [auto/no]
+"
+command! Messages call messages#split()

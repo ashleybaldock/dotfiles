@@ -228,9 +228,10 @@ window.addEventListener('load', (event) => {
   document.addEventListener('mouseover', ({ target }) => {
     if (target.matches(':not(.wrapped) > svg')) {
       const button = document.createElement('button');
-      target.replaceWith(button);
-      button.appendChild(target);
       button.classList.add('wrapped');
+      // target.replaceWith(button);
+      target.insertAdjacentElement('afterend', button);
+      button.appendChild(target);
       // button.setAttribute('command', 'toggle-popover');
       // button.setAttribute('commandfor', 'svgActions-menu');
     }

@@ -534,7 +534,7 @@ noremenu  20.403 &Edit.&ReSelect\ Visual<Tab>gv	gv
 "
 " HIG Cmd And Option Movement Mappings:
 " This replaces the section in $VIMRUNTIME/gvimrc, which
-" is disabled via this flag in ./vimrc
+" is disabled via this flag in $VIMHOME/vimrc
 "   let macvim_hig_shift_movement = 1
 "
 if has("gui_macvim")
@@ -639,29 +639,4 @@ endif
   " vn   <S-D-Down>     <S-C-End>
   " ino  <S-D-Down>     <S-C-End>
 " endif
-
-
-" 
-"
- " 
-"
-
-" 1
-" 2
-" 3
-
-"
-"2
-"3
-"
-
- "
- "
- "
- "
-
- " 1
- " 2
- " 3
-
 

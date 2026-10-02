@@ -97,7 +97,7 @@ function! messages#bufnr(create = v:false) abort
           \#{
           \ event: 'WinEnter', replace: v:true,
           \ bufnr: s:bufnr_messages, group: 'mayhem_messages_quit',
-          \ cmd: 'if (winnr(''$'') == 1 | quit | endif',
+          \ cmd: 'if winnr(''$'') == 1 | quit | endif',
           \},
           \])
   endif

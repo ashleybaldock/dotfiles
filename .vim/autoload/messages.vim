@@ -81,11 +81,25 @@ endfunc
 function! messages#bufnr(create = v:false) abort
   let s:bufnr_messages = get(s:, 'bufnr_messages', -1)
 
-  if !(s:bufnr_messages->bufexists()) && a:create
+  if !bufexists(s:bufnr_messages) && a:create
     let s:bufnr_messages = bufadd('')
+
     call setbufvar(s:bufnr_messages, '&filetype', 'vimmessages')
     call setbufvar(s:bufnr_messages, '&buftype', 'nofile')
     call setbufvar(s:bufnr_messages, '&bufhidden', 'wipe')
+
+    call autocmd_add([
+          \#{
+          \ event: 'ExitPre', replace: v:true,
+          \ bufnr: s:bufnr_messages, group: 'mayhem_messages_quit',
+          \ cmd: 'quit',
+          \},
+          \#{
+          \ event: 'WinEnter', replace: v:true,
+          \ bufnr: s:bufnr_messages, group: 'mayhem_messages_quit',
+          \ cmd: 'if (winnr(''$'') == 1 | quit | endif',
+          \},
+          \])
   endif
 
   return s:bufnr_messages
@@ -107,12 +121,14 @@ function! messages#split() abort
 
   exec 'vertical ' .. msgbufnr .. 'wincmd ^'
 
-  call messages#refresh(msgbufnr)
+  call messages#refresh()
 
-  nnoremap <buffer> <nowait> r <ScriptCmd>call messages#refresh()<CR>
-  nnoremap <buffer> <nowait> p <ScriptCmd>call messages#splitWithScriptnames()<CR>
-  nnoremap <buffer> <nowait> t <ScriptCmd>call messages#splitWithRuntime()<CR>
+  nnoremap <buffer> <nowait> r <Cmd>call messages#refresh()<CR>
+  nnoremap <buffer> <nowait> p <Cmd>call messages#splitWithScriptnames()<CR>
+  nnoremap <buffer> <nowait> t <Cmd>call messages#splitWithRuntime()<CR>
   wincmd h
+
+  return msgbufnr
 endfunc
 
 function! messages#close() abort

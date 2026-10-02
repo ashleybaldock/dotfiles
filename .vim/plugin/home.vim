@@ -274,7 +274,7 @@ function s:ShowHome() abort
   " Finalise buffer contents
   silent! setlocal nomodified nomodifiable
 
-  MessagesSplit
+  let s:messages_bufnr = messages#split()
 
   call autocmd_add([
         \#{
@@ -283,10 +283,17 @@ function s:ShowHome() abort
         \ group: 'mayhem_home_recent_edit',
         \},
         \#{
-        \ event: ['BufWinLeave','BufUnload'],
-        \ cmd: 'DoUserAutocmd MayhemHomeClosed', bufnr: bufnr(),
-        \ group: 'mayhem_home_closed',
+        \ event: ['BufWinLeave','BufUnload'], replace: v:true,
+        \ cmd: 'call s:Close()', bufnr: bufnr(),
+        \ group: 'mayhem_home_close',
         \},
         \])
 endfunc
 
+function! s:Close() abort
+  call get(s:, 'messages_bufnr', -1)
+        \->win_findbuf()
+        \->foreach('exec ''win_id2win(v:val)' .. 'quit''')
+
+  DoUserAutocmd MayhemHomeClosed
+endfunc

@@ -629,3 +629,33 @@ label ol li:nth-of-type(n + 1)::before {
   overflow-x: clip;
   overflow-y: visible;
 }
+
+body {
+  display: grid;
+  grid-template-columns: 20fr 60fr;
+  grid-template-rows: auto;
+  padding: 10px;
+  column-gap: 20px;
+}
+.toggles {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-row: 2/-1;
+  grid-column: 1;
+  margin: 0 0 auto 0;
+  position: sticky;
+  inset: 0 auto auto auto;
+}
+body > p:first-child {
+  grid-row: 1;
+  grid-column: 1/-1;
+}
+body > main {
+  grid-column: 2;
+  grid-row: 2/-1;
+}
+.toggles fieldset {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1em 1ch;
+}

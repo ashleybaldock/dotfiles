@@ -8,7 +8,7 @@ let g:mayhem_autoloaded_home = 1
 "   $VIMHOME/plugin/home.vim
 "
 
-function! home#RenderHeader()
+function! home#renderHeader() abort
   call append('$', [
         \'    ❙   '..v:version..' '..v:servername..' '..v:progpath..'                        ❙   ',
         \'   ⎧╹⎫         􀇀  􀇜 􀇚 􀇠   􀆱􀻞􀆫􀆭􀆳       ╭─────────╲──────╱───────────╮ ⎧╹⎫  ',
@@ -21,7 +21,7 @@ function! home#RenderHeader()
         \])                                                                  
 endfunc                                                                      
 
-function! home#RenderQuickLinks()
+function! home#renderQuickLinks() abort
   call append('$', [
         \' ╭╴┷━┷╶──────────────────────────────────────────────────────────────────────────╴┷━┷╶╮ ',
         \' │  𝚀𝚄𝙸𝙲𝙺 𝙰𝙲𝙲𝙴𝚂𝚂                                                                      │ ',
@@ -39,7 +39,7 @@ function! home#RenderQuickLinks()
 endfunc
 
 "\'━⎩━⎭╸S⃣ ╺━╸𝚂𝚎𝚜𝚜𝚒𝚘𝚗𝚜 
-function! home#RenderSessionList()
+function! home#renderSessionList() abort
   call append('$', [
         \' ╭╴┷━┷╶───────────────────────────────────────────────────────────────────────────────╮ ',
         \' │  𝚂𝚎𝚜𝚜𝚒𝚘𝚗𝚜                                                                          │ ',
@@ -77,7 +77,7 @@ function! home#RenderSessionList()
         \])
 endfunc
 
-function! home#RenderRecentFilesList()
+function! home#renderRecentFilesList() abort
   call append('$', [
         \' │𝙵│ 𝙵𝚒𝚕𝚎𝚜                                              ',
         \'━⎩━⎭━━━━━━━━━━━━━━━╸                                 ',
@@ -113,7 +113,7 @@ function! home#RenderRecentFilesList()
         \])
 endfunc
 
-function! home#RenderRecentRootsList()
+function! home#renderRecentRootsList()
   call append('$', [
         \' │ │𝙿𝚁𝙾𝙹𝙴𝙲𝚃                               ',
         \' │𝚁│𝙾𝙾𝚃                                   ',
@@ -132,17 +132,17 @@ function! home#RenderRecentRootsList()
         \])
 endfunc
 
-function! home#RenderFooter()
+function! home#renderFooter() abort
   call append('$', [
         \'   ╿',
         \])
 endfunc
 
-function! home#OpenQuick(idx)
+function! home#openQuick(idx) abort
   echom a:idx
 endfunc
 
-function! home#BindKeys()
+function! home#bindKeys() abort
   nnoremap <buffer><nowait><silent> i        :enew <bar> startinsert<CR>
   nnoremap <buffer><nowait><silent> I        :enew <bar> startinsert<CR>
   nnoremap <buffer><nowait><silent> <insert> :enew <bar> startinsert<CR>
@@ -186,20 +186,20 @@ function! home#BindKeys()
   nnoremap <buffer><nowait><silent> s6 :call <SID>OpenFile(6)<CR>
 endfunc
 
-function home#UpdateRecentlyEdited(file)
+function! home#updateRecentlyEdited(file) abort
 endfunc
 
-function home#OnVimLeavePre() abort
+function! home#onVimLeavePre() abort
 endfunc
 
-function home#OnVimEnter() abort
+function! home#onVimEnter() abort
   if !argc() && line('$') == 1 && getline('.') == ''
     " Detect session file and offer option to load it   TODO
     if (get(g:, 'mayhem_home_autoload_session', 0) == 1) && filereadable('Session.vim')
       source Session.vim
     else
       if !get(g:, 'mayhem_disable_home_on_start')
-        call home#ShowHome()
+        call home#show()
       endif
     endif
   endif
@@ -207,7 +207,7 @@ function home#OnVimEnter() abort
   call autocmd_delete([#{ event: '*', group: 'mayhem_home_enter'}])
 endfunc
 
-function! home#Close() abort
+function! home#close() abort
   call get(s:, 'messages_bufnr', -1)
         \->win_findbuf()
         \->foreach('"echo :" .. win_id2win(v:val) .. "quit"')
@@ -215,7 +215,7 @@ function! home#Close() abort
   DoUserAutocmd MayhemHomeClosed
 endfunc
 
-function home#ShowHome() abort
+function! home#show() abort
   " Handle vim -y, vim -M, unsaved buffer
   if (&insertmode || !&modifiable) || (!&hidden && &modified)
     return
@@ -254,19 +254,19 @@ function home#ShowHome() abort
 
   call map(v:oldfiles, 'fnamemodify(v:val, ":p")')
 
-  call home#RenderHeader()
+  call home#renderHeader()
 
-  call home#RenderQuickLinks()
+  call home#renderQuickLinks()
 
-  call home#RenderSessionList()
+  call home#renderSessionList()
 
-  call home#RenderRecentRootsList()
+  call home#renderRecentRootsList()
 
-  call home#RenderRecentFilesList()
+  call home#renderRecentFilesList()
 
-  call home#RenderFooter()
+  call home#renderFooter()
 
-  call home#BindKeys()
+  call home#bindKeys()
 
   setlocal filetype=mayhemhome
 
@@ -278,12 +278,12 @@ function home#ShowHome() abort
   call autocmd_add([
         \#{
         \ event: ['BufNewFile','BufRead','BufFilePre'], replace: v:true,
-        \ cmd: 'call home#UpdateRecentlyEdited(expand("<afile>:p"))',
+        \ cmd: 'call home#updateRecentlyEdited(expand("<afile>:p"))',
         \ group: 'mayhem_home_recent_edit',
         \},
         \#{
         \ event: ['BufWinLeave','BufUnload'], replace: v:true,
-        \ cmd: 'call home#Close()', bufnr: bufnr(),
+        \ cmd: 'call home#close()', bufnr: bufnr(),
         \ group: 'mayhem_home_close',
         \},
         \])

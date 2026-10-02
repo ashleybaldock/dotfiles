@@ -14,7 +14,7 @@ let g:mayhem.symbols_S.search = #{
       \ search: '􀊫',
       \ timeout: '􀖇',
       \ quote: '″️',
-      \ sep: '⋮',
+      \ sep: '᨞',
       \ gt: '>️',
       \ before: '᭼',
       \ after: '᭼',

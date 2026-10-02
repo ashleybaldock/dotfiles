@@ -39,6 +39,7 @@ function! home#renderQuickLinks() abort
 endfunc
 
 "\'━⎩━⎭╸S⃣ ╺━╸𝚂𝚎𝚜𝚜𝚒𝚘𝚗𝚜 
+
 function! home#renderSessionList() abort
   call append('$', [
         \' ╭╴┷━┷╶───────────────────────────────────────────────────────────────────────────────╮ ',

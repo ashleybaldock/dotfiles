@@ -36,6 +36,19 @@ function! mayhem#paste() abort
   exec 'normal "+gP' 
 endfunc
 
+function! mayhem#bufferToNewWindow() abort
+  let servers = serverlist()
+  macaction newWindow:
+  let newserver = serverlist()
+  " if buffer is saved, simply open it
+  " if buffer has unsaved changes
+  " if buffer hasn't been saved
+  echo remote_expr('VIM12', 'execute(":e ~/.vim/vimrc")')
+endfunc
+function! mayhem#tabToNewWindow() abort
+  echo 'todo'
+endfunc
+
 "
 " Inverse of items()
 "

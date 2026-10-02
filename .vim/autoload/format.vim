@@ -10,9 +10,9 @@ let g:mayhem_autoloaded_format = 1
 let s:combase = get(g:, 'mayhem_unicode_combine_default', '◌')
 
 let s:f_number = #{
-      \ norm:  '0123456789',
-      \ vs16:  '0️1️2️3️4️5️6️7️8️9️',
-      \ sans:  '𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫',
+      \ norm:  '0123456789•',
+      \ vs16:  '0️1️2️3️4️5️6️7️8️9️ ',
+      \ sans:  '𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫᭼',
       \ sansb: '𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵',
       \ sup:   '⁰¹²³⁴⁵⁶⁷⁸⁹',
       \ sub:   '₀₁₂₃₄₅₆₇₈₉',

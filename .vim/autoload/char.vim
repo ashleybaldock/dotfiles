@@ -5,8 +5,8 @@ let g:mayhem_autoloaded_char = 1
 
 "
 " Related:
-"      ../plugin/char.vim
-"      ../syntax/vsel.vim
+"      $VIMHOME/plugin/char.vim
+"      $VIMHOME/syntax/vsel.vim
 "
 
 "

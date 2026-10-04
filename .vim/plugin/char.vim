@@ -5,7 +5,9 @@ let g:mayhem_loaded_char = 1
 
 "
 " Related:
-"     ../autoload/char.vim
+"     $VIMHOME/autoload/char.vim
+"     $VIMHOME/autoload/charinfo.vim
+"     $VIMHOME/autoload/unicode.vim
 "
 
 " s/\zs\(\%#\)\ze/\=ReplaceBaseCharWith(submatch(0))/n

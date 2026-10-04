@@ -127,7 +127,7 @@ xnoremap ± :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0︎/g<CR><Cmd>nohlsearch<CR>
 
 " Remove Combining:                                                       TODO
 " ▌️􀆕 􀆛▐️──▷ Remove last combining character (like x)
-nnoremap <M-BS> <Nop>
+nnoremap <M-BS> <Cmd><CR>
 xnoremap <M-BS> <Nop>
 " ▌️􀆝􀆕 􀆛▐️──▷ Remove first combining character (unlike x)
 nnoremap <M-S-BS> <Nop>
@@ -151,7 +151,7 @@ xnoremap   <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch
 
 " ▌️ 􀆕 E ▐️──▷ Replace word with last yanked (e.g. via yiw)
 " nnoremap ´ ciw<c-r>0<Esc><Cmd>undojoin | yanked<CR>
-" xnoremap ´ <Cmd>exec 'normal viw"0p<CR>' | undojoin | RepeatMove
+" xnoremap ´ <Cmd>exec 'normal viw"0p<CR>' | undojoin | RepeatMoveu
 " nnoremap ´ viw1"0gp
 nnoremap §rp caw<c-r><c-r>0 <esc>w
 " <bar> RepeatMove<CR>
@@ -779,12 +779,6 @@ xnoremap ™ :s///g<Left><Left>
 " if count(getcwd(), l:slash) > 3
 "   
 
-" J:
-" ╭──▷    ⌥⃝ 𝄐J⃝   ────▷ join line below to end (with no space between)
-" nnoremap ∆ Jx
-" ╭──▷ ⇧⃝ 𝄐⌥⃝ 𝄐J⃝   ────▷ reverse of  ⌥⃝ 𝄐J⃝ 
-nnoremap Ô i<CR><Esc>k$
-
 " Display line movements, except with count
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
@@ -809,9 +803,20 @@ nnoremap <expr> k v:count ? 'k' : 'gk'
 "            │             │
 "            │    line o   │
 
-" ╭──▷    ⌥⃝ 𝄐K⃝   ────▷ join line above to end (with no space between)
+" J:
+" ▌️ 􀆕 j ▐️────▷ join line below cursor to end of the
+"               current line (with no space between)
+nnoremap ∆ Jx
+" ▌️􀆕 ⇧️ j▐️────▷ split line at cursor, placing the split part
+"               below the current line (reverse of ▌️ 􀆕 j ▐️)
+nnoremap Ô i<CR><Esc>k$
+
+" K:
+" ▌️ 􀆕 k ▐️────▷ join line above to end of the
+"               current line (with no space between)
 nnoremap ˚ :m -2,+<CR><S-j>
-" ╭──▷ ⇧⃝ 𝄐⌥⃝ 𝄐K⃝   ────▷ reverse of <S-K>
+" ▌️􀆕 ⇧️ k▐️────▷ split line at cursor, placing the split part
+"               above the current line (reverse of ▌️ 􀆕 k ▐️)
 nnoremap  i<CR><Esc>:m -2<CR>j$
 
 "

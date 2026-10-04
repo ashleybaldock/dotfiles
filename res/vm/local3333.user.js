@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        serve3333
 // @namespace   mayhem
-// @version     1.0.19
+// @version     1.0.29
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/local3333.user.js
 // @match       *://localhost:3333/*
@@ -20,25 +20,53 @@
 // @inject-into auto
 // ==/UserScript==
 
-const isDirectoryListing = (({ qs }) =>
-  qs`:has([href="chrome://global/skin/dirListing/dirListing.css"])`.hasSome)(
-  unsafeWindow,
-);
+const isIndex = (
+  ({ qs }) =>
+  () =>
+    matchExistsFor('title').then((title) =>
+      /^Files within /.test(title.textContent),
+    )
+)(unsafeWindow);
 
 const styleToggleIds = addStyleToggles([
   {
     title: '[::1]:3333 dirlist reskin',
-    enabled: matchExistsFor('title').then((title) =>
-      /^Files within /.test(title.textContent),
-    ),
+    enabled: isIndex(),
     sources: [{}],
   },
 ])
   .then(() =>
     Promise.race([timeout({ s: 30 }), readyStateComplete()])
-      .catch(() => console.log('timed out waiting for readyStateComplete'))
-      .then(() => {
+      .catch(() => console.warn('timed out waiting for readyStateComplete'))
+      .then(({ unsafeWindow }) => {
         console.debug('document ready');
+        return Promise.all([
+          matchExistsFor('header').then((header) => {
+            if (isIndex) {
+              const label = GM_addElement(header, 'label', {});
+              GM_addElement(label, 'span', {
+                textContent: '.hide',
+                type: 'checkbox',
+                id: 'hide',
+              });
+              const input = GM_addElement(label, 'input', {
+                type: 'checkbox',
+                id: 'hide',
+                ...((checked) => (checked ? { checked: '' } : {}))(
+                  GM_getValue('hide', true),
+                ),
+              });
+              input.addEventListener('change', (e) =>
+                GM_setValue('hide', e.target.checked),
+              );
+              GM_addValueChangeListener(
+                'hide',
+                (name, oldValue, newValue, remote) =>
+                  (input.checked = newValue),
+              );
+            }
+          }),
+        ]);
       }),
   )
   .catch((e) => console.warn(e));

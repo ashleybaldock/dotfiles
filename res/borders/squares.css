@@ -1,0 +1,247 @@
+body {
+  --s: calc((100vw) / var(--cols));
+  --cols: 17;
+  display: grid;
+  grid-auto-flow: row;
+  gap: 0;
+  row-gap: calc(var(--s) * 0.5);
+  place-items: start;
+  grid-template-columns: 1fr repeat(15, var(--s));
+  margin: 0 calc(var(--s) * 0.5) 0 calc(var(--s) * 0.5);
+}
+
+h1 {
+  grid-column: 1/-1;
+  place-self: end;
+}
+
+.x,
+.solid {
+  --border-style: solid;
+}
+.double {
+  --border-style: double;
+}
+.inset {
+  --border-style: inset;
+}
+.outset {
+  --border-style: outset;
+}
+.ridge {
+  --border-style: ridge;
+}
+.groove {
+  --border-style: groove;
+}
+.dotted {
+  --border-style: dotted;
+}
+.dashed {
+  --border-style: dashed;
+}
+
+section {
+  grid-template-columns: subgrid;
+  grid-auto-rows: var(--s);
+  gap: 0;
+  display: grid;
+  grid-column: 1/-1;
+  --section: attr(class);
+}
+
+section > div {
+  width: auto;
+  min-width: var(--s);
+  min-height: var(--s);
+  border-width: calc(var(--s) * 0.5);
+  box-sizing: border-box;
+  border-style: var(--border-style);
+}
+section > div:first-child {
+  border-style: var(--border-style);
+  display: grid;
+  place-items: center;
+  margin: 0.5ch;
+  min-width: calc(var(--s) * 0.75);
+  min-height: calc(var(--s) * 0.75);
+  border-width: 0.75ch;
+  border-color: #fff;
+}
+section > div:nth-child(n + 2) {
+  outline: 1px solid #333;
+  box-shadow:
+    inset 2px 2px 0 -1px #000,
+    inset -2px -2px 0 -1px #444;
+  outline-offset: 0;
+}
+
+section > div:nth-child(4n + 3),
+section > div:nth-child(8n + 6),
+section > div:nth-child(4n + 13) {
+  border-top-style: hidden;
+}
+section > div:nth-child(4n + 4),
+section > div:nth-child(8n + 3),
+section > div:nth-child(4n + 14) {
+  border-right-style: hidden;
+}
+section > div:nth-child(4n + 5),
+section > div:nth-child(8n + 4),
+section > div:nth-child(4n + 11) {
+  border-bottom-style: hidden;
+}
+section > div:nth-child(4n + 6),
+section > div:nth-child(8n + 5),
+section > div:nth-child(4n + 12) {
+  border-left-style: hidden;
+}
+
+section > div:nth-child(n + 17) {
+  display: none;
+}
+
+:root:has(#mono:checked) section > div:nth-of-type(n + 2) {
+  border-color: #fff;
+}
+:root:has(#grey:checked) section > div:nth-of-type(n + 2) {
+  border-color: #222 #666 #aaa #ddd;
+}
+:root:has(#rgby:checked) section > div:nth-of-type(n + 2) {
+  border-color: #a00 #0a0 #06e #dd0;
+}
+
+section > div:nth-of-type(n + 2)::before {
+  border-radius: 3px;
+  content: '✓';
+  transform: scale(1);
+  display: grid !important;
+  border: none;
+  min-width: var(--s);
+  line-height: 0;
+  position: absolute;
+  mix-blend-mode: screen;
+  color: #0ff;
+}
+
+section:nth-of-type(n + 2) > div:first-child::before {
+  content: var(--section);
+  place-self: stretch;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.x {
+  counter-reset: n 0;
+  place-items: center;
+}
+.x > div:nth-of-type(1) {
+  visibility: hidden;
+}
+
+.x > div:nth-of-type(n + 2) {
+  counter-increment: n;
+  display: grid;
+  place-items: center;
+  margin: 0.5ch;
+  min-width: calc(var(--s) * 0.75);
+  min-height: calc(var(--s) * 0.75);
+  border-width: 0.75ch;
+  border-color: #fff !important;
+}
+.x > div:nth-of-type(n + 17) {
+  display: none;
+}
+
+.x > div:nth-of-type(n + 2)::before {
+  content: counter(n);
+  text-align: center;
+}
+fieldset {
+  margin: 0 1ch 0.5em 1ch;
+  padding: 0.25em 1ch 0.4em 1ch;
+  display: flex;
+  flex-direction: row;
+  gap: 1ch;
+  align-items: center;
+  border-radius: 1ch;
+  background: linear-gradient(200deg, #000, #333, #111, #333, #000);
+  border: 1px solid #aaa;
+  box-shadow: 1px 1px 1px 0 #222;
+}
+fieldset[name='color'] {
+  grid-column: 1/-1;
+}
+fieldset > label {
+  display: flex;
+  letter-spacing: 0;
+  align-items: center;
+  font-size: 1.2em;
+  line-height: normal;
+}
+fieldset[name='color'] > label {
+  --u: clamp(0.25px, 0.1ch, 0.8px);
+  --top: 0 calc(var(--u) * -1.2);
+  --right: calc(var(--u) * 1.2) 0;
+  --bottom: 0 calc(var(--u) * 0.8);
+  --left: calc(var(--u) * -1.4) 0;
+  text-transform: lowercase;
+  font-family: Menlo, monospace;
+}
+
+label:has(> #mono) > span {
+  color: #000;
+  font-weight: bold;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(var(--top) 0 #fff) drop-shadow(var(--right) 0 #fff)
+    drop-shadow(var(--bottom) 0 #fff) drop-shadow(var(--left) 0 #fff);
+}
+label:has(> #grey) > span {
+  color: #0000;
+  background-image: linear-gradient(
+    90deg,
+    #222 0 1ch,
+    #666 0 2ch,
+    #aaa 0 3ch,
+    #ddd 0 4ch,
+    #0000 0
+  );
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(var(--top) 0 #eee) drop-shadow(var(--right) 0 #666)
+    drop-shadow(var(--bottom) 0 #666) drop-shadow(var(--left) 0 #ccc);
+}
+label:has(> #rgby) > span {
+  color: #0000;
+  background-image: linear-gradient(
+    90deg,
+    #f00 0 1ch,
+    #0e0 0 2ch,
+    #0dd 0 3ch,
+    #dd0 0 4ch,
+    #0000 0
+  );
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(var(--top) 0 #000) drop-shadow(var(--right) 0 #000)
+    drop-shadow(var(--bottom) 0 #000) drop-shadow(var(--left) 0 #000);
+}
+
+section:nth-of-type(n + 2) > div:first-child::before {
+  position: absolute;
+  filter: drop-shadow(0 1px 0 #000) drop-shadow(0 -1px 0 #000)
+    drop-shadow(-1px 0 0 #000) drop-shadow(1px 0 0 #000);
+}
+
+body {
+  grid-template-columns: calc(var(--s) * 1.25) repeat(15, var(--s));
+  margin: 0 calc(var(--s) * 0.25) 0 calc(var(--s) * 0.25);
+}
+
+section > div:first-child {
+  max-height: calc(var(--s) * 0.75);
+  max-width: calc(var(--s) * 0.75);
+}

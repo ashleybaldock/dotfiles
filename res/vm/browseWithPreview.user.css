@@ -2041,3 +2041,67 @@ h1,
 .toggle label:not(:hover) {
   transition-delay: 1s;
 }
+
+:root {
+  --main-layout-column-count: 30;
+}
+
+.toggle:not(:has(button)) label::before {
+  --icon: inherit;
+}
+.sequence.toggle:not(:has(button)) label::before {
+  /*   --icon: var(--mask-none);  */
+  --icon:
+    radial-gradient(
+      farthest-side circle at top left,
+      #fff0,
+      #fff8,
+      #fff2,
+      #fff6,
+      #fff0
+    ),
+    radial-gradient(circle at center, #fff0 0% 65%, #ffff 75% 100%);
+  mask-composite: subtract;
+  background-blend-mode: luminosity;
+}
+.sequence.toggle.numeric:not(:has(button)) label::before {
+  --icon:
+    radial-gradient(
+      farthest-side circle at top left,
+      #fff0,
+      #fff8,
+      #fff2,
+      #fff6,
+      #fff0
+    ),
+    radial-gradient(circle at center, #fff0 0% 65%, #ffff 75% 100%);
+  mask-composite: subtract;
+  background-blend-mode: luminosity;
+}
+
+.sequence.toggle label:has(:checked)::before {
+  background-image: linear-gradient(135deg, #fff1 20%, #0006 70%, #fff1);
+}
+
+label:has(> #toggle_playpause_playing, #toggle_playpause_paused)
+  :is(.prefix, .value, .suffix) {
+  display: none;
+}
+label:has(> #toggle_playpause_playing, #toggle_playpause_paused) {
+  --ico: var(--icon);
+}
+label:has(> #toggle_playpause_playing, #toggle_playpause_paused)::before {
+  --icon:
+    radial-gradient(circle at center, #fff0 0% 65%, #ffff 75% 100%),
+    radial-gradient(
+      farthest-side circle at top left,
+      #fff0,
+      #fff8,
+      #fff2,
+      #fff6,
+      #fff0
+    ),
+    var(--ico), linear-gradient(#ffff);
+  mask-composite: exclude, add;
+  mask-mode: luminance, luminance, alpha, luminance;
+}

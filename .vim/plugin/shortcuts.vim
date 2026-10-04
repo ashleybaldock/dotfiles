@@ -32,7 +32,7 @@ let g:mayhem_loaded_shortcuts = 1
 "     Space: 􁁺 ␣️  ␣ ␣︎
 "
  
-" ▌️ 􀆔 E ▐️────▷ LH Enter
+" ▌️ 􀆔 e ▐️────▷ LH Enter
 cnoremap <D-e> <CR>
 nnoremap <D-e> <CR>
 inoremap <D-e> <CR>
@@ -44,13 +44,18 @@ nnoremap ¡ :
 " ▌️􀆝􀆕 1▐️────▷ Start a shell command 
 nnoremap ⁄ :!
 
-" ▌️ 􀆕 A️ ▐️────▷ Jump forward (^O)
+" ▌️ 􀆕 a️ ▐️────▷ Jump forward (^O)
 nnoremap å           <C-o>
 nnoremap <leader>o   <C-o>
 
-" ▌️ 􀆕 S️ ▐️────▷ Jump backward (^I/<Tab>)
+" ▌️ 􀆕 s️ ▐️────▷ Jump backward (^I/<Tab>)
 nnoremap ß           <C-i>
 nnoremap <leader>i   <C-i>
+
+" ▌️ 􀆍 a ▐️────▷ Enchanced ^a, works on bools (e.g. true -> false)
+nnoremap <expr> <C-a> <Nop>
+" ▌️ 􀆍 x ▐️────▷ Enchanced ^x, works on bools (e.g. true -> false)
+nnoremap <expr> <C-a> <Nop>
 
 " Command line: <Up>/<Down> navigates history, even when PUM is open
 cnoremap <expr> <Up>   wildmenumode() ? "\<C-E>\<Up>"   : "\<Up>"
@@ -61,7 +66,7 @@ cnoremap <expr> <C-U> wildmenumode() ? "\<PageUp>" : "\<C-U>"
 " Command line: <Esc> closes PUM if open
 cnoremap <expr> <Esc> wildmenumode() ? "\<C-E>" : getcmdtype() =~ '[/?]' ? "\<C-c>" : "\<Esc>"
 
-" ▌️􀆝􀆕 Ú ▐️
+" ▌️􀆝􀆕 ;▐️
 cnoremap <expr> Ú getcmdtype() =~ '[/?]' ? search#toSubstitute() : search#expandLastSubstitute()
 
 " cnoremap <expr> <CR> getcmdtype() =~ '[/?]' ? "" : ""
@@ -377,15 +382,18 @@ nnoremap §“ <Plug>(mayhem_colcol_cursor_prev)
 " Swap:
 " word <-> following whitespace ('right align')
 " (V, pick lines, :)
-" TODO make this work with visual block + only swap first/nearest to cursor
-nnoremap §ar <Cmd>s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR><Cmd>noh<CR>
-xnoremap §ar <Cmd>s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR><Cmd>noh<CR>
+"
+nnoremap §ar <Cmd>keeppatterns :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR><Cmd>noh<CR>
+" visual mode - swaps the first two words found in selection TODO
+xnoremap §ar <Cmd>keeppatterns :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR><Cmd>noh<CR>
 
-" words around pivot     (AAA,BBB -> BBB,AAA
-"  (Swaps the first two words found in selection)
-nnoremap §as <Cmd>s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
-xnoremap §as <Cmd>s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
+" words around pivot     (AAA,BBB -> BBB,AAA)
+nnoremap §as <Cmd>keeppatterns :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
+" visual mode - swaps the first two words found in selection TODO
+xnoremap §as <Cmd>keeppatterns :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
+"
 " words around cursor (AD̲G -> ED̲C | AA, ̲XX -> XX, ̲AA | AB̲C XX -> CB̲A XX)
+"
 nnoremap §ac <Cmd>keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
 "
 "
@@ -396,11 +404,17 @@ nnoremap §ac <Cmd>keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR><Cmd>
 " (This is essentially the same as swapping around
 "   a pivot, but repeated)
 " 󠄀󠄁󠄂e.g. [ 'a', 'b̲', 'c' ] -> [ 'a', 'c', 'b' ]
+"
 " Swap to Right
+"
 " e.g. [ aaa,󠀨 󠁛b󠁝bb󠀩, ccc ] -> [ aaa, ccc, 󠀨󠁛b󠁝󠀩bb ]
+"
 nnoremap §ax :keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>
-" Swap to Left 󠇫󠇬󠇌󠀀󠀕󠀩󠁒󠀼󠁥󠁩󠁽󠅗󠅗󠅗󠄗󠄗󠅃 󠁾󠄀
+
+" Swap to Left
+"
 " e.g. [ a,_b̲_̓ c ] -> [ b, a, c ]
+"
 nnoremap §az :keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>
 
 " Move Block:

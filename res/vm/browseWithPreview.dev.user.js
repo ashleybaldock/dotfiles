@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview dev
 // @namespace   mayhem
-// @version     1.0.483
+// @version     1.0.485
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.dev.user.js
@@ -872,21 +872,8 @@ const initBrowsePreview = ({ document: { body } }) => {
 
       // const cue = ()
 
-      /**
-       * Resume playback using last active media player
-       */
-      const play = () => {
-        // currentSrc ??= nextMedia();
-        video.volume = 0;
-        video.muted = true;
-        video.play();
-      };
-      /**
-       * Pause playback
-       */
-      const pause = () => {
-        video.pause();
-      };
+
+      const 
 
       /**
        * To ensure every file gets seen when interleaved
@@ -910,28 +897,48 @@ const initBrowsePreview = ({ document: { body } }) => {
       // const nextMediaAfter = (mediaDuration) => mediaDuration > (cycleTime() * interleave_max_samples.value) ? :
       // };
 
-      let nextMediaTimeoutId = null,
-        nextMediaTimeoutExpected = null,
-        nextMediaTimeoutResumeWithDuration = null;
+      const nextMedia = (() => {
+        let id = null,
+          expected = null,
+          resumeWithDuration = 0;
 
-      const setNextMediaTimeout = (duration) => {
-        nextMediaTimeoutExpected = Date.now() + duration;
-        nextMediaTimeoutId =
-          clearTimeout(nextMediaTimeoutId) ??
-          setTimeout(() => {
-            nextMediaTimeoutExpected = null;
-            nextMediaTimeoutResumeWithDuration = null;
-            nextMedia();
-          }, duration);
-      };
-      const pauseNextMediaTimeout = () => {
-        nextMediaTimeoutResumeWithDuration =
-          Date.now() - (nextMediaTimeoutExpected ?? Number.POSITIVE_INFINITY);
-        nextMediaTimeoutId = clearTimeout(nextMediaTimeoutId);
-      };
-      const resumeNextMediaTimeout = () =>
-        isFinite(nextMediaTimeoutResumeWithDuration) &&
-        setNextMediaTimeout(nextMediaTimeoutResumeWithDuration);
+        const setTimeout = (duration) => {
+          expected = Date.now() + duration;
+          id =
+            clearTimeout(id) ??
+            setTimeout(() => {
+              expected = null;
+              resumeWithDuration = 0;
+              nextMedia();
+            }, duration);
+        };
+        const pauseNextMediaTimeout = () => {
+          resumeWithDuration = Math.max(Date.now() - (expected ?? Number.POSITIVE_INFINITY));
+          id = clearTimeout(id);
+        };
+        const resumeNextMediaTimeout = () =>
+          setNextMediaTimeout(resumeWithDuration);
+
+        return {
+          /**
+           *  cue changing to the next media, switching to it after
+           *  a delay (given in milliseconds, default: 100)
+           */
+          cue: (delay = 100) => {
+            setTimeout(delay);
+          },
+          /**
+           * Pause next cue until resume() is called
+           *
+           * The remaining delay before the cue is stored
+           */
+          pause: () => pauseTimeout(),
+          /**
+           * Resume cue, with the delay remaining when it was paused
+          */
+          resume: () => resumeTimeout(),
+        };
+      })();
 
       const nextMedia = async () => {
         const { url, isImage, isVideo } = await nextFile();
@@ -987,15 +994,31 @@ const initBrowsePreview = ({ document: { body } }) => {
               once: true,
             });
           }
-          setNextMediaTimeout(imageduration.value * 1000);
+          nextMedia.cue(imageduration.value * 1000);
         } else {
-          setNextMediaTimeout(100);
+          nextMedia.cue(100);
           wrapper.dataset.active = 'x';
           videoA.removeAttribute('src');
           videoB.removeAttribute('src');
           imageI.removeAttribute('src');
           imageJ.removeAttribute('src');
         }
+      };
+
+      /**
+       * Resume playback using last active media player
+       */
+      const play = () => {
+        // currentSrc ??= nextMedia();
+        video.volume = 0;
+        video.muted = true;
+        video.play();
+      };
+      /**
+       * Pause playback
+       */
+      const pause = () => {
+        video.pause();
       };
 
       const onPlay = (video) => {
@@ -1084,9 +1107,9 @@ const initBrowsePreview = ({ document: { body } }) => {
             ['loadedmetadata', 'debug'],
             ['progress', 'debug'],
             ['waiting', 'debug'],
-            ['stalled', 'debug'],
+            ['stalled', 'info'],
             ['suspend', 'debug'],
-            ['error', 'debug'],
+            ['error', 'warn'],
           ].forEach((eventName, loglevel) =>
             video.addEventListener(eventName, () =>
               console?.[loglevel]?.(
@@ -1097,48 +1120,32 @@ const initBrowsePreview = ({ document: { body } }) => {
         ))({ idx });
 
       /* Playback */
-      const onCanplaythrough = (video) => {
+      const onCanplaythroughA = () => {
         imageI.removeAttribute('src');
         imageJ.removeAttribute('src');
-
-        video.play();
+        videoA.play();
+        videoB.pause();
+        videoB.removeAttribute('src');
+        videoB.load();
+      };
+      const onCanplaythroughA = () => {
+        imageI.removeAttribute('src');
+        imageJ.removeAttribute('src');
+        videoB.play();
+        videoA.pause();
+        videoA.removeAttribute('src');
+        videoA.load();
       };
       const onEnded = (video) => {
         _playbackErrors = Math.max(0, _playbackErrors + addToCountOnSuccess);
 
         nextMedia();
       };
-      videoA.addEventListener('canplaythrough', () => onCanplaythrough(videoA));
-      videoB.addEventListener('canplaythrough', () => onCanplaythrough(videoB));
-      videoA.addEventListener('ended', () => onEnded(videoA));
-      videoB.addEventListener('ended', () => onEnded(videoB));
+      videoA.addEventListener('canplaythrough', () => onCanplaythroughA());
+      videoB.addEventListener('canplaythrough', () => onCanplaythroughB());
+      videoA.addEventListener('ended', () => onEnded());
+      videoB.addEventListener('ended', () => onEnded());
 
-      video.addEventListener('emptied', () => {
-        // console.info(`${idx} emptied '${decodeURI(video.src)}'`);
-      });
-
-      /* Loading */
-      video.addEventListener('loadstart', () => {
-        // console.debug(`${idx} loadstart '${decodeURI(video.src)}'`);
-      });
-      video.addEventListener('loadeddata', () => {
-        // console.debug(`${idx} loadeddata '${decodeURI(video.src)}'`);
-      });
-      video.addEventListener('loadedmetadata', () => {
-        // console.debug(`${idx} loadedmetadata '${decodeURI(video.src)}'`);
-      });
-      video.addEventListener('progress', () => {
-        // console.debug(`${idx} progress '${decodeURI(video.src)}'`);
-      });
-      video.addEventListener('waiting', () => {
-        // console.info(`${idx} waiting '${decodeURI(video.src)}'`);
-      });
-      video.addEventListener('stalled', () => {
-        console.info(`${idx} stalled '${decodeURI(video.src)}'`);
-      });
-      video.addEventListener('suspend', () => {
-        // console.info(`${idx} suspend '${decodeURI(video.src)}'`);
-      });
       video.addEventListener('error', () => {
         console.warn(`${idx} error loading '${decodeURI(video.src)}'`);
 
@@ -1158,6 +1165,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         pause,
         enable: () => {
           video.classList.remove('off');
+          resumeNextMediaTimeout();
         },
         disable: () => {
           video.pause();

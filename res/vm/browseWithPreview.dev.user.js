@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview dev
 // @namespace   mayhem
-// @version     1.0.485
+// @version     1.0.497
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.dev.user.js
@@ -848,12 +848,14 @@ const initBrowsePreview = ({ document: { body } }) => {
 
       const noMedia = GM_addElement(wrapper, 'nomedia', {
         textContent: 'no media',
+        'data-media': 'x',
       });
 
       const videoA = GM_addElement(wrapper, 'video', {
         preload: '',
         muted: '',
         class: 'a',
+        'data-media': 'a',
         ...attrs,
       });
 
@@ -861,19 +863,23 @@ const initBrowsePreview = ({ document: { body } }) => {
         preload: '',
         muted: '',
         class: 'b',
+        'data-media': 'b',
         ...attrs,
       });
 
-      const imageI = GM_addElement(wrapper, 'img', {});
+      const imageI = GM_addElement(wrapper, 'img', {
+        class: 'i',
+        'data-media': 'i',
+      });
 
-      const imageJ = GM_addElement(wrapper, 'img', {});
+      const imageJ = GM_addElement(wrapper, 'img', {
+        class: 'j',
+        'data-media': 'j',
+      });
 
       const video = videoA;
 
       // const cue = ()
-
-
-      const 
 
       /**
        * To ensure every file gets seen when interleaved
@@ -900,109 +906,127 @@ const initBrowsePreview = ({ document: { body } }) => {
       const nextMedia = (() => {
         let id = null,
           expected = null,
-          resumeWithDuration = 0;
-
-        const setTimeout = (duration) => {
-          expected = Date.now() + duration;
-          id =
-            clearTimeout(id) ??
-            setTimeout(() => {
-              expected = null;
-              resumeWithDuration = 0;
-              nextMedia();
-            }, duration);
+          resumeDelay = 0;
+        const next = async () => {
+          const { url, isImage, isVideo } = await nextFile();
+          console.debug(
+            `nextMedia idx: ${idx}, url: '${decodeURI(url)}',􀆄􀏅 􃝴  􀏆 􃝵  􀎶  􀍉 􀍍 􀆅􀍊 􀍎 isImage: ${isImage}, isVideo: ${isVideo}`,
+          );
+          if (isVideo) {
+            isActive(videoA) ? cueB() : cueA();
+          } else if (isImage) {
+            isActive(imageI) ? cueJ() : cueI();
+            nextMedia.cue(imageduration.value * 1000);
+          } else {
+            nextMedia.cue(100);
+          }
+          wrapperUpdateActive();
         };
-        const pauseNextMediaTimeout = () => {
-          resumeWithDuration = Math.max(Date.now() - (expected ?? Number.POSITIVE_INFINITY));
-          id = clearTimeout(id);
-        };
-        const resumeNextMediaTimeout = () =>
-          setNextMediaTimeout(resumeWithDuration);
-
         return {
           /**
            *  cue changing to the next media, switching to it after
            *  a delay (given in milliseconds, default: 100)
            */
           cue: (delay = 100) => {
-            setTimeout(delay);
+            expected = Date.now() + delay;
+            id =
+              clearTimeout(id) ??
+              setTimeout(() => {
+                expected = null;
+                resumeDelay = 0;
+                nextMedia();
+              }, delay);
           },
           /**
            * Pause next cue until resume() is called
            *
            * The remaining delay before the cue is stored
            */
-          pause: () => pauseTimeout(),
+          pause: () => {
+            resumeDelay = Math.max(
+              0,
+              Date.now() - (expected ?? Number.POSITIVE_INFINITY),
+            );
+            id = clearTimeout(id);
+          },
           /**
            * Resume cue, with the delay remaining when it was paused
-          */
-          resume: () => resumeTimeout(),
+           */
+          resume: setNextMediaTimeout(resumeDelay),
         };
       })();
 
-      const nextMedia = async () => {
-        const { url, isImage, isVideo } = await nextFile();
-        console.debug(
-          `nextMedia idx: ${idx}, url: ${url}, isImage: ${isImage}, isVideo: ${isVideo}`,
-        );
-        if (isVideo) {
-          if (wrapper.dataset.active === 'a') {
-            videoB.src = url;
-            videoB.addEventListener(
-              'canplaythrough',
-              () => {
-                wrapper.dataset.active = 'b';
-                videoA.removeAttribute('src');
-                videoA.load();
-                imageJ.removeAttribute('src');
-                imageI.removeAttribute('src');
-              },
-              { once: true },
-            );
+      const wrapperUpdateActive = () => {
+        wrapper.dataset.active = 'a';
+      };
+
+      const cueNone = () => {
+        videoA.removeAttribute('src');
+        videoA.load();
+        videoB.removeAttribute('src');
+        videoB.load();
+        imageI.removeAttribute('src');
+        imageJ.removeAttribute('src');
+      };
+
+      const cueA = () => {
+        videoA.src = url;
+        videoA.addEventListener(
+          'canplaythrough',
+          () => {
+            videoB.removeAttribute('src');
             videoB.load();
-          } else {
-            videoA.src = url;
-            videoA.addEventListener(
-              'canplaythrough',
-              () => {
-                wrapper.dataset.active = 'a';
-                videoB.removeAttribute('src');
-                videoB.load();
-                imageJ.removeAttribute('src');
-                imageI.removeAttribute('src');
-              },
-              { once: true },
-            );
+            imageJ.removeAttribute('src');
+            imageI.removeAttribute('src');
+          },
+          { once: true },
+        );
+        videoA.load();
+      };
+
+      const cueB = () => {
+        videoB.src = url;
+        videoB.addEventListener(
+          'canplaythrough',
+          () => {
+            videoA.removeAttribute('src');
             videoA.load();
-          }
-        } else if (isImage) {
-          if (wrapper.dataset.active === 'i') {
-            imageJ.src = url;
-            imageJ.addEventListener(
-              'load',
-              () => {
-                wrapper.dataset.active = 'j';
-                videoA.removeAttribute('src');
-                videoB.removeAttribute('src');
-                imageI.removeAttribute('src');
-              },
-              { once: true },
-            );
-          } else {
-            imageI.src = url;
-            imageI.addEventListener('load', () => onLoad(imageI), {
-              once: true,
-            });
-          }
-          nextMedia.cue(imageduration.value * 1000);
-        } else {
-          nextMedia.cue(100);
-          wrapper.dataset.active = 'x';
-          videoA.removeAttribute('src');
-          videoB.removeAttribute('src');
-          imageI.removeAttribute('src');
-          imageJ.removeAttribute('src');
-        }
+            imageJ.removeAttribute('src');
+            imageI.removeAttribute('src');
+          },
+          { once: true },
+        );
+        videoB.load();
+      };
+
+      const cueI = () => {
+        imageI.addEventListener(
+          'load',
+          () => {
+            videoA.removeAttribute('src');
+            videoA.load();
+            videoB.removeAttribute('src');
+            videoB.load();
+            imageJ.removeAttribute('src');
+          },
+          { once: true },
+        );
+        imageI.src = url;
+      };
+
+      const cueJ = () => {
+        imageJ.addEventListener(
+          'load',
+          () => {
+            videoA.removeAttribute('src');
+            videoA.load();
+            videoB.removeAttribute('src');
+            videoB.load();
+            imageI.removeAttribute('src');
+          },
+          { once: true },
+        );
+        imageJ.src = url;
       };
 
       /**

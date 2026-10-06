@@ -45,7 +45,7 @@ function! mayhem#bufferToNewWindow() abort
   " if buffer hasn't been saved
   echo remote_expr('VIM12', 'execute(":e ~/.vim/vimrc")')
 endfunc
-function! mayhem#tabToNewWindow() abort
+function! mayhem#tabToNewWindow() aborT
   echo 'todo'
 endfunc
 

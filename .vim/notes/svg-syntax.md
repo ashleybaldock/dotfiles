@@ -27,7 +27,7 @@
  │             │       to abs y coord   ┊         by distance y                │
  ├─────────────│────────────────────────┊──────────────────────────────────────┤
  │  Quadratic: │ Q  𝓍¹ 𝓎¹ 𝓍  𝓎          ┊         q  ᵈx¹ ᵈy¹ ᵈx  ᵈy            │
- │  Quadratic: │ Q  𝛼ˣ️ 𝛼ʸ️ 𝓍  𝓎          ┊         q   𝛼ˣ⃗ 𝛼ʸ⃗   𝓍⃗  𝓎⃗             │
+ │             │ Q  𝛼ˣ️ 𝛼ʸ️ 𝓍  𝓎          ┊         q   𝛼ˣ⃗ 𝛼ʸ⃗   𝓍⃗  𝓎⃗             │
  │             │   ╰╴p¹╶╯╰╴pᵉ️╶╯         ┊           ╰─╴p¹╶─╯╰─╴pᵉ️╶─╯           │
  │             │                        ┊ 𝙥ˣ️ 𝙥ʸ️ ◄───────╯───────╯              │
  │             │                        ┊                                      │
@@ -105,6 +105,15 @@ viewBox="0 0 40 40">
          M0 18h8v-8h-8zm1-1h6v-6h-6z" marker-end="url(#coord)" marker-start="url(#coord)"></path>
 <path d="M10 8h8v-8h-8zm1-1h6v-6h-6z"></path>
 <path d="M20 8h8v-8h-8zm1-1h6v-6h-6z"></path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" style="height: 30px;" viewBox="0 0 30 30" fill="#fff">
+  <path style="fill-rule: evenodd;" d="M6 10h6v-6h-6zm1-1v-4h4v4zm6-1v-2h-8v2zm-5 3v-8h2v8z"></path>
+  <path style="fill-rule: nonzero;transform: scale(-1,1);transform-origin: center center;" d="M6 10h6v-6h-6zm1-1v-4h4v4zm6-4v-2h-8v2zm-5 3v-8h2v8z"></path>
+  <path style="fill-rule: nonzero;" d="M6 20h6v-6h-6zm1-1v-4h4v4zm6-1v-2h-8v2zm-6 3v-8h5v8z"></path>
+  <path style="fill-rule: nonzero;transform: scale(-1,1);transform-origin: center center;" d="M6 20h6v-6h-6zm1-1v-4h4v4zm6-1v-2h-8v2zm-6 3v-8h5v8z"></path>
+  <path style="display: none;" d="M19 9h8v-8h-8zm1-1v-6h6v6zm8-8v6h-6v-6z"></path>
+  <path d="M1 18v-8h8v8zm1-1h1v-1h-1zm1-1h10v-1h-10zm1-1h8v4h-8z" style="display: none;"></path>
+  <path d="M14 18v-8h8v8zm1-1h1v-1h-1zm1-1h10v-1h-10zm1-1h8v4h-8z" style="transform: scale(-1,1) translateX(-40px);fill-rule: evenodd;display: none;"></path>
 </svg>
 ```
 

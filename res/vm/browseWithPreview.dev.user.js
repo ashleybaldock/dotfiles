@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview dev
 // @namespace   mayhem
-// @version     1.0.479
+// @version     1.0.483
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.dev.user.js
@@ -846,6 +846,10 @@ const initBrowsePreview = ({ document: { body } }) => {
         addToCountOnError = 1,
         addToCountOnSuccess = -2;
 
+      const noMedia = GM_addElement(wrapper, 'nomedia', {
+        textContent: 'no media',
+      });
+
       const videoA = GM_addElement(wrapper, 'video', {
         preload: '',
         muted: '',
@@ -866,13 +870,13 @@ const initBrowsePreview = ({ document: { body } }) => {
 
       const video = videoA;
 
-      const cue = ()
+      // const cue = ()
 
       /**
        * Resume playback using last active media player
        */
       const play = () => {
-        currentSrc ??= nextMedia();
+        // currentSrc ??= nextMedia();
         video.volume = 0;
         video.muted = true;
         video.play();
@@ -912,19 +916,22 @@ const initBrowsePreview = ({ document: { body } }) => {
 
       const setNextMediaTimeout = (duration) => {
         nextMediaTimeoutExpected = Date.now() + duration;
-        (nextMediaTimeoutId =
-          clearTimeout(nextMediaTimeoutId) ?? setTimeout(() => {
+        nextMediaTimeoutId =
+          clearTimeout(nextMediaTimeoutId) ??
+          setTimeout(() => {
             nextMediaTimeoutExpected = null;
             nextMediaTimeoutResumeWithDuration = null;
             nextMedia();
-          }, duration));
-      }
+          }, duration);
+      };
       const pauseNextMediaTimeout = () => {
-        nextMediaTimeoutResumeWithDuration = Date.now() - (nextMediaTimeoutExpected ?? Number.POSITIVE_INFINITY)
+        nextMediaTimeoutResumeWithDuration =
+          Date.now() - (nextMediaTimeoutExpected ?? Number.POSITIVE_INFINITY);
         nextMediaTimeoutId = clearTimeout(nextMediaTimeoutId);
-      }
-      const resumeNextMediaTimeout = () => 
-        isFinite(nextMediaTimeoutResumeWithDuration) && setNextMediaTimeout(nextMediaTimeoutResumeWithDuration);
+      };
+      const resumeNextMediaTimeout = () =>
+        isFinite(nextMediaTimeoutResumeWithDuration) &&
+        setNextMediaTimeout(nextMediaTimeoutResumeWithDuration);
 
       const nextMedia = async () => {
         const { url, isImage, isVideo } = await nextFile();
@@ -964,23 +971,32 @@ const initBrowsePreview = ({ document: { body } }) => {
         } else if (isImage) {
           if (wrapper.dataset.active === 'i') {
             imageJ.src = url;
-            imageJ.addEventListener('load', () => {
-              wrapper.dataset.active = 'j';
-              videoA.removeAttribute('src');
-              videoB.removeAttribute('src');
-              imageI.removeAttribute('src');
-            }, {once: true});
+            imageJ.addEventListener(
+              'load',
+              () => {
+                wrapper.dataset.active = 'j';
+                videoA.removeAttribute('src');
+                videoB.removeAttribute('src');
+                imageI.removeAttribute('src');
+              },
+              { once: true },
+            );
           } else {
             imageI.src = url;
-            imageI.addEventListener('load', () => onLoad(imageI), {once: true});
+            imageI.addEventListener('load', () => onLoad(imageI), {
+              once: true,
+            });
           }
           setNextMediaTimeout(imageduration.value * 1000);
         } else {
           setNextMediaTimeout(100);
           wrapper.dataset.active = 'x';
+          videoA.removeAttribute('src');
+          videoB.removeAttribute('src');
+          imageI.removeAttribute('src');
+          imageJ.removeAttribute('src');
         }
       };
-
 
       const onPlay = (video) => {
         // console.info(`${idx} playing '${decodeURI(video.src)}'`);
@@ -1044,7 +1060,6 @@ const initBrowsePreview = ({ document: { body } }) => {
 
       videoB.addEventListener('play', () => onPlay(videoB), {});
       videoB.addEventListener('pause', () => onPause(videoB), {});
-
 
       (({ idx }) =>
         [

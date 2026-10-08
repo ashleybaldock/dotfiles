@@ -181,18 +181,43 @@ syn match LastSub contained +\~+ contains=NONE
 syn match CharClass contained +\%(\\_\?\)[ikfpIKFPsdxowhalu]+ contains=NONE
 syn match NCharClass contained +\%(\\_\?\)[SDXOWHALU]+ contains=NONE
 
-syn region Collection contained
-      \ matchgroup=ColEnds start=+\(\\_\)\?\[+
-      \ skip=+\\]+
-      \ end=+\\\\]+
-      \ end=+]+
-      \ contains=ColRange,SWColExpr,ColExpr
-syn match ColRange contained /[^[-]-[^]-]/ contains=ColRangeSep
+      " \ matchgroup=ColEnds2 end=+\[\@1<!]+
+" syn region Collection contained
+"       \ matchgroup=ColEnds start=+\(\\_\)\?\[+
+"       \ skip=+\\]+
+"       \ end=+\\\\]+
+"       \ end=+]+
+"       \ contains=ColRange,SWColExpr,ColExpr
+" syn match Collection2 contained /\(\\_\)\?\[[^][]\{-}]/ contains=ColStart,ColEnd
+" syn match Collection2 contained /\(\\_\)\?\[\%(\%(\][^\[\]]\{-}\)\?\]\)\@=/ contains=ColStart nextgroup=ColEscaped,ColCollation,ColRange,SWColExpr,ColExpr,ColOther
+" syn match ColStart contained /\(\\_\)\?\[]\%([^[]\{-}]\)\@=/ contains=ColRange,SWColExpr,ColExpr nextgroup=ColNotEnd
+      \ skip=+\\[\]\\]+
+syn region Collection contained keepend
+      \ start=+\(\\_\)\?\[\]\?+
+      \ matchgroup=ColEnds end=+]+
+      \ contains=ColStart,ColEscaped,ColEquiv,ColCollation,ColRange,SWColExpr,ColExpr
+syn match ColStart contained /\(\\_\)\?\%(\[\)\@1<!\[/ contains=NONE 
+      \ nextgroup=ColNotEnd
+
+syn match ColCollation contained /\[\.\a\.\]/ contains=NONE extend
+syn match ColEquiv contained /\[=\a=\]/ contains=NONE extend
+syn match ColEscaped contained /\\[\\\^\]bdertnoUux]/ contains=NONE extend
+syn match ColNotEnd contained /\%(\%(\\_\)\?\[\)\@3<=\]\%([^\[]\{-}]\)\@=/ contains=NONE extend
+
+hi def link ColStart ColEnds
+hi def link ColNotEnd Collection
+hi def link ColCollation ColEscaped
+hi def link ColEquiv ColEscaped
+
+syn match ColRange contained /[^[-]-[^]-]/ contains=ColRangeSep extend
 syn match ColRangeSep contained /[^[-]\@1<=-\ze[^]-]/ contains=NONE
-syn region ColExpr contained keepend
+
+syn region ColExpr contained extend
       \ matchgroup=ColExprEnds start=+\[:+
       \ end=+:]\|[^a-z]+
       \ contains=ColExprKeyword
+
+syn match SWColExpr contained /:\w\+:/ contains=NONE extend
 
 syn region NCollection contained
       \ matchgroup=NColEnds start=+\(\\_\)\?\[^+
@@ -206,14 +231,13 @@ syn region NColExpr contained keepend
       \ matchgroup=NColExprEnds start=+\[:+
       \ end=+:]\|[^a-z]+
       \ contains=ColExprKeyword
-syn match SWColExpr contained /:\w\+:/ contains=NONE
 
 syn cluster Flags contains=Engine,Magic,NoMagic,VeryMagic,VeryNoMagic,CaseMatch,CaseIgnore,CompIgnore
 syn cluster Bounds contains=
       \Boundary,BoL,EoL,BoF,EoF,BEoW,SoM,EoM,
       \BdVis,BdCur,BdMark,BdLine,BdCol,BdVCol
 syn cluster Atoms contains=@Bounds,@Flags,LastSub,WildCompose,Wildcard,
-      \Literal,CharClass,NCharClass,Collection,NCollection,BackRef,
+      \Literal,CharClass,NCharClass,Collection,Collection2,NCollection,BackRef,
       \Decimal,Hex,Octal,Uni,UniUni
 syn cluster Multis contains=Greedy,Lazy
 syn cluster Looks contains=LkBehind,NLkBehind,LkAhead,LkHere,NLkHere
@@ -310,7 +334,9 @@ hi def CharClass    guifg=#7799ff
 hi def ColRange     guifg=#88aaff guibg=NONE guisp=#5583ff gui=underline
 hi def ColRangeSep  guifg=#7799ff guibg=NONE guisp=#5583ff gui=underline
 hi def ColEnds      guifg=#5583ff guibg=NONE
+hi def ColEnds2     guifg=#0066ff guibg=#113177
 hi def link Collection CharClass
+hi def ColEscaped   guifg=#bbddff guibg=#0055ff
 hi def link ColRangeSep ColEnds
 hi def ColExprEnds  guifg=#88aaff
 hi def link ColExpr ColRange

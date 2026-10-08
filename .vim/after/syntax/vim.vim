@@ -268,25 +268,25 @@ hi def link CommentCmdPre Comment
 
 
 " echo matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: ''})
-let s:multi_comment_matchids = []
-let g:mayhem_conceal_comment = [
-      \'┳',
-      \'┃',
-      \'┗',
-      \'❙',
-      \]
-let g:mayhem_conceal_comment = [
-      \'⍋',
-      \'║',
-      \'⍒',
-      \'',
-      \]
-function! MultiComments() abort
-  call foreach(s:multi_comment_matchids, {i, id -> matchdelete(id)})
-  let s:multi_comment_matchids = [
-        \matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '║'}),
-        \matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: '⎢'}),
-        \matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '⍋'}),
-        \matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: '⍒'}),
-        \]
-endfunc
+" let s:multi_comment_matchids = []
+" let g:mayhem_conceal_comment = [
+"       \'┳',
+"       \'┃',
+"       \'┗',
+"       \'❙',
+"       \]
+" let g:mayhem_conceal_comment = [
+"       \'⍋',
+"       \'║',
+"       \'⍒',
+"       \'',
+"       \]
+" function! MultiComments() abort
+"   call foreach(s:multi_comment_matchids, {i, id -> matchdelete(id)})
+"   let s:multi_comment_matchids = [
+"         \matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '║'}),
+"         \matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: '⎢'}),
+"         \matchadd('Conceal', '^\s*\%([^"]\|$\).*\n\s*\zs"\ze.*\n\s*"', 10, -1, #{conceal: '⍋'}),
+"         \matchadd('Conceal', '^\s*".*\n\s*\zs"\ze.*\n\s*\%([^"]\|$\)', 10, -1, #{conceal: '⍒'}),
+"         \]
+" endfunc

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview dev
 // @namespace   mayhem
-// @version     1.0.497
+// @version     1.0.512
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.dev.user.js
@@ -27,16 +27,16 @@
 
 const defaultConfig = {
   playpause: {
+    title: 'Playback)',
     kind: ['playing', 'paused'],
-    default: 'playing',
     tip: 'Playback State (playing/paused)',
     kindtip: (p) => `Playback State: ${p}`,
     idx: 1,
   },
   debug: { kind: 'toggle', default: false, tip: 'Debug Mode', idx: 2 },
   bluronblurtimeout: {
-    kind: [0, 5, 15, 30, 60, Math.POSITIVE_INFINITY],
-    default: 30,
+    title: 'Blur on blur',
+    kind: [30, 60, Math.POSITIVE_INFINITY, 0, 5, 15],
     tip: 'Blur screen when focus is lost',
     kindtip: (p) =>
       p === Math.POSITIVE_INFINITY
@@ -44,8 +44,8 @@ const defaultConfig = {
         : `Blur screen when focus ${p === 0 ? `is lost` : `has been lost for ${p} seconds`}`,
   },
   pauseonblurtimeout: {
-    kind: [0, 5, 15, 30, 60, Math.POSITIVE_INFINITY],
-    default: 30,
+    title: 'Pause on blur',
+    kind: [30, 60, Math.POSITIVE_INFINITY, 0, 5, 15],
     tip: 'Pause media when focus is lost',
     kindtip: (p) =>
       p === Math.POSITIVE_INFINITY
@@ -53,31 +53,32 @@ const defaultConfig = {
         : `Pause media when focus ${p === 0 ? `is lost` : `has been lost for ${p} seconds`}`,
   },
   onpause: {
-    kind: ['blur', 'grid', 'none'],
-    default: 'grid',
+    title: 'On Pause',
+    kind: ['grid', 'none', 'blur'],
     tip: 'Behaviour when media is paused',
     kindtip: (p) =>
       `When media paused, ${p === 'blur' ? 'blur the screen' : p === 'grid' ? 'show grid view' : 'do nothing'}.`,
   },
   showGrid: {
-    kind: 'toggle',
-    default: false,
+    title: 'Grid',
+    kind: false,
     tip: 'Show multiple media arranged on a grid',
   },
   grid_fit: {
-    kind: ['auto', 'contain', 'cover', 'fitw', 'fith'],
+    title: 'Grid fit mode',
+    kind: ['contain', 'cover', 'fitw', 'fith', 'auto'],
     default: 'contain',
     tip: 'Fit used in grid mode for media',
   },
   imageduration: {
-    kind: 'number',
-    default: 5,
+    kind: 5,
     tip: 'Default duration to display images for',
     group: 'player',
     idx: 1,
   },
   player: {
-    kind: ['linear', 'interleave'],
+    textContent: 'Player Mode',
+    kind: ['interleave', 'canvas', 'linear'],
     default: 'interleave',
     tip: 'Player Mode (interleave/linear)',
     kindtip: (p) => `Player Mode: ${p}`,
@@ -85,39 +86,55 @@ const defaultConfig = {
     idx: 2,
   },
   interleave_active_player_count: {
-    kind: [2, 3, 4, 6, 9, 12, 16],
-    default: 9,
+    kind: [9, 12, 16, 2, 3, 4, 6],
     tip: 'Max # of interleaved videos',
     kindtip: (n) => `Max of ${n} interleaved videos`,
     numeric: true,
     group: 'interleave',
     idx: 1,
+    cssvar: {
+      name: '--interleave-active-player-count',
+      syntax: '<integer>',
+      inherits: true,
+      selector: ':root',
+    },
   },
   interleave_duration_ms: {
     kind: [
-      60000, 30000, 20000, 15000, 12000, 10000, 7500, 6000, 4000, 3000, 2000,
-      1000, 800, 750, 625, 600, 500, 480, 400, 375, 300, 250, 240, 200, 160,
-      150,
+      500, 480, 400, 375, 300, 250, 240, 200, 160, 150, 60000, 30000, 20000,
+      15000, 12000, 10000, 7500, 6000, 4000, 3000, 2000, 1000, 800, 750, 625,
+      600,
     ],
-    default: 500,
     numeric: true,
     tip: 'Show each media for a fixed time',
-    kindtip: (n) => `Show each media for ${n}ms`,
+    kindtip: (n) =>
+      `Show each media for ${n >= 1000 ? `${(n / 1000).toFixed(0)}s` : `${n}ms`}`,
+    cssvar: {
+      name: '--interleave-duration-ms',
+      syntax: '<time>',
+      inherits: true,
+      selector: ':root',
+    },
   },
   interleave_bpm: {
     kind: [
-      1, 2, 3, 4, 5, 6, 8, 10, 15, 20, 30, 60, 75, 80, 96, 100, 120, 125, 150,
-      160, 200, 240, 250, 300, 375, 400,
+      120, 125, 150, 160, 200, 240, 250, 300, 375, 400, 1, 2, 3, 4, 5, 6, 8, 10,
+      15, 20, 30, 60, 75, 80, 96, 100,
     ],
-    default: 120,
     numeric: true,
     tip: 'Change media at a fixed rate',
     kindtip: (n) => `Change media ${n} times per minute`,
+    cssvar: {
+      name: '--interleave-bpm',
+      syntax: '<number>',
+      // initialValue: 120,
+      inherits: true,
+      selector: ':root',
+    },
   },
   interleave_timing: { kind: ['bpm', 'span'], default: 'bpm' },
   interleave_max_samples: {
-    kind: [1, 3, 5, 10, Number.POSITIVE_INFINITY],
-    default: 3,
+    kind: [3, 5, 10, Number.POSITIVE_INFINITY, 1],
     numeric: true,
     tip: 'Maximum number of samples to show before changing media',
     kindtip: (n) =>
@@ -127,84 +144,82 @@ const defaultConfig = {
   },
   interleave_sampling: {
     tip: 'Method used to select media samples to interleave',
-    kind: ['random', 'sequential', 'incidental'],
-    default: 'incidental',
+    kind: ['incidental', 'random', 'sequential'],
     kindtip: (p) =>
       p === 'incidental'
         ? 'Media are played simultaneously and switched between.'
         : `Samples are selected from each media ${p === 'random' ? 'randomly ' : ''}${p === 'sequential' ? 'sequentially ' : ''} to be interleaved.`,
   },
   repeat_playlist: {
-    kind: 'toggle',
-    default: true,
-    tip: 'Repeat playlist',
+    title: 'Repeat playlist',
+    kind: true,
+    tip: 'Repeat entire playlist',
     group: 'repeat',
     idx: 1,
-    tip: 'Change media at a fixed rate',
-    kindtip: (n) => `Change media ${n} times per minute`,
   },
   repeat_playing: {
-    kind: 'toggle',
-    default: true,
+    kind: true,
     tip: 'Repeat all currently playing media (stop loading new files in interleave mode)',
     group: 'repeat',
     idx: 2,
   },
   shuffle_on_load: {
-    kind: 'toggle',
-    default: true,
+    title: 'Shuffle on load',
+    kind: true,
     tip: 'Shuffle playlist on initial load of directory',
     group: 'repeat',
     idx: 3,
   },
   shuffle_on_repeat: {
-    kind: 'toggle',
-    default: true,
+    title: 'Shuffle on repeat',
+    kind: true,
     tip: 'Shuffle playlist every repeat',
     group: 'repeat',
     idx: 4,
     enable: ['repeat_playlist'],
   },
   reload_on_repeat: {
-    kind: 'toggle',
-    default: true,
+    title: 'Reload on repeat',
+    kind: true,
     tip: 'Reload folder contents on playlist repeat',
     group: 'repeat',
     idx: 5,
     enable: ['repeat_playlist'],
   },
-  filter: { kind: 'string', default: '.*\.mp4$', hidden: true },
+  filter: { kind: '.*\.mp4$', hidden: true },
   filelist: {
-    kind: ['below', 'beside', 'hide'],
-    default: 'hide',
-    tip: 'File List location (below/beside/hide)',
+    title: 'Show file listing',
+    kind: ['hide', 'below', 'beside'],
+    tip: 'File List location',
+    kindtip: (p) =>
+      `${p === 'hide' ? `Hide file list` : `Show file list ${p} media`}`,
     group: 'filelist',
     idx: 1,
   },
   includeImageFiles: {
-    kind: 'toggle',
-    default: true,
+    title: 'Include Images',
+    kind: true,
     tip: 'Include image files',
     group: 'filelist',
     idx: 2,
   },
   includeVideoFiles: {
-    kind: 'toggle',
-    default: true,
+    title: 'Include Video',
+    kind: true,
     tip: 'Include video files',
     group: 'filelist',
     idx: 3,
   },
   includeOtherFiles: {
-    kind: 'toggle',
-    default: false,
+    title: 'Include Other',
+    kind: false,
     tip: 'Include other files',
     group: 'filelist',
     idx: 4,
   },
   includeHiddenFiles: {
-    kind: 'toggle',
-    default: false,
+    tip: 'Include Hidden',
+    kind: false,
     tip: 'Include hidden files',
     group: 'filelist',
     idx: 5,
@@ -302,7 +317,7 @@ const addSequenceToggle = ({
       suffix = defaultSuffix,
       display = `${value}`,
       id = `toggle_${name}_${value}`,
-      tip = `Toggle ${name} with value ${display}`,
+      tip = `Toggle ${name} withvalue ${display}`,
     }) => {
       const label = GM_addElement(container, 'label', {
         class: '',
@@ -502,7 +517,10 @@ const initBrowsePreview = ({ document: { body } }) => {
       };
     };
 
-    const defineSequence = (defaultValue, values = ['a', 'b', 'c']) => {
+    const defineSequence = (
+      values = ['a', 'b', 'c'],
+      defaultValue = values[0],
+    ) => {
       const toHtmlValue = (v) => `${v}`;
       const _values = values.map(toHtmlValue);
       let _val = toHtmlValue(defaultValue ?? values[0]);
@@ -546,17 +564,20 @@ const initBrowsePreview = ({ document: { body } }) => {
         subscribe,
       };
     };
+
     const configTypeMap = new Map([
       ['string', defineString],
       ['object', defineSequence],
       ['number', defineNumber],
       ['boolean', defineToggle],
     ]);
-    const defineConfig = ([name, { kind, default: defaultValue }]) => [
+
+    const defineConfig = ([name, { kind }]) => [
       configTypeMap.has(typeof kind)
-        ? [name, configTypeMap.get(typeof kind)(defaultValue, kind)]
+        ? [name, configTypeMap.get(typeof kind)(kind)]
         : tee.warn([], `invalid config type for entry ${name}`),
     ];
+
     return Object.fromEntries(
       Object.entries(defaultConfig).flatMap(defineConfig),
     );
@@ -594,79 +615,139 @@ const initBrowsePreview = ({ document: { body } }) => {
   })({ config });
 
   (({ to, config, actions }) => {
+    const uiTypeMap = new Map([
+      ['string', () => {}],
+      [
+        'object',
+        (name, configBinding, container, { title, kind, kindtip }) =>
+          addSequenceToggle({
+            textContent: title,
+            bindTo: configBinding,
+            name,
+            to: container,
+            sequence: kind.map((p) => ({
+              value: p,
+              tip: kindtip(p),
+            })),
+          }),
+      ],
+      ['number', () => {}],
+      [
+        'boolean',
+        (name, configBinding, container, { title }) =>
+          addToggle({
+            textContent: title,
+            bindTo: configBinding,
+            name,
+            to: container,
+          }),
+      ],
+    ]);
+
+    const bindUIElement = ([name, configuration]) => [
+      uiTypeMap.has(typeof configuration.kind)
+        ? [
+            name,
+            uiTypeMap.get(typeof configuration.kind)(
+              name,
+              configBinding,
+              configuration,
+            ),
+          ]
+        : tee.warn([], `invalid config type for entry ${name}`),
+    ];
+
+    return Object.fromEntries(
+      Object.entries(defaultConfig).flatMap(defineConfig),
+    );
+    /**
+     * - define a config entry for each key
+     * - extract grouping info
+     *   - order within groups
+     * - add a UI element for each key as configured
+     *   - boolean: toggle
+     *   - []: sequencetoggle
+     *   - number:
+     *   - string:
+     * - configure dependent elements
+     * - set up css variable bindings
+     */
+  })({ to: toggles, config, actions });
+
+  (({ to, config, actions }) => {
     const repeatGrouping = addGrouping({ to });
-    addToggle({
-      textContent: 'Repeat playlist',
-      bindTo: config.repeat_playlist,
-      name: 'repeat_playlist',
-      to: repeatGrouping,
-    });
-    addToggle({
-      textContent: defaultConfig.repeat_playing.tip,
-      bindTo: config.repeat_playing,
-      name: 'repeat_playing',
-      to: repeatGrouping,
-    });
-    addToggle({
-      textContent: 'Shuffle playlist on load',
-      bindTo: config.shuffle_on_load,
-      name: 'shuffle_on_load',
-      to: repeatGrouping,
-    });
-    addToggle({
-      textContent: 'Shuffle playlist every repeat',
-      bindTo: config.shuffle_on_repeat,
-      name: 'shuffle_on_repeat',
-      to: repeatGrouping,
-    });
-    addToggle({
-      textContent: 'Reload folder contents on playlist repeat',
-      bindTo: config.reload_on_repeat,
-      name: 'reload_on_repeat',
-      to: repeatGrouping,
-    });
-    addSequenceToggle({
-      textContent: 'Playback State (playing/paused)',
-      bindTo: config.playpause,
-      name: 'playpause',
-      to,
-      sequence: defaultConfig.playpause.kind.map((p) => ({
-        value: p,
-        tip: `Playback State: ${p}`,
-      })),
-    });
-    addSequenceToggle({
-      textContent: 'Pause on blur',
-      bindTo: config.pauseonblurtimeout,
-      name: 'pauseonblurtimeout',
-      defaultSuffix: 's',
-      to,
-      sequence: defaultConfig.pauseonblurtimeout.kind.map((p) => ({
-        value: p,
-        tip: defaultConfig.pauseonblurtimeout.kindtip(p),
-      })),
-    });
-    addSequenceToggle({
-      textContent: 'Blur on blur',
-      bindTo: config.bluronblurtimeout,
-      name: 'bluronblurtimeout',
-      defaultSuffix: 's',
-      to,
-      sequence: defaultConfig.bluronblurtimeout.kind.map((p) => ({
-        value: p,
-        tip: defaultConfig.bluronblurtimeout.kindtip(p),
-      })),
-    });
-    addSequenceToggle({
-      textContent: 'On Pause',
-      bindTo: config.onpause,
-      name: 'onpause',
-      to,
-      sequence: defaultConfig.onpause.kind.map((p) => ({
-        value: p,
-        tip: defaultConfig.onpause.kindtip(p),
-      })),
-    });
+    // addToggle({
+    //   textContent: 'Repeat playlist',
+    //   bindTo: config.repeat_playlist,
+    //   name: 'repeat_playlist',
+    //   to: repeatGrouping,
+    // });
+    // addToggle({
+    //   textContent: defaultConfig.repeat_playing.tip,
+    //   bindTo: config.repeat_playing,
+    //   name: 'repeat_playing',
+    //   to: repeatGrouping,
+    // });
+    // addToggle({
+    //   textContent: 'Shuffle playlist on load',
+    //   bindTo: config.shuffle_on_load,
+    //   name: 'shuffle_on_load',
+    //   to: repeatGrouping,
+    // });
+    // addToggle({
+    //   textContent: 'Shuffle playlist every repeat',
+    //   bindTo: config.shuffle_on_repeat,
+    //   name: 'shuffle_on_repeat',
+    //   to: repeatGrouping,
+    // });
+    // addToggle({
+    //   textContent: 'Reload folder contents on playlist repeat',
+    //   bindTo: config.reload_on_repeat,
+    //   name: 'reload_on_repeat',
+    //   to: repeatGrouping,
+    // });
+    // addSequenceToggle({
+    //   textContent: 'Playback State (playing/paused)',
+    //   bindTo: config.playpause,
+    //   name: 'playpause',
+    //   to,
+    //   sequence: defaultConfig.playpause.kind.map((p) => ({
+    //     value: p,
+    //     tip: defaultConfig.playpause.kindtip(p),
+    //   })),
+    // });
+    // addSequenceToggle({
+    //   textContent: 'Pause on blur',
+    //   bindTo: config.pauseonblurtimeout,
+    //   name: 'pauseonblurtimeout',
+    //   defaultSuffix: 's',
+    //   to,
+    //   sequence: defaultConfig.pauseonblurtimeout.kind.map((p) => ({
+    //     value: p,
+    //     tip: defaultConfig.pauseonblurtimeout.kindtip(p),
+    //   })),
+    // });
+    // addSequenceToggle({
+    //   textContent: 'Blur on blur',
+    //   bindTo: config.bluronblurtimeout,
+    //   name: 'bluronblurtimeout',
+    //   defaultSuffix: 's',
+    //   to,
+    //   sequence: defaultConfig.bluronblurtimeout.kind.map((p) => ({
+    //     value: p,
+    //     tip: defaultConfig.bluronblurtimeout.kindtip(p),
+    //   })),
+    // });
+    // addSequenceToggle({
+    //   textContent: 'On Pause',
+    //   bindTo: config.onpause,
+    //   name: 'onpause',
+    //   to,
+    //   sequence: defaultConfig.onpause.kind.map((p) => ({
+    //     value: p,
+    //     tip: defaultConfig.onpause.kindtip(p),
+    //   })),
+    // });
     const playerGrouping = addGrouping({ to });
     addSequenceToggle({
       textContent: 'Player Mode (interleave/linear)',
@@ -747,63 +828,63 @@ const initBrowsePreview = ({ document: { body } }) => {
       to: interleaveGrouping,
     });
     const gridGrouping = addGrouping({ to: playerGrouping });
-    addToggle({
-      textContent: 'Display multiple media on a grid',
-      bindTo: config.showGrid,
-      name: 'grid',
-      to: gridGrouping,
-    });
-    addSequenceToggle({
-      textContent: 'Grid fit mode',
-      bindTo: config.grid_fit,
-      name: 'grid_fit',
-      sequence: defaultConfig.grid_fit.kind.map((fit) => ({
-        value: fit,
-        textContent: `Grid fit mode: ${fit}`,
-      })),
-      to: gridGrouping,
-    });
+    // addToggle({
+    //   textContent: 'Display multiple media on a grid',
+    //   bindTo: config.showGrid,
+    //   name: 'grid',
+    //   to: gridGrouping,
+    // });
+    // addSequenceToggle({
+    //   textContent: 'Grid fit mode',
+    //   bindTo: config.grid_fit,
+    //   name: 'grid_fit',
+    //   sequence: defaultConfig.grid_fit.kind.map((fit) => ({
+    //     value: fit,
+    //     textContent: `Grid fit mode: ${fit}`,
+    //   })),
+    //   to: gridGrouping,
+    // });
     const filesGrouping = addGrouping({ to });
-    addToggle({
-      textContent: 'Include image files',
-      bindTo: config.includeImageFiles,
-      name: 'images',
-      to: filesGrouping,
-    });
-    addToggle({
-      textContent: 'Include video files',
-      bindTo: config.includeVideoFiles,
-      name: 'video',
-      to: filesGrouping,
-    });
-    addToggle({
-      textContent: 'Include other files',
-      bindTo: config.includeOtherFiles,
-      name: 'other',
-      to: filesGrouping,
-    });
-    addToggle({
-      textContent: 'Include hidden files',
-      bindTo: config.includeHiddenFiles,
-      name: 'hidden',
-      to: filesGrouping,
-    });
-    addSequenceToggle({
-      textContent: 'File List location (below/beside/hide)',
-      bindTo: config.filelist,
-      name: 'filelist',
-      sequence: defaultConfig.filelist.kind.map((v) => ({
-        value: v,
-        textContent: `File List: ${v}`,
-      })),
-      to: filesGrouping,
-    });
-    addToggle({
-      textContent: 'Debug Mode',
-      bindTo: config.debug,
-      name: 'debug',
-      to,
-    });
+    // addToggle({
+    //   textContent: 'Include image files',
+    //   bindTo: config.includeImageFiles,
+    //   name: 'images',
+    //   to: filesGrouping,
+    // });
+    // addToggle({
+    //   textContent: 'Include video files',
+    //   bindTo: config.includeVideoFiles,
+    //   name: 'video',
+    //   to: filesGrouping,
+    // });
+    // addToggle({
+    //   textContent: 'Include other files',
+    //   bindTo: config.includeOtherFiles,
+    //   name: 'other',
+    //   to: filesGrouping,
+    // });
+    // addToggle({
+    //   textContent: 'Include hidden files',
+    //   bindTo: config.includeHiddenFiles,
+    //   name: 'hidden',
+    //   to: filesGrouping,
+    // });
+    // addSequenceToggle({
+    //   textContent: 'File List location (below/beside/hide)',
+    //   bindTo: config.filelist,
+    //   name: 'filelist',
+    //   sequence: defaultConfig.filelist.kind.map((v) => ({
+    //     value: v,
+    //     textContent: `File List: ${v}`,
+    //   })),
+    //   to: filesGrouping,
+    // });
+    // addToggle({
+    //   textContent: 'Debug Mode',
+    //   bindTo: config.debug,
+    //   name: 'debug',
+    //   to,
+    // });
     const actionsGrouping = addGrouping({ to });
     addAction({
       textContent: 'Flag for review',
@@ -910,7 +991,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         const next = async () => {
           const { url, isImage, isVideo } = await nextFile();
           console.debug(
-            `nextMedia idx: ${idx}, url: '${decodeURI(url)}',􀆄􀏅 􃝴  􀏆 􃝵  􀎶  􀍉 􀍍 􀆅􀍊 􀍎 isImage: ${isImage}, isVideo: ${isVideo}`,
+            `nextMedia ${isImage ? '􀏆' : isVideo ? '􀍊' : '􂇲'} idx: ${idx}, url: '${decodeURI(url)}'`,
           );
           if (isVideo) {
             isActive(videoA) ? cueB() : cueA();
@@ -1152,7 +1233,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         videoB.removeAttribute('src');
         videoB.load();
       };
-      const onCanplaythroughA = () => {
+      const onCanplaythroughB = () => {
         imageI.removeAttribute('src');
         imageJ.removeAttribute('src');
         videoB.play();

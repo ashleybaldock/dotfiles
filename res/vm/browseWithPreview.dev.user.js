@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview dev
 // @namespace   mayhem
-// @version     1.0.512
+// @version     1.0.544
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.dev.user.js
@@ -77,21 +77,22 @@ const defaultConfig = {
     idx: 1,
   },
   player: {
+    group: 'player',
+    idx: 2,
     textContent: 'Player Mode',
     kind: ['interleave', 'canvas', 'linear'],
     default: 'interleave',
     tip: 'Player Mode (interleave/linear)',
     kindtip: (p) => `Player Mode: ${p}`,
-    group: 'player',
-    idx: 2,
   },
   interleave_active_player_count: {
-    kind: [9, 12, 16, 2, 3, 4, 6],
-    tip: 'Max # of interleaved videos',
-    kindtip: (n) => `Max of ${n} interleaved videos`,
-    numeric: true,
     group: 'interleave',
     idx: 1,
+    title: 'Interleave Limit',
+    kind: [9, 12, 16, 2, 3, 4, 6],
+    numeric: true,
+    tip: 'Max # of media to interleave',
+    kindtip: (n) => `Interleave up to ${n} media`,
     cssvar: {
       name: '--interleave-active-player-count',
       syntax: '<integer>',
@@ -100,6 +101,7 @@ const defaultConfig = {
     },
   },
   interleave_duration_ms: {
+    title: 'Duration',
     kind: [
       500, 480, 400, 375, 300, 250, 240, 200, 160, 150, 60000, 30000, 20000,
       15000, 12000, 10000, 7500, 6000, 4000, 3000, 2000, 1000, 800, 750, 625,
@@ -117,6 +119,7 @@ const defaultConfig = {
     },
   },
   interleave_bpm: {
+    title: 'BPM',
     kind: [
       120, 125, 150, 160, 200, 240, 250, 300, 375, 400, 1, 2, 3, 4, 5, 6, 8, 10,
       15, 20, 30, 60, 75, 80, 96, 100,
@@ -127,13 +130,17 @@ const defaultConfig = {
     cssvar: {
       name: '--interleave-bpm',
       syntax: '<number>',
-      // initialValue: 120,
       inherits: true,
       selector: ':root',
     },
   },
-  interleave_timing: { kind: ['bpm', 'span'], default: 'bpm' },
+  interleave_timing: {
+    title: 'Timing Method',
+    kind: ['bpm', 'span', 'sync', 'detect'],
+    tip: 'How the interval between interleaved media changes is set',
+  },
   interleave_max_samples: {
+    title: 'Samples Per Media',
     kind: [3, 5, 10, Number.POSITIVE_INFINITY, 1],
     numeric: true,
     tip: 'Maximum number of samples to show before changing media',
@@ -143,6 +150,7 @@ const defaultConfig = {
         : `Show samples until media exhausted`,
   },
   interleave_sampling: {
+    title: 'Sampling Method',
     tip: 'Method used to select media samples to interleave',
     kind: ['incidental', 'random', 'sequential'],
     kindtip: (p) =>
@@ -405,8 +413,6 @@ const addAction = ({
 const initBrowsePreview = ({ document: { body } }) => {
   const players = GM_addElement(body, 'section', { class: 'players' });
 
-  const toggles = GM_addElement(body, 'section', { class: 'toggles' });
-
   const actions = (({}) => {
     /**
      * Add current media to a list for review
@@ -418,7 +424,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     };
   })({});
 
-  const config = (({}) => {
+  const config = (({ defaultConfig }) => {
     const defineString = (_val = '') => {
       const subs = new Set();
 
@@ -578,10 +584,12 @@ const initBrowsePreview = ({ document: { body } }) => {
         : tee.warn([], `invalid config type for entry ${name}`),
     ];
 
-    return Object.fromEntries(
+    const configBindings = Object.fromEntries(
       Object.entries(defaultConfig).flatMap(defineConfig),
     );
-  })({});
+
+    return configBindings;
+  })({ defaultConfig });
 
   (({
     config: {
@@ -614,52 +622,76 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
   })({ config });
 
-  (({ to, config, actions }) => {
+  (({ configBindings, defaultConfig, actions }) => {
+    const defaultContainer = GM_addElement(body, 'section', {
+      class: 'toggles',
+    });
+
     const uiTypeMap = new Map([
       ['string', () => {}],
       [
         'object',
-        (name, configBinding, container, { title, kind, kindtip }) =>
+        (name, configBinding, { title, kind, kindtip, to }) =>
           addSequenceToggle({
             textContent: title,
             bindTo: configBinding,
             name,
-            to: container,
+            to: to ?? defaultContainer,
             sequence: kind.map((p) => ({
               value: p,
-              tip: kindtip(p),
+              tip: (kindtip ?? ((n) => `${n}`))(p),
             })),
           }),
       ],
       ['number', () => {}],
       [
         'boolean',
-        (name, configBinding, container, { title }) =>
+        (name, configBinding, { title, to }) =>
           addToggle({
             textContent: title,
             bindTo: configBinding,
             name,
-            to: container,
+            to: to ?? defaultContainer,
           }),
       ],
     ]);
 
-    const bindUIElement = ([name, configuration]) => [
-      uiTypeMap.has(typeof configuration.kind)
+    const createUI = (configBindings, name, conf) => [
+      uiTypeMap.has(typeof conf.kind)
         ? [
             name,
-            uiTypeMap.get(typeof configuration.kind)(
+            uiTypeMap.get(typeof conf.kind)(
               name,
-              configBinding,
-              configuration,
+              Object.hasOwn(configBindings, name) ? configBindings[name] : null,
+              conf,
             ),
           ]
-        : tee.warn([], `invalid config type for entry ${name}`),
+        : tee.warn([], `createUI: invalid config type for entry ${name}`),
     ];
 
-    return Object.fromEntries(
-      Object.entries(defaultConfig).flatMap(defineConfig),
-    );
+    const createGroups = (defaultContainer) => {
+      const groups = new Map();
+
+      const groupOrContainer = (group) => {
+        if (!group) {
+          return defaultContainer;
+        }
+        if (!groups.has(group)) {
+          groups.set(group, addGrouping(defaultContainer));
+        }
+        return groups.get(group);
+      };
+
+      return (acc, [name, conf]) => {
+        return [...acc, [name, { ...conf, to: groupOrContainer(conf.group) }]];
+      };
+    };
+
+    Object.entries(defaultConfig)
+      .reduce(createGroups(defaultContainer), [])
+      .forEach(([name, conf]) => {
+        createUI(configBindings, name, conf);
+      });
     /**
      * - define a config entry for each key
      * - extract grouping info
@@ -672,227 +704,22 @@ const initBrowsePreview = ({ document: { body } }) => {
      * - configure dependent elements
      * - set up css variable bindings
      */
-  })({ to: toggles, config, actions });
+  })({ configBindings: config, defaultConfig, actions });
 
-  (({ to, config, actions }) => {
-    const repeatGrouping = addGrouping({ to });
-    // addToggle({
-    //   textContent: 'Repeat playlist',
-    //   bindTo: config.repeat_playlist,
-    //   name: 'repeat_playlist',
-    //   to: repeatGrouping,
-    // });
-    // addToggle({
-    //   textContent: defaultConfig.repeat_playing.tip,
-    //   bindTo: config.repeat_playing,
-    //   name: 'repeat_playing',
-    //   to: repeatGrouping,
-    // });
-    // addToggle({
-    //   textContent: 'Shuffle playlist on load',
-    //   bindTo: config.shuffle_on_load,
-    //   name: 'shuffle_on_load',
-    //   to: repeatGrouping,
-    // });
-    // addToggle({
-    //   textContent: 'Shuffle playlist every repeat',
-    //   bindTo: config.shuffle_on_repeat,
-    //   name: 'shuffle_on_repeat',
-    //   to: repeatGrouping,
-    // });
-    // addToggle({
-    //   textContent: 'Reload folder contents on playlist repeat',
-    //   bindTo: config.reload_on_repeat,
-    //   name: 'reload_on_repeat',
-    //   to: repeatGrouping,
-    // });
-    // addSequenceToggle({
-    //   textContent: 'Playback State (playing/paused)',
-    //   bindTo: config.playpause,
-    //   name: 'playpause',
-    //   to,
-    //   sequence: defaultConfig.playpause.kind.map((p) => ({
-    //     value: p,
-    //     tip: defaultConfig.playpause.kindtip(p),
-    //   })),
-    // });
-    // addSequenceToggle({
-    //   textContent: 'Pause on blur',
-    //   bindTo: config.pauseonblurtimeout,
-    //   name: 'pauseonblurtimeout',
-    //   defaultSuffix: 's',
-    //   to,
-    //   sequence: defaultConfig.pauseonblurtimeout.kind.map((p) => ({
-    //     value: p,
-    //     tip: defaultConfig.pauseonblurtimeout.kindtip(p),
-    //   })),
-    // });
-    // addSequenceToggle({
-    //   textContent: 'Blur on blur',
-    //   bindTo: config.bluronblurtimeout,
-    //   name: 'bluronblurtimeout',
-    //   defaultSuffix: 's',
-    //   to,
-    //   sequence: defaultConfig.bluronblurtimeout.kind.map((p) => ({
-    //     value: p,
-    //     tip: defaultConfig.bluronblurtimeout.kindtip(p),
-    //   })),
-    // });
-    // addSequenceToggle({
-    //   textContent: 'On Pause',
-    //   bindTo: config.onpause,
-    //   name: 'onpause',
-    //   to,
-    //   sequence: defaultConfig.onpause.kind.map((p) => ({
-    //     value: p,
-    //     tip: defaultConfig.onpause.kindtip(p),
-    //   })),
-    // });
-    const playerGrouping = addGrouping({ to });
-    addSequenceToggle({
-      textContent: 'Player Mode (interleave/linear)',
-      bindTo: config.player,
-      name: 'player',
-      sequence: defaultConfig.player.kind.map((p) => ({
-        value: p,
-        textContent: `Player Mode: ${p}`,
-      })),
-      to: playerGrouping,
-    });
-    const interleaveGrouping = addGrouping({ to: playerGrouping });
-    addSequenceToggle({
-      textContent: 'Max # of media to interleave',
-      bindTo: config.interleave_active_player_count,
-      name: 'interleave_active_player_count',
-      numeric: true,
-      sequence: defaultConfig.interleave_active_player_count.kind.map((n) => ({
-        value: n,
-        textContent: `Interleave up to ${n} media`,
-      })),
-      to: interleaveGrouping,
-    });
-    addSequenceToggle({
-      textContent: defaultConfig.interleave_max_samples.tip,
-      bindTo: config.interleave_max_samples,
-      name: 'interleave_max_samples',
-      numeric: true,
-      sequence: defaultConfig.interleave_max_samples.kind.map((n) => ({
-        value: n,
-        textContent: defaultConfig.interleave_max_samples.kindtip(n),
-      })),
-      to: interleaveGrouping,
-    });
-    addSequenceToggle({
-      textContent: defaultConfig.interleave_sampling.tip,
-      bindTo: config.interleave_sampling,
-      name: 'interleave_sampling',
-      numeric: true,
-      sequence: defaultConfig.interleave_sampling.kind.map((n) => ({
-        value: n,
-        textContent: defaultConfig.interleave_sampling.kindtip(n),
-      })),
-      to: interleaveGrouping,
-    });
-    addSequenceToggle({
-      textContent: 'Interleave timing method',
-      bindTo: config.interleave_timing,
-      name: 'interleave_timing',
-      sequence: defaultConfig.interleave_timing.kind.map((n) => ({
-        value: n,
-        textContent: `Interleave timing: ${n}`,
-      })),
-      to: interleaveGrouping,
-    });
-    addSequenceToggle({
-      textContent: 'Change media at a fixed rate',
-      bindTo: config.interleave_bpm,
-      name: 'interleave_bpm',
-      defaultSuffix: 'bpm',
-      numeric: true,
-      sequence: defaultConfig.interleave_bpm.kind.map((n) => ({
-        value: n,
-        textContent: `Change media ${n} times per minute`,
-      })),
-      to: interleaveGrouping,
-    });
-    addSequenceToggle({
-      textContent: 'Show each media for a fixed time',
-      bindTo: config.interleave_duration_ms,
-      name: 'interleave_duration_ms',
-      defaultSuffix: 'ms',
-      numeric: true,
-      sequence: defaultConfig.interleave_duration_ms.kind.map((n) => ({
-        value: n,
-        textContent: `Show each media for ${n}ms`,
-      })),
-      to: interleaveGrouping,
-    });
-    const gridGrouping = addGrouping({ to: playerGrouping });
-    // addToggle({
-    //   textContent: 'Display multiple media on a grid',
-    //   bindTo: config.showGrid,
-    //   name: 'grid',
-    //   to: gridGrouping,
-    // });
-    // addSequenceToggle({
-    //   textContent: 'Grid fit mode',
-    //   bindTo: config.grid_fit,
-    //   name: 'grid_fit',
-    //   sequence: defaultConfig.grid_fit.kind.map((fit) => ({
-    //     value: fit,
-    //     textContent: `Grid fit mode: ${fit}`,
-    //   })),
-    //   to: gridGrouping,
-    // });
-    const filesGrouping = addGrouping({ to });
-    // addToggle({
-    //   textContent: 'Include image files',
-    //   bindTo: config.includeImageFiles,
-    //   name: 'images',
-    //   to: filesGrouping,
-    // });
-    // addToggle({
-    //   textContent: 'Include video files',
-    //   bindTo: config.includeVideoFiles,
-    //   name: 'video',
-    //   to: filesGrouping,
-    // });
-    // addToggle({
-    //   textContent: 'Include other files',
-    //   bindTo: config.includeOtherFiles,
-    //   name: 'other',
-    //   to: filesGrouping,
-    // });
-    // addToggle({
-    //   textContent: 'Include hidden files',
-    //   bindTo: config.includeHiddenFiles,
-    //   name: 'hidden',
-    //   to: filesGrouping,
-    // });
-    // addSequenceToggle({
-    //   textContent: 'File List location (below/beside/hide)',
-    //   bindTo: config.filelist,
-    //   name: 'filelist',
-    //   sequence: defaultConfig.filelist.kind.map((v) => ({
-    //     value: v,
-    //     textContent: `File List: ${v}`,
-    //   })),
-    //   to: filesGrouping,
-    // });
-    // addToggle({
-    //   textContent: 'Debug Mode',
-    //   bindTo: config.debug,
-    //   name: 'debug',
-    //   to,
-    // });
-    const actionsGrouping = addGrouping({ to });
-    addAction({
-      textContent: 'Flag for review',
-      action: actions.flag,
-      name: 'flag',
-      to: actionsGrouping,
-    });
-  })({ to: toggles, config, actions });
+  // (({ to, config, actions }) => {
+  // const repeatGrouping = addGrouping({ to });
+  // const playerGrouping = addGrouping({ to });
+  // const interleaveGrouping = addGrouping({ to: playerGrouping });
+  // const gridGrouping = addGrouping({ to: playerGrouping });
+  // const filesGrouping = addGrouping({ to });
+  // const actionsGrouping = addGrouping({ to });
+  // addAction({
+  // textContent: 'Flag for review',
+  // action: actions.flag,
+  // name: 'flag',
+  // to: actionsGrouping,
+  // });
+  // })({ to: toggles, configBindings: config, defaultConfig, actions });
 
   const addWrappedMedia = (
     ({
@@ -988,6 +815,18 @@ const initBrowsePreview = ({ document: { body } }) => {
         let id = null,
           expected = null,
           resumeDelay = 0;
+
+        const cue = (delay = 100) => {
+          expected = Date.now() + delay;
+          id =
+            clearTimeout(id) ??
+            setTimeout(() => {
+              expected = null;
+              resumeDelay = 0;
+              next();
+            }, delay);
+        };
+
         const next = async () => {
           const { url, isImage, isVideo } = await nextFile();
           console.debug(
@@ -997,27 +836,19 @@ const initBrowsePreview = ({ document: { body } }) => {
             isActive(videoA) ? cueB() : cueA();
           } else if (isImage) {
             isActive(imageI) ? cueJ() : cueI();
-            nextMedia.cue(imageduration.value * 1000);
+            cue(imageduration.value * 1000);
           } else {
-            nextMedia.cue(100);
+            cue(100);
           }
           wrapperUpdateActive();
         };
+
         return {
           /**
            *  cue changing to the next media, switching to it after
            *  a delay (given in milliseconds, default: 100)
            */
-          cue: (delay = 100) => {
-            expected = Date.now() + delay;
-            id =
-              clearTimeout(id) ??
-              setTimeout(() => {
-                expected = null;
-                resumeDelay = 0;
-                nextMedia();
-              }, delay);
-          },
+          cue,
           /**
            * Pause next cue until resume() is called
            *
@@ -1033,7 +864,7 @@ const initBrowsePreview = ({ document: { body } }) => {
           /**
            * Resume cue, with the delay remaining when it was paused
            */
-          resume: setNextMediaTimeout(resumeDelay),
+          resume: () => cue(resumeDelay),
         };
       })();
 
@@ -1114,7 +945,7 @@ const initBrowsePreview = ({ document: { body } }) => {
        * Resume playback using last active media player
        */
       const play = () => {
-        // currentSrc ??= nextMedia();
+        nextMedia.cue();
         video.volume = 0;
         video.muted = true;
         video.play();
@@ -1244,7 +1075,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       const onEnded = (video) => {
         _playbackErrors = Math.max(0, _playbackErrors + addToCountOnSuccess);
 
-        nextMedia();
+        nextMedia.cue();
       };
       videoA.addEventListener('canplaythrough', () => onCanplaythroughA());
       videoB.addEventListener('canplaythrough', () => onCanplaythroughB());
@@ -1259,7 +1090,7 @@ const initBrowsePreview = ({ document: { body } }) => {
           video.classList.add('error');
           console.warn(`${idx} exceeded max error count`);
         } else {
-          nextMedia();
+          nextMedia.cue();
         }
       });
 
@@ -1269,14 +1100,20 @@ const initBrowsePreview = ({ document: { body } }) => {
         play,
         pause,
         enable: () => {
-          video.classList.remove('off');
-          resumeNextMediaTimeout();
+          wrapper.classList.remove('off');
+          nextMedia.resume();
         },
         disable: () => {
-          video.pause();
-          video.removeAttribute('src');
-          video.classList.add('off');
-          image.removeAttribute('src');
+          wrapper.classList.add('off');
+          nextMedia.pause();
+          videoA.pause();
+          videoA.removeAttribute('src');
+          videoA.load();
+          videoB.pause();
+          videoB.removeAttribute('src');
+          videoB.load();
+          imageI.removeAttribute('src');
+          imageJ.removeAttribute('src');
         },
       };
     }

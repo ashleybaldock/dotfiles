@@ -13,7 +13,10 @@ let g:mayhem_autoloaded_statusline = 1
 let g:mayhem.symbols_S.search = #{
       \ search: '􀊫',
       \ timeout: '􀖇',
-      \ quote: '″️',
+      \ notfound: '𝓃𝜊𝓉 𝒻𝜎𝓊𝓃𝒹',
+      \ of: 'ℴ𝒻',
+      \ quoteprefix: '″️',
+      \ quotesuffix: '″️',
       \ sep: '᨞',
       \ gt: '>️',
       \ before: '᭼',
@@ -22,7 +25,10 @@ let g:mayhem.symbols_S.search = #{
 let g:mayhem.symbols_8.search = #{
       \ search: '/',
       \ timeout: '.',
-      \ quote: '″️',
+      \ notfound: '𝓃𝜊𝓉 𝒻𝜎𝓊𝓃𝒹',
+      \ of: 'ℴ𝒻',
+      \ quoteprefix: '″️',
+      \ quotesuffix: '″️',
       \ sep: '⋮',
       \ gt: '>️',
       \ before: '᭼',
@@ -31,7 +37,10 @@ let g:mayhem.symbols_8.search = #{
 let g:mayhem.symbols_A.search = #{
       \ search: '',
       \ timeout: '',
-      \ quote: '"',
+      \ notfound: 'not found',
+      \ of: 'of',
+      \ quoteprefix: '"',
+      \ quotesuffix: '"',
       \ sep: ':',
       \ gt: '>',
       \ before: '-',
@@ -56,7 +65,6 @@ function! statusline#updateSearch(...) abort
     return
   endif
   let symbol = symbols#CN('search.search')
-  let quote = symbols#CN('search.quote')
   let summary = ''
 
   if r.incomplete ==# 1 " timed out
@@ -68,12 +76,12 @@ function! statusline#updateSearch(...) abort
   else
     let summary = flatten([
           \ r.total == 0 ? [
-          \  '%#SlFPath⸮#', '𝓃𝜊𝓉 𝒻𝜎𝓊𝓃𝒹',
+          \  '%#SlFPath⸮#', symbols#CN('search.notfound'),
           \ ] : [
           \  r.exact_match ? [
           \   r.current > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt'),] : [], 
           \   '%#SlSearch⸮#', format#numbers(r.current),
-          \   '%#SlFPath⸮#', ' ℴ𝒻 ',
+          \   '%#SlFPath⸮#', ' ' .. symbols#CN('search.of') .. ' ',
           \  ] : [
           \   r.current == r.total ? [
           \    '%#SlBetween⸮#', format#numbers(r.current),
@@ -93,9 +101,9 @@ function! statusline#updateSearch(...) abort
   let formattedSearch = statusline#formatSearch()
 
   let b:mayhem.sl_cache_search = format#CN([
-      \'%#SlFPath⸮#', symbol, ' ', quote,
+      \'%#SlFPath⸮#', symbol, ' ', symbols#CN('search.quoteprefix'),
       \'%#SlSearch⸮#', formattedSearch,
-      \'%#SlFPath⸮#', quote, ' ',
+      \'%#SlFPath⸮#', symbols#CN('search.quotesuffix'), ' ',
       \'%#SlSearchSep⸮#',symbols#CN('search.sep'),
       \'%#SlFPath⸮#', ' ',
       \'%-20(',  summary, '%)',

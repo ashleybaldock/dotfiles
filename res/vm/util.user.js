@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.288
+// @version       1.1.291
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -1992,6 +1992,7 @@ const breadcrumbs = ({
   path = document.URL,
   url = new URL(path),
   hideProtocol = url.protocol.match(/https\?/),
+  classList = '',
 }) => {
   const parts = url.pathname.split(/(\/)/),
     prefix = `${url.protocol}//`,
@@ -2003,7 +2004,7 @@ const breadcrumbs = ({
     );
 
   const label = GM_addElement(parent, 'label', {
-    class: 'output breadcrumbs bottom right fixed',
+    class: `output breadcrumbs ${classList}`,
   });
   const ul = GM_addElement(label, 'ul', { class: '' });
 

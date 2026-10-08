@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview dev
 // @namespace   mayhem
-// @version     1.0.544
+// @version     1.0.547
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.dev.user.js
@@ -1401,7 +1401,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     }),
   );
 
-  breadcrumbs({ to: qs`body`.one });
+  breadcrumbs({ to: qs`body`.one, classList: 'top right fixed' });
 
   (({ bluronblur, config: { bluronblurtimeout } }) => {
     const { setHiddenTimeout } = bluronblur({

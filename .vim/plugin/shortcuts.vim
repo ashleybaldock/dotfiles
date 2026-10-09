@@ -53,9 +53,9 @@ nnoremap ß           <C-i>
 nnoremap <leader>i   <C-i>
 
 " ▌️ 􀆍 a ▐️────▷ Enchanced ^a, works on bools (e.g. true -> false)
-nnoremap <expr> <C-a> <Nop>
+nnoremap <expr> <C-a>  
 " ▌️ 􀆍 x ▐️────▷ Enchanced ^x, works on bools (e.g. true -> false)
-nnoremap <expr> <C-a> <Nop>
+nnoremap <expr> <C-x> <Nop>
 
 " Command line: <Up>/<Down> navigates history, even when PUM is open
 cnoremap <expr> <Up>   wildmenumode() ? "\<C-E>\<Up>"   : "\<Up>"
@@ -94,21 +94,21 @@ nnoremap §u\ "=char#code()Pl
 " Add Combining: 
 " ▌️ 􀆕 0 ▐️────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝  
 nnoremap º a⃝ <Esc>hh
-xnoremap º :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR> 
+xnoremap º :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR> 
 "
 " ▌️􀆝􀆕 0▐️────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞ 
 nnoremap ‚ a⃞ <Esc>hh
-xnoremap ‚ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<CR> 
+xnoremap ‚ :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<CR> 
 "
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲
 nnoremap – a̲<Esc>h
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲h̲i̲t̲e̲s̲p̲a̲c̲e̲
-xnoremap – :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
+xnoremap – :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
 "
 " ▌️􀆝􀆕 -▐️──▷ O̅v̅e̅r̅l̅i̅n̅e̅
 nnoremap — a̅<Esc>h
 " ▌️􀆝􀆕 -▐️──▷ Overline visual selection, skip leading/trailing whitespace
-xnoremap — :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̅/g<CR><Cmd>nohlsearch<CR> 
+xnoremap — :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̅/g<CR><Cmd>nohlsearch<CR> 
 "<Cmd>nohlsearch<CR> 
 " nno̅r̅e̅m̅a̅p <p̅l̅u̅g̅> a꛱<Esc><Cmd>RepeatMove<CR>
 " nno̅r̅e̅m̅ap <plug> a꛰<Esc><Cmd>R̲̅̅epeatMove<CR>
@@ -124,20 +124,20 @@ xnoremap — :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̅/g<CR><Cmd>nohlsearch<CR>
 " ▌️􀆕 =︎▐️──▷ ────▷ V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️ + RepeatMove
 nnoremap ≠ a️<Esc>h<Cmd>RepeatMove<CR>
 " ▌️􀆕 =︎▐️──▷ Add V️️a️r️i️a️t️i️o️n️ S️e️l️e️c️t️o️r️ 1️6️  to all non-whitespace in visual area
-xnoremap ≠ :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
+xnoremap ≠ :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
 " ▌️􀆝􀆕 =︎▐️──▷ V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ + RepeatMove
 nnoremap ± a︎<Esc>h<Cmd>RepeatMove<CR>
 " ▌️􀆝􀆕 =︎▐️──▷ Add V︎a︎r︎i︎a︎t︎i︎o︎n︎ S︎e︎l︎e︎c︎t︎o︎r︎ 1︎5︎ to all non-whitespace in visual area
-xnoremap ± :s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0︎/g<CR><Cmd>nohlsearch<CR> 
+xnoremap ± :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0︎/g<CR><Cmd>nohlsearch<CR> 
 
-" Remove Combining:                                                       TODO
-" ▌️􀆕 􀆛▐️──▷ Remove last combining character (like x)
+" Remove Combining:
+" ▌️􀆕 􀆛▐️──▷ Remove last combining character (like x)                           TODO
 nnoremap <M-BS> <Cmd><CR>
 xnoremap <M-BS> <Nop>
-" ▌️􀆝􀆕 􀆛▐️──▷ Remove first combining character (unlike x)
+" ▌️􀆝􀆕 􀆛▐️──▷ Remove first combining character (unlike x)                      TODO
 nnoremap <M-S-BS> <Nop>
 xnoremap <M-S-BS> <Nop>
-" ▌️􀆍􀆕 􀆛▐️──▷ Remove all combining characters
+" ▌️􀆍􀆕 􀆛▐️──▷ Remove all combining characters                                  TODO
 nnoremap <C-S-BS> <Nop>
 xnoremap <C-S-BS> <Nop>
 
@@ -150,9 +150,9 @@ nnoremap   <Esc>h<Cmd>RepeatMove<CR>
 " ▌️𝙣=️𝟣❙ 􀆝􀆕 􁁺 ▐️──▷ Remove (up to) 𝙣 space(s) + RepeatMove
 nnoremap   <Esc>h<Cmd>RepeatMove<CR>
 " ▌️𝙣=️𝟣❙   􀆕 􁁺 ▐️──▷ Add 𝙣 space(s) after each group of \W in visual area TODO
-xnoremap   <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
+xnoremap   :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
 " ▌️𝙣=️𝟣❙ 􀆝􀆕 􁁺 ▐️──▷ Remove (up to) 𝙣 space(s) from each \W group in visual area TODO
-xnoremap   <Cmd>s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
+xnoremap   :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0️/g<CR><Cmd>nohlsearch<CR> 
 
 " ▌️ 􀆕 E ▐️──▷ Replace word with last yanked (e.g. via yiw)
 " nnoremap ´ ciw<c-r>0<Esc><Cmd>undojoin | yanked<CR>
@@ -343,7 +343,7 @@ nnoremap §i <Plug>(mayhem_synfo_popup)
 nnoremap §I <Plug>(mayhem_synfo_toggle)
 " nnoremap <D-I> <Cmd>SynFo<CR>
 "
-" ▌️ ga ▐️  Info about character under cursor (Characterize)
+" ▌️ ga ▐️  Info about character under cursor
 nmap ga <Plug>(mayhem_charinfo_color)
 " 
 " ▌️ §ga ▐️  Toggle display of character info on/off
@@ -387,10 +387,12 @@ nnoremap §ar <Cmd>keeppatterns :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR><Cmd>noh<CR>
 " visual mode - swaps the first two words found in selection TODO
 xnoremap §ar <Cmd>keeppatterns :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR><Cmd>noh<CR>
 
+"
 " words around pivot     (AAA,BBB -> BBB,AAA)
-nnoremap §as <Cmd>keeppatterns :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
+"
+nnoremap §as <Cmd>keeppatterns :s/%(.*\%#\)\@=\(\w\+\)\(\W\+\)\(\w\+\)\%(\%#.*\)\@<=/\3\2\1<CR><Cmd>noh<CR>
 " visual mode - swaps the first two words found in selection TODO
-xnoremap §as <Cmd>keeppatterns :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
+xnoremap §as <Cmd>keeppatterns :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)\%V/\3\2\1<CR><Cmd>noh<CR>
 "
 " words around cursor (AD̲G -> ED̲C | AA, ̲XX -> XX, ̲AA | AB̲C XX -> CB̲A XX)
 "

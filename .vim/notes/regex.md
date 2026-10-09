@@ -217,6 +217,21 @@ s/\%(<path\_s\_[^<>]*\)\@<=\&\%(\<d="\_[^"]*\)\@<=\&\%(\_[^"]*"\)\@=\&M\(\d\+\)\
 ```
 
 
+### Match within
+
+#### Visual selection
+
+#### Current line
+
+### Match contains
+
+#### Cursor 
+
+
+```reg
+%(.*\%#\)\@=\(\w\+\)\(\W\+\)\(\w\+\)\%(\%#.*\)\@<=
+```
+
 ### Inside & Outside
 
 ```vim

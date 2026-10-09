@@ -52,10 +52,14 @@ nnoremap <leader>o   <C-o>
 nnoremap ß           <C-i>
 nnoremap <leader>i   <C-i>
 
+"
 " ▌️ 􀆍 a ▐️────▷ Enchanced ^a, works on bools (e.g. true -> false)
-nnoremap <expr> <C-a>  
+"
+nnoremap <expr> <C-a>  expand("<cword>") =~ '\ctrue' ? "ciwfalse<Esc>" : expand("<cword>") =~ '\cfalse' ? "ciwtrue<Esc>" : "<C-a>"
+"
 " ▌️ 􀆍 x ▐️────▷ Enchanced ^x, works on bools (e.g. true -> false)
-nnoremap <expr> <C-x> <Nop>
+"
+nnoremap <expr> <C-x>  expand("<cword>") =~ '\ctrue' ? "ciwfalse<Esc>" : expand("<cword>") =~ '\cfalse' ? "ciwtrue<Esc>" : "<C-x>"
 
 " Command line: <Up>/<Down> navigates history, even when PUM is open
 cnoremap <expr> <Up>   wildmenumode() ? "\<C-E>\<Up>"   : "\<Up>"

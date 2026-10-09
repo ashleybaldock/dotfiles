@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview dev
 // @namespace   mayhem
-// @version     1.0.547
+// @version     1.0.555
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.dev.user.js
@@ -27,13 +27,18 @@
 
 const defaultConfig = {
   playpause: {
-    title: 'Playback)',
+    title: 'Playback',
     kind: ['playing', 'paused'],
     tip: 'Playback State (playing/paused)',
     kindtip: (p) => `Playback State: ${p}`,
     idx: 1,
   },
-  debug: { kind: 'toggle', default: false, tip: 'Debug Mode', idx: 2 },
+  debug: {
+    title: 'Debug',
+    kind: false,
+    tip: 'Debug Mode',
+    idx: 2,
+  },
   bluronblurtimeout: {
     title: 'Blur on blur',
     kind: [30, 60, Math.POSITIVE_INFINITY, 0, 5, 15],
@@ -81,7 +86,6 @@ const defaultConfig = {
     idx: 2,
     textContent: 'Player Mode',
     kind: ['interleave', 'canvas', 'linear'],
-    default: 'interleave',
     tip: 'Player Mode (interleave/linear)',
     kindtip: (p) => `Player Mode: ${p}`,
   },
@@ -248,7 +252,7 @@ const overrideFileListClicks = (({ qs }) =>
     }),
   ))(unsafeWindow);
 
-const addGrouping = ({ to, ...attrs } = {}) => {
+const addGrouping = ({ to, ...attrs }) => {
   const div = GM_addElement(to, 'div', {
     class: 'grouping',
     ...attrs,
@@ -669,29 +673,25 @@ const initBrowsePreview = ({ document: { body } }) => {
         : tee.warn([], `createUI: invalid config type for entry ${name}`),
     ];
 
-    const createGroups = (defaultContainer) => {
-      const groups = new Map();
+    const groups = new DefaultedMap(defaultContainer);
 
-      const groupOrContainer = (group) => {
-        if (!group) {
-          return defaultContainer;
-        }
-        if (!groups.has(group)) {
-          groups.set(group, addGrouping(defaultContainer));
-        }
-        return groups.get(group);
-      };
+    Object.entries(defaultConfig).forEach(([name, conf]) => {
+      const { group } = conf;
 
-      return (acc, [name, conf]) => {
-        return [...acc, [name, { ...conf, to: groupOrContainer(conf.group) }]];
-      };
-    };
+      group &&
+        !groups.has(group) &&
+        groups.set(group, addGrouping({ to: defaultContainer }));
 
-    Object.entries(defaultConfig)
-      .reduce(createGroups(defaultContainer), [])
-      .forEach(([name, conf]) => {
-        createUI(configBindings, name, conf);
+      const bindTo = Object.hasOwn(configBindings, name)
+        ? configBindings[name]
+        : null;
+
+      createUI(configBindings, name, {
+        ...conf,
+        bindTo,
+        to: groups.get(group),
       });
+    });
     /**
      * - define a config entry for each key
      * - extract grouping info

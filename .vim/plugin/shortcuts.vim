@@ -390,7 +390,7 @@ xnoremap §ar <Cmd>keeppatterns :s/\s*\zs\(\w*\)\(\s*\)/\2\1/g<CR><Cmd>noh<CR>
 "
 " words around pivot     (AAA,BBB -> BBB,AAA)
 "
-nnoremap §as <Cmd>keeppatterns :s/%(.*\%#\)\@=\(\w\+\)\(\W\+\)\(\w\+\)\%(\%#.*\)\@<=/\3\2\1<CR><Cmd>noh<CR>
+nnoremap §as <Cmd>keeppatterns :s/\%(.*\%#\)\@=\(\w\+\)\(\W\+\)\(\w\+\)\%(\%#.*\)\@<=/\3\2\1<CR><Cmd>noh<CR>
 " visual mode - swaps the first two words found in selection TODO
 xnoremap §as <Cmd>keeppatterns :s/\%V\(\w\+\)\(\W\+\)\(\w\+\)\%V/\3\2\1<CR><Cmd>noh<CR>
 "

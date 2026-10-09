@@ -2163,3 +2163,143 @@ h1 {
   padding-left: 6ch;
   padding-right: 2ch;
 }
+
+:root {
+  --main-layout-column-count: 18;
+  --options-from-top: 86vh;
+}
+:root:has(#toggle_filelist_hide:checked) body {
+  grid-template-columns:
+    [left spacer-start preview-start files-start filestatus-start] 5ch 2ch [filestatus-end options-start filename-start] repeat(
+      var(--main-layout-column-count),
+      100fr
+    )
+    [ options-end filename-end filesize-start] auto [filesize-end filedate-start] auto [filedate-end files-end preview-end spacer-end right];
+  grid-template-rows:
+    [top preview-start] var(--options-from-top)
+    [options-start] 3em [options-end] calc(
+      100vh - var(--options-from-top) - 3em
+    )
+    [preview-end bottom];
+}
+.toggles > .toggle {
+  grid-row: 1/-1;
+}
+.toggles > .grouping {
+  grid-row: 1/-1;
+  anchor-scope: --anchor-toggle;
+  anchor-name: --anchor-toggle;
+  outline: 1px solid red;
+  width: 100%;
+  height: 100%;
+  grid-column: auto;
+}
+.toggles > .grouping > .toggle {
+  grid-row: 1;
+  position: absolute;
+  position-anchor: --anchor-toggle;
+  inset: auto anchor(left) anchor(top) auto;
+  anchor-name: --anchor-toggle;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.toggles > .grouping:hover > .toggle {
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 100;
+}
+.toggles > .grouping > .toggle:first-of-type {
+  position: static;
+}
+.toggle {
+  anchor-scope: --anchor-toggle-tip;
+}
+.sequence.toggle {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  anchor-scope:
+    --anchor-toggle-tip, --anchor-sequence-toggle-current,
+    --anchor-sequence-toggle-next, --anchor-sequence-toggle-prev,
+    --anchor-sequence-toggle-final, --anchor-sequence-toggle-last;
+}
+.toggle::before,
+.tip {
+  content: attr(data-text);
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  text-align: center;
+  min-width: 100px;
+  max-width: 200px;
+  min-height: 2lh;
+  height: auto;
+  width: auto;
+  position: absolute;
+  display: grid;
+  inset: auto auto 100% auto;
+  align-self: center;
+  place-items: center;
+  margin: 1em;
+  background-color: #000;
+  font-size: 1rem;
+  transition: opacity 140ms ease 50ms;
+  border: 0 solid #c00;
+  padding: 0.2em 1.5ch;
+  border-radius: 1.75ch;
+  --a: -0.5ch;
+  --x: 0ch;
+  --y: 0ch;
+  --w: 0.7ch;
+  --h: 0.7lh;
+  box-shadow:
+    calc(0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #f0a9,
+    calc(0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #a0f9,
+    calc(-0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #a0a9,
+    calc(-0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #f0f9,
+    0 0 #0000;
+  --fbc-blue-60: ;
+  --f: 1px;
+}
+.toggle:has(.tip)::before {
+  display: none;
+}
+.sequence.toggle::before,
+.toggle::before {
+  anchor-name: --anchor-toggle-tip;
+  position-anchor: --anchor-sequence-toggle;
+  position: fixed;
+  inset: auto auto anchor(top) auto;
+}
+.sequence.toggle .tip,
+.toggle .tip {
+  position-anchor: --anchor-toggle-tip;
+  position-anchor: --anchor-sequence-toggle;
+  position: fixed;
+  inset: auto auto anchor(top) auto;
+}
+
+.sequence.toggle label > .value {
+  font-weight: 400;
+  font-size: clamp(10px, 2vh, 1.2em);
+}
+
+.sequence.toggle label[data-value-display-len='1'] > .value {
+  font-size: clamp(10px, 2vh, 1.7em);
+}
+.sequence.toggle label[data-value-display-len='2'] > .value {
+  font-size: clamp(10px, 2vh, 1.4em);
+}
+.sequence.toggle label[data-value-display-len='3'] > .value {
+  font-size: clamp(10px, 2vh, 1.2em);
+}
+.sequence.toggle label[data-value-display-len='4'] > .value {
+  font-size: clamp(10px, 2vh, 0.9em);
+}
+.sequence.toggle label[data-value-display-len='5'] > .value {
+  font-size: clamp(10px, 2vh, 0.8em);
+}

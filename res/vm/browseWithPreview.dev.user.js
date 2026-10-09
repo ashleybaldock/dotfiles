@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview dev
 // @namespace   mayhem
-// @version     1.0.555
+// @version     1.0.563
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.dev.user.js
@@ -27,21 +27,23 @@
 
 const defaultConfig = {
   playpause: {
+    idx: 1,
     title: 'Playback',
     kind: ['playing', 'paused'],
     tip: 'Playback State (playing/paused)',
     kindtip: (p) => `Playback State: ${p}`,
-    idx: 1,
   },
   debug: {
+    idx: 2,
     title: 'Debug',
     kind: false,
     tip: 'Debug Mode',
-    idx: 2,
   },
   bluronblurtimeout: {
+    idx: 3,
     title: 'Blur on blur',
     kind: [30, 60, Math.POSITIVE_INFINITY, 0, 5, 15],
+    numeric: true,
     tip: 'Blur screen when focus is lost',
     kindtip: (p) =>
       p === Math.POSITIVE_INFINITY
@@ -49,8 +51,10 @@ const defaultConfig = {
         : `Blur screen when focus ${p === 0 ? `is lost` : `has been lost for ${p} seconds`}`,
   },
   pauseonblurtimeout: {
+    idx: 4,
     title: 'Pause on blur',
     kind: [30, 60, Math.POSITIVE_INFINITY, 0, 5, 15],
+    numeric: true,
     tip: 'Pause media when focus is lost',
     kindtip: (p) =>
       p === Math.POSITIVE_INFINITY
@@ -58,6 +62,7 @@ const defaultConfig = {
         : `Pause media when focus ${p === 0 ? `is lost` : `has been lost for ${p} seconds`}`,
   },
   onpause: {
+    idx: 5,
     title: 'On Pause',
     kind: ['grid', 'none', 'blur'],
     tip: 'Behaviour when media is paused',
@@ -65,21 +70,25 @@ const defaultConfig = {
       `When media paused, ${p === 'blur' ? 'blur the screen' : p === 'grid' ? 'show grid view' : 'do nothing'}.`,
   },
   showGrid: {
+    group: 'player.grid',
+    idx: 1,
     title: 'Grid',
     kind: false,
     tip: 'Show multiple media arranged on a grid',
   },
   grid_fit: {
+    group: 'player.grid',
+    idx: 1,
     title: 'Grid fit mode',
     kind: ['contain', 'cover', 'fitw', 'fith', 'auto'],
     default: 'contain',
     tip: 'Fit used in grid mode for media',
   },
   imageduration: {
-    kind: 5,
-    tip: 'Default duration to display images for',
     group: 'player',
     idx: 1,
+    kind: 5,
+    tip: 'Default duration to display images for',
   },
   player: {
     group: 'player',
@@ -90,7 +99,7 @@ const defaultConfig = {
     kindtip: (p) => `Player Mode: ${p}`,
   },
   interleave_active_player_count: {
-    group: 'interleave',
+    group: 'player.interleave',
     idx: 1,
     title: 'Interleave Limit',
     kind: [9, 12, 16, 2, 3, 4, 6],
@@ -105,6 +114,8 @@ const defaultConfig = {
     },
   },
   interleave_duration_ms: {
+    group: 'player.interleave',
+    idx: 2,
     title: 'Duration',
     kind: [
       500, 480, 400, 375, 300, 250, 240, 200, 160, 150, 60000, 30000, 20000,
@@ -123,6 +134,8 @@ const defaultConfig = {
     },
   },
   interleave_bpm: {
+    group: 'player.interleave',
+    idx: 3,
     title: 'BPM',
     kind: [
       120, 125, 150, 160, 200, 240, 250, 300, 375, 400, 1, 2, 3, 4, 5, 6, 8, 10,
@@ -139,11 +152,15 @@ const defaultConfig = {
     },
   },
   interleave_timing: {
+    idx: 4,
+    group: 'player.interleave',
     title: 'Timing Method',
     kind: ['bpm', 'span', 'sync', 'detect'],
     tip: 'How the interval between interleaved media changes is set',
   },
   interleave_max_samples: {
+    idx: 5,
+    group: 'interleave',
     title: 'Samples Per Media',
     kind: [3, 5, 10, Number.POSITIVE_INFINITY, 1],
     numeric: true,
@@ -154,6 +171,8 @@ const defaultConfig = {
         : `Show samples until media exhausted`,
   },
   interleave_sampling: {
+    idx: 6,
+    group: 'player.interleave',
     title: 'Sampling Method',
     tip: 'Method used to select media samples to interleave',
     kind: ['incidental', 'random', 'sequential'],
@@ -163,78 +182,84 @@ const defaultConfig = {
         : `Samples are selected from each media ${p === 'random' ? 'randomly ' : ''}${p === 'sequential' ? 'sequentially ' : ''} to be interleaved.`,
   },
   repeat_playlist: {
+    group: 'repeat',
+    idx: 1,
     title: 'Repeat playlist',
     kind: true,
     tip: 'Repeat entire playlist',
-    group: 'repeat',
-    idx: 1,
   },
   repeat_playing: {
-    kind: true,
-    tip: 'Repeat all currently playing media (stop loading new files in interleave mode)',
     group: 'repeat',
     idx: 2,
+    title: 'Loop current media set',
+    kind: true,
+    tip: 'Repeat all currently playing media (stop loading new files in interleave mode)',
   },
   shuffle_on_load: {
+    group: 'repeat',
+    idx: 3,
     title: 'Shuffle on load',
     kind: true,
     tip: 'Shuffle playlist on initial load of directory',
-    group: 'repeat',
-    idx: 3,
   },
   shuffle_on_repeat: {
-    title: 'Shuffle on repeat',
-    kind: true,
-    tip: 'Shuffle playlist every repeat',
     group: 'repeat',
     idx: 4,
     enable: ['repeat_playlist'],
+    title: 'Shuffle on repeat',
+    kind: true,
+    tip: 'Shuffle playlist every repeat',
   },
   reload_on_repeat: {
-    title: 'Reload on repeat',
-    kind: true,
-    tip: 'Reload folder contents on playlist repeat',
     group: 'repeat',
     idx: 5,
     enable: ['repeat_playlist'],
+    title: 'Reload on repeat',
+    kind: true,
+    tip: 'Reload folder contents on playlist repeat',
   },
-  filter: { kind: '.*\.mp4$', hidden: true },
+  filter: {
+    group: 'filelist',
+    title: 'Filter',
+    kind: '.*\.mp4$',
+    hidden: true,
+  },
   filelist: {
+    group: 'filelist',
+    idx: 1,
     title: 'Show file listing',
     kind: ['hide', 'below', 'beside'],
     tip: 'File List location',
     kindtip: (p) =>
       `${p === 'hide' ? `Hide file list` : `Show file list ${p} media`}`,
-    group: 'filelist',
-    idx: 1,
   },
   includeImageFiles: {
+    group: 'filelist',
+    idx: 2,
     title: 'Include Images',
     kind: true,
     tip: 'Include image files',
-    group: 'filelist',
-    idx: 2,
   },
   includeVideoFiles: {
+    group: 'filelist',
+    idx: 3,
     title: 'Include Video',
     kind: true,
     tip: 'Include video files',
-    group: 'filelist',
-    idx: 3,
   },
   includeOtherFiles: {
+    group: 'filelist',
+    idx: 4,
     title: 'Include Other',
     kind: false,
     tip: 'Include other files',
-    group: 'filelist',
-    idx: 4,
   },
   includeHiddenFiles: {
+    group: 'filelist',
+    idx: 5,
     tip: 'Include Hidden',
     kind: false,
     tip: 'Include hidden files',
-    group: 'filelist',
-    idx: 5,
   },
 };
 
@@ -314,7 +339,7 @@ const addSequenceToggle = ({
   sequence = [],
   defaultPrefix = '',
   defaultSuffix = '',
-  numeric = false,
+  numeric = sequence.every((v) => 'number' === typeof v),
   ...attrs
 } = {}) => {
   const container = GM_addElement(to, 'fieldset', {
@@ -327,9 +352,9 @@ const addSequenceToggle = ({
       value,
       prefix = defaultPrefix,
       suffix = defaultSuffix,
-      display = `${value}`,
-      id = `toggle_${name}_${value}`,
-      tip = `Toggle ${name} withvalue ${display}`,
+      display = `${numeric && !isFinite(value) ? '∞' : value}`,
+      id = `toggle_${name}_${numeric && !isFinite(value) ? 'infinity' : value}`,
+      tip = `Toggle ${name} with value ${display}`,
     }) => {
       const label = GM_addElement(container, 'label', {
         class: '',
@@ -678,9 +703,20 @@ const initBrowsePreview = ({ document: { body } }) => {
     Object.entries(defaultConfig).forEach(([name, conf]) => {
       const { group } = conf;
 
-      group &&
-        !groups.has(group) &&
-        groups.set(group, addGrouping({ to: defaultContainer }));
+      const subgroups = group?.split('.') ?? [];
+
+      subgroups.reduce((acc, part) => {
+        const subgroup = acc.length > 0 ? `${acc}.${part}` : part;
+
+        subgroup &&
+          !groups.has(subgroup) &&
+          groups.set(
+            subgroup,
+            addGrouping({ to: groups.get(acc), 'data-name': subgroup }),
+          );
+
+        return subgroup;
+      }, '');
 
       const bindTo = Object.hasOwn(configBindings, name)
         ? configBindings[name]

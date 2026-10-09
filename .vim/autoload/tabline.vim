@@ -119,7 +119,9 @@ endfunc
 
 
 "􀏜 􃑷  􃛒  􃛕  􀢌 􃛓  􀾪􁁎 􂃻 􂃼 􂃽 􂃾  􀐑 􀐒   ⎍  ⺇𒋰
+"          ᐥ⑊⇙​  　〿␈␠g     ⌿⧷⧶  ៕ ⍀⌿ ➺️
 "
+" 𐕣𐕡𐔿 𐔴𐕇 𐕉𐕇 𐔷 𐕐𐕇 𐕡𐕇 𐕔𐕚 𐕔𐕈 𐕔𐔺 𐕅𐔺 𐕡 𐕊𐕇    𐕖  𐕒𐕇  ୮𐢫 ℹ dᣞ ᣕᣔᣖ
 
 function! tabline#DiagTip() abort
   return get(t:, 'mayhem_tl_cached_diag_tip', '')
@@ -129,13 +131,16 @@ function! tabline#gen_tip_cache() abort
   for i in range(1, tabpagenr('$'))
     call settabvar(i, 'mayhem_cache_guitabtooltip', [
           \ [
-          \ '\ ',
-          \ format#numbers(string(i), 'sans'),
-          \ ' / 𝔬𝔣 / ',
-          \ format#numbers(tabpagenr('$')->string(), 'sans'),
-          \ ' /	􀢌 ×',
+          \ ' 􀢌 ×',
           \ tabpagewinnr(i, '$'),
-          \ ' %= %{%tabline#DiagTip()%}',
+          \ '	',
+          \ ' %{%tabline#DiagTip()%}',
+          \ '	',
+          \ ' ',
+          \ format#numbers(string(i), 'sans'),
+          \ ' ୵ ',
+          \ format#numbers(tabpagenr('$')->string(), 'sans'),
+          \ ' ',
           \ ]->join(''),
           \ tabpagebuflist(i)
           \  ->map({j, bufnr -> getbufvar(bufnr, 'mayhem_tl_cached_filename')})

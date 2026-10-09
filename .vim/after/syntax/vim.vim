@@ -187,28 +187,32 @@ syn match CommentStart /^\s*\zs["#]/ contained
 syn match Modeline /\(^["#]\)\@<=\s\+vim:.*$/ contained 
       \ containedin=Comment,vimLineComment,vim9LineComment
 
+syn match SpNb /\%ua0/ contained
+      \ containedin=vimString,vimContinueString,vimLineComment,vim9LineComment
+      \ contains=NONE conceal cchar=⧶
+
 syn match SpEm /\%u2003/ contained
-      \ containedin=vimString,vimContinueString
+      \ containedin=vimString,vimContinueString,vimLineComment,vim9LineComment
       \ contains=NONE conceal cchar=⅟
 
 syn match SpEn /\%u2002/ contained
-      \ containedin=vimString,vimContinueString
+      \ containedin=vimString,vimContinueString,vimLineComment,vim9LineComment
       \ contains=NONE conceal cchar=½
 
 syn match Sp3Per /\%u2004/ contained
-      \ containedin=vimString,vimContinueString
+      \ containedin=vimString,vimContinueString,vimLineComment,vim9LineComment
       \ contains=NONE conceal cchar=⅓
 
 syn match Sp4Per /\%u2005/ contained
-      \ containedin=vimString,vimContinueString
+      \ containedin=vimString,vimContinueString,vimLineComment,vim9LineComment
       \ contains=NONE conceal cchar=¼
 
 syn match SpThin /\%u2009/ contained
-      \ containedin=vimString,vimContinueString
+      \ containedin=vimString,vimContinueString,vimLineComment,vim9LineComment
       \ contains=NONE conceal cchar=⅕
 
 syn match Sp6Per /\%u2006/ contained
-      \ containedin=vimString,vimContinueString
+      \ containedin=vimString,vimContinueString,vimLineComment,vim9LineComment
       \ contains=NONE conceal cchar=⅙
 
 

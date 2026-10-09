@@ -47,6 +47,9 @@ let g:mayhem.symbols_A.search = #{
       \ after: '-',
       \}
 
+"
+" Very basic formatting for search query to make it easier to spot the regex
+"
 function! statusline#formatSearch(search = @/)
   let sp = '%#SlSp⸮#'
   let tx = '%#SlSx⸮#'

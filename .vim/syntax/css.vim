@@ -410,20 +410,20 @@ syn keyword cssUIProp contained appearance
 syn keyword cssUIAttr contained window button field icon document menu
 
 
-syn match cssAuralProp contained "\<\(pause\|cue\)\(-\(before\|after\)\)\=\>"
-syn match cssAuralProp contained "\<\(play-during\|speech-rate\|voice-family\|pitch\(-range\)\=\|speak\(-\(punctuation\|numeral\|header\)\)\=\)\>"
-syn keyword cssAuralProp contained volume during azimuth elevation stress richness
-syn match cssAuralAttr contained "\<\(x-\)\=\(soft\|loud\)\>"
-syn keyword cssAuralAttr contained silent
-syn match cssAuralAttr contained "\<spell-out\>"
-syn keyword cssAuralAttr contained non mix
-syn match cssAuralAttr contained "\<\(left\|right\)-side\>"
-syn match cssAuralAttr contained "\<\(far\|center\)-\(left\|center\|right\)\>"
-syn keyword cssAuralAttr contained leftwards rightwards behind
-syn keyword cssAuralAttr contained below level above lower higher
-syn match cssAuralAttr contained "\<\(x-\)\=\(slow\|fast\|low\|high\)\>"
-syn keyword cssAuralAttr contained faster slower
-syn keyword cssAuralAttr contained male female child code digits continuous
+" syn match cssAuralProp contained "\<\(pause\|cue\)\(-\(before\|after\)\=\)\>"
+" syn match cssAuralProp contained "\<\(play-during\|speech-rate\|voice-family\|pitch\(-range\)\=\|speak\(-\(punctuation\|numeral\|header\)\)\=\)\>"
+" syn keyword cssAuralProp contained volume during azimuth elevation stress richness
+" syn match cssAuralAttr contained "\<\(x-\)\=\(soft\|loud\)\>"
+" syn keyword cssAuralAttr contained silent
+" syn match cssAuralAttr contained "\<spell-out\>"
+" syn keyword cssAuralAttr contained non mix
+" syn match cssAuralAttr contained "\<\(left\|right\)-side\>"
+" syn match cssAuralAttr contained "\<\(far\|center\)-\(left\|center\|right\)\>"
+" syn keyword cssAuralAttr contained leftwards rightwards behind
+" syn keyword cssAuralAttr contained below level above lower higher
+" syn match cssAuralAttr contained "\<\(x-\)\=\(slow\|fast\|low\|high\)\>"
+" syn keyword cssAuralAttr contained faster slower
+" syn keyword cssAuralAttr contained male female child code digits continuous
 
 " mobile text
 syn match cssMobileTextProp contained "\<text-size-adjust\>"
@@ -438,8 +438,10 @@ syn match cssMediaProp contained /\<\(\(max\|min\)-\)\=\(height\|width\|resoluti
 syn keyword cssMediaAttr contained portrait landscape progressive interlace
 syn keyword cssMediaAttr contained coarse fast fine hover infinite p3 paged
 syn keyword cssMediaAttr contained rec2020 scroll slow srgb
-syn match cssKeyFrameProp contained /\(\d\+\(\.\d\+\)\?%\|\(\<from\|to\>\)\)/ nextgroup=cssDefinition
-syn match cssPageMarginProp /@\(\(top\|left\|right\|bottom\)-\(left\|center\|right\|middle\|bottom\)\)\(-corner\)\=/ contained nextgroup=cssDefinition
+syn match cssKeyFrameProp contained /\(\d\+\(\.\d\+\)\?%\|\(\<from\|to\>\)\)/
+      \ nextgroup=cssDefinition
+syn match cssPageMarginProp contained /@\(\(top\|left\|right\|bottom\)-\(left\|center\|right\|middle\|bottom\)\)\(-corner\)\=/
+      \ nextgroup=cssDefinition
 syn keyword cssPageProp contained content size
 syn keyword cssPageProp contained orphans widows
 syn keyword cssFontDescriptorProp contained src
@@ -450,7 +452,13 @@ syn match cssFontDescriptorAttr contained "U+\x\+-\x\+"
 
 syn match cssBraces contained "[{}]"
 syn match cssError contained "{@<>"
-syn region cssDefinition transparent matchgroup=cssBraces start='{' end='}' contains=cssTagName,cssAttributeSelector,cssClassName,cssIdentifier,cssAtRule,cssAttrRegion,css.*Prop,cssComment,cssValue.*,cssColor,cssURL,cssImportant,cssCustomProp,cssError,cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,cssDefinition,cssHacks,cssNoise fold
+syn region cssDefinition transparent matchgroup=cssBraces start='{' end='}'
+      \ contains=css.*Prop,cssValue.*,
+      \cssTagName,cssAttributeSelector,cssClassName,cssIdentifier,
+      \cssAtRule,cssAttrRegion,
+      \cssComment,cssColor,cssURL,cssImportant,cssCustomProp,cssError,
+      \cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
+      \cssDefinition,cssHacks,cssNoise fold
 syn match cssBraceError "}"
 syn match cssAttrComma ","
 
@@ -478,8 +486,10 @@ syn region cssComment start="/\*" end="\*/" contains=@Spell fold
 syn match cssUnicodeEscape "\\\x\{1,6}\s\?"
 syn match cssSpecialCharQQ +\\\\\|\\"+ contained
 syn match cssSpecialCharQ +\\\\\|\\'+ contained
-syn region cssStringQQ start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=cssUnicodeEscape,cssSpecialCharQQ
-syn region cssStringQ start=+'+ skip=+\\\\\|\\'+ end=+'+ contains=cssUnicodeEscape,cssSpecialCharQ
+syn region cssStringQQ start=+"+ skip=+\\\\\|\\"+ end=+"+
+      \ contains=cssUnicodeEscape,cssSpecialCharQQ
+syn region cssStringQ start=+'+ skip=+\\\\\|\\'+ end=+'+
+      \ contains=cssUnicodeEscape,cssSpecialCharQ
 
 " Vendor Prefix
 syn match cssVendor contained "-\(webkit\|moz\|o\|ms\)-"
@@ -495,36 +505,58 @@ syn match cssHacks contained /\(_\|*\)/
 " Attr Enhance
 " Some keywords are both Prop and Attr, so we have to handle them
 " cssPseudoClassId is hidden by cssAttrRegion, so we add it here. see #69
-syn region cssAttrRegion start=/:/ end=/\ze\(;\|)\|}\|{\)/ contained contains=cssPseudoClassId,css.*Attr,cssColor,cssImportant,cssValue.*,cssFunction,cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,cssError,cssAttrComma,cssNoise
+syn region cssAttrRegion contained start=/:/ end=/\ze\(;\|)\|}\|{\)/
+      \ contains=cssPseudoClassId,
+      \css.*Attr,cssValue.*,cssString.*,
+      \cssColor,cssImportant,cssFunction,cssURL,cssComment,
+      \cssUnicodeEscape,cssVendor,cssError,cssAttrComma,cssNoise
 
 " Hack for transition
 " 'transition' has Props after ':'.
-syn region cssAttrRegion start=/transition\s*:/ end=/\ze\(;\|)\|}\)/ contained contains=css.*Prop,css.*Attr,cssColor,cssImportant,cssValue.*,cssFunction,cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,cssError,cssAttrComma,cssNoise
+syn region cssAttrRegion contained start=/transition\s*:/ end=/\ze\(;\|)\|}\)/
+      \ contains=css.*Prop,css.*Attr,cssValue.*,cssString.*,
+      \cssColor,cssImportant,cssFunction,cssURL,cssComment,
+      \cssUnicodeEscape,cssVendor,cssError,cssAttrComma,cssNoise
 
 syn match cssAtKeyword /@\(font-face\|media\|keyframes\|import\|charset\|namespace\|page\|supports\)/
 
-syn keyword cssAtRuleLogical only not and contained
+syn keyword cssAtRuleLogical contained only not and 
 
 " @media
 " Reference: http://www.w3.org/TR/css3-mediaqueries/
-syn region cssAtRule start=/@media\>/ end=/\ze{/ skipwhite skipnl matchgroup=cssAtKeyword contains=cssMediaProp,cssValueLength,cssAtRuleLogical,cssValueInteger,cssMediaAttr,cssVendor,cssMediaType,cssComment,cssCustomProp,cssFunctionName nextgroup=cssDefinition
-syn keyword cssMediaType contained screen print aural braille embossed handheld projection tty tv speech all contained
+syn region cssAtRule start=/@media\>/ end=/\ze{/ skipwhite skipnl matchgroup=cssAtKeyword
+      \ contains=cssMediaProp,cssValueLength,cssAtRuleLogical,cssValueInteger,
+      \cssMediaAttr,cssVendor,cssMediaType,cssComment,cssCustomProp,cssFunctionName
+      \ nextgroup=cssDefinition
+syn keyword cssMediaType contained screen print aural braille embossed handheld projection tty tv speech all
 
 " @page
 " http://www.w3.org/TR/css3-page/
-syn region cssAtRule start=/@page\>/ end=/\ze{/ skipwhite skipnl matchgroup=cssAtKeyword contains=cssPagePseudo,cssComment nextgroup=cssDefinition
-syn match cssPagePseudo /:\(left\|right\|first\|blank\)/ contained skipwhite skipnl
+syn region cssAtRule start=/@page\>/ end=/\ze{/ skipwhite skipnl matchgroup=cssAtKeyword
+      \ contains=cssPagePseudo,cssComment
+      \ nextgroup=cssDefinition
+syn match cssPagePseudo contained /:\(left\|right\|first\|blank\)/ skipwhite skipnl
 " @keyframe
 " http://www.w3.org/TR/css3-animations/#keyframes
-syn region cssAtRule start=/@\(-[a-z]\+-\)\=keyframes\>/ end=/\ze{/ skipwhite skipnl matchgroup=cssAtKeyword contains=cssVendor,cssComment nextgroup=cssDefinition
+syn region cssAtRule start=/@\(-[a-z]\+-\)\=keyframes\>/ end=/\ze{/ skipwhite skipnl matchgroup=cssAtKeyword
+      \ contains=cssVendor,cssComment
+      \ nextgroup=cssDefinition
 
-syn region cssAtRule start=/@import\>/    end=/\ze;/ contains=cssStringQ,cssStringQQ,cssUnicodeEscape,cssComment,cssAtKeyword,cssURL,cssMediaProp,cssValueLength,cssAtRuleLogical,cssValueInteger,cssMediaAttr,cssMediaType
-syn region cssAtRule start=/@charset\>/   end=/\ze;/ contains=cssStringQ,cssStringQQ,cssUnicodeEscape,cssComment,cssAtKeyword
-syn region cssAtRule start=/@namespace\>/ end=/\ze;/ contains=cssStringQ,cssStringQQ,cssUnicodeEscape,cssComment,cssAtKeyword
+syn region cssAtRule start=/@import\>/    end=/\ze;/
+      \ contains=cssStringQ,cssStringQQ,cssUnicodeEscape,cssComment,
+      \cssAtKeyword,cssURL,cssMediaProp,cssValueLength,cssAtRuleLogical,
+      \cssValueInteger,cssMediaAttr,cssMediaType
+syn region cssAtRule start=/@charset\>/   end=/\ze;/
+      \ contains=cssStringQ,cssStringQQ,cssUnicodeEscape,cssComment,cssAtKeyword
+syn region cssAtRule start=/@namespace\>/ end=/\ze;/
+      \ contains=cssStringQ,cssStringQQ,cssUnicodeEscape,cssComment,cssAtKeyword
 
 " @supports
 " https://www.w3.org/TR/css3-conditional/#at-supports
-syn region cssAtRule start=/@supports\>/ end=/\ze{/ skipwhite skipnl contains=cssAtRuleLogical,cssAttrRegion,css.*Prop,cssValue.*,cssVendor,cssAtKeyword,cssComment nextgroup=cssDefinition
+syn region cssAtRule start=/@supports\>/ end=/\ze{/ skipwhite skipnl
+      \ contains=css.*Prop,cssValue.*,
+      \cssAtRuleLogical,cssAttrRegion,cssVendor,cssAtKeyword,cssComment
+      \ nextgroup=cssDefinition
 
 
 if main_syntax == "css"

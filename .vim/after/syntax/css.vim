@@ -5,6 +5,8 @@
 "
 " Related:
 "   $VIMHOME/after/syntax/css.vim
+"   $VIMHOME/after/ftplugin/css.vim
+"   $VIMHOME/plugin/css.vim
 "   $VIMHOME/demo/css-regex-tests.cs
 "   $VIMHOME/pack/default/start/vim-css3-syntax/after/syntax/css/
 "   $VIMRUNTIME/syntax/css.vim
@@ -13,6 +15,7 @@
 source <script>:p:h/common.vim
 
 syn sync lines=200
+syntax sync fromstart
 
 " TODO
 "
@@ -264,9 +267,7 @@ syn match cssPowSimple contained /pow(\s*\(-\?\d\+\)\s*,\s*\(-\?\d\+\)\s*)/
 hi link cssPowBase Number
 hi link cssPowSep Number
 
-"
-"{{{3 trigonometry
-"
+"{{{3 Trig functions
 syn match cssMathFunctionName /\%(a\@1<=\|\<\)sin\>/
       \ contained conceal cchar=𝙎 
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup

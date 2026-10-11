@@ -45,7 +45,7 @@ function! s:FindPatternSeperator(pattern, replacement)
   endfor
 endfunc
 
-function MakeSubstitute(text, replacement, options = {})
+function! MakeSubstitute(text, replacement, options = {}) abort
   let trim = get(a:options, 'trim', v:true)
   let fuzzws = get(a:options, 'fuzzws', v:true)
   let flags = get(a:options, 'flags', 'cg')
@@ -58,12 +58,12 @@ function MakeSubstitute(text, replacement, options = {})
 endfunc
 
 
-function s:AckEscaped(search, options = {}) abort
+function! s:AckEscaped(search, options = {}) abort
   let g:mayhem_last_ack_query = a:search
   let g:mayhem_last_ack_escaped = fnameescape(a:search)
-  let g:mayhem_last_ack_case = get(options, 'case', 0)
-  let g:mayhem_last_ack_root = get(options, 'root', 1)
-  let g:mayhem_last_ack_literal = get(options, 'literal', 1)
+  let g:mayhem_last_ack_case = get(a:options, 'case', 0)
+  let g:mayhem_last_ack_root = get(a:options, 'root', 1)
+  let g:mayhem_last_ack_literal = get(a:options, 'literal', 1)
 
   let g:mayhem_last_ack_dir = get(project#root(), 'path')
 

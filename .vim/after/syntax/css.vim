@@ -3,11 +3,11 @@
 "
 " :au BufWritePost <buffer> syn on
 "
-" See Also:
-"          ../after/syntax/css.vim
-"       ../../demo/css-regex-tests.cs
-"       ../../pack/default/start/vim-css3-syntax/after/syntax/css/
-"       $VIMRUNTIME/syntax/css.vim
+" Related:
+"   $VIMHOME/after/syntax/css.vim
+"   $VIMHOME/demo/css-regex-tests.cs
+"   $VIMHOME/pack/default/start/vim-css3-syntax/after/syntax/css/
+"   $VIMRUNTIME/syntax/css.vim
 "
 
 source <script>:p:h/common.vim
@@ -264,7 +264,9 @@ syn match cssPowSimple contained /pow(\s*\(-\?\d\+\)\s*,\s*\(-\?\d\+\)\s*)/
 hi link cssPowBase Number
 hi link cssPowSep Number
 
-"{{{3 Trig functions
+"
+"{{{3 trigonometry
+"
 syn match cssMathFunctionName /\%(a\@1<=\|\<\)sin\>/
       \ contained conceal cchar=𝙎 
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
@@ -289,14 +291,20 @@ syn match cssMathFunctionName /\<a\ze\%(sin\|cos\|tan2\?\)\>/
       \ contained conceal cchar=𝙖
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
       \ nextgroup=cssMathFunctionName
+"}}}3 
+"
+
+"
+"{{{1 Candidates
+"
 "􁢏􀥄􁇝􁁀 􀐩 􂇏' 􀐪􀓗
 "􀥖􀥗􀥘
-" 􀼰􀼯􀼯 􀼯 􀼯 􀼯 􀼯 􀼯 􀼮
+" 􀼰􀼯􀼯􀼯􀼯􀼯􀼮
 " 􁥞 􁥟
 "
 " 􀂘􀂙􀂸􀂹􀂺
 "􀩈 􀩉 􀩊 􀩋 􀩌 􀩍􁆬
-"􀍳􀍴 􀎗􀩈􀥖􀩉􀥗􀩊􀥘 􁆭􁅥
+"􀍳􀍴 􀎗􀩈􀥖􀩉􀥗􀩊􀥘 􁆭􁅥 􀼯
 "
 " hypot(a[, b[, c]… ]) /* sqrt(pow(a)[ + pow(b)[ + pow(c)]… ]) */
  " 􀫰 􀫱 􁹫' 􁹬' 􀍸 􀍹
@@ -357,9 +365,14 @@ syn match cssMathFunctionName /\<a\ze\%(sin\|cos\|tan2\?\)\>/
 " repeating-conic-gradient() 􀳇􀳈
 " repeating-radial-gradient()􀢊􁊕
 " repeating-radial-gradient()
+"
+"}}}3
+"
 
 
-"{{{3 Image gradient functions
+"
+"{{{3 gradient
+"
 syn match cssMathFunctionName /linear-gradient\>/
       \ contained conceal cchar=▥
       \ containedin=cssAttrRegion,cssFunction,cssMathParens,cssMathGroup
@@ -383,6 +396,9 @@ syn region cssFunction contained keepend
       \ contains=cssMathFunctionName,cssColor,
       \ cssValueAngle,cssValueInteger,cssValueNumber,cssValueLength,
       \ cssFunction,cssGradientAttr,cssFunctionComma
+"
+"}}}3
+"
 
 " counter()􁂷􀅱
 " counters()􀘽
@@ -578,6 +594,7 @@ syn region cssAtRule matchgroup=cssAtKeyword
       \cssComment,cssCustomProp,cssFunctionName
       \ nextgroup=cssDefinition
 
+"
 "{{{1 SVG in CSS url()
 "
 syn match cssUrlSvgTagN !\(%3[cC]/\?\)\@3<=[-a-zA-Z0-9]\+!

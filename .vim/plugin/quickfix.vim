@@ -7,7 +7,7 @@ g:mayhem_loaded_quickfix = 1
 #
 # Related:
 #   $VIMHOME/syntax/qf.vim
-#   $VIMHOME/plugin/quickfix.vim 
+#   $VIMHOME/autoload/search.vim 
 #   $VIMRUNTIME/syntax/qf.vim       
 #
 

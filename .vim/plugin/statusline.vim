@@ -376,7 +376,22 @@ function ChQfTitle() abort
   return get(w:, 'quickfix_title', 'quickfix list')
 endfunc
 function ChQfSearch() abort
-  return getbufvar(bufnr(), 'mayhem_quickfix_search', 'search')
+  return getbufvar(bufnr(), 'mayhem_last_ack_query', 'search')
+endfunc
+function ChQfQEsc() abort
+  return getbufvar(bufnr(), 'mayhem_last_ack_escaped', 'escaped')
+endfunc
+function ChQfCase() abort
+  return getbufvar(bufnr(), 'mayhem_last_ack_case', 0)
+endfunc
+function ChQfRoot() abort
+  return getbufvar(bufnr(), 'mayhem_last_ack_root', 1)
+endfunc
+function ChQfLiteral() abort
+  return getbufvar(bufnr(), 'mayhem_last_ack_literal', 1)
+endfunc
+function ChQfDir() abort
+  return getbufvar(bufnr(), 'mayhem_last_ack_dir', '?/')
 endfunc
 function ChQfCt() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_count', '?')
@@ -390,8 +405,8 @@ endfunc
 function ChQfFCtPl() abort
   return (getbufvar(bufnr(), 'mayhem_quickfix_filecount', 0) == 1) ? '' : 's'
 endfunc
-function ChQfCommand() abort
-  return getbufvar(bufnr(), 'mayhem_quickfix_command', ' :?? ')
+function ChQfCmd() abort
+  return getbufvar(bufnr(), 'mayhem_last_ack_cmd', ' :?? ')
 endfunc
 
 function ChQuickfix() abort
@@ -628,7 +643,8 @@ function s:UpdateStatuslines() abort
         \' in %#SlQfCt⸮#%{%ChQfFCt()%}%#SlQf⸮# file%{%ChQfFCtPl()%}%* ',
         \qs,
         \eq,
-        \'%#SlHint⸮#%{%ChQfCommand()%}%*',
+        \'%#SlHint⸮#%{%ChQfDir()%}%*',
+        \'%#SlHint⸮#%{%ChQfCmd()%}%*',
         \' %{%ScrollHint()%} ',
         \'%#SlQf⸮# %*'
         \])

@@ -32,23 +32,24 @@ cwd=$(pwd)
 
 if [ ! -d "$GITROOT" ]
 then
-  echo "Failed to find '$GITROOT'" >&2 && exit 1
+  echo "Failed to find '$GITROOT'" >&2
+  exit 1
 fi
 
 cd $GITROOT
 
 if [ ! -d "$packpath" ]
 then
-  echo "Failed to find package directory '$packpath'" >&2 && exit 1
+  echo "Failed to find package directory '$packpath'" >&2
+  exit 1
 fi
 
 # git diff --cached --quiet && echo "git has staged changes, commit or stash them first" >&2 && exit 1
 
-git submodule deinit "$packpath" || echo "submodule deinit failed" >&2 && exit 1
+git submodule deinit "$packpath"
 
-git rm "$packpath" || echo "git rm failed" >&2 && exit 1
-# git rm "pack/default/start/$1" || echo "git rm failed" >&2 && exit 1
+git rm "$packpath"
 
-rm -Rf "$modulepath" || echo "rm modulepath failed" >&2  && exit 1
+rm -Rf "$modulepath"
 
 git commit -m"Remove vim package '$packname'"

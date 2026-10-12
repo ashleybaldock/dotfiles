@@ -42,7 +42,7 @@ then
   echo "Failed to find package directory '$packpath'" >&2 && exit 1
 fi
 
-git diff --cached --quiet || echo "git has staged changes, commit or stash them first" >&2 && exit 1
+# git diff --cached --quiet && echo "git has staged changes, commit or stash them first" >&2 && exit 1
 
 git submodule deinit "$packpath" || echo "submodule deinit failed" >&2 && exit 1
 

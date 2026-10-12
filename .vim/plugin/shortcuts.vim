@@ -88,8 +88,12 @@ nnoremap <expr> , getcharsearch().forward ? ',' : ';'
 
 "
 " Replace: Character under cursor with its escape code
+
+" R̲e̲p̲l̲a̲c̲e̲:̲ C̲h̲a̲r̲a̲c̲t̲e̲r̲ under c̲u̲r̲s̲o̲r̲ w̲i̲t̲h̲ its escape code
 "
 nnoremap §u\ "=char#code()Pl
+
+
 
 
 "
@@ -97,20 +101,20 @@ nnoremap §u\ "=char#code()Pl
 "
 " Add Combining: 
 " ▌️ 􀆕 0 ▐️────▷ C⃝ i⃝ r⃝ c⃝ l⃝ e⃝  
-nnoremap º a⃝ <Esc>hh
-xnoremap º :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃝ /g<CR><Cmd>nohlsearch<CR> 
+nnoremap º a⃝ <Esc>h
+xnoremap º :keepjumps keeppatterns s/\%V\(\_^\s*["#]\s*\)\?.\{-}\zs\S\ze.\{-}\%V/\0⃝ /g<CR><Cmd>nohlsearch<CR>
 "
 " ▌️􀆝􀆕 0▐️────▷ S⃞ q⃞ u⃞ a⃞ r⃞ e⃞ 
-nnoremap ‚ a⃞ <Esc>hh
+nnoremap ‚ a⃞ <Esc>h
 xnoremap ‚ :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0⃞ /g<CR><Cmd>nohlsearch<CR> 
 "
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲
-nnoremap – a̲<Esc>h
+nnoremap – a̲<Esc>
 " ▌️ 􀆕 - ▐️────▷ U̲n̲d̲e̲r̲l̲i̲n̲e̲ visual selection, skip leading/trailing w̲h̲i̲t̲e̲s̲p̲a̲c̲e̲
-xnoremap – :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̲/g<CR><Cmd>nohlsearch<CR> 
+xnoremap – <Cmd>let s = winsaveview()<CR>:keepjumps keeppatterns s/\%V\(\_^\s*["#]\s*\)\?.\{-}\zs\S\ze.\{-}\%V/\0̲/g<CR><Cmd>nohlsearch<CR><Cmd>call winrestview(s)<CR>
 "
 " ▌️􀆝􀆕 -▐️──▷ O̅v̅e̅r̅l̅i̅n̅e̅
-nnoremap — a̅<Esc>h
+nnoremap — a̅<Esc>
 " ▌️􀆝􀆕 -▐️──▷ Overline visual selection, skip leading/trailing whitespace
 xnoremap — :keeppatterns s/\%V\(^"\s*\)\?\S\{-}\zs\S\ze\S\{-}/\0̅/g<CR><Cmd>nohlsearch<CR> 
 "<Cmd>nohlsearch<CR> 

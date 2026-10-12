@@ -664,14 +664,7 @@ body > :not(h1) {
   height: auto;
 }
 body > h1 {
-  font-size: 14px;
-  margin: 0;
-  border-bottom: none;
-  font-weight: 400;
-  grid-area: index;
-  z-index: var(--z-files);
-  inset: var(--inset-top);
-  position: fixed;
+  display: none;
 }
 /*!}}}1*/
 
@@ -2002,20 +1995,16 @@ h1,
   position-anchor: --anchor-sequence-toggle-final !important;
   anchor-name: --anchor-sequence-toggle-next !important;
   inset: var(--anchor-inset-sw);
+}
 
-  .sequence.toggle label:has(:checked)::before {
-    z-index: 1000000;
-    z-index: -1;
-  }
+.sequence.toggle label:has(:checked)::before {
+  z-index: 1000000;
+  z-index: -1;
+}
 
-  .toggle:not(:has(button)) label::before {
-    /* --icon: var(--mask-none); */
-  }
-
-  :root:has(#toggle_debug:checked) .sequence.toggle label::before {
-    background-color: #0000;
-    z-index: 0;
-  }
+:root:has(#toggle_debug:checked) .sequence.toggle label::before {
+  background-color: #0000;
+  z-index: 0;
 }
 .toggle:hover label,
 .sequence.toggle:hover label,

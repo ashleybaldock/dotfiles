@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-VIMDIR="$HOME/dotfiles/.vim"
+GITROOT="$HOME/dotfiles"
+VIMDIR="$GITROOT/.vim"
 
 __usage="
 Usage: $(basename $0) [options] <repo-url> <package-name> [<branch>]
@@ -21,30 +22,36 @@ elif [ $# -lt 2 ]; then
   exit 2
 fi
 
-if [ ! -d "$VIMDIR" ]
-then
-  echo "Failed to find VIMDIR '($VIMDIR)', aborting" >&2
-  exit 1
-fi
+repourl="$1"
+packname="$2"
+branch="$3"
+packpath=".vim/pack/default/start/$packname"
+packpathopt=".vim/pack/default/opt/$packname"
 
 cwd=$(pwd)
 
-cd $VIMDIR
+if [ ! -d "$GITROOT" ]
+then
+  echo "Failed to find '$GITROOT'" >&2
+  exit 1
+fi
 
-git diff --cached --quiet || echo "Git has staged changes, commit or stash them first" >&2 && exit 1
+cd $GITROOT
 
-git submodule init || echo "Git submodule init failed" >&2 && exit 1
+git diff --cached --quiet || echo "git has staged changes, commit or stash them first" >&2 && exit 1
 
-if [ "$3" != "" ]; then
-  git submodule add -b "$3" "$1" ".vim/pack/default/start/$2"
+git submodule init || echo "git submodule init failed" >&2 && exit 1
+
+if [ "$branch" != "" ]; then
+  git submodule add -b "$branch" "$repourl" "$packpath" || echo "git submodule add failed" >&2 && exit 1
 # Changing existing submodule's branch:
 ##   git submodule set-branch --branch release -- "$VIMDIR/pack/default/start/$2"
 else
-  git submodule add "$1" ".vim/pack/default/start/$2"
+  git submodule add "$repourl" "$packpath" || echo "git submodule add failed" >&2 && exit 1
 fi
 
-git config -f .gitmodules "submodule..vim/pack/default/start/$2.ignore untracked"
+git config -f .gitmodules "submodule.$packpath.ignore untracked"
 
-git add .gitmodules ".vim/pack/default/start/$2" || echo "git add .gitmodules failed" >&2 && exit 1
+git add .gitmodules "$packpath" || echo "git add .gitmodules failed" >&2 && exit 1
 
-git commit -m"Add vim package '$2'"
+git commit -m"Add vim package '$packname'"

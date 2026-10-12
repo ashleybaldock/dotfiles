@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-VIMDIR="$HOME/dotfiles/.vim"
-GITDIR="$HOME/dotfiles/.git"
+GITROOT="$HOME/dotfiles"
+VIMDIR="$GITROOT/.vim"
+GITDIR="$GITROOT/.git"
 
 __usage="
 Usage: $(basename $0) [options] <package-name>
@@ -20,27 +21,34 @@ elif [ $# -lt 1 ]; then
   exit 2
 fi
 
-if [ ! -d "$VIMDIR" ]
-then
-  echo "Failed to find VIMDIR '($VIMDIR)', aborting" >&2
-  exit 1
-fi
 
-if [ ! -d "$VIMDIR/pack/default/start/$1" ]
-then
-  echo "Failed to find package directory '($VIMDIR)/pack/default/start/($1)', aborting" >&2
-  exit 1
-fi
+packname="$1"
+packpath=".vim/pack/default/start/$packname"
+packpathopt=".vim/pack/default/opt/$packname"
+modulepath="$GITDIR/modules/$packpath"
+modulepathopt="$GITDIR/modules/$packpathopt"
 
 cwd=$(pwd)
 
-cd $VIMDIR
-git diff --cached --quiet || echo "Git has staged changes, commit or stash them first" >&2 && exit 1
+if [ ! -d "$GITROOT" ]
+then
+  echo "Failed to find '$GITROOT'" >&2 && exit 1
+fi
 
-git submodule deinit ".vim/pack/default/start/$1" || echo "submodule deinit failed" >&2 && exit 1
+cd $GITROOT
 
-git rm "pack/default/start/$1" || echo "git rm failed" >&2 && exit 1
+if [ ! -d "$packpath" ]
+then
+  echo "Failed to find package directory '$packpath'" >&2 && exit 1
+fi
 
-rm -Rf "$GITDIR/modules/.vim/pack/default/start/$1" && exit 1
+git diff --cached --quiet || echo "git has staged changes, commit or stash them first" >&2 && exit 1
 
-git commit -m"Remove vim package '$1'" && exit 1
+git submodule deinit "$packpath" || echo "submodule deinit failed" >&2 && exit 1
+
+git rm "$packpath" || echo "git rm failed" >&2 && exit 1
+# git rm "pack/default/start/$1" || echo "git rm failed" >&2 && exit 1
+
+rm -Rf "$modulepath" || echo "rm modulepath failed" >&2  && exit 1
+
+git commit -m"Remove vim package '$packname'"

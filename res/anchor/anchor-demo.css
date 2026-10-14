@@ -17,9 +17,15 @@ h1 {
   --anchor-compass: '⚓compass';
   display: grid;
   grid-template-rows: subgrid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   place-items: center;
+  place-content: center;
   --width: max(1px, round(down, clamp(20px, 4vmin, 10vmax), 1px));
+  gap: 0;
+  --sp-hc: 1px;
+  --sp-hf: 1;
+  --sp-vf: 1;
+  --sp-vc: 1px;
 }
 
 .compass .anchor {
@@ -27,7 +33,6 @@ h1 {
   height: auto;
   aspect-ratio: 1;
   anchor-name: --anchor-compass;
-  anchor-scope: --anchor-compass;
   position: relative;
   display: grid;
   place-items: center;
@@ -45,62 +50,121 @@ h1 {
   height: auto;
   aspect-ratio: 1;
   inset: var(--inset);
+  anchor-name: var(--anchor-name), --anchor-compass-point;
   position: absolute;
   outline: 0.5px dashed #f0f;
   display: grid;
   place-items: center;
   width: var(--width);
   margin: calc(var(--width) * 0);
+  font-size: 0.6em;
+  letter-spacing: 0.2ch;
+
+  background: var(--bg-bearing);
+
+  --bg-bearing:
+    conic-gradient(
+        from calc(var(--bearing) + var(--arc) * -0.5),
+        #fff 0deg,
+        #0000 calc(var(--fade)) calc(var(--arc) - var(--fade)),
+        #fff var(--arc)
+      )
+      50% 100% / 100% 100% no-repeat scroll border-box padding-box,
+    radial-gradient(
+        farthest-side circle at center,
+        #888 calc(var(--from) - var(--fpx) * 0.5),
+        #eee calc(var(--from) + var(--fpx) * 0.5)
+          calc(var(--to) - var(--fpx) * 0.5),
+        #000 calc(var(--to) + var(--fpx) * 0.5)
+      )
+      50% 100% / 100% 100% no-repeat scroll border-box padding-box,
+    linear-gradient(#f0f, #f0f);
+  /* --bearing: 60deg; */
+  --arc: 30deg;
+  --fade: 1deg;
+  --from: 70%;
+  --to: 90%;
+  --fpx: 0.25px;
+  background-blend-mode: color, multiply;
 }
 
 .compass .s {
   --inset: var(--inset-anchor-s);
+  --anchor-name: --anchor-s;
+  --bearing: 180;
 }
 .compass .ssw {
   --inset: var(--inset-anchor-ssw);
+  --anchor-name: --anchor-ssw;
+  --bearing: 202.5deg;
 }
 .compass .sw {
   --inset: var(--inset-anchor-sw);
+  --anchor-name: --anchor-sw;
+  --bearing: 225deg;
 }
 .compass .wsw {
   --inset: var(--inset-anchor-wsw);
+  --anchor-name: --anchor-wsw;
+  --bearing: 247.5deg;
 }
 .compass .w {
   --inset: var(--inset-anchor-w);
+  --anchor-name: --anchor-w;
+  --bearing: 270deg;
 }
 .compass .wnw {
   --inset: var(--inset-anchor-wnw);
-}
-.compass .nnw {
-  --inset: var(--inset-anchor-nnw);
+  --anchor-name: --anchor-wnw;
+  --bearing: 292.5deg;
 }
 .compass .nw {
   --inset: var(--inset-anchor-nw);
+  --anchor-name: --anchor-nw;
+  --bearing: 315deg;
 }
 .compass .nnw {
   --inset: var(--inset-anchor-nnw);
+  --anchor-name: --anchor-nnw;
+  --bearing: 337.5deg;
 }
 .compass .n {
   --inset: var(--inset-anchor-n);
+  --anchor-name: --anchor-n;
+  --bearing: 360deg;
 }
 .compass .nne {
   --inset: var(--inset-anchor-nne);
+  --anchor-name: --anchor-nne;
+  --bearing: 22.5deg;
 }
 .compass .ne {
   --inset: var(--inset-anchor-ne);
+  --anchor-name: --anchor-ne;
+  --bearing: 45deg;
 }
 .compass .ene {
   --inset: var(--inset-anchor-ene);
+  --anchor-name: --anchor-ene;
+  --bearing: 67.5deg;
 }
 .compass .e {
   --inset: var(--inset-anchor-e);
+  --anchor-name: --anchor-e;
+  --bearing: 90deg;
 }
 .compass .ese {
   --inset: var(--inset-anchor-ese);
+  --anchor-name: --anchor-ese;
+  --bearing: 112.5deg;
 }
 .compass .se {
   --inset: var(--inset-anchor-se);
+  --anchor-name: --anchor-se;
+  --bearing: 135deg;
 }
 .compass .sse {
   --inset: var(--inset-anchor-sse);
+  --anchor-name: --anchor-sse;
+  --bearing: 157.5deg;
 }

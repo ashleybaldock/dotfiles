@@ -1,0 +1,19 @@
+:root {
+  --inset-anchor-s: anchor(bottom) auto auto auto;
+  --inset-anchor-ssw: anchor(bottom) anchor(center) auto auto;
+  --inset-anchor-sw: anchor(bottom) anchor(left) auto auto;
+  /* --inset-anchor-wsw: anchor(center) anchor(left) auto auto; */
+  --inset-anchor-wsw: calc(anchor(bottom) - anchor(top)) anchor(left) auto auto;
+  --inset-anchor-w: auto anchor(left) auto auto;
+  --inset-anchor-wnw: auto anchor(left) anchor(center) auto;
+  --inset-anchor-nw: auto anchor(left) anchor(top) auto;
+  --inset-anchor-nnw: auto anchor(center) anchor(top) auto;
+  --inset-anchor-n: auto auto anchor(top) auto;
+  --inset-anchor-nne: auto auto anchor(top) anchor(center);
+  --inset-anchor-ne: auto auto anchor(top) anchor(right);
+  --inset-anchor-ene: auto auto anchor(center) anchor(right);
+  --inset-anchor-e: auto auto auto anchor(right);
+  --inset-anchor-ese: anchor(center) auto auto anchor(right);
+  --inset-anchor-se: anchor(bottom) auto auto anchor(right);
+  --inset-anchor-sse: anchor(bottom) auto auto anchor(center);
+}

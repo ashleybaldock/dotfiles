@@ -1,0 +1,106 @@
+body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  grid-auto-rows: 1fr;
+}
+
+h1 {
+  grid-row: 1;
+  grid-column: 1/-1;
+}
+
+.compass {
+  anchor-scope: all;
+  width: 100%;
+  height: 30vh;
+  --anchor-compass: '⚓compass';
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+  --width: max(1px, round(down, clamp(20px, 4vmin, 10vmax), 1px));
+}
+
+.compass .anchor {
+  width: calc(var(--width) * 1);
+  height: auto;
+  aspect-ratio: 1;
+  anchor-name: --anchor-compass;
+  anchor-scope: --anchor-compass;
+  position: relative;
+  display: grid;
+  place-items: center;
+  outline: 0.5px dashed #0ff;
+}
+.compass .anchor ~ .anchor {
+  width: calc(var(--width) * 2);
+}
+.compass .anchor ~ .anchor ~ .anchor {
+  width: calc(var(--width) * 3);
+}
+
+.compass .point {
+  position-anchor: --anchor-compass;
+  height: auto;
+  aspect-ratio: 1;
+  inset: var(--inset);
+  position: absolute;
+  outline: 0.5px dashed #f0f;
+  display: grid;
+  place-items: center;
+  width: var(--width);
+  margin: calc(var(--width) * 0);
+}
+
+.compass .s {
+  --inset: var(--inset-anchor-s);
+}
+.compass .ssw {
+  --inset: var(--inset-anchor-ssw);
+}
+.compass .sw {
+  --inset: var(--inset-anchor-sw);
+}
+.compass .wsw {
+  --inset: var(--inset-anchor-wsw);
+}
+.compass .w {
+  --inset: var(--inset-anchor-w);
+}
+.compass .wnw {
+  --inset: var(--inset-anchor-wnw);
+}
+.compass .nnw {
+  --inset: var(--inset-anchor-nnw);
+}
+.compass .nw {
+  --inset: var(--inset-anchor-nw);
+}
+.compass .nnw {
+  --inset: var(--inset-anchor-nnw);
+}
+.compass .n {
+  --inset: var(--inset-anchor-n);
+}
+.compass .nne {
+  --inset: var(--inset-anchor-nne);
+}
+.compass .ne {
+  --inset: var(--inset-anchor-ne);
+}
+.compass .ene {
+  --inset: var(--inset-anchor-ene);
+}
+.compass .e {
+  --inset: var(--inset-anchor-e);
+}
+.compass .ese {
+  --inset: var(--inset-anchor-ese);
+}
+.compass .se {
+  --inset: var(--inset-anchor-se);
+}
+.compass .sse {
+  --inset: var(--inset-anchor-sse);
+}

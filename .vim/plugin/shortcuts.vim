@@ -696,7 +696,7 @@ nnoremap            §c :nohlsearch<CR>
 nnoremap <silent> <CR> :nohlsearch<CR><CR>
 
 " ▌️ :ag ▐️────▷ Command line abbreviation
-cnoreabbrev ag AckCmd
+" cnoreabbrev ag AckCmd
 
 " akin to q: q/ and q?
 nnoremap q@ :call input('')<CR>

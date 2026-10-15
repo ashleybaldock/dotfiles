@@ -376,22 +376,25 @@ function ChQfTitle() abort
   return get(w:, 'quickfix_title', 'quickfix list')
 endfunc
 function ChQfSearch() abort
-  return getbufvar(bufnr(), 'mayhem_last_ack_query', 'search')
+  return get(g:, 'mayhem_last_ack_query', 'search')
 endfunc
 function ChQfQEsc() abort
-  return getbufvar(bufnr(), 'mayhem_last_ack_escaped', 'escaped')
+  return get(g:, 'mayhem_last_ack_escaped', 'escaped')
 endfunc
 function ChQfCase() abort
-  return getbufvar(bufnr(), 'mayhem_last_ack_case', 0)
+  return get(g:, 'mayhem_last_ack_case', 0)
 endfunc
 function ChQfRoot() abort
-  return getbufvar(bufnr(), 'mayhem_last_ack_root', 1)
+  return get(g:, 'mayhem_last_ack_root', 1)
 endfunc
 function ChQfLiteral() abort
-  return getbufvar(bufnr(), 'mayhem_last_ack_literal', 1)
+  return get(g:, 'mayhem_last_ack_literal', 1)
 endfunc
 function ChQfDir() abort
-  return getbufvar(bufnr(), 'mayhem_last_ack_dir', '?/')
+  return get(g:, 'mayhem_last_ack_dir', '?/')
+endfunc
+function ChQfCmd() abort
+  return get(g:, 'mayhem_last_ack_cmd', ' :?? ')
 endfunc
 function ChQfCt() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_count', '?')
@@ -405,8 +408,23 @@ endfunc
 function ChQfFCtPl() abort
   return (getbufvar(bufnr(), 'mayhem_quickfix_filecount', 0) == 1) ? '' : 's'
 endfunc
-function ChQfCmd() abort
-  return getbufvar(bufnr(), 'mayhem_last_ack_cmd', ' :?? ')
+
+function ChQfCounts() abort
+  let results = getbufvar(bufnr(), 'mayhem_quickfix_count', 0)
+  let files = getbufvar(bufnr(), 'mayhem_quickfix_filecount', 0)
+
+  return results == 0 ? 'no results' : [
+        \ '%{',
+        \ ' %#SlQfCt⸮#',
+        \ results,
+        \ '%#SlQf⸮# result',
+        \ results > 1 ? 's' : '',
+        \ ' in ',
+        \ '%#SlQfCt⸮#',
+        \ '%#SlQf⸮# file',
+        \ files > 1 ? 's' : '',
+        \ '%* ',
+        \ '%}']->join('')
 endfunc
 
 function ChQuickfix() abort
@@ -639,8 +657,7 @@ function s:UpdateStatuslines() abort
         \qs .. qf .. qs,
         \' %#SlQf⸮#″️%#SlQfSearch⸮#%{%ChQfSearch()%}%#SlQf⸮#″️%* ',
         \qs,
-        \' %#SlQfCt⸮#%{%ChQfCt()%}%#SlQf⸮# result%{%ChQfCtPl()%}',
-        \' in %#SlQfCt⸮#%{%ChQfFCt()%}%#SlQf⸮# file%{%ChQfFCtPl()%}%* ',
+        \'%{%ChQfCounts()%}',
         \qs,
         \eq,
         \'%#SlHint⸮#%{%ChQfDir()%}%*',

@@ -4,7 +4,8 @@ endif
 let g:mayhem_autoloaded_format = 1
 
 "
-" See: ../plugin/format.vim
+" Related:
+"   $VIMHOME/plugin/format.vim
 "
 
 let s:combase = get(g:, 'mayhem_unicode_combine_default', '◌')
@@ -184,20 +185,22 @@ endfunc
 function format#dict2json(dict) abort
   return format#json(s:DictToJson(a:dict))
 endfunc
-"
-" Apply code beautification to the contents of a buffer (or part thereof)
-"
-let s:filetypemap = #{
-      \ typescriptreact: 'tsx',
-      \}
-function format#buffer(bufnr = bufnr(), filetype = get(&l, 'filetype', 'html')) range abort
-  let filetypeext = get(g:mayhem_type_ext_map, a:filetype, a:filetype)
-  let filename = expand('%') ?? 'nameless'
-  let stdinpath = shellescape(filename .. '.' .. filetypeext)
 
-  exec a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath ' .. stdinpath
+"
+" Apply code beautification to some or all of a buffer
+"
+function format#buffer(bufnr = bufnr(), filetype = getbufvar(a:bufnr, '&l:filetype', 'html')) range abort
+  let filetypeext = get(g:mayhem_type_ext_map, a:filetype, a:filetype)
+
+  let filename = fnamemodify(bufname(a:bufnr), ':r') ?? 'nameless'
+  let filetypehint = shellescape(filename .. '.' .. filetypeext)
+
+  exec a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath ' .. filetypehint
 endfunc
 
+"
+" Apply code beautification to input text
+"
 function format#list(text, filetype = 'html') abort
   let joined = type(a:text) == type([]) ? join(a:text, "\n") : a:text
   let filetypeext = get(g:mayhem_type_ext_map, a:filetype, a:filetype)
@@ -205,6 +208,9 @@ function format#list(text, filetype = 'html') abort
   return systemlist('npx prettier --stdin-filepath nameless.' .. filetypeext, joined)
 endfunc
 
+"
+" 
+"
 function format#FixedWidthFont(text)
   " '<,'>s/\u/\=nr2char(char2nr(submatch(0)) + 0x1D62F)/g
   " '<,'>s/\l/\=nr2char(char2nr(submatch(0)) + 0x1D629)/g
@@ -214,6 +220,9 @@ function format#FixedWidthFont(text)
         \ '\l', '\=char#base(submatch(0)) + 0x1D629)', 'g')
 endfunc
 
+"
+"
+"
 function format#timeSince(eventtime)
   if a:eventtime == 0
     return 'never'

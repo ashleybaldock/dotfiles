@@ -4,7 +4,8 @@ endif
 let g:mayhem_loaded_format = 1
 
 "
-" See: ../autoload/format.vim
+" Related:
+"   $VIMHOME/autoload/format.vim
 "
 
 command! -bar -range=% -nargs=? FormatBuffer call format#buffer(<q-args>)

@@ -59,6 +59,7 @@ h1 {
   margin: calc(var(--width) * 0);
   font-size: 0.6em;
   letter-spacing: 0.2ch;
+  border-radius: 50%;
 
   background: var(--bg-bearing);
 
@@ -88,80 +89,83 @@ h1 {
   background-blend-mode: color, multiply;
 }
 
-.compass .s {
-  --inset: var(--inset-anchor-s);
-  --anchor-name: --anchor-s;
-  --bearing: 180;
-}
-.compass .ssw {
-  --inset: var(--inset-anchor-ssw);
-  --anchor-name: --anchor-ssw;
-  --bearing: 202.5deg;
-}
-.compass .sw {
-  --inset: var(--inset-anchor-sw);
-  --anchor-name: --anchor-sw;
-  --bearing: 225deg;
-}
-.compass .wsw {
-  --inset: var(--inset-anchor-wsw);
-  --anchor-name: --anchor-wsw;
-  --bearing: 247.5deg;
-}
-.compass .w {
-  --inset: var(--inset-anchor-w);
-  --anchor-name: --anchor-w;
-  --bearing: 270deg;
-}
-.compass .wnw {
-  --inset: var(--inset-anchor-wnw);
-  --anchor-name: --anchor-wnw;
-  --bearing: 292.5deg;
-}
-.compass .nw {
-  --inset: var(--inset-anchor-nw);
-  --anchor-name: --anchor-nw;
-  --bearing: 315deg;
-}
-.compass .nnw {
-  --inset: var(--inset-anchor-nnw);
-  --anchor-name: --anchor-nnw;
-  --bearing: 337.5deg;
-}
 .compass .n {
   --inset: var(--inset-anchor-n);
   --anchor-name: --anchor-n;
-  --bearing: 360deg;
-}
-.compass .nne {
-  --inset: var(--inset-anchor-nne);
-  --anchor-name: --anchor-nne;
-  --bearing: 22.5deg;
-}
-.compass .ne {
-  --inset: var(--inset-anchor-ne);
-  --anchor-name: --anchor-ne;
-  --bearing: 45deg;
-}
-.compass .ene {
-  --inset: var(--inset-anchor-ene);
-  --anchor-name: --anchor-ene;
-  --bearing: 67.5deg;
+  --bearing: 0deg;
 }
 .compass .e {
   --inset: var(--inset-anchor-e);
   --anchor-name: --anchor-e;
   --bearing: 90deg;
 }
-.compass .ese {
-  --inset: var(--inset-anchor-ese);
-  --anchor-name: --anchor-ese;
-  --bearing: 112.5deg;
+.compass .s {
+  --inset: var(--inset-anchor-s);
+  --anchor-name: --anchor-s;
+  --bearing: 180deg;
+}
+.compass .w {
+  --inset: var(--inset-anchor-w);
+  --anchor-name: --anchor-w;
+  --bearing: 270deg;
+}
+.compass .ssw {
+  --inset: var(--inset-anchor-ssw);
+  --anchor-name: --anchor-ssw;
+  --bearing: 202.5deg;
+}
+
+.compass .ne {
+  --inset: var(--inset-anchor-ne);
+  --anchor-name: --anchor-ne;
+  --bearing: 45deg;
 }
 .compass .se {
   --inset: var(--inset-anchor-se);
   --anchor-name: --anchor-se;
   --bearing: 135deg;
+}
+.compass .sw {
+  --inset: var(--inset-anchor-sw);
+  --anchor-name: --anchor-sw;
+  --bearing: 225deg;
+}
+.compass .nw {
+  --inset: var(--inset-anchor-nw);
+  --anchor-name: --anchor-nw;
+  --bearing: 315deg;
+}
+
+.compass .nne {
+  --inset: var(--inset-anchor-nne);
+  --anchor-name: --anchor-nne;
+  --bearing: 22.5deg;
+}
+.compass .ese {
+  --inset: var(--inset-anchor-ese);
+  --anchor-name: --anchor-ese;
+  --bearing: 112.5deg;
+}
+.compass .wsw {
+  --inset: var(--inset-anchor-wsw);
+  --anchor-name: --anchor-wsw;
+  --bearing: 247.5deg;
+}
+.compass .wnw {
+  --inset: var(--inset-anchor-wnw);
+  --anchor-name: --anchor-wnw;
+  --bearing: 292.5deg;
+}
+.compass .nnw {
+  --inset: var(--inset-anchor-nnw);
+  --anchor-name: --anchor-nnw;
+  --bearing: 337.5deg;
+}
+
+.compass .ene {
+  --inset: var(--inset-anchor-ene);
+  --anchor-name: --anchor-ene;
+  --bearing: 67.5deg;
 }
 .compass .sse {
   --inset: var(--inset-anchor-sse);

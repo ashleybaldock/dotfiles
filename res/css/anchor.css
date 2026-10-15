@@ -24,10 +24,37 @@
   --inset-anchor-ssw: anchor(--anchor-ssw bottom, anchor(bottom))
     anchor(--anchor-ssw center, anchor(center)) auto auto;
   /* --inset-anchor-s: anchor(--anchor-ssw bottom, anchor(bottom)) anchor(--anchor-s center, anchor(center)) auto anchor(--anchor-s center, anchor(center)); */
-  --inset-anchor-n: auto auto anchor(--anchor-n top, anchor(top)) auto;
-  --inset-anchor-e: auto auto auto anchor(--anchor-e outside, anchor(outside));
-  --inset-anchor-s: anchor(--anchor-s outside, anchor(outside)) auto auto auto;
-  --inset-anchor-w: auto anchor(--anchor-w outside, anchor(outside)) auto auto;
+  /* --inset-anchor-n: auto auto anchor(--anchor-n top, anchor(top)) auto; */
+  /* --inset-anchor-e: auto auto auto anchor(--anchor-e outside, anchor(outside)); */
+  /* --inset-anchor-s: anchor(--anchor-s outside, anchor(outside)) auto auto auto; */
+  /* --inset-anchor-w: auto anchor(--anchor-w outside, anchor(outside)) auto auto; */
+
+  --inset-anchor-n: auto auto
+    calc(
+      anchor(--anchor-n outside, anchor(outside)) +
+        anchor-size(--anchor-n, anchor-size()) * var(--sp-vf, 0) +
+        var(--sp-vc, 0px)
+    )
+    auto;
+  --inset-anchor-e: auto auto auto
+    calc(
+      anchor(--anchor-e outside, anchor(outside)) +
+        anchor-size(--anchor-e, anchor-size()) * var(--sp-hf, 0) +
+        var(--sp-hc, 0px)
+    );
+  --inset-anchor-s: calc(
+      anchor(--anchor-sw outside, anchor(outside)) +
+        anchor-size(--anchor-sw, anchor-size()) * var(--sp-vf, 0) +
+        var(--sp-vc, 0px)
+    )
+    auto auto auto;
+  --inset-anchor-w: auto
+    calc(
+      anchor(--anchor-nw outside, anchor(outside)) +
+        anchor-size(--anchor-nw, anchor-size()) * var(--sp-hf, 0) +
+        var(--sp-hc, 0px)
+    )
+    auto auto;
 
   --inset-anchor-ne: auto auto
     calc(

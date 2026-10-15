@@ -40,10 +40,12 @@ let g:mayhem_path_hints = {
       \ '**/node_modules':           #{ hint: '[️/️️nm/️]️'},
       \ }
 "
-" Set up file extension to filetype mappings
-" See: ./autoload/mayhem.vim
-"      ./autoload/format.vim
-"      ./plugin/statusline.vim
+" Set up mappings from filetype to file extensions
+"
+" Related:
+"  $VIMHOME/autoload/mayhem.vim
+"  $VIMHOME/autoload/format.vim
+"  $VIMHOME/plugin/statusline.vim
 "
 let g:mayhem_type_ext_map = #{
       \ javascriptreact: ['jsx'],

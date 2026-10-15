@@ -481,6 +481,11 @@ function! s:AddDynamicToolBar()
   "       \ <Nop>
   " tmenu ToolBar.Reload\ Pane Reload current pane
 
+  " Messages: 􀤏 􀤐
+  exec 'an' '<silent>' SfIcon('􀤏') s:MenuNextItem()
+        \ 'ToolBar.Messages' '<Plug>(mayhem_messages_toggle)'
+  exec 'tmenu' 'ToolBar.Messages' '􀤏' 'Show Messages'
+
   " CocRestart: 􀺧  􀺨  􁔘 􁕒
   exec 'an' '<silent>' SfIcon('􀺧') s:MenuNextItem()
         \ 'ToolBar.RestartCoc' '<Cmd>CocRestart<CR>'

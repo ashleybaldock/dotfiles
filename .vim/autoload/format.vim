@@ -6,6 +6,7 @@ let g:mayhem_autoloaded_format = 1
 "
 " Related:
 "   $VIMHOME/plugin/format.vim
+"   $VIMHOME/vimrc
 "
 
 let s:combase = get(g:, 'mayhem_unicode_combine_default', '◌')
@@ -186,26 +187,39 @@ function format#dict2json(dict) abort
   return format#json(s:DictToJson(a:dict))
 endfunc
 
-"
-" Apply code beautification to some or all of a buffer
-"
-function format#buffer(bufnr = bufnr(), filetype = getbufvar(a:bufnr, '&l:filetype', 'html')) range abort
-  let filetypeext = get(g:mayhem_type_ext_map, a:filetype, a:filetype)
+let s:file_format_overrides = #{
+      \ svg: 'html',
+      \}
 
-  let filename = fnamemodify(bufname(a:bufnr), ':r') ?? 'nameless'
-  let filetypehint = shellescape(filename .. '.' .. filetypeext)
-
-  exec a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath ' .. filetypehint
+function! format#hint(type = 'html', name = 'nameless') abort
+  let ext = get(g:mayhem_type_ext_map, a:type, [a:type])->get(0)
+  return shellescape(a:name .. '.' .. get(s:file_format_overrides, ext, ext))
 endfunc
 
 "
-" Apply code beautification to input text
+" Apply code beautification to some or all of a buffer
 "
-function format#list(text, filetype = 'html') abort
-  let joined = type(a:text) == type([]) ? join(a:text, "\n") : a:text
-  let filetypeext = get(g:mayhem_type_ext_map, a:filetype, a:filetype)
+" Defaults to current buffer
+" Formatting defaults to the buffer's filetype, or html if it has none.
+"
+" Filetype strings are mapped to file extensions using g:mayhem_type_ext_map
+"
+function! format#buffer(bufnr = bufnr(), filetype = getbufvar(a:bufnr, '&l:filetype', 'html')) range abort
+  exec a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath' 
+        \ format#hint(a:filetype, fnamemodify(bufname(a:bufnr), ':r'))
+endfunc
 
-  return systemlist('npx prettier --stdin-filepath nameless.' .. filetypeext, joined)
+"
+" Apply code beautification to text
+"
+" Input can be a string, or list of strings
+" Formatting defaults to html, and is inferred from the extension of a
+" hint filename passed to prettier.
+"
+" Filetype strings are mapped to file extensions using g:mayhem_type_ext_map
+"
+function! format#list(text, filetype = 'html') abort
+  return systemlist('npx prettier --stdin-filepath ' .. format#hint(a:filetype), flatten([text])->join("\n"))
 endfunc
 
 "

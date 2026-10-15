@@ -135,6 +135,13 @@ function! messages#close() abort
   call messages#bufnr()->winbufnr()->win_execute('close')
 endfunc
 
+function! messages#hide() abort
+  call messages#bufnr()->win_findbuf()->foreach({i,v -> win_execute(v, 'close')})
+endfunc
+
+function! messages#visible() abort
+  return messages#bufnr()->win_findbuf()->len()
+endfunc
 
 "
 " Messages popup

@@ -100,12 +100,12 @@ syn match mdH2 "^.\+\n-\+$" contained contains=@mdInline,mdHeadingRule,mdAutoLin
 
 syn match mdHeadingRule "^[=-]\+$" contained
 
-syn region mdH1 matchgroup=mdH1Delim start="^\s*\z(#\{1}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH1 matchgroup=mdH2Delim start="^\s*\z(#\{2}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH1 matchgroup=mdH3Delim start="^\s*\z(#\{3}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH1 matchgroup=mdH4Delim start="^\s*\z(#\{4}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH1 matchgroup=mdH5Delim start="^\s*\z(#\{5}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
-syn region mdH1 matchgroup=mdH6Delim start="^\s*\z(#\{6}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends
+syn region mdH1 matchgroup=mdH1Delim start="^\s*\z(#\{1}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends fold
+syn region mdH2 matchgroup=mdH2Delim start="^\s*\z(#\{2}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends fold
+syn region mdH3 matchgroup=mdH3Delim start="^\s*\z(#\{3}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends fold
+syn region mdH4 matchgroup=mdH4Delim start="^\s*\z(#\{4}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends fold
+syn region mdH5 matchgroup=mdH5Delim start="^\s*\z(#\{5}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends fold
+syn region mdH5 matchgroup=mdH6Delim start="^\s*\z(#\{6}\)\s*" end="\s*\Z1\?\s*$" keepend oneline contains=@mdInline,mdAutoLink contained concealends fold
 
 
 " syn match mdEscape "\\\~"
@@ -362,7 +362,7 @@ hi def mdAlTiImp            guifg=#ee9999
 hi def mdAlTiCtn            guifg=#ee9944
 hi def mdAlTiWrn            guifg=#eeee44
 
-hi def mdH1                 guifg=#cc44cc guisp=#00cc11 gui=bold                
+hi def mdH1                 guifg=#cc44cc guisp=#00cc11 gui=underdouble                
 hi def mdH2                 guifg=#cc44cc guisp=#00cc11 gui=underline           
 hi def mdH3                 guifg=#cc44cc guisp=#00cc11 gui=underdashed         
 hi def mdH4                 guifg=#cc44cc guisp=#00aa11 gui=underdotted         

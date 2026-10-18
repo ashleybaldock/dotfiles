@@ -53,6 +53,12 @@ function char#split(str) abort
 endfunc
 
 "
+" 
+"
+function! char#filter(str, from, to) abort
+endfunc
+
+"
 " Join character parts into combined characters
 "
 " Input is either:

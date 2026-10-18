@@ -378,24 +378,7 @@ endfunc
 function ChQfSearch() abort
   return get(g:, 'mayhem_last_ack_query', 'search')
 endfunc
-function ChQfQEsc() abort
-  return get(g:, 'mayhem_last_ack_escaped', 'escaped')
-endfunc
-function ChQfCase() abort
-  return get(g:, 'mayhem_last_ack_case', 0)
-endfunc
-function ChQfRoot() abort
-  return get(g:, 'mayhem_last_ack_root', 1)
-endfunc
-function ChQfLiteral() abort
-  return get(g:, 'mayhem_last_ack_literal', 1)
-endfunc
-function ChQfDir() abort
-  return get(g:, 'mayhem_last_ack_dir', '?/')
-endfunc
-function ChQfCmd() abort
-  return get(g:, 'mayhem_last_ack_cmd', ' :?? ')
-endfunc
+
 function ChQfCt() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_count', '?')
 endfunc
@@ -415,10 +398,7 @@ function ChQfCounts() abort
 
   return results == 0 ? 'no results' : [
         \ '%{',
-        \ ' %#SlQfCt⸮#',
-        \ results,
-        \ '%#SlQf⸮# result',
-        \ results > 1 ? 's' : '',
+        \ '%( %#SlQfCt⸮#%{%sl#qfct()%}%#SlQf⸮# %{%sl#qfctp()%}',
         \ ' in ',
         \ '%#SlQfCt⸮#',
         \ '%#SlQf⸮# file',
@@ -542,6 +522,7 @@ function s:UpdateStatuslines() abort
   call s:Update_Git()
   call s:Update_Diag()
   call statusline#updateSearch()
+  call statusline#updateQfSearch()
   call s:Update_WinSize()
 
 "     Size:  left╺╮  ╭╸zeros
@@ -655,7 +636,7 @@ function s:UpdateStatuslines() abort
   let qs = '%#SlQfSep⸮#' .. symbols#get('pages.qfsep') .. '%*'
   let g:mayhem['sl_qfix_ag'] = format#CN([
         \qs .. qf .. qs,
-        \' %#SlQf⸮#″️%#SlQfSearch⸮#%{%ChQfSearch()%}%#SlQf⸮#″️%* ',
+        \'ag %#SlQf⸮#″️%#SlQfSearch⸮#%{%ChQfSearch()%}%#SlQf⸮#″️%* ',
         \qs,
         \'%{%ChQfCounts()%}',
         \qs,

@@ -532,77 +532,59 @@ an 20.401	 &Edit.-SEP2A-				<Nop>
 noremenu  20.402 &Edit.&ReSelect\ Paste<Tab>gp	gp
 noremenu  20.403 &Edit.&ReSelect\ Visual<Tab>gv	gv
 
+" \_^\ze\s*\S\|\S\ze\s\|\s\zs\S\|\S\s*\zs\_$
 
 "
 " HIG Cmd And Option Movement Mappings:
 " This replaces the section in $VIMRUNTIME/gvimrc, which
 " is disabled via this flag in $VIMHOME/vimrc
-"   let macvim_hig_shift_movement = 1
+"   let macvim_hig_shift_movement = 0
 "
 if has("gui_macvim")
-  "
-  " ▌️􀆔 􁾱  ▐️ ️Move to the ends of things
+"
+" ▌️􀆔 􁾱  ▐️ ️Move to the ends of things
+"
 
-  " ▌️􀆔 􁾲  ▐️
-  noremap <D-Up> <C-Home>
+" ▌️􀆔 􁾲  ▐️ Jump to start of document ╱ PUM: Jump to first item
+  noremap         <D-Up> <C-Home>
+  inoremap <expr> <D-Up>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
+  cnoremap <expr> <D-Up>    wildmenumode() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
+" ▌️􀆔 􁾵  ▐️ Jump to end of line ╱ PUM: Accept selected + exit
+  noremap         <D-Right> <End>
+  inoremap <expr> <D-Right>   pumvisible() ? "\<C-y>"                  : "\<End>"
+  cnoremap <expr> <D-Right> wildmenumode() ? "\<C-y>"                  : "\<End>"
+" ▌️􀆔 􁾳  ▐️ Jump to end of document ╱ PUM: Jump to last item
+  noremap         <D-Down> <C-End>
+  inoremap <expr> <D-Down>    pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
+  cnoremap <expr> <D-Down>  wildmenumode() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
+" ▌️􀆔 􁾴  ▐️ Jump to start of line ╱ PUM: Cancel out
+  noremap         <D-Left> <Home>
+  inoremap <expr> <D-Left>    pumvisible() ? "\<C-e>"                  : "\<Home>"
+  cnoremap <expr> <D-Left>  wildmenumode() ? "\<C-e>"                  : "\<Home>"
+" ▌️􀆔 􀆛 ▐️ ️
+  inoremap        <D-BS> <C-u>
+  cnoremap        <D-BS> <C-u>
 
-  " ▌️􀆔 􁾵  ▐️
-  noremap   <D-Right>  <End>
-  noremap!  <D-Right>  <End>
+" ▌️􀆕 􁾱  ▐️ Move in steps
 
-  " ▌️􀆔 􁾳  ▐️ 
-  noremap   <D-Down>   <C-End>
+" ▌️􀆕 􁾲  ▐️ Move current line up by 1 ╱ CMD: Recall more recent command ╱ PUM: Up 1 page
+  inoremap <expr> <M-Up>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>:move -2<CR>"
+  cnoremap <expr> <M-Up>    wildmenumode() ? "\<PageUp>\<C-p>\<C-n>"   : "\<S-Up>"
+" ▌️􀆕 􁾵  ▐️ Jump forward one word ╱ PUM: Select path part & prompt for next part
+  noremap         <M-Right> <C-Right>
+  inoremap <expr> <M-Right>   pumvisible() ? "\<Right>" : "\<C-o>w"
+  cnoremap <expr> <M-Right> wildmenumode() ? "\<Right>" : "\<C-Right>"
+" ▌️􀆕 􁾳  ▐️ Move current line down by 1 ╱ CMD: Recall older command ╱ PUM: Down 1 page
+  inoremap <expr> <M-Down>    pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-o>:move +1<CR>"
+  cnoremap <expr> <M-Down>  wildmenumode() ? "\<PageDown>\<C-p>\<C-n>" : "\<S-down>"
+" ▌️􀆕 􁾴  ▐️ Jump to previous word ╱ PUM: Jump up a level in path, and reselect
+  noremap         <M-Left> <C-Left> 
+  inoremap <expr> <M-Left>    pumvisible() ? "\<Left>" : "\<C-o>b"
+  cnoremap <expr> <M-Left>  wildmenumode() ? "\<Left>" : "\<C-Left>"
+" ▌️􀆕 􀆛 ▐️
+  inoremap        <M-BS> <C-w>
+  cnoremap        <M-BS> <C-w>
 
-  " ▌️􀆔 􁾴  ▐️
-  noremap   <D-Left>   <Home>
-  noremap!  <D-Left>   <Home>
-
-  " ▌️􀆕 􁾱  ▐️ Move in steps
-
-  " ▌️􀆕 􁾲  ▐️
-  " noremap <M-Up> {
-
-  " ▌️􀆕 􁾵  ▐️
-  noremap  <M-Right> <C-Right>
-  noremap! <M-Right> <C-Right>
-
-  " ▌️􀆕 􁾳  ▐️
-  " noremap <M-Down> }
-
-  " ▌️􀆕 􁾴  ▐️
-  noremap  <M-Left> <C-Left>
-  noremap! <M-Left> <C-Left>
-
-
-  "
-  " Insert Mode:
-  "
-
-  " ▌️􀆔 􁾲  ▐️ PUM: Jump to top
-  inoremap <expr> <D-Up>     pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
-  " ▌️􀆔 􁾵  ▐️ PUM: Accept selection + exit
-  inoremap <expr> <D-Right>  pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-End>"
-  " ▌️􀆔 􁾳  ▐️ PUM: Jump to end
-  inoremap <expr> <D-Down>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-End>"
-  " ▌️􀆔 􁾴  ▐️ PUM: Cancel out
-  inoremap <expr> <D-Left>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>"   : "\<C-Home>"
-
-  " ▌️􀆔 􀆛 ▐️ ️
-  inoremap <D-BS> <C-u>
-
-  " ▌️􀆕 􀆛 ▐️
-  inoremap <M-BS> <C-w>
-
-  " \_^\ze\s*\S\|\S\ze\s\|\s\zs\S\|\S\s*\zs\_$
-
-  " ▌️􀆕 􁾲  ▐️ PUM: Up 1 page
-  inoremap <expr> <M-Up> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>:move -2<CR>"
-  " ▌️􀆕 􁾵  ▐️ PUM: Select path part & prompt for next part
-  inoremap <expr> <M-Right> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>w"
-  " ▌️􀆕 􁾳  ▐️ PUM: Down 1 page
-  inoremap <expr> <M-Down> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-o>:move +1<CR>"
-  " ▌️􀆕 􁾴  ▐️ PUM: Jump up a level in path, and reselect
-  inoremap <expr> <M-Left> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>b"
 endif
 
 " ^X  open

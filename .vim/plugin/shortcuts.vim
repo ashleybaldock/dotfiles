@@ -475,6 +475,7 @@ xnoremap <expr> „  mode() ==# "\x16" ? "<Cmd>MoveBlockDown<CR>" : "<Cmd>move +
 " xnoremap <expr> ∂  mode() ==# "\x16" ? ":MoveBlockRight" : ":echo Try with ^V"
 "
 " Add Lines:
+" ▌️o▐️▌️O▐️────▷ Move selection down
 "  Extend 'o'/'O' to keep cursor on current line when count is > 1
 nnoremap <expr> o v:count > 0 ? 'm`:<C-u>exe "norm! ' .. v:count .. 'o"<CR>``' : "o"
 nnoremap <expr> O v:count > 0 ? 'm`:<C-u>exe "norm! ' .. v:count .. 'O"<CR>``' : "O"

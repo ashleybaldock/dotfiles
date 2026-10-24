@@ -9,8 +9,8 @@ let g:mayhem_autoloaded_colcol = 1
 
 " ╭── Column Guides ─────────────────────────────────────
 "colcol#
-" ├▻ add                      ┊+┊      Add guide at column (default: cursor)
-" ├▻ alignLeftTo     A̲bc      ┃▒┃A̲bc     Align based on absolute column number, 
+" ├▻ add                      ┊+┊     (default: cursor)
+" ├▻ alignLeftTo     A̲bc      ┃▒┃A̲bc  
 " ├▻ alignRightTo    A̲bc   A̲bc┃▒┃        or relative movement 
 " ├▻ alignLeftOn     A̲bc      ┃A̲┃bc       ('+2', 'next', 'prev' etc.)
 " ├▻ alignRightOn    A̲bc    A̲b┃c┃    
@@ -74,7 +74,10 @@ endfunc
 "⎟ ⁃‐Text   ░‐‐Text‐‐‐░     ⎪center
 "⎟          ░         ░
 "
-function! colcol#padOnColumn(from = getcursorcharpos()[2], to = colcol#next(a:from))
+function! colcol#padOnColumn(
+      \ from = getcursorcharpos()[2],
+      \ to = colcol#next(a:from)
+      \)
   if a:from >= a:to
     echo 'attempt to pad to left'
     " TODO - implement
@@ -85,7 +88,10 @@ function! colcol#padOnColumn(from = getcursorcharpos()[2], to = colcol#next(a:fr
   endif
 endfunc
 
-function! colcol#padToColumn(from = getcursorcharpos()[2], to = colcol#next(a:from))
+function! colcol#padToColumn(
+      \ from = getcursorcharpos()[2],
+      \ to = colcol#next(a:from)
+      \)
   if a:from >= a:to
     echo 'attempt to pad to left'
     " TODO - implement

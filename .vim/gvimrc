@@ -569,7 +569,7 @@ if has("gui_macvim")
 
 " ▌️􀆕 􁾲  ▐️ Move current line up by 1 ╱ CMD: Recall more recent command ╱ PUM: Up 1 page
   inoremap <expr> <M-Up>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-o>:move -2<CR>"
-  cnoremap <expr> <M-Up>    wildmenumode() ? "\<PageUp>\<C-p>\<C-n>"   : "\<S-Up>"
+  cnoremap <expr> <M-Up>    wildmenumode() ? "\<PageUp>\<C-p>\<C-n>" : "\<S-Up>"
 " ▌️􀆕 􁾵  ▐️ Jump forward one word ╱ PUM: Select path part & prompt for next part
   noremap         <M-Right> <C-Right>
   inoremap <expr> <M-Right>   pumvisible() ? "\<Right>" : "\<C-o>w"

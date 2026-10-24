@@ -4,7 +4,8 @@ endif
 let g:mayhem_loaded_colcol = 1
 
 "
-" See: ../autoload/colcol.vim
+" Related:
+"   $VIMHOME/autoload/colcol.vim
 "
 
 " Add a horizontal row guide at cursor position

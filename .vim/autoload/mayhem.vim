@@ -157,3 +157,18 @@ endfunc
 " endfunc
 
 
+
+let s:seqtoggles = {
+      \'true':'false',
+      \'True':'False',
+      \'false':'true',
+      \'False':'True',
+      \}
+" Return next string from predefined sequences
+" e.g. 'true' -> 'false', 'false' -> 'true'
+function! mayhem#sequenceToggleNext(word = expand('<cword>')) abort
+  if has_key(s:seqtoggles, a:word)
+    call substitute('\<\S\{-}\%#\S\{-}\>', s:seqtoggles[a:word], 'g')
+  else
+  endif
+endfunc

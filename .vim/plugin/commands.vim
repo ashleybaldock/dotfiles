@@ -88,40 +88,12 @@ command! -nargs=? DuplicateBuffer call <SID>Duplicatebuffer(<f-args>)
 " :g//d
 
 
-let s:seqtoggles = {
-      \'true':'false',
-      \'false':'true',
-      \}
-" Return next string from predefined sequences
-" e.g. 'true' -> 'false', 'false' -> 'true'
-function SequenceToggleNext(word = expand('<cword>')) abort
-  if has_key(s:seqtoggles, a:word)
-    call substitute('\<\S\{-}\%#\S\{-}\>', s:seqtoggles[a:word], 'g')
-  else
-  endif
-endfunc
-
 
 
 " Set number column width based on length of file
 " autocmd BufRead * let &l:numberwidth =
 " \ max([float2nr(log10(line('$')))+3, &numberwidth]) 
 "
-
-
-
-"
-" Transpose Rows And Columns: in range or visual selection
-"
-function! s:TransposeRowCol(sep='	') range abort
-  exec a:firstline .. ',' .. a:lastline .. '!rs -T -g1 -C' .. a:sep
-  exec line("'[") .. ',' .. line("']") .. 's/^\zs\s*//g'
-endfunc
-"
-" Optional argument sets delimiter to insert between columns of output
-" (defaults to <Tab>)
-"
-command! -nargs=? -range TransposeRowCol <line1>,<line2>call <SID>TransposeRowCol(<f-args>)
 
 "
 " Add line continutation (\⏎) to the current cursor line,

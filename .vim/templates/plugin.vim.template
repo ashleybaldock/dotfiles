@@ -1,0 +1,10 @@
+if exists("g:mayhem_loaded_%FILE:LC%")
+  finish
+endif
+let g:mayhem_loaded_%FILE:LC% = 1
+
+"
+" Related:
+"   $VIMHOME/autoload/%FILE%.vim
+"
+

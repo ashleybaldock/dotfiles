@@ -419,13 +419,13 @@ nnoremap §ac <Cmd>keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR><Cmd>
 "
 " e.g. [ aaa,󠀨 󠁛b󠁝bb󠀩, ccc ] -> [ aaa, ccc, 󠀨󠁛b󠁝󠀩bb ]
 "
-nnoremap §ax :keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>
+nnoremap §ax <Cmd>keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
 
 " Swap to Left
 "
 " e.g. [ a,_b̲_̓ c ] -> [ b, a, c ]
 "
-nnoremap §az :keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR>
+nnoremap §az <Cmd>keeppatterns :s/\(\w\+\)\(\W*\%#\W*\)\(\w\+\)/\3\2\1<CR><Cmd>noh<CR>
 
 " Move Block:
 " Select visual block (<C-v> etc.) 

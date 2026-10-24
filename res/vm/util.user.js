@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.291
+// @version       1.1.294
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -2179,7 +2179,7 @@ const sleepCheck = (() => {
       latest = actual + _margin;
 
     if (expected && (expected < earliest || expected > latest)) {
-      globalThis.dispatchEvent(createSleptEvent(actual - start));
+      window.dispatchEvent(createSleptEvent(actual - start));
     }
   };
 
@@ -2210,7 +2210,7 @@ const bluronblur = ({
   paused_callback = noop,
   resume_callback = noop,
 } = {}) => {
-  let _paused = true,
+  let _paused = false,
     _blurTimeoutId,
     _blurTimeout = blurTimeout * 1000,
     _hiddenTimeoutId,

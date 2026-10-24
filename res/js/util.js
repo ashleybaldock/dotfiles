@@ -48,3 +48,11 @@ export const readyStateComplete = () => {
   });
   return promise;
 };
+
+export function* iterloop(source) {
+  while (true) {
+    for (const s of source) {
+      yield s;
+    }
+  }
+}

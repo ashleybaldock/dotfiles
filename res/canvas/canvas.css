@@ -1,0 +1,78 @@
+body {
+  display: grid;
+  column-gap: 0;
+  padding: 0;
+  width: 100%;
+  margin: 0;
+  overflow: scroll;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+body > section {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: auto 1fr;
+  grid-column: 1/-1;
+  grid-row: auto;
+  counter-reset: vcount 0;
+  column-gap: 0;
+  margin: 0;
+  padding: 0;
+  row-gap: 0;
+}
+body > section + section {
+  grid-template-rows: auto 1fr 1fr;
+}
+body > section > h3 {
+  grid-column: 1/-1;
+  grid-row: auto;
+  margin: 0;
+  padding: 0.05em 1ch;
+  font-size: 0.9em;
+  text-align: end;
+  color: #aaa;
+}
+
+body > section > canvas {
+  outline: 1px dashed #000;
+  box-shadow: 2px 2px 0 -1px #999;
+  grid-row: auto;
+  grid-column: 1/-1;
+  height: auto;
+  object-fit: contain;
+  width: 100%;
+}
+
+body > section > div:has(> video) {
+  grid-row: 2 / span 1;
+  grid-column: auto/span 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  counter-increment: vcount 1;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+}
+body > section > div:has(> video)::after {
+  content: '# ' counter(vcount);
+  display: flex;
+  place-self: start;
+  position: relative;
+  z-index: calc(Infinity);
+  grid-row: 1/-1;
+  grid-column: 1/-1;
+}
+body > section > div > video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  grid-row: 1/-1;
+  grid-column: 1/-1;
+  outline: 1px dashed #000;
+  box-shadow:
+    2px 2px 0 -1px #999,
+    inset 2px 2px 0 -1px #999;
+  outline-offset: -0.5px;
+}

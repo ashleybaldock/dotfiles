@@ -522,7 +522,7 @@ function s:UpdateStatuslines() abort
   call s:Update_Git()
   call s:Update_Diag()
   call statusline#updateSearch()
-  call statusline#updateQfSearch()
+  call statusline#updateQf()
   call s:Update_WinSize()
 
 "     Size:  left╺╮  ╭╸zeros

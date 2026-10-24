@@ -113,7 +113,7 @@ function! search#ackEscaped(search, options = {}) abort
         \ ]->join(' '),
         \])->join(' | ')
 
-  exec g:m️ayhem_last_ack_cmd
+  exec g:mayhem_last_ack_cmd
 endfunc
 
 function! search#ackClipboard() abort

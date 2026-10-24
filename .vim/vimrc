@@ -56,7 +56,7 @@ let g:mayhem_type_ext_map = #{
       \ dosbatch: ['bat'],
       \ }
 
-if has("patch-8.1.0251")
+if has('patch-8.1.0251')
   if !isdirectory(g:mayhem_dir_backup)
     echom 'backup dir ''' .. g:mayhem_dir_backup
           \ .. '''not found- creating it'
@@ -327,6 +327,15 @@ let g:mayhem_qf_bracket_midline   = '⎪'
 let g:mayhem_qf_bracket_lastline  = '⎩'
 let g:mayhem_qf_bracket_oneline   = 'ʅ️'
 
+"
+" Text strings that form sequences that can be advanced using <C-a>
+"
+let g:mayhem_sequence_toggles = {
+      \'true':'false',
+      \'True':'False',
+      \'false':'true',
+      \'False':'True',
+      \}
 
 " 2html script options
 let g:html_line_ids=1

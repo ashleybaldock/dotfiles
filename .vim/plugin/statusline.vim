@@ -372,40 +372,6 @@ function CmdWinType() abort
   return getcmdtype() =~# '[/?]' ?  symbols#get('status.cmdwinsearch') : symbols#get('status.cmdwinother')
 endfunc
 
-function ChQfTitle() abort
-  return get(w:, 'quickfix_title', 'quickfix list')
-endfunc
-function ChQfSearch() abort
-  return get(g:, 'mayhem_last_ack_query', 'search')
-endfunc
-
-function ChQfCt() abort
-  return getbufvar(bufnr(), 'mayhem_quickfix_count', '?')
-endfunc
-function ChQfCtPl() abort
-  return (getbufvar(bufnr(), 'mayhem_quickfix_count', 0) == 1) ? '' : 's'
-endfunc
-function ChQfFCt() abort
-  return getbufvar(bufnr(), 'mayhem_quickfix_filecount', '?')
-endfunc
-function ChQfFCtPl() abort
-  return (getbufvar(bufnr(), 'mayhem_quickfix_filecount', 0) == 1) ? '' : 's'
-endfunc
-
-function ChQfCounts() abort
-  let results = getbufvar(bufnr(), 'mayhem_quickfix_count', 0)
-  let files = getbufvar(bufnr(), 'mayhem_quickfix_filecount', 0)
-
-  return results == 0 ? 'no results' : [
-        \ '%{',
-        \ '%( %#SlQfCt⸮#%{%sl#qfct()%}%#SlQf⸮# %{%sl#qfctp()%}',
-        \ ' in ',
-        \ '%#SlQfCt⸮#',
-        \ '%#SlQf⸮# file',
-        \ files > 1 ? 's' : '',
-        \ '%* ',
-        \ '%}']->join('')
-endfunc
 
 function ChQuickfix() abort
   return getbufvar(bufnr(), 'mayhem_quickfix_title', '[Quickfix]')
@@ -636,26 +602,35 @@ function s:UpdateStatuslines() abort
   let qs = '%#SlQfSep⸮#' .. symbols#get('pages.qfsep') .. '%*'
   let g:mayhem['sl_qfix_ag'] = format#CN([
         \qs .. qf .. qs,
-        \'ag %#SlQf⸮#″️%#SlQfSearch⸮#%{%ChQfSearch()%}%#SlQf⸮#″️%* ',
+        \'ag %#SlQf⸮#″️%#SlQfSearch⸮#%{%sl#qfsearch()%}%#SlQf⸮#″️%* ',
         \qs,
-        \'%{%ChQfCounts()%}',
+        \'%{%sl#qfcounts()%}',
         \qs,
         \eq,
-        \'%#SlHint⸮#%{%ChQfDir()%}%*',
-        \'%#SlHint⸮#%{%ChQfCmd()%}%*',
+        \'%#SlHint⸮#%{%sl#qfdir()%}%*',
+        \'%#SlHint⸮#%{%sl#qfcmd()%}%*',
         \' %{%ScrollHint()%} ',
         \'%#SlQf⸮# %*'
         \])
 
   let g:mayhem['sl_qfix'] = format#CN([
         \qs .. qf .. qs,
-        \' %#SlQf⸮#"%#SlQfSearch⸮#%{%ChQfTitle()%}%#SlQf⸮#"%* ',
+        \' %#SlQf⸮#"%#SlQfSearch⸮#%{%sl#qftitle()%}%#SlQf⸮#"%* ',
         \qs,
         \eq,
         \' %{%ScrollHint()%}',
         \' %#SlQf⸮# %*',
         \])
 
+  let results == 0 ? 'no results' : format#CN([
+        \ '%{',
+        \ '%(',
+        \ ' %#SlQfCt⸮#%{%sl#qfct()%}%#SlQf⸮# %{%sl#qfctp()%}',
+        \ ' %{%sl#qfin()%} ',
+        \ '%#SlQfCt⸮#%{%sl#qffct()%}%#SlQf⸮# %{%sl#qffctp()%}',
+        \ ' %)',
+        \ '%* ',
+        \ '%}'])
   " Netrw:
   let g:mayhem['sl_dir'] = format#CN([
         \'%#SlDir⸮#􀈕 %-F%*',

@@ -157,17 +157,27 @@ endfunc
 " endfunc
 
 
-
-let s:seqtoggles = {
+if !exists('g:mayhem_sequence_toggles')
+  let g:mayhem_sequence_toggles = {
       \'true':'false',
       \'True':'False',
       \'false':'true',
       \'False':'True',
+      \'foo':'bar',
+      \'bar':'baz',
+      \'baz':'foo',
       \}
+endif
+"
 " Return next string from predefined sequences
-" e.g. 'true' -> 'false', 'false' -> 'true'
+"
+" Sequences can be cyclical, but don't have to be
+" e.g.
+"   'true' -> 'false', 'false' -> 'true'
+"   'foo' -> 'bar', 'bar' -> 'baz', 'baz' -> 'foo'
+"
 function! mayhem#sequenceToggleNext(word = expand('<cword>')) abort
-  if has_key(s:seqtoggles, a:word)
+  if has_key(g:mayhem_sequence_toggles, a:word)
     call substitute('\<\S\{-}\%#\S\{-}\>', s:seqtoggles[a:word], 'g')
   else
   endif

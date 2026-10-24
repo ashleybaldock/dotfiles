@@ -167,9 +167,12 @@ syn region DemoCursor contained concealends
       \ end="󠁝"
       \ containedin=DemoCursorRange
 
-syn match CommentLinkPrefix /\$HOME/ contained contains=NONE conceal cchar=􁆭
-syn match CommentLinkPrefix /\$VIMHOME/ contained contains=NONE conceal cchar=􀎞
-syn match CommentLinkPrefix /\$VIMRUNTIME/ contained contains=NONE conceal cchar=􀐚
+if has("gui_macvim")
+  syn match CommentLinkPrefix /\$HOME/ contained contains=NONE conceal cchar=􁆭
+  syn match CommentLinkPrefix /\$VIMHOME/ contained contains=NONE conceal cchar=􀎞
+  syn match CommentLinkPrefix /\$VIMRUNTIME/ contained contains=NONE conceal cchar=􀐚
+endif
+
 syn match CommentLink "\%(\~/\|\.\./\|\./\|$[A-Z0-9]\+/\)\%(\S\+/\)*\%(/\|\S*\.*[A-Za-z0-9]*\)"
       \ containedin=Comment,vimLineComment,vim9LineComment
       \ contained contains=CommentLinkPrefix

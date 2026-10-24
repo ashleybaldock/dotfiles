@@ -1,0 +1,883 @@
+/*!{{{1 Toggles */
+#UI_goUp,
+#UI_showHidden {
+  display: none !important;
+}
+
+.toggles {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  grid-row: options;
+  grid-column: options;
+  position: sticky;
+  inset: var(--inset-options);
+}
+.toggles,
+.toggles > * {
+  z-index: var(--z-toggles);
+}
+
+.toggle {
+  align-content: center;
+  align-items: center;
+  justify-content: start;
+  display: grid;
+  top: 60vh;
+  place-self: center;
+  place-content: center;
+  place-items: center;
+  width: fit-content;
+  inset: var(--inset-options);
+  z-index: var(--z-options);
+  grid-row: options;
+  height: 100%;
+  border: 0;
+  border-radius: 1ch;
+  padding: 0;
+  margin: auto;
+  gap: 0.5ch;
+}
+
+.toggle:hover {
+  background-image: radial-gradient(
+    farthest-corner circle at top left,
+    #4442,
+    #4448,
+    #4442
+  );
+  border-radius: 25%;
+  border: none;
+  background: #00000006;
+  box-shadow:
+    inset 1px 1px 1px -0.5px #ccc5,
+    inset -1px -1px 2px -0.5px #000a;
+}
+.toggle > * {
+  height: auto;
+  width: 100%;
+  place-self: center;
+  aspect-ratio: 1;
+  justify-content: center;
+  align-items: center;
+}
+.toggle::before {
+  content: attr(data-text);
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  text-align: center;
+  min-width: 100px;
+  max-width: 200px;
+  min-height: 2lh;
+  height: auto;
+  width: auto;
+  position: absolute;
+  display: grid;
+  inset: auto auto 100% auto;
+  align-self: center;
+  place-items: center;
+  margin: 1em;
+  background-color: #000;
+  font-size: 1rem;
+  transition: opacity 140ms ease 50ms;
+  border: 0 solid #c00;
+  padding: 0.2em 1.5ch;
+  border-radius: 1.75ch;
+  --a: -0.5ch;
+  --x: 0;
+  --y: 0;
+  --w: 0.7ch;
+  --h: 0.7lh;
+  box-shadow:
+    calc(0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #f0a9,
+    calc(0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #a0f9,
+    calc(-0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #a0a9,
+    calc(-0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #f0f9,
+    0 0 #0000;
+  --fbc-blue-60: ;
+  --f: 1px;
+}
+.toggle:hover::before {
+  opacity: 1;
+  transition: opacity 80ms ease 0s;
+}
+.toggle label {
+  grid-template-columns: auto auto;
+  grid-template-rows: auto;
+  font-size: 1em;
+  display: grid;
+  cursor: pointer;
+  background: none;
+  aspect-ratio: 1;
+  padding: 6px;
+}
+.toggle label,
+.toggle label * {
+  grid-template: 1fr/1fr;
+  place-content: center;
+  place-items: center;
+  place-self: center;
+  grid-area: 1/1/1/1;
+}
+.toggle label::before {
+  display: grid;
+  mask-image: var(--icon);
+  font-size: 1rem;
+  content: '';
+  margin: 0;
+  height: 2rem;
+  width: auto;
+  aspect-ratio: 1;
+  mask-size: contain;
+  mask-origin: content-box;
+  mask-repeat: no-repeat;
+  mask-clip: no-clip;
+  mask-position: center center;
+  pointer-events: none;
+  background-color: #828;
+}
+.toggle label input {
+  visibility: hidden;
+  margin: 0;
+  height: 0;
+  width: 0;
+  position: absolute;
+}
+.toggle label span {
+  display: none;
+}
+.toggle:not(:has(button)) label::before {
+  mask-image: var(--icon-composite);
+}
+/*!}}}1*/
+
+:root:hover :is(.toggles) {
+  opacity: 1;
+}
+.toggles {
+  opacity: 0;
+}
+
+.toggles > .toggle {
+  grid-row: 1/-1;
+}
+.toggles > .grouping {
+  grid-row: 1/-1;
+  anchor-scope: --anchor-toggle;
+  anchor-name: --anchor-toggle;
+  outline: 1px solid red;
+  width: 100%;
+  height: 100%;
+  grid-column: auto;
+}
+.toggles > .grouping > .toggle {
+  grid-row: 1;
+  position: absolute;
+  position-anchor: --anchor-toggle;
+  inset: auto anchor(left) anchor(top) auto;
+  anchor-name: --anchor-toggle;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.toggles > .grouping:hover > .toggle {
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 100;
+}
+.toggles > .grouping > .toggle:first-of-type {
+  position: static;
+}
+.toggle {
+  anchor-scope: --anchor-toggle-tip;
+}
+.sequence.toggle {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  anchor-scope:
+    --anchor-toggle-tip, --anchor-sequence-toggle-current,
+    --anchor-sequence-toggle-next, --anchor-sequence-toggle-prev,
+    --anchor-sequence-toggle-final, --anchor-sequence-toggle-last;
+}
+.toggle::before,
+.tip {
+  content: attr(data-text);
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  text-align: center;
+  min-width: 100px;
+  max-width: 200px;
+  min-height: 2lh;
+  height: auto;
+  width: auto;
+  position: absolute;
+  display: grid;
+  inset: auto auto 100% auto;
+  align-self: center;
+  place-items: center;
+  margin: 1em;
+  background-color: #000;
+  font-size: 1rem;
+  transition: opacity 140ms ease 50ms;
+  border: 0 solid #c00;
+  padding: 0.2em 1.5ch;
+  border-radius: 1.75ch;
+  --a: -0.5ch;
+  --x: 0;
+  --y: 0;
+  --w: 0.7ch;
+  --h: 0.7lh;
+  box-shadow:
+    calc(0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #f0a9,
+    calc(0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #a0f9,
+    calc(-0.5 * var(--w) + var(--x)) calc(0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #a0a9,
+    calc(-0.5 * var(--w) + var(--x)) calc(-0.5 * var(--h) + var(--y)) var(--f)
+      calc(var(--a)) #f0f9,
+    0 0 #0000;
+  --fbc-blue-60: ;
+  --f: 1px;
+}
+.toggle:has(.tip)::before {
+  display: none;
+}
+.sequence.toggle::before,
+.toggle::before {
+  anchor-name: --anchor-toggle-tip;
+  position-anchor: --anchor-sequence-toggle;
+  position: fixed;
+  inset: auto auto anchor(top) auto;
+}
+.sequence.toggle .tip,
+.toggle .tip {
+  position-anchor: --anchor-toggle-tip;
+  position-anchor: --anchor-sequence-toggle;
+  position: fixed;
+  inset: auto auto anchor(top) auto;
+}
+
+.sequence.toggle label > .value {
+  font-weight: 400;
+  font-size: clamp(10px, 2vh, 1.2em);
+}
+
+.sequence.toggle label[data-value-display-len='1'] > .value {
+  font-size: clamp(10px, 2vh, 1.7em);
+}
+.sequence.toggle label[data-value-display-len='2'] > .value {
+  font-size: clamp(10px, 2vh, 1.4em);
+}
+.sequence.toggle label[data-value-display-len='3'] > .value {
+  font-size: clamp(10px, 2vh, 1.2em);
+}
+.sequence.toggle label[data-value-display-len='4'] > .value {
+  font-size: clamp(10px, 2vh, 0.9em);
+}
+.sequence.toggle label[data-value-display-len='5'] > .value {
+  font-size: clamp(10px, 2vh, 0.8em);
+}
+
+.sequence.toggle,
+.sequence.toggle label {
+  position: relative;
+  visibility: visible;
+  opacity: 1;
+}
+.sequence.toggle label::before {
+  position: absolute;
+}
+.toggle {
+  gap: 0;
+}
+
+.sequence.toggle,
+.sequence.toggle label {
+  position: relative;
+  visibility: visible;
+  opacity: 1;
+}
+
+.toggles > .grouping {
+  height: 100%;
+  grid-row: 1/-1;
+  align-items: center;
+  justify-items: center;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: auto;
+  anchor-name: --anchor-tip, --anchor-grouping;
+  anchor-scope: --anchor-tip, --anchor-grouping, --anchor-prevsibling;
+}
+.toggles > .grouping .grouping {
+  anchor-name: --anchor-tip, --anchor-grouping;
+  anchor-scope: --anchor-tip, --anchor-grouping, --anchor-prevsibling;
+}
+.toggles > .toggle,
+.toggles > .grouping > .toggle,
+.toggles > .grouping .grouping > .toggle {
+  gap: 0;
+  grid-row: 1;
+  visibility: hidden;
+  z-index: 0;
+  border-radius: 0 30em / 0 40em;
+  padding: 0.25em 1.5em;
+  margin: 0;
+  width: 2em;
+  pointer-events: none;
+}
+
+.toggles:hover > .toggle,
+.toggles > .toggle:hover,
+.toggles:hover > .grouping,
+.toggles > .grouping:hover,
+.toggles:hover > .grouping > .toggle:first-of-type,
+.grouping:hover > .grouping > .toggle:first-of-type {
+  pointer-events: auto;
+  visibility: visible;
+  opacity: 1;
+}
+.toggles > .grouping > .toggle,
+.toggles > .grouping .grouping > .toggle {
+  position: absolute;
+  inset: anchor(center);
+  position-anchor: --anchor-prevsibling;
+  anchor-name: --anchor-tip, --anchor-toggle, --anchor-prevsibling;
+  anchor-scope: --anchor-tip, --anchor-toggle, --anchor-parent;
+}
+.toggles > .grouping .grouping > .toggle:first-of-type,
+.toggles > .grouping > .toggle:first-of-type {
+  position-anchor: --anchor-parent;
+  anchor-name:
+    --anchor-tip, --anchor-toggle, --anchor-prevsibling, --anchor-firstsibling;
+}
+.toggles > .grouping:hover > .toggle {
+  z-index: 1;
+  opacity: 1;
+  visibility: visible;
+}
+.toggles > .grouping > .toggle:hover > label {
+  /*   transform: scale(-1,-1) rotate(180deg);
+  transition: transform 600ms ease 0s; */
+}
+.toggles > .grouping > .toggle > label {
+  padding: 0;
+  width: auto;
+  height: 100%;
+  visibility: visible;
+  opacity: 1;
+  aspect-ratio: 1;
+}
+.toggles > .toggle .tip,
+.toggles > .sequence.toggle .tip,
+.toggles > .grouping > .toggle .tip,
+.toggles > .grouping > .sequence.toggle .tip {
+  position: absolute;
+  position-anchor: --anchor-tip;
+  inset: auto auto anchor(--anchor-tip, top) auto;
+}
+
+.toggles > .grouping {
+  outline: 1px solid #0aaa;
+  outline-offset: -0.5px;
+}
+.toggles > .grouping:hover {
+  background-color: #0aa2;
+}
+.toggles > .grouping > .toggle {
+  outline: 1px solid #0d0a;
+  outline-offset: -1px;
+}
+.toggles > .grouping:hover > .toggle {
+  background-color: #0d02;
+}
+.toggles > .grouping > .toggle:hover {
+  background-color: #0d04;
+}
+.toggles > .toggle > label,
+.toggles > .grouping > .toggle > label,
+.toggles > .grouping .grouping > .toggle > label {
+  outline: 1px dashed #aa0a;
+  outline-offset: 0;
+}
+.toggles > .grouping .grouping > .toggle {
+  outline: 1px solid #0a0a;
+  outline-offset: -1px;
+}
+.toggles > .grouping .grouping > .toggle {
+  outline: 1px dashed #880a;
+  outline-offset: -0.5px;
+}
+
+/*!{{{1 sequencetoggle */
+
+.sequence.toggle {
+  grid-column: auto;
+  grid-template-columns: 100fr 100fr 100fr;
+  grid-template-rows: 100fr 200fr 100fr;
+  border: none;
+  margin: auto 0;
+  position: relative;
+  inset: auto;
+  --bgc: #828;
+  contain: size;
+  container-type: size;
+  width: 100%;
+  height: 100%;
+  --icon: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 height=%221em%22 viewBox=%220 0 512 512%22%3E%3Cpath d=%22M211 7.3C205 1 196-1.4 187.6 .8s-14.9 8.9-17.1 17.3L154.7 80.6l-62-17.5c-8.4-2.4-17.4 0-23.5 6.1s-8.5 15.1-6.1 23.5l17.5 62L18.1 170.6c-8.4 2.1-15 8.7-17.3 17.1S1 205 7.3 211l46.2 45L7.3 301C1 307-1.4 316 .8 324.4s8.9 14.9 17.3 17.1l62.5 15.8-17.5 62c-2.4 8.4 0 17.4 6.1 23.5s15.1 8.5 23.5 6.1l62-17.5 15.8 62.5c2.1 8.4 8.7 15 17.1 17.3s17.3-.2 23.4-6.4l45-46.2 45 46.2c6.1 6.2 15 8.7 23.4 6.4s14.9-8.9 17.1-17.3l15.8-62.5 62 17.5c8.4 2.4 17.4 0 23.5-6.1s8.5-15.1 6.1-23.5l-17.5-62 62.5-15.8c8.4-2.1 15-8.7 17.3-17.1s-.2-17.3-6.4-23.4l-46.2-45 46.2-45c6.2-6.1 8.7-15 6.4-23.4s-8.9-14.9-17.3-17.1l-62.5-15.8 17.5-62c2.4-8.4 0-17.4-6.1-23.5s-15.1-8.5-23.5-6.1l-62 17.5L341.4 18.1c-2.1-8.4-8.7-15-17.1-17.3S307 1 301 7.3L256 53.5 211 7.3z%22%3E%3C/path%3E%3C/svg%3E');
+  anchor-name: --anchor-sequence-toggle;
+  --bgc-current: #f0f;
+  --bgc-before: #f08;
+  --bgc-after: #80f;
+  --x: 30px;
+  --y: 20px;
+  --xmul: 1;
+  --ymul: 1;
+  anchor-scope:
+    --anchor-sequence-toggle-current, --anchor-sequence-toggle-before,
+    --anchor-sequence-toggle-after, --anchor-sequence-toggle-end,
+    --anchor-sequence-toggle-last;
+}
+.sequence.toggle::before {
+  inset: auto auto 300% auto;
+}
+
+.sequence.toggle .tip {
+  visibility: hidden;
+  position: absolute;
+  inset: auto auto 10vw auto;
+}
+.sequence.toggle:hover .tip {
+  visibility: visible;
+}
+
+.sequence.toggle label {
+  height: 2lh;
+  visibility: hidden;
+  position: absolute;
+  max-height: 2lh;
+  aspect-ratio: 1;
+  width: auto;
+  padding: 0;
+}
+.sequence.toggle:hover label {
+  visibility: visible;
+}
+.sequence.toggle label::before {
+  position: static;
+  display: flex;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  grid-column: 1/-1;
+  grid-row: 1/-1;
+}
+.sequence.toggle.numeric label::before {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  /*   font-size: calc(50cqh / 1ch); */
+  place-self: center;
+  content: '';
+}
+
+.sequence.toggle label:has(~ label :checked) {
+  anchor-name: --anchor-sequence-toggle-before;
+  position-anchor: --anchor-sequence-toggle-before;
+  /*   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right) * var(--xmul) - var(--x)); */
+  inset: calc(anchor(bottom) * var(--ymul) * -1 - var(--y))
+    calc(anchor(left) * var(--xmul) * -1 - var(--x)) auto auto;
+}
+.sequence.toggle label:has(~ label :checked)::before {
+  background-image: radial-gradient(
+    nearest-corner,
+    var(--bgc),
+    var(--bgc-before),
+    var(--bgc)
+  );
+}
+
+.sequence.toggle label:has(+ label :checked) {
+  anchor-name: --anchor-sequence-toggle-before;
+  position-anchor: --anchor-sequence-toggle-before;
+  inset: calc(anchor(bottom) * var(--ymul) * -1 - var(--y))
+    calc(anchor(right) * var(--xmul) * -1 - var(--x)) auto auto;
+}
+
+.sequence.toggle label:has(:checked) {
+  anchor-name: --anchor-sequence-toggle-before;
+  anchor-name: --anchor-sequence-toggle-current;
+  anchor-name: --anchor-sequence-toggle-after;
+  position-anchor: --anchor-sequence-toggle;
+  /*   inset: auto calc(anchor(left) * var(--xmul) - var(--x))
+    calc(anchor(top) * var(--ymul) + var(--y)) auto; */
+  inset: auto auto auto auto;
+  visibility: visible;
+}
+.sequence.toggle label:has(:checked)::before {
+  background-image: radial-gradient(var(--bgc), var(--bgc-current), var(--bgc));
+  /*   z-index: 1000000; */
+  pointer-events: none;
+  visibility: visible;
+}
+.sequence.toggle :where(label:has(:checked)) > span {
+  display: flex;
+  position: relative;
+  inset: 100% auto auto auto;
+}
+.sequence.toggle:hover :where(label:has(:checked)) > .tip {
+  visibility: visible;
+}
+
+.sequence.toggle :where(label:has(:checked)) ~ label {
+  anchor-name: --anchor-sequence-toggle-after;
+  position-anchor: --anchor-sequence-toggle-after;
+  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right) * var(--xmul) + var(--x));
+}
+.sequence.toggle :where(label:has(:checked)) ~ label::before {
+  background-image: radial-gradient(var(--bgc), var(--bgc-after), var(--bgc));
+  /*   z-index: 0; */
+  pointer-events: all;
+}
+.sequence.toggle :where(label:has(:checked)) ~ label:hover::before {
+  /*   z-index: 2; */
+}
+
+.sequence.toggle :where(label:has(:checked)) + label {
+  anchor-name: --anchor-sequence-toggle-after;
+  position-anchor: --anchor-sequence-toggle-after;
+  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(left) * var(--xmul) + var(--x));
+}
+
+.sequence.toggle label:last-of-type {
+  anchor-name: --anchor-sequence-toggle-before;
+  position-anchor: --anchor-sequence-toggle-after;
+  /*   inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right) * var(--xmul)); */
+  /*   anchor-name: --anchor-sequence-toggle-end; */
+  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right));
+}
+.sequence.toggle :where(label:has(:checked)) ~ label:last-of-type {
+  inset: auto auto calc(anchor(top) * var(--ymul) + var(--y))
+    calc(anchor(right) * var(--xmul));
+}
+
+.sequence.toggle label:first-of-type {
+  /*   anchor-name: --anchor-sequence-toggle; */
+  position-anchor: --anchor-sequence-toggle-after;
+}
+
+.sequence.toggle :where(label:has(:checked)) .value,
+.sequence.toggle label .prefix,
+.sequence.toggle label .suffix,
+.sequence.toggle label .value {
+  display: flex;
+  position: static;
+  z-index: 1;
+}
+
+.sequence.toggle label .prefix {
+  font-size: 0.7em;
+  grid-row: 1;
+  grid-column: 1/-2;
+  place-self: start;
+}
+.sequence.toggle label .suffix {
+  font-size: 0.7em;
+  grid-row: -1;
+  grid-column: 2/-1;
+  place-self: end;
+}
+.sequence.toggle label .value {
+  font-size: 1.2em;
+  grid-row: 2;
+  grid-column: 1/-1;
+  overflow: visible;
+  place-self: center;
+}
+/*! Debug */
+.sequence.toggle label {
+  border-radius: 50%;
+}
+.sequence.toggle label:first-of-type {
+  outline: 1px solid orange;
+}
+.sequence.toggle label:has(~ label :checked) {
+  outline: 0.5px solid green;
+}
+.sequence.toggle label:has(+ label :checked) {
+  outline: 1px solid limegreen;
+}
+.sequence.toggle label:has(:checked) ~ label {
+  outline: 0.5px solid orange;
+}
+.sequence.toggle label:has(:checked) + label {
+  outline: 1px solid orangered;
+}
+.sequence.toggle label:last-of-type {
+  outline: 1px solid yellow;
+}
+
+/*!}}}1 END sequencetoggle */
+
+.sequence.toggle label .value,
+.sequence.toggle label .prefix,
+.sequence.toggle label .suffix {
+  /* position: relative; */
+  /*   position: absolute; */
+  grid-column: 1/-1;
+  /*   grid-row: auto; */
+  grid-auto-flow: dense;
+  position: static;
+  inset: unset;
+}
+
+.sequence.toggle label {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.sequence.toggle label::before {
+  position: static;
+  grid-row: 1/-1;
+  grid-column: 1/-1;
+}
+
+.sequence.toggle.numeric label::before {
+  content: '';
+}
+
+.prefix::before {
+  content: '';
+}
+
+.sequence.toggle {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  anchor-scope:
+    --anchor-sequence-toggle-current, --anchor-sequence-toggle-next,
+    --anchor-sequence-toggle-prev, --anchor-sequence-toggle-final,
+    --anchor-sequence-toggle-last;
+}
+
+.sequence.toggle::before {
+  inset: auto auto -90%auto;
+  position: relative;
+  grid-column: 1/-1;
+  grid-row: 1/-1;
+}
+
+.sequence.toggle .tip {
+  inset: auto -200% 300%auto;
+  position: absolute;
+  opacity: 1;
+}
+.sequence.toggle .tip:hover {
+  opacity: 1;
+}
+
+.sequence.toggle label {
+  background: linear-gradient(135deg, #000a 30%, #f11c 150%);
+  border: 1px solid #000;
+  grid-template-rows: 100fr 100fr 100fr;
+}
+
+.toggle:not(:has(button)) label::before {
+  --icon: var(--mask-none);
+}
+
+.sequence.toggle label > :is(.value, .prefix, .suffix) {
+  aspect-ratio: unset;
+  grid-column: 1/-1;
+  grid-row: 1/-1;
+  color: #0000;
+  background-image:
+    linear-gradient(#fff, #888),
+    radial-gradient(
+      farthest-corner circle at -40% -60%,
+      #fff 70%,
+      #a8a 80%,
+      #fff 92%
+    );
+  background-clip: text;
+  background-blend-mode: darken;
+  mix-blend-mode: difference;
+  filter: drop-shadow(0.2ch 0 0#000) drop-shadow(0 0.08em 0#000);
+}
+
+.sequence.toggle label {
+  aspect-ratio: 1;
+}
+
+.sequence.toggle label > .value {
+  font-weight: 400;
+  font-size: clamp(10px, 2vh, 1.2em);
+}
+
+.sequence.toggle label > .prefix {
+  font-size: 0.6em;
+  z-index: 10;
+}
+
+.sequence.toggle label > .suffix {
+  font-size: 0.74em;
+  line-height: 0.84;
+  z-index: 10;
+}
+
+.sequence.toggle label:has(:checked) + label,
+.sequence.toggle label:has(:checked) ~ label {
+  anchor-name: --anchor-sequence-toggle-next;
+  position-anchor: --anchor-sequence-toggle-next;
+  inset: var(--inset-anchor-ne);
+  outline: 3px double #0008;
+  outline-offset: -1px;
+  box-shadow: 0.25px 0.25px 0 1.75px #a088;
+}
+
+.sequence.toggle label:has(:checked) + label {
+  position-anchor: --anchor-sequence-toggle-current;
+  box-shadow:
+    0.25px 0.25px 0 1.75px #a808,
+    inset 0.5px 0.5px 0.5px 0#f00d;
+}
+
+.sequence.toggle label:has(+ label :checked),
+.sequence.toggle label:has(~ label :checked) {
+  anchor-name: --anchor-sequence-toggle-prev;
+  position-anchor: --anchor-sequence-toggle-prev;
+  inset: var(--inset-anchor-sw);
+  outline: 3px double #0008;
+  outline-offset: -1px;
+  box-shadow: 0.25px 0.25px 0 1.75px #08a8;
+}
+
+.sequence.toggle label:has(+ label :checked) {
+  position-anchor: --anchor-sequence-toggle-current;
+  box-shadow:
+    0.25px 0.25px 0 1.75px #08a8,
+    inset 0.5px 0.5px 0.5px 0#f00d;
+}
+
+.sequence.toggle label:has(:checked) {
+  position-anchor: --anchor-sequence-toggle;
+  anchor-name: --anchor-sequence-toggle-current;
+  inset: anchor(center);
+  background: linear-gradient(135deg, #000a 30%, #81fc 150%);
+  border: 1px solid #000;
+  outline: 3px double #0008;
+  outline-offset: -1px;
+  box-shadow: 0.25px 0.25px 0 1.75px #a0ad;
+}
+
+.sequence.toggle :is(label:last-of-type) {
+  position-anchor: --anchor-sequence-toggle-next;
+  anchor-name: --anchor-sequence-toggle-final;
+  inset: var(--inset-anchor-sw);
+  anchor-scope: --anchor-sequence-toggle-final;
+}
+.sequence.toggle label:first-of-type:checked:has(~ label) {
+}
+.sequence.toggle label:first-of-type:checked ~ label {
+  position-anchor: --anchor-sequence-toggle-wrap;
+  anchor-name: --anchor-sequence-toggle-wrap;
+  inset: var(--inset-anchor-ne);
+}
+.sequence.toggle label:first-of-type:checked + label {
+  position-anchor: --anchor-sequence-toggle-final;
+  anchor-name: --anchor-sequence-toggle-wrap;
+  inset: var(--inset-anchor-ne);
+}
+
+.sequence.toggle label:first-of-type:has(~ label:last-of-type :checked) {
+}
+
+.sequence.toggle :is(label:first-of-type) {
+  position-anchor: --anchor-sequence-toggle-final !important;
+  anchor-name: --anchor-sequence-toggle-next !important;
+  inset: var(--inset-anchor-sw);
+}
+
+.sequence.toggle label:has(:checked)::before {
+  z-index: 1000000;
+  z-index: -1;
+}
+
+:root:has(#toggle_debug:checked) .sequence.toggle label::before {
+  background-color: #0000;
+  z-index: 0;
+}
+.toggle:hover label,
+.sequence.toggle:hover label,
+.toggle label:hover {
+  opacity: 1;
+  transition-delay: 0s;
+}
+.toggle:not(:hover) label,
+.sequence.toggle:not(:hover) label,
+.toggle label:not(:hover) {
+  transition-delay: 1s;
+}
+
+.toggle:not(:has(button)) label::before {
+  --icon: inherit;
+}
+.sequence.toggle:not(:has(button)) label::before {
+  /*   --icon: var(--mask-none);  */
+  --icon:
+    radial-gradient(
+      farthest-side circle at top left,
+      #fff0,
+      #fff8,
+      #fff2,
+      #fff6,
+      #fff0
+    ),
+    radial-gradient(circle at center, #fff0 0% 65%, #ffff 75% 100%);
+  mask-composite: subtract;
+  background-blend-mode: luminosity;
+}
+.sequence.toggle.numeric:not(:has(button)) label::before {
+  --icon:
+    radial-gradient(
+      farthest-side circle at top left,
+      #fff0,
+      #fff8,
+      #fff2,
+      #fff6,
+      #fff0
+    ),
+    radial-gradient(circle at center, #fff0 0% 65%, #ffff 75% 100%);
+  mask-composite: subtract;
+  background-blend-mode: luminosity;
+}
+
+.sequence.toggle label:has(:checked)::before {
+  background-image: linear-gradient(135deg, #fff1 20%, #0006 70%, #fff1);
+}
+
+.prefix {
+  --prefix: inherit;
+}
+.prefix::before {
+  content: var(--prefix, '');
+}
+.suffix {
+  --suffix: inherit;
+}
+.suffix::before {
+  content: var(--suffix, '');
+}

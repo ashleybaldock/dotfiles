@@ -21,3 +21,4 @@ command! -bar -nargs=? GetCharCodeMatch echo char#match(<f-args>)
 
 " xnoremap <unique> <silent><script> <Plug>(mayhem_char_code) <Cmd>call char#code()<CR>
 
+nnoremap <silent><script> <Plug>(mayhem_char_remove_last_combining) <Cmd>exec charinfo#formatForCommand()<CR>

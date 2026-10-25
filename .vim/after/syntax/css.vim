@@ -50,8 +50,9 @@ syntax sync fromstart
 "
 "
 " Combinators:
-" The descendant combinator is technically one or more <whitespace characters>
-" between two selectors in the absence of another combinator.
+" The descendant combinator is technically one or
+" more <whitespace characters> between two selectors 
+" in the absence of another combinator.
 " Additionally, the white space characters of which the combinator
 " is comprised may contain any number of CSS comments.
 "

@@ -10,11 +10,21 @@ h1 {
   grid-column: 1/-1;
 }
 
-.compass {
+.anchor {
+  width: calc(var(--width) * 1);
+  aspect-ratio: 1;
+  height: auto;
+  position: relative;
+  display: grid;
+  place-items: center;
+  outline: 0.5px dashed #0ff;
+  anchor-name: --anchor;
+}
+
+section {
   anchor-scope: all;
   width: 100%;
   height: 30vh;
-  --anchor-compass: '⚓compass';
   display: grid;
   grid-template-rows: subgrid;
   grid-template-columns: 1fr;
@@ -27,16 +37,12 @@ h1 {
   --sp-vf: 1;
   --sp-vc: 1px;
 }
+.compass {
+  --anchor-compass: '⚓compass';
+}
 
 .compass .anchor {
-  width: calc(var(--width) * 1);
-  height: auto;
-  aspect-ratio: 1;
-  anchor-name: --anchor-compass;
-  position: relative;
-  display: grid;
-  place-items: center;
-  outline: 0.5px dashed #0ff;
+  anchor-name: --anchor, --anchor-compass;
 }
 .compass .anchor ~ .anchor {
   width: calc(var(--width) * 2);
@@ -171,4 +177,59 @@ h1 {
   --inset: var(--inset-anchor-sse);
   --anchor-name: --anchor-sse;
   --bearing: 157.5deg;
+}
+
+.toggle fieldset label {
+  aspect-ratio: 1;
+  width: auto;
+  height: auto;
+}
+
+.toggle fieldset label:has(~ label :checked) {
+  inset: auto auto anchor(top) anchor(right);
+}
+
+.toggle fieldset {
+  display: grid;
+  position: relative;
+  anchor-name: --anchor-toggle-container;
+  min-width: 20vw;
+  min-height: 10vh;
+}
+
+.toggle fieldset label {
+  display: grid;
+  position-anchor: --anchor-toggle;
+  anchor-name: --anchor-toggle;
+  position: absolute;
+  inset: anchor(bottom) anchor(left) auto auto;
+  aspect-ratio: 1;
+  width: auto;
+  height: auto;
+}
+.toggle fieldset label:has(~ label :checked) {
+  anchor-name: --anchor-toggle-antecedent;
+  position-anchor: --anchor-toggle-antecedent;
+  color: red;
+  inset: auto auto anchor(top) anchor(right);
+}
+.toggle fieldset label:has(+ label :checked) {
+  anchor-name: --anchor-toggle-previous;
+  position-anchor: --anchor-toggle-antecedent;
+  color: pink;
+}
+.toggle fieldset label:has(:checked) {
+  position-anchor: --anchor-toggle-container;
+  anchor-name: --anchor-toggle-selected;
+  inset: anchor(center);
+}
+.toggle fieldset label:has(:checked) ~ label {
+  anchor-name: --anchor-toggle-subsequent;
+  position-anchor: --anchor-toggle-subsequent;
+  color: green;
+}
+.toggle fieldset label:has(:checked) + label {
+  anchor-name: --anchor-toggle-subsequent, --anchor-toggle-next;
+  position-anchor: --anchor-toggle-selected;
+  color: lightgreen;
 }

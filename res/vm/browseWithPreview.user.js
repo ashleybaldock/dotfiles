@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.483
+// @version     1.0.484
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -1421,33 +1421,29 @@ const initBrowsePreview = ({ document: { body } }) => {
               `body > table > tbody > tr:has([href="${srcUrl.split('/').slice(-1)}"])`,
             )
             .forEach((tr) => {
-              tr.classList.remove('paused');
-              tr.classList.add('playing');
-              tr.style.setProperty('--playerIdx', idx);
-              tr.style.setProperty('--s-playerIdx', `'${idx}'`);
-
-              const undo = (() => {
-                let undone = false;
-                return () => {
-                  if (!undone) {
-                    undone = true;
-                  }
-                };
-              })();
-              const played = () => {
-                tr.classList.remove('playing');
-                tr.classList.add('played');
-              };
-              video.addEventListener(
-                'ended',
-                () => {
+              if (status === 'playing') {
+                const played = () => {
                   tr.classList.remove('playing');
                   tr.classList.add('played');
-                },
-                { once: true },
-              );
 
-              video.addEventListener('loadstart', undo, { once: true });
+                  video.removeEventListener('ended', played, { once: true });
+                  video.removeEventListener('loadstart', played, {
+                    once: true,
+                  });
+                };
+
+                tr.classList.remove('paused');
+                tr.classList.add('playing');
+
+                video.addEventListener('ended', played, { once: true });
+                video.addEventListener('loadstart', played, { once: true });
+              }
+              if (status === 'paused') {
+                tr.classList.remove('playing');
+                tr.classList.add('paused');
+              }
+              tr.style.setProperty('--playerIdx', idx);
+              tr.style.setProperty('--s-playerIdx', `'${idx}'`);
             });
       };
 

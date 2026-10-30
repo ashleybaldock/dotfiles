@@ -4,11 +4,12 @@ endif
 let g:mayhem_autoloaded_symbols = 1
 
 "
-" See: ../plugin/symbols.vim
+" Related:
+"   $VIMHOME/plugin/symbols.vim
 "
 
 
-function symbols#best() abort
+function! symbols#best() abort
    return has("gui_macvim")
          \ ? get(g:mayhem, 'symbols_S',
          \     get(g:mayhem, 'symbols_8',
@@ -21,13 +22,13 @@ endfunc
 
 let s:symbols = symbols#best()
 
-function symbols#lookup(symbolpath) abort
+function! symbols#lookup(symbolpath) abort
   return split(a:symbolpath, '\.')->reduce(
         \{ acc, val -> get(acc, val, {})}, s:symbols)
 endfunc
 
 " TODO extend this to allow symbol lookup with list index e.g. for numbers
-function symbols#get(symbolpath, fallback = 'X!') abort
+function! symbols#get(symbolpath, fallback = 'X!') abort
   let lookup = symbols#lookup(a:symbolpath)
   return empty(lookup) ? a:fallback : lookup
 endfunc
@@ -35,7 +36,7 @@ endfunc
 "
 " Version of symbol for display in statusline of currently focused window
 "
-function symbols#getc(symbolpath, fallback = 'X!') abort
+function! symbols#getc(symbolpath, fallback = 'X!') abort
   let lookup = symbols#lookup(a:symbolpath)
   return  type(lookup) == v:t_dict
         \ ? get(lookup, 'c', get(lookup, 'n', get(lookup, 'i', a:fallback)))
@@ -44,7 +45,7 @@ endfunc
 "
 " Version of symbol for display in statusline of not-focused windows
 "
-function symbols#getn(symbolpath, fallback = 'X!') abort
+function! symbols#getn(symbolpath, fallback = 'X!') abort
   let lookup = symbols#lookup(a:symbolpath)
   return  type(lookup) == v:t_dict
         \ ? get(lookup, 'n', get(lookup, 'c', get(lookup, 'i', a:fallback)))
@@ -52,7 +53,7 @@ function symbols#getn(symbolpath, fallback = 'X!') abort
 endfunc
 " For use with format#CN()
 " Allows different symbol for current/not-current statusline
-function symbols#CN(symbolpath, fallback = 'X!') abort
+function! symbols#CN(symbolpath, fallback = 'X!') abort
   return #{
         \ C: symbols#getc(a:symbolpath, a:fallback),
         \ N: symbols#getn(a:symbolpath, a:fallback)
@@ -61,7 +62,7 @@ endfunc
 "
 " Best version of symbol for display inline in text
 "
-function symbols#inline(symbolpath, fallback = 'X!') abort
+function! symbols#inline(symbolpath, fallback = 'X!') abort
   let lookup = symbols#lookup(a:symbolpath)
   return  type(lookup) == v:t_dict
         \ ? get(lookup, 'i', get(lookup, 'n', get(lookup, 'c', a:fallback)))

@@ -416,6 +416,21 @@ let g:gitgutter_sign_removed_first_line      = '◇̅'
 let g:gitgutter_sign_removed_above_and_below = '◇̲̅'
 let g:gitgutter_sign_modified_removed        = '◇̲'
 
+" undotree
+let g:undotree_TreeNodeShape                 = '○'
+let g:undotree_TreeVertShape                 = '⏐'
+let g:undotree_TreeSplitShape                = 'ノ'
+let g:undotree_TreeReturnShape               = '\'
+let g:undotree_RelativeTimestamp             = 1
+let g:undotree_ShortIndicators               = 1
+let g:undotree_HighlightChangedText          = 1
+let g:undotree_HighlightSyntaxAdd            = 'DiffAdd'
+let g:undotree_HighlightSyntaxDel            = 'DiffDelete'
+let g:undotree_HighlightSyntaxChange         = 'DiffChange'
+let g:undotree_SignAdded                     = '+'
+let g:undotree_SignModified                  = '𐰇'
+let g:undotree_SignDeleted                   = '◇'
+let g:undotree_SignDeletedEnd                = '◇̅'
 
 "vim-qf
 " let g:qf_loclist_window_bottom = 0

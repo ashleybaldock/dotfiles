@@ -543,11 +543,12 @@ svg {
   opacity: 1;
   inset: calc(
       var(--icon-inset) * var(--pad-nearside) * 0.5 +
-        anchor(bottom, calc(Infinity * 1px))
+        anchor(top, calc(Infinity * 1px))
     )
     anchor(right, calc(Infinity * 1px)) auto anchor(left, calc(Infinity * 1px));
   padding: calc(var(--icon-inset) * var(--pad-nearside) * 0.5) var(--icon-inset)
     calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset);
+  pointer-events: auto;
 }
 .svgActions::after {
   content: var(--anchor-svgactions);

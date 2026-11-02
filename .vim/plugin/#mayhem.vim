@@ -16,3 +16,10 @@ let g:mayhem_loaded__mayhem_before_plugin = 1
 command! -nargs=1 -bar DoUserAutocmd call mayhem#doUserAutocmd(<q-args>)
 
 nnoremap <silent><script> <Plug>(mayhem_paste) <Cmd>call mayhem#paste()<CR>
+
+"
+" If cursor is positioned on match for a sequence toggle entry
+" change it to the next value in the sequence
+" (Entries are configured in g:mayhem_sequence_toggles)
+"
+nnoremap <silent><script> <Plug>(mayhem_sequence_toggle_next) <Cmd>call mayhem#sequenceToggleNext()<CR>

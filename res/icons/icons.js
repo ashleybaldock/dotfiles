@@ -225,7 +225,7 @@ window.addEventListener('load', (event) => {
         notifyCopyFailed(target, `Copy failed, err: ${err}`);
       });
   };
-  document.addEventListener('mouseover', ({ target }) => {
+  document.addEventListener('mouseenter', ({ target }) => {
     if (target.matches(':not(.wrapped) > svg')) {
       const button = document.createElement('button');
       button.classList.add('wrapped');
@@ -236,8 +236,11 @@ window.addEventListener('load', (event) => {
       // button.setAttribute('commandfor', 'svgActions-menu');
     }
     if (target.matches('.wrapped > svg')) {
-      target.style.setProperty('anchor-name', '--anchor-svglisting');
-      currentSvg?.style.removeProperty('anchor-name');
+      target.parentElement?.style.setProperty(
+        'anchor-name',
+        '--anchor-svglisting',
+      );
+      currentSvg?.parentElement?.style.removeProperty('anchor-name');
 
       // document.querySelector('.svgActions')?.showPopover();
 
@@ -257,7 +260,12 @@ window.addEventListener('load', (event) => {
       currentSvg = target;
     }
   });
-  document.body.addEventListener(
+  // document.addEventListener('mouseleave', ({ target }) => {
+  //   if (target.matches('.svgListing:has( > .wrapped > svg)')) {
+  //     currentSvg?.parentElement?.style.removeProperty('anchor-name');
+  //   }
+  // });
+  document.querySelector('#svgActions-menu').addEventListener(
     'click',
     ({ target }) =>
       target.matches('.svgActions [data-copyas]') &&
@@ -266,4 +274,9 @@ window.addEventListener('load', (event) => {
       }),
     {},
   );
+  document
+    .querySelector('#svgActions-menu')
+    .addEventListener('mouseleave', ({ target }) => {
+      currentSvg?.parentElement?.style.removeProperty('anchor-name');
+    });
 });

@@ -65,7 +65,7 @@ const defaultContent = css``;
 const svgToCSSvar = (svg, varName) => css`--icon-${varName}: ${dataUrl(svg)};`;
 
 const utf8encodeSVG = (svg) =>
-  `data:image/svg+xml;charset=utf-8,${encodeURIComponent(sg)}`;
+  `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 
 const mini = (css) => css.replaceAll(/^\n|(?<=\n) *|\n *$/g, '');
 
@@ -171,39 +171,55 @@ const pregenerateCopyAs = (svg) =>
         background-image: ${dataUrl(svg)};
       `),
     ]),
-    Promise.resolve(['im-svg', new Blob([svg], { type: 'image/svg+xml' })]),
+    Promise.resolve([
+      'im-svg',
+      new Blob([utf8encodeSVG(svg)], { type: 'image/svg+xml' }),
+    ]),
 
     new Promise((resolve, reject) => {
       const tmpImg = document.createElement('img');
+      /* TODO: abort timeout */
       tmpImg.addEventListener('load', () => {
         const tmpCanvas = document.createElement('canvas');
         tmpCanvas.width = tmpImg.naturalWidth;
         tmpCanvas.height = tmpImg.naturalHeight;
-        canvas
+        tmpCanvas
           .getContext('2d')
           .drawImage(tmpImg, 0, 0, tmpImg.naturalWidth, tmpImg.naturalHeight);
-        canvas.toDataURL(`image/png`, 1.0);
-        canvas.toBlob((blob) => resolve(['im-png', blob]));
+        tmpCanvas.toDataURL(`image/png`, 1.0);
+        tmpCanvas.toBlob((blob) => resolve(['im-png', blob]));
       });
+      tmpImg.src = utf8encodeSVG(svg);
     }),
-  ]);
+  ]).then((results) =>
+    results.flatMap(({ status, value }) =>
+      status === 'fulfilled' ? [value] : [],
+    ),
+  );
 
 const notifyCopied = (target) =>
   target &&
   (target.classList.add('copied') ||
     setTimeout(() => target.classList.remove('copied'), 3000));
 
-const notifyCopyFailed = (target, message) =>
-  (target &&
-    (target.classList.add('copyfail') ||
-      setTimeout(() => target.classList.remove('copyfail'), 4000))) ||
-  (message && console.warn(message));
+const notifyCopyFailed = (target, message) => {
+  if (target) {
+    target.classList.add('copyfail');
+    setTimeout(() => target.classList.remove('copyfail'), 4000);
+  }
+  console.warn(message ?? 'copy failed');
+};
 
 window.addEventListener('load', (event) => {
-  let currentSvg = null;
   const svgMap = new WeakMap();
 
   const copy = (target, copyAs) => {
+    const currentSvg = document.querySelector('.wrapped.current > svg');
+
+    if (!currentSvg) {
+      notifyCopyFailed(target, 'Current SVG not found');
+      return;
+    }
     if (!svgMap.has(currentSvg)) {
       notifyCopyFailed(target, 'SVG missing');
       return;
@@ -225,39 +241,41 @@ window.addEventListener('load', (event) => {
         notifyCopyFailed(target, `Copy failed, err: ${err}`);
       });
   };
-  document.addEventListener('mouseenter', ({ target }) => {
+
+  const makeCurrentLast = () => {
+    document
+      .querySelectorAll('.wrapped.last')
+      .forEach((x) => x.classList.remove('last'));
+    document.querySelector('.wrapped.current')?.classList.add('last');
+    document
+      .querySelectorAll('.wrapped.current')
+      .forEach((x) => x.classList.remove('current'));
+  };
+
+  document.addEventListener('mouseover', ({ target }) => {
     if (target.matches(':not(.wrapped) > svg')) {
       const button = document.createElement('button');
       button.classList.add('wrapped');
-      // target.replaceWith(button);
       target.insertAdjacentElement('afterend', button);
       button.appendChild(target);
-      // button.setAttribute('command', 'toggle-popover');
-      // button.setAttribute('commandfor', 'svgActions-menu');
     }
-    if (target.matches('.wrapped > svg')) {
-      target.parentElement?.style.setProperty(
-        'anchor-name',
-        '--anchor-svglisting',
-      );
-      currentSvg?.parentElement?.style.removeProperty('anchor-name');
 
-      // document.querySelector('.svgActions')?.showPopover();
+    if (target.matches('.wrapped > svg')) {
+      makeCurrentLast();
+      target.parentElement?.classList.add('current');
 
       if (!svgMap.has(target)) {
-        pregenerateCopyAs(target.innerHTML).then((pregenerated) =>
+        pregenerateCopyAs(target.outerHTML).then((pregenerated) =>
           svgMap.set(target, new Map(pregenerated)),
         );
       }
 
-      target.style.setProperty(
+      target?.parentElement.style.setProperty(
         '--svg-name',
-        target.dataset.name ??
-          target.querySelector('[data-name]')?.dataset.name ??
+        target?.parentElement.dataset.name ??
+          target?.parentElement.querySelector('[data-name]')?.dataset.name ??
           '',
       );
-
-      currentSvg = target;
     }
   });
   // document.addEventListener('mouseleave', ({ target }) => {
@@ -276,7 +294,5 @@ window.addEventListener('load', (event) => {
   );
   document
     .querySelector('#svgActions-menu')
-    .addEventListener('mouseleave', ({ target }) => {
-      currentSvg?.parentElement?.style.removeProperty('anchor-name');
-    });
+    .addEventListener('mouseleave', () => makeCurrentLast());
 });

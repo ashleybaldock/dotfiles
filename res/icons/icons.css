@@ -238,7 +238,7 @@ svg {
 
 .svgListing {
   width: auto;
-  margin-right: calc((var(--item-size) * 3) + (var(--item-gap) * 1));
+  /* margin-right: calc((var(--item-size) * 3) + (var(--item-gap) * 1)); */
   align-content: first baseline;
   min-height: unset;
   display: grid;
@@ -259,6 +259,23 @@ svg {
   row-gap: var(--row-gap);
   column-gap: var(--column-gap);
   margin-bottom: var(--row-gap);
+}
+.svgListing::before {
+  content: attr(data-name);
+  grid-column: 1/-1;
+  background-color: #222;
+  display: flex;
+  text-align: end;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+  font-size: 1.23em;
+  font-family: Menlo, fixed-width;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.23em;
+  padding: 0;
+  margin: 0;
 }
 
 .svgListing h2 {
@@ -374,8 +391,6 @@ svg {
   border: var(--icon-border-width) var(--icon-border-style)
     var(--icon-border-color);
   box-shadow: 1px 1px 4px 1px #000;
-  pointer-events: none;
-  opacity: 0;
   transition-property: opacity 80ms ease 0ms;
   gap: unset;
   row-gap: unset;
@@ -391,19 +406,37 @@ svg {
   place-self: start center;
   top: calc(var(--item-size) + var(--item-gap));
   bottom: unset;
-  padding: calc(var(--icon-inset) * var(--pad-nearside) + var(--item-size))
-    var(--icon-inset) calc(var(--icon-inset) * var(--pad-farside))
-    var(--icon-inset);
   width: fit-content;
   display: grid;
   grid-column: 1/-1;
   grid-row: 1/-1;
-  position: absolute;
-  inset: auto;
   grid-template-columns: 10% 20% 20% 20% 20% 10%;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-auto-flow: row;
   grid-auto-columns: auto;
+  position: fixed;
+  position-anchor: --anchor-svgactions-current;
+  z-index: calc(Infinity);
+  opacity: 1;
+  position-visibility: anchors-valid;
+  padding: calc(var(--icon-inset) * var(--pad-nearside) * 0.5) var(--icon-inset)
+    calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset);
+  pointer-events: auto;
+  position-anchor: --anchor-svglisting-current;
+  inset: calc(
+      anchor(top, anchor(--anchor-svglisting-last top, 0)) + var(--icon-inset) *
+        var(--pad-nearside) * 0.5
+    )
+    anchor(right, anchor(--anchor-svglisting-last right, 0)) auto
+    anchor(left, anchor(--anchor-svglisting-last left, 0));
+  anchor-name: --anchor-svgactions;
+}
+.svgActions::after {
+  content: var(--anchor-svgactions);
+}
+
+.svgActions button::after {
+  content: attr(data-copyas);
 }
 
 .svgActions :where(.down, .copy, [data-copyas]) {
@@ -485,10 +518,8 @@ svg {
     background-position 200ms ease;
   background-image: var(--icon), var(--icon-error);
 }
-/*!}}}*/
 
 [data-copyas] {
-  /*! outline: 0.5px solid #aa0; */
   grid-column-end: span 2;
 }
 [data-copyas='svg'] {
@@ -536,66 +567,6 @@ svg {
   grid-column-start: 2;
 }
 
-.svgActions {
-  position: fixed;
-  position-anchor: --anchor-svgactions;
-  z-index: calc(Infinity);
-  opacity: 1;
-  inset: calc(
-      var(--icon-inset) * var(--pad-nearside) * 0.5 +
-        anchor(top, calc(Infinity * 1px))
-    )
-    anchor(right, calc(Infinity * 1px)) auto anchor(left, calc(Infinity * 1px));
-  padding: calc(var(--icon-inset) * var(--pad-nearside) * 0.5) var(--icon-inset)
-    calc(var(--icon-inset) * var(--pad-farside)) var(--icon-inset);
-  pointer-events: auto;
-}
-.svgActions::after {
-  content: var(--anchor-svgactions);
-}
-.svgActions button::after {
-  content: attr(data-copyas);
-}
-.svgListing svg:hover {
-  anchor-name: --anchor-svgactions;
-  --anchor-svgactions: attr(data-name);
-  z-index: 1;
-  width: calc((var(--item-size) * 3) + (var(--item-gap) * 2));
-  display: flex;
-  font-family: Menlo, fixed-width;
-  background-color: #111111f8;
-  border: var(--icon-border-width) var(--icon-border-style)
-    var(--icon-border-color);
-  box-shadow: 1px 1px 4px 1px #000;
-}
-
-.svgActions button::after {
-  content: attr(data-copyas);
-}
-.svgListing button {
-  display: flex;
-}
-.svgListing sbutton:hover {
-  outline: 1px solid #666;
-}
-.svgListing::before {
-  content: attr(data-name);
-  grid-column: 1/-1;
-  background-color: #222;
-  display: flex;
-  text-align: end;
-  align-items: center;
-  justify-content: end;
-  width: 100%;
-  font-size: 1.23em;
-  font-family: Menlo, fixed-width;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  line-height: 1.23em;
-  padding: 0;
-  margin: 0;
-}
-
 .svgActions li {
   display: contents;
 }
@@ -607,10 +578,34 @@ svg {
 .svgActions > button {
   color: yellow;
 }
+/*!}}}*/
 
-.svgListing button {
+.wrapped {
+  display: flex;
   grid-column: auto;
   grid-row: auto;
+  anchor-name: var(--anchor-name-menu);
+  font-family: Menlo, fixed-width;
+  border: var(--icon-border-width) var(--icon-border-style) #0000;
+  /* width: calc((var(--item-size) * 3) + (var(--item-gap) * 2)); */
+}
+.wrapped:hover {
+  --anchor-svgactions: attr(data-name);
+  outline: 1px solid #666;
+  z-index: 1;
+  background-color: #111111f8;
+  box-shadow: 1px 1px 4px 1px #000;
+  border-color: var(--icon-border-color);
+}
+
+.wrapped.current {
+  --anchor-name-menu: --anchor-svglisting-current;
+  outline: 1px solid #a66;
+}
+
+.wrapped.last {
+  --anchor-name-menu: --anchor-svglisting-last;
+  outline: 1px solid #aa6;
 }
 
 .controlgroup.overlap {

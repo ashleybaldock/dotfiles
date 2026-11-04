@@ -596,32 +596,6 @@ function s:UpdateStatuslines() abort
         \' %#SlMessI⸮# %*'
         \])
 
-  " Quickfix:
-  " ▌︎⃓ █︎⃓
-  let qf = '%#SlQfQf⸮#' .. symbols#get('pages.qf') .. '%*'
-  let qs = '%#SlQfSep⸮#' .. symbols#get('pages.qfsep') .. '%*'
-  let g:mayhem['sl_qfix_ag'] = format#CN([
-        \qs .. qf .. qs,
-        \'ag %#SlQf⸮#″️%#SlQfSearch⸮#%{%sl#qfsearch()%}%#SlQf⸮#″️%* ',
-        \qs,
-        \'%{%sl#qfcounts()%}',
-        \qs,
-        \eq,
-        \'%#SlHint⸮#%{%sl#qfdir()%}%*',
-        \'%#SlHint⸮#%{%sl#qfcmd()%}%*',
-        \' %{%ScrollHint()%} ',
-        \'%#SlQf⸮# %*'
-        \])
-
-  let g:mayhem['sl_qfix'] = format#CN([
-        \qs .. qf .. qs,
-        \' %#SlQf⸮#"%#SlQfSearch⸮#%{%sl#qftitle()%}%#SlQf⸮#"%* ',
-        \qs,
-        \eq,
-        \' %{%ScrollHint()%}',
-        \' %#SlQf⸮# %*',
-        \])
-
   " Netrw:
   let g:mayhem['sl_dir'] = format#CN([
         \'%#SlDir⸮#􀈕 %-F%*',

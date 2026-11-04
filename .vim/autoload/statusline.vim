@@ -157,6 +157,8 @@ endfunc
 
 
 function! statusline#updateQf(...) abort
+  let eq = get(g:, 'mayhem_debug_sl_eq', v:false)
+        \ ? '%#SlSep⸮#❮%=❮%*' : '%#SlSep⸮#%=%*'
 
   let query = get(g:, 'mayhem_last_ack_query', 'search')
   let esc = get(g:, 'mayhem_last_ack_escaped', 'escaped')
@@ -164,60 +166,34 @@ function! statusline#updateQf(...) abort
   let root = get(g:, 'mayhem_last_ack_root', 1)
   let lit = get(g:, 'mayhem_last_ack_literal', 1)
 
-  return get(g:, 'mayhem_last_ack_dir', '?/')
-  return get(g:, 'mayhem_last_ack_cmd', ' :?? ')
+  let dir = get(g:, 'mayhem_last_ack_dir', '?/')
+  let cmd = get(g:, 'mayhem_last_ack_cmd', ' :?? ')
 
+  " Quickfix:
+  " ▌︎⃓ █︎⃓
+  let qf = '%#SlQfQf⸮#' .. symbols#get('pages.qf') .. '%*'
+  let qs = '%#SlQfSep⸮#' .. symbols#get('pages.qfsep') .. '%*'
+  let g:mayhem['sl_qfix_ag'] = format#CN([
+        \qs .. qf .. qs,
+        \'ag %#SlQf⸮#″️%#SlQfSearch⸮#%{%sl#qfsearch()%}%#SlQf⸮#″️%* ',
+        \qs,
+        \'%{%sl#qfcounts()%}',
+        \qs,
+        \eq,
+        \'%#SlHint⸮#%{%sl#qfdir()%}%*',
+        \'%#SlHint⸮#%{%sl#qfcmd()%}%*',
+        \' %{%ScrollHint()%} ',
+        \'%#SlQf⸮# %*'
+        \])
 
-  let r = searchcount(#{recompute: 1})
-  if empty(r)
-    let b:mayhem.sl_cache_search = format#CN('')
-    return
-  endif
-  let symbol = symbols#CN('search.search')
-  let summary = ''
+  let g:mayhem['sl_qfix'] = format#CN([
+        \qs .. qf .. qs,
+        \' %#SlQf⸮#"%#SlQfSearch⸮#%{%sl#qftitle()%}%#SlQf⸮#"%* ',
+        \qs,
+        \eq,
+        \' %{%ScrollHint()%}',
+        \' %#SlQf⸮# %*',
+        \])
 
-  if r.incomplete ==# 1 " timed out
-    let summary = [
-      \'%#SlFPath⸮#', '𝚜𝚎𝚊𝚛𝚌𝚑 𝚝𝚒𝚖𝚎𝚍 𝚘𝚞𝚝', 
-      \]
-    let symbol = symbols#CN('search.timeout')
-  " elseif r.incomplete ==# 2 " max count exceeded
-  else
-    let summary = flatten([
-          \ r.total == 0 ? [
-          \  '%#SlFPath⸮#', symbols#CN('search.notfound'),
-          \ ] : [
-          \  r.exact_match ? [
-          \   r.current > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt'),] : [], 
-          \   '%#SlSearch⸮#', format#numbers(r.current),
-          \   '%#SlFPath⸮#', symbols#CN('search.of'),
-          \  ] : [
-          \   r.current == r.total ? [
-          \    '%#SlBetween⸮#', format#numbers(r.current),
-          \    '%#SlSearch⸮#', symbols#CN('search.after'),
-          \  ] : [
-          \    '%#SlSearch⸮#', symbols#CN('search.before'),
-          \    '%#SlBetween⸮#', format#numbers(r.current + 1),
-          \   ],
-          \   '%#SlFPath⸮#', symbols#CN('search.of'),
-          \ ],
-          \  r.total > r.maxcount ? ['%#SlGt⸮#', symbols#CN('search.gt'),] : [],
-          \  '%#SlSearch⸮#', format#numbers(r.total),
-          \ ],
-          \])
-  endif
-
-  let formattedSearch = statusline#formatSearch()
-
-  let b:mayhem.sl_cache_search = format#CN([
-      \'%#SlFPath⸮#', symbol, ' ', symbols#CN('search.quoteprefix'),
-      \'%#SlSearch⸮#', formattedSearch,
-      \'%#SlFPath⸮#', symbols#CN('search.quotesuffix'), ' ',
-      \'%#SlSearchSep⸮#',symbols#CN('search.sep'),
-      \'%#SlFPath⸮#', ' ',
-      \'%-20(',  summary, '%)',
-      \'%#SlFPath⸮#', ' ',
-      \'%*'
-      \])
 endfunc
 

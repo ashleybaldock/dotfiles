@@ -13,6 +13,8 @@ source <script>:p:h/common.vim
 
 if expand('%:p') == expand('$VIMHOME/plugin/statusline.vim')
       \ || expand('%:p') == expand('$VIMHOME/autoload/statusline.vim')
+      \ || expand('%:p') == expand('$VIMHOME/autoload/sl.vim')
+      \ || expand('%:p') == expand('$VIMHOME/autoload/tabline.vim')
   exec 'so ' .. expand('$VIMHOME/after/syntax/vim.statusline.vim')
 endif
 

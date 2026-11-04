@@ -20,7 +20,7 @@ syn match vimSlItem /%-\?0\?\%(50\|[1-4][0-9]\|[1-9]\)\?\.\?\%([1-9]\d*\)\?/
 syn match vimSlPer contained /%/ contains=NONE
       \ nextgroup=vimSlLeft,vimSlZeros,vimSlMinW,vimSlSep
 syn match vimSlPerEscaped contained /%\@1<=%/ contains=NONE conceal
-syn match vimSlPerEsc contained /%%/ containedin=vimString contains=vimSlPerEscaped
+syn match vimSlPerEsc contained /%%/ containedin=vimString,vimContinueString contains=vimSlPerEscaped
 
 syn match vimSlLeft /-/ contained contains=NONE nextgroup=vimSlZeros,vimSlMinW,vimSlSep conceal cchar=◂
 syn match vimSlZeros /0/ contained contains=NONE nextgroup=vimSlMinW,vimSlSep conceal cchar=𝟢

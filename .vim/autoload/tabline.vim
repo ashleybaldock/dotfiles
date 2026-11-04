@@ -102,9 +102,9 @@ function! tabline#gen_label_cache() abort
     let current = get(g:, 'actual_curtab', 0) == i
 
     call settabvar(i, 'mayhem_cache_guitablabel', [
-      \printf(" %s", modified ? " ̵̩̩" : " "),
-      \printf("%%{%%tabline#LabelDiag()%%} %%{%%tabline#cached_bufname()%%}"),
-      \printf("%s", current ? curul : tabul)
+      \ printf(" %s", modified ? " ̵̩̩" : " "),
+      \ printf("%%{%%tabline#LabelDiag()%%} %%{%%tabline#cached_bufname()%%}"),
+      \ printf("%s", current ? curul : tabul)
       \]->join("\n"))
   endfor
 endfunc

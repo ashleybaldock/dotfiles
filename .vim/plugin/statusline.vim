@@ -622,15 +622,6 @@ function s:UpdateStatuslines() abort
         \' %#SlQf⸮# %*',
         \])
 
-  let results == 0 ? 'no results' : format#CN([
-        \ '%{',
-        \ '%(',
-        \ ' %#SlQfCt⸮#%{%sl#qfct()%}%#SlQf⸮# %{%sl#qfctp()%}',
-        \ ' %{%sl#qfin()%} ',
-        \ '%#SlQfCt⸮#%{%sl#qffct()%}%#SlQf⸮# %{%sl#qffctp()%}',
-        \ ' %)',
-        \ '%* ',
-        \ '%}'])
   " Netrw:
   let g:mayhem['sl_dir'] = format#CN([
         \'%#SlDir⸮#􀈕 %-F%*',

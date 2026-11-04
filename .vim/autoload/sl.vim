@@ -75,13 +75,12 @@ function! sl#qfcounts() abort
   let results = getbufvar(bufnr(), 'mayhem_quickfix_count', 0)
   let files = getbufvar(bufnr(), 'mayhem_quickfix_filecount', 0)
 
-  return results == 0 ? 'no results' : format#CN([
-        \ '%{',
+  return (results == 0 ? 'no results' : format#CN([
         \ '%(',
         \ ' %#SlQfCt⸮#%{%sl#qfct()%}%#SlQf⸮# %{%sl#qfctp()%}',
         \ ' %{%sl#qfin()%} ',
         \ '%#SlQfCt⸮#%{%sl#qffct()%}%#SlQf⸮# %{%sl#qffctp()%}',
-        \ ' %)',
         \ '%* ',
-        \ '%}'])
+        \ ' %)',
+        \]))
 endfunc

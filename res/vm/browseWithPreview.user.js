@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.484
+// @version     1.0.489
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -1565,9 +1565,10 @@ const initBrowsePreview = ({ document: { body } }) => {
       for: 'toggle_playpause_paused',
     });
 
-    GM_addElement(canvasPlayerContainer, 'canvas', {
+    const canvas = GM_addElement(canvasPlayerContainer, 'canvas', {
       id: 'outputcanvas',
     });
+    let ctx = canvas.getContext('2d');
 
     const canvasSources = GM_addElement(to, 'section', {
       class: 'sources canvas',
@@ -1605,17 +1606,56 @@ const initBrowsePreview = ({ document: { body } }) => {
 
     interleave_active_player_count.subscribe(updateActiveSources);
 
+    const canvasUpdateLoop = (({ canvas }) => {
+      let lastChanged = Date.now(),
+        current,
+        running = false;
+      const interval = 100;
+
+      let maxVideoWidth = 0,
+        maxVideoHeight = 0;
+
+      const updateCanvasSize = () => {
+        canvas.setAttribute('width', maxVideoWidth);
+        canvas.setAttribute('height', maxVideoHeight);
+        ctx = canvas.getContext('2d');
+      };
+
+      const updateCanvas = () => {
+        const now = Date.now();
+        if (now >= lastChanged + interval || current === undefined) {
+          lastChanged = now;
+          const { done, value } = loopVideos.next();
+          if (!done) {
+            current = value;
+          }
+        }
+        if (running && current) {
+          ctx.drawImage(current, 0, 0, maxVideoWidth, maxVideoHeight);
+          requestAnimationFrame(updateCanvas);
+        }
+      };
+
+      updateCanvasSize(xwindow.innerWidth, window.innerHeight);
+
+      return {
+        start: () => (running = true && updateCanvas()),
+        stop: () => (running = false),
+        updateCanvasSize,
+      };
+    })({ canvas });
+
     const play = () => {
-      // TODO start requestAnimationFrame loop
       activeSources().forEach((source) => {
         source.play();
       });
+      canvasUpdateLoop.start();
     };
     const pause = () => {
-      // TODO stop requestAnimationFrame loop
       sources.forEach((source) => {
         source.pause();
       });
+      canvasUpdateLoop.stop();
     };
 
     const updatePlaybackState = (playbackState, activePlayer) =>

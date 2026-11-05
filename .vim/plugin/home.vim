@@ -3,6 +3,10 @@ if exists("g:mayhem_loaded_home")
 endif
 let g:mayhem_loaded_home = 1
 
+"
+" Related:
+"   $VIMHOME/autoload/home.vim
+"
 
 call autocmd_add([
       \#{

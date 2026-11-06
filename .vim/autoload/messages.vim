@@ -63,14 +63,43 @@ endfunc
 " Expand <SNR> in messages output with real file names      TODO
 "
 function! messages#expandSNR(messages) abort
-  return mapnew(a:messages,
+  let messages = flattennew([a:messages])
+  return map(messages,
         \{i, v -> substitute(v,
         \ '\%(\.\.\(function\|script\)\?\)\?<SNR>\(\d\+\)_\([^.[]\+\)\[\(\d*\)]',
-        \   {m -> "  " .. m[3] .. "		" .. m[1] .. getscriptinfo(#{
-        \ sid: str2nr(m[2], 10)})[0].name .. ':' .. m[4] .. "\n" }, 'g')->split("\n")})->flatten(1)
+        \ {m -> [
+        \  "  ",
+        \  m[3],
+        \  "		",
+        \  m[1],
+        \  getscriptinfo(#{sid: str2nr(m[2], 10)})[0].name,
+        \  ':',
+        \  m[4],
+        \  "\n",
+        \ ]},
+        \'g')
+        \->split("\n")
+        \})
+        \->flatten(1)
   "let replaceHome = map(replaceSNR,
   "     \ {_, p -> substitute(p, expand('$VIMHOME') .. '[]', 'g')
   return replaceSNR
+endfunc
+
+"
+" Error detected while processing function session#dispatch[1]..session#load[1]..script /Users/ashley/dotfiles/.vim/session/browsepreview.session.vim[213]..BufRead Autocommands for "*"..function dist#ft#DetectFromExt[9]..FileType Autocommands for "*"..Syntax Autocommands for "*"..function <SNR>6_SynSet[25]..script /Users/ashley/dotfiles/.vim/pack/default/start/vim-styled-components/after/syntax/javascript.vim[19]../Users/ashley/dotfiles/.vim/after/syntax/css.vim[831]..function mayhem#adjustcellwidths:
+"
+function! messages#formatTrace(messages) abort
+  let messages = flattennew([a:messages])
+  return map(messages,
+        \{i, v -> substitute(v,
+        \ '\_^Error detected while processing function.\{-}\zs\.\.\ze.\{-}\_$',
+        \ "\n\n",
+        \ 'g'
+        \)
+        \->split("\n")
+        \})
+        \->flatten(1)
 endfunc
 
 "
@@ -108,8 +137,9 @@ endfunc
 function! messages#refresh(msgbufnr = messages#bufnr(1)) abort
   let messages = messages#list()
   let messagesExpanded = messages#expandSNR(messages)
+  let messagesExpandedTrace = messages#formatTrace(messagesExpanded)
 
-  call messages#listToBuffer(a:msgbufnr, messages)
+  call messages#listToBuffer(a:msgbufnr, messagesExpandedTrace)
 endfunc
 
 "

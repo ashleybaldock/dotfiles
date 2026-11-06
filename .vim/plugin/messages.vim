@@ -4,7 +4,8 @@ endif
 let g:mayhem_loaded_messages = 1
 
 "
-" Highlighting:
+" Related:
+"  $VIMHOME/autoload/messages.vim
 "  $VIMHOME/syntax/vimmessages.vim
 "  $VIMHOME/syntax/vimscriptnames.vim
 "

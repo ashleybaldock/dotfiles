@@ -26,3 +26,12 @@ command! Messages call messages#split()
 nnoremap <silent><script> <Plug>(mayhem_messages_toggle) <Cmd>call messages#visible() ? messages#hide() : messages#split()<CR>
 
 nnoremap <silent><script> <Plug>(mayhem_messages_reload) <Cmd>call messages#visible() ? messages#reload() : messages#split()<CR>
+
+call autocmd_add([
+      \#{
+      \ event: 'User',
+      \ pattern: 'MayhemErr',
+      \ cmd: 'call messages#err()',
+      \ group: 'mayhem_err', replace: v:true,
+      \},
+      \])

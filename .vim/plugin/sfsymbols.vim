@@ -22,7 +22,8 @@ var sfrange_valid = printf('[U%08X-U%08X]', sfrange_start, sfrange_end)
 
 # Set all SF Symbol codepoints to be 2 chars wide
 # (the majority of them are at least that wide)
-call setcellwidths([[max([0x80, sfrange_start]), max([0x80, sfrange_end]), 2]])
+call mayhem#adjustcellwidths(max([0x80, sfrange_start]), max([0x80, sfrange_end]), 2)
+# call setcellwidths([[max([0x80, sfrange_start]), max([0x80, sfrange_end]), 2]])
 
 # TODO
 # This has to be done as non-overlapping parts of the sequence, bit tedious

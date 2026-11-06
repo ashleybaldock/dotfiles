@@ -828,7 +828,7 @@ hi def link specificity cssImportant
 "
 " Concealing - frivolous
 "
-call setcellwidths([[char2nr('﹐'),char2nr('﹫'),1]])
+call mayhem#adjustcellwidths('﹐', '﹫', 1)
 syn match cssUnitConc /%/ conceal cchar=﹪ transparent contained containedin=cssUnitDecorators contains=NONE
 syn match cssUnitConc /deg/ conceal cchar=° transparent contained containedin=cssUnitDecorators contains=NONE
 " syn match cssUnitConc /mm/ conceal cchar=㎜ transparent contained containedin=cssUnitDecorators contains=NONE

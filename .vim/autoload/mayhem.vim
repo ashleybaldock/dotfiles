@@ -179,6 +179,30 @@ endif
 function! mayhem#sequenceToggleNext(word = expand('<cword>')) abort
   if has_key(g:mayhem_sequence_toggles, a:word)
     call substitute('\<\S\{-}\%#\S\{-}\>', s:seqtoggles[a:word], 'g')
-  else
   endif
+endfunc
+
+"
+" Change cell width of characters in range [{from}, {to}] to {width}
+"
+" This merges the change with the output of getcellwidths()
+"
+" width can be 1, 2, or 0 to remove that range from the list
+"
+function! mayhem#adjustcellwidths(from, to, width) abort
+  let from = type(a:from) == v:t_string ? char2nr(a:from) : a:from
+  let to = type(a:to) == v:t_string ? char2nr(a:to) : a:to
+
+  let a = getcellwidths()
+        \->filter({i, v -> v[0] >= from && v[1] <= to})
+        \->map({i, v -> [
+        \  (v[0] < from || v[0] > to) ? v[0] : to + 1,
+        \  (v[1] < from || v[1] > to) ? v[1] : from - 1,
+        \  v[2],
+        \]})
+        \->add([from, to, a:width])
+        \->filter({i, v -> v[2] > 0})
+        " \->setcellwidths()
+  echo a
+  call setcellwidths(a)
 endfunc

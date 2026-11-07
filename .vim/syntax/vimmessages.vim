@@ -27,11 +27,6 @@ syn match vimMsgNum '\%(:\|\s\)\@1<=\d\+' contained
 
 syn match vimMsgNum '^\d\+$' contains=NONE
 
-hi def vimMsgDict none
-hi def link vimMsgDictBrace Delimiter
-hi def link vimMsgStr String
-hi def link vimMsgNum Number
-
 syn region vimMsgError
       \ start=+^\%(Vim\%((\S\+)\)\?:\|Err\%[or]:\?\)\?\(E\d\+\)+
       \ end=+$+
@@ -39,12 +34,17 @@ syn region vimMsgError
 
 syn match vimMsgErrNum 'E\d\+:' contained
 
-      " \ start=+\%( \)\@2<=\/+
+syn match vimMsgPthDelim +/+ contained contains=NONE
+syn region vimMsgPthLnum contained oneline
+      \ matchgroup=vimMsgPthDelim start='\['
+      \ end=']'
 syn region vimMsgPath contained oneline
       \ start=+ \ze\/+
+      \ start=+\.\.\zs\/+
       \ end=+\ze\.\.+
       \ end=+\ze:+
-      " \ contains=vimMsgPathNlb4
+      \ contains=vimMsgPthLnum,vimMsgPthDelim
+      \ nextgroup=vimMsgPth skipnl
 
 " syn match vimMsgPathNlb4 / \ze\// contained conceal cchar=
 
@@ -56,28 +56,32 @@ syn region vimMsgPath contained oneline
       " \ start=+\%(\.\.\\)\@2<=%(function \)\?<SNR>+
 syn region vimMsgFunc contained
       \ start=+<SNR>+
+      \ start=+function \zs+
       \ end=+\ze\.\.+
-      \ contains=vimMsgFnSNR,vimMsgFnName,vimMsgFnLn,vimMsgnoise
+      \ end=+\ze\s+
+      \ contains=vimMsgFnSNR,vimMsgFnName,vimMsgFnLn,vimMsgNoise,vimMsgAutoSep
 
 syn match vimMsgLastFn '\%(\.\.\)\@2<=\a\w\+\ze:$' contained
 
 syn region vimMsgFnSNR contained
-      \ matchgroup=vimMsgnoise start=+<+
-      \ matchgroup=vimMsgnoise end=+>+
+      \ matchgroup=vimMsgNoise start=+<+
+      \ matchgroup=vimMsgNoise end=+>+
 
 syn region vimMsgFnLn contained
-      \ matchgroup=vimMsgnoise start=+\[+
-      \ matchgroup=vimMsgnoise end=+\]+
+      \ matchgroup=vimMsgNoise start=+\[+
+      \ matchgroup=vimMsgNoise end=+\]+
 
-syn match vimMsgFnName '\a\w\+' contained
+syn match vimMsgFnName '\a\w\+' contained contains=NONE
 
-syn match vimMsgAuName '\w\+\ze Autocommands' contained
+syn match vimMsgAutoSep '#' contained contains=NONE
 
-syn region vimMsgStack contains=vimMsgFnName,vimMsgAuCmd
+syn match vimMsgAuName '\w\+\ze Autocommands' contained contains=NONE
+
+syn region vimMsgStack contains=vimMsgFunc,vimMsgAuName,vimMsgPath,vimMsgStr
       \ start='Error detected while'
       \ end=':'
 
-syn match vimMsgnoise '_' contained
+syn match vimMsgNoise '_' contained
 
 syn match vimMsgLineNr '^line\s\+\d\+.*$'
 
@@ -92,19 +96,28 @@ syn match vimMsgTitle '-- \w\+ Messages --' fold
 
 syn match vimMsgTitle '⁓ Fin ⁓'
 
+hi def vimMsgDict none
+hi def link vimMsgDictBrace Delimiter
+hi def link vimMsgStr String
+hi def link vimMsgNum Number
+
 hi def vimMsgOk       guifg=#066606
 hi def vimMsgLineNr   guifg=#dddd00
-hi def vimMsgError    guifg=#dd2222
-hi def vimMsgErrNum   guifg=#ff0000 guibg=#880000 
+hi def vimMsgStack    guifg=#dddddd
+hi def vimMsgError    guifg=#ff2222
+hi def vimMsgErrNum   guifg=#ff2222 guibg=#550000 
 hi def vimMsgWrite    guifg=#00bb33
 hi def vimMsgPath     guifg=#55dddd
+hi def vimMsgPthLnum  guifg=#77dddd
+hi def vimMsgPthDelim guifg=#339999
 hi def vimMsgFunc     guifg=#339933
-hi def vimMsgnoise    guifg=#393939
+hi def vimMsgNoise    guifg=#393939
 hi def vimMsgFnSNR    guifg=#339933
 hi def vimMsgFnSep    guifg=#393939
 hi def link vimMsgFnLn vimMsgFnSNR
 hi def link vimMsgFnName Function
-hi def link vimMsgAuName Function
+hi def link vimMsgAutoSep Statement
+hi def link vimMsgAuName Type
 hi def link vimMsgCompileFn vimMsgFunc
 hi def link vimMsgCompile vimMsgOk
 hi def link vimMsgLastFn Function

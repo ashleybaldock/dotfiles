@@ -71,6 +71,12 @@ syn region vimMsgFnLn contained
 
 syn match vimMsgFnName '\a\w\+' contained
 
+syn match vimMsgAuName '\w\+\ze Autocommands' contained
+
+syn region vimMsgStack contains=vimMsgFnName,vimMsgAuCmd
+      \ start='Error detected while'
+      \ end=':'
+
 syn match vimMsgnoise '_' contained
 
 syn match vimMsgLineNr '^line\s\+\d\+.*$'
@@ -86,7 +92,6 @@ syn match vimMsgTitle '-- \w\+ Messages --' fold
 
 syn match vimMsgTitle '⁓ Fin ⁓'
 
-
 hi def vimMsgOk       guifg=#066606
 hi def vimMsgLineNr   guifg=#dddd00
 hi def vimMsgError    guifg=#dd2222
@@ -99,6 +104,7 @@ hi def vimMsgFnSNR    guifg=#339933
 hi def vimMsgFnSep    guifg=#393939
 hi def link vimMsgFnLn vimMsgFnSNR
 hi def link vimMsgFnName Function
+hi def link vimMsgAuName Function
 hi def link vimMsgCompileFn vimMsgFunc
 hi def link vimMsgCompile vimMsgOk
 hi def link vimMsgLastFn Function

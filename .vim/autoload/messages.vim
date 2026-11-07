@@ -91,7 +91,7 @@ endfunc
 function! messages#formatTrace(messages) abort
   return flattennew([a:messages])->map(
         \{i, v -> v =~ '\_^Error detected while processing function'
-        \ ? split(v, '\ze\.\.')
+        \ ? split(v, '\.\.')->map({ii,vv -> ii == 0 ? vv : '‥' .. vv})
         \ : v
         \})
         \->flatten()
@@ -114,13 +114,18 @@ function! messages#bufnr(create = v:false) abort
 
     call autocmd_add([
           \#{
-          \ event: 'ExitPre', replace: v:true,
+          \ event: 'QuitPre', replace: v:true,
           \ bufnr: s:bufnr_messages, group: 'mayhem_messages_quit',
           \ cmd: 'quit',
           \},
           \#{
+          \ event: 'CursorHold', replace: v:true,
+          \ pattern: '*', group: 'mayhem_messages_reload',
+          \ cmd: 'call messages#refresh()',
+          \},
+          \#{
           \ event: 'WinEnter', replace: v:true,
-          \ bufnr: s:bufnr_messages, group: 'mayhem_messages_quit',
+          \ bufnr: s:bufnr_messages, group: 'mayhem_messages_quit_if_only',
           \ cmd: 'if winnr(''$'') == 1 | quit | endif',
           \},
           \])

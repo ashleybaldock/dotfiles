@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        traintimes
 // @namespace   mayhem
-// @version     1.0.14
+// @version     1.0.31
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/traintimes.user.js
@@ -20,47 +20,47 @@
 // @cssBaseName traintimes
 // ==/UserScript==
 
-const svgFilterDots = html`
-  <svg xmlns="http://www.w3.org/2000/svg">
-    <filter id="filter-dots8" x="0" y="0" width="100%" height="100%">
-      <feFlood
-        x="-0.036lh"
-        y="-0.036lh"
-        flood-color="#f00"
-        result="fld1"
-        flood-opacity="1"
-        width="0.125lh"
-        height="0.125lh"
-      ></feFlood>
-      <feComposite
-        height="0.125lh"
-        width="0.125lh"
-        in2="SourceGraphic"
-        x="0.036lh"
-        y="0.036lh"
-        result="cmp1"
-        in="fld1"
-        operator="arithmetic"
-        k2="0"
-        k1="2"
-        k3="0"
-        k4="-1"
-      ></feComposite>
-      <feTile
-        y="0"
-        x="0"
-        height="100%"
-        width="100%"
-        result="til1"
-        in="cmp1"
-      ></feTile>
-      <feComposite in="SourceGraphic" operator="in" in2="til1"></feComposite>
-    </filter>
-  </svg>
-`;
+// const svgFilterDots = html`
+//   <svg xmlns="http://www.w3.org/2000/svg">
+//     <filter id="filter-dots8" x="0" y="0" width="100%" height="100%">
+//       <feFlood
+//         x="-0.036lh"
+//         y="-0.036lh"
+//         flood-color="#f00"
+//         result="fld1"
+//         flood-opacity="1"
+//         width="0.125lh"
+//         height="0.125lh"
+//       ></feFlood>
+//       <feComposite
+//         height="0.125lh"
+//         width="0.125lh"
+//         in2="SourceGraphic"
+//         x="0.036lh"
+//         y="0.036lh"
+//         result="cmp1"
+//         in="fld1"
+//         operator="arithmetic"
+//         k2="0"
+//         k1="2"
+//         k3="0"
+//         k4="-1"
+//       ></feComposite>
+//       <feTile
+//         y="0"
+//         x="0"
+//         height="100%"
+//         width="100%"
+//         result="til1"
+//         in="cmp1"
+//       ></feTile>
+//       <feComposite in="SourceGraphic" operator="in" in2="til1"></feComposite>
+//     </filter>
+//   </svg>
+// `;
 
 const initTraintimes = ({ document }) => {
-  (({ id }) => {
+  (({ id, to = document.body }) => {
     const dots = 8;
     const ratio = 0.6;
 
@@ -68,22 +68,38 @@ const initTraintimes = ({ document }) => {
     const dotH = (1 * ratio) / dots;
     const gap = (1 - 1 * ratio) / (dots - 1);
     const gap2 = gap / 2;
-    const fld1 = qs`${id} > feFlood:first-of-type`.one;
 
     const fix3 = parseMap((x) => x.toFixed(3));
 
+    const svg = createElementSVG('svg');
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    to.appendChild(svg);
+
+    const filter = createElementSVG('filter');
+    svg.appendChild(filter);
+    filter.setAttribute('id', 'filter-dots8');
+    filter.setAttribute('x', '0');
+    filter.setAttribute('y', '0');
+    filter.setAttribute('width', '100%');
+    filter.setAttribute('height', '100%');
+
+    const fld1 = createElementSVG('feFlood');
+    filter.appendChild(fld1);
     fld1.setAttribute('result', 'fld1');
     fld1.setAttribute('x', fix3`-${gap2}lh`);
     fld1.setAttribute('y', fix3`-${gap2}lh`);
     fld1.setAttribute('width', `${doth}lh`);
     fld1.setAttribute('height', `${doth}lh`);
     fld1.setAttribute('flood-opacity', '1');
+    fld1.setAttribute('flood-color', '#f00');
 
-    const cmp1 = qs`${id} > feComposite:first-of-type`.one;
+    const cmp1 = createElementSVG('feComposite');
+    filter.appendChild(cmp1);
     cmp1.setAttribute('x', fix3`${gap2}lh`);
     cmp1.setAttribute('y', fix3`${gap2}lh`);
     cmp1.setAttribute('width', `${doth}lh`);
     cmp1.setAttribute('height', `${doth}lh`);
+    cmp1.setAttribute('result', 'cmp1');
     cmp1.setAttribute('in', 'fld1');
     cmp1.setAttribute('in2', 'SourceGraphic');
     cmp1.setAttribute('operator', 'arithmetic');
@@ -92,11 +108,26 @@ const initTraintimes = ({ document }) => {
     cmp1.setAttribute('k2', 0); /* in  */
     cmp1.setAttribute('k3', 0); /* in2 */
     cmp1.setAttribute('k4', 0); /* */
-  })({ id: '#filter-dots8' });
+
+    const til1 = createElementSVG('feTile');
+    filter.appendChild(til1);
+    til1.setAttribute('y', '0');
+    til1.setAttribute('x', '0');
+    til1.setAttribute('height', '100%');
+    til1.setAttribute('width', '100%');
+    til1.setAttribute('result', 'til1');
+    til1.setAttribute('in', 'cmp1');
+
+    const cmp2 = createElementSVG('feComposite');
+    filter.appendChild(cmp2);
+    cmp2.setAttribute('in', 'SourceGraphic');
+    cmp2.setAttribute('operator', 'in');
+    cmp2.setAttribute('n2', 'til1');
+  })({ id: 'filter-dots8' });
 
   // const clone = qs`#content > h2`.one.cloneNode(true);
-  const textSplits = [[`#content > h2`, /\s*(to|,)\s*/]];
-  qs`#content > h2`.one.childNodes.forEach((node) => {
+  const textSplits = [[`#content > h1`, /\s*(to|,)\s*/]];
+  qs`#content h1`.one.childNodes.forEach((node) => {
     if (node.nodeName === '#text') {
       const wrapper = document.createElement('span');
       wrapper.dataset.orig = node.textContent;
@@ -133,7 +164,11 @@ const traintimesToggleIds = addStyleToggles([
     .then(({ window, unsafeWindow }) => {
       console.debug('document ready');
 
-      initTraintimes(unsafeWindow);
+      return Promise.all([
+        matchExistsFor('#content').then((/* node */) => {
+          initTraintimes(unsafeWindow);
+        }),
+      ]);
     })
     .catch((e) => console.warn(e)),
 );

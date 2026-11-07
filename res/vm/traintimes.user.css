@@ -618,3 +618,18 @@ header {
   justify-self: center;
   text-align: center;
 }
+
+.results > li > strong {
+  filter: var(--f-dots8);
+}
+
+.results {
+  grid-template-rows: subgrid;
+}
+
+#content {
+  grid-template-rows: [earlier-start later-start] 1fr [earlier-end later-end fromto-start] 1fr [fromto-end results-start] repeat(
+      6,
+      auto
+    ) [results-end earlier-start later-start] 1fr [earlier-end later-end];
+}

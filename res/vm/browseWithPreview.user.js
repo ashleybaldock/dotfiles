@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.489
+// @version     1.0.492
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -1568,36 +1568,70 @@ const initBrowsePreview = ({ document: { body } }) => {
     const canvas = GM_addElement(canvasPlayerContainer, 'canvas', {
       id: 'outputcanvas',
     });
-    let ctx = canvas.getContext('2d');
-
-    const canvasSources = GM_addElement(to, 'section', {
-      class: 'sources canvas',
-    });
 
     const filelist = getFileList();
 
     const nextFile = async () => await filelist.next();
 
-    const sources = [
-      ...mapIter(
-        rangeIter({
-          start: 0,
-          count: Math.max(...defaultConfig.interleave_active_player_count.kind),
-        }),
-        (i) =>
-          addWrappedSource({
-            to: canvasSources,
-            class: `i${i}`,
-            id: `i${i}`,
-            idx: i,
-            nextFile,
-            autoplay: false,
+    const activeSources = (({
+      config: {
+        player,
+        playpause,
+        interleave_active_player_count,
+        imageduration,
+        interleave_duration_ms,
+        interleave_bpm,
+        interleave_timing,
+        interleave_max_samples,
+        interleave_sampling,
+        repeat_playing,
+      },
+    }) => {
+      const canvasSources = GM_addElement(to, 'section', {
+        class: 'sources canvas',
+      });
+
+      const sources = [
+        ...mapIter(
+          rangeIter({
+            start: 0,
+            count: Math.max(
+              ...defaultConfig.interleave_active_player_count.kind,
+            ),
           }),
-      ),
-    ];
-    const activeSources = () => [
-      ...takeIter(sources.values(), interleave_active_player_count.value),
-    ];
+          (i) =>
+            addWrappedSource({
+              to: canvasSources,
+              class: `i${i}`,
+              id: `i${i}`,
+              idx: i,
+              nextFile,
+              autoplay: false,
+            }),
+        ),
+      ];
+
+      async function* filteredFiles() {
+        files ?? load();
+
+        while (true) {
+          for (const file of files.filter(({ url }) => _filter.test(url))) {
+            yield Promise.resolve(file);
+          }
+          if (reload_on_repeat.value) {
+            load();
+          } else {
+            if (shuffle_on_repeat.value) {
+              shuffle();
+            }
+          }
+        }
+      }
+
+      const activeSources = () => [
+        ...takeIter(sources.values(), interleave_active_player_count.value),
+      ];
+    })();
 
     const updateActiveSources = (activeSourceCount) =>
       sources.forEach((source, i) =>
@@ -1606,10 +1640,11 @@ const initBrowsePreview = ({ document: { body } }) => {
 
     interleave_active_player_count.subscribe(updateActiveSources);
 
-    const canvasUpdateLoop = (({ canvas }) => {
+    const canvasUpdateLoop = (({ canvas, sources }) => {
       let lastChanged = Date.now(),
         current,
         running = false;
+      ctx = canvas.getContext('2d');
       const interval = 100;
 
       let maxVideoWidth = 0,
@@ -1625,7 +1660,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         const now = Date.now();
         if (now >= lastChanged + interval || current === undefined) {
           lastChanged = now;
-          const { done, value } = loopVideos.next();
+          const { done, value } = sources.next();
           if (!done) {
             current = value;
           }
@@ -1636,14 +1671,14 @@ const initBrowsePreview = ({ document: { body } }) => {
         }
       };
 
-      updateCanvasSize(xwindow.innerWidth, window.innerHeight);
+      updateCanvasSize(window.innerWidth, window.innerHeight);
 
       return {
         start: () => (running = true && updateCanvas()),
         stop: () => (running = false),
         updateCanvasSize,
       };
-    })({ canvas });
+    })({ canvas, sources: activeSources });
 
     const play = () => {
       activeSources().forEach((source) => {

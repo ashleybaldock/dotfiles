@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        traintimes
 // @namespace   mayhem
-// @version     1.0.31
+// @version     1.0.32
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/traintimes.user.js
@@ -155,6 +155,9 @@ const traintimesToggleIds = addStyleToggles([
     sources: [
       {
         baseName: 'traintimes',
+      },
+      {
+        baseName: 'traintimes.anim',
       },
     ],
   },

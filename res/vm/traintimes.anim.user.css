@@ -7,24 +7,27 @@
   }
 }
 
-.results > li > strong :is(span)::before {
+.scroll::before,
+.wipe::before {
   content: '⸮';
   display: inline-block;
 }
-.results > li > strong :is(span)::after {
+.scroll::after,
+.wipe::after {
   display: inline-block;
   transform: scaleY(-1);
   content: '?';
 }
-.results > li > strong :is(.scrollfrombottom)::before {
+.scroll.frombottom::before {
   animation: 2s linear infinite normal running scrollfrombottom;
   /*   animation-delay: 10s; */
   animation-timing-function: steps(8);
 }
-.results > li > strong :is(.scrolltobottom)::before {
+.scroll.tobottom::before {
   animation: 2s linear infinite normal running scrolltobottom;
 }
-.results > li > strong :is(.scrollfromtop, .scrolltotop) {
+.scroll.fromtop,
+.scroll.totop {
   align-self: center;
   padding-bottom: 1em;
   margin-top: -1em;
@@ -36,20 +39,20 @@
   mask-origin: content-box, border-box;
   line-height: 1em;
 }
-.results > li > strong :is(.scrollfromtop)::after {
+.scroll.fromtop::after {
   /*   animation: 2s linear 1s infinite normal running scrollfromtop; */
 }
-.results > li > strong :is(.scrolltotop)::after {
+.scroll.totop::after {
   /*   animation: 2s linear 1s infinite normal running scrolltotop; */
 }
 
-.results > li > strong :is(.wipefromright)::before {
+.wipe.fromright::before {
   content: '▗▉██▊▋█▐▘';
   animation: 3s linear 1s infinite normal running wipefromleft;
   transform: rotate(-4deg) skew(-4deg, 0deg) scale(0.12, 4) translate(1px, -2px);
 }
 
-.results > li > strong :is(.wipefromleft)::before {
+.wipe.fromleft::before {
   content: '▗▉██▊▋█▐▘';
   animation: 3s linear 1s infinite normal running wipefromleft;
   transform: rotate(-4deg) skew(-4deg, 0deg) scale(-0.12, -4)
@@ -57,15 +60,10 @@
   animation-timing-function: steps(80);
 }
 
-.origin.name {
-}
-.origin.name.scrolltotop {
+.origin.name.scroll.totop {
   animation-name: wipefromleft, scrollfromtop;
   animation-duration: 3s, 3s, 3s;
   animation-delay: 0s, 6s, 6s;
-}
-.results > li > strong :is(.scrolltotop.wipefromleft)::before,
-.results > li > strong :is(.scrolltotop.wipefromleft)::after {
 }
 
 @keyframes wipefromleft {

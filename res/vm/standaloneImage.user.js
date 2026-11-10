@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.344
+// @version     1.2.351
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -397,37 +397,77 @@ const initStandaloneImage = ({
     };
 
     const mousemove = (e) => {
-      const { clientWidth: pageW, clientHeight: pageH } =
-        document.documentElement;
-      const { pageX, pageY } = e;
+      const dims = {
+        pageW: document.documentElement.clientWidth,
+        pageH: document.documentElement.clientHeight,
+        pageX: e.pageX,
+        pageY: e.pageY,
+        screenW: window.screen.width,
+        screenH: window.screen.height,
+        screenX: e.screenX,
+        screenY: e.screenY,
+        viewportW: window.innerWidth,
+        viewportH: window.innerHeight,
+        viewportX: e.clientX,
+        viewportY: e.clientY,
+        offsetW: document.documentElement.offsetWidth,
+        offsetH: document.documentElement.offsetHeight,
+        offsetX: e.offsetX,
+        offsetY: e.offsetY,
+        deltaX: e.deltaY,
+        deltaY: e.deltaX,
+        scrollX: window.scrollX,
+        scrollY: window.scrollY,
+      };
 
-      const { width: screenW, height: screenH } = window.screen;
-      const { screenX, screenY } = e;
-
-      const { innerWidth: viewportW, innerHeight: viewportH } = window;
-      const { clientX: viewportX, clientY: viewportY } = e;
-
-      const { offsetWidth: offsetW, offsetHeight: offsetH } =
-        document.documentElement;
-      const { offsetX, offsetY } = e;
-
-      const { movementX: deltaX, movementY: deltaY } = e;
-
-      const widest = Math.max(pageW, screenW, viewportW);
-      const tallest = Math.max(pageH, screenH, viewportH);
+      const widest = Math.max(dims.pageW, dims.screenW, dims.viewportW);
+      const tallest = Math.max(dims.pageH, dims.screenH, dims.viewportH);
       const padTo = Math.max(widest, tallest).toString().length;
 
-      const pageSame = viewportX === pageX && viewportY === pageY;
+      const pageSame =
+        dims.viewportX === dims.pageX && dims.viewportY === dims.pageY;
 
-      // log(pad([ ['s', 4], ['e', 4], ])`
-      log(padAlternateEndStart(4)`
+      body.style.setProperty('--selectXend', maxX);
+
+      Object.entries(dims).forEach((k, v) =>
+        body.style.setProperty(`--${k}`, v),
+      );
+
+      const formatDims = ({
+        viewportX,
+        viewportY,
+        viewportW,
+        viewportH,
+        screenX,
+        screenY,
+        screenW,
+        screenH,
+        deltaX,
+        deltaY,
+        pageX,
+        pageY,
+        pageW,
+        pageH,
+        offsetX,
+        offsetY,
+        offsetW,
+        offsetH,
+        scrollX,
+        scrollY,
+      }) => padAlternateEndStart(4)`
 viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
   screen: ${screenX},${screenY} (${screenW}×${screenH})
    delta: ${deltaX},${deltaY}
     page: ${pageX},${pageY} (${pageW}×${pageH})
   offset: ${offsetX},${offsetY} (${offsetW}×${offsetH})
-  scroll: ${window.scrollX},${window.scrollY}
-      `);
+  scroll: ${scrollX},${scrollY}
+      `;
+
+      const formattedDims = formatDims(dims);
+      // log(pad([ ['s', 4], ['e', 4], ])`
+      log(formattedDims);
+      body.style.setProperty('--dims-formatted', formattedDims);
+
       const { pressed } = buttonsPressed(e);
       if (selecting()) {
         if (pressed.left) {

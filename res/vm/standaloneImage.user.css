@@ -190,6 +190,103 @@
   initial-value: 0.4;
 }
 
+/* cursor position */
+@property --viewportX {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --viewportY {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --viewportW {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --viewportH {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --screenX {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --screenY {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --screenW {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --screenH {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --deltaX {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --deltaY {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --pageX {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --pageY {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --pageW {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --pageH {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --offsetX {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --offsetY {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --offsetW {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --offsetH {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+/*}}}1*/
+
 /* Selection (mouse positions) */
 @property --selectXstart {
   syntax: '<number>';

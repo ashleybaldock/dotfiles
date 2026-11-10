@@ -997,6 +997,7 @@
     margin: 0;
     max-width: 100vw;
     inset: unset;
+    box-sizing: border-box;
   }
   .breadcrumbs.top {
     top: 0;
@@ -2052,7 +2053,7 @@
     background-image: var(--bgimage, var(--bgimage-null));
     background-repeat: repeat;
   }
-  img.transparent {
+  :where(img.transparent, img.transparent ~ canvas) {
     color: unset;
     border: 0;
     padding: 0;
@@ -2064,10 +2065,12 @@
   }
 
   /* outline around image */
-  :root:has(#tgl_out:checked):has(#tgl_sun:not(:checked)) img.transparent {
+  :root:has(#tgl_out:checked):has(#tgl_sun:not(:checked))
+    :where(img.transparent, img.transparent ~ canvas) {
     --img-olcolor: var(--color-image-ol-dark);
   }
-  :root:has(#tgl_out:checked):has(#tgl_sun:checked) img.transparent {
+  :root:has(#tgl_out:checked):has(#tgl_sun:checked)
+    :where(img.transparent, img.transparent ~ canvas) {
     --img-olcolor: var(--color-image-ol-bright);
   }
 
@@ -2078,7 +2081,8 @@
     --bgcolor: var(--bgcolor-dark);
     --color: var(--color-dark);
   }
-  :root:has(#tgl_sun:not(:checked)) img.transparent {
+  :root:has(#tgl_sun:not(:checked))
+    :where(img.transparent, img.transparent ~ canvas) {
     --img-bgcolor: var(--color-image-bg-dark);
     --img-bshadow: var(--bshadow-outline-dark);
   }
@@ -2089,7 +2093,8 @@
     --bgcolor: var(--bgcolor-bright);
     --color: var(--color-bright);
   }
-  :root:has(#tgl_sun:checked) img.transparent {
+  :root:has(#tgl_sun:checked)
+    :where(img.transparent, img.transparent ~ canvas) {
     --img-bgcolor: var(--color-image-bg-bright);
     --img-bshadow: var(--bshadow-outline-bright);
   }

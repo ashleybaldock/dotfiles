@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.343
+// @version     1.2.344
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -43,8 +43,7 @@ const initStandaloneImage = ({
   const isTransparent = firstChild?.classList.contains('transparent');
 
   if (isTiny) {
-    firstChild.classList.add('tiny');
-    body.classList.add('pixelgrid', 'dims');
+    body.classList.add('tiny', 'pixelgrid', 'dims');
   }
 
   const wikilink = ({ to: parent, path = document.URL }) => {

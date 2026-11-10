@@ -414,7 +414,7 @@
     pointer-events: none;
     user-select: none;
   }
-   :root:has(#tgl_dbg:checked) .output {
+  :root:has(#tgl_dbg:checked) .output {
     outline: 0.5px dashed #ff08;
   }
   :root:has(#tgl_dbg:checked) .output > output {
@@ -499,7 +499,9 @@
   .output.width {
     --prefix: 'width ';
     --value: var(--naturalw);
-    inset: auto calc(anchor(right, var(--px-imright))) calc(anchor(top, var(--px-imtop)) + 2ch ) calc(anchor(left, var(--px-imleft)));
+    inset: auto calc(anchor(right, var(--px-imright)))
+      calc(anchor(top, var(--px-imtop)) + 2ch)
+      calc(anchor(left, var(--px-imleft)));
     padding-bottom: var(--endlength);
     background-repeat: no-repeat;
 
@@ -517,20 +519,26 @@
     background-size: 100% var(--endlength);
     --t: 1px;
     background-image:
-      linear-gradient(0deg,
+      linear-gradient(
+        0deg,
         #0000 0 calc(50% - var(--t) * 0.5),
         var(--color) calc(50% - var(--t) * 0.5) calc(50% + var(--t) * 0.5),
-        #0000 calc(50% + var(--t) * 0.5) 100%),
-      linear-gradient(90deg,
+        #0000 calc(50% + var(--t) * 0.5) 100%
+      ),
+      linear-gradient(
+        90deg,
         var(--color) 0 var(--t),
         #0000 var(--t) calc(100% - var(--t)),
-        var(--color) calc(100% - var(--t)) 100%);
+        var(--color) calc(100% - var(--t)) 100%
+      );
   }
   .output.height {
     --prefix: 'height\0a ';
     --value: var(--naturalh);
     --suffix: 'px';
-    inset: anchor(top, var(--px-imtop)) calc(anchor(left, var(--px-imleft)) + 2ch) anchor(bottom, var(--px-imbottom)) auto;
+    inset: anchor(top, var(--px-imtop))
+      calc(anchor(left, var(--px-imleft)) + 2ch)
+      anchor(bottom, var(--px-imbottom)) auto;
     height: anchor-size(height, var(--px-imheight));
     position-anchor: --anchor-image;
     padding-right: calc(var(--endlength) * 2);
@@ -545,14 +553,18 @@
     background-size: var(--endlength) 100%;
     --t: 1px;
     background-image:
-      linear-gradient(90deg,
+      linear-gradient(
+        90deg,
         #0000 0 calc(50% - var(--t) * 0.5),
         var(--color) calc(50% - var(--t) * 0.5) calc(50% + var(--t) * 0.5),
-        #0000 calc(50% + var(--t) * 0.5) 100%),
-      linear-gradient(0deg,
+        #0000 calc(50% + var(--t) * 0.5) 100%
+      ),
+      linear-gradient(
+        0deg,
         var(--color) 0 var(--t),
         #0000 var(--t) calc(100% - var(--t)),
-        var(--color) calc(100% - var(--t)) 100%);
+        var(--color) calc(100% - var(--t)) 100%
+      );
   }
   .output.height > output {
     filter: drop-shadow(0.5px 0.5px 0 #000);
@@ -582,7 +594,7 @@
   /*!}}}1 END Output for client (viewport) dimensions */
 
   /*!{{{1 The main image being previewed */
-  img {
+  body > :where(img, canvas) {
     text-align: center;
     position: absolute;
     inset: 0;
@@ -607,7 +619,7 @@
    *  .transparent     (background)
    */
   /* images below a threshold size optimised for pixel graphics */
-  .tiny {
+  .tiny > :where(img, canvas) {
     inset: var(--px-imtop) var(--px-imright) var(--px-imbottom) var(--px-imleft);
     width: var(--px-imwidth);
     height: var(--px-imheight);
@@ -670,7 +682,6 @@
     transition: opacity var(--short-duration) ease var(--short-delay);
     opacity: 1;
   }
-
 
   body[data-selecting] .toggles {
     opacity: 0;
@@ -784,7 +795,7 @@
   .toggles > .tgl label:has(> [type='checkbox']):hover::after {
     --dot-c: #999;
     --dot-r: 0.14;
-/*     transition: all background-image 100ms ease 50ms; */
+    /*     transition: all background-image 100ms ease 50ms; */
     transition-delay: 0s;
     transition-property: --dot-c, --dot-r;
     transition-duration: 100ms;
@@ -849,7 +860,7 @@
   .toggles {
     --tg-is-selecting: ;
   }
-  
+
   .tgl.grd {
     position-anchor: --anchor-tgl-pix;
     position: absolute;
@@ -865,7 +876,7 @@
   .tgl.pix:not(:has(:checked)) ~ .tgl.grd {
     display: none;
   }
-  
+
   /*}}}1*/
 
   /*{{{1 Breadcrumb navigation */
@@ -1043,32 +1054,6 @@
 
   /*{{{1 Overlay Text Info */
   .output:where(
-      .imtopleft,
-      .imbottomright,
-      .imtop,
-      .imright,
-      .imbottom,
-      .imleft,
-      .imdisplayh,
-      .imdisplayw,
-      .imdisplaywh,
-      .imalignedwh,
-      .pixelwh,
-    ) {
-    font-size: 0.6rem;
-    letter-spacing: 0.05ch;
-    text-align: right;
-    line-height: normal;
-    visibility: hidden;
-  }
-  :root:has(#tgl_dim:checked) .output:where(
-    .width,
-    .height,
-    .client-size
-  ) {
-    visibility: visible;
-  }
-  :root:has(#tgl_dim:checked):has(#tgl_dbg:checked) .output:where(
     .imtopleft,
     .imbottomright,
     .imtop,
@@ -1080,30 +1065,56 @@
     .imdisplaywh,
     .imalignedwh,
     .pixelwh,
+
   ) {
+    font-size: 0.6rem;
+    letter-spacing: 0.05ch;
+    text-align: right;
+    line-height: normal;
+    visibility: hidden;
+  }
+  :root:has(#tgl_dim:checked) .output:where(.width, .height, .client-size) {
     visibility: visible;
   }
-  .output:where(
-      .imdisplayh,
-      .imdisplayw
-      .imdisplaywh,
-      .imalignedwh,
-      .pixelwh,
-    ) {
-      position-anchor: --anchor-right-overlay-stack;
-      position-scope: --anchor-right-overlay-stack;
-    }
-  .output:where(
+  :root:has(#tgl_dim:checked):has(#tgl_dbg:checked)
+    .output:where(
       .imtopleft,
       .imbottomright,
       .imtop,
       .imright,
       .imbottom,
       .imleft,
+      .imdisplayh,
+      .imdisplayw,
+      .imdisplaywh,
+      .imalignedwh,
+      .pixelwh,
+
     ) {
-      position-anchor: --anchor-image;
-      position: fixed;
-    }
+    visibility: visible;
+  }
+  .output:where(
+    .imdisplayh,
+    .imdisplayw .imdisplaywh,
+    .imalignedwh,
+    .pixelwh,
+
+  ) {
+    position-anchor: --anchor-right-overlay-stack;
+    position-scope: --anchor-right-overlay-stack;
+  }
+  .output:where(
+    .imtopleft,
+    .imbottomright,
+    .imtop,
+    .imright,
+    .imbottom,
+    .imleft,
+
+  ) {
+    position-anchor: --anchor-image;
+    position: fixed;
+  }
   .output.imdisplaywh {
     --value: var(--int-imfittedw);
     --value2: var(--int-imfittedh);
@@ -1142,11 +1153,9 @@
     --prefix2: '';
     --suffix2: ')';
     position-anchor: --anchor-image;
-    inset: 
-      anchor(top, var(--px-imtop))
+    inset: anchor(top, var(--px-imtop))
       calc(anchor(left, var(--px-imleft)) - (var(--px-pixelw) * 0.5))
-      anchor(top, var(--px-imtop))
-      auto;
+      anchor(top, var(--px-imtop)) auto;
     text-align: right;
     line-height: normal;
   }
@@ -1157,16 +1166,27 @@
     --prefix: '(';
     --suffix: ',';
     --suffix2: ')';
-    inset:
-      anchor(bottom, var(--px-imbottom))
-      auto
+    inset: anchor(bottom, var(--px-imbottom)) auto
       anchor(bottom, var(--px-imbottom))
       calc(anchor(right, var(--px-imright)) - var(--px-pixelw) * 0.5);
   }
   .output:where(.imbottomright, .imtopleft) > output {
     background-size: var(--px-pixelw) var(--px-pixelh);
     --t: 1px;
-    background-image: linear-gradient(0deg, #0000 0 calc(50% - var(--t) * 0.5), var(--color) calc(50% - var(--t) * 0.5) calc(50% + var(--t) * 0.5), #0000 calc(50% + var(--t) * 0.5) 100%), linear-gradient(90deg, #0000 0 calc(var(--x) * 0.5 - var(--t) * 0.5), var(--color) calc(var(--x) * 0.5 - var(--t) * 0.5) calc(var(--x) * 0.5 + var(--t) * 0.5), #0000 calc(var(--x) * 0.5 + var(--t) * 0.5) 100%);
+    background-image:
+      linear-gradient(
+        0deg,
+        #0000 0 calc(50% - var(--t) * 0.5),
+        var(--color) calc(50% - var(--t) * 0.5) calc(50% + var(--t) * 0.5),
+        #0000 calc(50% + var(--t) * 0.5) 100%
+      ),
+      linear-gradient(
+        90deg,
+        #0000 0 calc(var(--x) * 0.5 - var(--t) * 0.5),
+        var(--color) calc(var(--x) * 0.5 - var(--t) * 0.5)
+          calc(var(--x) * 0.5 + var(--t) * 0.5),
+        #0000 calc(var(--x) * 0.5 + var(--t) * 0.5) 100%
+      );
     --color: #eee;
     --x: var(--px-pixelw);
     background-repeat: no-repeat;
@@ -1200,7 +1220,7 @@
     font-size: 0.9em;
     --prefix: '';
   }
-  
+
   .output.fitw {
     width: calc(var(--w-if-fitw) * 1px);
     height: calc(var(--h-if-fitw) * 1px);
@@ -1253,7 +1273,6 @@
       --animated-offset: 1;
     }
   }
-
 
   .selecting {
     position: absolute;
@@ -1439,10 +1458,7 @@
     z-index: var(--z-selection-corner);
     cursor: nwse-resize;
   }
-
 }
-
-  
 
 @media not print {
   .selection > .handle::before {
@@ -1451,103 +1467,126 @@
     --c-nodrag: #0888;
     --c-nodrag-2nd: #0448;
     width: var(--w);
-    box-shadow: 0 0 #0000 var(--bs-corners, ), 0 0 0 2px #0006 ;
+    box-shadow:
+      0 0 #0000 var(--bs-corners,),
+      0 0 0 2px #0006;
     outline: none;
 
     --w: max(calc(var(--size) * 3), calc(var(--px-pixelw) * 2));
     --w－: calc(var(--w) * -1);
-    --bs-tl: calc(var(--w) * -0.4) calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25) var(--c-drag),
-        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
-    --bs-tr: calc(var(--w) * 0.4)   calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25) var(--c-drag),
-        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
-    --bs-bl: calc(var(--w) * -0.25) calc(1px + var(--w) * 0.25) 0 calc(var(--w) * -0.25) var(--c-drag),
-        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
-    --bs-br: calc(var(--w) * 0.33) calc(2px + var(--w) * 0.33) 0 calc(var(--w) * -0.33) var(--c-drag),
-        inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-drag-2nd);
-    
-    --bs-notl: calc(var(--w) * -0.25) calc(var(--w) * -0.25) 0 calc(var(--w) * -0.25) var(--c-nodrag),
-        inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
-    --bs-notr: calc(var(--w) * 0.2)  calc(var(--w) * -0.2) 0 calc(var(--w) * -0.25) var(--c-nodrag),
-        inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
-    --bs-nobl: calc(var(--w) * -0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.25) var(--c-nodrag),
-        inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
-    --bs-nobr: calc(var(--w) * 0.33) calc(var(--w) * 0.33) 0 calc(var(--w) * -0.33) var(--c-nodrag),
-        inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6) var(--c-nodrag-2nd);
+    --bs-tl:
+      calc(var(--w) * -0.4) calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25)
+        var(--c-drag),
+      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
+        calc(var(--w) * -0.6) var(--c-drag-2nd);
+    --bs-tr:
+      calc(var(--w) * 0.4) calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25)
+        var(--c-drag),
+      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
+        calc(var(--w) * -0.6) var(--c-drag-2nd);
+    --bs-bl:
+      calc(var(--w) * -0.25) calc(1px + var(--w) * 0.25) 0
+        calc(var(--w) * -0.25) var(--c-drag),
+      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
+        calc(var(--w) * -0.6) var(--c-drag-2nd);
+    --bs-br:
+      calc(var(--w) * 0.33) calc(2px + var(--w) * 0.33) 0 calc(var(--w) * -0.33)
+        var(--c-drag),
+      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
+        calc(var(--w) * -0.6) var(--c-drag-2nd);
+
+    --bs-notl:
+      calc(var(--w) * -0.25) calc(var(--w) * -0.25) 0 calc(var(--w) * -0.25)
+        var(--c-nodrag),
+      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
+        var(--c-nodrag-2nd);
+    --bs-notr:
+      calc(var(--w) * 0.2) calc(var(--w) * -0.2) 0 calc(var(--w) * -0.25)
+        var(--c-nodrag),
+      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
+        var(--c-nodrag-2nd);
+    --bs-nobl:
+      calc(var(--w) * -0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.25)
+        var(--c-nodrag),
+      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
+        var(--c-nodrag-2nd);
+    --bs-nobr:
+      calc(var(--w) * 0.33) calc(var(--w) * 0.33) 0 calc(var(--w) * -0.33)
+        var(--c-nodrag),
+      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
+        var(--c-nodrag-2nd);
     border-radius: 30%;
   }
 
-.selection > .handle.top::before {
-  --bs-corners: , var(--bs-tl), var(--bs-tr);
+  .selection > .handle.top::before {
+    --bs-corners: , var(--bs-tl), var(--bs-tr);
+  }
+  .selection > .handle.right::before {
+    --bs-corners: , var(--bs-tr), var(--bs-br);
+  }
+  .selection > .handle.left::before {
+    --bs-corners: , var(--bs-tl), var(--bs-bl);
+  }
+  .selection > .handle.bottom::before {
+    --bs-corners: , var(--bs-bl), var(--bs-br);
+  }
+  .selection > .handle.top.right::before {
+    --bs-corners: , var(--bs-notl), var(--bs-tr), var(--bs-nobr);
+  }
+  .selection > .handle.bottom.right::before {
+    --bs-corners: , var(--bs-notr), var(--bs-br), var(--bs-nobl);
+  }
+  .selection > .handle.bottom.left::before {
+    --bs-corners: , var(--bs-notl), var(--bs-bl), var(--bs-nobr);
+  }
+  .selection > .handle.top.left::before {
+    --bs-corners: , var(--bs-tl), var(--bs-notr), var(--bs-nobl);
+  }
+  .selection > .handle::before {
+    --c-nodrag: #0880;
+    --c-nodrag-2nd: #0440;
+    --bs-t: calc(var(--w) * -0.1) calc(var(--w) * -0.4) 0 calc(var(--w－) * 0.2)
+      var(--c-drag);
+    --bs-b: calc(var(--w) * 0) calc(var(--w) * 0.4) 0 calc(var(--w－) * 0.2)
+      var(--c-drag);
+  }
+  .selection > .handle.top.right::before {
+    --bs-corners: , var(--bs-tr), var(--bs-bl);
+  }
+  .selection > .handle.top::before {
+    --bs-corners: , var(--bs-t), var(--bs-b);
+    border-radius: 240px / 200px;
+  }
+  .selection:not(:has(> :hover)):hover {
+    transition: background 40ms ease 40ms;
+  }
+  .selection:not(:has(> :hover)) {
+    transition: background 120ms ease 60ms;
+  }
+  .handle::before {
+    opacity: 0;
+  }
+  .handle:hover::before {
+    opacity: 1;
+  }
+  .handle:active,
+  .handle:active::before {
+    opacity: 1;
+    background-color: red;
+  }
+  .selection:hover:not(:has(> :hover)) > .handle::before {
+    visibility: hidden;
+  }
+  :is([data-selection], [data-selecting])
+    :is(.selection:hover:not(:has(> :hover)) > handle)::before {
+    visibility: hidden;
+  }
+  .handle:active {
+    opacity: 1;
+    visibility: visible;
+    box-shadow: none;
+  }
 }
-.selection > .handle.right::before {
-  --bs-corners: , var(--bs-tr), var(--bs-br);
-}
-.selection > .handle.left::before {
-  --bs-corners: , var(--bs-tl), var(--bs-bl);
-}
-.selection > .handle.bottom::before {
-  --bs-corners: , var(--bs-bl), var(--bs-br);
-}
-.selection > .handle.top.right::before {
-  --bs-corners: , var(--bs-notl), var(--bs-tr), var(--bs-nobr);
-}
-.selection > .handle.bottom.right::before {
-  --bs-corners: ,  var(--bs-notr), var(--bs-br), var(--bs-nobl);
-}
-.selection > .handle.bottom.left::before {
-  --bs-corners: ,  var(--bs-notl), var(--bs-bl), var(--bs-nobr);
-}
-.selection > .handle.top.left::before {
-  --bs-corners: , var(--bs-tl), var(--bs-notr), var(--bs-nobl);
-}
-.selection > .handle::before {
-  --c-nodrag: #0880;
-  --c-nodrag-2nd: #0440;
-  --bs-t: calc(var(--w) * -0.1) calc(var(--w) * -0.4) 0 calc(var(--w－) * 0.2) var(--c-drag);
-  --bs-b: calc(var(--w) * 0) calc(var(--w) * 0.4) 0 calc(var(--w－) * 0.2) var(--c-drag);
-}
-.selection > .handle.top.right::before {
-  --bs-corners: , var(--bs-tr), var(--bs-bl);
-}
-.selection > .handle.top::before {
-  --bs-corners: , var(--bs-t), var(--bs-b);
-  border-radius: 240px / 200px;
-}
-.selection:not(:has(> :hover)):hover {
-  transition: background 40ms ease 40ms;
-}
-.selection:not(:has(> :hover)) {
-  transition: background 120ms ease 60ms;
-}
-.handle::before {
-  opacity: 0;
-}
-.handle:hover::before {
-  opacity: 1;
-}
-.handle:active,
-.handle:active::before {
-  opacity: 1;
-  background-color: red;
-}
-.selection:hover:not(:has(> :hover)) > .handle::before {
-  visibility: hidden;
-}
-:is([data-selection], [data-selecting]) :is(.selection:hover:not(:has(> :hover)) > handle)::before {
-  visibility: hidden;
-}
-.handle:active {
-  opacity: 1;
-  visibility: visible;
-  box-shadow: none;
-}
-}
-
-
-
-
-
-
 
 @property --anispeed {
   syntax: '<number>';
@@ -1559,35 +1598,41 @@
   .selection > .handle::before {
     --w: max(calc(var(--size) * 8), calc(var(--px-pixelw) * 2));
   }
-.selection.ants:hover,
-.selection.ants:hover::before {
-/*   animation-play-state: paused; */
-/*   animation-direction:   reverse; */
-  animation-duration: calc(var(--anispeed) * 1ms);
-  mask-image: linear-gradient(#fff 0 0);
-  mask-clip: border-box;
-  --anispeed: 2000;
-  transition: --anispeed 10s linear 120ms, background 200ms ease 40ms;
-}
-.selection.ants:has(:active) {
-  background-color: #f002;
-}
-.selection:not(:has(> :hover)) {
-  transition: --anispeed 10s linear 120ms, background 120ms ease 60ms;
-}
-.selection:not(:has(> :hover)):hover {
-  transition: --anispeed 10s linear 120ms, background 200ms ease 40ms;
-  transition-behavior: normal;
-}
+  .selection.ants:hover,
+  .selection.ants:hover::before {
+    /*   animation-play-state: paused; */
+    /*   animation-direction:   reverse; */
+    animation-duration: calc(var(--anispeed) * 1ms);
+    mask-image: linear-gradient(#fff 0 0);
+    mask-clip: border-box;
+    --anispeed: 2000;
+    transition:
+      --anispeed 10s linear 120ms,
+      background 200ms ease 40ms;
+  }
+  .selection.ants:has(:active) {
+    background-color: #f002;
+  }
+  .selection:not(:has(> :hover)) {
+    transition:
+      --anispeed 10s linear 120ms,
+      background 120ms ease 60ms;
+  }
+  .selection:not(:has(> :hover)):hover {
+    transition:
+      --anispeed 10s linear 120ms,
+      background 200ms ease 40ms;
+    transition-behavior: normal;
+  }
   .selection:not(:has(> :hover)):hover {
     background-color: #08f1;
   }
 
   .selection > .handle {
-/*     mask-clip: border-box; */
-/*     mask-image: linear-gradient(#fff 0 0); */
+    /*     mask-clip: border-box; */
+    /*     mask-image: linear-gradient(#fff 0 0); */
     margin: 0;
-/*     border: 3px solid #0000; */
+    /*     border: 3px solid #0000; */
     box-shadow:
       0 0 4px -1px #000,
       inset 0 0 2px 0 #000;
@@ -1597,17 +1642,16 @@
   .selection > .handle:hover {
     transform: scale(1);
     transform-origin: center;
-/*     box-shadow: 0 0 2px 0 #08f3; */
+    /*     box-shadow: 0 0 2px 0 #08f3; */
     box-sizing: content-box;
     box-shadow:
       0 0 4px -1px #000,
       inset 0 0 2px 0 #000,
       0 0 0.5px 30px #08f3;
-/*     background-color: #08f3; */
-/*     background-color: #0000; */
+    /*     background-color: #08f3; */
+    /*     background-color: #0000; */
   }
 }
-
 
 @media not print {
   .selection.ants {
@@ -1636,13 +1680,11 @@
     height: calc(anchor-size(height) - var(--linew) * 2 - var(--outset) * 2);
     position: fixed;
     position-anchor: --selection;
-    inset: calc(anchor(top) + var(--outset)) 
-       calc(anchor(right) + var(--outset))
-       calc(anchor(bottom) + var(--outset))
-       calc(anchor(left) + var(--outset));
+    inset: calc(anchor(top) + var(--outset)) calc(anchor(right) + var(--outset))
+      calc(anchor(bottom) + var(--outset)) calc(anchor(left) + var(--outset));
     overflow: clip;
     content: '';
-    
+
     --linew: 0.5px;
     box-sizing: content-box;
     box-shadow:
@@ -1669,25 +1711,25 @@
         0deg,
         var(--scl) var(--yoff) calc(var(--yoff) + var(--bgs2)),
         var(--scd) calc(var(--yoff) + var(--bgs2))
-        calc(var(--yoff) + var(--bgs))
+          calc(var(--yoff) + var(--bgs))
       ),
       repeating-linear-gradient(
         90deg,
         var(--scl) var(--xoff) calc(var(--xoff) + var(--bgs2)),
         var(--scd) calc(var(--xoff) + var(--bgs2))
-        calc(var(--xoff) + var(--bgs))
+          calc(var(--xoff) + var(--bgs))
       ),
       repeating-linear-gradient(
         180deg,
         var(--scl) var(--yoff) calc(var(--yoff) + var(--bgs2)),
         var(--scd) calc(var(--yoff) + var(--bgs2))
-        calc(var(--yoff) + var(--bgs))
+          calc(var(--yoff) + var(--bgs))
       ),
       repeating-linear-gradient(
         270deg,
         var(--scl) var(--xoff) calc(var(--xoff) + var(--bgs2)),
         var(--scd) calc(var(--xoff) + var(--bgs2))
-        calc(var(--xoff) + var(--bgs))
+          calc(var(--xoff) + var(--bgs))
       );
     animation: forwards ants infinite 300ms linear;
     --bgs2: calc(var(--bgs) * 0.5);
@@ -1697,12 +1739,11 @@
     --off: 14px;
     --scl: #fff;
     --scd: #000;
-    
+
     animation-play-state: running;
   }
 
   .ants::before {
-
     animation: forwards ants infinite calc(var(--anispeed) * 1ms) linear;
     --bgs: calc(var(--length-ant) + var(--length-gap));
     --off: calc(var(--bgs) * var(--animated-offset));
@@ -1714,7 +1755,6 @@
     --length-gap: 4px;
     animation-play-state: running;
   }
-
 
   .selection > .handle {
     pointer-events: auto;
@@ -1743,80 +1783,102 @@
   }
 }
 
-
-
-
-
-
-
-
 /*!{{{1 Preview for pixeldata canvas transformations */
 @media not print {
   .selecting {
     pointer-events: none;
   }
 
-body > img:nth-of-type(n+2) {
-  margin: 0;
-  top: var(--px-imtop);
-  left: var(--px-imright);
-  width: calc(var(--px-imwidth) / 5);
-  height: calc(var(--px-imheight) / 5);
-  image-rendering: pixelated;
-  anchor-name: --anchor-preview;
-  position: fixed;
-  position-anchor: --anchor-image;
-  inset: anchor(--anchor-image top) auto auto anchor(--anchor-image right);
-  --anchor-scope: --anchor-preview;
-}
+  body > img:nth-of-type(n + 2) {
+    margin: 0;
+    top: var(--px-imtop);
+    left: var(--px-imright);
+    width: calc(var(--px-imwidth) / 5);
+    height: calc(var(--px-imheight) / 5);
+    image-rendering: pixelated;
+    anchor-name: --anchor-preview;
+    position: fixed;
+    position-anchor: --anchor-image;
+    inset: anchor(--anchor-image top) auto auto anchor(--anchor-image right);
+    --anchor-scope: --anchor-preview;
+  }
 
-body > img:nth-of-type(n+3) {
-  inset: calc(anchor(--anchor-preview bottom) + var(--offset)) anchor(--anchor-preview right) auto auto;
-  anchor-name: --anchor-preview;
-  anchor-scope: unset;
-}
+  body > img:nth-of-type(n + 3) {
+    inset: calc(anchor(--anchor-preview bottom) + var(--offset))
+      anchor(--anchor-preview right) auto auto;
+    anchor-name: --anchor-preview;
+    anchor-scope: unset;
+  }
 
-body > img:nth-of-type(n+2) {
-  width: calc(anchor-size(--anchor-image width, var(--px-imwidth)) * var(--scale));
-  height: calc(anchor-size(--anchor-image height, var(--px-imheight)) * var(--scale));
-  anchor-name: --anchor-preview;
-  inset: anchor(--anchor-image top, var(--px-imtop)) auto auto calc(anchor(--anchor-image right, var(--px-imright)) + var(--offset));
-  --scale: 0.2;
-  --offset: 4px;
-  filter: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #fff);
-}
+  body > img:nth-of-type(n + 2) {
+    width: calc(
+      anchor-size(--anchor-image width, var(--px-imwidth)) * var(--scale)
+    );
+    height: calc(
+      anchor-size(--anchor-image height, var(--px-imheight)) * var(--scale)
+    );
+    anchor-name: --anchor-preview;
+    inset: anchor(--anchor-image top, var(--px-imtop)) auto auto
+      calc(anchor(--anchor-image right, var(--px-imright)) + var(--offset));
+    --scale: 0.2;
+    --offset: 4px;
+    filter: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #fff)
+      drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #fff);
+  }
 
-body > img:nth-of-type(n+2) {
-  margin: 0;
-  width: calc(anchor-size(--anchor-image width, var(--px-imwidth)) * var(--scale));
-  height: calc(anchor-size(--anchor-image height, var(--px-imheight)) * var(--scale));
-  image-rendering: pixelated;
-  position: fixed;
-  anchor-name: --anchor-preview;
-  inset: anchor(--anchor-image top, var(--px-imtop)) auto auto calc(anchor(--anchor-image right, var(--px-imright)) + var(--offset));
-  --scale: 0.2;
-  --offset: 4px;
-  box-shadow: var(--bs-outline-thin-3d);
-  --bs-outline-thin-3d: 0.5px 0.5px 0 0 #000,inset 0.5px 0.5px 0 0 #fff;
-  filter: var(--filter-outline-thin-3d);
-  --filter-outline-thin-3d: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #fff);
-  --filter-outline-thin-dark: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000);
-  --filter-outline-thin-light: drop-shadow(0.2px 0 0 #fff) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff) drop-shadow(0 -0.2px 0 #fff);
-  --filter-outline-thin-lightdark: drop-shadow(0.2px 0 0 #fff) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff) drop-shadow(0 -0.2px 0 #fff) drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000);
-  --filter-outline-thin-darklight: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000) drop-shadow(0.2px 0 0 #fff) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff) drop-shadow(0 -0.2px 0 #fff);
-  --filter-outline-thin-darklightdark: drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000) drop-shadow(0.2px 0 0 #fff) drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff) drop-shadow(0 -0.2px 0 #fff) drop-shadow(0.2px 0 0 #000) drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000) drop-shadow(0 -0.2px 0 #000);
-}
-body > img:nth-of-type(n+3) {
-  inset: calc(anchor(--anchor-preview bottom) + var(--offset)) anchor(--anchor-preview right) auto auto;
-  anchor-name: --anchor-preview;
-  anchor-scope: unset;
-}
+  body > img:nth-of-type(n + 2) {
+    margin: 0;
+    width: calc(
+      anchor-size(--anchor-image width, var(--px-imwidth)) * var(--scale)
+    );
+    height: calc(
+      anchor-size(--anchor-image height, var(--px-imheight)) * var(--scale)
+    );
+    image-rendering: pixelated;
+    position: fixed;
+    anchor-name: --anchor-preview;
+    inset: anchor(--anchor-image top, var(--px-imtop)) auto auto
+      calc(anchor(--anchor-image right, var(--px-imright)) + var(--offset));
+    --scale: 0.2;
+    --offset: 4px;
+    box-shadow: var(--bs-outline-thin-3d);
+    --bs-outline-thin-3d: 0.5px 0.5px 0 0 #000, inset 0.5px 0.5px 0 0 #fff;
+    filter: var(--filter-outline-thin-3d);
+    --filter-outline-thin-3d: drop-shadow(0.2px 0 0 #000)
+      drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #000)
+      drop-shadow(0 -0.2px 0 #fff);
+    --filter-outline-thin-dark: drop-shadow(0.2px 0 0 #000)
+      drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000)
+      drop-shadow(0 -0.2px 0 #000);
+    --filter-outline-thin-light: drop-shadow(0.2px 0 0 #fff)
+      drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff)
+      drop-shadow(0 -0.2px 0 #fff);
+    --filter-outline-thin-lightdark: drop-shadow(0.2px 0 0 #fff)
+      drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff)
+      drop-shadow(0 -0.2px 0 #fff) drop-shadow(0.2px 0 0 #000)
+      drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000)
+      drop-shadow(0 -0.2px 0 #000);
+    --filter-outline-thin-darklight: drop-shadow(0.2px 0 0 #000)
+      drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000)
+      drop-shadow(0 -0.2px 0 #000) drop-shadow(0.2px 0 0 #fff)
+      drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff)
+      drop-shadow(0 -0.2px 0 #fff);
+    --filter-outline-thin-darklightdark: drop-shadow(0.2px 0 0 #000)
+      drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000)
+      drop-shadow(0 -0.2px 0 #000) drop-shadow(0.2px 0 0 #fff)
+      drop-shadow(-0.2px 0 0 #fff) drop-shadow(0 0.2px 0 #fff)
+      drop-shadow(0 -0.2px 0 #fff) drop-shadow(0.2px 0 0 #000)
+      drop-shadow(-0.2px 0 0 #000) drop-shadow(0 0.2px 0 #000)
+      drop-shadow(0 -0.2px 0 #000);
+  }
+  body > img:nth-of-type(n + 3) {
+    inset: calc(anchor(--anchor-preview bottom) + var(--offset))
+      anchor(--anchor-preview right) auto auto;
+    anchor-name: --anchor-preview;
+    anchor-scope: unset;
+  }
 }
 /*!}}}1 END - Preview for pixeldata canvas transformations */
-
-
-
-
 
 /*!{{{1 Hatched background pixel alignment */
 /*! Number of image pixels used for each scaled image pixel */
@@ -1874,7 +1936,7 @@ body > img:nth-of-type(n+3) {
     --box-shadow-outline-dark: inset 0 0 2px -1px #fff8, 0 0 2px -1px #000a;
     --color-image-ol-dark: #888;
     --color-image-ol-bright: #aaa;
-    
+
     --bgimage-null: linear-gradient(#0000 0 0);
     --bshadow-null: 0 0 0 0 #0000;
 
@@ -1882,7 +1944,9 @@ body > img:nth-of-type(n+3) {
     --scaledpx-offset-x: 0;
     --scaledpx-offset-y: 3;
     --clientpx-per-imgpx: var(--pixelw);
-    --clientpx-per-scaledpx: calc(var(--imgpx-per-scaledpx) * var(--clientpx-per-imgpx));
+    --clientpx-per-scaledpx: calc(
+      var(--imgpx-per-scaledpx) * var(--clientpx-per-imgpx)
+    );
   }
 
   :root {
@@ -1909,7 +1973,7 @@ body > img:nth-of-type(n+3) {
   :root:has(#tgl_out:checked):has(#tgl_sun:checked) img.transparent {
     --img-olcolor: var(--color-image-ol-bright);
   }
-  
+
   :root:has(#tgl_sun:not(:checked)) {
     --color-hatch1: var(--color-hatch-dark1);
     --color-hatch2: var(--color-hatch-dark2);
@@ -1938,23 +2002,28 @@ body > img:nth-of-type(n+3) {
 
     --bgpos: var(--bgpos-hatch);
     --bgsize: var(--bgsize-hatch);
-    --bgimage:
-      repeating-conic-gradient(
-        var(--color-hatch1) 0 90deg,
-        var(--color-hatch2) 90deg 180deg
-      );
+    --bgimage: repeating-conic-gradient(
+      var(--color-hatch1) 0 90deg,
+      var(--color-hatch2) 90deg 180deg
+    );
   }
   :root:has(#tgl_tch:checked):has(#tgl_pix:not(:checked)) {
-    --bgsizeX-hatch:
-      clamp(round(nearest, 10px, 1%),
-        round(nearest, 2vmax, 1%),
-        round(nearest, 40px, 1%)
-      );
+    --bgsizeX-hatch: clamp(
+      round(nearest, 10px, 1%),
+      round(nearest, 2vmax, 1%),
+      round(nearest, 40px, 1%)
+    );
     --bgsize-hatch: var(--bgsizeX-hatch) var(--bgsizeX-hatch);
-    --bgposX-hatch:
-      left calc(var(--px-imleft) + var(--scaledpx-offset-x) * var(--clientpx-per-imgpx) * 1px);
-    --bgposY-hatch:
-      top calc(var(--px-imtop) + var(--scaledpx-offset-y) * var(--clientpx-per-imgpx) * 1px);
+    --bgposX-hatch: left
+      calc(
+        var(--px-imleft) + var(--scaledpx-offset-x) *
+          var(--clientpx-per-imgpx) * 1px
+      );
+    --bgposY-hatch: top
+      calc(
+        var(--px-imtop) + var(--scaledpx-offset-y) * var(--clientpx-per-imgpx) *
+          1px
+      );
   }
   :root:has(#tgl_tch:checked):has(#tgl_pix:checked) {
     --bgsizeX-hatch: calc(var(--clientpx-per-scaledpx) * 2px);

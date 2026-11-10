@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.351
+// @version     1.2.353
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -132,6 +132,8 @@ const initStandaloneImage = ({
       ...attrs,
     });
   };
+
+  const canvas = GM_addElement(document.body, 'canvas', {});
 
   const selecting = GM_addElement(document.body, 'aside', {
     class: 'selecting',

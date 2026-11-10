@@ -2053,7 +2053,8 @@
     background-image: var(--bgimage, var(--bgimage-null));
     background-repeat: repeat;
   }
-  :where(img.transparent, img.transparent ~ canvas) {
+  img.transparent,
+  img.transparent ~ canvas {
     color: unset;
     border: 0;
     padding: 0;

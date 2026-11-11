@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.353
+// @version     1.2.375
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -21,442 +21,506 @@
 // @injectIQB-into auto
 // ==/UserScript==
 
-const initStandaloneSvg = ({ document: { documentElement } }) => {};
+const wikilink = ({ to, path = document.URL }) => {
+  const { wiki, file } =
+    /(?<wiki>.*\.wiki\.gg)\/images\/(?<file>[^#?]*)/.exec(path)?.groups ?? {};
+
+  const label = GM_addElement(to, 'label', {
+    class: 'output wikilink',
+  });
+  const ul = GM_addElement(label, 'ul', {});
+  const li = GM_addElement(ul, 'li', {});
+  const a = GM_addElement(li, 'a', {
+    href: `${wiki}/wiki/File:${file}`,
+    textContent: `${wiki}/wiki/File:${file}`,
+  });
+};
+const addOutput = ({ to, tag = 'output', ...attrs } = {}) => {
+  const label = GM_addElement(to, 'label', attrs);
+  GM_addElement(label, tag);
+  return label;
+};
+
+const addPreview = ({
+  to,
+  id,
+  tag = 'input',
+  type = 'checkbox',
+  checked = false,
+  textContent = '',
+  ...attrs
+} = {}) => {
+  const li = GM_addElement(to, 'li', {
+    class: 'tgl',
+    ...attrs,
+  });
+  const label = GM_addElement(li, 'label', {
+    for: `tgl_${id}`,
+    class: '',
+    textContent,
+  });
+  const input = GM_addElement(label, tag, {
+    type,
+    id: `tgl_${id}`,
+    ...(checked ? { checked: '' } : {}),
+  });
+  input.addEventListener('click', stopPropagation);
+  return li;
+};
+
+const addToggle = ({
+  to,
+  id,
+  tag = 'input',
+  type = 'checkbox',
+  checked = false,
+  textContent = '',
+  ...attrs
+} = {}) => {
+  const li = GM_addElement(to, 'li', {
+    class: 'tgl',
+    ...attrs,
+  });
+  const label = GM_addElement(li, 'label', {
+    for: `tgl_${id}`,
+    class: '',
+    textContent,
+  });
+  const input = GM_addElement(label, tag, {
+    type,
+    id: `tgl_${id}`,
+    ...(checked ? { checked: '' } : {}),
+  });
+  input.addEventListener('click', stopPropagation);
+  return li;
+};
+
+const addSelectionHandle = ({
+  to,
+  select: { top = false, right = false, bottom = false, left = false },
+  textContent = '',
+  ...attrs
+}) => {
+  return GM_addElement(to, 'div', {
+    class: `handle${top ? ' top' : ''}${right ? ' right' : ''}${bottom ? ' bottom' : ''}${left ? ' left' : ''}`,
+    textContent,
+    ...attrs,
+  });
+};
+const initSvg = ({ document: { documentElement } }) => {};
 
 /**
  * Customisations for viewing standalone images
  */
-const initStandaloneImage = ({
+const initImage = ({
   document: {
     documentElement,
     body,
-    body: {
-      firstChild,
-      firstChild: { width, naturalWidth, height, naturalHeight },
-    },
+    body: { firstChild },
   },
 }) => {
-  documentElement.style.setProperty('--naturalw', naturalWidth);
-  documentElement.style.setProperty('--naturalh', naturalHeight);
+  const canvas = (() => {
+    const canvas = GM_addElement(document.body, 'canvas', {});
 
-  const isTiny = naturalWidth + naturalHeight < 200;
-  const isTransparent = firstChild?.classList.contains('transparent');
+    return canvas;
+  })();
 
-  if (isTiny) {
-    body.classList.add('tiny', 'pixelgrid', 'dims');
-  }
+  const onloadImg = (image) => {
+    const { naturalWidth, naturalHeight } = image;
+    documentElement.style.setProperty('--naturalw', naturalWidth);
+    documentElement.style.setProperty('--naturalh', naturalHeight);
+    canvas.setAttribute('width', naturalWidth);
+    canvas.setAttribute('height', naturalHeight);
 
-  const wikilink = ({ to: parent, path = document.URL }) => {
-    const { wiki, file } =
-      /(?<wiki>.*\.wiki\.gg)\/images\/(?<file>[^#?]*)/.exec(path)?.groups ?? {};
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(image, 0, 0);
+    image.classList.add('hidden');
+    // canvas.toBlob(
+    //   (blob) => (blob === null ? reject('null blob') : resolve(blob)),
+    //   'image/png',
+    // );
 
-    const label = GM_addElement(parent, 'label', {});
-    const ul = GM_addElement(label, 'ul', {});
-    const li = GM_addElement(ul, 'li', {});
-    const a = GM_addElement(li, 'a', {
-      class: 'output breadcrumbs',
-      href: `${wiki}/wiki/File:${file}`,
-      textContent: `${wiki}/wiki/File:${file}`,
+    const canvasOnMove = ({ clientX, clientY }) => {
+      const ctx = canvas.getContext('2d');
+      const { left, top, width, height } = canvas.getBoundingClientRect();
+      const pixel = ctx.getImageData(
+        ((clientX - left) / width) * naturalWidth,
+        ((clientY - top) / height) * naturalHeight,
+        1,
+        1,
+      );
+      const [r, g, b, a] = pixel.data;
+
+      setRegisteredCSSProperty({
+        name: '--cursor-r',
+        value: r,
+        syntax: '<number>',
+      });
+      setRegisteredCSSProperty({
+        name: '--cursor-g',
+        value: g,
+        syntax: '<number>',
+      });
+      setRegisteredCSSProperty({
+        name: '--cursor-b',
+        value: b,
+        syntax: '<number>',
+      });
+      setRegisteredCSSProperty({
+        name: '--cursor-a',
+        value: a,
+        syntax: '<number>',
+      });
+      setRegisteredCSSProperty({
+        name: '--cursor-hex',
+        value: `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}${a.toString(16).padStart(2, '0')}`,
+        syntax: '<color>',
+      });
+      setRegisteredCSSProperty({
+        name: '--cursor-rgba',
+        value: `rgb(${r} ${g} ${b} / ${a / 255})`,
+        syntax: '<color>',
+      });
+    };
+    canvas.addEventListener('mousemove', canvasOnMove, {});
+
+    const isTiny = naturalWidth + naturalHeight < 200;
+    const isTransparent = firstChild?.classList.contains('transparent');
+
+    if (isTiny) {
+      body.classList.add('tiny', 'pixelgrid', 'dims');
+    }
+
+    const selecting = GM_addElement(document.body, 'aside', {
+      class: 'selecting',
     });
-  };
-
-  const addOutput = ({ to, tag = 'output', ...attrs } = {}) => {
-    const label = GM_addElement(to, 'label', attrs);
-    GM_addElement(label, tag);
-    return label;
-  };
-
-  const addPreview = ({
-    to,
-    id,
-    tag = 'input',
-    type = 'checkbox',
-    checked = false,
-    textContent = '',
-    ...attrs
-  } = {}) => {
-    const li = GM_addElement(to, 'li', {
-      class: 'tgl',
-      ...attrs,
+    const selection = GM_addElement(selecting, 'div', {
+      class: 'selection ants',
     });
-    const label = GM_addElement(li, 'label', {
-      for: `tgl_${id}`,
-      class: '',
-      textContent,
+    const selectionHandles = ((to) => ({
+      top: addSelectionHandle({
+        to,
+        select: { top: true },
+      }),
+      topright: addSelectionHandle({
+        to,
+        select: { top: true, right: true },
+      }),
+      right: addSelectionHandle({
+        to,
+        select: { right: true },
+      }),
+      bottomright: addSelectionHandle({
+        to,
+        select: { bottom: true, right: true },
+      }),
+      bottom: addSelectionHandle({
+        to,
+        select: { bottom: true },
+      }),
+      bottomleft: addSelectionHandle({
+        to,
+        select: { bottom: true, left: true },
+      }),
+      left: addSelectionHandle({
+        to,
+        select: { left: true },
+      }),
+      topleft: addSelectionHandle({
+        to,
+        select: { top: true, left: true },
+      }),
+    }))(selection);
+
+    const overlaid = GM_addElement(document.body, 'aside', {
+      class: 'overlaid',
     });
-    const input = GM_addElement(label, tag, {
-      type,
-      id: `tgl_${id}`,
-      ...(checked ? { checked: '' } : {}),
+
+    const outputs = ((to) => ({
+      breadcrumbs: breadcrumbs({ to }),
+      wiki: wikilink({ to }),
+      width: addOutput({
+        to,
+        class: 'output one width',
+        textContent: '',
+      }),
+      height: addOutput({
+        to,
+        class: 'output one height',
+      }),
+      clientSize: addOutput({
+        to,
+        class: 'output two client-size',
+      }),
+      fitW: addOutput({ to, class: 'output fitw' }),
+      fitH: addOutput({ to, class: 'output fith' }),
+      imdisplaywh: addOutput({ to, class: 'output two imdisplaywh' }),
+      imalignedwh: addOutput({ to, class: 'output two imalignedwh' }),
+      pixelwh: addOutput({ to, class: 'output two pixelwh' }),
+      imtopleft: addOutput({ to, class: 'output two imtopleft' }),
+      imbottomright: addOutput({ to, class: 'output two imbottomright' }),
+      cursorColor: addOutput({ to, class: 'output color' }),
+    }))(overlaid);
+
+    const viewmenu = GM_addElement(document.body, 'menu', {
+      class: 'viewmenu toggles',
     });
-    input.addEventListener('click', stopPropagation);
-    return li;
-  };
+    const toggles = ((to) => ({
+      selecting: addToggle({
+        to,
+        id: 'select',
+        class: 'tgl select',
+        textContent: 'select',
+        checked: false,
+      }),
+      selecting: addToggle({
+        to,
+        id: 'pickcolor',
+        class: 'tgl select',
+        textContent: 'picker',
+        checked: true,
+      }),
+      showOverlayInfo: addToggle({
+        to,
+        id: 'info',
+        class: 'tgl info',
+        textContent: 'overlay',
+        checked: false,
+      }),
+      showOverlayImageDimensions: addToggle({
+        to,
+        id: 'dim',
+        class: 'tgl dim',
+        textContent: 'dimensions',
+        checked: false,
+      }),
+      pixelView: addToggle({
+        to,
+        id: 'pix',
+        class: 'tgl pix',
+        textContent: 'pixels',
+        checked: isTiny,
+      }),
+      gridOverlay: addToggle({
+        to,
+        id: 'grd',
+        class: 'tgl grd',
+        textContent: 'grid',
+        checked: isTiny,
+      }),
+      pixelDetect: addToggle({
+        to,
+        id: 'pxsize',
+        class: 'tgl pxsize',
+        textContent: 'px size',
+        checked: isTiny,
+      }),
+      lightDark: addToggle({
+        to,
+        id: 'sun',
+        class: 'tgl sun',
+        textContent: 'light',
+        checked: false,
+      }),
+      hatchbg: addToggle({
+        to,
+        id: 'tch',
+        class: 'tgl tch',
+        textContent: 'hatch',
+        checked: isTransparent,
+      }),
+      detectbg: addToggle({
+        to,
+        id: 'detbg',
+        class: 'tgl detbg',
+        textContent: 'bg−−',
+        checked: isTiny && isTransparent,
+      }),
+      outline: addToggle({
+        to,
+        id: 'out',
+        class: 'tgl out',
+        textContent: 'outline',
+        checked: isTransparent,
+      }),
+      debug: addToggle({
+        to,
+        id: 'dbg',
+        class: 'tgl dbg',
+        textContent: 'debug',
+        checked: false,
+      }),
+    }))(viewmenu);
 
-  const addToggle = ({
-    to,
-    id,
-    tag = 'input',
-    type = 'checkbox',
-    checked = false,
-    textContent = '',
-    ...attrs
-  } = {}) => {
-    const li = GM_addElement(to, 'li', {
-      class: 'tgl',
-      ...attrs,
-    });
-    const label = GM_addElement(li, 'label', {
-      for: `tgl_${id}`,
-      class: '',
-      textContent,
-    });
-    const input = GM_addElement(label, tag, {
-      type,
-      id: `tgl_${id}`,
-      ...(checked ? { checked: '' } : {}),
-    });
-    input.addEventListener('click', stopPropagation);
-    return li;
-  };
+    (({ document: { body }, eventLayer, console: { log, debug } }) => {
+      const selecting = () => qs`.tgl.selecting`;
+      const dragging = () => body.dataset.dragging !== undefined;
+      const selection = () => body.dataset.selection !== undefined;
+      const vertical = () => body.dataset.selectingVertical !== undefined;
+      const horizontal = () => body.dataset.selectingHorizontal !== undefined;
+      const begin = (clear) => body.dataset.selectingBegin !== undefined;
+      /* Minimum distance mouse needs to move for selection to be considered to have started */
+      const beginThreshold = 4;
 
-  const addSelectionHandle = ({
-    to,
-    select: { top = false, right = false, bottom = false, left = false },
-    textContent = '',
-    ...attrs
-  }) => {
-    return GM_addElement(to, 'div', {
-      class: `handle${top ? ' top' : ''}${right ? ' right' : ''}${bottom ? ' bottom' : ''}${left ? ' left' : ''}`,
-      textContent,
-      ...attrs,
-    });
-  };
-
-  const canvas = GM_addElement(document.body, 'canvas', {});
-
-  const selecting = GM_addElement(document.body, 'aside', {
-    class: 'selecting',
-  });
-  const selection = GM_addElement(selecting, 'div', {
-    class: 'selection ants',
-  });
-  const selectionHandles = ((to) => ({
-    top: addSelectionHandle({
-      to,
-      select: { top: true },
-    }),
-    topright: addSelectionHandle({
-      to,
-      select: { top: true, right: true },
-    }),
-    right: addSelectionHandle({
-      to,
-      select: { right: true },
-    }),
-    bottomright: addSelectionHandle({
-      to,
-      select: { bottom: true, right: true },
-    }),
-    bottom: addSelectionHandle({
-      to,
-      select: { bottom: true },
-    }),
-    bottomleft: addSelectionHandle({
-      to,
-      select: { bottom: true, left: true },
-    }),
-    left: addSelectionHandle({
-      to,
-      select: { left: true },
-    }),
-    topleft: addSelectionHandle({
-      to,
-      select: { top: true, left: true },
-    }),
-  }))(selection);
-
-  const overlaid = GM_addElement(document.body, 'aside', {
-    class: 'overlaid',
-  });
-
-  const outputs = ((to) => ({
-    breadcrumbs: breadcrumbs({ to }),
-    wiki: wikilink({ to }),
-    width: addOutput({
-      to,
-      class: 'output one width',
-      textContent: '',
-    }),
-    height: addOutput({
-      to,
-      class: 'output one height',
-    }),
-    clientSize: addOutput({
-      to,
-      class: 'output two client-size',
-    }),
-    fitW: addOutput({ to, class: 'output fitw' }),
-    fitH: addOutput({ to, class: 'output fith' }),
-    imdisplaywh: addOutput({ to, class: 'output two imdisplaywh' }),
-    imalignedwh: addOutput({ to, class: 'output two imalignedwh' }),
-    pixelwh: addOutput({ to, class: 'output two pixelwh' }),
-    imtopleft: addOutput({ to, class: 'output two imtopleft' }),
-    imbottomright: addOutput({ to, class: 'output two imbottomright' }),
-  }))(overlaid);
-
-  const viewmenu = GM_addElement(document.body, 'menu', {
-    class: 'viewmenu toggles',
-  });
-  const toggles = ((to) => ({
-    selecting: addToggle({
-      to,
-      id: 'select',
-      class: 'tgl select',
-      textContent: 'select',
-      checked: false,
-    }),
-    showOverlayInfo: addToggle({
-      to,
-      id: 'info',
-      class: 'tgl info',
-      textContent: 'overlay',
-      checked: false,
-    }),
-    showOverlayImageDimensions: addToggle({
-      to,
-      id: 'dim',
-      class: 'tgl dim',
-      textContent: 'dimensions',
-      checked: false,
-    }),
-    pixelView: addToggle({
-      to,
-      id: 'pix',
-      class: 'tgl pix',
-      textContent: 'pixels',
-      checked: isTiny,
-    }),
-    gridOverlay: addToggle({
-      to,
-      id: 'grd',
-      class: 'tgl grd',
-      textContent: 'grid',
-      checked: isTiny,
-    }),
-    pixelDetect: addToggle({
-      to,
-      id: 'pxsize',
-      class: 'tgl pxsize',
-      textContent: 'px size',
-      checked: isTiny,
-    }),
-    lightDark: addToggle({
-      to,
-      id: 'sun',
-      class: 'tgl sun',
-      textContent: 'light',
-      checked: false,
-    }),
-    hatchbg: addToggle({
-      to,
-      id: 'tch',
-      class: 'tgl tch',
-      textContent: 'hatch',
-      checked: isTransparent,
-    }),
-    detectbg: addToggle({
-      to,
-      id: 'detbg',
-      class: 'tgl detbg',
-      textContent: 'bg−−',
-      checked: isTiny && isTransparent,
-    }),
-    outline: addToggle({
-      to,
-      id: 'out',
-      class: 'tgl out',
-      textContent: 'outline',
-      checked: isTransparent,
-    }),
-    debug: addToggle({
-      to,
-      id: 'dbg',
-      class: 'tgl dbg',
-      textContent: 'debug',
-      checked: false,
-    }),
-  }))(viewmenu);
-
-  (({ document: { body }, eventLayer, console: { log, debug } }) => {
-    const selecting = () => qs`.tgl.selecting`;
-    const dragging = () => body.dataset.dragging !== undefined;
-    const selection = () => body.dataset.selection !== undefined;
-    const vertical = () => body.dataset.selectingVertical !== undefined;
-    const horizontal = () => body.dataset.selectingHorizontal !== undefined;
-    const begin = (clear) => body.dataset.selectingBegin !== undefined;
-    /* Minimum distance mouse needs to move for selection to be considered to have started */
-    const beginThreshold = 4;
-
-    const selectionDisplacement = () => {
-      const sX = body.style.getPropertyValue('--selectXstart');
-      const sY = body.style.getPropertyValue('--selectYstart');
-      const eX = body.style.getPropertyValue('--selectXend');
-      const eY = body.style.getPropertyValue('--selectYend');
-      const dX = Math.max(sX, eX) - Math.min(sX, eX);
-      const dY = Math.max(sY, eY) - Math.min(sY, eY);
-      return { taxicab: dX + dY, euclidian: Math.sqrt(dX * dX + dY * dY) };
-    };
-
-    const updateSelection = ({ clientX, clientY }) => {
-      !vertical() && body.style.setProperty('--selectXend', clientX);
-      !horizontal() && body.style.setProperty('--selectYend', clientY);
-      begin() &&
-        selectionDisplacement().taxicab > beginThreshold &&
-        clearSelecting('begin');
-    };
-    const clearSelection = () => {
-      delete body.dataset.selecting;
-      delete body.dataset.selection;
-      body.style.removeProperty('--selectXstart');
-      body.style.removeProperty('--selectYstart');
-      body.style.removeProperty('--selectXend');
-      body.style.removeProperty('--selectYend');
-    };
-    const endDragSelection = (e) => {
-      updateDragSelection(e);
-      delete body.dataset.dragging;
-      eventLayer.removeEventListener('mousemove', mousemove, {});
-    };
-    const endSelection = (e) => {
-      updateSelection(e);
-      delete body.dataset.selecting;
-      eventLayer.removeEventListener('mousemove', mousemove, {});
-      body.dataset.selection = '';
-    };
-    const cancelSelection = () => {
-      delete body.dataset.selecting;
-      eventLayer.removeEventListener('mousemove', mousemove, {});
-    };
-    const beginDragSelection = ({ clientX, clientY }) => {
-      body.dataset.dragging = 'selection';
-      body.style.setProperty('--dragSelectXstart', clientX);
-      body.style.setProperty('--dragSelectYstart', clientY);
-      eventLayer.addEventListener('mousemove', mousemove, {});
-    };
-    const beginSelection = ({ clientX, clientY }) => {
-      body.dataset.selecting = 'begin';
-      body.style.setProperty('--selectXstart', clientX);
-      body.style.setProperty('--selectYstart', clientY);
-      body.style.setProperty('--selectXend', clientX);
-      body.style.setProperty('--selectYend', clientY);
-      eventLayer.addEventListener('mousemove', mousemove, {});
-    };
-    const selectAll = () => {
-      clearSelection();
-      body.style.setProperty('--selectXstart', 0);
-      body.style.setProperty('--selectYstart', 0);
-      body.style.setProperty('--selectXend', naturalWidth);
-      body.style.setProperty('--selectYend', naturalHeight);
-      body.dataset.selection = '';
-    };
-    const resumeSelection = ({ target: { classList } }) => {
-      const sX = body.style.getPropertyValue('--selectXstart');
-      const sY = body.style.getPropertyValue('--selectYstart');
-      const eX = body.style.getPropertyValue('--selectXend');
-      const eY = body.style.getPropertyValue('--selectYend');
-
-      const [minX, maxX] = sX > eX ? [eX, sX] : [sX, eX];
-      const [minY, maxY] = sY > eY ? [eY, sY] : [sY, eY];
-
-      const top = classList.contains('top'),
-        right = classList.contains('right'),
-        bottom = classList.contains('bottom'),
-        left = classList.contains('left');
-
-      if (top) {
-        body.style.setProperty('--selectYstart', maxY);
-        body.style.setProperty('--selectYend', minY);
-        body.dataset.selecting = left || right ? '' : 'vertical';
-      }
-      if (bottom) {
-        body.style.setProperty('--selectYstart', minY);
-        body.style.setProperty('--selectYend', maxY);
-        body.dataset.selecting = left || right ? '' : 'vertical';
-      }
-      if (left) {
-        body.style.setProperty('--selectXstart', maxX);
-        body.style.setProperty('--selectXend', minX);
-        body.dataset.selecting = top || bottom ? '' : 'horizontal';
-      }
-      if (right) {
-        body.style.setProperty('--selectXstart', minX);
-        body.style.setProperty('--selectXend', maxX);
-        body.dataset.selecting = top || bottom ? '' : 'horizontal';
-      }
-
-      eventLayer.addEventListener('mousemove', mousemove, {});
-    };
-
-    const mousemove = (e) => {
-      const dims = {
-        pageW: document.documentElement.clientWidth,
-        pageH: document.documentElement.clientHeight,
-        pageX: e.pageX,
-        pageY: e.pageY,
-        screenW: window.screen.width,
-        screenH: window.screen.height,
-        screenX: e.screenX,
-        screenY: e.screenY,
-        viewportW: window.innerWidth,
-        viewportH: window.innerHeight,
-        viewportX: e.clientX,
-        viewportY: e.clientY,
-        offsetW: document.documentElement.offsetWidth,
-        offsetH: document.documentElement.offsetHeight,
-        offsetX: e.offsetX,
-        offsetY: e.offsetY,
-        deltaX: e.deltaY,
-        deltaY: e.deltaX,
-        scrollX: window.scrollX,
-        scrollY: window.scrollY,
+      const selectionDisplacement = () => {
+        const sX = body.style.getPropertyValue('--selectXstart');
+        const sY = body.style.getPropertyValue('--selectYstart');
+        const eX = body.style.getPropertyValue('--selectXend');
+        const eY = body.style.getPropertyValue('--selectYend');
+        const dX = Math.max(sX, eX) - Math.min(sX, eX);
+        const dY = Math.max(sY, eY) - Math.min(sY, eY);
+        return { taxicab: dX + dY, euclidian: Math.sqrt(dX * dX + dY * dY) };
       };
 
-      const widest = Math.max(dims.pageW, dims.screenW, dims.viewportW);
-      const tallest = Math.max(dims.pageH, dims.screenH, dims.viewportH);
-      const padTo = Math.max(widest, tallest).toString().length;
+      const updateSelection = ({ clientX, clientY }) => {
+        !vertical() && body.style.setProperty('--selectXend', clientX);
+        !horizontal() && body.style.setProperty('--selectYend', clientY);
+        begin() &&
+          selectionDisplacement().taxicab > beginThreshold &&
+          clearSelecting('begin');
+      };
+      const clearSelection = () => {
+        delete body.dataset.selecting;
+        delete body.dataset.selection;
+        body.style.removeProperty('--selectXstart');
+        body.style.removeProperty('--selectYstart');
+        body.style.removeProperty('--selectXend');
+        body.style.removeProperty('--selectYend');
+      };
+      const endDragSelection = (e) => {
+        updateDragSelection(e);
+        delete body.dataset.dragging;
+        eventLayer.removeEventListener('mousemove', mousemove, {});
+      };
+      const endSelection = (e) => {
+        updateSelection(e);
+        delete body.dataset.selecting;
+        eventLayer.removeEventListener('mousemove', mousemove, {});
+        body.dataset.selection = '';
+      };
+      const cancelSelection = () => {
+        delete body.dataset.selecting;
+        eventLayer.removeEventListener('mousemove', mousemove, {});
+      };
+      const beginDragSelection = ({ clientX, clientY }) => {
+        body.dataset.dragging = 'selection';
+        body.style.setProperty('--dragSelectXstart', clientX);
+        body.style.setProperty('--dragSelectYstart', clientY);
+        eventLayer.addEventListener('mousemove', mousemove, {});
+      };
+      const beginSelection = ({ clientX, clientY }) => {
+        body.dataset.selecting = 'begin';
+        body.style.setProperty('--selectXstart', clientX);
+        body.style.setProperty('--selectYstart', clientY);
+        body.style.setProperty('--selectXend', clientX);
+        body.style.setProperty('--selectYend', clientY);
+        eventLayer.addEventListener('mousemove', mousemove, {});
+      };
+      const selectAll = () => {
+        clearSelection();
+        body.style.setProperty('--selectXstart', 0);
+        body.style.setProperty('--selectYstart', 0);
+        body.style.setProperty('--selectXend', naturalWidth);
+        body.style.setProperty('--selectYend', naturalHeight);
+        body.dataset.selection = '';
+      };
+      const resumeSelection = ({ target: { classList } }) => {
+        const sX = body.style.getPropertyValue('--selectXstart');
+        const sY = body.style.getPropertyValue('--selectYstart');
+        const eX = body.style.getPropertyValue('--selectXend');
+        const eY = body.style.getPropertyValue('--selectYend');
 
-      const pageSame =
-        dims.viewportX === dims.pageX && dims.viewportY === dims.pageY;
+        const [minX, maxX] = sX > eX ? [eX, sX] : [sX, eX];
+        const [minY, maxY] = sY > eY ? [eY, sY] : [sY, eY];
 
-      body.style.setProperty('--selectXend', maxX);
+        const top = classList.contains('top'),
+          right = classList.contains('right'),
+          bottom = classList.contains('bottom'),
+          left = classList.contains('left');
 
-      Object.entries(dims).forEach((k, v) =>
-        body.style.setProperty(`--${k}`, v),
-      );
+        if (top) {
+          body.style.setProperty('--selectYstart', maxY);
+          body.style.setProperty('--selectYend', minY);
+          body.dataset.selecting = left || right ? '' : 'vertical';
+        }
+        if (bottom) {
+          body.style.setProperty('--selectYstart', minY);
+          body.style.setProperty('--selectYend', maxY);
+          body.dataset.selecting = left || right ? '' : 'vertical';
+        }
+        if (left) {
+          body.style.setProperty('--selectXstart', maxX);
+          body.style.setProperty('--selectXend', minX);
+          body.dataset.selecting = top || bottom ? '' : 'horizontal';
+        }
+        if (right) {
+          body.style.setProperty('--selectXstart', minX);
+          body.style.setProperty('--selectXend', maxX);
+          body.dataset.selecting = top || bottom ? '' : 'horizontal';
+        }
 
-      const formatDims = ({
-        viewportX,
-        viewportY,
-        viewportW,
-        viewportH,
-        screenX,
-        screenY,
-        screenW,
-        screenH,
-        deltaX,
-        deltaY,
-        pageX,
-        pageY,
-        pageW,
-        pageH,
-        offsetX,
-        offsetY,
-        offsetW,
-        offsetH,
-        scrollX,
-        scrollY,
-      }) => padAlternateEndStart(4)`
+        eventLayer.addEventListener('mousemove', mousemove, {});
+      };
+
+      const mousemove = (e) => {
+        const dims = {
+          pageW: document.documentElement.clientWidth,
+          pageH: document.documentElement.clientHeight,
+          pageX: e.pageX,
+          pageY: e.pageY,
+          screenW: window.screen.width,
+          screenH: window.screen.height,
+          screenX: e.screenX,
+          screenY: e.screenY,
+          viewportW: window.innerWidth,
+          viewportH: window.innerHeight,
+          viewportX: e.clientX,
+          viewportY: e.clientY,
+          offsetW: document.documentElement.offsetWidth,
+          offsetH: document.documentElement.offsetHeight,
+          offsetX: e.offsetX,
+          offsetY: e.offsetY,
+          deltaX: e.deltaY,
+          deltaY: e.deltaX,
+          scrollX: window.scrollX,
+          scrollY: window.scrollY,
+        };
+
+        const widest = Math.max(dims.pageW, dims.screenW, dims.viewportW);
+        const tallest = Math.max(dims.pageH, dims.screenH, dims.viewportH);
+        const padTo = Math.max(widest, tallest).toString().length;
+
+        const pageSame =
+          dims.viewportX === dims.pageX && dims.viewportY === dims.pageY;
+
+        documentElement.style.setProperty('--selectXend', maxX);
+
+        Object.entries(dims).forEach((k, v) =>
+          documentElement.style.setProperty(`--cursor-${k}`, v),
+        );
+
+        const formatDims = ({
+          viewportX,
+          viewportY,
+          viewportW,
+          viewportH,
+          screenX,
+          screenY,
+          screenW,
+          screenH,
+          deltaX,
+          deltaY,
+          pageX,
+          pageY,
+          pageW,
+          pageH,
+          offsetX,
+          offsetY,
+          offsetW,
+          offsetH,
+          scrollX,
+          scrollY,
+        }) => padAlternateEndStart(4)`
 viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
   screen: ${screenX},${screenY} (${screenW}×${screenH})
    delta: ${deltaX},${deltaY}
@@ -465,81 +529,88 @@ viewport: ${viewportX},${viewportY} (${viewportW}×${viewportH})
   scroll: ${scrollX},${scrollY}
       `;
 
-      const formattedDims = formatDims(dims);
-      // log(pad([ ['s', 4], ['e', 4], ])`
-      log(formattedDims);
-      body.style.setProperty('--dims-formatted', formattedDims);
+        const formattedDims = formatDims(dims);
+        // log(pad([ ['s', 4], ['e', 4], ])`
+        // log(formattedDims);
+        body.style.setProperty('--dims-formatted', formattedDims);
 
-      const { pressed } = buttonsPressed(e);
-      if (selecting()) {
-        if (pressed.left) {
-          updateSelection(e);
-        } else {
-          endSelection(e);
-        }
-      } else if (dragging()) {
-        if (pressed.left) {
-          updateDragSelection(e);
-        } else {
-          endDragSelection(e);
-        }
-      }
-    };
-
-    const mousedown = (e) => {
-      const { trigger } = buttonsPressed(e);
-      if (trigger === 'left') {
-        if (e.target.classList.contains('handle')) {
-          resumeSelection(e);
-        } else if (e.target.classList.contains('selection')) {
-          e.preventDefault();
-          e.stopPropagation();
-          beginMoveSelection(e);
-        } else {
-          clearSelection();
-          beginSelection(e);
-        }
-      }
-    };
-    const mouseup = (e) => {
-      const { trigger, pressed } = buttonsPressed(e);
-      // debug(buttonsPressed(e));
-      if (selecting() && (trigger === 'left' || !pressed.left)) {
-        // e.stopPropagation();
-        e.preventDefault();
-        endSelection(e);
-      }
-    };
-    // const click = (e) => {
-    //   if (body.dataset.selecting !== undefined) {
-    //     e.stopPropagation();
-    //     e.preventDefault();
-    //     delete body.dataset.selecting;
-    //   }
-    // };
-    const keydown = (e) => {
-      const { trigger, pressed } = buttonsPressed(e);
-      if (selecting()) {
-        if (trigger === 'Escape') {
-          cancelSelection();
-        }
-      } else {
-        if (selection()) {
-          if (trigger === 'Escape') {
-            clearSelection();
+        const { pressed } = buttonsPressed(e);
+        if (selecting()) {
+          if (pressed.left) {
+            updateSelection(e);
+          } else {
+            endSelection(e);
+          }
+        } else if (dragging()) {
+          if (pressed.left) {
+            updateDragSelection(e);
+          } else {
+            endDragSelection(e);
           }
         }
-      }
-      if (pressed.ctrl && trigger === 'a') {
-        selectAll();
-      }
-    };
+      };
 
-    eventLayer.addEventListener('mousedown', mousedown, {});
-    eventLayer.addEventListener('mouseup', mouseup, {});
-    // eventLayer.addEventListener('click', click, {});
-    body.addEventListener('keydown', keydown, {});
-  })({ img: qs`img`.one, document, eventLayer: selecting, console });
+      const mousedown = (e) => {
+        const { trigger } = buttonsPressed(e);
+        if (trigger === 'left') {
+          if (e.target.classList.contains('handle')) {
+            resumeSelection(e);
+          } else if (e.target.classList.contains('selection')) {
+            e.preventDefault();
+            e.stopPropagation();
+            beginMoveSelection(e);
+          } else {
+            clearSelection();
+            beginSelection(e);
+          }
+        }
+      };
+      const mouseup = (e) => {
+        const { trigger, pressed } = buttonsPressed(e);
+        // debug(buttonsPressed(e));
+        if (selecting() && (trigger === 'left' || !pressed.left)) {
+          // e.stopPropagation();
+          e.preventDefault();
+          endSelection(e);
+        }
+      };
+      // const click = (e) => {
+      //   if (body.dataset.selecting !== undefined) {
+      //     e.stopPropagation();
+      //     e.preventDefault();
+      //     delete body.dataset.selecting;
+      //   }
+      // };
+      const keydown = (e) => {
+        const { trigger, pressed } = buttonsPressed(e);
+        if (selecting()) {
+          if (trigger === 'Escape') {
+            cancelSelection();
+          }
+        } else {
+          if (selection()) {
+            if (trigger === 'Escape') {
+              clearSelection();
+            }
+          }
+        }
+        if (pressed.ctrl && trigger === 'a') {
+          selectAll();
+        }
+      };
+
+      eventLayer.addEventListener('mousedown', mousedown, {});
+      eventLayer.addEventListener('mouseup', mouseup, {});
+      // eventLayer.addEventListener('click', click, {});
+      body.addEventListener('keydown', keydown, {});
+    })({ img: qs`img`.one, document, eventLayer: selecting, console });
+  };
+
+  firstChild.complete
+    ? onloadImg(firstChild)
+    : firstChild.addEventListener('load', ({ target }) => onloadImg(target), {
+        once: true,
+      });
 };
 
 const isStandaloneImage = (({ document }) => {
@@ -571,9 +642,9 @@ const styleToggleIds = addStyleToggles([
       console.debug('document ready');
 
       if (isStandaloneImage) {
-        initStandaloneImage(unsafeWindow);
+        initImage(unsafeWindow);
       } else if (isStandaloneSvg) {
-        initStandaloneSvg(unsafeWindow);
+        initSvg(unsafeWindow);
       }
     })
     .catch((e) => console.warn(e)),

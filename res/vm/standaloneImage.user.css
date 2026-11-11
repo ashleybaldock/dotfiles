@@ -191,96 +191,122 @@
 }
 
 /* cursor position */
-@property --viewportX {
+@property --s-cursor-r {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '0';
+}
+@property --s-cursor-g {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '0';
+}
+@property --s-cursor-b {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '0';
+}
+@property --s-cursor-a {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '0';
+}
+@property --cursor-rgba {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #0000;
+}
+
+@property --cursor-viewportX {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
-@property --viewportY {
+@property --cursor-viewportY {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
-@property --viewportW {
+@property --cursor-viewportW {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
-@property --viewportH {
+@property --cursor-viewportH {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
 
-@property --screenX {
+@property --cursor-screenX {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
-@property --screenY {
+@property --cursor-screenY {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
-@property --screenW {
+@property --cursor-screenW {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
-@property --screenH {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-
-@property --deltaX {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --deltaY {
+@property --cursor-screenH {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
 
-@property --pageX {
+@property --cursor-deltaX {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
-@property --pageY {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --pageW {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-@property --pageH {
+@property --cursor-deltaY {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
 
-@property --offsetX {
+@property --cursor-pageX {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
-@property --offsetY {
+@property --cursor-pageY {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
-@property --offsetW {
+@property --cursor-pageW {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
-@property --offsetH {
+@property --cursor-pageH {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --cursor-offsetX {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --cursor-offsetY {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --cursor-offsetW {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --cursor-offsetH {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
@@ -288,7 +314,7 @@
 /*}}}1*/
 
 /* Selection (mouse positions) */
-@property --selectXstart {
+property --selectXstart {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
@@ -1310,6 +1336,9 @@
   body > img {
     anchor-name: --anchor-image;
   }
+  body > img.hidden {
+    display: none;
+  }
   .output.width > output {
     filter: drop-shadow(0.5px 0.5px 0 #000);
     position-anchor: --anchor-image;
@@ -1326,6 +1355,47 @@
   .output.fith {
     width: calc(var(--w-if-fith) * 1px);
     height: calc(var(--h-if-fith) * 1px);
+  }
+
+  .output.color {
+    position: fixed;
+    inset: auto 0 0 auto;
+    visibility: visible;
+    display: grid;
+    /*   align-items: center; */
+    line-height: normal;
+    padding: 0.2em 0.5ch;
+    grid-template-rows: 1fr;
+    gap: 1ch;
+    background-color: #222a;
+    outline: 2px solid #222;
+    grid-template-columns: auto auto;
+    justify-content: stretch;
+    justify-items: stretch;
+    width: auto;
+  }
+  .output.color::before {
+    content: '';
+    width: auto;
+    height: 100%;
+    background-color: var(--cursor-rgba);
+    outline: 1px solid #888;
+    aspect-ratio: 1;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .output.color::after {
+    content: var(--s-cursor-hex, '#????????') '\0a' 'r:'
+      var(--s-cursor-r, ' ? ') ' g:' var(--s-cursor-g, ' ? ') ' b:'
+      var(--s-cursor-b, ' ? ') ' a:' var(--s-cursor-a, ' ? ');
+    /* content: '#' var(--s-cursor-hex, '????????') '\0a' 'r:255 g:255 b:255 a:255'; */
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 23ch;
+    text-align: start;
+  }
+  .output.color > output {
+    display: none;
   }
   /*}}}1*/
 
@@ -2136,3 +2206,50 @@
   }
 }
 /*!}}}1 END Hatched background pixel alignment */
+
+@media not print {
+  body > img,
+  body > canvas {
+    anchor-name: --anchor-image;
+  }
+  .breadcrumbs > ul {
+    --pad-left: 0;
+    --pad-right: 0;
+    max-width: 100%;
+    padding: 0;
+  }
+  .breadcrumbs {
+    max-width: 98vw;
+    inset: auto auto 0 auto;
+    background-color: #222a;
+    outline: 2px solid #222;
+    border-radius: 0;
+  }
+  .output.color {
+    justify-content: normal;
+    justify-items: normal;
+    position-anchor: --anchor-image;
+    inset: calc(anchor(bottom) + 6px) anchor(right) auto auto;
+  }
+  .output.color::after {
+    min-width: 24ch;
+    text-align: center;
+    display: block;
+    max-width: 24ch;
+    white-space: pre;
+  }
+  .output.color::before {
+    outline: none;
+    width: 3lh;
+    height: auto;
+    display: block;
+    box-shadow:
+      0.5px 0.5px 0 0 #444,
+      -0.5px -0.5px 0 0 #000,
+      0 0 0 0.5px #222,
+      0 0 0 1px #333,
+      -0.5px -0.5px 0 1px #444,
+      0.5px 0.5px 0 1px #000;
+    border-radius: 2px;
+  }
+}

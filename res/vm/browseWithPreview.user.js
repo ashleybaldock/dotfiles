@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.492
+// @version     1.0.496
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
 // @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
@@ -813,329 +813,6 @@ const initBrowsePreview = ({ document: { body } }) => {
     });
   })({ to: toggles, config, actions });
 
-  const addWrappedMedia = (
-    ({
-      window: { console },
-      config: {
-        imageduration,
-        interleave_active_player_count,
-        interleave_duration_ms,
-        interleave_bpm,
-        interleave_timing,
-        interleave_max_samples,
-        interleave_sampling,
-        repeat_playing,
-      },
-    }) =>
-    ({
-      to,
-      idx,
-      nextFile,
-      autoplay = false,
-      muted = true,
-      class: attr_class = '',
-      id,
-      ...attrs
-    } = {}) => {
-      const wrapper = GM_addElement(to, 'div', { class: `vidwrap i${idx}` });
-      wrapper.style.setProperty('--playerIdx', idx);
-      wrapper.style.setProperty('--s-playerIdx', `'${idx}'`);
-
-      let _playbackErrors = 0;
-      const maxErrorCount = 10,
-        addToCountOnError = 1,
-        addToCountOnSuccess = -2;
-
-      const videoA = GM_addElement(wrapper, 'video', {
-        preload: '',
-        muted: '',
-        class: 'a',
-        ...attrs,
-      });
-
-      const videoB = GM_addElement(wrapper, 'video', {
-        preload: '',
-        muted: '',
-        class: 'b',
-        ...attrs,
-      });
-
-      const imageI = GM_addElement(wrapper, 'img', {});
-
-      const imageJ = GM_addElement(wrapper, 'img', {});
-
-      const video = videoA;
-
-      /**
-       * Resume playback using last active media player
-       */
-      const play = () => {
-        currentSrc ??= nextMedia();
-        video.volume = 0;
-        video.muted = true;
-        video.play();
-      };
-      /**
-       * Pause playback
-       */
-      const pause = () => {
-        video.pause();
-      };
-
-      /**
-       * To ensure every file gets seen when interleaved
-       * repeat files shorter than the total time to cycle through all media
-       *
-       * Cue next media to switch in while not visible, e.g. half a cycle offset
-       */
-      const oneMinute = 60 * 1000;
-
-      const stepTime = () =>
-        interleave_timing.value === 'bpm'
-          ? oneMinute / interleave_bpm.value
-          : interleave_timing.value === 'span'
-            ? interleave_duration_ms.value
-            : Number.POSITIVE_INFINITY;
-
-      const cycleTime = () => stepTime() * interleave_active_player_count.value;
-
-      const cycleOffsetTime = () => stepTime() * idx;
-
-      // const nextMediaAfter = (mediaDuration) => mediaDuration > (cycleTime() * interleave_max_samples.value) ? :
-      // };
-
-      let nextMediaTimeoutId = null,
-        nextMediaTimeoutExpected = null,
-        nextMediaTimeoutResumeWithDuration = null;
-
-      const setNextMediaTimeout = (duration) => {
-        nextMediaTimeoutExpected = Date.now() + duration;
-        nextMediaTimeoutId =
-          clearTimeout(nextMediaTimeoutId) ??
-          setTimeout(() => {
-            nextMediaTimeoutExpected = null;
-            nextMediaTimeoutResumeWithDuration = null;
-            nextMedia();
-          }, duration);
-      };
-      const pauseNextMediaTimeout = () => {
-        nextMediaTimeoutResumeWithDuration =
-          Date.now() - (nextMediaTimeoutExpected ?? Number.POSITIVE_INFINITY);
-        nextMediaTimeoutId = clearTimeout(nextMediaTimeoutId);
-      };
-      const resumeNextMediaTimeout = () =>
-        isFinite(nextMediaTimeoutResumeWithDuration) &&
-        setNextMediaTimeout(nextMediaTimeoutResumeWithDuration);
-
-      const nextMedia = async () => {
-        const { url, isImage, isVideo } = await nextFile();
-        console.debug(
-          `nextMedia idx: ${idx}, url: ${url}, isImage: ${isImage}, isVideo: ${isVideo}`,
-        );
-        if (isVideo) {
-          if (wrapper.dataset.active === 'a') {
-            videoB.src = url;
-            videoB.addEventListener(
-              'canplaythrough',
-              () => {
-                wrapper.dataset.active = 'b';
-                videoA.removeAttribute('src');
-                videoA.load();
-                imageJ.removeAttribute('src');
-                imageI.removeAttribute('src');
-              },
-              { once: true },
-            );
-            videoB.load();
-          } else {
-            videoA.src = url;
-            videoA.addEventListener(
-              'canplaythrough',
-              () => {
-                wrapper.dataset.active = 'a';
-                videoB.removeAttribute('src');
-                videoB.load();
-                imageJ.removeAttribute('src');
-                imageI.removeAttribute('src');
-              },
-              { once: true },
-            );
-            videoA.load();
-          }
-        } else if (isImage) {
-          if (wrapper.dataset.active === 'i') {
-            imageJ.src = url;
-            imageJ.addEventListener(
-              'load',
-              () => {
-                wrapper.dataset.active = 'j';
-                videoA.removeAttribute('src');
-                videoB.removeAttribute('src');
-                imageI.removeAttribute('src');
-              },
-              { once: true },
-            );
-          } else {
-            imageI.src = url;
-            imageI.addEventListener('load', () => onLoad(imageI), {
-              once: true,
-            });
-          }
-          setNextMediaTimeout(imageduration.value * 1000);
-        } else {
-          setNextMediaTimeout(100);
-          wrapper.dataset.active = 'x';
-        }
-      };
-
-      const onPlay = (video) => {
-        // console.info(`${idx} playing '${decodeURI(video.src)}'`);
-
-        video.classList.remove('paused');
-        video.classList.add('playing');
-
-        document
-          .querySelectorAll(
-            `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
-          )
-          .forEach((tr) => {
-            tr.classList.remove('paused');
-            tr.classList.add('playing');
-            tr.style.setProperty('--playerIdx', idx);
-            tr.style.setProperty('--s-playerIdx', `'${idx}'`);
-
-            const undo = (() => {
-              let undone = false;
-              return () => {
-                if (!undone) {
-                  undone = true;
-                  tr.classList.remove('playing');
-                  tr.classList.add('played');
-                }
-              };
-            })();
-            video.addEventListener(
-              'ended',
-              () => {
-                tr.classList.remove('playing');
-                tr.classList.add('played');
-              },
-              { once: true },
-            );
-
-            video.addEventListener('loadstart', undo, { once: true });
-          });
-      };
-
-      const onPause = (video) => {
-        // console.info(`${idx} paused '${decodeURI(video.src)}'`);
-
-        video.classList.remove('playing');
-        video.classList.add('paused');
-
-        document
-          .querySelectorAll(
-            `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
-          )
-          .forEach((tr) => {
-            tr.classList.remove('playing');
-            tr.classList.add('paused');
-            tr.style.setProperty('--playerIdx', idx);
-            tr.style.setProperty('--s-playerIdx', `'${idx}'`);
-          });
-      };
-
-      videoA.addEventListener('play', () => onPlay(videoA), {});
-      videoA.addEventListener('pause', () => onPause(videoA), {});
-
-      videoB.addEventListener('play', () => onPlay(videoB), {});
-      videoB.addEventListener('pause', () => onPause(videoB), {});
-
-      (({ idx }) =>
-        [
-          [videoA, 'A'],
-          [videoB, 'B'],
-        ].forEach(([video, videoIdx]) =>
-          [
-            ['play', 'debug'],
-            ['pause', 'debug'],
-            ['volumechange', 'debug'],
-            ['canplay', 'info'],
-            ['canplaythrough', 'info'],
-            ['seeked', 'info'],
-            ['seeking', 'debug'],
-            ['timeupdate', 'debug'],
-            ['durationchange', 'debug'],
-            ['ratechange', 'debug'],
-            ['ended', 'info'],
-            ['emptied', 'debug'],
-            ['loadstart', 'debug'],
-            ['loadeddata', 'debug'],
-            ['loadedmetadata', 'debug'],
-            ['progress', 'debug'],
-            ['waiting', 'debug'],
-            ['stalled', 'debug'],
-            ['suspend', 'debug'],
-            ['error', 'debug'],
-          ].forEach((eventName, loglevel) =>
-            video.addEventListener(eventName, () =>
-              console?.[loglevel]?.(
-                `${idx}${videoIdx} ${eventName} '${decodeURI(video.src)}'`,
-              ),
-            ),
-          ),
-        ))({ idx });
-
-      /* Playback */
-      const onCanplaythrough = (video) => {
-        imageI.removeAttribute('src');
-        imageJ.removeAttribute('src');
-
-        video.play();
-      };
-      const onEnded = (video) => {
-        _playbackErrors = Math.max(0, _playbackErrors + addToCountOnSuccess);
-
-        nextMedia();
-      };
-      videoA.addEventListener('canplaythrough', () => onCanplaythrough(videoA));
-      videoB.addEventListener('canplaythrough', () => onCanplaythrough(videoB));
-      videoA.addEventListener('ended', () => onEnded(videoA));
-      videoB.addEventListener('ended', () => onEnded(videoB));
-
-      video.addEventListener('stalled', () => {
-        console.info(`${idx} stalled '${decodeURI(video.src)}'`);
-      });
-      video.addEventListener('error', () => {
-        console.warn(`${idx} error loading '${decodeURI(video.src)}'`);
-
-        if ((_playbackErrors += addToCountOnError) > maxErrorCount) {
-          video.pause();
-          video.classList.add('error');
-          console.warn(`${idx} exceeded max error count`);
-        } else {
-          nextMedia();
-        }
-      });
-
-      return {
-        wrapper,
-        player: video,
-        play,
-        pause,
-        enable: () => {
-          video.classList.remove('off');
-        },
-        disable: () => {
-          video.pause();
-          video.removeAttribute('src');
-          video.classList.add('off');
-          image.removeAttribute('src');
-        },
-      };
-    }
-  )({ window, config });
-
   const getFileList = (
     ({
       config: {
@@ -1287,6 +964,37 @@ const initBrowsePreview = ({ document: { body } }) => {
     }
   )({ config, shuffleArray: shuffle });
 
+  const updateFileListingPlaybackStatus = ({video, video: {src}, idx, status}) =>
+
+    document
+      .querySelectorAll(
+        `body > table > tbody > tr:has([href="${src.split('/').slice(-1)}"])`,
+      )
+      .forEach((tr) => {
+        if (status === 'playing') {
+          const played = () => {
+            tr.classList.remove('playing');
+            tr.classList.add('played');
+
+            video.removeEventListener('ended', played, { once: true });
+            video.removeEventListener('loadstart', played, {
+              once: true,
+            });
+          };
+
+          tr.classList.remove('paused');
+          tr.classList.add('playing');
+
+          video.addEventListener('ended', played, { once: true });
+          video.addEventListener('loadstart', played, { once: true });
+        }
+        if (status === 'paused') {
+          tr.classList.remove('playing');
+          tr.classList.add('paused');
+        }
+        tr.style.setProperty('--playerIdx', idx);
+        tr.style.setProperty('--s-playerIdx', `'${idx}'`);
+      });
   /**
    * Interleaved player (via canvas)
    */
@@ -1407,74 +1115,30 @@ const initBrowsePreview = ({ document: { body } }) => {
         }
       };
 
-      const onPlay = (video) => {
+      const onPlay = () => {
         // console.info(`${idx} playing '${decodeURI(video.src)}'`);
 
         video.classList.remove('paused');
         video.classList.add('playing');
 
-        updateFileListingPlaybackStatus(video.src, idx, 'playing');
-
-        const updateFileListingPlaybackStatus = (srcUrl, idx, status) =>
-          document
-            .querySelectorAll(
-              `body > table > tbody > tr:has([href="${srcUrl.split('/').slice(-1)}"])`,
-            )
-            .forEach((tr) => {
-              if (status === 'playing') {
-                const played = () => {
-                  tr.classList.remove('playing');
-                  tr.classList.add('played');
-
-                  video.removeEventListener('ended', played, { once: true });
-                  video.removeEventListener('loadstart', played, {
-                    once: true,
-                  });
-                };
-
-                tr.classList.remove('paused');
-                tr.classList.add('playing');
-
-                video.addEventListener('ended', played, { once: true });
-                video.addEventListener('loadstart', played, { once: true });
-              }
-              if (status === 'paused') {
-                tr.classList.remove('playing');
-                tr.classList.add('paused');
-              }
-              tr.style.setProperty('--playerIdx', idx);
-              tr.style.setProperty('--s-playerIdx', `'${idx}'`);
-            });
+        updateFileListingPlaybackStatus({video, idx, status: 'playing'});
       };
 
-      const onPause = (video) => {
+      const onPause = () => {
         // console.info(`${idx} paused '${decodeURI(video.src)}'`);
 
         video.classList.remove('playing');
         video.classList.add('paused');
 
-        document
-          .querySelectorAll(
-            `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
-          )
-          .forEach((tr) => {
-            tr.classList.remove('playing');
-            tr.classList.add('paused');
-            tr.style.setProperty('--playerIdx', idx);
-            tr.style.setProperty('--s-playerIdx', `'${idx}'`);
-          });
+        updateFileListingPlaybackStatus({video, idx, status: 'paused'});
       };
 
-      videoA.addEventListener('play', () => onPlay(videoA), {});
-      videoA.addEventListener('pause', () => onPause(videoA), {});
-
-      videoB.addEventListener('play', () => onPlay(videoB), {});
-      videoB.addEventListener('pause', () => onPause(videoB), {});
+      video.addEventListener('play', onPlay, {});
+      video.addEventListener('pause', onPause, {});
 
       (({ idx }) =>
         [
-          [videoA, 'A'],
-          [videoB, 'B'],
+          [video, 'A'],
         ].forEach(([video, videoIdx]) =>
           [
             ['play', 'debug'],
@@ -1508,9 +1172,6 @@ const initBrowsePreview = ({ document: { body } }) => {
 
       /* Playback */
       const onCanplaythrough = (video) => {
-        imageI.removeAttribute('src');
-        imageJ.removeAttribute('src');
-
         video.play();
       };
       const onEnded = (video) => {
@@ -1518,10 +1179,8 @@ const initBrowsePreview = ({ document: { body } }) => {
 
         nextMedia();
       };
-      videoA.addEventListener('canplaythrough', () => onCanplaythrough(videoA));
-      videoB.addEventListener('canplaythrough', () => onCanplaythrough(videoB));
-      videoA.addEventListener('ended', () => onEnded(videoA));
-      videoB.addEventListener('ended', () => onEnded(videoB));
+      video.addEventListener('canplaythrough', video);
+      video.addEventListener('ended', video);
 
       video.addEventListener('stalled', () => {
         console.info(`${idx} stalled '${decodeURI(video.src)}'`);
@@ -1550,10 +1209,10 @@ const initBrowsePreview = ({ document: { body } }) => {
           video.pause();
           video.removeAttribute('src');
           video.classList.add('off');
-          image.removeAttribute('src');
         },
       };
     };
+
     const canvasPlayerContainer = GM_addElement(to, 'section', {
       class: 'player canvas',
     });
@@ -1715,6 +1374,333 @@ const initBrowsePreview = ({ document: { body } }) => {
    * Interleaved player (via transform + animation)
    */
   (({ to, config: { player, playpause, interleave_active_player_count } }) => {
+    const addWrappedMedia = (
+      ({
+        window: { console },
+        config: {
+          imageduration,
+          interleave_active_player_count,
+          interleave_duration_ms,
+          interleave_bpm,
+          interleave_timing,
+          interleave_max_samples,
+          interleave_sampling,
+          repeat_playing,
+        },
+      }) =>
+      ({
+        to,
+        idx,
+        nextFile,
+        autoplay = false,
+        muted = true,
+        class: attr_class = '',
+        id,
+        ...attrs
+      } = {}) => {
+        const wrapper = GM_addElement(to, 'div', { class: `vidwrap i${idx}` });
+        wrapper.style.setProperty('--playerIdx', idx);
+        wrapper.style.setProperty('--s-playerIdx', `'${idx}'`);
+
+        let _playbackErrors = 0;
+        const maxErrorCount = 10,
+          addToCountOnError = 1,
+          addToCountOnSuccess = -2;
+
+        const videoA = GM_addElement(wrapper, 'video', {
+          preload: '',
+          muted: '',
+          class: 'a',
+          ...attrs,
+        });
+
+        const videoB = GM_addElement(wrapper, 'video', {
+          preload: '',
+          muted: '',
+          class: 'b',
+          ...attrs,
+        });
+
+        const imageI = GM_addElement(wrapper, 'img', {});
+
+        const imageJ = GM_addElement(wrapper, 'img', {});
+
+        const video = videoA;
+
+        /**
+         * Resume playback using last active media player
+         */
+        const play = () => {
+          currentSrc ??= nextMedia();
+          video.volume = 0;
+          video.muted = true;
+          video.play();
+        };
+        /**
+         * Pause playback
+         */
+        const pause = () => {
+          video.pause();
+        };
+
+        /**
+         * To ensure every file gets seen when interleaved
+         * repeat files shorter than the total time to cycle through all media
+         *
+         * Cue next media to switch in while not visible, e.g. half a cycle offset
+         */
+        const oneMinute = 60 * 1000;
+
+        const stepTime = () =>
+          interleave_timing.value === 'bpm'
+            ? oneMinute / interleave_bpm.value
+            : interleave_timing.value === 'span'
+              ? interleave_duration_ms.value
+              : Number.POSITIVE_INFINITY;
+
+        const cycleTime = () =>
+          stepTime() * interleave_active_player_count.value;
+
+        const cycleOffsetTime = () => stepTime() * idx;
+
+        // const nextMediaAfter = (mediaDuration) => mediaDuration > (cycleTime() * interleave_max_samples.value) ? :
+        // };
+
+        let nextMediaTimeoutId = null,
+          nextMediaTimeoutExpected = null,
+          nextMediaTimeoutResumeWithDuration = null;
+
+        const setNextMediaTimeout = (duration) => {
+          nextMediaTimeoutExpected = Date.now() + duration;
+          nextMediaTimeoutId =
+            clearTimeout(nextMediaTimeoutId) ??
+            setTimeout(() => {
+              nextMediaTimeoutExpected = null;
+              nextMediaTimeoutResumeWithDuration = null;
+              nextMedia();
+            }, duration);
+        };
+        const pauseNextMediaTimeout = () => {
+          nextMediaTimeoutResumeWithDuration =
+            Date.now() - (nextMediaTimeoutExpected ?? Number.POSITIVE_INFINITY);
+          nextMediaTimeoutId = clearTimeout(nextMediaTimeoutId);
+        };
+        const resumeNextMediaTimeout = () =>
+          isFinite(nextMediaTimeoutResumeWithDuration) &&
+          setNextMediaTimeout(nextMediaTimeoutResumeWithDuration);
+
+        const nextMedia = async () => {
+          const { url, isImage, isVideo } = await nextFile();
+          console.debug(
+            `nextMedia idx: ${idx}, url: ${url}, isImage: ${isImage}, isVideo: ${isVideo}`,
+          );
+          if (isVideo) {
+            if (wrapper.dataset.active === 'a') {
+              videoB.src = url;
+              videoB.addEventListener(
+                'canplaythrough',
+                () => {
+                  wrapper.dataset.active = 'b';
+                  videoA.removeAttribute('src');
+                  videoA.load();
+                  imageJ.removeAttribute('src');
+                  imageI.removeAttribute('src');
+                },
+                { once: true },
+              );
+              videoB.load();
+            } else {
+              videoA.src = url;
+              videoA.addEventListener(
+                'canplaythrough',
+                () => {
+                  wrapper.dataset.active = 'a';
+                  videoB.removeAttribute('src');
+                  videoB.load();
+                  imageJ.removeAttribute('src');
+                  imageI.removeAttribute('src');
+                },
+                { once: true },
+              );
+              videoA.load();
+            }
+          } else if (isImage) {
+            if (wrapper.dataset.active === 'i') {
+              imageJ.src = url;
+              imageJ.addEventListener(
+                'load',
+                () => {
+                  wrapper.dataset.active = 'j';
+                  videoA.removeAttribute('src');
+                  videoB.removeAttribute('src');
+                  imageI.removeAttribute('src');
+                },
+                { once: true },
+              );
+            } else {
+              imageI.src = url;
+              imageI.addEventListener('load', () => onLoad(imageI), {
+                once: true,
+              });
+            }
+            setNextMediaTimeout(imageduration.value * 1000);
+          } else {
+            setNextMediaTimeout(100);
+            wrapper.dataset.active = 'x';
+          }
+        };
+
+        const onPlay = (video) => {
+          // console.info(`${idx} playing '${decodeURI(video.src)}'`);
+
+          video.classList.remove('paused');
+          video.classList.add('playing');
+
+          document
+            .querySelectorAll(
+              `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
+            )
+            .forEach((tr) => {
+              tr.classList.remove('paused');
+              tr.classList.add('playing');
+              tr.style.setProperty('--playerIdx', idx);
+              tr.style.setProperty('--s-playerIdx', `'${idx}'`);
+
+              const undo = (() => {
+                let undone = false;
+                return () => {
+                  if (!undone) {
+                    undone = true;
+                    tr.classList.remove('playing');
+                    tr.classList.add('played');
+                  }
+                };
+              })();
+              video.addEventListener(
+                'ended',
+                () => {
+                  tr.classList.remove('playing');
+                  tr.classList.add('played');
+                },
+                { once: true },
+              );
+
+              video.addEventListener('loadstart', undo, { once: true });
+            });
+        };
+
+        const onPause = (video) => {
+          // console.info(`${idx} paused '${decodeURI(video.src)}'`);
+
+          video.classList.remove('playing');
+          video.classList.add('paused');
+
+          document
+            .querySelectorAll(
+              `body > table > tbody > tr:has([href="${video.src.split('/').slice(-1)}"])`,
+            )
+            .forEach((tr) => {
+              tr.classList.remove('playing');
+              tr.classList.add('paused');
+              tr.style.setProperty('--playerIdx', idx);
+              tr.style.setProperty('--s-playerIdx', `'${idx}'`);
+            });
+        };
+
+        videoA.addEventListener('play', () => onPlay(videoA), {});
+        videoA.addEventListener('pause', () => onPause(videoA), {});
+
+        videoB.addEventListener('play', () => onPlay(videoB), {});
+        videoB.addEventListener('pause', () => onPause(videoB), {});
+
+        (({ idx }) =>
+          [
+            [videoA, 'A'],
+            [videoB, 'B'],
+          ].forEach(([video, videoIdx]) =>
+            [
+              ['play', 'debug'],
+              ['pause', 'debug'],
+              ['volumechange', 'debug'],
+              ['canplay', 'info'],
+              ['canplaythrough', 'info'],
+              ['seeked', 'info'],
+              ['seeking', 'debug'],
+              ['timeupdate', 'debug'],
+              ['durationchange', 'debug'],
+              ['ratechange', 'debug'],
+              ['ended', 'info'],
+              ['emptied', 'debug'],
+              ['loadstart', 'debug'],
+              ['loadeddata', 'debug'],
+              ['loadedmetadata', 'debug'],
+              ['progress', 'debug'],
+              ['waiting', 'debug'],
+              ['stalled', 'debug'],
+              ['suspend', 'debug'],
+              ['error', 'debug'],
+            ].forEach((eventName, loglevel) =>
+              video.addEventListener(eventName, () =>
+                console?.[loglevel]?.(
+                  `${idx}${videoIdx} ${eventName} '${decodeURI(video.src)}'`,
+                ),
+              ),
+            ),
+          ))({ idx });
+
+        /* Playback */
+        const onCanplaythrough = (video) => {
+          imageI.removeAttribute('src');
+          imageJ.removeAttribute('src');
+
+          video.play();
+        };
+        const onEnded = (video) => {
+          _playbackErrors = Math.max(0, _playbackErrors + addToCountOnSuccess);
+
+          nextMedia();
+        };
+        videoA.addEventListener('canplaythrough', () =>
+          onCanplaythrough(videoA),
+        );
+        videoB.addEventListener('canplaythrough', () =>
+          onCanplaythrough(videoB),
+        );
+        videoA.addEventListener('ended', () => onEnded(videoA));
+        videoB.addEventListener('ended', () => onEnded(videoB));
+
+        video.addEventListener('stalled', () => {
+          console.info(`${idx} stalled '${decodeURI(video.src)}'`);
+        });
+        video.addEventListener('error', () => {
+          console.warn(`${idx} error loading '${decodeURI(video.src)}'`);
+
+          if ((_playbackErrors += addToCountOnError) > maxErrorCount) {
+            video.pause();
+            video.classList.add('error');
+            console.warn(`${idx} exceeded max error count`);
+          } else {
+            nextMedia();
+          }
+        });
+
+        return {
+          wrapper,
+          player: video,
+          play,
+          pause,
+          enable: () => {
+            video.classList.remove('off');
+          },
+          disable: () => {
+            video.pause();
+            video.removeAttribute('src');
+            video.classList.add('off');
+            image.removeAttribute('src');
+          },
+        };
+      }
+    )({ window, config });
     const interleavePlayerContainer = GM_addElement(to, 'section', {
       class: 'player interleave',
     });

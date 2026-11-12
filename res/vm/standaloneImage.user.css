@@ -2204,26 +2204,11 @@ property --selectXstart {
     --bgposX-hatch: left var(--px-imleft);
     --bgposY-hatch: top var(--px-imtop);
   }
-}
-/*!}}}1 END Hatched background pixel alignment */
+  /*!}}}1 END Hatched background pixel alignment */
 
-@media not print {
   body > img,
   body > canvas {
     anchor-name: --anchor-image;
-  }
-  .breadcrumbs > ul {
-    --pad-left: 0;
-    --pad-right: 0;
-    max-width: 100%;
-    padding: 0;
-  }
-  .breadcrumbs {
-    max-width: 98vw;
-    inset: auto auto 0 auto;
-    background-color: #222a;
-    outline: 2px solid #222;
-    border-radius: 0;
   }
   .output.color {
     justify-content: normal;
@@ -2251,5 +2236,46 @@ property --selectXstart {
       -0.5px -0.5px 0 1px #444,
       0.5px 0.5px 0 1px #000;
     border-radius: 2px;
+  }
+
+  .breadcrumbs {
+    max-width: 98vw;
+    inset: auto auto 0 auto;
+    background-color: #222a;
+    outline: 2px solid #222;
+    border-radius: 0;
+  }
+  .breadcrumbs > ul {
+    --pad-left: 0;
+    --pad-right: 0;
+    max-width: 100%;
+    padding: 0;
+  }
+  .breadcrumbs > ul > li {
+    max-width: fit-content;
+    width: auto;
+    flex: 2 1;
+    overflow: clip;
+  }
+  .breadcrumbs > ul > li:not([class]) {
+    text-overflow: '‥/';
+    min-width: 1ch;
+  }
+  .breadcrumbs > ul > li:not([class])::after {
+    content: '/';
+    min-width: 1ch;
+    display: inline;
+  }
+  .breadcrumbs > ul > li.filename {
+    display: unset;
+    overflow: clip;
+    min-width: 1ch;
+    width: auto;
+    flex: 10 1;
+    text-overflow: '‥';
+    max-width: fit-content;
+  }
+  .breadcrumbs .sep {
+    display: none;
   }
 }

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.375
+// @version     1.2.382
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -155,30 +155,54 @@ const initImage = ({
         name: '--cursor-r',
         value: r,
         syntax: '<number>',
+        asString: (s) => s.toString(10).padStart(3, ' '),
       });
       setRegisteredCSSProperty({
         name: '--cursor-g',
         value: g,
         syntax: '<number>',
+        asString: (s) => s.toString(10).padStart(3, ' '),
       });
       setRegisteredCSSProperty({
         name: '--cursor-b',
         value: b,
         syntax: '<number>',
+        asString: (s) => s.toString(10).padStart(3, ' '),
       });
       setRegisteredCSSProperty({
         name: '--cursor-a',
         value: a,
         syntax: '<number>',
-      });
-      setRegisteredCSSProperty({
-        name: '--cursor-hex',
-        value: `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}${a.toString(16).padStart(2, '0')}`,
-        syntax: '<color>',
+        asString: (s) => s.toString(10).padStart(3, ' '),
       });
       setRegisteredCSSProperty({
         name: '--cursor-rgba',
         value: `rgb(${r} ${g} ${b} / ${a / 255})`,
+        syntax: '<color>',
+      });
+      setRegisteredCSSProperty({
+        name: '--cursor-hex-r',
+        value: `${r.toString(16).padStart(2, '0')}`,
+        syntax: '<string>',
+      });
+      setRegisteredCSSProperty({
+        name: '--cursor-hex-g',
+        value: `${g.toString(16).padStart(2, '0')}`,
+        syntax: '<string>',
+      });
+      setRegisteredCSSProperty({
+        name: '--cursor-hex-b',
+        value: `${b.toString(16).padStart(2, '0')}`,
+        syntax: '<string>',
+      });
+      setRegisteredCSSProperty({
+        name: '--cursor-hex-a',
+        value: `${a.toString(16).padStart(2, '0')}`,
+        syntax: '<string>',
+      });
+      setRegisteredCSSProperty({
+        name: '--cursor-hex',
+        value: `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}${a.toString(16).padStart(2, '0')}`,
         syntax: '<color>',
       });
     };
@@ -275,9 +299,9 @@ const initImage = ({
       }),
       selecting: addToggle({
         to,
-        id: 'pickcolor',
-        class: 'tgl select',
-        textContent: 'picker',
+        id: 'pixelinfo',
+        class: 'tgl pixelinfo',
+        textContent: 'pixel info',
         checked: true,
       }),
       showOverlayInfo: addToggle({

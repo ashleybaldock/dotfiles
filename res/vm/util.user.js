@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.296
+// @version       1.1.304
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -169,17 +169,37 @@ const cssOQN = (el) =>
 const noop = () => {};
 
 /*{{{2 CSS @property registration  */
+/**
+ * update value of registered custom CSS property
+ *
+ * on: element to set property on
+ * name: property name ('--' prefix added if missing)
+ * value: value to set
+ * syntax: CSS typed syntax (e.g. '<string>', '<color>' etc.)
+ *
+ * Note: for non-<string> type values, this also adds a string
+ * version of the property (prefixed with '--s-')
+ *
+ * toString: method used to transform value into a string, e.g. (s) => s.padStart(3, '0')
+ * noString: disable automatic string property generation
+ */
 const setRegisteredCSSProperty = (
   ({ window: { document } }) =>
-  ({ on = document.documentElement, name: _name, value, syntax }) => {
+  ({
+    on = document.documentElement,
+    name: _name,
+    value,
+    syntax,
+    asString = (s) => `s`,
+  }) => {
     const name = /^--/.test(_name) ? _name : `--${_name}`;
     const s_name = `--s-${name.slice(2)}`;
 
     let output = value,
-      s_output = `'${value}'`;
+      s_output = asString(value);
 
     if (syntax === '<string>') {
-      output = quoteUnquoted`${value}`;
+      output = quoteUnquoted("'")`${value}`;
       s_output = output;
     }
 

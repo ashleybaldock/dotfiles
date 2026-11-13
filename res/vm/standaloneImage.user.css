@@ -191,30 +191,55 @@
 }
 
 /* cursor position */
-@property --s-cursor-r {
-  syntax: '<string>';
+@property --cursor-r {
+  syntax: '<integer>';
   inherits: true;
-  initial-value: '0';
+  initial-value: 0;
 }
-@property --s-cursor-g {
-  syntax: '<string>';
+@property --cursor-g {
+  syntax: '<integer>';
   inherits: true;
-  initial-value: '0';
+  initial-value: 0;
 }
-@property --s-cursor-b {
-  syntax: '<string>';
+@property --cursor-b {
+  syntax: '<integer>';
   inherits: true;
-  initial-value: '0';
+  initial-value: 0;
 }
-@property --s-cursor-a {
-  syntax: '<string>';
+@property --cursor-a {
+  syntax: '<integer>';
   inherits: true;
-  initial-value: '0';
+  initial-value: 0;
 }
 @property --cursor-rgba {
   syntax: '<color>';
   inherits: true;
   initial-value: #0000;
+}
+@property --cursor-hex {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #000000;
+}
+@property --cursor-hex-r {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '00';
+}
+@property --cursor-hex-g {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '00';
+}
+@property --cursor-hex-b {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '00';
+}
+@property --cursor-hex-a {
+  syntax: '<string>';
+  inherits: true;
+  initial-value: '00';
 }
 
 @property --cursor-viewportX {
@@ -514,6 +539,13 @@ property --selectXstart {
     padding: 0;
     margin: 0;
     overflow: hidden;
+  }
+  body > img,
+  body > canvas {
+    anchor-name: --anchor-image;
+  }
+  body > img.hidden {
+    display: none;
   }
 
   li {
@@ -1173,6 +1205,46 @@ property --selectXstart {
   .ext-png::before {
     content: '';
   }
+  .breadcrumbs {
+    max-width: 98vw;
+    inset: auto auto 0 auto;
+    background-color: #222a;
+    outline: 2px solid #222;
+    border-radius: 0;
+  }
+  .breadcrumbs > ul {
+    --pad-left: 0;
+    --pad-right: 0;
+    max-width: 100%;
+    padding: 0;
+  }
+  .breadcrumbs > ul > li {
+    max-width: fit-content;
+    width: auto;
+    flex: 2 1;
+    overflow: clip;
+  }
+  .breadcrumbs > ul > li:not([class]) {
+    text-overflow: '‥/';
+    min-width: 1ch;
+  }
+  .breadcrumbs > ul > li:not([class])::after {
+    content: '/';
+    min-width: 1ch;
+    display: inline;
+  }
+  .breadcrumbs > ul > li.filename {
+    display: unset;
+    overflow: clip;
+    min-width: 1ch;
+    width: auto;
+    flex: 10 1;
+    text-overflow: '‥';
+    max-width: fit-content;
+  }
+  .breadcrumbs .sep {
+    display: none;
+  }
 
   /*}}}1*/
 
@@ -1333,12 +1405,6 @@ property --selectXstart {
     position: relative;
   }
 
-  body > img {
-    anchor-name: --anchor-image;
-  }
-  body > img.hidden {
-    display: none;
-  }
   .output.width > output {
     filter: drop-shadow(0.5px 0.5px 0 #000);
     position-anchor: --anchor-image;
@@ -1359,10 +1425,8 @@ property --selectXstart {
 
   .output.color {
     position: fixed;
-    inset: auto 0 0 auto;
-    visibility: visible;
+    visibility: hidden;
     display: grid;
-    /*   align-items: center; */
     line-height: normal;
     padding: 0.2em 0.5ch;
     grid-template-rows: 1fr;
@@ -1370,29 +1434,47 @@ property --selectXstart {
     background-color: #222a;
     outline: 2px solid #222;
     grid-template-columns: auto auto;
-    justify-content: stretch;
-    justify-items: stretch;
     width: auto;
+    justify-content: normal;
+    justify-items: normal;
+    position-anchor: --anchor-image;
+    inset: calc(anchor(bottom) + 6px) anchor(right) auto auto;
+  }
+  :root:has(#tgl_pixelinfo:checked):has(body > canvas:hover) .output.color {
+    visibility: visible;
   }
   .output.color::before {
     content: '';
-    width: auto;
-    height: 100%;
     background-color: var(--cursor-rgba);
-    outline: 1px solid #888;
     aspect-ratio: 1;
     grid-column: 1;
     grid-row: 1;
+    outline: none;
+    width: 3lh;
+    height: auto;
+    display: block;
+    box-shadow:
+      0.5px 0.5px 0 0 #444,
+      -0.5px -0.5px 0 0 #000,
+      0 0 0 0.5px #222,
+      0 0 0 1px #333,
+      -0.5px -0.5px 0 1px #444,
+      0.5px 0.5px 0 1px #000;
+    border-radius: 2px;
   }
   .output.color::after {
-    content: var(--s-cursor-hex, '#????????') '\0a' 'r:'
-      var(--s-cursor-r, ' ? ') ' g:' var(--s-cursor-g, ' ? ') ' b:'
-      var(--s-cursor-b, ' ? ') ' a:' var(--s-cursor-a, ' ? ');
+    content: '#' var(--s-cursor-hex-r, '00') var(--s-cursor-hex-g, '00')
+      var(--s-cursor-hex-b, '00') var(--s-cursor-hex-a, '00') '\0a' 'r:'
+      var(--s-cursor-r, '  0') ' g:' var(--s-cursor-g, '  0') ' b:'
+      var(--s-cursor-b, '  0') ' a:' var(--s-cursor-a, '  0');
     /* content: '#' var(--s-cursor-hex, '????????') '\0a' 'r:255 g:255 b:255 a:255'; */
     grid-column: 2;
     grid-row: 1;
-    min-width: 23ch;
-    text-align: start;
+    min-width: 24ch;
+    text-align: center;
+    display: block;
+    max-width: 24ch;
+    white-space: pre;
   }
   .output.color > output {
     display: none;
@@ -1433,6 +1515,11 @@ property --selectXstart {
     inherits: true;
     initial-value: 1;
   }
+  @property --anispeed {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 200;
+  }
   @keyframes ants {
     0% {
       --animated-offset: 0;
@@ -1446,8 +1533,8 @@ property --selectXstart {
     position: absolute;
     width: 100%;
     height: 100%;
-    /*! pointer-events: none; */
     cursor: crosshair;
+    pointer-events: none;
   }
 
   .selection {
@@ -1477,8 +1564,237 @@ property --selectXstart {
     --Ys: round(down, calc(var(--selectYstart) - var(--imtop)), var(--pixelw));
     --Ye: round(nearest, calc(var(--selectYend) - var(--imtop)), var(--pixelw));
   }
+  .selection:not(:has(> :hover)):hover {
+    transition: background 40ms ease 40ms;
+  }
+  .selection:not(:has(> :hover)) {
+    transition: background 120ms ease 60ms;
+  }
 
-  .ants {
+  :is([data-selection], [data-selecting])
+    :is(.selection, .selection > .handle) {
+    visibility: visible;
+  }
+  .selection:not(:has(> :hover)):hover {
+    background-color: #08f3;
+  }
+  :is([data-selection], [data-selecting])
+    :is(.selection:hover:not(:has(> :hover)) > handle)::before {
+    visibility: hidden;
+  }
+  .selection > .handle {
+    z-index: var(--z-selection-handle);
+    pointer-events: auto;
+    position: absolute;
+    width: var(--size);
+    height: auto;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    --size: var(--handle-size);
+    --half: calc(var(--handle-size) * 0.5);
+    box-sizing: border-box;
+    top: calc(50% - var(--half));
+    bottom: calc(50% - var(--half));
+    left: calc(50% - var(--half));
+    right: calc(50% - var(--half));
+    display: grid;
+    grid-template: 1fr / 1fr;
+    margin: 0;
+    box-shadow:
+      0 0 4px -1px #000,
+      inset 0 0 2px 0 #000;
+    border: 0.5px solid #fff;
+    background-color: #0aa;
+  }
+  .selection > .handle:hover {
+    transform: scale(1.2);
+  }
+  .selection > .handle:hover {
+    transform: scale(1);
+    transform-origin: center;
+    box-sizing: content-box;
+    box-shadow:
+      0 0 4px -1px #000,
+      inset 0 0 2px 0 #000,
+      0 0 0.5px 30px #08f3;
+  }
+  .selection > .handle:active {
+    opacity: 1;
+    visibility: visible;
+    box-shadow: none;
+  }
+  .selection > .handle::before {
+    content: '';
+    height: auto;
+    aspect-ratio: 1;
+    display: flex;
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+    place-self: center;
+    position: absolute;
+    --c-drag: #0ff;
+    --c-drag-2nd: #088;
+    width: var(--w);
+    box-shadow:
+      0 0 #0000 var(--bs-corners,),
+      0 0 0 2px #0006;
+    outline: none;
+
+    --w－: calc(var(--w) * -1);
+    --bs-tl:
+      calc(var(--w) * -0.4) calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25)
+        var(--c-drag),
+      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
+        calc(var(--w) * -0.6) var(--c-drag-2nd);
+    --bs-tr:
+      calc(var(--w) * 0.4) calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25)
+        var(--c-drag),
+      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
+        calc(var(--w) * -0.6) var(--c-drag-2nd);
+    --bs-bl:
+      calc(var(--w) * -0.25) calc(1px + var(--w) * 0.25) 0
+        calc(var(--w) * -0.25) var(--c-drag),
+      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
+        calc(var(--w) * -0.6) var(--c-drag-2nd);
+    --bs-br:
+      calc(var(--w) * 0.33) calc(2px + var(--w) * 0.33) 0 calc(var(--w) * -0.33)
+        var(--c-drag),
+      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
+        calc(var(--w) * -0.6) var(--c-drag-2nd);
+
+    --bs-notl:
+      calc(var(--w) * -0.25) calc(var(--w) * -0.25) 0 calc(var(--w) * -0.25)
+        var(--c-nodrag),
+      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
+        var(--c-nodrag-2nd);
+    --bs-notr:
+      calc(var(--w) * 0.2) calc(var(--w) * -0.2) 0 calc(var(--w) * -0.25)
+        var(--c-nodrag),
+      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
+        var(--c-nodrag-2nd);
+    --bs-nobl:
+      calc(var(--w) * -0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.25)
+        var(--c-nodrag),
+      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
+        var(--c-nodrag-2nd);
+    --bs-nobr:
+      calc(var(--w) * 0.33) calc(var(--w) * 0.33) 0 calc(var(--w) * -0.33)
+        var(--c-nodrag),
+      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
+        var(--c-nodrag-2nd);
+    border-radius: 30%;
+    --c-nodrag: #0880;
+    --c-nodrag-2nd: #0440;
+    --bs-t: calc(var(--w) * -0.1) calc(var(--w) * -0.4) 0 calc(var(--w－) * 0.2)
+      var(--c-drag);
+    --bs-b: calc(var(--w) * 0) calc(var(--w) * 0.4) 0 calc(var(--w－) * 0.2)
+      var(--c-drag);
+    opacity: 0;
+    --w: max(calc(var(--size) * 8), calc(var(--px-pixelw) * 2));
+  }
+  :root:has(#tgl_dbg:checked) .selection > .handle::before {
+    box-shadow: inset 0 0 1px 1px #f0f4;
+  }
+  .selection > .handle:hover::before {
+    opacity: 1;
+  }
+  .selection > .handle:active,
+  .selection > .handle:active::before {
+    opacity: 1;
+    background-color: red;
+  }
+  .selection:hover:not(:has(> :hover)) > .handle::before {
+    visibility: hidden;
+  }
+  .selection:not(:has(> :hover)):hover {
+    transition:
+      --anispeed 10s linear 120ms,
+      background 200ms ease 40ms;
+    transition-behavior: normal;
+    background-color: #08f1;
+  }
+  .selection:not(:has(> :hover)) {
+    transition:
+      --anispeed 10s linear 120ms,
+      background 120ms ease 60ms;
+  }
+  .selection:hover:not(:has(> :hover)) > .handle::before {
+    visibility: hidden;
+  }
+
+  .selection > .handle.top {
+    top: calc((var(--half) * -1) - 0.5px);
+    bottom: unset;
+    cursor: ns-resize;
+  }
+  .selection > .handle.top::before {
+    --bs-corners: , var(--bs-t), var(--bs-b);
+    border-radius: 240px / 200px;
+  }
+
+  .selection > .handle.right {
+    left: unset;
+    right: calc((var(--half) * -1) - 0.5px);
+    cursor: ew-resize;
+  }
+  .selection > .handle.right::before {
+    --bs-corners: , var(--bs-tr), var(--bs-br);
+  }
+
+  .selection > .handle.bottom {
+    top: unset;
+    bottom: calc((var(--half) * -1) - 0.5px);
+    cursor: ns-resize;
+  }
+  .selection > .handle.bottom::before {
+    --bs-corners: , var(--bs-bl), var(--bs-br);
+  }
+
+  .selection > .handle.left {
+    right: unset;
+    left: calc((var(--half) * -1) - 0.5px);
+    cursor: ew-resize;
+  }
+  .selection > .handle.left::before {
+    --bs-corners: , var(--bs-tl), var(--bs-bl);
+  }
+
+  .selection > .handle.top.right {
+    cursor: nesw-resize;
+    z-index: var(--z-selection-corner);
+  }
+  .selection > .handle.top.right::before {
+    --bs-corners: , var(--bs-notl), var(--bs-tr), var(--bs-nobr);
+  }
+  .selection > .handle.top.right::before {
+    --bs-corners: , var(--bs-tr), var(--bs-bl);
+  }
+
+  .selection > .handle.bottom.left {
+    cursor: nesw-resize;
+    z-index: var(--z-selection-corner);
+  }
+  .selection > .handle.bottom.left::before {
+    --bs-corners: , var(--bs-notl), var(--bs-bl), var(--bs-nobr);
+  }
+
+  .selection > .handle.top.left {
+    z-index: var(--z-selection-corner);
+    cursor: nwse-resize;
+  }
+  .selection > .handle.top.left::before {
+    --bs-corners: , var(--bs-tl), var(--bs-notr), var(--bs-nobl);
+  }
+
+  .selection > .handle.bottom.right {
+    z-index: var(--z-selection-corner);
+    cursor: nwse-resize;
+  }
+  .selection > .handle.bottom.right::before {
+    --bs-corners: , var(--bs-notr), var(--bs-br), var(--bs-nobl);
+  }
+
+  .selection .ants {
     --linew: 1px;
     box-sizing: content-box;
     box-shadow:
@@ -1540,232 +1856,6 @@ property --selectXstart {
     animation-play-state: running;
   }
 
-  :is([data-selection], [data-selecting])
-    :is(.selection, .selection > .handle) {
-    visibility: visible;
-  }
-  .selection:not(:has(> :hover)):hover {
-    background-color: #08f3;
-  }
-  .selection > .handle {
-    z-index: var(--z-selection-handle);
-    pointer-events: auto;
-    position: absolute;
-    width: var(--size);
-    height: auto;
-    box-shadow:
-      0 0 4px -1px #000,
-      inset 0 0 2px 0 #000;
-    border: 0.5px solid #fff;
-    background-color: #0aa;
-    border-radius: 50%;
-    aspect-ratio: 1;
-    --size: var(--handle-size);
-    --half: calc(var(--handle-size) * 0.5);
-    box-sizing: border-box;
-    top: calc(50% - var(--half));
-    bottom: calc(50% - var(--half));
-    left: calc(50% - var(--half));
-    right: calc(50% - var(--half));
-    display: grid;
-    grid-template: 1fr / 1fr;
-  }
-  .selection > .handle:hover {
-    transform: scale(1.2);
-  }
-  .selection > .handle::before {
-    content: '';
-    width: max(calc(var(--size) * 3), calc(var(--px-pixelw) * 2));
-    height: auto;
-    aspect-ratio: 1;
-    display: flex;
-    grid-row: 1 / -1;
-    grid-column: 1 / -1;
-    place-self: center;
-    position: absolute;
-  }
-  :root:has(#tgl_dbg:checked) .selection > .handle::before {
-    box-shadow: inset 0 0 1px 1px #f0f4;
-  }
-
-  .selection > .handle.top {
-    top: calc((var(--half) * -1) - 0.5px);
-    bottom: unset;
-    cursor: ns-resize;
-  }
-  .selection > .handle.right {
-    left: unset;
-    right: calc((var(--half) * -1) - 0.5px);
-    cursor: ew-resize;
-  }
-  .selection > .handle.bottom {
-    top: unset;
-    bottom: calc((var(--half) * -1) - 0.5px);
-    cursor: ns-resize;
-  }
-  .selection > .handle.left {
-    right: unset;
-    left: calc((var(--half) * -1) - 0.5px);
-    cursor: ew-resize;
-  }
-
-  .selection > .handle.top.right {
-    cursor: nesw-resize;
-    z-index: var(--z-selection-corner);
-  }
-  .selection > .handle.bottom.left {
-    cursor: nesw-resize;
-    z-index: var(--z-selection-corner);
-  }
-
-  .selection > .handle.top.left {
-    z-index: var(--z-selection-corner);
-    cursor: nwse-resize;
-  }
-  .selection > .handle.bottom.right {
-    z-index: var(--z-selection-corner);
-    cursor: nwse-resize;
-  }
-}
-
-@media not print {
-  .selection > .handle::before {
-    --c-drag: #0ff;
-    --c-drag-2nd: #088;
-    --c-nodrag: #0888;
-    --c-nodrag-2nd: #0448;
-    width: var(--w);
-    box-shadow:
-      0 0 #0000 var(--bs-corners,),
-      0 0 0 2px #0006;
-    outline: none;
-
-    --w: max(calc(var(--size) * 3), calc(var(--px-pixelw) * 2));
-    --w－: calc(var(--w) * -1);
-    --bs-tl:
-      calc(var(--w) * -0.4) calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25)
-        var(--c-drag),
-      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
-        calc(var(--w) * -0.6) var(--c-drag-2nd);
-    --bs-tr:
-      calc(var(--w) * 0.4) calc(0px + var(--w) * -0.4) 0 calc(var(--w) * -0.25)
-        var(--c-drag),
-      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
-        calc(var(--w) * -0.6) var(--c-drag-2nd);
-    --bs-bl:
-      calc(var(--w) * -0.25) calc(1px + var(--w) * 0.25) 0
-        calc(var(--w) * -0.25) var(--c-drag),
-      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
-        calc(var(--w) * -0.6) var(--c-drag-2nd);
-    --bs-br:
-      calc(var(--w) * 0.33) calc(2px + var(--w) * 0.33) 0 calc(var(--w) * -0.33)
-        var(--c-drag),
-      inset calc(6px + var(--w) * 0.25) calc(6px + var(--w) * 0.25) 0
-        calc(var(--w) * -0.6) var(--c-drag-2nd);
-
-    --bs-notl:
-      calc(var(--w) * -0.25) calc(var(--w) * -0.25) 0 calc(var(--w) * -0.25)
-        var(--c-nodrag),
-      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
-        var(--c-nodrag-2nd);
-    --bs-notr:
-      calc(var(--w) * 0.2) calc(var(--w) * -0.2) 0 calc(var(--w) * -0.25)
-        var(--c-nodrag),
-      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
-        var(--c-nodrag-2nd);
-    --bs-nobl:
-      calc(var(--w) * -0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.25)
-        var(--c-nodrag),
-      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
-        var(--c-nodrag-2nd);
-    --bs-nobr:
-      calc(var(--w) * 0.33) calc(var(--w) * 0.33) 0 calc(var(--w) * -0.33)
-        var(--c-nodrag),
-      inset calc(var(--w) * 0.25) calc(var(--w) * 0.25) 0 calc(var(--w) * -0.6)
-        var(--c-nodrag-2nd);
-    border-radius: 30%;
-  }
-
-  .selection > .handle.top::before {
-    --bs-corners: , var(--bs-tl), var(--bs-tr);
-  }
-  .selection > .handle.right::before {
-    --bs-corners: , var(--bs-tr), var(--bs-br);
-  }
-  .selection > .handle.left::before {
-    --bs-corners: , var(--bs-tl), var(--bs-bl);
-  }
-  .selection > .handle.bottom::before {
-    --bs-corners: , var(--bs-bl), var(--bs-br);
-  }
-  .selection > .handle.top.right::before {
-    --bs-corners: , var(--bs-notl), var(--bs-tr), var(--bs-nobr);
-  }
-  .selection > .handle.bottom.right::before {
-    --bs-corners: , var(--bs-notr), var(--bs-br), var(--bs-nobl);
-  }
-  .selection > .handle.bottom.left::before {
-    --bs-corners: , var(--bs-notl), var(--bs-bl), var(--bs-nobr);
-  }
-  .selection > .handle.top.left::before {
-    --bs-corners: , var(--bs-tl), var(--bs-notr), var(--bs-nobl);
-  }
-  .selection > .handle::before {
-    --c-nodrag: #0880;
-    --c-nodrag-2nd: #0440;
-    --bs-t: calc(var(--w) * -0.1) calc(var(--w) * -0.4) 0 calc(var(--w－) * 0.2)
-      var(--c-drag);
-    --bs-b: calc(var(--w) * 0) calc(var(--w) * 0.4) 0 calc(var(--w－) * 0.2)
-      var(--c-drag);
-  }
-  .selection > .handle.top.right::before {
-    --bs-corners: , var(--bs-tr), var(--bs-bl);
-  }
-  .selection > .handle.top::before {
-    --bs-corners: , var(--bs-t), var(--bs-b);
-    border-radius: 240px / 200px;
-  }
-  .selection:not(:has(> :hover)):hover {
-    transition: background 40ms ease 40ms;
-  }
-  .selection:not(:has(> :hover)) {
-    transition: background 120ms ease 60ms;
-  }
-  .handle::before {
-    opacity: 0;
-  }
-  .handle:hover::before {
-    opacity: 1;
-  }
-  .handle:active,
-  .handle:active::before {
-    opacity: 1;
-    background-color: red;
-  }
-  .selection:hover:not(:has(> :hover)) > .handle::before {
-    visibility: hidden;
-  }
-  :is([data-selection], [data-selecting])
-    :is(.selection:hover:not(:has(> :hover)) > handle)::before {
-    visibility: hidden;
-  }
-  .handle:active {
-    opacity: 1;
-    visibility: visible;
-    box-shadow: none;
-  }
-}
-
-@property --anispeed {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 200;
-}
-
-@media not print {
-  .selection > .handle::before {
-    --w: max(calc(var(--size) * 8), calc(var(--px-pixelw) * 2));
-  }
   .selection.ants:hover,
   .selection.ants:hover::before {
     /*   animation-play-state: paused; */
@@ -1781,47 +1871,7 @@ property --selectXstart {
   .selection.ants:has(:active) {
     background-color: #f002;
   }
-  .selection:not(:has(> :hover)) {
-    transition:
-      --anispeed 10s linear 120ms,
-      background 120ms ease 60ms;
-  }
-  .selection:not(:has(> :hover)):hover {
-    transition:
-      --anispeed 10s linear 120ms,
-      background 200ms ease 40ms;
-    transition-behavior: normal;
-  }
-  .selection:not(:has(> :hover)):hover {
-    background-color: #08f1;
-  }
 
-  .selection > .handle {
-    /*     mask-clip: border-box; */
-    /*     mask-image: linear-gradient(#fff 0 0); */
-    margin: 0;
-    /*     border: 3px solid #0000; */
-    box-shadow:
-      0 0 4px -1px #000,
-      inset 0 0 2px 0 #000;
-    border: 0.5px solid #fff;
-    background-color: #0aa;
-  }
-  .selection > .handle:hover {
-    transform: scale(1);
-    transform-origin: center;
-    /*     box-shadow: 0 0 2px 0 #08f3; */
-    box-sizing: content-box;
-    box-shadow:
-      0 0 4px -1px #000,
-      inset 0 0 2px 0 #000,
-      0 0 0.5px 30px #08f3;
-    /*     background-color: #08f3; */
-    /*     background-color: #0000; */
-  }
-}
-
-@media not print {
   .selection.ants {
     --outset: 5px;
     anchor-name: --selection;
@@ -1949,13 +1999,8 @@ property --selectXstart {
     right: unset;
     left: calc((var(--half) * -1) - 0.5px + var(--outset));
   }
-}
 
-/*!{{{1 Preview for pixeldata canvas transformations */
-@media not print {
-  .selecting {
-    pointer-events: none;
-  }
+  /*!{{{1 Preview for pixeldata canvas transformations */
 
   body > img:nth-of-type(n + 2) {
     margin: 0;
@@ -2045,42 +2090,40 @@ property --selectXstart {
     anchor-name: --anchor-preview;
     anchor-scope: unset;
   }
-}
-/*!}}}1 END - Preview for pixeldata canvas transformations */
+  /*!}}}1 END - Preview for pixeldata canvas transformations */
 
-/*!{{{1 Hatched background pixel alignment */
-/*! Number of image pixels used for each scaled image pixel */
-@property --imgpx-per-scaledpx {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 1;
-}
-/*! If image pixels are scaled but not aligned with the border... */
-/*! ...this is the horizontal offset to adjust by*/
-@property --scaledpx-offset-x {
-  syntax: '<integer>';
-  inherits: true;
-  initial-value: 0;
-}
-/*! ...this is the vertical offset to adjust by*/
-@property --scaledpx-offset-y {
-  syntax: '<integer>';
-  inherits: true;
-  initial-value: 0;
-}
-/*! Number of client pixels used for each image pixel */
-@property --clientpx-per-imgpx {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 1;
-}
-/*! Number of client pixels used for each scaled image pixel */
-@property --clientpx-per-scaledpx {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 1;
-}
-@media not print {
+  /*!{{{1 Hatched background pixel alignment */
+  /*! Number of image pixels used for each scaled image pixel */
+  @property --imgpx-per-scaledpx {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 1;
+  }
+  /*! If image pixels are scaled but not aligned with the border... */
+  /*! ...this is the horizontal offset to adjust by*/
+  @property --scaledpx-offset-x {
+    syntax: '<integer>';
+    inherits: true;
+    initial-value: 0;
+  }
+  /*! ...this is the vertical offset to adjust by*/
+  @property --scaledpx-offset-y {
+    syntax: '<integer>';
+    inherits: true;
+    initial-value: 0;
+  }
+  /*! Number of client pixels used for each image pixel */
+  @property --clientpx-per-imgpx {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 1;
+  }
+  /*! Number of client pixels used for each scaled image pixel */
+  @property --clientpx-per-scaledpx {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 1;
+  }
   :root {
     --color-hatch-bright1: #909090;
     --color-hatch-bright2: #a8a8a8;
@@ -2205,77 +2248,4 @@ property --selectXstart {
     --bgposY-hatch: top var(--px-imtop);
   }
   /*!}}}1 END Hatched background pixel alignment */
-
-  body > img,
-  body > canvas {
-    anchor-name: --anchor-image;
-  }
-  .output.color {
-    justify-content: normal;
-    justify-items: normal;
-    position-anchor: --anchor-image;
-    inset: calc(anchor(bottom) + 6px) anchor(right) auto auto;
-  }
-  .output.color::after {
-    min-width: 24ch;
-    text-align: center;
-    display: block;
-    max-width: 24ch;
-    white-space: pre;
-  }
-  .output.color::before {
-    outline: none;
-    width: 3lh;
-    height: auto;
-    display: block;
-    box-shadow:
-      0.5px 0.5px 0 0 #444,
-      -0.5px -0.5px 0 0 #000,
-      0 0 0 0.5px #222,
-      0 0 0 1px #333,
-      -0.5px -0.5px 0 1px #444,
-      0.5px 0.5px 0 1px #000;
-    border-radius: 2px;
-  }
-
-  .breadcrumbs {
-    max-width: 98vw;
-    inset: auto auto 0 auto;
-    background-color: #222a;
-    outline: 2px solid #222;
-    border-radius: 0;
-  }
-  .breadcrumbs > ul {
-    --pad-left: 0;
-    --pad-right: 0;
-    max-width: 100%;
-    padding: 0;
-  }
-  .breadcrumbs > ul > li {
-    max-width: fit-content;
-    width: auto;
-    flex: 2 1;
-    overflow: clip;
-  }
-  .breadcrumbs > ul > li:not([class]) {
-    text-overflow: '‥/';
-    min-width: 1ch;
-  }
-  .breadcrumbs > ul > li:not([class])::after {
-    content: '/';
-    min-width: 1ch;
-    display: inline;
-  }
-  .breadcrumbs > ul > li.filename {
-    display: unset;
-    overflow: clip;
-    min-width: 1ch;
-    width: auto;
-    flex: 10 1;
-    text-overflow: '‥';
-    max-width: fit-content;
-  }
-  .breadcrumbs .sep {
-    display: none;
-  }
 }

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.305
+// @version       1.1.306
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -211,7 +211,7 @@ const setRegisteredCSSProperty = (
       s_output = `'${asString(value)}'`;
 
     if (syntax === '<string>') {
-      output = quoteUnquoted("'")`${value}`;
+      output = quoteUnquoted`${value}`;
       s_output = output;
     }
 

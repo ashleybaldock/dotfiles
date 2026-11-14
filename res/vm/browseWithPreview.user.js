@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name        browseWithPreview
 // @namespace   mayhem
-// @version     1.0.496
+// @version     1.0.497
 // @author      flowsINtomAyHeM
 // @description File browser with media preview
-// @downloadURL http://localhost:3333/vm/browseWithPreview.user.js
+// @downloadURL http://localhost:3333/vm/browseWithPreview/browseWithPreview.user.js
 // @match       *://localhost/*/*
 // @match       file:///*/*
 // @run-at      document-start
@@ -964,8 +964,12 @@ const initBrowsePreview = ({ document: { body } }) => {
     }
   )({ config, shuffleArray: shuffle });
 
-  const updateFileListingPlaybackStatus = ({video, video: {src}, idx, status}) =>
-
+  const updateFileListingPlaybackStatus = ({
+    video,
+    video: { src },
+    idx,
+    status,
+  }) =>
     document
       .querySelectorAll(
         `body > table > tbody > tr:has([href="${src.split('/').slice(-1)}"])`,
@@ -1121,7 +1125,7 @@ const initBrowsePreview = ({ document: { body } }) => {
         video.classList.remove('paused');
         video.classList.add('playing');
 
-        updateFileListingPlaybackStatus({video, idx, status: 'playing'});
+        updateFileListingPlaybackStatus({ video, idx, status: 'playing' });
       };
 
       const onPause = () => {
@@ -1130,16 +1134,14 @@ const initBrowsePreview = ({ document: { body } }) => {
         video.classList.remove('playing');
         video.classList.add('paused');
 
-        updateFileListingPlaybackStatus({video, idx, status: 'paused'});
+        updateFileListingPlaybackStatus({ video, idx, status: 'paused' });
       };
 
       video.addEventListener('play', onPlay, {});
       video.addEventListener('pause', onPause, {});
 
       (({ idx }) =>
-        [
-          [video, 'A'],
-        ].forEach(([video, videoIdx]) =>
+        [[video, 'A']].forEach(([video, videoIdx]) =>
           [
             ['play', 'debug'],
             ['pause', 'debug'],
@@ -1831,7 +1833,7 @@ const initBrowsePreview = ({ document: { body } }) => {
     }),
   );
 
-  breadcrumbs({ to: qs`body`.one });
+  breadcrumbs({ to: qs`body`.one, classList: 'top right fixed' });
 
   (({ bluronblur, config: { bluronblurtimeout } }) => {
     const { setHiddenTimeout } = bluronblur({

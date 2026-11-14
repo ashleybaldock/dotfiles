@@ -1175,7 +1175,7 @@ const initBrowsePreview = ({ document: { body } }) => {
       id,
       ...attrs
     } = {}) => {
-      const wrapper = GM_addElement(to, 'div', { class: `vidwrap i${idx}` });
+      const wrapper = GM_addElement(to, 'div', { class: `source i${idx}` });
       wrapper.style.setProperty('--playerIdx', idx);
       wrapper.style.setProperty('--s-playerIdx', `'${idx}'`);
 
@@ -1190,6 +1190,21 @@ const initBrowsePreview = ({ document: { body } }) => {
         ...attrs,
       });
 
+      /**
+       * Resume playback using last active media player
+       */
+      const play = () => {
+        nextMedia.cue();
+        video.volume = 0;
+        video.muted = true;
+        video.play();
+      };
+      /**
+       * Pause playback
+       */
+      const pause = () => {
+        video.pause();
+      };
 
       /**
        * To ensure every file gets seen when interleaved

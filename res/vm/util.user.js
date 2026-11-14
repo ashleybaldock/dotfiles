@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.304
+// @version       1.1.305
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -91,6 +91,11 @@ const parseMap =
   (raw, ...substitutions) =>
     String.raw({ raw }, ...substitutions.map(mapperFn));
 
+const m = x.reduce(
+  ([max, acc], cur) => [max, [...acc, cur.padTo(max)]],
+  [Math.max(...x), []],
+);
+
 /**
  * for places you can't throw, yeet
  * let foo = a?.b ?? yeet`error! ${}`
@@ -132,10 +137,17 @@ const quoteUnquoted = (quote = "'") =>
   );
 
 /**
- * Pad start of all substituted variables so they are same width
+ * Pad start of all substituted variables
+ *
+ * padTo: minimum length of padded output, if undefined the length of
+ *        the longest substituted variable is used
+ * padWith: string to use for padding, repeated if necessary
  */
-const padAllStart = (padTo) =>
-  parseMap((sub) => sub?.toString?.().padStart(padTo));
+// const m = x.map(([max, acc], cur) => [max, [...acc, cur.padTo(max)]], [Math.max(...x), []]);
+
+const padAllStart = ({ padTo, padWith = ' ' } = {}) => {
+  return parseMap((sub) => sub?.toString?.().padStart(padTo));
+};
 
 const padAlternateEndStart =
   (padTo) =>
@@ -190,13 +202,13 @@ const setRegisteredCSSProperty = (
     name: _name,
     value,
     syntax,
-    asString = (s) => `s`,
+    asString = (s) => `${s}`,
   }) => {
     const name = /^--/.test(_name) ? _name : `--${_name}`;
     const s_name = `--s-${name.slice(2)}`;
 
     let output = value,
-      s_output = asString(value);
+      s_output = `'${asString(value)}'`;
 
     if (syntax === '<string>') {
       output = quoteUnquoted("'")`${value}`;

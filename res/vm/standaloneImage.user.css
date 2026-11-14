@@ -1439,20 +1439,6 @@ property --selectXstart {
     justify-items: normal;
     position-anchor: --anchor-image;
     inset: calc(anchor(bottom) + 6px) anchor(right) auto auto;
-  }
-  :root:has(#tgl_pixelinfo:checked):has(body > canvas:hover) .output.color {
-    visibility: visible;
-  }
-  .output.color::before {
-    content: '';
-    background-color: var(--cursor-rgba);
-    aspect-ratio: 1;
-    grid-column: 1;
-    grid-row: 1;
-    outline: none;
-    width: 3lh;
-    height: auto;
-    display: block;
     box-shadow:
       0.5px 0.5px 0 0 #444,
       -0.5px -0.5px 0 0 #000,

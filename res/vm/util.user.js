@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.306
+// @version       1.1.312
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -91,10 +91,27 @@ const parseMap =
   (raw, ...substitutions) =>
     String.raw({ raw }, ...substitutions.map(mapperFn));
 
-const m = x.reduce(
-  ([max, acc], cur) => [max, [...acc, cur.padTo(max)]],
-  [Math.max(...x), []],
-);
+/**
+ * Returns a parser function that:
+ * 1. reduces all arguments via a given reducer
+ * 2. maps all the arguments via a given mapping function, with
+ *    the result from 1.
+ *
+ * e.g.
+ *   const padLeftLongest = parseReduceMap(
+ *     (a, c) => Math.max(a.length, c.length), 0, ([x, r], i, a) => x.padLeft(r, '~'))
+ *   const foo = '1', bar = '22', baz = '333';
+ *   padLeftLongest`${foo}|${bar}|${baz}` === '  1| 22|333'
+ */
+const parseReduceMap =
+  (reducer, mapper, reduceStart) =>
+  (raw, ...substitutions) => {
+    const reduction = substitutions.reduce(reducer, reduceStart);
+    return String.raw(
+      { raw },
+      ...substitutions.map((x) => [x, reduction]).map(mapper),
+    );
+  };
 
 /**
  * for places you can't throw, yeet
@@ -128,26 +145,22 @@ const combinePath = (sep = '/') =>
   );
 
 /**
- * Ensure all substituted variables start and end with a character
+ * Ensure all substituted variables are quoted
+ *
+ * e.g. quoteUnquoted`${"foo"}` -> "'foo'"
  */
-const quoteUnquoted = (quote = "'") =>
-  parseMap(
-    (sub) =>
-      `${sub.startsWith(quote) ? '' : quote}${sub}${sub.endsWith(quote) ? '' : quote}`,
-  );
+const quoteUnquoted = parseMap(
+  (s) => `${s.startsWith("'") ? '' : "'"}${s}${s.endsWith("'") ? '' : "'"}`,
+);
 
 /**
- * Pad start of all substituted variables
- *
- * padTo: minimum length of padded output, if undefined the length of
- *        the longest substituted variable is used
- * padWith: string to use for padding, repeated if necessary
+ * Pad start of substituted variables so they are as long as the longest one
  */
-// const m = x.map(([max, acc], cur) => [max, [...acc, cur.padTo(max)]], [Math.max(...x), []]);
-
-const padAllStart = ({ padTo, padWith = ' ' } = {}) => {
-  return parseMap((sub) => sub?.toString?.().padStart(padTo));
-};
+const padStartToLongest = parseReduceMap(
+  (a, c) => Math.max(a, c.length),
+  ([s, r]) => s?.toString?.().padStart(r),
+  0,
+);
 
 const padAlternateEndStart =
   (padTo) =>

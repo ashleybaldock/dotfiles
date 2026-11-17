@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.382
+// @version     1.2.388
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -55,13 +55,13 @@ const addPreview = ({
     ...attrs,
   });
   const label = GM_addElement(li, 'label', {
-    for: `tgl_${id}`,
+    for: `${id}`,
     class: '',
     textContent,
   });
   const input = GM_addElement(label, tag, {
     type,
-    id: `tgl_${id}`,
+    id: `${id}`,
     ...(checked ? { checked: '' } : {}),
   });
   input.addEventListener('click', stopPropagation);
@@ -82,13 +82,13 @@ const addToggle = ({
     ...attrs,
   });
   const label = GM_addElement(li, 'label', {
-    for: `tgl_${id}`,
+    for: `${id}`,
     class: '',
     textContent,
   });
   const input = GM_addElement(label, tag, {
     type,
-    id: `tgl_${id}`,
+    id: `${id}`,
     ...(checked ? { checked: '' } : {}),
   });
   input.addEventListener('click', stopPropagation);
@@ -292,84 +292,78 @@ const initImage = ({
     const toggles = ((to) => ({
       selecting: addToggle({
         to,
-        id: 'select',
+        id: 'tgl_select',
         class: 'tgl select',
         textContent: 'select',
         checked: false,
       }),
       selecting: addToggle({
         to,
-        id: 'pixelinfo',
-        class: 'tgl pixelinfo',
+        id: 'tgl_pixfo',
         textContent: 'pixel info',
         checked: true,
       }),
       showOverlayInfo: addToggle({
         to,
-        id: 'info',
+        id: 'tgl_info',
         class: 'tgl info',
         textContent: 'overlay',
-        checked: false,
+        checked: true,
       }),
       showOverlayImageDimensions: addToggle({
         to,
-        id: 'dim',
-        class: 'tgl dim',
+        id: 'tgl_dim',
         textContent: 'dimensions',
         checked: false,
       }),
       pixelView: addToggle({
         to,
-        id: 'pix',
+        id: 'tgl_pix',
         class: 'tgl pix',
-        textContent: 'pixels',
+        textContent: 'pixel',
         checked: isTiny,
       }),
       gridOverlay: addToggle({
         to,
-        id: 'grd',
-        class: 'tgl grd',
+        id: 'tgl_grid',
         textContent: 'grid',
         checked: isTiny,
       }),
       pixelDetect: addToggle({
         to,
-        id: 'pxsize',
+        id: 'tgl_pxsize',
         class: 'tgl pxsize',
         textContent: 'px size',
         checked: isTiny,
       }),
       lightDark: addToggle({
         to,
-        id: 'sun',
+        id: 'tgl_sun',
         class: 'tgl sun',
         textContent: 'light',
         checked: false,
       }),
       hatchbg: addToggle({
         to,
-        id: 'tch',
-        class: 'tgl tch',
+        id: 'tgl_hatch',
         textContent: 'hatch',
         checked: isTransparent,
       }),
       detectbg: addToggle({
         to,
-        id: 'detbg',
-        class: 'tgl detbg',
+        id: 'tgl_detbg',
         textContent: 'bg−−',
         checked: isTiny && isTransparent,
       }),
       outline: addToggle({
         to,
-        id: 'out',
-        class: 'tgl out',
+        id: 'tgl_outl',
         textContent: 'outline',
         checked: isTransparent,
       }),
       debug: addToggle({
         to,
-        id: 'dbg',
+        id: 'tgl_dbg',
         class: 'tgl dbg',
         textContent: 'debug',
         checked: false,

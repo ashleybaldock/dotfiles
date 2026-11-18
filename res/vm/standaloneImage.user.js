@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.390
+// @version     1.2.393
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -123,9 +123,14 @@ const initImage = ({
 
   const canvasOriginal = GM_addElement(original, 'canvas', {});
 
-  const canvasPicker = GM_addElement(original, 'canvas', { class: 'picker' });
-
   const canvasCursor = GM_addElement(original, 'div', { class: 'cursor' });
+
+  const picker = GM_addElement(original, 'div', { class: 'picker' });
+
+  const canvasPicker = GM_addElement(picker, 'canvas', {
+    width: '100%',
+    height: '100%',
+  });
 
   const onloadImg = (image) => {
     const { naturalWidth, naturalHeight } = image;
@@ -141,8 +146,12 @@ const initImage = ({
     //   (blob) => (blob === null ? reject('null blob') : resolve(blob)),
     //   'image/png',
     // );
+    const pickerCtx = canvasPicker.getContext('2d');
+    pickerCtx.imageSmoothingEnabled = false;
 
-    const canvasOriginalOnMove = ({ clientX, clientY, layerX, layerY }) => {
+    const pickerpx = 10;
+
+    const canvasOriginalOnMove = ({ clientX, clientY }) => {
       const ctx = canvasOriginal.getContext('2d');
       const { left, top, width, height } =
         canvasOriginal.getBoundingClientRect();
@@ -222,16 +231,14 @@ const initImage = ({
         syntax: '<color>',
       });
 
-      const pickerCtx = canvasPicker.getContext('2d');
-      pickerCtx.imageSmoothingEnabled = false;
-
-      const pickerpx = 10;
-
       pickerCtx.drawImage(
         canvasOriginal,
-        Math.min(Math.max(0, layerX - pickerpx * 0.5), naturalWidth - pickerpx),
         Math.min(
-          Math.max(0, layerY - pickerpx * 0.5),
+          Math.max(0, clientX - pickerpx * 0.5),
+          naturalWidth - pickerpx,
+        ),
+        Math.min(
+          Math.max(0, clientY - pickerpx * 0.5),
           naturalHeight - pickerpx,
         ),
         pickerpx,

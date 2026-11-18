@@ -541,7 +541,7 @@ body {
   overflow: hidden;
 }
 body > img,
-.original canvas:not([class]) {
+.original > canvas {
   anchor-name: --anchor-image;
 }
 body > img.hidden {
@@ -753,7 +753,7 @@ li {
 
 /*!{{{1 The main image being previewed */
 body > img,
-.original canvas {
+.original > canvas {
   text-align: center;
   position: absolute;
   inset: 0;
@@ -1549,7 +1549,7 @@ body[data-selecting] .toggles {
   cursor: crosshair;
 }
 
-.original .picker {
+.original .picker > canvas {
   visibility: hidden;
   position: absolute;
   position-anchor: --anchor-cursor;
@@ -1579,10 +1579,13 @@ body[data-selecting] .toggles {
     hsl(from var(--cursor-rgba) h calc(s * 1.6) calc(l * 1) / 1)
     hsl(from var(--cursor-rgba) h calc(s * 1.4) calc(l * 0.8) / 1);
 }
-.original:hover > .picker {
-  visibility: visible;
+.original :is(.picker, .cursor) {
+  pointer-events: none;
 }
-:root::has(#tgl_pixfo:checked) .original:has(canvas:hover) .picker {
+
+:root:has(#tgl_pixfo:checked):has(.original > canvas:hover)
+  .original
+  :is(.picker, .picker > canvas) {
   visibility: visible;
 }
 /*}}}1*/
@@ -2260,7 +2263,7 @@ body > img:nth-of-type(n + 3) {
   background-repeat: repeat;
 }
 img.transparent,
-img.transparent ~ .original canvas {
+img.transparent ~ .original > canvas {
   color: unset;
   border: 0;
   padding: 0;
@@ -2273,11 +2276,11 @@ img.transparent ~ .original canvas {
 
 /* outline around image */
 :root:has(#tgl_outl:checked):has(#tgl_sun:not(:checked))
-  :where(img.transparent, img.transparent ~ .original canvas) {
+  :where(img.transparent, img.transparent ~ .original > canvas) {
   --img-olcolor: var(--color-image-ol-dark);
 }
 :root:has(#tgl_outl:checked):has(#tgl_sun:checked)
-  :where(img.transparent, img.transparent ~ .original canvas) {
+  :where(img.transparent, img.transparent ~ .original > canvas) {
   --img-olcolor: var(--color-image-ol-bright);
 }
 
@@ -2289,7 +2292,7 @@ img.transparent ~ .original canvas {
   --color: var(--color-dark);
 }
 :root:has(#tgl_sun:not(:checked))
-  :where(img.transparent, img.transparent ~ .original canvas) {
+  :where(img.transparent, img.transparent ~ .original > canvas) {
   --img-bgcolor: var(--color-image-bg-dark);
   --img-bshadow: var(--bshadow-outline-dark);
 }
@@ -2301,7 +2304,7 @@ img.transparent ~ .original canvas {
   --color: var(--color-bright);
 }
 :root:has(#tgl_sun:checked)
-  :where(img.transparent, img.transparent ~ .original canvas) {
+  :where(img.transparent, img.transparent ~ .original > canvas) {
   --img-bgcolor: var(--color-image-bg-bright);
   --img-bshadow: var(--bshadow-outline-bright);
 }

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.393
+// @version     1.2.404
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -125,11 +125,13 @@ const initImage = ({
 
   const canvasCursor = GM_addElement(original, 'div', { class: 'cursor' });
 
-  const picker = GM_addElement(original, 'div', { class: 'picker' });
+  const picker = GM_addElement(document.body, 'div', { class: 'picker' });
+
+  const pickerpx = 10;
 
   const canvasPicker = GM_addElement(picker, 'canvas', {
-    width: '100%',
-    height: '100%',
+    width: pickerpx,
+    height: pickerpx,
   });
 
   const onloadImg = (image) => {
@@ -146,22 +148,41 @@ const initImage = ({
     //   (blob) => (blob === null ? reject('null blob') : resolve(blob)),
     //   'image/png',
     // );
-    const pickerCtx = canvasPicker.getContext('2d');
-    pickerCtx.imageSmoothingEnabled = false;
 
-    const pickerpx = 10;
-
-    const canvasOriginalOnMove = ({ clientX, clientY }) => {
+    const canvasOriginalOnMove = ({ clientX, clientY, layerX, layerY }) => {
       const ctx = canvasOriginal.getContext('2d');
       const { left, top, width, height } =
         canvasOriginal.getBoundingClientRect();
-      const pixel = ctx.getImageData(
-        ((clientX - left) / width) * naturalWidth,
-        ((clientY - top) / height) * naturalHeight,
-        1,
-        1,
-      );
+
+      // const originalPixelX = Math.round(((clientX - left) / width) * naturalWidth);
+      // const originalPixelY = Math.round(((clientY - top) / height) * naturalHeight);
+      const originalPixelX = Math.round((layerX / width) * naturalWidth);
+      const originalPixelY = Math.round((layerY / height) * naturalHeight);
+
+      const pixel = ctx.getImageData(originalPixelX, originalPixelY, 1, 1);
       const [r, g, b, a] = pixel.data;
+
+      const pickerCtx = canvasPicker.getContext('2d');
+      pickerCtx.imageSmoothingEnabled = false;
+
+      pickerCtx.clearRect(0, 0, pickerpx, pickerpx);
+      pickerCtx.drawImage(
+        canvasOriginal,
+        Math.min(
+          Math.max(0, originalPixelX - pickerpx * 0.5),
+          naturalWidth - pickerpx,
+        ),
+        Math.min(
+          Math.max(0, originalPixelY - pickerpx * 0.5),
+          naturalHeight - pickerpx,
+        ),
+        pickerpx,
+        pickerpx,
+        0,
+        0,
+        pickerpx,
+        pickerpx,
+      );
 
       setRegisteredCSSProperty({
         to: canvasCursor,
@@ -230,24 +251,6 @@ const initImage = ({
         value: `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}${a.toString(16).padStart(2, '0')}`,
         syntax: '<color>',
       });
-
-      pickerCtx.drawImage(
-        canvasOriginal,
-        Math.min(
-          Math.max(0, clientX - pickerpx * 0.5),
-          naturalWidth - pickerpx,
-        ),
-        Math.min(
-          Math.max(0, clientY - pickerpx * 0.5),
-          naturalHeight - pickerpx,
-        ),
-        pickerpx,
-        pickerpx,
-        0,
-        0,
-        200,
-        200,
-      );
     };
 
     canvasOriginal.addEventListener('mousemove', canvasOriginalOnMove, {});

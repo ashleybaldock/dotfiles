@@ -462,7 +462,7 @@ property --selectXstart {
 }
 
 /*{{{1 Thin-lined grid pixel hint */
-:root:has(#tgl_pix:checked):has(#tgl_grid:checked)::after {
+:root:has(#tgl_pix:checked):has(#tgl_grid:checked) .original::after {
   pointer-events: none;
   content: '';
   display: block;
@@ -517,12 +517,11 @@ property --selectXstart {
   --gcd: #0006;
   --gcd0: rgb(from var(--gcd) r g b / 0);
 }
-:root:has(#tgl_pix:checked):has(#tgl_sun:checked):has(
-    #tgl_grid:checked
-  )::after {
+:root:has(#tgl_pix:checked):has(#tgl_sun:checked):has(#tgl_grid:checked)
+  .original::after {
   --gridcolor: #3331;
 }
-:root:has(#tgl_pix:checked):has(#tgl_dbg:checked)::after {
+:root:has(#tgl_pix:checked):has(#tgl_dbg:checked) .original::after {
   --gcl: #f00f;
   --gcl0: #0000;
   --gcd: #00ff;
@@ -1529,10 +1528,10 @@ body[data-selecting] .toggles {
 }
 
 .original {
-  anchor-scope: --anchor-cursor;
 }
 
 .original .cursor {
+  pointer-events: none;
   position: absolute;
   anchor-name: --anchor-cursor;
   width: 11px;
@@ -1542,14 +1541,14 @@ body[data-selecting] .toggles {
   position-anchor: --anchor-image;
   opacity: 1;
   visibility: visible;
-  z-index: calc(Infinity);
+  z-index: calc(-Infinity);
 }
 
 :root:has(#tgl_info:checked):has(#tgl_pixfo:checked) .original {
   cursor: crosshair;
 }
 
-.original .picker > canvas {
+.picker > canvas {
   visibility: hidden;
   position: absolute;
   position-anchor: --anchor-cursor;
@@ -1579,12 +1578,10 @@ body[data-selecting] .toggles {
     hsl(from var(--cursor-rgba) h calc(s * 1.6) calc(l * 1) / 1)
     hsl(from var(--cursor-rgba) h calc(s * 1.4) calc(l * 0.8) / 1);
 }
-.original :is(.picker, .cursor) {
-  pointer-events: none;
-}
 
-:root:has(#tgl_pixfo:checked):has(.original > canvas:hover)
-  .original
+:root:has(#tgl_info:checked):has(#tgl_pixfo:checked):has(
+    .original > canvas:hover
+  )
   :is(.picker, .picker > canvas) {
   visibility: visible;
 }

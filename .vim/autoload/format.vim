@@ -196,6 +196,7 @@ function! format#hint(type = 'html', name = 'nameless') abort
   return shellescape(a:name .. '.' .. get(s:file_format_overrides, ext, ext))
 endfunc
 
+
 "
 " Apply code beautification to some or all of a buffer
 "
@@ -205,8 +206,14 @@ endfunc
 " Filetype strings are mapped to file extensions using g:mayhem_type_ext_map
 "
 function! format#buffer(bufnr = bufnr(), filetype = getbufvar(a:bufnr, '&l:filetype', 'html')) range abort
-  exec a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath' 
-        \ format#hint(a:filetype, fnamemodify(bufname(a:bufnr), ':r'))
+  let g:mayhem_last_shell_cmd = ([
+        \ a:firstline .. ',' .. a:lastline .. '!npx prettier --stdin-filepath',
+        \ format#hint(a:filetype, fnamemodify(bufname(a:bufnr), ':r')),
+        \])->join(' ')
+
+  exec g:mayhem_last_shell_cmd '2>' .. expand(get(g:, 'mayhem_last_shell_log_path', '/dev/null'))
+
+  call mayhem#handleShellError()
 endfunc
 
 "

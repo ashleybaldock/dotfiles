@@ -206,3 +206,22 @@ function! mayhem#adjustcellwidths(from, to, width) abort
   echo a
   call setcellwidths(a)
 endfunc
+
+
+function! mayhem#handleShellError()
+  if v:shell_error
+    undo
+
+    echom 'Shell command indicated error on exit (code ' .. v:shell_error .. ')'
+    echom 'command: ' .. g:mayhem_last_shell_cmd
+
+    if exists('g:mayhem_last_shell_log_path')
+      echom 'stderr output:'
+      for line in readfile(expand(g:mayhem_last_shell_log_path), '', -100)
+        echom line
+      endfor
+    else
+      echom 'g:mayhem_last_shell_log_path not configured'
+    endif
+  endif
+endfunc

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.388
+// @version     1.2.390
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -119,30 +119,33 @@ const initImage = ({
     body: { firstChild },
   },
 }) => {
-  const canvas = (() => {
-    const canvas = GM_addElement(document.body, 'canvas', {});
+  const original = GM_addElement(document.body, 'div', { class: 'original' });
 
-    return canvas;
-  })();
+  const canvasOriginal = GM_addElement(original, 'canvas', {});
+
+  const canvasPicker = GM_addElement(original, 'canvas', { class: 'picker' });
+
+  const canvasCursor = GM_addElement(original, 'div', { class: 'cursor' });
 
   const onloadImg = (image) => {
     const { naturalWidth, naturalHeight } = image;
     documentElement.style.setProperty('--naturalw', naturalWidth);
     documentElement.style.setProperty('--naturalh', naturalHeight);
-    canvas.setAttribute('width', naturalWidth);
-    canvas.setAttribute('height', naturalHeight);
+    canvasOriginal.setAttribute('width', naturalWidth);
+    canvasOriginal.setAttribute('height', naturalHeight);
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvasOriginal.getContext('2d');
     ctx.drawImage(image, 0, 0);
     image.classList.add('hidden');
-    // canvas.toBlob(
+    // canvasOriginal.toBlob(
     //   (blob) => (blob === null ? reject('null blob') : resolve(blob)),
     //   'image/png',
     // );
 
-    const canvasOnMove = ({ clientX, clientY }) => {
-      const ctx = canvas.getContext('2d');
-      const { left, top, width, height } = canvas.getBoundingClientRect();
+    const canvasOriginalOnMove = ({ clientX, clientY, layerX, layerY }) => {
+      const ctx = canvasOriginal.getContext('2d');
+      const { left, top, width, height } =
+        canvasOriginal.getBoundingClientRect();
       const pixel = ctx.getImageData(
         ((clientX - left) / width) * naturalWidth,
         ((clientY - top) / height) * naturalHeight,
@@ -150,6 +153,19 @@ const initImage = ({
         1,
       );
       const [r, g, b, a] = pixel.data;
+
+      setRegisteredCSSProperty({
+        to: canvasCursor,
+        name: '--left',
+        value: clientX - left,
+        syntax: '<number>',
+      });
+      setRegisteredCSSProperty({
+        to: canvasCursor,
+        name: '--top',
+        value: clientY - top,
+        syntax: '<number>',
+      });
 
       setRegisteredCSSProperty({
         name: '--cursor-r',
@@ -205,8 +221,29 @@ const initImage = ({
         value: `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}${a.toString(16).padStart(2, '0')}`,
         syntax: '<color>',
       });
+
+      const pickerCtx = canvasPicker.getContext('2d');
+      pickerCtx.imageSmoothingEnabled = false;
+
+      const pickerpx = 10;
+
+      pickerCtx.drawImage(
+        canvasOriginal,
+        Math.min(Math.max(0, layerX - pickerpx * 0.5), naturalWidth - pickerpx),
+        Math.min(
+          Math.max(0, layerY - pickerpx * 0.5),
+          naturalHeight - pickerpx,
+        ),
+        pickerpx,
+        pickerpx,
+        0,
+        0,
+        200,
+        200,
+      );
     };
-    canvas.addEventListener('mousemove', canvasOnMove, {});
+
+    canvasOriginal.addEventListener('mousemove', canvasOriginalOnMove, {});
 
     const isTiny = naturalWidth + naturalHeight < 200;
     const isTransparent = firstChild?.classList.contains('transparent');

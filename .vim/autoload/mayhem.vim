@@ -201,6 +201,7 @@ function! mayhem#adjustcellwidths(from, to, width) abort
         \  v[2],
         \]})
         \->add([from, to, a:width])
+        \->filter({i, v -> v[0] > v[1]})
         \->filter({i, v -> v[2] > 0})
         " \->setcellwidths()
   echo a

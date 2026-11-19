@@ -14,6 +14,10 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
+syn keyword vimMsgScript script contained
+
+syn match vimMsgFn /function/ contained nextgroup=vimMsgFnName skipwhite
+
 syn region vimMsgDict
       \ matchgroup=vimMsgDictBrace start=+{+
       \ matchgroup=vimMsgDictBrace end=+}+
@@ -30,7 +34,7 @@ syn match vimMsgNum '^\d\+$' contains=NONE
 syn region vimMsgError
       \ start=+^\%(Vim\%((\S\+)\)\?:\|Err\%[or]:\?\)\?\(E\d\+\)+
       \ end=+$+
-      \ contains=vimMsgErrNum,vimMsgPath,vimMsgFunc,vimMsgLastFn
+      \ contains=vimMsgErrNum,vimMsgPath,vimMsgFunc,vimMsgScript,vimMsgFunc,vimMsgLastFn
 
 syn match vimMsgErrNum 'E\d\+:' contained
 
@@ -41,10 +45,12 @@ syn region vimMsgPthLnum contained oneline
 syn region vimMsgPath contained oneline
       \ start=+ \ze\/+
       \ start=+\.\.\zs\/+
+      \ start=+script \zs\/+
       \ end=+\ze\.\.+
       \ end=+\ze:+
+      \ end=+\ze\_$+
       \ contains=vimMsgPthLnum,vimMsgPthDelim
-      \ nextgroup=vimMsgPth skipnl
+      \ nextgroup=vimMsgPath skipnl
 
 " syn match vimMsgPathNlb4 / \ze\// contained conceal cchar=
 
@@ -56,10 +62,12 @@ syn region vimMsgPath contained oneline
       " \ start=+\%(\.\.\\)\@2<=%(function \)\?<SNR>+
 syn region vimMsgFunc contained
       \ start=+<SNR>+
-      \ start=+function \zs+
       \ end=+\ze\.\.+
       \ end=+\ze\s+
+      \ end=+\ze:+
+      \ end=+\ze\_$+
       \ contains=vimMsgFnSNR,vimMsgFnName,vimMsgFnLn,vimMsgNoise,vimMsgAutoSep
+
 
 syn match vimMsgLastFn '\%(\.\.\)\@2<=\a\w\+\ze:$' contained
 
@@ -71,13 +79,15 @@ syn region vimMsgFnLn contained
       \ matchgroup=vimMsgNoise start=+\[+
       \ matchgroup=vimMsgNoise end=+\]+
 
-syn match vimMsgFnName '\a\w\+' contained contains=NONE
+syn match vimMsgFnName '\a\w\+' contained contains=NONE nextgroup=vimMsgAutoSep
 
-syn match vimMsgAutoSep '#' contained contains=NONE
+syn match vimMsgAutoSep '#' contained contains=NONE nextgroup=vimMsgFnName
 
 syn match vimMsgAuName '\w\+\ze Autocommands' contained contains=NONE
 
-syn region vimMsgStack contains=vimMsgFunc,vimMsgAuName,vimMsgPath,vimMsgStr
+syn match vimMsgDots /\.\./ contained contains=NONE
+
+syn region vimMsgStack contains=vimMsgFunc,vimMsgFn,vimMsgScript,vimMsgAuName,vimMsgPath,vimMsgStr,vimMsgDots
       \ start='Error detected while'
       \ end=':'
 
@@ -112,9 +122,12 @@ hi def vimMsgPthLnum  guifg=#77dddd
 hi def vimMsgPthDelim guifg=#339999
 hi def vimMsgFunc     guifg=#339933
 hi def vimMsgNoise    guifg=#393939
+hi def vimMsgDots     guifg=#888888
 hi def vimMsgFnSNR    guifg=#339933
 hi def vimMsgFnSep    guifg=#393939
 hi def link vimMsgFnLn vimMsgFnSNR
+hi def link vimMsgFn Statement
+hi def link vimMsgScript Comment
 hi def link vimMsgFnName Function
 hi def link vimMsgAutoSep Statement
 hi def link vimMsgAuName Type

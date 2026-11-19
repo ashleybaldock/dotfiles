@@ -90,8 +90,8 @@ endfunc
 "
 function! messages#formatTrace(messages) abort
   return flattennew([a:messages])->map(
-        \{i, v -> v =~ '\_^Error detected while processing function'
-        \ ? split(v, '\.\.')->map({ii,vv -> ii == 0 ? vv : '‥' .. vv})
+        \{i, v -> v =~ '\_^Error detected while processing \%(function\|\w\+ Autocommands \%(for "[^"]\+"\)\)'
+        \ ? split(v, '\.\.')->map({ii,vv -> ii == 0 ? vv : '.. ' .. vv})
         \ : v
         \})
         \->flatten()
@@ -124,6 +124,11 @@ function! messages#bufnr(create = v:false) abort
           \ cmd: 'call messages#refresh()',
           \},
           \#{
+          \ event: 'BufHidden',
+          \ bufnr: s:bufnr_messages, group: 'mayhem_messages_onclose',
+          \ cmd: 'echom autocmd_delete([#{ pattern: ''*'', event: ''CursorHold'', group: ''mayhem_messages_reload'' }])',
+          \},
+          \#{
           \ event: 'WinEnter', replace: v:true,
           \ bufnr: s:bufnr_messages, group: 'mayhem_messages_quit_if_only',
           \ cmd: 'if winnr(''$'') == 1 | quit | endif',
@@ -134,7 +139,11 @@ function! messages#bufnr(create = v:false) abort
   return s:bufnr_messages
 endfunc
 
-function! messages#refresh(msgbufnr = messages#bufnr(1)) abort
+function! messages#refresh(msgbufnr = messages#bufnr()) abort
+  if !bufexists(a:msgbufnr)
+    return
+  endif
+
   let messages = messages#list()
   " let messagesExpanded = messages#expandSNR(messages)
   let messagesExpandedTrace = messages#formatTrace(messages)

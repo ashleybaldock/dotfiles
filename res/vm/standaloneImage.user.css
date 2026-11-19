@@ -1559,24 +1559,14 @@ body[data-selecting] .toggles {
   pointer-events: none;
   position-area: center;
   inset: auto;
-  box-shadow:
-    inset var(--bdw) var(--bdw) 0 var(--bdw) var(--cursor-rgba),
-    var(--bdw) var(--bdw) 0 var(--bdw) var(--cursor-rgba),
-    inset calc(var(--bdw) * -1) calc(var(--bdw) * -1) 0 calc(var(--bdw) * -1)
-      var(--cursor-rgba),
-    calc(var(--bdw) * -1) calc(var(--bdw) * -1) 0 calc(var(--bdw) * -1)
-      var(--cursor-rgba);
   --height: clamp(100px, 10vh, 200px);
   --bdw: calc(var(--height) * 0.05);
   outline: 1.5px double var(--cursor-rgba);
-  border: 1px dashed #666;
-  border-width: 2px 5px 7px 5px;
   outline-offset: -2.5px;
+  border: 2px ridge #fff3;
   border-style: double;
-  border-color: hsl(from var(--cursor-rgba) h calc(s * 0.8) calc(l * 1.2) / 1)
-    hsl(from var(--cursor-rgba) h calc(s * 0.6) calc(l * 1.6) / 1)
-    hsl(from var(--cursor-rgba) h calc(s * 1.6) calc(l * 1) / 1)
-    hsl(from var(--cursor-rgba) h calc(s * 1.4) calc(l * 0.8) / 1);
+  border-color: #fff2 #aaa2 #bbb2 #eee2;
+  border-width: var(--bdw);
 }
 
 :root:has(#tgl_info:checked):has(#tgl_pixfo:checked):has(

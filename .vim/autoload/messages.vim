@@ -32,7 +32,7 @@ function! messages#listToBuffer(bufnr, list) abort
   call setbufvar(a:bufnr, 'mayhem_lastupdated', localtime())
   call setbufvar(a:bufnr, '&modifiable', 0)
   call setbufvar(a:bufnr, '&modified', 0)
-  call win_execute(winbufnr(a:bufnr), ['redraw', 'call cursor(''$'', 0)'])
+  " call win_execute(winbufnr(a:bufnr), ['redraw', 'call cursor(''$'', 0)'])
 endfunc
 
 function! messages#listToSplit(list) abort

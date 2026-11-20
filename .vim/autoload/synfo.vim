@@ -658,3 +658,66 @@ function! synfo#complete(A,L,P)
 endfunc
 command! -nargs=? -complete=customlist,synfo#complete Synfo echo <args>
 
+
+"
+" ranges:
+"  [{from: 1, to: 4, id: 221, contains: [1,3,994]},[5,9,1201]]
+"
+"  1 2 3 4 5 6 7 8 9
+"  -994-  
+"  --221-- ---1201--
+"          
+function! synfo#hipop() abort
+  let ranges = []
+
+  for c in range(1, col('$'))
+    let range = ranges
+
+    for id in synstack(line('.'), c)
+      if (len(range) > 0 && range[-1].id == id)
+        let range[-1].to += 1
+      else
+        call add(range, #{from: c, to: c, id: id, contains: []})
+      endif
+
+      let range = range[-1].contains
+    endfor
+
+  endfor
+
+  call synfo#hilog(ranges)
+endfunc
+
+let s:none = echo#with('None')
+
+function! synfo#logr(ranges, level, levels) abort
+  let line = get(a:levels, a:level, add(a:levels, #{parts: [], last: 1}))
+  for range in a:ranges
+    let leading = range.from - line.last
+    if (leading)
+      call add(line, s:none(repeat(' ', leading)))
+    endif
+    call add(line, echo#format(synIDattr(range.id, 'name', 'gui'),
+          \ repeat('█', range.to - range.from + 1)))
+
+    if !empty(range.contains)
+      call synfo#logr(range.contains, a:level + 1, a:levels)
+    endif
+    
+    let last = range.to
+  endfor
+endfunc
+
+function! synfo#hilog(ranges) abort
+  let levels = []
+
+  call synfo#logr(a:ranges, 0, levels)
+
+  echom a:ranges
+  echom levels
+
+  let cmd = map(levels, {i, v -> join(v, ' | ')})->join(' | echo | ')
+
+  exec cmd
+  echom cmd
+endfunc

@@ -707,7 +707,7 @@ let s:none = echo#with('None')
 
 function! s:renderRegion(len) abort
   if (a:len == 1)
-    return '▞'
+    return '◆'
   else
     return '◥' .. repeat('■', a:len - 2) .. '◤'
   endif
@@ -735,17 +735,18 @@ function! synfo#logregion(regions, level, levels) abort
     let hlg = synIDattr(region.id, 'name', 'gui')
     let lenregion = region.to - region.from + 1
 
-    if (!empty(region.cchar))
-      call add(line.parts, echo#format('Conceal', region.cchar .. repeat('▂', lenregion - 1)))
-      let line.total += lenregion
-    else
-      if (empty(region.contains))
-        call add(line.parts, echo#format(hlg, region.chars))
+    if (empty(region.contains))
+      if (!empty(region.cchar))
+        call add(line.parts, echo#format('Conceal', region.cchar))
+        call add(line.parts, echo#format('EndOfBuffer', repeat('←', lenregion - 1)))
         let line.total += lenregion
       else
-        call add(line.parts, echo#format(hlg, s:renderRegion(lenregion)))
+        call add(line.parts, echo#format(hlg, region.chars))
         let line.total += lenregion
       endif
+    else
+      call add(line.parts, echo#format(hlg, s:renderRegion(lenregion)))
+      let line.total += lenregion
     endif
 
     call synfo#logregion(region.contains, a:level + 1, a:levels)

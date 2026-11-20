@@ -682,7 +682,6 @@ function! synfo#hipop() abort
 
       let range = range[-1].contains
     endfor
-
   endfor
 
   call synfo#hilog(ranges)
@@ -695,16 +694,16 @@ function! synfo#logr(ranges, level, levels) abort
   for range in a:ranges
     let leading = range.from - line.last
     if (leading)
-      call add(line, s:none(repeat(' ', leading)))
+      call add(line.parts, s:none(repeat(' ', leading)))
     endif
-    call add(line, echo#format(synIDattr(range.id, 'name', 'gui'),
-          \ repeat('█', range.to - range.from + 1)))
+    call add(line.parts, echo#format(synIDattr(range.id, 'name', 'gui'),
+          \ repeat('█', range.to - range.from)))
+    let line.last = range.to
 
     if !empty(range.contains)
       call synfo#logr(range.contains, a:level + 1, a:levels)
     endif
     
-    let last = range.to
   endfor
 endfunc
 
@@ -713,11 +712,13 @@ function! synfo#hilog(ranges) abort
 
   call synfo#logr(a:ranges, 0, levels)
 
-  echom a:ranges
-  echom levels
+  " echom a:ranges
+  " echom levels
 
-  let cmd = map(levels, {i, v -> join(v, ' | ')})->join(' | echo | ')
-
-  exec cmd
+  let cmd = map(levels, {i, v -> join(v.parts, ' | ')})
+        \->reverse()
+        \->join(' | echo "" | ')
   echom cmd
+
+  exec 'echo "" |' cmd
 endfunc

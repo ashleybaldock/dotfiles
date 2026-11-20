@@ -660,65 +660,118 @@ command! -nargs=? -complete=customlist,synfo#complete Synfo echo <args>
 
 
 "
-" ranges:
+" regions:
 "  [{from: 1, to: 4, id: 221, contains: [1,3,994]},[5,9,1201]]
 "
 "  1 2 3 4 5 6 7 8 9
 "  -994-  
 "  --221-- ---1201--
 "          
-function! synfo#hipop() abort
-  let ranges = []
+function! synfo#getregions() abort
+  let regions = []
 
-  for c in range(1, col('$'))
-    let range = ranges
+  let l = line('.')
+  let line = getline('.')
 
-    for id in synstack(line('.'), c)
-      if (len(range) > 0 && range[-1].id == id)
-        let range[-1].to += 1
+  for c in range(1, virtcol('$'))
+    let char = strcharpart(line[c - 1 : -1], 0, 1, 1)
+    let cur = regions
+
+    let [conc, cchar, crid] = synconcealed(l, c)
+
+    for id in synstack(l, c)
+      if (len(cur) == 0 || (id != cur[-1].id) || (conc != cur[-1].conc) || (crid != cur[-1].crid))
+        call add(cur, #{
+              \ from: c,
+              \ to: c,
+              \ id: id,
+              \ chars: char,
+              \ contains: [],
+              \ conc: conc,
+              \ cchar: cchar,
+              \ crid: crid,
+              \})
       else
-        call add(range, #{from: c, to: c, id: id, contains: []})
+        let cur[-1].to += 1
+        let cur[-1].chars ..= char
       endif
 
-      let range = range[-1].contains
+      let cur = cur[-1].contains
     endfor
   endfor
 
-  call synfo#hilog(ranges)
+  return regions
 endfunc
 
 let s:none = echo#with('None')
 
-function! synfo#logr(ranges, level, levels) abort
-  let line = get(a:levels, a:level, add(a:levels, #{parts: [], last: 1}))
-  for range in a:ranges
-    let leading = range.from - line.last
-    if (leading)
-      call add(line.parts, s:none(repeat(' ', leading)))
-    endif
-    call add(line.parts, echo#format(synIDattr(range.id, 'name', 'gui'),
-          \ repeat('█', range.to - range.from)))
-    let line.last = range.to
+function! s:renderRegion(len) abort
+  if (a:len == 1)
+    return '▞'
+  else
+    return '◥' .. repeat('■', a:len - 2) .. '◤'
+  endif
+endfunc
 
-    if !empty(range.contains)
-      call synfo#logr(range.contains, a:level + 1, a:levels)
+"
+" 1 2 3 4 5 6 7 8 9                      last=0
+" -----                 1,3 len=3 lead=0 last=3
+"         -----         5,7 len=3 lead=1 last=7
+"
+function! synfo#logregion(regions, level, levels) abort
+  if empty(a:regions)
+    return
+  endif
+
+  let line = get(a:levels, a:level, add(a:levels, #{parts: [], total: 0}))
+
+  for region in a:regions
+    let leading = region.from - line.total - 1
+    if (leading > 0)
+      call add(line.parts, s:none(repeat(' ', leading)))
+      let line.total += leading
     endif
-    
+
+    let hlg = synIDattr(region.id, 'name', 'gui')
+    let lenregion = region.to - region.from + 1
+
+    if (!empty(region.cchar))
+      call add(line.parts, echo#format('Conceal', region.cchar .. repeat('▂', lenregion - 1)))
+      let line.total += lenregion
+    else
+      if (empty(region.contains))
+        call add(line.parts, echo#format(hlg, region.chars))
+        let line.total += lenregion
+      else
+        call add(line.parts, echo#format(hlg, s:renderRegion(lenregion)))
+        let line.total += lenregion
+      endif
+    endif
+
+    call synfo#logregion(region.contains, a:level + 1, a:levels)
   endfor
 endfunc
 
-function! synfo#hilog(ranges) abort
+function! synfo#hilog(regions = synfo#getregions()) abort
   let levels = []
 
-  call synfo#logr(a:ranges, 0, levels)
+  call synfo#logregion(a:regions, 0, levels)
 
-  " echom a:ranges
+  " echom 'regions'
+  " echom a:regions
+  " echom 'levels'
   " echom levels
 
-  let cmd = map(levels, {i, v -> join(v.parts, ' | ')})
-        \->reverse()
-        \->join(' | echo "" | ')
-  echom cmd
+  let cmd = ([
+        \ 'echo ""',
+        \ copy(levels)
+        \  ->filter({i, v -> len(v.parts)})
+        \  ->map({i, v -> join(v.parts, ' | ')})
+        \  ->reverse()
+        \  ->join(' | echo "" | '),
+        \ 'echo ""',
+        \])->join(' | ')
+  " echom cmd
 
-  exec 'echo "" |' cmd
+  exec cmd
 endfunc

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.407
+// @version     1.2.413
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -128,7 +128,7 @@ const initImage = ({
   const picker = GM_addElement(document.body, 'div', { class: 'picker' });
 
   const pickerpx = 10,
-    zoom = 5;
+    zoom = 1.2;
 
   const canvasPicker = GM_addElement(picker, 'canvas', {
     width: pickerpx * zoom,
@@ -155,10 +155,17 @@ const initImage = ({
       const { left, top, width, height } =
         canvasOriginal.getBoundingClientRect();
 
-      // const originalPixelX = Math.round(((clientX - left) / width) * naturalWidth);
-      // const originalPixelY = Math.round(((clientY - top) / height) * naturalHeight);
-      const originalPixelX = Math.round((layerX / width) * naturalWidth);
-      const originalPixelY = Math.round((layerY / height) * naturalHeight);
+      const originalZoomX = width / naturalWidth,
+        originalZoomY = height / naturalHeight;
+
+      const originalPixelX = Math.round(
+        ((clientX - left) / width) * naturalWidth,
+      );
+      const originalPixelY = Math.round(
+        ((clientY - top) / height) * naturalHeight,
+      );
+      // const originalPixelX = Math.round((layerX / width) * naturalWidth);
+      // const originalPixelY = Math.round((layerY / height) * naturalHeight);
 
       const pixel = ctx.getImageData(originalPixelX, originalPixelY, 1, 1);
       const [r, g, b, a] = pixel.data;
@@ -167,22 +174,33 @@ const initImage = ({
       pickerCtx.imageSmoothingEnabled = false;
 
       pickerCtx.clearRect(0, 0, canvasPicker.width, canvasPicker.height);
+      // pickerCtx.drawImage(
+      //   canvasOriginal,
+      //   Math.min(
+      //     Math.max(0, originalPixelX - pickerpx * 0.5),
+      //     naturalWidth - pickerpx,
+      //   ),
+      //   Math.min(
+      //     Math.max(0, originalPixelY - pickerpx * 0.5),
+      //     naturalHeight - pickerpx,
+      //   ),
+      //   pickerpx,
+      //   pickerpx,
+      //   0,
+      //   0,
+      //   pickerpx * zoom,
+      //   pickerpx * zoom,
+      // );
       pickerCtx.drawImage(
         canvasOriginal,
-        Math.min(
-          Math.max(0, originalPixelX - pickerpx * 0.5),
-          naturalWidth - pickerpx,
-        ),
-        Math.min(
-          Math.max(0, originalPixelY - pickerpx * 0.5),
-          naturalHeight - pickerpx,
-        ),
+        originalPixelX - pickerpx * 0.5,
+        originalPixelY - pickerpx * 0.5,
         pickerpx,
         pickerpx,
         0,
         0,
-        pickerpx * zoom,
-        pickerpx * zoom,
+        pickerpx * originalZoomX * zoom,
+        pickerpx * originalZoomY * zoom,
       );
 
       setRegisteredCSSProperty({

@@ -733,38 +733,56 @@ function! synfo#logregion(regions, level, levels) abort
     return
   endif
 
-  let line = get(a:levels, a:level, add(a:levels, #{parts: [], total: 0}))
+  let stackline = get(a:levels.stack, a:level, add(a:levels.stack, #{parts: [], total: 0}))
+  let concline = a:levels.conc
+  let textline = a:levels.text
 
   for region in a:regions
-    let leading = region.from - line.total - 1
-    if (leading > 0)
-      call add(line.parts, s:none(repeat(' ', leading)))
-      let line.total += leading
-    endif
-
     let hlg = synIDattr(region.id, 'name', 'gui')
+    let leading = region.from - stackline.total - 1
     let lenregion = region.to - region.from + 1
 
-    if (empty(region.contains))
-      if (!empty(region.cchar))
-        call add(line.parts, echo#format('Conceal', region.cchar))
-        call add(line.parts, echo#format('EndOfBuffer', repeat('←', lenregion - 1)))
-        let line.total += lenregion
-      else
-        call add(line.parts, echo#format(hlg, region.chars))
-        let line.total += lenregion
-      endif
-    else
-      call add(line.parts, echo#format(hlg, s:renderRegion(lenregion)))
-      let line.total += lenregion
+    if (leading > 0)
+      call add(stackline.parts, s:none(repeat(' ', leading)))
+      let stackline.total += leading
+    endif
 
+    call add(stackline.parts, echo#format(hlg, s:renderRegion(lenregion)))
+    let stackline.total += lenregion
+
+    if (region.conc && !empty(region.cchar))
+      let concleading = region.from - concline.total - 1
+      if (concleading > 0)
+        call add(concline.parts, s:none(repeat(' ', concleading)))
+        let concline.total += concleading
+      endif
+
+      call add(concline.parts, echo#format('Conceal', region.cchar))
+      call add(concline.parts, echo#format('EndOfBuffer', repeat('←', lenregion - 1)))
+      let concline.total += lenregion
+    endif
+
+    if (empty(region.contains))
+      let textleading = region.from - textline.total - 1
+      if (textleading > 0)
+        call add(textline.parts, s:none(repeat(' ', textleading)))
+        let textline.total += textleading
+      endif
+
+      call add(textline.parts, echo#format(hlg, region.chars))
+      let textline.total += lenregion
+    else
       call synfo#logregion(region.contains, a:level + 1, a:levels)
     endif
   endfor
 endfunc
 
 function! synfo#hilog(regions = synfo#getregions()) abort
-  let levels = []
+  let levels = #{
+        \ text: #{parts: [], total: 0},
+        \ conc: #{parts: [], total: 0},
+        \ stack: []
+        \}
 
   call synfo#logregion(a:regions, 0, levels)
 
@@ -775,7 +793,11 @@ function! synfo#hilog(regions = synfo#getregions()) abort
 
   let cmd = ([
         \ 'echo ""',
-        \ copy(levels)
+        \ join(levels.conc.parts, ' | '),
+        \ 'echo ""',
+        \ join(levels.text.parts, ' | '),
+        \ 'echo ""',
+        \ copy(levels.stack)
         \  ->filter({i, v -> len(v.parts)})
         \  ->map({i, v -> join(v.parts, ' | ')})
         \  ->reverse()

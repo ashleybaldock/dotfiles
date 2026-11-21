@@ -129,7 +129,7 @@ function! mayhem#getSubtypeForPath(path) abort
         \->get('subtype', '')
 endfunc
 
-function mayhem#fileTypeMatchesExt(type, filename) abort
+function! mayhem#fileTypeMatchesExt(type, filename) abort
   let ext = fnamemodify(a:filename, ':e')
   let name = fnamemodify(a:filename, ':r')
   let tail = fnamemodify(a:filename, ':t')

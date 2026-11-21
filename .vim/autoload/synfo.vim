@@ -678,19 +678,29 @@ function! synfo#getregions() abort
     let cur = regions
 
     let [conc, cchar, crid] = synconcealed(l, c)
+    let stack = synstack(l, c)
 
-    for id in synstack(l, c)
-      if (len(cur) == 0 || (id != cur[-1].id) || (conc != cur[-1].conc) || (crid != cur[-1].crid))
+    for [i, id] in items(stack)
+      if (len(cur) == 0
+            \ || (id != cur[-1].id)
+            \ || (
+            \  (i == len(stack) - 1)
+            \  && (
+            \   (conc != cur[-1].conc)
+            \   || (crid != cur[-1].crid)
+            \  )
+            \ )
+            \)
         call add(cur, #{
-              \ from: c,
-              \ to: c,
-              \ id: id,
-              \ chars: char,
-              \ contains: [],
-              \ conc: conc,
-              \ cchar: cchar,
-              \ crid: crid,
-              \})
+              \   from: c,
+              \   to: c,
+              \   id: id,
+              \   chars: char,
+              \   contains: [],
+              \   conc: conc,
+              \   cchar: cchar,
+              \   crid: crid,
+              \  })
       else
         let cur[-1].to += 1
         let cur[-1].chars ..= char
@@ -747,9 +757,9 @@ function! synfo#logregion(regions, level, levels) abort
     else
       call add(line.parts, echo#format(hlg, s:renderRegion(lenregion)))
       let line.total += lenregion
-    endif
 
-    call synfo#logregion(region.contains, a:level + 1, a:levels)
+      call synfo#logregion(region.contains, a:level + 1, a:levels)
+    endif
   endfor
 endfunc
 

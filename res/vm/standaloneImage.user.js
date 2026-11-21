@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.404
+// @version     1.2.407
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -127,11 +127,12 @@ const initImage = ({
 
   const picker = GM_addElement(document.body, 'div', { class: 'picker' });
 
-  const pickerpx = 10;
+  const pickerpx = 10,
+    zoom = 5;
 
   const canvasPicker = GM_addElement(picker, 'canvas', {
-    width: pickerpx,
-    height: pickerpx,
+    width: pickerpx * zoom,
+    height: pickerpx * zoom,
   });
 
   const onloadImg = (image) => {
@@ -165,7 +166,7 @@ const initImage = ({
       const pickerCtx = canvasPicker.getContext('2d');
       pickerCtx.imageSmoothingEnabled = false;
 
-      pickerCtx.clearRect(0, 0, pickerpx, pickerpx);
+      pickerCtx.clearRect(0, 0, canvasPicker.width, canvasPicker.height);
       pickerCtx.drawImage(
         canvasOriginal,
         Math.min(
@@ -180,8 +181,8 @@ const initImage = ({
         pickerpx,
         0,
         0,
-        pickerpx,
-        pickerpx,
+        pickerpx * zoom,
+        pickerpx * zoom,
       );
 
       setRegisteredCSSProperty({

@@ -558,7 +558,6 @@ li {
 }
 
 .output {
-  visibility: hidden;
   display: flex;
   position: absolute;
   align-items: center;
@@ -582,6 +581,10 @@ li {
 .output.fixed {
   position: fixed;
 }
+.output:where(.one, .two, .three, .four, .five, .six) > output::after {
+  --value1: ;
+  --v1: var(--prefix1, '') counter;
+}
 .output.one > output::after {
   counter-reset: out var(--value);
   content: var(--prefix, '') counter(out) var(--suffix, '');
@@ -590,6 +593,19 @@ li {
   counter-reset: outA var(--value) outB var(--value2);
   content: var(--prefix, '') counter(outA) var(--suffix, '') var(--prefix2, '')
     counter(outB) var(--suffix2, '');
+}
+.output.three > output::after {
+  counter-reset: outA var(--value) outB var(--value2) outC var(--value3);
+  content: var(--prefix, '') counter(outA) var(--suffix, '') var(--prefix2, '')
+    counter(outB) var(--suffix2, '') var(--prefix3, '') counter(outC)
+    var(--suffix3, '');
+}
+.output.four > output::after {
+  counter-reset: outA var(--value) outB var(--value2) outC var(--value3) outD
+    var(--value4);
+  content: var(--prefix, '') counter(outA) var(--suffix, '') var(--prefix2, '')
+    counter(outB) var(--suffix2, '') var(--prefix3, '') counter(outC)
+    var(--suffix3, '') var(--prefix4, '') counter(outD) var(--suffix4, '');
 }
 
 /* debug labels for image fitting to client */
@@ -611,9 +627,9 @@ li {
 }
 .output.fith {
   border-width: 1px 3px 1px 3px;
-  color: #b00;
   width: var(--w-if-fith);
   height: var(--h-if-fith);
+  color: #b00;
 }
 .output.fitw {
   border-width: 3px 1px 3px 1px;
@@ -626,10 +642,9 @@ li {
   position: absolute;
   top: 0;
   left: 0;
-  border: 2px solid currentColor;
+  border: 1px solid currentColor;
   background-color: #000;
   padding: 4px 6px;
-  border-radius: 12px 0 14px 0;
   border-style: solid groove groove solid;
   font-family: monospace;
   font-size: 0.8rem;
@@ -1039,7 +1054,7 @@ body[data-selecting] .toggles {
 #tgl_info {
   anchor-name: --anchor-tgl-info;
 }
-#tgl_dim {
+#tgl_dims {
   position-anchor: --anchor-tgl-info;
   anchor-name: --anchor-tgl-dim;
   position: absolute;
@@ -1306,6 +1321,10 @@ body[data-selecting] .toggles {
   .imdisplaywh,
   .imalignedwh,
   .pixelwh,
+  .pickedxy,
+  .pickerzoom,
+  .pickerpxwh,
+  .pickerwh,
 
 ) {
   font-size: 0.6rem;
@@ -1314,10 +1333,13 @@ body[data-selecting] .toggles {
   line-height: normal;
   visibility: hidden;
 }
-:root:has(#tgl_dim:checked) .output:where(.width, .height, .client-size) {
+:root:has(#tgl_pixfo:checked) .output:where(.pickedxy),
+:root:has(#tgl_dims:checked) .output:where(.width, .height, .client-size) {
   visibility: visible;
 }
-:root:has(#tgl_dim:checked):has(#tgl_dbg:checked)
+:root:has(#tgl_dgb:checked):has(#tgl_pixfo:checked)
+  .output:where(.pickerzoom, .pickerpxwh, .pickerwh),
+:root:has(#tgl_dbg:checked):has(#tgl_dims:checked)
   .output:where(
     .imtopleft,
     .imbottomright,
@@ -1336,7 +1358,7 @@ body[data-selecting] .toggles {
 }
 .output:where(.imdisplayh, .imdisplayw .imdisplaywh, .imalignedwh, .pixelwh, ) {
   position-anchor: --anchor-right-overlay-stack;
-  position-scope: --anchor-right-overlay-stack;
+  anchor-scope: --anchor-right-overlay-stack;
 }
 .output:where(
   .imtopleft,
@@ -1349,6 +1371,20 @@ body[data-selecting] .toggles {
 ) {
   position-anchor: --anchor-image;
   position: fixed;
+}
+.output.iffix {
+  /* content: var(--value1-combined, '') var(--value2-combined, ''); */
+  --val1-def: var(--val1);
+  --val1: var(--val1-def,);
+  --val1-fixed: var(--pre1) var(--s-val1) var(--suf1);
+  --pre1: 'prefix1 ~ ';
+  --suf1: ' ~ suffix1';
+  --content: var(--val1-fixed, '') var(--val2-fixed, '');
+  visibility: visible;
+  counter-reset: outAa var(--Aa) outAb var(--Ab);
+  --s-val1: counter(outAa) '.' counter(outAb);
+  --Aa: round(down, var(--value1), 1);
+  --Ab: round(down, calc((var(--value1) - var(--Aa)) * 1000), 1);
 }
 .output.imdisplaywh {
   --value: var(--int-imfittedw);
@@ -1462,6 +1498,50 @@ body[data-selecting] .toggles {
   height: calc(var(--h-if-fith) * 1px);
 }
 
+.output.pickedxy {
+  --value: var(--picked-px-x);
+  --value2: var(--picked-px-y);
+  --prefix: '(';
+  --suffix: ',';
+  --prefix2: '';
+  --suffix2: ')';
+  inset: anchor(bottom) anchor(right) auto auto;
+  anchor-name: --anchor-picked-xy, --anchor-picker-debug;
+  position-anchor: --anchor-picker-canvas;
+}
+.output.pickerzoom {
+  --value: var(--picker-zoom-x);
+  --value2: var(--picker-zoom-y);
+  --prefix: 'zoom (w×';
+  --suffix: ',h×';
+  --prefix2: '';
+  --suffix2: ')';
+  inset: anchor(bottom) anchor(right) auto auto;
+  anchor-name: --anchor-picker-zoom, --anchor-picker-debug;
+  position-anchor: --anchor-picker-debug;
+}
+.output.pickerpxwh {
+  --prefix: 'zoomed pixels (';
+  --value: var(--picker-px-w);
+  --suffix: '×';
+  --prefix2: '';
+  --value2: var(--picker-px-h);
+  --suffix2: ')';
+  inset: anchor(bottom) anchor(right) auto auto;
+  anchor-name: --anchor-picker-px-wh, --anchor-picker-debug;
+  position-anchor: --anchor-picker-debug;
+}
+.output.pickerwh {
+  --prefix: 'picker size (';
+  --value: var(--picker-w);
+  --suffix: '×';
+  --prefix2: '';
+  --value2: var(--picker-h);
+  --suffix2: ')';
+  inset: anchor(bottom) anchor(right) auto auto;
+  anchor-name: --anchor-picker-wh, --anchor-picker-debug;
+  position-anchor: --anchor-picker-debug;
+}
 .output.color {
   position: fixed;
   visibility: hidden;
@@ -1527,9 +1607,6 @@ body[data-selecting] .toggles {
   display: none;
 }
 
-.original {
-}
-
 .original .cursor {
   pointer-events: none;
   position: absolute;
@@ -1552,6 +1629,7 @@ body[data-selecting] .toggles {
   visibility: hidden;
   position: absolute;
   position-anchor: --anchor-cursor;
+  anchor-name: --anchor-picker-canvas;
   border-radius: 50%;
   width: auto;
   aspect-ratio: 1;
@@ -1567,6 +1645,7 @@ body[data-selecting] .toggles {
   border-style: double;
   border-color: #fff2 #aaa2 #bbb2 #eee2;
   border-width: var(--bdw);
+  background-attachment: fixed;
 }
 
 :root:has(#tgl_info:checked):has(#tgl_pixfo:checked):has(

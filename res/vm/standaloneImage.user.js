@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.413
+// @version     1.2.431
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -127,81 +127,38 @@ const initImage = ({
 
   const picker = GM_addElement(document.body, 'div', { class: 'picker' });
 
-  const pickerpx = 10,
-    zoom = 1.2;
+  const pickerPxContextY = (pickerPxContextX = 10),
+    pickerZoomX = (pickerZoomY = 1.2);
 
   const canvasPicker = GM_addElement(picker, 'canvas', {
-    width: pickerpx * zoom,
-    height: pickerpx * zoom,
+    width: pickerPxContextX * pickerZoomX,
+    height: pickerPxContextY * pickerZoomY,
   });
 
   const onloadImg = (image) => {
     const { naturalWidth, naturalHeight } = image;
-    documentElement.style.setProperty('--naturalw', naturalWidth);
-    documentElement.style.setProperty('--naturalh', naturalHeight);
+
+    setRegisteredCSSProperty({
+      name: '--naturalw',
+      value: naturalWidth,
+      syntax: '<integer>',
+    });
     canvasOriginal.setAttribute('width', naturalWidth);
+
+    setRegisteredCSSProperty({
+      name: '--naturalh',
+      value: naturalHeight,
+      syntax: '<integer>',
+    });
     canvasOriginal.setAttribute('height', naturalHeight);
 
     const ctx = canvasOriginal.getContext('2d');
     ctx.drawImage(image, 0, 0);
     image.classList.add('hidden');
-    // canvasOriginal.toBlob(
-    //   (blob) => (blob === null ? reject('null blob') : resolve(blob)),
-    //   'image/png',
-    // );
 
     const canvasOriginalOnMove = ({ clientX, clientY, layerX, layerY }) => {
-      const ctx = canvasOriginal.getContext('2d');
       const { left, top, width, height } =
         canvasOriginal.getBoundingClientRect();
-
-      const originalZoomX = width / naturalWidth,
-        originalZoomY = height / naturalHeight;
-
-      const originalPixelX = Math.round(
-        ((clientX - left) / width) * naturalWidth,
-      );
-      const originalPixelY = Math.round(
-        ((clientY - top) / height) * naturalHeight,
-      );
-      // const originalPixelX = Math.round((layerX / width) * naturalWidth);
-      // const originalPixelY = Math.round((layerY / height) * naturalHeight);
-
-      const pixel = ctx.getImageData(originalPixelX, originalPixelY, 1, 1);
-      const [r, g, b, a] = pixel.data;
-
-      const pickerCtx = canvasPicker.getContext('2d');
-      pickerCtx.imageSmoothingEnabled = false;
-
-      pickerCtx.clearRect(0, 0, canvasPicker.width, canvasPicker.height);
-      // pickerCtx.drawImage(
-      //   canvasOriginal,
-      //   Math.min(
-      //     Math.max(0, originalPixelX - pickerpx * 0.5),
-      //     naturalWidth - pickerpx,
-      //   ),
-      //   Math.min(
-      //     Math.max(0, originalPixelY - pickerpx * 0.5),
-      //     naturalHeight - pickerpx,
-      //   ),
-      //   pickerpx,
-      //   pickerpx,
-      //   0,
-      //   0,
-      //   pickerpx * zoom,
-      //   pickerpx * zoom,
-      // );
-      pickerCtx.drawImage(
-        canvasOriginal,
-        originalPixelX - pickerpx * 0.5,
-        originalPixelY - pickerpx * 0.5,
-        pickerpx,
-        pickerpx,
-        0,
-        0,
-        pickerpx * originalZoomX * zoom,
-        pickerpx * originalZoomY * zoom,
-      );
 
       setRegisteredCSSProperty({
         to: canvasCursor,
@@ -215,6 +172,113 @@ const initImage = ({
         value: clientY - top,
         syntax: '<number>',
       });
+
+      const originalZoomX = width / naturalWidth,
+        originalZoomY = height / naturalHeight;
+
+      setRegisteredCSSProperty({
+        name: '--original-zoom-x',
+        value: originalZoomX,
+        syntax: '<number>',
+      });
+      setRegisteredCSSProperty({
+        name: '--original-zoom-y',
+        value: originalZoomY,
+        syntax: '<number>',
+      });
+
+      setRegisteredCSSProperty({
+        name: '--picker-zoom-x',
+        value: pickerZoomX,
+        syntax: '<number>',
+      });
+      setRegisteredCSSProperty({
+        name: '--picker-zoom-y',
+        value: pickerZoomY,
+        syntax: '<number>',
+      });
+
+      const pickedPxX = Math.round(((clientX - left) / width) * naturalWidth);
+      const pickedPxY = Math.round(((clientY - top) / height) * naturalHeight);
+
+      setRegisteredCSSProperty({
+        name: '--picked-px-x',
+        value: pickedPxX,
+        syntax: '<integer>',
+      });
+      setRegisteredCSSProperty({
+        name: '--picked-px-y',
+        value: pickedPxY,
+        syntax: '<integer>',
+      });
+
+      const pickerPxW = pickerPxContextX * 2 + 1,
+        pickerPxH = pickerPxContextY * 2 + 1,
+        pickerW = pickerPxW * originalZoomX * pickerZoomX,
+        pickerH = pickerPxH * originalZoomY * pickerZoomY;
+
+      setRegisteredCSSProperty({
+        name: '--picker-px-w',
+        value: pickerPxW,
+        syntax: '<integer>',
+      });
+      setRegisteredCSSProperty({
+        name: '--picker-w',
+        value: pickerW,
+        syntax: '<integer>',
+      });
+      canvasPicker.setAttribute('width', pickerW);
+
+      setRegisteredCSSProperty({
+        name: '--picker-px-h',
+        value: pickerPxH,
+        syntax: '<integer>',
+      });
+      setRegisteredCSSProperty({
+        name: '--picker-h',
+        value: pickerH,
+        syntax: '<integer>',
+      });
+      canvasPicker.setAttribute('height', pickerH);
+
+      const pickerCtx = canvasPicker.getContext('2d');
+      pickerCtx.imageSmoothingEnabled = false;
+
+      pickerCtx.clearRect(0, 0, pickerW, pickerH);
+      pickerCtx.drawImage(
+        canvasOriginal,
+        pickedPxX - pickerPxContextX,
+        pickedPxY - pickerPxContextY,
+        pickerPxContextX * 2 + 1,
+        pickerPxContextY * 2 + 1,
+        0,
+        0,
+        pickerW,
+        pickerH,
+        // pickerPxContextX * originalZoomX * pickerZoomX,
+        // pickerPxContextY * originalZoomY * pickerZoomY,
+      );
+      // pickerCtx.drawImage(
+      //   canvasOriginal,
+      //   Math.min(
+      //     Math.max(0, pickedPxX - pickerPxContextX * 0.5),
+      //     naturalWidth - pickerPxContextX,
+      //   ),
+      //   Math.min(
+      //     Math.max(0, pickedPxY - pickerPxContextY * 0.5),
+      //     naturalHeight - pickerPxContextY,
+      //   ),
+      //   pickerPxContextX,
+      //   pickerPxContextY,
+      //   0,
+      //   0,
+      //   pickerPxContextX * pickerZoomX,
+      //   pickerPxContextY * pickerZoomY,
+      // );
+
+      const ctx = canvasOriginal.getContext('2d');
+      const pixel = ctx.getImageData(pickedPxX, pickedPxY, 1, 1);
+      const [r, g, b, a] = pixel.data;
 
       setRegisteredCSSProperty({
         name: '--cursor-r',
@@ -350,6 +414,11 @@ const initImage = ({
       imtopleft: addOutput({ to, class: 'output two imtopleft' }),
       imbottomright: addOutput({ to, class: 'output two imbottomright' }),
       cursorColor: addOutput({ to, class: 'output color' }),
+      pickedxy: addOutput({ to, class: 'output two pickedxy' }),
+      pickerzoom: addOutput({ to, class: 'output two pickerzoom' }),
+      pickerxy: addOutput({ to, class: 'output two pickerxy' }),
+      pickerpxwh: addOutput({ to, class: 'output two pickerpxwh' }),
+      pickerwh: addOutput({ to, class: 'output two pickerwh' }),
     }))(overlaid);
 
     const viewmenu = GM_addElement(document.body, 'menu', {
@@ -378,7 +447,7 @@ const initImage = ({
       }),
       showOverlayImageDimensions: addToggle({
         to,
-        id: 'tgl_dim',
+        id: 'tgl_dims',
         textContent: 'dimensions',
         checked: false,
       }),

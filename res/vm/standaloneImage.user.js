@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.431
+// @version     1.2.433
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -173,19 +173,9 @@ const initImage = ({
         syntax: '<number>',
       });
 
-      const originalZoomX = width / naturalWidth,
-        originalZoomY = height / naturalHeight;
-
-      setRegisteredCSSProperty({
-        name: '--original-zoom-x',
-        value: originalZoomX,
-        syntax: '<number>',
-      });
-      setRegisteredCSSProperty({
-        name: '--original-zoom-y',
-        value: originalZoomY,
-        syntax: '<number>',
-      });
+      /* pixel display size */
+      const pixelw = getRegisteredCSSProperty({ name: 'pixelw' }),
+        pixelh = getRegisteredCSSProperty({ name: 'pixelh' });
 
       setRegisteredCSSProperty({
         name: '--picker-zoom-x',
@@ -214,8 +204,8 @@ const initImage = ({
 
       const pickerPxW = pickerPxContextX * 2 + 1,
         pickerPxH = pickerPxContextY * 2 + 1,
-        pickerW = pickerPxW * originalZoomX * pickerZoomX,
-        pickerH = pickerPxH * originalZoomY * pickerZoomY;
+        pickerW = (pickerPxW * pickerZoomX) / pixelw,
+        pickerH = (pickerPxH * pickerZoomY) / pixelh;
 
       setRegisteredCSSProperty({
         name: '--picker-px-w',
@@ -255,8 +245,8 @@ const initImage = ({
         0,
         pickerW,
         pickerH,
-        // pickerPxContextX * originalZoomX * pickerZoomX,
-        // pickerPxContextY * originalZoomY * pickerZoomY,
+        // pickerPxContextX * pixelw * pickerZoomX,
+        // pickerPxContextY * pixelh * pickerZoomY,
       );
       // pickerCtx.drawImage(
       //   canvasOriginal,
@@ -506,7 +496,7 @@ const initImage = ({
     }))(viewmenu);
 
     (({ document: { body }, eventLayer, console: { log, debug } }) => {
-      const selecting = () => qs`.tgl.selecting`;
+      const selecting = () => qs`#tgl_select`;
       const dragging = () => body.dataset.dragging !== undefined;
       const selection = () => body.dataset.selection !== undefined;
       const vertical = () => body.dataset.selectingVertical !== undefined;

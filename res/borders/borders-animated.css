@@ -1,0 +1,102 @@
+.animated .boxcircles {
+  width: 130px;
+  height: 130px;
+  visibility: visible;
+  background-color: #0004;
+  position: fixed;
+  z-index: calc(-Infinity);
+  inset: auto 25% 25% auto;
+  border: calc(2 * var(--u)) solid #0000;
+  border-radius: 50%;
+  --u: 1px;
+  --a: calc(var(--aa, 45) * var(--u));
+  --b: calc(var(--bb, -22) * var(--u));
+  --c: calc(var(--cc, 31) * var(--u));
+  box-shadow:
+    calc(var(--a) - var(--c)) calc(var(--b) - var(--c)) 0 var(--c) #00f4,
+    calc(var(--c) - var(--a)) calc(var(--c) - var(--b)) 0 var(--c) #f004,
+    calc(var(--b) - var(--c)) calc(var(--a) - var(--c)) 0 var(--c) #0ff4,
+    calc(var(--c) - var(--b)) calc(var(--c) - var(--a)) 0 var(--c) #ff04,
+    calc(var(--a) - var(--b)) calc(var(--b) - var(--a)) 0 var(--c) #f0f4,
+    calc(var(--b) - var(--a)) calc(var(--a) - var(--b)) 0 var(--c) #00f4,
+    calc(var(--b) - var(--a)) calc(var(--a) - var(--b)) 0
+      calc(var(--c) - var(--a)) #fff4,
+    calc(var(--a) - var(--b)) calc(var(--b) - var(--a)) 0
+      calc(var(--c) - var(--b)) #0004,
+    inset calc(var(--a) - var(--c)) calc(var(--b) - var(--c)) 0 var(--c) #00f4,
+    inset calc(var(--c) - var(--a)) calc(var(--c) - var(--b)) 0 var(--c) #f004,
+    inset calc(var(--b) - var(--c)) calc(var(--a) - var(--c)) 0 var(--c) #0ff4,
+    inset calc(var(--c) - var(--b)) calc(var(--c) - var(--a)) 0 var(--c) #f004,
+    inset calc(var(--b) - var(--a)) calc(var(--a) - var(--b)) 0
+      calc(var(--c) - var(--a)) #fff4,
+    inset calc(var(--a) - var(--b)) calc(var(--b) - var(--a)) 0
+      calc(var(--c) - var(--b)) #0004;
+
+  animation:
+    3s ease-in-out 1s infinite alternate-reverse both running aaa,
+    5s ease-in-out 1s infinite alternate-reverse both running bbb,
+    7s ease-in-out 7s infinite alternate-reverse both running ccc;
+}
+
+@keyframes aaa {
+  0% {
+    --aa: 1;
+  }
+
+  50% {
+    --aa: 64;
+  }
+
+  100% {
+    --aa: -64;
+  }
+}
+
+@keyframes bbb {
+  0% {
+    --bb: -32;
+  }
+
+  50% {
+    --bb: 0;
+  }
+
+  100% {
+    --bb: 32;
+  }
+}
+
+@keyframes ccc {
+  0% {
+    --cc: 16;
+  }
+
+  50% {
+    --cc: 64;
+  }
+
+  100% {
+    --cc: -32;
+  }
+}
+
+@property --aa {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 16;
+}
+@property --bb {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 8;
+}
+@property --cc {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 24;
+}
+@property --u {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 1px;
+}

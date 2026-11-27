@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.312
+// @version       1.1.316
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -194,73 +194,118 @@ const cssOQN = (el) =>
 const noop = () => {};
 
 /*{{{2 CSS @property registration  */
-/**
- * update value of registered custom CSS property
- *
- * on: element to set property on
- * name: property name ('--' prefix added if missing)
- * value: value to set
- * syntax: CSS typed syntax (e.g. '<string>', '<color>' etc.)
- *
- * Note: for non-<string> type values, this also adds a string
- * version of the property (prefixed with '--s-')
- *
- * toString: method used to transform value into a string, e.g. (s) => s.padStart(3, '0')
- * noString: disable automatic string property generation
- */
-const setRegisteredCSSProperty = (
-  ({ window: { document } }) =>
-  ({
-    on = document.documentElement,
-    name: _name,
-    value,
-    syntax,
-    asString = (s) => `${s}`,
-  }) => {
+
+const {
+  addRegisteredCSSProperty,
+  setRegisteredCSSProperty,
+  getRegisteredCSSProperty,
+} = (({ window }) => {
+  const registeredCSSProps = new Map();
+
+  const prefixedNames = (_name) => {
     const name = /^--/.test(_name) ? _name : `--${_name}`;
     const s_name = `--s-${name.slice(2)}`;
+    return { name, s_name };
+  };
 
-    let output = value,
-      s_output = `'${asString(value)}'`;
+  const propertyWrapper = ({name}) => {
+    return {
+      get value()  {
+        return getRegisteredCSSProperty({name})
+      },
+      set value(newValue) {
+        setRegisteredCSSProperty({name, value: newValue})
+      }:,
+    };
+  };
 
-    if (syntax === '<string>') {
-      output = quoteUnquoted`${value}`;
-      s_output = output;
-    }
+  const addRegisteredCSSProperty = ({
+      name: _name,
+      syntax = '*',
+      inherits = false,
+      initialValue = 'none',
+    }) => {
+      const property = {
+        name: prefixedNames(_name).name,
+        syntax,
+        inherits,
+        initialValue,
+      };
+      if (registeredCSSProps.has(property.name)) {
+        return true;
+      }
+      try {
+        window.CSS.registerProperty(property);
+        registeredCSSProps.add(name, property);
+        return true;
+      } catch (InvalidModificationError) {
+        return false;
+      }
+    };
+const setRegisteredCSSProperty = ({
+      on = document.documentElement,
+      name: _name,
+      syntax,
+      value,
+      asString = (s) => `${s}`,
+    }) => {
+      const { name, s_name } = prefixedNames(_name);
 
-    on.style.setProperty(name, output);
-    on.style.setProperty(s_name, s_output);
-  }
-)({ window: unsafeWindow });
+      let output = value,
+        s_output = `'${asString(value)}'`;
+
+      if (syntax === '<string>') {
+        output = quoteUnquoted`${value}`;
+        s_output = output;
+      }
+
+      on.style.setProperty(name, output);
+      on.style.setProperty(s_name, s_output);
+    };
+const getRegisteredCSSProperty = ({
+      on = document.documentElement,
+      name: _name,
+      initialValue,
+      syntax,
+    }) => {
+      const name = `${/^--/.test(_name) ? '' : '--'}${_name}`;
+
+      window.getComputedStyle(on).getPropertyValue('--pixelw');
+    };
+  return {
+    /**
+     * register a custom CSS property
+     *
+     */
+    addRegisteredCSSProperty,
+    /**
+     * update value of registered custom CSS property
+     *
+     * on: element to set property on
+     * name: property name ('--' prefix added if missing)
+     * value: value to set
+     * syntax: CSS typed syntax (e.g. '<string>', '<color>' etc.)
+     *
+     * Note: for non-<string> type values, this also adds a string
+     * version of the property (prefixed with '--s-')
+     *
+     * toString: method used to transform value into a string, e.g. (s) => s.padStart(3, '0')
+     * noString: disable automatic string property generation
+     */
+    setRegisteredCSSProperty,
+    getRegisteredCSSProperty,
+  };
+})({ window: unsafeWindow });
+
+/**
+ * @deprecated
+ */
+const addRegisteredCSSProp = addRegisteredCSSProperty;
 /**
  * @deprecated
  */
 const setRegisteredCSSProp = setRegisteredCSSProperty;
 
-const addRegisteredCSSProperty = (({ window }) => {
-  const registeredCSSProps = new Set();
-  return ({ name, syntax = '*', inherits = false, initialValue = 'none' }) => {
-    if (registeredCSSProps.has(name)) {
-      return true;
-    }
-    try {
-      window.CSS.registerProperty({
-        name,
-        syntax,
-        inherits,
-        initialValue,
-      });
-      registeredCSSProps.add(name);
-      return true;
-    } catch (InvalidModificationError) {
-      return false;
-    }
-  };
-})({ window: unsafeWindow });
-/**
- * @deprecated
- */
-const addRegisteredCSSProp = addRegisteredCSSProperty;
 /*}}}2 /CSS @property registration  */
 
 /*{{{2 Shadow container for page overlays */

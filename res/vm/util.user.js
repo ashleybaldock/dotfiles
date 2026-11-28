@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Utils for Userscripts
 // @namespace     mayhem
-// @version       1.1.316
+// @version       1.1.318
 // @author        flowsINtomAyHeM
 // @downloadURL   http://localhost:3333/vm/util.user.js
 // @exclude-match *
@@ -208,70 +208,93 @@ const {
     return { name, s_name };
   };
 
-  const propertyWrapper = ({name}) => {
+  const addRegisteredCSSProperty = ({
+    name: _name,
+    syntax = '*',
+    inherits = false,
+    initialValue = 'none',
+  }) => {
+    const property = {
+      name: prefixedNames(_name).name,
+      syntax,
+      inherits,
+      initialValue,
+    };
+    if (registeredCSSProps.has(property.name)) {
+      return true;
+    }
+    try {
+      window.CSS.registerProperty(property);
+      registeredCSSProps.add(name, property);
+      return true;
+    } catch (InvalidModificationError) {
+      return false;
+    }
+  };
+
+  const setRegisteredCSSProperty = ({
+    on = document.documentElement,
+    name: _name,
+    syntax,
+    value,
+    asString = (s) => `${s}`,
+  }) => {
+    const { name, s_name } = prefixedNames(_name);
+
+    let output = value,
+      s_output = `'${asString(value)}'`;
+
+    if (syntax === '<string>') {
+      output = quoteUnquoted`${value}`;
+      s_output = output;
+    }
+
+    on.style.setProperty(name, output);
+    on.style.setProperty(s_name, s_output);
+  };
+
+  const getRegisteredCSSProperty = ({
+    on = document.documentElement,
+    name: _name,
+    initialValue,
+    syntax,
+  }) => {
+    const name = `${/^--/.test(_name) ? '' : '--'}${_name}`;
+
+    return window.getComputedStyle(on).getPropertyValue(name);
+  };
+
+  const propertyWrapper = ({
+    name,
+    on: _on,
+    _on = document.documentElement,
+  }) => {
     return {
-      get value()  {
-        return getRegisteredCSSProperty({name})
+      get value() {
+        return getRegisteredCSSProperty({ name });
       },
       set value(newValue) {
-        setRegisteredCSSProperty({name, value: newValue})
-      }:,
+        setRegisteredCSSProperty({ name, value: newValue });
+      },
+      get initialValue() {
+        return registeredCSSProps.get(name)?.initialValue;
+      },
+      get inherits() {
+        return registeredCSSProps.get(name)?.inherits;
+      },
+      get syntax() {
+        return registeredCSSProps.get(name)?.syntax;
+      },
+
+      set: ({ value: newValue, on = _on }) => {
+        return setRegisteredCSSProperty({ name, value: newValue, on });
+      },
+      get: ({ from = _on }) => {
+        return getRegisteredCSSProperty({ name, from });
+      },
     };
   };
 
-  const addRegisteredCSSProperty = ({
-      name: _name,
-      syntax = '*',
-      inherits = false,
-      initialValue = 'none',
-    }) => {
-      const property = {
-        name: prefixedNames(_name).name,
-        syntax,
-        inherits,
-        initialValue,
-      };
-      if (registeredCSSProps.has(property.name)) {
-        return true;
-      }
-      try {
-        window.CSS.registerProperty(property);
-        registeredCSSProps.add(name, property);
-        return true;
-      } catch (InvalidModificationError) {
-        return false;
-      }
-    };
-const setRegisteredCSSProperty = ({
-      on = document.documentElement,
-      name: _name,
-      syntax,
-      value,
-      asString = (s) => `${s}`,
-    }) => {
-      const { name, s_name } = prefixedNames(_name);
-
-      let output = value,
-        s_output = `'${asString(value)}'`;
-
-      if (syntax === '<string>') {
-        output = quoteUnquoted`${value}`;
-        s_output = output;
-      }
-
-      on.style.setProperty(name, output);
-      on.style.setProperty(s_name, s_output);
-    };
-const getRegisteredCSSProperty = ({
-      on = document.documentElement,
-      name: _name,
-      initialValue,
-      syntax,
-    }) => {
-      const name = `${/^--/.test(_name) ? '' : '--'}${_name}`;
-
-      window.getComputedStyle(on).getPropertyValue('--pixelw');
-    };
   return {
     /**
      * register a custom CSS property

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Standalone Images
 // @namespace   mayhem
-// @version     1.2.433
+// @version     1.2.434
 // @author      flowsINtomAyHeM
 // @downloadURL http://localhost:3333/vm/standaloneImage.user.js
 // @match       *://*/*
@@ -161,13 +161,13 @@ const initImage = ({
         canvasOriginal.getBoundingClientRect();
 
       setRegisteredCSSProperty({
-        to: canvasCursor,
+        on: canvasCursor,
         name: '--left',
         value: clientX - left,
         syntax: '<number>',
       });
       setRegisteredCSSProperty({
-        to: canvasCursor,
+        on: canvasCursor,
         name: '--top',
         value: clientY - top,
         syntax: '<number>',
